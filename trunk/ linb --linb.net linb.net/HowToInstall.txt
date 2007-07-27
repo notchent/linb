@@ -1,0 +1,4 @@
+Just copy the folder in your website:
+
+server: PHP5.0+
+client: firefox1.5+ IE6+ opera9+ safari3+
