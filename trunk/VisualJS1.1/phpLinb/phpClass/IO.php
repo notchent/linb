@@ -283,12 +283,13 @@ class IO{
 			$id++;
 			$td=$pid.'.'.(string)$id;
 
+			if ($type+$i[$j]["type"]==1||!preg_match("/^".$pattern."$/", $i[$j]["name"])) continue;
+
 			// for sub
 			if ($i[$j]["type"]==0&&$sub_dir_level) {
 				if (FALSE===$l=$this->search($pattern,$i[$j]["location"],$type,($sub_dir_level - 1),$limit, $td)) return FALSE;
 				$result = array_merge($result, $l);
 			}
-			if ($type+$i[$j]["type"]==1||!preg_match("/^".$pattern."$/", $i[$j]["name"])) continue;
 			$i[$j]['layer']=$sub_dir_level;
 			$i[$j]['id']=$td;
 			$i[$j]['pid']=$pid;

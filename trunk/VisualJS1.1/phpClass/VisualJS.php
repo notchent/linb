@@ -109,7 +109,7 @@ class VisualJS extends Unit
         }
         $prjpath = str_replace("/", "\\", $prjpath);
         //$b = $io->dirList($prjpath);
-        $b = $io->search(".*", $prjpath, -1, isset($hash->deep)?$hash->deep:5);
+        $b = $io->search("[a-zA-Z0-9].*", $prjpath, -1, isset($hash->deep)?$hash->deep:5);
         $root=str_replace("\\", "/", realpath('.')).'/';
         //ensure to return relative url format: '/'
         foreach($b as &$v){
