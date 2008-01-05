@@ -168,8 +168,9 @@ Class("linb.UI.Input", ["linb.UI.Widget", "linb.UI.iForm"],{
                     if(o!==profile.inValid) if(profile.domNode)profile.boxing().setDirtyMark();
                 },
                 onKeyup:function(profile, e, src){
-                    if(profile.properties.dynCheck){
-                        if(profile.properties.$UIvalue!=src.value)
+                    var p=profile.properties;
+                    if(p.dynCheck){
+                        if(p.$UIvalue!=src.value)
                             profile.box.checkValid(profile, src.value);
                         profile.boxing().setDirtyMark();
                     }
@@ -184,12 +185,13 @@ Class("linb.UI.Input", ["linb.UI.Widget", "linb.UI.iForm"],{
                     profile.boxing()._setTB(3);
                 },
                 onBlur:function(profile, e, src){
-                    if(profile.properties.disabled)return false;
+                    var p=profile.properties;
+                    if(p.disabled)return false;
                     if(profile.beforeBlur && false==profile.boxing().beforeBlur(profile)){}else
                     profile.removeTagClass('KEY','-focus',profile.getSubNode('BORDER'));
 
                     //onblur check it
-                    if(profile.properties.$UIvalue==src.value)
+                    if(p.$UIvalue==src.value)
                         profile.box.checkValid(profile, src.value);
                     profile.boxing().setDirtyMark();
                 }

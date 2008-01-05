@@ -77,7 +77,6 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                     case 'getter':
                     case 'cmdbox':
                     case 'popbox':
-                    case 'setter':
                         box.onClickButton(profile, pos);
                         return;
                 }
@@ -216,11 +215,18 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
         var t = this.getTemplate('default');
         _.merge(t.FRAME.BORDER,{
             BTN:{
-                $order:3,
+                $order:4,
+                style:"{popbtnDisplay}",
                 TOP:{},
-                MIDDLE:{
-                    style:'background-position:{typePos}'
+                MID:{
+                    style:'{typePos}'
                 }
+            },
+            SBTN:{
+                $order:3,
+                style:"{saveDisplay}",
+                STOP:{},
+                SMID:{}
             }
         },'all');
         t.FRAME.POOL={};
@@ -252,7 +258,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                 'font-size':'12px',
                 overflow:'hidden'
             },
-            BTN:{
+            'SBTN,BTN':{
                 'z-index':'1',
 
                 cursor:'pointer',
@@ -263,15 +269,15 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                 'float':'right',
                 background: linb.UI.getCSSImgPara('cmd.gif', ' left bottom no-repeat')
             },
-            'BTN-mouseover':{
+            'BTN-mouseover, SBTN-mouseover':{
                 $order:1,
                 'background-position': '-14px bottom'
             },
-            'BTN-mousedown':{
+            'BTN-mousedown, SBTN-mousedown':{
                 $order:2,
                 'background-position': '-27px bottom'
             },
-            TOP:{
+            'STOP, TOP':{
                 cursor:'pointer',
                 width:'13px',
                 'font-size':0,
@@ -282,15 +288,15 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                 height:'4px',
                 background: linb.UI.getCSSImgPara('cmd.gif', ' left -104px no-repeat')
             },
-            'BTN-mouseover TOP':{
+            'BTN-mouseover TOP,SBTN-mouseover STOP':{
                 $order:1,
                 'background-position': '-14px -104px'
             },
-            'BTN-mousedown TOP':{
+            'BTN-mousedown TOP,SBTN-mousedown STOP':{
                 $order:2,
                 'background-position': '-27px -104px'
             },
-            MIDDLE:{
+            'SMID,MID':{
                 cursor:'pointer',
                 width:'13px',
                 'font-size':0,
@@ -300,11 +306,14 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                 left:0,
                 height:'13px',
                 background: linb.UI.getCSSImgPara('cmd.gif', ' left top no-repeat')
+            },
+            SMID:{
+                'background-position': '-14px -14px'
             }
         }},
         Behaviors:{'default':{
-            _hoverEffect:{KEY:'BORDER',BTN:['BTN']},
-            _clickEffect:{BTN:['BTN']},
+            _hoverEffect:{KEY:'BORDER',BTN:'BTN',SBTN:'SBTN'},
+            _clickEffect:{BTN:'BTN',SBTN:'SBTN'},
             _focusHook:{INPUT:1},
             UPLOAD:{
                 onChange:function(profile, e, src){
@@ -314,6 +323,11 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
             BTN:{
                 onClick : function(profile, e, src){
                     profile.boxing()._drop();
+                }
+            },
+            SBTN:{
+                onClick : function(profile, e, src){
+                    if(profile.onSave)profile.boxing().onSave(profile,src);
                 }
             },
             INPUT:{
@@ -334,7 +348,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                 },
                 onKeydown : function(profile, e, src){
                     var p=profile.properties.type;
-                    if(p == 'getter' || p == 'cmdbox' || p == 'popbox' || p=='setter')return;
+                    if(p == 'getter' || p == 'cmdbox' || p == 'popbox')return;
 
                     var key=linb.event.getKey(e);
                     if((key[0]=='down'|| key[0]=='up') && key[1]){
@@ -351,10 +365,12 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
             }
         }},
         EventHandlers:{
+            onSave:function(profile, src){},
             onClickButton:function(profile, pos){},
             onGetShowValue:function(profile, value){}
         },
         posMap:{
+            none:'',
             combobox:'left top',
             listbox:'left top',
             upload:'-16px top',
@@ -364,8 +380,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
             popbox:'left -40px',
             timepicker:'left -53px',
             datepicker:'left -66px',
-            colorpicker:'left -79px',
-            setter:'-14px -14px'
+            colorpicker:'left -79px'
         },
         DataModel:{
             icon:null,
@@ -405,7 +420,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
             },
             type:{
                 ini:'combobox',
-                listbox:'combobox,listbox,upload,getter,setter,helpinput,cmdbox,popbox,timepicker,datepicker,colorpicker'.toArr(),
+                listbox:'none,combobox,listbox,upload,getter,helpinput,cmdbox,popbox,timepicker,datepicker,colorpicker'.toArr(),
                 set:function(v){
                     if(v.exists(':')){
                         var arr=v.split(':');
@@ -418,8 +433,14 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                     return this.each(function(pro){
                         pro.properties.type=v;
                         if(pro.domNode)
-                            pro.getSubNode('MIDDLE').setStyle('backgroundPosition', pro.box.posMap[v] || 'left top');
+                            pro.getSubNode('MID').setStyle('backgroundPosition', pro.box.posMap[v] || 'left top');
                     });
+                }
+            },
+            saveBtn:{
+                ini:false,
+                action:function(v){
+                    this.boxing().refresh();
                 }
             },
             $border:1
@@ -465,17 +486,26 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
         },
         prepareData:function(profile){
             arguments.callee.upper.call(this, profile);
-            profile.data.typePos = profile.box.posMap[profile.data.type];
+            var data=profile.data;
+            if(data.type!='none')
+                data.typePos = 'background-position:'+profile.box.posMap[profile.data.type];
+            data.saveDisplay = data.saveBtn?'':'display:none';
+            data.popbtnDisplay = data.type!='none'?'':'display:none';
         },
         resize:function(profile,w,h){
             var size=linb.UI.Widget.resize.apply(this,arguments),
                 t,
                 v=profile.getSubNode('INPUT'),
-                c=profile.getSubNode('BTN');
-            if(!_.isNull(w))v.width(size.width-c.width());
+                c=profile.getSubNode('BTN'),
+                prop=profile.properties,
+                save=prop.saveBtn,
+                s=save?profile.getSubNode('SBTN'):null;
+
+            if(!_.isNull(w))v.width(size.width - (prop.type=='none'?0:c.width()) - (save?s.width():0) );
             if(!_.isNull(h)){
                 v.height(size.height -(linb.browser.ie6?2:linb.browser.ie?1:linb.browser.kde?1:0));
                 c.height(size.height);
+                if(s)s.height(size.height);
             }
         }
     }

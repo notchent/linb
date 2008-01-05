@@ -107,10 +107,10 @@ Class("linb.UI.Poll", "linb.UI.List",{
         var inlineEdit=function(profile,node,flag,value,item){
             var o = profile._bind,prop=profile.properties;
             if(!o){
-                profile._bind=o=linb.create(prop.inlineEditor, {type:prop.type,left:-10000,top:-10000});
+                profile._bind=o=linb.create(prop.inlineEditor, {type:prop.type,saveBtn:true,left:-10000,top:-10000});
                 o.onHotKeydown(function(p,key){
                     if(key=='enter'){
-                        p.boxing().onClickButton(p);
+                        p.boxing().onSave(p);
                         return false;
                     }else if(key=='esc')
                         o.hide();
@@ -128,7 +128,7 @@ Class("linb.UI.Poll", "linb.UI.List",{
             o.setValue(value||'',true)
             .setWidth(r.width + node.paddingW())
             .show(r.left+'px',r.top+'px')
-            .onClickButton(function(p){
+            .onSave(function(p){
                 var v=p.properties.$UIvalue, ov=p.properties.value, b=profile.boxing();
                 if(v!=ov)
                     switch(flag){
@@ -368,7 +368,7 @@ Class("linb.UI.Poll", "linb.UI.List",{
             editable:false,
             newOption:'',
             inlineEditor:'ComboInput',
-            type:'setter'
+            type:'none'
         },
         EventHandlers:{
             beforeDirtyMark:function(profile, flag){},

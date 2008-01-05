@@ -43,7 +43,7 @@ Class("linb.UI.Tips", null,{
             delete tips.from;
 
             if(node && node.id=='linb:lang')node = node.parentNode;
-            if(node && (id=node.id) && !linb.cache.dom[id] && (from=event._getProfile(id)) && from.box){
+            if(node && (id=node.id) /*&& !linb.cache.dom[id]*/ && (from=event._getProfile(id)) && from.box){
                 if(sid=from.getSubSerialId(id)){
                     while((node=node.parentNode) && node!==document && node!==window && node.id && sid==from.getSubSerialId(node.id))
                         id=node.id;
@@ -103,8 +103,9 @@ Class("linb.UI.Tips", null,{
 
         this.Types = {
             'default' : new function(){
+                this._r=/(\$)([\w\.]+)/g;
                 this.show=function(item, pos){
-                    var self=this,node;
+                    var self=this,node,s,w,h;
                     if(!(node=self.node)){
                         node = self.node = linb.create('<div class="linb-ui-tips"><div class="linb-ui-tips-i"></div></div>');
                         self.n = node.first();
@@ -114,24 +115,31 @@ Class("linb.UI.Tips", null,{
                     if(document.body.lastChild!=node.get(0))
                         linb([document.body]).addLast(node);
 
-                    var s=item.tips;
+                    s=item.tips;
                     if(s=s.toString()){
-                        s = s.charAt(0)=='$'?linb.wrapRes(s.slice(1)):s;
-
-                        node.setStyle({width:'auto',height:'auto'});
-
-                        self.n.html(s,false);
-
-                        var w=Math.min(linb.UI.Tips.maxWidth,node.width()),  h=node.height();
-                        if(linb.browser.ie6)
-                            w=Math.round(w/2)*2+2;h=Math.round(h/2)*2;
-                        node.setStyle({width:w+'px',height:h+'px'});
-
+                        //get string
+                        s=s.replace(self._r, function(a,b,c){
+                            return linb.wrapRes(c);
+                        });
+                        //set to auto
+                        var style=node.get(0).style;
+                        style.width=style.height='auto';
+                        self.n.get(0).innerHTML=s;
+                        //get width
+                        w=Math.min(linb.UI.Tips.maxWidth, node.width());
+                        //set width
+                        if(linb.browser.ie6){
+                            style.width=Math.round(w/2)*2+2+'px';
+                            h=self.n.height();
+                            style.height=Math.round(h/2)*2+'px';
+                        }else
+                            style.width=w+'px';
+                        //pop
                         node.popToTop({left:pos.left,top:pos.top,region:{
                             left:pos.left,
                             top:pos.top-12,
                             width:24,height:32
-                            }},null,1);
+                        }},null,1);
                     }
                 };
                 this.hide = function(){
@@ -177,7 +185,7 @@ Class("linb.UI.Tips", null,{
             if(!from || !(o=from.box))return;
 
             if(node.id=='linb:lang')node = node.parentNode;
-            if(node && (id=node.id) && !linb.cache.dom[id] && linb.event._getProfile(id)==from){
+            if(node && (id=node.id) /*&& !linb.cache.dom[id]*/ && linb.event._getProfile(id)==from){
                 //keep older
                 self._pos=pos=self.pos;
 

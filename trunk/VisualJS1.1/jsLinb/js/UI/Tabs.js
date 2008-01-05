@@ -604,6 +604,11 @@ Class("linb.UI.Tabs", ["linb.UI.iWidget", "linb.UI.iList", "linb.UI.iContainer"]
             else
                 return profile.properties.dropKeysPanel;
         },
+        showTips:function(profile, id, pos){
+            //dont show tips when mouse over PANEL
+            if(profile.getKey(id)==profile.keys.PANEL)return true;
+            return arguments.callee.upper.apply(this,arguments);
+        },
         //for tabs only
         resize:function(profile,key,w,h){
             var t=profile.properties,

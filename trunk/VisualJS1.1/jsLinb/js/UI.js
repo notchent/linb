@@ -2608,7 +2608,8 @@ new function(){
                     }
                 },
                 dockMinW:0,
-                dockMinH:0
+                dockMinH:0,
+                tips:''
             },
             Behaviors:{'default':{}},
             EventHandlers:{
@@ -3276,7 +3277,6 @@ new function(){
                             .setStyle('backgroundPosition', value);
                     }
                 },
-                tips:'',
 
                 //hide props
                 $paddingTop:0,
@@ -3524,8 +3524,9 @@ new function(){
             },
             //
             showTips:function(profile, id, pos){
-                if(profile.properties.disabled)return;
-                if(profile.SubSerialIdMapItem && _.get(profile.SubSerialIdMapItem,[id,'disabled']))return;
+                var t=profile.properties;
+                if(t.disabled)return;
+                if(t=profile.SubSerialIdMapItem && _.get(t,[id,'disabled']))return;
 
                 var item = profile.getItemByDom(id);
                 if(item && item.tips){
