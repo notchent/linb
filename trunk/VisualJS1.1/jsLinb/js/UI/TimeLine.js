@@ -190,7 +190,8 @@ Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'
                         u=t._unitFormat,
                         p1=linb.event.getPos(e),
                         p2=profile.$itemspos;
-                    profile.box._setTips(profile, d.getText(d.add(s, 'ms', (p1.left-p2.left)*r),u));
+                    if(p2)
+                        profile.box._setTips(profile, d.getText(d.add(s, 'ms', (p1.left-p2.left)*r),u));
                 },
                 onMouseout:function(profile,e,src){
                     profile.box._setTips(profile, profile.$dd_otp);

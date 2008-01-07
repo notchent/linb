@@ -620,7 +620,9 @@ new function(){
                 var o = this.cache_subid || (this.cache_subid={});
                 (o[key] || (o[key]=[])).push(id);
             },
-
+            /*
+            *('KEY','-mouseover',false);
+            */
             getClass:function(key, tag, flag){
                 var self=this;
                 key = self.keys[key] || key;
@@ -1145,7 +1147,9 @@ new function(){
                                 o.box.setCSSFile(o.box.cssPathKey || o.key, o.appearance);
 
                             if(o.domNode)
-                                o.root.dig().reClass(new RegExp('([\\w]+\\-\\-)?' + t,'g'),o.getClass('KEY'));
+                                o.root
+                                .dig('*', 'id', new RegExp('^'+o.key+'(-[\w]+)?:'+o.serialId))
+                                .reClass(new RegExp('([\\w]+\\-\\-)?' + t,'g'),o.getClass('KEY'));
                         }
                     });
                 else
@@ -1452,6 +1456,7 @@ new function(){
             $tag_right:"}",
             $tag_special:'#',
             $ID:"#id#",
+            $CLS:"#cls#",
             subSerialIdTag:"_serialId",
             $childTag:"<!--{id}-->",
             hasDomRoot:true,
@@ -1622,24 +1627,20 @@ new function(){
 
                 if(template.className!==null){
                     //className
-                    t = profile.getClass(lkey);
+                    t = u.$CLS + (key?'-'+key.toLowerCase():'');
                     //save bak
                     bak = template.className || '';
-
 
                     template['class'] =
                         //default class first
                         t+' '+
                         //solid class
                         bak+' '+
-                        //class from properties input
-    //                    u.$tag_left+'className'+u.$tag_right + ' '+
-
+                        //custom class
                         u.$tag_special + (key||'KEY') + '_CC'+u.$tag_special
-
                         ;
-                    delete template.className;
                 }
+                delete template.className;
 
                 template.style = (template.style||'')+ u.$tag_special + (key||'KEY') + '_CA'+u.$tag_special;
 
@@ -1709,22 +1710,44 @@ new function(){
                     });
                 }
             },
-
-            build:function(profile, flag){
-                var template, t, p=profile, m, n, a,
-                    temp=[[],[]],
-                    self=this,
-                    me=arguments.callee, key=self.KEY,
-                    tag = linb.UI.$tag_special,
-                    r1=me.r1||(me.r1=new RegExp(linb.UI.$ID,'img')),
+            _rpt:function(profile,temp){
+                var u=linb.UI,
+                    me=arguments.callee, key=this.KEY,
+                    tag = u.$tag_special,
+                    r1=me.r1||(me.r1=new RegExp(u.$ID,'img')),
                     r2=me.r2||(me.r2=new RegExp(tag +'([A-Z0-9]+)_CA'+ tag, 'g')),
                     r3=me.r3||(me.r3=new RegExp(tag +'([A-Z0-9]+)_CC'+ tag, 'g')),
+                    r4=me.r4||(me.r4=new RegExp(u.$CLS,'img')),
+                    n,t
+                ;
+
+                temp = temp.replace(r1, profile.serialId).replace(r4,profile.getClass('KEY'));
+                if(n=profile.CA)
+                    temp = temp.replace(r2, function(a,b){
+                        return (t=n[b])?t:'';
+                    });
+                else
+                    temp = temp.replace(r2, '');
+
+                if(n=profile.CC)
+                    temp = temp.replace(r3, function(a,b){
+                        return (t=n[b])?t:'';
+                    });
+                else
+                    temp = temp.replace(r3, '');
+                return temp;
+            },
+            build:function(profile, flag){
+                var template, t, m,
+                    u=linb.UI,
+                    temp=[[],[]],
+                    self=this,
+                    key=self.KEY,
                     hash = profile._hash =
-                        'a:' + (p.template._id||'') + ';' +
-                        'b:' + (p.template._did||'') + ';' +
-                        'c:' + (p.appearance||'') + ';' +
-                        'd:' + (p.behavior._id||'') + ';' +
-                        'e:' + (p.behavior._did||'') + ';' +
+                        'a:' + (profile.template._id||'') + ';' +
+                        'b:' + (profile.template._did||'') + ';' +
+                        'c:' + (profile.behavior._id||'') + ';' +
+                        'd:' + (profile.behavior._did||'') + ';' +
                         '!' + (profile._exhash||'');
 
                 //get template
@@ -1735,19 +1758,19 @@ new function(){
                             self.setCSSFile(self.cssPathKey || key, profile.appearance);
                         //});
                     //get main template
-                    linb.UI.$buildTemplate(profile,null,null,temp);
+                    u.$buildTemplate(profile,null,null,temp);
                     //split sub template from main template
 
                     //set main template
                     _.set(linb.cache.template, [key, hash, ''], temp);
                     //set sub template
-                    if(t=p.template.$dynamic)
+                    if(t=profile.template.$dynamic)
                         for(var i in t){
                             if(typeof (m=t[i])!='function'){
                                 var temp=[[],[]];
                                 for(var j in m)
                                     if(typeof m[j] == 'object')
-                                        linb.UI.$buildTemplate(profile, m[j], j, temp);
+                                        u.$buildTemplate(profile, m[j], j, temp);
                                 m=temp;
                             }
                             _.set(linb.cache.template, [key,hash,i], m);
@@ -1758,50 +1781,10 @@ new function(){
                 if(!template || flag)return '';
 
                 //replace main template
-                temp =  linb.UI.$doTemplate(profile, template, profile.data).replace(r1, profile.serialId);
-
-                if(n=p.CA)
-                    temp = temp.replace(r2, function(a,b){
-                        return (t=n[b])?t:'';
-                    });
-                else
-                    temp = temp.replace(r2, '');
-
-                if(n=p.CC)
-                    temp = temp.replace(r3, function(a,b){
-                        return (t=n[b])?t:'';
-                    });
-                else
-                    temp = temp.replace(r3, '');
-
-                return temp;
+                return self._rpt(profile, u.$doTemplate(profile, template, profile.data));
             },
             subBuild:function(profile, key, arr){
-                var temp,t,p=profile, n, hash = p._hash,
-                    k=this.KEY,
-                    build=this.build,
-                    r1=build.r1,
-                    r2=build.r2,
-                    r3=build.r3;
-                var template = _.get(linb.cache.template,[k, hash]);
-
-                temp = linb.UI.$doTemplate(profile, template, arr, key).replace(r1, profile.serialId);
-
-                if(n=p.CA)
-                    temp = temp.replace(r2, function(a,b){
-                        return (t=n[b])?t:'';
-                    });
-                else
-                    temp = temp.replace(r2, '');
-
-                if(n=p.CC)
-                    temp = temp.replace(r3, function(a,b){
-                        return (t=n[b])?t:'';
-                    });
-                else
-                    temp = temp.replace(r3, '');
-
-                return temp;
+                return this._rpt(profile, linb.UI.$doTemplate(profile, _.get(linb.cache.template,[this.KEY, profile._hash]), arr, key));
             },
             /*
             allow function input, for some css bug
