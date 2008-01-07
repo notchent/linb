@@ -25,7 +25,7 @@ CONF={
     //        {id:'linb.UI.Spin', caption:'Spin', icon:'img/widgets.gif', iconPos:'-160px top', dragable:true},
     //        {id:'linb.UI.Slider', caption:'Slider', icon:'img/widgets.gif', iconPos:'-176px top', dragable:true},
             {id:'linb.UI.TimePicker', caption:'TimePicker', icon:'img/widgets.gif', iconPos:'-240px top', dragable:true},
-            {id:'linb.UI.Calender', caption:'Calender', icon:'img/widgets.gif', iconPos:'-256px top', dragable:true},
+            {id:'linb.UI.DatePicker', caption:'DatePicker', icon:'img/widgets.gif', iconPos:'-256px top', dragable:true},
     //        {id:'linb.UI.ColorPicker', caption:'ColorPicker', icon:'img/widgets.gif', iconPos:'-272px top', dragable:true}
             {id:'linb.UI.RadioBox', caption:'RadioBox', icon:'img/widgets.gif', iconPos:'-208px top', dragable:true},
             {id:'linb.UI.Poll', caption:'Poll', icon:'img/widgets.gif', iconPos:'-208px -16px', dragable:true},

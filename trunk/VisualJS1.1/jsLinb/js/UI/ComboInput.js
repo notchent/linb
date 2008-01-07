@@ -144,8 +144,8 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                             });
                             break;
                         case 'datepicker':
-                            linb.SC('linb.UI.Calender');
-                            o = linb.create('Calender');
+                            linb.SC('linb.UI.DatePicker');
+                            o = linb.create('DatePicker');
                             o.host(profile);
                             o.beforeClose(function(){this.boxing()._cache();return false});
                             o.beforeValueUpdated(function(pro, ovalue, value, showValue){

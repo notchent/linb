@@ -253,7 +253,7 @@ Class('linb.dragDrop',null,{
             d.grid_width=d.grid_height=1;
             d._timer=d.docking_offset=-1;
             d._defer=d.defer=d._zIndex=d.x=d.y=d.ox=d.absPos_offset_y=d.absPos_offset_x=d.cssPos_offset_x=d.oy=d.cssPos_offset_y=d.limit_left=d.limit_right=d.limit_top=d.limit_bottom=0;
-            d.offset_bottom=d.offset_left=d.offset_right=d.offset_top=d.drop2=d._stop=d.opacity=d._flag=d.horizontal=d.vertical=d.topZindex=d._flag=false;
+            d.working=d.offset_bottom=d.offset_left=d.offset_right=d.offset_top=d.drop2=d._stop=d.opacity=d.horizontal=d.vertical=d.topZindex=false;
             d.proxystyle=d._onDrag=d._onDragover=d.key=d.data=d.dragKey=d.dragData=d._current_bak=d._current=d._source=d._data=d.proxy=d.proxyIn=d._absPos= d._cssPos=d._box=d.pack=d.unpack=d.target_left= d.target_top= d.target_width=d.target_height=d.target_parent=null;
 
             return d;
@@ -320,7 +320,7 @@ Class('linb.dragDrop',null,{
                     //call event, you can call abort(set _stoop)
                     _source.beforeDragbegin();
 
-                    if(_flag || _stop){_end()._reset();return false;}
+                    if(working || _stop){_end()._reset();return false;}
 
                     //set profile
                     _.merge(self, profile, "all");
@@ -328,8 +328,8 @@ Class('linb.dragDrop',null,{
                     // on scrollbar
                     if(profile.x >= _box.width  || profile.y >= _box.height ){_end()._reset();return true;}
 
-                    //set flag
-                    _flag = true;
+                    //set working flag
+                    working = true;
 
                     _source.onDragbegin();
 
@@ -387,7 +387,7 @@ Class('linb.dragDrop',null,{
                //try{
                     e = e || window.event;
                     //set _stop or in IE, show alert
-                    if((!_flag) || _stop || (linb.browser.ie && (!e.button) )){
+                    if((!working) || _stop || (linb.browser.ie && (!e.button) )){
                         $onDrop(e);
                         return true;
                     }
@@ -395,7 +395,7 @@ Class('linb.dragDrop',null,{
                     var _pos=linb.event.getPos(e);
                     x=_pos.left;y=_pos.top;
 
-                    if(!_flag)return false;
+                    if(!working)return false;
 
                     if(proxy){
                         if(!vertical){
@@ -445,9 +445,9 @@ Class('linb.dragDrop',null,{
                     e = e || window.event;
 
                     // opera 9 down with
-                    // if(!_flag){linb.event.stopBubble(e);return false;}
+                    // if(!working){linb.event.stopBubble(e);return false;}
                     _end();
-                    if(_flag){
+                    if(working){
                         var r = _source.onDragend(true);
                         if(_current)
                             linb(_current.id).onDrop(true);

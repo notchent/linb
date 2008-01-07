@@ -176,6 +176,25 @@ Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'
                 }
             },
             ITEMS:{
+                onMouseover:function(profile,e,src){
+                    profile.$dd_otp = profile.box._getTips(profile);
+                    profile.$itemspos = linb([src]).absPos();
+                },
+                onMousemove:function(profile,e){
+                    if(linb.dragDrop.working)return;
+                    var p=parseInt,
+                        t=profile.properties,
+                        d=linb.date,
+                        s=t._dateRealStart,
+                        r=t._rate,
+                        u=t._unitFormat,
+                        p1=linb.event.getPos(e),
+                        p2=profile.$itemspos;
+                    profile.box._setTips(profile, d.getText(d.add(s, 'ms', (p1.left-p2.left)*r),u));
+                },
+                onMouseout:function(profile,e,src){
+                    profile.box._setTips(profile, profile.$dd_otp);
+                },
                 onMousedown:function(profile, e, src){
                     if(profile.pause)return;
 
@@ -863,23 +882,33 @@ Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'
             oitem._line=item._line;
         },
         zoom:[
-            ['1 ms', 1, 'ms', function(d){return linb.date.get(d,'ms')%10===0}, 'ms','hnsms',''],
+            /*
+            *[
+            *  id,
+            *  small span unit count,
+            *  small span unit,
+            *  small span to big span function,
+            *  small span lable format,
+            *  big span lable format,
+            *  value format
+            *]
+            */
             ['10 ms', 10, 'ms', function(d){return linb.date.get(d,'ms')%100===0}, 'ms','hnsms',''],
             ['100 ms', 100, 'ms', function(d){return linb.date.get(d,'ms')%1000===0}, 'ms','hns',''],
             ['1 s', 1, 's', function(d){return linb.date.get(d,'s')%10===0}, 's','hns',''],
             ['10 s', 10, 's', function(d){return linb.date.get(d,'s')%60===0}, 's','hns',''],
-            ['1 n', 1, 'n', function(d){return linb.date.get(d,'n')%10===0}, 'n','dhn','ymdhns'],
-            ['5 n', 5, 'n', function(d){return linb.date.get(d,'n')%30===0}, 'n','mdhn','ymdhns'],
-            ['10 n', 10, 'n', function(d){return linb.date.get(d,'n')%60===0}, 'n','mdhn','ymdhns'],
-            ['30 n', 30, 'n', function(d){return linb.date.get(d,'h')%2===0 && linb.date.get(d,'n')%60===0}, 'n','ymdh','ymdhns'],
-            ['1 h', 1, 'h',  function(d){return linb.date.get(d,'h')%6===0}, 'h','ymdh','ymdhns'],
-            ['2 h', 2, 'h', function(d){return linb.date.get(d,'h')%12===0}, 'h','ymd','ymdhn'],
-            ['6 h', 6, 'h', function(d){return linb.date.get(d,'h')%24===0}, 'h','ymd','ymdhn'],
-            ['12 h', 12, 'h', function(d){return linb.date.get(d,'h')%24===0}, 'h','ymd','ymdhn'],
-            ['1 d', 1, 'd', function(d){return linb.date.get(d,'w')%7===0}, 'w','ymd','ymdhn'],
-            ['2 d', 2, 'd', function(d){var r=linb.date.get(d,'w')%7; return r===0||r===1}, 'd','ymd','ymdhn'],
-            ['1 w', 1, 'ww', function(d){var r=linb.date.get(d,'ww');return (r%4===0 && r<50)?true:false}, 'ww','ymd','ymdh'],
-            ['1 m', 1, 'm', function(d){return linb.date.get(d,'m')%3===0}, 'm','yq','ymdh'],
+            ['1 n', 1, 'n', function(d){return linb.date.get(d,'n')%10===0}, 'n','dhn','ymdhn'],
+            ['5 n', 5, 'n', function(d){return linb.date.get(d,'n')%30===0}, 'n','mdhn','ymdhn'],
+            ['10 n', 10, 'n', function(d){return linb.date.get(d,'n')%60===0}, 'n','mdhn','ymdhn'],
+            ['30 n', 30, 'n', function(d){return linb.date.get(d,'h')%2===0 && linb.date.get(d,'n')%60===0}, 'n','ymdh','ymdh'],
+            ['1 h', 1, 'h',  function(d){return linb.date.get(d,'h')%6===0}, 'h','ymdh','ymdh'],
+            ['2 h', 2, 'h', function(d){return linb.date.get(d,'h')%12===0}, 'h','ymd','ymdh'],
+            ['6 h', 6, 'h', function(d){return linb.date.get(d,'h')%24===0}, 'h','ymd','ymd'],
+            ['12 h', 12, 'h', function(d){return linb.date.get(d,'h')%24===0}, 'h','ymd','ymd'],
+            ['1 d', 1, 'd', function(d){return linb.date.get(d,'w')%7===0}, 'w','ymd','ymd'],
+            ['2 d', 2, 'd', function(d){var r=linb.date.get(d,'w')%7; return r===0||r===1}, 'd','ymd','ymd'],
+            ['1 w', 1, 'ww', function(d){var r=linb.date.get(d,'ww');return (r%4===0 && r<50)?true:false}, 'ww','ymd','ymd'],
+            ['1 m', 1, 'm', function(d){return linb.date.get(d,'m')%3===0}, 'm','yq','ymd'],
             ['1 q', 1, 'q', function(d){return linb.date.get(d,'q')%4===0}, 'q','y','ymd'],
             ['1 y', 1, 'y', function(d){return linb.date.get(d,'y')%10===0}, 'y','y','ymd'],
             ['1 de', 1, 'de', function(d){return linb.date.get(d,'de')%10===0}, 'y','y','ym'],

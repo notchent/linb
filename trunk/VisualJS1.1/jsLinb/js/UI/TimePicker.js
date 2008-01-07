@@ -31,7 +31,7 @@ Class('linb.UI.TimePicker', 'linb.UI.iWidget', {
                 var box=profile.box;
                 upper.apply(profile.boxing(),[box._ensureV(value).join(':'), flag]);
             });
-        },
+        }
     },
     Initialize:function(){
         this.mapKeys(['MI','HI']);
