@@ -927,9 +927,9 @@ Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'
         },
         _setTips:function(profile, text){
             var t,s='$dd_tooltip';
-            if(t = profile[s] || (profile[s] = profile.getSubNode('INFO').get(0).childNodes[0]))
-                t.nodeValue=text;
-            else
+            if(t = profile[s] || (profile[s] = profile.getSubNode('INFO').get(0).childNodes[0])){
+                if(t.nodeValue!=text)t.nodeValue=text;
+            }else
                 profile.getSubNode('INFO').get(0).innerHTML=text;
         },
         _getBarLabel:function(target, unitParas, count){
@@ -965,10 +965,12 @@ Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'
                 u=t._unitFormat,
                 ms='ms',
                 y=src.style,
-                z='px';
-
-            y.left = (p(x)||0)+z;
-            y.width = (p(w)||0)+z;
+                z='px',
+                m;
+            m = (p(x)||0)+z;
+            if(y.left!= m)y.left= m;
+            m = (p(w)||0)+z;
+            if(y.width!= m)y.width= m;
             profile.box._setTips(profile, d.getText(d.add(s, ms, x*r),u)
                 + " : "
                 + d.getText(d.add(s, ms, (x+w+1)*r),u)
