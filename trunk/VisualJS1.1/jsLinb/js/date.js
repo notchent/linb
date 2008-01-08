@@ -322,7 +322,7 @@ Class('linb.date',null,{
             var date2 = self.getRoundDown(date, 'y', 1, timeZone);
             if(self.get(date2,'w') != firstDayOfWeek)
                 date2 = self.getRoundUp(date2, 'ww', 1, timeZone);
-            return self.diff(date2, date, 'ww');
+            return self.diff(date2, date, 'ww')+2;
         },
         getDayInYear:function(date, timeZone){
             var self=this;
@@ -384,13 +384,14 @@ Class('linb.date',null,{
 
             if(!me.map){
                 var m = me.map = {
+                    WEEKS:['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'],
                     ms:function(d,t){return f(self.get(d,'ms',t),3)},
                     s:function(d,t){return f(self.get(d,'s',t))},
                     n:function(d,t){return f(self.get(d,'n',t))},
                     h:function(d,t){return f(self.get(d,'h',t))},
                     d:function(d,t){return self.get(d,'d',t)},
                     ww:function(d,t,firstDayOfWeek){return (self.get(d,'ww',t,firstDayOfWeek)+1)+'W'},
-                    w:function(d,t,firstDayOfWeek){return ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'][(self.get(d,'w',t) - firstDayOfWeek +7)%7 ]},
+                    w:function(d,t,firstDayOfWeek){return this.WEEKS[(self.get(d,'w',t) - firstDayOfWeek +7)%7 ]},
                     m:function(d,t){return ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"][self.get(d,'m',t)]},
                     q:function(d,t){return (self.get(d,'q',t) + 1) + 'Q'},
                     y:function(d,t){return self.get(d,'y',t)},
@@ -418,11 +419,12 @@ Class('linb.date',null,{
                 m.cn={};
                 for(var i in m)m.cn[i]=m[i];
                 _.merge(m.cn,{
+                    WEEKS:['\u5468\u65e5', '\u5468\u4e00', '\u5468\u4e8c', '\u5468\u4e09', '\u5468\u56db', '\u5468\u4e94', '\u5468\u516d'],
                     s:function(d,t){return f(self.get(d,'s',t))+"\u79d2"},
                     n:function(d,t){return f(self.get(d,'n',t))+"\u5206"},
                     h :function(d,t){return f(self.get(d,'h',t))+"\u65f6"},
                     d:function(d,t){return self.get(d,'d',t)+"\u65e5"},
-                    w : function(d,t,firstDayOfWeek){return '\u5468'+['\u65e5', '\u4e00', '\u4e8c', '\u4e09', '\u56db', '\u4e94', '\u516d'][(self.get(d,'w',t) - firstDayOfWeek +7)%7 ]},
+                    w : function(d,t,firstDayOfWeek){return this.WEEKS[(self.get(d,'w',t) - firstDayOfWeek +7)%7 ]},
                     ww : function(d,t,firstDayOfWeek){return '\u7b2c'+(self.get(d,'ww',t,firstDayOfWeek)+1) + "\u5468"},
                     m : function(d,t){return (self.get(d,'m',t)+1) + "\u6708"},
                     q : function(d,t){return "\u7b2c"+(self.get(d,'q',t) + 1) + '\u5b63'},

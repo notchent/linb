@@ -36,7 +36,6 @@ Class('App', 'linb.Com',{
             t.block2.attach(
             (new u.DatePicker)
             .host(t,"datepicker2")
-            .setDock("fill")
             );
             
             return n;

@@ -4,49 +4,56 @@
 Class('linb.UI.DatePicker', 'linb.UI.iWidget', {
     Instance:{
         setCtrlValue:function(value){
-/*            return this.each(function(profile){
+            return this.each(function(profile){
                 if(!profile.domNode)return;
 
                 var instance = profile.boxing(),
                     cls = profile.box,
                     p = profile.properties,
                     uiv = p.$UIvalue,
-                    arr1=cls._ensureV(uiv),
-                    arr2=cls._ensureV(value),
-                    id=profile.serialId,
-                    keys=profile.keys
+                    date=linb.date,
+                    realstart=profile.$realstart,
+                    ymd=date.get(value,'ymd'),
+                    index=-1,
+                    node
                     ;
+                var _realstart = date.getRoundDown(date.getRoundDown(value,'m'),'ww'),
+                m=date.get(value,'m');
 
-                if(arr1[0])
-                    cls._uncheck(linb.dom.byId(profile.getNodeId(keys.HI, id, arr1[0])));
-                cls._check(linb.dom.byId(profile.getNodeId(keys.HI, id, arr2[0])));
+                //set bg values
+                if(_realstart!=realstart)
+                    cls._setBGV(profile, _realstart, m);
+                //remove checked css class
+                if(profile.$selnode)
+                    profile.removeTagClass('TD', '-checked',profile.$selnode);
 
-                if(arr1[1])
-                    cls._uncheck(linb.dom.byId(profile.getNodeId(keys.MI, id, arr1[1])));
-                cls._check(linb.dom.byId(profile.getNodeId(keys.MI, id, arr2[1])));
+                profile.$daymap.each(function(o,i){
+                    if(date.get(o,'ymd')==ymd){
+                        index=i;
+                        return false;
+                    }
+                });
+                if(index!=-1){
+                //add checked css class
+                    node=cls._getDayNodes(profile).get()[index];
+                    profile.addTagClass('TD', '-checked', profile.$selnode=linb([node.parentNode]));
 
-                profile.getSubNode('CAPTION').html(cls._showV(profile,arr2),false);
-            });
-*/
-        },
-        setValue:function(value,flag){
-            var upper = arguments.callee.upper;
-            return this.each(function(profile){
-                var box=profile.box;
-                upper.apply(profile.boxing(),[box._ensureV(value).join(':'), flag]);
+                    profile.getSubNode('CAPTION').html(date.getText(value,'ymd'),false);
+                }
             });
         }
     },
     Initialize:function(){
         var self=this,
+            e=linb.event.eventhandler,
             id=linb.UI.$ID,
             cls=linb.UI.$CLS,
             key=self.KEY;
 
-        self.mapKeys(['H', 'W','D']);
+        self.mapKeys(['H', 'W','D','TD']);
 
         var colgroup = '<colgroup><col width="2%"/><col width="14%"/><col width="14%"/><col width="14%"/><col width="14%"/><col width="14%"/><col width="14%"/><col width="14%"/></colgroup>',
-            thead1='<thead><tr height="1%"><th class="'+cls+'-h #H_CC#"/>',
+            thead1='<thead><tr height="1%"><th class="'+cls+'-h #H_CC#">wk</th>',
             thead2='</tr></thead>',
             th='<th id="'+key+'-H:'+id+':@" class="'+cls+'-h #H_CC#">@</th>',
             tbody1 = '<tbody>',
@@ -54,14 +61,19 @@ Class('linb.UI.DatePicker', 'linb.UI.iWidget', {
             tr1='<tr>',
             tr2='</tr>',
             td1='<th id="'+key+'-W:'+id+':@"  class="'+cls+'-w #W_CC#">@</th>',
-            td2='<td><div id="'+key+'-D:'+id+':@" class="'+cls+'-d #D_CC#">a</div></td>',
-            body,i,j,a=[],b=[];
+            td2='<td id="'+key+'-TD:'+id+':@" class="'+cls+'-td #TD_CC#" onmouseover="'+e+'" onmouseout="'+e+'" onclick="'+e+'" >'+
+                '<div id="'+key+'-D:'+id+':@" class="'+cls+'-d #D_CC#">a</div>'+
+                '</td>',
+            body,i,j,k,l,a=[],b=[];
         for(i=0;i<7;i++)
             b[b.length]= th.replace(/@/g,i);
 
+        k=l=0;
         for(i=0;i<48;i++){
             j=i%8;
-            a[a.length]= (j==0?tr1:'') + (j==0?td1:td2).replace(/@/g,i) + (j===7?tr2:'');
+            a[a.length]= (j==0?tr1:'') + (j==0?td1:td2).replace(/@/g,j==0?l:k) + (j===7?tr2:'');
+            if(j!==0)k++;
+            else l++;
         }
 
         body=colgroup+thead1+b.join('')+thead2+tbody1+a.join('')+tbody2;
@@ -97,27 +109,6 @@ Class('linb.UI.DatePicker', 'linb.UI.iWidget', {
         });
     },
     Static:{
-        _mover:function(src){
-            var b=this,cn=src.className;
-            if(cn.indexOf(b._excls_mo)==-1)
-                src.className=cn + ' ' + b._excls_mo;
-        },
-        _mout:function(src){
-            var b=this,cn=src.className;
-            if(cn.indexOf(b._excls_mo)!=-1)
-                src.className=cn.replace(b._excls_mo,'');
-        },
-        _check:function(src){
-            var b=this,cn=src.className;
-            if(cn.indexOf(b._excls_c)==-1)
-                src.className=cn + ' ' + b._excls_c;
-            b._mout(src);
-        },
-        _uncheck:function(src){
-            var b=this,cn=src.className;
-            if(cn.indexOf(b._excls_c)!=-1)
-                src.className=cn.replace(b._excls_c,'');
-        },
         Appearances:{'default':{
             KEY:{
                 overflow:'visible'
@@ -173,16 +164,30 @@ Class('linb.UI.DatePicker', 'linb.UI.iWidget', {
                 overflow: 'visible'
             },
             'BODY td,BODY th':{
-                'vertical-align':'top',
+                $order:1,
                 border:0,
                 'border-right':'solid 1px #C1C1C1',
                 'border-bottom':'solid 1px #C1C1C1'
             },
             D:{
-                $order:3,
+                $order:2,
                 position:'relative',
                 'text-align':'right',
                 'padding':'0 1px 0 1px'
+            },
+            'D .exday':{
+                color:'#C1C1C1'
+            },
+            TD:{
+                'background-color': '#FFFACD'
+            },
+            'TD-mouseover':{
+                $order:3,
+                'background-color': '#d9e8fb'
+            },
+            'TD-checked':{
+                $order:3,
+                'background-color': '#D6DEEC'
             },
             'W,H':{
                 $order:3,
@@ -193,42 +198,25 @@ Class('linb.UI.DatePicker', 'linb.UI.iWidget', {
             }
         }},
         Behaviors:{'default':{
-            _hoverEffect:{CLOSE:'CLOSE'},
-            _clickEffect:{CLOSE:'CLOSE'},
+            _hoverEffect:{CLOSE:'CLOSE',TD:'TD'},
+            _clickEffect:{CLOSE:'CLOSE',TD:'TD'},
             onRewh:function(profile, e, src){
+                if(!profile.properties.calendar)return;
+
                 var o = profile.domNode.style,f=parseInt, n=null, w=n, h=n;
                 if(e.height)h=f(o.height)||n;
                 if(e.width)w=f(o.width)||n;
                 if(h || w)profile.box.resize(profile, w, h);
             },
-            HI:{
-                onMouseover:function(profile, e, src){
-                    profile.box._mover(src);
-                },
-                onMouseout:function(profile, e, src){
-                    profile.box._mout(src);
-                },
+            TD:{
                 onClick:function(profile, e, src){
-                    var uiV=profile.properties.$UIvalue,
-                        a=uiV.split(':');
-                    if(!a[1])a[1]='00';
-                    a[0]=profile.getSubSerialId(src.id)
-                    profile.boxing().updateUIValue(a.join(':'));
-                }
-            },
-            MI:{
-                onMouseover:function(profile, e, src){
-                    profile.box._mover(src);
-                },
-                onMouseout:function(profile, e, src){
-                    profile.box._mout(src);
-                },
-                onClick:function(profile, e, src){
-                    var uiV=profile.properties.$UIvalue,
-                        a=uiV.split(':');
-                    if(!a[0])a[0]='00';
-                    a[1]=profile.getSubSerialId(src.id);
-                    profile.boxing().updateUIValue(a.join(':'));
+                    var p=profile.properties,
+                        id=profile.getSubSerialId(src.id),
+                        map=profile.$daymap,
+                        v=map[id];
+                    if(p.disabled)return false;
+                    //onClick event
+                    profile.boxing().updateUIValue(v);
                 }
             },
             CLOSE:{
@@ -247,7 +235,9 @@ Class('linb.UI.DatePicker', 'linb.UI.iWidget', {
             }
         }},
         DataModel:{
-            value:'00:00',
+            height:140,
+            width:150,
+            value:new Date,
             barHeight : 22,
             headHeight:20,
             closeBtn:{
@@ -256,6 +246,8 @@ Class('linb.UI.DatePicker', 'linb.UI.iWidget', {
                     this.getSubNode('CLOSE').display(v?'':'none');
                 }
             },
+            //calendar:resize
+            calendar:false,
             $borderW:1
         },
         EventHandlers:{
@@ -273,30 +265,40 @@ Class('linb.UI.DatePicker', 'linb.UI.iWidget', {
             self.$header=self.getSubNode('H',true);
             self.$week=self.getSubNode('W',true);
             self.$day=self.getSubNode('D',true);
-        },
-        _ensureV:function(v){
-            var a = v.split(':'),
-                b=[];
-            b[0]= parseFloat(a[0])||0;
-            b[1]=parseFloat(a[1])||0;
-            if(b[0]<0)b[0]=0;
-            if(b[0]>23)b[0]=23;
-            if(b[1]<0)b[1]=0;
-            if(b[1]>59)b[1]=59;
 
-            b[0]=(b[0]<=9?'0':'')+b[0];
-            b[1]=(b[1]<=9?'0':'')+b[1];
-
-            return b;
+            self.box._setWeekLabel(self);
         },
-        _showV:function(profile, a){
-            var f=profile.CF;
-            if(typeof f.formatCaption == 'function')
-                return f.formatCaption(a);
-            else
-                return a.join(':');
+        _getWeekNodes:function(profile){
+            return profile.$week || (profile.$week=profile.getSubNode('W',true));
         },
-
+        _getDayNodes:function(profile){
+            return profile.$day || (profile.$day=profile.getSubNode('D',true));
+        },
+        _getHeaderNodes:function(profile){
+            return profile.$header || (profile.$header=profile.getSubNode('H',true));
+        },
+        _setWeekLabel:function(profile){
+            var o=linb.date.getText.map.WEEKS;
+            profile.box._getHeaderNodes(profile).each(function(node,i){
+                node.innerHTML=o[i]
+            });
+        },
+        _setBGV:function(profile, v, m){
+            var date=linb.date,
+                daymap=profile.$daymap||(profile.$daymap=[]),
+                t,n;
+            profile.box._getDayNodes(profile).each(function(node,i){
+                n=date.add(v,'d',i);
+                daymap[i]=n;
+                t=date.get(n,'m')==m?'#':'<p class="exday">#</p>';
+                n=date.get(n,'d');
+                node.innerHTML = t.replace('#',n);
+            });
+            v=date.add(v,'d',6);
+            profile.box._getWeekNodes(profile).each(function(node,i){
+                node.innerHTML=date.get(date.add(v,'ww',i),'ww');
+            });
+        },
         resize:function(profile,w,h){
             var p=profile.properties,
                 f=function(k){return profile.getSubNode(k)},
@@ -307,7 +309,7 @@ Class('linb.UI.DatePicker', 'linb.UI.iWidget', {
                 f('BORDER').height(t=h-off);
                 f('BODY').height(t=t - p.barHeight);
                 t=t - p.headHeight-6;
-                profile.$day.height(t/6);
+                profile.box._getDayNodes(profile).height(t/6);
             }
         }
     }

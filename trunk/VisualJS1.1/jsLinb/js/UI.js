@@ -665,7 +665,7 @@ new function(){
 
                 var c = self.box.$clscache || (self.box.$clscache={}),
                 k=key+":"+tag,
-                reg = c[k] || (c[k] = new RegExp('[^\\s]*'+self.getClass(key,'',true) + '[-\\w]*' + tag + '[-\\w]*'))
+                reg = c[k] || (c[k] = new RegExp('[^\\s]*'+self.getClass(key,'',true)+'[-\\w]*'+tag+'[-\\w]*','g'))
                 ;
                 nodes.removeClass(reg);
 
@@ -1837,8 +1837,8 @@ new function(){
                                 }else{
                                     if(profile.beforeHoverEffect && false == box.beforeHoverEffect(profile, item, src, 'mouseout'))
                                         return;
-                                    profile.removeTagClass('KEY', '-mouseover', nodes);
-                                    profile.removeTagClass('KEY', '-mousedown', nodes);
+                                    profile.removeTagClass('KEY', '(-mouseover|-mousedown)', nodes);
+                                    //profile.removeTagClass('KEY', '-mousedown', nodes);
                                 }
                             }
                             nodes.length=0;
