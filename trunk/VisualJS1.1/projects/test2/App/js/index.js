@@ -36,6 +36,7 @@ Class('App', 'linb.Com',{
             .setTop(210)
             .setType("timepicker")
             .setItems([{"id":"a","caption":"itema","tips":"item a"},{"id":"b","caption":"itemb","tips":"item b"},{"id":"c","caption":"itemc","tips":"item c"}])
+            .setTips("hihi")
             );
             
             return n;

@@ -8,7 +8,7 @@ Class('App', 'linb.Com',{
         iniComponents:function(){
             // [[code created by designer, don't change it manually
             var t=this, n=t._nodes=[], u=linb.UI, f=function(c){n.push(c.get(0))};
-            
+
             f(
             (new u.Group)
             .host(t,"Group1")
@@ -18,7 +18,7 @@ Class('App', 'linb.Com',{
             .setHeight(184)
             .setCaption("(un)serialize 1")
             );
-            
+
             t.Group1.attach(
             (new u.Input)
             .host(t,"Input1")
@@ -28,7 +28,7 @@ Class('App', 'linb.Com',{
             .setHeight(144)
             .setInputArea("textarea")
             );
-            
+
             t.Group1.attach(
             (new u.Block)
             .host(t,"Block12")
@@ -38,7 +38,7 @@ Class('App', 'linb.Com',{
             .setHeight(96)
             .setBorder(true)
             );
-            
+
             t.Group1.attach(
             (new u.Button)
             .host(t,"Button11")
@@ -48,7 +48,7 @@ Class('App', 'linb.Com',{
             .setCaption(">>")
             .onClick("_button1_onclick")
             );
-            
+
             t.Group1.attach(
             (new u.Block)
             .host(t,"Block11")
@@ -58,7 +58,7 @@ Class('App', 'linb.Com',{
             .setHeight(96)
             .setBorder(true)
             );
-            
+
             t.Block11.attach(
             (new u.Button)
             .host(t,"Button1")
@@ -66,7 +66,7 @@ Class('App', 'linb.Com',{
             .setTop(32)
             .setCaption("Button")
             );
-            
+
             t.Group1.attach(
             (new u.Button)
             .host(t,"Button12")
@@ -76,7 +76,7 @@ Class('App', 'linb.Com',{
             .setCaption(">>")
             .onClick("_button12_onclick")
             );
-            
+
             f(
             (new u.Group)
             .host(t,"Group2")
@@ -86,7 +86,7 @@ Class('App', 'linb.Com',{
             .setHeight(184)
             .setCaption("(un)serialize 2")
             );
-            
+
             t.Group2.attach(
             (new u.Block)
             .host(t,"Block21")
@@ -96,7 +96,7 @@ Class('App', 'linb.Com',{
             .setHeight(96)
             .setBorder(true)
             );
-            
+
             t.Block21.attach(
             (new u.Group)
             .host(t,"Group7")
@@ -106,7 +106,7 @@ Class('App', 'linb.Com',{
             .setHeight(88)
             .setCaption("Group7")
             );
-            
+
             t.Group7.attach(
             (new u.Button)
             .host(t,"Button14")
@@ -114,7 +114,7 @@ Class('App', 'linb.Com',{
             .setTop(16)
             .setCaption("Button14")
             );
-            
+
             t.Group2.attach(
             (new u.Block)
             .host(t,"Block22")
@@ -124,7 +124,7 @@ Class('App', 'linb.Com',{
             .setHeight(96)
             .setBorder(true)
             );
-            
+
             t.Group2.attach(
             (new u.Input)
             .host(t,"Input2")
@@ -134,7 +134,7 @@ Class('App', 'linb.Com',{
             .setHeight(144)
             .setInputArea("textarea")
             );
-            
+
             t.Group2.attach(
             (new u.Button)
             .host(t,"Button21")
@@ -144,7 +144,7 @@ Class('App', 'linb.Com',{
             .setCaption(">>")
             .onClick("_button21_onclick")
             );
-            
+
             t.Group2.attach(
             (new u.Button)
             .host(t,"Button22")
@@ -154,7 +154,7 @@ Class('App', 'linb.Com',{
             .setCaption(">>")
             .onClick("_button22_onclick")
             );
-            
+
             f(
             (new u.Group)
             .host(t,"Group3")
@@ -164,7 +164,7 @@ Class('App', 'linb.Com',{
             .setHeight(184)
             .setCaption("(un)serialize 3")
             );
-            
+
             t.Group3.attach(
             (new u.Block)
             .host(t,"Block31")
@@ -174,7 +174,7 @@ Class('App', 'linb.Com',{
             .setHeight(96)
             .setBorder(true)
             );
-            
+
             t.Block31.attach(
             (new u.Tabs)
             .host(t,"Tabs1")
@@ -183,7 +183,7 @@ Class('App', 'linb.Com',{
             .setItems([{"id":"view1","caption":"view1"},{"id":"view2","caption":"view2"}])
             .setValue("view1")
             );
-            
+
             t.Tabs1.attach(
             (new u.Button)
             .host(t,"button1")
@@ -191,7 +191,7 @@ Class('App', 'linb.Com',{
             .setTop(17)
             .setCaption("button1")
             , 'view1');
-            
+
             t.Tabs1.attach(
             (new u.Button)
             .host(t,"button2")
@@ -199,7 +199,7 @@ Class('App', 'linb.Com',{
             .setTop(17)
             .setCaption("button2")
             , 'view2');
-            
+
             t.Group3.attach(
             (new u.Block)
             .host(t,"Block32")
@@ -209,7 +209,7 @@ Class('App', 'linb.Com',{
             .setHeight(96)
             .setBorder(true)
             );
-            
+
             t.Group3.attach(
             (new u.Input)
             .host(t,"Input3")
@@ -219,7 +219,7 @@ Class('App', 'linb.Com',{
             .setHeight(144)
             .setInputArea("textarea")
             );
-            
+
             t.Group3.attach(
             (new u.Button)
             .host(t,"Button31")
@@ -229,7 +229,7 @@ Class('App', 'linb.Com',{
             .setCaption(">>")
             .onClick("_button31_onclick")
             );
-            
+
             t.Group3.attach(
             (new u.Button)
             .host(t,"Button32")
@@ -239,7 +239,7 @@ Class('App', 'linb.Com',{
             .setCaption(">>")
             .onClick("_button32_onclick")
             );
-            
+
             return n;
             // ]]code created by designer
         },

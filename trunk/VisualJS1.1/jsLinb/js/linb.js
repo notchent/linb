@@ -111,10 +111,11 @@ _.merge(_,{
     target: 'this' for fun
     */
     resetRun:function(key, fun, defer ,args, target){
-        var me=arguments.callee, cache = me.cache || (me.cache = {});
-        if(cache[key]){clearTimeout(cache[key])}
+        var me=arguments.callee, k=key, cache = me.cache || (me.cache = {});
+        if(cache[k]){clearTimeout(cache[k])}
         if(typeof fun=='function')
-            cache[key] = setTimeout(function(){fun.apply(target||null,args||[]);delete cache[key]},defer||0);
+            cache[k] = setTimeout(function(){delete cache[k];fun.apply(target||null,args||[])},defer||0);
+        else delete cache[k];
     }
 });
 
@@ -919,7 +920,7 @@ Class('linb.io',null,{
         },
         crossDomain:function(uri){
             var me=arguments.callee,
-                r=me.r || (me.r=/(http(s)?\:\/\/)?([\w\.]+)(.*)/),t;
+                r=me.r || (me.r=/(http(s)?\:\/\/)?([\w\.]+(:[\d]+)?)(.*)/),t;
             if((t=uri.indexOf(':'))==-1||t>uri.indexOf('/'))return false;
             if(uri.indexOf('file:')===0)return !!location.host;
             return  location.host != uri.replace(r,'$3')
@@ -1141,7 +1142,7 @@ Class('linb.iajax','linb.io',{
 
             //set timeout
             if(self.timeout > 0)
-                self._flag = _.asyRun(function(){if(self && !self._end){self._time()}}, self.timeout);
+                self._flag = _.asyRun(function(){linb.log('timeout');if(self && !self._end){self._time()}}, self.timeout);
         },
         _c:function(){
             var self=this;
@@ -1180,14 +1181,14 @@ Class('linb.iajax','linb.io',{
                 arr=document.getElementsByTagName("link");
                 for(var i=0,j=arr.length; i<j; i++){
                     o = arr[i];
-                    if (o.rel == "stylesheet" && !f(o.href, h))
+                    if (o.rel == "stylesheet" && !f(o.href))
                         return o.href;
                 }
             }
             arr=document.getElementsByTagName("img");
             for(var i=0,j=arr.length; i<j; i++){
                 o = arr[i];
-                if(!f(o.src, h))
+                if(!f(o.src))
                     return o.src
             }
             if(linb.browser.ie)

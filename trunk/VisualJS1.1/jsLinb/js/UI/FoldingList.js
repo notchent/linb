@@ -85,14 +85,14 @@ Class("linb.UI.FoldingList", ["linb.UI.List"],{
                 'padding-top':'8px',
                 position:'relative',
                 //for ie6 1px bug,  HR/TR(position:absolute;right:0;)
-                'margin-right':linb.browser.ie6?'expression(this.parentNode.offsetWidth%2==1?"1px":"0px")':null
+                'margin-right':linb.browser.ie6?'expression((this.parentNode.offsetWidth-(parseInt(this.parentNode.style.paddingLeft)||0)-(parseInt(this.parentNode.style.paddingRight)||0) )%2+"px")':null
             },
             'ITEM-mouseover':{},
             ITEM:{
                 border:0,
                 //for ie6 bug
                 zoom:linb.browser.ie?1:null,
-                'margin-top':'-8px',
+                'margin-top':'-9px',
                 padding:0,
                 background:'#FFF',
                 'font-family': '"Verdana", "Helvetica", "sans-serif"',
@@ -168,7 +168,7 @@ Class("linb.UI.FoldingList", ["linb.UI.List"],{
                 width:'8px'
             },
             'HL, HR':{
-                height:'32px'
+                height:'30px'
             },
             'ITEM-prechecked HL':{
                 'background-position': 'left top'
@@ -177,7 +177,7 @@ Class("linb.UI.FoldingList", ["linb.UI.List"],{
                 'background-position': 'right top'
             },
             'TL, TR':{
-                height:'25px'
+                height:'20px'
             },
             HL:{
                 top:0,
@@ -231,9 +231,11 @@ Class("linb.UI.FoldingList", ["linb.UI.List"],{
                 'font-weight':'normal'
             },
             TLEFT:{
+                position:linb.browser.ie6?'relative':null,
                 'float':'left'
             },
             TRIGHT:{
+                position:linb.browser.ie6?'relative':null,
                 'float':'right'
             },
             OPT:{

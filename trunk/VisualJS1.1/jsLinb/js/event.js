@@ -4,13 +4,30 @@
 *
 */
 Class('linb.event',null,{
-    Constructor:function(e,o,id){
-        var src, type, self = linb.event, dd=0, pre, obj,dragdrop=linb.dragDrop;
+    Constructor:function(e,o,fordrag,id){
+        var self = linb.event,
+            dd=0,
+            dragdrop=linb.dragDrop,
+            src, type,  pre, obj;
+
         //get event object , and src of event
         if(!(e=e||window.event) || !(src=o))return false;
         //type
         type = e.type;
-        o=self.getSrc(e);
+if(type=='rewh')
+    linb.log(src);
+        //for correct mouse hover problems;
+        if('mouseover'==type || 'mouseout'==type){
+            dd=(dragdrop&&dragdrop.drop2)?1:2;
+            //for dropable
+            if(dd!=1 && fordrag)return self.rtnFalse;
+
+            //don't return flase, here, opera will stop the system event hander => cursor not change
+            if(!self._handleMouseHover(e, src, self.getSrc(e), dd==1))
+                return self.rtnFalse;
+            if(dd==1)
+                pre=dragdrop&&dragdrop._current;
+        }
 
         //for tab focusHook
         if((obj=self.focusHook).length &&
@@ -18,19 +35,6 @@ Class('linb.event',null,{
             (e.$key || e.keyCode || e.charCode)==9 &&
             false === self._handleFocusHook(src, obj=obj[obj.length-1]))
                 return;
-
-        //for correct mouse hover problems;
-        if('mouseover'==type || 'mouseout'==type){
-            dd=(dragdrop&&dragdrop.drop2)?1:2;
-
-            //don't return flase, here, opera will stop the system event hander => cursor not change
-            if(!self._handleMouseHover(e, src, o, dd==1))
-                return;
-
-            if(dd==1)
-                pre=dragdrop&&dragdrop._current;
-
-        }
 
         id = self.getId(src) || id;
         //get profile from dom cache
@@ -114,10 +118,12 @@ Class('linb.event',null,{
         }
     },
     Static:{
+        rtnFalse:linb.browser.opr?undefined:false,
         _type:{},
         _kb:{keydown:1,keypress:1,keyup:1},
-        _reg:/([\.\w]+)(-[\.\w]+)?(:[\w]+:)([\w]+)?/,
+        _reg:/([\.\w]+)(-[\.\w]+)?(:[\w]+:)(.*)/,
         _eventhandler:function(){return linb.event(arguments[0],this)},
+        _eventhandler2:function(){return linb.event(arguments[0],this,1)},
         _eventtag:'before,on,after'.split(','),
         //collection
         _events : ("mouseover,mouseout,mousedown,mouseup,mousemove,click,dblclick," +
@@ -186,11 +192,9 @@ Class('linb.event',null,{
 
         focusHook:[],
         eventhandler:"return linb.event(arguments[0],this)",
-        getSrc:function(e){
-            var a = e.target || e.srcElement || null;
-            // defeat Safari bug
-            if(linb.browser.kde && a) a = (a.nodeType == 3)?a.parentNode:a;
-            return a;
+        eventhandler2:"return linb.event(arguments[0],this,1)",
+        getSrc:function(e,a){
+            return ((a=e.target||e.srcElement||null) && linb.browser.kde && a.nodeType == 3)?a.parentNode:a
         },
         getId:function(o){
             return (window===o)?"___window":(document===o)?"___document":o?o.id:'';

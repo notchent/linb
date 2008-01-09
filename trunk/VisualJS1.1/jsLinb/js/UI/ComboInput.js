@@ -49,10 +49,17 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
         getUploadObj:function(){
             var profile=this.get(0);
             if(profile.domNode){
-                var o = profile.getSubNode('UPLOAD',null,true);
-                o.addPre(o.clone());
+                var o = profile.getSubNode('UPLOAD',null,true),c=o.clone();
+                o.addPre(c);
                 return o.remove(false);
             }
+        },
+        resetValue:function(value){
+            this.each(function(p){
+                if(p.properties.type=='upload')
+                    p.getSubNode('UPLOAD').value('');
+            });
+            return arguments.callee.upper.apply(this,arguments);
         },
         _drop:function(){
             return this.each(function(profile){
@@ -317,6 +324,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
             _focusHook:{INPUT:1},
             UPLOAD:{
                 onChange:function(profile, e, src){
+                    linb.log('hi')
                     profile.getSubNode('INPUT').value(src.value).onChange();
                 }
             },

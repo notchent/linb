@@ -1278,7 +1278,14 @@ Class('linb.dom','linb.iBox',{
             append 'onclick' to linb.cache.dom.id.add array
         */
         addEventHandler:function(name, flag){
-            var id,c,type='on'+linb.event._getEventType(name),f=linb.event._eventhandler,fs=linb.event.eventhandler,fi=linb.event.getId;
+            var id,
+                c,
+                event=linb.event,
+                type='on'+event._getEventType(name),
+                f=event._eventhandler,
+                fs=event.eventhandler,
+                fi=event.getId;
+
             return this.each(function(o){
                 if((window===o||document===o) && type=="onrewh")
                     type='onresize';

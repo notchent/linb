@@ -217,7 +217,7 @@ Class("linb.UI.Poll", "linb.UI.List",{
         Appearances:{'default':{
             KEY:{
                 'font-size':'12px',
-                zoom:linb.browser.ie?'1.0':null,
+                zoom:linb.browser.ie?1:null,
                 background:'#fff'
             },
             'TITLE, ITEMS, TAIL':{
@@ -227,6 +227,7 @@ Class("linb.UI.Poll", "linb.UI.List",{
                 background:'#fff'
             },
             TAIL:{
+                zoom:linb.browser.ie?1:null,
                 'padding':'5px 0 5px 40px'
             },
             CMD:{
@@ -239,13 +240,13 @@ Class("linb.UI.Poll", "linb.UI.List",{
             },
             ITEMS:{
                 'overflow-x': (linb.browser.ie || linb.browser.gek)?'hidden':'',
-                zoom:linb.browser.ie?'1.0':null,
+                zoom:linb.browser.ie?1:null,
                 margin:'4px 4px 4px 20px'
             },
             ITEM:{
                 display:'block',
                 position:'relative',
-                zoom:linb.browser.ie?'1.0':null,
+                zoom:linb.browser.ie?1:null,
                 padding:'4px 2px 4px 2px',
                 'border-bottom':'1px dashed #CDCDCD'
             },
@@ -257,7 +258,7 @@ Class("linb.UI.Poll", "linb.UI.List",{
             },
             CAPTION:{
                 'float':'left',
-                zoom:linb.browser.ie?'1.0':null,
+                zoom:linb.browser.ie?1:null,
                 'margin-left':'24px',
                 //{*1*}for: ie6 double margin bug
                 display:linb.browser.ie6?'inline':null

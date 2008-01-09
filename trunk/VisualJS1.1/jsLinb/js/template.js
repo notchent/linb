@@ -165,7 +165,7 @@ Class('linb.template','linb.iProfile',{
             }
             if(r){
                 return result.join('')
-                    .replace(r1,  'return linb.event(arguments[0],this,\'' + self.domId +'\')')
+                    .replace(r1,  'return linb.event(arguments[0],this,0,\'' + self.domId +'\')')
                     .replace(r2, '$1 id="'+self.domId+'" $2$3');
             }
         }

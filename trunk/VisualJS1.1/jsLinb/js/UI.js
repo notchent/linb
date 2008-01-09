@@ -1604,7 +1604,6 @@ new function(){
                 }
                 var self =arguments.callee, t, o , bak,
                     behavior = profile.behavior?key?profile.behavior[key]:profile.behavior:null,
-                    handler = self.handler||(self.handler='="'+linb.event.eventhandler+'" '),
                     map1 = self.map1 ||(self.map1={tagName:1,text:1}),
                     map2 = self.map2 ||(self.map2={image:1,input:1}),
                     r2=self.r2||(self.r2=/[a-z]/),
@@ -1684,7 +1683,7 @@ new function(){
                 // add event handler
                 if(behavior && (t=behavior.$eventhandler))
                     for(var i in t)
-                        arr[arr.length]=i+handler;
+                        arr[arr.length]=i+'="'+t[i]+'" ';
 
                 arr[arr.length]='>';
 
@@ -1792,7 +1791,8 @@ new function(){
             _setDefaultBehavior:function(hash){
                 var f = function(arr, type, mode){
                     var fun = function(profile, e, src){
-                        var t,id=src.id,item,
+                        var t,
+                            id=src.id,item,
                             cid = profile.getSubSerialId(id),
                             prop = profile.properties,nodes,funs,box;
                         if(prop.disabled)return;
@@ -2029,6 +2029,7 @@ new function(){
 
                 /*get from Behavior, if not exists, hash it*/
                 var check=linb.Base.$specialChars,
+                    handler = linb.event.eventhandler,
                     m,n,i,j,o,v, type,
                     t= this.$Behaviors;
 
@@ -2065,7 +2066,7 @@ new function(){
                                     m[j]=v;
                                     /*add handler*/
                                     type = eventType(j);
-                                    (m.$eventhandler || (m.$eventhandler={}))['on'+type]=1;
+                                    (m.$eventhandler || (m.$eventhandler={}))['on'+type]=handler;
                                 }
                             }
                         }else{
@@ -2073,7 +2074,7 @@ new function(){
                             n[i]=o;
                             /*add handler*/
                             type = eventType(i);
-                            (n.$eventhandler || (n.$eventhandler={}))['on'+type]=1;
+                            (n.$eventhandler || (n.$eventhandler={}))['on'+type]=handler;
                         }
                     }
                 }
@@ -2230,8 +2231,10 @@ new function(){
             pickObj:function(o){
                 return _.clone(o, function(i){return i.charAt(0)!='_'});
             },
-            dropable : function(key, getDropKeys){
-                var self=this;
+            dropable:function(key, getDropKeys){
+                var self=this,
+                    h2=linb.event.eventhandler2;
+
                 if(!getDropKeys)getDropKeys=self.getDropKeys;
                 //keep refrence
                 (linb.cache.$dropPool[self.KEY] = linb.cache.$dropPool[self.KEY] || []).push(key);
@@ -2264,6 +2267,8 @@ new function(){
                             _.resetRun('showDDMark', dd.showDDMark, 0, [self], dd);
 
                         if(profile.onDragEnter)box.onDragEnter(profile, e, self, key, data, item);
+                        //dont trigger parent
+                        return false;
                     },
                     beforeMouseout:function(profile, e, src){
                         var dd = linb.dragDrop, key = dd.dragKey, data = dd.data;
@@ -2280,6 +2285,9 @@ new function(){
 
                             if(profile.onDragLeave)box.onDragLeave(profile, e, self, key, data, item);
                             dd._current=null;
+
+                            //dont trigger parent
+                            return false;
                         }
                     },
                     beforeDrop:function(profile, e, src){
@@ -2293,9 +2301,11 @@ new function(){
                         //    _.resetRun('showDDMark', dd.showDDMark, 0, [null], linb.dragDrop);
                         //dd._current=null;
                         if(profile.onDrop)box.onDrop(profile, e, this, key, data, item);
+
+                        //dont trigger parent
+                        return false;
                     }
                 };
-
                 //attach Behaviors
                 _.each(self.$Behaviors,function(o,i){
                     var v;
@@ -2308,9 +2318,9 @@ new function(){
                     _.merge(v, behaviors, 'all');
                     if(!v.$eventhandler)v.$eventhandler={};
                     _.merge(v.$eventhandler,{
-                        onmouseover:1,
-                        onmouseout:1,
-                        ondrop:1
+                        onmouseover:h2,
+                        onmouseout:h2,
+                        ondrop:h2
                     });
                 });
 
@@ -2334,8 +2344,9 @@ new function(){
                     self.setDataModel({dropKeys:''});
                 return self;
             },
-            dragable : function(key, getDragKey, getDragData){
-                var self=this;
+            dragable:function(key, getDragKey, getDragData){
+                var self=this,
+                    h2=linb.event.eventhandler2;
                 if(!getDragKey)getDragKey=self.getDragKey;
                 if(!getDragData)getDragData=self.getDragData;
                 _.each(self.$Behaviors,function(o,i){
@@ -2370,8 +2381,8 @@ new function(){
                     }, 'all');
                     if(!v.$eventhandler)v.$eventhandler={};
                     _.merge(v.$eventhandler,{
-                        onmousedown:1,
-                        ondragbegin:1
+                        onmousedown:h2,
+                        ondragbegin:h2
                     });
                 });
                 return self;
@@ -3507,11 +3518,13 @@ new function(){
             },
             //
             showTips:function(profile, id, pos){
-                var t=profile.properties;
-                if(t.disabled)return;
-                if(t=profile.SubSerialIdMapItem && _.get(t,[id,'disabled']))return;
+                var t=profile.properties,
+                    sid=profile.getSubSerialId(id),
+                    map=profile.SubSerialIdMapItem,
+                    item=map&&map[sid];
 
-                var item = profile.getItemByDom(id);
+                if(t.disabled)return;
+                if(item && item.disabled)return;
                 if(item && item.tips){
                     linb.UI.Tips.show(pos, item);
                     return true;
