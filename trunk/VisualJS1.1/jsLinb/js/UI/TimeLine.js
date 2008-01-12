@@ -903,7 +903,7 @@ Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'
             ['10 n', 10, 'n', function(d){return linb.date.get(d,'n')%60===0}, 'n','mdhn','ymdhn'],
             ['30 n', 30, 'n', function(d){return linb.date.get(d,'h')%2===0 && linb.date.get(d,'n')%60===0}, 'n','ymdh','ymdh'],
             ['1 h', 1, 'h',  function(d){return linb.date.get(d,'h')%6===0}, 'h','ymdh','ymdh'],
-            ['2 h', 2, 'h', function(d){return linb.date.get(d,'h')%12===0}, 'h','ymd','ymdh'],
+            ['2 h', 2, 'h', function(d){return linb.date.get(d,'h')%12===0}, 'h','ymdh','ymdh'],
             ['6 h', 6, 'h', function(d){return linb.date.get(d,'h')%24===0}, 'h','ymd','ymd'],
             ['12 h', 12, 'h', function(d){return linb.date.get(d,'h')%24===0}, 'h','ymd','ymd'],
             ['1 d', 1, 'd', function(d){return linb.date.get(d,'w')%7===0}, 'w','ymd','ymd'],

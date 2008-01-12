@@ -14,8 +14,7 @@ Class('linb.event',null,{
         if(!(e=e||window.event) || !(src=o))return false;
         //type
         type = e.type;
-if(type=='rewh')
-    linb.log(src);
+
         //for correct mouse hover problems;
         if('mouseover'==type || 'mouseout'==type){
             dd=(dragdrop&&dragdrop.drop2)?1:2;

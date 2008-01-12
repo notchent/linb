@@ -173,14 +173,11 @@ Class("linb.UI.ButtonViews", "linb.UI.Tabs",{
             .setHandleVAlign(pro.handleVAlign,true);
         },
         resize:function(profile,key,w,h){
-            var o = profile.boxing().getPanel(key);
-            if(!o || o.isEmpty())return;
-
-            var t=profile.properties,  top, left,
+            var o = profile.boxing().getPanel(key),
+                t=profile.properties,  top, left,
                 hs = profile.getSubNode('LIST'),
-                hl = profile.getSubNode('ITEMS')
-                ;
-            var wc=null,hc=null;
+                hl = profile.getSubNode('ITEMS'),
+                wc=null,hc=null;
 
             if(['top','bottom'].exists(t.handleDock)){
                 if(w){
@@ -202,7 +199,7 @@ Class("linb.UI.ButtonViews", "linb.UI.Tabs",{
                     wc=w-t.handleSize;
                 }
             }
-            if(!o.isEmpty())o.setRegion({width:wc?wc-2:null,height:hc?hc-2:null,left:left,top:top},true);
+            if(o && !o.isEmpty())o.setRegion({width:wc?wc-2:null,height:hc?hc-2:null,left:left,top:top},true);
         }
     }
 });

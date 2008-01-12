@@ -6,41 +6,56 @@ Class('App', 'linb.Com',{
             var t=this, n=t._nodes=[], u=linb.UI, f=function(c){n.push(c.get(0))};
             
             f(
-            (new u.Block)
-            .host(t,"block1")
-            .setLeft(57)
-            .setTop(18)
-            .setWidth(487)
-            .setHeight(259)
-            .setResizable(true)
-            .setBorder(true)
-            );
-            
-            t.block1.attach(
-            (new u.TimeLine)
-            .host(t,"timeline1")
-            .setDock("fill")
+            (new u.ComboInput)
+            .host(t,"comboinput5")
+            .setLeft(348)
+            .setTop(120)
+            .setItems([{"id":"a","caption":"itema","tips":"item a"},{"id":"b","caption":"itemb","tips":"item b"},{"id":"c","caption":"itemc","tips":"item c"}])
+            .setType("datepicker")
+            .setWidth(98)
             );
             
             f(
-            (new u.Block)
-            .host(t,"block2")
-            .setLeft(66)
-            .setTop(283)
-            .setWidth(473)
-            .setHeight(241)
-            .setResizable(true)
-            .setBorder(true)
+            (new u.ComboInput)
+            .host(t,"comboinput4")
+            .setLeft(262)
+            .setTop(120)
+            .setWidth(67)
+            .setType("timepicker")
+            .setItems([{"id":"a","caption":"itema","tips":"item a"},{"id":"b","caption":"itemb","tips":"item b"},{"id":"c","caption":"itemc","tips":"item c"}])
             );
             
-            t.block2.attach(
-            (new u.DatePicker)
-            .host(t,"datepicker2")
+            f(
+            (new u.ComboInput)
+            .host(t,"comboinput2")
+            .setLeft(162)
+            .setTop(120)
+            .setItems([{"id":"a","caption":"itema","tips":"item a"},{"id":"b","caption":"itemb","tips":"item b"},{"id":"c","caption":"itemc","tips":"item c"}])
+            .setType("datepicker")
+            .setWidth(98)
+            );
+            
+            f(
+            (new u.ComboInput)
+            .host(t,"comboinput6")
+            .setLeft(448)
+            .setTop(120)
+            .setWidth(67)
+            .setType("timepicker")
+            .setItems([{"id":"a","caption":"itema","tips":"item a"},{"id":"b","caption":"itemb","tips":"item b"},{"id":"c","caption":"itemc","tips":"item c"}])
+            );
+            
+            f(
+            (new u.TimeLine)
+            .host(t,"timeline1")
+            .setLeft(150)
+            .setTop(230)
+            .setItems([{"id":"an","caption":"new","start":1200224448000,"end":1200583872000}])
             );
             
             return n;
             // ]]code created by designer
         },
-        required:["linb.UI.Block","linb.UI.TimeLine","linb.UI.DatePicker"]
+        required:["linb.UI.Block","linb.UI.TimeLine","linb.UI.DatePicker","linb.UI.ComboInput"]
     }
 });

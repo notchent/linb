@@ -63,17 +63,20 @@ Class('linb.Com',null,{
             _.tryF(self[name],[self.threadid],self);
         },
         show:function(onEnd,parent,showId,threadid){
-            var self=this;
-            self.threadid=threadid;
-            self.fireEvent('beforeShow');
-            self.create(function(){
+            var self=this,f=function(){
                 if(self.customAttach)
                     self.customAttach.call(self, parent,showId,threadid);
                 else
                     (parent||linb([document.body])).attach(self.getUIObj(),showId);
                 _.tryF(onEnd,[threadid]);
                 self.fireEvent('afterShow');
-            },threadid);
+            };
+            self.threadid=threadid;
+            self.fireEvent('beforeShow');
+            if(self.created)
+                f();
+            else
+                self.create(f,threadid);
         },
         create:function(onEnd, threadid){
             //get paras
@@ -137,7 +140,9 @@ Class('linb.Com',null,{
                 });
 
             //use asyUI to insert tasks
-            linb.thread.asyUI(threadid, funs);
+            linb.thread.asyUI(threadid, funs, function(){
+                self.created=true;
+            });
         },
 
         //for overwrite

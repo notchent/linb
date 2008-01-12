@@ -98,10 +98,10 @@ Class("linb.UI.Stacks", "linb.UI.Tabs",{
             }
         }},
         resize:function(profile,key,w,h){
-            var t=profile.properties, temp,t1,t2,obj,top;
-            var o = profile.boxing().getPanel(key);
+            var t=profile.properties, temp,t1,t2,obj,top,
+                wc=null,hc=null,
+                o = profile.boxing().getPanel(key);
             if(!o || o.isEmpty())return;
-            var wc=null,hc=null;
 
             // change value
             if(h){
