@@ -4,6 +4,7 @@ Class('linb.UI.Calendar', 'linb.UI.DatePicker', {
     Initialize:function(){
         var self=this,
             e=linb.event.eventhandler,
+            e2=linb.event.eventhandler2,
             id=linb.UI.$ID,
             cls=linb.UI.$CLS,
             key=self.KEY;
@@ -18,8 +19,8 @@ Class('linb.UI.Calendar', 'linb.UI.DatePicker', {
             tr1='<tr>',
             tr2='</tr>',
             td1='<th id="'+key+'-W:'+id+':@"  class="'+cls+'-w #W_CC#">@</th>',
-            td2='<td id="'+key+'-TD:'+id+':@" class="'+cls+'-td #TD_CC#"  unselectable="on" onmouseover="'+e+'" onmouseout="'+e+'" onclick="'+e+'" >'+
-                '<div id="'+key+'-D:'+id+':@" class="'+cls+'-d #D_CC#" unselectable="on"></div>'+
+            td2='<td id="'+key+'-TD:'+id+':@" class="'+cls+'-td #TD_CC#"  unselectable="on" onclick="'+e+'" >'+
+                '<div id="'+key+'-D:'+id+':@" class="'+cls+'-d #D_CC#" unselectable="on" onmouseover="'+e2+'" onmouseout="'+e2+'" ondrop="'+e2+'" ></div>'+
                 '</td>',
             body,i,j,k,l,a=[],b=[];
         for(i=0;i<7;i++)
@@ -53,8 +54,10 @@ Class('linb.UI.Calendar', 'linb.UI.DatePicker', {
         });
     },
     Static:{
-
+        Dropable:['D'],
         Behaviors:{'default':{
+            _hoverEffect:{},
+            _clickEffect:{},
             onRewh:function(profile, e, src){
                 var o = profile.domNode.style,f=parseInt, n=null, w=n, h=n;
                 if(e.height)h=f(o.height)||n;
@@ -67,6 +70,7 @@ Class('linb.UI.Calendar', 'linb.UI.DatePicker', {
             capHeight :null,
             closeBtn:null,
             dock:'fill',
+            dropKeys:'iEvent',
             $borderW:1
         },
         _getDayNodes:function(profile){
