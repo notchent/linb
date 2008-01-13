@@ -11,6 +11,7 @@ Class("linb.UI.Tips", null,{
 
         linb([document])
         .afterMousemove(function(obj, e, src){
+            if(linb.dragDrop.working)return;
             var event=linb.event,
                 tips=linb.UI.Tips,p,n;
 

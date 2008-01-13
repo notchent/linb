@@ -40,8 +40,8 @@ Class('linb.UI.TimePicker', 'linb.UI.iWidget', {
             cls=this._excls,
             id=linb.UI.$ID,
             e=linb.event.eventhandler,
-            t1='<span id="'+this.KEY+'-HI:'+id+':@" class="'+cls+'" onmouseover="'+e+'" onmouseout="'+e+'" onclick="'+e+'"   onselectstart="return false" >@</span>',
-            t2='<span id="'+this.KEY+'-MI:'+id+':@" class="'+cls+'" onmouseover="'+e+'" onmouseout="'+e+'" onclick="'+e+'"   onselectstart="return false" >@</span>',
+            t1='<span id="'+this.KEY+'-HI:'+id+':@" class="'+cls+'" onmouseover="'+e+'" onmouseout="'+e+'" onclick="'+e+'"   unselectable="on" >@</span>',
+            t2='<span id="'+this.KEY+'-MI:'+id+':@" class="'+cls+'" onmouseover="'+e+'" onmouseout="'+e+'" onclick="'+e+'"   unselectable="on" >@</span>',
             i,h,m;
 
         for(i=0;i<24;i++)
@@ -56,6 +56,7 @@ Class('linb.UI.TimePicker', 'linb.UI.iWidget', {
 
         this.setTemplate('default',{
             tagName : 'div',
+            onselectstart:'return false',
             style:'{_style}',
             BORDER:{
                 tagName : 'div',
@@ -115,6 +116,10 @@ Class('linb.UI.TimePicker', 'linb.UI.iWidget', {
                 src.className=cn.replace(b._excls_c,'');
         },
         Appearances:{'default':{
+            KEY:{
+                background:'#FFF',
+                '-moz-user-select': linb.browser.gek?'none':null
+            },
             'BAR,CON':{
                 position:'relative'
             },

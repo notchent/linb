@@ -7,19 +7,9 @@ Class('App', 'linb.Com',{
             
             f(
             (new u.ComboInput)
-            .host(t,"comboinput5")
-            .setLeft(348)
-            .setTop(120)
-            .setItems([{"id":"a","caption":"itema","tips":"item a"},{"id":"b","caption":"itemb","tips":"item b"},{"id":"c","caption":"itemc","tips":"item c"}])
-            .setType("datepicker")
-            .setWidth(98)
-            );
-            
-            f(
-            (new u.ComboInput)
-            .host(t,"comboinput4")
-            .setLeft(262)
-            .setTop(120)
+            .host(t,"comboinput6")
+            .setLeft(328)
+            .setTop(36)
             .setWidth(67)
             .setType("timepicker")
             .setItems([{"id":"a","caption":"itema","tips":"item a"},{"id":"b","caption":"itemb","tips":"item b"},{"id":"c","caption":"itemc","tips":"item c"}])
@@ -27,19 +17,9 @@ Class('App', 'linb.Com',{
             
             f(
             (new u.ComboInput)
-            .host(t,"comboinput2")
-            .setLeft(162)
-            .setTop(120)
-            .setItems([{"id":"a","caption":"itema","tips":"item a"},{"id":"b","caption":"itemb","tips":"item b"},{"id":"c","caption":"itemc","tips":"item c"}])
-            .setType("datepicker")
-            .setWidth(98)
-            );
-            
-            f(
-            (new u.ComboInput)
-            .host(t,"comboinput6")
-            .setLeft(448)
-            .setTop(120)
+            .host(t,"comboinput4")
+            .setLeft(142)
+            .setTop(36)
             .setWidth(67)
             .setType("timepicker")
             .setItems([{"id":"a","caption":"itema","tips":"item a"},{"id":"b","caption":"itemb","tips":"item b"},{"id":"c","caption":"itemc","tips":"item c"}])
@@ -48,14 +28,59 @@ Class('App', 'linb.Com',{
             f(
             (new u.TimeLine)
             .host(t,"timeline1")
-            .setLeft(150)
-            .setTop(230)
+            .setLeft(30)
+            .setTop(146)
             .setItems([{"id":"an","caption":"new","start":1200224448000,"end":1200583872000}])
+            );
+            
+            f(
+            (new u.ComboInput)
+            .host(t,"comboinput5")
+            .setLeft(228)
+            .setTop(36)
+            .setItems([{"id":"a","caption":"itema","tips":"item a"},{"id":"b","caption":"itemb","tips":"item b"},{"id":"c","caption":"itemc","tips":"item c"}])
+            .setType("datepicker")
+            .setWidth(98)
+            );
+            
+            f(
+            (new u.DatePicker)
+            .host(t,"datepicker1")
+            .setLeft(520)
+            .setTop(27)
+            );
+            
+            f(
+            (new u.ComboInput)
+            .host(t,"comboinput2")
+            .setLeft(42)
+            .setTop(36)
+            .setItems([{"id":"a","caption":"itema","tips":"item a"},{"id":"b","caption":"itemb","tips":"item b"},{"id":"c","caption":"itemc","tips":"item c"}])
+            .setType("datepicker")
+            .setWidth(98)
+            );
+            
+            f(
+            (new u.Block)
+            .host(t,"block1")
+            .setLeft(520)
+            .setTop(220)
+            .setWidth(211)
+            .setHeight(202)
+            .setResizable(true)
+            .setBorder(true)
+            );
+            
+            t.block1.attach(
+            (new u.Calendar)
+            .host(t,"calendar1")
+            .setLeft(10)
+            .setTop(40)
             );
             
             return n;
             // ]]code created by designer
         },
-        required:["linb.UI.Block","linb.UI.TimeLine","linb.UI.DatePicker","linb.UI.ComboInput"]
+        required:["linb.UI.Block","linb.UI.TimeLine","linb.UI.DatePicker","linb.UI.ComboInput","linb.UI.Calendar"]
     }
 });

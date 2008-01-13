@@ -106,14 +106,22 @@ Class('linb.date',null,{
                     DAY:function(date,count){date.setTime(date.getTime() + count*self.FACTOR.d)},
                     WEEK:function(date,count){date.setTime(date.getTime() + count*self.FACTOR.ww)},
                     MONTH:function(date,count){
+                        var a=date.getUTCDate(),b;
                         count = date.getUTCMonth() + count;
                         this.YEAR(date, Math.floor(count/12));
-                        date.setUTCMonth((count%12+12)%12)
+                        date.setUTCMonth((count%12+12)%12);
+                        if((b=date.getUTCDate())!=a)
+                            this.DAY(date, -b)
                     },
                     QUARTER:function(date,count){this.MONTH(date,count*3)},
-                    YEAR:function(date,count){date.setUTCFullYear(date.getUTCFullYear() + count)},
-                    DECADE:function(date,count){date.setUTCFullYear(date.getUTCFullYear() + 10*count)},
-                    CENTURY:function(date,count){date.setUTCFullYear(date.getUTCFullYear() + 100*count)}
+                    YEAR:function(date,count){
+                        var a=date.getUTCDate(),b;
+                        date.setUTCFullYear(date.getUTCFullYear() + count)
+                        if((b=date.getUTCDate())!=a)
+                            this.DAY(date, -b)
+                    },
+                    DECADE:function(date,count){this.YEAR(date,10*count)},
+                    CENTURY:function(date,count){this.YEAR(date,100*count)}
                 };
                 self._mapKeys(map);
             }
@@ -384,7 +392,7 @@ Class('linb.date',null,{
 
             if(!me.map){
                 var m = me.map = {
-                    WEEKS:['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'],
+                    WEEKS:['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'WK'],
                     ms:function(d,t){return f(self.get(d,'ms',t),3)},
                     s:function(d,t){return f(self.get(d,'s',t))},
                     n:function(d,t){return f(self.get(d,'n',t))},
@@ -419,7 +427,7 @@ Class('linb.date',null,{
                 m.cn={};
                 for(var i in m)m.cn[i]=m[i];
                 _.merge(m.cn,{
-                    WEEKS:['\u5468\u65e5', '\u5468\u4e00', '\u5468\u4e8c', '\u5468\u4e09', '\u5468\u56db', '\u5468\u4e94', '\u5468\u516d'],
+                    WEEKS:['\u65e5', '\u4e00', '\u4e8c', '\u4e09', '\u56db', '\u4e94', '\u516d', '\u5468'],
                     s:function(d,t){return f(self.get(d,'s',t))+"\u79d2"},
                     n:function(d,t){return f(self.get(d,'n',t))+"\u5206"},
                     h :function(d,t){return f(self.get(d,'h',t))+"\u65f6"},
