@@ -3,19 +3,26 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
     Instance:{
         setCtrlValue:function(value, flag){
             return this.each(function(profile){
-                profile.getSubNode('INPUT').value(flag?value:profile.boxing().getShowValue(value));
+                profile.getSubNode('INPUT').value(flag?value:profile.boxing()._getShowValue(value));
             })
         },
-        getShowValue:function(value){
+        _compareValue:function(v1,v2){
+            var profile=this.get(0),t;
+            if(t= profile.$compareValue|| profile.CF.compareValue)
+                return t(profile, v1, v2);
+
+            return v1===v2;
+        },
+        _getShowValue:function(value){
             var profile=this.get(0),
-                pro=profile.properties,v;
+                pro=profile.properties,v,t;
             //use setCtrlValue(value, true) dir
             if(profile.onClickButton)
                 v=value;
             else{
                 //get from onGetShowValue
-                if(profile.onGetShowValue)
-                    v = profile.boxing().onGetShowValue(profile, value);
+                if(t= profile.$getShowValue|| profile.CF.getShowValue)
+                    v = t(profile, value);
                 else{
                     //get from items
                     if('listbox'==pro.type || 'combobox' == pro.type){
@@ -28,9 +35,25 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                         v = profile.$showValue || value;
                 }
                 //for lang
-                if(v)v=v.replace(/\<\/?[^>]+\>/g,'');
+                if(typeof v=='string')v=v.replace(/\<\/?[^>]+\>/g,'');
             }
             return v||value||'';
+        },
+        _getEditValue:function(value){
+            var profile=this.get(0),
+                pro=profile.properties,t;
+
+                if(t= profile.$getEditValue|| profile.CF.getEditValue)
+                    return t(profile, value);
+            return value;
+        },
+        _fromEditValue:function(value){
+            var profile=this.get(0),
+                pro=profile.properties,t;
+
+                if(t= profile.$fromEditValue|| profile.CF.fromEditValue)
+                    return t(profile, value);
+            return value;
         },
         _cache:function(){
             var profile=this.get(0);
@@ -126,7 +149,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                             o.host(profile).setItems(pro.items.copy()).adjustSize();
                             o.beforeValueUpdated(function(pro, ovalue, value, showValue){
                                 //give showValue
-                                pro.$showValue = showValue;
+                                this.$showValue = showValue;
                                 var b2=this.boxing();
                                 //update value
                                 b2.updateUIValue(value);
@@ -142,12 +165,9 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                             o = linb.create('TimePicker');
                             o.host(profile);
                             o.beforeClose(function(){this.boxing()._cache();return false});
-                            o.beforeValueUpdated(function(pro, ovalue, value, showValue){
-                                //give showValue
-                                pro.$showValue = showValue;
-                                var b2=this.boxing();
+                            o.beforeValueUpdated(function(p, o, v){
                                 //update value
-                                b2.updateUIValue(value);
+                                this.boxing().updateUIValue(v);
                             });
                             break;
                         case 'datepicker':
@@ -155,14 +175,13 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                             o = linb.create('DatePicker');
                             o.host(profile);
                             o.beforeClose(function(){this.boxing()._cache();return false});
-                            o.beforeValueUpdated(function(pro, ovalue, value, showValue){
-                                //give showValue
-                                pro.$showValue = showValue;
-                                var b2=this.boxing();
+                            o.beforeValueUpdated(function(p, o, v){
                                 //update value
-                                b2.updateUIValue(value);
+                                this.boxing().updateUIValue(v)._cache();
                             });
-                            break;                         /*
+
+                            break;
+/*
                         case 'colorpicker':
                             linb.SC('linb.UI.ColorPicker');
                             o = linb.create('ColorPicker');
@@ -176,6 +195,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                     if(cachekey)
                         profile.$drop.links(profile.box.$drop, cachekey,null, cachekey);
                 }
+
                 o=profile.$drop.boxing();
 
                 //set pop
@@ -183,15 +203,17 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                     case 'combobox':
                     case 'listbox':
                     case 'helpinput':
-                        o.host(profile).setWidth(profile.root.width()).setValue(box.getUIValue());
+                        o.setWidth(profile.root.width())
                         break;
                     case 'timepicker':
                     case 'datepicker':
+                        var t = profile.$drop.properties;
+                        t.firstDayOfWeek=pro.firstDayOfWeek;
+                        break;
                     case 'colorpicker':
-                        o.host(profile).setValue(box.getUIValue());
                         break;
                 }
-
+                o.host(profile).setValue(box.getUIValue(), true);
                 profile.$poplink = o.get(0);
 
                 //pop
@@ -324,7 +346,6 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
             _focusHook:{INPUT:1},
             UPLOAD:{
                 onChange:function(profile, e, src){
-                    linb.log('hi')
                     profile.getSubNode('INPUT').value(src.value).onChange();
                 }
             },
@@ -340,19 +361,69 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
             },
             INPUT:{
                 onChange:function(profile, e, src){
-                    var o=profile.inValid;
-                    profile.boxing().updateUIValue(src.value);
-                    //input/textarea is special
-                    profile.properties.$UIvalue=src.value;
-                    if(o!==profile.inValid) if(profile.domNode)profile.boxing().setDirtyMark();
+                    if(profile.$_onedit)return;
+
+                    var o=profile.inValid,
+                        instance=profile.boxing(),
+                        v = instance._fromEditValue(src.value),
+                        uiv=profile.properties.$UIvalue;
+                    if(!instance._compareValue(uiv,v)){
+                        //give a invalid value in edit mode
+                        if(v===null)
+                            instance.setCtrlValue(uiv);
+                        else{
+                            instance.updateUIValue(v);
+                            //input/textarea is special
+                            profile.properties.$UIvalue=v;
+                            if(o!==profile.inValid) if(profile.domNode)instance.setDirtyMark();
+                        }
+                    }
+                },
+                onKeyup:function(profile, e, src){
+                    var p=profile.properties;
+                    if(p.dynCheck){
+                        if(p.$UIvalue!=src.value)
+                            profile.box.checkValid(profile, src.value);
+                        profile.boxing().setDirtyMark();
+                    }
                 },
                 onFocus:function(profile, e, src){
-                    if(profile.properties.disabled)return false;
+                    var p=profile.properties, uiv=p.$UIvalue;
+                    if(p.disabled)return false;
+
+                    var instance=profile.boxing(),
+                        v = instance._getEditValue(uiv);
+                    //string compare
+                    if(v!==uiv){
+                        //here, dont use $valueFormat, valueFormat or onValueFormat
+                        //use $getShowValue, $getEditValue, $fromEditValue related functions
+                        profile.$_onedit=true;
+                        src.value=v;
+                        delete profile.$_onedit;
+                    }
+
+                    //set css class
+                    if(profile.beforeFocus && false==profile.boxing().beforeFocus(profile)){}else
                     profile.addTagClass(profile.key,'-focus',profile.getSubNode('BORDER'));
+                    //show tips color
+                    profile.boxing()._setTB(3);
                 },
                 onBlur:function(profile, e, src){
-                    if(profile.properties.disabled)return false;
-                    profile.removeTagClass(profile.key,'-focus',profile.getSubNode('BORDER'));
+                    var p=profile.properties,
+                        instance=profile.boxing(),
+                        uiv=p.$UIvalue,
+                        v = instance._fromEditValue(src.value)
+                        ;
+                    if(p.disabled)return false;
+                    if(profile.beforeBlur && false==instance.beforeBlur(profile)){}else
+                    profile.removeTagClass('KEY','-focus',profile.getSubNode('BORDER'));
+
+                    //onblur check it
+                    if(instance._compareValue(p.$UIvalue,v)){
+                        profile.box.checkValid(profile, v);
+                        instance.setCtrlValue(uiv);
+                    }
+                    instance.setDirtyMark();
                 },
                 onKeydown : function(profile, e, src){
                     var p=profile.properties.type;
@@ -363,8 +434,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                         profile.boxing()._drop();
                         return false;
                     }else if(key=='enter')
-                        profile.getSubNode('INPUT').onChange();
-
+                        profile.getSubNode('INPUT').onBlur();
                 },
                 onClick : function(profile, e, src){
                     if(profile.properties.readonly)
@@ -374,8 +444,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
         }},
         EventHandlers:{
             onSave:function(profile, src){},
-            onClickButton:function(profile, pos){},
-            onGetShowValue:function(profile, value){}
+            onClickButton:function(profile, pos){}
         },
         posMap:{
             none:'',
@@ -430,15 +499,76 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                 ini:'combobox',
                 listbox:'none,combobox,listbox,upload,getter,helpinput,cmdbox,popbox,timepicker,datepicker,colorpicker'.toArr(),
                 set:function(v){
+                    var self=this,pro;
                     if(v.exists(':')){
                         var arr=v.split(':');
                         if(arr[1]=='readonly')
-                            this.setReadonly(true);
+                            self.setReadonly(true);
                         v=arr[0];
                     }
-                    if(v=='listbox' || v=='upload')
-                        this.setReadonly(true);
-                    return this.each(function(pro){
+
+                    if(v=='listbox')
+                        self.setReadonly(true);
+                    if(v!='listbox' && v!='combobox')
+                        self.each(function(p){
+                            pro=p.properties;
+                            if(!pro.items)pro.items=[];
+                        });
+
+                    if(v=='timepicker')
+                        self.each(function(p){
+                            var  o=linb.UI.TimePicker;
+                            _.merge(p,{
+                                $compareValue : null,
+                                $getShowValue : null,
+                                $getEditValue : null,
+                                $fromEditValue : function(profile,value){
+                                    return o.formatValue(value);
+                                }
+                            },'all');
+                            pro=p.properties;
+                            pro.$UIvalue=pro.value=o.formatValue(pro.value);
+                        });
+                    else if(v=='datepicker'){
+                        var date=linb.date;
+                        self.each(function(p){
+                            pro=p.properties;
+                            _.merge(p,{
+                                $compareValue : function(p, v1,v2){
+                                    return (v1&&v1.getTime())===(v2&&v2.getTime())
+                                },
+                                $getShowValue : function(profile,value){
+                                    return date.getText(value, 'ymd');
+                                },
+                                $getEditValue : function(profile,value){
+                                    return (date.get(value,'m')+1)+'/'+date.get(value,'d')+'/'+date.get(value,'y');
+                                },
+                                $fromEditValue : function(profile,value){
+                                    //parse from local text mm/dd/yyyy
+                                    var v=linb.date.parse(value);
+                                    if(v)v=linb.date.getRoundDown(v,'d',1);
+                                    return v?v:null;
+                                }
+                            },'all');
+                            if(!_.isDate(pro.value)){
+                                var d=date.parse(pro.value)||new Date;
+                                pro.$UIvalue=pro.value=date.getRoundDown(d,'d',1);
+                            }
+                        });
+                    }else{
+                        self.each(function(p){
+                            delete p.$compareValue;
+                            delete p.$getShowValue;
+                            delete p.$getEditValue;
+                            delete p.$fromEditValue;
+                            pro=p.properties;
+                            if(_.isDate(pro.value))
+                                pro.$UIvalue=pro.value=String(pro.value);
+                        });
+                    }
+
+
+                    return self.each(function(pro){
                         pro.properties.type=v;
                         if(pro.domNode)
                             pro.getSubNode('MID').setStyle('backgroundPosition', pro.box.posMap[v] || 'left top');
@@ -451,12 +581,16 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                     this.boxing().refresh();
                 }
             },
+            firstDayOfWeek:0,
             $border:1
         },
         createdTrigger:function(){
-            var self=this;
-            if(self.properties.readonly)
-                self.getSubNode('INPUT').cursor('pointer');
+            var self=this,
+                instance=self.boxing(),
+                p=self.properties;
+            instance.setType(p.type,true);
+            if(p.readonly)
+                instance.setReadonly(true,true);
         },
         dynamicTemplate:function(profile){
             var properties = profile.properties,
@@ -509,7 +643,9 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                 save=prop.saveBtn,
                 s=save?profile.getSubNode('SBTN'):null;
 
-            if(!_.isNull(w))v.width(size.width - (prop.type=='none'?0:c.width()) - (save?s.width():0) );
+            if(!_.isNull(w))
+                v.width(size.width - (prop.type=='none'?0:c.offsetWidth()) - (save?s.offsetWidth():0) );
+
             if(!_.isNull(h)){
                 v.height(size.height -(linb.browser.ie6?2:linb.browser.ie?1:linb.browser.kde?1:0));
                 c.height(size.height);

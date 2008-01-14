@@ -6,57 +6,61 @@ Class('App', 'linb.Com',{
             var t=this, n=t._nodes=[], u=linb.UI, f=function(c){n.push(c.get(0))};
             
             f(
+            (new u.ComboInput)
+            .host(t,"timeTo")
+            .setLeft(336)
+            .setTop(30)
+            .setWidth(48)
+            .setItems([])
+            .setValue("00:00")
+            .setType("timepicker")
+            );
+            
+            f(
+            (new u.ComboInput)
+            .host(t,"timeFrom")
+            .setLeft(150)
+            .setTop(30)
+            .setWidth(48)
+            .setItems([])
+            .setValue("00:00")
+            .setType("timepicker")
+            );
+            
+            f(
             (new u.TimeLine)
             .host(t,"timeline1")
             .setLeft(30)
             .setTop(146)
-            .setItems([{"id":"an","caption":"new","start":1200224448000,"end":1200583872000}])
             );
             
             f(
             (new u.ComboInput)
-            .host(t,"comboinput4")
-            .setLeft(142)
-            .setTop(36)
-            .setWidth(67)
-            .setType("timepicker")
-            .setItems([{"id":"a","caption":"itema","tips":"item a"},{"id":"b","caption":"itemb","tips":"item b"},{"id":"c","caption":"itemc","tips":"item c"}])
-            );
-            
-            f(
-            (new u.ComboInput)
-            .host(t,"comboinput5")
+            .host(t,"dateTo")
             .setLeft(228)
-            .setTop(36)
-            .setItems([{"id":"a","caption":"itema","tips":"item a"},{"id":"b","caption":"itemb","tips":"item b"},{"id":"c","caption":"itemc","tips":"item c"}])
+            .setTop(30)
+            .setItems([])
             .setType("datepicker")
-            .setWidth(98)
-            );
-            
-            f(
-            (new u.DatePicker)
-            .host(t,"datepicker1")
-            .setLeft(520)
-            .setTop(27)
+            .setWidth(106)
             );
             
             f(
             (new u.ComboInput)
-            .host(t,"comboinput2")
+            .host(t,"dateFrom")
             .setLeft(42)
-            .setTop(36)
-            .setItems([{"id":"a","caption":"itema","tips":"item a"},{"id":"b","caption":"itemb","tips":"item b"},{"id":"c","caption":"itemc","tips":"item c"}])
+            .setTop(30)
+            .setItems([])
             .setType("datepicker")
-            .setWidth(98)
+            .setWidth(106)
             );
             
             f(
             (new u.Block)
             .host(t,"block1")
-            .setLeft(520)
-            .setTop(220)
-            .setWidth(211)
-            .setHeight(202)
+            .setLeft(441)
+            .setTop(59)
+            .setWidth(340)
+            .setHeight(304)
             .setResizable(true)
             .setBorder(true)
             );
@@ -69,20 +73,10 @@ Class('App', 'linb.Com',{
             );
             
             f(
-            (new u.ComboInput)
-            .host(t,"comboinput6")
-            .setLeft(328)
-            .setTop(36)
-            .setWidth(67)
-            .setType("timepicker")
-            .setItems([{"id":"a","caption":"itema","tips":"item a"},{"id":"b","caption":"itemb","tips":"item b"},{"id":"c","caption":"itemc","tips":"item c"}])
-            );
-            
-            f(
             (new u.Button)
             .host(t,"button3")
-            .setLeft(180)
-            .setTop(90)
+            .setLeft(563)
+            .setTop(36)
             .setCaption("drag me to calendar")
             .afterCreated("_button3_aftercreated")
             );
@@ -92,7 +86,7 @@ Class('App', 'linb.Com',{
         },
         required:["linb.UI.Block","linb.UI.TimeLine","linb.UI.DatePicker","linb.UI.ComboInput","linb.UI.Calendar","linb.UI.Dialog","linb.UI.Button"],
         _button3_aftercreated:function (profile) {
-            profile.boxing().dragable('KEY','iEvent','data');
+            profile.boxing().dragable('iEvent','data');
         }
     }
 });

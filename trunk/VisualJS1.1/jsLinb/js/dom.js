@@ -1284,7 +1284,8 @@ Class('linb.dom','linb.iBox',{
                 type='on'+event._getEventType(name),
                 f=event._eventhandler,
                 fs=event.eventhandler,
-                fi=event.getId;
+                fi=event.getId,
+                dom=linb.cache.dom;
 
             return this.each(function(o){
                 if((window===o||document===o) && type=="onrewh")
@@ -1299,8 +1300,8 @@ Class('linb.dom','linb.iBox',{
                     if(o[type])return;
                     o[type]=f;
                 }
-                if(!(c = linb.cache.dom[id])){
-                    c = linb.cache.dom[id] = new linb.DomProfile();
+                if(!(c = dom[id])){
+                    c = dom[id] = new linb.DomProfile();
                     c.domNode=o;
                     c.domId=id;
                 }
@@ -1323,13 +1324,13 @@ Class('linb.dom','linb.iBox',{
             });
         },
         addEvent:function(name, fun, event_id, index, tagVar){
-            var self=this,c,t,id,type,fi=linb.event.getId;
+            var self=this,c,t,id,type,fi=linb.event.getId,dom=linb.cache.dom,event=linb.event;
             if(!(name  instanceof Array))
                 name=[[name,fun,event_id]];
 
             name.each(function(o,i){
                 name=o[0];fun=o[1];event_id='$'+o[2];
-                type=linb.event._getEventType(name);
+                type=event._getEventType(name);
                 if(typeof event_id!='string')
                     event_id="$"+_.id();
 
@@ -1337,7 +1338,7 @@ Class('linb.dom','linb.iBox',{
                     id=fi(o);
                     if(!id)id=o.id=_.id();
 
-                    c = linb.cache.dom[id];
+                    c = dom[id];
 
                     t = c.events || (c.events = {});
                     c = t[name] || (t[name]=[]);
@@ -1363,20 +1364,20 @@ Class('linb.dom','linb.iBox',{
             will remove all onClick/beforeClick/afterClick in linb.cache.dom.id.events.
         */
         removeEvent:function(name, event_id, flag){
-            var self=this,c,t,k,id,i,type,fi=linb.event.getId;
+            var self=this,c,t,k,id,i,type,fi=linb.event.getId,dom=linb.cache.dom,event=linb.event;
             if(!(name instanceof Array))
                 name=[[name,event_id]];
 
             name.each(function(o,i){
                 name=o[0];event_id='$'+o[1];
-                type=linb.event._getEventType(name);
+                type=event._getEventType(name);
                 self.each(function(o){
                     if(!(id=fi(o)))return;
 
-                    if(!(c=linb.cache.dom[id]))return;
+                    if(!(c=dom[id]))return;
                     if(!(t=c.events))return;
                     if(flag)
-                        linb.event._getEventName(type).each(function(o){
+                        event._getEventName(type).each(function(o){
                             delete t[o];
                         });
                     else{
@@ -1948,10 +1949,6 @@ type:4
         },
 ***/
         getStyle:function(node, key, flag){
-            /*
-            key1: backgroud-color
-            key2: backgroudColor
-            */
             if(!node.style)return '';
 
             var value = node.style[key];

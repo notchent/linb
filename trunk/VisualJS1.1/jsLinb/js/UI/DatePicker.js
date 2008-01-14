@@ -3,58 +3,13 @@ Class('linb.UI.DatePicker', 'linb.UI.iWidget', {
         setCtrlValue:function(value){
             return this.each(function(profile){
                 if(!profile.domNode)return;
-
-                var instance = profile.boxing(),
-                    cls = profile.box,
+                var cls = profile.box,
                     p = profile.properties,
-                    uiv = p.$UIvalue,
                     date=linb.date,
-                    keys=profile.keys,
-                    realstart=profile.$realstart,
-                    md=date.get(value,'m')+'-'+date.get(value,'d'),
-                    index=-1,
-                    node,temp
-                    ;
-                var _realstart = date.getRoundDown(date.getRoundDown(value,'m'),'ww'),
-                m=date.get(value,'m');
-
-                //set bg values
-                if(_realstart.getTime()!=(realstart&&realstart.getTime())){
-                    cls._setBGV(profile, _realstart, m);
-                    profile.$realstart=_realstart;
-                }
-                //remove checked css class
-                if(profile.$selnode)
-                    profile.removeTagClass('TD', '-checked',profile.$selnode);
-
-                profile.$daymap.each(function(o,i){
-                    if(date.get(o,'m')+'-'+date.get(o,'d')==md){
-                        index=i;
-                        return false;
-                    }
-                });
-                if(index!=-1){
-                //add checked css class
-                    node=cls._getTDNodes(profile).get()[index];
-                    profile.addTagClass('TD', '-checked', profile.$selnode=linb([node]));
-
-                    if(keys.CAPTION)
-                        profile.getSubNode('CAPTION').html(date.getText(value,'ymd'),false);
-                    if(keys.YEAR){
-                        temp=date.get(value,'y');
-                        if(profile.$year!=temp){
-                            profile.$year=temp;
-                            profile.getSubNode('YEAR').html(temp,false);
-                        }
-                    }
-                    if(keys.MONTH){
-                        temp=date.get(value,'m')+1;
-                        if(profile.$month!=temp){
-                            profile.$month=temp;
-                            profile.getSubNode('MONTH').html(temp,false);
-                        }
-                    }
-                }
+                    mfirst=date.getRoundDown(value,'m');
+                cls._to(profile,mfirst,value);
+                if(profile.keys.CAPTION)
+                    profile.getSubNode('CAPTION').html(date.getText(value,'ymd',null,p.firstDayOfWeek),false);
             });
         }
     },
@@ -232,8 +187,8 @@ Class('linb.UI.DatePicker', 'linb.UI.iWidget', {
                 $order:4,
                 margin:'2px 4px 2px 0',
                 height:'15px',
+                'font-weight':'bold',
                 border:'1px solid #7F9DB9',
-                background:'#FFF',
                 cursor:'e-resize'
             },
             YEAR:{
@@ -268,17 +223,18 @@ Class('linb.UI.DatePicker', 'linb.UI.iWidget', {
                 color:'#C1C1C1'
             },
             TD:{
-                'text-align':'right',
-                'background-color': '#FFFACD',
-                'padding':'0 1px 0 1px'
+                'text-align':'center',
+                'background-color': '#FFFACD'
             },
             'TD-mouseover':{
                 $order:3,
                 'background-color': '#d9e8fb'
             },
             'TD-checked':{
-                $order:3,
-                'background-color': '#D6DEEC'
+                $order:4,
+                'background-color':'#316AC5',
+                'font-weight':'bold',
+                color:'#fff'
             },
             'W,H':{
                 $order:3,
@@ -298,6 +254,8 @@ Class('linb.UI.DatePicker', 'linb.UI.iWidget', {
                         map=profile.$daymap,
                         v=map[id];
                     if(p.disabled)return false;
+
+                    linb([src]).onMouseout(true,{$force:true});
                     //onClick event
                     profile.boxing().updateUIValue(v);
                 }
@@ -318,34 +276,30 @@ Class('linb.UI.DatePicker', 'linb.UI.iWidget', {
             },
             PRE:{
                 onClick:function(profile, e, src){
-                    var properties = profile.properties;
-                    if(properties.disabled)return;
-                    var instance = profile.boxing();
-                    instance.updateUIValue(linb.date.add(properties.$UIvalue,'m',-1))
+                    var p = profile.properties;
+                    if(p.disabled)return;
+                    profile.box._to(profile, linb.date.add(profile.$mfirst,'m',-1,null,p.firstDayOfWeek));
                 }
             },
             NEXT:{
                 onClick:function(profile, e, src){
-                    var properties = profile.properties;
-                    if(properties.disabled)return;
-                    var instance = profile.boxing();
-                    instance.updateUIValue(linb.date.add(properties.$UIvalue,'m',1))
+                    var p = profile.properties;
+                    if(p.disabled)return;
+                    profile.box._to(profile, linb.date.add(profile.$mfirst,'m',1,null,p.firstDayOfWeek));
                 }
             },
             PRE2:{
                 onClick:function(profile, e, src){
-                    var properties = profile.properties;
-                    if(properties.disabled)return;
-                    var instance = profile.boxing();
-                    instance.updateUIValue(linb.date.add(properties.$UIvalue,'y',-1))
+                    var p = profile.properties;
+                    if(p.disabled)return;
+                    profile.box._to(profile, linb.date.add(profile.$mfirst,'y',-1,null,p.firstDayOfWeek));
                 }
             },
             NEXT2:{
                 onClick:function(profile, e, src){
-                    var properties = profile.properties;
-                    if(properties.disabled)return;
-                    var instance = profile.boxing();
-                    instance.updateUIValue(linb.date.add(properties.$UIvalue,'y',1))
+                    var p = profile.properties;
+                    if(p.disabled)return;
+                    profile.box._to(profile, linb.date.add(profile.$mfirst,'y',1,null,p.firstDayOfWeek));
                 }
             },
             YEAR:{
@@ -368,8 +322,9 @@ Class('linb.UI.DatePicker', 'linb.UI.iWidget', {
                 },
                 onDragend:function(profile, e, src){
                     if(profile.$temp2){
-                        var v = linb.date.add(profile.properties.$UIvalue,'y',profile.$temp2);
-                        profile.boxing().updateUIValue(v);
+                        var p=profile.properties,
+                            v = linb.date.add(profile.$mfirst,'y',profile.$temp2,null,p.firstDayOfWeek);
+                        profile.box._to(profile,linb.date.getRoundDown(v,'m'));
                     }
                     profile.$temp=profile.$temp2=0;
                 }
@@ -396,8 +351,9 @@ Class('linb.UI.DatePicker', 'linb.UI.iWidget', {
                 },
                 onDragend:function(profile, e, src){
                     if(profile.$temp2){
-                        var v = linb.date.add(profile.properties.$UIvalue,'m',profile.$temp2);
-                        profile.boxing().updateUIValue(v);
+                        var p=profile.properties,
+                            v = linb.date.add(profile.$mfirst,'m',profile.$temp2,null,p.firstDayOfWeek);
+                        profile.box._to(profile,linb.date.getRoundDown(v,'m'));
                     }
                     profile.$temp=profile.$temp2=0;
                 }
@@ -416,10 +372,12 @@ Class('linb.UI.DatePicker', 'linb.UI.iWidget', {
                     this.getSubNode('CLOSE').display(v?'':'none');
                 }
             },
+            firstDayOfWeek:0,
             $borderW:1
         },
         EventHandlers:{
-            beforeClose:function(profile, src){}
+            beforeClose:function(profile, src){},
+            onSelect:function(profile, src){}
         },
         prepareData:function(profile){
             arguments.callee.upper.call(this, profile);
@@ -451,19 +409,69 @@ Class('linb.UI.DatePicker', 'linb.UI.iWidget', {
         },
         _setBGV:function(profile, v, m){
             var date=linb.date,
+                p=profile.properties,
                 daymap=profile.$daymap||(profile.$daymap=[]),
-                t,n;
+                t,n,
+                fd=p.firstDayOfWeek;
             profile.box._getDayNodes(profile).each(function(node,i){
-                n=date.add(v,'d',i);
+                n=date.add(v,'d',i,null,fd);
                 daymap[i]=n;
-                t=date.get(n,'m')==m?'#':'<p class="exday">#</p>';
-                n=date.get(n,'d');
+                t=date.get(n,'m',null,fd)==m?'#':'<p class="exday">#</p>';
+                n=date.get(n,'d',null,fd);
                 node.innerHTML = t.replace('#',n);
             });
-            v=date.add(v,'d',6);
+            v=date.add(v,'d',6,null,fd);
             profile.box._getWeekNodes(profile).each(function(node,i){
-                node.innerHTML=date.get(date.add(v,'ww',i),'ww');
+                node.innerHTML=date.get(date.add(v,'ww',i,null,fd),'ww',null,fd);
             });
+        },
+        _to:function(profile, mfirst, value){
+            var p = profile.properties,
+                fd=p.firstDayOfWeek,
+                date=linb.date,
+                keys=profile.keys,
+                uiv=value||p.$UIvalue,
+                md=date.get(uiv,'m',null,fd)+'-'+date.get(uiv,'d',null,fd),
+                ym1=date.get(uiv,'y',null,fd)+'-'+date.get(uiv,'m',null,fd),
+                ym2=date.get(mfirst,'y',null,fd)+'-'+date.get(mfirst,'m',null,fd),
+                index=-1,
+                node,
+                temp,
+                _realstart = date.getRoundDown(date.getRoundDown(mfirst,'m'),'ww',1,null,fd),
+                m=date.get(mfirst,'m',null,fd);
+
+            profile.$mfirst=mfirst;
+            this._setBGV(profile, _realstart, m);
+
+
+            //remove checked css class
+            if(profile.$selnode)
+                profile.removeTagClass('TD', '-checked',profile.$selnode);
+            if(ym1==ym2){
+                profile.$daymap.each(function(o,i){
+                    if(date.get(o,'m',null,fd)+'-'+date.get(o,'d',null,fd)==md){
+                        index=i;
+                        return false;
+                    }
+                });
+                node=this._getTDNodes(profile).get()[index];
+                profile.addTagClass('TD', '-checked', profile.$selnode=linb([node]));
+            }
+
+            if(keys.YEAR){
+                temp=date.get(mfirst,'y',null,fd);
+                if(profile.$year!=temp){
+                    profile.$year=temp;
+                    profile.getSubNode('YEAR').html(temp,false);
+                }
+            }
+            if(keys.MONTH){
+                temp=date.get(mfirst,'m',null,fd)+1;
+                if(profile.$month!=temp){
+                    profile.$month=temp;
+                    profile.getSubNode('MONTH').html(temp,false);
+                }
+            }
         }
     }
 });

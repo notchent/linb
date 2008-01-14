@@ -8,7 +8,7 @@ Class('App', 'linb.Com',{
         iniComponents:function(){
             // [[code created by designer, don't change it manually
             var t=this, n=t._nodes=[], u=linb.UI, f=function(c){n.push(c.get(0))};
-            
+
             f(
             (new u.Panel)
             .host(t,"panel5")
@@ -17,7 +17,7 @@ Class('App', 'linb.Com',{
             .setWidth(420)
             .setHeight(128)
             );
-            
+
             t.panel5.attach(
             (new u.Tabs)
             .host(t,"tabs2")
@@ -29,7 +29,7 @@ Class('App', 'linb.Com',{
             .setDropKeysPanel("panel")
             .onDrop("_block1_ondrop")
             , '');
-            
+
             t.tabs2.attach(
             (new u.Button)
             .host(t,"button7")
@@ -37,7 +37,7 @@ Class('App', 'linb.Com',{
             .setTop(40)
             .setCaption("button7")
             , 'aa');
-            
+
             t.tabs2.attach(
             (new u.Button)
             .host(t,"button8")
@@ -45,7 +45,7 @@ Class('App', 'linb.Com',{
             .setTop(40)
             .setCaption("button8")
             , 'ac');
-            
+
             t.tabs2.attach(
             (new u.Button)
             .host(t,"button6")
@@ -54,7 +54,7 @@ Class('App', 'linb.Com',{
             .setCaption("button6")
             .afterCreated("_button6_aftercreated")
             , 'ab');
-            
+
             f(
             (new u.Panel)
             .host(t,"panel6")
@@ -64,7 +64,7 @@ Class('App', 'linb.Com',{
             .setHeight(128)
             .setCustomAppearance({"KEY":"border:solid 1px;"})
             );
-            
+
             t.panel6.attach(
             (new u.Stacks)
             .host(t,"stacks1")
@@ -76,7 +76,7 @@ Class('App', 'linb.Com',{
             .setDropKeysPanel("panel")
             .onDrop("_block1_ondrop")
             , '');
-            
+
             t.stacks1.attach(
             (new u.Button)
             .host(t,"button10")
@@ -84,7 +84,7 @@ Class('App', 'linb.Com',{
             .setTop(50)
             .setCaption("button10")
             , 'cb');
-            
+
             t.stacks1.attach(
             (new u.Button)
             .host(t,"button11")
@@ -92,7 +92,7 @@ Class('App', 'linb.Com',{
             .setTop(20)
             .setCaption("button11")
             , 'cc');
-            
+
             t.stacks1.attach(
             (new u.Button)
             .host(t,"button9")
@@ -100,7 +100,7 @@ Class('App', 'linb.Com',{
             .setTop(10)
             .setCaption("button9")
             , 'ca');
-            
+
             f(
             (new u.Panel)
             .host(t,"panel3")
@@ -110,7 +110,7 @@ Class('App', 'linb.Com',{
             .setHeight(108)
             .setCustomAppearance({"KEY":"border:solid 1px;"})
             );
-            
+
             t.panel3.attach(
             (new u.Layout)
             .host(t,"layout4")
@@ -121,7 +121,7 @@ Class('App', 'linb.Com',{
             .setDropKeys("panel")
             .onDrop("_block1_ondrop")
             , '');
-            
+
             t.layout4.attach(
             (new u.PanelBar)
             .host(t,"panelbar1")
@@ -132,7 +132,7 @@ Class('App', 'linb.Com',{
             .setTag("pb1")
             .setDragKey("panel")
             , 'main');
-            
+
             t.panelbar1.attach(
             (new u.Button)
             .host(t,"button3")
@@ -140,7 +140,7 @@ Class('App', 'linb.Com',{
             .setTop(40)
             .setCaption("button3")
             );
-            
+
             t.layout4.attach(
             (new u.PanelBar)
             .host(t,"panelbar2")
@@ -151,7 +151,7 @@ Class('App', 'linb.Com',{
             .setTag("pb2")
             .setDragKey("panel")
             , 'before');
-            
+
             t.panelbar2.attach(
             (new u.Button)
             .host(t,"button4")
@@ -160,7 +160,7 @@ Class('App', 'linb.Com',{
             .setCaption("button4")
             .setWidth(80)
             );
-            
+
             f(
             (new u.Group)
             .host(t,"group1")
@@ -172,7 +172,7 @@ Class('App', 'linb.Com',{
             .setDropKeys("panel")
             .onDrop("_block1_ondrop")
             );
-            
+
             f(
             (new u.Dialog)
             .host(t,"dialog2")
@@ -186,7 +186,7 @@ Class('App', 'linb.Com',{
             .setDragKey("panel")
             .setLandBtn(true)
             );
-            
+
             t.dialog2.attach(
             (new u.Button)
             .host(t,"button5")
@@ -194,7 +194,7 @@ Class('App', 'linb.Com',{
             .setTop(20)
             .setCaption("button5")
             );
-            
+
             f(
             (new u.Panel)
             .host(t,"panel4")
@@ -203,7 +203,7 @@ Class('App', 'linb.Com',{
             .setWidth(260)
             .setHeight(108)
             );
-            
+
             t.panel4.attach(
             (new u.ButtonViews)
             .host(t,"buttonviews2")
@@ -216,7 +216,7 @@ Class('App', 'linb.Com',{
             .setDropKeysPanel("panel")
             .onDrop("_block1_ondrop")
             , '');
-            
+
             t.buttonviews2.attach(
             (new u.Button)
             .host(t,"button13")
@@ -224,7 +224,7 @@ Class('App', 'linb.Com',{
             .setTop(40)
             .setCaption("button13")
             , 'bb');
-            
+
             t.buttonviews2.attach(
             (new u.Button)
             .host(t,"button14")
@@ -232,7 +232,7 @@ Class('App', 'linb.Com',{
             .setTop(30)
             .setCaption("button14")
             , 'bc');
-            
+
             t.buttonviews2.attach(
             (new u.Button)
             .host(t,"button12")
@@ -240,7 +240,7 @@ Class('App', 'linb.Com',{
             .setTop(50)
             .setCaption("button12")
             , 'ba');
-            
+
             f(
             (new u.Block)
             .host(t,"block1")
@@ -253,21 +253,21 @@ Class('App', 'linb.Com',{
             .setResizable(true)
             .onDrop("_block1_ondrop")
             );
-            
+
             return n;
             // ]]code created by designer
         },
         _block1_ondrop:function (profile, e, node, key, data, item) {
-            var target = profile.boxing(), 
+            var target = profile.boxing(),
                 source = data.profile.boxing(),
-                para = source.getPanelPara(data.domId), 
+                para = source.getPanelPara(data.domId),
                 children = source.getPanelChildren(data.domId);
 
             source.removePanel(data.domId);
             target.addPanel(para, children, item);
         },
         _button6_aftercreated:function (profile) {
-            profile.boxing().dragable('KEY','o')
+            profile.boxing().dragable('o')
         }
     }
 });

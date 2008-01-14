@@ -488,8 +488,6 @@ Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'
                 ini:[]
             },
             dateStart : new Date,
-            // timezone
-            timeZone : linb.date.timeZone,
             scrollRateBase:5
         },
         EventHandlers:{

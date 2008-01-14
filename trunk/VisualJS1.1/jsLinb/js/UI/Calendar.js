@@ -78,9 +78,7 @@ Class('linb.UI.Calendar', 'linb.UI.DatePicker', {
         },
         Appearances:{'default':{
             D:{
-                $order:2,
-                position:'relative',
-                'padding':'0 1px 0 1px'
+                position:'relative'
             }
         }},
         EventHandlers:{

@@ -1203,14 +1203,14 @@ new function(){
                     pb.attach(o[0]);
                 });
             },
-            dragable:function(key, dragKey, dragData){
+            dragable:function(dragKey, dragData, key){
                 return this.each(function(o){
                     o.getSubNode(o.keys[key] || 'KEY', true)
                     .beforeMousedown(function(pro,e,src){
                         linb([src]).startDrag(e, {
                             drop2:true,
                             key:dragKey,
-                            data:dragData,
+                            data:typeof dragData == 'function'?dragData():dragData,
                             icon:linb.ini.path+'ondrag.gif',
                             dragMode:'move',
                             cursor:'pointer',
@@ -1221,6 +1221,14 @@ new function(){
                     .beforeDragbegin(function(profile, e, src){
                         linb([src]).onMouseout(true,{$force:true}).onMouseup(true);
                     },'',-1);
+                });
+            },
+            unDragable:function(key){
+                return this.each(function(o){
+                    o.getSubNode(o.keys[key] || 'KEY', true)
+                    .beforeMousedown(null,'')
+                    .beforeDragbegin(null,'');
+                    o.resetCache();
                 });
             },
             setCustomFunction:function(key, value){
@@ -1742,6 +1750,7 @@ new function(){
                     temp=[[],[]],
                     self=this,
                     key=self.KEY,
+                    cache=linb.cache.template,
                     hash = profile._hash =
                         'a:' + (profile.template._id||'') + ';' +
                         'b:' + (profile.template._did||'') + ';' +
@@ -1750,7 +1759,7 @@ new function(){
                         '!' + (profile._exhash||'');
 
                 //get template
-                if(!(template = _.get(linb.cache.template,[key, hash]))){
+                if(!(template = _.get(cache,[key, hash]))){
                     //setCSSFile
                     if(!self.cssNone)
                         //_.asyRun(function(){
@@ -1761,7 +1770,7 @@ new function(){
                     //split sub template from main template
 
                     //set main template
-                    _.set(linb.cache.template, [key, hash, ''], temp);
+                    _.set(cache, [key, hash, ''], temp);
                     //set sub template
                     if(t=profile.template.$dynamic)
                         for(var i in t){
@@ -1772,10 +1781,10 @@ new function(){
                                         u.$buildTemplate(profile, m[j], j, temp);
                                 m=temp;
                             }
-                            _.set(linb.cache.template, [key,hash,i], m);
+                            _.set(cache, [key,hash,i], m);
                         }
 
-                    template = _.get(linb.cache.template,[key, hash]);
+                    template = _.get(cache,[key, hash]);
                 }
                 if(!template || flag)return '';
 
@@ -2156,11 +2165,16 @@ new function(){
             },
             buildCSSText:function(hash, appearance){
                 var self=this, t,v,o,reg,replace,ks;
-                var enter = linb.debug?'\n':'',
+                var debug=linb.debug,
+                    enter = debug?'\n':'',
                     me=arguments.callee,
                     r1=me.r1||(me.r1=/(^|\s|,)([0-9A-Z_]+)/g),
                     r2=me.r2||(me.r2=/\./g),
-                    h=[], r=[];
+                    h=[], r=[],
+                    browser=linb.browser,
+                    ie6=browser.ie6,
+                    ie=browser.ie,
+                    gek=browser.gek;
                 //create css keys
                 if(!self.$cssKeys){
                     o=self.$cssKeys={};
@@ -2199,13 +2213,13 @@ new function(){
                     for(var j in o){
                         switch(j.charAt(0)){
                             case '$':continue;break;
-                            case '_':if(!linb.browser.ie6)continue;break;
-                            case '*':if(!linb.browser.ie)continue;break;
-                            case '-':if(!linb.browser.gek)continue;break;
+                            case '_':if(!ie6)continue;break;
+                            case '*':if(!ie)continue;break;
+                            case '-':if(!gek)continue;break;
                         }
                         //neglect '' or null
                         if((v=o[j])||o[j]===0){
-                            if(linb.debug)j = '    ' + j;
+                            if(debug)j = '    ' + j;
                             //put string dir
                             switch(typeof v){
                             case 'string':
@@ -2393,11 +2407,11 @@ new function(){
             */
             copyItem:function(item, hash){
                 if(!hash)hash={};
-                var i,o;
+                var i,o,w=linb.wrapRes;
                 for(i in item){
                     if(i.charAt(0)=='$')continue;
                     if(!(i in hash))
-                        hash[i] = (typeof (o=item[i])=='string' && o.charAt(0)=='$')?linb.wrapRes(o.slice(1)):o;
+                        hash[i] = (typeof (o=item[i])=='string' && o.charAt(0)=='$')?w(o.slice(1)):o;
                 }
                 //todo: change it
                 hash.iconDisplay = item.icon?'':'display:none';

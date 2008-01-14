@@ -8,19 +8,20 @@ Class('linb.UI.TimePicker', 'linb.UI.iWidget', {
                     cls = profile.box,
                     p = profile.properties,
                     uiv = p.$UIvalue,
-                    arr1=cls._ensureV(uiv),
-                    arr2=cls._ensureV(value),
+                    arr1=cls.ensureV(uiv),
+                    arr2=cls.ensureV(value),
                     id=profile.serialId,
-                    keys=profile.keys
+                    keys=profile.keys,
+                    byId=linb.dom.byId
                     ;
 
                 if(arr1[0])
-                    cls._uncheck(linb.dom.byId(profile.getNodeId(keys.HI, id, arr1[0])));
-                cls._check(linb.dom.byId(profile.getNodeId(keys.HI, id, arr2[0])));
+                    cls._uncheck(byId(profile.getNodeId(keys.HI, id, arr1[0])));
+                cls._check(byId(profile.getNodeId(keys.HI, id, arr2[0])));
 
                 if(arr1[1])
-                    cls._uncheck(linb.dom.byId(profile.getNodeId(keys.MI, id, arr1[1])));
-                cls._check(linb.dom.byId(profile.getNodeId(keys.MI, id, arr2[1])));
+                    cls._uncheck(byId(profile.getNodeId(keys.MI, id, arr1[1])));
+                cls._check(byId(profile.getNodeId(keys.MI, id, arr2[1])));
 
                 profile.getSubNode('CAPTION').html(cls._showV(profile,arr2),false);
             });
@@ -29,7 +30,7 @@ Class('linb.UI.TimePicker', 'linb.UI.iWidget', {
             var upper = arguments.callee.upper;
             return this.each(function(profile){
                 var box=profile.box;
-                upper.apply(profile.boxing(),[box._ensureV(value).join(':'), flag]);
+                upper.apply(profile.boxing(),[box.formatValue(value), flag]);
             });
         }
     },
@@ -139,8 +140,13 @@ Class('linb.UI.TimePicker', 'linb.UI.iWidget', {
                 cursor:'default'
             },
             CAPTION:{
-                'margin-top':'2px',
-                'font-weight':'bold'
+                margin:'2px 4px 2px 0',
+                height:'15px',
+                width:'36px',
+                'padding-left':'2px',
+                'font-weight':'bold',
+                border:'1px solid #7F9DB9',
+                cursor:'e-resize'
             },
             'CMDS span':{
                 position:'relative',
@@ -201,7 +207,33 @@ Class('linb.UI.TimePicker', 'linb.UI.iWidget', {
         Behaviors:{'default':{
             _hoverEffect:{CLOSE:'CLOSE'},
             _clickEffect:{CLOSE:'CLOSE'},
-
+            CAPTION:{
+                onMousedown:function(profile, e, src){
+                    linb(src).startDrag(e, {
+                        type:'blank',
+                        move:false,
+                        grid_width:5,
+                        cursor:true
+                    });
+                    profile.$temp2=0;
+                },
+                onDrag:function(profile, e, src){
+                    var count,off = linb.dragDrop.getOffset(),v=profile.properties.$UIvalue,a=v.split(':');
+                    a[1]=(parseInt(a[1])||0)+parseInt(off.x/5);
+                    a[0]=(parseInt(a[0])||0)+parseInt(a[1]/60);
+                    a[0]=(a[0]%24+24)%24;
+                    a[1]=(a[1]%60+60)%60;
+                    profile.$temp2=profile.box._showV(profile,profile.box.ensureV(a));
+                    if(profile.$temp2!=v){
+                        profile.getSubNode('CAPTION').html(profile.$temp2,false);
+                    }
+                },
+                onDragend:function(profile, e, src){
+                    if(profile.$temp2)
+                        profile.boxing().updateUIValue(profile.$temp2);
+                    profile.$temp2=0;
+                }
+            },
             HI:{
                 onMouseover:function(profile, e, src){
                     profile.box._mover(src);
@@ -248,6 +280,7 @@ Class('linb.UI.TimePicker', 'linb.UI.iWidget', {
             }
         }},
         DataModel:{
+            width:326,
             value:'00:00',
             closeBtn:{
                 ini:true,
@@ -268,9 +301,17 @@ Class('linb.UI.TimePicker', 'linb.UI.iWidget', {
             var self=this, p=self.properties, o=self.boxing();
             p.$UIvalue = p.value;
         },
-        _ensureV:function(v){
-            var a = v.split(':'),
-                b=[];
+        formatValue:function(v){
+            return this.ensureV(v).join(':');
+        },
+        ensureV:function(v){
+            var a,b=[];
+            if(v&& typeof v == 'string')
+                a=v.split(':')
+            else if(v && typeof v=='object' && v[0])
+                a=v;
+            else a=[];
+
             b[0]= parseFloat(a[0])||0;
             b[1]=parseFloat(a[1])||0;
             if(b[0]<0)b[0]=0;

@@ -25,7 +25,7 @@ Class('linb.date',null,{
         _isNumb:function(target)  {return typeof target == 'number' && isFinite(target)},
         _numb:function(value,df){return this._isNumb(value)?value:this._isNumb(df)?df:0},
         //time Zone like: -8
-        timeZone:((new Date).getTimezoneOffset()/60),
+        _timeZone:((new Date).getTimezoneOffset()/60),
         //sun
         firstDayOfWeek:0,
         // Conversion factors
@@ -49,7 +49,7 @@ Class('linb.date',null,{
             var self=this;
 
             date = self._date(date);
-            timeZone=self._numb(timeZone, self.timeZone);
+            timeZone=self._numb(timeZone, self._timeZone);
             unit = self._validUnit(unit);
             firstDayOfWeek = self._numb(firstDayOfWeek ,self.firstDayOfWeek );
 
@@ -90,7 +90,7 @@ Class('linb.date',null,{
             var self=this;
 
             date = self._date(date);
-            timeZone=self._numb(timeZone, self.timeZone);
+            timeZone=self._numb(timeZone, self._timeZone);
             unit = self._validUnit(unit);
 
             var timeShift = timeZone * self.FACTOR.h,
@@ -137,7 +137,7 @@ Class('linb.date',null,{
 
             d1 = self._date(d1);
             d2 = self._date(d2);
-            timeZone=self._numb(timeZone, self.timeZone);
+            timeZone=self._numb(timeZone, self._timeZone);
             unit = self._validUnit(unit);
             firstDayOfWeek = self._numb(firstDayOfWeek ,self.firstDayOfWeek );
 
@@ -196,7 +196,7 @@ Class('linb.date',null,{
             var self=this;
 
             date = self._date(date);
-            timeZone=self._numb(timeZone, self.timeZone);
+            timeZone=self._numb(timeZone, self._timeZone);
             unit = self._validUnit(unit);
             firstDayOfWeek = self._numb(firstDayOfWeek ,self.firstDayOfWeek );
 
@@ -288,7 +288,7 @@ Class('linb.date',null,{
             var self=this;
 
             date = self._date(date);
-            timeZone=self._numb(timeZone, self.timeZone);
+            timeZone=self._numb(timeZone, self._timeZone);
             unit = self._validUnit(unit);
             firstDayOfWeek = self._numb(firstDayOfWeek ,self.firstDayOfWeek );
 
@@ -300,23 +300,23 @@ Class('linb.date',null,{
                 date2=self.add(date2, unit, count, timeZone);
             return date2;
         },
-        /*get UTC date from local date
-        *
+        /*get specific timezone(fake) date from local date format
+        *flag==true, unpack
         */
-        getUTCFromLocal:function(date, timeZone){
+        _pack:function(date, timeZone, flag){
             var self=this;
             date=self._date(date);
-            timeZone = self._numb(timeZone, self.timeZone);
-            return new Date(date.getTime() + timeZone*self.FACTOR.h);
+            return new Date(date.getTime() + (flag?1:-1)*(timeZone - self._timeZone)*self.FACTOR.h);
         },
-        /*get local date from UTC date
-        *
+        /*fake date for a certain timezone (based on the current timezone of "Date object")
         */
-        getLocalFromUTC:function(date, timeZone){
-            var self=this;
-            date=self._date(date);
-            timeZone = self._numb(timeZone, self.timeZone);
-            return new Date(date.getTime() - timeZone*self.FACTOR.h);
+        packTimeZone:function(date, timeZone){
+            return this._pack(date,timeZone);
+        },
+        /*return to real date from packTimezone
+        */
+        unpackTimeZone:function(date, timeZone){
+            return this._pack(date,timeZone,true);
         },
         /*get week
         *
@@ -324,7 +324,7 @@ Class('linb.date',null,{
         getWeek:function(date, timeZone, firstDayOfWeek){
             var self=this;
             date=self._date(date);
-            timeZone = self._numb(timeZone, self.timeZone);
+            timeZone = self._numb(timeZone, self._timeZone);
             firstDayOfWeek = self._numb(firstDayOfWeek ,self.firstDayOfWeek );
 
             var date2 = self.getRoundDown(date, 'y', 1, timeZone);
@@ -335,7 +335,7 @@ Class('linb.date',null,{
         getDayInYear:function(date, timeZone){
             var self=this;
             date=self._date(date);
-            timeZone = self._numb(timeZone, self.timeZone);
+            timeZone = self._numb(timeZone, self._timeZone);
             var date2 = self.getRoundDown(date, 'y', 1, timeZone);
             return self.diff(date2, date, 'd');
         },
@@ -360,8 +360,7 @@ Class('linb.date',null,{
                 if(match[4])match[4]--;
                 //ms to 3 digits
                 if (match[15]>=5)match[14]++;
-                var utc = match[16]||match[18]?"UTC":""
-                    ;
+                utc = match[16]||match[18]?"UTC":"";
                 for (var i in dp) {
                     var v = match[dp[i]];
                     if(!v)continue;
@@ -386,7 +385,7 @@ Class('linb.date',null,{
                 f=self.fix,
                 me =arguments.callee;
             date = self._date(date);
-            timeZone=self._numb(timeZone, self.timeZone);
+            timeZone=self._numb(timeZone, self._timeZone);
             firstDayOfWeek = self._numb(firstDayOfWeek ,self.firstDayOfWeek );
             unit=unit||'';
 

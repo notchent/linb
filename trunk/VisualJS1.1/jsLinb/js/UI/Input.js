@@ -313,9 +313,10 @@ Class("linb.UI.Input", ["linb.UI.Widget", "linb.UI.iForm"],{
         },
         //check valid manually
         checkValid:function(profile, value){
-            var p=profile.properties;
+            var p=profile.properties,
+                vf = p.valueFormat || profile.$valueFormat;
             if( (profile.onFormatCheck && (profile.boxing().onFormatCheck(profile, value)===false)) ||
-                (p.valueFormat && typeof p.valueFormat=='string' && !(new RegExp(p.valueFormat)).test(value||''))
+                (vf && typeof vf=='string' && !(new RegExp(vf)).test(value||''))
             ){
                 profile.inValid=2;
                 return false;

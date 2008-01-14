@@ -317,7 +317,7 @@ _.merge(linb,{
     ini : function(path){linb.ini.path=path},
     Locale:{},
     reLang:function(s,cb){
-        var l=linb.Locale,t,v,i,j,f,a=[];
+        var l=linb.Locale,g=linb.getRes,t,v,i,j,f,a=[];
         linb.lang=s;
         v = linb.browser.ie ? document.all.tags('span') : document.getElementsByTagName('span');
         for(i=0;t=v[i];i++)if(t.id=='linb:lang')a[a.length]=t;
@@ -325,7 +325,7 @@ _.merge(linb,{
             setTimeout(function(){
                 j=a.splice(0,100);
                 for(i=0;t=j[i];i++)
-                    if(typeof(v=linb.getRes(t.className))=='string')
+                    if(typeof(v=g(t.className))=='string')
                         t.innerHTML=v;
                 if(a.length)
                     setTimeout(arguments.callee,0);
@@ -1142,7 +1142,7 @@ Class('linb.iajax','linb.io',{
 
             //set timeout
             if(self.timeout > 0)
-                self._flag = _.asyRun(function(){linb.log('timeout');if(self && !self._end){self._time()}}, self.timeout);
+                self._flag = _.asyRun(function(){if(self && !self._end){self._time()}}, self.timeout);
         },
         _c:function(){
             var self=this;
