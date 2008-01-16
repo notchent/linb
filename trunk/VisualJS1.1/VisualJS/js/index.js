@@ -105,7 +105,7 @@ Class('VisualJS', 'linb.Com',{
                     });
                 }
 
-                page.proxy=new linb.UI.IFrame({height:1,left:-10000,top:-10000});
+                page.proxy=new linb.UI.IFrame({height:1,left:-10000,top:-10000,src:'javascript:;'});
                 linb(document.body).attach(page.proxy);
 
                 /*
@@ -156,7 +156,7 @@ Class('VisualJS', 'linb.Com',{
             "linb.UI.Input",
             "linb.UI.ComboInput",
             "linb.UI.Group",
-            "linb.UI.Gallery",
+            "linb.UI.IconList",
             "linb.UI.RadioBox",
             "linb.UI.Block",
             "linb.UI.Stacks",

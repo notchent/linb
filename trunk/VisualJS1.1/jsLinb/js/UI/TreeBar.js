@@ -48,7 +48,7 @@ Class("linb.UI.TreeBar",["linb.UI.iWidget", "linb.UI.iList","linb.UI.iNavigator"
         setValue:function(value, flag){
             var upper = arguments.callee.upper;
             return this.each(function(profile){
-                if(profile.properties.multiSel){
+                if(profile.properties.selMode=='multi'){
                     var arr = value.split(';');
                     arr.sort();
                     value = arr.join(';');
@@ -296,15 +296,16 @@ Class("linb.UI.TreeBar",["linb.UI.iWidget", "linb.UI.iList","linb.UI.iNavigator"
                 'border':0
             },
             BOX:{
+                left:0,
                 overflow: 'auto',
                 'overflow-x':(linb.browser.ie ||linb.browser.gek)?'hidden':''
             },
             ITEMS:{
+                overflow: 'hidden',
                 'border-bottom': '1px solid #e5e5e5',
                 'border-right': '1px solid #e5e5e5'
             },
             BORDER:{
-                'cursor': 'pointer',
                 'background-color':'#fff'
             },
             ITEM:{
@@ -313,6 +314,7 @@ Class("linb.UI.TreeBar",["linb.UI.iWidget", "linb.UI.iList","linb.UI.iNavigator"
                 overflow:'hidden'
             },
             BAR:{
+                overflow: 'hidden',
                 'border-top': '1px solid #e5e5e5',
                 padding:'1px'
             },
@@ -328,27 +330,29 @@ Class("linb.UI.TreeBar",["linb.UI.iWidget", "linb.UI.iList","linb.UI.iNavigator"
                'background-color': '#f6f6f6'
             },
             'BAR-GROUP':{
+                $order:2,
                 background: linb.UI.getCSSImgPara('group.gif',' repeat-x left top'),
                 padding:'1px'
             },
             'BAR-GROUP-mouseover':{
-                $order:1,
+                $order:3,
                 'background-position': 'left -30px'
             },
             'BAR-GROUP-checked':{
-                $order:2,
+                $order:4,
                 'background-position': 'left -60px'
             },
             CMD:{
                cursor:'pointer',
                'vertical-align':'middle',
                display:'block',
+               overflow: 'hidden',
                'font-size':'12px'
             },
             SUB:{
                 display:'none',
                 overflow:'hidden',
-                'margin-left':'20px'
+                'margin-left':'12px'
             },
             MARK1:{
                 background: linb.UI.getCSSImgPara('cmds.gif', ' no-repeat -161px top', null, 'linb.UI.Public'),
@@ -434,7 +438,8 @@ Class("linb.UI.TreeBar",["linb.UI.iWidget", "linb.UI.iList","linb.UI.iNavigator"
                     var properties = profile.properties,
                         item = profile.getItemByDom(src),
                         itemId =profile.getSubSerialId(src.id),
-                        box = profile.boxing();
+                        box = profile.boxing(),
+                        rt;
 
                     if(properties.disabled|| item.disabled)return false;
                     //group not fire event
@@ -445,12 +450,12 @@ Class("linb.UI.TreeBar",["linb.UI.iWidget", "linb.UI.iList","linb.UI.iNavigator"
 
                     switch(properties.selMode){
                     case 'none':
-                        box.onItemSelected(profile, item, src);
+                        rt=box.onItemSelected(profile, item, src);
                         break;
                     case 'multi':
-                        var value = box.getUIValue();
+                        var value = box.getUIValue(),
+                            arr = value?value.split(';'):[];
 
-                        var arr = value?value.split(';'):[];
                         if(arr.exists(item.id))
                             arr.removeValue(item.id);
                         else
@@ -459,21 +464,34 @@ Class("linb.UI.TreeBar",["linb.UI.iWidget", "linb.UI.iList","linb.UI.iNavigator"
                         value = arr.join(';');
 
                         //update string value only for setCtrlValue
-                        box.updateUIValue(value);
                         if(box.getUIValue() == value)
-                            box.onItemSelected(profile, item, src);
+                            rt=false;
+                        else{
+                            box.updateUIValue(value);
+                            if(box.getUIValue() == value)
+                                rt=box.onItemSelected(profile, item, src);
+                        }
                         break;
                     case 'single':
-                        if(box.getUIValue() != item.id){
+                        if(box.getUIValue() == item.id)
+                            rt=false;
+                        else{
                             box.updateUIValue(item.id);
                             if(box.getUIValue() == item.id)
-                                box.onItemSelected(profile, item, src);
+                                rt=box.onItemSelected(profile, item, src);
                         }
                         break;
                     }
 
                     profile.getSubNode('CMD', itemId).focus();
-
+                    return rt;
+                }
+            },
+            BOX:{
+                onScroll:function(profile, e, src){
+                    //for ie 'href focus' will scroll view
+                    if(linb([src]).scrollLeft()!==0)
+                        linb([src]).scrollLeft(0);
                 }
             },
             CMD:{

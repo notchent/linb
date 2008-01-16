@@ -1048,17 +1048,21 @@ Class('linb.sajax','linb.io',{
             var w=c._n=document;
 			n = self.node = w.createElement("script");
 			n.type= 'text/javascript';
-			n.src = self.uri + (self.queryString?'?'+self.queryString:'');
+			n.src = self.uri + (self.queryString?'?'+self.queryString:'')+(linb.browser.ie?'_ie='+_()+Math.random():'');
 			n.charset='utf-8';
 			n.id='linb:script:'+self.id;
-            if(self.rspType=='script')
-                n.onload = n.onreadystatechange = function(){
-                    var t=this.readyState;
-                    if(!ok && (!t || t == "loaded" || t == "complete") ) {
-                        ok=true;
+
+            n.onload = n.onreadystatechange = function(){
+                var t=this.readyState;
+                if(!ok && (!t || t == "loaded" || t == "complete") ) {
+                    ok=true;
+                    if(self.rspType=='script')
                         self._e("Response");
-                    }
+                    else self._loaded();
                 }
+            };
+            n.onerror=function(){self._loaded()};
+
             //w.getElementsByTagName("head")[0].appendChild(n);
 			w.body.appendChild(n);
 
@@ -1070,10 +1074,19 @@ Class('linb.sajax','linb.io',{
             var self=this, n=self.node, c=self.constructor, div=c.div||(c.div=c._n.createElement('div'));
             delete self.constructor.pool[self.id];
             if(n){
-                self.node=n.onload=n.onreadystatechange=null;
-                div.appendChild(n.parentNode&&n.parentNode.removeChild(n)||n);
-                div.innerHTML='';
+                self.node=n.onload=n.onreadystatechange=n.onerror=null;
+                if(!linb.debug || self.rspType!='script'){
+                    div.appendChild(n.parentNode&&n.parentNode.removeChild(n)||n);
+                    div.innerHTML='';
+                }
             }
+        },
+        _loaded:function(){
+            var self=this;
+            _.asyRun(function(){
+                if(self.id && self.constructor.pool[self.id])
+                    self._e("Error", new Error("script error"));
+            },200);
         }
     },
     Static : {

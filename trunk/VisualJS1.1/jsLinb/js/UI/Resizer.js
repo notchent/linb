@@ -9,9 +9,15 @@ Class("linb.UI.Resizer","linb.UI.iWidget",{
             ll,tt,ww,hh,
             c=[];
 
-            if(target)
+            if(target){
+                target._nodes.sort(function(x,y){
+                    x=parseInt(x.style.zIndex)||0;
+                    y=parseInt(y.style.zIndex)||0;
+                    return x>y?1:x==y?0:-1;
+                });
+
                 target.each(function(o,i){
-                    var o=linb([o],false);
+                    var o=linb([o]);
                     if(i===0){
                         l=o.offsetLeft();
                         t=o.offsetTop();
@@ -26,6 +32,7 @@ Class("linb.UI.Resizer","linb.UI.iWidget",{
                         c.push([{left :ll, top :tt},{ width :ww, height :hh},o.id()]);
                     }
                 });
+            }
             profile.regionBlocks = c;
             //ajust border
             c.each(function(o){
@@ -59,17 +66,18 @@ Class("linb.UI.Resizer","linb.UI.iWidget",{
                 o.regions=linb([]);
 
                 if(o.regionBlocks){
-                    var t,fun=function(){
+                    var t,fun=function(p,e){
                         var b = o.boxing(),
                             t = b.getTarget(),
                             key = linb.event.currentKey;
-                        if(t.length()>1){
-                            if(key && key[2]){
-                                t.minus(linb(this.tid));
-                                b.resetTarget(t);
-                            }else
-                                b.focus(this.tid);
-                        }
+                        if(o.onRegionClick && false!==b.onRegionClick(o,e))
+                            if(t.length()>1){
+                                if(key && key[2]){
+                                    t.minus(linb(this.tid));
+                                    b.resetTarget(t);
+                                }else
+                                    b.focus(this.tid);
+                            }
                     };
                     o.regionBlocks.each(function(v){
                         if(o.regPool.length()){
@@ -83,7 +91,7 @@ Class("linb.UI.Resizer","linb.UI.iWidget",{
                             .replace('{h}',v[1].height)
                             .toDom()
                             ;
-                            t.onMousedown(fun);
+                            t.onClick(fun);
                             t=t.get(0)
                         }
                         o.regions.push(t);
@@ -405,6 +413,9 @@ Class("linb.UI.Resizer","linb.UI.iWidget",{
             }
         }},
         Behaviors:{'default':{
+            onClick:function(p){
+                p.boxing().active();
+            },
             onMousedown:function(profile, e, src){
                 profile.box.onMousedown(profile, e, src, {move:true});
             },
@@ -569,7 +580,8 @@ Class("linb.UI.Resizer","linb.UI.iWidget",{
             onUpdate:function(profile, target, size, cssPos){},
             onActive:function(profile){},
             onFocusChange:function(profile, index){},
-            onItemsSelected:function(profile,ids){}
+            onItemsSelected:function(profile,ids){},
+            onRegionClick:function(profile,e){}
         },
         dynamicTemplate:function(profile){
             var pro = profile.properties,size,pos,temp,
@@ -720,18 +732,18 @@ Class("linb.UI.Resizer","linb.UI.iWidget",{
                 profile.boxing().resetTarget(null);
                 var pos=linb.event.getPos(e);
 
-                var hash = {drop2:true, icon:linb.ini.path+'ondrag.gif', dragMode:'move',target_left:pos.left+12,target_top:pos.top+12, cursor:'pointer', move:false};
+                var hash = {defer:1, drop2:true, icon:linb.ini.path+'ondrag.gif', dragMode:'move',target_left:pos.left+12,target_top:pos.top+12, cursor:'pointer', move:false};
                 // set other args for drag
                 _.merge(hash,profile.properties.dragArgs,'all');
                 hash.grid_width=hash.grid_height=0;
                 hash.data.pos = profile.boxing().reBoxing().cssPos();
 
-                linb([],false).startDrag(e,hash);
+                linb([]).startDrag(e,hash);
             }else{
                 var hash,o,absPos,pos,posbak,size;
                 if(profile.properties.child){
                     pos=linb.event.getPos(e);
-                    linb([src],false).startDrag(e,{move:false, type:'blank',cursor:true,target_left:pos.left, target_top:pos.top});
+                    linb([src]).startDrag(e,{defer:1,move:false, type:'blank',cursor:true,target_left:pos.left, target_top:pos.top});
                 }else{
                     o = profile.getSubNode('KEY');
                     var absPos = o.absPos();
@@ -774,7 +786,7 @@ Class("linb.UI.Resizer","linb.UI.iWidget",{
                     }
 
                     if((t=profile.properties.dragArgs) && (t=t.grid_width)){
-                        var offx = linb.dragDrop._proxy_size % t;
+                        var offx = linb.dragDrop._size % t;
                         if(ddparas.left){
                             pos.left += offx;
                         }else if(ddparas.right){
@@ -784,7 +796,7 @@ Class("linb.UI.Resizer","linb.UI.iWidget",{
                         }
                     }
                     if((t=profile.properties.dragArgs) && (t=t.grid_height)){
-                        var offy = linb.dragDrop._proxy_size % t;
+                        var offy = linb.dragDrop._size % t;
                         if(ddparas.top){
                             pos.top += offy;
                         }else if(ddparas.bottom){
@@ -798,12 +810,12 @@ Class("linb.UI.Resizer","linb.UI.iWidget",{
                     pos.left += parseInt((absPos.left-posbak.left)/t)*t;
                     pos.top += parseInt((absPos.top-posbak.top)/t)*t;
 
-                    var hash = {move:false, type:'blank', cursor:true, target_left:pos.left, target_top:pos.top};
+                    var hash = {defer:1,move:false, type:'blank', cursor:true, target_left:pos.left, target_top:pos.top};
                     _.merge(hash,profile.properties.dragArgs,'all');
                     hash.target_parent=profile._parent;
                     hash.key=null;
 
-                    linb([src],false).startDrag(e,hash);
+                    linb([src]).startDrag(e,hash);
                 }
             }
         },
@@ -827,7 +839,7 @@ Class("linb.UI.Resizer","linb.UI.iWidget",{
                 .zIndex(linb.dom.top_zIndex+20);
             }else{
                 //set target to resizer
-                var o  = linb([profile.domNode],false);
+                var o  = linb([profile.domNode]);
                 //set proxy to itself
                 profile.proxy = o;
             }

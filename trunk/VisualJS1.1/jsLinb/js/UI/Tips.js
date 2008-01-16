@@ -125,10 +125,10 @@ Class("linb.UI.Tips", null,{
                         //get width
                         w=Math.min(linb.UI.Tips.maxWidth, node.width());
                         //set width
-                        if(linb.browser.ie6){
+                        if(linb.browser.ie){
                             style.width=Math.round(w/2)*2+2+'px';
                             h=self.n.height();
-                            style.height=Math.round(h/2)*2+'px';
+                            style.height=Math.round(h/2)*2+2+'px';
                         }else
                             style.width=w+'px';
                         //pop

@@ -8,7 +8,7 @@ Class('App', 'linb.Com',{
         iniComponents:function(){
             // [[code created by designer, don't change it manually
             var t=this, n=t._nodes=[], u=linb.UI, f=function(c){n.push(c.get(0))};
-            
+
             f(
             (new u.Label)
             .host(t,"label1")
@@ -18,7 +18,7 @@ Class('App', 'linb.Com',{
             .setHAlign("left")
             .setCaption("b")
             );
-            
+
             f(
             (new u.List)
             .host(t,"list2")
@@ -28,7 +28,7 @@ Class('App', 'linb.Com',{
             .setDisabled(true)
             .onItemSelected("_list5_onitemselected")
             );
-            
+
             f(
             (new u.List)
             .host(t,"list5")
@@ -38,7 +38,7 @@ Class('App', 'linb.Com',{
             .setListKey("test")
             .onItemSelected("_list5_onitemselected")
             );
-            
+
             f(
             (new u.List)
             .host(t,"list3")
@@ -47,17 +47,17 @@ Class('App', 'linb.Com',{
             .setItems([{"id":"item a","caption":"<b>long</b> long long item a","tips":"item a"},{"id":"item b","caption":"<span style='color:red'>long</span> long long item b","tips":"item b"},{"id":"item c","caption":"<span style='font-size:20px'>long</span> long long item c","tips":"item c"}])
             .onItemSelected("_list5_onitemselected")
             );
-            
+
             f(
             (new u.List)
             .host(t,"list1")
             .setDock("left")
-            .setItems([])
+            .setItems([{"id":"item a","caption":"item a","icon":"img/demo.gif"},{"id":"item b","caption":"item b","icon":"img/demo.gif"},{"id":"item c","caption":"item c","icon":"img/demo.gif"}])
             .setListKey("test")
-            .setMultiSel(true)
+            .setSelMode('multi')
             .onItemSelected("_list5_onitemselected")
             );
-            
+
             f(
             (new u.List)
             .host(t,"list4")
@@ -67,7 +67,7 @@ Class('App', 'linb.Com',{
             .setMaxHeight("200")
             .onItemSelected("_list5_onitemselected")
             );
-            
+
             f(
             (new u.Gallery)
             .host(t,"gallery3")
@@ -80,7 +80,7 @@ Class('App', 'linb.Com',{
             .setItemHeight("64")
             .onItemSelected("_list5_onitemselected")
             );
-            
+
             return n;
             // ]]code created by designer
         },

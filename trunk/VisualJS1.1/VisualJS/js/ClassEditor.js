@@ -29,7 +29,7 @@ Class('VisualJS.ClassEditor', 'linb.Com',{
             if(!self.views) return;
             var view = self.buttonview.getUIValue();
             if(t=self.views[view])
-                if(t.loaded)
+                if(t.created)
                     t.activate();
         },
         beforeDestroy:function(){
@@ -72,7 +72,7 @@ Class('VisualJS.ClassEditor', 'linb.Com',{
                 t;
             if(!self.views) return;
 
-            if((t=self.views[ov]) && t.loaded){
+            if((t=self.views[ov]) && t.created){
                 var r = t.getText();
                 if(false===r)
                     return false;
@@ -105,7 +105,8 @@ Class('VisualJS.ClassEditor', 'linb.Com',{
                         pp.clsObject = p.clsObject;
                     }
                 }
-            }
+            }else
+                return false;
         },
         _buttonview_onitemselected:function(profile, item, src){
             var self=this,
@@ -156,7 +157,7 @@ Class('VisualJS.ClassEditor', 'linb.Com',{
                     });
             }else{
                 linb([src],false).UIAction(function(threadid){
-                    if(t.loaded){
+                    if(t.created){
                         if(item.id=='struct' || item.id=='design'){
                             t.properties.clsStruct=p.clsStruct;
                             t.properties.clsObject=p.clsObject;

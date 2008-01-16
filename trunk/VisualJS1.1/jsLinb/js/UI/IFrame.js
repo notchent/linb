@@ -64,6 +64,9 @@ Class("linb.UI.IFrame", ["linb.UI.iWidget","linb.UI.iMisc"],{
         cssNone:true,
         Templates:{'default':{
             style:'{_style}',
+            frameborder:"0",
+            marginheight:"0",
+            marginwidth:"0" ,
             tagName:'iFrame',
             //for ie
             name:'{name}',
@@ -72,11 +75,9 @@ Class("linb.UI.IFrame", ["linb.UI.iWidget","linb.UI.iMisc"],{
         Behaviors:{'default':{
             onLoad:function(prof){
                 if(!prof._start)return;
-
                 var s=prof.box.getBody(prof.domNode).innerHTML;
                 prof.boxing().clear();
                 if(prof.onResponse){
-
                     if(linb.browser.opr)s=s.replace(/&quot;/g, '"');
                     prof.boxing().onResponse(prof, s);
                 }
@@ -89,7 +90,7 @@ Class("linb.UI.IFrame", ["linb.UI.iWidget","linb.UI.iMisc"],{
             width:100,
             height:100,
             src:{
-                ini:'javascript:;',
+                ini:'about:blank',
                 action:function(v){
                     if(this.domNode)
                         this.root.src(v);
@@ -104,7 +105,6 @@ Class("linb.UI.IFrame", ["linb.UI.iWidget","linb.UI.iMisc"],{
             arguments.callee.upper.apply(this,arguments);
             var data=profile.data;
             data.name = profile.key +":" + linb.UI.$ID +":";
-            data.src = data.src || 'javascript:false';
         },
         getBody: function(i){
             return (i.contentWindow || i).document.body;

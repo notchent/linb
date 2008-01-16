@@ -7,8 +7,200 @@ Class('VisualJS.Designer', 'linb.Com',{
 
         events:{
             afterShow:function(page, threadid){
+
                 var tbpath = 'img/designer/toolbar.gif',
                     tbk='$VisualJS.designer.tool.';
+
+                //proxy region
+                page.proxy = linb.create('<div style="position:absolute;border:dashed 1px blue;overflow:visible;left:-100px;top:-100px;z-index:1000"></div>');
+
+                //resizer
+                page.resizer = linb.create('Resizer',{
+                    dragArgs:{
+                        grid_width:this.dropOffset,
+                        grid_height:this.dropOffset
+                    },
+                    zIndex:linb.dom.top_zIndex
+                });
+                page.resizer.host(page)
+                .onItemsSelected(function(profile, ids){
+                    this.pProfile.setSelectFromResizer.call(this.pProfile,ids);
+                })
+                .onActive(function(profile){
+                    this._focus();
+                })
+                .onUpdate(function(profile, target, size, cssPos){
+                    page._change();
+
+                    var self=this;
+                    if(target){
+                        var b=false;
+                        target.each(function(target){
+                            target = linb([target],false);
+                            var profile = linb.cache.dom[target.get(0).id], widget=profile.boxing(),p = profile.properties, m = profile.box.getDataModel();
+                            if(size){
+                                var w=null,h=null;
+                                if(size.width){
+                                    if(p && !m.width){
+                                        b=true;
+                                    }else{
+                                        switch(p.dock){
+                                            case 'top':
+                                            case 'bottom':
+                                            case 'fill':
+                                            case 'cover':
+                                            case 'width':
+                                                b=true;
+                                                break;
+                                            case 'left':
+                                            case 'right':
+                                            case 'height':
+                                                b=true;
+                                            default:
+                                                target.widthBy(size.width,true);
+                                                w = widget.refreshWidth();
+                                            }
+                                    }
+                                }
+                                if(size.height){
+                                    if(p && !m.height){
+                                        b=true;
+                                    }else{
+                                        switch(p.dock){
+                                            case 'left':
+                                            case 'right':
+                                            case 'fill':
+                                            case 'cover':
+                                            case 'height':
+                                                b=true;
+                                                break;
+                                            case 'top':
+                                            case 'bottom':
+                                            case 'width':
+                                                b=true;
+                                            default:
+                                                target.heightBy(size.height,true);
+                                                h = widget.refreshHeight();
+                                        }
+                                    }
+                                }
+
+                                self._sizeUpdated(target, { width :w, height :h});
+                            }
+                            if(cssPos){
+                                var x=null,y=null;
+                                if(cssPos.left){
+                                    if(p && !m.left){
+                                        b=true;
+                                    }else{
+                                        switch(p.dock){
+                                        case 'top':
+                                        case 'bottom':
+                                        case 'left':
+                                        case 'right':
+                                        case 'fill':
+                                        case 'cover':
+                                        case 'width':
+                                            b=true;
+                                            break;
+                                        case 'height':
+                                            b=true;
+                                        default:
+                                            target.leftBy(cssPos.left);
+                                            x = widget.refreshLeft();
+                                        }
+                                    }
+                                }
+                                if(cssPos.top){
+                                    if(p && !m.top){
+                                        b=true;
+                                    }else{
+                                        switch(p.dock){
+                                        case 'left':
+                                        case 'right':
+                                        case 'top':
+                                        case 'bottom':
+                                        case 'fill':
+                                        case 'cover':
+                                        case 'height':
+                                            b=true;
+                                            break;
+                                        case 'width':
+                                            b=true;
+                                         default:
+                                            target.topBy(cssPos.top);
+                                            y = widget.refreshTop();
+                                        }
+                                    }
+                                }
+
+                                self._posUpdated(target, {left :x, top :y});
+                            }
+                        });
+                        if(b)profile.boxing().rePosSize();
+                    }
+                })
+                .onFocusChange(function(profile, index){
+                    if(this.tempSelected){
+                        this.SelectedFocus=index;
+                        _.resetRun('$profilegrid$', this._refreshProfileGrid,0,[this.tempSelected],this);
+                    }
+                })
+                //select children even if parent is selected
+                .onRegionClick(function(profile, e){
+                    var ep=linb.event.getPos(e),arr,t,m,ret;
+                    var fun=function(arr, ep, parent){
+                        var me=arguments.callee,
+                            m,rt,pos,w,h,
+                            //mouse abs pos offset
+                            epoff={},
+                            //parent abs pos
+                            ppos=parent.absPos(),
+                            //parent size
+                            rgw=parent.offsetWidth(),
+                            rgh=parent.offsetHeight()
+                            ;
+                        epoff.left=ep.left-ppos.left;
+                        epoff.top=ep.top-ppos.top;
+
+                        arr.each(function(o){
+                            if(m=o[0].root){
+                                if(o[0].children.length)
+                                    if(rt=me(o[0].children, ep, m))
+                                        return false;
+                                pos=m.absPos(null,parent);
+                                w=m.offsetWidth();
+                                h=m.offsetHeight();
+                                if(epoff.left>pos.left && epoff.top>pos.top && epoff.left<pos.left+w && epoff.top<pos.top+h &&
+                                   epoff.left<rgw&& epoff.top<rgh){
+                                    rt=o[0].$id;
+                                    return false;
+                                }
+                            }
+                        });
+                        return rt;
+                    };
+                    if(!(arr=this.tempSelected) || !arr.length)return;
+                    arr.each(function(o){
+                        t=linb.UIProfile.getFromCacheId(o);
+                        ret=fun(t.children, ep, t.root);
+                        if(ret)return false;
+                    });
+                    if(ret){
+                        this.selectWidget(ret);
+                        return false;
+                    }
+                });
+
+                //div for hold resizer and proxy
+                page.holder = linb.create('<div style="display:none;"></div>');
+                //not attach
+                page.panelDiv.reBoxing().addLast(page.holder);
+                page.holder.addLast(page.resizer);
+                page.holder.addLast(page.proxy);
+
+                page.proxy.get(0).zIndexIgnore=true;
+
                 page.toolbar.setItems([{
                     id:'code',
                     sub:[
@@ -201,149 +393,6 @@ Class('VisualJS.Designer', 'linb.Com',{
                 });
                 page.layoutBase.reBoxing().addFirst(page.focusBtn);
 
-                //proxy region
-                page.proxy = linb.create('<div style="position:absolute;border:dashed 1px blue;overflow:visible;left:-100px;top:-100px;z-index:1000"></div>');
-
-                //resizer
-                page.resizer = linb.create('Resizer',{
-                    dragArgs:{
-                        grid_width:this.dropOffset,
-                        grid_height:this.dropOffset
-                    },
-                    zIndex:linb.dom.top_zIndex
-                });
-                page.resizer.host(page)
-                .onItemsSelected(function(profile, ids){
-                    this.pProfile.setSelectFromResizer.call(this.pProfile,ids);
-                })
-                .onActive(function(profile){
-                    this._focus();
-                })
-                .onUpdate(function(profile, target, size, cssPos){
-                    page._change();
-
-                    var self=this;
-                    if(target){
-                        var b=false;
-                        target.each(function(target){
-                            target = linb([target],false);
-                            var profile = linb.cache.dom[target.get(0).id], widget=profile.boxing(),p = profile.properties, m = profile.box.getDataModel();
-                            if(size){
-                                var w=null,h=null;
-                                if(size.width){
-                                    if(p && !m.width){
-                                        b=true;
-                                    }else{
-                                        switch(p.dock){
-                                            case 'top':
-                                            case 'bottom':
-                                            case 'fill':
-                                            case 'cover':
-                                            case 'width':
-                                                b=true;
-                                                break;
-                                            case 'left':
-                                            case 'right':
-                                            case 'height':
-                                                b=true;
-                                            default:
-                                                target.widthBy(size.width,true);
-                                                w = widget.refreshWidth();
-                                            }
-                                    }
-                                }
-                                if(size.height){
-                                    if(p && !m.height){
-                                        b=true;
-                                    }else{
-                                        switch(p.dock){
-                                            case 'left':
-                                            case 'right':
-                                            case 'fill':
-                                            case 'cover':
-                                            case 'height':
-                                                b=true;
-                                                break;
-                                            case 'top':
-                                            case 'bottom':
-                                            case 'width':
-                                                b=true;
-                                            default:
-                                                target.heightBy(size.height,true);
-                                                h = widget.refreshHeight();
-                                        }
-                                    }
-                                }
-
-                                self._sizeUpdated(target, { width :w, height :h});
-                            }
-                            if(cssPos){
-                                var x=null,y=null;
-                                if(cssPos.left){
-                                    if(p && !m.left){
-                                        b=true;
-                                    }else{
-                                        switch(p.dock){
-                                        case 'top':
-                                        case 'bottom':
-                                        case 'left':
-                                        case 'right':
-                                        case 'fill':
-                                        case 'cover':
-                                        case 'width':
-                                            b=true;
-                                            break;
-                                        case 'height':
-                                            b=true;
-                                        default:
-                                            target.leftBy(cssPos.left);
-                                            x = widget.refreshLeft();
-                                        }
-                                    }
-                                }
-                                if(cssPos.top){
-                                    if(p && !m.top){
-                                        b=true;
-                                    }else{
-                                        switch(p.dock){
-                                        case 'left':
-                                        case 'right':
-                                        case 'top':
-                                        case 'bottom':
-                                        case 'fill':
-                                        case 'cover':
-                                        case 'height':
-                                            b=true;
-                                            break;
-                                        case 'width':
-                                            b=true;
-                                         default:
-                                            target.topBy(cssPos.top);
-                                            y = widget.refreshTop();
-                                        }
-                                    }
-                                }
-
-                                self._posUpdated(target, {left :x, top :y});
-                            }
-                        });
-                        if(b)profile.boxing().rePosSize();
-                    }
-                })
-                .onFocusChange(function(profile, index){
-                    if(this.tempSelected){
-                        this.SelectedFocus=index;
-                        _.resetRun('$profilegrid$', this._refreshProfileGrid,0,[this.tempSelected],this);
-                    }
-                });
-                //div for hold resizer and proxy
-                page.holder = linb.create('<div style="display:none;"></div>');
-                //not attach
-                page.panelDiv.reBoxing().addLast(page.holder);
-                page.holder.attach(page.resizer);
-                page.holder.addLast(page.proxy);
-
-                page.proxy.get(0).zIndexIgnore=true;
 
                 page._enablePanelDesign(page.canvas.get(0));
 
@@ -480,12 +529,12 @@ Class('VisualJS.Designer', 'linb.Com',{
         _WidgetsSelected : function(ids){
             var self=this;
             this._setSelected(ids,true);
-            this.gallery.updateUIValue(null);
+            this.iconlist.updateUIValue(null);
         },
         _clearSelect : function(profile){
             this.resizer.resetTarget(null,false);
             this._detatchResizer();
-            this.gallery.updateUIValue(null);
+            this.iconlist.updateUIValue(null);
         },
         _deleteSelected : function(){
             if(!this.tempSelected || !this.tempSelected.length)return;
@@ -498,7 +547,7 @@ Class('VisualJS.Designer', 'linb.Com',{
                     var ws = linb.UI.getByCacheId(page.tempSelected);
                     ws.each(function(o){
                         if(!o.box.hasDomRoot){
-                            page.gallery.removeItems(o.$id);
+                            page.iconlist.removeItems(o.$id);
                         }
                     });
 
@@ -506,7 +555,7 @@ Class('VisualJS.Designer', 'linb.Com',{
                 }else{
                     var o = linb.getObject(page.tempSelected[0]);
                     if(o.box['linb.DataSource'])
-                        page.gallery.removeItems(page.tempSelected);
+                        page.iconlist.removeItems(page.tempSelected);
                     o.boxing().destroy();
                 }
                 //clear resizer
@@ -608,8 +657,8 @@ Class('VisualJS.Designer', 'linb.Com',{
                             if(!linb.SC(type).hasDomRoot){
                                 //give design mark
                                 var o = linb.create(type, {$design:self.properties.$design}).get(0);
-                                page.gallery.insertItems([{id:o.$id, icon:'img/widgets.gif', iconPos:iconPos}]);
-                                page.gallery.updateUIValue(o.$id);
+                                page.iconlist.insertItems([{id:o.$id, icon:'img/widgets.gif', iconPos:iconPos}],null,false);
+                                page.iconlist.updateUIValue(o.$id);
                                 //
                             }else{
                                 //before drop check
@@ -1632,7 +1681,7 @@ Class('VisualJS.Designer', 'linb.Com',{
             });
             linb.thread(threadId).setCache('response',arr);
         },
-        $gallery_aftervalueupdated:function(profile, ov, nv){
+        $iconlist_aftervalueupdated:function(profile, ov, nv){
             if(nv){
                 this.resizer.resetTarget(null,false);
                 this._setSelected([nv],true);
@@ -1724,7 +1773,7 @@ Class('VisualJS.Designer', 'linb.Com',{
                 arr.push(o[0]);
             });
 
-            var items = this.gallery.getItems();
+            var items = this.iconlist.getItems();
             if(items && items.length)
                 items.each(function(o,i){
                     arr.push(linb.Profile.getFromCacheId(o.id));
@@ -1931,11 +1980,11 @@ Class('VisualJS.Designer', 'linb.Com',{
                             //avoid call event in desinger
                             var nodes = clsObject.Instance.iniComponents.call(null);
 
-                            page.gallery.clearItems();
+                            page.iconlist.clearItems();
 
                             var n2 = [];
                             nodes.filter(function(target){
-                                if(!target.box['linb.UI']){
+                                if(!target.box.hasDomRoot){
                                     n2.push(target);
                                     return false;
                                 }
@@ -1947,7 +1996,7 @@ Class('VisualJS.Designer', 'linb.Com',{
                             n2.each(function(target){
                                 //give design mark
                                 target.properties.$design=page.properties.$design;
-                                page.gallery.insertItems([{id:target.$id, icon:'img/widgets.gif', iconPos:CONF.mapWidgets[target.box.KEY].iconPos}]);
+                                page.iconlist.insertItems([{id:target.$id, icon:'img/widgets.gif', iconPos:CONF.mapWidgets[target.box.KEY].iconPos}],null,false);
                             });
 
                             if(page.layoutBase.reBoxing().display()=='none'){
@@ -1956,7 +2005,7 @@ Class('VisualJS.Designer', 'linb.Com',{
                             }
 
                         }catch(e){
-                            page.gallery.clearItems();
+                            page.iconlist.clearItems();
                             page.canvas.reBoxing().empty().gc();
                             //page.properties.text = '';
                             page.layoutBase.reBoxing().display('none');
@@ -2016,16 +2065,17 @@ Class('VisualJS.Designer', 'linb.Com',{
             );
 
             t.layoutBase.attach(
-            (new u.Gallery)
-            .host(t,"gallery")
+            (new u.IconList)
+            .host(t,"iconlist")
             .setDock("bottom")
-            .setHeight(25)
-            .setItemWidth(18)
-            .setItemHeight(18)
+            .setHeight(20)
+            .setItemWidth(16)
+            .setItemHeight(16)
             .setItemPadding(1)
             .setZIndex(10)
             .setItems([])
-            .afterValueUpdated("$gallery_aftervalueupdated")
+            .setCustomAppearance({KEY:'background:#FFFACD',"ITEMS":"padding:2px"})
+            .afterValueUpdated("$iconlist_aftervalueupdated")
             , 'main');
 
             t.layoutBase.attach(

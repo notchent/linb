@@ -222,7 +222,7 @@ Class('linb.dragDrop',null,{
 
                     if("move" !== type){
                         _zIndex = proxy.zIndex();
-                        proxy.zIndex(linb.dom.top_zIndex+100);
+                        proxy.zIndex(linb.dom.top_zIndex*10);
                     }
 
                     if(opacity)
@@ -469,7 +469,7 @@ Class('linb.dragDrop',null,{
             ;
         },
         showDDMark:function(o){
-            var self=this;
+            var self=this,s1='<div style="position:absolute;z-index:'+linb.dom.top_zIndex+';font-size:0;line-height:0;border-',s2=":dashed 1px blue;";
             if(self._Region && self._Region.parent())
                 self._Region.remove(false);
             if(self._R){
@@ -480,9 +480,8 @@ Class('linb.dragDrop',null,{
 
             if(o){
                 if(!self._Region)
-                    self._Region=linb.create('<div style="font-size:0;line-height:0;border-top:dashed 1px blue;left:0;top:0;width:100%;height:0;z-index:'+linb.dom.top_zIndex+';position:absolute"></div><div style="font-size:0;line-height:0;border-right:dashed 1px blue;right:0;top:0;height:100%;width:0;z-index:'+linb.dom.top_zIndex+';position:absolute"></div><div style="font-size:0;line-height:0;border-bottom:dashed 1px blue;height:0;z-index:'+linb.dom.top_zIndex+';bottom:0;left:0;width:100%;position:absolute"></div><div style="font-size:0;line-height:0;border-left:dashed 1px blue;width:0;z-index:'+linb.dom.top_zIndex+';left:0;top:0;height:100%;position:absolute"></div>');
+                    self._Region=linb.create(s1+'top'+s2+'left:0;top:0;width:100%;height:0;"></div>'+s1+'right'+s2+'right:0;top:0;height:100%;width:0;"></div>'+s1+'bottom'+s2+'bottom:0;left:0;width:100%;height:0;"></div>'+s1+'left'+s2+'width:0;left:0;top:0;height:100%;"></div>');
                 o=linb(o);
-
                 if(o.display()=='block')
                     o.addLast(self._Region);
                 else{
@@ -509,6 +508,7 @@ Class('linb.dragDrop',null,{
                 t.attr('cellSpacing',0).setStyle('borderSpacing',0);
             }else{
                 pos.left -=  self._size; pos.top -= self._size;
+                linb.dom.setCover(true);
             }
             if(self.target_parent)
                 linb(self.target_parent).addLast(t);
@@ -519,7 +519,7 @@ Class('linb.dragDrop',null,{
                 self.proxyIn = child;
             }else
                 self.proxyIn = linb(self._idi);
-            t.setStyle({cursor:self.cursor,display:'',zIndex:dom.top_zIndex+100}).absPos(pos, self.target_parent);
+            t.setStyle({cursor:self.cursor,display:'',zIndex:dom.top_zIndex*10}).absPos(pos, self.target_parent);
 
             return t;
         },
@@ -546,6 +546,7 @@ Class('linb.dragDrop',null,{
                     })
                 );
                 self.proxyIn=self.proxystyle=null;
+                linb.dom.setCover(false);
             }
         },
         getProxyPos:function(){

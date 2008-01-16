@@ -1429,7 +1429,7 @@ new function(){
                     $order:15,
                     'font-style': 'italic'
                 },
-                'div, span':{
+                div:{
                     $order:15,
                     'font-size':'12px'
                 },

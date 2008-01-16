@@ -199,7 +199,7 @@ Class("linb.UI.ButtonViews", "linb.UI.Tabs",{
                     wc=w-t.handleSize;
                 }
             }
-            if(o && !o.isEmpty())o.setRegion({width:wc?wc-2:null,height:hc?hc-2:null,left:left,top:top},true);
+            if(o && !o.isEmpty())o.setRegion({width:wc?wc:null,height:hc?hc:null,left:left,top:top},true);
         }
     }
 });

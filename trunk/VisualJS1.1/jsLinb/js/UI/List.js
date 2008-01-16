@@ -13,7 +13,7 @@ Class("linb.UI.List", ["linb.UI.iWidget", "linb.UI.iForm","linb.UI.iList"],{
                     getN = function(k,i){return profile.getSubNode(k,i)},
                     getI = function(i){return profile.getSubSerialIdByItemId(i)}
                     ;
-                if(!p.multiSel){
+                if(p.selMode=='single'){
                     var itemId = getI(uiv);
                     if(uiv && itemId)
                         rm('ITEM','-checked',getN(k,itemId));
@@ -38,7 +38,7 @@ Class("linb.UI.List", ["linb.UI.iWidget", "linb.UI.iForm","linb.UI.iList"],{
 
                         }
                     }
-                }else{
+                }else if(p.selMode=='multi'){
                     uiv = uiv?uiv.split(';'):[];
                     value = value?value.split(';'):[];
                     //check all
@@ -56,7 +56,7 @@ Class("linb.UI.List", ["linb.UI.iWidget", "linb.UI.iForm","linb.UI.iList"],{
         setValue:function(value, flag){
             var upper = arguments.callee.upper;
             return this.each(function(profile){
-                if(profile.properties.multiSel){
+                if(profile.properties.selMode=='multi'){
                     var arr = value.split(';');
                     arr.sort();
                     value = arr.join(';');
@@ -182,13 +182,20 @@ Class("linb.UI.List", ["linb.UI.iWidget", "linb.UI.iForm","linb.UI.iList"],{
                 onClick:function(profile, e, src){
                     var properties = profile.properties,
                         item = profile.getItemByDom(src),
-                        box = profile.boxing();
+                        itemId =profile.getSubSerialId(src.id),
+                        box = profile.boxing(),
+                        rt;
 
                     if(properties.disabled|| item.disabled)return false;
 
-                    if(properties.multiSel){
+                    switch(properties.selMode){
+                    case 'none':
+                        rt=box.onItemSelected(profile, item, src);
+                        break;
+                    case 'multi':
                         var value = box.getUIValue(),
                             arr = value?value.split(';'):[];
+
                         if(arr.exists(item.id))
                             arr.removeValue(item.id);
                         else
@@ -197,16 +204,27 @@ Class("linb.UI.List", ["linb.UI.iWidget", "linb.UI.iForm","linb.UI.iList"],{
                         value = arr.join(';');
 
                         //update string value only for setCtrlValue
-                        box.updateUIValue(value);
                         if(box.getUIValue() == value)
-                            box.onItemSelected(profile, item, src);
-                    }else{
-                        box.updateUIValue(item.id);
+                            rt=false;
+                        else{
+                            box.updateUIValue(value);
+                            if(box.getUIValue() == value)
+                                rt=box.onItemSelected(profile, item, src);
+                        }
+                        break;
+                    case 'single':
                         if(box.getUIValue() == item.id)
-                            box.onItemSelected(profile, item, src);
+                            rt=false;
+                        else{
+                            box.updateUIValue(item.id);
+                            if(box.getUIValue() == item.id)
+                                rt=box.onItemSelected(profile, item, src);
+                        }
+                        break;
                     }
 
                     linb(src).focus();
+                    return rt;
                 },
                 onKeydown:function(profile, e, src){
                     var keys=linb.event.getKey(e), key = keys[0], shift=keys[2],
@@ -287,9 +305,10 @@ Class("linb.UI.List", ["linb.UI.iWidget", "linb.UI.iForm","linb.UI.iList"],{
                         this.getSubNode('ITEM',true).tabIndex(value);
                 }
             },
-
-            multiSel:false,
-
+            selMode:{
+                ini:'single',
+                listbox:['single','none','multi']
+            },
             width:120,
             height:150,
             maxHeight:300

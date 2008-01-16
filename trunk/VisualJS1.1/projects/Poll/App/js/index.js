@@ -3,7 +3,7 @@ Class('App', 'linb.Com',{
         iniComponents:function(){
             // [[code created by designer, don't change it manually
             var t=this, n=t._nodes=[], u=linb.UI, f=function(c){n.push(c.get(0))};
-            
+
             f(
             (new u.Block)
             .host(t,"block1")
@@ -14,7 +14,7 @@ Class('App', 'linb.Com',{
             .setBorder(true)
             .setResizable(true)
             );
-            
+
             t.block1.attach(
             (new u.Poll)
             .host(t,"poll01")
@@ -30,7 +30,7 @@ Class('App', 'linb.Com',{
                 return s + "-";
             }})
             );
-            
+
             t.block1.attach(
             (new u.Poll)
             .host(t,"poll02")
@@ -38,13 +38,13 @@ Class('App', 'linb.Com',{
             .setTop(null)
             .setWidth("auto")
             .setHeight("auto")
-            .setMultiSel(true)
+            .setSelMode('multi')
             .setTitle("2. multi select ")
             .setItems([{"id":"a","caption":"option 1","message":"2","percent":"0.2"},{"id":"b","caption":"option 2","message":"8","percent":"0.8"}])
             .setValue("")
             .setPosition("relative")
             );
-            
+
             t.block1.attach(
             (new u.Poll)
             .host(t,"poll05")
@@ -58,7 +58,7 @@ Class('App', 'linb.Com',{
             .setPosition("relative")
             .setDisabled(true)
             );
-            
+
             t.block1.attach(
             (new u.Poll)
             .host(t,"poll06")
@@ -72,7 +72,7 @@ Class('App', 'linb.Com',{
             .setTop(null)
             .setEditable(true)
             );
-            
+
             t.block1.attach(
             (new u.Poll)
             .host(t,"poll03")
@@ -86,7 +86,7 @@ Class('App', 'linb.Com',{
             .setValue("")
             .setPosition("relative")
             );
-            
+
             t.block1.attach(
             (new u.Poll)
             .host(t,"poll04")
@@ -94,7 +94,7 @@ Class('App', 'linb.Com',{
             .setTop(null)
             .setWidth("auto")
             .setHeight("auto")
-            .setMultiSel(true)
+            .setSelMode('multi')
             .setNewOption("new option")
             .setTitle("4. multi select + new option")
             .setItems([{"id":"a","caption":"option 1","message":"2","percent":"0.2"},{"id":"b","caption":"option 2","message":"8","percent":"0.8"}])
@@ -103,7 +103,7 @@ Class('App', 'linb.Com',{
             .setTabindex(3)
             .setCmds([{"id":"new","caption":"new"},{"id":"edit","caption":"edit"}])
             );
-            
+
             return n;
             // ]]code created by designer
         }

@@ -1,4 +1,4 @@
-Class("linb.UI.Gallery", ["linb.UI.List"],{
+Class("linb.UI.Gallery", "linb.UI.List",{
     Initialize:function(){
         //modify default template fro shell
         var t = this.getTemplate('default');
@@ -94,30 +94,6 @@ Class("linb.UI.Gallery", ["linb.UI.List"],{
                 margin:'0 2px 0 2px'
             }
         }},
-        Behaviors:{'default':{
-            ICON:{
-                onClick:function(profile, e, src){
-                    var properties = profile.properties,
-                        item = profile.getItemByDom(src),
-                        box = profile.boxing();
-                    if(properties.disabled|| item.disabled)return false;
-
-                    box.onHerfClicked(profile, item, src);
-
-                    return profile.box.cancelLink(e);
-
-                }
-            },
-            COMMENT:{
-                onClick:function(profile, e, src){
-                    profile.getSubNode('ICON', profile.getSubSerialId(src.id)).onClick();
-                    return profile.box.cancelLink(e);
-                }
-            }
-        }},
-        EventHandlers:{
-            onHerfClicked : function(profile, item, src){}
-        },
         DataModel:({
             itemMargin:{
                 ini:6,
