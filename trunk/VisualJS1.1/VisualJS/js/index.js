@@ -3,7 +3,7 @@ Class('VisualJS', 'linb.Com',{
         var self=this,
             o=linb.message;
         arguments.callee.upper.apply(self,arguments);
-
+        SPA=this;
         self.curProject = null;
         self.Message=[];
         linb.message = function(content){

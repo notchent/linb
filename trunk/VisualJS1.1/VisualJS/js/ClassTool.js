@@ -174,7 +174,7 @@ Class('VisualJS.ClassTool',null,{
                 str = linb.coder.replace(str, ['\\s+', code]);
 
                 //get comments first , 'Constructor', 'Initialize', 'Before', 'After', 'Instance', 'Static'
-                str = str.replace(/((#\d+#)+)([\w]+):/g, function(z,a,b,c){
+                str = str.replace(/((#\d+#)+)([\w]+)((#\d+#)*):/g, function(z,a,b,c){
                     result[c] = {comments: restore(a)};
                     return c+':';
                 });
@@ -216,7 +216,7 @@ Class('VisualJS.ClassTool',null,{
                         temp = restore1(temp);
 
                         //get comments first
-                        temp = temp.replace(/((#\d+#)+)([\w]+):/g, function(z,a,b,c){
+                        temp = temp.replace(/((#\d+#)+)([\w]+)((#\d+#)*):/g, function(z,a,b,c){
                             result2[c] = {comments: restore(a)};
                             return c+':';
                         });

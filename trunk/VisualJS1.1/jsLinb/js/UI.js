@@ -1056,7 +1056,11 @@ new function(){
                     _.merge(o,s,'all');
                     o=new box(o).create();
 
-                    if(fun)fun(o.get(0));
+                    //for functions like: UI refresh itself
+                    if(fun){
+                        fun.call(fun.target,o.get(0));
+                        delete fun.target;
+                    }
 
                     //replace back
                     replace.empty(false);
@@ -1516,7 +1520,7 @@ new function(){
                 Class.$gc(k);
             },
             getAll:function(){
-              return this.pack(_.toArr(this._cache,false));
+              return this.pack(this._cache);
             },
             getByCacheId:function(ids){
                 var arr=[],t,n=this._cache;

@@ -116,7 +116,7 @@ Class("linb.UI.Resizer","linb.UI.iWidget",{
             if(profile.properties.child)return;
             delete profile.$focus;
 
-            if(target){
+            if(target && !target.isEmpty()){
                 profile._target = target;
                 self.rePosSize();
                 rb.zIndex(linb.dom.top_zIndex).display('block');
@@ -124,7 +124,7 @@ Class("linb.UI.Resizer","linb.UI.iWidget",{
                 profile._target = linb([]);
                 rb.zIndex(0).display('none');
             }
-            if(target){
+            if(target && !target.isEmpty()){
                 ids=[];
                 target.reBoxing('UI').each(function(o,i){
                     ids.push(o.$id);

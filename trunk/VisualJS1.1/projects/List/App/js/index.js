@@ -24,7 +24,28 @@ Class('App', 'linb.Com',{
             .host(t,"list2")
             .setLeft(290)
             .setTop(60)
-            .setItems([{"id":"item a","caption":"item a","tips":"item a"},{"id":"item b","caption":"item b","tips":"item b"},{"id":"item c","caption":"item c","tips":"item c"}])
+            .setItems([
+            {"id":"item a","caption":"item a","tips":"item a"},
+            {"id":"item b1","caption":"item b","tips":"item b"},
+            {"id":"item b2","caption":"item b","tips":"item b"},
+            {"id":"item b3","caption":"item b","tips":"item b"},
+            {"id":"item b4","caption":"item b","tips":"item b"},
+            {"id":"item b5","caption":"item b","tips":"item b"},
+            {"id":"item b6","caption":"item b","tips":"item b"},
+            {"id":"item b7","caption":"item b","tips":"item b"},
+            {"id":"item b8","caption":"item b","tips":"item b"},
+            {"id":"item b9","caption":"item b","tips":"item b"},
+            {"id":"item b0","caption":"item b","tips":"item b"},
+            {"id":"item ba","caption":"item b","tips":"item b"},
+            {"id":"item bb","caption":"item b","tips":"item b"},
+            {"id":"item bc","caption":"item b","tips":"item b"},
+            {"id":"item bd","caption":"item b","tips":"item b"},
+            {"id":"item be","caption":"item b","tips":"item b"},
+            {"id":"item bf","caption":"item b","tips":"item b"},
+            {"id":"item bg","caption":"item b","tips":"item b"},
+            {"id":"item bh","caption":"item b","tips":"item b"},
+            {"id":"item c","caption":"item c","tips":"item c"}
+            ])
             .setDisabled(true)
             .onItemSelected("_list5_onitemselected")
             );
@@ -52,7 +73,31 @@ Class('App', 'linb.Com',{
             (new u.List)
             .host(t,"list1")
             .setDock("left")
-            .setItems([{"id":"item a","caption":"item a","icon":"img/demo.gif"},{"id":"item b","caption":"item b","icon":"img/demo.gif"},{"id":"item c","caption":"item c","icon":"img/demo.gif"}])
+            .setItems([
+            {"id":"adsfitem a","caption":"item a","icon":"img/demo.gif"},
+            {"id":"322item b","caption":"item b","icon":"img/demo.gif"},
+            {"id":"feitem c","caption":"item c","icon":"img/demo.gif"},
+            {"id":"item a","caption":"item a","tips":"item a"},
+            {"id":"item b1","caption":"item b","tips":"item b"},
+            {"id":"item b2","caption":"item b","tips":"item b"},
+            {"id":"item b3","caption":"item b","tips":"item b"},
+            {"id":"item b4","caption":"item b","tips":"item b"},
+            {"id":"item b5","caption":"item b","tips":"item b"},
+            {"id":"item b6","caption":"item b","tips":"item b"},
+            {"id":"item b7","caption":"item b","tips":"item b"},
+            {"id":"item b8","caption":"item b","tips":"item b"},
+            {"id":"item b9","caption":"item b","tips":"item b"},
+            {"id":"item b0","caption":"item b","tips":"item b"},
+            {"id":"item ba","caption":"item b","tips":"item b"},
+            {"id":"item bb","caption":"item b","tips":"item b"},
+            {"id":"item bc","caption":"item b","tips":"item b"},
+            {"id":"item bd","caption":"item b","tips":"item b"},
+            {"id":"item be","caption":"item b","tips":"item b"},
+            {"id":"item bf","caption":"item b","tips":"item b"},
+            {"id":"item bg","caption":"item b","tips":"item b"},
+            {"id":"item bh","caption":"item b","tips":"item b"},
+            {"id":"item c","caption":"item c","tips":"item c"}
+            ])
             .setListKey("test")
             .setSelMode('multi')
             .onItemSelected("_list5_onitemselected")

@@ -509,21 +509,22 @@ Class('VisualJS.Designer', 'linb.Com',{
             return {comments: '\n'+txt.replace(str,''), code:str.replace(/\s*$/,'')};
         },
         _designable : function(profile){
-            var self=arguments.callee,
-                page=self.target||this;
+            var me=arguments.callee,
+                self=this;
             //change
-            page._giveHandler(profile);
+            self._giveHandler(profile);
             //give design mark
-            profile.properties.$design=page.properties.$design;
+            profile.properties.$design=self.properties.$design;
             if(linb.cache.$dropPool[profile.box.KEY])
-                page._enablePanelDesign(profile);
+                self._enablePanelDesign(profile);
              if(profile.children && profile.children.length){
                 profile.children.each(function(o){
-                    self.call(page, o[0]);
+                    me.call(self, o[0]);
                 });
              }
-             profile.$addOns=self;
-             profile.$addOns.target=page;
+             //for UI refresh itself
+             profile.$addOns=me;
+             profile.$addOns.target=self;
         },
 
         _WidgetsSelected : function(ids){
@@ -654,6 +655,7 @@ Class('VisualJS.Designer', 'linb.Com',{
                         offset = self.dropOffset,
 
                         fun=function(){
+                            var page=arguments.callee.page;
                             if(!linb.SC(type).hasDomRoot){
                                 //give design mark
                                 var o = linb.create(type, {$design:self.properties.$design}).get(0);
@@ -710,6 +712,7 @@ Class('VisualJS.Designer', 'linb.Com',{
                                 src=null;
                             }
                         };
+                        fun.page=page;
                     if(type){
                         if(linb.SC.evalPath(type)){
                             fun();
