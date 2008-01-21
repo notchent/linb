@@ -66,8 +66,8 @@ Class('linb.UI.Calendar', 'linb.UI.DatePicker', {
             }
         }},
         DataModel:{
-            barHeight : null,
-            capHeight :null,
+            handleHeight : null,
+            tipsHeight :null,
             closeBtn:null,
             dock:'fill',
             dropKeys:'iEvent',

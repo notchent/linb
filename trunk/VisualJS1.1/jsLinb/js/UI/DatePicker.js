@@ -18,6 +18,7 @@ Class('linb.UI.DatePicker', 'linb.UI.iWidget', {
             e=linb.event.eventhandler,
             id=linb.UI.$ID,
             cls=linb.UI.$CLS,
+            cls2=linb.UI.$CLS+'-td-free',
             key=self.KEY;
 
         self.mapKeys(['H', 'W','TD']);
@@ -30,7 +31,7 @@ Class('linb.UI.DatePicker', 'linb.UI.iWidget', {
             tr1='<tr>',
             tr2='</tr>',
             td1='<th id="'+key+'-W:'+id+':@"  class="'+cls+'-w #W_CC#">@</th>',
-            td2='<td id="'+key+'-TD:'+id+':@" class="'+cls+'-td #TD_CC#"  unselectable="on" onmouseover="'+e+'" onmouseout="'+e+'" onclick="'+e+'" >'+
+            td2='<td id="'+key+'-TD:'+id+':@" class="'+cls+'-td ! #TD_CC#"  unselectable="on" onmouseover="'+e+'" onmouseout="'+e+'" onclick="'+e+'" >'+
                 '</td>',
             body,i,j,k,l,a=[],b=[];
         for(i=0;i<7;i++)
@@ -39,7 +40,7 @@ Class('linb.UI.DatePicker', 'linb.UI.iWidget', {
         k=l=0;
         for(i=0;i<48;i++){
             j=i%8;
-            a[a.length]= (j==0?tr1:'') + (j==0?td1:td2).replace(/@/g,j==0?l:k) + (j===7?tr2:'');
+            a[a.length]= (j==0?tr1:'') + (j==0?td1:td2).replace(/@/g,j==0?l:k).replace('!',(j==1||j==7)?cls2:'') + (j==7?tr2:'');
             if(j!==0)k++;
             else l++;
         }
@@ -54,16 +55,18 @@ Class('linb.UI.DatePicker', 'linb.UI.iWidget', {
                 tagName : 'div',
                 BAR:{
                     $order:0,
-                    style:'height:{barHeight}px;',
+                    style:'height:{handleHeight}px;',
                     tagName:'div',
                     CMDS:{
                         tagName:'div',
                         PRE2:{$order:0},
                         PRE:{$order:1},
                         YEAR:{$order:2,unselectable:'on'},
-                        MONTH:{$order:3,unselectable:'on'},
-                        NEXT:{$order:4},
-                        NEXT2:{$order:5}
+                        YTXT:{$order:3,style:'display:inline'},
+                        MONTH:{$order:4,unselectable:'on'},
+                        MTXT:{$order:5,style:'display:inline'},
+                        NEXT:{$order:6},
+                        NEXT2:{$order:7}
                     },
                     CMDS2:{
                         CLOSE:{
@@ -79,9 +82,9 @@ Class('linb.UI.DatePicker', 'linb.UI.iWidget', {
                     width:'100%',
                     text:body
                 },
-                TAIL:{
+                TIPS:{
                     $order:2,
-                    style:'height:{capHeight}px;',
+                    style:'height:{tipsHeight}px;',
                     tagName:'div',
                     CAPTION:{
                         text : '{caption}',
@@ -104,7 +107,7 @@ Class('linb.UI.DatePicker', 'linb.UI.iWidget', {
                 'border-top': 'solid 1px #C1C1C1',
                 'border-left': 'solid 1px #C1C1C1'
             },
-            'BAR,BODY,TAIL':{
+            'BAR,BODY,TIPS':{
                 position:'relative'
             },
             BAR:{
@@ -112,7 +115,7 @@ Class('linb.UI.DatePicker', 'linb.UI.iWidget', {
                 background: linb.UI.getCSSImgPara('barvbg.gif', ' repeat-x left top', null, 'linb.UI.Public'),
                 'border-right': 'solid 1px #C1C1C1'
             },
-            TAIL:{
+            TIPS:{
                 'white-space':'nowrap',
                 'text-align':'center',
                 border: 'solid #C1C1C1',
@@ -133,7 +136,7 @@ Class('linb.UI.DatePicker', 'linb.UI.iWidget', {
             'PRE,PRE2,NEXT,NEXT2,CLOSE':{
                 $order:0,
                 position:'relative',
-                margin:'2px 4px 2px 0',
+                margin:'2px',
                 width:'15px',
                 height:'15px',
                 'vertical-align': 'middle',
@@ -185,10 +188,12 @@ Class('linb.UI.DatePicker', 'linb.UI.iWidget', {
             },
             'YEAR,MONTH':{
                 $order:4,
-                margin:'2px 4px 2px 0',
+                margin:'2px',
                 height:'15px',
                 'font-weight':'bold',
                 border:'1px solid #7F9DB9',
+                'background-color':'#FFFACD',
+                'padding-left':'2px',
                 cursor:'e-resize'
             },
             YEAR:{
@@ -226,6 +231,11 @@ Class('linb.UI.DatePicker', 'linb.UI.iWidget', {
                 'text-align':'center',
                 'background-color': '#FFFACD'
             },
+            'TD-free':{
+                $order:1,
+                'text-align':'center',
+                'background-color': '#FFF'
+            },
             'TD-mouseover':{
                 $order:3,
                 'background-color': '#d9e8fb'
@@ -239,7 +249,7 @@ Class('linb.UI.DatePicker', 'linb.UI.iWidget', {
             'W,H':{
                 $order:3,
                 'color':'#333333',
-                'background-color':'#F6F6F6',
+                'background-color':'#E8EEF7',
                 'vertical-align':'middle',
                 'text-align':'center'
             }
@@ -361,10 +371,10 @@ Class('linb.UI.DatePicker', 'linb.UI.iWidget', {
         }},
         DataModel:{
             height:152,
-            width:180,
+            width:200,
             value:new Date,
-            barHeight : 22,
-            capHeight : 16,
+            handleHeight : 22,
+            tipsHeight : 16,
             headHeight:20,
             closeBtn:{
                 ini:true,
@@ -388,6 +398,8 @@ Class('linb.UI.DatePicker', 'linb.UI.iWidget', {
             var self=this, p=self.properties, o=self.boxing(), b=self.box;
             p.$UIvalue = p.value;
             b._setWeekLabel(self);
+            self.getSubNode('YTXT').html(linb.wrapRes('date.Y'),false);
+            self.getSubNode('MTXT').html(linb.wrapRes('date.M'),false);
         },
         _getWeekNodes:function(profile){
             return profile.$week || (profile.$week=profile.getSubNode('W',true));
@@ -402,9 +414,9 @@ Class('linb.UI.DatePicker', 'linb.UI.iWidget', {
             return profile.$header || (profile.$header=profile.getSubNode('H',true));
         },
         _setWeekLabel:function(profile){
-            var o=linb.date.getText.map.cn.WEEKS,f=profile.getSubSerialId;
+            var o=linb.date,f=profile.getSubSerialId;
             profile.box._getHeaderNodes(profile).each(function(node,i){
-                node.innerHTML=o[f(node.id)]
+                node.innerHTML=linb.wrapRes('date.WEEKS.'+f(node.id))
             });
         },
         _setBGV:function(profile, v, m){
@@ -420,7 +432,6 @@ Class('linb.UI.DatePicker', 'linb.UI.iWidget', {
                 n=date.get(n,'d',null,fd);
                 node.innerHTML = t.replace('#',n);
             });
-            v=date.add(v,'d',6,null,fd);
             profile.box._getWeekNodes(profile).each(function(node,i){
                 node.innerHTML=date.get(date.add(v,'ww',i,null,fd),'ww',null,fd);
             });

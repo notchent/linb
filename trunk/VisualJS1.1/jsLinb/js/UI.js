@@ -28,7 +28,7 @@ new function(){
             },
             //run something after set
             _applySetAction:function(fun, value){
-                fun.call(this,value);
+                return fun.call(this,value);
             },
             //garbage collection
             $gc:function(){
@@ -299,10 +299,12 @@ new function(){
                                 //if same return
                                 if(v.properties[i] === value && !flag)return;
                                 var m,ovalue = v.properties[i];
-                                v.properties[i] = value;
                                 //custom ui
                                 m = _.get(v.box.$DataModel, [i, 'action']);
-                                if(typeof m == 'function')v._applySetAction(m, value, ovalue);
+
+                                if(typeof m == 'function' && v._applySetAction(m, value, ovalue) === false){}
+                                else
+                                    v.properties[i] = value;
                             });
                         },n,self.KEY);
                     }
@@ -591,7 +593,7 @@ new function(){
             },
             _applySetAction:function(fun, value, ovalue){
                 if(this.domNode)
-                    fun.call(this, value, ovalue);
+                    return fun.call(this, value, ovalue);
             },
             makeRootId:function(key){
                 return (key || this.key) + ":" + this.serialId + ":";
@@ -665,7 +667,7 @@ new function(){
 
                 var c = self.box.$clscache || (self.box.$clscache={}),
                 k=key+":"+tag,
-                reg = c[k] || (c[k] = new RegExp('[^\\s]*'+self.getClass(key,'',true)+'[-\\w]*'+tag+'[-\\w]*','g'))
+                reg = c[k] || (c[k] = new RegExp(self.getClass(key,'',true)+'[-\\w]*'+tag+'[-\\w]*'))
                 ;
                 nodes.removeClass(reg);
 
@@ -1435,6 +1437,7 @@ new function(){
                 },
                 div:{
                     $order:15,
+                    'vertical-align':linb.browser.id?'auto':null,
                     'font-size':'12px'
                 },
                 span:{
@@ -1454,6 +1457,10 @@ new function(){
                 '.ui-invalid, .ui-invalid *':{
                     $order:19,
                     'background-color': 'Aqua'
+                },
+                '#linb_lang':{
+                    $order:20,
+                    'vertical-align':'text-top'
                 }
             }), 'linb.UI');
             //enable drop for a KEY in cls
@@ -2261,8 +2268,13 @@ new function(){
                 //drop base behaviors
                 var behaviors = {
                     beforeMouseover:function(profile, e, src){
-                        var dd = linb.dragDrop, key = dd.dragKey, data = dd.data;
-                        var self=this;
+                        var self=this,
+                            dd = linb.dragDrop,
+                            key = dd.dragKey,
+                            data = dd.data,
+                            item,box,t,
+                            args
+                            ;
 
                         //not include the dragkey
                         if(!key
@@ -2270,58 +2282,67 @@ new function(){
                         || !(new RegExp('\\b'+key+'\\b')).test(getDropKeys(profile, self))
                         )return;
 
-                        var item;
-                        var box=profile.boxing();
-                        if(box.getItemByDom)item=box.getItemByDom(src);
-
-                        if(profile.onDropTest && (false==box.onDropTest(profile, e, self, key, data, item)))
-                        return;
+                        box=profile.boxing();
+                        if(box.getItemByDom)
+                            item=box.getItemByDom(src);
+                        args = [profile, e, self, key, data, item];
+                        if(profile.onDropTest && (false===box.onDropTest.apply(box,args)))
+                            return;
+                        if((t=profile.$onDropTest) && (false===t.apply(profile,args)))
+                            return;
                         //for trigger onDrop
                         dd._current=src;
-
-                        if(profile.onDropMarkShow && (false==box.onDropMarkShow(profile, e, self, key, data, item))){}
+                        if(profile.onDropMarkShow && (false===box.onDropMarkShow.apply(box,args))){}
+                        else if((t=profile.$onDropMarkShow) && (false===t.apply(profile,args))){}
                         else
                             //show region
                             _.resetRun('showDDMark', dd.showDDMark, 0, [self], dd);
 
-                        if(profile.onDragEnter)box.onDragEnter(profile, e, self, key, data, item);
-                        //dont trigger parent
+                        if(t=profile.$onDragEnter)t.apply(profile,args);
+                        if(profile.onDragEnter)box.onDragEnter.apply(box,args);
+
                         return false;
                     },
                     beforeMouseout:function(profile, e, src){
-                        var dd = linb.dragDrop, key = dd.dragKey, data = dd.data;
-                        var self=this;
+                        var self=this,
+                            dd = linb.dragDrop, key = dd.dragKey, data = dd.data,
+                            item, box,
+                            args;
                         //not include the dragkey
                         if(dd._current==src){
-                            var item;
-                            var box=profile.boxing();
-                            if(box.getItemByDom)item=box.getItemByDom(src);
+                            box=profile.boxing();
+                            args = [profile, e, self, key, data, item];
+                            if(box.getItemByDom)
+                                item=box.getItemByDom(src);
 
-                            if(profile.onDropMarkClear && (false==box.onDropMarkClear(profile, e, self, key, data, item))){}
-                            else
-                                _.resetRun('showDDMark', dd.showDDMark, 0, [null], linb.dragDrop);
+                            if(profile.onDropMarkClear && (false===box.onDropMarkClear.apply(box,args))){}
+                            else if((t=profile.$onDropMarkClear) && (false===t.apply(profile,args))){}
+                            else _.resetRun('showDDMark', dd.showDDMark, 0, [null], linb.dragDrop);
 
-                            if(profile.onDragLeave)box.onDragLeave(profile, e, self, key, data, item);
+                            if(t=profile.$onDragLeave)t.apply(profile,args);
+                            if(profile.onDragLeave)box.onDragLeave.apply(box,args);
                             dd._current=null;
-
-                            //dont trigger parent
-                            return false;
                         }
+                        return false;
                     },
                     beforeDrop:function(profile, e, src){
-                        var dd = linb.dragDrop, key = dd.dragKey, data = dd.data;
-                        var item;
-                        var box=profile.boxing();
-                        if(box.getItemByDom)item=box.getItemByDom(src);
+                        var self=this,
+                            dd = linb.dragDrop,
+                            key = dd.dragKey,
+                            data = dd.data,
+                            item,
+                            box=profile.boxing(),
+                            args = [profile, e, self, key, data, item];
 
-                        if(profile.onDropMarkClear && (false==box.onDropMarkClear(profile, e, this, key, data, item))){}
-                        //else
-                        //    _.resetRun('showDDMark', dd.showDDMark, 0, [null], linb.dragDrop);
-                        //dd._current=null;
-                        if(profile.onDrop)box.onDrop(profile, e, this, key, data, item);
+                        if(box.getItemByDom)
+                            item=box.getItemByDom(src);
 
-                        //dont trigger parent
-                        return false;
+                        if(profile.onDropMarkClear && (false===box.onDropMarkClear.apply(box,args))){}
+                        else if((t=profile.$onDropMarkClear) && (false===t.apply(profile,args))){}
+                        //else _.resetRun('showDDMark', dd.showDDMark, 0, [null], linb.dragDrop);
+
+                        if(t=profile.$onDrop)t.apply(profile,args);
+                        if(profile.onDrop)box.onDrop.apply(box,args);
                     }
                 };
                 //attach Behaviors
@@ -2666,7 +2687,10 @@ new function(){
                 if(s.resize){
                     var wc=me.wc||(me.wc={top:1,bottom:1,width:1,fill:1,cover:1}),
                     hc=me.hc||(me.hc={left:1,right:1,height:1,fill:1,cover:1});
-                    s.resize(self, wc[p.dock]?null:p.width, hc[p.dock]?null:p.height);
+                    wc=wc[p.dock]?null:p.width;
+                    hc=hc[p.dock]?null:p.height;
+                    if(wc!==null || hc!==null)
+                        s.resize(self, wc, hc);
                 }
                 if(p.dock && p.dock != 'none')
                     s.dock(this,true);

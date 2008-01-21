@@ -280,8 +280,8 @@ Class('App', 'linb.Com',{
             }
             return  obj ;
         },
-        _objtree_onrequestdata:function (profile, id, threadid) {
-            var o = linb.SC.evalPath(id), arr=[],sub=[],temp;
+        _objtree_onrequestdata:function (profile, item, threadid) {
+            var o = linb.SC.evalPath(id), arr=[],sub=[],temp,id=item.id;
 
             for(var i in o){
                 if(i!='upper' && typeof o[i] == 'function' && o[i].$linb$){

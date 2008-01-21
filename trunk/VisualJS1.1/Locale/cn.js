@@ -1,6 +1,4 @@
-﻿linb.Locale.cn=linb.Locale.cn||{};
-linb.Locale.cn.VisualJS=
-{
+﻿(linb.Locale.cn||(linb.Locale.cn={})).VisualJS={
     message:"系统消息!",
     noMessage:"尚无任何消息!",
     soon:'即将实现',

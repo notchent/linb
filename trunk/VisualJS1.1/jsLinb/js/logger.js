@@ -1,6 +1,9 @@
 Class('linb.logger', null, {
     Static:{
         err:function(sMsg,sUrl,sLine){
+            if(linb.browser.gek && sMsg=='Error loading script')
+                return true;
+
             var self=linb.logger;
             try{
                 self.log( 'An error raised!', ' >> Location: '+ sUrl + ' ( line ' + sLine + ' )', ' >> Message: '+sMsg);

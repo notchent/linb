@@ -1,7 +1,7 @@
 Class('linb.date',null,{
     Initialize:function(){
         var self=this;
-        self._mapKeys(self.FACTOR);
+        self._mapKeys(self.TIMEUNIT);
         var a=self._key1,b=self._key2,u=self.UNIT={};
         for(var i=0,l=a.length;i<l;i++)u[a[i]]=1;
         for(var i=0,l=b.length;i<l;i++)u[b[i]]=1;
@@ -10,6 +10,51 @@ Class('linb.date',null,{
     Static:{
         _key1:'MILLISECOND,SECOND,MINUTE,HOUR,DAY,WEEK,MONTH,QUARTER,YEAR,DECADE,CENTURY'.split(','),
         _key2:'ms,s,n,h,d,ww,m,q,y,de,c'.split(','),
+
+        // Conversion factors
+        TIMEUNIT : {
+            MILLISECOND : 1,
+            SECOND      : 1000,           //SECONDS
+            MINUTE      : 60000,          //MINUTES 60 * 1000
+            HOUR        : 3600000,        //HOURS 60 * 60 * 1000
+            DAY         : 86400000,       //DAYS 24 * 60 * 60 * 1000
+            WEEK        : 604800000,      //WEEKS 7 * 24 * 60 * 60 * 1000
+            MONTH       : 2592000000,     //MONTHS 30 * 24 * 60 * 60 * 1000  (approx = 1 month)
+            QUARTER     : 7776000000,     //QUARTERS 90 * 24 * 60 * 60 * 1000  (approx = 3 months)
+            YEAR        : 31557600000,    //YEARS 365 * 24 * 60 * 60 * 1000 (approx = 1 year)
+            DECADE      : 315576000000,   //DECADES 10 * 365 * 24 * 60 * 60 * 1000 (approx = 1 decade)
+            CENTURY     : 3155760000000   //CENTURIES 100 * 365 * 24 * 60 * 60 * 1000 (approx = 1 century)
+        },
+        TEXTFORMAT:{
+            ms:function(d,t,o){o=linb.date;return o.fix(o.get(d,'ms',t),3)+ linb.wrapRes('date.MS')},
+            s:function(d,t,o){o=linb.date;return o.fix(o.get(d,'s',t))+ linb.wrapRes('date.S')},
+            n:function(d,t,o){o=linb.date;return o.fix(o.get(d,'n',t))+ linb.wrapRes('date.N')},
+            h :function(d,t,o){o=linb.date;return o.fix(o.get(d,'h',t))+ linb.wrapRes('date.H')},
+            d:function(d,t,o){o=linb.date;return o.get(d,'d',t)+ linb.wrapRes('date.D')},
+            w : function(d,t,firstDayOfWeek,o){o=linb.date;return linb.wrapRes('date.WEEKS.'+(o.get(d,'w',t) - firstDayOfWeek +7)%7 )},
+            ww : function(d,t,firstDayOfWeek,o){o=linb.date;return (o.get(d,'ww',t,firstDayOfWeek)) + linb.wrapRes('date.W')},
+            m:function(d,t,o){o=linb.date;return (o.get(d,'m',t)+1) + linb.wrapRes('date.M')},
+            q : function(d,t,o){o=linb.date;return (o.get(d,'q',t) + 1) + linb.wrapRes('date.Q')},
+            y :function(d,t,o,r){o=linb.date;return o.get(d,'y',t) + linb.wrapRes('date.Y')},
+            de:function(d,t,o){o=linb.date;return o.get(d,'de',t) + linb.wrapRes('date.DE')},
+            c:function(d,t,o){o=linb.date;return o.get(d,'c',t) + linb.wrapRes('date.C')},
+
+            hn:function(d,t,o){o=linb.date;return linb.wrapRes('date.HN-'+o.get(d,'h',t)+"-"+o.get(d,'n',t))},
+            dhn:function(d,t,o){o=linb.date;return linb.wrapRes('date.DHN-'+o.get(d,'d',t)+"-"+o.get(d,'h',t)+"-"+o.get(d,'n',t))},
+            mdhn:function(d,t,o){o=linb.date;return linb.wrapRes('date.MDHN-'+(o.get(d,'m',t)+1)+"-"+o.get(d,'d',t)+"-"+o.get(d,'h',t)+"-"+o.get(d,'n',t))},
+            hns:function(d,t,o){o=linb.date;return linb.wrapRes('date.HNS-'+o.get(d,'h',t)+"-"+o.get(d,'n',t)+"-"+o.get(d,'s',t))},
+            hnsms:function(d,t,o){o=linb.date;return linb.wrapRes('date.HNSMS-'+o.get(d,'h',t)+"-"+o.get(d,'n',t)+"-"+o.get(d,'s',t)+"-"+o.get(d,'ms',t))},
+
+            yq:function(d,t,o){o=linb.date;return linb.wrapRes('date.YQ-'+o.get(d,'y',t)+"-"+(o.get(d,'q',t)+1))},
+
+            ym :   function(d,t,o){o=linb.date;return linb.wrapRes('date.YM-'+o.get(d,'y',t)+"-"+(o.get(d,'m',t)+1))},
+            md :  function(d,t,o){o=linb.date;return linb.wrapRes('date.MD-'+(o.get(d,'m',t)+1)+"-"+o.get(d,'d',t))},
+            ymd :  function(d,t,o){o=linb.date;return linb.wrapRes('date.YMD-'+o.get(d,'y',t)+"-"+(o.get(d,'m',t)+1)+"-"+o.get(d,'d',t))},
+            ymdh:  function(d,t,o){o=linb.date;return linb.wrapRes('date.YMDH-'+o.get(d,'y',t)+"-"+(o.get(d,'m',t)+1)+"-"+o.get(d,'d',t)+"-"+o.get(d,'h',t))},
+            ymdhn: function(d,t,o){o=linb.date;return linb.wrapRes('date.YMDHN-'+o.get(d,'y',t)+"-"+(o.get(d,'m',t)+1)+"-"+o.get(d,'d',t)+"-"+o.get(d,'h',t)+"-"+o.get(d,'n',t))},
+            ymdhns:function(d,t,o){o=linb.date;return linb.wrapRes('date.YMDHNS-'+o.get(d,'y',t)+"-"+(o.get(d,'m',t)+1)+"-"+o.get(d,'d',t)+"-"+o.get(d,'h',t)+"-"+o.get(d,'n',t)+"-"+o.get(d,'s',t))},
+            'all' :  function(d,t,o){o=linb.date;return linb.wrapRes('date.ALL-'+o.get(d,'y',t)+"-"+(o.get(d,'m',t)+1)+"-"+o.get(d,'d',t)+"-"+o.get(d,'h',t)+"-"+o.get(d,'n',t)+"-"+o.get(d,'s',t)+"-"+o.get(d,'ms',t))}
+        },
         //map like: MILLISECOND <=> ms
         _mapKeys:function(obj){
             var self=this, t=self._key2, m=self._key1;
@@ -28,20 +73,7 @@ Class('linb.date',null,{
         _timeZone:((new Date).getTimezoneOffset()/60),
         //sun
         firstDayOfWeek:0,
-        // Conversion factors
-        FACTOR : {
-            MILLISECOND : 1,
-            SECOND      : 1000,           //SECONDS
-            MINUTE      : 60000,          //MINUTES 60 * 1000
-            HOUR        : 3600000,        //HOURS 60 * 60 * 1000
-            DAY         : 86400000,       //DAYS 24 * 60 * 60 * 1000
-            WEEK        : 604800000,      //WEEKS 7 * 24 * 60 * 60 * 1000
-            MONTH       : 2592000000,     //MONTHS 30 * 24 * 60 * 60 * 1000  (approx = 1 month)
-            QUARTER     : 7776000000,     //QUARTERS 90 * 24 * 60 * 60 * 1000  (approx = 3 months)
-            YEAR        : 31557600000,    //YEARS 365 * 24 * 60 * 60 * 1000 (approx = 1 year)
-            DECADE      : 315576000000,   //DECADES 10 * 365 * 24 * 60 * 60 * 1000 (approx = 1 decade)
-            CENTURY     : 3155760000000   //CENTURIES 100 * 365 * 24 * 60 * 60 * 1000 (approx = 1 century)
-        },
+
         /*get specific date unit
         *
         */
@@ -53,7 +85,7 @@ Class('linb.date',null,{
             unit = self._validUnit(unit);
             firstDayOfWeek = self._numb(firstDayOfWeek ,self.firstDayOfWeek );
 
-            var timeShift = timeZone * self.FACTOR.h,
+            var timeShift = timeZone * self.TIMEUNIT.h,
                 date2 = new Date(date.getTime() - timeShift),
                 map = arguments.callee.map || ( arguments.callee.map = {
                     ms:function(d){return d.getUTCMilliseconds()},
@@ -86,25 +118,26 @@ Class('linb.date',null,{
         /*add specific unit to date
         *
         */
-        add : function(date, unit, count, timeZone ){
+        add: function(date, unit, count, timeZone ){
             var self=this;
 
             date = self._date(date);
             timeZone=self._numb(timeZone, self._timeZone);
             unit = self._validUnit(unit);
 
-            var timeShift = timeZone * self.FACTOR.h,
+            var timeShift = timeZone * self.TIMEUNIT.h,
                 date2 = new Date(date.getTime() - timeShift),
+                tu=self.TIMEUNIT,
                 map;
 
             if(!(map=arguments.callee.map)){
                 map=arguments.callee.map = {
-                    MILLISECOND:function(date,count){date.setTime(date.getTime() + count*self.FACTOR.ms)},
-                    SECOND:function(date,count){date.setTime(date.getTime() + count*self.FACTOR.s)},
-                    MINUTE:function(date,count){date.setTime(date.getTime() + count*self.FACTOR.n)},
-                    HOUR:function(date,count){date.setTime(date.getTime() + count*self.FACTOR.h)},
-                    DAY:function(date,count){date.setTime(date.getTime() + count*self.FACTOR.d)},
-                    WEEK:function(date,count){date.setTime(date.getTime() + count*self.FACTOR.ww)},
+                    MILLISECOND:function(date,count){date.setTime(date.getTime() + count*tu.ms)},
+                    SECOND:function(date,count){date.setTime(date.getTime() + count*tu.s)},
+                    MINUTE:function(date,count){date.setTime(date.getTime() + count*tu.n)},
+                    HOUR:function(date,count){date.setTime(date.getTime() + count*tu.h)},
+                    DAY:function(date,count){date.setTime(date.getTime() + count*tu.d)},
+                    WEEK:function(date,count){date.setTime(date.getTime() + count*tu.ww)},
                     MONTH:function(date,count){
                         var a=date.getUTCDate(),b;
                         count = date.getUTCMonth() + count;
@@ -141,7 +174,8 @@ Class('linb.date',null,{
             unit = self._validUnit(unit);
             firstDayOfWeek = self._numb(firstDayOfWeek ,self.firstDayOfWeek );
 
-            var timeShift = timeZone * self.FACTOR.h,
+            var tu=self.TIMEUNIT,
+                timeShift = timeZone * tu.h,
                 date1 = new Date(d1.getTime() - timeShift),
                 date2 = new Date(d2.getTime() - timeShift),
                 map;
@@ -153,31 +187,31 @@ Class('linb.date',null,{
                         var d1 = self.getRoundDown(date1,'s'),
                             d2 = self.getRoundDown(date2,'s'),
                             t=d2.getTime()-d1.getTime();
-                        return t/self.FACTOR.s;
+                        return t/tu.s;
                     },
                     MINUTE:function(date1,date2){
                         var d1 = self.getRoundDown(date1,'n'),
                             d2 = self.getRoundDown(date2,'n'),
                             t=d2.getTime()-d1.getTime();
-                        return t/self.FACTOR.n;
+                        return t/tu.n;
                     },
                     HOUR:function(date1,date2){
                         var d1 = self.getRoundDown(date1,'h'),
                             d2 = self.getRoundDown(date2,'h'),
                             t=d2.getTime()-d1.getTime();
-                        return t/self.FACTOR.h;
+                        return t/tu.h;
                     },
                     DAY:function(date1,date2,timeZone){
                         var d1 = self.getRoundDown(date1,'d',1,timeZone),
                             d2 = self.getRoundDown(date2,'d',1,timeZone),
                             t=d2.getTime()-d1.getTime();
-                        return t/self.FACTOR.d;
+                        return t/tu.d;
                     },
                     WEEK:function(date1,date2,timeZone,firstDayOfWeek){
                         var d1 = self.getRoundDown(date1,'ww',1,timeZone,firstDayOfWeek),
                             d2 = self.getRoundDown(date2,'ww',1,timeZone,firstDayOfWeek),
                             t=d2.getTime()-d1.getTime();
-                        return t/self.FACTOR.ww;
+                        return t/tu.ww;
                     },
                     MONTH:function(date1,date2){return (date2.getUTCFullYear()-date1.getUTCFullYear())*12 + (date2.getUTCMonth()-date1.getUTCMonth())},
                     QUARTER:function(date1,date2){return (date2.getUTCFullYear()-date1.getUTCFullYear())*4 + parseInt((date2.getUTCMonth()-date1.getUTCMonth())/3)},
@@ -202,7 +236,8 @@ Class('linb.date',null,{
 
             count=self._numb(count,1);
 
-            var timeShift = timeZone * self.FACTOR.h,
+            var tu=self.TIMEUNIT,
+                timeShift = timeZone * tu.h,
                 date2 = new Date(date.getTime() - timeShift),
                 map;
 
@@ -233,7 +268,7 @@ Class('linb.date',null,{
                         date.setUTCMilliseconds(0);
                         date.setUTCSeconds(0);
                         var x = date.getUTCMinutes();
-                        date.setTime(date.getTime() - (x % count) * self.FACTOR.n);
+                        date.setTime(date.getTime() - (x % count) * tu.n);
                     },
                     HOUR:function(date,count){
                         date.setUTCMilliseconds(0);
@@ -243,13 +278,25 @@ Class('linb.date',null,{
                         var x = date.getUTCHours();
                         date.setUTCHours(x - (x % count));
                     },
-                    DAY:function(date){
+                    DAY:function(date,count){
                         clearInDay(date);
+                        var x=date.getUTCDate();
+                        date.setUTCDate(x - (x % count));
                     },
                     WEEK:function(date,count){
                         clearInDay(date);
-                        var d = (date.getUTCDay() + 7 - firstDayOfWeek) % 7;
-                        date.setTime(date.getTime() - d * self.FACTOR.d);
+
+                        var d = (date.getUTCDay() + 7 - firstDayOfWeek) % 7,d2,x
+                            a=new Date();
+                         date.setTime(date.getTime() - d * tu.d);
+                        clearInYear(a);
+                        a.setUTCFullYear(date.getUTCFullYear());
+                        d2 = (a.getUTCDay() + 7 - firstDayOfWeek) % 7;
+                        a.setTime(a.getTime() - d2 * tu.d);
+
+                        x= (date.getTime()-a.getTime())/tu.d/7;
+
+                        date.setTime(date.getTime() - (x % count) * tu.ww);
                     },
                     MONTH:function(date,count){
                         clearInDay(date);
@@ -276,6 +323,7 @@ Class('linb.date',null,{
                     }
                 };
                 self._mapKeys(map);
+
             }
             map[unit](date2,count);
             date2.setTime(date2.getTime() + timeShift);
@@ -306,7 +354,7 @@ Class('linb.date',null,{
         _pack:function(date, timeZone, flag){
             var self=this;
             date=self._date(date);
-            return new Date(date.getTime() + (flag?1:-1)*(timeZone - self._timeZone)*self.FACTOR.h);
+            return new Date(date.getTime() + (flag?1:-1)*(timeZone - self._timeZone)*self.TIMEUNIT.h);
         },
         /*fake date for a certain timezone (based on the current timezone of "Date object")
         */
@@ -322,15 +370,20 @@ Class('linb.date',null,{
         *
         */
         getWeek:function(date, timeZone, firstDayOfWeek){
-            var self=this;
+            var self=this,y;
             date=self._date(date);
             timeZone = self._numb(timeZone, self._timeZone);
-            firstDayOfWeek = self._numb(firstDayOfWeek ,self.firstDayOfWeek );
+            firstDayOfWeek = self._numb(firstDayOfWeek ,self.firstDayOfWeek ),
+            y=date.getUTCFullYear();
+
+            date = self.add(self.getRoundDown(date, 'ww', 1, timeZone),'d',6,timeZone);
+
+            if(date.getUTCFullYear()!=y)return 1;
 
             var date2 = self.getRoundDown(date, 'y', 1, timeZone);
-            if(self.get(date2,'w') != firstDayOfWeek)
-                date2 = self.getRoundUp(date2, 'ww', 1, timeZone);
-            return self.diff(date2, date, 'ww')+2;
+            date2 = self.add(self.getRoundDown(date2, 'ww', 1, timeZone),'d',6,timeZone);
+
+            return self.diff(date2, date, 'ww')+1;
         },
         getDayInYear:function(date, timeZone){
             var self=this;
@@ -341,7 +394,7 @@ Class('linb.date',null,{
         },
         parse:function(s){
             s=String(s);
-            var self=this,
+            var self=this,utc,
                 me=arguments.callee,
                 dp=me.dp||(me.dp={
                   FullYear: 2,
@@ -379,83 +432,13 @@ Class('linb.date',null,{
                 return r?date.setTime(r) && date:null;
             }
         },
-        getText:function(date, unit, timeZone, firstDayOfWeek, lang){
-            var self=this,
-                lang= lang || linb.lang || 'cn',
-                f=self.fix,
-                me =arguments.callee;
+        getText:function(date, unit, timeZone, firstDayOfWeek){
+            var self=this;
             date = self._date(date);
             timeZone=self._numb(timeZone, self._timeZone);
             firstDayOfWeek = self._numb(firstDayOfWeek ,self.firstDayOfWeek );
             unit=unit||'';
-
-            if(!me.map){
-                var m = me.map = {
-                    WEEKS:['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'WK'],
-                    ms:function(d,t){return f(self.get(d,'ms',t),3)},
-                    s:function(d,t){return f(self.get(d,'s',t))},
-                    n:function(d,t){return f(self.get(d,'n',t))},
-                    h:function(d,t){return f(self.get(d,'h',t))},
-                    d:function(d,t){return self.get(d,'d',t)},
-                    ww:function(d,t,firstDayOfWeek){return (self.get(d,'ww',t,firstDayOfWeek)+1)+'W'},
-                    w:function(d,t,firstDayOfWeek){return this.WEEKS[(self.get(d,'w',t) - firstDayOfWeek +7)%7 ]},
-                    m:function(d,t){return ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"][self.get(d,'m',t)]},
-                    q:function(d,t){return (self.get(d,'q',t) + 1) + 'Q'},
-                    y:function(d,t){return self.get(d,'y',t)},
-                    de:function(d,t){return self.get(d,'de',t)},
-                    c:function(d,t){return self.get(d,'c',t)},
-
-                    hn:function(d,t,o){o=m.en;return [o.h(d,t),o.n(d,t)].join(':')},
-                    dhn:function(d,t,o){o=m.en;return o.d(d,t) + " " + [o.h(d,t),o.n(d,t)].join(':')},
-                    mdhn:function(d,t,o){o=m.en;return [o.m(d,t),o.d(d,t)].join(' ') +" "+ [o.h(d,t),o.n(d,t)].join(':')},
-                    hns:function(d,t,o){o=m.en;return [o.h(d,t),o.n(d,t),o.s(d,t)].join(':')},
-                    hnsms:function(d,t,o){o=m.en;return [o.h(d,t),o.n(d,t),o.s(d,t)].join(':')+" "+o.ms(d,t)},
-
-                    yq:function(d,t,o){o=m.en;return [o.y(d,t),o.q(d,t)].join(' ')},
-
-                    ym :   function(d,t,o){o=m.en;return [o.y(d,t),o.m(d,t)].join(' ')},
-                    ymd :  function(d,t,o){o=m.en;return [o.m(d,t),o.d(d,t),o.y(d,t)].join(' ')},
-                    ymdh:  function(d,t,o){o=m.en;return [o.m(d,t),o.d(d,t),o.y(d,t),o.h(d,t)].join(' ')},
-                    ymdhn: function(d,t,o){o=m.en;return [o.m(d,t),o.d(d,t),o.y(d,t),o.h(d,t)].join(' ')+":" + o.n(d,t)},
-                    ymdhns:function(d,t,o){o=m.en;return [o.m(d,t),o.d(d,t),o.y(d,t),o.h(d,t)].join(' ')+":" + o.n(d,t)+":" + o.s(d,t)},
-                    iso:function(d,t,o){o=m.en;return o.y(d,t)+'-'+f(self.get(d,'m',t)+1)+'-'+f(o.d(d,t))+'T'+f(o.h(d,t))+':'+f(o.n(d,t))+':'+f(o.s(d,t))+'.'+f(o.ms(d,t),3)},
-                    '' :  function(d,t,o){o=m.en;return [o.m(d,t),o.d(d,t),o.y(d,t),o.h(d,t)].join(' ')+":" + o.n(d,t)+":" + o.s(d,t)+" "+o.ms(d,t)}
-                };
-                m.en=m;
-
-                m.cn={};
-                for(var i in m)m.cn[i]=m[i];
-                _.merge(m.cn,{
-                    WEEKS:['\u65e5', '\u4e00', '\u4e8c', '\u4e09', '\u56db', '\u4e94', '\u516d', '\u5468'],
-                    s:function(d,t){return f(self.get(d,'s',t))+"\u79d2"},
-                    n:function(d,t){return f(self.get(d,'n',t))+"\u5206"},
-                    h :function(d,t){return f(self.get(d,'h',t))+"\u65f6"},
-                    d:function(d,t){return self.get(d,'d',t)+"\u65e5"},
-                    w : function(d,t,firstDayOfWeek){return this.WEEKS[(self.get(d,'w',t) - firstDayOfWeek +7)%7 ]},
-                    ww : function(d,t,firstDayOfWeek){return '\u7b2c'+(self.get(d,'ww',t,firstDayOfWeek)+1) + "\u5468"},
-                    m : function(d,t){return (self.get(d,'m',t)+1) + "\u6708"},
-                    q : function(d,t){return "\u7b2c"+(self.get(d,'q',t) + 1) + '\u5b63'},
-                    y :function(d,t){var r=self.get(d,'y',t);return (r?r:'?') + "\u5e74"},
-                    de:function(d,t){return self.get(d,'de',t) + "\u5341\u5e74"},
-                    c:function(d,t){return self.get(d,'c',t) + "\u4e16\u7eaa"},
-
-                    hn:function(d,t,o){o=m.cn;return o.h(d,t)+o.n(d,t)},
-                    dhn:function(d,t,o){o=m.cn;return o.d(d,t)+' '+o.h(d,t)+o.n(d,t)},
-                    mdhn:function(d,t,o){o=m.cn;return o.m(d,t)+o.d(d,t)+' '+o.h(d,t)+o.n(d,t)},
-                    hns:function(d,t,o){o=m.cn;return o.h(d,t)+o.n(d,t)+o.s(d,t)},
-                    hnsms:function(d,t,o){o=m.cn;return o.h(d,t)+o.n(d,t)+o.s(d,t)+o.ms(d,t)},
-
-                    yq:function(d,t,o){o=m.cn;return o.y(d,t)+' '+o.q(d,t)},
-
-                    ym :   function(d,t,o){o=m.cn;return o.y(d,t)+o.m(d,t)},
-                    ymd :  function(d,t,o){o=m.cn;return o.y(d,t)+o.m(d,t)+o.d(d,t)},
-                    ymdh:  function(d,t,o){o=m.cn;return o.y(d,t)+o.m(d,t)+o.d(d,t)+' '+o.h(d,t)},
-                    ymdhn: function(d,t,o){o=m.cn;return o.y(d,t)+o.m(d,t)+o.d(d,t)+' '+o.h(d,t)+o.n(d,t)},
-                    ymdhns:function(d,t,o){o=m.cn;return o.y(d,t)+o.m(d,t)+o.d(d,t)+' '+o.h(d,t)+o.n(d,t)+o.s(d,t)},
-                    '' :  function(d,t,o){o=m.cn;return o.y(d,t)+o.m(d,t)+o.d(d,t)+' '+o.h(d,t)+o.n(d,t)+o.s(d,t)+o.ms(d,t)}
-                 },'all');
-            }
-            return me.map[lang][unit](date,timeZone,firstDayOfWeek);
+            return this.TEXTFORMAT[unit](date,timeZone,firstDayOfWeek);
         }
     }
 });

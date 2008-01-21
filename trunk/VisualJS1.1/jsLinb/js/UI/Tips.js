@@ -2,6 +2,12 @@
 Class("linb.UI.Tips", null,{
     Constructor:function(){return null},
     Initialize:function(){
+        var dd=linb.dragDrop,
+            tips=this;
+        dd.$reset=function(){
+            tips.pos={left:dd.x,top:dd.y}
+        };
+
         //for: span(display:-moz-inline-box) cant wrap in firefox
         linb.css.add(
             ".linb-ui-tips{font-size:0;line-height:0;position:absolute;border:solid gray 1px;background-color:#FFF8DC;overflow:visible;} "+
@@ -11,9 +17,9 @@ Class("linb.UI.Tips", null,{
 
         linb([document])
         .afterMousemove(function(obj, e, src){
-            if(linb.dragDrop.working)return;
+            if(dd.working)return;
             var event=linb.event,
-                tips=linb.UI.Tips,p,n;
+                p,n;
 
             //if ready to show in settimeout(resetRun)
             if((p=_.resetRun.cache) && p['$Tips'])
@@ -36,14 +42,13 @@ Class("linb.UI.Tips", null,{
             var event=linb.event,
                 rt=event.rtFalse,
                 node=event.getSrc(e),
-                tips=linb.UI.Tips,
                 id,from,
                 tempid,pass
             ;
             //check node
             if(!node || !(id=node.id))
                 return rt;
-            if(node.id=='linb:lang'){
+            if(node.id==linb.langId){
                 node = node.parentNode;
                 if(!node || !(id=node.id))
                     return rt;
@@ -68,7 +73,6 @@ Class("linb.UI.Tips", null,{
             return rt;
         },'$Tips',-1)
         .afterMouseout(function(obj, e, src){
-            var tips=linb.UI.Tips;
             if(tips.markId){
                 var event=linb.event,
                     id,
@@ -81,7 +85,7 @@ Class("linb.UI.Tips", null,{
                         clear=1
                 }catch(e){clear=1}
                 if(!clear){
-                    if(node.id=='linb:lang'){
+                    if(node.id==linb.langId){
                         node = node.parentNode;
                         if(!node || !(id=node.id))
                             clear=1;
@@ -123,7 +127,7 @@ Class("linb.UI.Tips", null,{
                         style.width=style.height='auto';
                         self.n.get(0).innerHTML=s;
                         //get width
-                        w=Math.min(linb.UI.Tips.maxWidth, node.width());
+                        w=Math.min(tips.maxWidth, node.width());
                         //set width
                         if(linb.browser.ie){
                             style.width=Math.round(w/2)*2+2+'px';

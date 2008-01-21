@@ -1,10 +1,24 @@
+/*
+*to do: background div
+*to do: special div
+*
+*/
+
 Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'], {
     Instance:{
         afterInsertItems:function(profile){
             profile.box._reArrage(profile);
+        },
+        _cache:function(){
+            var profile=this.get(0),
+                cls=this.constructor,
+                picker=cls._picker;
+            if(picker && picker.domNode)
+                profile.getSubNode('POOL').addLast(picker.root.display('none'));
         }
     },
     Static:{
+        Dropable:['ITEMS'],
         cssNone:false,
         Templates:{'default':{
             tagName:'div',
@@ -13,16 +27,19 @@ Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'
                 tagName:'div',
                 style:'height:{_bHeight}px;width:{_bWidth}px;',
                 FOCUS:{tagName:'button'},
+                POOL:{
+                    tagName:'div',
+                    style:'position:absolute;left:0;top:0;width:0;height:0;display:none;'
+                },
                 BAR:{
                     tagName:'div',
                     style:'height:{barHeight}px;',
                     CMDS:{
                         tagName:'div',
-                        DATE:{$order:0},
-                        TASK:{$order:1},
+                        DATE:{$order:0,style:'{dateDisplay}'},
                         PRE:{$order:2},
-                        'ZOOMIN':{$order:3},
-                        'ZOOMOUT':{$order:4},
+                        'ZOOMIN':{$order:3,style:'{zoomDisplay}'},
+                        'ZOOMOUT':{$order:4,style:'{zoomDisplay}'},
                         NEXT:{$order:5}
                     },
                     CMDS2:{
@@ -41,16 +58,16 @@ Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'
                     $order:2,
                     tagName:'div',
                     style:'left:{_band_left}px;width:{_band_width}px;',
-                    LABELST:{
+                    BIGLABEL:{
                         tagName:'div',
-                        style:'height:{mark1Height}px;z-index:3;',
-                        text:"{_mark1}"
+                        style:'height:{bigLabelHeight}px;z-index:3;{_bigLabelShow}',
+                        text:"{_bigMarks}"
                     },
-                    LABELSB:{
+                    SMALLLABEL:{
                         $order:1,
                         tagName:'div',
-                        style:'height:{mark2Height}px;z-index:4;',
-                        text:"{_mark2}"
+                        style:'height:{smallLabelHeight}px;z-index:4;',
+                        text:"{_smallMarks}"
                     }
                 },
                 VIEW:{
@@ -74,14 +91,14 @@ Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'
                             }
                         }
                 },
-                INFO:{
+                TIPS:{
                     $order:4,
                     style:'z-index:2;height:{tipsHeight}px',
                     tagName:'div'
                 }
             },
             $dynamic : {
-                _mark1:{
+                _bigMarks:{
                     LABELT:{
                         id:null,
                         className:null,
@@ -90,7 +107,7 @@ Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'
                         text:'{text}'
                     }
                 },
-                _mark2:{
+                _smallMarks:{
                     LABELB:{
                         id:null,
                         className:null,
@@ -135,15 +152,32 @@ Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'
             }
         }},
         Behaviors:{'default':{
-            _hoverEffect:{PRE:'PRE',NEXT:'NEXT',ZOOMIN:'ZOOMIN',ZOOMOUT:'ZOOMOUT',DATE:'DATE',TASK:'TASK',OPT:'OPT',CLOSE:'CLOSE',MIN:'MIN',NORMAL:'NORMAL'},
-            _clickEffect:{PRE:'PRE',NEXT:'NEXT',ZOOMIN:'ZOOMIN',ZOOMOUT:'ZOOMOUT',DATE:'DATE',TASK:'TASK',OPT:'OPT',CLOSE:'CLOSE',MIN:'MIN'},
+            _hoverEffect:{PRE:'PRE',NEXT:'NEXT',ZOOMIN:'ZOOMIN',ZOOMOUT:'ZOOMOUT',DATE:'DATE',OPT:'OPT',CLOSE:'CLOSE',MIN:'MIN',NORMAL:'NORMAL'},
+            _clickEffect:{PRE:'PRE',NEXT:'NEXT',ZOOMIN:'ZOOMIN',ZOOMOUT:'ZOOMOUT',DATE:'DATE',OPT:'OPT',CLOSE:'CLOSE',MIN:'MIN'},
             onRewh:function(profile, e, src){
                 var o = profile.domNode.style,f=parseInt, n=null, w=n, h=n;
                 if(e.height)h=f(o.height)||n;
-                if(h)profile.box.resize(profile, h);
                 if(e.width)w=f(o.width)||n;
-                if(w)
-                    if(profile.onResize)profile.boxing().onResizeWidth(profile, w);
+                if(h)profile.box.resize(profile, w, h);
+            },
+            CLOSE:{
+                onClick:function(profile, e, src){
+                    var properties = profile.properties;
+                    if(properties.disabled)return;
+                    var instance = profile.boxing();
+
+                    if(false===instance.beforeClose(profile, src)) return;
+
+                    instance.destroy();
+
+                    //for design mode in firefox
+                    return false;
+                }
+            },
+            OPT:{
+                onClick:function(profile, e, src){
+                    profile.boxing().onTriggerOption(profile, e, src);
+                }
             },
             onClick:function(profile, e){
                 profile.box._focus(profile);
@@ -151,11 +185,21 @@ Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'
             BAND:{
                 onMousedown:function(profile, e, src){
                     if(profile.pause)return;
-                    var p=profile.properties,
-                        r=-p._band_left,
-                        l=p._band_width-r-p.width;
+                    var t=profile.properties,
+                        r=-t._band_left,
+                        date=linb.date,
+                        rate=t._rate,
+                        ep=linb.event.getPos(e),
+                        l=t._band_width-r-t.width;
                     ;
-                    linb(src).startDrag(e, {move:false, type:'blank', horizontal:true, offset_left:l, offset_right:r});
+                    if(t._minDate && t._smallLabelStart<t._minDate)
+                        r-=date.diff(t._smallLabelStart,t._minDate,'ms')/rate;
+                    if(t._maxDate && t._smallLabelEnd>t._maxDate)
+                        l-=date.diff(t._maxDate,t._smallLabelEnd,'ms')/rate;
+                    if(r<0)r=0;
+                    if(l<0)l=0;
+
+                    linb([src]).startDrag(e, {move:false, type:'blank', horizontal:true, target_left:ep.left,target_top:ep.top,offset_left:l, offset_right:r});
                 },
                 onDragend:function(profile, e, src){
                     profile.box._rePosition(profile);
@@ -177,24 +221,31 @@ Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'
             },
             ITEMS:{
                 onMouseover:function(profile,e,src){
-                    profile.$dd_otp = profile.box._getTips(profile);
+                    if(linb.dragDrop.working)return;
                     profile.$itemspos = linb([src]).absPos();
                 },
                 onMousemove:function(profile,e){
-                    if(linb.dragDrop.working)return;
-                    var p=parseInt,
-                        t=profile.properties,
-                        d=linb.date,
-                        s=t._dateRealStart,
-                        r=t._rate,
-                        u=t._unitFormat,
-                        p1=linb.event.getPos(e),
-                        p2=profile.$itemspos;
-                    if(p2)
-                        profile.box._setTips(profile, d.getText(d.add(s, 'ms', (p1.left-p2.left)*r),u));
+                    if(linb.dragDrop.working){
+                        //ondrag add here, for performance of 'dont-use-dropable situation'.
+                        if(profile.$$ondrag){
+                            var d=linb.dragDrop;
+                            profile.box._moveActive(profile, profile.$active, d.x-profile.$dd_ox, profile.properties.unitPixs-2);
+                        }
+                    }else{
+                        var t=profile.properties,
+                            d=linb.date,
+                            s=t._smallLabelStart,
+                            r=t._rate,
+                            u=t.timeFormat,
+                            p1=linb.event.getPos(e),
+                            p2=profile.$itemspos;
+                        if(p2)
+                            profile.box._setTips(profile, d.getText(d.add(s, 'ms', (p1.left-p2.left)*r),u));
+                    }
                 },
                 onMouseout:function(profile,e,src){
-                    profile.box._setTips(profile, profile.$dd_otp);
+                    if(linb.dragDrop.working)return;
+                    profile.box._setTips(profile, '');
                 },
                 onMousedown:function(profile, e, src){
                     if(profile.pause)return;
@@ -216,13 +267,14 @@ Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'
                 onDragbegin:function(profile, e, src){
                     profile.$dd_ox = linb.dragDrop.x;
                     profile.$dd_oleft = linb(src).left();
-                    profile.$dd_otp = profile.box._getTips(profile);
+                    linb([src,src.parentNode]).cursor('e-resize');
                 },
                 onDrag:function(profile, e, src){
                     var x=profile.$dd_oleft,
+                        ddx=linb.dragDrop.x,
                         w,
-                        offset =linb.dragDrop.x-profile.$dd_ox;
-                    if(offset>=0){
+                        offset;
+                    if((offset =ddx-profile.$dd_ox)>=0){
                         w = offset>1?(offset-1):0;
                     }else{
                         x += offset; w = -offset>1?(-offset - 1):0;
@@ -230,7 +282,9 @@ Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'
                     profile.box._moveActive(profile, src, x, w);
                 },
                 onDragend:function(profile, e, src){
+                    profile.$dd_ox =profile.$dd_oleft=null;
                     profile.box._deActive(profile);
+                    linb([src,src.parentNode]).cursor('');
                 }
             },
             FOCUS:{
@@ -239,30 +293,37 @@ Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'
                     profile.pause=true;
 
                     // speed
-                    var p=profile.properties,
+                    var t=profile.properties,
+                        date=linb.date,
+                        rate=t._rate,
                         maxOffset = 30,
                         o=profile.box._getMoveNodes(profile),
                         x=o.left(),
-                        off=p._scroll_offset
+                        xx=t._band_left,
+                        off=t._scroll_offset
                         ;
 
-                    off = p._scroll_offset = off>maxOffset ? off :off*1.05;
+                    off = t._scroll_offset = off>maxOffset ? off :off*1.05;
 
                     switch(linb.event.getKey(e)[0]){
                         case 'left':
                         case 'up':
+                            if(t._minDate && date.add(t.dateStart,'ms',(xx-x-off)*rate)<t._minDate)
+                                off=date.diff(t._minDate, t.dateStart,'ms')/rate + (xx-x);
+                            if(off<0)off=0;
                             o.left(x + off);
                             break;
                         case 'right':
                         case 'down':
+                            if(t._maxDate && date.add(t.dateStart,'ms',(xx-x+off+t.width)*rate)>t._maxDate)
+                                off=date.diff(t.dateStart,t._maxDate,'ms')/rate - (xx-x+t.width);
+                            if(off<0)off=0;
                             o.left(x - off);
                             break;
                     }
 
-                    if((x + maxOffset > 0) || (x + o.width() - profile.properties.width - maxOffset < 0)){
+                    if((x + maxOffset > 0) || (x + o.width() - t.width - maxOffset < 0))
                         profile.box._rePosition(profile);
-                    }
-
                     profile.pause=false;
                 },
                 onKeyup:function(profile, e){
@@ -274,31 +335,44 @@ Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'
             PRE:{
                 onClick:function(profile, e){
                     if(profile.pause)return;
+
+                    var t=profile.properties,
+                        date=linb.date,
+                        rate=t._rate,
+                        o=profile.box._getMoveNodes(profile),
+                        x1=t._band_left,
+                        x2=0;
+                    ;
+                    if(t._minDate && t._smallLabelStart<t._minDate)
+                        x2-=date.diff(t._smallLabelStart,t._minDate,'ms')/rate;
+
                     profile.pause=true;
-
-                    var o=profile.box._getMoveNodes(profile),
-                        x=o.left(),
-                        w=o.width();
-
-                    o.fx({left:[x,x+profile.properties.width]}, null, function(){
+                    o.fx({left:[x1,x2]}, null, function(){
                         profile.box._rePosition(profile);
                         profile.pause=false;
-                    },200,w/100,'inoutsine').start();
+                    },200,Math.max(5,(x2-x1)/100),'inoutsine').start();
                 }
             },
             NEXT:{
                 onClick:function(profile, e){
                     if(profile.pause)return;
-                    profile.pause=true;
+                    var t=profile.properties,
+                        date=linb.date,
+                        rate=t._rate,
+                        o=profile.box._getMoveNodes(profile),
+                        x1=t._band_left,
+                        x2=t.width-t._band_width;
+                    ;
+                    if(t._maxDate && t._smallLabelEnd>t._maxDate)
+                       x2+=date.diff(t._maxDate,t._smallLabelEnd,'ms')/rate;
 
-                    var o = profile.box._getMoveNodes(profile),
-                        x=o.left(),
-                        w=o.width();
-
-                    o.fx({left:[x,x-profile.properties.width]}, null, function(){
-                        profile.box._rePosition(profile);
-                        profile.pause=false;
-                    },200,w/100,'inoutsine').start();
+                    if(x1>x2){
+                        profile.pause=true;
+                        o.fx({left:[x1,x2]}, null, function(){
+                            profile.box._rePosition(profile);
+                            profile.pause=false;
+                        },200,Math.max(5,(x1-x2)/100),'inoutsine').start();
+                    }
                 }
             },
             ZOOMIN:{
@@ -311,7 +385,7 @@ Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'
                         o;
                     if(index > 0){
                         profile.pause=true;
-                        p.unit =  z[index- 1][0];
+                        p.timeSpanKey =  z[index- 1][0];
 
                         o = profile.getSubNodes(['VIEW','BAND']);
                         o.fx( {opacity:[1,0.2]}, null, function(){
@@ -332,7 +406,7 @@ Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'
                         o;
                     if(index < z.length -1){
                         profile.pause=true;
-                        p.unit = z[index + 1][0];
+                        p.timeSpanKey = z[index + 1][0];
 
                         o = profile.getSubNodes(['VIEW','BAND']);
                         o.fx( {opacity:[1,0.2]}, null, function(){
@@ -344,55 +418,51 @@ Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'
                 }
             },
             DATE:{
-                onClick:function(profile, e){
+                onClick:function(profile, e, src){
                     if(profile.pause)return;
-                    profile.properties.dateStart = new Date();
+                    var cls=profile.box,
+                        box=profile.boxing(),
+                        start=profile.properties.dateStart,
+                        o,node;
 
-                    var o = profile.getSubNodes(['VIEW','BAND']);
-                    o.fx( {opacity:[1,0.2]}, null, function(){
-                        profile.boxing().refresh();
-                        profile.box._focus(profile);
-                        profile.pause=false;
-                    },200,5,'insine').start();
-                }
-            },
-            TASK:{
-                //onMousedown be taken by click effction
-                onMousedown:function(profile, e, src){
-                    if(profile.pause)return;
+                    if(cls._picker && cls._picker.domNode){
+                       o=cls._picker.boxing();
+                    }else{
+                        o=linb.create('DatePicker');
+                        cls._picker=o.get(0);
+                        o.beforeClose(function(){
+                            this.boxing()._cache();
+                            return false;
+                        })
+                        .beforeValueUpdated(function(p, ov, v){
+                            var profile=this,
+                                obj = profile.getSubNodes(['VIEW','BAND']),
+                                box=profile.boxing();
+                            profile.properties.dateStart=v;
+                            //obj.fx( {opacity:[1,0.2]}, null, function(){
+                                box.refresh();
+                                profile.box._focus(profile);
+                            //    profile.pause=false;
+                            //},200,5,'insine').start()
+                            box._cache();
+                        });
+                    }
+                    o.setValue(start,true).host(profile);
+                    node=o.reBoxing();
+                    node.popToTop(src);
 
-                    var t=profile.properties,
-                        ep=linb.event.getPos(e),
-                        _left = t.unitPixs/2
-                    ;
-                    linb(src).startDrag(e, {
-                        defer:1,
-                        type:'none'
+                    //for on blur disappear
+                    node.setBlurTrigger(profile.key+":"+profile.$id, function(){
+                        box._cache();
+                    }, null, profile.$id);
+
+                    //for esc
+                    linb.event.hookKey('esc',0,0,0,function(){
+                        box._cache();
+                        cls._focus(profile);
+                        //unhook
+                        linb.event.hookKey('esc',0,0,0,null);
                     });
-                    profile.$offset_x = _left;
-                    profile.$taskdd_w = t.unitPixs;
-                    profile.$dd_ox = ep.left -_left;
-                },
-                onDragbegin:function(profile, e, src){
-                    linb(profile.$active).display('block').absPos({left :profile.$dd_ox,  top :null}).width(profile.$taskdd_w-2);
-                    profile.$dd_ox =linb(profile.$active).left();
-                    profile.$dd_otp = profile.box._getTips(profile);
-                },
-                onDrag:function(profile, e, src){
-                    var d=linb.dragDrop;
-                    profile.box._moveActive(profile, profile.$active, profile.$dd_ox + d.x-d.ox, profile.$taskdd_w-2);
-                },
-                onDragend:function(profile, e, src){
-                    var r = profile.box._deActive(profile),
-                        task={id:_.id(),caption:'new'},
-                        box=profile.box,
-                        b=profile.boxing();
-
-                    task.start = box._getTime(profile, r.left);
-                    task.end = box._getTime(profile, r.left+r.width);
-
-                    if(profile.beoferAddTasks && false==b.beoferAddTasks(profile, [task])){}else
-                        b.insertItems([task],null,true);
                 }
             },
             ITEM:{
@@ -401,12 +471,15 @@ Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'
                     return false;
                 },
                 onDragbegin:function(profile, e, src){
-                    var t=profile.getItemByDom(src);
-                    profile.$dd_otp = profile.box._getTips(profile),
+                    var t=profile.getItemByDom(src),
+                        type=profile.$dd_type,
+                        cursor=type?'e-resize':'move',
+                        ac=profile.$active;
                     profile.$dd_ox = linb.dragDrop.x;
                     profile.$dd_oleft = t._left;
                     profile.$dd_owidth = t._width-2;
-                    linb(profile.$active).display('block').cssPos({left :profile.$dd_oleft,  top :null}).width(profile.$dd_owidth);
+                    linb([ac]).display('block').cssPos({left :profile.$dd_oleft,  top :null}).width(profile.$dd_owidth);
+                    linb([ac,ac.parentNode]).cursor(cursor);
                 },
                 onDrag:function(profile, e, src){
                     var x,w,
@@ -437,9 +510,12 @@ Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'
                     profile.box._moveActive(profile, profile.$active, x, w);
                 },
                 onDragend:function(profile, e, src){
-                    var r = profile.box._deActive(profile);
+                    var r = profile.box._deActive(profile),
+                        ac=profile.$active;
                     profile.box._resetItem(profile,r,src);
                     profile.$dd_type = null;
+
+                    linb([ac,ac.parentNode]).cursor('');
                 }
             },
             HEAD:{
@@ -474,28 +550,73 @@ Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'
             // control width and height
             width : 400,
             height : 200,
-            unit : '1 d',
             // how much px to represent a unit
             unitPixs : 50,
+            //invisible band count (left,right)
+            //if it's zero, leftSpanCount will be visible count(based on widget width)
+            leftSpanCount:0,
+            rightSpanCount:0,
+
+            //time span key
+            timeSpanKey : '',
+            //timespan of a small label is equal to smallLabelCount*smallLabelUnit
+            //time span count
+            smallLabelCount:2,
+            //time span unit
+            smallLabelUnit:{
+                ini:'h',
+                listbox:_.toArr(linb.date.TIMEUNIT,true)
+            },
+            bigLabelCount:12,
+            //time span unit
+            bigLabelUnit:{
+                ini:'h',
+                listbox:_.toArr(linb.date.TIMEUNIT,true)
+            },
+            //time format
+            timeFormat:{
+                ini:'ymdhn',
+                listbox:_.toArr(linb.date.TEXTFORMAT,true)
+            },
+            //big label format
+            bigLabelFormat:{
+                ini:'ymdh',
+                listbox:_.toArr(linb.date.TEXTFORMAT,true)
+            },
+            //small label format
+            smallLabelFormat:{
+                ini:'h',
+                listbox:_.toArr(linb.date.TEXTFORMAT,true)
+            },
 
             barHeight : 22,
-            mark1Height : 20,
-            mark2Height : 16,
-            itemHeight : 16,
+
+            bigLabelShow: true,
+            bigLabelHeight : 20,
+
+            smallLabelHeight : 18,
+            taskHeight : 16,
             tipsHeight : 16,
 
+            minDate:'',
+            maxDate:'',
+            dateBtn:true,
+            closeBtn:false,
+            optBtn:false,
+
             items:{
-                ini:[]
+                ini:{}
             },
             dateStart : new Date,
             scrollRateBase:5
         },
         EventHandlers:{
+            beforeClose:function(profile, src){},
+            onTriggerOption:function(profile, e, src){},
             onGetTasks:function(profile, start, end, minMs, type){},
             beforeChangeTask:function(profile, item){},
             beoferAddTasks:function(profile, items){},
-            beforeDelTasks:function(profile, arr){},
-            onResizeWidth:function(profile, width){}
+            beforeDelTasks:function(profile, arr){}
         },
         Appearances:{'default':{
             KEY:{
@@ -533,7 +654,7 @@ Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'
                 'vertical-align': 'middle',
                 cursor:'default'
             },
-            INFO:{
+            TIPS:{
                 position:'absolute',
                 left:'0',
                 width:'100%',
@@ -551,7 +672,7 @@ Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'
                 'line-height':'0',
                 border:'0'
             },
-            'BAND, VIEW, LABELST, LABELSB':{
+            'BAND, VIEW, BIGLABEL, SMALLLABEL':{
                 position:'relative'
             },
             VIEW:{
@@ -574,30 +695,32 @@ Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'
                 height:'1000px',
                 width:'1px'
             },
-            'LABELST, LABELSB':{
-                'background-color':'#ECE9D8'
+            'BIGLABEL, SMALLLABEL':{
+                'background-color':'#ECE9D8',
+                cursor:'move'
             },
-            'LABELSB':{
-                'background-image': linb.UI.getCSSImgPara('label.gif'),
-                'background-position': 'left bottom'
+            BIGLABEL:{
+                'border-bottom':'solid 1px'
+            },
+            'SMALLLABEL':{
+                'border-bottom':'solid 1px'
             },
             ITEMS:{
                 position:'relative',
                 background: linb.UI.getCSSImgPara('bars.gif',' left top')
             },
-            'LABELST div, LABELSB div':{
-                'padding-left':'4px',
+            'BIGLABEL div, SMALLLABEL div':{
+                'border-left':'solid 1px',
+                'text-align':'center',
                 position:'absolute',
                 cursor:'move',
                 top:0,
                 height:'100%'
             },
-            'LABELST div':{
-                background: linb.UI.getCSSImgPara('label.gif',' left top no-repeat'),
-                'font-weight':'bold'
-            },
-            'LABELSB div':{
-                'margin-top':'-3px'
+            'BIGLABEL div':{
+                $order:2,
+                'text-align':'left',
+                'padding-left':'4px'
             },
 
             ACTIVE:{
@@ -643,16 +766,8 @@ Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'
                 $order:3,
                 'background-position':' -46px -95px'
             },
-            'MIN, TASK':{
+            MIN:{
                 background: linb.UI.getCSSImgPara('cmds.gif', ' no-repeat  -31px -65px', null, 'linb.UI.Public')
-            },
-            'TASK-mouseover':{
-                $order:2,
-                'background-position': '-31px -80px'
-            },
-            'TASK-mousedown':{
-                $order:3,
-                'background-position': '-31px -95px'
             },
             PRE:{
                 background: linb.UI.getCSSImgPara('cmds.gif', ' no-repeat  0 -65px', null, 'linb.UI.Public'),
@@ -766,20 +881,74 @@ Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'
             }
         }},
         createdTrigger:function(){
-            var self=this, t=self.properties;
+            var self=this, t=self.properties,cls=self.box;
+            cls._setDropable(self);
+
             self.$active = self.getSubNode('ACTIVE').get(0);
-            //udpate current time info to log bar
-            self.box._showStartTip(self);
+            cls._ajustHeight(self);
+        },
+        _setDropable:function(profile){
+            var dd=linb.dragDrop,
+                nf=function(){return false};
+            _.merge(profile,{
+                $onDropMarkShow:function(){dd.setDropableIcon('add');return false},
+                $onDropMarkClear:function(){dd.setDropableIcon();return false},
+                $onDragEnter:function(profile,e,src){
+                    var t=profile.properties,
+                        ep=linb.event.getPos(e),
+                        _left = t.unitPixs/2
+                    ;
+                    linb(profile.$active).display('block');
+                    profile.$dd_ox =linb([src]).absPos().left+_left;
+
+                    profile.$$ondrag=true;
+                },
+                $onDragLeave:function(profile){
+                    delete profile.$$ondrag;
+                    delete profile.$dd_ox;
+
+                    profile.box._deActive(profile);
+                },
+                $onDrop:function(profile){
+                    delete profile.$$ondrag;
+                    delete profile.$dd_ox;
+
+                    var r = profile.box._deActive(profile),
+                        task={id:_.id(),caption:'new'},
+                        box=profile.box,
+                        b=profile.boxing();
+
+                    task.start = box._getTime(profile, r.left);
+                    task.end = box._getTime(profile, r.left+r.width);
+
+                    if(profile.beoferAddTasks && false===b.beoferAddTasks(profile, [task])){}else
+                        b.insertItems([task],null,true);
+                }
+            },'all');
         },
         prepareData:function(profile){
             var p=profile.properties,
                 d=profile.data,
                 date=linb.date,
-                m=0,
+                us=date.TIMEUNIT,
+                nodisplay='display:none',
                 u=p.unitPixs,
-                i,t,mark1,mark2,label,
-                _unitParas,_unitCount
+                zoom=profile.box.zoom,
+                m=0,
+                i,t,label,temp,_date,width,rate,
+                _unitParas,
+                _dateStart,
+                _barCount,_leftBarCount,_rightBarCount,_barCountall,
+
+                smallMarks,smallLabelStart,smallLabelEnd,smallLabelUnit,smallLabelCount,smallLabelFormat
                 ;
+            if(p.minDate)p._minDate=date.parse(p.minDate);
+            if(p.maxDate)p._maxDate=date.parse(p.maxDate);
+
+            d.dateDisplay = p.dateBtn?'':nodisplay;
+            d.closeDisplay = p.closeBtn?'':nodisplay;
+            d.optDisplay = p.optBtn?'':nodisplay;
+            d._bigLabelShow=p.bigLabelShow?'':nodisplay;
 
             // for quick move
             p._scroll_offset = p.scrollRateBase;
@@ -790,69 +959,117 @@ Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'
             d._bWidth = p.width - 2*p.$borderW;
             d._bHeight = p.height - 2*p.$borderW;
             //view
-            p._viewHeight = d._bHeight - p.tipsHeight - p.mark1Height - p.mark2Height - p.barHeight;
+            p._viewHeight = d._bHeight - p.tipsHeight - (p.bigLabelShow?p.bigLabelHeight:0) - p.smallLabelHeight - p.barHeight;
 
-            // for example: n is minutes
-            profile.box.zoom.each(function(o){
-                if(o[0]===p.unit){
-                    _unitParas=p._unitParas=o;
-                    return false;
-                }
-            });
+            //get unitparas from timespan key
+            if(p.timeSpanKey){
+                zoom.each(function(o){
+                    if(o[0]===p.timeSpanKey){
+                        _unitParas=p._unitParas=o;
+                        return false;
+                    }
+                });
+                //give a default key
+                if(!_unitParas)
+                    _unitParas=p._unitParas=zoom[p.timeSpanKey='1 d'];
+            }
+            //if no timeSpanKey( _unitParas) input,
+            d.zoomDisplay = _unitParas?'':nodisplay;
 
-            // for example: 10 minutes
-            _unitCount=p._unitCount = _unitParas[1];
-            p._unit = _unitParas[2];
-            p._unitFormat = _unitParas[6];
+            if(_unitParas){
+                p.smallLabelCount = _unitParas[1];
+                p.smallLabelUnit = _unitParas[2];
+                p.smallLabelFormat = _unitParas[3];
+                p.bigLabelCount = _unitParas[4];
+                p.bigLabelUnit = _unitParas[5];
+                p.bigLabelFormat = _unitParas[6];
+                p.timeFormat = _unitParas[7];
+            }
+            smallLabelCount = p.smallLabelCount;
+            smallLabelUnit = p.smallLabelUnit;
+            smallLabelFormat = p.smallLabelFormat;
+
+            // get bar count in view
+            _barCount = (Math.ceil(p.width / u)||0);
+            _leftBarCount = p.leftSpanCount?p.leftSpanCount:_barCount;
+            _rightBarCount = p.rightBarCount?p.rightBarCount:_barCount;
+            _barCountall =  _barCount + _leftBarCount + _rightBarCount;
+
+            // ms per px
+            rate = p._rate = us[smallLabelUnit]*smallLabelCount/u;
+
+            //adjust dateStart
+            if(p._maxDate&& date.add(p.dateStart,'ms',p.width*rate) > p._maxDate)
+                p.dateStart=date.add(p._maxDate,'ms',-p.width*rate);
+            if(p._minDate&& p.dateStart<p._minDate)
+                p.dateStart=p._minDate;
 
             // get the round start from the approximate start
-            var _dateStart2 = date.getRoundDown(p.dateStart, p._unit, _unitCount),
-            // get bar count in view
-                _barCount = (parseInt(p.width / u)||0) + 2;
+            _dateStart = date.getRoundDown(p.dateStart, smallLabelUnit, smallLabelCount);
+            // rel start in band
+            smallLabelStart=p._smallLabelStart = date.add(_dateStart, smallLabelUnit, -_leftBarCount*smallLabelCount);
+            // rel end in band
+            smallLabelEnd = p._smallLabelEnd = date.add(smallLabelStart, smallLabelUnit, _barCountall*smallLabelCount);
 
             // get band with
-            p._band_width = _barCount * u * 3;
-
-            // rel start in band
-            p._dateRealStart = date.add(_dateStart2, p._unit, -(_barCount+2)*_unitCount);
-            // rel end in band
-            p._dateRealEnd = date.add(_dateStart2, p._unit, (2*_barCount-2)*_unitCount);
-            // ms per px
-            p._rate = date.diff(p._dateRealStart,p._dateRealEnd,'ms') / p._band_width;
+            p._band_width = Math.ceil(date.diff(smallLabelStart,smallLabelEnd, 'ms')/rate);
 
             // set band left
-            p._band_left_keep = p._band_left = - date.diff(p._dateRealStart, p.dateStart, 'ms')/p._rate;
+            p._band_left_fix = p._band_left = - Math.ceil(date.diff(smallLabelStart, p.dateStart, 'ms')/rate);
 
             // build bars
-            mark1 = p._mark1 = [];
-            mark2 = p._mark2 = [];
+            smallMarks = p._smallMarks = [];
 
-            p._mark1Width=0;
-            for(i=0; i< _barCount*3; i++){
-                label = profile.box._getBarLabel(p._dateRealStart, _unitParas, i);
-                mark2.push({
-                    left: u * i,
-                    width: u,
-                    text:label[0]
+            temp=0;
+            label=date.getText(smallLabelStart, smallLabelFormat);
+            for(i=0; i< _barCountall; i++){
+                _date = date.add(smallLabelStart, smallLabelUnit, smallLabelCount*(i+1));
+                width = Math.ceil(date.diff(smallLabelStart, _date, 'ms')/rate);
+                smallMarks.push({
+                    left : temp,
+                    width : width - temp,
+                    text : label
                 });
-                if(label[1]){
-                    if((t=mark1.length)===0)
-                        m = u * i;
-                    else if(t===1)
-                        p._mark1Width = mark1[0].width = u * i - m;
+                temp=width;
+                label=date.getText(_date, smallLabelFormat);
+            }
 
-                    mark1.push({
-                        left: u * i,
-                        width: p._mark1Width,
-                        text: label[1]
+
+            if(p.bigLabelShow){
+                var _barCount2,off,
+                    bigMarks,bigLabelStart,bigLabelEnd,
+
+                    bigLabelCount = p.bigLabelCount,
+                    bigLabelUnit = p.bigLabelUnit,
+                    bigLabelFormat = p.bigLabelFormat
+                    ;
+
+                bigMarks = p._bigMarks = [];
+                bigLabelStart=p._bigLabelStart =date.getRoundDown(smallLabelStart, bigLabelUnit, bigLabelCount);
+                bigLabelEnd=p._bigLabelEnd = date.getRoundUp(smallLabelEnd, bigLabelUnit, bigLabelCount);
+                _barCount2 = date.diff(bigLabelStart, bigLabelEnd, bigLabelUnit)/bigLabelCount;
+                off=date.diff(smallLabelStart, bigLabelStart, 'ms')/rate;
+                label=date.getText(bigLabelStart, bigLabelFormat);
+                temp=0;
+                for(i=0; i< _barCount2; i++){
+                    _date = date.add(bigLabelStart, bigLabelUnit, bigLabelCount*(i+1));
+                    width = date.diff(bigLabelStart, _date, 'ms')/rate;
+                    bigMarks.push({
+                        left : Math.ceil(temp + off),
+                        width : Math.ceil(width - temp),
+                        text : label
                     });
+                    temp=width;
+                    label=date.getText(_date, bigLabelFormat);
                 }
             }
             arguments.callee.upper.call(this, profile);
         },
         prepareItem:function(profile, item, oitem, pid){
             var self=this,
-            t=profile.properties, d=profile.data;
+            t=profile.properties,
+            d=profile.data,
+            index;
 
             item._min=false;
             // caculate left and width
@@ -867,7 +1084,7 @@ Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'
 
             // caculate top and set task to lines cache
             index = self._getLinePos(profile, item);
-            item._top = (t.itemHeight+3) * index;
+            item._top = (t.taskHeight+3) * index;
 
             t._lines = t._lines || [{}];
 
@@ -892,75 +1109,65 @@ Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'
             *  value format
             *]
             */
-            ['10 ms', 10, 'ms', function(d){return linb.date.get(d,'ms')%100===0}, 'ms','hnsms',''],
-            ['100 ms', 100, 'ms', function(d){return linb.date.get(d,'ms')%1000===0}, 'ms','hns',''],
-            ['1 s', 1, 's', function(d){return linb.date.get(d,'s')%10===0}, 's','hns',''],
-            ['10 s', 10, 's', function(d){return linb.date.get(d,'s')%60===0}, 's','hns',''],
-            ['1 n', 1, 'n', function(d){return linb.date.get(d,'n')%10===0}, 'n','dhn','ymdhn'],
-            ['5 n', 5, 'n', function(d){return linb.date.get(d,'n')%30===0}, 'n','mdhn','ymdhn'],
-            ['10 n', 10, 'n', function(d){return linb.date.get(d,'n')%60===0}, 'n','mdhn','ymdhn'],
-            ['30 n', 30, 'n', function(d){return linb.date.get(d,'h')%2===0 && linb.date.get(d,'n')%60===0}, 'n','ymdh','ymdh'],
-            ['1 h', 1, 'h',  function(d){return linb.date.get(d,'h')%6===0}, 'h','ymdh','ymdh'],
-            ['2 h', 2, 'h', function(d){return linb.date.get(d,'h')%12===0}, 'h','ymdh','ymdh'],
-            ['6 h', 6, 'h', function(d){return linb.date.get(d,'h')%24===0}, 'h','ymd','ymd'],
-            ['12 h', 12, 'h', function(d){return linb.date.get(d,'h')%24===0}, 'h','ymd','ymd'],
-            ['1 d', 1, 'd', function(d){return linb.date.get(d,'w')%7===0}, 'w','ymd','ymd'],
-            ['2 d', 2, 'd', function(d){var r=linb.date.get(d,'w')%7; return r===0||r===1}, 'd','ymd','ymd'],
-            ['1 w', 1, 'ww', function(d){var r=linb.date.get(d,'ww');return (r%4===0 && r<50)?true:false}, 'ww','ymd','ymd'],
-            ['1 m', 1, 'm', function(d){return linb.date.get(d,'m')%3===0}, 'm','yq','ymd'],
-            ['1 q', 1, 'q', function(d){return linb.date.get(d,'q')%4===0}, 'q','y','ymd'],
-            ['1 y', 1, 'y', function(d){return linb.date.get(d,'y')%10===0}, 'y','y','ymd'],
-            ['1 de', 1, 'de', function(d){return linb.date.get(d,'de')%10===0}, 'y','y','ym'],
-            ['1 c', 1, 'c', function(d){return linb.date.get(d,'c')%10===0}, 'y','y','y']
+            ['10 ms', 10, 'ms', 'ms', 100, 'ms','hnsms','hnsms'],
+            ['100 ms', 100, 'ms', 'ms', 1, 's','hns','hnsms'],
+            ['1 s', 1, 's','s', 10, 's','hns','hnsms'],
+            ['10 s', 10, 's', 's',60, 's','hns','hnsms'],
+            ['1 n', 1, 'n','n', 10, 'n','dhn','hns'],
+            ['5 n', 5, 'n','n', 30, 'n','mdhn','hns'],
+            ['10 n', 10, 'n','n', 60, 'n','mdhn','hns'],
+            ['30 n', 30, 'n','n', 2, 'h','ymdh','mdhn'],
+            ['1 h', 1, 'h','h',  6, 'h','ymdh','mdhn'],
+            ['2 h', 2, 'h','h', 12, 'h','ymdh','mdhn'],
+            ['6 h', 6, 'h','h', 24, 'h','ymd','mdhn'],
+            ['12 h', 12, 'h','h', 2, 'd','ymd','mdhn'],
+            ['1 d', 1, 'd','w', 1, 'ww','ymd','ymdh'],
+            ['1 w', 1, 'ww','ww', 4, 'ww','ymd','ymd'],
+            ['15 d', 15, 'd','d', 6, 'ww','ymd','ymd'],
+
+//Not every unit width is the same value:
+            ['1 m', 1, 'm','m', 1, 'q','yq','ymd'],
+            ['1 q', 1, 'q','q', 1, 'y','y','ymd'],
+            ['1 y', 1, 'y','y', 10, 'y','y','ym'],
+            ['1 de', 1, 'de','de', 100, 'y','y','ym'],
+            ['1 c', 1, 'c', 'c', 1000, 'y','y','y']
+
         ],
         _focus:function(profile){
             profile.getSubNode('FOCUS').focus(1);
         },
         _getTips:function(profile){
             var t,s='$dd_tooltip';
-            if(t = profile[s] || (profile[s] = profile.getSubNode('INFO').get(0).childNodes[0]))
+            if(t = profile[s] || (profile[s] = profile.getSubNode('TIPS').get(0).childNodes[0]))
                 return t.nodeValue;
             else
-                return profile.getSubNode('INFO').get(0).innerHTML;
+                return profile.getSubNode('TIPS').get(0).innerHTML;
         },
         _setTips:function(profile, text){
             var t,s='$dd_tooltip';
-            if(t = profile[s] || (profile[s] = profile.getSubNode('INFO').get(0).childNodes[0])){
+            text=text.replace(/\<[^>]*\>/g,'');
+            if(t = profile[s] || (profile[s] = profile.getSubNode('TIPS').get(0).childNodes[0])){
                 if(t.nodeValue!=text)t.nodeValue=text;
             }else
-                profile.getSubNode('INFO').get(0).innerHTML=text;
-        },
-        _getBarLabel:function(target, unitParas, count){
-            var r=['','',''],
-                self=this,
-                date=linb.date,
-                //get next point
-                date2 = date.add(target, unitParas[2], unitParas[1]*count);
-            //get main number
-            r[0] = date.getText(date2, unitParas[4]);
-            //get up number
-            if(unitParas[3](date2))
-                r[1]=date.getText(date2, unitParas[5]);
-            //r[2] = (linb.browser.ie?"'":"") + date.getText(date2, unitParas[6]) + (linb.browser.ie?"'":"");
-            return r;
+                profile.getSubNode('TIPS').get(0).innerHTML=text;
         },
         _getX:function(profile, time){
             var t=profile.properties,d=new Date;
             d.setTime(time);
-            return (parseInt(linb.date.diff(t._dateRealStart, d, 'ms')||0) / t._rate);
+            return (Math.ceil(linb.date.diff(t._smallLabelStart, d, 'ms')||0) / t._rate);
         },
         _getTime:function(profile, x, flag){
             var t=profile.properties;
-            t = linb.date.add(t._dateRealStart, 'ms', x*t._rate);
+            t = linb.date.add(t._smallLabelStart, 'ms', x*t._rate);
             return flag?t:t.getTime();
         },
         _moveActive:function(profile, src, x, w){
-            var p=parseInt,
+            var p=Math.ceil,
                 t=profile.properties,
                 d=linb.date,
-                s=t._dateRealStart,
+                s=t._smallLabelStart,
                 r=t._rate,
-                u=t._unitFormat,
+                u=t.timeFormat,
                 ms='ms',
                 y=src.style,
                 z='px',
@@ -976,100 +1183,86 @@ Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'
         },
         _deActive:function(profile){
             var t=linb(profile.$active),x=t.left(),w=t.width()+2;
-            t.setStyle({width:'0',display:'none'});
-            profile.box._setTips(profile, profile.$dd_otp);
+            t.setStyle({width:'0',display:'none',left:'-1000px'});
+            profile.box._setTips(profile, '');
             return {left :x, width :w};
         },
-        _minusLeft:function(profile,labelsBottom,labelsTop,offsetCount){
-            var t=profile.properties;
-            while(offsetCount++){
-                labelsBottom.first().remove();
-                temp=t._mark2.shift();
-            }
-            while((temp.left+temp.width) >= (t._mark1[0].left+t._mark1[0].width)){
-                labelsTop.first().remove();
-                t._mark1.shift();
-            }
-        },
-        _minusRight:function(profile,labelsBottom,labelsTop,offsetCount){
+        _minusLeft:function(profile,marks,node,offsetCount){
             var t=profile.properties;
             while(offsetCount--){
-                labelsBottom.last().remove();
-                temp=t._mark2.pop();
-            }
-            while(temp.left <= t._mark1[t._mark1.length-1].left){
-                labelsTop.last().remove();
-                t._mark1.pop();
+                node.first().remove();
+                temp=marks.shift();
             }
         },
-        _addLeft:function(profile, band, x, w, labelsBottom, labelsTop, offsetCount){
+        _minusRight:function(profile,marks,node,offsetCount){
+            var t=profile.properties;
+            while(offsetCount--){
+                node.last().remove();
+                temp=marks.pop();
+            }
+        },
+        _addLeft:function(profile, tag, node, offsetCount, offset){
             // get additional bars
             var t=profile.properties,
-                addLb2=[],addLb1=[],i;
-            for(i=0; i < offsetCount; i++){
-                label = profile.box._getBarLabel(t._dateRealStart, t._unitParas,-i-1);
-                addLb2.push({
-                    left: t.unitPixs * (offsetCount-i-1),
-                    width: t.unitPixs,
-                    text: label[0]
+                date=linb.date,
+                chr='_',
+                key=chr+tag+'Marks',
+                marks=t[key],
+                labelStart=t[chr+tag+'LabelStart'],
+                labelUnit=t[tag+'LabelUnit'],
+                labelCount=t[tag+'LabelCount'],
+                labelFormat=t[tag+'LabelFormat'],
+                rate=t._rate,
+                addLb=[],
+                temp,label,_date,i;
+
+            temp=0;
+            label=date.getText(labelStart, labelFormat);
+            for(i=0; i< offsetCount; i++){
+                _date = date.add(labelStart, labelUnit, labelCount*(i+1));
+                width = date.diff(labelStart, _date, 'ms')/rate;
+                addLb.push({
+                    left : Math.ceil(temp + (offset||0)-0.0000000000001),
+                    width : Math.ceil(width - temp),
+                    text : label
                 });
-                if(label[1]){
-                    temp = t.unitPixs * (offsetCount-i-1);
-                    t._mark1.each(function(o){
-                        if(o.left == temp)return temp=false;
-                    });
-                    if(temp!==false)
-                        addLb1.push({
-                            left: temp,
-                            width: t._mark1Width,
-                            text: label[1]
-                        });
-                }
+                temp=width;
+                label=date.getText(_date, labelFormat);
             }
+            addLb.reverse();
             // add to band UI
-            labelsBottom.addFirst(profile.box.subBuild(profile, '_mark2', addLb2).toDom());
+            node.addFirst(profile.box.subBuild(profile, key, addLb).toDom());
             // add to memory list
-            t._mark2.insert(addLb2.reverse(),0);
-            if(addLb1.length){
-                labelsTop.addFirst(profile.box.subBuild(profile, '_mark1', addLb1).toDom());
-                t._mark1.insert(addLb1.reverse(),0);
-            }
+            marks.insert(addLb.reverse(),0);
         },
-        _addRight:function(profile, band, x, w, labelsBottom, labelsTop, offsetCount){
-            // get additional bars
+        _addRight:function(profile, labelEnd, tag, node, offsetCount, offset){
             var t=profile.properties,
-                addLb2=[],addLb1=[],
-                m=Math.abs(offsetCount);
-            for(var i=0;i<m;i++){
-                label = profile.box._getBarLabel(t._dateRealEnd, t._unitParas, i);
-                addLb2.push({
-                    left: w -t.unitPixs * (m-i),
-                    width: t.unitPixs,
-                    text: label[0]
+                date=linb.date,
+                chr='_',
+                key=chr+tag+'Marks',
+                marks=t[key],
+                labelStart=t[chr+tag+'LabelStart'],
+                labelUnit=t[tag+'LabelUnit'],
+                labelCount=t[tag+'LabelCount'],
+                labelFormat=t[tag+'LabelFormat'],
+                rate=t._rate,
+                addLb=[],_d1,
+                _date,i;
+            _d1=labelEnd;
+            for(i=0; i<offsetCount; i++){
+                _date = date.add(labelEnd, labelUnit, labelCount*(i+1));
+                addLb.push({
+                    left : Math.ceil(date.diff(labelStart,_d1,'ms')/rate)+ (offset||0),
+                    width : Math.ceil(date.diff(_d1, _date, 'ms')/rate),
+                    text : date.getText(_d1, labelFormat)
                 });
-                if(label[1]){
-                    temp=w -t.unitPixs * (m-i);
-                    t._mark1.each(function(o){
-                        if(o.left == temp)return temp=false;
-                    });
-                    if(temp!==false)
-                        addLb1.push({
-                            left: temp,
-                            width: t._mark1Width,
-                            text: label[1]
-                        });
-                }
+                _d1=_date;
             }
             // build
             // add to band UI
-            labelsBottom.addLast(profile.box.subBuild(profile, '_mark2', addLb2).toDom());
+            node.addLast(profile.box.subBuild(profile, key, addLb).toDom());
             // add to memory list
-            t._mark2.insert(addLb2,-1);
-
-            if(addLb1.length){
-                labelsTop.addLast(profile.box.subBuild(profile, '_mark1', addLb1).toDom());
-                t._mark1.insert(addLb1,-1);
-            }
+            marks.insert(addLb,-1);
         },
         _getMoveNodes:function(profile){
             return profile.$moveban = profile.$moveban || profile.getSubNodes(['BAND','ITEMS']);
@@ -1077,64 +1270,54 @@ Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'
         _rePosition:function(profile){
             profile.pause=true;
             var self=this,
+                date = linb.date,
                 t=profile.properties,
+                rate=t._rate,
                 label,m,n,temp,
-                labelsBottom = profile.getSubNode('LABELSB'),
-                labelsTop = profile.getSubNode('LABELST'),
-
+                labelsBottom = profile.getSubNode('SMALLLABEL'),
                 band = self._getMoveNodes(profile),
                 x = band.left(),
-                w = band.width(),
+                //ralated to the fix position
+                offset = x - t._band_left_fix;
 
-                offset = x - t._band_left_keep;
 
             // if offset out a bar width
             if(Math.abs(offset)/t.unitPixs >=1){
                 var offsetCount = parseInt(offset/t.unitPixs),
-                    offsetPxs = offsetCount*t.unitPixs;
+                    bak_s = t._smallLabelStart,
+                    bak_e = t._smallLabelEnd,
+                    _c=-offsetCount*t.smallLabelCount,
+                    offsetPxs;
+
+                t._smallLabelStart = date.add(t._smallLabelStart, t.smallLabelUnit, _c);
+                t._smallLabelEnd = date.add(t._smallLabelEnd, t.smallLabelUnit, _c);
+                offsetPxs = Math.ceil(date.diff(t._smallLabelStart, bak_s, 'ms')/rate);
 
                 band.left(x - offsetPxs);
-                //reset sub controls dom position
-                [labelsBottom, labelsTop].each(function(v){
-                    linb(v).children().each(function(o){
-                        o.style.left = (parseInt(o.style.left)||0) + offsetPxs + "px";
-                    })
-                });
+
+                // reset band paras
+                t._band_width = Math.ceil(date.diff(t._smallLabelStart, t._smallLabelEnd, 'ms')/rate);
 
                 //reset tasks position var
                 t.items.each(function(o){
                     o._left += offsetPxs;
                     profile.box._trimTask(profile,o);
                 });
-                t._mark2.each(function(o){
+                labelsBottom.children().each(function(o){
+                    o.style.left = (parseFloat(o.style.left)||0) + offsetPxs + "px";
+                });
+                t._smallMarks.each(function(o){
                     o.left += offsetPxs;
                 });
-                t._mark1.each(function(o){
-                    o.left += offsetPxs;
-                });
+
                 // delete out, andd add to blank
                 if(offsetCount>0){
-                    self._minusRight(profile,labelsBottom,labelsTop,offsetCount);
-                    self._addLeft(profile, band, x, w, labelsBottom, labelsTop, offsetCount);
+                    self._minusRight(profile,t._smallMarks, labelsBottom,offsetCount);
+                    self._addLeft(profile, 'small', labelsBottom, offsetCount);
                 }else{
-                    self._minusLeft(profile,labelsBottom,labelsTop,offsetCount);
-                    self._addRight(profile, band, x, w, labelsBottom, labelsTop, offsetCount);
+                    self._minusLeft(profile,t._smallMarks, labelsBottom, -offsetCount);
+                    self._addRight(profile, bak_e, 'small', labelsBottom, -offsetCount);
                 }
-
-                // reset band paras
-                t._band_left = band.left();
-                t._band_width = band.width();
-
-                var bak_s = t._dateRealStart,
-                    bak_e = t._dateRealEnd,
-                    date = linb.date,
-                    _c=-offsetCount*t._unitCount;
-
-                t._dateRealStart = date.add(t._dateRealStart, t._unit, _c);
-                t._dateRealEnd = date.add(t._dateRealEnd, t._unit, _c);
-                t._rate = date.diff(t._dateRealStart,t._dateRealEnd,'ms') / t._band_width;
-                // reset date start point
-                t.dateStart = self._getTime(profile, -t._band_left, 1);
 
                 var arr=[];
                 // remove tasks
@@ -1150,16 +1333,52 @@ Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'
                 //use insertItems in onGetTasks
                 if(profile.onGetTasks)
                     profile.boxing().onGetTasks(profile,
-                        offsetCount>0 ? t._dateRealStart : bak_e,
-                        offsetCount>0 ? bak_s : t._dateRealEnd,
+                        offsetCount>0 ? t._smallLabelStart : bak_e,
+                        offsetCount>0 ? bak_s : t._smallLabelEnd,
                         t._rate,
                         offsetCount>0 ? 'left' : 'right');
 
 
                 //adjust the items
                 self._reArrage(profile);
+
+                if(t.bigLabelShow){
+                    var labelsTop = profile.getSubNode('BIGLABEL'),
+                        bigLabelUnit=t.bigLabelUnit,
+                        bigLabelCount=t.bigLabelCount,
+                        off,
+                        offsetCount2,
+                        bigLabelStart,bigLabelEnd;
+                    bak_e=t._bigLabelEnd;
+
+                    labelsTop.children().each(function(o){
+                        o.style.left = (parseFloat(o.style.left)||0) + offsetPxs + "px";
+                    });
+                    t._bigMarks.each(function(o){
+                        o.left += offsetPxs;
+                    });
+                    bigLabelStart=date.getRoundDown(t._smallLabelStart, bigLabelUnit, bigLabelCount);
+                    offsetCount2 = parseInt(date.diff(t._smallLabelStart, t._bigLabelStart, bigLabelUnit)/bigLabelCount);
+                    //reset offset of big and small
+                    if(offsetCount2){
+                        off=date.diff(t._smallLabelStart, bigLabelStart, 'ms')/rate;
+                        t._bigLabelStart=bigLabelStart;
+                        t._bigLabelEnd=date.add(t._bigLabelEnd, bigLabelUnit, -offsetCount2*bigLabelCount);
+
+                        if(offsetCount>0){
+                            self._minusRight(profile,t._bigMarks, labelsTop, offsetCount2);
+                            self._addLeft(profile, 'big',labelsTop, offsetCount2, off);
+                        }else{
+                            self._minusLeft(profile,t._bigMarks, labelsTop, -offsetCount2);
+                            self._addRight(profile, bak_e, 'big',labelsTop, -offsetCount2, off);
+                        }
+                    }
+                }
             }
-            self._showStartTip(profile);
+            // reset date start point
+            t._band_left = band.left();
+            t.dateStart = self._getTime(profile, -t._band_left, 1);
+
             profile.pause = false;
         },
         _trimTask:function(profile, o){
@@ -1183,12 +1402,6 @@ Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'
         _setItemNode:function(profile, item, key, value){
             var t=item._node || (item._node = profile.getSubNodeByItemId('ITEM',item.id).get(0));
             t.style[key]=value;
-        },
-        _showStartTip:function(profile){
-            var band = profile.getSubNode('BAND'),
-                x = band.left(),
-                d = this._getTime(profile, -x, 1);
-                profile.box._setTips(profile, linb.date.getText(d, profile.properties._unitFormat));
         },
         _getLinePos:function(profile,o){
             if(o._min)return 0;
@@ -1227,7 +1440,7 @@ Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'
                     // reset double link
                     v._line = index;
                     // set top
-                    self._setItemNode(profile, v,'top',(t.itemHeight+3) * index+'px');
+                    self._setItemNode(profile, v,'top',(t.taskHeight+3) * index+'px');
                 };
             });
 
@@ -1292,8 +1505,24 @@ Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'
             scroll.display(b?'block':'none');
             items.top(b?-scroll.scrollTop():0);
         },
+        showTips:function(profile, id, pos){
+            var t=profile.properties,
+                format=t.timeFormat,
+                sid=profile.getSubSerialId(id),
+                map=profile.SubSerialIdMapItem,
+                item=map&&map[sid],
+                date=linb.date;
 
-        resize:function(profile,h){
+            if(t.disabled)return;
+            if(item && item.disabled)return;
+            if(item){
+                item.tips = '<p style="font-weight:bold">'+item.caption +'</p>'+ date.getText(new Date(item.start),format)+":"+date.getText(new Date(item.end),format);
+                linb.UI.Tips.show(pos, item);
+                return true;
+            }else
+                return false;
+        },
+        resize:function(profile,w,h){
             var p=profile.properties,
                 f=function(k){return profile.getSubNode(k)},
                 off=2*p.$borderW,
@@ -1301,8 +1530,15 @@ Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'
             //for border, view and items
             if(h && h!=p.height && parseInt(profile.domNode.style.height)){
                 f('BORDER').height(t=h-off);
-                f('VIEW').height(t=t - p.tipsHeight - p.mark1Height - p.mark2Height - p.barHeight);
+                f('VIEW').height(t=t - p.tipsHeight - (p.bigLabelShow?p.bigLabelHeight:0) - p.smallLabelHeight - p.barHeight);
                 this._ajustHeight(profile);
+
+                if(p.height!=h)p.height=h;
+            }
+            if(w && w!=p.width){
+                f('BORDER').width(w-off);
+
+                if(p.width!=w)p.width=w;
             }
         }
     }

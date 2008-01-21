@@ -548,7 +548,7 @@ Class("linb.UI.TreeBar",["linb.UI.iWidget", "linb.UI.iList","linb.UI.iNavigator"
             }
         }},
         EventHandlers:{
-            onRequestData:function(profile, id, threadid){},
+            onRequestData:function(profile, item, threadid){},
             onItemSelected:function(profile, item, src){}
         },
         DataModel:{
@@ -701,7 +701,7 @@ Class("linb.UI.TreeBar",["linb.UI.iWidget", "linb.UI.iList","linb.UI.iNavigator"
                             //request sub
                             function(threadId){
                                 if(profile.onRequestData)
-                                    profile.boxing().onRequestData(profile, item.id, threadId);
+                                    profile.boxing().onRequestData(profile, item, threadId);
                                  else
                                     linb.thread(threadId).abort();
                             },

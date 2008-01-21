@@ -1212,22 +1212,23 @@ Class('linb.dom','linb.iBox',{
             return arr.exists(str);
         },
         addClass:function(str){
+            var arr, t, me=arguments.callee,reg=(me.reg||(me.reg=/\s+/));
             return this.each(function(o){
-                var arr = o.className.split(/\s+/);
+                arr = (t=o.className).split(reg);
                 if(!arr.exists(str))
-                    o.className += " " +str;
+                    o.className = t + " " +str;
             });
         },
         removeClass:function(str){
-            var arr, l, me=arguments.callee,reg=(me.reg||(me.reg=/\s+/));
+            var arr, i,l,a, t, bs=typeof str=='string', me=arguments.callee,reg=(me.reg||(me.reg=/\s+/));
             return this.each(function(o){
-                arr = o.className;
-                arr = arr.split(reg);
+                arr = o.className.split(reg);
                 l=arr.length;
-                arr.filter(function(o){
-                    return typeof str=='string' ? o!=str : !str.test(o)
-                });
-                if(l!=arr.length)o.className=arr.join(' ');
+                a=[];
+                for(i=0;t=arr[i];i++)
+                    if(bs?(t!=str):(!str.test(String(t))))
+                        a[a.length]=t;
+                if(l!=a.length)o.className=a.join(' ');
             });
         },
         reClass:function(reg,replace){

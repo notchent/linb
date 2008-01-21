@@ -14,16 +14,13 @@ Class('linb.UI.TimePicker', 'linb.UI.iWidget', {
                     keys=profile.keys,
                     byId=linb.dom.byId
                     ;
-
-                if(arr1[0])
-                    cls._uncheck(byId(profile.getNodeId(keys.HI, id, arr1[0])));
-                cls._check(byId(profile.getNodeId(keys.HI, id, arr2[0])));
-
+                profile.$hour=arr2[0];
                 if(arr1[1])
                     cls._uncheck(byId(profile.getNodeId(keys.MI, id, arr1[1])));
                 cls._check(byId(profile.getNodeId(keys.MI, id, arr2[1])));
 
-                profile.getSubNode('CAPTION').html(cls._showV(profile,arr2),false);
+                profile.getSubNode('HOUR').html(arr2[0],false);
+                profile.getSubNode('CAPTION').html(profile.box._showV(profile,profile.box.ensureV(arr2)),false);
             });
         },
         setValue:function(value,flag){
@@ -35,23 +32,18 @@ Class('linb.UI.TimePicker', 'linb.UI.iWidget', {
         }
     },
     Initialize:function(){
-        this.mapKeys(['MI','HI']);
+        this.mapKeys(['MI']);
 
         var a=[],
             cls=this._excls,
+            cls2=this._excls2,
             id=linb.UI.$ID,
             e=linb.event.eventhandler,
-            t1='<span id="'+this.KEY+'-HI:'+id+':@" class="'+cls+'" onmouseover="'+e+'" onmouseout="'+e+'" onclick="'+e+'"   unselectable="on" >@</span>',
-            t2='<span id="'+this.KEY+'-MI:'+id+':@" class="'+cls+'" onmouseover="'+e+'" onmouseout="'+e+'" onclick="'+e+'"   unselectable="on" >@</span>',
-            i,h,m;
-
-        for(i=0;i<24;i++)
-            a[a.length]=t1.replace(/@/g,i<10?'0'+i:i);
-        h=a.join('');
-        a.length=0;
+            t='<span id="'+this.KEY+'-MI:'+id+':@" class="'+cls+' !" onmouseover="'+e+'" onmouseout="'+e+'" onclick="'+e+'"   unselectable="on" >@</span>',
+            i,m;
 
         for(i=0;i<60;i++)
-            a[a.length]=t2.replace(/@/g,i<10?'0'+i:i);
+            a[a.length]=t.replace(/@/g,i<10?'0'+i:i).replace('!',(i%5===0)?cls2:'');
         m=a.join('');
         a.length=0;
 
@@ -64,28 +56,31 @@ Class('linb.UI.TimePicker', 'linb.UI.iWidget', {
                 BAR:{
                     $order:0,
                     tagName:'div',
-                    CAPTION:{
-                        text : '{caption}',
-                        $order:1
-                    },
                     CMDS:{
+                        tagName:'div',
+                        PRE:{$order:0},
+                        HOUR:{$order:1,unselectable:'on'},
+                        HOURTXT:{$order:2,style:'display:inline'},
+                        NEXT:{$order:3}
+                    },
+                    CMDS2:{
                         CLOSE:{
                             style:'{closeDisplay}'
                         }
                     }
                 },
-                CON:{
+                M:{
                     $order:1,
                     tagName:'div',
-                    H:{
-                        $order:0,
-                        tagName:'div',
-                        text:h
-                    },
-                    M:{
-                        $order:1,
-                        tagName:'div',
-                        text:m
+                    text:m
+                },
+                TAIL:{
+                    $order:2,
+                    style:'height:{tipsHeight}px;',
+                    tagName:'div',
+                    CAPTION:{
+                        text : '{caption}',
+                        $order:1
                     }
                 }
             }
@@ -93,6 +88,7 @@ Class('linb.UI.TimePicker', 'linb.UI.iWidget', {
     },
     Static:{
         _excls:'linbex-timepicker',
+        _excls2:'linbex-timepicker2',
         _excls_mo:'linbex-timepicker-mouseover',
         _excls_c:'linbex-timepicker-checked',
         _mover:function(src){
@@ -128,29 +124,60 @@ Class('linb.UI.TimePicker', 'linb.UI.iWidget', {
                 'white-space':'nowrap',
                 background: linb.UI.getCSSImgPara('barvbg.gif', ' repeat-x left top', null, 'linb.UI.Public'),
                 height:'22px',
-                'text-align':'center'
+                'text-align':'center',
+                border: 'solid #C1C1C1',
+               'border-width': '1px 1px 0 1px'
+
+            },
+            'CMDS, CMDS2':{
+                position:'relative',
+                height:'100%',
+                'vertical-align': 'middle'
             },
             CMDS:{
-                position:'absolute',
-                top:0,
-                right:0,
-                'text-align':'right',
-                'vertical-align': 'middle',
-                height:'100%',
-                cursor:'default'
+                'float':'left',
+                'padding-left':'4px'
             },
-            CAPTION:{
-                margin:'2px 4px 2px 0',
+            CMDS2:{
+                'float':'right'
+            },
+            PRE:{
+                background: linb.UI.getCSSImgPara('cmds.gif', ' no-repeat  0 -65px', null, 'linb.UI.Public')
+            },
+            'PRE-mouseover':{
+                $order:2,
+                'background-position': '0 -80px'
+            },
+            'PRE-mousedown':{
+                $order:3,
+                'background-position': '0 -95px'
+            },
+            NEXT:{
+                background: linb.UI.getCSSImgPara('cmds.gif', ' no-repeat  -16px -65px', null, 'linb.UI.Public')
+            },
+            'NEXT-mouseover':{
+                $order:2,
+                'background-position': '-16px -80px'
+            },
+            'NEXT-mousedown':{
+                $order:3,
+                'background-position': '-16px -95px'
+            },
+            HOUR:{
+                $order:3,
+                margin:'2px',
                 height:'15px',
-                width:'36px',
-                'padding-left':'2px',
+                width:'16px',
                 'font-weight':'bold',
                 border:'1px solid #7F9DB9',
-                cursor:'e-resize'
+                'background-color':'#FFFACD',
+                cursor:'e-resize',
+                'padding-left':'2px'
             },
-            'CMDS span':{
+            'PRE, NEXT, CLOSE':{
+                $order:0,
                 position:'relative',
-                margin:'5px 4px 2px 0',
+                margin:'2px',
                 width:'15px',
                 height:'15px',
                 'vertical-align': 'middle',
@@ -172,19 +199,20 @@ Class('linb.UI.TimePicker', 'linb.UI.iWidget', {
                 padding:'2px',
                 border:'1px solid #91A7B4'
             },
-            'H,M':{
+            M: {
                 position:'relative',
-                'float':'left',
                 'border-left':'1px solid #91A7B4',
-                'border-top':'1px solid #91A7B4'
-            },
-            H:{
-                'background-color':'#FFFACD',
-                width:'88px'
-            },
-            M:{
-                'margin-left':'8px',
+                'border-top':'1px solid #91A7B4',
                 width:'220px'
+            },
+            TAIL:{
+                'white-space':'nowrap',
+                'text-align':'center',
+                border: 'solid #C1C1C1',
+                'border-width': '0 1px 1px 1px'
+            },
+            '.linbex-timepicker2':{
+                'background-color':'#FFFACD'
             },
             '.linbex-timepicker':{
                 'font-size':"12px",
@@ -205,9 +233,9 @@ Class('linb.UI.TimePicker', 'linb.UI.iWidget', {
             }
         }},
         Behaviors:{'default':{
-            _hoverEffect:{CLOSE:'CLOSE'},
-            _clickEffect:{CLOSE:'CLOSE'},
-            CAPTION:{
+            _hoverEffect:{CLOSE:'CLOSE',PRE:'PRE',NEXT:'NEXT'},
+            _clickEffect:{CLOSE:'CLOSE',PRE:'PRE',NEXT:'NEXT'},
+            HOUR:{
                 onMousedown:function(profile, e, src){
                     linb(src).startDrag(e, {
                         type:'blank',
@@ -219,34 +247,17 @@ Class('linb.UI.TimePicker', 'linb.UI.iWidget', {
                 },
                 onDrag:function(profile, e, src){
                     var count,off = linb.dragDrop.getOffset(),v=profile.properties.$UIvalue,a=v.split(':');
-                    a[1]=(parseInt(a[1])||0)+parseInt(off.x/5);
-                    a[0]=(parseInt(a[0])||0)+parseInt(a[1]/60);
+                    a[0]=(parseFloat(a[1])||0)+parseInt(off.x/10);
                     a[0]=(a[0]%24+24)%24;
-                    a[1]=(a[1]%60+60)%60;
-                    profile.$temp2=profile.box._showV(profile,profile.box.ensureV(a));
-                    if(profile.$temp2!=v){
-                        profile.getSubNode('CAPTION').html(profile.$temp2,false);
-                    }
+                    profile.$temp2=(a[0]<=9?'0':'')+a[0];
+
+                    if(v[0]!=profile.$temp2)
+                        profile.getSubNode('HOUR').html(profile.$temp2,false);
                 },
                 onDragend:function(profile, e, src){
                     if(profile.$temp2)
-                        profile.boxing().updateUIValue(profile.$temp2);
+                        profile.$hour=profile.$temp2;
                     profile.$temp2=0;
-                }
-            },
-            HI:{
-                onMouseover:function(profile, e, src){
-                    profile.box._mover(src);
-                },
-                onMouseout:function(profile, e, src){
-                    profile.box._mout(src);
-                },
-                onClick:function(profile, e, src){
-                    var uiV=profile.properties.$UIvalue,
-                        a=uiV.split(':');
-                    if(!a[1])a[1]='00';
-                    a[0]=profile.getSubSerialId(src.id)
-                    profile.boxing().updateUIValue(a.join(':'));
                 }
             },
             MI:{
@@ -257,11 +268,32 @@ Class('linb.UI.TimePicker', 'linb.UI.iWidget', {
                     profile.box._mout(src);
                 },
                 onClick:function(profile, e, src){
-                    var uiV=profile.properties.$UIvalue,
-                        a=uiV.split(':');
-                    if(!a[0])a[0]='00';
+                    var a=[];
+                    a[0]=profile.$hour;
                     a[1]=profile.getSubSerialId(src.id);
                     profile.boxing().updateUIValue(a.join(':'));
+                }
+            },
+            PRE:{
+                onClick:function(profile, e, src){
+                    var p = profile.properties;
+                    if(p.disabled)return;
+                    var v=profile.$hour;
+                    v=(parseFloat(v)||0)-1;
+                    v=(v%24+24)%24;
+                    profile.$hour=v=(v<=9?'0':'')+v;
+                    profile.getSubNode('HOUR').html(v,false);
+                }
+            },
+            NEXT:{
+                onClick:function(profile, e, src){
+                    var p = profile.properties;
+                    if(p.disabled)return;
+                    var v=profile.$hour;
+                    v=(parseFloat(v)||0)+1;
+                    v=(v%24+24)%24;
+                    profile.$hour=v=(v<=9?'0':'')+v;
+                    profile.getSubNode('HOUR').html(v,false);
                 }
             },
             CLOSE:{
@@ -280,8 +312,9 @@ Class('linb.UI.TimePicker', 'linb.UI.iWidget', {
             }
         }},
         DataModel:{
-            width:326,
+            width:221,
             value:'00:00',
+            tipsHeight : 16,
             closeBtn:{
                 ini:true,
                 action:function(v){
@@ -300,6 +333,7 @@ Class('linb.UI.TimePicker', 'linb.UI.iWidget', {
         createdTrigger:function(){
             var self=this, p=self.properties, o=self.boxing();
             p.$UIvalue = p.value;
+            self.getSubNode('HOURTXT').html(linb.wrapRes('date.H'),false);
         },
         formatValue:function(v){
             return this.ensureV(v).join(':');
@@ -308,7 +342,7 @@ Class('linb.UI.TimePicker', 'linb.UI.iWidget', {
             var a,b=[];
             if(v&& typeof v == 'string')
                 a=v.split(':')
-            else if(v && typeof v=='object' && v[0])
+            else if(v && typeof v=='object' && v.constructor==Array)
                 a=v;
             else a=[];
 

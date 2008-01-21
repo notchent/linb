@@ -50,7 +50,7 @@ Class("linb.UI.Input", ["linb.UI.Widget", "linb.UI.iForm"],{
                         o.removeClass(d);
                 }
                 //format statux
-                if(profile.beforeFormatMark && false==box.beforeFormatMark(profile)){}
+                if(profile.beforeFormatMark && false===box.beforeFormatMark(profile)){}
                 else{
                     //
                     //valid mark
@@ -178,7 +178,7 @@ Class("linb.UI.Input", ["linb.UI.Widget", "linb.UI.iForm"],{
                 onFocus:function(profile, e, src){
                     var p=profile.properties;
                     if(p.disabled)return false;
-                    if(profile.beforeFocus && false==profile.boxing().beforeFocus(profile)){}else
+                    if(profile.beforeFocus && false===profile.boxing().beforeFocus(profile)){}else
                     profile.addTagClass(profile.key,'-focus',profile.getSubNode('BORDER'));
 
                     //show tips color
@@ -187,7 +187,7 @@ Class("linb.UI.Input", ["linb.UI.Widget", "linb.UI.iForm"],{
                 onBlur:function(profile, e, src){
                     var p=profile.properties;
                     if(p.disabled)return false;
-                    if(profile.beforeBlur && false==profile.boxing().beforeBlur(profile)){}else
+                    if(profile.beforeBlur && false===profile.boxing().beforeBlur(profile)){}else
                     profile.removeTagClass('KEY','-focus',profile.getSubNode('BORDER'));
 
                     //onblur check it

@@ -581,7 +581,7 @@ Class('VisualJS.Designer', 'linb.Com',{
                 var esrc=linb.event.getSrc(e),
                     id=esrc.id;
                 //if lang span, get parent id
-                if(id=='linb:lang')id=esrc.parentNode.id;
+                if(id==linb.langId)id=esrc.parentNode.id;
 
                 if(getRootId(id)!= (id=getRootId(src.id)))return;
 
@@ -627,7 +627,7 @@ Class('VisualJS.Designer', 'linb.Com',{
                     || data.parentId == profile.$id
                     || (data.data && data.data.exists(profile.$id))
 
-                    || (profile.onDropTest && (false==profile.boxing().onDropTest(profile, key, data)))
+                    || (profile.onDropTest && (false===profile.boxing().onDropTest(profile, key, data)))
                     )return;
 
                     //for trigger onDrop
@@ -1413,10 +1413,11 @@ Class('VisualJS.Designer', 'linb.Com',{
                 return false;
              }
         },
-        $profilegrid_onrequestdata: function(profile, id, threadId){
-            var cv,arr=[],t,page=this;
-            var deeppage=this;
-            var uis = profile.$widget, len=uis.length();
+        $profilegrid_onrequestdata: function(profile, item, threadId){
+            var cv,arr=[],t,page=this,
+                id=item.id,
+                deeppage=this,
+                uis = profile.$widget, len=uis.length();
 
             //get the last one first
             var target = uis.get(len-1), dm=target.box.$DataModel, format, listKey, list, $tag,$fun,$tagVar, value;

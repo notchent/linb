@@ -158,7 +158,7 @@ Class('linb.dragDrop',null,{
         _idi:"linb.dd:td:",
         _size:50,
         _type:{blank:1,move:1,shape:1,copy:1,icon:1,none:1},
-        _dragMode:{move:'-16px',ref:'-32px',add:'-48px'},
+        _Icons:{none:'top', move:'-16px',ref:'-32px',add:'-48px'},
 
         //drop key collection
         $:{},
@@ -232,7 +232,7 @@ Class('linb.dragDrop',null,{
         },
         _reset:function(){
             var d=this;
-
+            d.$reset && d.$reset();
             d.start=null;
             d.showDDMark(0);
             d.resetProxy();
@@ -468,72 +468,85 @@ Class('linb.dragDrop',null,{
             { x : x-ox,  y : y-oy}
             ;
         },
-        showDDMark:function(o){
-            var self=this,s1='<div style="position:absolute;z-index:'+linb.dom.top_zIndex+';font-size:0;line-height:0;border-',s2=":dashed 1px blue;";
-            if(self._Region && self._Region.parent())
-                self._Region.remove(false);
+        showDDMark:function(o,mode){
+            var self=this,
+                s1='<div style="position:absolute;z-index:'+linb.dom.top_zIndex+';font-size:0;line-height:0;border-',
+                s2=":dashed 1px blue;",
+                region=self._Region,
+                bg='backgroundColor';
+            if(region && region.parent())
+                region.remove(false);
             if(self._R){
-                self._R.setStyle('backgroundColor', self._RB);
+                self._R.setStyle(bg, self._RB);
                 delete self._R;
                 delete self._RB;
             }
 
             if(o){
-                if(!self._Region)
-                    self._Region=linb.create(s1+'top'+s2+'left:0;top:0;width:100%;height:0;"></div>'+s1+'right'+s2+'right:0;top:0;height:100%;width:0;"></div>'+s1+'bottom'+s2+'bottom:0;left:0;width:100%;height:0;"></div>'+s1+'left'+s2+'width:0;left:0;top:0;height:100%;"></div>');
+                if(!region)
+                    region=self._Region=linb.create(s1+'top'+s2+'left:0;top:0;width:100%;height:0;"></div>'+s1+'right'+s2+'right:0;top:0;height:100%;width:0;"></div>'+s1+'bottom'+s2+'bottom:0;left:0;width:100%;height:0;"></div>'+s1+'left'+s2+'width:0;left:0;top:0;height:100%;"></div>');
                 o=linb(o);
                 if(o.display()=='block')
-                    o.addLast(self._Region);
+                    o.addLast(region);
                 else{
-                    self._RB = o.getStyle('backgroundColor');
+                    self._RB = o.getStyle(bg);
                     self._R=o;
-                    o.setStyle('backgroundColor', '#FA8072');
+                    o.setStyle(bg, '#FA8072');
                 }
 
-                if(self.proxyIn && self.type=='icon')
-                    self.proxyIn.setStyle('backgroundPosition', 'left '+self._dragMode[self.dragMode]);
-            }else{
-                if(self.proxyIn && self.type=='icon')
-                    self.proxyIn.setStyle('backgroundPosition','left top');
-            }
+                self.setDropableIcon(mode||'move');
+            }else
+                self.setDropableIcon('none');
+        },
+        setDropableIcon:function(mode){
+            //avoid other dropable node's showDDMark disturbing.
+            _.resetRun('showDDMark', null);
+            var self=this,i=self.proxyIn,ic=self._Icons;
+            if(i && self.type=='icon')
+                i.setStyle('backgroundPosition', 'left ' + (ic[mode]||ic.none));
         },
         setProxy:function(child, pos){
-            var t,self=this,dom=linb.dom;
+            var t,temp,self=this,dom=linb.dom;
             if(!dom.byId(self._id))
-                linb(document.body).addFirst(
+                linb([document.body]).addFirst(
                     dom.create('<table id="' + self._id + '" cellspacing="'+self._size+'" cellpadding="0" style="left:0;top:0;border:0; border-spacing:'+self._size+'px; border-collapse: separate; position: absolute;"><tbody><tr><td id="' +self._idi+ '"></td></tr></tbody></table>')
                 );
             t=linb(self._id);
             if(self.drop2){
                 t.attr('cellSpacing',0).setStyle('borderSpacing',0);
             }else{
-                pos.left -=  self._size; pos.top -= self._size;
-                linb.dom.setCover(true);
+                pos.left -=  self._size;
+                pos.top -= self._size;
+                dom.setCover(true);
             }
-            if(self.target_parent)
-                linb(self.target_parent).addLast(t);
-
+            if(temp=self.target_parent)
+                linb(temp).addLast(t);
 
             if(child){
                 linb(self._idi).addLast(child);
                 self.proxyIn = child;
             }else
                 self.proxyIn = linb(self._idi);
-            t.setStyle({cursor:self.cursor,display:'',zIndex:dom.top_zIndex*10}).absPos(pos, self.target_parent);
+            t.setStyle({cursor:self.cursor,display:'',zIndex:dom.top_zIndex*10}).absPos(pos, temp);
 
             return t;
         },
         resetProxy:function(){
-            var self=this;
-            if(linb.dom.byId(self._id)){
-                var t,k,o=linb(self._idi),t=linb(self._id);
+            var self=this,
+                dom=linb.dom,
+                id1=self._id,
+                id2=self._idi;
+            if(dom.byId(id1)){
+                var t,k,o=linb(id2),t=linb(id1);
                 o.empty();
+                o=o.get(0);
+                k=o.style;
                 if(linb.browser.ie){
-                    for(var i in (k=o.get(0).style))
+                    for(var i in k)
                         if(typeof k[i]!='function')
                             try{k[i]=''}catch(e){}
                 }else
-                    o.get(0).setAttribute('style','');
+                    o.setAttribute('style','');
 
                 linb([document.body]).addFirst(
                     t
@@ -546,7 +559,7 @@ Class('linb.dragDrop',null,{
                     })
                 );
                 self.proxyIn=self.proxystyle=null;
-                linb.dom.setCover(false);
+                dom.setCover(false);
             }
         },
         getProxyPos:function(){
@@ -584,7 +597,6 @@ Class('linb.dragDrop',null,{
                     break;
                 case 'blank':
                     target = d.setProxy(null,pos);
-                    break;
                     break;
                 case 'icon':
                     //reset pos and size

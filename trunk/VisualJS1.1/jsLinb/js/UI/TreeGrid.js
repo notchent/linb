@@ -1409,7 +1409,7 @@ Class("linb.UI.TreeGrid","linb.UI.iWidget",{
             }
         },
         EventHandlers:{
-            onRequestData:function(profile, id, threadid){},
+            onRequestData:function(profile, item, threadid){},
 
             beforeColumnSort:function(profile, id, order){},
             afterColumnSort:function(profile, id, order){},
@@ -1800,7 +1800,7 @@ Class("linb.UI.TreeGrid","linb.UI.iWidget",{
                         //request sub
                         function(threadId){
                             if(profile.onRequestData)
-                                profile.boxing().onRequestData(profile, item.id, threadId);
+                                profile.boxing().onRequestData(profile, item, threadId);
                              else
                                 linb.thread(threadId).abort();
                         },

@@ -4,18 +4,16 @@ Class('App', 'linb.Com',{
         iniComponents:function(){
             // [[code created by designer, don't change it manually
             var t=this, n=t._nodes=[], u=linb.UI, f=function(c){n.push(c.get(0))};
-            
+
             f(
-            (new u.ComboInput)
-            .host(t,"timeTo")
-            .setLeft(336)
-            .setTop(30)
-            .setWidth(48)
-            .setItems([])
-            .setValue("00:00")
-            .setType("timepicker")
+            (new u.Button)
+            .host(t,"button3")
+            .setLeft(380)
+            .setTop(260)
+            .setCaption("drag me to calendar")
+            .afterCreated("_button3_aftercreated")
             );
-            
+
             f(
             (new u.ComboInput)
             .host(t,"timeFrom")
@@ -26,61 +24,111 @@ Class('App', 'linb.Com',{
             .setValue("00:00")
             .setType("timepicker")
             );
-            
+
             f(
             (new u.TimeLine)
-            .host(t,"timeline1")
-            .setLeft(30)
-            .setTop(146)
+            .host(t,"timeline2")
+            .setLeft(40)
+            .setTop(60)
+            .setHeight(160)
+            .setWidth(330)
+            .setMinDate("2008-01-18T")
+            .setMaxDate("2008-01-22T")
+            .setItems([{"id":"a","caption":"itema","tips":"item a"},{"id":"b","caption":"itemb","tips":"item b"},{"id":"c","caption":"itemc","tips":"item c"}])
             );
-            
+
+            f(
+            (new u.ComboInput)
+            .host(t,"timeTo")
+            .setLeft(382)
+            .setTop(30)
+            .setWidth(48)
+            .setItems([])
+            .setValue("00:00")
+            .setType("timepicker")
+            );
+
             f(
             (new u.ComboInput)
             .host(t,"dateTo")
-            .setLeft(228)
+            .setLeft(274)
             .setTop(30)
             .setItems([])
+            .setValue("2008-01-17T16:00:00Z")
             .setType("datepicker")
             .setWidth(106)
             );
-            
+
+            f(
+            (new u.Block)
+            .host(t,"block2")
+            .setLeft(10)
+            .setTop(290)
+            .setWidth(420)
+            .setHeight(304)
+            .setResizable(true)
+            .setBorder(true)
+            );
+
+            t.block2.attach(
+            (new u.TimeLine)
+            .host(t,"timeline1")
+            .setLeft(70)
+            .setTop(120)
+            .setTimeSpanKey("2 h")
+            .setDock("fill")
+            .setDropKeys("iEvent")
+            .setItems([{"id":"a","caption":"itema","tips":"item a"},{"id":"b","caption":"itemb","tips":"item b"},{"id":"c","caption":"itemc","tips":"item c"}])
+            .setTimeFormat("mdhn")
+            );
+
             f(
             (new u.ComboInput)
             .host(t,"dateFrom")
             .setLeft(42)
             .setTop(30)
             .setItems([])
+            .setValue("2008-01-17T16:00:00Z")
             .setType("datepicker")
             .setWidth(106)
             );
-            
+
             f(
             (new u.Block)
             .host(t,"block1")
-            .setLeft(441)
-            .setTop(59)
+            .setLeft(440)
+            .setTop(290)
             .setWidth(340)
             .setHeight(304)
             .setResizable(true)
             .setBorder(true)
             );
-            
+
             t.block1.attach(
             (new u.Calendar)
             .host(t,"calendar1")
             .setLeft(10)
             .setTop(40)
             );
-            
+
             f(
-            (new u.Button)
-            .host(t,"button3")
-            .setLeft(563)
-            .setTop(36)
-            .setCaption("drag me to calendar")
-            .afterCreated("_button3_aftercreated")
+            (new u.TimeLine)
+            .host(t,"timeline3")
+            .setLeft(490)
+            .setTop(120)
+            .setHeight(150)
+            .setItems([{"id":"a","caption":"itema","tips":"item a"},{"id":"b","caption":"itemb","tips":"item b"},{"id":"c","caption":"itemc","tips":"item c"}])
+            .setTimeSpanKey("1 m")
+            .setSmallLabelCount(1)
+            .setSmallLabelUnit("m")
+            .setBigLabelCount(1)
+            .setBigLabelUnit("q")
+            .setTimeFormat("ymd")
+            .setBigLabelFormat("yq")
+            .setSmallLabelFormat("m")
+            .setCustomAppearance({"BORDER":"overflow:visible","VIEW":"overflow:visible"})
             );
-            
+
             return n;
             // ]]code created by designer
         },

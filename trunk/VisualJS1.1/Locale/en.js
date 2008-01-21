@@ -1,6 +1,4 @@
-linb.Locale.en=linb.Locale.cn||{};
-linb.Locale.en.VisualJS=
-{
+(linb.Locale.en||(linb.Locale.en={})).VisualJS={
     message:"System message!",
     noMessage:"No message yet!",
     soon:'Coming soon',

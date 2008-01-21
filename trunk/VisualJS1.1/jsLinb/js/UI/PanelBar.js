@@ -246,7 +246,7 @@ Class("linb.UI.PanelBar", ["linb.UI.Div","linb.UI.iContainer"],{
                     this.getSubNode('PANEL').html(v);
                 }
             },
-            titleHeight:{
+            handleHeight:{
                 ini:22,
                 action:function(v){
                     this.getSubNode('HANDLE').display(v?'':'none');
@@ -303,14 +303,12 @@ Class("linb.UI.PanelBar", ["linb.UI.Div","linb.UI.iContainer"],{
             data.optDisplay = data.optBtn?'':nodisplay;
             data.closeDisplay = data.closeBtn?'':nodisplay;
             data.landDisplay = data.landBtn?'':nodisplay;
-            data.handleDisplay = data.titleHeight?'':nodisplay;
-
-            data.handleHeight = data.titleHeight;
+            data.handleDisplay = data.handleHeight?'':nodisplay;
         },
         resize:function(profile,w,h){
             if(h && parseInt(profile.domNode.style.height)){
                 profile.getSubNode('BORDER').height(h);
-                profile.getSubNode('PANEL').height(h-profile.properties.titleHeight);
+                profile.getSubNode('PANEL').height(h-profile.properties.handleHeight);
             }
         },
 

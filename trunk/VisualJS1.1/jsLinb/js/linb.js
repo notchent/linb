@@ -129,6 +129,8 @@ Class=function(key, parent_key, o){
     var _Static, _Instance, _parent=[], self=Class, env=self._fun, reg=self._reg, parent0, temp, _this,i,t;
     o=o||{};
 
+    if(t=_.get(window, key.split('.')))return t;
+
     /*multi parents
     */
     parent_key = ( !parent_key?[]:typeof parent_key=='string'?[parent_key]:parent_key);
@@ -315,12 +317,17 @@ _.merge(linb,{
     linb.ini(p):set path to p
     */
     ini : function(path){linb.ini.path=path},
-    Locale:{},
+    Locale:{en:{}},
+    lang:'en',
+    langId:'linb_lang',
+    /*
+    * you need to import jsLinb/Locale/en.js manully, if you don't want to use reLang
+    */
     reLang:function(s,cb){
-        var l=linb.Locale,g=linb.getRes,t,v,i,j,f,a=[];
+        var l=linb.Locale,g=linb.getRes,t,v,i,j,f,m,a=[];
         linb.lang=s;
         v = linb.browser.ie ? document.all.tags('span') : document.getElementsByTagName('span');
-        for(i=0;t=v[i];i++)if(t.id=='linb:lang')a[a.length]=t;
+        for(i=0;t=v[i];i++)if(t.id==linb.langId)a[a.length]=t;
         f=function(){
             setTimeout(function(){
                 j=a.splice(0,100);
@@ -331,17 +338,20 @@ _.merge(linb,{
                     setTimeout(arguments.callee,0);
                 _.tryF(cb);
             },0)
+        },
+        m=function(){
+            linb.include('',linb.getPath('Locale.' + s, '.js'),f,f);
         };
-        if(!l[s])
-            linb.include('',linb.getPath('Locale.' + s, '.js'),f);
-        else f();
+        linb.include('',linb.getPath('linb.Locale.' + s, '.js'),m,m);
     },
-    getRes:function(a,b,c){
-        b=Array.prototype.slice.call(arguments,1);
+    getRes:function(a,b,c,d){
+        b=Array.prototype.slice.call(a.indexOf('-')?((d=a.split('-'))&&(a=d[0])&&d):arguments,1);
         c=_.get(linb.Locale[linb.lang], a.split('.'));
-        return typeof c=='string'
+        return (d=typeof c)=='string'
                ? c.replace(/\x24\d+/g,function(){return b.length?b.shift() : ''})
-               : c ? c :a
+               : d=='function'
+               ? c.apply(null,b) :
+               c ? String(c) :a
     },
     wrapRes:function(){
         var id=arguments[0], s,r;
@@ -349,7 +359,7 @@ _.merge(linb,{
         s=arguments[0];
         r= linb.getRes.apply(null,arguments);
         if(s==r)r=id;
-        return '<span id="linb:lang" class="'+s+'">'+r+'</span>';
+        return '<span id="'+linb.langId+'" class="'+s+'">'+r+'</span>';
     },
     /* set shortcut for ajax
     */
@@ -358,7 +368,7 @@ _.merge(linb,{
             arguments[1]=String(_());
             return (linb.io.crossDomain(arguments[0])?linb.sajax:linb.ajax).apply(null, arguments).start()
     },
-    include:function(k,s,f){if(k&&linb.SC.evalPath(k))_.tryF(f); else linb.sajax(s,'',f,0,0,{rspType:'script'}).start()},
+    include:function(k,s,f,g){if(k&&linb.SC.evalPath(k))_.tryF(f); else linb.sajax(s,'',f,g,0,{rspType:'script'}).start()},
     /*
     set application main function, only single function can be set
     example:
@@ -1061,7 +1071,9 @@ Class('linb.sajax','linb.io',{
                     else self._loaded();
                 }
             };
-            n.onerror=function(){self._loaded()};
+            n.onerror=function(){
+                self._loaded();
+            };
 
             //w.getElementsByTagName("head")[0].appendChild(n);
 			w.body.appendChild(n);

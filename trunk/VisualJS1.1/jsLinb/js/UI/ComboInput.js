@@ -56,16 +56,17 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
             return value;
         },
         _cache:function(){
-            var profile=this.get(0);
-            if(profile.$drop)
-                //profile.$drop.root.display('none') for opera bug
-                profile.getSubNode('POOL').addLast(profile.$drop.root.display('none'));
+            var profile=this.get(0),drop=profile.$drop;
+            if(drop)
+                //drop.root.display('none') for opera bug
+                profile.getSubNode('POOL').addLast(drop.root.display('none'));
             delete profile.$poplink;
         },
         refreshCache:function(){
             var profile=this.get(0);
             if(profile.domNode)
                 profile.getSubNode('POOL').empty();
+            delete profile.$drop;
             return this;
         },
         //for upload ,special must get the original node
@@ -167,7 +168,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                             o.beforeClose(function(){this.boxing()._cache();return false});
                             o.beforeValueUpdated(function(p, o, v){
                                 //update value
-                                this.boxing().updateUIValue(v);
+                                this.boxing().updateUIValue(v)._cache();
                             });
                             break;
                         case 'datepicker':
@@ -403,7 +404,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                     }
 
                     //set css class
-                    if(profile.beforeFocus && false==profile.boxing().beforeFocus(profile)){}else
+                    if(profile.beforeFocus && false===profile.boxing().beforeFocus(profile)){}else
                     profile.addTagClass(profile.key,'-focus',profile.getSubNode('BORDER'));
                     //show tips color
                     profile.boxing()._setTB(3);
@@ -415,7 +416,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                         v = instance._fromEditValue(src.value)
                         ;
                     if(p.disabled)return false;
-                    if(profile.beforeBlur && false==instance.beforeBlur(profile)){}else
+                    if(profile.beforeBlur && false===instance.beforeBlur(profile)){}else
                     profile.removeTagClass('KEY','-focus',profile.getSubNode('BORDER'));
 
                     //onblur check it
