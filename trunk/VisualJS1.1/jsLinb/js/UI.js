@@ -552,7 +552,6 @@ new function(){
             //
             toString:function(flag){
                 var self=this, i, o, m, a, c, self, children, h={},id, me=arguments.callee, reg = me.reg || ( me.reg = /<!--([^>^\s]*)-->/g);
-
                 if(!self.string || flag){
                     c = self.box;
                     _.merge(self.properties, c.$DataStruct);
@@ -3036,7 +3035,11 @@ new function(){
                 var prop = profile.properties,
                     data = profile.data,
                     dm = this.getDataModel(),
-                    map = arguments.callee.map || (arguments.callee.map='left,top,bottom,right,width,height'.toArr());
+                    me = arguments.callee,
+                    map = me.map || (me.map='left,top,bottom,right,width,height'.toArr()),
+                    a=[''],
+                    t
+                    ;
 
                 //can't input id in properties
                 if(prop.id)delete prop.id;
@@ -3047,12 +3050,10 @@ new function(){
 
                 //give border width
                 if('$border' in dm){
-                    data.bWidth=prop.width - (prop.$border||0)*2;
-                    data.bHeight=prop.height - (prop.$border||0)*2;
+                    data.bWidth=prop.width - (t=(prop.$border||0)*2);
+                    data.bHeight=prop.height - t;
                 }
-
                 //set left,top,bottom,right,width,height,position,z-index,visibility,display
-                var a=[''];
                 for(var j=0,i;i=map[j];j++){
                     if(prop[i] || prop[i]===0){
                         if(String(parseFloat(prop[i]))==String(prop[i]))
@@ -3074,14 +3075,18 @@ new function(){
                     profile.ItemIdMapSubSerialId = {};
                     profile.SubSerialIdMapItem = {};
 
-                    if(!prop.items || prop.items.constructor != Array)
-                        prop.items = linb.UI.getCacheList(prop.listKey||(this.$recursive?'test1':'test2'));
-
+                    //if items is [], give a new one
+                    if((t=prop.items) && t.constructor == Array && t.length===0){
+                        t=prop.items=[];
+                    }
+                    //if items is {}, give some text data
+                    if(!t || t.constructor != Array)
+                        t=prop.items = linb.UI.getCacheList(prop.listKey||(this.$recursive?'test1':'test2'));
                     //ensure format
-                    if(!prop.items || prop.items.constructor != Array)
-                        prop.items=[];
+                    if(!t || t.constructor != Array)
+                        t=prop.items=[];
 
-                    data.items = this.prepareItems(profile, prop.items);
+                    data.items = this.prepareItems(profile, t);
                 }
 
                 //default prepare

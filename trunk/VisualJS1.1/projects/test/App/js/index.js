@@ -20,7 +20,6 @@ Class('App', 'linb.Com',{
             .setLeft(150)
             .setTop(30)
             .setWidth(48)
-            .setItems([])
             .setValue("00:00")
             .setType("timepicker")
             );
@@ -34,7 +33,7 @@ Class('App', 'linb.Com',{
             .setWidth(330)
             .setMinDate("2008-01-18T")
             .setMaxDate("2008-01-22T")
-            .setItems([{"id":"a","caption":"itema","tips":"item a"},{"id":"b","caption":"itemb","tips":"item b"},{"id":"c","caption":"itemc","tips":"item c"}])
+            .setMultiTasks(false)
             );
 
             f(
@@ -43,7 +42,6 @@ Class('App', 'linb.Com',{
             .setLeft(382)
             .setTop(30)
             .setWidth(48)
-            .setItems([])
             .setValue("00:00")
             .setType("timepicker")
             );
@@ -53,7 +51,6 @@ Class('App', 'linb.Com',{
             .host(t,"dateTo")
             .setLeft(274)
             .setTop(30)
-            .setItems([])
             .setValue("2008-01-17T16:00:00Z")
             .setType("datepicker")
             .setWidth(106)
@@ -78,8 +75,8 @@ Class('App', 'linb.Com',{
             .setTimeSpanKey("2 h")
             .setDock("fill")
             .setDropKeys("iEvent")
-            .setItems([{"id":"a","caption":"itema","tips":"item a"},{"id":"b","caption":"itemb","tips":"item b"},{"id":"c","caption":"itemc","tips":"item c"}])
             .setTimeFormat("mdhn")
+            .setMultiTasks(true)
             );
 
             f(
@@ -87,7 +84,6 @@ Class('App', 'linb.Com',{
             .host(t,"dateFrom")
             .setLeft(42)
             .setTop(30)
-            .setItems([])
             .setValue("2008-01-17T16:00:00Z")
             .setType("datepicker")
             .setWidth(106)
@@ -117,7 +113,6 @@ Class('App', 'linb.Com',{
             .setLeft(490)
             .setTop(120)
             .setHeight(150)
-            .setItems([{"id":"a","caption":"itema","tips":"item a"},{"id":"b","caption":"itemb","tips":"item b"},{"id":"c","caption":"itemc","tips":"item c"}])
             .setTimeSpanKey("1 m")
             .setSmallLabelCount(1)
             .setSmallLabelUnit("m")
@@ -126,6 +121,7 @@ Class('App', 'linb.Com',{
             .setTimeFormat("ymd")
             .setBigLabelFormat("yq")
             .setSmallLabelFormat("m")
+            .setMultiTasks(true)
             .setCustomAppearance({"BORDER":"overflow:visible","VIEW":"overflow:visible"})
             );
 

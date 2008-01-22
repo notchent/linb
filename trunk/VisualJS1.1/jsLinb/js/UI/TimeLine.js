@@ -6,6 +6,24 @@
 
 Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'], {
     Instance:{
+        setCtrlValue:function(value){
+            if(!value)return;
+            if(value.indexOf(':')==-1)return;
+            var profile=this.get(0),
+                p=profile.properties,
+                box=this.constructor,
+                a=value.split(':'),
+                start=new Date(parseInt(a[0])),
+                end=new Date(parseInt(a[1])),
+                pxStart=box._getX(profile,start),
+                pxEnd=box._getX(profile,end),
+                task;
+            if(p.items.length===0)
+                this.insertItems([{id:'$', caption:'new', start:start, end:end}],null,true);
+            else
+                box._resetItem(profile,{left:pxStart,width:pxEnd-pxStart},profile.getSubNodeByItemId('ITEM',p.items[0].id).get(0));
+        },
+
         afterInsertItems:function(profile){
             profile.box._reArrage(profile);
         },
@@ -119,7 +137,7 @@ Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'
                 items:{
                     ITEM:{
                         tagName:'div',
-                        style:'left:{_left}px;top:{_top}px;width:{_width}px;',
+                        style:'left:{_left}px;width:{_width}px;{_top};{_height};',
                         MIN:{
                             $order:0,
                             tagName:'div',
@@ -128,7 +146,7 @@ Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'
                         NORMAL:{
                             $order:1,
                             tagName:'div',
-                            style:'{_normalDisplay}',
+                            style:'{_normalDisplay};{_height};{_border}',
                             LEFT:{
                                 $order:1,
                                 tagName:'div'
@@ -279,12 +297,27 @@ Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'
                     }else{
                         x += offset; w = -offset>1?(-offset - 1):0;
                     }
-                    profile.box._moveActive(profile, src, x, w);
+                    profile.box._moveActive(profile, src, profile.$task_l=x, profile.$task_w=w);
                 },
                 onDragend:function(profile, e, src){
-                    profile.$dd_ox =profile.$dd_oleft=null;
                     profile.box._deActive(profile);
                     linb([src,src.parentNode]).cursor('');
+
+                    var box=profile.box,
+                        start=box._getTime(profile, profile.$task_l),
+                        end=box._getTime(profile, profile.$task_l+profile.$task_w),
+                        p=profile.properties,
+                        task,t,
+                        b=profile.boxing();
+
+                    if(profile.properties.multiTasks){
+                        task={id:_.id(),caption:'new',start:start,end:end};
+                        if(profile.beoferAddTasks && false===b.beoferAddTasks(profile, [task])){}else
+                            b.insertItems([task],null,true);
+                    }else
+                        b.updateUIValue(start+":"+end);
+
+                    profile.$task_l=profile.$task_w=profile.$dd_ox =profile.$dd_oleft=null;
                 }
             },
             FOCUS:{
@@ -598,6 +631,8 @@ Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'
             taskHeight : 16,
             tipsHeight : 16,
 
+            multiTasks:false,
+
             minDate:'',
             maxDate:'',
             dateBtn:true,
@@ -605,8 +640,9 @@ Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'
             optBtn:false,
 
             items:{
-                ini:{}
+                ini:[]
             },
+
             dateStart : new Date,
             scrollRateBase:5
         },
@@ -818,8 +854,7 @@ Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'
             },
             ITEM:{
                 position:'absolute',
-                overflow:'visible',
-                height:'18px'
+                overflow:'visible'
             },
             'MIN, NORMAL':{
                 //position:'absolute',
@@ -904,14 +939,12 @@ Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'
                     profile.$$ondrag=true;
                 },
                 $onDragLeave:function(profile){
-                    delete profile.$$ondrag;
-                    delete profile.$dd_ox;
+                    profile.$$ondrag=profile.$dd_ox=null;
 
                     profile.box._deActive(profile);
                 },
                 $onDrop:function(profile){
-                    delete profile.$$ondrag;
-                    delete profile.$dd_ox;
+                    profile.$$ondrag=profile.$dd_ox=null;
 
                     var r = profile.box._deActive(profile),
                         task={id:_.id(),caption:'new'},
@@ -942,6 +975,7 @@ Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'
 
                 smallMarks,smallLabelStart,smallLabelEnd,smallLabelUnit,smallLabelCount,smallLabelFormat
                 ;
+
             if(p.minDate)p._minDate=date.parse(p.minDate);
             if(p.maxDate)p._maxDate=date.parse(p.maxDate);
 
@@ -1084,7 +1118,11 @@ Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'
 
             // caculate top and set task to lines cache
             index = self._getLinePos(profile, item);
-            item._top = (t.taskHeight+3) * index;
+
+
+            item._top = t.multiTasks? 'top:' + (t.taskHeight+3) * index + 'px':'';
+            item._height = 'height:' + (t.multiTasks?'18px':'100%');
+            item._border = t.multiTasks?'':'border-top:0;border-bottom:0';
 
             t._lines = t._lines || [{}];
 
@@ -1222,7 +1260,7 @@ Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'
                 _date = date.add(labelStart, labelUnit, labelCount*(i+1));
                 width = date.diff(labelStart, _date, 'ms')/rate;
                 addLb.push({
-                    left : Math.ceil(temp + (offset||0)-0.0000000000001),
+                    left : Math.ceil(temp + (offset||0)-0.0000000000003),
                     width : Math.ceil(width - temp),
                     text : label
                 });
@@ -1252,7 +1290,7 @@ Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'
             for(i=0; i<offsetCount; i++){
                 _date = date.add(labelEnd, labelUnit, labelCount*(i+1));
                 addLb.push({
-                    left : Math.ceil(date.diff(labelStart,_d1,'ms')/rate)+ (offset||0),
+                    left : Math.ceil(date.diff(labelStart,_d1,'ms')/rate+ (offset||0)-0.0000000000003),
                     width : Math.ceil(date.diff(_d1, _date, 'ms')/rate),
                     text : date.getText(_d1, labelFormat)
                 });
@@ -1361,7 +1399,7 @@ Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'
                     offsetCount2 = parseInt(date.diff(t._smallLabelStart, t._bigLabelStart, bigLabelUnit)/bigLabelCount);
                     //reset offset of big and small
                     if(offsetCount2){
-                        off=date.diff(t._smallLabelStart, bigLabelStart, 'ms')/rate;
+                        off = date.diff(t._smallLabelStart, bigLabelStart, 'ms')/rate;
                         t._bigLabelStart=bigLabelStart;
                         t._bigLabelEnd=date.add(t._bigLabelEnd, bigLabelUnit, -offsetCount2*bigLabelCount);
 
@@ -1440,7 +1478,8 @@ Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'
                     // reset double link
                     v._line = index;
                     // set top
-                    self._setItemNode(profile, v,'top',(t.taskHeight+3) * index+'px');
+                    if(t.multiTasks)
+                        self._setItemNode(profile, v,'top',(t.taskHeight+3) * index+'px');
                 };
             });
 
