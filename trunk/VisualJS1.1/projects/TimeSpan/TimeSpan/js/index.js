@@ -186,6 +186,11 @@ Class('TimeSpan', 'linb.Com',{
                 fixEnd,
                 t
                 ;
+            if(self.timeStart && dateFrom>self._timeEnd)
+                dateTo=dateFrom
+            if(self.timeEnd && dateTo<self._timeStart)
+                dateFrom=dateTo;
+
             if(self.timeStart && dateFrom<self._timeStart){
                 adjust=1;
                 dateFrom=self._timeStart;
@@ -232,10 +237,10 @@ Class('TimeSpan', 'linb.Com',{
             if(!timeFrom)timeFrom=self.timeFrom.getUIValue().split(':');
             if(!timeTo)timeTo=self.timeTo.getUIValue().split(':');
 
-            dateFrom.setHours(timeFrom[0]);
-            dateFrom.setMinutes(timeFrom[1]);
-            dateTo.setHours(timeTo[0]);
-            dateTo.setMinutes(timeTo[1]);
+            dateFrom.setHours(timeFrom[0]||0);
+            dateFrom.setMinutes(timeFrom[1]||0);
+            dateTo.setHours(timeTo[0]||0);
+            dateTo.setMinutes(timeTo[1]||0);
             var arr=self._adjustTime(dateFrom, dateTo);
             if(arr[0]){
                 self._update1(arr[1],arr[2]);
