@@ -2498,13 +2498,13 @@ new function(){
                 return self;
             },
 
-            updateUIValue:function(value){
+            updateUIValue:function(value, force){
                 var self=this;
                 this.each(function(profile){
                     var prop=profile.properties, r,
                         ovalue = prop.$UIvalue,
                         box = profile.boxing();
-                    if(ovalue !== value){
+                    if(ovalue !== value || force){
                         if(
                             false===profile.box.checkValid(profile, value) ||
                             (profile.beforeValueUpdated && false===(r=box.beforeValueUpdated(profile, ovalue, value)))

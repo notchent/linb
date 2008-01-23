@@ -351,7 +351,7 @@ _.merge(linb,{
                ? c.replace(/\x24\d+/g,function(){return b.length?b.shift() : ''})
                : d=='function'
                ? c.apply(null,b) :
-               c ? String(c) :a
+               c ? String(c) : a.substr(a.lastIndexOf('.')+1)
     },
     wrapRes:function(){
         var id=arguments[0], s,r;

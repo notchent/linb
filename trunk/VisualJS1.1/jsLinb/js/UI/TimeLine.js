@@ -246,7 +246,7 @@ Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'
                         //ondrag add here, for performance of 'dont-use-dropable situation'.
                         if(profile.$$ondrag){
                             var d=linb.dragDrop;
-                            profile.box._moveActive(profile, profile.$active, d.x-profile.$dd_ox, profile.properties.unitPixs-2);
+                            profile.box._moveActive(profile, profile.$active, d.x-profile.$dd_ox, profile.properties.unitPixs);
                         }
                     }else{
                         var t=profile.properties,
@@ -283,7 +283,8 @@ Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'
             ACTIVE:{
                 onDragbegin:function(profile, e, src){
                     profile.$dd_ox = linb.dragDrop.x;
-                    profile.$dd_oleft = linb(src).left();
+                    profile.$task_l=profile.$dd_oleft = linb(src).left();
+                    profile.$task_w=0;
                     linb([src,src.parentNode]).cursor('e-resize');
                 },
                 onDrag:function(profile, e, src){
@@ -292,9 +293,9 @@ Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'
                         w,
                         offset;
                     if((offset =ddx-profile.$dd_ox)>=0){
-                        w = offset>1?(offset-1):0;
+                        w = offset;
                     }else{
-                        x += offset; w = -offset>1?(-offset - 1):0;
+                        x = x+offset; w = -offset;
                     }
                     profile.box._moveActive(profile, src, profile.$task_l=x, profile.$task_w=w);
                 },
@@ -508,9 +509,9 @@ Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'
                         cursor=type?'e-resize':'move',
                         ac=profile.$active;
                     profile.$dd_ox = linb.dragDrop.x;
-                    profile.$dd_oleft = t._left;
-                    profile.$dd_owidth = t._width-2;
-                    linb([ac]).display('block').cssPos({left :profile.$dd_oleft,  top :null}).width(profile.$dd_owidth);
+                    profile.$dd_oleft = parseInt(src.style.left);
+                    profile.$dd_owidth = parseInt(src.style.width);
+                    linb([ac]).display('block').cssPos({left :profile.$dd_oleft,  top :null}).width(profile.$dd_owidth-2);
                     linb([ac,ac.parentNode]).cursor(cursor);
                 },
                 onDrag:function(profile, e, src){
@@ -524,7 +525,7 @@ Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'
                             x = ddl + offset;
                             w = ddl + ddw - x;
                         }else{
-                            x = ddl + ddw +1;
+                            x = ddl + ddw;
                             w = offset - ddw;
                         }
                     }else if(type == "right"){
@@ -532,7 +533,7 @@ Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'
                             x = ddl;
                             w = ddw + offset;
                         }else{
-                            x = ddl + offset + ddw -1;
+                            x = ddl + offset + ddw;
                             w = -offset - ddw;
                         }
                     }else{
@@ -1216,15 +1217,17 @@ Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'
                 ms='ms',
                 y=src.style,
                 z='px',
-                m;
-            m = (p(x)||0)+z;
-            if(y.left!= m)y.left= m;
-            m = (p(w)||0)+z;
-            if(y.width!= m)y.width= m;
-            profile.box._setTips(profile, d.getText(d.add(s, ms, x*r),u)
-                + " : "
-                + d.getText(d.add(s, ms, (x+w+1)*r),u)
-            );
+                m,n;
+            m = (p(x)||0);
+            n = ((p(w)||0)-2);
+            if(n>0){
+                y.left= m+z;
+                y.width= n+z;
+                profile.box._setTips(profile, d.getText(d.add(s, ms, x*r),u)
+                    + " : "
+                    + d.getText(d.add(s, ms, (x+w)*r),u)
+                )
+            }
         },
         _deActive:function(profile){
             var t=linb(profile.$active),x=t.left(),w=t.width()+2;

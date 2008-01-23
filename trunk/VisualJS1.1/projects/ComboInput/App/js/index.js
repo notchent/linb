@@ -178,10 +178,13 @@ Class('App', 'linb.Com',{
             .setTop(200)
             .setItems([])
             .setListKey("test2")
-            .setCustomFunction({getShowValue:(profile, value) {
-                value = value ||'';
-                return '['+value.replace(/[\[\]]*/g,'')+']';
-            }});
+            .setCustomFunction({
+                getShowValue:function(profile, value) {
+                    value = value ||'';
+                    return '['+value.replace(/[\[\]]*/g,'')+']';
+                }
+            })
+            );
 
             f(
             (new u.ComboInput)
