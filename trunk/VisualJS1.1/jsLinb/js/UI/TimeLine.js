@@ -23,7 +23,17 @@ Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'
             else
                 box._resetItem(profile,{left:pxStart,width:pxEnd-pxStart},profile.getSubNodeByItemId('ITEM',p.items[0].id).get(0));
         },
-
+        visibleTask:function(){
+            var profile=this.get(0),
+                p=profile.properties,
+                date=linb.date,
+                items=p.items;
+            if(items.length && !p.multiTasks){
+                target=new Date(items[0].start);
+                if(target<p.dateStart || target>date.add(p.dateStart,'ms',p.width*p._rate))
+                    profile.box._rePosition(profile, -date.diff(p.dateStart,target,'ms')/p._rate + p._band_left);
+            }
+        },
         afterInsertItems:function(profile){
             profile.box._reArrage(profile);
         },
@@ -98,8 +108,7 @@ Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'
                             text:'{items}',
                             ACTIVE:{
                                 $order:3,
-                                tagName:'div',
-                                style:'z-index:300;opacity:0.5;'
+                                tagName:'div'
                             }
                         },
                         SCROLL:{
@@ -283,7 +292,7 @@ Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'
             ACTIVE:{
                 onDragbegin:function(profile, e, src){
                     profile.$dd_ox = linb.dragDrop.x;
-                    profile.$task_l=profile.$dd_oleft = linb(src).left();
+                    profile.$task_l=profile.$dd_oleft = parseInt(src.style.left)||0;
                     profile.$task_w=0;
                     linb([src,src.parentNode]).cursor('e-resize');
                 },
@@ -768,12 +777,13 @@ Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'
             },
 
             ACTIVE:{
+                'z-index':300,
                 position:'relative',
                 'border-left': '1px dashed',
                 'border-right': '1px dashed',
-                display:'none',
-                'background-color':'#FFFFCC',
-                left:'0',
+                left:'-100px',
+                width:'0',
+                background:0,
                 height:'100%'
             },
 
@@ -1189,9 +1199,10 @@ Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'
             else
                 return profile.getSubNode('TIPS').get(0).innerHTML;
         },
+        _rr:/\<[^>]*\>/g,
         _setTips:function(profile, text){
             var t,s='$dd_tooltip';
-            text=text.replace(/\<[^>]*\>/g,'');
+            text=text.replace(this._rr,'');
             if(t = profile[s] || (profile[s] = profile.getSubNode('TIPS').get(0).childNodes[0])){
                 if(t.nodeValue!=text)t.nodeValue=text;
             }else
@@ -1230,8 +1241,8 @@ Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'
             }
         },
         _deActive:function(profile){
-            var t=linb(profile.$active),x=t.left(),w=t.width()+2;
-            t.setStyle({width:'0',display:'none',left:'-1000px'});
+            var t=profile.$active.style, x=parseInt(t.left)||0, w=(parseInt(t.width)||0)+2;
+            t.left='-1000px';
             profile.box._setTips(profile, '');
             return {left :x, width :w};
         },
@@ -1315,7 +1326,7 @@ Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'
         _getMoveNodes:function(profile){
             return profile.$moveban = profile.$moveban || profile.getSubNodes(['BAND','ITEMS']);
         },
-        _rePosition:function(profile){
+        _rePosition:function(profile, left){
             profile.pause=true;
             var self=this,
                 date = linb.date,
@@ -1324,7 +1335,7 @@ Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'
                 label,m,n,
                 labelsBottom = profile.getSubNode('SMALLLABEL'),
                 band = self._getMoveNodes(profile),
-                x = band.left(),
+                x = left || band.left(),
                 //ralated to the fix position
                 offset = x - t._band_left_fix;
 
@@ -1447,15 +1458,18 @@ Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'
                 w=o._width,
                 bw=profile.properties._band_width;
             if(x < l){
-                w = w + x - l;
-                x = l;
+                if(x+w<l)
+                    w=0;
+                else
+                    w = w + x - l;
+                x = l;        
             }
             if(x>bw+12)x=bw+12;
             this._setItemNode(profile, o,'left',x+'px');
             // if too long, cut right
             if(x + w > bw - l)
                 w = bw - l - x;
-            if(w>0)
+            if(w>=0)
                 this._setItemNode(profile, o,'width',w+'px');
         },
         _setItemNode:function(profile, item, key, value){
@@ -1509,8 +1523,9 @@ Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'
             self._ajustHeight(profile);
         },
         _resetItem:function(profile,o,src){
-            var t=profile.getItemByDom(src),
-                bandW=profile.properties._band_width + 12,
+            var p=profile.properties,
+                t=profile.getItemByDom(src),
+                bandW=p._band_width + 12,
                 f=function(k,i){return profile.getSubNodeByItemId(k,i)},
                 timeline=profile.box,
                 max=Math.max;
@@ -1543,6 +1558,8 @@ Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'
                         o.width = bandW - o.left;
                 }
                 src.style.width=o.width+'px';
+                if(linb.browser.ie && !p.multiTasks)
+                    linb([src.parentNode]).ieTrigger();
             }
             // _reArrage top position
             timeline._reArrage(profile);

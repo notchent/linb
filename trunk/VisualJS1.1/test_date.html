@@ -17,10 +17,10 @@
         var f=function(a){document.write("<div>"+a+" : "+eval(a)+"</div>")};
         f('window.d=new Date()');
 
-        f('linb.date.getLocalFromUTC(linb.date.getUTCFromLocal(d))');
+        f('linb.date.unpackTimeZone(linb.date.packTimeZone(d), 9)');
 
         f('linb.date.getWeek(d)');
-        f('linb.date.getWeek(d,null,1)');
+        f('linb.date.getWeek(d,1)');
 
         f('linb.date.getDayInYear(d)');
 
@@ -56,12 +56,7 @@
         f('linb.date.add(d,"q",1)');
         f('linb.date.add(d,"y",1)');
         f('linb.date.add(d,"de",1)');
-        f('linb.date.add(d,"c",1)');
-
-        f('linb.date.getText(d,"")');
-        f('linb.date.getText(d,"iso")');
-
-        f('linb.date.parse(linb.date.getText(d,"iso"))');
+        f('linb.date.add(d,"c",1)'); 
 
         f('linb.date.getText(d,"ms")');
         f('linb.date.getText(d,"s")');
@@ -87,29 +82,29 @@
         f('linb.date.getText(d,"ymdhn")');
         f('linb.date.getText(d,"ymdhns")');
 
-        f('linb.date.getText(d,"ms",null,null,"cn")');
-        f('linb.date.getText(d,"s",null,null,"cn")');
-        f('linb.date.getText(d,"n",null,null,"cn")');
-        f('linb.date.getText(d,"h",null,null,"cn")');
-        f('linb.date.getText(d,"d",null,null,"cn")');
-        f('linb.date.getText(d,"ww",null,null,"cn")');
-        f('linb.date.getText(d,"w",null,null,"cn")');
-        f('linb.date.getText(d,"m",null,null,"cn")');
-        f('linb.date.getText(d,"q",null,null,"cn")');
-        f('linb.date.getText(d,"y",null,null,"cn")');
-        f('linb.date.getText(d,"de",null,null,"cn")');
-        f('linb.date.getText(d,"c",null,null,"cn")');
-        f('linb.date.getText(d,"hn",null,null,"cn")');
-        f('linb.date.getText(d,"dhn",null,null,"cn")');
-        f('linb.date.getText(d,"mdhn",null,null,"cn")');
-        f('linb.date.getText(d,"hns",null,null,"cn")');
-        f('linb.date.getText(d,"hnsms",null,null,"cn")');
-        f('linb.date.getText(d,"yq",null,null,"cn")');
-        f('linb.date.getText(d,"ym",null,null,"cn")');
-        f('linb.date.getText(d,"ymd",null,null,"cn")');
-        f('linb.date.getText(d,"ymdh",null,null,"cn")');
-        f('linb.date.getText(d,"ymdhn",null,null,"cn")');
-        f('linb.date.getText(d,"ymdhns",null,null,"cn")');
+        f('linb.date.getText(d,"ms")');
+        f('linb.date.getText(d,"s")');
+        f('linb.date.getText(d,"n")');
+        f('linb.date.getText(d,"h")');
+        f('linb.date.getText(d,"d")');
+        f('linb.date.getText(d,"ww")');
+        f('linb.date.getText(d,"w")');
+        f('linb.date.getText(d,"m")');
+        f('linb.date.getText(d,"q")');
+        f('linb.date.getText(d,"y")');
+        f('linb.date.getText(d,"de")');
+        f('linb.date.getText(d,"c")');
+        f('linb.date.getText(d,"hn")');
+        f('linb.date.getText(d,"dhn")');
+        f('linb.date.getText(d,"mdhn")');
+        f('linb.date.getText(d,"hns")');
+        f('linb.date.getText(d,"hnsms")');
+        f('linb.date.getText(d,"yq")');
+        f('linb.date.getText(d,"ym")');
+        f('linb.date.getText(d,"ymd")');
+        f('linb.date.getText(d,"ymdh")');
+        f('linb.date.getText(d,"ymdhn")');
+        f('linb.date.getText(d,"ymdhns")');
 
     </script>
 

@@ -29,7 +29,7 @@ Class("linb.UI.Block", ["linb.UI.Widget","linb.UI.iContainer"],{
         self.setAppearance(d,t);
     },
     Static:{
-      //  Dropable:['PANEL'],
+        Dropable:['PANEL'],
         DataModel:{
             //delete those properties
             dataBinder:null,

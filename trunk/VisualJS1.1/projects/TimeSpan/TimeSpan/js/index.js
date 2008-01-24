@@ -247,6 +247,7 @@ Class('TimeSpan', 'linb.Com',{
                 r=false;
             }
             self._update2(arr[1],arr[2]);
+            self.timeline.visibleTask();
             return r;
         },
         _timeline_beforevalueupdated:function (profile, oldValue, newValue, showValue) {

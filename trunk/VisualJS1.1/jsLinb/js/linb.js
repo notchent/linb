@@ -344,18 +344,19 @@ _.merge(linb,{
         };
         linb.include('',linb.getPath('linb.Locale.' + s, '.js'),m,m);
     },
+    _r:/\x24\d+/g,
     getRes:function(a,b,c,d){
         b=Array.prototype.slice.call(a.indexOf('-')?((d=a.split('-'))&&(a=d[0])&&d):arguments,1);
         c=_.get(linb.Locale[linb.lang], a.split('.'));
         return (d=typeof c)=='string'
-               ? c.replace(/\x24\d+/g,function(){return b.length?b.shift() : ''})
+               ? c.replace(this._reg,function(){return b.shift()||''})
                : d=='function'
                ? c.apply(null,b) :
                c ? String(c) : a.substr(a.lastIndexOf('.')+1)
     },
     wrapRes:function(){
         var id=arguments[0], s,r;
-        if(id.charAt(0)=='$')arguments[0]=id.slice(1);
+        if(id.charAt(0)=='$')arguments[0]=id.substr(1,id.length-1);
         s=arguments[0];
         r= linb.getRes.apply(null,arguments);
         if(s==r)r=id;
