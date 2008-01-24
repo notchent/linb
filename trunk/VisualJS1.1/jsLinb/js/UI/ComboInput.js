@@ -556,7 +556,6 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                                 $fromEditValue : function(profile,value){
                                     //parse from local text mm/dd/yyyy
                                     var v=linb.date.parse(value);
-linb.log(value);
                                     if(v)v=linb.date.getRoundDown(v,'d',1);
                                     return v?String(v.getTime()):'';
                                 }

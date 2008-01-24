@@ -1,20 +1,102 @@
-
 Class('TimeSpan', 'linb.Com',{
     Instance:{
-        timezone:'-8000',
-        txtInfo:'limited selection',
+        //target time span
+        iniFrom: '2008-01-16T08:00Z',
+        iniTo: '2008-01-16T10:00Z',
+
+        //target timezone
+        timezone:-10,
+
+        //task caption
+        taskTitle:'task title',
+
+        //text information
+        txtInfo:'info',
         txtFrom:'from',
         txtTo:'to',
         txtTZ:'timezone',
 
+        //small time range
         timeMinUnit:'h',
         timeMinCount:2,
-        timeMaxUnit:'d',
-        timeMaxCount:2,
+        timeMaxUnit:'h',
+        timeMaxCount:4,
 
-        timeEnd:"2008-01-22T",
-        timeStart:"2008-01-18T",
+        //big time range
+        timeStart:"2008-01-16T00:00Z",
+        timeEnd:"2008-01-18T00:00Z",
 
+        getValue:function(){
+            var ns=this,
+                date=linb.date,
+                v=ns.timeline.getUIValue(),
+                tz=ns.timezone,
+                uv=v.split(":");
+            return [date.unpackTimeZone(new Date(parseInt(uv[0])),tz), date.unpackTimeZone(new Date(parseInt(uv[1])),tz)];
+        },
+        setValue:function(iniFrom, iniTo){
+            var ns=this,
+                timeline=ns.timeline,
+                tz=ns.timezone,
+                date=linb.date,
+                a=date.packTimeZone(iniFrom, tz),
+                b=date.packTimeZone(iniTo, tz)
+            ;
+            linb.log(a,b);
+                if(a && b){
+                    timeline.setValue(a.getTime()+":"+b.getTime(),true);
+
+                    ns._timeEnd = date.packTimeZone(date.parse(ns.timeEnd), tz);
+                    ns._timeStart = date.packTimeZone(date.parse(ns.timeStart), tz);
+
+                    if(ns._timeEnd)
+                        timeline.setMaxDate(date.getText(ns._timeEnd,'utciso'));
+                    if(ns._timeStart)
+                        timeline.setMinDate(date.getText(ns._timeStart,'utciso'));
+
+                    ns.dateFrom.setValue(date.getRoundDown(a,'d').getTime(),true);
+                    ns.dateTo.setValue(date.getRoundDown(b,'d').getTime(),true);
+                    ns.timeFrom.setValue(date.get(a,'h')+':'+date.get(a,'n'), true);
+                    ns.timeTo.setValue(date.get(b,'h')+':'+date.get(b,'n'), true);
+                    _.asyRun(function(){
+                        timeline.visibleTask();
+                    });
+                }
+        },
+        setTimezone:function(tz){
+            var ns=this,
+                date=linb.date,
+                uv=ns.timeline.getUIValue(),
+                a,b,
+                old=ns.timezone;
+            ns.timezone=tz;
+            if(uv){
+                uv=uv.split(':');
+                ns.setValue(date.unpackTimeZone(new Date(parseInt(uv[0])),old), date.unpackTimeZone(new Date(parseInt(uv[1])),old));
+            }
+        },
+        required:["linb.UI.TimeLine","linb.UI.ComboInput","linb.UI.Div","linb.UI.Panel"],
+        events:{
+            onReady:"_on"
+        },
+        _on:function(){
+            var self=this,
+                date=linb.date;
+test=this;
+
+            self.divFrom.setHtml(self.txtFrom);
+            self.divTo.setHtml(self.txtTo);
+            self.divInfo.setHtml(self.txtInfo);
+            self.divTZ.setHtml(self.txtTZ);
+
+            var a=self._timeStart,
+                b=date.add(a,self.timeMinUnit,self.timeMinCount);
+
+            self.timeline.setDftCaption(self.taskTitle);
+
+            if(self.iniFrom && self.iniTo)
+                self.setValue(date.parse(self.iniFrom), date.parse(self.iniTo));
+        },
         iniComponents:function(){
             // [[code created by designer, don't change it manually
             var t=this, n=t._nodes=[], u=linb.UI, f=function(c){n.push(c.get(0))};
@@ -37,7 +119,7 @@ Class('TimeSpan', 'linb.Com',{
             .setType("datepicker")
             .setValue('')
             .setWidth(104)
-            .beforeValueUpdated("_datefrom_beforevalueupdated")
+            .beforeValueUpdated("_4")
             );
 
             t.panel11.attach(
@@ -49,7 +131,7 @@ Class('TimeSpan', 'linb.Com',{
             .setItems([])
             .setType("timepicker")
             .setValue('')
-            .beforeValueUpdated("_timefrom_beforevalueupdated")
+            .beforeValueUpdated("_3")
             );
 
             t.panel11.attach(
@@ -79,7 +161,7 @@ Class('TimeSpan', 'linb.Com',{
             .setItems([])
             .setType("timepicker")
             .setValue('')
-            .beforeValueUpdated("_timeto_beforevalueupdated")
+            .beforeValueUpdated("_1")
             );
 
             t.panel11.attach(
@@ -91,7 +173,7 @@ Class('TimeSpan', 'linb.Com',{
             .setType("datepicker")
             .setValue('')
             .setWidth(104)
-            .beforeValueUpdated("_dateto_beforevalueupdated")
+            .beforeValueUpdated("_2")
             );
 
             t.panel11.attach(
@@ -111,7 +193,7 @@ Class('TimeSpan', 'linb.Com',{
             .setHeight(129)
             .setWidth(390)
             .setItems([])
-            .beforeValueUpdated("_timeline_beforevalueupdated")
+            .beforeValueUpdated("_5")
             );
 
             t.panel11.attach(
@@ -135,28 +217,6 @@ Class('TimeSpan', 'linb.Com',{
             return n;
             // ]]code created by designer
         },
-        events:{"onReady":"_onready"},
-        _onready:function () {
-            var self=this,
-                date=linb.date;
-
-            self._timeEnd = date.parse(self.timeEnd);
-            self._timeStart = date.parse(self.timeStart);
-
-            self.timeline.setMaxDate(self._timeEnd)
-            .setMinDate(self._timeStart);
-
-            self.divFrom.setHtml(self.txtFrom);
-            self.divTo.setHtml(self.txtTo);
-            self.divInfo.setHtml(self.txtInfo);
-            self.divTZ.setHtml(self.txtTZ);
-
-            var a=self._timeStart,
-                b=date.add(a,self.timeMinUnit,self.timeMinCount);
-            self.timeline.setValue(a.getTime()+":"+b.getTime(),true);
-            //self.timeline.setDateStart(a);
-        },
-        required:["linb.UI.TimeLine","linb.UI.ComboInput","linb.UI.Div","linb.UI.Panel"],
 
         _update1:function(dateFrom, dateTo){
             var self=this;
@@ -236,6 +296,8 @@ Class('TimeSpan', 'linb.Com',{
             if(!dateTo)dateTo=new Date(parseInt(self.dateTo.getUIValue()));
             if(!timeFrom)timeFrom=self.timeFrom.getUIValue().split(':');
             if(!timeTo)timeTo=self.timeTo.getUIValue().split(':');
+            //if set manully, all need
+            if(!dateFrom || !dateTo || timeFrom.length<2 || timeTo.length<2)return;
 
             dateFrom.setHours(timeFrom[0]||0);
             dateFrom.setMinutes(timeFrom[1]||0);
@@ -250,7 +312,7 @@ Class('TimeSpan', 'linb.Com',{
             self.timeline.visibleTask();
             return r;
         },
-        _timeline_beforevalueupdated:function (profile, oldValue, newValue, showValue) {
+        _5:function (profile, oldValue, newValue, showValue) {
             var self=this,r
             if(!self.$lock){
                 self.$lock=1;
@@ -259,7 +321,7 @@ Class('TimeSpan', 'linb.Com',{
                 return r;
             }
         },
-        _datefrom_beforevalueupdated:function (profile, oldValue, newValue, showValue) {
+        _4:function (profile, oldValue, newValue, showValue) {
             var self=this,r;
             if(!self.$lock){
                 self.$lock=1;
@@ -268,7 +330,7 @@ Class('TimeSpan', 'linb.Com',{
                 return r;
             }
         },
-        _timefrom_beforevalueupdated:function (profile, oldValue, newValue, showValue) {
+        _3:function (profile, oldValue, newValue, showValue) {
             var self=this,r;
             if(!self.$lock){
                 self.$lock=1;
@@ -277,7 +339,7 @@ Class('TimeSpan', 'linb.Com',{
                 return r;
             }
         },
-        _dateto_beforevalueupdated:function (profile, oldValue, newValue, showValue) {
+        _2:function (profile, oldValue, newValue, showValue) {
             var self=this,r;
             if(!self.$lock){
                 self.$lock=1;
@@ -286,7 +348,7 @@ Class('TimeSpan', 'linb.Com',{
                 return r;
             }
         },
-        _timeto_beforevalueupdated:function (profile, oldValue, newValue, showValue) {
+        _1:function (profile, oldValue, newValue, showValue) {
             var self=this,r;
             if(!self.$lock){
                 self.$lock=1;

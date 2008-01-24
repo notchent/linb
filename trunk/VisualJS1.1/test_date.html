@@ -12,12 +12,15 @@
     <script type="text/javascript" src="jsLinb/js/linb.js"></script>
     <script type="text/javascript" src="jsLinb/js/date.js"></script>
     <script type="text/javascript" src="jsLinb/js/logger.js"></script>
+    <script type="text/javascript" src="jsLinb/Locale/cn.js"></script>
 
     <script>
         var f=function(a){document.write("<div>"+a+" : "+eval(a)+"</div>")};
         f('window.d=new Date()');
 
-        f('linb.date.unpackTimeZone(linb.date.packTimeZone(d), 9)');
+        f('linb.date.packTimeZone(d,9)');
+
+        f('linb.date.unpackTimeZone(linb.date.packTimeZone(d,9), 9)');
 
         f('linb.date.getWeek(d)');
         f('linb.date.getWeek(d,1)');
@@ -29,7 +32,6 @@
         f('linb.date.get(d,"s")');
         f('linb.date.get(d,"n")');
         f('linb.date.get(d,"h")');
-        f('linb.date.get(d,"h",-7)');
         f('linb.date.get(d,"d")');
         f('linb.date.get(d,"w")');
         f('linb.date.get(d,"ww")');
@@ -56,7 +58,7 @@
         f('linb.date.add(d,"q",1)');
         f('linb.date.add(d,"y",1)');
         f('linb.date.add(d,"de",1)');
-        f('linb.date.add(d,"c",1)'); 
+        f('linb.date.add(d,"c",1)');
 
         f('linb.date.getText(d,"ms")');
         f('linb.date.getText(d,"s")');
@@ -82,29 +84,6 @@
         f('linb.date.getText(d,"ymdhn")');
         f('linb.date.getText(d,"ymdhns")');
 
-        f('linb.date.getText(d,"ms")');
-        f('linb.date.getText(d,"s")');
-        f('linb.date.getText(d,"n")');
-        f('linb.date.getText(d,"h")');
-        f('linb.date.getText(d,"d")');
-        f('linb.date.getText(d,"ww")');
-        f('linb.date.getText(d,"w")');
-        f('linb.date.getText(d,"m")');
-        f('linb.date.getText(d,"q")');
-        f('linb.date.getText(d,"y")');
-        f('linb.date.getText(d,"de")');
-        f('linb.date.getText(d,"c")');
-        f('linb.date.getText(d,"hn")');
-        f('linb.date.getText(d,"dhn")');
-        f('linb.date.getText(d,"mdhn")');
-        f('linb.date.getText(d,"hns")');
-        f('linb.date.getText(d,"hnsms")');
-        f('linb.date.getText(d,"yq")');
-        f('linb.date.getText(d,"ym")');
-        f('linb.date.getText(d,"ymd")');
-        f('linb.date.getText(d,"ymdh")');
-        f('linb.date.getText(d,"ymdhn")');
-        f('linb.date.getText(d,"ymdhns")');
 
     </script>
 

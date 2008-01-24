@@ -271,7 +271,7 @@ Class('linb.UI.TimePicker', 'linb.UI.iWidget', {
                     var a=[];
                     a[0]=profile.$hour;
                     a[1]=profile.getSubSerialId(src.id);
-                    profile.boxing().updateUIValue(a.join(':'));
+                    profile.boxing().updateUIValue(a.join(':'),true);
                 }
             },
             PRE:{

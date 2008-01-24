@@ -19,7 +19,7 @@ Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'
                 pxEnd=box._getX(profile,end),
                 task;
             if(p.items.length===0)
-                this.insertItems([{id:'$', caption:'new', start:start, end:end}],null,true);
+                this.insertItems([{id:'$', caption:p.dftCaption, start:start, end:end}],null,true);
             else
                 box._resetItem(profile,{left:pxStart,width:pxEnd-pxStart},profile.getSubNodeByItemId('ITEM',p.items[0].id).get(0));
         },
@@ -259,14 +259,14 @@ Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'
                         }
                     }else{
                         var t=profile.properties,
-                            d=linb.date,
+                            date=linb.date,
                             s=t._smallLabelStart,
                             r=t._rate,
                             u=t.timeFormat,
                             p1=linb.event.getPos(e),
                             p2=profile.$itemspos;
                         if(p2)
-                            profile.box._setTips(profile, d.getText(d.add(s, 'ms', (p1.left-p2.left)*r),u));
+                            profile.box._setTips(profile, date.getText(date.add(s, 'ms', (p1.left-p2.left)*r),u));
                     }
                 },
                 onMouseout:function(profile,e,src){
@@ -320,7 +320,7 @@ Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'
                         b=profile.boxing();
 
                     if(profile.properties.multiTasks){
-                        task={id:_.id(),caption:'new',start:start,end:end};
+                        task={id:_.id(),caption:p.dftCaption,start:start,end:end};
                         if(profile.beoferAddTasks && false===b.beoferAddTasks(profile, [task])){}else
                             b.insertItems([task],null,true);
                     }else
@@ -607,6 +607,8 @@ Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'
             leftSpanCount:0,
             rightSpanCount:0,
 
+            dftCaption:'task',
+
             //time span key
             timeSpanKey : '',
             //timespan of a small label is equal to smallLabelCount*smallLabelUnit
@@ -653,8 +655,29 @@ Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'
 
             multiTasks:false,
 
-            minDate:'',
-            maxDate:'',
+            minDate:{
+                ini:'',
+                set:function(v){
+                    return this.each(function(o){
+                        var p=o.properties,
+                            k = p._minDate = linb.date.parse(p.minDate=v);
+                        if(k>p.dateStart)
+                            o.box._rePosition(o, -linb.date.diff(p.dateStart,k,'ms')/p._rate + p._band_left);
+                    });
+                }
+            },
+            maxDate:{
+                ini:'',
+                set:function(v){
+                    return this.each(function(o){
+                        var p=o.properties,
+                            k = p._maxDate = linb.date.parse(p.maxDate=v),
+                            t;
+                        if(k<(t=linb.date.add(p.dateStart,'ms',p.width*p._rate)))
+                            o.box._rePosition(o, -linb.date.diff(t,k,'ms')/p._rate + p._band_left);
+                    })
+                }
+            },
             dateBtn:true,
             closeBtn:false,
             optBtn:false,
@@ -965,7 +988,7 @@ Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'
                     profile.$$ondrag=profile.$dd_ox=null;
 
                     var r = profile.box._deActive(profile),
-                        task={id:_.id(),caption:'new'},
+                        task={id:_.id(),caption:profile.properties.dftCaption},
                         box=profile.box,
                         b=profile.boxing();
 
@@ -1235,7 +1258,7 @@ Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'
                 y.left= m+z;
                 y.width= n+z;
                 profile.box._setTips(profile, d.getText(d.add(s, ms, x*r),u)
-                    + " : "
+                    + " - "
                     + d.getText(d.add(s, ms, (x+w)*r),u)
                 )
             }
@@ -1326,6 +1349,7 @@ Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'
         _getMoveNodes:function(profile){
             return profile.$moveban = profile.$moveban || profile.getSubNodes(['BAND','ITEMS']);
         },
+        //if left is numb, force to move
         _rePosition:function(profile, left){
             profile.pause=true;
             var self=this,
@@ -1340,7 +1364,7 @@ Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'
                 offset = x - t._band_left_fix;
 
             // if offset out a bar width
-            if(Math.abs(offset)/t.unitPixs >=1){
+            if(Math.abs(offset)/t.unitPixs >=1 || left){
                 var offsetCount = parseInt(offset/t.unitPixs),
                     bak_s = t._smallLabelStart,
                     bak_e = t._smallLabelEnd,
@@ -1462,7 +1486,7 @@ Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'
                     w=0;
                 else
                     w = w + x - l;
-                x = l;        
+                x = l;
             }
             if(x>bw+12)x=bw+12;
             this._setItemNode(profile, o,'left',x+'px');
