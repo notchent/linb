@@ -524,7 +524,7 @@ Class("linb.UI.Tabs", ["linb.UI.iWidget", "linb.UI.iList", "linb.UI.iContainer"]
             dragKey:'',
             dropKeysPanel:'',
             value:{
-                ini:null
+                ini:'a'
             },
             //use ilist defualt items
             items:{

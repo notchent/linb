@@ -1151,9 +1151,11 @@ Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'
             // caculate left and width
             item._left = self._getX(profile, item.start);
             item._width=Math.max(self._getX(profile, item.end) - item._left, 0);
-            if(item._width<=16){
-                item._width=16;
-                item._min=true;
+            if(t.multiTasks){
+                if(item._width<=16){
+                    item._width=16;
+                    item._min=true;
+                }
             }
             item._minDisplay=item._min?'':'display:none';
             item._normalDisplay=item._min?'display:none':'';
@@ -1562,24 +1564,26 @@ Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'
             if(o.width){
                 t._width=max(o.width, 0);
                 t.end = timeline._getTime(profile,o.left+o.width);
-                // if too small, show min
-                if(t._width<=16){
-                    t._width=o.width=16;
-                    if(!t._min){
-                        t._min=true;
-                        f('NORMAL',t.id).display('none');
-                        f('MIN',t.id).display('block');
+                if(p.multiTasks){
+                    // if too small, show min
+                    if(t._width<=16){
+                        t._width=o.width=16;
+                        if(!t._min){
+                            t._min=true;
+                            f('NORMAL',t.id).display('none');
+                            f('MIN',t.id).display('block');
+                        }
+                    // else show normal
+                    }else{
+                        if(t._min){
+                            t._min=false;
+                            f('NORMAL',t.id).display('block');
+                            f('MIN',t.id).display('none');
+                        }
+                        // if too long ,cut right
+                        if(o.left + o.width > bandW)
+                            o.width = bandW - o.left;
                     }
-                // else show normal
-                }else{
-                    if(t._min){
-                        t._min=false;
-                        f('NORMAL',t.id).display('block');
-                        f('MIN',t.id).display('none');
-                    }
-                    // if too long ,cut right
-                    if(o.left + o.width > bandW)
-                        o.width = bandW - o.left;
                 }
                 src.style.width=o.width+'px';
                 if(linb.browser.ie && !p.multiTasks)

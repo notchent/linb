@@ -1,5 +1,6 @@
 Class("linb.UI.Stacks", "linb.UI.Tabs",{
     Static:{
+        Dropable:['PANEL','KEY', 'ITEM'],
         Appearances:{'default':{
             LIST:{
                 position:'static'

@@ -52,43 +52,51 @@ Class("linb.UI.Poll", "linb.UI.List",{
         };
         t.$dynamic={
             items:{
-                ITEM:{
-                    tagName: 'a',
-                    href :"javascript:;",
-                    tabindex: '{_tabindex}',
-                    OPTION:{
-                        $order:0,
-                        tagName : 'DIV',
-                        MARK:{}
-                    },
-                    CAPTION:{
-                        $order:1,
-                        tagName : 'DIV',
-                        text : '{caption}',
-                        className:"{disabled} {_itemcls}"
-                    },
-                    CHART:{
-                        $order:2,
-                        tagName : 'DIV',
-                        style:'{_display}',
-                        CAST:{
+                OUTER:{
+                    tagName:'div',
+                    BTN:{},
+                    ITEM:{
+                        tagName: 'a',
+                        href :"javascript:;",
+                        tabindex: '{_tabindex}',
+                        OPTION:{
                             $order:0,
-                            text:'{message}'
+                            tagName : 'DIV',
+                            MARK:{$order:1}
                         },
-                        BAR:{
+                        CAPTION:{
                             $order:1,
-                            style:'background-position: -{_per}px -190px;',
-                            BARI:{}
+                            tagName : 'DIV',
+                            text : '{caption}',
+                            className:"{disabled} {_itemcls}"
                         },
-                        DEL:{
+                        CHART:{
                             $order:2,
-                            tagName : 'BUTTON',
-                            style:'{_del}',
-                            text:'{delText}'
+                            tagName : 'DIV',
+                            style:'{_display}',
+                            CAST:{
+                                $order:0,
+                                text:'{message}'
+                            },
+                            BAR:{
+                                $order:1,
+                                style:'background-position: -{_per}px -190px;',
+                                BARI:{}
+                            },
+                            DEL:{
+                                $order:2,
+                                tagName : 'BUTTON',
+                                style:'{_del}',
+                                text:'{delText}'
+                            }
+                        },
+                        CLEAR:{
+                            $order:3,
+                            tagName : 'DIV'
                         }
                     },
-                    CLEAR:{
-                        $order:3,
+                    HIDE:{
+                        $order:1,
                         tagName : 'DIV'
                     }
                 }
@@ -210,6 +218,14 @@ Class("linb.UI.Poll", "linb.UI.List",{
                 profile.boxing().onCommand(profile, key, src);
             }
         };
+        t.BTN={
+            onClick : function(profile, e, src){
+                var p = profile.properties,
+                    key = profile.getSubSerialId(src.id);
+                if(p.disabled)return;
+                profile.boxing().onCommand(profile, key, src);
+            }
+        };
 
         self.setBehavior('default',t);
     },
@@ -241,14 +257,34 @@ Class("linb.UI.Poll", "linb.UI.List",{
             ITEMS:{
                 'overflow-x': (linb.browser.ie || linb.browser.gek)?'hidden':'',
                 zoom:linb.browser.ie?1:null,
-                margin:'4px 4px 4px 20px'
+                margin:'4px 4px 4px 5px'
+            },
+            OUTER:{
+                position:'relative',
+                zoom:linb.browser.ie?1:null,
+                'padding-left':'15px',
+                'border-bottom':'1px dashed #CDCDCD'
+            },
+            BTN:{
+                cursor:'pointer',
+                position:'absolute',
+                left:0,
+                top:'4px',
+                width:'15px',
+                height:'15px',
+                background: linb.UI.getCSSImgPara('icon.gif', ' no-repeat left -16px', null, 'linb.UI.Public')
+            },
+            'BTN-checked':{
+                'background-position':'left -28px'
+            },
+            HIDE:{
+                display:'none'
             },
             ITEM:{
                 display:'block',
                 position:'relative',
                 zoom:linb.browser.ie?1:null,
-                padding:'4px 2px 4px 2px',
-                'border-bottom':'1px dashed #CDCDCD'
+                padding:'4px 2px 4px 2px'
             },
             'ITEM-checked':{},
             OPTION:{

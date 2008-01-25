@@ -19,7 +19,7 @@ Class('TimeSpan', 'linb.Com',{
         //small time range
         timeMinUnit:'h',
         timeMinCount:2,
-        timeMaxUnit:'h',
+        timeMaxUnit:'ww',
         timeMaxCount:4,
 
         //big time range

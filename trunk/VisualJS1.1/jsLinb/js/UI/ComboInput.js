@@ -545,7 +545,9 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                         self.each(function(p){
                             pro=p.properties;
                             _.merge(p,{
-                                $compareValue : null,
+                                $compareValue : function(p,a,b){
+                                    return String(a)==String(b)
+                                },
                                 $getShowValue : function(profile,value){
                                     return value?date.getText(new Date(parseInt(value)), 'ymd'):'';
                                 },

@@ -298,13 +298,11 @@ new function(){
                             return this.each(function(v){
                                 //if same return
                                 if(v.properties[i] === value && !flag)return;
-                                var m,ovalue = v.properties[i];
-                                //custom ui
-                                m = _.get(v.box.$DataModel, [i, 'action']);
-
-                                if(typeof m == 'function' && v._applySetAction(m, value, ovalue) === false){}
-                                else
-                                    v.properties[i] = value;
+                                var ovalue = v.properties[i],
+                                    m = _.get(v.box.$DataModel, [i, 'action']);
+                                v.properties[i] = value;
+                                if(typeof m == 'function' && v._applySetAction(m, value, ovalue) === false)
+                                    v.properties[i] = ovalue;
                             });
                         },n,self.KEY);
                     }

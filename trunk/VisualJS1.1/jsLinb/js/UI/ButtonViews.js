@@ -34,6 +34,7 @@ Class("linb.UI.ButtonViews", "linb.UI.Tabs",{
         this.mapKeys(['LEFT','TOP','RIGHT','BOTTOM']);
     },
     Static:{
+        Dropable:['PANEL','KEY', 'ITEM'],
         Appearances:{'default':{
             LIST:{
                 'z-index':'2',
