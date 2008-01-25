@@ -1,4 +1,10 @@
 Class("linb.UI.FoldingList", ["linb.UI.List"],{
+    Instance:{
+        fillDetail:function(item, obj){
+            var profile=this.get(0);
+            profile.getSubNodeByItemId('BODYI',item.id).html('',false).attach(item._obj = obj);
+        }
+    },
     Initialize:function(){
         //modify default template fro shell
         var t = this.getTemplate('default');

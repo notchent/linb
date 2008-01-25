@@ -281,7 +281,7 @@ Class('App', 'linb.Com',{
             return  obj ;
         },
         _objtree_onrequestdata:function (profile, item, threadid) {
-            var o = linb.SC.evalPath(id), arr=[],sub=[],temp,id=item.id;
+            var id=item.id, o=linb.SC.evalPath(id), arr=[],sub=[],temp;
 
             for(var i in o){
                 if(i!='upper' && typeof o[i] == 'function' && o[i].$linb$){

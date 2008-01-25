@@ -330,6 +330,16 @@ Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'
                 }
             },
             FOCUS:{
+                onFocus:function(profile, e, src){
+                    _.resetRun(profile.KEY+':focus',function(){
+                        profile.addTagClass('BAR', '-focus');
+                    });
+                },
+                onBlur:function(profile, e, src){
+                    _.resetRun(profile.KEY+':focus',function(){
+                        profile.removeTagClass('BAR', '-focus');
+                    });
+                },
                 onKeydown:function(profile, e, src){
                     if(profile.pause)return;
                     profile.pause=true;
@@ -712,6 +722,10 @@ Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'
                 'z-index':5,
                 background: linb.UI.getCSSImgPara('barvbg.gif', ' repeat-x left top', null, 'linb.UI.Public')
             },
+            'BAR-focus':{
+                $order:2,
+                'background-position' : 'right -22px'
+            },
             'CMDS, CMDS2':{
                 position:'relative',
                 height:'100%',
@@ -908,7 +922,7 @@ Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'
             },
             'MIN':{
                 width:'16px',
-                background: linb.UI.getCSSImgPara('button.gif',' -60px top'),
+                background: linb.UI.getCSSImgPara('cmds.gif', ' no-repeat -30px -80px', null, 'linb.UI.Public'),
                 cursor:'pointer'
             },
             'MIN-mouseover':{

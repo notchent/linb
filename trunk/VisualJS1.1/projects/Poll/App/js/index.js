@@ -25,6 +25,7 @@ Class('App', 'linb.Com',{
             .setTitle("1. single select ")
             .setItems([{"id":"a","caption":"option 1","message":"1","percent":"0.1"},{"id":"b","caption":"option 2","message":"9","percent":"0.9"}])
             .setValue("")
+            .setToggle(true)
             .setPosition("relative")
             .setCustomFunction({"formatCaption":function (s) {
                 return s + "-";

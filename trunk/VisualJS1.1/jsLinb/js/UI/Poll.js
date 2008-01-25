@@ -1,5 +1,9 @@
 Class("linb.UI.Poll", "linb.UI.List",{
     Instance:{
+        fillDetail:function(item, obj){
+            var profile=this.get(0);
+            profile.getSubNodeByItemId('BODY',item.id).html('',false).attach(item._obj = obj);
+        },
         setOptCap:function(item, v){
             return this.each(function(pro){
                 var items = pro.properties.items,
@@ -418,8 +422,9 @@ Class("linb.UI.Poll", "linb.UI.List",{
                     this.getSubNode('TITLE').html(v);
                 }
             },
-            multiSel:{
-                ini:false,
+            selMode:{
+                ini:'single',
+                listbox:['single','multi'],
                 action:function(){
                     this.boxing().refresh();
                 }
@@ -447,7 +452,7 @@ Class("linb.UI.Poll", "linb.UI.List",{
         dynamicTemplate:function(profile){
             var properties = profile.properties;
             var hash = profile._exhash = "$" +
-                'multiSel:'+properties.multiSel+';',
+                'selMode:'+properties.selMode+';',
                 tid=profile.template._id,
                 template = profile.box.getTemplate(tid, hash)
             ;
@@ -456,9 +461,9 @@ Class("linb.UI.Poll", "linb.UI.List",{
             // set template dynamic
             if(!template){
                 template = _.clone(profile.box.getTemplate(tid));
-                if(properties.multiSel){
-                    template.$dynamic.items.ITEM.OPTION.MARK2={};
-                    delete template.$dynamic.items.ITEM.OPTION.MARK;
+                if(properties.selMode=='multi'){
+                    template.$dynamic.items.OUTER.ITEM.OPTION.MARK2={};
+                    delete template.$dynamic.items.OUTER.ITEM.OPTION.MARK;
                 }
                 // set template
                 profile.box.setTemplate(tid, template, hash);

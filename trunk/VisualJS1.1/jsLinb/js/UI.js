@@ -2329,10 +2329,10 @@ new function(){
                             data = dd.data,
                             item,
                             box=profile.boxing(),
-                            args = [profile, e, self, key, data, item];
-
+                            args;
                         if(box.getItemByDom)
                             item=box.getItemByDom(src);
+                        args= [profile, e, self, key, data, item];
 
                         if(profile.onDropMarkClear && (false===box.onDropMarkClear.apply(box,args))){}
                         else if((t=profile.$onDropMarkClear) && (false===t.apply(profile,args))){}
