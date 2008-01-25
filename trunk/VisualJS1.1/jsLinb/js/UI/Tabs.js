@@ -30,16 +30,19 @@ Class("linb.UI.Tabs", ["linb.UI.iWidget", "linb.UI.iList", "linb.UI.iContainer"]
             });
         },
         attach:function(ui,id){
-            var self=this, profile=self.get(0);
-            //first
-            self.appendChild(ui, id);
+            var self=this, profile=self.get(0),p=profile.properties,node;
+            if(!id)
+                id=p.$UIvalue||p.value;
 
-            if(profile.domNode){
-                if(!profile.getSubSerialIdByItemId(id))
-                    id=profile.properties.$UIvalue;
-                self.getPanel(id).attach(ui);
+            if(id){
+                //first
+                self.appendChild(ui, id);
+                if(profile.domNode){
+                    node=self.getPanel(id);
+                    if(!node.isEmpty())
+                        node.attach(ui);
+                }
             }
-
             return self;
         },
         getCurPanel:function(){

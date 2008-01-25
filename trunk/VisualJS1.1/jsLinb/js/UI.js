@@ -3401,9 +3401,10 @@ new function(){
                 var self = this.constructor,
                     node,
                     items, index, r,
-                    data,
+                    data,box,
                     b=this.afterInsertItems;
                 return this.each(function(profile){
+                    box=profile.box;
                     items = profile.properties.items;
                     index = items.subIndexOf('id',base);
                     if(index==-1){
@@ -3412,13 +3413,13 @@ new function(){
                         items.insert(arr, before?index:index+1);
 
                     // prepare properties format
-                    data = profile.box.prepareItems(profile, arr, base);
+                    data = box.prepareItems(profile, arr, base);
                     //if in dom, create it now
                     if(profile.domNode){
                         var ss=self.subBuild(profile, 'items', data);
                         if(index==-1){
                             //if no base specified, use innerHtml dir
-                            node = profile.getSubNode(profile.keys.ITEMS || profile.keys.KEY);
+                            node = profile.getSubNode(box.ITEMSKEY || profile.keys.ITEMS || profile.keys.KEY);
                             if(typeof before=="boolean"){
                                 r=ss.toDom();
                                 //items.length==1 for that one have fake item(for example: editable poll)
@@ -3430,7 +3431,7 @@ new function(){
                                 node.html(ss);
                         }else{
                             r = ss.toDom();
-                            node=profile.getSubNodeByItemId('ITEM', base);
+                            node=profile.getSubNodeByItemId(box.ITEMKEY || 'ITEM', base);
                             if(before===true)
                                 node.addPre(r);
                             else

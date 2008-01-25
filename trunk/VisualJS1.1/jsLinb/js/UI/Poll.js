@@ -54,7 +54,7 @@ Class("linb.UI.Poll", "linb.UI.List",{
             items:{
                 OUTER:{
                     tagName:'div',
-                    BTN:{},
+                    TOGGLE:{style:'{_togdisplay}'},
                     ITEM:{
                         tagName: 'a',
                         href :"javascript:;",
@@ -95,9 +95,10 @@ Class("linb.UI.Poll", "linb.UI.List",{
                             tagName : 'DIV'
                         }
                     },
-                    HIDE:{
+                    BODY:{
                         $order:1,
-                        tagName : 'DIV'
+                        tagName : 'DIV',
+                        text:'{_body}'
                     }
                 }
             },
@@ -218,18 +219,41 @@ Class("linb.UI.Poll", "linb.UI.List",{
                 profile.boxing().onCommand(profile, key, src);
             }
         };
-        t.BTN={
-            onClick : function(profile, e, src){
-                var p = profile.properties,
-                    key = profile.getSubSerialId(src.id);
-                if(p.disabled)return;
-                profile.boxing().onCommand(profile, key, src);
+        t.TOGGLE={
+            onClick:function(profile, e, src){
+                var properties = profile.properties,
+                    items=properties.items,
+                    item = profile.getItemByDom(src),
+                    itemId = profile.getSubSerialId(src.id),
+                    node = linb([src]),
+                    body = profile.getSubNode('BODY',itemId)
+                    ;
+                if(item._show){
+                    profile.removeTagClass('TOGGLE', '-checked', node);
+                    body.display('none');
+                }else{
+                    profile.addTagClass('TOGGLE', '-checked', node);
+                    body.display('block');
+                    //fill value
+                    if(!item._fill){
+                        item._fill=true;
+                        item._body = profile.onBuildBody ? profile.boxing().onBuildBody(profile, item) : profile.box.buildBody(profile, item);
+                        if(item._body)
+                            profile.getSubNode('BODY',itemId).html(item._body, false);
+                    }
+                }
+
+                item._show=!item._show;
+
+                //prevent href default action
+                //return false;
             }
         };
 
         self.setBehavior('default',t);
     },
     Static:{
+        ITEMKEY:'OUTER',
         Appearances:{'default':{
             KEY:{
                 'font-size':'12px',
@@ -265,7 +289,7 @@ Class("linb.UI.Poll", "linb.UI.List",{
                 'padding-left':'15px',
                 'border-bottom':'1px dashed #CDCDCD'
             },
-            BTN:{
+            TOGGLE:{
                 cursor:'pointer',
                 position:'absolute',
                 left:0,
@@ -274,11 +298,13 @@ Class("linb.UI.Poll", "linb.UI.List",{
                 height:'15px',
                 background: linb.UI.getCSSImgPara('icon.gif', ' no-repeat left -16px', null, 'linb.UI.Public')
             },
-            'BTN-checked':{
+            'TOGGLE-checked':{
+                $order:1,
                 'background-position':'left -28px'
             },
-            HIDE:{
-                display:'none'
+            BODY:{
+                display:'none',
+                'padding-left':'27px'
             },
             ITEM:{
                 display:'block',
@@ -401,6 +427,7 @@ Class("linb.UI.Poll", "linb.UI.List",{
             cmds:{
                 ini:null
             },
+            toggle:false,
             delText:'remove',
             editable:false,
             newOption:'',
@@ -414,7 +441,8 @@ Class("linb.UI.Poll", "linb.UI.List",{
             beforeItemAdded:function(profile, v){},
             beforeItemRemoved:function(profile, item){},
             beforeItemChanged:function(profile, item, v){},
-            onCommand:function(profile, key, src){}
+            onCommand:function(profile, key, src){},
+            onBuildBody:function(profile,item){}
         },
         dynamicTemplate:function(profile){
             var properties = profile.properties;
@@ -476,14 +504,17 @@ Class("linb.UI.Poll", "linb.UI.List",{
             if(typeof f.formatCaption == 'function')
                 item.caption = f.formatCaption(item.caption);
 
+            item._body= item._body || 'Loading...'
             if(item.id!='$custom'){
+                item._togdisplay=((p.toggle && item.toggle!==false) || item.toggle)?'':'display:none;';
+
                 item._display='';
                 item.percent = parseFloat(item.percent)||0;
                 if(item.percent<0)item.percent=0;
                 if(item.percent>1)item.percent=1;
                 item._per = 150*(1-item.percent);
             }else{
-                item._display='display:none;';
+                item._togdisplay=item._display='display:none;';
                 item._per = 0;
             }
             if(p.editable || item.editable)
@@ -493,6 +524,9 @@ Class("linb.UI.Poll", "linb.UI.List",{
                 item.delText=p.delText;
 
             item._del = (p.editable && !item.editable)?'':'display:none;';
+        },
+        buildBody:function(profile,item){
+            return item.text?'<pre>'+item.text.replace(/</g,"&lt;")+'</pre>':'';
         }
     }
 });
