@@ -517,7 +517,8 @@ Class('linb.dragDrop',null,{
             }else{
                 pos.left -=  self._size;
                 pos.top -= self._size;
-                dom.setCover(true);
+                if(!self.target_parent)
+                    dom.setCover(true);
             }
             if(temp=self.target_parent)
                 linb(temp).addLast(t);
