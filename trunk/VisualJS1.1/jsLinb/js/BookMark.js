@@ -87,6 +87,7 @@ Class("linb.BookMark",null,{
         */
     	setBookMark: function(hash, flag){
     	    var self=this;
+    	    if(hash)hash=hash.replace(/^#+/,'');
             if(self.lastHash == '#' + hash)return false;
 
     		if(linb.browser.ie) {

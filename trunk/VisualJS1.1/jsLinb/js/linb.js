@@ -346,10 +346,10 @@ _.merge(linb,{
     },
     _r:/\x24\d+/g,
     getRes:function(a,b,c,d){
-        b=Array.prototype.slice.call(a.indexOf('-')?((d=a.split('-'))&&(a=d[0])&&d):arguments,1);
+        b=Array.prototype.slice.call(a.indexOf('-')!=-1?((d=a.split('-'))&&(a=d[0])&&d):arguments,1);
         c=_.get(linb.Locale[linb.lang], a.split('.'));
         return (d=typeof c)=='string'
-               ? c.replace(this._reg,function(){return b.shift()||''})
+               ? c.replace(this._r,function(){return b.shift()||''})
                : d=='function'
                ? c.apply(null,b) :
                c ? String(c) : a.substr(a.lastIndexOf('.')+1)
