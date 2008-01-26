@@ -1059,7 +1059,7 @@ Class('linb.sajax','linb.io',{
             var w=c._n=document;
 			n = self.node = w.createElement("script");
 			n.type= 'text/javascript';
-			n.src = self.uri + (self.queryString?'?'+self.queryString:'')+(linb.browser.ie?'_ie='+_()+Math.random():'');
+			n.src = self.uri + (self.queryString?'?'+self.queryString:'')+(linb.browser.ie?'&_ie='+_()+Math.random():'');
 			n.charset='utf-8';
 			n.id='linb:script:'+self.id;
 
