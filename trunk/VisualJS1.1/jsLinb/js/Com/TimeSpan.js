@@ -1,66 +1,112 @@
 Class('linb.Com.TimeSpan', 'linb.Com',{
     Instance:{
         //target time span
-        iniFrom:'',//2008-01-16T08:00Z'
-        iniTo:'',//2008-01-16T10:00Z'
+        iniFrom: '',//'2008-01-16T08:00Z',
+        iniTo: '',//'2008-01-16T10:00Z',
 
         //target timezone
-        timezone:'-8000',
+        timezone:((new Date).getTimezoneOffset()/60),
 
         //task caption
-        taskTitle:'',
+        taskTitle:'',//'task title',
 
         //text information
-        txtInfo:'',
-        txtFrom:'',
-        txtTo:'',
-        txtTZ:'',
+        txtInfo:'',//'info',
+        txtFrom:'',//'from',
+        txtTo:'',//'to',
+        txtTZ:'',//'timezone',
 
         //small time range
-        timeMinUnit:'',//'h',
+        timeMinUnit:'h',
         timeMinCount:0,//2,
-        timeMaxUnit:'',//'d',
-        timeMaxCount:0,//2,
+        timeMaxUnit:'ww',
+        timeMaxCount:0,//4,
 
         //big time range
-        timeEnd:"","2008-01-16T00:00Z",
-        timeStart:"",//"2008-01-18T00:00Z",
+        timeStart:'',//"2008-01-16T00:00Z",
+        timeEnd:'',//"2008-01-18T00:00Z",
 
+
+        getValue:function(){
+            var ns=this,
+                date=linb.date,
+                v=ns.timeline.getUIValue(),
+                tz=ns.timezone,
+                uv=v.split(":");
+            return [date.unpackTimeZone(new Date(parseInt(uv[0])),tz), date.unpackTimeZone(new Date(parseInt(uv[1])),tz)];
+        },
+        setValue:function(iniFrom, iniTo){
+            var ns=this,
+                timeline=ns.timeline,
+                tz=ns.timezone,
+                date=linb.date,
+                a=date.packTimeZone(iniFrom, tz),
+                b=date.packTimeZone(iniTo, tz)
+            ;
+            linb.log(a,b);
+                if(a && b){
+                    timeline.setValue(a.getTime()+":"+b.getTime(),true);
+
+                    ns._timeEnd = date.packTimeZone(date.parse(ns.timeEnd), tz);
+                    ns._timeStart = date.packTimeZone(date.parse(ns.timeStart), tz);
+
+                    if(ns._timeEnd)
+                        timeline.setMaxDate(date.getText(ns._timeEnd,'utciso'));
+                    if(ns._timeStart)
+                        timeline.setMinDate(date.getText(ns._timeStart,'utciso'));
+
+                    ns.dateFrom.setValue(date.getRoundDown(a,'d').getTime(),true);
+                    ns.dateTo.setValue(date.getRoundDown(b,'d').getTime(),true);
+                    ns.timeFrom.setValue(date.get(a,'h')+':'+date.get(a,'n'), true);
+                    ns.timeTo.setValue(date.get(b,'h')+':'+date.get(b,'n'), true);
+                    _.asyRun(function(){
+                        timeline.visibleTask();
+                    });
+                }
+        },
+        setTimezone:function(tz){
+            var ns=this,
+                date=linb.date,
+                uv=ns.timeline.getUIValue(),
+                a,b,
+                old=ns.timezone;
+            ns.timezone=tz;
+            if(uv){
+                uv=uv.split(':');
+                ns.setValue(date.unpackTimeZone(new Date(parseInt(uv[0])),old), date.unpackTimeZone(new Date(parseInt(uv[1])),old));
+            }
+        },
         required:["linb.UI.TimeLine","linb.UI.ComboInput","linb.UI.Div","linb.UI.Panel"],
         events:{
-            onReady:"_on"
+            onReady:"_on",
+            afterIniComponents:'_ai'
         },
-        _on:function () {
+        _ai:function(){
+            _.tryF(this.onIniTimeLine,[this.timeline],this);
+        },
+        _on:function(){
             var self=this,
-                date=linb.date,;
-
-            self._timeEnd = date.parse(self.timeEnd);
-            self._timeStart = date.parse(self.timeStart);
-
-            self.timeline.setMaxDate(self._timeEnd)
-            .setMinDate(self._timeStart);
-
-            self.divFrom.setHtml(self.txtFrom);
-            self.divTo.setHtml(self.txtTo);
-            self.divInfo.setHtml(self.txtInfo);
-            self.divTZ.setHtml(self.txtTZ);
+                date=linb.date,t;
+            t=self.txtFrom;
+            t=t.indexOf(0)=='$'?linb.wrapRes(t):t;
+            self.divFrom.setHtml(t);
+            t=self.txtTo;
+            t=t.indexOf(0)=='$'?linb.wrapRes(t):t;
+            self.divTo.setHtml(t);
+            t=self.txtInfo;
+            t=t.indexOf(0)=='$'?linb.wrapRes(t):t;
+            self.divInfo.setHtml(t);
+            t=self.txtTZ;
+            t=t.indexOf(0)=='$'?linb.wrapRes(t):t;
+            self.divTZ.setHtml(t);
 
             var a=self._timeStart,
                 b=date.add(a,self.timeMinUnit,self.timeMinCount);
 
             self.timeline.setDftCaption(self.taskTitle);
 
-            if(self.iniFrom && self.iniTo){
-                a=date.parse(self.iniFrom);
-                b=date.parse(self.iniTo);
-                if(a && b)
-                    timeSpanValue=a.getTime()+":"+b.getTime();
-            }
-
-            if(timeSpanValue)
-                self.timeline
-                .setValue(timeSpanValue,true)
-                .visibleTask();
+            if(self.iniFrom && self.iniTo)
+                self.setValue(date.parse(self.iniFrom), date.parse(self.iniTo));
         },
         iniComponents:function(){
             // [[code created by designer, don't change it manually
@@ -68,14 +114,12 @@ Class('linb.Com.TimeSpan', 'linb.Com',{
 
             f(
             (new u.Panel)
-            .host(t,"panel11")
-            .setLeft(290)
-            .setTop(20)
+            .host(t,"panelMain")
             .setWidth(420)
             .setHeight(210)
             );
 
-            t.panel11.attach(
+            t.panelMain.attach(
             (new u.ComboInput)
             .host(t,"dateFrom")
             .setLeft(67)
@@ -87,7 +131,7 @@ Class('linb.Com.TimeSpan', 'linb.Com',{
             .beforeValueUpdated("_4")
             );
 
-            t.panel11.attach(
+            t.panelMain.attach(
             (new u.ComboInput)
             .host(t,"timeFrom")
             .setLeft(172)
@@ -99,25 +143,27 @@ Class('linb.Com.TimeSpan', 'linb.Com',{
             .beforeValueUpdated("_3")
             );
 
-            t.panel11.attach(
+            t.panelMain.attach(
             (new u.Div)
             .host(t,"divTZ")
             .setLeft(10)
             .setTop(189)
             .setWidth(53)
             .setHeight(16)
+            .setCustomAppearance('KEY','text-align:right')
             );
 
-            t.panel11.attach(
+            t.panelMain.attach(
             (new u.Div)
             .host(t,"divFrom")
             .setLeft(10)
             .setTop(163)
             .setWidth(53)
             .setHeight(16)
+            .setCustomAppearance('KEY','text-align:right')
             );
 
-            t.panel11.attach(
+            t.panelMain.attach(
             (new u.ComboInput)
             .host(t,"timeTo")
             .setLeft(351)
@@ -129,7 +175,7 @@ Class('linb.Com.TimeSpan', 'linb.Com',{
             .beforeValueUpdated("_1")
             );
 
-            t.panel11.attach(
+            t.panelMain.attach(
             (new u.ComboInput)
             .host(t,"dateTo")
             .setLeft(246)
@@ -141,16 +187,17 @@ Class('linb.Com.TimeSpan', 'linb.Com',{
             .beforeValueUpdated("_2")
             );
 
-            t.panel11.attach(
+            t.panelMain.attach(
             (new u.Div)
             .host(t,"divTo")
             .setLeft(224)
             .setTop(163)
             .setWidth(20)
             .setHeight(16)
+            .setCustomAppearance('KEY','text-align:right')
             );
 
-            t.panel11.attach(
+            t.panelMain.attach(
             (new u.TimeLine)
             .host(t,"timeline")
             .setLeft(10)
@@ -161,7 +208,7 @@ Class('linb.Com.TimeSpan', 'linb.Com',{
             .beforeValueUpdated("_5")
             );
 
-            t.panel11.attach(
+            t.panelMain.attach(
             (new u.Div)
             .host(t,"divInfo")
             .setLeft(10)
@@ -170,7 +217,7 @@ Class('linb.Com.TimeSpan', 'linb.Com',{
             .setHeight(20)
             );
 
-            t.panel11.attach(
+            t.panelMain.attach(
             (new u.ComboInput)
             .host(t,"cbiTZ")
             .setLeft(66)

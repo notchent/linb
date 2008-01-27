@@ -778,7 +778,7 @@ Class('VisualJS.Designer', 'linb.Com',{
                     profile._selregion = {};
 
                     var pos = linb.event.getPos(e);
-                    linb(src).startDrag(e,{move:false,type:'blank',cursor:true,target_left:pos.left,target_top:pos.top,defer:1});
+                    linb(src).startDrag(e,{move:false,type:'blank',cursor:'crosshair',target_left:pos.left,target_top:pos.top,defer:1});
                     profile.$dragging=false;
                 },
                 onClick:function(profile, e, src){
@@ -807,7 +807,7 @@ Class('VisualJS.Designer', 'linb.Com',{
                     }
                 },
                 beforeDragend:function(profile, e, src){
-                    if(!profile._selregion)return;
+                    //if(!profile._selregion)return;
                     var region = profile._selregion,
                     proxy=page.proxy,
 
@@ -835,10 +835,15 @@ Class('VisualJS.Designer', 'linb.Com',{
                         //reset/cache proxy
                         profile.setSelectFromPanel.call(profile, this, selected);
                     }
-                    proxy.display('none');
+                    //for firefox cursor bug
+                    _.asyRun(function(){
+                        proxy.display('none');
+                    });
                 },
                 onMouseup:function(profile, e, src){
-                    page.proxy.display('none');
+                    _.asyRun(function(){
+                        page.proxy.display('none');
+                    });
                 }
             };
 

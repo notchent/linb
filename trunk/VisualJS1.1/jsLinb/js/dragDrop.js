@@ -509,11 +509,11 @@ Class('linb.dragDrop',null,{
             var t,temp,self=this,dom=linb.dom;
             if(!dom.byId(self._id))
                 linb([document.body]).addFirst(
-                    dom.create('<table id="' + self._id + '" cellspacing="'+self._size+'" cellpadding="0" style="left:0;top:0;border:0; border-spacing:'+self._size+'px; border-collapse: separate; position: absolute;"><tbody><tr><td id="' +self._idi+ '"></td></tr></tbody></table>')
+                    dom.create('<div id="' + self._id + '" style="left:0;top:0;border:0; padding:'+self._size+'px; position: absolute;"><div id="' +self._idi+ '"></div></div>')
                 );
             t=linb(self._id);
             if(self.drop2){
-                t.attr('cellSpacing',0).setStyle('borderSpacing',0);
+                t.setStyle('padding',0);
             }else{
                 pos.left -=  self._size;
                 pos.top -= self._size;
@@ -528,7 +528,7 @@ Class('linb.dragDrop',null,{
                 self.proxyIn = child;
             }else
                 self.proxyIn = linb(self._idi);
-            t.setStyle({cursor:self.cursor,display:'',zIndex:dom.top_zIndex*10}).absPos(pos, temp);
+            t.setStyle({display:'',zIndex:dom.top_zIndex*10,cursor:self.cursor}).absPos(pos, temp);
 
             return t;
         },
@@ -551,12 +551,11 @@ Class('linb.dragDrop',null,{
 
                 linb([document.body]).addFirst(
                     t
-                    .attr('cellSpacing',self._size)
                     .setStyle({
                         zIndex:0,
                         cursor:'',
                         display:'none',
-                        borderSpacing:self._size+'px'
+                        padding:self._size+'px'
                     })
                 );
                 self.proxyIn=self.proxystyle=null;

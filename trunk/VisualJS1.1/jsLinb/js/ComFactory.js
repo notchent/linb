@@ -33,7 +33,6 @@ Class('linb.ComFactory',null,{
             }else{
                 if(!(p=p[id]))return null;
                 var self=arguments.callee, me=this, children=p.children;
-
                 //ensure array
                 var iniMethod = p.iniMethod || ini || 'create',
                     clsPath = p.cls,
@@ -53,25 +52,24 @@ Class('linb.ComFactory',null,{
                                         //if tag exists, replace tag with com from linb.ComFactory
                                         if(v.key=='linb.UI.Tag'){
                                             var tag=v, cid=tag.properties.tagKey;
+                                            if(cid && children && children[cid])
+                                                self.apply(me, [children[cid], threadid, function(){
+                                                    //set link to parent com(linb.Com)
+                                                    com[cid]=this;
+                                                    //set com parent
+                                                    this.parent=com;
 
-                                            self.apply(me, [children[cid], threadid, function(){
-                                                //set link to parent com(linb.Com)
-                                                com[cid]=this;
-                                                //set com parent
-                                                this.parent=com;
+                                                    //replace tag with this
+                                                    var ui = this.getUIObj(), root;
+                                                    // no UI in this com
+                                                    if(!(root=ui.get(0)))return;
 
-                                                //replace tag with this
-                                                var ui = this.getUIObj(), root;
-                                                // no UI in this com
-                                                if(!(root=ui.get(0)))return;
+                                                    linb.UI.Tag.replace(tag,root);
 
-                                                linb.UI.Tag.replace(tag,root);
-
-                                                //if the first layer, and in com's _nodes array
-                                                if(firstlayer && com._nodes[i]==tag)
-                                                    com._nodes[i]=root;
-                                            }]);
-
+                                                    //if the first layer, and in com's _nodes array
+                                                    if(firstlayer && com._nodes[i]==tag)
+                                                        com._nodes[i]=root;
+                                                }]);
                                         }
                                         if(v.children){
                                             var a=[];

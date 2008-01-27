@@ -11,7 +11,7 @@ Dual licensed under the MIT (http://www.opensource.org/licenses/mit-license.php)
 /*
 *load linb.logger to redefine window.error
 */
-window.error=function(){return true};
+//window.error=function(){return true};
 
 //time stamp
 _=function(){return new Date().getTime()};
