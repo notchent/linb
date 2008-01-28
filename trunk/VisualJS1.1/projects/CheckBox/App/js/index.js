@@ -10,30 +10,10 @@ Class('App', 'linb.Com',{
             
             f(
             (new u.CheckBox)
-            .host(t,"checkbox1")
-            .setLeft(40)
-            .setTop(40)
-            .setCaption("checkbox1")
-            );
-            
-            f(
-            (new u.CheckBox)
-            .host(t,"checkbox4")
-            .setLeft(40)
-            .setTop(100)
-            .setCaption("checkbox1")
-            .setWidth(130)
-            .setHeight(30)
-            .setShadow(true)
-            .setResizable(true)
-            );
-            
-            f(
-            (new u.CheckBox)
             .host(t,"checkbox3")
-            .setLeft(440)
-            .setTop(110)
-            .setCaption("checkbox2")
+            .setLeft(40)
+            .setTop(260)
+            .setCaption("Right Alignment")
             .setWidth(190)
             .setHeight(27)
             .setBorder(true)
@@ -43,28 +23,53 @@ Class('App', 'linb.Com',{
             
             f(
             (new u.CheckBox)
+            .host(t,"checkbox4")
+            .setLeft(40)
+            .setTop(160)
+            .setCaption("Shadow")
+            .setWidth(190)
+            .setHeight(30)
+            .setShadow(true)
+            .setResizable(true)
+            );
+            
+            f(
+            (new u.CheckBox)
             .host(t,"checkbox5")
-            .setLeft(190)
-            .setTop(100)
-            .setCaption("checkbox1")
+            .setLeft(40)
+            .setTop(110)
+            .setCaption("Check box with icon")
             .setIcon("img/demo.gif")
+            .setWidth(190)
+            .setHeight(30)
             );
             
             f(
             (new u.CheckBox)
             .host(t,"checkbox6")
             .setLeft(40)
-            .setTop(220)
-            .setCaption("event")
+            .setTop(210)
+            .setCaption("Check me to fire an event")
+            .setWidth(190)
+            .setHeight(30)
             .afterValueUpdated("_checkbox_aftervalueupdated")
             );
             
             f(
             (new u.CheckBox)
-            .host(t,"checkbox2")
-            .setLeft(190)
+            .host(t,"checkbox1")
+            .setLeft(40)
             .setTop(40)
-            .setCaption("checkbox2")
+            .setCaption("checkbox1")
+            .setWidth(190)
+            );
+            
+            f(
+            (new u.CheckBox)
+            .host(t,"checkbox2")
+            .setLeft(40)
+            .setTop(70)
+            .setCaption("Check box with border")
             .setWidth(190)
             .setHeight(27)
             .setBorder(true)
