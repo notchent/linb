@@ -310,6 +310,9 @@ Class("linb.UI.PanelBar", ["linb.UI.Div","linb.UI.iContainer"],{
                 profile.getSubNode('BORDER').height(h);
                 profile.getSubNode('PANEL').height(h-profile.properties.handleHeight);
             }
+            //for performance
+            if(w && parseInt(profile.domNode.style.width))
+                profile.getSubNode('PANEL').width(w);
         },
 
         _toggle:function(profile, value){

@@ -513,38 +513,35 @@ new function(){
             //get events function from profile
             getEV:function(id, name){
                 var self=this,
-                $k = id+"+"+name,
-                g = self.$cache_egetter ||(self.$cache_egetter={});
+                    $k = id+"+"+name,
+                    g = self.$cache_egetter ||(self.$cache_egetter={});
                 if(g[$k])return g[$k];
 
-                var funs=[],t,key, ar = ['_CB', name], arr = ['CB', name];
+                var dom=linb.cache.dom,
+                    funs=[],
+                    t,key
+                    ;
                 //for event attached on dom node
-                if(t=_.get(linb.cache.dom,[id, 'events',name]))
+                if( (t=dom[id]) && (t=t.events) && (t=t[name]) )
                     for(var i=0,l=t.length;i<l;i++)
                         if(typeof t[t[i]]=='function')
                             funs[funs.length]=t[t[i]];
 
                 //for event attached on linb widgets
                 //get event function path of cache
-                if(key = _.str(id.split(":")[0].split("-")[1])){
-                    ar.insert((t=key.split(".")),1);
-                    arr.insert(t,1);
-                }
+                key = id.split(":")[0].split("-")[1];
 
                 //for design mode
-                if(typeof (t=_.get(self, ar))=='function')
+                if(typeof (((t=self._CB) && (key?(t=t[key]):1)) && (t=t[name]))=='function')
                     funs[funs.length]=t;
                 //get event function from customBehavior first
-                else if(typeof (t=_.get(self, arr))=='function')
+                else if(typeof (((t=self.CB) && (key?(t=t[key]):1)) && (t=t[name]))=='function')
                     funs[funs.length]=t;
                 else{
                     //get event function from public behavior
-                    arr[0]='behavior';
-                    if(typeof (t=_.get(self, arr))=='function')
+                    if(typeof (((t=self.behavior) && (key?(t=t[key]):1)) && (t=t[name]))=='function')
                         funs[funs.length]=t;
                 }
-
-                arr.length=0;
                 return g[$k] = funs;
             },
             //
