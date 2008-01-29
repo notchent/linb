@@ -21,7 +21,7 @@ CONF={
             {id:'linb.UI.ComboInput', caption:'ComboInput', icon:'img/widgets.gif', iconPos:'-144px top', dragable:true},
 
             {id:'linb.UI.Range', caption:'Range', icon:'img/widgets.gif', iconPos:'left -16px', dragable:true},
-    //        {id:'linb.UI.ComboButton', caption:'ComboButton', icon:'img/widgets.gif', iconPos:'-80px top', dragable:true},
+            {id:'linb.UI.ComboButton', caption:'ComboButton', icon:'img/widgets.gif', iconPos:'-80px top', dragable:true},
     //        {id:'linb.UI.Spin', caption:'Spin', icon:'img/widgets.gif', iconPos:'-160px top', dragable:true},
     //        {id:'linb.UI.Slider', caption:'Slider', icon:'img/widgets.gif', iconPos:'-176px top', dragable:true},
             {id:'linb.UI.TimePicker', caption:'TimePicker', icon:'img/widgets.gif', iconPos:'-240px top', dragable:true},

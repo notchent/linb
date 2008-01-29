@@ -1699,7 +1699,8 @@ new function(){
                 // add event handler
                 if(behavior && (t=behavior.$eventhandler))
                     for(var i in t)
-                        arr[arr.length]=i+'="'+t[i]+'" ';
+                        if(t[i])
+                            arr[arr.length]=i+'="'+t[i]+'" ';
 
                 arr[arr.length]='>';
 
@@ -1873,7 +1874,7 @@ new function(){
                 if(hash._hoverEffect)
                     _.each(hash._hoverEffect,function(o,i){
                         t=['','KEY','$key'].exists(i)?hash:(hash[i]||(hash[i]={}));
-                        if(null===o)
+                        if(!o)
                             t.afterMouseover = t.afterMouseout = null;
                         else{
                             t.afterMouseover = f(o,'mouseover', 1);
@@ -1884,7 +1885,7 @@ new function(){
                 if(hash._clickEffect)
                     _.each(hash._clickEffect,function(o,i){
                         t=['','KEY','$key'].exists(i)?hash:(hash[i]||(hash[i]={}));
-                        if(null===o)
+                        if(!o)
                             t.afterMousedown = t.afterMouseup = null;
                         else{
                             t.afterMousedown = f(o,'mousedown', 1);
@@ -2079,19 +2080,29 @@ new function(){
                             for(j in o){
                                 v=o[j];
                                 if(!check[j.charAt(0)]){
-                                    /*set to behavior*/
-                                    m[j]=v;
-                                    /*add handler*/
                                     type = eventType(j);
-                                    (m.$eventhandler || (m.$eventhandler={}))['on'+type]=handler;
+                                    if(v){
+                                        /*set to behavior*/
+                                        m[j]=v;
+                                        /*add handler*/
+                                        (m.$eventhandler || (m.$eventhandler={}))['on'+type]=handler;
+                                    }else{
+                                        delete m[j];
+                                        if(n.$eventhandler)delete n.$eventhandler['on'+type];
+                                    }
                                 }
                             }
                         }else{
-                            /*set to behavior*/
-                            n[i]=o;
-                            /*add handler*/
                             type = eventType(i);
-                            (n.$eventhandler || (n.$eventhandler={}))['on'+type]=handler;
+                            if(o){
+                                /*set to behavior*/
+                                n[i]=o;
+                                /*add handler*/
+                                (n.$eventhandler || (n.$eventhandler={}))['on'+type]=handler;
+                            }else{
+                                delete n[i];
+                                if(n.$eventhandler)delete n.$eventhandler['on'+type];
+                            }
                         }
                     }
                 }

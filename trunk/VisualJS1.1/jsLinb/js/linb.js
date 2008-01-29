@@ -65,17 +65,16 @@ _.merge(_,{
         _.set({a:{b:{c:1}}},['a','b','c']) => {a:{b:{}}}
     */
     set:function(hash,arr,value){
-        var v,i,l,m,key = arr.pop();
-        if(typeof value!='undefined'){
-            for(i=0,l=arr.length;i<l;){
-                v=arr[i++];
-                if(hash[v]&&((m=typeof hash[v])=='object' || m=='function')) hash=hash[v];
-                else hash=hash[v]={};
-            }
+        var v,i,m,last=arr.length-1,key = arr[last];
+        for(i=0;i<last;){
+            v=arr[i++];
+            if(hash[v]&&((m=typeof hash[v])=='object' || m=='function')) hash=hash[v];
+            else hash=hash[v]={};
+        }
+        if(typeof value=='undefined')
+            delete hash[key];
+        else
             return hash[key]=value;
-        }else
-            if(hash=_.get(hash,arr))
-                delete hash[key];
     },
     /*
     new function shortcut
@@ -208,7 +207,7 @@ Class=function(key, parent_key, o){
                 b=true;
                 break;
             }
-        if(!b)t.push(key);
+        if(!b)t[t.length]=key;
     }
 
     /*set symbol to _this
@@ -346,10 +345,10 @@ _.merge(linb,{
     },
     _r:/\x24\d+/g,
     getRes:function(a,b,c,d){
-        b=Array.prototype.slice.call(a.indexOf('-')!=-1?((d=a.split('-'))&&(a=d[0])&&d):arguments,1);
+        b= a.indexOf('-')!=-1?((d=a.split('-'))&&(a=d[0])&&d):arguments ;
         c=_.get(linb.Locale[linb.lang], a.split('.'));
         return (d=typeof c)=='string'
-               ? c.replace(this._r,function(){return b.shift()||''})
+               ? (a=2&&c.replace(this._r,function(){return b[a++]||''}))
                : d=='function'
                ? c.apply(null,b) :
                c ? String(c) : a.substr(a.lastIndexOf('.')+1)

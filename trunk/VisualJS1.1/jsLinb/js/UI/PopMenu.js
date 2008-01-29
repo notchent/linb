@@ -49,8 +49,8 @@ Class("linb.UI.PopMenu",["linb.UI.Widget","linb.UI.iList","linb.UI.iNavigator"],
                 if(bh<h+y){
                     if(!profile.$scrollStep)profile.$scrollStep=1;
 
-                    if(profile.$scrollStep<10)
-                        profile.$scrollStep = profile.$scrollStep*1.03;
+                    if(profile.$scrollStep<30)
+                        profile.$scrollStep = profile.$scrollStep*1.1;
 
                     y -= profile.$scrollStep;
                     if(bh>h+y){
@@ -378,8 +378,8 @@ Class("linb.UI.PopMenu",["linb.UI.Widget","linb.UI.iList","linb.UI.iNavigator"],
                         //no create
                         if(!(pop = profile.$allRelatedPopMenus[itemId])){
                             pop = (new linb.UI.PopMenu({position:'absolute', items:item.sub})).create(true);
-                            pop.onMenuSelected(function(pro, id, src){
-                                profile.boxing().onMenuSelected(profile, id, src);
+                            pop.onMenuSelected(function(pro, id, item, src){
+                                profile.boxing().onMenuSelected(profile, id, item, src);
                             });
                             //set pool to parent
                             pop.get(0).$hideMenuPool = profile.$hideMenuPool || profile.getSubNode('POOL');
@@ -435,7 +435,7 @@ Class("linb.UI.PopMenu",["linb.UI.Widget","linb.UI.iList","linb.UI.iNavigator"],
 
                     if(item.sub){
                     }else{
-                        profile.boxing().onMenuSelected(profile, item.id, src);
+                        profile.boxing().onMenuSelected(profile, item.id, item, src);
                         profile.removeTagClass('ITEM','-mouseover',linb(this));
 
                         //hide all parent pop
@@ -602,7 +602,7 @@ Class("linb.UI.PopMenu",["linb.UI.Widget","linb.UI.iList","linb.UI.iNavigator"],
             beforeNextFocus:null,
 
             onCancelled:function(profile){},
-            onMenuSelected:function(profile, id, src){},
+            onMenuSelected:function(profile, id, item, src){},
             onHide:function(profile){}
         },
         renderedTrigger:function(){

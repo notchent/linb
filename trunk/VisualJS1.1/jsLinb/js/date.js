@@ -975,7 +975,7 @@ Class('linb.date',null,{
         _isNumb:function(target)  {return typeof target == 'number' && isFinite(target)},
         _numb:function(value,df){return this._isNumb(value)?value:this._isNumb(df)?df:0},
         //time Zone like: -8
-        _timeZone:((new Date).getTimezoneOffset()/60),
+        _timeZone:-((new Date).getTimezoneOffset()/60),
         //sun
         firstDayOfWeek:0,
 
@@ -1237,12 +1237,12 @@ Class('linb.date',null,{
         _pack:function(date, timeZone, flag){
             var self=this;
             date=self._date(date);
-            return new Date(date.getTime() + (flag?1:-1)*(timeZone - self._timeZone)*self.TIMEUNIT.h);
+            return new Date(date.getTime() + (flag?-1:1)*(timeZone - self._timeZone)*self.TIMEUNIT.h);
         },
         /*fake date for a certain timezone (based on the current timezone of "Date object")
         */
         packTimeZone:function(date, timeZone){
-            return this._pack(date,timeZone);
+            return this._pack(date, timeZone);
         },
         /*return to real date from packTimezone
         */

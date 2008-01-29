@@ -108,7 +108,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                     case 'getter':
                     case 'cmdbox':
                     case 'popbox':
-                        box.onClickButton(profile, pos);
+                        box.onClickButton(profile, pos, profile.root.get(0));
                         return;
                 }
 
@@ -452,7 +452,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
         }},
         EventHandlers:{
             onSave:function(profile, src){},
-            onClickButton:function(profile, pos){}
+            onClickButton:function(profile, pos, node){}
         },
         posMap:{
             none:'',

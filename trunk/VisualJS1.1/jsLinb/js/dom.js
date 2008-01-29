@@ -72,7 +72,7 @@ new function(){
             //hash
             if(typeof flag!=='undefined')
                 for(var i in value)
-                    arr.push(flag?i:value[i]);
+                    arr[arr.length]=flag?i:value[i];
             //other like arguments
             else{
                 for(var i=0,l=value.length; i<l; ++i)
@@ -1409,7 +1409,7 @@ Class('linb.dom','linb.iBox',{
             else{
                 var r=[],arr = _.get(linb.cache.dom,[id,'events',name]);
                 arr.each(function(o,i){
-                    r.push([o,arr[o]]);
+                    r[r.length]=[o,arr[o]];
                 });
                 return r;
             }

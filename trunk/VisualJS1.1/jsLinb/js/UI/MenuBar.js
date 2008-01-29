@@ -17,7 +17,8 @@ Class("linb.UI.MenuBar",["linb.UI.iWidget","linb.UI.iList","linb.UI.iNavigator"]
 
             profile.$allRelatedPopMenus = profile.$allRelatedPopMenus || {};
             if(flag || !(menu = profile.$allRelatedPopMenus[id])){
-                var sub = profile.getItemByItemId(id).sub;
+                var item=profile.getItemByItemId(id),
+                    sub = item.sub;
                 sub  = sub ||[];
 
                 //TODO: create menu
@@ -29,8 +30,8 @@ Class("linb.UI.MenuBar",["linb.UI.iWidget","linb.UI.iList","linb.UI.iNavigator"]
                 menu.onHide(function(pro){
                     self.hide(false);
                     self.get(0).properties.$menuPop=null;
-                }).onMenuSelected(function(pro, id, src){
-                    profile.boxing().onMenuSelected(profile, id, src);
+                }).onMenuSelected(function(pro, id, item, src){
+                    profile.boxing().onMenuSelected(profile, id, item, src);
                 });
                 menu.get(0).$hideMenuPool = profile.getSubNode('POOL');
                 menu.get(0).$allRelatedPopMenus = profile.$allRelatedPopMenus;
@@ -314,7 +315,7 @@ Class("linb.UI.MenuBar",["linb.UI.iWidget","linb.UI.iList","linb.UI.iNavigator"]
             beforeValueSet:null,
             afterValueSet:null,
 
-            onMenuSelected:function(profile, id, src){}
+            onMenuSelected:function(profile, id, item, src){}
         },
         createdTrigger:function(){
             if(this.properties.disabled)this.boxing().setDisabled(true,true);

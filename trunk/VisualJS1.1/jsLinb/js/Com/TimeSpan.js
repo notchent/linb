@@ -4,8 +4,8 @@ Class('linb.Com.TimeSpan', 'linb.Com',{
         iniFrom: '',//'2008-01-16T08:00Z',
         iniTo: '',//'2008-01-16T10:00Z',
 
-        //target timezone
-        timezone:((new Date).getTimezoneOffset()/60),
+        //target timezone '+0830'
+        timezone:'',
 
         //task caption
         taskTitle:'',//'task title',
@@ -31,20 +31,20 @@ Class('linb.Com.TimeSpan', 'linb.Com',{
             var ns=this,
                 date=linb.date,
                 v=ns.timeline.getUIValue(),
-                tz=ns.timezone,
+                tz=ns._timezone,
                 uv=v.split(":");
             return [date.unpackTimeZone(new Date(parseInt(uv[0])),tz), date.unpackTimeZone(new Date(parseInt(uv[1])),tz)];
         },
         setValue:function(iniFrom, iniTo){
             var ns=this,
                 timeline=ns.timeline,
-                tz=ns.timezone,
+                tz=ns._timezone,
                 date=linb.date,
                 a=date.packTimeZone(iniFrom, tz),
                 b=date.packTimeZone(iniTo, tz)
             ;
-            linb.log(a,b);
-                if(a && b){
+                if(a && b && !self.$lock){
+                    self.$lock=1;
                     timeline.setValue(a.getTime()+":"+b.getTime(),true);
 
                     ns._timeEnd = date.packTimeZone(date.parse(ns.timeEnd), tz);
@@ -62,6 +62,7 @@ Class('linb.Com.TimeSpan', 'linb.Com',{
                     _.asyRun(function(){
                         timeline.visibleTask();
                     });
+                    self.$lock=0;
                 }
         },
         setTimezone:function(tz){
@@ -69,14 +70,14 @@ Class('linb.Com.TimeSpan', 'linb.Com',{
                 date=linb.date,
                 uv=ns.timeline.getUIValue(),
                 a,b,
-                old=ns.timezone;
-            ns.timezone=tz;
+                old=ns._timezone;
+            ns._timezone=ns._getTimezone(ns.timezone=tz);
             if(uv){
                 uv=uv.split(':');
                 ns.setValue(date.unpackTimeZone(new Date(parseInt(uv[0])),old), date.unpackTimeZone(new Date(parseInt(uv[1])),old));
             }
         },
-        required:["linb.UI.TimeLine","linb.UI.ComboInput","linb.UI.Div","linb.UI.Panel"],
+        required:["linb.UI.TimeLine","linb.UI.ComboInput","linb.UI.Div","linb.UI.Panel","linb.UI.PopMenu"],
         events:{
             onReady:"_on",
             afterIniComponents:'_ai'
@@ -85,32 +86,67 @@ Class('linb.Com.TimeSpan', 'linb.Com',{
             _.tryF(this.onIniTimeLine,[this.timeline],this);
         },
         _on:function(){
-            var self=this,
-                date=linb.date,t;
-            t=self.txtFrom;
+            var ns=this,
+                date=linb.date,t,a,b,reg=/\./g,
+                wrap=function(s){return linb.wrapRes('date.TIMEZONE.'+s)};
+            t=ns.txtFrom;
             t=t.indexOf(0)=='$'?linb.wrapRes(t):t;
-            self.divFrom.setHtml(t);
-            t=self.txtTo;
+            ns.divFrom.setHtml(t);
+            t=ns.txtTo;
             t=t.indexOf(0)=='$'?linb.wrapRes(t):t;
-            self.divTo.setHtml(t);
-            t=self.txtInfo;
+            ns.divTo.setHtml(t);
+            t=ns.txtInfo;
             t=t.indexOf(0)=='$'?linb.wrapRes(t):t;
-            self.divInfo.setHtml(t);
-            t=self.txtTZ;
+            ns.divInfo.setHtml(t);
+            t=ns.txtTZ;
             t=t.indexOf(0)=='$'?linb.wrapRes(t):t;
-            self.divTZ.setHtml(t);
+            ns.divTZ.setHtml(t);
 
-            var a=self._timeStart,
-                b=date.add(a,self.timeMinUnit,self.timeMinCount);
+            a=ns._timeStart;
+            b=date.add(a,ns.timeMinUnit,ns.timeMinCount);
 
-            self.timeline.setDftCaption(self.taskTitle);
+            ns.timeline.setDftCaption(ns.taskTitle);
 
-            if(self.iniFrom && self.iniTo)
-                self.setValue(date.parse(self.iniFrom), date.parse(self.iniTo));
+            ns.cbiTZ.setValue(ns.timezone,true);
+            //ini timezone
+            ns._timezone=ns._getTimezone(ns.timezone);
+
+            if(ns.iniFrom && ns.iniTo)
+                ns.setValue(date.parse(ns.iniFrom), date.parse(ns.iniTo));
+
+            t=[];
+            date.TIMEZONE.each(function(o,i){
+                a=null;
+                if(o.sub){
+                    a=[];
+                    o.sub.each(function(v,j){
+                        a[a.length]={id:j, value:v.v, caption: (v.v?v.v+' -- ':'') + wrap(v.id.replace(reg,'_'))};
+                    })
+                }
+                t[t.length]={id:i, caption: wrap(o.id),sub:a};
+            });
+            ns.tzpop.setItems(t);
+            if(!ns.timezone)
+                ns.timezone=(function(){
+                    var d=((new Date).getTimezoneOffset()/60),
+                        i=parseInt(d),
+                        v=Math.abs(i)!==i,
+                        j=(d-i)*60;
+                    i=Math.abs(i);
+                    return (v?'+':'-') + (i<=9?'0'+i:i) + (j<9?'0'+j:j);
+                })();
         },
         iniComponents:function(){
             // [[code created by designer, don't change it manually
             var t=this, n=t._nodes=[], u=linb.UI, f=function(c){n.push(c.get(0))};
+
+            f(
+            (new u.PopMenu)
+            .host(t,"tzpop")
+            .setItems([])
+            .setMaxHeight(300)
+            .onMenuSelected("_pop")
+            );
 
             f(
             (new u.Panel)
@@ -220,16 +256,25 @@ Class('linb.Com.TimeSpan', 'linb.Com',{
             t.panelMain.attach(
             (new u.ComboInput)
             .host(t,"cbiTZ")
+            .setType('popbox')
+            .setReadonly(true)
             .setLeft(66)
             .setTop(186)
             .setWidth(334)
             .setItems([])
+            .onClickButton('_clc')
             );
 
             return n;
             // ]]code created by designer
         },
-
+        _getTimezone:function(s) {
+           var sign,hh,mm;
+           sign = s.substr(0,1)=='-'?-1:1;
+           hh = Math.floor(s.substr(1,2));
+           mm = Math.floor(s.substr(3,2));
+           return sign*(hh+mm/60);
+        },
         _update1:function(dateFrom, dateTo){
             var self=this;
             var date=linb.date,
@@ -368,6 +413,13 @@ Class('linb.Com.TimeSpan', 'linb.Com',{
                 self.$lock=0;
                 return r;
             }
+        },
+        _pop:function (profile, id, item, src) {
+            this.setTimezone(item.value);
+            this.cbiTZ.setValue(item.caption.replace(/\<[^>]*\>/g,''),true);
+        },
+        _clc:function(profile, pos, src){
+            this.tzpop.pop(profile.getSubNode('BTN'));
         }
     }
 });

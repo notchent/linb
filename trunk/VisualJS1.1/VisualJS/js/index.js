@@ -498,7 +498,7 @@ Class('VisualJS', 'linb.Com',{
             // ]]code created by designer
         },
         _toolbar_onclick: function(profile,id, groupid, src){
-            this._menubar_onclick(this.menubar.get(0), id, src);
+            this._menubar_onclick(this.menubar.get(0), id, null, src);
         },_openproject: function(pm, obj){
             this.curProject = pm;
             var tb = this.treebarPrj;
@@ -543,7 +543,7 @@ Class('VisualJS', 'linb.Com',{
             tb.insertItems(arr);
             this.curPrjFiles=tb.getItems();
             this.projecttool.setDisabled(false);
-        },_menubar_onclick: function(profile,id, src){
+        },_menubar_onclick: function(profile,id, item, src){
             var self=this;
             switch(id){
                 case 'newproject':

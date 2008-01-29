@@ -20,24 +20,24 @@
     Y:'年',
     DE:'十年',
     C:'世纪',
-    HN:function(a,b){return a+'点'+b+'分'},
-    DHN:function(a,b,c){return a+'日'+b+'点'+c+'分'},
-    MDHN:function(a,b,c,d){return a+'月'+b+'日'+c+'点'+d+'分'},
-    HNS:function(a,b,c){return a+'点'+b+'分'+c+'秒'},
-    HNSMS:function(a,b,c,d){return a+'点'+b+'分'+c+'秒'+d+'毫秒'},
-    YM:function(a,b){return a+'年'+b+'月'},
-    YQ:function(a,b){return a+'年'+b+'季'},
-    YMD:function(a,b,c){return a+'年'+b+'月'+c+'日'},
-    MD:function(b,c){return b+'月'+c},
-    YMDH:function(a,b,c,d){return a+'年'+b+'月'+c+'日'+d+'点'},
-    YMDHN:function(a,b,c,d,e){return a+'年'+b+'月'+c+'日'+d+'点'+e+'分'},
-    YMDHNS:function(a,b,c,d,e,f){return a+'年'+b+'月'+c+'日'+d+'点'+e+'分'+f+'秒'},
-    ALL:function(a,b,c,d,e,f,g){return a+'年'+b+'月'+c+'日'+d+'点'+e+'分'+f+'秒' + " " +g},
+    HN:function(n,a,b){return a+'点'+b+'分'},
+    DHN:function(n,a,b,c){return a+'日'+b+'点'+c+'分'},
+    MDHN:function(n,a,b,c,d){return a+'月'+b+'日'+c+'点'+d+'分'},
+    HNS:function(n,a,b,c){return a+'点'+b+'分'+c+'秒'},
+    HNSMS:function(n,a,b,c,d){return a+'点'+b+'分'+c+'秒'+d+'毫秒'},
+    YM:function(n,a,b){return a+'年'+b+'月'},
+    YQ:function(n,a,b){return a+'年'+b+'季'},
+    YMD:function(n,a,b,c){return a+'年'+b+'月'+c+'日'},
+    MD:function(n,b,c){return b+'月'+c},
+    YMDH:function(n,a,b,c,d){return a+'年'+b+'月'+c+'日'+d+'点'},
+    YMDHN:function(n,a,b,c,d,e){return a+'年'+b+'月'+c+'日'+d+'点'+e+'分'},
+    YMDHNS:function(n,a,b,c,d,e,f){return a+'年'+b+'月'+c+'日'+d+'点'+e+'分'+f+'秒'},
+    ALL:function(n,a,b,c,d,e,f,g){return a+'年'+b+'月'+c+'日'+d+'点'+e+'分'+f+'秒' + " " +g},
 
     /*
     * replace '.' with '_' in key
     */
-    AREA:{
+    TIMEZONE:{
         "Asia(East,North)":"东亚、北亚",
 
         "Brunei":"文莱 斯里巴加湾市",

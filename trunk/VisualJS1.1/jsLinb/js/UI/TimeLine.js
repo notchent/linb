@@ -1287,14 +1287,14 @@ Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'
         },
         _minusLeft:function(profile,marks,node,offsetCount){
             var t=profile.properties;
-            while(offsetCount--){
+            while((offsetCount--)>0){
                 node.first().remove();
                 temp=marks.shift();
             }
         },
         _minusRight:function(profile,marks,node,offsetCount){
             var t=profile.properties;
-            while(offsetCount--){
+            while((offsetCount--)>0){
                 node.last().remove();
                 temp=marks.pop();
             }
