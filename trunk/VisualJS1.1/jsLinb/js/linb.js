@@ -348,7 +348,7 @@ _.merge(linb,{
         b= a.indexOf('-')!=-1?((d=a.split('-'))&&(a=d[0])&&d):arguments ;
         c=_.get(linb.Locale[linb.lang], a.split('.'));
         return (d=typeof c)=='string'
-               ? (a=2&&c.replace(this._r,function(){return b[a++]||''}))
+               ? (a=2&&c.replace(linb._r,function(){return b[a++]||''}))
                : d=='function'
                ? c.apply(null,b) :
                c ? String(c) : a.substr(a.lastIndexOf('.')+1)
@@ -398,16 +398,16 @@ _.merge(linb,{
             key=a;
         }
 
-        var pre;
+        var pre,ini=linb.ini;
         if(key[0]=='linb'){
-            pre=linb.ini.path;
+            pre=ini.path;
             key.shift();
             if(key.length==(add?1:0))key.push('linb');
         }else{
-            pre=linb.ini.appPath;
+            pre=ini.appPath;
             if(key.length==((add?1:0)+1))key.push('index');
         }
-        if(linb.ini.ver) pre = pre + linb.ini.ver + '/';
+        if(ini.ver) pre = pre + ini.ver + '/';
         return pre + key.join('\/') + (tag||'\/');
     },
     temp:{},
@@ -419,7 +419,11 @@ _.merge(linb,{
     getObject:function(id){return linb._object[id]}
 });
 new function(){
-    linb.ini.appPath=location.href.split('?')[0].replace(/[^\\\/]+$/,'');
+    _.merge(linb.ini,{
+        appPath:location.href.split('?')[0].replace(/[^\\\/]+$/,''),
+        file_bg:'bg.gif',
+        file_xd:'xd.html'
+    });
 
     var i,s,arr = document.getElementsByTagName('script'), reg = /js\/linb\.js$/;
     for(i=0; s=arr[i]; i++)
@@ -432,11 +436,12 @@ new function(){
     *browser sniffer
     *
     */
-    var w=window, u = navigator.userAgent, d=document, b=linb.browser={
-        kde:u.indexOf('AppleWebKit/') > -1,
-        opr:!!w.opera,
-        ie:!!(w.attachEvent && !w.opera),
-        gek:u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1
+    var w=window, u = navigator.userAgent.toLowerCase(), d=document, b=linb.browser={
+        ver:(u.match( /.+(?:rv|it|ra|ie)[\/: ]([\d.]+)/ ) || [])[1],
+        kde:/webkit/.test(u),
+        opr:/opera/.test(u),
+        ie:/msie/.test(u) && !/opera/.test(u),
+        gek:/mozilla/.test(u) && !/(compatible|webkit)/.test(u)
     };
     if(b.ie){
         if(u.indexOf(' 7')!=-1)
@@ -902,13 +907,28 @@ Class('linb.io',null,{
                 _.tryF(self.onFail,[self._response, self.rspType, self.threadid], self);
             }
         },
-        response:function(txt) {
-            var self = this, obj,o;
+        response:function(txt,r,i,l) {
+            var self = this, obj, o;
             try{
-                obj = typeof txt=='string' ? _.unserialize(txt) : txt;
-                if(obj && (o = self.pool[obj[self.randkey]])){
-                    o._response=obj;
-                    o._e("Response");
+                //multi return from xd.html
+                if(r){
+                    i=parseFloat(i);
+                    l=parseFloat(l);
+                    if(o=self.pool[r]){
+                        o=o.__||(o.__=[]);
+                        o[i]=txt;
+                        while(l--)if(typeof o[i]=='undefined')return;
+                        if(obj=_.unserialize(o.join(''))){
+                            o._response=obj;
+                            o._e("Response");
+                        }
+                    }
+                }else{
+                    obj = typeof txt=='string' ? _.unserialize(txt) : txt;
+                    if(obj && (o = self.pool[obj[self.randkey]])){
+                        o._response=obj;
+                        o._e("Response");
+                    }
                 }
             }catch(e){
                 linb.logger && linb.logger.trace(e);
@@ -1160,10 +1180,11 @@ Class('linb.iajax','linb.io',{
             //submit
             form.submit();
 
-            (function(){
-                if(self._c())
-                    self._tf = setTimeout(arguments.callee,50);
-            })();
+            if(!linb.browser.opr)
+                (function(){
+                    if(self._c())
+                        self._tf = setTimeout(arguments.callee,50);
+                })();
 
             //set timeout
             if(self.timeout > 0)
@@ -1174,8 +1195,10 @@ Class('linb.iajax','linb.io',{
             if(!self._end){
                 var frms=self.frm.frames,s,i,l;
                 if(l=frms.length){
-                    s=[];
                     try{
+                        if(frms[0].location.href.split('#')[0]!=self.constructor.dummy)
+                            return true;
+                        s=[];
                         for(i=0;i<l;i++)
                             s.push( String(frms[i].location.href).split('#')[1] || '' );
                     }catch(e){
@@ -1201,31 +1224,41 @@ Class('linb.iajax','linb.io',{
         retry:0,
         pool:{},
         getDummyRes : function(){
-            var arr,o,h=window.location.href,f=this.crossDomain;
-            if (linb.browser.gek) {
-                arr=document.getElementsByTagName("link");
+            var ns=this,
+                arr,o,
+                d=document,
+                i=linb.ini,
+                b=linb.browser,
+                h=window.location.href,
+                f=ns.crossDomain;
+            if(ns.dummy)return ns.dummy;
+
+            if(b.opr)
+                return ns.dummy = i.path + i.file_xd;
+            if (b.gek) {
+                arr=d.getElementsByTagName("link");
                 for(var i=0,j=arr.length; i<j; i++){
                     o = arr[i];
                     if (o.rel == "stylesheet" && !f(o.href))
-                        return o.href;
+                        return ns.dummy=o.href.split('#')[0];
                 }
             }
-            arr=document.getElementsByTagName("img");
+            //not for 'ex-domain include jslinb' case
+            if(!d.getElementById('linb:img:bg')){
+                o=d.createElement('img');
+                o.src=i.path + i.file_bg;
+                o.style.display='none';
+                d.body.appendChild(o);
+            }
+            arr=d.getElementsByTagName("img");
             for(var i=0,j=arr.length; i<j; i++){
                 o = arr[i];
                 if(!f(o.src))
-                    return o.src
-            }
-            if(linb.browser.ie)
-                return h.split('#')[0];
-            else{
-                i = h.indexOf("/", h.indexOf("//") + 2);
-                j = h.substring(0, i);
-                return j + "/robots.txt"
+                    return ns.dummy=o.src.split('#')[0];
             }
         },
 
-        tpl:function(){return '<iframe src="'+this.dummy + '#"></iframe>'},
+        tpl:function(){return '<iframe src="'+this.getDummyRes() + '#"></iframe>'},
         customQS:function(obj){
             var c=this.constructor;
             obj.method='ipost';
@@ -1233,9 +1266,6 @@ Class('linb.iajax','linb.io',{
             obj[c.randkey]=this.id;
             return obj;
         }
-    },
-    Initialize:function(){
-        this.dummy=this.getDummyRes().split('#')[0];
     }
 });
 

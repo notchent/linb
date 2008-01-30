@@ -6,7 +6,7 @@ Class("linb.Cookies", null,{
             value=encodeURIComponent(value);
 
             var ep;
-        	if(_.isNumb(days)){
+        	if(typeof days == 'number' && isFinite(days)){
         		var date = new Date();
         		date.setTime(date.getTime()+(days*24*60*60*1000));
         		ep = "; expires="+date.toGMTString();

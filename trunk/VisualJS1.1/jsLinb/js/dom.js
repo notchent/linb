@@ -1978,7 +1978,7 @@ type:4
             2: get the second empty temp div
         */
         _matixid:"linb.matix::",
-        isMatix:function(id){return id.startWith(this._matixid)},
+        isMatix:function(id){return id && id.startWith(this._matixid)},
         getMatix:function(index){
             var i=1,id,o,count=0,me=arguments.callee,m=me.m,doc=document;
             index=index || 1;
