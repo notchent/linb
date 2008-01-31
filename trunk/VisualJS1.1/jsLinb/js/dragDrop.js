@@ -20,6 +20,7 @@ var profile = {
     target_top
     target_width
     target_height
+    target_style
     topZindex
     cursor
 
@@ -254,7 +255,7 @@ Class('linb.dragDrop',null,{
             d._timer=d.docking_offset=-1;
             d._defer=d.defer=d._zIndex=d.x=d.y=d.ox=d.absPos_offset_y=d.absPos_offset_x=d.cssPos_offset_x=d.oy=d.cssPos_offset_y=d.limit_left=d.limit_right=d.limit_top=d.limit_bottom=0;
             d.working=d.offset_bottom=d.offset_left=d.offset_right=d.offset_top=d.drop2=d._stop=d.opacity=d.horizontal=d.vertical=d.topZindex=false;
-            d.proxystyle=d._onDrag=d._onDragover=d.key=d.data=d.dragKey=d.dragData=d._current_bak=d._current=d._source=d._data=d.proxy=d.proxyIn=d._absPos= d._cssPos=d._box=d.pack=d.unpack=d.target_left= d.target_top= d.target_width=d.target_height=d.target_parent=null;
+            d.target_style=d.proxystyle=d._onDrag=d._onDragover=d.key=d.data=d.dragKey=d.dragData=d._current_bak=d._current=d._source=d._data=d.proxy=d.proxyIn=d._absPos= d._cssPos=d._box=d.pack=d.unpack=d.target_left= d.target_top= d.target_width=d.target_height=d.target_parent=null;
 
             return d;
         },
@@ -582,7 +583,9 @@ Class('linb.dragDrop',null,{
                    var t;
                     size.width = _.numb(d.target_width, node.cssSize().width);
                     size.height = _.numb(d.target_height, node.cssSize().height);
-                    var n=node.clone(_.bool(d.target_clone,true)).id('', true).setStyle({position:'static',cursor:d.cursor,margin:0}).opacity(0.5).cssSize(size);
+                    var n=node.clone(_.bool(d.target_clone,true)).id('', true).setStyle({position:'static',cursor:d.cursor,margin:0,'cssFloat':'none'}).opacity(0.5).cssSize(size);
+                    if(d.target_style)
+                        n.setStyle(d.target_style);
                     n.dig().id('',true);
                     target = d.setProxy(n,pos);
                     break;

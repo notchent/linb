@@ -36,6 +36,7 @@ CONF={
             {id:'linb.UI.PanelBar', caption:'PanelBar', icon:'img/widgets.gif', iconPos:'-672px top', dragable:true},
             {id:'linb.UI.Block', caption:'Block', icon:'img/widgets.gif', iconPos:'-304px top', dragable:true},
             {id:'linb.UI.Layout', caption:'Layout', icon:'img/widgets.gif', iconPos:'-336px top', dragable:true},
+            {id:'linb.UI.ColLayout', caption:'ColLayout', icon:'img/widgets.gif', iconPos:'-336px top', dragable:true},
 
             {id:'linb.UI.Tabs', caption:'Tabs', icon:'img/widgets.gif', iconPos:'-352px top', dragable:true},
 
