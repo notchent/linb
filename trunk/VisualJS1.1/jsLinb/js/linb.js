@@ -1193,14 +1193,21 @@ Class('linb.iajax','linb.io',{
         _c:function(){
             var self=this;
             if(!self._end){
-                var frms=self.frm.frames,s,i,l;
+                var frms=self.frm.frames,s,i,l,t;
                 if(l=frms.length){
                     try{
                         if(frms[0].location.href.split('#')[0]!=self.constructor.dummy)
                             return true;
                         s=[];
-                        for(i=0;i<l;i++)
-                            s.push( String(frms[i].location.href).split('#')[1] || '' );
+                        for(i=0;i<l;i++){
+                            t=frms[i].location.href).split('#')[1];
+                            //for complicated return
+                            if(t.indexOf('s=')!=-1){
+                                t=t.split('s=')[1];
+                                t=t.split('&')[0];
+                            }
+                            s.push( String(t || '' );
+                        }
                     }catch(e){
                         return true
                     }
