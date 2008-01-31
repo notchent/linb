@@ -1200,13 +1200,13 @@ Class('linb.iajax','linb.io',{
                             return true;
                         s=[];
                         for(i=0;i<l;i++){
-                            t=frms[i].location.href).split('#')[1];
+                            t=(frms[i].location.href).split('#')[1];
                             //for complicated return
                             if(t.indexOf('s=')!=-1){
                                 t=t.split('s=')[1];
                                 t=t.split('&')[0];
                             }
-                            s.push( String(t || '' );
+                            s.push(t||'');
                         }
                     }catch(e){
                         return true
