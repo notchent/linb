@@ -48,6 +48,7 @@ Class("linb.UI.ColLayout",["linb.UI.iWidget", "linb.UI.iList", "linb.UI.iContain
             KEY:{
                 position:'absolute',
                 overflow:'hidden',
+                'border-width':linb.browser.opr?'0':null,
                 zoom:linb.browser.ie6?1:null
             },
             MOVE:{
@@ -58,6 +59,7 @@ Class("linb.UI.ColLayout",["linb.UI.iWidget", "linb.UI.iList", "linb.UI.iContain
                 height:'100px',
                 cursor:'e-resize',
                 'background-color':'#f4f4f4',
+                'border-width':linb.browser.opr?'0':null,
                 'font-size':linb.browser.ie?0:'',
                 'line-height':linb.browser.ie?0:''
             },
@@ -70,16 +72,15 @@ Class("linb.UI.ColLayout",["linb.UI.iWidget", "linb.UI.iList", "linb.UI.iContain
                 'float':'left',
                 overflow:'hidden',
                 'background-color':'red',//'#fff',
-                'border-width':linb.browser.opr?'0px':'',
+                'border-width':linb.browser.opr?'0':null,
                 'font-size':linb.browser.ie?0:'',
                 'line-height':linb.browser.ie?0:''
             },
             PANEL:{
                 position:'relative',
                 overflow:'hidden',
-                'margin-right':'4px',
                 /*for opera, opera defalut set border to 3 ;( */
-                'border-width':linb.browser.opr?'0px':'',
+                'border-width':linb.browser.opr?'0':null,
                 'font-size':linb.browser.ie?0:'',
                 'line-height':linb.browser.ie?0:''
             }
@@ -134,28 +135,20 @@ Class("linb.UI.ColLayout",["linb.UI.iWidget", "linb.UI.iList", "linb.UI.iContain
                     profile._next.width(profile._nextW-off);
                 },
                 onDragend:function(profile, e, src){
-                    var d=linb.dragDrop,
-                    off=d.getOffset().x;
-
                     if(profile._limited){
                         src.style.backgroundColor = profile._bg;
                         profile._limited=0;
                     }
-                    var total = linb([src.parentNode.parentNode]).offsetWidth(),
-                        style=profile._pre.get(0).style,
-                        w1=profile._preW+off,
-                        w2=profile._nextW-off,
-                        w=((w1+w2)/total)*100;
-alert(w1)
-alert((w-w1)+'%')
-                    w1=(w1/total)*100;
-                    profile._pre.get(0).style.width=w1+'%';
-                    profile._next.get(0).style.width=(w-w1)+'%';
-
-
-alert(profile._pre.get(0).style.width)
-alert(profile._next.get(0).style.width)
-
+                    var arr=profile.getSubNode('ITEM',true).get(),
+                        a=[],t,l=0;
+                    arr.each(function(o,i){
+                        l = l + (a[i]=linb([o]).offsetWidth());
+                    });
+                    if(linb.browser.ie||linb.browser.gek)
+                        l=src.parentNode.parentNode.offsetWidth;
+                    arr.each(function(o,i){
+                        o.style.width = parseInt(a[i]/l*100000)/1000 + '%';
+                    });
                 }
             }
         }},
@@ -233,9 +226,9 @@ alert(profile._next.get(0).style.width)
             var i=profile.properties.items;
             if(!i || i.constructor != Array || !i.length)
                 i = profile.properties.items = _.clone([
-                    {id:'1',width:'30%'},
-                    {id:'2',width:'30%'},
-                    {id:'2',width:'39.6%'}
+                    {id:'1',width:'30.3%'},
+                    {id:'2',width:'30.3%'},
+                    {id:'2',width:'39.2%'}
                 ]);
             i[i.length-1]._display = 'display:none';
             arguments.callee.upper.call(this, profile);

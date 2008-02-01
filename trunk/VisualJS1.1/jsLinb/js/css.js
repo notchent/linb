@@ -87,7 +87,7 @@ Class("linb.css", null,{
                             // first
                             //      add => .class2, .class3{}
                             if(_t.length>1){
-                                _t=_t.remove(_t.indexOf(selector)).join(',');
+                                _t=_t.removeFrom(_t.indexOf(selector)).join(',');
                                 t=v.cssText.slice(v.cssText.indexOf("{")+1,v.cssText.lastIndexOf("}"));
 
                                 if(o.insertRule)

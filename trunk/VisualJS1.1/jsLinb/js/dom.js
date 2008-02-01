@@ -238,16 +238,16 @@ new function(){
          flag: is add array
 
          For example:
-         [1,2].insert(3)
+         [1,2].insertAny(3)
             will return [1,2,3]
-         [1,2].insert(3,0)
+         [1,2].insertAny(3,0)
             will return [3,1,2]
-         [1,2].insert([3,4])
+         [1,2].insertAny([3,4])
             will return [1,2,3,4]
-         [1,2].insert([3,4],3,true)
+         [1,2].insertAny([3,4],3,true)
             will return [1,2,[3,4]]
         */
-        insert:function (arr, index, flag) {
+        insertAny:function (arr, index, flag) {
             var self=this,a,l=self.length;
             index = index===0?0:(index||l);
             if(index<0 || index>l)index=l;
@@ -298,7 +298,7 @@ new function(){
             return self;
         },
     */
-        remove:function(index,length){
+        removeFrom:function(index,length){
             this.splice(index, length || 1);
             return this;
         },
@@ -430,7 +430,7 @@ Class('linb.iBox',null, {
             if(tag.constructor==Array){
                 arr=[];
                 tag.each(function(v,i){
-                    arr.insert(me.apply(null,v instanceof Array?v:[v])._nodes,-1);
+                    arr.insertAny(me.apply(null,v instanceof Array?v:[v])._nodes,-1);
                 });
                 return arr;
             }
@@ -535,7 +535,7 @@ Class('linb.dom','linb.iBox',{
             var arr=[],r;
             this.each(function(o){
                 r=fun.apply(o, args||[]);
-                if(r)arr.insert(r);
+                if(r)arr.insertAny(r);
             });
             return linb(arr);
         },
@@ -1352,7 +1352,7 @@ Class('linb.dom','linb.iBox',{
                     if(tagVar)c.$tagVar=tagVar;
                     c[event_id]=fun;
                     c.removeValue(event_id);
-                    c.insert(event_id, index);
+                    c.insertAny(event_id, index);
                 });
             });
             return self;
@@ -2100,10 +2100,10 @@ type:4
               if(!tag)tag="*";
               context.each(function(o){
                 if(tag=="*" || (o.nodeName.toLowerCase() == tag.toLowerCase()))
-                    arr.insert(o);
+                    arr.insertAny(o);
 
                 if(!(o.nodeType==1 || o.nodeType==9))return;
-                arr.insert(_.toArr((tag=='*')?o.all?o.all:o.getElementsByTagName("*"):o.getElementsByTagName(tag)));
+                arr.insertAny(_.toArr((tag=='*')?o.all?o.all:o.getElementsByTagName("*"):o.getElementsByTagName(tag)));
             });
               return arr;
             }),
@@ -2173,7 +2173,7 @@ type:4
                     bak=temp;
                     if(!temp.length)return false;
                 });
-                arr.insert(temp);
+                arr.insertAny(temp);
             });
             return arr;
         },

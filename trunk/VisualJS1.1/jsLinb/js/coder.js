@@ -49,7 +49,7 @@ Class("linb.coder", null,{
                      "escape|unescape|parseInt|parseFloat|setTimeout|clearTimeout|setInterval|clearInterval|" +
                      "NaN|isNaN|Infinity|Error",
     		keyword2: 'exists|isNull|isObj|isEmpty|isArr|isBool|isDate|isFun|isHash|isNumb|isStr|_.arr|_.bool|_.cls|_.date|_.fun|_.hash|_.numb|_.str|_.id|_|'+
-                     'alias|host|attach|toArr|breakO|tryF|each|copy|clone|filter|asyRun|resetRun|merge|each|swap|remove|filter|indexOf|clean|insert|serialize|unserialize|'+
+                     'alias|host|attach|toArr|breakO|tryF|each|copy|clone|filter|asyRun|resetRun|merge|each|swap|removeFrom|filter|indexOf|clean|insertAny|serialize|unserialize|'+
                      'Class|Instance|Initialize|Before|After|Static|Constructor|'+
                      'reBoxing|copy|clone|left|top|right|bottom|startWith|endWith|initial|trim|ltrim|rtrim|blen|toDom|create',
     		special: /linb[\w\.]*|(\bon|before|after|set|get)[A-Z]\w*/
@@ -291,12 +291,12 @@ Class("linb.coder", null,{
                 // to no \n ,all space
                 add_arr =[ [/(\b|\x24)\s+(\b|\x24)/, "$1 $2"], [/([+\-])\s+([+\-])/, "$1 $2"], [/\s+/, ""] ];
                 if(key=='css'){
-                    add_arr.insert([/\s+(\.)/, " $1"],2,true);
-                    add_arr.insert([/(\d*\.?\d+|\d+\.?\d*)(cm|em|ex|pt|px|%|\:)?/, " $0 "],-1,true);
+                    add_arr.insertAny([/\s+(\.)/, " $1"],2,true);
+                    add_arr.insertAny([/(\d*\.?\d+|\d+\.?\d*)(cm|em|ex|pt|px|%|\:)?/, " $0 "],-1,true);
                 }
                 arr.length=0;
-                arr.insert(pre_arr);
-                arr.insert(add_arr);
+                arr.insertAny(pre_arr);
+                arr.insertAny(add_arr);
                 str = this.replace(str, arr);
 
                 // format 1
@@ -312,16 +312,16 @@ Class("linb.coder", null,{
                 ];
                 if(key!='css'){
                     //insert a
-                    add_arr.insert([/for\s*\([\w ]+\sin\s/, "$0"],2,true);
-                    add_arr.insert([/for\s*\(([^;]*);([^;]*);([^)]*)\)/, "for($1; $2; $3)"],3,true);
+                    add_arr.insertAny([/for\s*\([\w ]+\sin\s/, "$0"],2,true);
+                    add_arr.insertAny([/for\s*\(([^;]*);([^;]*);([^)]*)\)/, "for($1; $2; $3)"],3,true);
                     //insert b
                     // '=>' is for php
-                    add_arr.insert([/(,)(("[^"\n\r]*"|'[^'\n\r]*'|\w+)?(:|=>))/, function(a,i){return a[i+1]+"\n"+space[deep]+a[i+2]}],4,true);
-                    add_arr.insert([/\b(case|default)\b[^:]+:/, function(a,i){return a[i]+"\n"+space[deep]}],-1,true);
+                    add_arr.insertAny([/(,)(("[^"\n\r]*"|'[^'\n\r]*'|\w+)?(:|=>))/, function(a,i){return a[i+1]+"\n"+space[deep]+a[i+2]}],4,true);
+                    add_arr.insertAny([/\b(case|default)\b[^:]+:/, function(a,i){return a[i]+"\n"+space[deep]}],-1,true);
                 }
                 arr.length=0;
-                arr.insert(pre_arr);
-                arr.insert(add_arr)
+                arr.insertAny(pre_arr);
+                arr.insertAny(add_arr)
                 str = this.replace(str, arr);
 
                 // format 2
@@ -342,8 +342,8 @@ Class("linb.coder", null,{
                     );
                 };
                 arr.length=0;
-                arr.insert(pre_arr);
-                arr.insert(add_arr)
+                arr.insertAny(pre_arr);
+                arr.insertAny(add_arr)
 
                 str = this.replace(str, arr);
                 str = restore2(restore1(str));

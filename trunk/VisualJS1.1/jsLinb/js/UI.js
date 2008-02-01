@@ -1004,7 +1004,7 @@ new function(){
             clone:function(flag){
                 var arr=[];
                 this.each(function(o){
-                    arr.insert(linb.create(o.clone(flag)).get());
+                    arr.insertAny(linb.create(o.clone(flag)).get());
                 });
                 return this.constructor.pack(arr,false);
             },
@@ -1825,7 +1825,7 @@ new function(){
                                 for(var o,i=0,l=arr.length;i<l;i++){
                                     o=arr[i];
                                     if(typeof o=='string')
-                                        nodes.insert(profile.getSubNode(o,cid).get());
+                                        nodes.insertAny(profile.getSubNode(o,cid).get());
                                     else
                                         funs.push(o);
                                 }
@@ -3416,9 +3416,9 @@ new function(){
                     items = profile.properties.items;
                     index = items.subIndexOf('id',base);
                     if(index==-1){
-                        items.insert(arr);
+                        items.insertAny(arr);
                     }else
-                        items.insert(arr, before?index:index+1);
+                        items.insertAny(arr, before?index:index+1);
 
                     // prepare properties format
                     data = box.prepareItems(profile, arr, base);

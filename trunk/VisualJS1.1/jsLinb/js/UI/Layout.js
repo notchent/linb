@@ -528,9 +528,9 @@ Class("linb.UI.Layout",["linb.UI.iWidget", "linb.UI.iList", "linb.UI.iContainer"
 
             //reset items
             items.length = 0;
-            items.insert(before,0);
-            items.insert(main);
-            items.insert(after);
+            items.insertAny(before,0);
+            items.insertAny(main);
+            items.insertAny(after);
 
             //set the items to default value
             items.each(function(o){

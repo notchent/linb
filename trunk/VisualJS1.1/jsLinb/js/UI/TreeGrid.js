@@ -126,10 +126,10 @@ Class("linb.UI.TreeGrid","linb.UI.iWidget",{
             else
                 tar = (b[pid].sub || (b[pid].sub=[]));
             if(!base)
-                tar.insert(arr, before?0:-1);
+                tar.insertAny(arr, before?0:-1);
             else{
                 var index = tar.subIndexOf('_serialId', base);
-                tar.insert(arr, before?index:(index+1));
+                tar.insertAny(arr, before?index:(index+1));
             }
 
             //insert
@@ -330,7 +330,7 @@ Class("linb.UI.TreeGrid","linb.UI.iWidget",{
                 if(!profile.$allrowscache){
                     var all=[];
                     all.push(profile.getSubNode('HCELLS').get(0));
-                    all.insert(profile.getSubNode('CELLS',true).get(),-1);
+                    all.insertAny(profile.getSubNode('CELLS',true).get(),-1);
                     //filter dispaly==none
                     all.filter(function(o){
                         return !!o.offsetWidth;
@@ -1122,15 +1122,15 @@ Class("linb.UI.TreeGrid","linb.UI.iWidget",{
                     //HCELL position
                     //keep refrence, and remove
                     var temp=p.header[fromIndex];
-                    p.header.remove(fromIndex);
+                    p.header.removeFrom(fromIndex);
                     //insert to right pos
-                    p.header.insert(temp,toIndex);
+                    p.header.insertAny(temp,toIndex);
                     //cell position row_SerialIdMapItem
                     var allitems = profile.itemsSearch(p.rows, true, true);
                     allitems.each(function(o){
                         temp=o.cells[fromIndex];
-                        o.cells.remove(fromIndex);
-                        o.cells.insert(temp,toIndex);
+                        o.cells.removeFrom(fromIndex);
+                        o.cells.insertAny(temp,toIndex);
                     });
 
                     //fire after event
@@ -1554,9 +1554,9 @@ Class("linb.UI.TreeGrid","linb.UI.iWidget",{
             }
 
             //remove first
-            fromParent.remove(fromIndex);
+            fromParent.removeFrom(fromIndex);
             //insert according to index
-            toParent.insert(fromRow,toIndex);
+            toParent.insertAny(fromRow,toIndex);
 
             if(flag)
                 profile.getSubNode('SUB', toId).addLast(linb.dragDrop.data);

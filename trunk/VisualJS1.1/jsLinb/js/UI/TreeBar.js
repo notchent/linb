@@ -71,10 +71,10 @@ Class("linb.UI.TreeBar",["linb.UI.iWidget", "linb.UI.iList","linb.UI.iNavigator"
                     tar = k.sub || (k.sub= []);
                 }
                 if(!base)
-                    tar.insert(arr, before?0:-1);
+                    tar.insertAny(arr, before?0:-1);
                 else{
                     var index = tar.subIndexOf(id, base);
-                    tar.insert(arr, before?index:(index+1));
+                    tar.insertAny(arr, before?index:(index+1));
                 }
                 if(profile.domNode){
                     if(!base){
@@ -160,7 +160,7 @@ Class("linb.UI.TreeBar",["linb.UI.iWidget", "linb.UI.iList","linb.UI.iNavigator"
 
                 sub[index]._pid = toPid;
                 //move parent link
-                pItemSub.insert(sub[index]);
+                pItemSub.insertAny(sub[index]);
                 sub.remove(index);
                 //move
                 domP.addLast(profile.getSubNode('ITEM',domId));

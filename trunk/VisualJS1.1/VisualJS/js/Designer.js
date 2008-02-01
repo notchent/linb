@@ -1110,7 +1110,7 @@ Class('VisualJS.Designer', 'linb.Com',{
                     var arr= [];
                     t = CONF.mapWidgets[pro.box.KEY].Templates;//_.toArr(pro.box.$Templates,true);
                     if(!t)t=[];
-                    if(!t.exists('default'))t.insert('default',0);
+                    if(!t.exists('default'))t.insertAny('default',0);
                     t.each(function(o){
                          arr.push({id:o,caption:o,value:o});
                     });
@@ -1118,7 +1118,7 @@ Class('VisualJS.Designer', 'linb.Com',{
                     arr= [];
                     t = CONF.mapWidgets[pro.box.KEY].Appearances;//_.toArr(pro.box.$Appearances,true);
                     if(!t)t=[];
-                    if(!t.exists('default'))t.insert('default',0);
+                    if(!t.exists('default'))t.insertAny('default',0);
                     t.each(function(o){
                          arr.push({id:o,caption:o,value:o});
                     });
@@ -1126,7 +1126,7 @@ Class('VisualJS.Designer', 'linb.Com',{
                     arr= [];
                     t = CONF.mapWidgets[pro.box.KEY].Behaviors;//_.toArr(pro.box.$Behaviors,true);
                     if(!t)t=[];
-                    if(!t.exists('default'))t.insert('default',0);
+                    if(!t.exists('default'))t.insertAny('default',0);
                     t.each(function(o){
                          arr.push({id:o,caption:o,value:o});
                     });

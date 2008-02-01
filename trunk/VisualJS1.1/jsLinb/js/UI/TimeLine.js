@@ -1331,7 +1331,7 @@ Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'
             // add to band UI
             node.addFirst(profile.box.subBuild(profile, key, addLb).toDom());
             // add to memory list
-            marks.insert(addLb.reverse(),0);
+            marks.insertAny(addLb.reverse(),0);
         },
         _addRight:function(profile, labelEnd, tag, node, offsetCount,  offset){
             var t=profile.properties,
@@ -1360,7 +1360,7 @@ Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'
             // add to band UI
             node.addLast(profile.box.subBuild(profile, key, addLb).toDom());
             // add to memory list
-            marks.insert(addLb,-1);
+            marks.insertAny(addLb,-1);
         },
         _getMoveNodes:function(profile){
             return profile.$moveban = profile.$moveban || profile.getSubNodes(['BAND','ITEMS']);
