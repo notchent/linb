@@ -1107,8 +1107,8 @@ Class('VisualJS.Designer', 'linb.Com',{
                             }, type:'popbox:readonly'}] }
                     ];
 
-                    var arr= [];
-                    t = CONF.mapWidgets[pro.box.KEY].Templates;//_.toArr(pro.box.$Templates,true);
+                    var arr= [],map=CONF.mapWidgets[pro.box.KEY];
+                    t = map && map.Templates;//_.toArr(pro.box.$Templates,true);
                     if(!t)t=[];
                     if(!t.exists('default'))t.insertAny('default',0);
                     t.each(function(o){
@@ -1116,7 +1116,7 @@ Class('VisualJS.Designer', 'linb.Com',{
                     });
                     linb.UI.setCacheList(pro.box.KEY+':template', arr);
                     arr= [];
-                    t = CONF.mapWidgets[pro.box.KEY].Appearances;//_.toArr(pro.box.$Appearances,true);
+                    t = map && map.Appearances;//_.toArr(pro.box.$Appearances,true);
                     if(!t)t=[];
                     if(!t.exists('default'))t.insertAny('default',0);
                     t.each(function(o){
@@ -1124,7 +1124,7 @@ Class('VisualJS.Designer', 'linb.Com',{
                     });
                     linb.UI.setCacheList(pro.box.KEY+':appearance', arr);
                     arr= [];
-                    t = CONF.mapWidgets[pro.box.KEY].Behaviors;//_.toArr(pro.box.$Behaviors,true);
+                    t = map && map.Behaviors;//_.toArr(pro.box.$Behaviors,true);
                     if(!t)t=[];
                     if(!t.exists('default'))t.insertAny('default',0);
                     t.each(function(o){
@@ -1743,8 +1743,8 @@ Class('VisualJS.Designer', 'linb.Com',{
                 //get items
                 var items=[];
                 var fun = function(profile, items, map){
-                    var self=arguments.callee;
-                    var item = {id:profile.$id, caption:profile.alias, icon: map[profile.box.KEY].icon, iconPos:map[profile.box.KEY].iconPos};
+                    var self=arguments.callee,t,
+                        item = {id:profile.$id, caption:profile.alias, icon: (t=map[profile.box.KEY])?t.icon:'', iconPos:(t=map[profile.box.KEY])?t.iconPos:''};
                     items.push(item);
                     if(profile.children && profile.children.length){
                         var sub=[];

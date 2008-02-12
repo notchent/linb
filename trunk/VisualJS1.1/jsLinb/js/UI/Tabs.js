@@ -12,19 +12,22 @@ Class("linb.UI.Tabs", ["linb.UI.iWidget", "linb.UI.iList", "linb.UI.iContainer"]
                     if(uiv && profile.getSubSerialIdByItemId(uiv)){
                         profile.removeTagClass('ITEM','-checked',profile.getSubNode('ITEM',itemId));
                         profile.removeTagClass('BOX','-checked',profile.getSubNode('BOX',itemId));
-                        // hide pane
-                        box.getPanel(uiv).hide();
+                        if(properties.hasPanel)
+                            // hide pane
+                            box.getPanel(uiv).hide();
                     }
                     itemId = profile.getSubSerialIdByItemId(value);
                     if(itemId){
                         profile.addTagClass('ITEM','-checked', profile.getSubNode('ITEM',itemId));
                         profile.addTagClass('BOX','-checked', profile.getSubNode('BOX',itemId));
-                        // show pane
-                        box.getPanel(value).position('relative').show('auto','auto');
+                        if(properties.hasPanel){
+                            // show pane
+                            box.getPanel(value).position('relative').show('auto','auto');
 
-                        t=profile.domNode.style;
-                        //reset width and height
-                        profile.box.resize(profile, value, parseInt(t.width)||null, parseInt(t.height)||null);
+                            t=profile.domNode.style;
+                            //reset width and height
+                            profile.box.resize(profile, value, parseInt(t.width)||null, parseInt(t.height)||null);
+                        }
                     }
 
             });
@@ -124,7 +127,7 @@ Class("linb.UI.Tabs", ["linb.UI.iWidget", "linb.UI.iList", "linb.UI.iContainer"]
         */
         afterInsertItems:function(profile, data, base, before){
             var box=profile.box,obj,v;
-            if(obj=profile.root){
+            if(profile.properties.hasPanel && (obj=profile.root)){
                 obj.addLast(box.subBuild(profile, 'panels', data).toDom());
 
                 if(!(v=this.getUIValue()))
@@ -140,26 +143,30 @@ Class("linb.UI.Tabs", ["linb.UI.iWidget", "linb.UI.iList", "linb.UI.iContainer"]
         */
         removeItems:function(arr){
             var self=this,
-                obj;
+                obj,serialId;
             if(!_.isArr(arr))arr=[arr];
-            var serialId;
+
             self.each(function(profile){
-                arr.each(function(o){
-                    // get ui serial id
-                    serialId=profile.getSubSerialIdByItemId(o);
-                    if(serialId && !(obj = profile.getSubNode('PANEL', serialId) ).isEmpty() ){
-                        // remove ui
-                        obj.remove();
-                    }
-                });
+                if(profile.properties.hasPanel)
+                    arr.each(function(o){
+                        // get ui serial id
+                        serialId=profile.getSubSerialIdByItemId(o);
+                        if(serialId && !(obj = profile.getSubNode('PANEL', serialId) ).isEmpty() ){
+                            // remove ui
+                            obj.remove();
+                        }
+                    });
             });
             arguments.callee.upper.apply(self,arguments);
+
             self.each(function(profile){
-                if(arr.exists(profile.boxing().getUIValue())){
-                    var i;
-                    profile.boxing().fireItemClickEvent((i=profile.properties.items[0]) && i.id);
+                if(profile.properties.hasPanel){
+                    if(arr.exists(profile.boxing().getUIValue())){
+                        var i;
+                        profile.boxing().fireItemClickEvent((i=profile.properties.items[0]) && i.id);
+                    }
+                    profile.box.resize(profile, profile.boxing().getUIValue(), profile.root.width(), profile.root.height());
                 }
-                profile.box.resize(profile, profile.boxing().getUIValue(), profile.root.width(), profile.root.height());
             });
 
             return self;
@@ -167,7 +174,8 @@ Class("linb.UI.Tabs", ["linb.UI.iWidget", "linb.UI.iList", "linb.UI.iContainer"]
         clearItems:function(){
             var self=this;
             self.each(function(profile){
-                profile.getSubNode('PANEL',true).remove();
+                if(profile.properties.hasPanel)
+                    profile.getSubNode('PANEL',true).remove();
             });
             self.setValue(null,true);
             arguments.callee.upper.apply(self,arguments);
@@ -505,7 +513,7 @@ Class("linb.UI.Tabs", ["linb.UI.iWidget", "linb.UI.iList", "linb.UI.iContainer"]
             dataField:null,
 
             dock:'fill',
-
+            hasPanel:true,
             width:200,
             height:200,
             position:'absolute',

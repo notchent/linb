@@ -56,7 +56,7 @@ Class("linb.UI.ColLayout",["linb.UI.iWidget", "linb.UI.iList", "linb.UI.iContain
                 position:'relative',
                 'float':'right',
                 width:'4px',
-                height:'100px',
+                height:'200px',
                 cursor:'e-resize',
                 'background-color':'#f4f4f4',
                 'border-width':linb.browser.opr?'0':null,

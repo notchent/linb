@@ -226,9 +226,6 @@ Class("linb.UI.PanelBar", ["linb.UI.Div","linb.UI.iContainer"],{
                 }
             }
         }},
-        EventHandlers:{
-            beforeClose:function(profile, src){}
-        },
         DataModel:{
             position:'absolute',
             zIndex:0,
@@ -287,6 +284,7 @@ Class("linb.UI.PanelBar", ["linb.UI.Div","linb.UI.iContainer"],{
             }
         },
         EventHandlers:{
+            beforeClose:function(profile, src){},
             onIniPanelView:function(profile){},
             onFold:function(profile){},
             onOpen:function(profile){},
