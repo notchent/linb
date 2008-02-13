@@ -56,7 +56,7 @@ Class('linb.logger', null, {
         }
     },
     Initialize:function(){
-        //window.onerror=this.err;
+        window.onerror=this.err;
 
         if(linb.browser.gek && window.console){
             linb.log =function(){

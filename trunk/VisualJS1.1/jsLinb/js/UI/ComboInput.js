@@ -525,7 +525,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
 
                     if(v=='timepicker')
                         self.each(function(p){
-                            var  o=linb.UI.TimePicker;
+                            var  o=linb.SC('linb.UI.TimePicker');
                             _.merge(p,{
                                 $compareValue : null,
                                 $getShowValue : function(profile,value){

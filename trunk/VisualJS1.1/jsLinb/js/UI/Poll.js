@@ -45,6 +45,7 @@ Class("linb.UI.Poll", "linb.UI.List",{
         t.TITLE={
             $order:'0',
             tagName : 'DIV',
+            style:'{titleDisplay}',
             text : '{title}',
             className:"{disabled} {_cls}"
         };
@@ -118,61 +119,69 @@ Class("linb.UI.Poll", "linb.UI.List",{
 
         //for modify
         var inlineEdit=function(profile,node,flag,value,item){
-            var o = profile._bind,prop=profile.properties;
-            if(!o){
-                profile._bind=o=linb.create(prop.inlineEditor, {type:prop.type,saveBtn:true,left:-10000,top:-10000});
-                o.onHotKeydown(function(p,key){
-                    if(key=='enter'){
-                        p.boxing().onSave(p);
-                        return false;
-                    }else if(key=='esc')
+            var o=profile._bind,
+                prop=profile.properties;
+            if(profile.onCustomEdit){
+                profile._bind = profile.boxing().onCustomEdit(profile, node, flag, value, item);
+            }else{
+                if(!o){
+                    var pp={type:prop.editorType,saveBtn:true,left:-10000,top:-10000};
+                    if(!_.isEmpty(prop.editorProps))
+                        _.merge(pp, prop.editorProps, 'all');
+                    profile._bind=o=linb.create(prop.editor, pp);
+                    o.onHotKeydown(function(p,key){
+                        if(key=='enter'){
+                            p.boxing().onSave(p);
+                            return false;
+                        }else if(key=='esc')
+                            o.hide();
+                    })
+                    profile.root.attach(o);
+                }
+    
+                var r=node.getRegion(true,profile.root);
+                if(r.height>o.getHeight())
+                    o.setHeight(r.height);
+                else
+                    r.top-=3;
+                if(r.top<0)r.top=0;
+    
+                o.setValue(value||'',true)
+                .setWidth(r.width + node.paddingW())
+                .show(r.left+'px',r.top+'px')
+                .onSave(function(p){
+                    var v=p.properties.$UIvalue, ov=p.properties.value, b=profile.boxing();
+                    if(v!=ov)
+                        switch(flag){
+                            //edit option
+                            case '1':
+                                if(profile.beforeItemChanged && b.beforeItemChanged(profile, item, v)===false ){}
+                                else
+                                    b.setOptCap(item,v);
+                            break;
+                            //new option
+                            case '2':
+                                if(profile.beforeItemAdded && b.beforeItemAdded(profile, v)===false ){}
+                                else
+                                    b.insertOpt({caption:v});
+                            break;
+                            //edit title
+                            default:
+                                if(profile.beforeTitleChanged && b.beforeTitleChanged(profile, v)===false){}
+                                else
+                                    b.setTitle(v);
+                        }
+                    _.asyRun(function(){
                         o.hide();
+                    });
                 })
-                profile.root.attach(o);
-            }
-
-            var r=node.getRegion(true,profile.root);
-            if(r.height>o.getHeight())
-                o.setHeight(r.height);
-            else
-                r.top-=3;
-            if(r.top<0)r.top=0;
-
-            o.setValue(value||'',true)
-            .setWidth(r.width + node.paddingW())
-            .show(r.left+'px',r.top+'px')
-            .onSave(function(p){
-                var v=p.properties.$UIvalue, ov=p.properties.value, b=profile.boxing();
-                if(v!=ov)
-                    switch(flag){
-                        //edit option
-                        case '1':
-                            if(profile.beforeItemChanged && b.beforeItemChanged(profile, item, v)===false ){}
-                            else
-                                b.setOptCap(item,v);
-                        break;
-                        //new option
-                        case '2':
-                            if(profile.beforeItemAdded && b.beforeItemAdded(profile, v)===false ){}
-                            else
-                                b.insertOpt({caption:v});
-                        break;
-                        //edit title
-                        default:
-                            if(profile.beforeTitleChanged && b.beforeTitleChanged(profile, v)===false){}
-                            else
-                                b.setTitle(v);
-                    }
-                _.asyRun(function(){
+                .reBoxing().setBlurTrigger(o.KEY+":"+o.$id, function(){
                     o.hide();
+                }, null, o.$id);
+                _.asyRun(function(){
+                    o.activate()
                 });
-            })
-            .reBoxing().setBlurTrigger(o.KEY+":"+o.$id, function(){
-                o.hide();
-            }, null, o.$id);
-            _.asyRun(function(){
-                o.activate()
-            });
+            }
         };
 
         t = self.getBehavior('default');
@@ -432,17 +441,27 @@ Class("linb.UI.Poll", "linb.UI.List",{
             cmds:{
                 ini:null
             },
+            noTitle:{
+              ini:false,
+              action:function(v){
+                 this.getSubNode('TITLE').display(v?'none':'');
+              }
+            },
             toggle:false,
             delText:'remove',
             editable:false,
             newOption:'',
-            inlineEditor:'ComboInput',
-            type:'none'
+            editor:'ComboInput',
+            editorType:'none',
+            editorProps:{
+              ini:{}
+            }
         },
         EventHandlers:{
             beforeDirtyMark:function(profile, flag){},
             onItemSelected:function(profile, item, src){},
             beforeTitleChanged:function(profile, v){},
+            onCustomEdit:function(profile, node, flag, vlaue, item){},
             beforeItemAdded:function(profile, v){},
             beforeItemRemoved:function(profile, item){},
             beforeItemChanged:function(profile, item, v){},
@@ -472,14 +491,16 @@ Class("linb.UI.Poll", "linb.UI.List",{
         },
         prepareData:function(profile){
             arguments.callee.upper.call(this, profile);
-            var p=profile.properties;
+            var p=profile.properties, data=profile.data;
             if(p.editable)
-                profile.data._cls = profile.getClass('EDIT');
+                data._cls = profile.getClass('EDIT');
+            data.titleDisplay=p.noTitle?'display:none':'';
+               
 
             var cmds = p.cmds, o;
             if(cmds && cmds.length){
                 var sid=linb.UI.subSerialIdTag,a;
-                a=profile.data.cmds=[];
+                a=data.cmds=[];
                 for(var i=0,t=cmds,l=t.length;i<l;i++){
                     o=linb.UI.copyItem(t[i]);
                     a.push(o);
