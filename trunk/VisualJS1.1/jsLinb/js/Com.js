@@ -68,7 +68,7 @@ Class('linb.Com',null,{
                     self.customAttach.call(self, parent,showId,threadid);
                 else
                     (parent||linb([document.body])).attach(self.getUIObj(),showId);
-                _.tryF(onEnd,[threadid]);
+                _.tryF(onEnd,[self, threadid],self.host);
                 self.fireEvent('afterShow');
             };
             self.threadid=threadid;
@@ -206,8 +206,8 @@ Class('linb.Com',null,{
                 this.getUIObj().detach();
             return this;
         },
-        reBoxing:function(){
-            return this.getUIObj().reBoxing();
+        reBoxing:function(key){
+            return this.getUIObj().reBoxing(key);
         },
         attachTo:function(obj, key){
             obj.attach(this.getUIObj(), key);

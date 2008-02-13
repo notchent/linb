@@ -138,14 +138,14 @@ Class("linb.UI.Poll", "linb.UI.List",{
                     })
                     profile.root.attach(o);
                 }
-    
+
                 var r=node.getRegion(true,profile.root);
                 if(r.height>o.getHeight())
                     o.setHeight(r.height);
                 else
                     r.top-=3;
                 if(r.top<0)r.top=0;
-    
+
                 o.setValue(value||'',true)
                 .setWidth(r.width + node.paddingW())
                 .show(r.left+'px',r.top+'px')
@@ -177,7 +177,7 @@ Class("linb.UI.Poll", "linb.UI.List",{
                 })
                 .reBoxing().setBlurTrigger(o.KEY+":"+o.$id, function(){
                     o.hide();
-                }, null, o.$id);
+                });
                 _.asyRun(function(){
                     o.activate()
                 });
@@ -495,7 +495,7 @@ Class("linb.UI.Poll", "linb.UI.List",{
             if(p.editable)
                 data._cls = profile.getClass('EDIT');
             data.titleDisplay=p.noTitle?'display:none':'';
-               
+
 
             var cmds = p.cmds, o;
             if(cmds && cmds.length){

@@ -506,7 +506,7 @@ Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'
                     //for on blur disappear
                     node.setBlurTrigger(profile.key+":"+profile.$id, function(){
                         box._cache();
-                    }, null, profile.$id);
+                    });
 
                     //for esc
                     linb.event.hookKey('esc',0,0,0,function(){

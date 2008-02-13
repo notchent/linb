@@ -1829,51 +1829,59 @@ type:4
         },
 
         //for destroy obj when blur
-        setBlurTrigger : function(id, trigger, group, upper){
-            var doc = linb([document]),
+        setBlurTrigger : function(id, trigger, group){
+            var sid='$blur_triggers$',
+                doc = linb([document]),
                 target = group?group:linb(this.get()),
-                //prevent upper trigger
-                fun;
+                fun=doc.getEvent('beforeMousedown', sid);
+            if(!fun){
+                fun=function(p,e){
+                    var me=arguments.callee,
+                        p=linb.event.getPos(e),
+                        arr=me.arr,
+                        a=arr.copy(),
+                        b, pos, size;
+                    a.each(function(i){
+                        v=arr[i];
+                        b=true;
+                        v.target.each(function(o){
+                            if(o.parentNode){
+                                o=linb([o]);
+                                pos = o.absPos();
+                                size = o.cssSize();
+                                if(p.left>=pos.left && p.top>=pos.top && p.left<=(pos.left+size.width) && p.top<=(pos.top+size.height))
+                                    return b=false;
+                            }
+                        });
+                        if(b){
+                            _.tryF(v.trigger,[],v.target);
+                            arr.removeValue(i);
+                            delete arr[i];
+                        }else
+                            //if the top layer popwnd cant be triggerred, prevent the other layer popwnd trigger
+                            return false;
+                    },null,true);
+                    a.length=0;
+                };
+                fun.arr=[];
+                doc.beforeMousedown(fun, sid, 0);
+            }
+
+            var arr = fun.arr;
 
             //remove this trigger
             if(!trigger){
-                doc.beforeMousedown(null, id);
-                return;
-            }
-
-            if(upper && (fun = doc.getEvent('beforeMousedown', upper)))
-                fun.target.add(target);
-
-            var f=function(p,e){
-                var pos, size, b=true, me=arguments.callee, p=linb.event.getPos(e);
-                me.target.each(function(o){
-                    if(o.parentNode){
-                        o=linb([o]);
-                        pos = o.absPos();
-                        size = o.cssSize();
-                        if(p.left>=pos.left && p.top>=pos.top && p.left<=(pos.left+size.width) && p.top<=(pos.top+size.height))
-                            return b=false;
-                    }
-                });
-                if(b){
-                    //remove event
-                    doc.beforeMousedown(null, id);
-                    _.tryF(me.trigger);
-
-                    //de prevent upper trigger
-                    if(fun){
-                        fun.target.minus(arguments.callee.target);
-                        fun=null;
-                    }
-                    delete me.trigger; delete me.target;
-                    return;
+                arr.removeValue(id);
+                delete arr[id];
+            //double link
+            }else
+                if(!arr[id]){
+                    arr[id]={
+                        trigger:trigger,
+                        target:target
+                    };
+                    arr.push(id);
                 }
-                return true;
-            };
-            f.target = target;
-            f.trigger = trigger;
-            //attach event
-            doc.beforeMousedown(f, id, 0);
             return this;
         },
         //IE not trigger dimension change, when change height only in overflow=visible.

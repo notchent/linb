@@ -419,7 +419,7 @@ Class('linb.Com.TimeSpan', 'linb.Com',{
             this.cbiTZ.setValue(item.caption.replace(/\<[^>]*\>/g,''),true);
         },
         _clc:function(profile, pos, src){
-            this.tzpop.pop(profile.getSubNode('BTN'));
+            this.tzpop.pop(profile.getSubNode('BTN'), this.panelMain.root);
         }
     }
 });

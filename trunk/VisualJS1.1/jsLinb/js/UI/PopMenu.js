@@ -113,8 +113,9 @@ Class("linb.UI.PopMenu",["linb.UI.Widget","linb.UI.iList","linb.UI.iNavigator"],
             profile.root.popToTop(obj, parent, type);
 
             var f=function(){
-                arguments.callee.profile.boxing().hide();
-                arguments.callee.profile.$groupPopMenu.length=0;
+                var p=arguments.callee.profile;
+                p.boxing().hide();
+                p.$groupPopMenu.length=0;
             };
             f.profile=profile;
 
