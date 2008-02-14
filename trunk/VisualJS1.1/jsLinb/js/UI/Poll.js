@@ -35,7 +35,8 @@ Class("linb.UI.Poll", "linb.UI.List",{
         removeOpt:function(id){
             this.removeItems([id]);
             return this;
-        }
+        },
+        setDirtyMark:function(){return this}
     },
     Initialize:function(){
         var self=this;

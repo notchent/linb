@@ -23,6 +23,11 @@ Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'
             else
                 box._resetItem(profile,{left:pxStart,width:pxEnd-pxStart},profile.getSubNodeByItemId('ITEM',p.items[0].id).get(0));
         },
+        disabled:function(value){
+            return this.each(function(o){
+                o.getSubNode('VIEW').opacity(value?0.5:1);
+            });
+        },
         visibleTask:function(){
             var profile=this.get(0),
                 p=profile.properties,
@@ -61,7 +66,7 @@ Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'
                 },
                 BAR:{
                     tagName:'div',
-                    style:'height:{barHeight}px;',
+                    style:'{_bardisplay};height:{barHeight}px;',
                     CMDS:{
                         tagName:'div',
                         DATE:{$order:0,style:'{dateDisplay}'},
@@ -88,7 +93,7 @@ Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'
                     style:'left:{_band_left}px;width:{_band_width}px;',
                     BIGLABEL:{
                         tagName:'div',
-                        style:'height:{bigLabelHeight}px;z-index:3;{_bigLabelShow}',
+                        style:'height:{bigLabelHeight}px;z-index:3;{_showBigLabel}',
                         text:"{_bigMarks}"
                     },
                     SMALLLABEL:{
@@ -120,7 +125,7 @@ Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'
                 },
                 TIPS:{
                     $order:4,
-                    style:'z-index:2;height:{tipsHeight}px',
+                    style:'z-index:2;{_tipsdisplay};height:{tipsHeight}px',
                     tagName:'div'
                 }
             },
@@ -202,6 +207,7 @@ Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'
             },
             OPT:{
                 onClick:function(profile, e, src){
+                    if(profile.properties.disabled)return;
                     profile.boxing().onTriggerOption(profile, e, src);
                 }
             },
@@ -265,15 +271,17 @@ Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'
                             u=t.timeFormat,
                             p1=linb.event.getPos(e),
                             p2=profile.$itemspos;
-                        if(p2)
+                        if(p2 && t.showTips)
                             profile.box._setTips(profile, date.getText(date.add(s, 'ms', (p1.left-p2.left)*r),u));
                     }
                 },
                 onMouseout:function(profile,e,src){
                     if(linb.dragDrop.working)return;
-                    profile.box._setTips(profile, '');
+                    if(profile.properties.showTips)
+                        profile.box._setTips(profile, '');
                 },
                 onMousedown:function(profile, e, src){
+                    if(profile.properties.disabled || profile.properties.readonly)return;
                     if(profile.pause)return;
 
                     var o = profile.getSubNode('ACTIVE'),
@@ -377,6 +385,7 @@ Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'
                     if((x + maxOffset > 0) || (x + o.width() - t.width - maxOffset < 0))
                         profile.box._rePosition(profile);
                     profile.pause=false;
+                    return false;
                 },
                 onKeyup:function(profile, e){
                     var p=profile.properties;
@@ -582,6 +591,7 @@ Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'
             },
             HEAD:{
                 onMousedown:function(profile, e, src){
+                    if(profile.properties.disabled || profile.properties.readonly)return;
                     linb([src]).parent(2).startDrag(e, {
                         defer:1,
                         type:'none'
@@ -590,6 +600,7 @@ Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'
             },
             LEFT:{
                 onMousedown:function(profile, e, src){
+                    if(profile.properties.disabled || profile.properties.readonly)return;
                     profile.$dd_type='left';
                     linb([src]).parent(2).startDrag(e, {
                         defer:1,
@@ -599,6 +610,7 @@ Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'
             },
             RIGHT:{
                 onMousedown:function(profile, e, src){
+                    if(profile.properties.disabled || profile.properties.readonly)return;
                     profile.$dd_type='right';
                     linb([src]).parent(2).startDrag(e, {
                         defer:1,
@@ -609,6 +621,7 @@ Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'
         }},
         DataModel:{
             $borderW : 1,
+            readonly:false,
             // control width and height
             width : 400,
             height : 200,
@@ -653,16 +666,18 @@ Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'
                 ini:'h',
                 listbox:_.toArr(linb.date.TEXTFORMAT,true)
             },
-
+            //bar
+            showBar:true,
             barHeight : 22,
-
-            bigLabelShow: true,
+            //tips
+            showTips:true,
+            tipsHeight : 16,
+            //big label
+            showBigLabel: true,
             bigLabelHeight : 16,
 
             smallLabelHeight : 14,
             taskHeight : 16,
-            tipsHeight : 16,
-
             multiTasks:false,
 
             minDate:{
@@ -1036,7 +1051,7 @@ Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'
             d.dateDisplay = p.dateBtn?'':nodisplay;
             d.closeDisplay = p.closeBtn?'':nodisplay;
             d.optDisplay = p.optBtn?'':nodisplay;
-            d._bigLabelShow=p.bigLabelShow?'':nodisplay;
+            d._showBigLabel=p.showBigLabel?'':nodisplay;
 
             // for quick move
             p._scroll_offset = p.scrollRateBase;
@@ -1047,7 +1062,9 @@ Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'
             d._bWidth = p.width - 2*p.$borderW;
             d._bHeight = p.height - 2*p.$borderW;
             //view
-            p._viewHeight = d._bHeight - p.tipsHeight - (p.bigLabelShow?p.bigLabelHeight:0) - p.smallLabelHeight - p.barHeight;
+            p._viewHeight = d._bHeight - (p.showTips&&p.tipsHeight) - (p.showBigLabel?p.bigLabelHeight:0) - p.smallLabelHeight - (p.showBar&&p.barHeight);
+            d._tipsdisplay=p.showTips?'':nodisplay;
+            d._bardisplay = p.showBar?'':nodisplay;
 
             //get unitparas from timespan key
             if(p.timeSpanKey){
@@ -1125,7 +1142,7 @@ Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'
             }
 
 
-            if(p.bigLabelShow){
+            if(p.showBigLabel){
                 var _barCount2,off,
                     bigMarks,bigLabelStart,bigLabelEnd,
 
@@ -1273,16 +1290,18 @@ Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'
             if(n>0){
                 y.left= m+z;
                 y.width= n+z;
-                profile.box._setTips(profile, d.getText(d.add(s, ms, x*r),u)
-                    + " - "
-                    + d.getText(d.add(s, ms, (x+w)*r),u)
-                )
+                if(t.showTips)
+                    profile.box._setTips(profile, d.getText(d.add(s, ms, x*r),u)
+                        + " - "
+                        + d.getText(d.add(s, ms, (x+w)*r),u)
+                    )
             }
         },
         _deActive:function(profile){
             var t=profile.$active.style, x=parseInt(t.left)||0, w=(parseInt(t.width)||0)+2;
             t.left='-1000px';
-            profile.box._setTips(profile, '');
+            if(profile.properties.showTips)
+                profile.box._setTips(profile, '');
             return {left :x, width :w};
         },
         _minusLeft:function(profile,marks,node,offsetCount){
@@ -1444,7 +1463,7 @@ Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'
                     self._reArrage(profile);
                 }
 
-                if(t.bigLabelShow){
+                if(t.showBigLabel){
                     var labelsTop = profile.getSubNode('BIGLABEL'),
                         bigLabelUnit=t.bigLabelUnit,
                         bigLabelCount=t.bigLabelCount,
@@ -1650,7 +1669,7 @@ Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'
             //for border, view and items
             if(h && h!=p.height && parseInt(profile.domNode.style.height)){
                 f('BORDER').height(t=h-off1);
-                f('VIEW').height(t=t - p.tipsHeight-off2 - (p.bigLabelShow?p.bigLabelHeight:0) - p.smallLabelHeight - p.barHeight);
+                f('VIEW').height(t=t - (p.showTips&&p.tipsHeight) -off2 - (p.showBigLabel?p.bigLabelHeight:0) - p.smallLabelHeight - (p.showBar&&p.barHeight));
                 this._ajustHeight(profile);
 
                 if(p.height!=h)p.height=h;
