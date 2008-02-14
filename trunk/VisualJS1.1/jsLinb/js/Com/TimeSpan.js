@@ -89,18 +89,10 @@ Class('linb.Com.TimeSpan', 'linb.Com',{
             var ns=this,
                 date=linb.date,t,a,b,reg=/\./g,
                 wrap=function(s){return linb.wrapRes('date.TIMEZONE.'+s)};
-            t=ns.txtFrom;
-            t=t.indexOf(0)=='$'?linb.wrapRes(t):t;
-            ns.divFrom.setHtml(t);
-            t=ns.txtTo;
-            t=t.indexOf(0)=='$'?linb.wrapRes(t):t;
-            ns.divTo.setHtml(t);
-            t=ns.txtInfo;
-            t=t.indexOf(0)=='$'?linb.wrapRes(t):t;
-            ns.divInfo.setHtml(t);
-            t=ns.txtTZ;
-            t=t.indexOf(0)=='$'?linb.wrapRes(t):t;
-            ns.divTZ.setHtml(t);
+            ns.divFrom.setHtml(ns.txtFrom);
+            ns.divTo.setHtml(ns.txtTo);
+            ns.divInfo.setHtml(ns.txtInfo);
+            ns.divTZ.setHtml(ns.txtTZ);
 
             a=ns._timeStart;
             b=date.add(a,ns.timeMinUnit,ns.timeMinCount);
@@ -151,15 +143,15 @@ Class('linb.Com.TimeSpan', 'linb.Com',{
             f(
             (new u.Panel)
             .host(t,"panelMain")
-            .setWidth(420)
-            .setHeight(210)
+            .setWidth(410)
+            .setHeight(260)
             );
 
             t.panelMain.attach(
             (new u.ComboInput)
             .host(t,"dateFrom")
             .setLeft(67)
-            .setTop(160)
+            .setTop(170)
             .setItems([])
             .setType("datepicker")
             .setValue('')
@@ -171,7 +163,7 @@ Class('linb.Com.TimeSpan', 'linb.Com',{
             (new u.ComboInput)
             .host(t,"timeFrom")
             .setLeft(172)
-            .setTop(160)
+            .setTop(170)
             .setWidth(48)
             .setItems([])
             .setType("timepicker")
@@ -183,7 +175,7 @@ Class('linb.Com.TimeSpan', 'linb.Com',{
             (new u.Div)
             .host(t,"divTZ")
             .setLeft(10)
-            .setTop(189)
+            .setTop(200)
             .setWidth(53)
             .setHeight(16)
             .setCustomAppearance('KEY','text-align:right')
@@ -193,7 +185,7 @@ Class('linb.Com.TimeSpan', 'linb.Com',{
             (new u.Div)
             .host(t,"divFrom")
             .setLeft(10)
-            .setTop(163)
+            .setTop(173)
             .setWidth(53)
             .setHeight(16)
             .setCustomAppearance('KEY','text-align:right')
@@ -203,7 +195,7 @@ Class('linb.Com.TimeSpan', 'linb.Com',{
             (new u.ComboInput)
             .host(t,"timeTo")
             .setLeft(351)
-            .setTop(160)
+            .setTop(170)
             .setWidth(48)
             .setItems([])
             .setType("timepicker")
@@ -215,7 +207,7 @@ Class('linb.Com.TimeSpan', 'linb.Com',{
             (new u.ComboInput)
             .host(t,"dateTo")
             .setLeft(246)
-            .setTop(160)
+            .setTop(170)
             .setItems([])
             .setType("datepicker")
             .setValue('')
@@ -227,7 +219,7 @@ Class('linb.Com.TimeSpan', 'linb.Com',{
             (new u.Div)
             .host(t,"divTo")
             .setLeft(224)
-            .setTop(163)
+            .setTop(173)
             .setWidth(20)
             .setHeight(16)
             .setCustomAppearance('KEY','text-align:right')
@@ -237,7 +229,7 @@ Class('linb.Com.TimeSpan', 'linb.Com',{
             (new u.TimeLine)
             .host(t,"timeline")
             .setLeft(10)
-            .setTop(26)
+            .setTop(36)
             .setHeight(129)
             .setWidth(390)
             .setItems([])
@@ -250,7 +242,7 @@ Class('linb.Com.TimeSpan', 'linb.Com',{
             .setLeft(10)
             .setTop(4)
             .setWidth(390)
-            .setHeight(20)
+            .setHeight(30)
             );
 
             t.panelMain.attach(
@@ -259,10 +251,35 @@ Class('linb.Com.TimeSpan', 'linb.Com',{
             .setType('popbox')
             .setReadonly(true)
             .setLeft(66)
-            .setTop(186)
+            .setTop(196)
             .setWidth(334)
             .setItems([])
             .onClickButton('_clc')
+            );
+
+            t.panelMain.attach(
+            (new u.Div)
+            .host(t,"panelCmd")
+            .setLeft(5)
+            .setTop(225)
+            .setWidth(400)
+            .setHeight(30)
+            );
+
+            t.panelCmd.attach(
+            (new u.Button)
+            .host(t,"cmdCancel")
+            .setLeft(50)
+            .setTop(5)
+            .onClick('_cancel')
+            );
+
+            t.panelCmd.attach(
+            (new u.Button)
+            .host(t,"cmdOK")
+            .setLeft(250)
+            .setTop(5)
+            .onClick('_ok')
             );
 
             return n;
@@ -368,6 +385,12 @@ Class('linb.Com.TimeSpan', 'linb.Com',{
             self._update2(arr[1],arr[2]);
             self.timeline.visibleTask();
             return r;
+        },
+        _ok:function(){
+            _.tryF(this.onOK,[],this);
+        },
+        _cancel:function(){
+            _.tryF(this.onCancel,[],this);
         },
         _5:function (profile, oldValue, newValue, showValue) {
             var self=this,r

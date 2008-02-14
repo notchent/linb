@@ -343,12 +343,13 @@ _.merge(linb,{
         };
         linb.include('',linb.getPath('linb.Locale.' + s, '.js'),m,m);
     },
-    _r:/\x24\d+/g,
-    getRes:function(a,b,c,d){
-        b= a.indexOf('-')!=-1?((d=a.split('-'))&&(a=d[0])&&d):arguments ;
-        c=_.get(linb.Locale[linb.lang], a.split('.'));
+    _r:/\x24(\d+)/g,
+    getRes:function(a){
+        var d,
+            b= a.indexOf('-')!=-1?((d=a.split('-'))&&(a=d[0])&&d):arguments ,
+            c=_.get(linb.Locale[linb.lang], a.split('.'));
         return (d=typeof c)=='string'
-               ? (a=2&&c.replace(linb._r,function(){return b[a++]||''}))
+               ? c.replace(linb._r,function(z,a){return b[parseInt(a)+1]||z})
                : d=='function'
                ? c.apply(null,b) :
                c ? String(c) : a.substr(a.lastIndexOf('.')+1)
