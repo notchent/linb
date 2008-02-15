@@ -7,6 +7,9 @@ Class('linb.Com.TimeSpan', 'linb.Com',{
         //target timezone '+0830'
         timezone:'',
 
+        txtOK:'OK',
+        txtCancel:'Cancel',
+
         //task caption
         taskTitle:'',//'task title',
 
@@ -25,7 +28,6 @@ Class('linb.Com.TimeSpan', 'linb.Com',{
         //big time range
         timeStart:'',//"2008-01-16T00:00Z",
         timeEnd:'',//"2008-01-18T00:00Z",
-
 
         getValue:function(){
             var ns=this,
@@ -98,6 +100,8 @@ Class('linb.Com.TimeSpan', 'linb.Com',{
             b=date.add(a,ns.timeMinUnit,ns.timeMinCount);
 
             ns.timeline.setDftCaption(ns.taskTitle);
+            ns.cmdOK.setCaption(ns.txtOK);
+            ns.cmdCancel.setCaption(ns.txtCancel);
 
             ns.cbiTZ.setValue(ns.timezone,true);
             //ini timezone
