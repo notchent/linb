@@ -49,8 +49,10 @@ Class('linb.Com.TimeSpan', 'linb.Com',{
                     self.$lock=1;
                     timeline.setValue(a.getTime()+":"+b.getTime(),true);
 
-                    ns._timeEnd = date.packTimeZone(date.parse(ns.timeEnd), tz);
-                    ns._timeStart = date.packTimeZone(date.parse(ns.timeStart), tz);
+                    if(ns.timeEnd)
+                        ns._timeEnd = date.packTimeZone(date.parse(ns.timeEnd), tz);
+                    if(ns.timeStart)
+                        ns._timeStart = date.packTimeZone(date.parse(ns.timeStart), tz);
 
                     if(ns._timeEnd)
                         timeline.setMaxDate(date.getText(ns._timeEnd,'utciso'));
@@ -79,7 +81,7 @@ Class('linb.Com.TimeSpan', 'linb.Com',{
                 ns.setValue(date.unpackTimeZone(new Date(parseInt(uv[0])),old), date.unpackTimeZone(new Date(parseInt(uv[1])),old));
             }
         },
-        required:["linb.UI.TimeLine","linb.UI.ComboInput","linb.UI.Div","linb.UI.Panel","linb.UI.PopMenu"],
+        required:["linb.UI.TimeLine","linb.UI.ComboInput","linb.UI.Button","linb.UI.Panel","linb.UI.PopMenu"],
         events:{
             onReady:"_on",
             afterIniComponents:'_ai'
@@ -95,9 +97,6 @@ Class('linb.Com.TimeSpan', 'linb.Com',{
             ns.divTo.setHtml(ns.txtTo);
             ns.divInfo.setHtml(ns.txtInfo);
             ns.divTZ.setHtml(ns.txtTZ);
-
-            a=ns._timeStart;
-            b=date.add(a,ns.timeMinUnit,ns.timeMinCount);
 
             ns.timeline.setDftCaption(ns.taskTitle);
             ns.cmdOK.setCaption(ns.txtOK);
