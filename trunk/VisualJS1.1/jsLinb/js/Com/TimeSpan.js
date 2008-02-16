@@ -86,6 +86,10 @@ Class('linb.Com.TimeSpan', 'linb.Com',{
             onReady:"_on",
             afterIniComponents:'_ai'
         },
+        refreshUI:function(){
+            this._ai();
+            this._on();
+        },
         _ai:function(){
             _.tryF(this.onIniTimeLine,[this.timeline],this);
         },

@@ -633,7 +633,12 @@ Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'
             dftCaption:'task',
 
             //time span key
-            timeSpanKey : '',
+            timeSpanKey : {
+                ini:'',
+                action:function(){
+                    this.boxing().refresh();
+                }
+            },
             //timespan of a small label is equal to smallLabelCount*smallLabelUnit
             // how much px to represent a unit
             unitPixs : 28,

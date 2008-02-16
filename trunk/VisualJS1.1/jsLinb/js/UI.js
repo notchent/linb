@@ -1246,7 +1246,7 @@ new function(){
                     var node=pro.getSubNode(i,true),b;
                     if(!node.isEmpty())
                         h[i].split(/\s+/).each(function(o){
-                            if(flag)
+                            if(!flag)
                                 node.addClass(o);
                             else
                                 node.removeClass(o);
@@ -2532,17 +2532,10 @@ new function(){
                 });
                 return this.setDirtyMark();
             },
-/***
-            getDirtied:function(){
-                var arr;
-                this.each(function(profile){
-                    var prop = profile.properties;
-                    if(prop.value !== prop.$UIvalue)
-                        arr.push(profile);
-                });
-                return linb.UI.pack(arr);
+            isDirtied:function(){
+                var p = this.get(0).properties;
+                return p.value !== p.$UIvalue;
             },
-***/
             checkUIValueValid:function(){
                 var r=true;
                 this.each(function(profile){

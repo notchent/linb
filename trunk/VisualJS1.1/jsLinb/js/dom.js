@@ -756,7 +756,8 @@ Class('linb.dom','linb.iBox',{
                     k=d.style.visibility;
                     d.style.visibility='hidden';
                 }
-                if(d.parentNode!=o)
+                //always add to last
+                //if(d.parentNode!=o)
                     o.appendChild(d);
 
                 if(t=v.renderedTrigger)

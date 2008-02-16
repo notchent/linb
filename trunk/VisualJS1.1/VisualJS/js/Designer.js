@@ -187,7 +187,7 @@ Class('VisualJS.Designer', 'linb.Com',{
                         if(ret)return false;
                     });
                     if(ret){
-                        this.selectWidget(ret);
+                        this.selectWidget([ret]);
                         return false;
                     }
                 });
