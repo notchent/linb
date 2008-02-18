@@ -18,11 +18,132 @@ Class("linb.UI.ColLayout",["linb.UI.iWidget", "linb.UI.iList", "linb.UI.iContain
                 }
             }
             return self;
+        },
+        //prepare pos/size data for dragDrop
+        prepareDD:function(){
+            var self=this, 
+                profile=self.get(0),
+                p=profile.properties,
+                root=profile.root,
+                node=profile.getSubNode('ITEM',true),
+                bpos=root.absPos(),
+                size=root.cssSize(),
+                cache=linb.cache.dom,
+                w=0,h=0,ns,i,t,
+                arr=[],
+                a=[];
+            profile._ddup=profile._ddinrow=profile._ddincol=null;
+            node.each(function(o){
+                w=w+linb([o]).offsetWidth();
+                arr.push([w,o.id]);
+                //get panel's children
+                ns=o.lastChild.childNodes;
+                h=0;
+                a.push([]);
+                for(i=0;t=ns[i];i++){
+                    //ignore node without id/textNode/
+                    if(!t.id || cache[t.id] || !t.style || t.style.display=='none' || t.style.visibility=='hidden')continue;
+                    h=h+t.offsetHeight;
+                    a[0].push([h,t.id]);
+                }
+            });
+            profile._possize = {pos:bpos, size:size, cols:arr, rows:a};
+        },
+        //check the current mouse position
+        _checkpos:function(profile,pos,force){
+            var o=profile._possize,
+                change;
+            if(pos.left<o.pos.left || pos.top<o.pos.top || pos.left>o.pos.left+o.size.width || pos.top>o.pos.top+o.size.height){
+                if(profile._ddinrow!==null || profile._ddincol!==null)
+                    change=true;
+                profile._ddup=profile._ddinrow=profile._ddincol=null;
+                if(change || force)
+                    return [null];
+                else
+                    return;
+            }
+            var col,
+                id,
+                left = pos.left-o.pos.left,
+                top = pos.top-o.pos.top,
+                i=0,
+                t,to=0,
+                arr;
+            arr=o.cols;
+            while(t=arr[i++]){
+                if(left<t[0]){
+                    if(profile._ddincol===t[1])
+                        break;
+                    change=true;
+                    profile._ddincol=t[1];
+                    break;
+                }
+            }
+            col=profile._ddincol;
+            arr=o.rows;
+            while(t=arr[i++]){
+                if(left<t[0]){
+                    if(profile._ddinrow!==i)
+                        profile._ddup=null;
+                    j=left < to+([0]-to)/2;
+                    if(profile._ddinrow===i && profile._ddup===j)
+                        break;
+                    profile._ddinrow=i;
+                    profile._ddup=j;
+                    change=true;
+                    id=t[1];
+                    break;
+                }
+                to=t[0];
+            }
+            if(change|| force)
+                return [col,id,profile._ddup];
+        },
+        _showProxy:function(profile,subid,height){
+             var self=this, 
+                 node=self.getSubNode('PANEL',subid),
+                 proxy= profile._proxy || (profile._proxy=linb.create('<div style="border:dashed 2px #AAA">'));
+             proxy.height(height||20);
+             if(!node.isEmpty())
+                node.addLast(proxy);
+        },
+        _hideProxy:function(profile){
+            if(profile._proxy){
+                profile._proxy.remove();
+                delete profile._proxy;
+            }
+        },
+        //
+        doDrag:function(pos){
+            var self=this, 
+                profile=self.get(0),
+                rst=self._checkpos(profile,pos),
+                col,row;
+            if(rst){
+                col=rst[0];
+                row=rst[1];
+                rowup=rst[2];
+                if(col){
+                    if(row){
+                        
+                    }else
+                        self._showProxy(profile, profile.getSubSerialId(col));
+                }else
+                    self._hideProxy(profile);
+            }
+        },
+        doDrop:function(pos){
+            var self=this, 
+                profile=self.get(0),
+                rst=self._checkpos(profile,pos,true);
+            self._hideProxy(profile);
+            if(rst && rst[0])
+                self.onDropItem(profile, rst);
         }
     },
     Static:{
+        Dropable:['KEY'],
         cssNone:false,
-        Dropable:['PANEL'],
         Templates:{'default':{
             tagName:'div',
             style:'{_style}',
@@ -71,7 +192,7 @@ Class("linb.UI.ColLayout",["linb.UI.iWidget", "linb.UI.iList", "linb.UI.iContain
                 position:'relative',
                 'float':'left',
                 overflow:'hidden',
-                'background-color':'red',//'#fff',
+                'background-color':'#fff',
                 'border-width':linb.browser.opr?'0':null,
                 'font-size':linb.browser.ie?0:'',
                 'line-height':linb.browser.ie?0:''
@@ -220,7 +341,8 @@ Class("linb.UI.ColLayout",["linb.UI.iWidget", "linb.UI.iList", "linb.UI.iContain
             afterValueUpdated:null,
             beforeHoverEffect:null,
             beforeClickEffect:null,
-            beforeNextFocus:null
+            beforeNextFocus:null,
+            onDropItem:function(profile, rst){}
         },
         prepareData:function(profile){
             var i=profile.properties.items;

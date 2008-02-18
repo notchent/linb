@@ -70,11 +70,11 @@ Class('linb.event',null,{
             /*call function by order
              widget before -> dom before -> widget on -> dom on -> widget after -> dom after
             */
-            f=function(){
+            f=function(a){
                 var i, v, o = arguments.callee.funs;
                 for(i=0;v=o[i++];)
                     //if any fun return false, stop event bubble
-                    if(false === v.call(src, obj, e, src, o, type, name))
+                    if(false === v.call(src, obj, a||e, src, o, type, name))
                         return false;
                 return true;
             };

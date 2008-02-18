@@ -432,7 +432,7 @@ Class('linb.dragDrop',null,{
                             //ensure to run once only
                             _onDrag=1;
                             //if any ondrag event exists, this function will set _onDrag
-                            _source.onDrag(true);
+                            _source.onDrag(true,linb.event.getEventPara(e));
                         }
                     }
                 //}catch(e){linb.dragDrop._end()._reset();}finally{
@@ -449,9 +449,9 @@ Class('linb.dragDrop',null,{
                     // if(!working){linb.event.stopBubble(e);return false;}
                     _end();
                     if(working){
-                        var r = _source.onDragend(true);
+                        var r = _source.onDragend(true,linb.event.getEventPara(e));
                         if(_current)
-                            linb(_current.id).onDrop(true);
+                            linb(_current.id).onDrop(true,linb.event.getEventPara(e));
                     }
 //                }catch(a){}finally{
                     _reset();
@@ -677,7 +677,7 @@ Class('linb.dragDrop',null,{
                         //ensure to run once only
                         t._onDragover=1;
                         //if any dragover event exists, this function will set _onDragover
-                        linb([self]).onDragover(true);
+                        linb([self]).onDragover(true,linb.event.getEventPara(e));
                     }
                 }
             }, eh);
