@@ -41,8 +41,11 @@ Class('linb.Com.TimeSpan', 'linb.Com',{
             var ns=this,
                 timeline=ns.timeline,
                 tz=ns._timezone,
-                date=linb.date,
-                a=date.packTimeZone(iniFrom, tz),
+                date=linb.date;
+                aj = ns._adjustTime(iniFrom, iniTo);
+            iniFrom=aj[1];
+            iniTo=aj[2];
+            var a=date.packTimeZone(iniFrom, tz),
                 b=date.packTimeZone(iniTo, tz)
             ;
                 if(a && b && !self.$lock){
