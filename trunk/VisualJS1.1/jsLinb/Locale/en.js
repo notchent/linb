@@ -9,6 +9,27 @@
         '6':'Sa',
         '7':'WK'
     },
+    VIEWS:{
+        '10 ms':'10 millisecond',
+        '100 ms':'100 milliseconds',
+        '1 s':'1 second',
+        '10 s':'10 seconds',
+        '1 n':'1 minute',
+        '5 n':'5 minutes',
+        '10 n':'10 minutes',
+        '30 n':'30 minutes',
+        '1 h':'1 hour',
+        '2 h':'2 hours',
+        '6 h':'6 hours',
+        '1 d':'1 day',
+        '1 w':'1 week',
+        '15 d':'15 days',
+        '1 m':'1 month',
+        '1 q':'1 quarter',
+        '1 y':'1 year',
+        '1 de':'10 years',
+        '1 c':'1 century'
+    },
     MONTHS:{
         '1':'Jan.',
         '2':'Feb.',

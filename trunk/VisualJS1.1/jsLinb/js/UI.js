@@ -3317,7 +3317,23 @@ new function(){
                             .setStyle('backgroundPosition', value);
                     }
                 },
+                display:{
+                    action:function(value,ov){
+                        if(this.domNode){
+                            if(value=='inline-block')
+                                this.root.inlineBlock(true);
+                            else
+                                this.root.display(value);
 
+                            if(this.properties.hAlign=='center' && ov=='none'){
+                                var i=this
+                                _.asyRun(function(){
+                                     i.boxing().setHAlign('center',true);
+                                })
+                            }
+                        }
+                    }
+                },
                 //hide props
                 $paddingTop:0,
                 $paddingLeft:0,

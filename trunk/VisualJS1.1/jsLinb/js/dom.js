@@ -1842,6 +1842,21 @@ type:4
                         arr=me.arr,
                         a=arr.copy(),
                         b, pos, size;
+                    //filter first
+                    a.each(function(i){
+                        b=true;
+                        if(!(v=arr[i].target))b=false;
+                        else
+                            v.each(function(o){
+                                if(!linb.dom.byId(o.id))
+                                    return b=false;
+                            });
+                        if(!b){
+                            arr.removeValue(i);
+                            delete arr[i];
+                        };
+                    });
+                    a=arr.copy();
                     a.each(function(i){
                         v=arr[i];
                         b=true;

@@ -40,7 +40,7 @@ Class("linb.UI.Poll", "linb.UI.List",{
     },
     Initialize:function(){
         var self=this;
-        self.mapKeys(['MARK2','EDIT']);
+        self.mapKeys(['MARK2','MARK3','EDIT']);
         //modify default template fro shell
         var t = self.getTemplate('default');
         t.TITLE={
@@ -68,7 +68,7 @@ Class("linb.UI.Poll", "linb.UI.List",{
                         OPTION:{
                             $order:0,
                             tagName : 'DIV',
-                            MARK:{$order:1}
+                            MARK:{$order:1,className:'{_optclass}'}
                         },
                         CAPTION:{
                             $order:1,
@@ -195,9 +195,10 @@ Class("linb.UI.Poll", "linb.UI.List",{
             if(p.editable)
                 inlineEdit(profile, profile.getSubNodeByItemId('CAPTION',item.id), item.editable?'2':'1', item.editable?'':item.caption, item);
             else{
-                old.apply(this, arguments);
-                if(String(p.$UIvalue||'').split(';').exists(item.id) && item.editable)
+                if(item.editable)
                     inlineEdit(profile, profile.getSubNodeByItemId('CAPTION',item.id), '2');
+                else
+                    old.apply(this, arguments);
             }
         };
         t.TITLE={
@@ -369,7 +370,7 @@ Class("linb.UI.Poll", "linb.UI.List",{
             BARI:{
                 background: linb.UI.getCSSImgPara('cmds.gif', ' no-repeat -150px -225px ', null, 'linb.UI.Public')
             },
-            'MARK, MARK2' : {
+            'MARK, MARK2, MARK3' : {
                cursor:'pointer',
                width:'16px',
                height:'16px',
@@ -421,6 +422,18 @@ Class("linb.UI.Poll", "linb.UI.List",{
                 $order:5,
                 'background-position':' -96px -34px'
             },
+            MARK3:{
+                $order:11,
+               background: linb.UI.getCSSImgPara('cmds.gif', ' no-repeat -56px -222px', null, 'linb.UI.Public')
+            },
+           'ITEM-mouseover MARK3':{
+                $order:11,
+                'background-position':' -56px -222px'
+           },
+           'ITEM-mousedown MARK3':{
+                $order:11,
+                'background-position':' -56px -222px'
+           },
             DEL:{
                 margin:'0 0 0 4px'
             }
@@ -482,7 +495,7 @@ Class("linb.UI.Poll", "linb.UI.List",{
             if(!template){
                 template = _.clone(profile.box.getTemplate(tid));
                 if(properties.selMode=='multi'){
-                    template.$dynamic.items.OUTER.ITEM.OPTION.MARK2={};
+                    template.$dynamic.items.OUTER.ITEM.OPTION.MARK2={$order:1,className:'{_optclass}'};
                     delete template.$dynamic.items.OUTER.ITEM.OPTION.MARK;
                 }
                 // set template
@@ -541,6 +554,7 @@ Class("linb.UI.Poll", "linb.UI.List",{
                 if(item.percent>1)item.percent=1;
                 item._per = 150*(1-item.percent);
             }else{
+                item._optclass=profile.getClass('MARK3');
                 item._togdisplay=item._display='display:none;';
                 item._per = 0;
             }

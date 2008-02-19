@@ -997,6 +997,14 @@ Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'
             self.$active = self.getSubNode('ACTIVE').get(0);
             cls._ajustHeight(self);
         },
+        buildViewItems:function(){
+            var i,t,arr=this.zoom,s='date.VIEWS.',wrap=linb.wrapRes,a=[];
+            for(i=0;i<arr.length;i++){
+                t=arr[i][0];
+                a.push({id:t, caption:wrap(s+t)});
+            }
+            return a;
+        },
         _setDropable:function(profile){
             var dd=linb.dragDrop,
                 nf=function(){return false};
