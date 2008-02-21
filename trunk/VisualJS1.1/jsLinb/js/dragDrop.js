@@ -583,7 +583,9 @@ Class('linb.dragDrop',null,{
                    var t;
                     size.width = _.numb(d.target_width, node.cssSize().width);
                     size.height = _.numb(d.target_height, node.cssSize().height);
-                    var n=node.clone(_.bool(d.target_clone,true)).id('', true).setStyle({position:'static',cursor:d.cursor,margin:0,'cssFloat':'none'}).opacity(0.5).cssSize(size);
+                    var n=node.clone(_.bool(d.target_clone,true)).id('', true).setStyle({position:'static',cursor:d.cursor,margin:0,'cssFloat':'none'}).cssSize(size);
+                    if(d.opacity)
+                        n.opacity(0.5);
                     if(d.target_style)
                         n.setStyle(d.target_style);
                     n.dig().id('',true);

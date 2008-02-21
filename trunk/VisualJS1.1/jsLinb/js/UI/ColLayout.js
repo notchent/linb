@@ -25,26 +25,26 @@ Class("linb.UI.ColLayout",["linb.UI.iWidget", "linb.UI.iList", "linb.UI.iContain
                 profile=self.get(0),
                 p=profile.properties,
                 root=profile.root,
-                node=profile.getSubNode('ITEM',true),
+                node=profile.getSubNode('PANEL',true),
                 bpos=root.absPos(),
                 size=root.cssSize(),
                 cache=linb.cache.dom,
                 w=0,h=0,ns,i,t,
                 arr=[],
                 a=[];
-            profile._ddup=profile._ddinrow=profile._ddincol=null;
+            profile._ddup=profile._ddid=profile._ddincol=profile._ddi==null;
             node.each(function(o){
                 w=w+linb([o]).offsetWidth();
                 arr.push([w,o.id]);
                 //get panel's children
-                ns=o.lastChild.childNodes;
+                ns=o.childNodes;
                 h=0;
                 a.push([]);
                 for(i=0;t=ns[i];i++){
                     //ignore node without id/textNode/
-                    if(!t.id || cache[t.id] || !t.style || t.style.display=='none' || t.style.visibility=='hidden')continue;
+                    if(!t.id || !cache[t.id] || !t.style || t.style.display=='none' || t.style.visibility=='hidden')continue;
                     h=h+t.offsetHeight;
-                    a[0].push([h,t.id]);
+                    a[a.length-1].push([h,t.id]);
                 }
             });
             profile._possize = {pos:bpos, size:size, cols:arr, rows:a};
@@ -54,19 +54,18 @@ Class("linb.UI.ColLayout",["linb.UI.iWidget", "linb.UI.iList", "linb.UI.iContain
             var o=profile._possize,
                 change;
             if(pos.left<o.pos.left || pos.top<o.pos.top || pos.left>o.pos.left+o.size.width || pos.top>o.pos.top+o.size.height){
-                if(profile._ddinrow!==null || profile._ddincol!==null)
+                if(profile._ddid!==null || profile._ddincol!==null)
                     change=true;
-                profile._ddup=profile._ddinrow=profile._ddincol=null;
+                profile._ddup=profile._ddid=profile._ddincol=profile._ddi=null;
                 if(change || force)
                     return [null];
                 else
                     return;
             }
             var col,
-                id,
                 left = pos.left-o.pos.left,
                 top = pos.top-o.pos.top,
-                i=0,
+                i=0,temp,
                 t,to=0,
                 arr;
             arr=o.cols;
@@ -75,37 +74,45 @@ Class("linb.UI.ColLayout",["linb.UI.iWidget", "linb.UI.iList", "linb.UI.iContain
                     if(profile._ddincol===t[1])
                         break;
                     change=true;
+                    profile._ddi=i-1;
                     profile._ddincol=t[1];
+                    //if col changed, clear row vars
+                    profile._ddid=profile._ddup=null;
                     break;
                 }
             }
             col=profile._ddincol;
-            arr=o.rows;
+            arr=o.rows[profile._ddi];      
+            i=0;
             while(t=arr[i++]){
-                if(left<t[0]){
-                    if(profile._ddinrow!==i)
+                if(top<t[0]){
+                    //if raw changed, clear pos
+                    if(profile._ddid!==t[1])
                         profile._ddup=null;
-                    j=left < to+([0]-to)/2;
-                    if(profile._ddinrow===i && profile._ddup===j)
+                    j=(top < (to+(t[0]-to)/2));
+                    if(profile._ddid===t[1] && profile._ddup===j)
                         break;
-                    profile._ddinrow=i;
+                    profile._ddid=t[1];
                     profile._ddup=j;
                     change=true;
-                    id=t[1];
                     break;
                 }
                 to=t[0];
             }
             if(change|| force)
-                return [col,id,profile._ddup];
+                return [col,profile._ddid,profile._ddup];
         },
-        _showProxy:function(profile,subid,height){
+        _showProxy:function(profile,type,node,height){
              var self=this, 
-                 node=self.getSubNode('PANEL',subid),
                  proxy= profile._proxy || (profile._proxy=linb.create('<div style="border:dashed 2px #AAA">'));
              proxy.height(height||20);
-             if(!node.isEmpty())
+             if(node.isEmpty())return;
+             if(type===1)
                 node.addLast(proxy);
+             else if(type===2)
+                node.addPre(proxy);
+             else
+                node.addNext(proxy);
         },
         _hideProxy:function(profile){
             if(profile._proxy){
@@ -124,10 +131,10 @@ Class("linb.UI.ColLayout",["linb.UI.iWidget", "linb.UI.iList", "linb.UI.iContain
                 row=rst[1];
                 rowup=rst[2];
                 if(col){
-                    if(row){
-                        
-                    }else
-                        self._showProxy(profile, profile.getSubSerialId(col));
+                    if(row)
+                        self._showProxy(profile, rowup?2:3, linb(row) );
+                    else
+                        self._showProxy(profile, 1, self.getSubNode('PANEL',profile.getSubSerialId(col)) );
                 }else
                     self._hideProxy(profile);
             }
@@ -344,13 +351,13 @@ Class("linb.UI.ColLayout",["linb.UI.iWidget", "linb.UI.iList", "linb.UI.iContain
             beforeNextFocus:null,
             onDropItem:function(profile, rst){}
         },
-        prepareData:function(profile){
+        prepareData:function(profile){           
             var i=profile.properties.items;
             if(!i || i.constructor != Array || !i.length)
                 i = profile.properties.items = _.clone([
                     {id:'1',width:'30.3%'},
                     {id:'2',width:'30.3%'},
-                    {id:'2',width:'39.2%'}
+                    {id:'3',width:'39.2%'}
                 ]);
             i[i.length-1]._display = 'display:none';
             arguments.callee.upper.call(this, profile);

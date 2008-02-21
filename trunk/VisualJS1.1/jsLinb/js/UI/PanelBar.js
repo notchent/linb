@@ -71,11 +71,10 @@ Class("linb.UI.PanelBar", ["linb.UI.Div","linb.UI.iContainer"],{
             },
             HANDLE:{
                 display:'block',
-                cursor:'pointer',
                 'white-space':'nowrap',
                 background: linb.UI.getCSSImgPara('barvbg.gif', ' repeat-x left top', null, 'linb.UI.Public'),
                 height:'22px',
-
+                position:'relative',
                 left:0
             },
             'HANDLE-mouseover':{
@@ -105,6 +104,7 @@ Class("linb.UI.PanelBar", ["linb.UI.Div","linb.UI.iContainer"],{
                 cursor:'default'
             },
             TOGGLE:{
+                cursor:'default',
                 background: linb.UI.getCSSImgPara('cmds.gif', ' no-repeat -176px top', null, 'linb.UI.Public')
             },
             'TOGGLE-mouseover':{

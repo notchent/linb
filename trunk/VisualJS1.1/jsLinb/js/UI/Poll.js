@@ -110,7 +110,7 @@ Class("linb.UI.Poll", "linb.UI.List",{
             },
             cmds:{
                 CMD:{
-                    tagName: 'button',
+                    tagName: '{tagName}',
                     tabindex: '{_tabindex}',
                     text:'{caption}'
                 }
@@ -517,6 +517,7 @@ Class("linb.UI.Poll", "linb.UI.List",{
                 a=data.cmds=[];
                 for(var i=0,t=cmds,l=t.length;i<l;i++){
                     o=linb.UI.copyItem(t[i]);
+                    o.tagName = o.tagName||'button';
                     a.push(o);
                     o._tabindex=p.tabindex;
                     o[sid]=o.id;
