@@ -20,13 +20,13 @@ Class("linb.UI.Edge","linb.UI.iWidget",{
                 .addObserver(m=k+'down', 'tag', -1, t[m], [v])
                 .addObserver(m=k+'up', 'tag', -1, t[m], [v]);
             }
-            return self;
+            return target;
         }
     },
     Initialize:function(){
         _.each({
             // add Edge to linb.dom plugin
-            edged :function(properties, target, tieId){
+            edge :function(properties, target, tieId){
                 return new linb.UI.Edge(properties)._attachTo(target||this, this, tieId);
             },
             isEdged:function(){
@@ -47,7 +47,7 @@ Class("linb.UI.Edge","linb.UI.iWidget",{
                 });
                 return b && b.boxing();
             },
-            unEdged:function(){
+            unEdge:function(){
                 var s = this.id();
                 // for dom Node, destroy resizers
                 linb.UI.Edge._cache.each(function(o){

@@ -250,7 +250,7 @@ Class('linb.dragDrop',null,{
             d.pre={left :0, top :0};
             d.proxyPos={left :0, top :0};
             d.docking_x=d.docking_y=[];
-
+            d.target_clone=true;
             d.grid_width=d.grid_height=1;
             d._timer=d.docking_offset=-1;
             d._defer=d.defer=d._zIndex=d.x=d.y=d.ox=d.absPos_offset_y=d.absPos_offset_x=d.cssPos_offset_x=d.oy=d.cssPos_offset_y=d.limit_left=d.limit_right=d.limit_top=d.limit_bottom=0;
@@ -583,7 +583,7 @@ Class('linb.dragDrop',null,{
                    var t;
                     size.width = _.numb(d.target_width, node.cssSize().width);
                     size.height = _.numb(d.target_height, node.cssSize().height);
-                    var n=node.clone(_.bool(d.target_clone,true)).id('', true).setStyle({position:'static',cursor:d.cursor,margin:0,'cssFloat':'none'}).cssSize(size);
+                    var n=node.clone(d.target_clone).id('', true).setStyle({position:'relative',cursor:d.cursor,margin:0,'cssFloat':'none'}).cssSize(size);
                     if(d.opacity)
                         n.opacity(0.5);
                     if(d.target_style)

@@ -12,7 +12,7 @@ Class("linb.UI.Shadow","linb.UI.iWidget",{
             self.get(0)._target=o.get(0);
             // add dom for dom node
             o.attach(self);
-            return self;
+            return o;
         }
     },
     Initialize:function(){

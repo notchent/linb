@@ -104,7 +104,7 @@ Class("linb.UI.ColLayout",["linb.UI.iWidget", "linb.UI.iList", "linb.UI.iContain
         },
         _showProxy:function(profile,type,node,height){
              var self=this, 
-                 proxy= profile._proxy || (profile._proxy=linb.create('<div style="border:dashed 2px #AAA">'));
+                 proxy= profile._proxy || (profile._proxy=linb.create('<div style="border:1px dashed #FF0000;">'));
              proxy.height(height||20);
              if(node.isEmpty())return;
              if(type===1)
@@ -121,7 +121,7 @@ Class("linb.UI.ColLayout",["linb.UI.iWidget", "linb.UI.iList", "linb.UI.iContain
             }
         },
         //
-        doDrag:function(pos){
+        doDrag:function(pos,height){
             var self=this, 
                 profile=self.get(0),
                 rst=self._checkpos(profile,pos),
@@ -132,9 +132,9 @@ Class("linb.UI.ColLayout",["linb.UI.iWidget", "linb.UI.iList", "linb.UI.iContain
                 rowup=rst[2];
                 if(col){
                     if(row)
-                        self._showProxy(profile, rowup?2:3, linb(row) );
+                        self._showProxy(profile, rowup?2:3, linb(row),height );
                     else
-                        self._showProxy(profile, 1, self.getSubNode('PANEL',profile.getSubSerialId(col)) );
+                        self._showProxy(profile, 1, self.getSubNode('PANEL',profile.getSubSerialId(col)),height );
                 }else
                     self._hideProxy(profile);
             }
@@ -144,8 +144,10 @@ Class("linb.UI.ColLayout",["linb.UI.iWidget", "linb.UI.iList", "linb.UI.iContain
                 profile=self.get(0),
                 rst=self._checkpos(profile,pos,true);
             self._hideProxy(profile);
-            if(rst && rst[0])
+            if(rst && rst[0]){
                 self.onDropItem(profile, rst);
+                return true;
+            }return false;
         }
     },
     Static:{
@@ -200,7 +202,7 @@ Class("linb.UI.ColLayout",["linb.UI.iWidget", "linb.UI.iList", "linb.UI.iContain
                 'float':'left',
                 overflow:'hidden',
                 'background-color':'#fff',
-                'border-width':linb.browser.opr?'0':null,
+                'border-width':'0',
                 'font-size':linb.browser.ie?0:'',
                 'line-height':linb.browser.ie?0:''
             },

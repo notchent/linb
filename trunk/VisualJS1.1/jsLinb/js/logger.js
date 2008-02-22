@@ -19,8 +19,11 @@ Class('linb.logger', null, {
             var fun=fun||arguments.callee.caller,arr=arr||[];
             if(fun){
                 arr.push('function "' + (fun.$name$||'') + '" in Class "' + (fun.$original$||'') +'"');
-                if(fun.caller)
-                    arguments.callee(null,fun.caller,arr,1);
+                if(fun.caller){
+                    try{
+                        arguments.callee(null,fun.caller,arr,1);
+                    }catch(e){}
+                }
             }
             if(!flag){
                 var a=[];
