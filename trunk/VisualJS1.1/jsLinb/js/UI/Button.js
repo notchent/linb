@@ -34,15 +34,31 @@ Class("linb.UI.Button", ["linb.UI.Widget", "linb.UI.iForm"],{
                 tagName:'a',
                 href :"{href}",
                 tabindex: '{tabindex}',
-                BOX:{
-                    ICON:{
-                        $order:1,
-                        style:'background:url({icon}) transparent no-repeat  {iconPos};{iconDisplay}'
-                    },
-                    CAPTION:{
-                        $order:2,
-                        text: '{caption}',
-                        className:"{disabled}"
+                TB:{
+                    cellpadding:"0",
+                    cellspacing:"0",
+                    width:'100%',                    
+                    height:'100%',
+                    border:'0',
+                    tagName:'table',
+                    TR:{
+                        tagName:'tr',
+                        TD:{
+                            align:'{hAlign}',
+                            valign:'{vAlign}',
+                            tagName:'td',                            
+                            BOX:{
+                                ICON:{
+                                    $order:1,
+                                    style:'background:url({icon}) transparent no-repeat  {iconPos};{iconDisplay}'
+                                },
+                                CAPTION:{
+                                    $order:2,
+                                    text: '{caption}',
+                                    className:"{disabled}"
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -92,7 +108,9 @@ Class("linb.UI.Button", ["linb.UI.Widget", "linb.UI.iForm"],{
                 height:'16px',
                 margin:'0 4px 0 0'
             },
-
+            TD:{
+                height:'100%'
+            },
 
             /*a*/
             FOCUS:{
@@ -111,9 +129,7 @@ Class("linb.UI.Button", ["linb.UI.Widget", "linb.UI.iForm"],{
                 display:linb.browser.gek?['-moz-inline-block', '-moz-inline-box']: 'inline-block',
                 'font-size':'12px',
                 'line-height':'14px',
-                overflow:'hidden',
-                'white-space':'nowrap',
-                position:'absolute'
+                overflow:'hidden'
             }
         }},
         Behaviors:{'default':{
@@ -146,38 +162,16 @@ Class("linb.UI.Button", ["linb.UI.Widget", "linb.UI.iForm"],{
                 ini:'center',
                 listbox:['left','center','right'],
                 action: function(v){
-                    var self=this, c=self.getSubNode('BOX'), t=self.properties;
-                    switch(v){
-                        case 'left':
-                            c.setStyle({left:0,right:'auto','marginLeft':'auto'});
-                            break;
-                        case 'right':
-                            c.setStyle({left:'auto',right:0,'marginLeft':'auto'});
-                            break;
-                        case 'center':
-                            //for performance, not call getStyle here, widget with must be set in <style>
-                            c.setStyle({left:'50%',right:'auto','marginLeft':-1*c.get(0).offsetWidth/2+'px'});
-                            break;
-                    }
+                    var self=this, c=self.getSubNode('TD'), t=self.properties;
+                    c.attr('align',v);
                 }
             },
             vAlign:{
                 ini:'top',
                 listbox:['top','middle','bottom'],
                 action: function(v){
-                    var self=this, c=self.getSubNode('BOX'), t=self.properties;
-                    switch(v){
-                        case 'top':
-                            c.setStyle({top:0,bottom:'auto','marginTop':'auto'});
-                            break;
-                        case 'bottom':
-                            c.setStyle({top:'auto',bottom:0,'marginTop':'auto'});
-                            break;
-                        case 'middle':
-                            //for performance, not call getStyle here, widget with must be set in <style>
-                            c.setStyle({top:'50%',bottom:'auto','marginTop':-1*c.get(0).offsetHeight/2+'px'});
-                            break;
-                    }
+                    var self=this, c=self.getSubNode('TD'), t=self.properties;
+                    c.attr('valign',v);
                 }
             },
             tabindex:{
@@ -199,11 +193,6 @@ Class("linb.UI.Button", ["linb.UI.Widget", "linb.UI.iForm"],{
             //set value later
             if(p.toggleKey && p.value)
                 o.setValue(true, true);
-        },
-        renderedTrigger:function(){
-            var p = this.properties, o=this.boxing();
-            if(p.hAlign!='left')o.setHAlign(p.hAlign,true);
-            if(p.vAlign!='top')o.setVAlign(p.vAlign,true);
         },
         EventHandlers:{
             onClick:function(profile, e, value){},

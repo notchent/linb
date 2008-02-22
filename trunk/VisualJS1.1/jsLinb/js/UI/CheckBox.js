@@ -37,7 +37,7 @@ Class("linb.UI.CheckBox", "linb.UI.Button",{
     Initialize:function(){
         //modify default template for shell
         var t = this.getTemplate('default');
-        _.merge(t.FRAME.BORDER.FOCUS.BOX,{
+        _.merge(t.FRAME.BORDER.FOCUS.TB.TR.TD.BOX,{
             MARK:{
                 $order:0
             }

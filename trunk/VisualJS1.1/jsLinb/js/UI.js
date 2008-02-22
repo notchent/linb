@@ -3296,9 +3296,6 @@ new function(){
                     // ui update function when setCaption
                     action: function(value){
                         this.getSubNode('CAPTION').html(value);
-                        var p = this.properties;
-                        if(p.hAlign && p.hAlign!='left')this.boxing().setHAlign(p.hAlign,true);
-                        if(p.vAlign && p.vAlign!='top')this.boxing().setVAlign(p.vAlign,true);
                     }
                 },
                 // setIcon and getIcon
@@ -3317,23 +3314,6 @@ new function(){
                             .setStyle('backgroundPosition', value);
                     }
                 },
-                display:{
-                    action:function(value,ov){
-                        if(this.domNode){
-                            if(value=='inline-block')
-                                this.root.inlineBlock(true);
-                            else
-                                this.root.display(value);
-
-                            if(this.properties.hAlign=='center' && ov=='none'){
-                                var i=this
-                                _.asyRun(function(){
-                                     i.boxing().setHAlign('center',true);
-                                })
-                            }
-                        }
-                    }
-                },
                 //hide props
                 $paddingTop:0,
                 $paddingLeft:0,
@@ -3342,18 +3322,6 @@ new function(){
                 $border:0
             },
 
-            AdjustHAlign:function(){
-                var self=this,arr=self.getAll(),a=[];
-                arr.each(function(pro){
-                    p=pro.properties;
-                    if(p.hAlign=='center')
-                        a.push(pro);
-                });
-                if(a.length)
-                    _.asyRun(function(){
-                        self.pack(a).setHAlign('center',true);
-                    });
-            },
             createdTrigger:function(){
                 var self=this, p=self.properties, o=self.boxing();
 
