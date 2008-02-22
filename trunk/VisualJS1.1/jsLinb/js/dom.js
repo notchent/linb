@@ -1828,15 +1828,13 @@ type:4
             target.cssPos(pos).setStyle({visibility:'visible',display:'block'});
             return this;
         },
-
         //for destroy obj when blur
         setBlurTrigger : function(id, trigger, group){
-            var sid='$blur_triggers$',
-                doc = linb([document]),
-                target = group?group:linb(this.get()),
-                fun=doc.getEvent('beforeMousedown', sid);
-            if(!fun){
-                fun=function(p,e){
+            var ns=this,
+                doc=document,
+                sid='$blur_triggers$',
+                target = group?group:linb(ns.get()),
+                fun=linb.dom._blurTrigger||(linb.dom._blurTrigger=function(p,e){
                     var me=arguments.callee,
                         p=linb.event.getPos(e),
                         arr=me.arr,
@@ -1878,12 +1876,9 @@ type:4
                             return false;
                     },null,true);
                     a.length=0;
-                };
-                fun.arr=[];
-                doc.beforeMousedown(fun, sid, 0);
-            }
-
-            var arr = fun.arr;
+                }),
+                arr=fun.arr||(fun.arr=[]);
+            if(!doc.onmousedown)doc.onmousedown=linb.event._eventhandler;
 
             //remove this trigger
             if(!trigger){

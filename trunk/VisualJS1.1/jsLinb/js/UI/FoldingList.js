@@ -287,10 +287,9 @@ Class("linb.UI.FoldingList", ["linb.UI.List"],{
                         nodenext = node.next()
                         ;
                     if(item._show){
-                        if(properties.activeLast && items.length){
+                        if(properties.activeLast && items.length)
                             if(items[items.length-1].id==item.id)
                                 return false;
-                        }
 
                         profile.removeTagClass('ITEM', '-checked', node);
                         if(nodenext)
@@ -319,7 +318,6 @@ Class("linb.UI.FoldingList", ["linb.UI.List"],{
                 onClick:function(profile,e,src){
                     if(profile.onCommand)
                         profile.boxing().onCommand(profile,profile.getItemByDom(src),src.id.split('_')[1],src);
-
                     return false;
                 }
             },

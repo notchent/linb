@@ -38,6 +38,10 @@ Class('linb.event',null,{
         id = self.getId(src) || id;
         //get profile from dom cache
         if(obj = self._getProfile(id)){
+            //for setBlurTrigger
+            if(type=='mousedown')
+                _.tryF(linb.dom._blurTrigger,[obj,e,src],src);
+            //for resize
             if(type=="resize"){
                 type='rewh';
                 //for IE, always fire window onresize event after any innerHTML action
