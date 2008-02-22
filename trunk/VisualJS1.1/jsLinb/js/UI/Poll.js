@@ -286,7 +286,8 @@ Class("linb.UI.Poll", "linb.UI.List",{
                 'padding':'5px 0 5px 40px'
             },
             CMD:{
-                margin:'3px'
+                margin:'3px',
+                'white-space':'nowrap'
             },
             TITLE:{
                 'font-weight':'bold',

@@ -114,27 +114,33 @@ Class("linb.UI.FoldingList", ["linb.UI.List"],{
                 height:'15px',
                 'vertical-align': 'middle',
                 cursor:'default',
-                background: linb.UI.getCSSImgPara('cmds.gif', ' no-repeat -161px top', null, 'linb.UI.Public')
+                background: linb.UI.getCSSImgPara('cmds.gif', ' no-repeat -48px 0', null, 'linb.UI.Public')
+                //-161px top
             },
             'ITEM-mouseover MARK':{
                 $order:2,
-                'background-position': '-161px -15px'
+                'background-position': '-48px -16px'
+                //'-161px -15px'
             },
             'ITEM-mousedown MARK':{
                 $order:3,
-                'background-position': '-161px -30px'
+                'background-position': '-48px -32px'
+                //'-161px -30px'
             },
             'ITEM-checked MARK':{
                 $order:4,
-                'background-position': '-176px top'
+                'background-position': ' -16px 0'
+                //'-176px top'
             },
             'ITEM-checked-mouseover MARK':{
                 $order:5,
-                'background-position': '-176px -15px'
+                'background-position': ' -16px -16px'
+                //'-176px -15px'
             },
             'ITEM-checked-mousedown MARK':{
                 $order:6,
-                'background-position': '-176px -30px'
+                'background-position': ' -16px -32px'
+                //'-176px -30px'
             },
 
             CMDS:{

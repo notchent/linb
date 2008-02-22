@@ -105,27 +105,33 @@ Class("linb.UI.PanelBar", ["linb.UI.Div","linb.UI.iContainer"],{
             },
             TOGGLE:{
                 cursor:'default',
-                background: linb.UI.getCSSImgPara('cmds.gif', ' no-repeat -176px top', null, 'linb.UI.Public')
+                background: linb.UI.getCSSImgPara('cmds.gif', ' no-repeat -16px 0', null, 'linb.UI.Public')
+                //-176px top
             },
             'TOGGLE-mouseover':{
                 $order:2,
-                'background-position': '-176px -15px'
+                'background-position': '-16px -16px'
+                //'-176px -15px'
             },
             'TOGGLE-mousedown':{
                 $order:3,
-                'background-position': '-176px -30px'
+                'background-position': '-16px -32px'
+                //'-176px -30px'
             },
             'TOGGLE-checked':{
                 $order:4,
-                'background-position': '-161px top'
+                'background-position': ' -48px 0'
+                //'-161px top'
             },
             'TOGGLE-checked-mouseover':{
                 $order:5,
-                'background-position': '-161px -15px'
+                'background-position': ' -48px -16px'
+                //'-161px -15px'
             },
             'TOGGLE-checked-mousedown':{
                 $order:6,
-                'background-position': '-161px -30px'
+                'background-position': ' -48px -32px'
+                //'-161px -30px'
             },
             OPT:{
                 background: linb.UI.getCSSImgPara('cmds.gif', ' no-repeat -240px top', null, 'linb.UI.Public')
@@ -182,6 +188,12 @@ Class("linb.UI.PanelBar", ["linb.UI.Div","linb.UI.iContainer"],{
             TOGGLE:{
                 onClick:function(profile, e, src){
                     profile.box._toggle(profile, !profile.properties.toggle);
+                    return false;
+                }
+            },
+            HANDLE:{
+                onClick:function(profile, e, src){
+                    profile.boxing().onClickHandle(profile,src);
                 }
             },
             CLOSE:{
@@ -288,7 +300,8 @@ Class("linb.UI.PanelBar", ["linb.UI.Div","linb.UI.iContainer"],{
             onIniPanelView:function(profile){},
             onFold:function(profile){},
             onOpen:function(profile){},
-            onTriggerOption:function(profile, e, src){}
+            onTriggerOption:function(profile, e, src){},
+            onClickHandle:function(profile, src){}
         },
         prepareData:function(profile){
             arguments.callee.upper.call(this, profile);
