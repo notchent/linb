@@ -449,7 +449,7 @@ Class('linb.dragDrop',null,{
                     // if(!working){linb.event.stopBubble(e);return false;}
                     _end();
                     if(working){
-                        var r = _source.onDragend(true,linb.event.getEventPara(e));
+                        var r = _source.onDragstop(true,linb.event.getEventPara(e));
                         if(_current)
                             linb(_current.id).onDrop(true,linb.event.getEventPara(e));
                     }

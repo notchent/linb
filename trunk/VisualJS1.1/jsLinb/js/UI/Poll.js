@@ -287,7 +287,8 @@ Class("linb.UI.Poll", "linb.UI.List",{
             },
             CMD:{
                 margin:'3px',
-                'white-space':'nowrap'
+                'white-space':'nowrap',
+                'vertical-align':'middle'
             },
             TITLE:{
                 'font-weight':'bold',

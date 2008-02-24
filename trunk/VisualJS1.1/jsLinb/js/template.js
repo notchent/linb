@@ -8,15 +8,16 @@ Class('linb.template','linb.iProfile',{
         self.events={};
         self.$id=_.id();
         self.links(self.constructor._cache,'self').links(linb._object,'linb');
+        self.box=self.constructor;
         linb.cache.dom[self.domId]=this;
 
         if(template)self.setTemplate(template);
-        if(events)self.setEvent(events);
+        if(events)self.setEvents(events);
         if(properties)self.setProperties(properties);
-        if(parent)this.renderTo(parent);
+        if(parent)self.renderTo(parent);
+        return self;
     },
     Instance : {
-
         $gc:function(){
             //no detach event here. so, don't add event using addEventlis...
             //use innerHTML way only
@@ -37,7 +38,8 @@ Class('linb.template','linb.iProfile',{
             (t[self.KEY] || (t[self.KEY]=[])).push(self.serialId);
             delete linb.cache.dom[self.domId];
             self.antiAllLinks();
-            self.template=self.properties=self.events=null;        },
+            self.template=self.properties=self.events=null;
+        },
         empty:function(){
             this.root.innerHTML='';
         },
@@ -171,6 +173,16 @@ Class('linb.template','linb.iProfile',{
         }
     },
     Static : {
+        showTips:function(pro,node,pos){
+            var id=node.getAttribute('evid'),
+                key=node.getAttribute('evkey');
+            if(!id)return false;
+            var p=pro.properties,
+                h=key?p[key]:p,
+                item=h[0];
+            linb.UI.Tips.show(pos, item);
+            return true;
+        },
         _cache:[],
         _ctrlId : new _.id()
     }

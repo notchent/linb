@@ -836,7 +836,7 @@ Class("linb.UI.TreeGrid","linb.UI.iWidget",{
                         }
                     }
                 },
-                onDragend:function(profile, e, src){
+                onDragstop:function(profile, e, src){
                     var o=linb(src).parent(2),w=o.width()+linb.dragDrop.getOffset().x;
                     o.width(w);
 
@@ -901,7 +901,7 @@ Class("linb.UI.TreeGrid","linb.UI.iWidget",{
                         }
                     }
                 },
-                onDragend:function(profile, e, src){
+                onDragstop:function(profile, e, src){
                     var o=linb(src).parent(3),h=o.height()+linb.dragDrop.getOffset().y;
                     //for ie's strange bug
                     if(linb.browser.ie && h%2==1)h+=1;
@@ -2088,7 +2088,8 @@ Class("linb.UI.TreeGrid","linb.UI.iWidget",{
                 if(widget)widget.activate();
             });
         },
-        showTips:function(profile, id, pos){
+        showTips:function(profile, node, pos){
+            var id=node.id;
             if(profile.properties.disabled)return;
 
             if(profile.getKey(id)!=profile.keys.CELLA)return;

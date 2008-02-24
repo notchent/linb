@@ -608,7 +608,7 @@ Class('VisualJS.Designer', 'linb.Com',{
             .addEventHandler('mousedown')
             .addEventHandler('click')
             .addEventHandler('drag')
-            .addEventHandler('dragend')
+            .addEventHandler('dragstop')
             .addEventHandler('mouseup');
         },
         _enablePanelDesign:function(profile){
@@ -806,7 +806,7 @@ Class('VisualJS.Designer', 'linb.Com',{
                         profile.$dragging = true;
                     }
                 },
-                beforeDragend:function(profile, e, src){
+                beforeDragstop:function(profile, e, src){
                     //if(!profile._selregion)return;
                     var region = profile._selregion,
                     proxy=page.proxy,

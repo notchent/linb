@@ -1162,13 +1162,18 @@ Class('linb.dom','linb.iBox',{
               pos = {left :0, top :0};
               var bak=node,bak2,m;
               do{
+                    //remedy kde and ie
                    if(type[String(node.tagName).toLowerCase()])
-                        //remedy kde and ie
                        if((browser.kde || browser.ie) && node.style.position != 'absolute'){
-                    pos.left -= (parseint(getStyle(node,'marginLeft'))||0);
-                    pos.top -= (parseint(getStyle(node,'marginTop'))||0);
-                      break;
+                            pos.left -= (parseint(getStyle(node,'marginLeft'))||0);
+                            pos.top -= (parseint(getStyle(node,'marginTop'))||0);
+                            break;
                        }
+                   //remedy ie
+                   if(browser.ie && node.style.position != 'absolute'){
+                        pos.left -= (parseint(getStyle(node,'marginLeft'))||0);
+                        pos.top -= (parseint(getStyle(node,'marginTop'))||0);
+                   }
 
                    pos.left += (parseint(node.offsetLeft)||0);
                    pos.top += (parseint(node.offsetTop)||0);

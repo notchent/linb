@@ -41,21 +41,24 @@ Class('linb.Com.TimeSpan', 'linb.Com',{
             var ns=this,
                 timeline=ns.timeline,
                 tz=ns._timezone,
-                date=linb.date;
-                aj = ns._adjustTime(iniFrom, iniTo);
+                date=linb.date,
+                aj;
+            //set min/max time range first
+            if(ns.timeEnd)
+                ns._timeEnd = date.packTimeZone(date.parse(ns.timeEnd), tz);
+            if(ns.timeStart)
+                ns._timeStart = date.packTimeZone(date.parse(ns.timeStart), tz);
+            //adjust time here
+            aj = ns._adjustTime(iniFrom, iniTo);
             iniFrom=aj[1];
             iniTo=aj[2];
+            
             var a=date.packTimeZone(iniFrom, tz),
                 b=date.packTimeZone(iniTo, tz)
             ;
                 if(a && b && !self.$lock){
                     self.$lock=1;
                     timeline.setValue(a.getTime()+":"+b.getTime(),true);
-
-                    if(ns.timeEnd)
-                        ns._timeEnd = date.packTimeZone(date.parse(ns.timeEnd), tz);
-                    if(ns.timeStart)
-                        ns._timeStart = date.packTimeZone(date.parse(ns.timeStart), tz);
 
                     if(ns._timeEnd)
                         timeline.setMaxDate(date.getText(ns._timeEnd,'utciso'));

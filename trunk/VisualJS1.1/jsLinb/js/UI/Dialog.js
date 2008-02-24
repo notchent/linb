@@ -296,7 +296,7 @@ Class("linb.UI.Dialog",["linb.UI.Widget","linb.UI.iContainer"],{
                 profile.box.active(profile);
             },
 
-            onDragend:function(profile){
+            onDragstop:function(profile){
                 var pos = profile.root.cssPos(),p=profile.properties;
                 p.left = pos.left;
                 p.top = pos.top;

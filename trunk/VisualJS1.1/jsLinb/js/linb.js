@@ -11,7 +11,7 @@ Dual licensed under the MIT (http://www.opensource.org/licenses/mit-license.php)
 /*
 *load linb.logger to redefine window.error
 */
-window.error=function(){return true};
+//window.error=function(){return true};
 
 //time stamp
 _=function(){return new Date().getTime()};
@@ -1078,8 +1078,8 @@ Class('linb.sajax','linb.io',{
 
             var w=c._n=document;
 			n = self.node = w.createElement("script");
+			n.src = self.uri + (self.queryString?'?'+self.queryString:'');//+(linb.browser.ie?'&_ie='+_()+Math.random():'');
 			n.type= 'text/javascript';
-			n.src = self.uri + (self.queryString?'?'+self.queryString:'')+(linb.browser.ie?'&_ie='+_()+Math.random():'');
 			n.charset='utf-8';
 			n.id='linb:script:'+self.id;
 
@@ -1125,12 +1125,12 @@ Class('linb.sajax','linb.io',{
     Static : {
         pool:{},
         customQS:function(obj){
-            var c=this.constructor, k=c.randkey, b=c.callback;
+            var c=this.constructor, k=c.randkey, b=c.callback,nr=(this.rspType!='script'),rand=nr?k + '=' + this.id + '&':'';
             if(typeof obj=='string')
-                return (obj && obj + '&') + k + '=' + this.id + '&' + b + '=linb.sajax.response';
+                return (obj && obj + '&') + rand + b + '=linb.sajax.response';
             else{
                 obj[b]="linb.sajax.response";
-                obj[k]=this.id;
+                if(nr)obj[k]=this.id;
                 return obj;
             }
         }

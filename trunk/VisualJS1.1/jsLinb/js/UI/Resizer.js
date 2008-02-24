@@ -425,8 +425,8 @@ Class("linb.UI.Resizer","linb.UI.iWidget",{
             onDrag:function(profile, e, src){
                 profile.box.onDrag(profile, e, src, {move:true});
             },
-            onDragend:function(profile, e, src){
-                profile.box.onDragend(profile, e, src, {move:true} );
+            onDragstop:function(profile, e, src){
+                profile.box.onDragstop(profile, e, src, {move:true} );
             },
             LT:{
                 onMousedown:function(profile, e, src){
@@ -438,8 +438,8 @@ Class("linb.UI.Resizer","linb.UI.iWidget",{
                 onDrag:function(profile, e, src){
                     profile.box.onDrag(profile, e, src, {left:true, top:true});
                 },
-                onDragend:function(profile, e, src){
-                    profile.box.onDragend(profile, e, src, {left:true, top:true});
+                onDragstop:function(profile, e, src){
+                    profile.box.onDragstop(profile, e, src, {left:true, top:true});
                 }
             },
             RT:{
@@ -452,8 +452,8 @@ Class("linb.UI.Resizer","linb.UI.iWidget",{
                 onDrag:function(profile, e, src){
                     profile.box.onDrag(profile, e, src, {right:true, top:true});
                 },
-                onDragend:function(profile, e, src){
-                    profile.box.onDragend(profile, e, src, {right:true, top:true});
+                onDragstop:function(profile, e, src){
+                    profile.box.onDragstop(profile, e, src, {right:true, top:true});
                 }
             },
             LB:{
@@ -466,8 +466,8 @@ Class("linb.UI.Resizer","linb.UI.iWidget",{
                 onDrag:function(profile, e, src){
                     profile.box.onDrag(profile, e, src, {left:true, bottom:true});
                 },
-                onDragend:function(profile, e, src){
-                    profile.box.onDragend(profile, e, src, {left:true, bottom:true});
+                onDragstop:function(profile, e, src){
+                    profile.box.onDragstop(profile, e, src, {left:true, bottom:true});
                 }
             },
             RB:{
@@ -480,8 +480,8 @@ Class("linb.UI.Resizer","linb.UI.iWidget",{
                 onDrag:function(profile, e, src){
                     profile.box.onDrag(profile, e, src, {right:true, bottom:true});
                 },
-                onDragend:function(profile, e, src){
-                    profile.box.onDragend(profile, e, src, {right:true, bottom:true});
+                onDragstop:function(profile, e, src){
+                    profile.box.onDragstop(profile, e, src, {right:true, bottom:true});
                 }
             },
             L:{
@@ -494,8 +494,8 @@ Class("linb.UI.Resizer","linb.UI.iWidget",{
                 onDrag:function(profile, e, src){
                     profile.box.onDrag(profile, e, src, {left:true});
                 },
-                onDragend:function(profile, e, src){
-                    profile.box.onDragend(profile, e, src, {left:true});
+                onDragstop:function(profile, e, src){
+                    profile.box.onDragstop(profile, e, src, {left:true});
                 }
             },
             T:{
@@ -508,8 +508,8 @@ Class("linb.UI.Resizer","linb.UI.iWidget",{
                 onDrag:function(profile, e, src){
                     profile.box.onDrag(profile, e, src, {top:true});
                 },
-                onDragend:function(profile, e, src){
-                    profile.box.onDragend(profile, e, src, {top:true});
+                onDragstop:function(profile, e, src){
+                    profile.box.onDragstop(profile, e, src, {top:true});
                 }
             },
             R:{
@@ -522,8 +522,8 @@ Class("linb.UI.Resizer","linb.UI.iWidget",{
                 onDrag:function(profile, e, src){
                     profile.box.onDrag(profile, e, src, {right:true});
                 },
-                onDragend:function(profile, e, src){
-                    profile.box.onDragend(profile, e, src, {right:true});
+                onDragstop:function(profile, e, src){
+                    profile.box.onDragstop(profile, e, src, {right:true});
                 }
             },
             B:{
@@ -536,8 +536,8 @@ Class("linb.UI.Resizer","linb.UI.iWidget",{
                 onDrag:function(profile, e, src){
                     profile.box.onDrag(profile, e, src, {bottom:true});
                 },
-                onDragend:function(profile, e, src){
-                    profile.box.onDragend(profile, e, src, {bottom:true});
+                onDragstop:function(profile, e, src){
+                    profile.box.onDragstop(profile, e, src, {bottom:true});
                 }
             }
         }},
@@ -921,7 +921,7 @@ Class("linb.UI.Resizer","linb.UI.iWidget",{
                 profile.proxy.top(y).left(x);
             }
         },
-        onDragend:function(profile, e, src, args){
+        onDragstop:function(profile, e, src, args){
             var cssPos,size,pos;
             var o = profile.proxy;
 

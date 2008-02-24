@@ -233,7 +233,7 @@ Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'
 
                     linb([src]).startDrag(e, {move:false, type:'blank', horizontal:true, target_left:ep.left,target_top:ep.top,offset_left:l, offset_right:r});
                 },
-                onDragend:function(profile, e, src){
+                onDragstop:function(profile, e, src){
                     profile.box._rePosition(profile);
                     profile.box._focus(profile);
                 },
@@ -316,7 +316,7 @@ Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'
                     }
                     profile.box._moveActive(profile, src, profile.$task_l=x, profile.$task_w=w);
                 },
-                onDragend:function(profile, e, src){
+                onDragstop:function(profile, e, src){
                     profile.box._deActive(profile);
                     linb([src,src.parentNode]).cursor('');
 
@@ -570,7 +570,7 @@ Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'
                     }
                     profile.box._moveActive(profile, profile.$active, x, w);
                 },
-                onDragend:function(profile, e, src){
+                onDragstop:function(profile, e, src){
                     var box=profile.box,
                         r = profile.box._deActive(profile),
                         ac=profile.$active;
@@ -1656,8 +1656,9 @@ Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'
             scroll.display(b?'block':'none');
             items.top(b?-scroll.scrollTop():0);
         },
-        showTips:function(profile, id, pos){
+        showTips:function(profile, node, pos){
             var t=profile.properties,
+                id=node.id,
                 format=t.timeFormat,
                 sid=profile.getSubSerialId(id),
                 map=profile.SubSerialIdMapItem,

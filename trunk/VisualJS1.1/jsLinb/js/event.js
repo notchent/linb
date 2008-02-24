@@ -4,9 +4,9 @@
 *
 */
 Class('linb.event',null,{
-    Constructor:function(e,o,fordrag,id){
+    Constructor:function(e,o,fordrag,tid){
         var self = linb.event,
-            dd=0,
+            dd=0,id,
             dragdrop=linb.dragDrop,
             src, type,  pre, obj;
 
@@ -14,9 +14,12 @@ Class('linb.event',null,{
         if(!(e=e||window.event) || !(src=o))return false;
         //type
         type = e.type;
+        //template id
+        if(tid)e._tid=tid;
 
         //for correct mouse hover problems;
         if('mouseover'==type || 'mouseout'==type){
+
             dd=(dragdrop&&dragdrop.drop2)?1:2;
             //for dropable
             if(dd!=1 && fordrag)return self.rtnFalse;
@@ -35,7 +38,7 @@ Class('linb.event',null,{
             false === self._handleFocusHook(src, obj=obj[obj.length-1]))
                 return;
 
-        id = self.getId(src) || id;
+        id = self.getId(src) || tid;
         //get profile from dom cache
         if(obj = self._getProfile(id)){
             //for setBlurTrigger
@@ -75,10 +78,10 @@ Class('linb.event',null,{
              widget before -> dom before -> widget on -> dom on -> widget after -> dom after
             */
             f=function(a){
-                var i, v, o = arguments.callee.funs;
-                for(i=0;v=o[i++];)
+                var i, v, k = arguments.callee.funs;
+                for(i=0;v=k[i++];)
                     //if any fun return false, stop event bubble
-                    if(false === v.call(src, obj, a||e, src, o, type, name))
+                    if(false === v.call(src, obj, a||e, src, o))
                         return false;
                 return true;
             };
@@ -138,7 +141,7 @@ Class('linb.event',null,{
                 "change,reset,select,submit,"+
                 "abort,error,ready,"+
                 //dragstart dragdrop dragout will not work in IE, when set string to attr
-                "dragbegin,drag,dragend,dragleave,dragenter,dragover,drop")
+                "dragbegin,drag,dragstop,dragleave,dragenter,dragover,drop")
                 .split(','),
         _getEventName:function(s,pos){
             var me=arguments.callee, map = me.map || (me.map={});

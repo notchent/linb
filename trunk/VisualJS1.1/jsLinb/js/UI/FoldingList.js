@@ -145,7 +145,6 @@ Class("linb.UI.FoldingList", ["linb.UI.List"],{
 
             CMDS:{
                 padding:'2px 8px 4px 14px',
-                'font-size':'81%',
                 'font-weight':'bold',
                 position:'relative',
                 background: linb.UI.getCSSImgPara('l.gif', 'repeat-y left top #EEE')

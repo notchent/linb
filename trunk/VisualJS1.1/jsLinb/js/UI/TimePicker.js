@@ -254,7 +254,7 @@ Class('linb.UI.TimePicker', 'linb.UI.iWidget', {
                     if(v[0]!=profile.$temp2)
                         profile.getSubNode('HOUR').html(profile.$temp2,false);
                 },
-                onDragend:function(profile, e, src){
+                onDragstop:function(profile, e, src){
                     if(profile.$temp2)
                         profile.$hour=profile.$temp2;
                     profile.$temp2=0;

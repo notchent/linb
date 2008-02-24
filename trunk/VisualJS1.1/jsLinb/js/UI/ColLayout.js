@@ -50,10 +50,11 @@ Class("linb.UI.ColLayout",["linb.UI.iWidget", "linb.UI.iList", "linb.UI.iContain
             profile._possize = {pos:bpos, size:size, cols:arr, rows:a};
         },
         //check the current mouse position
-        _checkpos:function(profile,pos,force){
+        _checkpos:function(profile,pos,force,para){
             var o=profile._possize,
                 change;
-            if(pos.left<o.pos.left || pos.top<o.pos.top || pos.left>o.pos.left+o.size.width || pos.top>o.pos.top+o.size.height){
+            //if(pos.left<o.pos.left || pos.top<o.pos.top || pos.left>o.pos.left+o.size.width || pos.top>o.pos.top+o.size.height){
+            if(pos.left<o.pos.left || pos.top<o.pos.top || pos.left>o.pos.left+o.size.width){
                 if(profile._ddid!==null || profile._ddincol!==null)
                     change=true;
                 profile._ddup=profile._ddid=profile._ddincol=profile._ddi=null;
@@ -139,13 +140,13 @@ Class("linb.UI.ColLayout",["linb.UI.iWidget", "linb.UI.iList", "linb.UI.iContain
                     self._hideProxy(profile);
             }
         },
-        doDrop:function(pos){
+        doDrop:function(pos, data){
             var self=this, 
                 profile=self.get(0),
                 rst=self._checkpos(profile,pos,true);
             self._hideProxy(profile);
             if(rst && rst[0]){
-                self.onDropItem(profile, rst);
+                self.onDropItem(profile, rst, data);
                 return true;
             }return false;
         }
@@ -264,7 +265,7 @@ Class("linb.UI.ColLayout",["linb.UI.iWidget", "linb.UI.iList", "linb.UI.iContain
                     profile._pre.width(profile._preW+off);
                     profile._next.width(profile._nextW-off);
                 },
-                onDragend:function(profile, e, src){
+                onDragstop:function(profile, e, src){
                     if(profile._limited){
                         src.style.backgroundColor = profile._bg;
                         profile._limited=0;

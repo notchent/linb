@@ -1699,7 +1699,7 @@ new function(){
                         if(t[i])
                             arr[arr.length]=i+'="'+t[i]+'" ';
 
-                arr[arr.length]='>';
+                arr[arr.length]='{attributes}>';
 
                 if(!map2[tagName] && text)
                     arr[arr.length]=text;
@@ -3548,8 +3548,9 @@ new function(){
                 }
             },
             //
-            showTips:function(profile, id, pos){
+            showTips:function(profile, node, pos){
                 var t=profile.properties,
+                    id=node.id,
                     sid=profile.getSubSerialId(id),
                     map=profile.SubSerialIdMapItem,
                     item=map&&map[sid];

@@ -42,19 +42,23 @@ Class("linb.UI.Tips", null,{
             var event=linb.event,
                 rt=event.rtFalse,
                 node=event.getSrc(e),
-                id,from,
-                tempid,pass
+                id,
+                //for linb.template
+                tid=e._tid,
+                from,
+                tempid,evid,
+                pass
             ;
+
             //check node
-            if(!node || !(id=node.id))
-                return rt;
-            if(node.id==linb.langId){
+            if(node && node.id==linb.langId)
                 node = node.parentNode;
-                if(!node || !(id=node.id))
-                    return rt;
-            }
+            if(!node || (!tid && !(id=node.id) || (tid && !(evid=node.getAttribute('evid')))))
+                return rt;
+
             //check id
-            tempid=id.replace(event._reg,'$1$3$4');
+            id=tid?tid:id;
+            tempid=tid?tid+evid:id.replace(event._reg,'$1$3$4');
             if(tips.markId && tempid==tips.markId)
                 return rt;
 
@@ -76,23 +80,24 @@ Class("linb.UI.Tips", null,{
             if(tips.markId){
                 var event=linb.event,
                     id,
+                    tempid,evid,
+                    //for linb.template
+                    tid=e._tid,
                     clear,
                     node = e.toElement||e.relatedTarget;
 
                 //for firefox wearing anynomous div in input/textarea
                 try{
-                    if(!node || !(id=node.id))
-                        clear=1
-                }catch(e){clear=1}
-                if(!clear){
-                    if(node.id==linb.langId){
+                    if(node && node.id==linb.langId)
                         node = node.parentNode;
-                        if(!node || !(id=node.id))
-                            clear=1;
-                    }
+                    if(!node || (!tid && !(id=node.id) || (tid && node.id)))
+                        clear=1;
+                }catch(e){clear=1}
+                
+                if(!clear){
+                    tempid=tid?tid+node.getAttribute('evid'):id.replace(event._reg,'$1$3$4');
+                    clear=tempid !== tips.markId;
                 }
-                if(!clear)
-                    clear=id.replace(event._reg,'$1$3$4') !== tips.markId;
 
                 if(clear){
                     if(tips.showed)tips.hide();
@@ -190,7 +195,7 @@ Class("linb.UI.Tips", null,{
             self._pos=pos=self.pos;
 
             //check if showTips works
-            b=(o.showTips && o.showTips(from, node.id, pos));
+            b=(o.showTips && o.showTips(from, node, pos));
 
             //check if default tips works
             //tips is a base var
@@ -209,6 +214,7 @@ Class("linb.UI.Tips", null,{
             var self=this,t;
             //same item, return
             if(self.item == item)return;
+
             //hide first
             if(self.curTemplate)self.curTemplate.hide();
 

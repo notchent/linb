@@ -59,7 +59,7 @@ Class('linb.logger', null, {
         }
     },
     Initialize:function(){
-        window.onerror=this.err;
+       //window.onerror=this.err;
 
         if(linb.browser.gek && window.console){
             linb.log =function(){
@@ -82,7 +82,7 @@ Class('linb.logger', null, {
                '<div style="padding:5px;"></div>'+
                '</div>';
                div = linb.create(div);
-               if(div.edged)div.edged();
+               if(div.edge)div.edge();
                linb(document.body).addLast(div);
             }
             div.setStyle({left:left+'px', width:width+'px', visibility:'visible'})

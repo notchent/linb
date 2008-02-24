@@ -201,7 +201,7 @@ Class("linb.UI.Range", ["linb.UI.iWidget"],{
                 onDrag:function(profile, e, src){
                     profile.box._ondrag.apply(profile.box,[profile,e,src,0]);
                 },
-                onDragend:function(profile, e, src){
+                onDragstop:function(profile, e, src){
                     var p=profile.properties,
                         box=profile.boxing(),
                         rate = profile._rate,
@@ -243,7 +243,7 @@ Class("linb.UI.Range", ["linb.UI.iWidget"],{
                 onDrag:function(profile, e, src){
                     profile.box._ondrag.apply(profile.box,[profile,e,src,1]);
                 },
-                onDragend:function(profile, e, src){
+                onDragstop:function(profile, e, src){
                     var p=profile.properties,
                         box=profile.boxing(),
                         rate = profile._rate,

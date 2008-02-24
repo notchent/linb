@@ -83,7 +83,7 @@ Class("linb.UI.Edge","linb.UI.iWidget",{
                         enlarge:bs/2
                     },'without');
 
-                    o.$border = target.edged(args, target, o.makeRootId());
+                    o.$border = target.edge(args, target, o.makeRootId());
 
                     if(d.$fix)
                         v.setWidth(w+bs).setHeight(h+bs);

@@ -244,6 +244,7 @@ Class("linb.UI.TreeBar",["linb.UI.iWidget", "linb.UI.iList","linb.UI.iNavigator"
                 tagName : 'div',
                 BOX:{
                     tagName : 'div',
+                    onselectstart:'return false',
                     ITEMS:{
                         tagName : 'div',
                         text:"{items}"
@@ -254,10 +255,14 @@ Class("linb.UI.TreeBar",["linb.UI.iWidget", "linb.UI.iList","linb.UI.iNavigator"
                 items:{
                     ITEM:{
                         tagName : 'div',
+                        onselectstart:'return false',
+                        unselectable:'on',
                         BAR:{
                             $order:0,
                             tagName : 'div',
                             className:'{cls_group} ',
+                            onselectstart:'return false',
+                            unselectable:'on',
                             CMD:{
                                 tagName: 'a',
                                 href :"{href}",

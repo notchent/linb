@@ -291,7 +291,7 @@ Class("linb.UI.Layout",["linb.UI.iWidget", "linb.UI.iList", "linb.UI.iContainer"
                     }
 
                 },
-                onDragend:function(profile, e, src){
+                onDragstop:function(profile, e, src){
                     var t=profile.properties,
                         o=linb([src]).parent(),
                         r=profile.getSubNode('KEY'),

@@ -330,7 +330,7 @@ Class('linb.UI.DatePicker', 'linb.UI.iWidget', {
                         profile.getSubNode('YEAR').html(count,false);
                     }
                 },
-                onDragend:function(profile, e, src){
+                onDragstop:function(profile, e, src){
                     if(profile.$temp2){
                         var p=profile.properties,
                             v = linb.date.add(profile.$mfirst,'y',profile.$temp2,p.firstDayOfWeek);
@@ -359,7 +359,7 @@ Class('linb.UI.DatePicker', 'linb.UI.iWidget', {
                         profile.getSubNode('MONTH').html(count+1,false);
                     }
                 },
-                onDragend:function(profile, e, src){
+                onDragstop:function(profile, e, src){
                     if(profile.$temp2){
                         var p=profile.properties,
                             v = linb.date.add(profile.$mfirst,'m',profile.$temp2,p.firstDayOfWeek);
