@@ -1,0 +1,29 @@
+<!--for some browsers(opera) cant get other domains's iframe.frames -->
+<script>
+/*
+* server return one short string(<1k):
+* <ifram src="../xd.html#string"></iframe>
+* or multi parts of long string(>1k):
+* <ifram src="r=randkey&i=0&l=2&s=../xd.html#str_part_1"></iframe>
+* <ifram src="r=randkey&i=1&l=2&s=../xd.html#str_part_2"></iframe>
+* r:randkey
+* i:serial number
+* l:total count
+* s:string
+*/
+    var p=parent.parent.linb.iajax,
+        rtn=(location.href.split('#')[1]||'');
+    //return multi str
+    if(rtn.indexOf('&')!=-1){
+        var hash={},
+            a=rtn.split('&'),
+            arr,o;
+        for(var i=0,l=a.length;i<l;i++){
+            o=a[i];
+            arr=o.split('=');
+            hash[arr[0]]=decodeURIComponent(arr[1].replace(/\+/g,' '));
+        }
+        p.response(hash.s,hash.r,parseFloat(hash.i),parseFloat(hash.l));
+    }else
+        p.response(decodeURIComponent(rtn.replace(/\+/g,' ')));
+</script>
