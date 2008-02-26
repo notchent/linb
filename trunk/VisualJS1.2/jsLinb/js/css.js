@@ -14,8 +14,10 @@ Class("linb.css", null,{
                     return l;
             return false;
         },
-        add:function(txt, id){
-            var e, head = this.getHead();
+        //if last==true, add to head last node
+        //else add to the before position of the first link
+        add:function(txt, id, last){
+            var e, fc, head = this.getHead();
             if(id && this.exists('id',id))
                 return;
 
@@ -27,13 +29,24 @@ Class("linb.css", null,{
                 e.styleSheet.cssText = txt||'';
             else
                 e.appendChild(document.createTextNode(txt||''));
-            head.appendChild(e);
+            if(!last){
+                for(var i=0,t=head.childNodes,l=t.length;i<l;i++)
+                    if(t[i].nodeName.toLowerCase()=='link' && t[i].type=='text/css')
+                        fc=t[i];
+                if(fc)
+                    head.insertBefore(e, fc);
+                else
+                    head.appendChild(e);
+            }else
+                head.appendChild(e);
             //e.disabled=true;
             //e.disabled=false;
             return e;
         },
-        include:function(href){
-            var e, head = this.getHead();
+        //if before==true, add to the before postion of the first 'text/csss'
+        //else add to the last postion
+        include:function(href, before){
+            var e, fc, head = this.getHead();
             if(href && this.exists('href',href))
                 return;
             e = document.createElement('link');
@@ -41,7 +54,16 @@ Class("linb.css", null,{
             e.rel = 'stylesheet';
             e.href = href;
             e.media = 'all';
-            head.appendChild(e);
+            if(before){
+                for(var i=0,t=head.childNodes,l=t.length;i<l;i++)
+                    if(t[i].type=='text/css')
+                        fc=t[i];
+                if(fc)
+                    head.insertBefore(e, fc);
+                else
+                    head.appendChild(e);
+            }else
+                head.appendChild(e);
             //e.disabled=true;
             //e.disabled=false;
             return e;

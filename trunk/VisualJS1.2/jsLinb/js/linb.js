@@ -1078,7 +1078,7 @@ Class('linb.sajax','linb.io',{
 
             var w=c._n=document;
 			n = self.node = w.createElement("script");
-			n.src = self.uri + (self.queryString?'?'+self.queryString:'');//+(linb.browser.ie?'&_ie='+_()+Math.random():'');
+			n.src = self.uri + (self.queryString?'?'+self.queryString:'');
 			n.type= 'text/javascript';
 			n.charset='utf-8';
 			n.id='linb:script:'+self.id;
@@ -1107,8 +1107,10 @@ Class('linb.sajax','linb.io',{
             var self=this, n=self.node, c=self.constructor, div=c.div||(c.div=c._n.createElement('div'));
             delete self.constructor.pool[self.id];
             if(n){
-                self.node=n.onload=n.onreadystatechange=n.onerror=null;
-                if(!linb.debug || self.rspType!='script'){
+                self.node=null;
+                n.onload=n.onreadystatechange=n.onerror=function(){};
+                //in ie + add script(remove script) + add the same script(remove script) => crash
+                if(self.rspType!='script'){
                     div.appendChild(n.parentNode&&n.parentNode.removeChild(n)||n);
                     div.innerHTML='';
                 }
@@ -1127,10 +1129,12 @@ Class('linb.sajax','linb.io',{
         customQS:function(obj){
             var c=this.constructor, k=c.randkey, b=c.callback,nr=(this.rspType!='script'),rand=nr?k + '=' + this.id + '&':'';
             if(typeof obj=='string')
-                return (obj && obj + '&') + rand + b + '=linb.sajax.response';
+                return (obj && obj + '&') + rand + (nr?b + '=linb.sajax.response':'');
             else{
-                obj[b]="linb.sajax.response";
-                if(nr)obj[k]=this.id;
+                if(nr){
+                    obj[k]=this.id;
+                    obj[b]="linb.sajax.response";
+                }
                 return obj;
             }
         }
