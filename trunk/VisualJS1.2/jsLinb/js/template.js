@@ -142,8 +142,11 @@ Class('linb.template','linb.iProfile',{
             result= result || [];
             if(isA){
                 if(typeof temp != 'function')temp = me;
-                for(var i=0;t=properties[i++];)
+                for(var i=0;t=properties[i++];){
+                    //add hash link, 
+                    properties[t.id]=t;
                     temp.call(self, t, tag, result);
+                }
             }else{
                 if(typeof temp == 'function')
                     temp.call(self, properties, tag, result);
@@ -179,7 +182,7 @@ Class('linb.template','linb.iProfile',{
             if(!id)return false;
             var p=pro.properties,
                 h=key?p[key]:p,
-                item=h[0];
+                item=h[id];
             linb.UI.Tips.show(pos, item);
             return true;
         },
