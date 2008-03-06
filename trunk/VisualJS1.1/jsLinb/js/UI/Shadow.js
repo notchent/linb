@@ -67,7 +67,7 @@ Class("linb.UI.Shadow","linb.UI.iWidget",{
                         w = n.width(),
                         h = n.height()
                         ;
-
+linb.log(9)
                     o.$shadow=target.shadow({size:d._shadowSize, offset:d.$paddingBottom||d.$border});
 
                     d.$paddingBottom +=d._shadowSize;
