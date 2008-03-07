@@ -242,7 +242,7 @@ Class('linb.Com',null,{
                     var a=this,f=function(){
                         if(flag!==false)
                             (new a()).show();
-                        _.tryF(onEnd);
+                        _.tryF(onEnd,[a],a);
                     };
                     //get locale info
                     if(lang) linb.reLang(lang, f);
