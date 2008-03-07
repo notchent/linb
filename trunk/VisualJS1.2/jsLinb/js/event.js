@@ -35,7 +35,7 @@ Class('linb.event',null,{
         if((obj=self.focusHook).length &&
             self._kb[type] &&
             (e.$key || e.keyCode || e.charCode)==9 &&
-            false === self._handleFocusHook(src, obj=obj[obj.length-1]))
+            false === self._handleFocusHook(self.getSrc(e), obj=obj[obj.length-1]))
                 return;
 
         id = self.getId(src) || tid;
@@ -164,7 +164,7 @@ Class('linb.event',null,{
             return id && linb.cache.dom[id.replace(this._reg,'$1$3')];
         },
         _handleFocusHook:function(src, target){
-            if(src==document)return true;
+            if(src===document)return true;
             var node=src;
 
             do{

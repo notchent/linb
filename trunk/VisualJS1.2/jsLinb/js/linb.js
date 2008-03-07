@@ -1107,8 +1107,7 @@ Class('linb.sajax','linb.io',{
             var self=this, n=self.node, c=self.constructor, div=c.div||(c.div=c._n.createElement('div'));
             delete self.constructor.pool[self.id];
             if(n){
-                self.node=null;
-                n.onload=n.onreadystatechange=n.onerror=function(){};
+                self.node=n.id=n.onload=n.onreadystatechange=n.onerror=null;
                 //in ie + add script(remove script) + add the same script(remove script) => crash
                 if(self.rspType!='script'){
                     div.appendChild(n.parentNode&&n.parentNode.removeChild(n)||n);

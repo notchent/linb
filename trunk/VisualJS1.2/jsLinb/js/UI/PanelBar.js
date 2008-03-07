@@ -20,9 +20,7 @@ Class("linb.UI.PanelBar", ["linb.UI.Div","linb.UI.iContainer"],{
             BORDER:{
                 tagName : 'div',
                 HANDLE:{
-                    tagName: 'a',
-                    href :"javascript:;",
-                    tabindex: '{tabindex}',
+                    tagName: 'div',
                     style:'{handleDisplay};height:{handleHeight}px',
                     TOGGLE:{
                         className: ' {toggleCls}',
@@ -34,6 +32,9 @@ Class("linb.UI.PanelBar", ["linb.UI.Div","linb.UI.iContainer"],{
                         $order:0
                     },
                     CAPTION:{
+                        tagName: 'a',
+                        href :"{href}",
+                        tabindex: '{tabindex}',
                         text : '{caption}',
                         className:"{disabled}",
                         $order:1
@@ -70,8 +71,7 @@ Class("linb.UI.PanelBar", ["linb.UI.Div","linb.UI.iContainer"],{
                 'background-color':'#fff'
             },
             HANDLE:{
-                display:'block',
-                'white-space':'nowrap',
+                overflow:'hidden',
                 background: linb.UI.getCSSImgPara('barvbg.gif', ' repeat-x left top', null, 'linb.UI.Public'),
                 height:'22px',
                 position:'relative',
@@ -167,8 +167,11 @@ Class("linb.UI.PanelBar", ["linb.UI.Div","linb.UI.iContainer"],{
                 'background-position' : '-220px -32px'
             },
             CAPTION:{
-                margin: '2px 0 2px 5px',
-                'font-size':'12px'
+                'vertical-align': 'middle',
+                'font-size':'12px',
+                'padding':'0 16px 0 6px',
+                display:'inline',
+                'vertical-align': 'middle'
             }
         }},
         Behaviors:{'default':{
@@ -191,9 +194,10 @@ Class("linb.UI.PanelBar", ["linb.UI.Div","linb.UI.iContainer"],{
                     return false;
                 }
             },
-            HANDLE:{
+            CAPTION:{
                 onClick:function(profile, e, src){
-                    profile.boxing().onClickHandle(profile,src);
+                    if(!profile.onClickHandle || false===profile.boxing().onClickHandle(profile,src))
+                        return profile.box.cancelLink(e)
                 }
             },
             CLOSE:{
@@ -249,6 +253,13 @@ Class("linb.UI.PanelBar", ["linb.UI.Div","linb.UI.iContainer"],{
                 }
             },
             dragKey:'',
+            href:{
+                ini:'javascript:;',
+                action:function(v){
+                    if(this.domNode)
+                        this.root.href(v);
+                }
+            },  
             html:{
                 ini:'',
                 action:function(v){

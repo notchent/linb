@@ -181,7 +181,9 @@ Class('linb.ComFactory',null,{
                         if(o.$linb$ && o['linb.UI'] && o.$Appearances['default'] && !o.cssNone){
                             var path = linb.getPath(o.KEY, '/default/css.css','appearance');
                             if(!linb.UI.$cache_csspath[path]){
-                                (new o).get(0).toString();
+                                o=(new o).get(0);
+                                o.toString();
+                                o.destroy();
                                 r=true;
                                 return false;
                             }

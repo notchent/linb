@@ -223,6 +223,7 @@ new function(){
             return -1;
         },
         subIndexOf:function(sub,value){
+            if(typeof value=='undefined')return -1;
             for(var i=0, l=this.length; i<l; i++)
                 if(this[i][sub] === value)
                     return i;
@@ -1045,8 +1046,10 @@ Class('linb.dom','linb.iBox',{
                 if(style.visibility!='visible')style.visibility='visible';
                 //ie6 bug
                 if(linb.browser.ie6){
-                    style.wordWrap='break-word';
-                    style.wordWrap='normal';
+                    t=style.wordWrap=='normal';
+                    _.asyRun(function(){
+                        style.wordWrap=t?'break-word':'normal'
+                    })
                 }
             });
         },
@@ -1912,7 +1915,7 @@ type:4
         hide_value : '-10000px',
         top_zIndex:10000,
 
-        boxArr:'left,top,right,bottom,width,height'.toArr(),
+        boxArr:'width,height,left,top,right,bottom'.toArr(),
         _cursor:{},
         setPxStyle:function(node, key, value){
               var style=node.style;

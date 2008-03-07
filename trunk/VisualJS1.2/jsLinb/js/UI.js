@@ -1654,7 +1654,7 @@ new function(){
                 }
                 delete template.className;
 
-                template.style = (template.style||'')+ u.$tag_special + (key||'KEY') + '_CA'+u.$tag_special;
+                template.style = (template.style||'')+';'+ u.$tag_special + (key||'KEY') + '_CA'+u.$tag_special;
 
                 var a=[], b={}, tagName=template.tagName, text= template.text, sc=linb.Base.$specialChars;
                 for(var i in template){
@@ -2711,7 +2711,9 @@ new function(){
                     win=false,
                     region,
                     inMatix='$inMatix',
-                    f,t;
+                    f,t,
+                    //for ie6 1px bug
+                    _adjust=function(v){return linb.browser.ie6?v-v%2:v}
 
 
                 //attached to matix
@@ -2843,6 +2845,7 @@ new function(){
                                 var flag=false;
                                 if(id && profile.$id!=id)flag=true;
                                 var prop = profile.properties,
+                                    flt=prop.dockFloat,
                                     margin = prop.dockMargin,
                                     node = profile.root,
                                     style = profile.domNode.style,
@@ -2864,66 +2867,70 @@ new function(){
                                         if(!flag){
                                             left=margin.left;
                                             right=margin.right;
-                                            top=obj.top+margin.top;
+                                            top=(flt?0:obj.top)+margin.top;
                                             if(parseFloat(style.top)!=top)region.top=top;
                                             temp=obj.width - left - right - x;
-                                            if(parseFloat(style.width)!=temp)region.width=temp;
+                                            if(parseFloat(style.width)!=temp)region.width=_adjust(temp);
                                             if(!_.isEmpty(region))node.setRegion(region,true);
                                         }
-                                        obj.top += (node.offsetHeight() + margin.top + margin.bottom);
+                                        if(!flt)
+                                            obj.top += (node.offsetHeight() + margin.top + margin.bottom);
                                         break;
                                     case 'bottom':
                                         if(!flag){
                                             left=margin.left;
                                             right=margin.right;
-                                            bottom=obj.bottom+margin.bottom;
+                                            bottom=(flt?0:obj.bottom)+margin.bottom;
                                             if(parseFloat(style.bottom)!=bottom)region.bottom=bottom;
                                             temp=obj.width - left - right - x;
-                                            if(parseFloat(style.width)!=temp)region.width=temp;
+                                            if(parseFloat(style.width)!=temp)region.width=_adjust(temp);
                                             if(!_.isEmpty(region))node.setRegion(region,true);
                                         }
-                                        obj.bottom += (node.offsetHeight() + margin.top + margin.bottom);
+                                        if(!flt)
+                                            obj.bottom += (node.offsetHeight() + margin.top + margin.bottom);
                                         break;
                                     case 'left':
                                         if(!flag){
-                                            left=obj.left+margin.left;
-                                            top=obj.top+margin.top;
-                                            bottom=obj.bottom+margin.bottom;
+                                            left=(flt?0:obj.left)+margin.left;
+                                            top=(flt?0:obj.top)+margin.top;
+                                            bottom=(flt?0:obj.bottom)+margin.bottom;
                                             if(parseFloat(style.left)!=left)region.left=left;
                                             if(parseFloat(style.top)!=top)region.top=top;
                                             temp=obj.height - top - bottom - y;
-                                            if(parseFloat(style.height)!=temp)region.height=temp;
+                                            if(parseFloat(style.height)!=temp)region.height=_adjust(temp);
                                             if(!_.isEmpty(region))node.setRegion(region,true);
                                         }
-                                        obj.left += (node.offsetWidth() + margin.left + margin.right);
+                                        if(!flt)
+                                            obj.left += (node.offsetWidth() + margin.left + margin.right);
                                         break;
                                     case 'right':
                                         //if no top/bottom and change w only
                                         if(!flag){
-                                            right=obj.right+margin.right;
-                                            top=obj.top+margin.top;
-                                            bottom=obj.bottom+margin.bottom;
+                                            right=(flt?0:obj.right)+margin.right;
+                                            top=(flt?0:obj.top)+margin.top;
+                                            bottom=(flt?0:obj.bottom)+margin.bottom;
                                             if(parseFloat(style.right)!=right)region.right=right;
                                             if(parseFloat(style.top)!=top)region.top=top;
                                             temp=obj.height - top - bottom - y;
-                                            if(parseFloat(style.height)!=temp)region.height=temp;
+                                            if(parseFloat(style.height)!=temp)region.height=_adjust(temp);
                                             if(!_.isEmpty(region))node.setRegion(region,true);
                                         }
-                                        obj.right += (node.offsetWidth() + margin.left + margin.right);
+                                        if(!flt)
+                                            obj.right += (node.offsetWidth() + margin.left + margin.right);
                                         break;
                                     case 'width':
                                         //if no top/bottom/left/right and change h only
                                         if(!w)return;
-                                        left = (prop.dock=='cover'?0:obj.left) + margin.left;
-                                        right = (prop.dock=='cover'?0:obj.right)  + margin.right;
-                                        top = prop.dock=='width'?(parseInt(prop.top) || 0):( (prop.dock=='cover'?0:obj.top) + margin.top);
+                                        left = (prop.dock=='cover'?0:(flt?0:obj.left)) + margin.left;
+                                        right = (prop.dock=='cover'?0:(flt?0:obj.right))  + margin.right;
+                                        top = prop.dock=='width'?(parseInt(prop.top) || 0):( (prop.dock=='cover'?0:(flt?0:obj.top)) + margin.top);
                                         //later call for w/h change once
                                         temp=obj.width - left - right - x;
                                         obj.later=obj.later||{};
                                         obj.later[profile.$id] = obj.later[profile.$id] || {};
                                         _.merge(obj.later[profile.$id],{
                                             node:node,
-                                            width: prop.dockMinW?Math.max(prop.dockMinW,temp):temp,
+                                            width: _adjust(prop.dockMinW?Math.max(prop.dockMinW,temp):temp),
                                             left:left,
                                             top:top
                                         },'all');
@@ -2931,16 +2938,16 @@ new function(){
                                     case 'height':
                                         //if no top/bottom/left/right and change w only
                                         if(!h)return;
-                                        top = (prop.dock=='cover'?0:obj.top) + margin.top;
-                                        bottom = (prop.dock=='cover'?0:obj.bottom)  + margin.bottom;
-                                        left = prop.dock=='height'?(parseInt(prop.left) || 0):((prop.dock=='cover'?0:obj.left)+ margin.left);
+                                        top = (prop.dock=='cover'?0:(flt?0:obj.top)) + margin.top;
+                                        bottom = (prop.dock=='cover'?0:(flt?0:obj.bottom))  + margin.bottom;
+                                        left = prop.dock=='height'?(parseInt(prop.left) || 0):((prop.dock=='cover'?0:(flt?0:obj.left))+ margin.left);
                                         //later call for w/h change once
                                         temp=obj.height - top - bottom - y;
                                         obj.later=obj.later||{};
                                         obj.later[profile.$id] = obj.later[profile.$id] || {};
                                         _.merge(obj.later[profile.$id],{
                                             node:node,
-                                            height: prop.dockMinH?Math.max(prop.dockMinH,temp):temp,
+                                            height: _adjust(prop.dockMinH?Math.max(prop.dockMinH,temp):temp),
                                             left:left,
                                             top:top
                                         },'all');
@@ -3405,6 +3412,7 @@ new function(){
                         if(index==-1){
                             //if no base specified, use innerHtml dir
                             node = profile.getSubNode(box.ITEMSKEY || profile.keys.ITEMS || profile.keys.KEY);
+
                             if(typeof before=="boolean"){
                                 r=ss.toDom();
                                 //items.length==1 for that one have fake item(for example: editable poll)

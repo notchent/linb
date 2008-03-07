@@ -20,7 +20,7 @@ Class("linb.UI.Shadow","linb.UI.iWidget",{
         _.each({
             // add shadow to linb.dom plugin
             shadow :function(properties){
-                var o=this.get(0);
+                var o=this.get(0);                
                 return new linb.UI.Shadow(properties).attachTo(linb([o],false));
             },
             isShadow :function(){

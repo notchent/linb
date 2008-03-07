@@ -628,6 +628,10 @@ Class('linb.dragDrop',null,{
                 if((t=linb(d._source)))
                     if(!t.isEmpty()){
                         if(t.position()!= 'absolute') t.position('absolute');
+                        //for ie bug
+                        if(linb.browser.ie)
+                            t.setRegion({right:'auto',bottom:'auto'});
+
                         t.absPos(this.getProxyPos());
                         if(d.topZindex) t.topZindex(true);
                     }

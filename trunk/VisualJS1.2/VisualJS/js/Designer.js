@@ -822,7 +822,7 @@ Class('VisualJS.Designer', 'linb.Com',{
                     if(m=profile.children){
                         m.each(function(v,i){
                             v=v[0];
-                            if(v.domNode.parentNode===self){
+                            if(v.domNode.parentNode===self && v.domNode.style.display!='none' && v.domNode.style.visibility!='hidden'){
                                 o=v.root;
                                 x1= o.offsetLeft();
                                 y1= o.offsetTop();

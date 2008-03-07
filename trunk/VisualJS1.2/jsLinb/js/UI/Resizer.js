@@ -271,16 +271,6 @@ Class("linb.UI.Resizer","linb.UI.iWidget",{
                             prop=profile.properties,
                             t
                         ;
-                        if(cssPos){
-                            if(t=cssPos.left){
-                                node.leftBy(t);
-                                prop.left= node.left();
-                            }
-                            if(t=cssPos.top){
-                                node.topBy(t);
-                                prop.top = node.top();
-                            }
-                        }
                         if(size){
                             var w=null,h=null;
                             if(t=size.width){
@@ -292,6 +282,16 @@ Class("linb.UI.Resizer","linb.UI.iWidget",{
                                 prop.height = h = node.height();
                             }
                             profile.box.resize(profile,w,h);
+                        }
+                        if(cssPos){
+                            if(t=cssPos.left){
+                                node.leftBy(t);
+                                prop.left= node.left();
+                            }
+                            if(t=cssPos.top){
+                                node.topBy(t);
+                                prop.top = node.top();
+                            }
                         }
                     };
                     update.profile = o;

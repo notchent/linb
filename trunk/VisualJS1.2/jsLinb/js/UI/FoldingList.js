@@ -3,6 +3,39 @@ Class("linb.UI.FoldingList", ["linb.UI.List"],{
         fillDetail:function(item, obj){
             var profile=this.get(0);
             profile.getSubNodeByItemId('BODYI',item.id).html('',false).attach(item._obj = obj);
+        },
+        toggle:function(id, onEnd){
+            var profile=this.get(0),
+                properties = profile.properties,
+                items=properties.items,
+                item = profile.getItemByItemId(id),
+                subId = profile.getSubSerialIdByItemId(id),
+                node = profile.getSubNode('ITEM',subId),
+                nodenext = node.next()
+                ;
+            if(item._show){
+                if(properties.activeLast && items.length)
+                    if(items[items.length-1].id==item.id)
+                        return false;
+
+                profile.removeTagClass('ITEM', '-checked', node);
+                if(nodenext)
+                    profile.removeTagClass('ITEM', '-prechecked',nodenext);
+            }else{
+                profile.addTagClass('ITEM', '-checked', node);
+                if(nodenext)
+                    profile.addTagClass('ITEM', '-prechecked',nodenext);
+                //fill value
+                if(!item._fill){
+                    item._fill=true;
+                    item._body = profile.onBuildBody ? profile.boxing().onBuildBody(profile, item, onEnd) : profile.box.buildBody(profile, item, onEnd);
+                    if(item._body)
+                        profile.getSubNode('BODYI',subId).html(item._body, false);
+                }
+            }
+            item._show=!item._show;
+        },
+        flod:function(id){
         }
     },
     Initialize:function(){
@@ -32,6 +65,7 @@ Class("linb.UI.FoldingList", ["linb.UI.List"],{
                             TRIGHT:{
                                 $order:1,
                                 tagName:'div',
+                                style:'{_capDisplay}',
                                 CAP2:{
                                     $order:0,
                                     text:'{caption}'
@@ -40,11 +74,11 @@ Class("linb.UI.FoldingList", ["linb.UI.List"],{
                                     $order:1,
                                     style:'{_opt}'
                                 }
-                            },
+                            }/*,
                             TCLEAR:{
                                 $order:2,
                                 tagName:'div'
-                            }
+                            }*/
                         }
                     },
                     BODY:{
@@ -88,12 +122,12 @@ Class("linb.UI.FoldingList", ["linb.UI.List"],{
             },
             ITEMS:{
                 border:0,
-                'padding-top':'8px',
                 position:'relative',
+                zoom:linb.browser.ie?1:null,
+                'padding-top':'8px'//,
                 //for ie6 1px bug,  HR/TR(position:absolute;right:0;)
-                'margin-right':linb.browser.ie6?'expression((this.parentNode.offsetWidth-(parseInt(this.parentNode.style.paddingLeft)||0)-(parseInt(this.parentNode.style.paddingRight)||0) )%2+"px")':null
+                //'margin-right':linb.browser.ie6?'expression(this.parentNode.offsetWidth?(this.parentNode.offsetWidth-(parseInt(this.parentNode.style.paddingLeft)||0)-(parseInt(this.parentNode.style.paddingRight)||0) )%2+"px":"auto")':null
             },
-            'ITEM-mouseover':{},
             ITEM:{
                 border:0,
                 //for ie6 bug
@@ -102,8 +136,10 @@ Class("linb.UI.FoldingList", ["linb.UI.List"],{
                 padding:0,
                 background:'#FFF',
                 'font-family': '"Verdana", "Helvetica", "sans-serif"',
-                position:'relative'
+                position:'relative',
+                overflow:'hidden'
             },
+            'ITEM-mouseover':{},
             'HEAD, BODY, BODYI, TAIL':{
                 position:'relative'
             },
@@ -157,6 +193,7 @@ Class("linb.UI.FoldingList", ["linb.UI.List"],{
                 'border-right': 'solid 1px #CCC',
                 zoom:linb.browser.ie?1:null,
                 position:'relative',
+                overflow:'auto',                
                 background: linb.UI.getCSSImgPara('l.gif', 'repeat-y left top')
             },
             BODYI:{
@@ -213,13 +250,16 @@ Class("linb.UI.FoldingList", ["linb.UI.List"],{
             HEAD:{
                 position:'relative',
                 zoom:linb.browser.ie?1:null,
-                background: linb.UI.getCSSImgPara('t.gif', 'repeat-x left top')
+                background: linb.UI.getCSSImgPara('t.gif', 'repeat-x left top'),
+                overflow:'hidden'
             },
-            'TITLE':{
+            TITLE:{
                 $order:1,
+                height:'24px',
                 display:'block',
                 position:'relative',
-                padding:'4px 0 0 6px'
+                'white-space':'nowrap',
+                overflow:'hidden'
             },
             TAIL:{
                 '_font-size':0,
@@ -242,12 +282,25 @@ Class("linb.UI.FoldingList", ["linb.UI.List"],{
                 'font-weight':'normal'
             },
             TLEFT:{
-                position:linb.browser.ie6?'relative':null,
-                'float':'left'
+                //position:linb.browser.ie6?'relative':null,
+                //'float':'left',
+                position:'absolute',
+                left:'4px',
+                top:'2px',
+
+                'white-space':'nowrap',
+                overflow:'hidden'                
             },
             TRIGHT:{
-                position:linb.browser.ie6?'relative':null,
-                'float':'right'
+                //position:linb.browser.ie6?'relative':null,
+                //'float':'right',
+
+                position:'absolute',
+                right:'4px',
+                top:'2px',
+                
+                'white-space':'nowrap',
+                overflow:'hidden'                
             },
             OPT:{
                 margin:'0 3px 3px 2px',
@@ -264,10 +317,10 @@ Class("linb.UI.FoldingList", ["linb.UI.List"],{
             'OPT-mousedown':{
                 $order:3,
                 'background-position': '-240px -32px'
-            },
+            }/*,
             TCLEAR:{
                 clear:'both'
-            }
+            }*/
         }},
         Behaviors:{'default':{
             _hoverEffect:{ITEM:'ITEM',OPT:'OPT'},
@@ -278,37 +331,7 @@ Class("linb.UI.FoldingList", ["linb.UI.List"],{
                     return profile.box.cancelLink(e);
                 },
                 onMousedown:function(profile, e, src){
-                    var properties = profile.properties,
-                        items=properties.items,
-                        item = profile.getItemByDom(src),
-                        itemId = profile.getSubSerialId(src.id),
-                        node = profile.getSubNode('ITEM',itemId),
-                        nodenext = node.next()
-                        ;
-                    if(item._show){
-                        if(properties.activeLast && items.length)
-                            if(items[items.length-1].id==item.id)
-                                return false;
-
-                        profile.removeTagClass('ITEM', '-checked', node);
-                        if(nodenext)
-                            profile.removeTagClass('ITEM', '-prechecked',nodenext);
-                    }else{
-                        profile.addTagClass('ITEM', '-checked', node);
-                        if(nodenext)
-                            profile.addTagClass('ITEM', '-prechecked',nodenext);
-                    }
-
-                    //fill value
-                    if(!item._fill){
-                        item._fill=true;
-                        item._body = profile.onBuildBody ? profile.boxing().onBuildBody(profile, item) : profile.box.buildBody(profile, item);
-                        if(item._body)
-                            profile.getSubNode('BODYI',itemId).html(item._body, false);
-                    }
-
-                    item._show=!item._show;
-
+                    profile.boxing().toggle(profile.getItemIdByDom(src));
                     //prevent href default action
                     //return false;
                 }
@@ -347,7 +370,7 @@ Class("linb.UI.FoldingList", ["linb.UI.List"],{
             activeLast:false
         }),
         EventHandlers:{
-            onBuildBody:function(profile,item){},
+            onBuildBody:function(profile,item,onEnd){},
             onCommand:function(profile,item,cmdkey,src){},
             onOptions:function(profile,item,src){}
         },
@@ -368,10 +391,14 @@ Class("linb.UI.FoldingList", ["linb.UI.List"],{
             return arguments.callee.upper.apply(this, arguments);
         },
         prepareItem:function(profile, item){
-            var p = profile.properties,o;
+            var p = profile.properties,o,
+                dpn = 'display:none';          
             item._tabindex = p.tabindex;
-            item.caption = (item.caption||"").replace(/</g,"&lt;");
-            item._opt = p.optBt?'':'display:none';
+            if(!item.caption)
+                item._capDisplay=dpn;
+            else
+                item.caption = item.caption.replace(/</g,"&lt;");
+            item._opt = p.optBt?'':dpn;
             item._body= item._body || 'Loading...'
 
             if(item._show)
