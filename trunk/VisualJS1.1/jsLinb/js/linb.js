@@ -323,7 +323,7 @@ _.merge(linb,{
     * you need to import jsLinb/Locale/en.js manully, if you don't want to use reLang
     */
     reLang:function(s,cb){
-        var l=linb.Locale,g=linb.getRes,t,v,i,j,f,m,a=[];
+        var l=linb.Locale,g=linb.getRes,t,v,i,j,f,z,m,a=[];
         linb.lang=s;
         v = linb.browser.ie ? document.all.tags('span') : document.getElementsByTagName('span');
         for(i=0;t=v[i];i++)if(t.id==linb.langId)a[a.length]=t;
