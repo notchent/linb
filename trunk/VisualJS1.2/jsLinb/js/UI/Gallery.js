@@ -79,7 +79,9 @@ Class("linb.UI.Gallery", "linb.UI.List",{
                 color:'#fff'
             },
             'CONTENT, CAPTION':{
-            	'text-align': 'center'
+            	'text-align': 'center',
+                overflow:'hidden',
+                'white-space':'nowrap'
             },
             CAPTION:{
                 'font-weight':'bold',

@@ -323,7 +323,7 @@ _.merge(linb,{
     * you need to import jsLinb/Locale/en.js manully, if you don't want to use reLang
     */
     reLang:function(s,cb){
-        var l=linb.Locale,g=linb.getRes,t,v,i,j,f,m,a=[];
+        var l=linb.Locale,g=linb.getRes,t,v,i,j,f,m,z,a=[];
         linb.lang=s;
         v = linb.browser.ie ? document.all.tags('span') : document.getElementsByTagName('span');
         for(i=0;t=v[i];i++)if(t.id==linb.langId)a[a.length]=t;
@@ -338,10 +338,11 @@ _.merge(linb,{
                 _.tryF(cb);
             },0)
         },
+        z = 'linb.Locale.' + s,
         m=function(){
-            linb.include('',linb.getPath('Locale.' + s, '.js'),f,f);
+            linb.include(z+'.'+linb.ini.appLangKey,linb.getPath('Locale.' + s, '.js'),f,f);
         };
-        linb.include('',linb.getPath('linb.Locale.' + s, '.js'),m,m);
+        linb.include(z,linb.getPath(z, '.js'),m,m);
     },
     _r:/\x24(\d+)/g,
     getRes:function(a){
@@ -422,6 +423,7 @@ _.merge(linb,{
 new function(){
     _.merge(linb.ini,{
         appPath:location.href.split('?')[0].replace(/[^\\\/]+$/,''),
+        appLangKey:'app',
         file_bg:'bg.gif',
         file_xd:'xd.html'
     });

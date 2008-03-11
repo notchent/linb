@@ -14,7 +14,7 @@ Class('App', 'linb.Com',{
         iniComponents:function(){
             // [[code created by designer, don't change it manually
             var t=this, n=t._nodes=[], u=linb.UI, f=function(c){n.push(c.get(0))};
-            
+
             f(
             (new u.Button)
             .host(t,"button5")
@@ -23,7 +23,7 @@ Class('App', 'linb.Com',{
             .setCaption("render")
             .onClick("_button5_onclick")
             );
-            
+
             return n;
             // ]]code created by designer
         }

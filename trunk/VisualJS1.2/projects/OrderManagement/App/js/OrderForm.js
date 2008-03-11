@@ -9,7 +9,7 @@ Class('App.OrderForm', 'linb.Com',{
         iniComponents:function(){
             // [[code created by designer, don't change it manually
             var t=this, n=t._nodes=[], u=linb.UI, f=function(c){n.push(c.get(0))};
-            
+
             f(
             (new u.PanelBar)
             .host(t,"panelbar4")
@@ -18,7 +18,7 @@ Class('App.OrderForm', 'linb.Com',{
             .setZIndex(1)
             .setCaption("panelbar4")
             );
-            
+
             return n;
             // ]]code created by designer
         }

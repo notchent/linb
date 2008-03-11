@@ -9,14 +9,14 @@ Class('App', 'linb.Com',{
         iniComponents:function(){
             // [[code created by designer, don't change it manually
             var t=this, n=t._nodes=[], u=linb.UI, f=function(c){n.push(c.get(0))};
-            
+
             f(
             (new u.Block)
             .host(t,"block1")
             .setDock("top")
             .setBorder(true)
             );
-            
+
             t.block1.attach(
             (new u.Div)
             .host(t,"div18")
@@ -25,7 +25,7 @@ Class('App', 'linb.Com',{
             .setHeight(80)
             .setHtml("<img src='img/001.gif'>")
             );
-            
+
             t.block1.attach(
             (new u.Div)
             .host(t,"div19")
@@ -35,7 +35,7 @@ Class('App', 'linb.Com',{
             .setHeight(70)
             .setHtml("<font size=8>Order Management</font>")
             );
-            
+
             t.block1.attach(
             (new u.Button)
             .host(t,"button9")
@@ -44,7 +44,7 @@ Class('App', 'linb.Com',{
             .setCaption("button9")
             .onClick("_button9_onclick")
             );
-            
+
             f(
             (new u.Block)
             .host(t,"block3")
@@ -52,7 +52,7 @@ Class('App', 'linb.Com',{
             .setBorder(true)
             .setWidth(160)
             );
-            
+
             t.block3.attach(
             (new u.Stacks)
             .host(t,"stacks1")
@@ -60,7 +60,7 @@ Class('App', 'linb.Com',{
             .setTop(0)
             .setItems([{"id":"a","caption":"itema","tips":"item a"},{"id":"b","caption":"itemb","tips":"item b"},{"id":"c","caption":"itemc","tips":"item c"}])
             );
-            
+
             t.stacks1.attach(
             (new u.Button)
             .host(t,"button12")
@@ -68,7 +68,7 @@ Class('App', 'linb.Com',{
             .setTop(10)
             .setCaption("button12")
             , 'a');
-            
+
             t.stacks1.attach(
             (new u.Button)
             .host(t,"button13")
@@ -76,7 +76,7 @@ Class('App', 'linb.Com',{
             .setTop(40)
             .setCaption("button13")
             , 'a');
-            
+
             f(
             (new u.Block)
             .host(t,"block6")
@@ -85,7 +85,7 @@ Class('App', 'linb.Com',{
             .setTop(310)
             .setBorder(true)
             );
-            
+
             t.block6.attach(
             (new u.PanelBar)
             .host(t,"dialog7")
@@ -94,7 +94,7 @@ Class('App', 'linb.Com',{
             .setCaption("Orders")
             .setZIndex("2")
             );
-            
+
             t.dialog7.attach(
             (new u.Label)
             .host(t,"label9")
@@ -104,7 +104,7 @@ Class('App', 'linb.Com',{
             .setHAlign("left")
             .setWidth(100)
             );
-            
+
             t.dialog7.attach(
             (new u.Label)
             .host(t,"label14")
@@ -114,7 +114,7 @@ Class('App', 'linb.Com',{
             .setWidth(110)
             .setHAlign("left")
             );
-            
+
             t.dialog7.attach(
             (new u.Label)
             .host(t,"label10")
@@ -124,7 +124,7 @@ Class('App', 'linb.Com',{
             .setHAlign("left")
             .setWidth(140)
             );
-            
+
             t.dialog7.attach(
             (new u.Label)
             .host(t,"label37")
@@ -134,7 +134,7 @@ Class('App', 'linb.Com',{
             .setHAlign("left")
             .setWidth(100)
             );
-            
+
             t.dialog7.attach(
             (new u.Label)
             .host(t,"label11")
@@ -143,7 +143,7 @@ Class('App', 'linb.Com',{
             .setCaption("Customer:")
             .setHAlign("left")
             );
-            
+
             t.dialog7.attach(
             (new u.Label)
             .host(t,"label4")
@@ -153,7 +153,7 @@ Class('App', 'linb.Com',{
             .setWidth(110)
             .setHAlign("left")
             );
-            
+
             t.dialog7.attach(
             (new u.Label)
             .host(t,"Sales Tax:")
@@ -163,7 +163,7 @@ Class('App', 'linb.Com',{
             .setHAlign("left")
             .setWidth(120)
             );
-            
+
             t.dialog7.attach(
             (new u.Label)
             .host(t,"label8")
@@ -173,7 +173,7 @@ Class('App', 'linb.Com',{
             .setHAlign("left")
             .setWidth(110)
             );
-            
+
             t.dialog7.attach(
             (new u.Label)
             .host(t,"label38")
@@ -183,7 +183,7 @@ Class('App', 'linb.Com',{
             .setWidth(110)
             .setHAlign("left")
             );
-            
+
             t.dialog7.attach(
             (new u.Label)
             .host(t,"label6")
@@ -193,7 +193,7 @@ Class('App', 'linb.Com',{
             .setHAlign("left")
             .setWidth(110)
             );
-            
+
             t.dialog7.attach(
             (new u.Label)
             .host(t,"label13")
@@ -202,7 +202,7 @@ Class('App', 'linb.Com',{
             .setCaption("Order ID:")
             .setHAlign("left")
             );
-            
+
             t.dialog7.attach(
             (new u.Label)
             .host(t,"label7")
@@ -212,7 +212,7 @@ Class('App', 'linb.Com',{
             .setHAlign("left")
             .setWidth(120)
             );
-            
+
             t.dialog7.attach(
             (new u.ComboInput)
             .host(t,"cbi_orders_employee")
@@ -225,7 +225,7 @@ Class('App', 'linb.Com',{
             .setType("listbox")
             .setDataField("employee")
             );
-            
+
             t.dialog7.attach(
             (new u.Input)
             .host(t,"input8")
@@ -233,7 +233,7 @@ Class('App', 'linb.Com',{
             .setTop(340)
             .setWidth(140)
             );
-            
+
             t.dialog7.attach(
             (new u.Input)
             .host(t,"input10")
@@ -241,7 +241,7 @@ Class('App', 'linb.Com',{
             .setTop(370)
             .setWidth(140)
             );
-            
+
             t.dialog7.attach(
             (new u.CheckBox)
             .host(t,"checkbox2")
@@ -249,7 +249,7 @@ Class('App', 'linb.Com',{
             .setTop(370)
             .setCaption("checkbox2")
             );
-            
+
             t.dialog7.attach(
             (new u.TreeGrid)
             .host(t,"tgd_orders_details")
@@ -261,7 +261,7 @@ Class('App', 'linb.Com',{
             .setHeader([{"id":"col1","caption":"Product","type":"input","width":100},{"id":"col4","caption":"quantity","type":"input","width":80},{"id":"col2","caption":"Unit Price","type":"number","format":"^-?\\d\\d*$","width":80},{"id":"col3","caption":"Discount","type":"number","format":"^-?\\d\\d*$","width":60},{"id":"col5","caption":"Tatal Price","type":"checkbox","format":"^-?\\d\\d*$","width":100}])
             .setRows([{"id":"row1","cells":[{"value":"cell11"},{"value":"cell12"}]},{"id":"row2","cells":[{"value":"cell21","type":"label"},{"value":"cell22"}],"sub":[{"id":"row21","cells":["cell31",{"value":"cell32","type":"number"}]}]}])
             );
-            
+
             t.dialog7.attach(
             (new u.ComboInput)
             .host(t,"comboinput11")
@@ -271,7 +271,7 @@ Class('App', 'linb.Com',{
             .setItems([{"id":"a","caption":"itema","tips":"item a"},{"id":"b","caption":"itemb","tips":"item b"},{"id":"c","caption":"itemc","tips":"item c"}])
             .setType("datepicker")
             );
-            
+
             t.dialog7.attach(
             (new u.Input)
             .host(t,"ipt_orders_po_number")
@@ -280,7 +280,7 @@ Class('App', 'linb.Com',{
             .setWidth(140)
             .setDataField("po_number")
             );
-            
+
             t.dialog7.attach(
             (new u.Input)
             .host(t,"input12")
@@ -288,7 +288,7 @@ Class('App', 'linb.Com',{
             .setTop(310)
             .setWidth(140)
             );
-            
+
             t.dialog7.attach(
             (new u.PageBar)
             .host(t,"pagebar1")
@@ -299,7 +299,7 @@ Class('App', 'linb.Com',{
             .setValue("1:3:5")
             .onClick("_pagebar1_onclick")
             );
-            
+
             t.dialog7.attach(
             (new u.Input)
             .host(t,"ipt_orders_order_date")
@@ -308,7 +308,7 @@ Class('App', 'linb.Com',{
             .setWidth(140)
             .setDataField("order_date")
             );
-            
+
             t.dialog7.attach(
             (new u.Input)
             .host(t,"ipt_orders_order_id")
@@ -317,7 +317,7 @@ Class('App', 'linb.Com',{
             .setWidth(140)
             .setDataField("order_id")
             );
-            
+
             t.dialog7.attach(
             (new u.ComboInput)
             .host(t,"cbi_orders_customer")
@@ -330,7 +330,7 @@ Class('App', 'linb.Com',{
             .setType("listbox")
             .setDataField("customer")
             );
-            
+
             t.dialog7.attach(
             (new u.ComboInput)
             .host(t,"cbi_orders_ship_method")
@@ -343,7 +343,7 @@ Class('App', 'linb.Com',{
             .setType("listbox")
             .setDataField("ship_method")
             );
-            
+
             t.dialog7.attach(
             (new u.Input)
             .host(t,"input11")
@@ -351,7 +351,7 @@ Class('App', 'linb.Com',{
             .setTop(400)
             .setWidth(140)
             );
-            
+
             t.dialog7.attach(
             (new u.Input)
             .host(t,"input9")
@@ -359,7 +359,7 @@ Class('App', 'linb.Com',{
             .setTop(340)
             .setWidth(140)
             );
-            
+
             t.dialog7.attach(
             (new u.Group)
             .host(t,"group1")
@@ -369,7 +369,7 @@ Class('App', 'linb.Com',{
             .setHeight(90)
             .setCaption("Notes")
             );
-            
+
             t.group1.attach(
             (new u.TextEditor)
             .host(t,"texteditor8")
@@ -379,7 +379,7 @@ Class('App', 'linb.Com',{
             .setCaption("texteditor8")
             .setBorder(true)
             );
-            
+
             t.block6.attach(
             (new u.PanelBar)
             .host(t,"dialog14")
@@ -387,7 +387,7 @@ Class('App', 'linb.Com',{
             .setTop(0)
             .setCaption("dialog14")
             );
-            
+
             t.dialog14.attach(
             (new u.Tabs)
             .host(t,"tabs2")
@@ -396,7 +396,7 @@ Class('App', 'linb.Com',{
             .setItems([{"id":"a","caption":"Customer","tips":"Customer Info"},{"id":"b","caption":"Order Summary & Details","tips":"Order Info"}])
             .setDockMargin({"left":4,"top":4,"right":4,"bottom":4})
             );
-            
+
             t.tabs2.attach(
             (new u.Label)
             .host(t,"label45")
@@ -406,7 +406,7 @@ Class('App', 'linb.Com',{
             .setCaption("Notes:")
             .setHAlign("left")
             , 'a');
-            
+
             t.tabs2.attach(
             (new u.Label)
             .host(t,"label49")
@@ -416,7 +416,7 @@ Class('App', 'linb.Com',{
             .setCaption("Last Name:")
             .setHAlign("left")
             , 'a');
-            
+
             t.tabs2.attach(
             (new u.Label)
             .host(t,"label44")
@@ -426,7 +426,7 @@ Class('App', 'linb.Com',{
             .setCaption("Company Name:")
             .setHAlign("left")
             , 'a');
-            
+
             t.tabs2.attach(
             (new u.Label)
             .host(t,"label50")
@@ -436,7 +436,7 @@ Class('App', 'linb.Com',{
             .setCaption("First Name:")
             .setHAlign("left")
             , 'a');
-            
+
             t.tabs2.attach(
             (new u.Label)
             .host(t,"label48")
@@ -446,7 +446,7 @@ Class('App', 'linb.Com',{
             .setCaption("Email:")
             .setHAlign("left")
             , 'a');
-            
+
             t.tabs2.attach(
             (new u.Label)
             .host(t,"label43")
@@ -456,7 +456,7 @@ Class('App', 'linb.Com',{
             .setCaption("Phone Number")
             .setHAlign("left")
             , 'a');
-            
+
             t.tabs2.attach(
             (new u.Label)
             .host(t,"label51")
@@ -466,7 +466,7 @@ Class('App', 'linb.Com',{
             .setCaption("Bill Address:")
             .setHAlign("left")
             , 'a');
-            
+
             t.tabs2.attach(
             (new u.Label)
             .host(t,"label46")
@@ -476,7 +476,7 @@ Class('App', 'linb.Com',{
             .setCaption("Fax Number:")
             .setHAlign("left")
             , 'a');
-            
+
             t.tabs2.attach(
             (new u.Label)
             .host(t,"label47")
@@ -486,7 +486,7 @@ Class('App', 'linb.Com',{
             .setCaption("Web Site:")
             .setHAlign("left")
             , 'a');
-            
+
             t.tabs2.attach(
             (new u.Label)
             .host(t,"label52")
@@ -496,7 +496,7 @@ Class('App', 'linb.Com',{
             .setCaption("Bill Address:")
             .setHAlign("left")
             , 'a');
-            
+
             t.tabs2.attach(
             (new u.Input)
             .host(t,"input47")
@@ -504,7 +504,7 @@ Class('App', 'linb.Com',{
             .setTop(20)
             .setWidth(170)
             , 'a');
-            
+
             t.tabs2.attach(
             (new u.Input)
             .host(t,"input49")
@@ -512,7 +512,7 @@ Class('App', 'linb.Com',{
             .setTop(110)
             .setWidth(170)
             , 'a');
-            
+
             t.tabs2.attach(
             (new u.Group)
             .host(t,"group7")
@@ -522,7 +522,7 @@ Class('App', 'linb.Com',{
             .setHeight(150)
             .setCaption("Orders")
             , 'b');
-            
+
             t.group7.attach(
             (new u.TreeGrid)
             .host(t,"treegrid14")
@@ -530,7 +530,7 @@ Class('App', 'linb.Com',{
             .setHeader([{"id":"col1","caption":"col1","type":"input","width":50},{"id":"col2","caption":"col2","type":"input","width":80}])
             .setRows([{"id":"row1","cells":[{"value":"cell11"},{"value":"cell12"}]},{"id":"row2","cells":[{"value":"cell21","type":"label"},{"value":"cell22"}],"sub":[{"id":"row21","cells":["cell31",{"value":"cell32","type":"number"}]}]}])
             );
-            
+
             t.tabs2.attach(
             (new u.Input)
             .host(t,"input50")
@@ -538,7 +538,7 @@ Class('App', 'linb.Com',{
             .setTop(80)
             .setWidth(170)
             , 'a');
-            
+
             t.tabs2.attach(
             (new u.Input)
             .host(t,"input48")
@@ -546,7 +546,7 @@ Class('App', 'linb.Com',{
             .setTop(50)
             .setWidth(170)
             , 'a');
-            
+
             t.tabs2.attach(
             (new u.Input)
             .host(t,"input52")
@@ -554,7 +554,7 @@ Class('App', 'linb.Com',{
             .setTop(20)
             .setWidth(170)
             , 'a');
-            
+
             t.tabs2.attach(
             (new u.Input)
             .host(t,"input53")
@@ -562,7 +562,7 @@ Class('App', 'linb.Com',{
             .setTop(80)
             .setWidth(170)
             , 'a');
-            
+
             t.tabs2.attach(
             (new u.TextEditor)
             .host(t,"texteditor21")
@@ -573,7 +573,7 @@ Class('App', 'linb.Com',{
             .setCaption("texteditor20")
             .setBorder(true)
             , 'a');
-            
+
             t.tabs2.attach(
             (new u.TextEditor)
             .host(t,"texteditor19")
@@ -583,7 +583,7 @@ Class('App', 'linb.Com',{
             .setCaption("texteditor19")
             .setBorder(true)
             , 'a');
-            
+
             t.tabs2.attach(
             (new u.TextEditor)
             .host(t,"texteditor20")
@@ -594,7 +594,7 @@ Class('App', 'linb.Com',{
             .setCaption("texteditor20")
             .setBorder(true)
             , 'a');
-            
+
             t.tabs2.attach(
             (new u.Input)
             .host(t,"input51")
@@ -602,7 +602,7 @@ Class('App', 'linb.Com',{
             .setTop(50)
             .setWidth(170)
             , 'a');
-            
+
             t.tabs2.attach(
             (new u.Group)
             .host(t,"group8")
@@ -612,7 +612,7 @@ Class('App', 'linb.Com',{
             .setCaption("Order Details")
             .setHeight(220)
             , 'b');
-            
+
             t.group8.attach(
             (new u.TreeGrid)
             .host(t,"treegrid15")
@@ -620,7 +620,7 @@ Class('App', 'linb.Com',{
             .setHeader([{"id":"col1","caption":"col1","type":"input","width":50},{"id":"col2","caption":"col2","type":"input","width":80}])
             .setRows([{"id":"row1","cells":[{"value":"cell11"},{"value":"cell12"}]},{"id":"row2","cells":[{"value":"cell21","type":"label"},{"value":"cell22"}],"sub":[{"id":"row21","cells":["cell31",{"value":"cell32","type":"number"}]}]}])
             );
-            
+
             return n;
             // ]]code created by designer
         },
@@ -629,12 +629,12 @@ Class('App', 'linb.Com',{
             this.dialog14.setZIndex(1);
 
         },
-        
+
         _ajax1_onrequestok:function (response, rspType, threadId) {
             //linb.message(SPA);
-            var obj = _.unserialize(response);            
+            var obj = _.unserialize(response);
             //var idx = SPA.tgd_orders_details.getTag() + 0;
-            
+
             SPA.tgd_orders_details.setRows(obj[0].order_details);
         },
         _pagebar1_onclick:function (profile, src) {
@@ -649,7 +649,7 @@ Class('App', 'linb.Com',{
         },
         _onReady:function(page, threadid){
             linb.message("sdfghjk");
-            SPA = page;  
+            SPA = page;
         },
         events:{"onReady":"_onReady"}
     }

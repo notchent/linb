@@ -1,7 +1,8 @@
 Class('linb.template','linb.iProfile',{
-    Constructor:function(parent,template,events,properties){
+    Constructor:function(parent,template,events,properties,domId){
         var self=this;
-        self.domId = self.KEY + ':' + (self.serialId=self.pickSerialId()) + ':',
+        self.$domId = self.KEY + ':' + (self.serialId=self.pickSerialId()) + ':';
+        self.domId = typeof domId == 'string'?domId:self.$domId;
         self._links={};
         self.template={'':[['<div></div>'],[]]};
         self.properties={};
@@ -9,7 +10,7 @@ Class('linb.template','linb.iProfile',{
         self.$id=_.id();
         self.links(self.constructor._cache,'self').links(linb._object,'linb');
         self.box=self.constructor;
-        linb.cache.dom[self.domId]=this;
+        linb.cache.dom[self.domId]=linb.cache.dom[self.$domId]=this;
 
         if(template)self.setTemplate(template);
         if(events)self.setEvents(events);
@@ -24,6 +25,18 @@ Class('linb.template','linb.iProfile',{
             //$gc in linb.dom can't destory template, use destroy manully
             //template has no memory leak, ignore it when window.unload
         },
+        setDomId:function(id){
+            var t=this,c=linb.cache.dom,e;
+            if(t.domId!=t.$domId)
+                delete c[t.domId];
+            if(e=document.getElementById(t.domId))
+                e.id=id;
+            c[t.domId=id]=t;
+            return t;
+        },
+        getDomId:function(){
+            return this.domId;
+        },
         destroy:function(){
             var self=this,
                 t=linb.cache.domId;
@@ -37,6 +50,7 @@ Class('linb.template','linb.iProfile',{
 
             (t[self.KEY] || (t[self.KEY]=[])).push(self.serialId);
             delete linb.cache.dom[self.domId];
+            delete linb.cache.dom[self.$domId];
             self.antiAllLinks();
             self.template=self.properties=self.events=null;
         },
@@ -143,7 +157,7 @@ Class('linb.template','linb.iProfile',{
             if(isA){
                 if(typeof temp != 'function')temp = me;
                 for(var i=0;t=properties[i++];){
-                    //add hash link, 
+                    //add hash link,
                     properties[t.id]=t;
                     temp.call(self, t, tag, result);
                 }

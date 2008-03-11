@@ -8,7 +8,7 @@ Class('App', 'linb.Com',{
         iniComponents:function(){
             // [[code created by designer, don't change it manually
             var t=this, n=t._nodes=[], u=linb.UI, f=function(c){n.push(c.get(0))};
-            
+
             f(
             (new u.PopMenu)
             .host(t,"popmenu5")
@@ -16,20 +16,20 @@ Class('App', 'linb.Com',{
             .setHeight(73)
             .setItems([{"id":"a","caption":"itema","tips":"item a","sub":[{"id":"aa","caption":"suba"},{"id":"ab","caption":"subb"}]},{"id":"b","caption":"itemb","tips":"item b"},{"id":"c","caption":"itemc","tips":"item c"}])
             );
-            
+
             f(
             (new u.ToolBar)
             .host(t,"toolbar7")
             .setItems([{"id":"toolSection1","sub":[{"id":"toolNewMail","caption":"New Mail","tips":"New Mail Message","icon":"img/demo.gif"}]},{"id":"toolSection2","sub":[{"id":"toolPrint","tips":"print","icon":"img/demo.gif"},{"id":"toolMove","tips":"Move to folder","icon":"img/demo.gif"},{"id":"toolDelete","tips":"Delete","icon":"img/demo.gif"}]}])
             .setDockOrder("3")
             );
-            
+
             f(
             (new u.MenuBar)
             .host(t,"menubar2")
             .setItems([{"id":"menFile","caption":"File","tips":"File","sub":[{"id":"menFileNew","caption":"New","sub":[{"id":"menFileNewMailMessage","caption":"Main Message","icon":"img/demo.gif"},{"id":"menFileNewAppointment","caption":"Appointment","icon":"img/demo.gif"}]},{"id":"menFileOpen","caption":"Open"},{"id":"menFileOpen","caption":"Open"},{"id":"menFileDataFile","caption":"Data File Management..."},{"id":"menFileClose","caption":"Close All Items"},{"id":"menFileExport","caption":"Export and import"},{"id":"menFileWorkOffline","caption":"Work Offline"},{"id":"menFileExit","caption":"Exit"}]},{"id":"menEdit","caption":"Edit"},{"id":"menView","caption":"View"}])
             );
-            
+
             f(
             (new u.Layout)
             .host(t,"layout4")
@@ -38,21 +38,21 @@ Class('App', 'linb.Com',{
             .setItems([{"id":"before","pos":"before","locked":false,"size":200,"min":50,"max":200,"hide":false,"cmd":true},{"id":"main","min":10}])
             .setType("horizontal")
             );
-            
+
             t.layout4.attach(
             (new u.Panel)
             .host(t,"panel13")
             .setDock("top")
             .setHeight(30)
             , 'main');
-            
+
             t.panel13.attach(
             (new u.Input)
             .host(t,"input6")
             .setLeft(310)
             .setTop(8)
             );
-            
+
             t.panel13.attach(
             (new u.Label)
             .host(t,"label4")
@@ -60,7 +60,7 @@ Class('App', 'linb.Com',{
             .setTop(10)
             .setCaption("<b>Look for:</b>")
             );
-            
+
             t.panel13.attach(
             (new u.Button)
             .host(t,"button11")
@@ -70,7 +70,7 @@ Class('App', 'linb.Com',{
             .setCaption("option")
             .onClick("_button11_onclick")
             );
-            
+
             t.panel13.attach(
             (new u.Label)
             .host(t,"button11")
@@ -79,7 +79,7 @@ Class('App', 'linb.Com',{
             .setCaption("<b>Search in:</b>")
             .setWidth(70)
             );
-            
+
             t.panel13.attach(
             (new u.ComboInput)
             .host(t,"comboinput14")
@@ -87,7 +87,7 @@ Class('App', 'linb.Com',{
             .setTop(8)
             .setItems([{"id":"a","caption":"itema","tips":"item a","sub":[{"id":"aa","caption":"suba"},{"id":"ab","caption":"subb"}]},{"id":"b","caption":"itemb","tips":"item b"},{"id":"c","caption":"itemc","tips":"item c"}])
             );
-            
+
             t.layout4.attach(
             (new u.PanelBar)
             .host(t,"pnlNote")
@@ -96,7 +96,7 @@ Class('App', 'linb.Com',{
             .setZIndex("2")
             .setCaption("Note Panel")
             , 'main');
-            
+
             t.pnlNote.attach(
             (new u.Gallery)
             .host(t,"gallery5")
@@ -109,7 +109,7 @@ Class('App', 'linb.Com',{
             .setIconWidth("48")
             .setIconHeight("48")
             );
-            
+
             t.layout4.attach(
             (new u.PanelBar)
             .host(t,"pnlEmail")
@@ -118,7 +118,7 @@ Class('App', 'linb.Com',{
             .setZIndex(1)
             .setCaption("Emails")
             , 'main');
-            
+
             t.pnlEmail.attach(
             (new u.Layout)
             .host(t,"layout5")
@@ -126,7 +126,7 @@ Class('App', 'linb.Com',{
             .setTop(0)
             .setItems([{"id":"before","pos":"before","locked":false,"size":200,"min":50,"max":200,"hide":false,"cmd":true},{"id":"main","min":10}])
             );
-            
+
             t.layout5.attach(
             (new u.TreeGrid)
             .host(t,"treegrid2")
@@ -135,7 +135,7 @@ Class('App', 'linb.Com',{
             .setEditable(false)
             .afterRowActive("_treegrid2_afterrowactive")
             , 'before');
-            
+
             t.layout5.attach(
             (new u.Block)
             .host(t,"block2")
@@ -146,7 +146,7 @@ Class('App', 'linb.Com',{
             .setShadow(true)
             .setBorder(true)
             , 'main');
-            
+
             t.layout4.attach(
             (new u.ButtonViews)
             .host(t,"buttonviews4")
@@ -158,7 +158,7 @@ Class('App', 'linb.Com',{
             .setHandleSize("28")
             .onItemSelected("_buttonviews4_onitemselected")
             , 'before');
-            
+
             t.buttonviews4.attach(
             (new u.PanelBar)
             .host(t,"panelbar4")
@@ -167,7 +167,7 @@ Class('App', 'linb.Com',{
             .setZIndex(1)
             .setCaption("Email")
             , 'email');
-            
+
             t.panelbar4.attach(
             (new u.TreeBar)
             .host(t,"treebar5")
@@ -176,7 +176,7 @@ Class('App', 'linb.Com',{
             .setItems([{"id":"a","caption":"Personal Folder","icon":"img/personal.gif","tips":"Personal Only","sub":[{"id":"aa","caption":"Inbox","icon":"img/inbox.gif"},{"id":"ab","caption":"Sent Items","icon":"img/sent.gif"},{"id":"ac","caption":"Deleted Items","icon":"img/deleted.gif"}]},{"id":"b","caption":"<font color=red><b>Inbox(6)</b></font>","tips":"incoming messages go here","icon":"img/inbox.gif"},{"id":"c","caption":"Outbox","tips":"Sent items go here","icon":"img/outbox.gif"}])
             .onItemSelected("_treebar5_onitemselected")
             );
-            
+
             t.buttonviews4.attach(
             (new u.PanelBar)
             .host(t,"panelbar12")
@@ -185,7 +185,7 @@ Class('App', 'linb.Com',{
             .setZIndex(1)
             .setCaption("Note")
             , 'note');
-            
+
             t.panelbar12.attach(
             (new u.Group)
             .host(t,"group1")
@@ -193,7 +193,7 @@ Class('App', 'linb.Com',{
             .setHeight(170)
             .setCaption("Current View")
             );
-            
+
             t.group1.attach(
             (new u.RadioBox)
             .host(t,"radiobox2")
@@ -202,7 +202,7 @@ Class('App', 'linb.Com',{
             .setTop(20)
             .setItems([{"id":"a","caption":"Show note icons","tips":"Show note icons"},{"id":"b","caption":"Notes List","tips":"Show notes within a list"},{"id":"c","caption":"Other","tips":"Other"}])
             );
-            
+
             t.layout4.attach(
             (new u.PanelBar)
             .host(t,"pnlContact")
@@ -211,7 +211,7 @@ Class('App', 'linb.Com',{
             .setZIndex("3")
             .setCaption("Bussiness & Contact ")
             , 'main');
-            
+
             t.pnlContact.attach(
             (new u.Group)
             .host(t,"group3")
@@ -221,7 +221,7 @@ Class('App', 'linb.Com',{
             .setHeight(150)
             .setCaption("All Contact")
             );
-            
+
             t.group3.attach(
             (new u.PanelBar)
             .host(t,"panelbar16")
@@ -236,7 +236,7 @@ Class('App', 'linb.Com',{
             .setHandleHeight("20")
             .setCaption("Balara, Kenny")
             );
-            
+
             t.group3.attach(
             (new u.PanelBar)
             .host(t,"panelbar17")
@@ -251,7 +251,7 @@ Class('App', 'linb.Com',{
             .setDragKey("contactkey")
             .setHeight(70)
             );
-            
+
             t.group3.attach(
             (new u.PanelBar)
             .host(t,"panelbar18")
@@ -266,7 +266,7 @@ Class('App', 'linb.Com',{
             .setHeight(70)
             .setDragKey("contactkey")
             );
-            
+
             t.pnlContact.attach(
             (new u.Group)
             .host(t,"group4")
@@ -276,7 +276,7 @@ Class('App', 'linb.Com',{
             .setHeight(130)
             .setCaption("Drag customers to this box")
             );
-            
+
             t.group4.attach(
             (new u.Panel)
             .host(t,"panel16")
@@ -288,7 +288,7 @@ Class('App', 'linb.Com',{
             .setHtml("Drag bussiness card over me")
             .onDrop("_panel16_ondrop")
             );
-            
+
             t.group4.attach(
             (new u.Panel)
             .host(t,"panel17")
@@ -300,7 +300,7 @@ Class('App', 'linb.Com',{
             .setHtml("Drag bussiness card over me")
             .onDrop("_panel16_ondrop")
             );
-            
+
             t.pnlContact.attach(
             (new u.Group)
             .host(t,"group5")
@@ -310,7 +310,7 @@ Class('App', 'linb.Com',{
             .setHeight(130)
             .setCaption("Drag venders here")
             );
-            
+
             t.group5.attach(
             (new u.Panel)
             .host(t,"panel18")
@@ -322,7 +322,7 @@ Class('App', 'linb.Com',{
             .setHtml("Drag bussiness card over me")
             .onDrop("_panel16_ondrop")
             );
-            
+
             t.group5.attach(
             (new u.Panel)
             .host(t,"panel19")
@@ -334,7 +334,7 @@ Class('App', 'linb.Com',{
             .setHtml("Drag bussiness card over me")
             .onDrop("_panel16_ondrop")
             );
-            
+
             return n;
             // ]]code created by designer
         },
@@ -343,7 +343,7 @@ Class('App', 'linb.Com',{
         },
         _onReady:function(page, threadid){
             SPA=page;
-            
+
         },
         _treebar5_onitemselected:function (profile, item, src) {
             this.pnlEmail.setCaption("Emails in " + item.caption);
@@ -358,7 +358,7 @@ Class('App', 'linb.Com',{
         },
         _ajax1_onrequestok:function (response, rspType, threadId) {
             var obj = _.unserialize(response);
-            
+
             SPA.treegrid2.setHeader(obj.header).setRows(obj.rows);
         },
         _treegrid2_afterrowactive:function (profile, row) {

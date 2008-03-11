@@ -259,7 +259,7 @@ Class("linb.UI.PanelBar", ["linb.UI.Div","linb.UI.iContainer"],{
                     if(this.domNode)
                         this.root.href(v);
                 }
-            },  
+            },
             html:{
                 ini:'',
                 action:function(v){

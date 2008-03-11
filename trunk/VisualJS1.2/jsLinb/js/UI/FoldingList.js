@@ -193,7 +193,7 @@ Class("linb.UI.FoldingList", ["linb.UI.List"],{
                 'border-right': 'solid 1px #CCC',
                 zoom:linb.browser.ie?1:null,
                 position:'relative',
-                overflow:'auto',                
+                overflow:'auto',
                 background: linb.UI.getCSSImgPara('l.gif', 'repeat-y left top')
             },
             BODYI:{
@@ -289,7 +289,7 @@ Class("linb.UI.FoldingList", ["linb.UI.List"],{
                 top:'2px',
 
                 'white-space':'nowrap',
-                overflow:'hidden'                
+                overflow:'hidden'
             },
             TRIGHT:{
                 //position:linb.browser.ie6?'relative':null,
@@ -298,9 +298,9 @@ Class("linb.UI.FoldingList", ["linb.UI.List"],{
                 position:'absolute',
                 right:'4px',
                 top:'2px',
-                
+
                 'white-space':'nowrap',
-                overflow:'hidden'                
+                overflow:'hidden'
             },
             OPT:{
                 margin:'0 3px 3px 2px',
@@ -392,7 +392,7 @@ Class("linb.UI.FoldingList", ["linb.UI.List"],{
         },
         prepareItem:function(profile, item){
             var p = profile.properties,o,
-                dpn = 'display:none';          
+                dpn = 'display:none';
             item._tabindex = p.tabindex;
             if(!item.caption)
                 item._capDisplay=dpn;

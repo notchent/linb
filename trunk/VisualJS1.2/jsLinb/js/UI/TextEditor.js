@@ -356,7 +356,7 @@ Class("linb.UI.TextEditor", ["linb.UI.Widget", "linb.UI.iForm"],{
             bak1.html('',false);
             bak2.html('',false);
 
-            var pos = profile.getSubNode('KEY').absPos();
+            var pos = profile.root.absPos();
             pos.left+=x;
             pos.top+=y;
             return [loc[0],line,pos,o.get(0),txt];

@@ -8,7 +8,7 @@ Class('App', 'linb.Com',{
         iniComponents:function(){
             // [[code created by designer, don't change it manually
             var t=this, n=t._nodes=[], u=linb.UI, f=function(c){n.push(c.get(0))};
-            
+
             f(
             (new u.Block)
             .host(t,"block4")
@@ -19,7 +19,7 @@ Class('App', 'linb.Com',{
             .setResizable(true)
             .setBorder(true)
             );
-            
+
             t.block4.attach(
             (new u.Layout)
             .host(t,"layout12")
@@ -27,7 +27,7 @@ Class('App', 'linb.Com',{
             .setTop(0)
             .setItems([{"id":"before","pos":"before","locked":false,"size":50,"min":50,"max":200,"cmd":true,"hide":false},{"id":"main","min":10,"hide":false},{"id":"after","pos":"after","locked":false,"size":60,"min":50,"max":200,"cmd":true,"height":60,"hide":true}])
             );
-            
+
             t.layout12.attach(
             (new u.Button)
             .host(t,"button3")
@@ -35,7 +35,7 @@ Class('App', 'linb.Com',{
             .setTop(20)
             .setCaption("button3")
             , 'after');
-            
+
             f(
             (new u.Block)
             .host(t,"block6")
@@ -46,7 +46,7 @@ Class('App', 'linb.Com',{
             .setBorder(true)
             .setResizable(true)
             );
-            
+
             t.block6.attach(
             (new u.Layout)
             .host(t,"layout13")
@@ -55,7 +55,7 @@ Class('App', 'linb.Com',{
             .setItems([{"id":"before","pos":"before","locked":false,"size":52,"min":50,"max":200,"cmd":true,"hide":false},{"id":"main","min":10,"hide":false},{"id":"after","pos":"after","locked":false,"size":123,"min":50,"max":200,"cmd":true,"height":60,"hide":false}])
             .setType("horizontal")
             );
-            
+
             t.layout13.attach(
             (new u.Layout)
             .host(t,"layout8")
@@ -63,7 +63,7 @@ Class('App', 'linb.Com',{
             .setTop(0)
             .setItems([{"id":"before","pos":"before","locked":false,"size":60,"min":50,"max":200,"hide":false,"cmd":true},{"id":"main","min":10},{"id":"after","pos":"after","locked":false,"size":60,"min":50,"max":200,"hide":false,"cmd":true}])
             , 'main');
-            
+
             f(
             (new u.Block)
             .host(t,"Block3")
@@ -74,7 +74,7 @@ Class('App', 'linb.Com',{
             .setResizable(true)
             .setBorder(true)
             );
-            
+
             t.Block3.attach(
             (new u.Layout)
             .host(t,"layout8")
@@ -82,7 +82,7 @@ Class('App', 'linb.Com',{
             .setTop(0)
             .setItems([{"id":"before","pos":"before","locked":false,"size":50,"min":50,"max":200,"hide":false,"cmd":true},{"id":"main","min":10},{"id":"after","pos":"after","locked":false,"size":79,"min":50,"max":200,"hide":false,"cmd":false}])
             );
-            
+
             t.layout8.attach(
             (new u.Layout)
             .host(t,"layout9")
@@ -91,7 +91,7 @@ Class('App', 'linb.Com',{
             .setItems([{"id":"before","pos":"before","locked":true,"size":50,"min":50,"max":200,"hide":false,"cmd":true},{"id":"before2","pos":"before","locked":false,"size":50,"min":50,"max":200,"hide":false,"cmd":true},{"id":"main","min":10,"hide":false},{"id":"after","pos":"after","locked":false,"size":63,"min":50,"max":200,"hide":false,"cmd":true}])
             .setType("horizontal")
             , 'main');
-            
+
             return n;
             // ]]code created by designer
         }

@@ -52,7 +52,7 @@ Class('linb.Com.TimeSpan', 'linb.Com',{
             aj = ns._adjustTime(iniFrom, iniTo);
             iniFrom=aj[1];
             iniTo=aj[2];
-            
+
             var a=date.packTimeZone(iniFrom, tz),
                 b=date.packTimeZone(iniTo, tz)
             ;

@@ -9,7 +9,7 @@ Class('App', 'linb.Com',{
         iniComponents:function(){
             // [[code created by designer, don't change it manually
             var t=this, n=t._nodes=[], u=linb.UI, f=function(c){n.push(c.get(0))};
-            
+
             f(
             (new u.Panel)
             .host(t,"panel9")
@@ -18,7 +18,7 @@ Class('App', 'linb.Com',{
             .setWidth(460)
             .setHeight(330)
             );
-            
+
             t.panel9.attach(
             (new u.PageBar)
             .host(t,"pagebar1")
@@ -31,7 +31,7 @@ Class('App', 'linb.Com',{
             .setUriTpl("#*")
             .onClick("_pagebar1_onclick")
             );
-            
+
             t.panel9.attach(
             (new u.PageBar)
             .host(t,"pagebar3")
@@ -45,7 +45,7 @@ Class('App', 'linb.Com',{
             .setTextTpl("p *")
             .onClick("_pagebar1_onclick")
             );
-            
+
             t.panel9.attach(
             (new u.PageBar)
             .host(t,"pagebar4")
@@ -60,7 +60,7 @@ Class('App', 'linb.Com',{
             .setTextTpl("[*]")
             .onClick("_pagebar1_onclick")
             );
-            
+
             t.panel9.attach(
             (new u.PageBar)
             .host(t,"pagebar5")
@@ -75,7 +75,7 @@ Class('App', 'linb.Com',{
             .setNext("next")
             .onClick("_pagebar1_onclick")
             );
-            
+
             return n;
             // ]]code created by designer
         },

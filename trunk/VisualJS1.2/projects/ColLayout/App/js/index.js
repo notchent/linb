@@ -8,7 +8,7 @@ Class('App', 'linb.Com',{
         iniComponents:function(){
             // [[code created by designer, don't change it manually
             var t=this, n=t._nodes=[], u=linb.UI, f=function(c){n.push(c.get(0))};
-            
+
             f(
             (new u.Block)
             .host(t,"block4")
@@ -19,7 +19,7 @@ Class('App', 'linb.Com',{
             .setResizable(true)
             .setBorder(true)
             );
-            
+
             t.block4.attach(
             (new u.ColLayout)
             .host(t,"collayout")

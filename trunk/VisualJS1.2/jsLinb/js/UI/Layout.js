@@ -294,7 +294,7 @@ Class("linb.UI.Layout",["linb.UI.iWidget", "linb.UI.iList", "linb.UI.iContainer"
                 onDragstop:function(profile, e, src){
                     var t=profile.properties,
                         o=linb([src]).parent(),
-                        r=profile.getSubNode('KEY'),
+                        r=profile.root,
                         item = profile.getItemByDom(src);
 
                     //add offset and refresh
@@ -317,7 +317,7 @@ Class("linb.UI.Layout",["linb.UI.iWidget", "linb.UI.iList", "linb.UI.iContainer"
                         self=linb([src]),
                         itemId = profile.getSubSerialId(id),
                         item = profile.getItemByDom(src),
-                        r=profile.getSubNode('KEY'),
+                        r=profile.root,
                         main = profile.getItemByItemId('main'),
                         m=profile.getSubNodeByItemId('ITEM', 'main'),
                         o = profile.getSubNode('ITEM',itemId),

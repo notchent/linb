@@ -93,7 +93,7 @@ Class("linb.UI.Tips", null,{
                     if(!node || (!tid && !(id=node.id) || (tid && node.id)))
                         clear=1;
                 }catch(e){clear=1}
-                
+
                 if(!clear){
                     tempid=tid?tid+node.getAttribute('evid'):id.replace(event._reg,'$1$3$4');
                     clear=tempid !== tips.markId;

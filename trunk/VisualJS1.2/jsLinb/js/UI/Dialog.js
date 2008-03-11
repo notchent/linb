@@ -943,7 +943,7 @@ Class("linb.UI.Dialog",["linb.UI.Widget","linb.UI.iContainer"],{
                 dialog.$div=div;
                 dialog.attach(cmd).attach(div).create();;
             }
-            
+
             this._adjust(dialog, caption, content);
             dialog.show(linb([document.body]),false,left, top);
             _.asyRun(function(){

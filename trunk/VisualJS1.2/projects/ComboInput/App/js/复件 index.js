@@ -7,7 +7,7 @@ Class('App', 'linb.Com',{
         iniComponents:function(){
             // [[code created by designer, don't change it manually
             var t=this, n=t._nodes=[], u=linb.UI, f=function(c){n.push(c.get(0))};
-            
+
             f(
             (new u.Label)
             .host(t,"label12")
@@ -16,7 +16,7 @@ Class('App', 'linb.Com',{
             .setWidth(104)
             .setCaption("listbox(disabled)")
             );
-            
+
             f(
             (new u.Label)
             .host(t,"label6")
@@ -25,7 +25,7 @@ Class('App', 'linb.Com',{
             .setWidth(104)
             .setCaption("ongetshowvalue")
             );
-            
+
             f(
             (new u.Label)
             .host(t,"label6")
@@ -34,7 +34,7 @@ Class('App', 'linb.Com',{
             .setWidth(136)
             .setCaption("combobox (set items)")
             );
-            
+
             f(
             (new u.Label)
             .host(t,"label4")
@@ -43,7 +43,7 @@ Class('App', 'linb.Com',{
             .setWidth(104)
             .setCaption("command box")
             );
-            
+
             f(
             (new u.Label)
             .host(t,"label11")
@@ -52,7 +52,7 @@ Class('App', 'linb.Com',{
             .setWidth(136)
             .setCaption("combobox (textarea)")
             );
-            
+
             f(
             (new u.Label)
             .host(t,"label3")
@@ -61,7 +61,7 @@ Class('App', 'linb.Com',{
             .setWidth(104)
             .setCaption("getter")
             );
-            
+
             f(
             (new u.Label)
             .host(t,"label10")
@@ -70,7 +70,7 @@ Class('App', 'linb.Com',{
             .setWidth(104)
             .setCaption("helfinput")
             );
-            
+
             f(
             (new u.Label)
             .host(t,"label1")
@@ -79,7 +79,7 @@ Class('App', 'linb.Com',{
             .setWidth(104)
             .setCaption("combobox")
             );
-            
+
             f(
             (new u.Label)
             .host(t,"label9")
@@ -88,7 +88,7 @@ Class('App', 'linb.Com',{
             .setWidth(160)
             .setCaption("listbox(border/resizable)")
             );
-            
+
             f(
             (new u.Label)
             .host(t,"label5")
@@ -97,7 +97,7 @@ Class('App', 'linb.Com',{
             .setWidth(104)
             .setCaption("pop box")
             );
-            
+
             f(
             (new u.Label)
             .host(t,"label2")
@@ -106,7 +106,7 @@ Class('App', 'linb.Com',{
             .setWidth(136)
             .setCaption("combobox (integer only)")
             );
-            
+
             f(
             (new u.ComboInput)
             .host(t,"comboinput14")
@@ -116,7 +116,7 @@ Class('App', 'linb.Com',{
             .setType("cmdbox")
             .onClickButton("_comboinput14_onClickButton")
             );
-            
+
             f(
             (new u.ComboInput)
             .host(t,"comboinput5")
@@ -131,7 +131,7 @@ Class('App', 'linb.Com',{
             .setListKey("test2")
             .setSaveBtn(true)
             );
-            
+
             f(
             (new u.ComboInput)
             .host(t,"comboinput12")
@@ -142,7 +142,7 @@ Class('App', 'linb.Com',{
             .setValueFormat("^-?\\d\\d*$")
             .setItems([{"id":"1","caption":"1"},{"id":"2","caption":"2"}])
             );
-            
+
             f(
             (new u.ComboInput)
             .host(t,"comboinput15")
@@ -153,7 +153,7 @@ Class('App', 'linb.Com',{
             .setSaveBtn(true)
             .onClickButton("_comboinput14_onClickButton")
             );
-            
+
             f(
             (new u.ComboInput)
             .host(t,"comboinput6")
@@ -161,7 +161,7 @@ Class('App', 'linb.Com',{
             .setTop(48)
             .setItems([{"id":"a","caption":"a"},{"id":"b","caption":"b"},{"id":"c","caption":"c"}])
             );
-            
+
             f(
             (new u.ComboInput)
             .host(t,"comboinput8")
@@ -172,7 +172,7 @@ Class('App', 'linb.Com',{
             .setItems([])
             .setListKey("test2")
             );
-            
+
             f(
             (new u.ComboInput)
             .host(t,"comboinput11")
@@ -180,7 +180,7 @@ Class('App', 'linb.Com',{
             .setDock("bottom")
             .setItems([{"id":"itema","caption":"itema","tips":"item a"},{"id":"itemb","caption":"itemb","tips":"item b"},{"id":"itemc","caption":"itemc","tips":"item c"},{"id":"itemd","caption":"itemd","tips":"item d"}])
             );
-            
+
             f(
             (new u.ComboInput)
             .host(t,"comboinput13")
@@ -191,7 +191,7 @@ Class('App', 'linb.Com',{
             .setSaveBtn(true)
             .onClickButton("_comboinput13_onClickButton")
             );
-            
+
             f(
             (new u.ComboInput)
             .host(t,"comboinput16")
@@ -204,7 +204,7 @@ Class('App', 'linb.Com',{
                 return "[" + value.replace(/[\[\]]*/g, "") + "]";
             }})
             );
-            
+
             f(
             (new u.ComboInput)
             .host(t,"comboinput7")
@@ -214,7 +214,7 @@ Class('App', 'linb.Com',{
             .setType("helpinput")
             .setSaveBtn(true)
             );
-            
+
             f(
             (new u.ComboInput)
             .host(t,"comboinput4")
@@ -223,7 +223,7 @@ Class('App', 'linb.Com',{
             .setItems([])
             .setListKey("test2")
             );
-            
+
             f(
             (new u.ComboInput)
             .host(t,"comboinput28")
@@ -233,7 +233,7 @@ Class('App', 'linb.Com',{
             .setType("none")
             .setSaveBtn(true)
             );
-            
+
             f(
             (new u.ComboInput)
             .host(t,"comboinput9")
@@ -243,7 +243,7 @@ Class('App', 'linb.Com',{
             .setItems([])
             .setListKey("test2")
             );
-            
+
             f(
             (new u.ComboInput)
             .host(t,"comboinput21")
@@ -252,7 +252,7 @@ Class('App', 'linb.Com',{
             .setItems([{"id":"a","caption":"itema","tips":"item a"},{"id":"b","caption":"itemb","tips":"item b"},{"id":"c","caption":"itemc","tips":"item c"}])
             .setType("datepicker")
             );
-            
+
             f(
             (new u.ComboInput)
             .host(t,"comboinput15")
@@ -261,7 +261,7 @@ Class('App', 'linb.Com',{
             .setItems([{"id":"a","caption":"itema","tips":"item a"},{"id":"b","caption":"itemb","tips":"item b"},{"id":"c","caption":"itemc","tips":"item c"}])
             .setType("timepicker")
             );
-            
+
             f(
             (new u.ComboInput)
             .host(t,"comboinput22")
@@ -270,7 +270,7 @@ Class('App', 'linb.Com',{
             .setItems([{"id":"a","caption":"itema","tips":"item a"},{"id":"b","caption":"itemb","tips":"item b"},{"id":"c","caption":"itemc","tips":"item c"}])
             .setType("timepicker")
             );
-            
+
             return n;
             // ]]code created by designer
         },

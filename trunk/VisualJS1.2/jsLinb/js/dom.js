@@ -740,7 +740,7 @@ Class('linb.dom','linb.iBox',{
         },
 ***/
         //add to last, and trigger Triggers
-        attach:function(target){
+        attach:function(target, force){
             var o=this.get(0), ui, t, d, b, k;
             if(target['linb.Profile'])target=target.boxing();
             if(_.isArr(target))target=linb.iBox.pack(target, false);
@@ -758,7 +758,7 @@ Class('linb.dom','linb.iBox',{
                     d.style.visibility='hidden';
                 }
                 //always add to last
-                //if(d.parentNode!=o)
+                if(force || d.parentNode!=o)
                     o.appendChild(d);
 
                 if(t=v.renderedTrigger)
@@ -1717,7 +1717,7 @@ Class('linb.dom','linb.iBox',{
             target.setStyle({position:'absolute',left:'0', top:'0',visibility:'hidden',display:'block', zIndex:linb.dom.top_zIndex});
 
             //add to body, avoid parent is display:none.
-            parent.attach(target);
+            parent.attach(target, true);
 
             if(pos['linb.dom'] || pos.nodeType){
                 var node=linb(pos),
@@ -1936,7 +1936,11 @@ type:4
                  if((!o) || (window===o.domNode) || (document===o.domNode))continue;
                  if(!document.getElementById(o.domId)){
                      o.$gc();
+                     //clear the cache
                      bak[bak.length]=i;
+                     //clear the cache shadow
+                     if(o.$domId && o.$domId!=o.domId)
+                        bak[bak.length]=o.$domId;
                  }
              }
              for(i=0;i<bak.length;)

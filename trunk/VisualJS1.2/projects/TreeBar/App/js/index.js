@@ -11,7 +11,7 @@ Class('App', 'linb.Com',{
         iniComponents:function(){
             // [[code created by designer, don't change it manually
             var t=this, n=t._nodes=[], u=linb.UI, f=function(c){n.push(c.get(0))};
-            
+
             f(
             (new u.Panel)
             .host(t,"panel1")
@@ -20,14 +20,14 @@ Class('App', 'linb.Com',{
             .setWidth(250)
             .setHeight(140)
             );
-            
+
             t.panel1.attach(
             (new u.TreeBar)
             .host(t,"treebar1")
             .setItems([{"id":"a","caption":"itema","tips":"item a","sub":[{"id":"aa","caption":"suba"},{"id":"ab","caption":"subb"}]},{"id":"b","caption":"itemb","tips":"item b"},{"id":"c","caption":"itemc","tips":"item c"}])
             .onItemSelected("_treebar1_onitemselected")
             );
-            
+
             f(
             (new u.Panel)
             .host(t,"panel2")
@@ -36,7 +36,7 @@ Class('App', 'linb.Com',{
             .setWidth(250)
             .setHeight(140)
             );
-            
+
             t.panel2.attach(
             (new u.TreeBar)
             .host(t,"treebar3")
@@ -45,7 +45,7 @@ Class('App', 'linb.Com',{
             .setTabindex("5")
             .onItemSelected("_treebar1_onitemselected")
             );
-            
+
             f(
             (new u.Block)
             .host(t,"block1")
@@ -56,7 +56,7 @@ Class('App', 'linb.Com',{
             .setResizable(true)
             .setBorder(true)
             );
-            
+
             t.block1.attach(
             (new u.TreeBar)
             .host(t,"treebar2")
@@ -64,7 +64,7 @@ Class('App', 'linb.Com',{
             .setGroup(true)
             .onItemSelected("_treebar1_onitemselected")
             );
-            
+
             f(
             (new u.Panel)
             .host(t,"panel3")
@@ -72,14 +72,14 @@ Class('App', 'linb.Com',{
             .setTop(370)
             .setWidth(250)
             );
-            
+
             t.panel3.attach(
             (new u.TreeBar)
             .host(t,"treebar5")
             .setItems([{"id":"a","caption":"itema","tips":"item a","sub":[{"id":"aa","caption":"suba"},{"id":"ab","caption":"subb"}]},{"id":"b","caption":"itemb","tips":"item b"},{"id":"c","caption":"itemc","tips":"item c"}])
             .onItemSelected("_treebar1_onitemselected")
             );
-            
+
             f(
             (new u.Block)
             .host(t,"block2")
@@ -90,7 +90,7 @@ Class('App', 'linb.Com',{
             .setResizable(true)
             .setBorder(true)
             );
-            
+
             t.block2.attach(
             (new u.TreeBar)
             .host(t,"treebar4")
@@ -98,7 +98,7 @@ Class('App', 'linb.Com',{
             .setSelMode("multi")
             .onItemSelected("_treebar1_onitemselected")
             );
-            
+
             return n;
             // ]]code created by designer
         }

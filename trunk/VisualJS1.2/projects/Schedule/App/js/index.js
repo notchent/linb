@@ -4,7 +4,7 @@ Class('App', 'linb.Com',{
         iniComponents:function(){
             // [[code created by designer, don't change it manually
             var t=this, n=t._nodes=[], u=linb.UI, f=function(c){n.push(c.get(0))};
-            
+
             f(
             (new u.Block)
             .host(t,"block1")
@@ -15,7 +15,7 @@ Class('App', 'linb.Com',{
             .setResizable(true)
             .setBorder(true)
             );
-            
+
             t.block1.attach(
             (new u.Calendar)
             .host(t,"calendar1")
@@ -23,7 +23,7 @@ Class('App', 'linb.Com',{
             .setTop(40)
             .onDrop("_calendar1_ondrop")
             );
-            
+
             f(
             (new u.Button)
             .host(t,"button3")
@@ -32,7 +32,7 @@ Class('App', 'linb.Com',{
             .setCaption("drag me to calendar")
             .afterCreated("_button3_aftercreated")
             );
-            
+
             f(
             (new u.Block)
             .host(t,"block2")
@@ -43,7 +43,7 @@ Class('App', 'linb.Com',{
             .setResizable(true)
             .setBorder(true)
             );
-            
+
             t.block2.attach(
             (new u.TimeLine)
             .host(t,"timeline1")
@@ -57,7 +57,7 @@ Class('App', 'linb.Com',{
             .setItems([])
             .setUnitPixs(30)
             );
-            
+
             f(
             (new u.Button)
             .host(t,"button5")
@@ -66,7 +66,7 @@ Class('App', 'linb.Com',{
             .setCaption("linb.reLang('cn')")
             .onClick("_button5_onclick")
             );
-            
+
             return n;
             // ]]code created by designer
         },

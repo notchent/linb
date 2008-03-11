@@ -523,8 +523,9 @@ Class('VisualJS.Designer', 'linb.Com',{
                 });
              }
              //for UI refresh itself
-             profile.$addOns=me;
-             profile.$addOns.target=self;
+             profile.$addOns=function(profile){
+                me.call(self,profile);
+            };
         },
 
         _WidgetsSelected : function(ids){
@@ -1033,6 +1034,7 @@ Class('VisualJS.Designer', 'linb.Com',{
                 },this);
                 var rows=[
                     {id:'alias',           cells:[{value:'alias', type:'label'},{value: "page", type:'label'}] },
+                    {id:'domId',           cells:[{value:'domId', type:'label'},{value: "*", type:'label'}] },
                     {id:'properties:width', cells:[{value:'width',type:'label'}, {value: pro.properties.width, type:''}] },
                     {id:'properties:height',cells:[{value:'height', type:'label'}, {value: pro.properties.height, type:''}] },
                     {id:'UIE', cells:[{value:'events',type:'label'}, {value:'', type:'label'}], sub: arr}
@@ -1080,6 +1082,7 @@ Class('VisualJS.Designer', 'linb.Com',{
                     var rows=[
                             {id:'key', cells:[{value:'class', type:'label'},{value:'<strong>'+pro.key+'</strong>',type:'label'}] },
                             {id:'alias',cells:[{value:'alias', type:'label'},{value:pro.alias, type:''}] },
+                            {id:'domId',cells:[{value:'domId', type:'label'},{value:pro.domId, type:''}] },
                             {id:'template',     cells:[{value:'template', type:''}, {value:pro.template._id, type:'listbox', listKey: pro.box.KEY+':template'}] },
                             {id:'appearance',   cells:[{value:'appearance',type:''},{value:pro.appearance, type: 'listbox', listKey: pro.box.KEY+':appearance'}]},
                             {id:'behavior',     cells:[{value:'behavior', type:''},{value: pro.behavior._id, type:'listbox', listKey:pro.box.KEY+':behavior'}]},
@@ -1180,6 +1183,7 @@ Class('VisualJS.Designer', 'linb.Com',{
                     var rows=[
                             {id:'key',  cells:[{value:'class',type:'label'},{value: pro.key, type:'label'}] },
                             {id:'alias', cells:[{value:'alias', type:'label'},{value:pro.alias, type:''}] },
+                            {id:'domId', cells:[{value:'domId', type:'label'},{value:pro.domId, type:''}] },
                             {id:'properties', cells:[{value:'properties',type:'label'},{value:'', type:'label'}], sub:[]},
                             {id:'UIE',  cells:[{value:'events',type:'label'},{value:'', type:'label'}], sub:[]}
                     ];
@@ -1234,12 +1238,12 @@ Class('VisualJS.Designer', 'linb.Com',{
                     this._change();
                     var sel = linb.UI.getByCacheId(this.tempSelected);
                     var p = sel.get(this.SelectedFocus),
-                        o=p.getSubNode('KEY'),
+                        o=p.root,
                         size=o.cssSize(),
                         pos=o.cssPos();
                     sel.each(function(o){
                         if(o.locked)return;
-                        var node = o.getSubNode('KEY');
+                        var node = o.root;
                         switch(id){
                             case "left":node.left(pos.left);o.boxing().refreshLeft();break;
                             case "center":node.left(pos.left + size.width/2 - node.width()/2);o.boxing().refreshLeft();break;
@@ -1401,17 +1405,29 @@ Class('VisualJS.Designer', 'linb.Com',{
                             });
                         break;
                     default:
-                        if(property=='alias'){
-                            var hash = this.getNames();
-                            if(hash[value]){
-                                linb.message(linb.getRes('VisualJS.designer.nameExists',value));
+                        if(property=='domId'){
+                            //you can modify domId to original one
+                            if(target.get(0).$domId!=value && !/^[\w]*$/.test(value)){
+                                linb.message(linb.getRes('VisualJS.designer.domIdValid',value));
                                 return false;
                             }
-
+                            if(linb.dom.byId(value)){
+                                linb.message(linb.getRes('VisualJS.designer.domIdExists',value));
+                                return false;
+                            }
                             this.listObject.setCtrlValue(value,true);
+                            target.setDomId(value);
+                        }else{
+                            if(property=='alias'){
+                                var hash = this.getNames();
+                                if(hash[value]){
+                                    linb.message(linb.getRes('VisualJS.designer.nameExists',value));
+                                    return false;
+                                }
+                                this.listObject.setCtrlValue(value,true);
+                            }
+                            target[property](value);
                         }
-                        target[property](value);
-
                 }
              }catch(e){
                 throw(e);
@@ -1811,7 +1827,7 @@ Class('VisualJS.Designer', 'linb.Com',{
             arr.push('// [[code created by designer, don\'t change it manually\n');
             arr.push('var t=this, n=t._nodes=[], u=linb.UI, f=function(c){n.push(c.get(0))};');
             fun = function(v, pName, argsStr, arr){
-                var self=arguments.callee, ui=v.box['linb.UI'], o = v.beforeSerialized(),name=o.alias, b;
+                var self=arguments.callee, ui=v.box['linb.UI'], o=v.beforeSerialized(), name=o.alias, b;
 
                 delete o.id;
 
@@ -1836,6 +1852,8 @@ Class('VisualJS.Designer', 'linb.Com',{
                     arr.push('f(');
                 arr.push('\n(new ' + o.key.replace('linb.UI','u') + ')');
                 arr.push('\n.host(t,"'+name+'")');
+                if(o.domId!=o.$domId)
+                    arr.push('\n.setDomId("'+o.domId+'")');
                 if(o.template)
                     arr.push('\n.template("' + o.template + '")');
                 if(o.behavior)

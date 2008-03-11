@@ -391,7 +391,7 @@ Class("linb.UI.Tabs", ["linb.UI.iWidget", "linb.UI.iList", "linb.UI.iContainer"]
                     if(properties.disabled)return false;
                     if(box.getUIValue() == item.id){
                         profile.boxing().onItemActive(profile, profile.getItemByDom(src), src);
-                    }                    
+                    }
                 }
             },
             ITEM:{
@@ -480,9 +480,9 @@ Class("linb.UI.Tabs", ["linb.UI.iWidget", "linb.UI.iList", "linb.UI.iContainer"]
                     var instance = profile.boxing();
 
                     if(false===instance.beforePageClose(profile, item, src)) return;
-                    
+
                     bak=_.copy(item);
-                    
+
                     instance.removeItems(item.id);
 
                     instance.afterPageClose(profile, bak);

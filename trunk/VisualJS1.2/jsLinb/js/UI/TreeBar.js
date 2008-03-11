@@ -143,7 +143,7 @@ Class("linb.UI.TreeBar",["linb.UI.iWidget", "linb.UI.iList","linb.UI.iNavigator"
 
             }else{
                 var pItemSub=profile.properties.items,
-                domP=profile.getSubNode('KEY');
+                domP=profile.root;
             }
 
             ids.each(function(id){

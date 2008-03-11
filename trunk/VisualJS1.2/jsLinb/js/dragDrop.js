@@ -518,8 +518,11 @@ Class('linb.dragDrop',null,{
             }else{
                 pos.left -=  self._size;
                 pos.top -= self._size;
-                if(!self.target_parent)
+                if(!self.target_parent){
                     dom.setCover(true);
+                    //reset cursor for "move mode"
+                    linb([document.body]).cursor(self.cursor);
+                }
             }
             if(temp=self.target_parent)
                 linb(temp).addLast(t);

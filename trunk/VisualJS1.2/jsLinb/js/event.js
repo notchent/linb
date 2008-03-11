@@ -127,7 +127,7 @@ Class('linb.event',null,{
         rtnFalse:linb.browser.opr?undefined:false,
         _type:{},
         _kb:{keydown:1,keypress:1,keyup:1},
-        _reg:/([\.\w]+)(-[\.\w]+)?(:[\w]+:)(.*)/,
+        _reg:/([\.\w]+)(-[\.\w]+)?(:[\.\w]+:)([\.\w]*)/,
         _eventhandler:function(){return linb.event(arguments[0],this)},
         _eventhandler2:function(){return linb.event(arguments[0],this,1)},
         _eventtag:'before,on,after'.split(','),

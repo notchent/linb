@@ -8,7 +8,7 @@ Class('App', 'linb.Com',{
         iniComponents:function(){
             // [[code created by designer, don't change it manually
             var t=this, n=t._nodes=[], u=linb.UI, f=function(c){n.push(c.get(0))};
-            
+
             f(
             (new u.Div)
             .host(t,"div9")
@@ -18,7 +18,7 @@ Class('App', 'linb.Com',{
             .setHtml("Use \"tab/left/right/up/down\" to navigate TreeGrid/Cells")
             .setHeight(20)
             );
-            
+
             f(
             (new u.Block)
             .host(t,"block1")
@@ -30,7 +30,7 @@ Class('App', 'linb.Com',{
             .setDropKeys("iAny")
             .setResizable(true)
             );
-            
+
             t.block1.attach(
             (new u.TreeGrid)
             .host(t,"treegrid3")
@@ -39,7 +39,7 @@ Class('App', 'linb.Com',{
             .setRowDragKey("ca")
             .setColDragKey("ca")
             );
-            
+
             f(
             (new u.Block)
             .host(t,"block3")
@@ -51,7 +51,7 @@ Class('App', 'linb.Com',{
             .setDropKeys("iAny")
             .setResizable(true)
             );
-            
+
             t.block3.attach(
             (new u.TreeGrid)
             .host(t,"treegrid4")
@@ -66,7 +66,7 @@ Class('App', 'linb.Com',{
             .setRowDragKey("cc")
             .setColDragKey("cc")
             );
-            
+
             return n;
             // ]]code created by designer
         },

@@ -7,7 +7,7 @@ Class('App', 'linb.Com',{
         iniComponents:function(){
             // [[code created by designer, don't change it manually
             var t=this, n=t._nodes=[], u=linb.UI, f=function(c){n.push(c.get(0))};
-            
+
             f(
             (new u.CheckBox)
             .host(t,"checkbox3")
@@ -20,7 +20,7 @@ Class('App', 'linb.Com',{
             .setHAlign("right")
             .setResizable(true)
             );
-            
+
             f(
             (new u.CheckBox)
             .host(t,"checkbox4")
@@ -32,7 +32,7 @@ Class('App', 'linb.Com',{
             .setShadow(true)
             .setResizable(true)
             );
-            
+
             f(
             (new u.CheckBox)
             .host(t,"checkbox5")
@@ -43,7 +43,7 @@ Class('App', 'linb.Com',{
             .setWidth(190)
             .setHeight(30)
             );
-            
+
             f(
             (new u.CheckBox)
             .host(t,"checkbox6")
@@ -54,7 +54,7 @@ Class('App', 'linb.Com',{
             .setHeight(30)
             .afterValueUpdated("_checkbox_aftervalueupdated")
             );
-            
+
             f(
             (new u.CheckBox)
             .host(t,"checkbox1")
@@ -63,7 +63,7 @@ Class('App', 'linb.Com',{
             .setCaption("checkbox1")
             .setWidth(190)
             );
-            
+
             f(
             (new u.CheckBox)
             .host(t,"checkbox2")
@@ -74,7 +74,7 @@ Class('App', 'linb.Com',{
             .setHeight(27)
             .setBorder(true)
             );
-            
+
             return n;
             // ]]code created by designer
         },_checkbox_aftervalueupdated:function (profile, oldValue, newValue) {

@@ -6,7 +6,7 @@ Class('App', 'linb.Com',{
         iniComponents:function(){
             // [[code created by designer, don't change it manually
             var t=this, n=t._nodes=[], u=linb.UI, f=function(c){n.push(c.get(0))};
-            
+
             f(
             (new u.Panel)
             .host(t,"panel4")
@@ -15,7 +15,7 @@ Class('App', 'linb.Com',{
             .setWidth(260)
             .setHeight(530)
             );
-            
+
             t.panel4.attach(
             (new u.PanelBar)
             .host(t,"panelbar2")
@@ -27,7 +27,7 @@ Class('App', 'linb.Com',{
             .setCaption("relative auto-adjust height 1")
             .setToggleBtn(true)
             );
-            
+
             t.panelbar2.attach(
             (new u.Button)
             .host(t,"button9")
@@ -35,7 +35,7 @@ Class('App', 'linb.Com',{
             .setCaption("button9")
             .setPosition("relative")
             );
-            
+
             t.panel4.attach(
             (new u.PanelBar)
             .host(t,"panelbar3")
@@ -46,7 +46,7 @@ Class('App', 'linb.Com',{
             .setPosition("relative")
             .setCaption("relative auto-adjust height 1")
             );
-            
+
             t.panelbar3.attach(
             (new u.Button)
             .host(t,"button11")
@@ -54,7 +54,7 @@ Class('App', 'linb.Com',{
             .setCaption("button9")
             .setPosition("relative")
             );
-            
+
             f(
             (new u.Panel)
             .host(t,"panel5")
@@ -63,7 +63,7 @@ Class('App', 'linb.Com',{
             .setWidth(260)
             .setHeight(135)
             );
-            
+
             t.panel5.attach(
             (new u.PanelBar)
             .host(t,"panelbar6")
@@ -73,14 +73,14 @@ Class('App', 'linb.Com',{
             .setCaption("in container dock=fill")
             .setToggleBtn(true)
             );
-            
+
             t.panelbar6.attach(
             (new u.Button)
             .host(t,"button15")
             .setLeft(62)
             .setCaption("button15")
             );
-            
+
             f(
             (new u.PanelBar)
             .host(t,"panelbar7")
@@ -97,7 +97,7 @@ Class('App', 'linb.Com',{
             .setLandBtn(true)
             .setOptBtn(true)
             );
-            
+
             t.panelbar7.attach(
             (new u.Button)
             .host(t,"button14")
@@ -106,7 +106,7 @@ Class('App', 'linb.Com',{
             .setWidth(270)
             .setCaption("button14")
             );
-            
+
             return n;
             // ]]code created by designer
         }

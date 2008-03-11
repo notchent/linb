@@ -7,7 +7,7 @@ Class('App', 'linb.Com',{
         iniComponents:function(){
             // [[code created by designer, don't change it manually
             var t=this, n=t._nodes=[], u=linb.UI, f=function(c){n.push(c.get(0))};
-            
+
             f(
             (new u.Label)
             .host(t,"label7")
@@ -16,7 +16,7 @@ Class('App', 'linb.Com',{
             .setWidth(104)
             .setCaption("email")
             );
-            
+
             f(
             (new u.Label)
             .host(t,"label6")
@@ -25,7 +25,7 @@ Class('App', 'linb.Com',{
             .setWidth(168)
             .setCaption("border/resizable/shadow")
             );
-            
+
             f(
             (new u.Label)
             .host(t,"label13")
@@ -34,7 +34,7 @@ Class('App', 'linb.Com',{
             .setWidth(296)
             .setCaption("Input 'allow' only, using 'onFormatCheck' event")
             );
-            
+
             f(
             (new u.Label)
             .host(t,"label1")
@@ -43,7 +43,7 @@ Class('App', 'linb.Com',{
             .setWidth(104)
             .setCaption("normal")
             );
-            
+
             f(
             (new u.Label)
             .host(t,"label4")
@@ -52,7 +52,7 @@ Class('App', 'linb.Com',{
             .setWidth(104)
             .setCaption("readonly")
             );
-            
+
             f(
             (new u.Label)
             .host(t,"label12")
@@ -61,7 +61,7 @@ Class('App', 'linb.Com',{
             .setWidth(104)
             .setCaption("MM/DD/YYYY")
             );
-            
+
             f(
             (new u.Label)
             .host(t,"label9")
@@ -70,7 +70,7 @@ Class('App', 'linb.Com',{
             .setWidth(104)
             .setCaption("alpha")
             );
-            
+
             f(
             (new u.Label)
             .host(t,"label3")
@@ -79,7 +79,7 @@ Class('App', 'linb.Com',{
             .setWidth(104)
             .setCaption("textarea")
             );
-            
+
             f(
             (new u.Label)
             .host(t,"label8")
@@ -88,7 +88,7 @@ Class('App', 'linb.Com',{
             .setWidth(104)
             .setCaption("letter")
             );
-            
+
             f(
             (new u.Label)
             .host(t,"label2")
@@ -97,7 +97,7 @@ Class('App', 'linb.Com',{
             .setWidth(104)
             .setCaption("password")
             );
-            
+
             f(
             (new u.Label)
             .host(t,"label11")
@@ -106,7 +106,7 @@ Class('App', 'linb.Com',{
             .setWidth(104)
             .setCaption("number")
             );
-            
+
             f(
             (new u.Label)
             .host(t,"label5")
@@ -115,7 +115,7 @@ Class('App', 'linb.Com',{
             .setWidth(104)
             .setCaption("disabled")
             );
-            
+
             f(
             (new u.Label)
             .host(t,"label10")
@@ -124,7 +124,7 @@ Class('App', 'linb.Com',{
             .setWidth(104)
             .setCaption("integer")
             );
-            
+
             f(
             (new u.Div)
             .host(t,"div10")
@@ -133,7 +133,7 @@ Class('App', 'linb.Com',{
             .setWidth(260)
             .setHeight(30)
             );
-            
+
             f(
             (new u.Div)
             .host(t,"div12")
@@ -143,7 +143,7 @@ Class('App', 'linb.Com',{
             .setHtml("Input valid (real time)")
             .setWidth(140)
             );
-            
+
             f(
             (new u.Input)
             .host(t,"input1")
@@ -152,7 +152,7 @@ Class('App', 'linb.Com',{
             .setValue("disabled")
             .setDisabled(true)
             );
-            
+
             f(
             (new u.Input)
             .host(t,"input4")
@@ -160,7 +160,7 @@ Class('App', 'linb.Com',{
             .setTop(40)
             .setValue("normal")
             );
-            
+
             f(
             (new u.Div)
             .host(t,"div11")
@@ -170,7 +170,7 @@ Class('App', 'linb.Com',{
             .setHeight(26)
             .setHtml("Input valid")
             );
-            
+
             f(
             (new u.Div)
             .host(t,"div9")
@@ -179,7 +179,7 @@ Class('App', 'linb.Com',{
             .setWidth(260)
             .setHeight(30)
             );
-            
+
             f(
             (new u.Input)
             .host(t,"input2")
@@ -189,7 +189,7 @@ Class('App', 'linb.Com',{
             .setType("password")
             .setTabindex("2")
             );
-            
+
             f(
             (new u.Input)
             .host(t,"input3")
@@ -201,7 +201,7 @@ Class('App', 'linb.Com',{
             .setInputArea("textarea")
             .setTabindex("3")
             );
-            
+
             f(
             (new u.Input)
             .host(t,"input6")
@@ -211,7 +211,7 @@ Class('App', 'linb.Com',{
             .setReadonly(true)
             .setTabindex("4")
             );
-            
+
             f(
             (new u.Input)
             .host(t,"input7")
@@ -225,7 +225,7 @@ Class('App', 'linb.Com',{
             .setTips("border/resizable/shadow")
             .setTabindex("5")
             );
-            
+
             f(
             (new u.Input)
             .host(t,"input8")
@@ -234,7 +234,7 @@ Class('App', 'linb.Com',{
             .setValueFormat("^[\\w\\.=-]+@[\\w\\.-]+\\.[\\w\\.-]{2,4}$")
             .setTabindex("6")
             );
-            
+
             f(
             (new u.Input)
             .host(t,"input10")
@@ -243,7 +243,7 @@ Class('App', 'linb.Com',{
             .setValueFormat("^\\w*$")
             .setTabindex("7")
             );
-            
+
             f(
             (new u.Input)
             .host(t,"input12")
@@ -252,7 +252,7 @@ Class('App', 'linb.Com',{
             .setValueFormat("^-?(\\d\\d*\\.\\d*$)|(^-?\\d\\d*$)|(^-?\\.\\d\\d*$)")
             .setTabindex("8")
             );
-            
+
             f(
             (new u.Input)
             .host(t,"input9")
@@ -261,7 +261,7 @@ Class('App', 'linb.Com',{
             .setValueFormat("^[a-zA-Z]*$")
             .setTabindex("9")
             );
-            
+
             f(
             (new u.Input)
             .host(t,"input11")
@@ -270,7 +270,7 @@ Class('App', 'linb.Com',{
             .setValueFormat("^-?\\d\\d*$")
             .setTabindex("10")
             );
-            
+
             f(
             (new u.Input)
             .host(t,"input13")
@@ -279,7 +279,7 @@ Class('App', 'linb.Com',{
             .setValueFormat("^([0-1][0-9])/([0-3][0-9])/([0-9]{4})$")
             .setTabindex("11")
             );
-            
+
             f(
             (new u.Input)
             .host(t,"input15")
@@ -294,7 +294,7 @@ Class('App', 'linb.Com',{
             .setTipsBinder("div10")
             .setDynCheck(true)
             );
-            
+
             f(
             (new u.Input)
             .host(t,"input5")
@@ -304,7 +304,7 @@ Class('App', 'linb.Com',{
             .setTabindex("12")
             .onFormatCheck("_input5_onformatcheck")
             );
-            
+
             f(
             (new u.Input)
             .host(t,"input29")
@@ -318,7 +318,7 @@ Class('App', 'linb.Com',{
             .setValueFormat("^-?(\\d\\d*\\.\\d*$)|(^-?\\d\\d*$)|(^-?\\.\\d\\d*$)")
             .setTipsBinder("div9")
             );
-            
+
             return n;
             // ]]code created by designer
         },

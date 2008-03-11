@@ -50,6 +50,8 @@ new function(){
                     };
                 //hose
                 if(o.host)r.host='$this$';
+                //domId
+                if(o.$domId!=o.domId)r.domId=o.domId;
                 //appearance behavior and template
                 if(o.appearance && o.appearance!='default')r.appearance = o.appearance;
                 if(o.behavior && o.behavior._id!='default')r.behavior = o.behavior._id;
@@ -482,6 +484,7 @@ new function(){
 
                 //clear cache point
                 delete linb.cache.dom[self.domId];
+                delete linb.cache.dom[self.$domId];
                 delete self.box._namePool[self.alias];
 
                 //clear anti links
@@ -498,6 +501,25 @@ new function(){
                 profile.antiLinks('$parent');
                 //and, link
                 profile.links(parent.children, '$parent', [profile, id]);
+            },
+            _reg:/^[\w]*$/,
+            setDomId:function(id){
+                var t=this,
+                    c=linb.cache.dom,
+                    reg=t._reg;
+
+                if(typeof id != 'string' || !reg.test(id))
+                    id=t.$domId;
+
+                if(t.domId!=t.$domId)
+                    delete c[t.domId];
+                if(t.domNode)
+                    t.domNode.id=id;
+                c[t.domId=id]=t;
+                return t;
+            },
+            getDomId:function(){
+                return this.domId;
             },
             //use remove, not $gc
             destroy:function(){
@@ -669,7 +691,7 @@ new function(){
             },
 
             getSubNodeId:function(key, itemId){
-                var arr = this.domId.split(':');
+                var arr = this.$domId.split(':');
                 arr[0]=key;
                 arr[2]=itemId||'';
                 return arr.join(':');
@@ -846,6 +868,13 @@ new function(){
                 });
                 return arr;
             },
+            setDomId:function(id){
+                this.get(0).setDomId(id);
+                return this;
+            },
+            getDomId:function(){
+                return this.get(0).getDomId();
+            },
             ini:function(properties, events, host, template, behavior, appearance, children, CA, CB, CC, CF){
                 var self=this, profile, c = self.constructor, t='default';
                 //from keep UIProfile object point ( linb.UI.refresh )
@@ -873,10 +902,10 @@ new function(){
                 profile.appearance = appearance || profile.appearance || t;
                 profile.behavior = c.getBehavior(behavior || profile.behavior || t);
                 // custom
-                profile.CA =  CA || profile.CA || {};
-                profile.CB =  CB || profile.CB || {};
-                profile.CC =  CC || profile.CC || {};
-                profile.CF =  CF || profile.CF || {};
+                profile.CA = CA || profile.CA || {};
+                profile.CB = CB || profile.CB || {};
+                profile.CC = CC || profile.CC || {};
+                profile.CF = CF || profile.CF || {};
 
                 if(c.iniProfile)c.iniProfile.call(profile);
 
@@ -888,7 +917,9 @@ new function(){
                 delete profile.events;
 
                 if(!profile.serialId)profile.serialId=c.pickSerialId();
-                profile.domId = profile.makeRootId();
+                profile.$domId = profile.makeRootId();
+
+                profile.domId = profile.domId || profile.$domId;
 
                 //new alias always
                 profile.alias = profile.alias || c.pickAlias();
@@ -921,7 +952,7 @@ new function(){
 
                 //link dom
                 o.root = linb([o.domNode = linb.dom.byId(o.domId)]);
-                linb.cache.dom[o.domId] = o;
+                linb.cache.dom[o.domId] = linb.cache.dom[o.$domId] = o;
 
                 //createdTrigger
                 if(t=o.createdTrigger){
@@ -1037,7 +1068,7 @@ new function(){
                     //destroy and re create
                     box=o.box;
                     //keep serialId and host
-                    sid=o.serialId;
+                    //sid=o.serialId;
                     host=o.host;
                     s = o.beforeSerialized();
                     fun = o.$addOns;
@@ -1048,20 +1079,19 @@ new function(){
                     linb.dom.$gc();
 
                     s.host=host;
+                    //s.serialId=sid;
                     //use the old profile handle
                     _.merge(o,s,'all');
                     o=new box(o).create();
 
                     //for functions like: UI refresh itself
-                    if(fun){
+                    if(fun)
                         fun.call(fun.target,o.get(0));
-                        delete fun.target;
-                    }
 
                     //replace back
+                    //empty, but keep the children
                     replace.empty(false);
                     replace.replace(o.get(0).root);
-                    replace.remove();
 
                     //restore to parent
                     if(b){
@@ -1073,6 +1103,7 @@ new function(){
                     children.each(function(v){
                         o.attach.apply(o,v);
                     });
+                    replace.remove();
                 });
             },
             //set template id to object
@@ -1160,7 +1191,7 @@ new function(){
                     this.appendChild(ui, id);
                 var pro=this.get(0);
                 if(pro.domNode)
-                    pro.getSubNode(pro.keys.PANEL||'KEY').attach(ui);
+                    (pro.keys.PANEL?pro.getSubNode(pro.keys.PANEL):pro.root).attach(ui);
                 return this;
             },
             appendChild:function(target, id){
@@ -1469,6 +1500,7 @@ new function(){
             $tag_right:"}",
             $tag_special:'#',
             $ID:"#id#",
+            $DOMID:'#domid#',
             $CLS:"#cls#",
             subSerialIdTag:"_serialId",
             $childTag:"<!--{id}-->",
@@ -1633,7 +1665,7 @@ new function(){
 
                 if(template.id!==null)
                     //id
-                    template.id = lkey + ":" + u.$ID + ":" + u.$tag_left + u.subSerialIdTag + u.$tag_right;
+                    template.id = key?lkey + ":" + u.$ID + ":" + u.$tag_left + u.subSerialIdTag + u.$tag_right:u.$DOMID;
                 else
                     delete template.id;
 
@@ -1734,7 +1766,7 @@ new function(){
                     n,t
                 ;
 
-                temp = temp.replace(r1, profile.serialId).replace(r4,profile.getClass('KEY'));
+                temp = temp.replace(r1, profile.serialId).replace(r4,profile.getClass('KEY')).replace(u.$DOMID,profile.domId);
                 if(n=profile.CA)
                     temp = temp.replace(r2, function(a,b){
                         return (t=n[b])?t:'';

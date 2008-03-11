@@ -12,7 +12,7 @@ Class('App', 'linb.Com',{
         iniComponents:function(){
             // [[code created by designer, don't change it manually
             var t=this, n=t._nodes=[], u=linb.UI, f=function(c){n.push(c.get(0))};
-            
+
             f(
             (new u.Button)
             .host(t,"button5")
@@ -21,7 +21,7 @@ Class('App', 'linb.Com',{
             .setCaption("$app.caption")
             .setTips("$app.tips")
             );
-            
+
             f(
             (new u.RadioBox)
             .host(t,"radiobox1")
@@ -32,7 +32,7 @@ Class('App', 'linb.Com',{
             .setHeight(60)
             .onItemSelected("_radiobox1_onitemselected")
             );
-            
+
             return n;
             // ]]code created by designer
         }

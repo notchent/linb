@@ -21,7 +21,7 @@ Class("linb.UI.ColLayout",["linb.UI.iWidget", "linb.UI.iList", "linb.UI.iContain
         },
         //prepare pos/size data for dragDrop
         prepareDD:function(){
-            var self=this, 
+            var self=this,
                 profile=self.get(0),
                 p=profile.properties,
                 root=profile.root,
@@ -83,7 +83,7 @@ Class("linb.UI.ColLayout",["linb.UI.iWidget", "linb.UI.iList", "linb.UI.iContain
                 }
             }
             col=profile._ddincol;
-            arr=o.rows[profile._ddi];      
+            arr=o.rows[profile._ddi];
             i=0;
             while(t=arr[i++]){
                 if(top<t[0]){
@@ -104,7 +104,7 @@ Class("linb.UI.ColLayout",["linb.UI.iWidget", "linb.UI.iList", "linb.UI.iContain
                 return [col,profile._ddid,profile._ddup];
         },
         _showProxy:function(profile,type,node,height){
-             var self=this, 
+             var self=this,
                  proxy= profile._proxy || (profile._proxy=linb.create('<div style="border:1px dashed #FF0000;">'));
              proxy.height(height||20);
              if(node.isEmpty())return;
@@ -123,7 +123,7 @@ Class("linb.UI.ColLayout",["linb.UI.iWidget", "linb.UI.iList", "linb.UI.iContain
         },
         //
         doDrag:function(pos,height){
-            var self=this, 
+            var self=this,
                 profile=self.get(0),
                 rst=self._checkpos(profile,pos),
                 col,row;
@@ -141,7 +141,7 @@ Class("linb.UI.ColLayout",["linb.UI.iWidget", "linb.UI.iList", "linb.UI.iContain
             }
         },
         doDrop:function(pos, data){
-            var self=this, 
+            var self=this,
                 profile=self.get(0),
                 rst=self._checkpos(profile,pos,true);
             self._hideProxy(profile);
@@ -354,7 +354,7 @@ Class("linb.UI.ColLayout",["linb.UI.iWidget", "linb.UI.iList", "linb.UI.iContain
             beforeNextFocus:null,
             onDropItem:function(profile, rst){}
         },
-        prepareData:function(profile){           
+        prepareData:function(profile){
             var i=profile.properties.items;
             if(!i || i.constructor != Array || !i.length)
                 i = profile.properties.items = _.clone([

@@ -12,7 +12,7 @@ Class('App', 'linb.Com',{
         iniComponents:function(){
             // [[code created by designer, don't change it manually
             var t=this, n=t._nodes=[], u=linb.UI, f=function(c){n.push(c.get(0))};
-            
+
             f(
             (new u.Input)
             .host(t,"input3")
@@ -23,7 +23,7 @@ Class('App', 'linb.Com',{
             .onHotKeypress("_input3_onhotkey")
             .onHotKeyup("_input3_onhotkey")
             );
-            
+
             f(
             (new u.Div)
             .host(t,"div9")
@@ -33,7 +33,7 @@ Class('App', 'linb.Com',{
             .setHeight(20)
             .setHtml("Type something in the Input:")
             );
-            
+
             f(
             (new u.Button)
             .host(t,"button5")
@@ -42,7 +42,7 @@ Class('App', 'linb.Com',{
             .setCaption("Clear output")
             .onClick("_button5_onclick")
             );
-            
+
             f(
             (new u.Panel)
             .host(t,"panel3")
@@ -52,7 +52,7 @@ Class('App', 'linb.Com',{
             .setHeight(330)
             .setCustomAppearance({"KEY":"border:solid 1px"})
             );
-            
+
             t.panel3.attach(
             (new u.TreeGrid)
             .host(t,"treegrid2")
@@ -67,7 +67,7 @@ Class('App', 'linb.Com',{
             .setRowDragKey("ch")
             .setColDragKey("ch")
             );
-            
+
             f(
             (new u.Input)
             .host(t,"input2")
@@ -80,7 +80,7 @@ Class('App', 'linb.Com',{
             .onHotKeypress("_input3_onhotkey")
             .onHotKeyup("_input3_onhotkey")
             );
-            
+
             return n;
             // ]]code created by designer
         },

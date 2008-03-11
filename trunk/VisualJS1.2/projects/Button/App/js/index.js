@@ -7,14 +7,14 @@ Class('App', 'linb.Com',{
         iniComponents:function(){
             // [[code created by designer, don't change it manually
             var t=this, n=t._nodes=[], u=linb.UI, f=function(c){n.push(c.get(0))};
-            
+
             f(
             (new u.Button)
             .host(t,"button10")
             .setDock("top")
             .setCaption("dock top")
             );
-            
+
             f(
             (new u.Button)
             .host(t,"button11")
@@ -22,7 +22,7 @@ Class('App', 'linb.Com',{
             .setDock("top")
             .setDockOrder("2")
             );
-            
+
             f(
             (new u.Button)
             .host(t,"button30")
@@ -32,7 +32,7 @@ Class('App', 'linb.Com',{
             .setIcon("img/demo.gif")
             .setWidth(180)
             );
-            
+
             f(
             (new u.Button)
             .host(t,"button12")
@@ -40,7 +40,7 @@ Class('App', 'linb.Com',{
             .setDock("left")
             .setWidth(70)
             );
-            
+
             f(
             (new u.Button)
             .host(t,"button20")
@@ -52,7 +52,7 @@ Class('App', 'linb.Com',{
             .setWidth(180)
             .onToggle("_button28_ontoggle")
             );
-            
+
             f(
             (new u.Button)
             .host(t,"button13")
@@ -60,14 +60,14 @@ Class('App', 'linb.Com',{
             .setDock("right")
             .setWidth(80)
             );
-            
+
             f(
             (new u.Button)
             .host(t,"button14")
             .setCaption("dock bottom")
             .setDock("bottom")
             );
-            
+
             f(
             (new u.Button)
             .host(t,"button15")
@@ -79,7 +79,7 @@ Class('App', 'linb.Com',{
             .setDock("middle")
             .setVAlign("middle")
             );
-            
+
             f(
             (new u.Button)
             .host(t,"button18")
@@ -92,7 +92,7 @@ Class('App', 'linb.Com',{
             .setDock("center")
             .beforeClickEffect("_button18_beforeclickeffect")
             );
-            
+
             f(
             (new u.Button)
             .host(t,"button20")
@@ -103,7 +103,7 @@ Class('App', 'linb.Com',{
             .setHeight(30)
             .setBorder(true)
             );
-            
+
             f(
             (new u.Button)
             .host(t,"button21")
@@ -115,7 +115,7 @@ Class('App', 'linb.Com',{
             .setBorder(true)
             .setResizable(true)
             );
-            
+
             f(
             (new u.Button)
             .host(t,"button22")
@@ -125,7 +125,7 @@ Class('App', 'linb.Com',{
             .setWidth(270)
             .setCaption("appearance : link")
             );
-            
+
             f(
             (new u.Button)
             .host(t,"button23")
@@ -135,7 +135,7 @@ Class('App', 'linb.Com',{
             .setWidth(270)
             .setCaption("appearance : block")
             );
-            
+
             f(
             (new u.Button)
             .host(t,"button24")
@@ -146,7 +146,7 @@ Class('App', 'linb.Com',{
             .setCaption("behavior : dblclick")
             .onClick("_button24_onclick")
             );
-            
+
             f(
             (new u.Button)
             .host(t,"button25")
@@ -156,7 +156,7 @@ Class('App', 'linb.Com',{
             .setCaption("behavior : default")
             .onClick("_button25_onclick")
             );
-            
+
             f(
             (new u.Button)
             .host(t,"button22")
@@ -167,7 +167,7 @@ Class('App', 'linb.Com',{
             .setHeight(70)
             .setHAlign("left")
             );
-            
+
             f(
             (new u.Button)
             .host(t,"button28")
@@ -178,7 +178,7 @@ Class('App', 'linb.Com',{
             .setWidth(180)
             .onToggle("_button28_ontoggle")
             );
-            
+
             f(
             (new u.Button)
             .host(t,"button29")
@@ -190,7 +190,7 @@ Class('App', 'linb.Com',{
             .setShadow(true)
             .setResizable(true)
             );
-            
+
             f(
             (new u.Div)
             .host(t,"div25")
@@ -200,7 +200,7 @@ Class('App', 'linb.Com',{
             .setHeight(20)
             .setHtml("<font color=red>Change browser size to see button's new position</font>")
             );
-            
+
             return n;
             // ]]code created by designer
         },
