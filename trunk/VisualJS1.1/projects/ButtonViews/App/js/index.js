@@ -5,50 +5,10 @@ Class('App', 'linb.Com',{
         base:["linb.UI"],
         //requried class for the App
         //"linb.UI.Tips","linb.UI.Resizer","linb.UI.Edge","linb.UI.Shadow"
-        required:["linb.UI.ButtonViews","linb.UI.Block"],
+        required:["linb.UI.ButtonViews","linb.UI.Block","linb.UI.ColLayout"],
         iniComponents:function(){
             // [[code created by designer, don't change it manually
             var t=this, n=t._nodes=[], u=linb.UI, f=function(c){n.push(c.get(0))};
-            
-            f(
-            (new u.Block)
-            .host(t,"block5")
-            .setLeft(410)
-            .setTop(20)
-            .setWidth(170)
-            .setHeight(152)
-            .setBorder(true)
-            .setResizable(true)
-            );
-            
-            t.block5.attach(
-            (new u.ButtonViews)
-            .host(t,"buttonviews7")
-            .setLeft(0)
-            .setTop(0)
-            .setItems([{"id":"a","caption":"itema","tips":"item a"},{"id":"b","caption":"itemb","tips":"item b"},{"id":"c","caption":"itemc","tips":"item c"}])
-            .setHandleDock("left")
-            );
-            
-            f(
-            (new u.Block)
-            .host(t,"block2")
-            .setLeft(220)
-            .setTop(20)
-            .setWidth(170)
-            .setHeight(152)
-            .setBorder(true)
-            .setResizable(true)
-            );
-            
-            t.block2.attach(
-            (new u.ButtonViews)
-            .host(t,"buttonviews4")
-            .setLeft(0)
-            .setTop(0)
-            .setItems([{"id":"a","caption":"itema","tips":"item a"},{"id":"b","caption":"itemb","tips":"item b"},{"id":"c","caption":"itemc","tips":"item c"}])
-            .setHandleHAlign("right")
-            );
             
             f(
             (new u.Block)
@@ -69,6 +29,26 @@ Class('App', 'linb.Com',{
             .setItems([{"id":"a","caption":"itema","tips":"item a"},{"id":"b","caption":"itemb","tips":"item b"},{"id":"c","caption":"itemc","tips":"item c"}])
             .setHandleDock("left")
             .setHandleVAlign("bottom")
+            );
+            
+            f(
+            (new u.Block)
+            .host(t,"block2")
+            .setLeft(220)
+            .setTop(20)
+            .setWidth(170)
+            .setHeight(152)
+            .setBorder(true)
+            .setResizable(true)
+            );
+            
+            t.block2.attach(
+            (new u.ButtonViews)
+            .host(t,"buttonviews4")
+            .setLeft(0)
+            .setTop(0)
+            .setItems([{"id":"a","caption":"itema","tips":"item a"},{"id":"b","caption":"itemb","tips":"item b"},{"id":"c","caption":"itemc","tips":"item c"}])
+            .setHandleHAlign("right")
             );
             
             f(
@@ -170,6 +150,34 @@ Class('App', 'linb.Com',{
             .setItems([{"id":"a","caption":"itema","tips":"item a"},{"id":"b","caption":"itemb","tips":"item b"},{"id":"c","caption":"itemc","tips":"item c"}])
             .setHandleDock("bottom")
             .setHandleHAlign("right")
+            );
+            
+            f(
+            (new u.Block)
+            .host(t,"block5")
+            .setLeft(410)
+            .setTop(20)
+            .setWidth(170)
+            .setHeight(152)
+            .setBorder(true)
+            .setResizable(true)
+            );
+            
+            t.block5.attach(
+            (new u.ButtonViews)
+            .host(t,"buttonviews7")
+            .setLeft(0)
+            .setTop(0)
+            .setItems([{"id":"a","caption":"itema","tips":"item a"},{"id":"b","caption":"itemb","tips":"item b"},{"id":"c","caption":"itemc","tips":"item c"}])
+            .setHandleDock("left")
+            );
+            
+            f(
+            (new u.ColLayout)
+            .host(t,"collayout2")
+            .setLeft(0)
+            .setTop(0)
+            .setItems([{"id":"1","width":"30.3%"},{"id":"2","width":"30.3%"},{"id":"2","width":"39.2%"}])
             );
             
             return n;
