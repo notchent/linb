@@ -18,16 +18,10 @@ Class('App', 'linb.Com',{
             );
             
             f(
-            (new u.ToolBar)
-            .host(t,"toolbar7")
-            .setItems([{"id":"toolSection1","sub":[{"id":"toolNewMail","caption":"New Mail","tips":"New Mail Message","icon":"img/demo.gif"}]},{"id":"toolSection2","sub":[{"id":"toolPrint","tips":"print","icon":"img/demo.gif"},{"id":"toolMove","tips":"Move to folder","icon":"img/demo.gif"},{"id":"toolDelete","tips":"Delete","icon":"img/demo.gif"}]}])
-            .setDockOrder("3")
-            );
-            
-            f(
             (new u.MenuBar)
             .host(t,"menubar2")
-            .setItems([{"id":"menFile","caption":"File","tips":"File","sub":[{"id":"menFileNew","caption":"New","sub":[{"id":"menFileNewMailMessage","caption":"Main Message","icon":"img/demo.gif"},{"id":"menFileNewAppointment","caption":"Appointment","icon":"img/demo.gif"}]},{"id":"menFileOpen","caption":"Open"},{"id":"menFileOpen","caption":"Open"},{"id":"menFileDataFile","caption":"Data File Management..."},{"id":"menFileClose","caption":"Close All Items"},{"id":"menFileExport","caption":"Export and import"},{"id":"menFileWorkOffline","caption":"Work Offline"},{"id":"menFileExit","caption":"Exit"}]},{"id":"menEdit","caption":"Edit"},{"id":"menView","caption":"View"}])
+            .setItems([{"id":"menFile","caption":"File","tips":"File","sub":[{"id":"menFileNew","caption":"New","sub":[{"id":"menFileNewMailMessage","caption":"Main Message","icon":"img/demo.gif"},{"id":"menFileNewAppointment","caption":"Appointment","icon":"img/demo.gif"}]},{"id":"menFileOpen","caption":"Open"},{"id":"menFileOpen","caption":"Open"},{"id":"menFileDataFile","caption":"Data File Management..."},{"id":"menFileClose","caption":"Close All Items"},{"id":"menFileExport","caption":"Export and import"},{"id":"menFileWorkOffline","caption":"Work Offline"},{"id":"menPrint","caption":"Print ...","icon":"img/print.gif"},{"id":"menFileExit","caption":"Exit"}]},{"id":"menEdit","caption":"Edit","sub":[{"id":"idNotImplented","caption":"Not Implemented"}]},{"id":"menView","caption":"View","sub":[{"id":"idNotImplented","caption":"Not Implemented"}]}])
+            .setHandler(false)
             );
             
             f(
@@ -38,114 +32,6 @@ Class('App', 'linb.Com',{
             .setItems([{"id":"before","pos":"before","locked":false,"size":200,"min":50,"max":200,"hide":false,"cmd":true},{"id":"main","min":10}])
             .setType("horizontal")
             );
-            
-            t.layout4.attach(
-            (new u.Panel)
-            .host(t,"panel13")
-            .setDock("top")
-            .setHeight(30)
-            , 'main');
-            
-            t.panel13.attach(
-            (new u.Input)
-            .host(t,"input6")
-            .setLeft(310)
-            .setTop(8)
-            );
-            
-            t.panel13.attach(
-            (new u.Label)
-            .host(t,"label4")
-            .setLeft(10)
-            .setTop(10)
-            .setCaption("<b>Look for:</b>")
-            );
-            
-            t.panel13.attach(
-            (new u.Button)
-            .host(t,"button11")
-            .setLeft(450)
-            .setTop(7)
-            .setWidth(50)
-            .setCaption("option")
-            .onClick("_button11_onclick")
-            );
-            
-            t.panel13.attach(
-            (new u.Label)
-            .host(t,"button11")
-            .setLeft(230)
-            .setTop(10)
-            .setCaption("<b>Search in:</b>")
-            .setWidth(70)
-            );
-            
-            t.panel13.attach(
-            (new u.ComboInput)
-            .host(t,"comboinput14")
-            .setLeft(80)
-            .setTop(8)
-            .setItems([{"id":"a","caption":"itema","tips":"item a","sub":[{"id":"aa","caption":"suba"},{"id":"ab","caption":"subb"}]},{"id":"b","caption":"itemb","tips":"item b"},{"id":"c","caption":"itemc","tips":"item c"}])
-            );
-            
-            t.layout4.attach(
-            (new u.PanelBar)
-            .host(t,"pnlNote")
-            .setLeft(230)
-            .setTop(140)
-            .setZIndex("2")
-            .setCaption("Note Panel")
-            , 'main');
-            
-            t.pnlNote.attach(
-            (new u.Gallery)
-            .host(t,"gallery5")
-            .setDock("fill")
-            .setLeft(210)
-            .setTop(130)
-            .setItems([{"id":"a","caption":"Meeting..","tips":"Meeting with Mr. Lincon","icon":"img/notice.gif"},{"id":"b","caption":"1:1 talk","tips":"1:1 talk with Mr. Terry","icon":"img/notice.gif"},{"id":"c","caption":"Interview","tips":"Interview with BCC","icon":"img/notice.gif"}])
-            .setItemWidth("64")
-            .setItemHeight("64")
-            .setIconWidth("48")
-            .setIconHeight("48")
-            );
-            
-            t.layout4.attach(
-            (new u.PanelBar)
-            .host(t,"pnlEmail")
-            .setLeft(110)
-            .setTop(120)
-            .setZIndex(1)
-            .setCaption("Emails")
-            , 'main');
-            
-            t.pnlEmail.attach(
-            (new u.Layout)
-            .host(t,"layout5")
-            .setLeft(0)
-            .setTop(0)
-            .setItems([{"id":"before","pos":"before","locked":false,"size":200,"min":50,"max":200,"hide":false,"cmd":true},{"id":"main","min":10}])
-            );
-            
-            t.layout5.attach(
-            (new u.TreeGrid)
-            .host(t,"treegrid2")
-            .setHeader([{"id":"col1","caption":"From","type":"input","width":80},{"id":"col2","caption":"Subject","type":"input","width":340},{"id":"col3","caption":"Received","type":"input","width":80},{"id":"col4","caption":"size","type":"input","width":80}])
-            .setRows([])
-            .setEditable(false)
-            .afterRowActive("_treegrid2_afterrowactive")
-            , 'before');
-            
-            t.layout5.attach(
-            (new u.Block)
-            .host(t,"block2")
-            .setDock("fill")
-            .setDockMargin({"left":10,"top":10,"right":10,"bottom":10})
-            .setLeft(160)
-            .setTop(100)
-            .setShadow(true)
-            .setBorder(true)
-            , 'main');
             
             t.layout4.attach(
             (new u.ButtonViews)
@@ -202,6 +88,114 @@ Class('App', 'linb.Com',{
             .setTop(20)
             .setItems([{"id":"a","caption":"Show note icons","tips":"Show note icons"},{"id":"b","caption":"Notes List","tips":"Show notes within a list"},{"id":"c","caption":"Other","tips":"Other"}])
             );
+            
+            t.layout4.attach(
+            (new u.PanelBar)
+            .host(t,"pnlNote")
+            .setLeft(230)
+            .setTop(140)
+            .setZIndex("2")
+            .setCaption("Note Panel")
+            , 'main');
+            
+            t.pnlNote.attach(
+            (new u.Gallery)
+            .host(t,"gallery5")
+            .setDock("fill")
+            .setLeft(210)
+            .setTop(130)
+            .setItems([{"id":"a","caption":"Meeting..","tips":"Meeting with Mr. Lincon","icon":"img/notice.gif"},{"id":"b","caption":"1:1 talk","tips":"1:1 talk with Mr. Terry","icon":"img/notice.gif"},{"id":"c","caption":"Interview","tips":"Interview with BCC","icon":"img/notice.gif"}])
+            .setItemWidth("64")
+            .setItemHeight("64")
+            .setIconWidth("48")
+            .setIconHeight("48")
+            );
+            
+            t.layout4.attach(
+            (new u.Panel)
+            .host(t,"panel13")
+            .setDock("top")
+            .setHeight(30)
+            , 'main');
+            
+            t.panel13.attach(
+            (new u.Input)
+            .host(t,"input6")
+            .setLeft(310)
+            .setTop(8)
+            );
+            
+            t.panel13.attach(
+            (new u.ComboInput)
+            .host(t,"comboinput14")
+            .setLeft(80)
+            .setTop(8)
+            .setItems([{"id":"a","caption":"itema","tips":"item a","sub":[{"id":"aa","caption":"suba"},{"id":"ab","caption":"subb"}]},{"id":"b","caption":"itemb","tips":"item b"},{"id":"c","caption":"itemc","tips":"item c"}])
+            );
+            
+            t.panel13.attach(
+            (new u.Button)
+            .host(t,"button11")
+            .setLeft(450)
+            .setTop(7)
+            .setWidth(50)
+            .setCaption("option")
+            .onClick("_button11_onclick")
+            );
+            
+            t.panel13.attach(
+            (new u.Label)
+            .host(t,"label4")
+            .setLeft(10)
+            .setTop(10)
+            .setCaption("<b>Look for:</b>")
+            );
+            
+            t.panel13.attach(
+            (new u.Label)
+            .host(t,"button11")
+            .setLeft(230)
+            .setTop(10)
+            .setCaption("<b>Search in:</b>")
+            .setWidth(70)
+            );
+            
+            t.layout4.attach(
+            (new u.PanelBar)
+            .host(t,"pnlEmail")
+            .setLeft(110)
+            .setTop(120)
+            .setZIndex(1)
+            .setCaption("Emails")
+            , 'main');
+            
+            t.pnlEmail.attach(
+            (new u.Layout)
+            .host(t,"layout5")
+            .setLeft(0)
+            .setTop(0)
+            .setItems([{"id":"before","pos":"before","locked":false,"size":200,"min":50,"max":200,"hide":false,"cmd":true},{"id":"main","min":10}])
+            );
+            
+            t.layout5.attach(
+            (new u.TreeGrid)
+            .host(t,"treegrid2")
+            .setHeader([{"id":"col1","caption":"From","type":"input","width":80},{"id":"col2","caption":"Subject","type":"input","width":340},{"id":"col3","caption":"Received","type":"input","width":80},{"id":"col4","caption":"size","type":"input","width":80}])
+            .setRows([])
+            .setEditable(false)
+            .afterRowActive("_treegrid2_afterrowactive")
+            , 'before');
+            
+            t.layout5.attach(
+            (new u.Block)
+            .host(t,"block2")
+            .setDock("fill")
+            .setDockMargin({"left":10,"top":10,"right":10,"bottom":10})
+            .setLeft(160)
+            .setTop(100)
+            .setShadow(true)
+            .setBorder(true)
+            , 'main');
             
             t.layout4.attach(
             (new u.PanelBar)
@@ -335,6 +329,14 @@ Class('App', 'linb.Com',{
             .onDrop("_panel16_ondrop")
             );
             
+            f(
+            (new u.ToolBar)
+            .host(t,"toolbar7")
+            .setItems([{"id":"toolSection1","sub":[{"id":"toolNewMail","caption":"New Mail","tips":"New Mail Message","icon":"img/new.gif"}]},{"id":"toolSection2","sub":[{"id":"toolPrint","tips":"print","icon":"img/print.gif"},{"id":"toolMove","tips":"Move to folder","icon":"img/move.gif"},{"id":"toolDelete","tips":"Delete","icon":"img/delete.gif"}]},{"id":"toolSection3","sub":[{"id":"toolReply","tips":"reply","caption":"Reply","icon":"img/reply.gif"},{"id":"toolReplyAll","tips":"Reply to all","caption":"Reply to All","icon":"img/replyall.gif"},{"id":"toolForward","tips":"Forward","caption":"Forward","icon":"img/forward.gif"},{"id":"toolRendReceive","tips":"Rend / Receive","caption":"Rend/Receive","icon":"img/sendreceive.gif"}]}])
+            .setDockOrder("3")
+            .onClick("_toolbar7_onclick")
+            );
+            
             return n;
             // ]]code created by designer
         },
@@ -343,7 +345,7 @@ Class('App', 'linb.Com',{
         },
         _onReady:function(page, threadid){
             SPA=page;
-            
+
         },
         _treebar5_onitemselected:function (profile, item, src) {
             this.pnlEmail.setCaption("Emails in " + item.caption);
@@ -358,7 +360,7 @@ Class('App', 'linb.Com',{
         },
         _ajax1_onrequestok:function (response, rspType, threadId) {
             var obj = _.unserialize(response);
-            
+
             SPA.treegrid2.setHeader(obj.header).setRows(obj.rows);
         },
         _treegrid2_afterrowactive:function (profile, row) {
@@ -389,6 +391,12 @@ Class('App', 'linb.Com',{
             var para = source.getPanelPara(data.domId), children = source.getPanelChildren(data.domId);
             source.removePanel(data.domId);
             target.addPanel(para, children, item);
+        },
+        _toolbar7_onclick:function (profile, id, groupid, src) {
+            if(id == "toolNewMail"){
+                this.popmenu5.pop(profile.root);
+                this.popmenu5.$target = profile;    
+            }
         }
     }
 });
