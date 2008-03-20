@@ -1,0 +1,17 @@
+>>>>>>>>>>>>>>>>>>>Instance Methods<<<<<<<<<<<<<<<
+
+
+---------------------------------------
+getReadonly(value)
+To determine whether editor is read-only or not.
+returns: boolean. True for read only, false for editable.
+---------------------------------------
+setReadonly(value)
+To set editor read-only or not.
+value: boolean. True for read only, false for editable.
+---------------------------------------
+setValue(value)
+To set content. Sample -
+setValue("//tab:  4 space\n//enter: add header spaces\n//{+enter: add 4 more spaces\n//}:minus 4 spaces\n\nvar function(){\n    var a=2;\n}")
+
+content: string. Content string.

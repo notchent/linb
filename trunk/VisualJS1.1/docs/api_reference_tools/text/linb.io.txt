@@ -1,0 +1,59 @@
+>>>>>>>>>>>>>>>>>>>Static Methods<<<<<<<<<<<<<<<
+
+
+---------------------------------------
+background ( arr, callback, onStart, onEnd, threadid )
+To get ajax multi results one by one on the background
+---------------------------------------
+buildQS ( h )
+To build query string. For example. Result of {param1:value1,param2:value2} would be param1=value1&param2=value2. 
+h: Object.
+returns: String. Query string built.
+---------------------------------------
+createif ( doc, content, id, src, onLoad )
+To create iframe.
+doc: Dom node. Parent document node.
+content: String. Content if iframe.
+id: String. Id of iframe to be created.
+src: String. Src of iframe to be created.
+onLoad: Function. Event handler for iframe when it is loaded. 
+---------------------------------------
+crossDomain ( uri )
+To determine whether request to uri is a cross-domain request.
+returns: Boolean.
+---------------------------------------
+group ( group, callback, onStart, onEnd )
+To get multi ajax results once
+---------------------------------------
+response ( txt, r, i, l )
+
+>>>>>>>>>>>>>>>>>>>Static Properties<<<<<<<<<<<<<<<
+
+
+---------------------------------------
+callback
+
+---------------------------------------
+id
+
+---------------------------------------
+KEY
+
+---------------------------------------
+method
+Request method. Could be *Get*, *Post*. Default value is *Get*.
+---------------------------------------
+pool
+
+---------------------------------------
+randkey
+
+---------------------------------------
+retry
+How many times it is tried before failure. Default is 2.
+---------------------------------------
+rspType
+Respone type. Assume text.
+---------------------------------------
+timeout
+

@@ -1,0 +1,425 @@
+>>>>>>>>>>>>>>>>>>>Instance Methods<<<<<<<<<<<<<<<
+
+
+---------------------------------------
+absPos ( pos, target )
+
+---------------------------------------
+activate ( )
+
+---------------------------------------
+addClass ( str )
+Add a class to dom attribute..
+str: String. Class name.
+---------------------------------------
+addEvent ( name, fun, event_id, index, tagVar )
+
+---------------------------------------
+addEventHandler ( name, flag )
+To add event handler named name.
+name: String. Handler name.
+---------------------------------------
+addFirst ( target )
+To add a specific dom node as its first child.
+target: Dom node. Node to be added.
+---------------------------------------
+addLast ( target )
+To add a specific dom node as its last child.
+target: Dom node. Node to be added.
+---------------------------------------
+addNext ( target )
+To add a specific dom node as its next brother.
+target: Dom node. Node to be added.
+---------------------------------------
+addObserver ( name, event_id, index, fun, args, target )
+
+---------------------------------------
+addPre ( target )
+To add a specific dom node as its previous brother.
+target: Dom node. Node to be added.
+---------------------------------------
+attach ( target )
+To attach a specific dom node as its last child.
+target: Dom node. Node to be added.
+---------------------------------------
+attr ( key, value )
+To get or set attribute of dom. 
+Sample - 
+attr('width','0'): set width = 0
+attr('width'): get width
+attr('width',null): try to remove width
+attr({width:3,height:4})
+---------------------------------------
+background ( value )
+
+---------------------------------------
+backgroundColor ( value )
+
+---------------------------------------
+blur ( )
+
+---------------------------------------
+border ( value )
+
+---------------------------------------
+borderH ( )
+
+---------------------------------------
+borderW ( )
+
+---------------------------------------
+bottom ( value )
+
+---------------------------------------
+busy ( flag )
+To make DOM node in busy status.
+---------------------------------------
+canFocus ( )
+To determine whether this node call be focused on
+---------------------------------------
+checked ( value )
+
+---------------------------------------
+children ( )
+
+---------------------------------------
+className ( value )
+
+---------------------------------------
+clearEvent ( )
+
+---------------------------------------
+clearEventHandler ( )
+
+---------------------------------------
+clientHeight ( value )
+
+---------------------------------------
+clientWidth ( value )
+
+---------------------------------------
+clone ( flag )
+
+---------------------------------------
+color ( value )
+
+---------------------------------------
+cssPos ( pos, flag )
+
+---------------------------------------
+cssSize ( size, flag )
+
+---------------------------------------
+cursor ( value )
+
+---------------------------------------
+disabled ( value )
+
+---------------------------------------
+display ( value )
+
+---------------------------------------
+dragable ( flag, profile, key, data )
+
+---------------------------------------
+dropable ( flag, key )
+
+---------------------------------------
+edged ( properties, target, tieId )
+
+---------------------------------------
+empty ( flag )
+To make innerHTML empty.
+---------------------------------------
+enable ( value )
+
+---------------------------------------
+fireEvent ( name, args )
+
+---------------------------------------
+first ( index )
+
+---------------------------------------
+focus ( flag )
+
+---------------------------------------
+free ( )
+To make DOM node in free status.
+---------------------------------------
+fx ( args, onStart, onEnd, time, step, type, id )
+
+---------------------------------------
+gc ( )
+This function is for Garbage Collection in IE6
+---------------------------------------
+getEdge ( )
+
+---------------------------------------
+getEvent ( name, event_id )
+
+---------------------------------------
+getRegion ( flag, parent )
+To get a rectangle for DOM node.
+returns: Object. Sample -{left:0,top:0,width:100,height:100}
+---------------------------------------
+getResizer ( )
+
+---------------------------------------
+getShadow ( )
+
+---------------------------------------
+getStyle ( key, flag )
+
+---------------------------------------
+H ( node, index, value )
+
+---------------------------------------
+hasClass ( str )
+To determine whether there exists specfic class name dom attribute.
+str: Class name.
+returns: Boolean.
+---------------------------------------
+height ( value )
+
+---------------------------------------
+heightBy ( value, flag )
+
+---------------------------------------
+hide ( )
+
+---------------------------------------
+href ( value )
+
+---------------------------------------
+html ( str, flag )
+To set inner html.
+str: String. Inner html.
+---------------------------------------
+id ( value, flag )
+
+---------------------------------------
+ieTrigger ( flat )
+
+---------------------------------------
+inlineBlock ( flag )
+
+---------------------------------------
+isEdged ( )
+
+---------------------------------------
+isResizable ( )
+
+---------------------------------------
+isShadow ( )
+
+---------------------------------------
+last ( index )
+
+---------------------------------------
+left ( value )
+
+---------------------------------------
+leftBy ( value, flag )
+
+---------------------------------------
+marginH ( )
+
+---------------------------------------
+marginW ( )
+
+---------------------------------------
+name ( value )
+
+---------------------------------------
+next ( index )
+
+---------------------------------------
+nextFocus ( dir, inn, set )
+
+---------------------------------------
+nodeName ( value )
+
+---------------------------------------
+nodeType ( value )
+
+---------------------------------------
+offsetHeight ( value )
+
+---------------------------------------
+offsetLeft ( value )
+
+---------------------------------------
+offsetParent ( value )
+
+---------------------------------------
+offsetTop ( value )
+
+---------------------------------------
+offsetWidth ( value )
+
+---------------------------------------
+opacity ( value )
+
+---------------------------------------
+outerHTML ( str )
+To set outer html.
+str: String. Outer html.
+---------------------------------------
+overflow ( value )
+
+---------------------------------------
+paddingH ( )
+
+---------------------------------------
+paddingW ( )
+
+---------------------------------------
+parent ( index )
+
+---------------------------------------
+popToTop ( pos, parent, type )
+
+---------------------------------------
+position ( value )
+
+---------------------------------------
+pre ( index )
+
+---------------------------------------
+readonly ( value )
+
+---------------------------------------
+realHeight ( value )
+
+---------------------------------------
+realWidth ( value )
+
+---------------------------------------
+reClass ( reg, replace )
+To replace sub string in class name with another string.
+reg: Regular expression.
+replace: String. The string to replace with.
+---------------------------------------
+remove ( flag )
+To remove the node itself standing for.
+flag: Boolean. If set to true, more action will be taken to free memory.
+---------------------------------------
+removeClass ( str )
+To remove a class from dom attribute.
+str: String. Class name.
+---------------------------------------
+removeEvent ( name, event_id, flag )
+Sample.
+removeEvent('onClick','idforthisclick')
+removeEvent('onClick') will remove all onClick in linb.cache.dom.id.events.
+removeEvent('onClick',null,true) will remove all onClick/beforeClick/afterClick in linb.cache.dom.id.events.
+---------------------------------------
+removeEventHandler ( name )
+To remove event handler with specific name.
+name: String. Handler name.
+---------------------------------------
+removeObserver ( name, event_id )
+
+---------------------------------------
+replace ( target, flag )
+To replace a node itself standing for with a specific dom node.
+target: Dom node. Node to replace with.
+---------------------------------------
+resizable ( properties, target, onUpdate )
+
+---------------------------------------
+right ( value )
+
+---------------------------------------
+scrollHeight ( value )
+
+---------------------------------------
+scrollLeft ( value, flag )
+
+---------------------------------------
+scrollTop ( value, flag )
+
+---------------------------------------
+scrollWidth ( value )
+
+---------------------------------------
+setBlurTrigger ( id, trigger, group )
+
+---------------------------------------
+setPxStyle ( key, value )
+
+---------------------------------------
+setRegion ( hash, flag, force )
+To set a rectangle for DOM node.
+hash: Object. Sample -{left:0,top:0,width:100,height:100}
+---------------------------------------
+setStyle ( key, value )
+
+---------------------------------------
+shadow ( properties )
+
+---------------------------------------
+show ( left, top )
+
+---------------------------------------
+src ( value )
+
+---------------------------------------
+startDrag ( e, profile, key, data )
+
+---------------------------------------
+swap ( target )
+To swap a node itself standing for and a specific dom node.
+target: Dom node. Node to be swapped.
+---------------------------------------
+tabIndex ( value, flag )
+
+---------------------------------------
+tagName ( value )
+
+---------------------------------------
+text ( str )
+To set html text.
+str: String. Html text.
+---------------------------------------
+title ( value )
+
+---------------------------------------
+top ( value )
+
+---------------------------------------
+topBy ( value, flag )
+
+---------------------------------------
+topZindex ( flag )
+
+---------------------------------------
+UIAction ( fun )
+
+---------------------------------------
+unEdged ( )
+
+---------------------------------------
+unResizable ( )
+
+---------------------------------------
+unShadow ( )
+
+---------------------------------------
+value ( value )
+
+---------------------------------------
+visibility ( value )
+
+---------------------------------------
+W ( node, index, value )
+
+---------------------------------------
+width ( value )
+
+---------------------------------------
+widthBy ( value, flag )
+
+---------------------------------------
+zIndex ( value )
+

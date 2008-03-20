@@ -1,0 +1,61 @@
+---------------------------------------
+empty ( )
+To remove all the button views insides.
+
+---------------------------------------
+getHandleDock ( )
+Get handle dock place.
+returns: string. Dock place. Could be "top", "bottom", "left", "right".
+---------------------------------------
+getHandleHAlign ( )
+Determine how buttons are aligned horizentally in the handle.
+returns: string. Alignment type. Could be "left","right","center".
+
+---------------------------------------
+getHandleSize ( )
+To get vertical handle width or horizental handle height.
+returns: integer. Width or height.
+---------------------------------------
+getHandleVAlign ( )
+Determine how buttons are aligned vertically in the handle.
+returns: string. Alignment type. Could be "top","middle","bottom".
+
+---------------------------------------
+getIdBySubId (Id)
+Get parent id by its sub id.
+Id. String. Sub id.
+returns. String. Parent Id
+---------------------------------------
+getItemByDom ( )
+
+---------------------------------------
+getItemByItemId ( )
+
+---------------------------------------
+getSubSerialIdByItemId ( )
+
+---------------------------------------
+onItemSelected ( fun )
+
+---------------------------------------
+setCtrlValue ( value )
+
+---------------------------------------
+setHandleDock ( value, flag )
+Set handle dock place.
+value: string. Dock place. Could be "top", "bottom", "left", "right".
+
+---------------------------------------
+setHandleHAlign ( value, flag )
+Set how buttons are aligned horizentally in the handle.
+value: string. Alignment type. Could be "left","right","center".
+
+---------------------------------------
+setHandleSize ( value, flag )
+Set vertical handle width or horizental handle height.
+value. integer. Width or height.
+---------------------------------------
+setHandleVAlign ( value, flag )
+Set how buttons are aligned horizentally in the handle.
+value: string. Alignment type. Could be "top","middle","bottom".
+

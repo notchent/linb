@@ -1,0 +1,8 @@
+>>>>>>>>>>>>>>>>>>>Events<<<<<<<<<<<<<<<
+
+
+---------------------------------------
+afterCreated(profile)
+Fired after Label is created.
+profile:
+

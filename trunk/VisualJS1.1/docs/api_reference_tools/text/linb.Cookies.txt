@@ -1,0 +1,21 @@
+---------------------------------------
+get ( key )
+To get cookie value of specific key.
+key: String. Cookie key.
+return: String. Cookie value.
+---------------------------------------
+getURIParas ( str, key )
+To extract parameter value by parsing a give uri string.
+str: String. Uri string.
+key: String. Parameter key.
+---------------------------------------
+remove ( key )
+To move cookie with specific key.
+key: String. Cookie key.
+
+---------------------------------------
+set ( key, value, days )
+To add cookie with specific key and value.
+key: String. Cookie key.
+value: String. Cookie value.
+days. Number. After how many days cook will be expired.

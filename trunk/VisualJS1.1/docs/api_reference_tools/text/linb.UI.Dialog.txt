@@ -1,0 +1,283 @@
+>>>>>>>>>>>>>>>>>>>Direct Super Classes<<<<<<<<<<<<<<<
+
+
+---------------------------------------
+linb.UI.Dialog ( )
+
+---------------------------------------
+linb.UI.iContainer
+
+---------------------------------------
+linb.UI.Widget
+
+>>>>>>>>>>>>>>>>>>>Events<<<<<<<<<<<<<<<
+
+
+---------------------------------------
+afterCreated ( fun )
+Fired right after dialog is created.
+fun: function (profile)
+---------------------------------------
+afterRendered ( fun )
+
+---------------------------------------
+beforeClose ( fun )
+Fired before dialog is close.
+fun: function (profile)
+---------------------------------------
+beforeDestroy ( fun )
+
+---------------------------------------
+onDrop ( fun )
+
+---------------------------------------
+onDropMarkClear( fun )
+
+---------------------------------------
+onDropMarkShow ( fun )
+
+---------------------------------------
+onDropTest ( fun )
+
+---------------------------------------
+onHotKeydown ( fun )
+Fired when hot key(s) is down.
+fun: function(profile, key, control, shift, alt)
+profile:
+key: Key which is down
+control, shift, alt: boolean. Indicate whether ctrl/shift/alt key is down at the same time.
+
+---------------------------------------
+onHotKeypress ( fun )
+Fired when hot key(s) is pressed.
+fun: function(profile, key, control, shift, alt)
+profile:
+key: Key which is pressed.
+control, shift, alt: boolean. Indicate whether ctrl/shift/alt key is pressed at the same time.
+
+---------------------------------------
+onHotKeyup ( fun )
+Fired when hot key(s) is up.
+fun: function(profile, key, control, shift, alt)
+profile:
+key: Key which is up
+control, shift, alt: boolean. Indicate whether ctrl/shift/alt key is up at the same time.
+
+---------------------------------------
+onTriggerOption ( fun )
+
+>>>>>>>>>>>>>>>>>>>Instance Methods<<<<<<<<<<<<<<<
+
+
+---------------------------------------
+close ( )
+
+---------------------------------------
+empty ( )
+
+---------------------------------------
+getDropKeys ( )
+
+---------------------------------------
+getFromRegion ( )
+
+---------------------------------------
+getLandBtn ( )
+To determine whether dialog has a landing button.
+returns: boolean. true for yes, false for no.
+---------------------------------------
+getMaxBtn ( )
+To determine whether dialog has a max button.
+returns: boolean. true for yes, false for no.
+---------------------------------------
+getMinBtn ( )
+To determine whether dialog has a min button.
+returns: boolean. true for yes, false for no.
+---------------------------------------
+getMinHeight ( )
+
+---------------------------------------
+getMinWidth ( )
+
+---------------------------------------
+getMovable ( )
+
+---------------------------------------
+getOptBtn ( )
+
+---------------------------------------
+getPanelChildren ( )
+
+---------------------------------------
+getPanelPara ( )
+
+---------------------------------------
+getPinBtn ( )
+Determine whether dialog has a pin button.
+return - true for does, false for doesn't.
+---------------------------------------
+getResizable ( )
+Determine whether dialog is resizeble.
+return - true for is, false for isn't.
+---------------------------------------
+getShadow ( )
+Determine whether dialog has shadow.
+return - true for does, false for doesn't.
+---------------------------------------
+getStatus ( )
+Get dialog status.
+returns: string. Could be "min", "max". 
+---------------------------------------
+hide ( )
+Hide dialog but not destroy it.
+---------------------------------------
+html ( html )
+
+---------------------------------------
+removePanel ( )
+
+---------------------------------------
+setCloseBtn ( value, flag )
+To add or remove a close button for dialog.
+value: boolean. true for adding, false for removing.
+ 
+---------------------------------------
+setDropKeys ( value, flag )
+Set drop keys for dialog.
+value: string. drop keys.
+---------------------------------------
+setFromRegion ( value, flag )
+
+---------------------------------------
+setLandBtn ( value, flag )
+To add or remove a landing button for dialog.
+value: boolean. true for adding, false for removing.
+---------------------------------------
+setMaxBtn ( value, flag )
+To add or remove a max button for dialog.
+value: boolean. true for adding, false for removing.
+---------------------------------------
+setMinBtn ( value, flag )
+To add or remove a min button for dialog.
+value: boolean. true for adding, false for removing.
+---------------------------------------
+setMinHeight ( value, flag )
+Set dialog minimum height.
+value: integer. minimum height.
+---------------------------------------
+setMinWidth ( value, flag )
+Set dialog minimum width.
+value: integer. minimum width.
+---------------------------------------
+setMovable ( value, flag )
+Specify dialog is movable.
+value: true for movable, false for sticky
+---------------------------------------
+setOptBtn ( value, flag )
+To add or remove a option button for dialog.
+value: boolean. true for adding, false for removing.
+---------------------------------------
+setPinBtn ( value, flag )
+To add or remove a pin button for dialog.
+value: boolean. true for adding, false for removing.
+---------------------------------------
+setResizable ( value, flag )
+Specify dialog is resizable.
+value: true for resizable, false for fixed size
+---------------------------------------
+setShadow ( value, flag )
+To add or remove shadow for dialog.
+value: boolean. true for adding, false for removing.
+---------------------------------------
+setStatus ( value, flag )
+Set dialog status.
+value: string. Could be "min", "max". 
+---------------------------------------
+show ( parent, modal )
+To show dialog within parent on the page.
+parent: UI control. Within which dialog shows.
+modal: Boolean. true for modal dialog, false for modaless dialog.
+>>>>>>>>>>>>>>>>>>>Instance Properties<<<<<<<<<<<<<<<
+
+
+---------------------------------------
+KEY
+
+>>>>>>>>>>>>>>>>>>>Static Methods<<<<<<<<<<<<<<<
+
+
+---------------------------------------
+active ( profile )
+
+---------------------------------------
+alert ( caption, content, onOK )
+Pop up an alert box.
+caption: string. Caption of alert box.
+content: string. Alert message.
+onOK: function. Call back function which will be executed after OK button being clicked.
+---------------------------------------
+confirm ( caption, content, onYes, onNo )
+Pop up an confirmation box.
+caption: string. Caption of confirmation box.
+content: string. Confirmation message.
+onYes: function. Call back function which will be executed after Yes button being clicked.
+onNo: function. Call back function which will be executed after No button being clicked.
+---------------------------------------
+deActive ( profile )
+
+---------------------------------------
+max ( profile, ov )
+
+---------------------------------------
+min ( profile, ov )
+
+---------------------------------------
+modal ( profile )
+
+---------------------------------------
+pop ( caption, content )
+Pop up an box.
+caption: string. Caption of box.
+content: string. Body message.
+---------------------------------------
+prepareData ( profile )
+
+---------------------------------------
+prompt ( caption )
+
+---------------------------------------
+refreshRegion ( profile )
+
+---------------------------------------
+resize ( profile, w, h )
+
+---------------------------------------
+restore ( profile, ov )
+
+---------------------------------------
+unMax ( profile )
+
+---------------------------------------
+unMin ( profile )
+
+---------------------------------------
+unModal ( profile )
+
+>>>>>>>>>>>>>>>>>>>Static Properties<<<<<<<<<<<<<<<
+
+
+---------------------------------------
+active ( profile )
+
+---------------------------------------
+cssNone
+
+---------------------------------------
+hasDomRoot
+
+---------------------------------------
+KEY
+
+---------------------------------------
+subSerialIdTag
+

@@ -1,0 +1,18 @@
+>>>>>>>>>>>>>>>>>>>Instance Methods<<<<<<<<<<<<<<<
+
+
+---------------------------------------
+antiAllLinks ( )
+To remove all references.
+---------------------------------------
+antiLinks ( id )
+To remove reference with specific id.
+id: String. Id string of links.
+
+---------------------------------------
+links ( o, id, target, lid )
+To buid up reference between o and itself.
+o: Object. Object a link pointing to.
+id: String. Id string of link to o.
+target: Object. If not specified, default is itself.
+lid: String. Id string of link to self.

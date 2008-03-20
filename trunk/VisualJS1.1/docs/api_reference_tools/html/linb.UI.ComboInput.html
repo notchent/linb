@@ -1,0 +1,45 @@
+<html><head><link rel='stylesheet' type='text/css' href='style.css' /></head><body>
+<h1><img src='img/work.jpg' style='vertical-align: bottom;margin-right:4px;'>linb.UI.ComboInput</h1>
+<h2><span class='linb-custom-cmd'></span>Events</h2>
+<div class='linb-custom-block'>
+<p><span class='linb-custom-icon' style='background-position:left -32px;'></span>afterCreated ( fun )<br><br></p>
+<p><span class='linb-custom-icon' style='background-position:left -32px;'></span>afterValueSet ( fun )<br><br></p>
+<p><span class='linb-custom-icon' style='background-position:left -32px;'></span>afterValueUpdated ( fun )<br><br></p>
+<p><span class='linb-custom-icon' style='background-position:left -32px;'></span>beforeBlur ( fun )<br><br></p>
+<p><span class='linb-custom-icon' style='background-position:left -32px;'></span>beforeDirtyMark ( fun )<br><br></p>
+<p><span class='linb-custom-icon' style='background-position:left -32px;'></span>beforeFocus ( fun )<br><br></p>
+<p><span class='linb-custom-icon' style='background-position:left -32px;'></span>beforeFormatMark ( fun )<br><br></p>
+<p><span class='linb-custom-icon' style='background-position:left -32px;'></span>beforeNextFocus ( fun )<br><br></p>
+<p><span class='linb-custom-icon' style='background-position:left -32px;'></span>beforeValueSet ( fun )<br><br></p>
+<p><span class='linb-custom-icon' style='background-position:left -32px;'></span>beforeValueUpdated ( fun )<br><br></p>
+<p><span class='linb-custom-icon' style='background-position:left -32px;'></span>onClickButton ( fun )<br><br></p>
+<p><span class='linb-custom-icon' style='background-position:left -32px;'></span>onClickButton(profile, pos)<br>Fired if button is clicked.
+profile:
+pos:<br></p>
+<p><span class='linb-custom-icon' style='background-position:left -32px;'></span>onFormatCheck ( fun )<br><br></p>
+<p><span class='linb-custom-icon' style='background-position:left -32px;'></span>onGetShowValue(profile, value)<br>Fired before value being showed.
+profile:
+value: string. Value to be showed.
+should return: string. String for presentation.<br></p>
+<p><span class='linb-custom-icon' style='background-position:left -32px;'></span>onSave ( fun )<br><br></p>
+</div>
+<h2><span class='linb-custom-cmd'></span>Instance Methods</h2>
+<div class='linb-custom-block'>
+<p><span class='linb-custom-icon' style='background-position:left -48px;'></span>getFirstDayOfWeek ( )<br><br></p>
+<p><span class='linb-custom-icon' style='background-position:left -48px;'></span>getItems ( )<br>Set items from drop down list.
+returns: JSON array. example - [{"id":"1","caption":"1","tips":"item a"},{"id":"2","caption":"2","tips":"item b"}]<br></p>
+<p><span class='linb-custom-icon' style='background-position:left -48px;'></span>getListKey ( )<br><br></p>
+<p><span class='linb-custom-icon' style='background-position:left -48px;'></span>getSaveBtn ( )<br><br></p>
+<p><span class='linb-custom-icon' style='background-position:left -48px;'></span>getShowValue ( value )<br><br></p>
+<p><span class='linb-custom-icon' style='background-position:left -48px;'></span>getUploadObj ( )<br><br></p>
+<p><span class='linb-custom-icon' style='background-position:left -48px;'></span>refreshCache ( )<br><br></p>
+<p><span class='linb-custom-icon' style='background-position:left -48px;'></span>resetValue ( value )<br><br></p>
+<p><span class='linb-custom-icon' style='background-position:left -48px;'></span>setCtrlValue ( value, flag )<br><br></p>
+<p><span class='linb-custom-icon' style='background-position:left -48px;'></span>setItems ( value, flag )<br>Set item for drop down list.
+value: JSON array string. example - [{"id":"1","caption":"1"},{"id":"2","caption":"2"}]<br></p>
+<p><span class='linb-custom-icon' style='background-position:left -48px;'></span>setSaveBtn ( value, flag )<br><br></p>
+<p><span class='linb-custom-icon' style='background-position:left -48px;'></span>setType (type )<br>Set combo box type.
+type: string. Could be "cmdbox", "listbox", "popbox", "helpinput", "combobox", "getter", "setter".
+<br></p>
+</div>
+</body></html>

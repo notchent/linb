@@ -1,0 +1,9 @@
+>>>>>>>>>>>>>>>>>>>Constructor<<<<<<<<<<<<<<<
+
+
+---------------------------------------
+
+linb.iajax supports get, post, get(cross domain), and supports post(corss domain), posting file in some browsers, doesn't support returning big data(corss domain).
+---------------------------------------
+linb.iajax ( uri, queryString, onSuccess, onFail, threadid, args )
+

@@ -1,0 +1,190 @@
+<html><head><link rel='stylesheet' type='text/css' href='style.css' /></head><body>
+<h1><img src='img/work.jpg' style='vertical-align: bottom;margin-right:4px;'>linb.UI.TreeGrid</h1>
+<h2><span class='linb-custom-cmd'></span>Events</h2>
+<div class='linb-custom-block'>
+<p><span class='linb-custom-icon' style='background-position:left -32px;'></span>afterCellActive (profile, cell)<br><br></p>
+<p><span class='linb-custom-icon' style='background-position:left -32px;'></span>afterColumnMoved ( profile, fromId, toId )<br>Fired after column is moved.
+profile:
+fromId: string. Id of column being dragged.
+toId: string. Id of row on which column is dropped on.<br></p>
+<p><span class='linb-custom-icon' style='background-position:left -32px;'></span>afterColumnSort (profile, id, order)<br>Fired before grid rows are sorted by one column.
+profile:
+id: string. Column id.
+order: string. Could be "asc" or "desc".<br></p>
+<p><span class='linb-custom-icon' style='background-position:left -32px;'></span>afterCreated ( fun )<br><br></p>
+<p><span class='linb-custom-icon' style='background-position:left -32px;'></span>afterRendered ( fun )<br><br></p>
+<p><span class='linb-custom-icon' style='background-position:left -32px;'></span>afterRowActive (profile, row)<br><br></p>
+<p><span class='linb-custom-icon' style='background-position:left -32px;'></span>afterRowMoved ( profile, fromId, toId )<br>Fired after row is moved.
+profile:
+fromId: string. Id of row being dragged.
+toId: string. Id of row on which row is dropped on.<br></p>
+<p><span class='linb-custom-icon' style='background-position:left -32px;'></span>afterValueSet ( fun )<br><br></p>
+<p><span class='linb-custom-icon' style='background-position:left -32px;'></span>afterValueUpdated ( fun )<br><br></p>
+<p><span class='linb-custom-icon' style='background-position:left -32px;'></span>beforeCellActive ( fun )<br><br></p>
+<p><span class='linb-custom-icon' style='background-position:left -32px;'></span>beforeClickEffect ( fun )<br><br></p>
+<p><span class='linb-custom-icon' style='background-position:left -32px;'></span>beforeColumnDrag ( profile, id )<br>Fired before column is drag.
+profile:
+id: string. Row id.<br></p>
+<p><span class='linb-custom-icon' style='background-position:left -32px;'></span>beforeColumnMoved ( profile, fromId, toId )<br>Fired before column is moved.
+profile:
+fromId: string. Id of column being dragged.
+toId: string. Id of row on which column is dropped on.
+<br></p>
+<p><span class='linb-custom-icon' style='background-position:left -32px;'></span>beforeColumnSort (profile, id, order)<br>Fired before grid rows are sorted by one column.
+profile:
+id: string. Column id.
+order: string. Could be "asc" or "desc".
+<br></p>
+<p><span class='linb-custom-icon' style='background-position:left -32px;'></span>beforeDestroy ( fun )<br><br></p>
+<p><span class='linb-custom-icon' style='background-position:left -32px;'></span>beforeHoverEffect ( fun )<br><br></p>
+<p><span class='linb-custom-icon' style='background-position:left -32px;'></span>beforeNextFocus ( fun )<br><br></p>
+<p><span class='linb-custom-icon' style='background-position:left -32px;'></span>beforeRowActive ( fun )<br><br></p>
+<p><span class='linb-custom-icon' style='background-position:left -32px;'></span>beforeRowDrag (profile,id)<br>Fired before row is drag.
+profile:
+id: string. Row id.
+<br></p>
+<p><span class='linb-custom-icon' style='background-position:left -32px;'></span>beforeRowMoved ( profile, fromId, toId))<br>Fired before row is moved.
+profile:
+fromId: string. Id of row being dragged.
+toId: string. Id of row on which row is dropped on.
+<br></p>
+<p><span class='linb-custom-icon' style='background-position:left -32px;'></span>beforeValueSet ( fun )<br><br></p>
+<p><span class='linb-custom-icon' style='background-position:left -32px;'></span>beforeValueUpdated ( fun )<br><br></p>
+<p><span class='linb-custom-icon' style='background-position:left -32px;'></span>onDblClickRow (profile, row,e,src)<br><br></p>
+<p><span class='linb-custom-icon' style='background-position:left -32px;'></span>onHotKeydown ( fun )<br><br></p>
+<p><span class='linb-custom-icon' style='background-position:left -32px;'></span>onHotKeypress ( fun )<br><br></p>
+<p><span class='linb-custom-icon' style='background-position:left -32px;'></span>onHotKeyup ( fun )<br><br></p>
+<p><span class='linb-custom-icon' style='background-position:left -32px;'></span>onRequestData (profile, id, threadid)<br><br></p>
+</div>
+<h2><span class='linb-custom-cmd'></span>Instance Methods</h2>
+<div class='linb-custom-block'>
+<p><span class='linb-custom-icon' style='background-position:left -48px;'></span>getActiveMode ( )<br>Determine grid active mode. 
+returns: string. Active mode. Could be "row", "cell".<br></p>
+<p><span class='linb-custom-icon' style='background-position:left -48px;'></span>getAltRowsBg ( )<br><br></p>
+<p><span class='linb-custom-icon' style='background-position:left -48px;'></span>getCellDfWidth ( )<br>Get cell default width.
+returns: integer. Cell width.<br></p>
+<p><span class='linb-custom-icon' style='background-position:left -48px;'></span>getColDragable ( )<br>Determine whether end user could change column order by dragging column header.
+returns: boolean. True for could, false for couldn't.<br></p>
+<p><span class='linb-custom-icon' style='background-position:left -48px;'></span>getColDragKey ( )<br>Get column dragging key.
+returns: string. column dragging key.<br></p>
+<p><span class='linb-custom-icon' style='background-position:left -48px;'></span>getColResizer ( )<br>Determine whether end user could change column width by dragging column header edge.
+returns: boolean. True for could, false for couldn't.<br></p>
+<p><span class='linb-custom-icon' style='background-position:left -48px;'></span>getColSortable ( )<br>Determine whether end user could sort rows by clicking column header.
+returns: boolean. True for could, false for couldn't.<br></p>
+<p><span class='linb-custom-icon' style='background-position:left -48px;'></span>getEditable ( )<br>Determine whether end user could edit grid.
+returns: boolean. True for could, false for couldn't.<br></p>
+<p><span class='linb-custom-icon' style='background-position:left -48px;'></span>getHeader ( )<br>To specify what and how grid header is consist of. See setHeader() for more.
+returns: object. Object which describes what and how grid header is consist of.<br></p>
+<p><span class='linb-custom-icon' style='background-position:left -48px;'></span>getHeaderHeight ( )<br>Get grid header height.
+returns: integer. Header height.
+<br></p>
+<p><span class='linb-custom-icon' style='background-position:left -48px;'></span>getIniFold ( )<br><br></p>
+<p><span class='linb-custom-icon' style='background-position:left -48px;'></span>getMinColW ( )<br>Get Column minimum width.
+returns: integer. Column minimum width.<br></p>
+<p><span class='linb-custom-icon' style='background-position:left -48px;'></span>getMinRowH ( )<br>Get row minimum height.
+returns: integer. Row minimum height.<br></p>
+<p><span class='linb-custom-icon' style='background-position:left -48px;'></span>getRowDragable ( )<br>Determine whether end user could drag row.
+returns: boolean. True for could, false for couldn't.<br></p>
+<p><span class='linb-custom-icon' style='background-position:left -48px;'></span>getRowDragKey ( )<br>Get row dragging key.
+returns: string. Row dragging key.<br></p>
+<p><span class='linb-custom-icon' style='background-position:left -48px;'></span>getRowDragToAny ( )<br>Determine whether end user could drag row to other ui control.
+returns: boolean. True for could, false for couldn't.<br></p>
+<p><span class='linb-custom-icon' style='background-position:left -48px;'></span>getRowHandler ( )<br>Determine whether row handler is visible or not.
+returns: boolean. True for visible, false for invisible.<br></p>
+<p><span class='linb-custom-icon' style='background-position:left -48px;'></span>getRowHandlerWidth ( )<br>Get row handler width.
+returns: integer. Row handler width.<br></p>
+<p><span class='linb-custom-icon' style='background-position:left -48px;'></span>getRowHeight ( )<br>Get Row height.
+returns: integer. Row height.<br></p>
+<p><span class='linb-custom-icon' style='background-position:left -48px;'></span>getRowResizer ( )<br>Determine whether end user could change row height by dragging row handler edge.
+returns: boolean. True for could, false for couldn't.<br></p>
+<p><span class='linb-custom-icon' style='background-position:left -48px;'></span>getRows ( )<br>Get rows object. See setRows() for more.
+returns. object. Object which describe how rows are consist of.<br></p>
+<p><span class='linb-custom-icon' style='background-position:left -48px;'></span>insertRows ( arr, pid, base, before )<br>Insert rows into grid. Sample - insertRows([{id:'11',cells:['newrow1', '']},{id:'12',cells:['newrow2', '']}],'5', '6', true)
+arr: row array. 
+pid: string. Parent row id.
+base: string. Id of the row before or after which new rows are inserted.
+before: boolean. True for before base, false for after base.<br></p>
+<p><span class='linb-custom-icon' style='background-position:left -48px;'></span>openRow ( id, flag )<br>To expand a row which has children. Nothing to be done with childless row.
+id: string. Row id.
+<br></p>
+<p><span class='linb-custom-icon' style='background-position:left -48px;'></span>openRows ( rows, flag )<br><br></p>
+<p><span class='linb-custom-icon' style='background-position:left -48px;'></span>refreshHeader ( header )<br><br></p>
+<p><span class='linb-custom-icon' style='background-position:left -48px;'></span>removeAllRows ( )<br>Remove all rows inside grid and make grid empty.<br></p>
+<p><span class='linb-custom-icon' style='background-position:left -48px;'></span>removeRows ( ids )<br>Remove rows. Sample - removeRows(['2','5'])
+ids: string array. Id array of rows to be removed.
+<br></p>
+<p><span class='linb-custom-icon' style='background-position:left -48px;'></span>resetContent ( )<br><br></p>
+<p><span class='linb-custom-icon' style='background-position:left -48px;'></span>scrollTo ( pos )<br>Move vertical scroll bar to a specific position.
+pos: integer. Scroll bar position.<br></p>
+<p><span class='linb-custom-icon' style='background-position:left -48px;'></span>setActiveMode ( value, flag )<br>Set active mode. 
+value: string. Active mode. Could be "row", "cell".<br></p>
+<p><span class='linb-custom-icon' style='background-position:left -48px;'></span>setAltRowsBg ( value, flag )<br><br></p>
+<p><span class='linb-custom-icon' style='background-position:left -48px;'></span>setCellDfWidth ( value, flag )<br>Set cell default width.
+value: integer. Cell width.<br></p>
+<p><span class='linb-custom-icon' style='background-position:left -48px;'></span>setColDragable ( value, flag )<br>Specify whether end user could change column order by dragging column header.
+value: boolean. True for could, false for couldn't.<br></p>
+<p><span class='linb-custom-icon' style='background-position:left -48px;'></span>setColDragKey ( value, flag )<br>Set column dragging key.
+value: string. column dragging key.<br></p>
+<p><span class='linb-custom-icon' style='background-position:left -48px;'></span>setColResizer ( value, flag )<br>Specify whether end user could change column width by dragging column header edge.
+value: boolean. True for could, false for couldn't.<br></p>
+<p><span class='linb-custom-icon' style='background-position:left -48px;'></span>setColSortable ( value, flag )<br>Specify whether end user could sort rows by clicking column header.
+value: boolean. True for could, false for couldn't.<br></p>
+<p><span class='linb-custom-icon' style='background-position:left -48px;'></span>setEditable ( value, flag )<br>Specify whether end user could edit grid.
+value: boolean. True for could, false for couldn't.<br></p>
+<p><span class='linb-custom-icon' style='background-position:left -48px;'></span>setHeader ( v )<br>To specify what and how grid header is consist of. Sample - 
+setHeader([{"id":"col1","caption":"col1","type":"input","width":50},{"id":"col2","caption":"col2","type":"input","width":80}]).
+v: object. Object which describes what and how grid header is consist of.<br></p>
+<p><span class='linb-custom-icon' style='background-position:left -48px;'></span>setHeaderHeight ( value, flag )<br>Set grid header height.
+value: integer. Header height.
+<br></p>
+<p><span class='linb-custom-icon' style='background-position:left -48px;'></span>setIniFold ( value, flag )<br><br></p>
+<p><span class='linb-custom-icon' style='background-position:left -48px;'></span>setMinColW ( value, flag )<br>Set Column minimum width.
+value: integer. Column minimum width.<br></p>
+<p><span class='linb-custom-icon' style='background-position:left -48px;'></span>setMinRowH ( value, flag )<br>Set Row minimum height.
+value: integer. Row minimum height.<br></p>
+<p><span class='linb-custom-icon' style='background-position:left -48px;'></span>setRowDragable ( value, flag )<br>Specify whether end user could drag row.
+value: boolean. True for could, false for couldn't.<br></p>
+<p><span class='linb-custom-icon' style='background-position:left -48px;'></span>setRowDragKey ( value, flag )<br>Set row dragging key.
+value: string. Row dragging key.<br></p>
+<p><span class='linb-custom-icon' style='background-position:left -48px;'></span>setRowDragToAny ( value, flag )<br>Specify whether end user could drag row to other ui control.
+value: boolean. True for could, false for couldn't.<br></p>
+<p><span class='linb-custom-icon' style='background-position:left -48px;'></span>setRowHandler ( value, flag )<br>Set row handler visible or not.
+value: boolean. True for visible, false for invisible.<br></p>
+<p><span class='linb-custom-icon' style='background-position:left -48px;'></span>setRowHandlerWidth ( value, flag )<br>Specify row handler width.
+value: integer. Row handler width.<br></p>
+<p><span class='linb-custom-icon' style='background-position:left -48px;'></span>setRowHeight ( value, flag )<br>Set Row height.
+value: integer. Row height.<br></p>
+<p><span class='linb-custom-icon' style='background-position:left -48px;'></span>setRowResizer ( value, flag )<br>Specify whether end user could change row height by dragging row handler edge.
+value: boolean. True for could, false for couldn't.<br></p>
+<p><span class='linb-custom-icon' style='background-position:left -48px;'></span>setRows ( v )<br>Set grid content. Sample - 
+setRows([{"id":"row1","cells":[{"value":"cell11"},{"value":"cell12"}],"tabindex":1},
+	{"id":"row2","cells":[{"value":"cell21","type":"label"},{"value":"cell22"}],			"sub":[{"id":"row21","cells":[{"value":"cell31"},"value":"cell32","type":"number"}]}],"tabindex":1}])
+v: object. Content object<br></p>
+<p><span class='linb-custom-icon' style='background-position:left -48px;'></span>updateCell ( cellId, value )<br>Update cell value.
+cellId: string. Cell id.
+value: object. New value.<br></p>
+<p><span class='linb-custom-icon' style='background-position:left -48px;'></span>updateCellbyRowCol ( rowId, colId, value )<br>Update a cell's value.
+rowId: string. Id of the row where cell is at.
+colId: string. Id of col where cell is at.
+value: object. New value.<br></p>
+<p><span class='linb-custom-icon' style='background-position:left -48px;'></span>updateColumn ( colId, hashValue )<br><br></p>
+</div>
+<h2><span class='linb-custom-cmd'></span>Static Methods</h2>
+<div class='linb-custom-block'>
+<p><span class='linb-custom-icon' style='background-position:left -48px;'></span>activeCell ( profile, id )<br><br></p>
+<p><span class='linb-custom-icon' style='background-position:left -48px;'></span>activeRow ( profile, id )<br><br></p>
+<p><span class='linb-custom-icon' style='background-position:left -48px;'></span>beforeSerialized ( profile )<br><br></p>
+<p><span class='linb-custom-icon' style='background-position:left -48px;'></span>changeCellValue ( profile, cellId, value )<br><br></p>
+<p><span class='linb-custom-icon' style='background-position:left -48px;'></span>editCell ( profile, cellId )<br><br></p>
+<p><span class='linb-custom-icon' style='background-position:left -48px;'></span>editCellbyRowCol ( profile, rowId, colId )<br><br></p>
+<p><span class='linb-custom-icon' style='background-position:left -48px;'></span>getCellId ( profile, rowId, colId )<br><br></p>
+<p><span class='linb-custom-icon' style='background-position:left -48px;'></span>getCellPro ( profile, cell, key )<br><br></p>
+<p><span class='linb-custom-icon' style='background-position:left -48px;'></span>iniProfile ( )<br><br></p>
+<p><span class='linb-custom-icon' style='background-position:left -48px;'></span>prepareData ( profile )<br><br></p>
+<p><span class='linb-custom-icon' style='background-position:left -48px;'></span>prepareHeader ( profile, arr )<br><br></p>
+<p><span class='linb-custom-icon' style='background-position:left -48px;'></span>prepareItems ( profile, arr, pid )<br><br></p>
+<p><span class='linb-custom-icon' style='background-position:left -48px;'></span>resize ( profile, w, h )<br><br></p>
+<p><span class='linb-custom-icon' style='background-position:left -48px;'></span>setSub ( profile, item, flag )<br><br></p>
+<p><span class='linb-custom-icon' style='background-position:left -48px;'></span>showTips ( profile, id, pos )<br><br></p>
+</div>
+</body></html>

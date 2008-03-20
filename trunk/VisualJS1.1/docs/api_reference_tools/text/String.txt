@@ -1,0 +1,42 @@
+>>>>>>>>>>>>>>>>>>>Instance Methods<<<<<<<<<<<<<<<
+
+
+---------------------------------------
+endWith ( str )
+Tests if this string ends with the specified str
+returns: Boolean.
+---------------------------------------
+exists ( str )
+
+---------------------------------------
+initial ( )
+
+---------------------------------------
+left ( len )
+
+---------------------------------------
+ltrim ( )
+Returns a copy of the string, with leading whitespace omitted.
+---------------------------------------
+repeat ( time )
+
+---------------------------------------
+right ( len )
+
+---------------------------------------
+rtrim ( )
+Returns a copy of the string, with trailing whitespace omitted.
+---------------------------------------
+startWith ( str )
+Tests if this string starts with the specified str
+returns: Boolean.
+---------------------------------------
+toArr ( c )
+
+---------------------------------------
+toDom ( flag )
+
+---------------------------------------
+trim ( )
+Returns a copy of the string, with leading and trailing whitespace omitted.
+

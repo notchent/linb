@@ -1,0 +1,53 @@
+>>>>>>>>>>>>>>>>>>>Events<<<<<<<<<<<<<<<
+
+
+---------------------------------------
+onItemSelected(profile, item, src)
+Fired when list item is selected.
+profile:
+item: object. Item selected. Sample - {"id":"item a","caption":"item a","tips":"item a","icon":"img/demo.gif"}.
+src:
+>>>>>>>>>>>>>>>>>>>Instance Methods<<<<<<<<<<<<<<<
+
+
+---------------------------------------
+activate ( )
+
+---------------------------------------
+adjustSize ( )
+
+---------------------------------------
+getIdBySubId ( )
+
+---------------------------------------
+getItemByDom ( )
+
+---------------------------------------
+getItemByItemId ( )
+
+---------------------------------------
+getMaxHeight ( )
+
+---------------------------------------
+getMultiSel ( )
+Determine whether multi-items can be selected at same time.
+returns: boolean.  
+---------------------------------------
+getSubSerialIdByItemId ( )
+
+---------------------------------------
+setCtrlValue ( value )
+
+---------------------------------------
+setDirtyMark ( )
+
+---------------------------------------
+setMaxHeight ( value, flag )
+
+---------------------------------------
+setMultiSel ( value, flag )
+Specify whether multi-items can be selected at same time.
+value: boolean. True for can, false for can't.  
+---------------------------------------
+setValue ( value, flag )
+

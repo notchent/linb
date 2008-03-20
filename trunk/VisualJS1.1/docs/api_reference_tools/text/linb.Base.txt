@@ -1,0 +1,35 @@
+---------------------------------------
+alias ( str )
+To set or get alias name.
+str: String. Alias name.
+returns: Alias name if this function called without any parameter passed in.
+---------------------------------------
+host ( value, alias )
+To set or get alias name.
+value: String. Host name.
+alias: String. Alias name.
+returns: Alias name if this function called without any parameter passed in.
+>>>>>>>>>>>>>>>>>>>Static Methods<<<<<<<<<<<<<<<
+
+
+---------------------------------------
+getDataModel ( key )
+
+---------------------------------------
+getDefaultProp ( )
+
+---------------------------------------
+getEventHandlers ( )
+To get event handlers
+returns: Hanlders array.
+---------------------------------------
+pickAlias ( )
+To generate alias name.
+returns: Alias name generated.
+---------------------------------------
+setDataModel ( hash )
+To set data model.
+hash: Object.
+---------------------------------------
+setEventHandlers ( o )
+

@@ -1,0 +1,86 @@
+>>>>>>>>>>>>>>>>>>>Events<<<<<<<<<<<<<<<
+
+
+---------------------------------------
+onFormatCheck(profile, value)
+Fired before invalidation.
+profile:
+value: string. Value to be validated.
+should return: Regular string for invalidation. 
+>>>>>>>>>>>>>>>>>>>Instance Methods<<<<<<<<<<<<<<<
+
+
+---------------------------------------
+activate ( )
+
+---------------------------------------
+disabled ( value )
+
+---------------------------------------
+fireChangeEvent ( )
+
+---------------------------------------
+getCtrlValue ( )
+
+---------------------------------------
+getDynCheck ( )
+
+---------------------------------------
+getInputArea ( )
+
+---------------------------------------
+getReadonly ( )
+Determine whether input control is read-only.
+return: boolean. True for read-only, false for editable.
+---------------------------------------
+getTipsBinder ( )
+
+---------------------------------------
+getTipsErr ( )
+Get tip message to be showed in case of invalid input.
+returns: string. Tip message.
+---------------------------------------
+getTipsOK ( )
+Get tip message to be showed in case of valid input.
+returns: string. Tip message.
+---------------------------------------
+getType ( )
+Get input type.
+returns:
+---------------------------------------
+getValueFormat ( )
+Get valid pattern of input control.
+returns: string. Regular string for validation. example - "^-?\\d\\d*$"
+---------------------------------------
+readonly ( value )
+
+---------------------------------------
+setDirtyMark ( )
+
+---------------------------------------
+setDynCheck ( value, flag )
+
+---------------------------------------
+setInputArea ( value, flag )
+Set input area type.
+value: string. Area type string. Could be "textarea".
+---------------------------------------
+setReadonly ( value, flag )
+Set control read-only or not.
+value. boolean. True for read-only, false for editable.
+---------------------------------------
+setTipsBinder ( value, flag )
+Specify another control to show tips for itself.
+value: string. Id string of another control.
+---------------------------------------
+setTipsErr ( value, flag )
+Set tip message to be showed in case of invalid input.
+value: string. Tip message.
+---------------------------------------
+setTipsOK ( value, flag )
+Set tip message to be showed in case of valid input.
+value: string. Tip message.
+---------------------------------------
+setValueFormat ( value, flag )
+Set valid pattern for input control.
+value: string. Regular string for validation. example - "^-?\\d\\d*$"

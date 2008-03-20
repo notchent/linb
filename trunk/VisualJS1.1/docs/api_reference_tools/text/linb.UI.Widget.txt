@@ -1,0 +1,30 @@
+---------------------------------------
+getCaption ( )
+Get caption of control.
+returns: string. Control caption.
+---------------------------------------
+getIcon ( )
+Get an icon path for control.
+returns: string. Icon path. example - "app/default.gif"
+---------------------------------------
+getIconPos ( )
+
+---------------------------------------
+getTips ( )
+Get tip message of control.
+returns: string. Tip message.
+---------------------------------------
+setCaption ( value, flag )
+Set caption for control.
+value: string. Control caption.
+---------------------------------------
+setIcon ( value, flag )
+Set an icon path for control.
+value: string. Icon path. example - "app/default.gif"
+---------------------------------------
+setIconPos ( value, flag )
+
+---------------------------------------
+setTips ( value, flag )
+Set tip message for control.
+value. string. Tip messge.

@@ -1,0 +1,36 @@
+<html><head><link rel='stylesheet' type='text/css' href='style.css' /></head><body>
+<h1><img src='img/work.jpg' style='vertical-align: bottom;margin-right:4px;'>linb</h1>
+<p><span class='linb-custom-icon' style='background-position:left -48px;'></span>create()<br>To create ui object.
+Sample - 
+var jsonstr = "{'alias' : 'Button1','key' : 'linb.UI.Button','host" : this}";
+this.Block22.attach(linb.create(_.unserialize(jsonstr)));<br></p>
+<p><span class='linb-custom-icon' style='background-position:left -48px;'></span>getObject ( id )<br><br></p>
+<p><span class='linb-custom-icon' style='background-position:left -48px;'></span>getPath ( key, tag, add )<br>To get related path by name space. Example:
+linb.getPath('linb.UI.Button','','appearance') => linb.ini.path + /appearance/UI/Button/
+linb.getPath('linb.UI.Button','.gif','appearance') => linb.ini.path + /appearance/UI/Button.gif
+linb.getPath('a.b','','appearance') => linb.ini.appPath + /a/appearance/b/"
+linb.getPath('a.b','.gif','appearance') => linb.ini.appPath + /a/appearance/b.gif" 
+key: String. Name space. Format - linb.UI.xxx.
+tag: String. File tag.
+add: String. Appearance or bahavior
+   <br></p>
+<p><span class='linb-custom-icon' style='background-position:left -48px;'></span>getRes ( a, b, c )<br><br></p>
+<p><span class='linb-custom-icon' style='background-position:left -48px;'></span>include ( k, s, f )<br><br></p>
+<p><span class='linb-custom-icon' style='background-position:left -48px;'></span>ini ( path )<br>To set application default path.
+path: String.  <br></p>
+<p><span class='linb-custom-icon' style='background-position:left -48px;'></span>log ( )<br><br></p>
+<p><span class='linb-custom-icon' style='background-position:left -48px;'></span>main ( f )<br><br></p>
+<p><span class='linb-custom-icon' style='background-position:left -48px;'></span>message ( content, caption, type, width, time )<br><br></p>
+<p><span class='linb-custom-icon' style='background-position:left -48px;'></span>reLang ( s, cb )<br>To change language dynamically.
+You need to modify jsLinb/Locale/en.js manully if you don't want to use reLang.
+<br></p>
+<p><span class='linb-custom-icon' style='background-position:left -48px;'></span>request ( )<br><br></p>
+<p><span class='linb-custom-icon' style='background-position:left -48px;'></span>wrapRes ( )<br><br></p>
+<h2><span class='linb-custom-cmd'></span>Static Properties</h2>
+<div class='linb-custom-block'>
+<p><span class='linb-custom-icon' style='background-position:left -96px;'></span>browser<br>The browser where this application resides<br></p>
+<p><span class='linb-custom-icon' style='background-position:left -96px;'></span>cache<br><br></p>
+<p><span class='linb-custom-icon' style='background-position:left -96px;'></span>Locale<br>Locale.<br></p>
+<p><span class='linb-custom-icon' style='background-position:left -96px;'></span>temp<br><br></p>
+</div>
+</body></html>

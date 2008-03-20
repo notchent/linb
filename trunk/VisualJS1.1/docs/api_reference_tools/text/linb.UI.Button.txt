@@ -1,0 +1,63 @@
+>>>>>>>>>>>>>>>>>>>Constructor<<<<<<<<<<<<<<<
+
+
+---------------------------------------
+linb.UI.Button ( )
+
+>>>>>>>>>>>>>>>>>>>Direct Super Classes<<<<<<<<<<<<<<<
+
+
+---------------------------------------
+linb.UI.iForm
+
+---------------------------------------
+linb.UI.Widget
+
+>>>>>>>>>>>>>>>>>>>Events<<<<<<<<<<<<<<<
+
+
+---------------------------------------
+onToggle(profile, e, value, toggleKey)
+Fired when button is toggled or un-toggled.
+profile:
+e:
+value: boolean. true for toggled, false for not.
+toggleKey: string. see setToggleKey.
+>>>>>>>>>>>>>>>>>>>Instance Methods<<<<<<<<<<<<<<<
+
+
+---------------------------------------
+activate ( )
+
+---------------------------------------
+getHAlign ( )
+Get horizontal alignment.
+---------------------------------------
+getHref ( )
+
+---------------------------------------
+getToggleKey ( )
+
+---------------------------------------
+getVAlign ( )
+Set vertical alignment.
+---------------------------------------
+setCtrlValue ( value )
+
+---------------------------------------
+setHAlign ( value, flag )
+Set horizontal alignment.
+value: string. Could be left, right, center.
+
+---------------------------------------
+setHref ( value, flag )
+
+---------------------------------------
+setToggleKey ( value, flag )
+set toggle key of button.
+value: toggle key to be set.
+
+---------------------------------------
+setVAlign ( value, flag )
+Set vertical alignment.
+value: string. Could be top, bottom, middle.

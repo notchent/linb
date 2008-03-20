@@ -1,0 +1,62 @@
+---------------------------------------
+boxing ( key, flag )
+
+---------------------------------------
+clean ( )
+
+---------------------------------------
+copy ( )
+To return a new array with same elements.
+returns: Array. Array copied.
+---------------------------------------
+each ( fun, target, order )
+To run specific function, fun, on each element of array.
+fun: Function. Function to run.
+target: Object. Target of fun.
+order: Boolean. If true, fun will be executed time from max index to 0, otherwize from or 0 to max index.
+---------------------------------------
+exists ( value )
+
+---------------------------------------
+insertAny ( arr, index, flag )
+To insert single element or array into another array.
+For example:
+         [1,2].insertAny(3)
+            will return [1,2,3]
+         [1,2].insertAny(3,0)
+            will return [3,1,2]
+         [1,2].insertAny([3,4])
+            will return [1,2,3,4]
+         [1,2].insertAny([3,4],3,true)
+            will return [1,2,[3,4]]
+arr: Any. Anything to be inserted.
+index: Integer. Index of position after which arr will be inserted. Default is length-1, that is, arr will be appended at tail.
+flag: Boolean. If true, arr will be insert as a whole object, otherwize, arr will be inserted after arr is splitted into elements.
+
+         
+---------------------------------------
+merge ( arr, flag )
+To merge array.
+  For example:
+        [1,2].merge([2,3,4])
+            will return [1,2,3,4]
+        [1,2].merge([2,3,4],false)
+            will return [1]
+arr:  Array. Array to be merged
+flag: Boolean. True for union, false for intersection.
+
+      
+---------------------------------------
+reBoxing ( key, flag )
+
+---------------------------------------
+removeFrom ( index, length )
+
+---------------------------------------
+removeValue ( value )
+
+---------------------------------------
+subIndexOf ( sub, value )
+To get index of first element, which contains specific value with specific property name, sub. For example, var ar = [{level:"a"},{level:"b"},{level:"c"}]; ar.subIndexOf ("level", "b" ) will return 1.
+sub: String. Property name.
+value: Any. Value to match.

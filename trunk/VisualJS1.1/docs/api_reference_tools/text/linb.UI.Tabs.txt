@@ -1,0 +1,88 @@
+>>>>>>>>>>>>>>>>>>>Events<<<<<<<<<<<<<<<
+
+
+---------------------------------------
+afterPageClose ( fun )
+
+---------------------------------------
+beforePageClose ( fun )
+
+---------------------------------------
+onItemSelected ( fun )
+
+>>>>>>>>>>>>>>>>>>>Instance Methods<<<<<<<<<<<<<<<
+
+
+---------------------------------------
+addPanel ( para, children, item )
+
+---------------------------------------
+afterInsertItems ( profile, data, base, before )
+
+---------------------------------------
+attach ( ui, id )
+
+---------------------------------------
+clearItems ( )
+
+---------------------------------------
+empty ( )
+
+---------------------------------------
+fireItemClickEvent ( id )
+
+---------------------------------------
+getCurPanel ( )
+
+---------------------------------------
+getDropKeys ( )
+
+---------------------------------------
+getDropKeysPanel ( )
+
+---------------------------------------
+getIdBySubId ( )
+
+---------------------------------------
+getItemByDom ( )
+
+---------------------------------------
+getItemByItemId ( )
+
+---------------------------------------
+getPanel ( id )
+
+---------------------------------------
+getPanelChildren ( domId )
+
+---------------------------------------
+getPanelPara ( domId )
+
+---------------------------------------
+getSubSerialIdByItemId ( )
+
+---------------------------------------
+markDirty ( item, b, flag )
+
+---------------------------------------
+removeItems ( arr )
+
+---------------------------------------
+removePanel ( id )
+
+---------------------------------------
+setCtrlValue ( value )
+
+---------------------------------------
+setDropKeys ( value, flag )
+
+---------------------------------------
+setDropKeysPanel ( value, flag )
+
+---------------------------------------
+setHAlign ( value, flag )
+
+---------------------------------------
+setItems ( v )
+Specify tab panels.
+v: object array. example - [{"id":"view1","caption":"view1"},{"id":"view1","caption":"view1"}]. This sample will create two tab panels inside tabs control.

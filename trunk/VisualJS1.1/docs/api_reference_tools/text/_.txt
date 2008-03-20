@@ -1,0 +1,208 @@
+>>>>>>>>>>>>>>>>>>><<<<<<<<<<<<<<<
+
+
+---------------------------------------
+arr ( value, df )
+
+---------------------------------------
+asyRun ( fun, defer, args, target )
+
+---------------------------------------
+bool ( value, df )
+
+---------------------------------------
+breakO ( target )
+
+---------------------------------------
+clone ( hash, fun )
+
+---------------------------------------
+copy ( hash )
+
+---------------------------------------
+date ( value, df )
+
+---------------------------------------
+each ( hash, fun, target )
+
+---------------------------------------
+Error ( e )
+
+---------------------------------------
+exists ( target )
+
+---------------------------------------
+filter ( hash, fun, target )
+
+---------------------------------------
+fun ( value, df )
+
+---------------------------------------
+get ( hash, arr )
+
+---------------------------------------
+hash ( value, df )
+
+---------------------------------------
+id ( )
+
+---------------------------------------
+merge ( target, source, type )
+
+---------------------------------------
+numb ( value, df )
+
+---------------------------------------
+set ( hash, arr, value )
+
+---------------------------------------
+str ( value, df )
+
+---------------------------------------
+toArr ( value, flag )
+
+>>>>>>>>>>>>>>>>>>>Instance Methods<<<<<<<<<<<<<<<
+
+
+---------------------------------------
+asyRun(fun, defer, args, target)
+To run  a function in asynchronous way.
+    fun:target function
+    defer: setTimeout defer time
+    args: arguments for fun
+    target: 'this' for fun
+
+---------------------------------------
+fun()
+new function shortcut
+---------------------------------------
+get(hash,arr)
+get/set something from deep hash
+    hash:target hash
+    arr:path array, ['a','b','c'] => {a:{b:{c:...}}}
+    example:
+    _.get({a:{b:{c:1}}},['a','b']) => {c:1};
+        _.get({a:{b:{c:1}}},['a','b','c']) => 1;
+        _.get({a:{b:{c:1}}},['a','b','c','d']) => undefined;
+
+---------------------------------------
+merge
+merge hash from source to target
+  target:hash
+  source:hash
+  type: string, could be all, with, without or function. default is without.
+  return:  merged target
+
+---------------------------------------
+resetRun ( key, fun, defer, args, target )
+ this will always run newer function
+    key: String. Key for identify.
+    fun: Function. Function to run.
+    defer: Timeout defer time.
+    args: Array. Arguments for fun.
+    target: Target object of fun.
+---------------------------------------
+resetRun(key, fun, defer ,args, target)
+ this will always run newer function
+    key: for identify
+    fun: to run
+    defer: setTimeout defer time
+    args: arguments for fun
+    target: 'this' for fun
+---------------------------------------
+serialize(o,b,f)
+To serialize ui object to JSON string. Sample - _.serialize(this.Block31.get(0).children).
+o: object. Object to be serialized.
+b:
+f:
+returns. string. JSON string.
+---------------------------------------
+set(hash,arr,value)
+ set/unset a value to deep hash
+    example:
+        _.set({a:{b:{c:1}}},['a','b','c'],2) => {a:{b:{c:2}}}
+        _.set({a:{b:{c:1}}},['a','b','c']) => {a:{b:{}}}
+---------------------------------------
+set:function(hash,arr,value)
+set/unset a value to deep hash
+    example:
+        _.set({a:{b:{c:1}}},['a','b','c'],2) => {a:{b:{c:2}}}
+        _.set({a:{b:{c:1}}},['a','b','c']) => {a:{b:{}}}
+
+---------------------------------------
+tryF ( fun, args, target, df )
+To try to run a function.
+fun: Function. Function to run.
+args: Array. Arguments for fun.
+target: Object. Target object for 'this' of fun.
+df: Any. Default return vale, if f is not a valid function.
+---------------------------------------
+tryF(fun, args, target, df)
+    fun:function to run;
+    args:arguments for fun;
+    target:target object for 'this' of fun;
+    df:default return vale, if f is not a valid function;
+
+>>>>>>>>>>>>>>>>>>>Static Methods<<<<<<<<<<<<<<<
+
+
+---------------------------------------
+isArr ( target )
+To determine whether target is Array.
+target: Any.
+---------------------------------------
+isBool ( target )
+To determine whether target is Boolean.
+target: Any.
+---------------------------------------
+isDate ( target )
+To determine whether target is Date.
+target: Any.
+---------------------------------------
+isEmpty ( hash )
+To determine whether target is Empty.
+target: Any.
+---------------------------------------
+isFun ( target )
+To determine whether target is Function.
+target: Any.
+---------------------------------------
+isHash ( target )
+To determine whether target is hash object.
+target: Any.
+---------------------------------------
+isNull ( target )
+To determine whether target is null.
+target: Any.
+---------------------------------------
+isNumb ( target )
+To determine whether target is Number.
+target: Any.
+---------------------------------------
+isObj ( target )
+To determine whether target is Object.
+target: Any.
+---------------------------------------
+isReg ( target )
+To determine whether target is regular expression.
+target: Any.
+---------------------------------------
+isStr ( target )
+To determine whether target is String.
+target: Any.
+---------------------------------------
+serialize ( o, b, f )
+To serialize object to string.
+o: Object.
+b: Object type.
+---------------------------------------
+unserialize ( t )
+Unserialize string to object.
+t: String.
+returns: Object.
+---------------------------------------
+unserialize(t)
+Unserialize JSON string to ui object.
+t: string. JSON string.
+returns: ui object.
+
