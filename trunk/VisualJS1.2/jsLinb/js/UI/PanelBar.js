@@ -63,19 +63,21 @@ Class("linb.UI.PanelBar", ["linb.UI.Div","linb.UI.iContainer"],{
             }
         }},
         Appearances:{'default':{
+            'KEY BORDER':{
+                zoom:linb.browser.ie6?1:null
+            },
             PANEL:{
                 position:'relative',
                 left:0,
                 top:0,
                 overflow:'auto',
+                zoom:linb.browser.ie6?1:null,
                 'background-color':'#fff'
             },
             HANDLE:{
                 overflow:'hidden',
                 background: linb.UI.getCSSImgPara('barvbg.gif', ' repeat-x left top', null, 'linb.UI.Public'),
-                height:'22px',
-                position:'relative',
-                left:0
+                position:'relative'
             },
             'HANDLE-mouseover':{
                 $order:1,
@@ -167,11 +169,10 @@ Class("linb.UI.PanelBar", ["linb.UI.Div","linb.UI.iContainer"],{
                 'background-position' : '-220px -32px'
             },
             CAPTION:{
-                'vertical-align': 'middle',
                 'font-size':'12px',
                 'padding':'0 16px 0 6px',
                 display:'inline',
-                'vertical-align': 'middle'
+                'line-height':'20px'
             }
         }},
         Behaviors:{'default':{
@@ -267,7 +268,7 @@ Class("linb.UI.PanelBar", ["linb.UI.Div","linb.UI.iContainer"],{
                 }
             },
             handleHeight:{
-                ini:22,
+                ini:20,
                 action:function(v){
                     this.getSubNode('HANDLE').display(v?'':'none');
                 }

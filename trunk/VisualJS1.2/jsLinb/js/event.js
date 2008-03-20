@@ -15,7 +15,7 @@ Class('linb.event',null,{
         //type
         type = e.type;
         //template id
-        if(tid)e._tid=tid;
+        if(tid)src._tid=tid;
 
         //for correct mouse hover problems;
         if('mouseover'==type || 'mouseout'==type){

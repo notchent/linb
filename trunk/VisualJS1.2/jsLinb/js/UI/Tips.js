@@ -40,11 +40,11 @@ Class("linb.UI.Tips", null,{
         },'$Tips',-1)
         .afterMouseover(function(obj, e, src){
             var event=linb.event,
-                rt=event.rtFalse,
+                rt=event.rtnFalse,
                 node=event.getSrc(e),
                 id,
                 //for linb.template
-                tid=e._tid,
+                tid=node._tid,
                 from,
                 tempid,evid,
                 pass
@@ -80,9 +80,10 @@ Class("linb.UI.Tips", null,{
             if(tips.markId){
                 var event=linb.event,
                     id,
-                    tempid,evid,
+                    tempid,
+                    evid,
                     //for linb.template
-                    tid=e._tid,
+                    tid=event.getSrc(e)._tid,
                     clear,
                     node = e.toElement||e.relatedTarget;
 
@@ -103,7 +104,7 @@ Class("linb.UI.Tips", null,{
                     if(tips.showed)tips.hide();
                     else tips.asyHide();
                 }
-                return event.rtFalse;
+                return event.rtnFalse;
             }
         },'$Tips',-1);
 

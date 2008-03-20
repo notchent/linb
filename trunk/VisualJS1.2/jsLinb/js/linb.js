@@ -606,7 +606,7 @@ Class('linb.thread',null,{
             if(p._start===false){
                 p._start=true;
                 //call onstart
-                if(false===_.tryF(p.onStart,[],self))self.abort();
+                if(false===_.tryF(p.onStart,[p.id],self))self.abort();
             }
             if(!p.tasks.length)return self.abort();
             if(p.index>=p.tasks.length)
@@ -717,13 +717,13 @@ Class('linb.thread',null,{
                 thread(null, tasks,
                     0,null,
                     //set busy status to UI
-                    function(){
-                        if(dom)dom.busy()
+                    function(threadid){
+                        if(dom)dom.busy(true,threadid)
                     },
                     //set free status to UI
-                    function(){
+                    function(threadid){
                         _.tryF(onEnd);
-                        if(dom)dom.free()
+                        if(dom)dom.free(threadid)
                     }
                 ).start();
             }
@@ -778,6 +778,11 @@ Class('linb.thread',null,{
 ajax    +       +       -                   -                   -           -
 sajax   +       -       +                   -                   -           *
 iajax   +       +       +                   *                   *           -
+*/
+/*
+in IE/firefox/safari, image/css url is enough
+in opear, use xd.html
+   if return multi iframes, randkey will be added in each Fragment Identifiers
 */
 Class('linb.io',null,{
     Constructor:function(uri, queryString, onSuccess, onFail, threadid, args){
@@ -929,8 +934,10 @@ Class('linb.io',null,{
                 }else{
                     obj = typeof txt=='string' ? _.unserialize(txt) : txt;
                     if(obj && (o = self.pool[obj[self.randkey]])){
-                        o._response=obj;
-                        o._e("Response");
+                        for(i=0;i<o.length;i++){
+                            o[i]._response=obj;
+                            o[i]._e("Response");
+                        }
                     }
                 }
             }catch(e){
@@ -1069,14 +1076,18 @@ Class('linb.ajax','linb.io',{
 Class('linb.sajax','linb.io',{
     Instance:{
         start:function(){
-            var self=this,c=self.constructor, t, n, ok=false;
+            var self=this,id,c=self.constructor, t, n, ok=false;
             if(t=_.tryF(self.beforeStart,[],self))
                 return _.tryF(self.onSuccess,[t, self.rspType, self.threadid], self);
             if (!self._retryNo)
                 self._e("Start");
 
             //first
-            c.pool[self.id]=self;
+            id=self.id;
+            if(c.pool[id])
+                c.pool[id].push(self);
+            else 
+                c.pool[id]=[self];
 
             var w=c._n=document;
 			n = self.node = w.createElement("script");
@@ -1106,8 +1117,9 @@ Class('linb.sajax','linb.io',{
                 self._flag = _.asyRun(function(){if(self && !self._end){self._time()}}, self.timeout);
         },
         _clear:function(){
-            var self=this, n=self.node, c=self.constructor, div=c.div||(c.div=c._n.createElement('div'));
-            delete self.constructor.pool[self.id];
+            var self=this, n=self.node, c=self.constructor, div=c.div||(c.div=c._n.createElement('div')),pool=self.constructor.pool;
+            pool.length=0;
+            delete pool[self.id];
             if(n){
                 self.node=n.id=n.onload=n.onreadystatechange=n.onerror=null;
                 //in ie + add script(remove script) + add the same script(remove script) => crash
@@ -1152,7 +1164,12 @@ Class('linb.iajax','linb.io',{
                 self._e("Start");
 
             //first
-            c.pool[self.id]=self;
+            id=self.id;
+            if(c.pool[id])
+                c.pool[id].push(self);
+            else 
+                c.pool[id]=[self];
+
             //create iframe
             var a=c.createif(document,null,(id='linb:if:'+self.id) );
             self.node=a[0];
@@ -1207,7 +1224,7 @@ Class('linb.iajax','linb.io',{
                         s=[];
                         for(i=0;i<l;i++){
                             t=(frms[i].location.href).split('#')[1];
-                            //for complicated return
+                            //for complicated return <if return multi Fragment Identifiers for opera, data string will be put after "s=">
                             if(t.indexOf('s=')!=-1){
                                 t=t.split('s=')[1];
                                 t=t.split('&')[0];

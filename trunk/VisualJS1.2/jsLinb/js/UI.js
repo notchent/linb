@@ -1321,7 +1321,7 @@ new function(){
                 var me=arguments.callee;
                 var fun=(me.fun||(me.fun=function(pro,i,h, flag){
                     var node=pro.getSubNode(i,true),b;
-                    if(!node.isEmpty())
+                    if(h[i] && !node.isEmpty())
                         h[i].split(';').each(function(o,i){
                             if((b=o.split(':')).length==2){
                                 b[0]=b[0].replace(/\-(\w)/g,function(a,b){return b.toUpperCase()});
@@ -3626,7 +3626,7 @@ new function(){
             }},
             Behaviors:{'default':{
                 onClick:function(profile, e, src){
-                    if(profile.onClick)
+                    if(!profile.properties.disabled && profile.onClick)
                         return profile.boxing().onClick(profile, e, src);
                     //return profile.box.cancelLink(e);
                 }
@@ -3658,7 +3658,7 @@ new function(){
             cssNone:true,
             Templates:{'default':{
                 tagName:'div',
-                style:(linb.browser.gek?'overflow:auto;outline:none;':'')+'{_style}',
+                style:(linb.browser.gek?'overflow:auto;outline:none;':';')+(linb.browser.ie6?'zoom:1;':';')+'{_style}',
                 //for firefox div focus bug: outline:none; tabindex:'-1'
                 tabindex:'-1',
                 text:'{html}'+linb.UI.$childTag

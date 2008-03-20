@@ -82,26 +82,33 @@ Class("linb.UI.ColLayout",["linb.UI.iWidget", "linb.UI.iList", "linb.UI.iContain
                     break;
                 }
             }
-            col=profile._ddincol;
-            arr=o.rows[profile._ddi];
-            i=0;
-            while(t=arr[i++]){
-                if(top<t[0]){
-                    //if raw changed, clear pos
-                    if(profile._ddid!==t[1])
-                        profile._ddup=null;
-                    j=(top < (to+(t[0]-to)/2));
-                    if(profile._ddid===t[1] && profile._ddup===j)
+            if(profile._ddi!==null){
+                col=profile._ddincol;
+                arr=o.rows[profile._ddi];
+                i=0;
+                while(t=arr[i++]){
+                    if(top<t[0]){
+                        //if raw changed, clear pos
+                        if(profile._ddid!==t[1])
+                            profile._ddup=null;
+                        j=(top < (to+(t[0]-to)/2));
+                        if(profile._ddid===t[1] && profile._ddup===j)
+                            break;
+                        profile._ddid=t[1];
+                        profile._ddup=j;
+                        change=true;
                         break;
-                    profile._ddid=t[1];
-                    profile._ddup=j;
-                    change=true;
-                    break;
+                    }
+                    to=t[0];
                 }
-                to=t[0];
+                if(change|| force)
+                    return [col,profile._ddid,profile._ddup];
+            }else{
+                if(change || force)
+                    return [null];
+                else
+                    return;                
             }
-            if(change|| force)
-                return [col,profile._ddid,profile._ddup];
         },
         _showProxy:function(profile,type,node,height){
              var self=this,
@@ -199,7 +206,7 @@ Class("linb.UI.ColLayout",["linb.UI.iWidget", "linb.UI.iList", "linb.UI.iContain
                 'background-color': '#f0f0f0'
             },
             ITEM:{
-                position:'relative',
+                position:'static',
                 'float':'left',
                 overflow:'hidden',
                 'background-color':'#fff',
@@ -208,8 +215,9 @@ Class("linb.UI.ColLayout",["linb.UI.iWidget", "linb.UI.iList", "linb.UI.iContain
                 'line-height':linb.browser.ie?0:''
             },
             PANEL:{
-                position:'relative',
+                position:'static',
                 overflow:'hidden',
+                zoom:linb.browser.ie6?1:null,
                 /*for opera, opera defalut set border to 3 ;( */
                 'border-width':linb.browser.opr?'0':null,
                 'font-size':linb.browser.ie?0:'',

@@ -1,7 +1,7 @@
 
 Class("linb.Cookies", null,{
     Static:{
-        set:function(key,value,days){
+        set:function(key,value,days,path,domain,secure){
             key=encodeURIComponent(key);
             value=encodeURIComponent(value);
 
@@ -9,11 +9,9 @@ Class("linb.Cookies", null,{
         	if(typeof days == 'number' && isFinite(days)){
         		date = new Date();
         		date.setTime(date.getTime()+(days*24*60*60*1000));
-        		ep = "; expires="+date.toGMTString();
-        	}else{
-        	    ep = "";
+        		ep = date.toUTCString();
         	}
-        	document.cookie = key+"="+value+ep+"; path=/";
+        	document.cookie = key+"="+value+(ep?"; expires="+ep:"") + (path?"; path="+path:"")+ (domain?"; domain="+domain:"")+ (secure?"; secure;":"");
         	return this;
         },
         get:function(key){
@@ -31,7 +29,7 @@ Class("linb.Cookies", null,{
         	return '';
         },
         remove:function(key){
-        	return this.set(key,"",-1);
+        	return this.set(key,"",-1).set(key,"/",-1);
         },
         //get uri para from string
         getURIParas:function(str,key){

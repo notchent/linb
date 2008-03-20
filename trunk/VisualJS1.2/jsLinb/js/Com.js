@@ -88,6 +88,10 @@ Class('linb.Com',null,{
             self.threadid=threadid;
 
             self.fireEvent('beforeCreated');
+            //if no threadid or threadid doesnt exist, reset threadid to self
+            funs.push(function(threadid){
+                self.threadid=threadid;
+            });
             //base classes
             if((t=self.base) && t.length)
                 funs.push(function(threadid){

@@ -28,8 +28,11 @@ Class('linb.logger', null, {
             if(!flag){
                 var a=[];
                 a.push(' >> Error Info:');
-                for(var i in o)
-                    a.push(' -- ' + i + " : " + o[i]);
+                if(typeof o == 'object')
+                    for(var i in o)
+                        a.push(' -- ' + i + " : " + o[i]);
+                else
+                    a.push(o);
                 a.push(' >> Error Path: ' + arr.join(' < '));
                 linb.logger.log.apply(linb.logger,a);
             }

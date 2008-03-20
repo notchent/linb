@@ -22,8 +22,8 @@ Class('linb.template','linb.iProfile',{
         $gc:function(){
             //no detach event here. so, don't add event using addEventlis...
             //use innerHTML way only
-            //$gc in linb.dom can't destory template, use destroy manully
             //template has no memory leak, ignore it when window.unload
+            this.destroy();
         },
         setDomId:function(id){
             var t=this,c=linb.cache.dom,e;
@@ -40,7 +40,6 @@ Class('linb.template','linb.iProfile',{
         destroy:function(){
             var self=this,
                 t=linb.cache.domId;
-
             if(self.root){
                 var me=this.constructor, c=me.c||(me.c=document.createElement('div'));
                 c.appendChild(self.root);
@@ -146,6 +145,8 @@ Class('linb.template','linb.iProfile',{
             return typeof ev=='function'?[ev]:[];
         },
         build:function(properties, tag, result){
+            if(!properties)return '';
+
             var self=this, me=arguments.callee,s,t,n,isA = properties.constructor == Array,
             r1=me.r1||(me.r1=/\[\$e\]/g),
             r2=me.r2||(me.r2=/(^\s*<\w+)(\s|>)(.*)/),
