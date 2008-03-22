@@ -8,7 +8,7 @@ beforeIniComponents
     iniComponents (asy)
 afterIniComponents
     iniExComs (asy)
-onLoadWidgets
+onCodeLoaded
 onReady
 afterCreated
     iniUI (asy)
@@ -111,7 +111,7 @@ Class('linb.Com',null,{
                 funs.push(function(threadid){
                     suspend(threadid);
                     linb.SC.group(self.required,function(key){
-                        self.fireEvent('onLoadWidgets', [key]);
+                        self.fireEvent('onCodeLoaded', [key]);
                     },function(){resume(threadid)});
                 });
             //build inner components
