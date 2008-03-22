@@ -1140,78 +1140,77 @@ Class('linb.dom','linb.iBox',{
         absPos:function (pos,target){
             var r,t,
             browser = linb.browser,
-            parseint = parseInt,
-            node = this.get(0),
+            ns=this,
+            node = ns.get(0),
+            keepNode=node,
+            parent =node.parentNode,
+            op=node.offsetParent,
+            doc=node.ownerDocument,
+            dd=doc.documentElement,
+            db=doc.body,
             getStyle=linb.dom.getStyle,
+            fixed = getStyle(node, "position") == "fixed",
+
             me=arguments.callee,
-            type = me.type ||(me.type = {body:1,html:1}),
+            add= me.add || (me.add=function(pos, l, t){
+                pos.left += parseInt(l)||0;
+                pos.top += parseInt(t)||0;
+            }),
+            border=me.border || ( me.border = function(node, pos){
+                add(pos, getStyle(node,'borderLeftWidth'), getStyle(node,'borderTopWidth'));
+            }),
+            TTAG=me.TTAG||(me.TTAG={TABLE:1,TD:1,TH:1}),
+            HTAG = me.HTAG ||(me.HTAG={BODY:1,HTML:1}),
             posDiff=me.posDiff ||(me.posDiff=function(o,target){
                 var cssPos = o.cssPos(),absPos = o.absPos(null,target);
                 return {left :absPos.left-cssPos.left, top :absPos.top-cssPos.top};
             });
 
-            target=target?linb(target).get(0):document;
+            target=target?linb(target).get(0):doc;
 
             if(pos){
                 //all null, return dir
-                if(pos.left===null&&pos.top===null)return this;
-                var d = posDiff(this,target);
-                this.cssPos({left :pos.left===null?null:(pos.left - d.left),  top :pos.top===null?null:(pos.top - d.top)});
-                r=this;
+                if(pos.left===null&&pos.top===null)return ns;
+                var d = posDiff(ns,target);
+                ns.cssPos({left :pos.left===null?null:(pos.left - d.left),  top :pos.top===null?null:(pos.top - d.top)});
+                r=ns;
             }else{
-              pos = {left :0, top :0};
-              var bak=node,bak2,m;
-              do{
-                    //remedy kde and ie
-                   if(type[String(node.tagName).toLowerCase()])
-                       if((browser.kde || browser.ie) && node.style.position != 'absolute'){
-                            pos.left -= (parseint(getStyle(node,'marginLeft'))||0);
-                            pos.top -= (parseint(getStyle(node,'marginTop'))||0);
-                            break;
-                       }
-                   //remedy ie
-                   if(browser.ie && node.style.position != 'absolute'){
-                        pos.left -= (parseint(getStyle(node,'marginLeft'))||0);
-                        pos.top -= (parseint(getStyle(node,'marginTop'))||0);
-                   }
+                //for IE
+                if(node.getBoundingClientRect){
+                    pos = node.getBoundingClientRect();
+                    add(pos, Math.max(dd.scrollLeft, db.scrollLeft)-dd.clientLeft, Math.max(dd.scrollTop,  db.scrollTop)-dd.clientTop);
+                }else{
+                    pos = {left :0, top :0};
+                    add(pos, node.offsetLeft, node.offsetTop );
+                    //get offset, stop by target or target.offsetParent
+                    while(op && op!=target && op!=target.offsetParent){
+                        add(pos, op.offsetLeft, op.offsetTop);
+                        if(browser.kde || (browser.gek && !TTAG[op.tagName]))
+                            border(op, pos);
+                        if ( !fixed && getStyle(op,"position")== "fixed")
+                            fixed = true;
+                        if(op.tagName!='BODY')
+                            keepNode=op.tagName=='BODY'?keepNode:op;
+                        op = op.offsetParent;
+                    }
 
-                   pos.left += (parseint(node.offsetLeft)||0);
-                   pos.top += (parseint(node.offsetTop)||0);
-
-                   me.border = me.border || function(node, pos){
-                        pos.left += (parseint(getStyle(node,'borderLeftWidth'))||0);
-                        pos.top += (parseint(getStyle(node,'borderTopWidth'))||0);
-                   };
-                   //ie,add each offsetParent 's border
-                   if( bak!=(bak2=node))
-                       if(browser.ie || browser.gek)
-                            me.border(node, pos);
-
-                    //firefox add each parentNode's border
-                    if(browser.gek)// && linb(node).position()!='absolute')
-                        do{
-                            if(bak!=bak2)
-                                me.border(bak2, pos)
-                        }while((bak2=bak2.parentNode)!=node.offsetParent)
-
-                    //offset
-                    bak2=node;
-                    do{
-                        if(bak!=bak2){
-                           if('BODY'==bak2.tagName && browser.opr)continue;
-                           //maybe opera bug
-                           if(bak2.scrollWidth!=bak2.offsetWidth)
-                                pos.left -= (parseint(bak2.scrollLeft)||0);
-                           pos.top -= (parseint(bak2.scrollTop)||0);
-                        }
-                    }while(node.offsetParent && (bak2=bak2.parentNode)!=node.offsetParent)
-
-              }while((node= node.offsetParent) && node!=target);
-              r=pos;
+                    //get scroll offset, stop by target
+                    while (parent && parent.tagName && parent!=target && !HTAG[parent.tagName]){
+                        if(!/^inline|table.*$/i.test(getStyle(parent, "display")) )
+                            add(pos, -parent.scrollLeft, -parent.scrollTop );
+                        if(browser.gek && getStyle(parent,"overflow")!= "visible" )
+                            border(parent,pos);
+                        parent = parent.parentNode;
+                    }
+                    if((browser.gek && getStyle(keepNode,"position")!="absolute"))
+                        add( -db.offsetLeft, -db.offsetTop);
+                    if(fixed)
+                        add(pos, Math.max(dd.scrollLeft, db.scrollLeft), Math.max(dd.scrollTop,  db.scrollTop));
+                }
+                r=pos;
             }
             return r;
         },
-
 //class and src
         hasClass:function(str){
             var arr = this.get(0).className.split(/\s+/);
