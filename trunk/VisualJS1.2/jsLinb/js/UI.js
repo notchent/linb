@@ -1987,7 +1987,7 @@ new function(){
                                 //hanlder focus
                                 if(b){
                                     //export event
-                                    if(profile.beforeNextFocus && false === profile.boxing().beforeNextFocus(profile,key,shift,e))return false;
+                                    if(profile.beforeNextFocus && false === profile.boxing().beforeNextFocus(profile,key,!!shift,e))return false;
 
                                     if(key!='tab')
                                         linb(src).nextFocus(('up'==key || 'left'==key)?false:true);
@@ -2686,7 +2686,7 @@ new function(){
                 //for appearance when mousedown/mouseup
                 beforeClickEffect:function(profile, item, src, type){},
 
-                beforeNextFocus:function(profile, e, src){},
+                beforeNextFocus:function(profile, e, shift, src){},
 
                 afterCreated:function(profile){},
                 afterRendered:function(profile){},

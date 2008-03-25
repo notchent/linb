@@ -14,7 +14,8 @@ Class("linb.UI.Input", ["linb.UI.Widget", "linb.UI.iForm"],{
         },
         activate:function(){
             var profile = this.get(0);
-            profile.getSubNode('INPUT').activate();
+            if(profile.domNode)
+                profile.getSubNode('INPUT').activate();
             return this;
         },
         disabled:function(value){

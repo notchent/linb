@@ -112,6 +112,9 @@ Class("linb.UI.Tips", null,{
             'default' : new function(){
                 this._r=/(\$)([\w\.]+)/g;
                 this.show=function(item, pos){
+                    //if trigger onmouseover before onmousemove, pos will be undefined
+                    if(!pos)return;
+
                     var self=this,node,s,w,h;
                     if(!(node=self.node)){
                         node = self.node = linb.create('<div class="linb-ui-tips"><div class="linb-ui-tips-i"></div></div>');
