@@ -133,10 +133,15 @@ Class=function(key, parent_key, o){
     /*multi parents
     */
     parent_key = ( !parent_key?[]:typeof parent_key=='string'?[parent_key]:parent_key);
-    for(i=0; t=parent_key[i]; i++){
+    for(i=0; t=parent_key[i]; i++)
         if(!(_parent[i]=(_.get(window, t.split('.')) || (linb&&linb.SC&&linb.SC(t)))))
             throw new Error('No parent class :'+ t);
-    }
+    
+    if(o.Dependency)
+        for(i=0; t=o.Dependency[i]; i++)
+            if(!(_.get(window, t.split('.')) || (linb&&linb.SC&&linb.SC(t))))
+                throw new Error('No dependency class :'+ t);
+
     parent0=_parent[0];
 
     /* collect items
