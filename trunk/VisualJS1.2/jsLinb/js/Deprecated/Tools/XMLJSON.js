@@ -1,5 +1,5 @@
 //not in use yet
-//some code from http://goessner.net/download/prj/jsonxml/
+//refer urls: goessner.net/download/prj/jsonxml/
 Class('linb.tools.XMLJSON',null,{
     Static:{
         _parseXml: function(xml) {
