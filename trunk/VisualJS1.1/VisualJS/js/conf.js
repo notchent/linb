@@ -5,13 +5,13 @@ CONF={
     prjPath:'projects/',
     requestKey:'VisualJS',
     
-    path_link:"http://www.linb.net",
-    path_video:'http://linb.googlecode.com/files/video.html',
-    path_forum:'http://groups.google.com/group/linb',
-    path_download:'http://code.google.com/p/linb/downloads/list',
+    path_link:"http://www.sigmawidgets.com",
+    path_video:'http://www.sigmawidgets.com/products/sigma_visual/video.html',
+    path_forum:'http://sigmawidgets.com/forum',
+    path_download:'http://www.sigmawidgets.com/download.html',
     path_gpllicence:'http://www.gnu.org/licenses/gpl-3.0.txt',
-    path_licence:'license.txt',
-    path_purchase:'http://linb.googlecode.com/files/purchase.html',
+    path_licence:'http://www.sigmawidgets.com/license2.html',
+    path_purchase:'http://www.sigmawidgets.com/buy_now2.html',
     
     mapWidgets:{},
     widgets: [
