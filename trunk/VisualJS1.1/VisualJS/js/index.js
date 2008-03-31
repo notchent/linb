@@ -429,7 +429,7 @@ Class('VisualJS', 'linb.Com',{
             (new u.Div)
             .host(t,"float")
             .afterCreated(function (pro) {
-                pro.root.onClick(function () {linb.dom.submit("http://www.linb.net");});
+                pro.root.onClick(function () {linb.dom.submit(CONF.path_link);});
             })
             .setCustomAppearance({"KEY":"background-image:url(img/logo.gif);position:absolute;top:0px;right:0px;width:120px;height:60px;z-index:100;cursor:pointer;"})
             );
@@ -639,7 +639,7 @@ Class('VisualJS', 'linb.Com',{
                     });
                     break;
                 case 'flash':
-                    linb.dom.submit('http://linb.googlecode.com/files/video.html');
+                    linb.dom.submit(CONF.path_video);
                     break;
                 case 'demo':
                     linb.dom.submit('demo.html');
@@ -678,20 +678,20 @@ Class('VisualJS', 'linb.Com',{
                     //linb.request(CONF.phpPath, _.serialize({key:CONF.requestKey, para:{path: this.curProject, action:'release'}}));
                     break;
                 case 'forum':
-                    linb.dom.submit('http://groups.google.com/group/linb');
+                    linb.dom.submit(CONF.path_forum);
                     break;
                 case 'download':
-                    linb.dom.submit('http://code.google.com/p/linb/downloads/list');
+                    linb.dom.submit(CONF.path_download);
                     break;
 
                 case 'gpllicense':
-                    linb.dom.submit('http://www.gnu.org/licenses/gpl-3.0.txt');
+                    linb.dom.submit(CONF.path_gpllicence);
                     break;
                 case 'clicense':
-                    linb.dom.submit('license.txt');
+                    linb.dom.submit(CONF.path_licence);
                     break;
                 case 'purchase':
-                    linb.dom.submit('http://linb.googlecode.com/files/purchase.html');
+                    linb.dom.submit(CONF.path_purchase);
                     break;
                 case 'about':
                     linb.ComFactory.getCom('about',null,function(){
