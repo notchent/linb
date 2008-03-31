@@ -2046,10 +2046,22 @@ Class('VisualJS.Designer', 'linb.Com',{
                         ).replace(/\n/g, '\n'+' '.repeat(12))+
                         '\n'+' '.repeat(8)+ '}';
                 }
+                
 
                 //get required class list
                 var arr = this.properties.clsObject.Instance.required || [];
                 arr.merge(this.getClassList(nodes));
+
+                var base=this.properties.clsObject.Instance.base || [];
+                arr.each(function(o){
+                    o=linb.SC(o);
+                    if(o.Dependency)
+                        base.merge(o.Dependency);
+                });
+                _.set(ins,['sub','base','code'],_.serialize(base));
+                if(!_.get(ins,['sub','base','comments']))
+                    _.set(ins,['sub','base','comments'],'\n'+' '.repeat(8));
+
                 _.set(ins,['sub','required','code'],_.serialize(arr));
                 if(!_.get(ins,['sub','required','comments']))
                     _.set(ins,['sub','required','comments'],'\n'+' '.repeat(8));
