@@ -5,8 +5,8 @@ copy ..\jsLinb\js\linb.js /b + ..\jsLinb\js\event.js /b + ..\jsLinb\js\template.
 
 copy ..\VisualJS\js\index.js /b + ..\VisualJS\js\PageEditor.js /b + ..\VisualJS\js\ClassTool.js /b + ..\VisualJS\js\ClassEditor.js /b + ..\VisualJS\js\ClassStruct.js /b + ..\VisualJS\js\ObjectEditor.js /b + ..\VisualJS\js\ProjectPro.js /b + ..\VisualJS\js\ProjectSelector.js /b + ..\VisualJS\js\Designer.js /b + ..\VisualJS\js\AddFile.js /b + ..\VisualJS\js\DelFile.js /b + ..\VisualJS\js\About.js /b  index.js
 
-java -jar yuicompressor.jar -o ../jsLINB/js_release/linb.js       linb.js
-java -jar yuicompressor.jar -o ../VisualJS/js_release/index.js        index.js
+java -jar yuicompressor.jar -o ../jsLINB/js_release/linb.js     --nomunge    linb.js
+java -jar yuicompressor.jar -o ../VisualJS/js_release/index.js     --nomunge     index.js
 
 del /q linb.js
 del /q index.js
