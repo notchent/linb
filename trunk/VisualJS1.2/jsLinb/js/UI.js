@@ -1462,13 +1462,14 @@ new function(){
                 },
                 div:{
                     $order:15,
-                    'vertical-align':linb.browser.id?'auto':null,
+                    'vertical-align':linb.browser.ie?'auto':null,
                     'font-size':'12px'
                 },
                 span:{
                     $order:16,
-                    display:linb.browser.gek?['-moz-inline-block', '-moz-inline-box']: 'inline-block',
-                    /*must specify this, or static will take more v space*/
+                    display:linb.browser.gek?['-moz-inline-block', '-moz-inline-box']: linb.browser.ie6?'inline':'inline-block',
+                    zoom:linb.browser.ie6?1:null,
+                    /*must specify this, or static will take more v space in IE*/
                     'vertical-align':'middle'
                  },
                 'body *': {
@@ -2698,13 +2699,10 @@ new function(){
             },
             createdTrigger:function(){
                 var self=this, b=self.boxing(),p=self.properties;
-
+                p.$UIvalue = p.value;
                 if(typeof p.value !='undefined')
                     b.setCtrlValue(p.value);
-
-                if(p.disabled)
-                    b.disabled(true);
-
+                if(p.disabled)b.disabled(true);
                 self.inValid=1;
                 self.created=true;
                 if(self.afterCreated)
@@ -3363,10 +3361,6 @@ new function(){
 
             createdTrigger:function(){
                 var self=this, p=self.properties, o=self.boxing();
-
-                p.$UIvalue = p.value;
-                if(p.disabled)o.disabled(true);
-
                 //for performance
                 _.asyRun(function(){
                     if((!self.$noB) && p.border && o._border)o._border(p.border);

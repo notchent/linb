@@ -1512,6 +1512,17 @@ Class('linb.dom','linb.iBox',{
                 node.offsetHeight>0
             );
         },
+        selectable:function(v){
+            var me=arguments.callee, f = me.f || (me.f=function(){return false});
+             return this.each(function(o){
+                if(linb.browser.gek)
+                    o.style.MozUserSelect=v?"all":"none"
+                else{
+                    o.unselectable=v?"off":"on";
+                    o.onselectstart=v?null:f;
+                }                
+            })
+        },
         activate:function(){
             if(this.canFocus()){
                 var node= this.get(0);

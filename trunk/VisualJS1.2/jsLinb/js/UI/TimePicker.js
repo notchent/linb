@@ -331,9 +331,7 @@ Class('linb.UI.TimePicker', 'linb.UI.iWidget', {
             data.closeDisplay = data.closeBtn?'':nodisplay;
         },
         createdTrigger:function(){
-            var self=this, p=self.properties, o=self.boxing();
-            p.$UIvalue = p.value;
-            self.getSubNode('HOURTXT').html(linb.wrapRes('date.H'),false);
+            this.getSubNode('HOURTXT').html(linb.wrapRes('date.H'),false);
         },
         formatValue:function(v){
             return this.ensureV(v).join(':');

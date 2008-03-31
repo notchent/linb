@@ -290,13 +290,6 @@ Class("linb.UI.Range", ["linb.UI.iWidget"],{
         EventHandlers:{
             onValueFormat:function(profile, value){return Math.floor(value)}
         },
-        createdTrigger:function(){
-            var prop = this.properties;
-            prop.$UIvalue = prop.value;
-            if(prop.value)
-                this.boxing().setCtrlValue(prop.value);
-        },
-
         prepareData:function(profile){
             arguments.callee.upper.call(this, profile);
             var d=profile.data,p=profile.properties,
