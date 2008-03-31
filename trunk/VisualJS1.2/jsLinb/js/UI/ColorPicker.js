@@ -467,4 +467,4 @@ Class('linb.UI.ColorPicker', 'linb.UI.iWidget', {
             return [ns._to255(s.substr(0, 2)), ns._to255(s.substr(2, 2)), ns._to255(s.substr(4, 2))];
         }
     }
-})
+});
