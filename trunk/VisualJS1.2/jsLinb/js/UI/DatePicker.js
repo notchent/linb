@@ -95,6 +95,7 @@ Class('linb.UI.DatePicker', 'linb.UI.iWidget', {
         });
     },
     Static:{
+        Dependency:['linb.date'],
         Appearances:{'default':{
             KEY:{
                 overflow:'visible',
