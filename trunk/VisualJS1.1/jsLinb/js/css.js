@@ -52,6 +52,7 @@ Class("linb.css", null,{
                 head.removeChild(value);
         }
         /*,
+        refer urls:
         phrogz.net/CSS/selector_test.html
         www.howtocreate.co.uk/tutorials/javascript/domstylesheets
         support only:
