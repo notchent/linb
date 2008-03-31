@@ -5,6 +5,7 @@
 */
 
 Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'], {
+    Dependency:['linb.date'],
     Instance:{
         setCtrlValue:function(value){
             if(!value)return;
@@ -51,7 +52,6 @@ Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'
         }
     },
     Static:{
-        Dependency:['linb.date'],
         Dropable:['ITEMS'],
         cssNone:false,
         Templates:{'default':{

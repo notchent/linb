@@ -125,7 +125,7 @@ Class('VisualJS', 'linb.Com',{
             }
         },
 
-        base:['linb.UI'],
+        base:['linb.UI','linb.date'],
         required:["linb.UI.List","linb.UI.PopMenu","linb.UI.MenuBar","linb.UI.ToolBar","linb.UI.Layout","linb.UI.Tabs","linb.UI.TreeBar","linb.UI.Dialog","linb.UI.PanelBar","linb.UI.IFrame","linb.UI.Tips","linb.UI.Shadow","linb.UI.Resizer","linb.UI.Edge","linb.UI.Div"],
         //back ground lazy load
         background:[

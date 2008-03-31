@@ -1,4 +1,5 @@
 Class('linb.UI.TimePicker', 'linb.UI.iWidget', {
+    Dependency:['linb.date'],
     Instance:{
         setCtrlValue:function(value){
             return this.each(function(profile){
@@ -87,7 +88,6 @@ Class('linb.UI.TimePicker', 'linb.UI.iWidget', {
         });
     },
     Static:{
-        Dependency:['linb.date'],
         _excls:'linbex-timepicker',
         _excls2:'linbex-timepicker2',
         _excls_mo:'linbex-timepicker-mouseover',

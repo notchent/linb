@@ -1,4 +1,5 @@
 Class('linb.UI.DatePicker', 'linb.UI.iWidget', {
+    Dependency:['linb.date'],
     Instance:{
         setCtrlValue:function(value){
             return this.each(function(profile){
@@ -95,7 +96,6 @@ Class('linb.UI.DatePicker', 'linb.UI.iWidget', {
         });
     },
     Static:{
-        Dependency:['linb.date'],
         Appearances:{'default':{
             KEY:{
                 overflow:'visible',
