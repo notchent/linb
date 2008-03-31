@@ -1541,14 +1541,20 @@ Class('linb.dom','linb.iBox',{
             return this;
         },
         inlineBlock:function(flag){
+            var ns=this;
             if(flag){
                 if(linb.browser.gek)
-                    this.display('-moz-inline-block').display('-moz-inline-box');
+                    ns.display('-moz-inline-block').display('-moz-inline-box');
+                else if(linb.browser.ie6)
+                    ns.display('inline').setStyle('zoom',1);
                 else
-                    this.display('inline-block');
-            }else
-                this.display('');
-            return this;
+                    ns.display('inline-block');
+            }else{
+                ns.display('');
+                if(linb.browser.ie)
+                    ns.setStyle('zoom',0);
+            }
+            return ns;
         },
         topZindex:function(flag){
             //<1000 for css settting

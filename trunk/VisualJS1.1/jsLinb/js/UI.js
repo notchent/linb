@@ -1431,7 +1431,7 @@ new function(){
                 },
                 div:{
                     $order:15,
-                    'vertical-align':linb.browser.id?'auto':null,
+                    'vertical-align':linb.browser.ie?'auto':null,
                     'font-size':'12px'
                 },
                 span:{
