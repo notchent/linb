@@ -35,7 +35,7 @@ Class('VisualJS.About', 'linb.Com',{
             .setTop(10)
             .setWidth(260)
             .setHeight(80)
-            .setHtml("Visual Js 1.0 <br /> Powered by jsLinb and phpLINB <br />&copy;2006-2007 All rights reserved by <a href=\"mailto:&#108;&#105;&#110;&#98;&#46;&#110;&#101;&#116;&#64;&#103;&#109;&#97;&#105;&#108;&#46;&#99;&#111;&#109;\">Yingbo Li</a>")
+            .setHtml("Powered by jsLinb and phpLINB <br />&copy;2006-2008 All rights reserved by <a href=\"mailto:&#108;&#105;&#110;&#98;&#46;&#110;&#101;&#116;&#64;&#103;&#109;&#97;&#105;&#108;&#46;&#99;&#111;&#109;\">Yingbo Li</a>")
             );
 
             t.dialog.attach(
