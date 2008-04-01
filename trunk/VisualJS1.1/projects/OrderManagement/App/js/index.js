@@ -5,7 +5,7 @@ Class('App', 'linb.Com',{
         base:["linb.UI"],
         //requried class for the App
         //"linb.UI.Tips","linb.UI.Resizer","linb.UI.Edge","linb.UI.Shadow"
-        required:["linb.UI.Block","linb.UI.Div","linb.UI.Stacks","linb.UI.Button","linb.UI.PanelBar","linb.UI.Dialog","linb.UI.Label","linb.UI.TextEditor","linb.UI.TreeGrid","linb.UI.CheckBox","linb.UI.PageBar","linb.UI.ComboInput","linb.UI.Input","linb.UI.Group","linb.UI.Tabs"],
+        required:["linb.UI.Block","linb.UI.Div","linb.UI.Stacks","linb.UI.Button","linb.UI.PanelBar","linb.UI.Dialog","linb.UI.Label","linb.UI.TextEditor","linb.UI.TreeGrid","linb.UI.CheckBox","linb.UI.PageBar","linb.UI.ComboInput","linb.UI.Input","linb.UI.Group","linb.UI.Tabs","linb.UI.DatePicker"],
         iniComponents:function(){
             // [[code created by designer, don't change it manually
             var t=this, n=t._nodes=[], u=linb.UI, f=function(c){n.push(c.get(0))};
@@ -115,7 +115,6 @@ Class('App', 'linb.Com',{
             .setLeft(0)
             .setTop(0)
             .setCaption("Orders")
-            .setZIndex("1")
             .setIcon("img/order.gif")
             );
             
@@ -414,7 +413,6 @@ Class('App', 'linb.Com',{
             .setLeft(0)
             .setTop(0)
             .setCaption("Customers")
-            .setZIndex("0")
             .setIcon("img/customer.gif")
             );
             
@@ -705,20 +703,24 @@ Class('App', 'linb.Com',{
             //    this._bindOrderData(SPA.global_data_order[idx]);
             //    this._calculateTotal(SPA.global_data_order[idx]);
             //}else{
-                linb.ajax('Data/Orders.js','rnd=' + Math.random(),this._ajax1_onrequestok).start();
+                var ns=this;
+                linb.thread.asyUI(null, [function(threadid){
+                    linb.ajax('Data/Orders.js','rnd=' + Math.random(),ns._ajax1_onrequestok,null,threadid).start();
+                }]);
             //}
         },
         _onReady:function(page, threadid){
             SPA = page;
+            SPA.dialog14.setDisplay('none');
         },
         events:{"onReady":"_onReady"},
         _button12_onclick:function (profile, e, value) {
-            this.dialog7.setZIndex(2);
-            this.dialog14.setZIndex(1);
+            this.dialog7.setDisplay('');
+            this.dialog14.setDisplay('none');
         },
         _button13_onclick:function (profile, e, value) {
-            this.dialog7.setZIndex(1);
-            this.dialog14.setZIndex(2);
+            this.dialog7.setDisplay('none');
+            this.dialog14.setDisplay('');
         },
         _bindOrderData:function(obj){
             //alert(this.cbi_orders_customer);
@@ -789,8 +791,12 @@ Class('App', 'linb.Com',{
                 this._bindOrderData(SPA.global_data_customer[idx]);
                 //this._calculateTotal(SPA.global_data_customer[idx]);
             }else{
-                linb.ajax('Data/Customers.js','rnd=' + Math.random(),this._ajax2_onrequestok).start();
+                var ns=this;
+                linb.thread.asyUI(null, [function(threadid){
+                    linb.ajax('Data/Customers.js','rnd=' + Math.random(),ns._ajax2_onrequestok,null,threadid).start();
+                }]);                
             }
+            return false;
         },
         _treegrid14_ondblclickrow:function (profile, row, e, src) {
             for(var i = 0; i < SPA.global_data_order.length;i++){
