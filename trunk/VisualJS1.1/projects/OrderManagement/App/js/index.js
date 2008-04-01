@@ -246,6 +246,7 @@ Class('App', 'linb.Com',{
             .setValue(null)
             .setReadonly(true)
             .setType("listbox")
+            .setDataBinder('order')
             .setDataField("employee")
             );
             
@@ -255,6 +256,8 @@ Class('App', 'linb.Com',{
             .setLeft(130)
             .setTop(350)
             .setWidth(140)
+            .setDataBinder('order')
+            .setDataField("tax_rate")
             );
             
             t.dialog7.attach(
@@ -273,6 +276,8 @@ Class('App', 'linb.Com',{
             .setTop(380)
             .setCaption("Shipment Received")
             .setWidth(150)
+            .setDataBinder('order')
+            .setDataField("shipment_received")            
             );
             
             t.dialog7.attach(
@@ -294,6 +299,7 @@ Class('App', 'linb.Com',{
             .setTop(320)
             .setWidth(140)
             .setItems([{"id":"a","caption":"itema","tips":"item a"},{"id":"b","caption":"itemb","tips":"item b"},{"id":"c","caption":"itemc","tips":"item c"}])
+            .setDataBinder('order')
             .setType("datepicker")
             );
             
@@ -303,6 +309,7 @@ Class('App', 'linb.Com',{
             .setLeft(480)
             .setTop(80)
             .setWidth(140)
+            .setDataBinder('order')
             .setDataField("po_number")
             );
             
@@ -333,6 +340,7 @@ Class('App', 'linb.Com',{
             .setLeft(480)
             .setTop(50)
             .setWidth(140)
+            .setDataBinder('order')
             .setDataField("order_date")
             );
             
@@ -342,6 +350,7 @@ Class('App', 'linb.Com',{
             .setLeft(480)
             .setTop(20)
             .setWidth(140)
+            .setDataBinder('order')
             .setDataField("order_id")
             );
             
@@ -354,6 +363,7 @@ Class('App', 'linb.Com',{
             .setItems([{"id":"1","caption":"Mike,Silla"},{"id":"2","caption":"Rose,Kim"},{"id":"3","caption":"Betty,Jin"}])
             .setReadonly(true)
             .setType("listbox")
+            .setDataBinder('order')
             .setDataField("customer")
             );
             
@@ -367,7 +377,8 @@ Class('App', 'linb.Com',{
             .setValue(null)
             .setReadonly(true)
             .setType("listbox")
-            .setDataField("ship_method")
+            .setDataBinder('order')
+            .setDataField("shipment")
             );
             
             t.dialog7.attach(
@@ -384,7 +395,9 @@ Class('App', 'linb.Com',{
             .host(t,"ipt_orders_handle")
             .setLeft(480)
             .setTop(350)
-            .setWidth(140)
+            .setWidth(140)            
+            .setDataBinder('order')
+            .setDataField("handle")            
             );
             
             t.dialog7.attach(
@@ -677,7 +690,9 @@ Class('App', 'linb.Com',{
 
             var idx = parseInt(SPA.tgd_orders_details.getTag())-1;
             SPA.tgd_orders_details.setRows(obj[idx].order_details);
-            SPA._bindOrderData(obj[idx]);
+            
+            linb.iDataBinder.getDataBinder('order').resetValue(obj[idx]);
+            
             //SPA._calculateTotal(obj[idx]);
         },
         _ajax2_onrequestok:function (response, rspType, threadId) {
@@ -722,21 +737,7 @@ Class('App', 'linb.Com',{
             this.dialog7.setDisplay('none');
             this.dialog14.setDisplay('');
         },
-        _bindOrderData:function(obj){
-            //alert(this.cbi_orders_customer);
-            this.cbi_orders_customer.setValue(obj["customer"]);
-            this.ipt_orders_order_id.setValue(obj["order_id"]);
-            this.cbi_orders_ship_method.setValue(obj["shipment"]);
-            this.ipt_orders_order_date.setValue(obj["order_date"]);
-            this.cbi_orders_employee.setValue(obj["employee"]);
-            this.ipt_orders_po_number.setValue(obj["po_number"]);
 
-            this.dpi_orders_ship_date.setValue(obj["ship_date"]);
-            this.ipt_orders_tax_rate.setValue(obj["tax_rate"]);
-            this.cbi_shipment_received.setValue(obj["shipment_received"]);
-            this.ipt_orders_handle.setValue(obj["handle"]);
-
-        },
         _bindCustomerData:function(obj){
             //alert(this.cbi_orders_customer);
             this.ipt_customer_company.setValue(obj["company_name"]);
@@ -788,7 +789,9 @@ Class('App', 'linb.Com',{
             if(SPA.global_data_customer){
                 var idx = parseInt(a[1]);
                 SPA.tgd_orders_details.setRows(SPA.global_data_id[idx].order_details);
-                this._bindOrderData(SPA.global_data_customer[idx]);
+                
+                linb.iDataBinder.getDataBinder('order').resetValue(SPA.global_data_customer[idx]);
+
                 //this._calculateTotal(SPA.global_data_customer[idx]);
             }else{
                 var ns=this;
