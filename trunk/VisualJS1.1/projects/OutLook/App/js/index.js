@@ -92,9 +92,6 @@ Class('App', 'linb.Com',{
             t.layout4.attach(
             (new u.PanelBar)
             .host(t,"pnlNote")
-            .setLeft(230)
-            .setTop(140)
-            .setZIndex("2")
             .setCaption("Note Panel")
             , 'main');
             
@@ -163,9 +160,6 @@ Class('App', 'linb.Com',{
             t.layout4.attach(
             (new u.PanelBar)
             .host(t,"pnlEmail")
-            .setLeft(110)
-            .setTop(120)
-            .setZIndex(1)
             .setCaption("Emails")
             , 'main');
             
@@ -200,12 +194,9 @@ Class('App', 'linb.Com',{
             t.layout4.attach(
             (new u.PanelBar)
             .host(t,"pnlContact")
-            .setLeft(0)
-            .setTop(0)
-            .setZIndex("3")
             .setCaption("Bussiness & Contact ")
             , 'main');
-            
+
             t.pnlContact.attach(
             (new u.Group)
             .host(t,"group3")
@@ -345,14 +336,16 @@ Class('App', 'linb.Com',{
         },
         _onReady:function(page, threadid){
             SPA=page;
-
+            //select email button
+            SPA.pnlNote.setDisplay("none");
+            SPA.pnlContact.setDisplay("none");
+            SPA.buttonviews4.setValue('email',true);
         },
         _treebar5_onitemselected:function (profile, item, src) {
             this.pnlEmail.setCaption("Emails in " + item.caption);
             if(item.id=="b"){
                 //this.ajax1.request();
                 linb.ajax('Data/inbox.js','a=1&b=2',this._ajax1_onrequestok).start();
-
             }else{
                 linb.message("You seleted " + item.caption);
                 this.treegrid2.setRows([]);
@@ -367,20 +360,10 @@ Class('App', 'linb.Com',{
              this.block2.setHtml(row.cells[1].value);
         },
         _buttonviews4_onitemselected:function (profile, item, src) {
-            this.pnlEmail.setZIndex(1);
-            this.pnlNote.setZIndex(1);
-            this.pnlContact.setZIndex(1);
-
-            if(item.id=="email"){
-                this.pnlEmail.setZIndex(2);
-            }else if(item.id=="note"){
-                this.pnlNote.setZIndex(2);
-            }else if(item.id="contact"){
-                this.pnlContact.setZIndex(2);
-            }else{
-
-            }
-
+            var id=item.id;
+            this.pnlEmail.setDisplay(id=="email"?"":"none");
+            this.pnlNote.setDisplay(id=="note"?"":"none");
+            this.pnlContact.setDisplay(id=="contact"?"":"none");
         },
         _button11_onclick:function (profile, e, value) {
             this.popmenu5.pop(profile.root);
