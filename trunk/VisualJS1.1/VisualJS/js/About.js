@@ -66,7 +66,7 @@ Class('VisualJS.About', 'linb.Com',{
         },
         _div9_aftercreated:function (profile) {
             profile.root.onClick(function(){
-                linb.dom.submit('http://www.linb.net/VisualJS/');
+                linb.dom.submit('http://www.sigmawidgets.com/products/sigma_visual/bin/');
             });
         },
         _dialog2_beforeclose:function (profile) {

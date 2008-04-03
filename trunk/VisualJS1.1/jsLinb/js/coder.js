@@ -443,7 +443,7 @@ Class("linb.coder", null,{
                      aa.push("<a id='"+_key+"-"+s+":"+id+"' href='javascript:;' onclick='linb.coder.action(this,\""+s+"\");return false;'>"+s+"</a>");
                 });
 
-                aa.push("<span>"+key+" source code viewer, powered by <a href='http://www.linb.net' target='_blank' style='font-size:9px;color:#000157;'>LINB</a></span>");
+                aa.push("<span>"+key+" source code viewer, powered by <a href='http://www.sigmawidgets.com' target='_blank' style='font-size:9px;color:#000157;'>LINB</a></span>");
                 aa.push("</div>");
             }
             aa.push("<pre style='display:none'>");

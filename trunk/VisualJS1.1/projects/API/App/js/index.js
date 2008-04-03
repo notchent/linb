@@ -47,7 +47,7 @@ Class('App', 'linb.Com',{
             (new u.Div)
             .host(t,"div21")
             .afterCreated(function (pro) {
-                pro.root.onClick(function () {linb.dom.submit("http://www.linb.net");});
+                pro.root.onClick(function () {linb.dom.submit("http://www.sigmawidgets.com");});
             })
             .setCustomAppearance({"KEY":"background-image:url(img/logo.gif);position:absolute;top:0px;right:0px;width:120px;height:60px;z-index:100;cursor:pointer;"})
             );

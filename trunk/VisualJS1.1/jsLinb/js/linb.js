@@ -1,8 +1,3 @@
-/*
-jsLinb 1.1
-Copyright 2007 Yingbo Li(linb.net, linb.net[at]gmail.com).
-Dual licensed under the MIT (http://www.opensource.org/licenses/mit-license.php) and GPL (http://www.opensource.org/licenses/gpl-license.php) licenses.
-*/
 /* base _
 *
 *declare _ (global)
