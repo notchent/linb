@@ -114,7 +114,7 @@ Class("linb.UI.Edge","linb.UI.iWidget",{
                     d.$paddingTop-=bs;
                     d.$paddingBottom-=bs;
                     d.$paddingRight-=bs;
-                    target.unEdged();
+                    target.unEdge();
                     o.box.resize(o,w,h);
 
                     if(target.isShadow()){
