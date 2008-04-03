@@ -21,7 +21,7 @@ Class("linb.UI.Range", ["linb.UI.iWidget"],{
                     r1 = fun('RULER1'),
                     r3 = fun('RULER3'),
                     box = profile.box,
-                    arr = box._ensureV(value);
+                    arr = box._v2a(value);
 
                 profile._rate= 300/(p.max-p.min);
                 //use Math.round
@@ -36,23 +36,6 @@ Class("linb.UI.Range", ["linb.UI.iWidget"],{
                 //background div width
                 fun2(r1, profile._v1 + 8);
                 fun2(r3, 300 - profile._v2 - 8);
-            });
-        },
-        setValue:function(value,flag){
-            var upper = arguments.callee.upper;
-            return this.each(function(profile){
-                var p = profile.properties,
-                    arr = profile.box._ensureV(value),
-                    min=p.min,
-                    max=p.max,
-                    a=[];
-                a[0] = arr[0];
-                a[1] = arr[1];
-                a[0] = a[0]<min?min:a[0];
-
-                a[1] = a[1]>max?max:a[1];
-                value = a.join(':');
-                upper.apply(profile.boxing(),[value, flag]);
             });
         },
         setDirtyMark:function(){
@@ -185,7 +168,7 @@ Class("linb.UI.Range", ["linb.UI.iWidget"],{
                 onMousedown:function(profile, e, src){
                     var p=profile.properties,
                         box=profile.box,
-                        arr = box._ensureV(p.$UIvalue);
+                        arr = box._v2a(p.$UIvalue);
 
                     linb([src]).startDrag(e,{
                         type:'move',
@@ -227,7 +210,7 @@ Class("linb.UI.Range", ["linb.UI.iWidget"],{
                 onMousedown:function(profile, e, src){
                     var p=profile.properties,
                         box=profile.box,
-                        arr = box._ensureV(p.$UIvalue);
+                        arr = box._v2a(p.$UIvalue);
 
                     linb([src]).startDrag(e,{
                         type:'move',
@@ -293,7 +276,7 @@ Class("linb.UI.Range", ["linb.UI.iWidget"],{
         prepareData:function(profile){
             arguments.callee.upper.call(this, profile);
             var d=profile.data,p=profile.properties,
-                arr=profile.box._ensureV(p.value);
+                arr=profile.box._v2a(p.value);
             d._single = p.single?'display:none':'';
 
             p.min=parseFloat(p.min);
@@ -303,13 +286,26 @@ Class("linb.UI.Range", ["linb.UI.iWidget"],{
             d.max = d.max + p.unit;
 
         },
-        _ensureV:function(v){
-            var a = v.split(':'),
+        ensureV:function(profile, v){
+            var p = profile.properties,
+                a = v.split(':'),
+                min=p.min,
+                max=p.max,
                 b=[],
-                fun=function(a){return parseFloat(a)};
-            b[0]= fun(a[0]);
-            b[1]=fun(a[1]);
-            return b;
+                f1=function(a){return parseFloat(a)},
+                f2=function(a){return Math.min(max, Math.max(min,a))};
+            
+            b[0]= f1(a[0]);
+            b[1]= f1(a[1]);
+            b[0] = Math.min(b[0],b[1]);
+            if(!min)min=b[0];
+            if(!max)max=b[1];
+            b[0]= f2(b[0]);
+            b[1]= f2(b[1]);            
+            return b.join(':');
+        },
+        _v2a:function(v){
+            return typeof v == 'string'? v.split(':') : v;
         },
         _buildTpl:function(single,tpl,arr,unit){
             return single?
@@ -329,7 +325,7 @@ Class("linb.UI.Range", ["linb.UI.iWidget"],{
                 r1 = fun('RULER1'),
                 r3 = fun('RULER3'),
                 t,f,
-                arr=this._ensureV(p.$UIvalue);
+                arr=this._v2a(p.$UIvalue);
 
              //adjust top
             src.style.top = this.x2y(d.proxyPos.left) + 'px';

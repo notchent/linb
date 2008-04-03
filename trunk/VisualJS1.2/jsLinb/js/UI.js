@@ -2530,7 +2530,11 @@ new function(){
                 var self=this;
                 self.setCtrlValue(value||'');
                 self.each(function(profile){
+                    var r;
+                    if(typeof (r=profile.box.ensureV)=='function')
+                        value = r.call(profile.box, profile, value);
                     profile.properties.$UIvalue = profile.properties.value = value||'';
+                    if(typeof(r=profile.$onValueSet)=='function')r.call(profile,value);
                     profile.inValid=1;
                 });
                 self.setDirtyMark();
@@ -2549,9 +2553,17 @@ new function(){
                             (profile.beforeValueUpdated && false===(r=box.beforeValueUpdated(profile, ovalue, value)))
                           )
                             return;
+                        //can get return value
                         if(typeof r!='undefined')value=r;
+                        //before setCtrlValue
+                        if(typeof (r=profile.box.ensureV)=='function')
+                            value = r.call(profile.box, profile, value);                        
+                        if(typeof(r=profile.$onValueUpdated)=='function')r.call(profile,value);
+                        //before value copy
                         if(profile.domNode)box.setCtrlValue(value);
+                        //value copy
                         prop.$UIvalue = value;
+                        
                         if(profile.domNode)box.setDirtyMark();
                         if(profile.afterValueUpdated)box.afterValueUpdated(profile, ovalue, value);
                     }
@@ -2609,11 +2621,16 @@ new function(){
                                 if(profile.box.checkValid(profile, value)===false)return;
                                 //if return false in beforeValueSet, not set
                                 if(profile.beforeValueSet && false=== (r=box.beforeValueSet(profile, ovalue, value)))return;
-
+                                // can get return value
                                 if(typeof r!='undefined')value=r;
-                                //set to UI/ctrl
+                                //before setCtrlValue
+                                //ensure value
+                                if(typeof (r=profile.box.ensureV)=='function')
+                                    value = r.call(profile.box, profile, value);                                    
+                                if(typeof(r=profile.$onValueSet)=='function')r.call(profile,value);
+                                //before value copy
                                 if(profile.domNode)box.setCtrlValue(value);
-
+                                //value copy
                                 p.value = p.$UIvalue = value;
 
                                 profile.inValid=1;
@@ -2677,8 +2694,10 @@ new function(){
             },
             Behaviors:{'default':{}},
             EventHandlers:{
+                //$onValueSet
                 beforeValueSet:function(profile, oldValue, newValue, showValue){},
                 afterValueSet:function(profile, oldValue, newValue, showValue){},
+                //$onValueUpdated
                 beforeValueUpdated:function(profile, oldValue, newValue, showValue){},
                 afterValueUpdated:function(profile, oldValue, newValue, showValue){},
 

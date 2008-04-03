@@ -71,7 +71,7 @@
 };
 
 linb.Locale.en.color={
-  SIMPLE:{
+  LIST:{
     "FFFFFF":"White",
     "FFFFF0":"Ivory",
     "FFFFE0":"Light Yellow",

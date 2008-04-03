@@ -9,8 +9,8 @@ Class('linb.UI.TimePicker', 'linb.UI.iWidget', {
                     cls = profile.box,
                     p = profile.properties,
                     uiv = p.$UIvalue,
-                    arr1=cls.ensureV(uiv),
-                    arr2=cls.ensureV(value),
+                    arr1=cls._v2a(uiv),
+                    arr2=cls._v2a(value),
                     id=profile.serialId,
                     keys=profile.keys,
                     byId=linb.dom.byId
@@ -21,14 +21,7 @@ Class('linb.UI.TimePicker', 'linb.UI.iWidget', {
                 cls._check(byId(profile.getNodeId(keys.MI, id, arr2[1])));
 
                 profile.getSubNode('HOUR').html(arr2[0],false);
-                profile.getSubNode('CAPTION').html(profile.box._showV(profile,profile.box.ensureV(arr2)),false);
-            });
-        },
-        setValue:function(value,flag){
-            var upper = arguments.callee.upper;
-            return this.each(function(profile){
-                var box=profile.box;
-                upper.apply(profile.boxing(),[box.formatValue(value), flag]);
+                profile.getSubNode('CAPTION').html(profile.box._showV(profile,profile.box._v2a(arr2)),false);
             });
         }
     },
@@ -334,10 +327,7 @@ Class('linb.UI.TimePicker', 'linb.UI.iWidget', {
         createdTrigger:function(){
             this.getSubNode('HOURTXT').html(linb.wrapRes('date.H'),false);
         },
-        formatValue:function(v){
-            return this.ensureV(v).join(':');
-        },
-        ensureV:function(v){
+        ensureV:function(profile, v){
             var a,b=[];
             if(v&& typeof v == 'string')
                 a=v.split(':')
@@ -355,7 +345,13 @@ Class('linb.UI.TimePicker', 'linb.UI.iWidget', {
             b[0]=(b[0]<=9?'0':'')+b[0];
             b[1]=(b[1]<=9?'0':'')+b[1];
 
-            return b;
+            return b.join(':');
+        },
+        formatValue:function(v){
+            return v.join(':');
+        },        
+        _v2a:function(v){
+            return typeof v == 'string'? v.split(':') : v;
         },
         _showV:function(profile, a){
             var f=profile.CF;

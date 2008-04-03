@@ -369,7 +369,7 @@
     }
 };
 linb.Locale.cn.color={
-  SIMPLE:{
+  LIST:{
     "FFFFFF":"纯白",
     "FFFFF0":"象牙",
     "FFFFE0":"浅黄色",

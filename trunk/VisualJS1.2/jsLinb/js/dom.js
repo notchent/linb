@@ -1859,7 +1859,7 @@ type:4
                         p=linb.event.getPos(e),
                         arr=me.arr,
                         a=arr.copy(),
-                        b, pos, size;
+                        b, pos, w, h;
                     //filter first
                     a.each(function(i){
                         b=true;
@@ -1879,11 +1879,9 @@ type:4
                         v=arr[i];
                         b=true;
                         v.target.each(function(o){
-                            if(o.parentNode){
-                                o=linb([o]);
-                                pos = o.absPos();
-                                size = o.cssSize();
-                                if(p.left>=pos.left && p.top>=pos.top && p.left<=(pos.left+size.width) && p.top<=(pos.top+size.height))
+                            if(o.parentNode && (w=o.offsetWidth) && (h=o.offsetHeight)){
+                                pos=linb([o]).absPos();
+                                if(p.left>=pos.left && p.top>=pos.top && p.left<=(pos.left+w) && p.top<=(pos.top+h))
                                     return b=false;
                             }
                         });

@@ -182,12 +182,17 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                             });
 
                             break;
-/*
+
                         case 'colorpicker':
                             linb.SC('linb.UI.ColorPicker');
                             o = linb.create('ColorPicker');
+                            o.host(profile);
+                            o.beforeClose(function(){this.boxing()._cache();return false});
+                            o.onOK(function(p, o, v){
+                                //update value
+                                this.boxing().updateUIValue('#'+v)._cache();
+                            });
                             break;
-                            */
                     }
 
                     profile.$drop = o.get(0);
@@ -216,6 +221,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                             o.setValue(new Date( parseInt(t) ), true);
                         break;
                     case 'colorpicker':
+                        o.setValue(box.getUIValue().replace('#',''), true);
                         break;
                 }
 
@@ -529,16 +535,16 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                             _.merge(p,{
                                 $compareValue : null,
                                 $getShowValue : function(profile,value){
-                                    return value?o.formatValue(value):'';
+                                    return value?o.ensureV(profile,value):'';
                                 },
                                 $getEditValue : null,
                                 $fromEditValue : function(profile,value){
-                                    return o.formatValue(value);
+                                    return o.ensureV(profile,value);
                                 }
                             },'all');
                             pro=p.properties;
                             if(pro.value)
-                                pro.$UIvalue=pro.value=o.formatValue(pro.value);
+                                pro.$UIvalue=pro.value=o.ensureV(profile,pro.value);
                         });
                     else if(v=='datepicker'){
                         var date=linb.date;

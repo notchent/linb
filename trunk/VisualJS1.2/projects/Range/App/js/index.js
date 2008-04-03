@@ -20,9 +20,9 @@ Class('App', 'linb.Com',{
             .host(t,"range1")
             .setLeft(110)
             .setTop(54)
-            .setValue("1000:2000")
             .setMin(1000)
             .setMax(3000)
+            .setValue("1000:2000")
             .setUnit("$")
             );
 
