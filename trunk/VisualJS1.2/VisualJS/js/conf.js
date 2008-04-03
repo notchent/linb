@@ -28,10 +28,10 @@ CONF={
             {id:'linb.UI.List', caption:'List', icon:'img/widgets.gif', iconPos:'-192px top', dragable:true},
             {id:'linb.UI.ComboInput', caption:'ComboInput', icon:'img/widgets.gif', iconPos:'-144px top', dragable:true},
 
+            {id:'linb.UI.ProgressBar', caption:'ProgressBar', icon:'img/widgets.gif', iconPos:'-608px top', dragable:true},
+
             {id:'linb.UI.Range', caption:'Range', icon:'img/widgets.gif', iconPos:'left -16px', dragable:true},
             {id:'linb.UI.ComboButton', caption:'ComboButton', icon:'img/widgets.gif', iconPos:'-80px top', dragable:true},
-    //        {id:'linb.UI.Spin', caption:'Spin', icon:'img/widgets.gif', iconPos:'-160px top', dragable:true},
-    //        {id:'linb.UI.Slider', caption:'Slider', icon:'img/widgets.gif', iconPos:'-176px top', dragable:true},
             {id:'linb.UI.TimePicker', caption:'TimePicker', icon:'img/widgets.gif', iconPos:'-240px top', dragable:true},
             {id:'linb.UI.DatePicker', caption:'DatePicker', icon:'img/widgets.gif', iconPos:'-256px top', dragable:true},
             {id:'linb.UI.ColorPicker', caption:'ColorPicker', icon:'img/widgets.gif', iconPos:'-272px top', dragable:true},
@@ -67,7 +67,6 @@ CONF={
         ]},
         {id:'linb.UI.iSchedule',caption:'Schedules',group:true, icon:'img/App.gif', iconPos:'-48px -48px', sub:[
             {id:'linb.UI.Calendar', caption:'Calendar', icon:'img/widgets.gif', iconPos:'-496px top', dragable:true},
-//            {id:'linb.UI.TaskList', caption:'TaskList', icon:'img/widgets.gif', iconPos:'-512px top', dragable:true},
             {id:'linb.UI.TimeLine', caption:'TimeLine', icon:'img/widgets.gif', iconPos:'-528px top', dragable:true}
         ]}/*,
         {id:'linb.UI.iMedia',caption:'Medias',group:true, icon:'img/App.gif', iconPos:'-48px -48px', sub:[
@@ -75,9 +74,6 @@ CONF={
             {id:'linb.UI.Flash', caption:'Flash', icon:'img/widgets.gif', iconPos:'-560px top', dragable:true},
             {id:'linb.UI.Sound', caption:'Sound', icon:'img/widgets.gif', iconPos:'-592px top, dragable:true},
             {id:'linb.UI.Vector', caption:'Embed', icon:'img/widgets.gif', iconPos:'-576px top', dragable:true}
-        ]},
-        {id:'linb.UI.iMisc',caption:'Miscellaneous',group:true, icon:'img/App.gif', iconPos:'-48px -48px', sub:[
-            {id:'linb.UI.ProgressBar', caption:'ProgressBar', icon:'img/widgets.gif', iconPos:'-608px top'},
         ]}*/
     ],
     ComFactoryProfile:{

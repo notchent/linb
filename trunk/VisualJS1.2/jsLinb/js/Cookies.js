@@ -1,32 +1,24 @@
 
 Class("linb.Cookies", null,{
     Static:{
-        set:function(key,value,days,path,domain,secure){
-            key=encodeURIComponent(key);
-            value=encodeURIComponent(value);
-
-            var ep,date;
-        	if(typeof days == 'number' && isFinite(days)){
-        		date = new Date();
-        		date.setTime(date.getTime()+(days*24*60*60*1000));
-        		ep = date.toUTCString();
-        	}
-        	document.cookie = key+"="+value+(ep?"; expires="+ep:"") + (path?"; path="+path:"")+ (domain?"; domain="+domain:"")+ (secure?"; secure;":"");
-        	return this;
+        set:function(key,value,days,path,domain,isSecure){
+	        if(key){
+    	        document.cookie = escape(key) + "=" + escape(value) +
+    		        (days?";expires="+(new Date((new Date()).getTime()+(24*60*60*1000*days))).toGMTString():"")+
+    		        (path?";path="+path:"")+
+    		        (domain?";domain="+domain:"")+ 
+    		        (isSecure?";secure":"");
+    		}
+    		return this;
         },
         get:function(key){
-            key=encodeURIComponent(key);
-        	var nEQ = key + "=",
-        	    ca = document.cookie.split(';'),
-        	    i,c;
-        	for(i=0;i < ca.length;i++){
-        		c = ca[i];
-        		while(c.charAt(0)==' ')
-        		    c = c.substring(1,c.length);
-        		if (c.indexOf(nEQ) === 0)
-        		    return decodeURIComponent(c.substring(nEQ.length,c.length));
+        	var i,a,ca = document.cookie.split( "; " );
+        	for(i=0;i<ca.length;i++){
+        		a=ca[i].split("=");
+        		if(a[0]==escape(key))
+        		    return a[1]?unescape(a[1]):'';
         	}
-        	return '';
+        	return null;
         },
         remove:function(key){
         	return this.set(key,"",-1).set(key,"/",-1);

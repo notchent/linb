@@ -188,15 +188,16 @@ Class("linb.UI.Tips", null,{
             var self=this,
                 from=self.from,
                 node=self.enode,
+                pos=self.pos,
                 id,
                 o,t,b=false;
 
             self.from=self.enode=null;
 
-            if(!node || !from || !(o=from.box))return;
+            if(!node || !from || !pos || !(o=from.box))return;
 
             //keep older
-            self._pos=pos=self.pos;
+            self._pos=pos;
 
             //b=((t=from.CF) && (t=t.showTips) && t(from, node, pos));
 
