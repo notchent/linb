@@ -15,7 +15,7 @@ Class('linb.event',null,{
         //type
         type = e.type;
         //template id
-        if(tid)e._tid=tid;
+        if(tid)src._tid=tid;
 
         //for correct mouse hover problems;
         if('mouseover'==type || 'mouseout'==type){
@@ -35,7 +35,7 @@ Class('linb.event',null,{
         if((obj=self.focusHook).length &&
             self._kb[type] &&
             (e.$key || e.keyCode || e.charCode)==9 &&
-            false === self._handleFocusHook(src, obj=obj[obj.length-1]))
+            false === self._handleFocusHook(self.getSrc(e), obj=obj[obj.length-1]))
                 return;
 
         id = self.getId(src) || tid;
@@ -127,7 +127,7 @@ Class('linb.event',null,{
         rtnFalse:linb.browser.opr?undefined:false,
         _type:{},
         _kb:{keydown:1,keypress:1,keyup:1},
-        _reg:/([\.\w]+)(-[\.\w]+)?(:[\w]+:)(.*)/,
+        _reg:/([\.\w]+)(-[\.\w]+)?(:[\.\w]+:)([\.\w]*)/,
         _eventhandler:function(){return linb.event(arguments[0],this)},
         _eventhandler2:function(){return linb.event(arguments[0],this,1)},
         _eventtag:'before,on,after'.split(','),
@@ -164,7 +164,7 @@ Class('linb.event',null,{
             return id && linb.cache.dom[id.replace(this._reg,'$1$3')];
         },
         _handleFocusHook:function(src, target){
-            if(src==document)return true;
+            if(src===document)return true;
             var node=src;
 
             do{

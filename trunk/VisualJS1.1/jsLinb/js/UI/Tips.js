@@ -40,11 +40,11 @@ Class("linb.UI.Tips", null,{
         },'$Tips',-1)
         .afterMouseover(function(obj, e, src){
             var event=linb.event,
-                rt=event.rtFalse,
+                rt=event.rtnFalse,
                 node=event.getSrc(e),
                 id,
                 //for linb.template
-                tid=e._tid,
+                tid=node._tid,
                 from,
                 tempid,evid,
                 pass
@@ -80,9 +80,10 @@ Class("linb.UI.Tips", null,{
             if(tips.markId){
                 var event=linb.event,
                     id,
-                    tempid,evid,
+                    tempid,
+                    evid,
                     //for linb.template
-                    tid=e._tid,
+                    tid=event.getSrc(e)._tid,
                     clear,
                     node = e.toElement||e.relatedTarget;
 
@@ -93,7 +94,7 @@ Class("linb.UI.Tips", null,{
                     if(!node || (!tid && !(id=node.id) || (tid && node.id)))
                         clear=1;
                 }catch(e){clear=1}
-                
+
                 if(!clear){
                     tempid=tid?tid+node.getAttribute('evid'):id.replace(event._reg,'$1$3$4');
                     clear=tempid !== tips.markId;
@@ -103,7 +104,7 @@ Class("linb.UI.Tips", null,{
                     if(tips.showed)tips.hide();
                     else tips.asyHide();
                 }
-                return event.rtFalse;
+                return event.rtnFalse;
             }
         },'$Tips',-1);
 
@@ -111,6 +112,9 @@ Class("linb.UI.Tips", null,{
             'default' : new function(){
                 this._r=/(\$)([\w\.]+)/g;
                 this.show=function(item, pos){
+                    //if trigger onmouseover before onmousemove, pos will be undefined
+                    if(!pos)return;
+
                     var self=this,node,s,w,h;
                     if(!(node=self.node)){
                         node = self.node = linb.create('<div class="linb-ui-tips"><div class="linb-ui-tips-i"></div></div>');
@@ -184,18 +188,21 @@ Class("linb.UI.Tips", null,{
             var self=this,
                 from=self.from,
                 node=self.enode,
+                pos=self.pos,
                 id,
                 o,t,b=false;
 
             self.from=self.enode=null;
 
-            if(!node || !from || !(o=from.box))return;
+            if(!node || !from || !pos || !(o=from.box))return;
 
             //keep older
-            self._pos=pos=self.pos;
+            self._pos=pos;
+
+            //b=((t=from.CF) && (t=t.showTips) && t(from, node, pos));
 
             //check if showTips works
-            b=(o.showTips && o.showTips(from, node, pos));
+            if(!b)b=(o.showTips && o.showTips(from, node, pos));
 
             //check if default tips works
             //tips is a base var
