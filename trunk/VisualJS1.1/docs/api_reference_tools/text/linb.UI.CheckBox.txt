@@ -1,8 +1,0 @@
->>>>>>>>>>>>>>>>>>>Events<<<<<<<<<<<<<<<
-
-
----------------------------------------
-afterValueUpdated(profile, oldValue, newValue) 
-Fired when check box is checked or unchecked.
-oldValue. boolean.  Indicate whether check box is checked before value being updated.
-newValue. boolean. Indicate whether check box is checked after value being updated.

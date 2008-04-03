@@ -1,7 +1,0 @@
->>>>>>>>>>>>>>>>>>>Constructor<<<<<<<<<<<<<<<
-
-
----------------------------------------
-linb.ajax ( uri, queryString, onSuccess, onFail, threadid, args )
-linb.ajax supports get and post method, but doesn't support get(cross domain), post(corss domain), posting file, returning big data(corss domain).
-
