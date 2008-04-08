@@ -1,0 +1,15 @@
+<html><head><link rel='stylesheet' type='text/css' href='style.css' /></head><body>
+<h1><img src='img/work.jpg' style='vertical-align: bottom;margin-right:4px;'>linb</h1>
+<h2><span class='linb-custom-cmd'></span>Static Methods</h2>
+<div class='linb-custom-block'>
+<p><span class='linb-custom-icon' style='background-position:left -48px;'></span><span class='linb-func-name'>create()</span><br>To create ui object.<br>Sample - <br>var jsonstr = "{'alias' : 'Button1','key' : 'linb.UI.Button','host" : this}";<br>this.Block22.attach(linb.create(_.unserialize(jsonstr)));<br></p>
+<p><span class='linb-custom-icon' style='background-position:left -48px;'></span><span class='linb-func-name'>getPath ( key, tag, add )</span><br>To get related path by name space. Example:<br>linb.getPath('linb.UI.Button','','appearance') => linb.ini.path + /appearance/UI/Button/<br>linb.getPath('linb.UI.Button','.gif','appearance') => linb.ini.path + /appearance/UI/Button.gif<br>linb.getPath('a.b','','appearance') => linb.ini.appPath + /a/appearance/b/"<br>linb.getPath('a.b','.gif','appearance') => linb.ini.appPath + /a/appearance/b.gif" <br>key: String. Name space. Format - linb.UI.xxx.<br>tag: String. File tag.<br>add: String. Appearance or bahavior<br>   <br></p>
+<p><span class='linb-custom-icon' style='background-position:left -48px;'></span><span class='linb-func-name'>ini ( path )</span><br>To set application default path.<br>path: String.  <br></p>
+<p><span class='linb-custom-icon' style='background-position:left -48px;'></span><span class='linb-func-name'>reLang ( s, cb )</span><br>To change language dynamically.<br>You need to modify jsLinb/Locale/en.js manully if you don't want to use reLang.<br><br></p>
+</div>
+<h2><span class='linb-custom-cmd'></span>Static Properties</h2>
+<div class='linb-custom-block'>
+<p><span class='linb-custom-icon' style='background-position:left -96px;'></span><span class='linb-func-name'>browser</span><br>The browser where this application resides<br></p>
+<p><span class='linb-custom-icon' style='background-position:left -96px;'></span><span class='linb-func-name'>Locale</span><br>Locale.<br></p>
+</div>
+</body></html>

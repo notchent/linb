@@ -1,0 +1,32 @@
+<html><head><link rel='stylesheet' type='text/css' href='style.css' /></head><body>
+<h1><img src='img/work.jpg' style='vertical-align: bottom;margin-right:4px;'>linb.dom</h1>
+<h2><span class='linb-custom-cmd'></span>Instance Methods</h2>
+<div class='linb-custom-block'>
+<p><span class='linb-custom-icon' style='background-position:left -48px;'></span><span class='linb-func-name'>addClass ( str )</span><br>Add a class to dom attribute..<br>str: String. Class name.<br></p>
+<p><span class='linb-custom-icon' style='background-position:left -48px;'></span><span class='linb-func-name'>addEventHandler ( name, flag )</span><br>To add event handler named name.<br>name: String. Handler name.<br></p>
+<p><span class='linb-custom-icon' style='background-position:left -48px;'></span><span class='linb-func-name'>addFirst ( target )</span><br>To add a specific dom node as its first child.<br>target: Dom node. Node to be added.<br></p>
+<p><span class='linb-custom-icon' style='background-position:left -48px;'></span><span class='linb-func-name'>addLast ( target )</span><br>To add a specific dom node as its last child.<br>target: Dom node. Node to be added.<br></p>
+<p><span class='linb-custom-icon' style='background-position:left -48px;'></span><span class='linb-func-name'>addNext ( target )</span><br>To add a specific dom node as its next brother.<br>target: Dom node. Node to be added.<br></p>
+<p><span class='linb-custom-icon' style='background-position:left -48px;'></span><span class='linb-func-name'>addPre ( target )</span><br>To add a specific dom node as its previous brother.<br>target: Dom node. Node to be added.<br></p>
+<p><span class='linb-custom-icon' style='background-position:left -48px;'></span><span class='linb-func-name'>attach ( target )</span><br>To attach a specific dom node as its last child.<br>target: Dom node. Node to be added.<br></p>
+<p><span class='linb-custom-icon' style='background-position:left -48px;'></span><span class='linb-func-name'>attr ( key, value )</span><br>To get or set attribute of dom. <br>Sample - <br>attr('width','0'): set width = 0<br>attr('width'): get width<br>attr('width',null): try to remove width<br>attr({width:3,height:4})<br></p>
+<p><span class='linb-custom-icon' style='background-position:left -48px;'></span><span class='linb-func-name'>busy ( flag )</span><br>To make DOM node in busy status.<br></p>
+<p><span class='linb-custom-icon' style='background-position:left -48px;'></span><span class='linb-func-name'>canFocus ( )</span><br>To determine whether this node call be focused on<br></p>
+<p><span class='linb-custom-icon' style='background-position:left -48px;'></span><span class='linb-func-name'>empty ( flag )</span><br>To make innerHTML empty.<br></p>
+<p><span class='linb-custom-icon' style='background-position:left -48px;'></span><span class='linb-func-name'>free ( )</span><br>To make DOM node in free status.<br></p>
+<p><span class='linb-custom-icon' style='background-position:left -48px;'></span><span class='linb-func-name'>gc ( )</span><br>This function is for Garbage Collection in IE6<br></p>
+<p><span class='linb-custom-icon' style='background-position:left -48px;'></span><span class='linb-func-name'>getRegion ( flag, parent )</span><br>To get a rectangle for DOM node.<br>returns: Object. Sample -{left:0,top:0,width:100,height:100}<br></p>
+<p><span class='linb-custom-icon' style='background-position:left -48px;'></span><span class='linb-func-name'>hasClass ( str )</span><br>To determine whether there exists specfic class name dom attribute.<br>str: Class name.<br>returns: Boolean.<br></p>
+<p><span class='linb-custom-icon' style='background-position:left -48px;'></span><span class='linb-func-name'>html ( str, flag )</span><br>To set inner html.<br>str: String. Inner html.<br></p>
+<p><span class='linb-custom-icon' style='background-position:left -48px;'></span><span class='linb-func-name'>outerHTML ( str )</span><br>To set outer html.<br>str: String. Outer html.<br></p>
+<p><span class='linb-custom-icon' style='background-position:left -48px;'></span><span class='linb-func-name'>reClass ( reg, replace )</span><br>To replace sub string in class name with another string.<br>reg: Regular expression.<br>replace: String. The string to replace with.<br></p>
+<p><span class='linb-custom-icon' style='background-position:left -48px;'></span><span class='linb-func-name'>remove ( flag )</span><br>To remove the node itself standing for.<br>flag: Boolean. If set to true, more action will be taken to free memory.<br></p>
+<p><span class='linb-custom-icon' style='background-position:left -48px;'></span><span class='linb-func-name'>removeClass ( str )</span><br>To remove a class from dom attribute.<br>str: String. Class name.<br></p>
+<p><span class='linb-custom-icon' style='background-position:left -48px;'></span><span class='linb-func-name'>removeEvent ( name, event_id, flag )</span><br>Sample.<br>removeEvent('onClick','idforthisclick')<br>removeEvent('onClick') will remove all onClick in linb.cache.dom.id.events.<br>removeEvent('onClick',null,true) will remove all onClick/beforeClick/afterClick in linb.cache.dom.id.events.<br></p>
+<p><span class='linb-custom-icon' style='background-position:left -48px;'></span><span class='linb-func-name'>removeEventHandler ( name )</span><br>To remove event handler with specific name.<br>name: String. Handler name.<br></p>
+<p><span class='linb-custom-icon' style='background-position:left -48px;'></span><span class='linb-func-name'>replace ( target, flag )</span><br>To replace a node itself standing for with a specific dom node.<br>target: Dom node. Node to replace with.<br></p>
+<p><span class='linb-custom-icon' style='background-position:left -48px;'></span><span class='linb-func-name'>setRegion ( hash, flag, force )</span><br>To set a rectangle for DOM node.<br>hash: Object. Sample -{left:0,top:0,width:100,height:100}<br></p>
+<p><span class='linb-custom-icon' style='background-position:left -48px;'></span><span class='linb-func-name'>swap ( target )</span><br>To swap a node itself standing for and a specific dom node.<br>target: Dom node. Node to be swapped.<br></p>
+<p><span class='linb-custom-icon' style='background-position:left -48px;'></span><span class='linb-func-name'>text ( str )</span><br>To set html text.<br>str: String. Html text.<br></p>
+</div>
+</body></html>
