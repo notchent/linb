@@ -12,7 +12,9 @@ CONF={
     path_gpllicence:'http://www.gnu.org/licenses/gpl-3.0.txt',
     path_licence:'http://www.sigmawidgets.com/license2.html',
     path_purchase:'http://www.sigmawidgets.com/buy_now2.html',
-    
+    path_manual:'http://www.sigmawidgets.com/products/sigma_visual/bin/docs/sigma_visual_manual/manual.htm',
+    path_api:'http://www.sigmawidgets.com/products/sigma_visual/bin/docs/sigma_linb_reference/index.html',
+        
     mapWidgets:{},
     widgets: [
         {id:'linb.UI.iForm',caption:'Form Elements',group:true, icon:'img/App.gif', iconPos:'-48px -48px',sub:[

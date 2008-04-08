@@ -6,6 +6,7 @@
     cancel:'取消',
     notsave:'尚未保存',
     notsave2:'您即将关闭的窗口尚未保存，是否放弃修改并继续关闭操作?',
+    notsave3:'当前工程中还有未保存的文件，是否要继续操作?',
     checkOK:'代码没有语法错误!',
     menu:{
         file:'文件',
@@ -44,6 +45,8 @@
         debug:'调试当前程序',
         release:'发布当前程序' ,
         ec: '转换语言到英文',
+        manual:'用户手册',
+        api:'API参考',
         demo:'示例',
         flash:'Flash 视频介绍'
     },
