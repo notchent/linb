@@ -8,29 +8,7 @@ Class('App', 'linb.Com',{
         iniComponents:function(){
             // [[code created by designer, don't change it manually
             var t=this, n=t._nodes=[], u=linb.UI, f=function(c){n.push(c.get(0))};
-
-            f(
-            (new u.Div)
-            .host(t,"Div8")
-            .setLeft(24)
-            .setTop(136)
-            .setWidth(168)
-            .setHeight(24)
-            .setHtml("Group")
-            );
-
-            f(
-            (new u.Panel)
-            .host(t,"panel2")
-            .setLeft(312)
-            .setTop(40)
-            .setWidth(256)
-            .setHeight(78)
-            .setDropKeys("iAny")
-            .onDrop("_panel2_ondrop")
-            .setCustomAppearance({"KEY":"border:solid 1px;background-color:#fff;"})
-            );
-
+            
             f(
             (new u.Div)
             .host(t,"Div9")
@@ -38,9 +16,21 @@ Class('App', 'linb.Com',{
             .setTop(272)
             .setWidth(168)
             .setHeight(24)
-            .setHtml("Stacks")
+            .setHtml("Drop button to stacks below ")
             );
-
+            
+            f(
+            (new u.Panel)
+            .host(t,"panel2")
+            .setLeft(310)
+            .setTop(40)
+            .setWidth(256)
+            .setHeight(78)
+            .setDropKeys("iAny")
+            .onDrop("_panel2_ondrop")
+            .setCustomAppearance({"KEY":"border:solid 1px;background-color:#fff;"})
+            );
+            
             f(
             (new u.Div)
             .host(t,"div7")
@@ -50,7 +40,7 @@ Class('App', 'linb.Com',{
             .setHeight(24)
             .setHtml("Panel1")
             );
-
+            
             f(
             (new u.Div)
             .host(t,"div8")
@@ -58,9 +48,9 @@ Class('App', 'linb.Com',{
             .setTop(16)
             .setWidth(168)
             .setHeight(24)
-            .setHtml("Panel2")
+            .setHtml("Drop button to panel below ")
             );
-
+            
             f(
             (new u.Panel)
             .host(t,"panel1")
@@ -72,19 +62,19 @@ Class('App', 'linb.Com',{
             .onDrop("_panel2_ondrop")
             .setCustomAppearance({"KEY":"border:solid 1px;background-color:#fff;"})
             );
-
+            
             t.panel1.attach(
             (new u.Button)
             .host(t,"label6")
             .setLeft(11)
             .setTop(11)
-            .setWidth(121)
+            .setWidth(180)
             .setBorder(true)
-            .setCaption("drag me")
+            .setCaption("drag me to any container")
             .setHeight(25)
             .afterCreated("_label6_aftercreated")
             );
-
+            
             f(
             (new u.Div)
             .host(t,"Div10")
@@ -92,9 +82,9 @@ Class('App', 'linb.Com',{
             .setTop(272)
             .setWidth(168)
             .setHeight(24)
-            .setHtml("Tabs")
+            .setHtml("Drop button to tabs below ")
             );
-
+            
             f(
             (new u.Panel)
             .host(t,"Panel1")
@@ -105,7 +95,7 @@ Class('App', 'linb.Com',{
             .setDropKeys("iAny")
             .setCustomAppearance({"KEY":"border:solid 1px;background-color:#fff;"})
             );
-
+            
             t.Panel1.attach(
             (new u.Layout)
             .host(t,"Layout2")
@@ -115,7 +105,7 @@ Class('App', 'linb.Com',{
             .setDropKeys("iAny")
             .onDrop("_panel2_ondrop")
             );
-
+            
             f(
             (new u.Div)
             .host(t,"Div6")
@@ -123,9 +113,9 @@ Class('App', 'linb.Com',{
             .setTop(8)
             .setWidth(168)
             .setHeight(24)
-            .setHtml("Layout")
+            .setHtml("Drop button to layout below ")
             );
-
+            
             f(
             (new u.Group)
             .host(t,"Group1")
@@ -136,7 +126,7 @@ Class('App', 'linb.Com',{
             .setDropKeys("iAny")
             .onDrop("_panel2_ondrop")
             );
-
+            
             f(
             (new u.Tabs)
             .host(t,"Tabs1")
@@ -149,7 +139,7 @@ Class('App', 'linb.Com',{
             .setValue("view1")
             .onDrop("_panel2_ondrop")
             );
-
+            
             f(
             (new u.Stacks)
             .host(t,"Stacks1")
@@ -162,7 +152,7 @@ Class('App', 'linb.Com',{
             .setValue("view2")
             .onDrop("_panel2_ondrop")
             );
-
+            
             f(
             (new u.Div)
             .host(t,"Div7")
@@ -170,22 +160,31 @@ Class('App', 'linb.Com',{
             .setTop(144)
             .setWidth(168)
             .setHeight(24)
-            .setHtml("Block")
+            .setHtml("Drop button to block below ")
             );
-
+            
+            f(
+            (new u.Div)
+            .host(t,"Div8")
+            .setLeft(24)
+            .setTop(136)
+            .setWidth(168)
+            .setHeight(24)
+            .setHtml("Drop button to Group below ")
+            );
+            
             f(
             (new u.Block)
             .host(t,"Block1")
             .setLeft(312)
             .setTop(170)
-            .setWidth(256)
-            .setHeight(88)
-            .setBorder(true)
             .setDropKeys("iAny")
+            .setWidth(258)
+            .setHeight(90)
             .onDrop("_panel2_ondrop")
             .setCustomAppearance({"KEY":"background-color:#fff;"})
             );
-
+            
             return n;
             // ]]code created by designer
         },

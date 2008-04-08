@@ -13,7 +13,7 @@ Class('App', 'linb.Com',{
             .host(t,"Block2")
             .setDock("top")
             .setHeight(32)
-            .setBorder(true)
+            
             );
             
             t.Block2.attach(
@@ -33,6 +33,7 @@ Class('App', 'linb.Com',{
             .setTop("0")
             .setItems([{"id":"before","pos":"before","locked":false,"size":200,"min":50,"max":400,"cmd":true,"hide":false},{"id":"main","min":10}])
             .setType("horizontal")
+            .setCustomAppearance({"KEY":"border:solid 1px;background-color:#fff;"})
             );
             
             t.layout1.attach(
