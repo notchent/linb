@@ -1,6 +1,6 @@
 (linb.Locale.en||(linb.Locale.en={})).VisualJS={
     message:"System message!",
-    noMessage:"No message yet!",
+    noMessage:"Welcome to Sigma UI Builder!",
     soon:'Coming soon',
     ok:'OK',
     cancel:'Cancel',
