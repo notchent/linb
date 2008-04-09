@@ -5,9 +5,9 @@
     ok:'OK',
     cancel:'Cancel',
     notsave:'Not save',
-    notsave2:'Your are closing a tab that has unsaved changes. Would you want to close without saving?',
-    notsave3:'Unsaved changes exist. Do you want to continue?',
-    checkOK:'Congratulations! no syntax error yet!',
+    notsave2:'You are about to close a file without saving it.<p>Click [Yes] to discard and continue or [No] to go back for saving.',
+    notsave3:'You have NOT saved your modifications before debugging.<p>Click [Yes] to continue anyway or [No] to go back for saving.',
+    checkOK:'Congratulations! No syntax error yet!',
     menu:{
         file:'Project',
         newproject:'New Project',
@@ -26,34 +26,34 @@
         setting: 'Build Setting',
 
         help: 'Help',
-        forum: 'to forum...',
+        forum: 'Go to Forum...',
         license:'License',
         gpllicense:'GPL License',
         clicense: 'Commercial License',
         purchase:'Purchase License',
-        download:'Download source code...',
+        download:'Download Source Code...',
         about: 'About...'
     },
     tool:{
-        newp:'Create a new project',
-        open:'Select a project to open',
-        save:'Save file',
-        saveall:'Save all changed files',
-        command:'Open command window',
-        spy:'Open widget spy window',
-        debug:'Debug the current project',
-        release:'Release the current project',
-        ec:'to Chinese',
-        manual:'Manual',
-        api:'API',              
-        demo:'Demos',
-        flash:'Flash video show'
+        newp:'Create a New Project',
+        open:'Open a Existing Project',
+        save:'Save Files',
+        saveall:'Save All Changed Files',
+        command:'Open Command Window',
+        spy:'Open Widget Spy Window',
+        debug:'Debug Current Project',
+        release:'Release Current Project',
+        ec:'Translate Language to Chinese',
+        manual:'Visual Builder Manual...',
+        api:'Components API Reference...',              
+        demo:'Samples',
+        flash:'Flash Video Show'
     },
     tool2:{
-        'new':'create a new file',
-        del: 'delete the current file',
-        refresh:'refresh project files',
-        refreshOK:'Project refreshed!'
+        'new':'Create a New File',
+        del: 'Delete Current File',
+        refresh:'Refresh Project Files',
+        refreshOK:'Project Refreshed!'
     },
 
     pm:{
@@ -62,90 +62,90 @@
         js:'Class files'
     },
     ps:{
-        noselected:'select a project first',
-        noprj:'No project yet!',
-        getting:'Getting project list...',
-        saved:'Save $0 file(s) OK!',
-        noSaved:'No dirty files yet!'
+        noselected:'Please Select a Project First',
+        noprj:'No Project Open',
+        getting:'Getting Project List...',
+        saved:'$0 File(s) Saved',
+        noSaved:'No Files Modified Since Last Saving'
     },
     projectPro:{
         name:"Project Name :",
         'class':"Class Name :",
         pagefile:"Page File :",
         classfile:"Class File :",
-        onlyword:'Only allow word(3-15)',
-        invalid :'Some fileds are invalid!'
+        onlyword:'Words(3-15) Allowed Only',
+        invalid :'Some Fileds Invalid!'
     },
     dialog:{
-        newone:'Create a new project...',
-        select:'Select a project to open'
+        newone:'Create a New Project...',
+        select:'Select a Project to Open'
     },
     pageEditor:{
-        formatted:'Formatted code'
+        formatted:'Formatted Code'
     },
     classEditor:{
         nv:'Normal View',
         sv:'Struct View',
         dv:'Design View',
-        nvtips:'View all code in a textarea',
-        svtips:'View code in Class struct way',
-        dvtips:'Visual IDE for design UI widgets',
-        codeerr:'Can\'t parse code with the error: $0!'
+        nvtips:'View All Code in Textarea',
+        svtips:'View Code by Structure',
+        dvtips:'Visual IDE for Design UI Widgets',
+        codeerr:'Can\'t Parse Code Due to Error: $0!'
     },
     pageEditor:{
         format: "Fromat View",
         check:"Syntax Check",
         'reset':"Reset Code",
-        formattips:"Format code to a new dialog",
-        checktips:"Check the code",
-        resettips:"Reset the code to original text"
+        formattips:"Format Code to a New Dialog",
+        checktips:"Check Code",
+        resettips:"Reset Code to Original Form"
     },
     classtool:{
-        err1:'Code format is invalid, check the code please!',
-        err2:'Code format is invalid, check the code please!',
-        err3:'Code format is invalid, check the code please!',
-        err4:'Code format is invalid, check the code please!',
-        noClass:'Not a jsLinb class file!'
+        err1:'Invalid Code Format, Please Go Back to Have a Check!',
+        err2:'Invalid Code Format, Please Go Back to Have a Check!',
+        err3:'Invalid Code Format, Please Go Back to Have a Check!',
+        err4:'Invalid Code Format, Please Go Back to Have a Check!',
+        noClass:'Not a UI Class File!'
     },
     designer:{
-        emptyContent:'Empty content first...',
+        emptyContent:'Empty Content First...',
         prepare:'Prepare Classes...',
         createContent:'Refresh design content...',
         loading:'Loading ',
-        comCodeErr:'An error exists in function "iniComponents", return to check the code please!',
-        nameExists:'A widget named "$0" exists already!',
+        comCodeErr:'An Error Occurs in Function "iniComponents", Please Go Back to Check the Code',
+        nameExists:'A Widget Named "$0" Exists Already!',
         confirmdel:'Delete?',
-        confirmdel2:"Do you want to delete the $0 selected  widgets?",
+        confirmdel2:"Are You Sure to Delete the $0 Selected  Component(s)?",
         wlist: 'Widgets List',
         weditor:'Widget Editor',
         gridcol1: 'property',
         gridcol2: 'value',
-        colneOK:'Clone $0 widgets OK!',
+        colneOK:'$0 Widgets Cloned',
         tool:{
-            tocode:"serialize to JS code",
-            tojson:"serialize to JSON code",
-            left: 'align to left',
-            center:'align to center',
-            right:'align to right',
-            top:'align to top',
-            middle:'align to middle',
-            bottom:'align to botttom',
-            width:'same width',
-            wh:'same width and height',
-            height:'same height',
-            toplayer: 'to top layer',
-            bottomlayer: 'to bottom layer',
-            gridxy: 'set position to grid',
-            gridwh: 'set size to grid',
-            clone:'clone selected controls',
-            'delete': 'delete'
+            tocode:"Serialize selection to JS code",
+            tojson:"Serialize selection to JSON code",
+            left: 'Align to left',
+            center:'Align to center',
+            right:'Align to right',
+            top:'Align to top',
+            middle:'Align to middle',
+            bottom:'Align to botttom',
+            width:'Same width',
+            wh:'Same width and height',
+            height:'Same height',
+            toplayer: 'To top layer',
+            bottomlayer: 'To bottom layer',
+            gridxy: 'Set position to grid',
+            gridwh: 'Set size to grid',
+            clone:'Clone selected controls',
+            'delete': 'Delete'
         }
     },
     addfile:{
         caption:'Add file to Project...',
         sel:'Select the target file(dir)',
         filename:'File Name',
-        filenameformat:'2 - 9 chars only',
+        filenameformat:'2 - 9 characters only',
         add:'Add',
         'iDir':'Folder',
         'iHtml':'HTML file',
@@ -153,13 +153,13 @@
         'iPhp':'PHP file',
         'target':'Target',
         filetype:'File Type',
-        notarget:'No target file or folder to build..'
+        notarget:'File or Directory to be built does NOT exist'
     },
     delfile:{
-        caption:'Delete files to Project...',
-        sel:'Select the target file(dir)',
-        notarget:'No target file or folder to delete..',
+        caption:'Delete Files From Project...',
+        sel:'Select Target File or Directory',
+        notarget:'File or Directory to be deleted does NOT exist',
         confirmdel:'Delete?',
-        confirmdel2:"Do you want to delete the $0 selected  files(dirs)?"
+        confirmdel2:"Are You Sure to Delete the $0 Selected  Files or Directories?"
     }
 }
