@@ -50,8 +50,11 @@ Class('VisualJS', 'linb.Com',{
                         {id:'release', caption:'$VisualJS.menu.release', icon:'img/App.gif', iconPos:'-64px top',add:'Ctrl+F9'}
                     ]},
                     {id:'help',caption:'$VisualJS.menu.help', sub:[
+					    {id:'manual', icon:'img/App.gif', iconPos:'-112px -65px', caption:'$VisualJS.tool.manual'},
+                        {id:'api', icon:'img/App.gif', iconPos:'-224px -65px', caption:'$VisualJS.tool.api'},
+                        {type:'split'},
                         {id:'forum', caption:'$VisualJS.menu.forum'},
-                        {id:'download', caption:'$VisualJS.menu.download', icon:'img/App.gif', iconPos:'-144px 0px'},
+                        {id:'download', caption:'$VisualJS.menu.download'},
                         {type:'split'},
                         {id:'license', caption:'$VisualJS.menu.license', sub:[
                             {id:'gpllicense', caption:'$VisualJS.menu.gpllicense'},
@@ -59,11 +62,8 @@ Class('VisualJS', 'linb.Com',{
                             {id:'purchase', caption:'$VisualJS.menu.purchase'}
                         ]},
                         {type:'split'},
-                        {id:'manual', caption:'$VisualJS.tool.manual'},
-                        {id:'api', caption:'$VisualJS.tool.api'},
-                        {type:'split'},
-                        {id:'flash', icon:'img/App.gif', iconPos:'-128px -17px', caption:'$VisualJS.tool.flash'},
-                        {id:'demo', icon:'img/App.gif', iconPos:'-48px -64px ', caption:'$VisualJS.tool.demo'},
+                        {id:'flash', caption:'$VisualJS.tool.flash'},
+                        {id:'demo', caption:'$VisualJS.tool.demo'},
                         {type:'split'},
                         {id:'about', caption:'$VisualJS.menu.about'}
                     ]}
