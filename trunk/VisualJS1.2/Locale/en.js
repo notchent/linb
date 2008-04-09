@@ -6,6 +6,7 @@
     cancel:'Cancel',
     notsave:'Not save',
     notsave2:'Your are closing a tab that has unsaved changes. Would you want to close without saving?',
+    notsave3:'Unsaved changes exist. Do you want to continue?',
     checkOK:'Congratulations! no syntax error yet!',
     menu:{
         file:'Project',
@@ -43,6 +44,8 @@
         debug:'Debug the current project',
         release:'Release the current project',
         ec:'to Chinese',
+        manual:'Manual',
+        api:'API',        
         demo:'Demos',
         flash:'Flash video show'
     },

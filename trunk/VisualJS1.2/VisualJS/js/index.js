@@ -284,6 +284,16 @@ Class('VisualJS', 'linb.Com',{
                 break;
             }
         },
+        _dirtyWarn:function(callback){
+            var self=this, dirty,tb = this.tabsMain, items = tb.getItems(),tree = this.treebarPrj;
+            items.each(function(o){
+                if(o._dirty)return !(dirty=true);
+            });
+            if(dirty)
+                linb.UI.Dialog.confirm(linb.getRes('VisualJS.notsave'), linb.getRes('VisualJS.notsave3'), callback);
+            else
+                callback();
+        },        
         _closeproject:function(callback){
             var self=this, dirty,tb = this.tabsMain, items = tb.getItems(),tree = this.treebarPrj;
             items.each(function(o){
@@ -662,20 +672,24 @@ Class('VisualJS', 'linb.Com',{
 
                     break;
                 case 'debug':
-                    if(!this.curProject){
+                    if(!self.curProject){
                         linb.message(linb.getRes('VisualJS.ps.noprj'));
                         return;
                     }
-                    linb.dom.submit(this.curProject);
+                    self._dirtyWarn(function(){
+                        linb.dom.submit(self.curProject);
+                    });
                     break;
                 case 'release':
-                    if(!this.curProject){
+                    if(!self.curProject){
                         linb.message(linb.getRes('VisualJS.ps.noprj'));
                         return;
                     }
-                    this.proxy.submit(CONF.phpPath, {key:CONF.requestKey, para:{path: this.curProject, action:'release'}}, null, 'POST');
-                    //linb.dom.submit(CONF.phpPath, {key:CONF.requestKey, para:{path: this.curProject, action:'release'}}, null, 'POST');
-                    //linb.request(CONF.phpPath, _.serialize({key:CONF.requestKey, para:{path: this.curProject, action:'release'}}));
+                    self._dirtyWarn(function(){
+                        self.proxy.submit(CONF.phpPath, {key:CONF.requestKey, para:{path: self.curProject, action:'release'}}, null, 'POST');
+                        //linb.dom.submit(CONF.phpPath, {key:CONF.requestKey, para:{path: self.curProject, action:'release'}}, null, 'POST');
+                        //linb.request(CONF.phpPath, _.serialize({key:CONF.requestKey, para:{path: self.curProject, action:'release'}}));
+                    });
                     break;
                 case 'forum':
                     linb.dom.submit(CONF.path_forum);
