@@ -20,7 +20,7 @@ Class('App', 'linb.Com',{
             f(
             (new u.MenuBar)
             .host(t,"menubar2")
-            .setItems([{"id":"menFile","caption":"File","tips":"File","sub":[{"id":"menFileNew","caption":"New","sub":[{"id":"menFileNewMailMessage","caption":"Main Message","icon":"img/demo.gif"},{"id":"menFileNewAppointment","caption":"Appointment","icon":"img/demo.gif"}]},{"id":"menFileOpen","caption":"Open"},{"id":"menFileOpen","caption":"Open"},{"id":"menFileDataFile","caption":"Data File Management..."},{"id":"menFileClose","caption":"Close All Items"},{"id":"menFileExport","caption":"Export and import"},{"id":"menFileWorkOffline","caption":"Work Offline"},{"id":"menPrint","caption":"Print ...","icon":"img/print.gif"},{"id":"menFileExit","caption":"Exit"}]},{"id":"menEdit","caption":"Edit","sub":[{"id":"idNotImplented","caption":"Not Implemented"}]},{"id":"menView","caption":"View","sub":[{"id":"idNotImplented","caption":"Not Implemented"}]}])
+            .setItems([{"id":"menFile","caption":"File","tips":"File","sub":[{"id":"menFileNew","caption":"New","sub":[{"id":"menFileNewMailMessage","caption":"Main Message","icon":"img/allinone.gif","iconPos":"-80px top"},{"id":"menFileNewAppointment","caption":"Appointment","icon":"img/allinone.gif","iconPos":"-256px top"}]},{"id":"menFileOpen","caption":"Open"},{"id":"menFileOpen","caption":"Open"},{"id":"menFileDataFile","caption":"Data File Management..."},{"id":"menFileClose","caption":"Close All Items"},{"id":"menFileExport","caption":"Export and import"},{"id":"menFileWorkOffline","caption":"Work Offline"},{"id":"menPrint","caption":"Print ...","icon":"img/allinone.gif","iconPos":"top left"},{"id":"menFileExit","caption":"Exit"}]},{"id":"menEdit","caption":"Edit","sub":[{"id":"idNotImplented","caption":"Not Implemented"}]},{"id":"menView","caption":"View","sub":[{"id":"idNotImplented","caption":"Not Implemented"}]}])
             .setHandler(false)
             );
             
@@ -38,7 +38,7 @@ Class('App', 'linb.Com',{
             .host(t,"buttonviews4")
             .setLeft(0)
             .setTop(0)
-            .setItems([{"id":"email","icon":"img/email.gif","tips":"Email"},{"id":"note","icon":"img/note.gif","tips":"Note"},{"id":"contact","icon":"img/contact.gif","tips":"Contact"},{"id":"calendar","icon":"img/calendar.gif","tips":"Calendar"}])
+            .setItems([{"id":"email","icon":"img/allinone.gif","iconPos":"-80px top","tips":"Email"},{"id":"note","icon":"img/allinone.gif","iconPos":"-96px top","tips":"Note"},{"id":"contact","icon":"img/allinone.gif","iconPos":"-48px top","tips":"Contact"},{"id":"calendar","icon":"img/allinone.gif","iconPos":"-32px top","tips":"Calendar"}])
             .setHandleDock("bottom")
             .setHandleHAlign("right")
             .setHandleSize("28")
@@ -59,7 +59,7 @@ Class('App', 'linb.Com',{
             .host(t,"treebar5")
             .setLeft(0)
             .setTop(0)
-            .setItems([{"id":"a","caption":"Personal Folder","icon":"img/personal.gif","tips":"Personal Only","sub":[{"id":"aa","caption":"Inbox","icon":"img/inbox.gif"},{"id":"ab","caption":"Sent Items","icon":"img/sent.gif"},{"id":"ac","caption":"Deleted Items","icon":"img/deleted.gif"}]},{"id":"b","caption":"<font color=red><b>Inbox(6)</b></font>","tips":"incoming messages go here","icon":"img/inbox.gif"},{"id":"c","caption":"Outbox","tips":"Sent items go here","icon":"img/outbox.gif"}])
+            .setItems([{"id":"a","caption":"Personal Folder","icon":"img/allinone.gif","iconPos":"-128px top","tips":"Personal Only","sub":[{"id":"aa","caption":"Inbox","icon":"img/allinone.gif","iconPos":"-16px top"},{"id":"ab","caption":"Sent Items","icon":"img/allinone.gif","iconPos":"-208px top"},{"id":"ac","caption":"Deleted Items","icon":"img/allinone.gif","iconPos":"-240px top"}]},{"id":"b","caption":"<font color=red><b>Inbox(6)</b></font>","tips":"incoming messages go here","icon":"img/allinone.gif","iconPos":"-16px top"},{"id":"c","caption":"Outbox","tips":"Sent items go here","icon":"img/allinone.gif","iconPos":"-112px top"}])
             .onItemSelected("_treebar5_onitemselected")
             );
             
@@ -323,7 +323,7 @@ Class('App', 'linb.Com',{
             f(
             (new u.ToolBar)
             .host(t,"toolbar7")
-            .setItems([{"id":"toolSection1","sub":[{"id":"toolNewMail","caption":"New Mail","tips":"New Mail Message","icon":"img/new.gif"}]},{"id":"toolSection2","sub":[{"id":"toolPrint","tips":"print","icon":"img/print.gif"},{"id":"toolMove","tips":"Move to folder","icon":"img/move.gif"},{"id":"toolDelete","tips":"Delete","icon":"img/delete.gif"}]},{"id":"toolSection3","sub":[{"id":"toolReply","tips":"reply","caption":"Reply","icon":"img/reply.gif"},{"id":"toolReplyAll","tips":"Reply to all","caption":"Reply to All","icon":"img/replyall.gif"},{"id":"toolForward","tips":"Forward","caption":"Forward","icon":"img/forward.gif"},{"id":"toolRendReceive","tips":"Rend / Receive","caption":"Rend/Receive","icon":"img/sendreceive.gif"}]}])
+            .setItems([{"id":"toolSection1","sub":[{"id":"toolNewMail","caption":"New Mail","tips":"New Mail Message","icon":"img/allinone.gif","iconPos":"-80px top"}]},{"id":"toolSection2","sub":[{"id":"toolPrint","tips":"print","icon":"img/allinone.gif","iconPos":"top left"},{"id":"toolMove","tips":"Move to folder","icon":"img/allinone.gif","iconPos":"-64px top"},{"id":"toolDelete","tips":"Delete","icon":"img/allinone.gif","iconPos":"-224px top"}]},{"id":"toolSection3","sub":[{"id":"toolReply","tips":"reply","caption":"Reply","icon":"img/allinone.gif","iconPos":"-160px top"},{"id":"toolReplyAll","tips":"Reply to all","caption":"Reply to All","icon":"img/allinone.gif","iconPos":"-176px top"},{"id":"toolForward","tips":"Forward","caption":"Forward","icon":"img/allinone.gif","iconPos":"-112px top"},{"id":"toolRendReceive","tips":"Rend / Receive","caption":"Rend/Receive","icon":"img/allinone.gif","iconPos":"-192px top"}]}])
             .setDockOrder("3")
             .onClick("_toolbar7_onclick")
             );
