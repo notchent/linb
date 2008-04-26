@@ -1178,7 +1178,10 @@ Class('linb.dom','linb.iBox',{
                 //for IE
                 if(node.getBoundingClientRect){
                     pos = node.getBoundingClientRect();
-                    add(pos, Math.max(dd.scrollLeft, db.scrollLeft)-dd.clientLeft, Math.max(dd.scrollTop,  db.scrollTop)-dd.clientTop);
+                    if(target.nodeType==1)
+                        add(pos, -(t=target.getBoundingClientRect()).left, -t.top);
+                    else
+                        add(pos, Math.max(dd.scrollLeft, db.scrollLeft)-dd.clientLeft, Math.max(dd.scrollTop,  db.scrollTop)-dd.clientTop);
                 }else{
                     pos = {left :0, top :0};
                     add(pos, node.offsetLeft, node.offsetTop );
