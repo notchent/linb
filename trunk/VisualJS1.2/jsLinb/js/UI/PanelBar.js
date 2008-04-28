@@ -172,7 +172,8 @@ Class("linb.UI.PanelBar", ["linb.UI.Div","linb.UI.iContainer"],{
                 'font-size':'12px',
                 'padding':'0 16px 0 6px',
                 display:'inline',
-                'line-height':'20px'
+                'line-height':'20px',
+                zoom:linb.browser.ie6?1:null
             }
         }},
         Behaviors:{'default':{

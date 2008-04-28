@@ -1,4 +1,4 @@
-Class("linb.UI.TreeBar",["linb.UI.iWidget", "linb.UI.iList","linb.UI.iNavigator"],{
+Class("linb.UI.TreeBar",["linb.UI.iList", "linb.UI.iWidget","linb.UI.iNavigator"],{
     Instance:{
         setCtrlValue:function(value, flag){
             return this.each(function(profile){

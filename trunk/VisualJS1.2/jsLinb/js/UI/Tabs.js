@@ -1,4 +1,4 @@
-Class("linb.UI.Tabs", ["linb.UI.iWidget", "linb.UI.iList", "linb.UI.iContainer"],{
+Class("linb.UI.Tabs", ["linb.UI.iList", "linb.UI.iWidget", "linb.UI.iContainer"],{
     Instance:{
         setCtrlValue:function(value){
             this.each(function(profile){
@@ -637,11 +637,17 @@ Class("linb.UI.Tabs", ["linb.UI.iWidget", "linb.UI.iList", "linb.UI.iContainer"]
                 return profile.properties.dropKeysPanel;
         },
         showTips:function(profile, node, pos){
-            var id=node.id;
+            var id=node.id, 
+                p=profile.properties,
+                keys=profile.keys,
+                key=profile.getKey(id);
             if(!id)return false;
             //dont show tips when mouse over PANEL
-            if(profile.getKey(id)==profile.keys.PANEL)return true;
-            return arguments.callee.upper.apply(this,arguments);
+            if(key==keys.PANEL)return true;
+            if(key==keys.ITEM)
+                return arguments.callee.upper.apply(this,arguments);
+            else
+                return linb.UI.iWidget.showTips.apply(this,arguments);
         },
         //for tabs only
         resize:function(profile,key,w,h){

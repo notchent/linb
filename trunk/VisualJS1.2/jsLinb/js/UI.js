@@ -661,7 +661,7 @@ new function(){
 
                 var c = self.box.$clscache || (self.box.$clscache={}),
                 k=key+":"+tag,
-                cls='[^\\s]*'+self.getClass(key,'',true),
+                cls='[^\\s]*[-\\w]+',//+self.getClass(key,'',true),
                 reg = c[k] || (c[k] = new RegExp(cls + '[-\\w]*' + tag + '[-\\w]*')),
                 r2= c[cls+"*2"] ||(c[cls+"*2"]=new RegExp("("+cls + "[-\\w]*)",'g')),
                 r3= c[cls+"*3"] ||(c[cls+"*3"]=new RegExp("("+cls + ")"))
@@ -683,7 +683,7 @@ new function(){
 
                 var c = self.box.$clscache || (self.box.$clscache={}),
                 k=key+":"+tag,
-                reg = c[k] || (c[k] = new RegExp(self.getClass(key,'',true)+'[-\\w]*'+tag+'[-\\w]*'))
+                reg = c[k] || (c[k] = new RegExp(/*self.getClass(key,'',true)+*/'[-\\w]*'+tag+'[-\\w]*'))
                 ;
                 nodes.removeClass(reg);
 
@@ -2470,11 +2470,13 @@ new function(){
             */
             copyItem:function(item, hash){
                 if(!hash)hash={};
-                var i,o,w=linb.wrapRes;
+                var i,o,w=linb.wrapRes,me=arguments.callee,r=r||(r=me._r=/(\$)([\w\.]+)/g);
                 for(i in item){
                     if(i.charAt(0)=='$')continue;
                     if(!(i in hash))
-                        hash[i] = (typeof (o=item[i])=='string' && o.charAt(0)=='$')?w(o.slice(1)):o;
+                        hash[i] = (typeof (o=item[i])=='string' && o.indexOf('$')!=-1)?
+                        o.replace(r, function(a,b,c){return w(c)})
+                        :o;
                 }
                 //todo: change it
                 hash.iconDisplay = item.icon?'':'display:none';
@@ -2714,7 +2716,9 @@ new function(){
 
                 onHotKeydown:function(profile, key, control, shift, alt, e, src){},
                 onHotKeypress:function(profile, key, control, shift, alt, e, src){},
-                onHotKeyup:function(profile, key, control, shift, alt, e, src){}
+                onHotKeyup:function(profile, key, control, shift, alt, e, src){},
+                
+                onShowTips:function(profile, node, pos){}
             },
             createdTrigger:function(){
                 var self=this, b=self.boxing(),p=self.properties;
@@ -3176,6 +3180,10 @@ new function(){
                 }
 
                 return result;
+            },
+            showTips:function(profile, node, pos){
+                if(profile.onShowTips)
+                    return profile.boxing().onShowTips(profile, node, pos);          
             }
         },
         Initialize:function(){
@@ -3351,7 +3359,7 @@ new function(){
                 caption:{
                     // ui update function when setCaption
                     action: function(value){
-                        this.getSubNode('CAPTION').html(value);
+                        this.getSubNode('CAPTION').get(0).innerHTML = value;
                     }
                 },
                 // setIcon and getIcon
@@ -3632,7 +3640,7 @@ new function(){
             cssNone:true,
             Templates:{'default':{
                 tagName:'a',
-                style: 'text-decoration:underline;{_style}',
+                style: '{_style}',
                 href :"{href}",
                 tabindex: '{tabindex}',
                 text:'{caption}'
@@ -3649,7 +3657,7 @@ new function(){
                 dataField:null,
                 caption:{
                     action:function(v){
-                        this.root.text(v);
+                        this.root.get(0).innerHTML = v;
                     }
                 },
                 href:{
@@ -3659,8 +3667,7 @@ new function(){
                             this.root.href(v);
                     }
                 }
-            }
-            ,
+            },
             EventHandlers:{
                 onClick:function(profile, e){}
             }

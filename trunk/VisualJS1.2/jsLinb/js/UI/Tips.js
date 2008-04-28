@@ -45,6 +45,7 @@ Class("linb.UI.Tips", null,{
                 id,
                 //for linb.template
                 tid=node._tid,
+                rn = e.fromElement||e.relatedTarget,
                 from,
                 tempid,evid,
                 pass
@@ -58,11 +59,12 @@ Class("linb.UI.Tips", null,{
 
             //check id
             id=tid?tid:id;
-            tempid=tid?tid+evid:id.replace(event._reg,'$1$3$4');
-            if(tips.markId && tempid==tips.markId)
-                return rt;
-
             if((from=event._getProfile(id)) && from.box){
+                //if onShowTips exists, use custom tips id region, or use item region
+                tempid=tid?tid+evid:from.onShowTips?id:id.replace(event._reg,'$1$3$4');
+                if(tips.markId && tempid==tips.markId)
+                    return rt;
+                
                 //set mark src id
                 tips.markId = tempid;
                 _.resetRun('$Tips', function(){
@@ -84,6 +86,7 @@ Class("linb.UI.Tips", null,{
                     evid,
                     //for linb.template
                     tid=event.getSrc(e)._tid,
+                    from=tips.from,
                     clear,
                     node = e.toElement||e.relatedTarget;
 
@@ -96,13 +99,14 @@ Class("linb.UI.Tips", null,{
                 }catch(e){clear=1}
 
                 if(!clear){
-                    tempid=tid?tid+node.getAttribute('evid'):id.replace(event._reg,'$1$3$4');
+                    //if onShowTips exists, use custom tips id region, or use item region
+                    tempid=tid?tid+node.getAttribute('evid'):(from && from.onShowTips)?id:id.replace(event._reg,'$1$3$4');
                     clear=tempid !== tips.markId;
                 }
 
                 if(clear){
                     if(tips.showed)tips.hide();
-                    else tips.asyHide();
+                    else tips.cancel();
                 }
                 return event.rtnFalse;
             }
@@ -111,7 +115,7 @@ Class("linb.UI.Tips", null,{
         this.Types = {
             'default' : new function(){
                 this._r=/(\$)([\w\.]+)/g;
-                this.show=function(item, pos){
+                this.show=function(item, pos, key){
                     //if trigger onmouseover before onmousemove, pos will be undefined
                     if(!pos)return;
 
@@ -125,7 +129,8 @@ Class("linb.UI.Tips", null,{
                     if(document.body.lastChild!=node.get(0))
                         linb([document.body]).addLast(node);
 
-                    s=item.tips;
+                    s = typeof item=='object'? item[key||'tips'] :item ;
+                    
                     if(s=s.toString()){
                         //get string
                         s=s.replace(self._r, function(a,b,c){
@@ -217,37 +222,39 @@ Class("linb.UI.Tips", null,{
                     _.resetRun('$Tips2', self.hide,self.autoHideTime,null,self);
             }
         },
-        show:function(pos, item){
+        show:function(pos, item, key){
             var self=this,t;
             //same item, return
             if(self.item == item)return;
 
             //hide first
-            if(self.curTemplate)self.curTemplate.hide();
+            //if(self.curTemplate)self.curTemplate.hide();
 
             //base check
-            if(!item || !item.tips)return;
-
-            //get template
-            t = self.curTemplate = self.Types[item.tipsTemplate] || self.Types['default'];
-            t.show(item,pos);
-
-            self.Node=t.node.get(0);
-
-            self.item=item;
-            self.showed = true;
+            if(typeof item =='string' || item.tips){
+                //get template
+                t = self.curTemplate = self.Types[item.tipsTemplate] || self.Types['default'];
+                t.show(item,pos,key);
+                self.Node=t.node.get(0);
+                self.item=item;
+                self.showed = true;
+            }
         },
         hide:function(flag){
             var self=this;
             if(flag || self.showed){
                 if(self.curTemplate)self.curTemplate.hide();
-                self.markId = self.from=self.curTemplate = self.item = self.showed = null;
+                self._c();
             }
         },
-        asyHide:function(){
+        cancel:function(){
             var self=this;
             _.resetRun('$Tips', null);
             _.resetRun('$Tips3', null);
+            self._c();
+        },
+        _c:function(){
+            var self=this;
             self.markId = self.from=self.curTemplate = self.item = self.showed = null;
         }
     }

@@ -10,7 +10,7 @@ Class("linb.css", null,{
         },
         exists:function(key, value){
             for(var head = this.getHead(),i=0,t=head.childNodes,l;l=t[i++];)
-                if(l[key]==value)
+                if(l[key]==value && l.type=="text/css")
                     return l;
             return false;
         },
@@ -43,15 +43,16 @@ Class("linb.css", null,{
             //e.disabled=false;
             return e;
         },
-        //if before==true, add to the before postion of the first 'text/csss'
+        //if before==true, add to the before postion of the first 'text/css'
         //else add to the last postion
-        include:function(href, before){
+        include:function(href, title, before){
             var e, fc, head = this.getHead();
             if(href && this.exists('href',href))
                 return;
             e = document.createElement('link');
             e.type = 'text/css';
             e.rel = 'stylesheet';
+            e.title = title||'';
             e.href = href;
             e.media = 'all';
             if(before){

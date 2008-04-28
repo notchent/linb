@@ -1,4 +1,4 @@
-Class("linb.UI.ColLayout",["linb.UI.iWidget", "linb.UI.iList", "linb.UI.iContainer"],{
+Class("linb.UI.ColLayout",["linb.UI.iList", "linb.UI.iWidget", "linb.UI.iContainer"],{
     Instance:{
         getPanel:function(id){
             return this.get(0).getSubNodeByItemId('PANEL', id);
