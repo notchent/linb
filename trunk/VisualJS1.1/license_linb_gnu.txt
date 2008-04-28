@@ -1,0 +1,7 @@
+This library is licensed under the terms of the Open Source LGPL 3.0 license. 
+http://www.gnu.org/licenses/lgpl.html
+
+If you are using this library for commercial purposes, we encourage you to purchase a commercial license. Please visit http://www.sigmawidgets.com/license.html for more details.
+
+
+This library is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more details.
