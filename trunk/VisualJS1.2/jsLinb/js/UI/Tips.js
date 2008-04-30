@@ -119,12 +119,19 @@ Class("linb.UI.Tips", null,{
                     //if trigger onmouseover before onmousemove, pos will be undefined
                     if(!pos)return;
 
-                    var self=this,node,s,w,h;
+                    var self=this,node,_ruler,s,w,h;
                     if(!(node=self.node)){
                         node = self.node = linb.create('<div class="linb-ui-tips"><div class="linb-ui-tips-i"></div></div>');
+                        _ruler = self._ruler = linb.create('<div class="linb-ui-tips" style="position:absolute;visibility:hidden;left:-10000px;"><div class="linb-ui-tips-i"></div></div>');
                         self.n = node.first();
-                        if(linb.dom.support('shadow'))node.shadow();
+                        self._n = _ruler.first();
+                        if(linb.dom.support('shadow')){
+                            node.shadow();
+                            _ruler.shadow();
+                        }
+                        linb([document.body]).addLast(_ruler);
                     }
+                    _ruler = self._ruler;
                     //ensure zindex is the top
                     if(document.body.lastChild!=node.get(0))
                         linb([document.body]).addLast(node);
@@ -136,19 +143,19 @@ Class("linb.UI.Tips", null,{
                         s=s.replace(self._r, function(a,b,c){
                             return linb.wrapRes(c);
                         });
-                        //set to auto
-                        var style=node.get(0).style;
-                        style.width=style.height='auto';
-                        self.n.get(0).innerHTML=s;
+                        //set to this one
+                        self._n.get(0).innerHTML=s;
                         //get width
-                        w=Math.min(tips.maxWidth, node.width());
+                        w=Math.min(tips.maxWidth, _ruler.get(0).offsetWidth);
+                        var style=node.get(0).style;
                         //set width
                         if(linb.browser.ie){
-                            style.width=Math.round(w/2)*2+2+'px';
-                            h=self.n.height();
-                            style.height=Math.round(h/2)*2+2+'px';
+                            style.width=w+(w%2)+'px';
+                            h=_ruler.get(0).offsetHeight;
+                            style.height=h+(h%2)+'px';
                         }else
                             style.width=w+'px';
+                        self.n.get(0).innerHTML=s;
                         //pop
                         node.popToTop({left:pos.left,top:pos.top,region:{
                             left:pos.left,
