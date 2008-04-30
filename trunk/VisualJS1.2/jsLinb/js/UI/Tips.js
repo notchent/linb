@@ -203,14 +203,13 @@ Class("linb.UI.Tips", null,{
 
             //keep older
             self._pos=pos;
-
-            //b=((t=from.CF) && (t=t.showTips) && t(from, node, pos));
-
+            //1.CF
+            b=((t=from.CF) && (t=t.showTips) && t(from, node, pos));
+            //2.showTips / onShowTips
             //check if showTips works
             if(!b)b=(o.showTips && o.showTips(from, node, pos));
 
-            //check if default tips works
-            //tips is a base var
+            //default tips var
             if(!b && (t=from.properties) && (t.tips)){
                 self.show(pos, t);
                 b=true;

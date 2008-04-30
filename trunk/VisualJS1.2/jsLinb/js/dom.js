@@ -2271,7 +2271,8 @@ type:4
             _.each(data,function(o,i){
                 _t.push('<textarea name="'+i+'">'+(typeof o=='object'?_.serialize(o):o)+'</textarea>');
             });
-            var d=('<form target="'+target+'" action="'+action+'" method="'+method  + (enctype?'" enctype="' +enctype:'') +  '">'+_t.join('')+'<input type="hidden" name="rnd" value="'+_()+'"></form>').toDom();
+            if(!_.isEmpty(data))_t.push('<input type="hidden" name="rnd" value="'+_()+'">');
+            var d=('<form target="'+target+'" action="'+action+'" method="'+method  + (enctype?'" enctype="' +enctype:'') +  '">'+_t.join('')+'</form>').toDom();
             linb.dom.getMatix().addLast(d);
             d.get(0).submit();
             d.remove();

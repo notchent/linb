@@ -411,9 +411,9 @@ _.merge(linb,{
             if(key.length==(add?1:0))key.push('linb');
         }else{
             pre=ini.appPath;
-            if(key.length==((add?1:0)+1))key.push('index');
+            if(key.length==((add?1:0)+1) && tag=='.js')key.push('index');
+            if(ini.ver) pre = pre + ini.ver + '/';
         }
-        if(ini.ver) pre = pre + ini.ver + '/';
         return pre + key.join('\/') + (tag||'\/');
     },
     temp:{},

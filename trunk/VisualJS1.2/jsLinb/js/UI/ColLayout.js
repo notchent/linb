@@ -301,7 +301,7 @@ Class("linb.UI.ColLayout",["linb.UI.iList", "linb.UI.iWidget", "linb.UI.iContain
             listKey:null,
             width:200,
             height:200,
-            minWidth:100,
+            minWidth:150,
             items:{
                 ini:[],
                 set:function(v){

@@ -644,10 +644,11 @@ Class("linb.UI.Tabs", ["linb.UI.iList", "linb.UI.iWidget", "linb.UI.iContainer"]
             if(!id)return false;
             //dont show tips when mouse over PANEL
             if(key==keys.PANEL)return true;
-            if(key==keys.ITEM)
-                return arguments.callee.upper.apply(this,arguments);
+            
+            if(profile.onShowTips)
+                return profile.boxing().onShowTips(profile, node, pos);  
             else
-                return linb.UI.iWidget.showTips.apply(this,arguments);
+                return arguments.callee.upper.apply(this,arguments);
         },
         //for tabs only
         resize:function(profile,key,w,h){

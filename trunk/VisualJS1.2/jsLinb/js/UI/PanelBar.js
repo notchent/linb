@@ -77,7 +77,9 @@ Class("linb.UI.PanelBar", ["linb.UI.Div","linb.UI.iContainer"],{
             HANDLE:{
                 overflow:'hidden',
                 background: linb.UI.getCSSImgPara('barvbg.gif', ' repeat-x left top', null, 'linb.UI.Public'),
-                position:'relative'
+                position:'relative',
+                width:linb.browser.ie6?'100%':null,
+                'white-space': 'nowrap'
             },
             'HANDLE-mouseover':{
                 $order:1,
