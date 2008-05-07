@@ -64,9 +64,10 @@ Class("linb.UI.Tips", null,{
                 tempid=tid?tid+evid:from.onShowTips?id:id.replace(event._reg,'$1$3$4');
                 if(tips.markId && tempid==tips.markId)
                     return rt;
-                
+
                 //set mark src id
                 tips.markId = tempid;
+                tips.pos=event.getPos(e);
                 _.resetRun('$Tips', function(){
                     tips.from=from;
                     tips.enode=node;
@@ -122,7 +123,7 @@ Class("linb.UI.Tips", null,{
                     var self=this,node,_ruler,s,w,h;
                     if(!(node=self.node)){
                         node = self.node = linb.create('<div class="linb-ui-tips"><div class="linb-ui-tips-i"></div></div>');
-                        _ruler = self._ruler = linb.create('<div class="linb-ui-tips" style="position:absolute;visibility:hidden;left:-10000px;"><div class="linb-ui-tips-i"></div></div>');
+                        _ruler = self._ruler = linb.create('<div class="linb-ui-tips" style="position:absolute;visibility:hidden;left:-10000px;"><div class="linb-ui-tips-i" style="position:relative;"></div></div>');
                         self.n = node.first();
                         self._n = _ruler.first();
                         if(linb.dom.support('shadow')){
@@ -137,7 +138,7 @@ Class("linb.UI.Tips", null,{
                         linb([document.body]).addLast(node);
 
                     s = typeof item=='object'? item[key||'tips'] :item ;
-                    
+
                     if(s=s.toString()){
                         //get string
                         s=s.replace(self._r, function(a,b,c){
@@ -147,16 +148,22 @@ Class("linb.UI.Tips", null,{
                         self._n.get(0).innerHTML=s;
                         //get width
                         w=Math.min(tips.maxWidth, _ruler.get(0).offsetWidth);
+
+                        //set content, AND dimension
                         var style=node.get(0).style;
-                        //set width
+                        //hide first
+                        style.visibility='hidden';
+                        //set content
+                        self.n.get(0).innerHTML=s;
+                        //set dimension
                         if(linb.browser.ie){
                             style.width=w+(w%2)+'px';
-                            h=_ruler.get(0).offsetHeight;
+                            h=self.n.get(0).offsetHeight;
                             style.height=h+(h%2)+'px';
                         }else
                             style.width=w+'px';
-                        self.n.get(0).innerHTML=s;
-                        //pop
+
+                        //pop(visible too)
                         node.popToTop({left:pos.left,top:pos.top,region:{
                             left:pos.left,
                             top:pos.top-12,
