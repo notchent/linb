@@ -1104,7 +1104,6 @@ Class('linb.sajax','linb.io',{
 			n.type= 'text/javascript';
 			n.charset='utf-8';
 			n.id='linb:script:'+self.id;
-
             n.onload = n.onreadystatechange = function(){
                 var t=this.readyState;
                 if(!ok && (!t || t == "loaded" || t == "complete") ) {
@@ -1131,10 +1130,15 @@ Class('linb.sajax','linb.io',{
             delete pool[self.id];
             if(n){
                 self.node=n.id=n.onload=n.onreadystatechange=n.onerror=null;
-                //in ie + add script(remove script) + add the same script(remove script) => crash
+
                 if(self.rspType!='script'){
+                    //in ie + add script with url(remove script immediately) + add the same script(remove script immediately) => crash
+                    //so, always clear it later
                     div.appendChild(n.parentNode&&n.parentNode.removeChild(n)||n);
-                    div.innerHTML='';
+                    if(linb.browser.ie)
+                        _.asyRun(function(){div.innerHTML='';n.removeNode()});
+                    else
+                        div.innerHTML='';
                 }
             }
         },

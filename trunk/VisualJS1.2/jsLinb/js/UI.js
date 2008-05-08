@@ -3647,9 +3647,11 @@ new function(){
             }},
             Behaviors:{'default':{
                 onClick:function(profile, e, src){
+                    var r;
                     if(!profile.properties.disabled && profile.onClick)
-                        return profile.boxing().onClick(profile, e, src);
-                    //return profile.box.cancelLink(e);
+                        r = profile.boxing().onClick(profile, e, src);
+                    //**** if dont return false, this click will break sajax in IE
+                    return typeof r != 'undefined'?r:false;
                 }
             }},
             DataModel:{

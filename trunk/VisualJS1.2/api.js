@@ -23,7 +23,7 @@ new function(){
         verPath = "",        
         //remote app root path, e.g. "http://www.x.com"
         apiPath = "",
-        //app path, e.g. chat
+        //app path, e.g. chat, for linb.ini.appPath (notice: linb.ini.path get from the src property of linb.js file)
         appPath = "",
         //ini string
         iniStr = '<div id="loadingInfo">Loading...</div>';
@@ -48,10 +48,10 @@ new function(){
                 }
         }
 
-        
         dft_ver = h.ver || dft_ver;
         appPath = h.appPath || appPath;
 
+        //default is the current html file path
         appPath = h.appPath || location.href.split('?')[0].replace(/[^\\\/]+$/,'');
         rPath = appPath+(verPath?verPath+"/":"")+(dft_ver?dft_ver+"/":"");
         path = rPath + libPath;
