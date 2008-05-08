@@ -11,8 +11,8 @@ Dual licensed under the MIT (http://www.opensource.org/licenses/mit-license.php)
 /*
 *load linb.logger to redefine window.error
 */
-//window.error=function(){return true};
 
+//window.error=function(){return true};
 //time stamp
 _=function(){return new Date().getTime()};
 
@@ -412,7 +412,8 @@ _.merge(linb,{
         }else{
             pre=ini.appPath;
             if(key.length==((add?1:0)+1) && tag=='.js')key.push('index');
-            if(ini.ver) pre = pre + ini.ver + '/';
+            if(ini.verPath) pre += ini.verPath + '/';
+            if(ini.ver) pre += ini.ver + '/';
         }
         return pre + key.join('\/') + (tag||'\/');
     },
@@ -425,6 +426,10 @@ _.merge(linb,{
     getObject:function(id){return linb._object[id]}
 });
 new function(){
+      //special var
+    if(window.linb_ini)
+        _.merge(linb.ini,window.linb_ini);
+
     _.merge(linb.ini,{
         appPath:location.href.split('?')[0].replace(/[^\\\/]+$/,''),
         appLangKey:'app',
