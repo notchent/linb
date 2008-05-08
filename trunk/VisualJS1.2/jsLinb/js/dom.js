@@ -2400,7 +2400,7 @@ type:4
                 var n,r,t,style=node.style,me=arguments.callee,contentBox=linb.browser.contentBox,
                 r1=me.r1 || (me.r1=/%$/),
                 getStyle=linb.dom.getStyle,
-                f=linb.dom.setPxStyle,type=typeof value;
+                f=linb.dom.setPxStyle,type=typeof value,_cr;
                 if(type=='undefined' || type=='boolean'){
                     if(value===true){
                         n=(getStyle(node,'display')=='none');
@@ -2426,7 +2426,8 @@ type:4
                                 r=node[o[6]]-linb([node])[o[3]]();
                             break;
                         case 3:
-                            r=node[o[6]];
+                            _cr = '_'+o[6];
+                            r=node[_cr] || (node[_cr]=node[o[6]]);
                             if(!r)
                                 //get from css setting before css applied
                                 r=me(node,1)+(contentBox?(t=linb([node]))[o[2]]():0)+t[o[3]]();
@@ -2455,6 +2456,9 @@ type:4
                             me(node, 1, value - (contentBox?linb([node])[o[2]]():0));
                             break;
                         case 3:
+                            _cr = '_'+o[6];
+                            node[_cr]=null;
+                            //back value for offsetHeight/offsetWidth slowly
                             me(node, 1, value - (t=linb([node]))[o[3]]() - (contentBox?t[o[2]]():0));
                             break;
                         case 4:

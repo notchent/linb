@@ -2926,6 +2926,7 @@ new function(){
                                             if(parseFloat(style.width)!=temp)region.width=_adjust(temp);
                                             if(!_.isEmpty(region))node.setRegion(region,true);
                                         }
+
                                         if(!flt)
                                             obj.top += (node.offsetHeight() + margin.top + margin.bottom);
                                         break;

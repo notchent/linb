@@ -17,19 +17,21 @@ new function(){
         
         //load api timeout(seconds)
         timeout=60,
+        //window.linb is the lib root var
+        libKey = "linb",
         //jslinb Path
         libPath = "jsLinb/js/linb.js",
         //verPath
         verPath = "",        
-        //remote app root path, e.g. "http://www.x.com"
+        //remote app root path, e.g. apis
         apiPath = "",
-        //app path, e.g. chat, for linb.ini.appPath (notice: linb.ini.path get from the src property of linb.js file)
+        //app path, e.g. "http://www.x.com/", for linb.ini.appPath (notice: linb.ini.path get from the src property of linb.js file)
         appPath = "",
         //ini string
-        iniStr = '<div id="loadingInfo">Loading...</div>';
-    
-    //default version mark
-    var dft_ver = "";
+        iniStr = '<div id="loadingInfo">Loading...</div>',
+
+        //default version mark
+        dft_ver = "";
 
     new function(){
         var d = document,
@@ -50,7 +52,7 @@ new function(){
 
         dft_ver = h.ver || dft_ver;
         appPath = h.appPath || appPath;
-
+        if(appPath && !/\/$/.test(appPath+"")) appPath+='/';
         //default is the current html file path
         appPath = h.appPath || location.href.split('?')[0].replace(/[^\\\/]+$/,'');
         rPath = appPath+(verPath?verPath+"/":"")+(dft_ver?dft_ver+"/":"");
@@ -100,7 +102,7 @@ new function(){
             //show in div
             }else
                 d.write( '<script>'+s+'</script>'
-                    + (window.linb?'':'<script src="'+ path + '"></script>')
+                    + (window[libKey]?'':'<script src="'+ path + '"></script>')
                     + (h.module ?  '<div id=' +id+ ' style="width:' + h.width + 'px; height:'+ h.height +'px;position:relative;">'+ iniStr + '</div>' 
                         + '<script src="'+ rPath + (apiPath?apiPath+"/":"")+ h.module + '.js"></script>' : ''
                       )
