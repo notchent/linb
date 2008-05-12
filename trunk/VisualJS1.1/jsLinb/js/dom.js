@@ -1179,7 +1179,7 @@ Class('linb.dom','linb.iBox',{
                 if(node.getBoundingClientRect){
                     pos = node.getBoundingClientRect();
                     if(target.nodeType==1)
-                        add(pos, -(t=target.getBoundingClientRect()).left, -t.top);
+                        add(pos, -(t=target.getBoundingClientRect()).left+target.scrollLeft, -t.top+target.scrollTop);
                     else
                         add(pos, Math.max(dd.scrollLeft, db.scrollLeft)-dd.clientLeft, Math.max(dd.scrollTop,  db.scrollTop)-dd.clientTop);
                 }else{
