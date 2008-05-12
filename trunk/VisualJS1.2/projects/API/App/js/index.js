@@ -41,6 +41,7 @@ Class('App', 'linb.Com',{
             .setLeft(80)
             .setTop(30)
             .setDock("fill")
+            .setCustomAppearance({KEY:"overflow:auto;"})
             , 'main');
 
             f(
@@ -328,7 +329,7 @@ Class('App', 'linb.Com',{
             arr.push('.linb-custom-icon{margin:2px;width:16px;height:16px;background-image:url(img/img.gif);vertical-align: bottom;}');
             arr.push('.linb-custom-block p{margin:2px;font: bold 12px "Trebuchet MS","Lucida Grande",Verdana,sans-serif;background:#F9FFE9;border: 1px dotted #E9D3F4;}');
 
-            arr.push('.linb-custom-cmd{cursor:pointer;margin:2px;width:16px;height:16px;background-image:url(img/img.gif)}');
+            arr.push('.linb-custom-cmd{cursor:pointer;margin:2px;width:16px;height:16px;line-height:0;font-size:0;background-image:url(img/img.gif)}');
 
             linb.css.add(arr.join(''));
         },events:{"afterCreated":"_aftercreated"}
