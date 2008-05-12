@@ -2426,8 +2426,12 @@ type:4
                                 r=node[o[6]]-linb([node])[o[3]]();
                             break;
                         case 3:
-                            _cr = '_'+o[6];
-                            r=node[_cr] || (node[_cr]=node[o[6]]);
+                            //for in firefox, offsetHeight/Width's bad performance
+                            if(linb.browser.gek){
+                                _cr = '_'+o[6];
+                                r=node[_cr] || (node[_cr]=node[o[6]]);
+                            }else
+                                r=node[o[6]];
                             if(!r)
                                 //get from css setting before css applied
                                 r=me(node,1)+(contentBox?(t=linb([node]))[o[2]]():0)+t[o[3]]();
@@ -2456,8 +2460,6 @@ type:4
                             me(node, 1, value - (contentBox?linb([node])[o[2]]():0));
                             break;
                         case 3:
-                            _cr = '_'+o[6];
-                            node[_cr]=null;
                             //back value for offsetHeight/offsetWidth slowly
                             me(node, 1, value - (t=linb([node]))[o[3]]() - (contentBox?t[o[2]]():0));
                             break;
@@ -2465,6 +2467,8 @@ type:4
                             me(node, 1, value - (t=linb([node]))[o[4]]() - t[o[3]]() - (contentBox?t[o[2]]():0));
                             break;
                     }
+                    if(linb.browser.gek)
+                        node['_'+o[6]]=null;
                 }
             })
         });
