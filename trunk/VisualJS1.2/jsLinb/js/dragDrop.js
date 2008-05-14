@@ -511,7 +511,7 @@ Class('linb.dragDrop',null,{
             if(!dom.byId(self._id))
                 linb([document.body]).addFirst(
                     //&nbsp; for IE6
-                    dom.create('<div id="' + self._id + '" style="left:0;top:0;border:0; padding:'+self._size+'px; position: absolute;"><div id="' +self._idi+ '">&nbsp;</div></div>')
+                    dom.create('<div id="' + self._id + '" style="left:0;top:0;border:0; padding:'+self._size+'px; position: absolute;"><div id="' +self._idi+ '">'+(linb.browser.ie6?'&nbsp;':'')+'</div></div>')
                 );
             t=linb(self._id);
             if(self.drop2){
@@ -529,7 +529,7 @@ Class('linb.dragDrop',null,{
                 linb(temp).addLast(t);
 
             if(child){
-                linb(self._idi).addLast(child);
+                linb(self._idi).empty(false).addLast(child);
                 self.proxyIn = child;
             }else
                 self.proxyIn = linb(self._idi);
@@ -545,7 +545,8 @@ Class('linb.dragDrop',null,{
             if(dom.byId(id1)){
                 var t,k,o=linb(id2),t=linb(id1);
                 //&nbsp; for IE6
-                o.html('&nbsp;');
+                if(linb.browser.ie6)
+                    o.html('&nbsp;');
                 o=o.get(0);
                 k=o.style;
                 if(linb.browser.ie){
