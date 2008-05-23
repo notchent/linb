@@ -270,8 +270,13 @@ Class("linb.UI.ColLayout",["linb.UI.iList", "linb.UI.iWidget", "linb.UI.iContain
                             profile._limited=0;
                         }
                     }
-                    profile._pre.width(profile._preW+off);
-                    profile._next.width(profile._nextW-off);
+                    if(off<0){
+                        profile._pre.width(profile._preW+off);
+                        profile._next.width(profile._nextW-off);
+                    }else{
+                        profile._next.width(profile._nextW-off);
+                        profile._pre.width(profile._preW+off);
+                    }
                 },
                 onDragstop:function(profile, e, src){
                     if(profile._limited){
@@ -279,12 +284,16 @@ Class("linb.UI.ColLayout",["linb.UI.iList", "linb.UI.iWidget", "linb.UI.iContain
                         profile._limited=0;
                     }
                     var arr=profile.getSubNode('ITEM',true).get(),
-                        a=[],t,l=0;
+                        a=[],t,l=0,k;
+                    
                     arr.each(function(o,i){
+                        if(i==arr.length-1)k=l;
                         l = l + (a[i]=linb([o]).offsetWidth());
                     });
                     if(linb.browser.ie||linb.browser.gek)
                         l=src.parentNode.parentNode.offsetWidth;
+                    a[arr.length-1]=l-k-2;
+
                     arr.each(function(o,i){
                         o.style.width = parseInt(a[i]/l*100000)/1000 + '%';
                     });

@@ -1,15 +1,23 @@
 /***
-*use: <script src=".../api.js?key=value&..."></script>
 
-** module, api module name, e.g. "m1"
-** ver, version mark, e.g. "1.0.00"
-** frm, frame mark e.g. "1"
+*==how to use==
+*   add <script src=".../api.js?key=value&..."></script> to head/body
+*   if script is in 'head', it'll load script to the current window
+*   if script is in 'body', 
+*       if !!frm==true, it'll load script to an iframe
+*       if !!frm==false, it'll load script to the current body
 
-*if script is in head, it'll load script to the current window
-*if script is in body, it'll load script to an iframe
+*==parameters==
+*   module: api module name, e.g. "m1"
+*   ver: version mark, e.g. "1.0.00"
+*   frm: frame mark e.g. "1"
+*   width, height: for the  attribute of iframe or div
+*   appPath: app path, e.g. "http://www.x.com/", for linb.ini.appPath
 
-*set this file: expired already, and never cached
-*set all in verPath: gzip, never expired, cached for ever, and when version updated need to change file name(version)
+*==cache setting==
+*   set this file: expired already, and never cached
+*   set all in verPath: gzip, never expired, cached for ever, and when version updated need to change file name(version)
+
 ***/
 new function(){
     
