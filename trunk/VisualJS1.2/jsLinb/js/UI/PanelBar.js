@@ -318,6 +318,11 @@ Class("linb.UI.PanelBar", ["linb.UI.Div","linb.UI.iContainer"],{
             onTriggerOption:function(profile, e, src){},
             onClickHandle:function(profile, src){}
         },
+        renderedTrigger:function(){
+            var self=this, t=self.properties, b=self.box;
+            if(t.toggle)
+                b._toggle(self,t.toggle);
+        },        
         prepareData:function(profile){
             arguments.callee.upper.call(this, profile);
             var data=profile.data, nodisplay='display:none';
@@ -347,14 +352,16 @@ Class("linb.UI.PanelBar", ["linb.UI.Div","linb.UI.iContainer"],{
             p.toggle = value;
 
             //event
-            if(value &&!profile.$ini){
-                if(b.onIniPanelView)b.onIniPanelView(profile);
-                profile.$ini=true;
+            if(value &&!profile.$ini)
+                if(b.onIniPanelView)
+                    if(b.onIniPanelView(profile)!==false)
+                        profile.$ini=true;
+
+            if(value){
+                if(false===b.onOpen(profile))return;
+            }else{
+                if(false===b.onFold(profile))return;
             }
-            if(value)
-                b.onOpen(profile);
-            else
-                b.onFold(profile);
 
             //show/hide/panel
             profile.getSubNode('PANEL').display(value?'':'none');

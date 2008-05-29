@@ -2745,7 +2745,8 @@ new function(){
                 }
                 if(p.dock && p.dock != 'none')
                     s.dock(this,true);
-
+                
+                self.rendered=true;
                 if(self.afterRendered)
                     b.afterRendered(self);
             },
@@ -3643,6 +3644,7 @@ new function(){
                 tagName:'a',
                 style: '{_style}',
                 href :"{href}",
+                target:'{target}',
                 tabindex: '{tabindex}',
                 text:'{caption}'
             }},
@@ -3668,6 +3670,13 @@ new function(){
                     action:function(v){
                         if(this.domNode)
                             this.root.href(v);
+                    }
+                },
+                target:{
+                    ini:'',
+                    action:function(v){
+                        if(this.domNode)
+                            this.root.attr('target',v);
                     }
                 }
             },

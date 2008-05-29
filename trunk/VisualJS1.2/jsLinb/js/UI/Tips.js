@@ -16,6 +16,14 @@ Class("linb.UI.Tips", null,{
         , linb.getPath(this.KEY,'/css.css','appearance'));
 
         linb([document])
+        .afterMousedown(function(){
+            if(tips.markId){
+                if(tips.showed)
+                    tips.hide();
+                else
+                    tips.cancel();
+            }
+        },'$Tips',-1)
         .afterMousemove(function(obj, e, src){
             if(dd.working)return;
             var event=linb.event,

@@ -1289,6 +1289,7 @@ Class('linb.iajax','linb.io',{
             //not for 'ex-domain include jslinb' case
             if(!d.getElementById('linb:img:bg')){
                 o=d.createElement('img');
+                o.id='linb:img:bg';
                 o.src=i.path + i.file_bg;
                 o.style.display='none';
                 d.body.appendChild(o);
