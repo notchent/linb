@@ -83,7 +83,7 @@ Class("linb.UI.ButtonViews", "linb.UI.Tabs",{
             },
             HANDLE:{
                 cursor:'pointer',
-                display:linb.browser.gek?['-moz-inline-block', '-moz-inline-box']: 'inline-block',
+                display:linb.browser.gek?['-moz-inline-block', '-moz-inline-box','inline-block']: 'inline-block',
                 'vertical-align':'middle',
                 'font-size':'12px',
                 margin:'1px'

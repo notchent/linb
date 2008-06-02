@@ -68,7 +68,7 @@ Class("linb.UI.CheckBox", "linb.UI.Button",{
             },
             /*span*/
             BOX:{
-                display:linb.browser.gek?['-moz-inline-block', '-moz-inline-box']: 'inline-block',
+                display:linb.browser.gek?['-moz-inline-block', '-moz-inline-box','inline-block']: 'inline-block',
                 'font-size':'12px',
                 'line-height':'14px',
                 overflow:'hidden',

@@ -320,7 +320,7 @@ Class("linb.UI.Tabs", ["linb.UI.iList", "linb.UI.iWidget", "linb.UI.iContainer"]
             HANDLE:{
                 cursor:'pointer',
                 'vertical-align':'middle',
-                display:linb.browser.gek?['-moz-inline-block', '-moz-inline-box']: 'inline-block',
+                display:linb.browser.gek?['-moz-inline-block', '-moz-inline-box','inline-block']: 'inline-block',
                 'font-size':'12px'
             },
             RULER:{

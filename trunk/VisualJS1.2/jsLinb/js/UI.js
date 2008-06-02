@@ -1467,7 +1467,7 @@ new function(){
                 },
                 span:{
                     $order:16,
-                    display:linb.browser.gek?['-moz-inline-block', '-moz-inline-box']: linb.browser.ie6?'inline':'inline-block',
+                    display:linb.browser.gek?['-moz-inline-block', '-moz-inline-box','inline-block']: linb.browser.ie6?'inline':'inline-block',
                     zoom:linb.browser.ie6?1:null,
                     /*must specify this, or static will take more v space in IE*/
                     'vertical-align':'middle'
@@ -3126,7 +3126,7 @@ new function(){
                 if(prop.position)a[a.length] = 'position:'+prop.position;
                 if(prop.visibility)a[a.length]= 'visibility:'+prop.visibility;
                 if(prop.zIndex)a[a.length]= 'z-index:'+prop.zIndex;
-                if(prop.display)a[a.length]= 'display:'+ (prop.display=='inline-block'? linb.browser.gek?'-moz-inline-block;display:-moz-inline-box':'inline-block' :prop.display)
+                if(prop.display)a[a.length]= 'display:'+ (prop.display=='inline-block'? linb.browser.gek?'-moz-inline-block;display:-moz-inline-box;display:inline-block;':'inline-block' :prop.display)
                 a[a.length]= '';
                 data._style = a.join(';');
 
@@ -3310,7 +3310,7 @@ new function(){
             }},
             PublicAppearance:{
                 '.linb-uishell':{
-                    display:linb.browser.gek?['-moz-inline-block', '-moz-inline-box']: 'inline-block',
+                    display:linb.browser.gek?['-moz-inline-block', '-moz-inline-box','inline-block']: 'inline-block',
                     overflow:'hidden',
                     /*opera must be 0 not 'none'*/
                     border:0,
