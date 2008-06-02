@@ -1157,8 +1157,8 @@ Class('linb.dom','linb.iBox',{
 
             me=arguments.callee,
             add= me.add || (me.add=function(pos, l, t){
-                pos.left += parseInt(l)||0;
-                pos.top += parseInt(t)||0;
+                pos.left += parseInt(l,10)||0;
+                pos.top += parseInt(t,10)||0;
             }),
             border=me.border || ( me.border = function(node, pos){
                 add(pos, getStyle(node,'borderLeftWidth'), getStyle(node,'borderTopWidth'));
@@ -1179,9 +1179,10 @@ Class('linb.dom','linb.iBox',{
                 ns.cssPos({left :pos.left===null?null:(pos.left - d.left),  top :pos.top===null?null:(pos.top - d.top)});
                 r=ns;
             }else{
-                //for IE
-                if(node.getBoundingClientRect){
-                    pos = node.getBoundingClientRect();
+                //for IE, firefox3(except document.body)
+                if(!(linb.browser.gek && node==document.body) && node.getBoundingClientRect){
+                    t = node.getBoundingClientRect();
+                    pos = {left :t.left, top :t.top};
                     if(target.nodeType==1)
                         add(pos, -(t=target.getBoundingClientRect()).left+target.scrollLeft, -t.top+target.scrollTop);
                     else
@@ -1562,7 +1563,7 @@ Class('linb.dom','linb.iBox',{
         inlineBlock:function(flag){
             if(flag){
                 if(linb.browser.gek)
-                    this.display('-moz-inline-block').display('-moz-inline-box');
+                    this.display('-moz-inline-block').display('-moz-inline-box').display('inline-block');
                 else
                     this.display('inline-block');
             }else
@@ -2567,12 +2568,12 @@ type:4
         });
         self.boxArr.each(function(o){
             self.plugIn(o,function(value){
-                var self=this, node=self._nodes[0],type=typeof value,doc=document,t;
+                var self=this, node=self._nodes[0],b=linb.browser,type=typeof value,doc=document,t;
                 if(!node || node.nodeType==3)return;
                 if(type=='undefined'||type=='boolean'){
                     if((o=='width' && (t='Width'))||(o=='height' && (t='Height'))){
-                        if(doc===node)return Math.max( doc.body['scroll'+t], doc.body['offset'+t]);
-                        if(window===node)return window['inner'+t]|| (linb.browser.contentBox && doc.documentElement['client'+t]) ||doc.body['client'+t];
+                        if(doc===node)return Math.max( doc.body['scroll'+t], doc.body['offset'+t], doc.documentElement['scroll'+t], doc.documentElement['offset'+t]);
+                        if(window===node)return b.opr?doc.body['client'+t]:b.kde?window['inner'+t]:(linb.browser.contentBox && doc.documentElement['client'+t]) ||doc.body['client'+t];
                     }
                     //give shortcut
                     if(o=='width')value=parseInt(node.style.width)||self.W(node,1,value);
