@@ -223,6 +223,7 @@ new function(){
             return -1;
         },
         subIndexOf:function(sub,value){
+            if(typeof value=='undefined')return -1;
             for(var i=0, l=this.length; i<l; i++)
                 if(this[i][sub] === value)
                     return i;
@@ -739,7 +740,7 @@ Class('linb.dom','linb.iBox',{
         },
 ***/
         //add to last, and trigger Triggers
-        attach:function(target){
+        attach:function(target, force){
             var o=this.get(0), ui, t, d, b, k;
             if(target['linb.Profile'])target=target.boxing();
             if(_.isArr(target))target=linb.iBox.pack(target, false);
@@ -757,7 +758,7 @@ Class('linb.dom','linb.iBox',{
                     d.style.visibility='hidden';
                 }
                 //always add to last
-                //if(d.parentNode!=o)
+                if(force || d.parentNode!=o)
                     o.appendChild(d);
 
                 if(t=v.renderedTrigger)
@@ -1045,8 +1046,10 @@ Class('linb.dom','linb.iBox',{
                 if(style.visibility!='visible')style.visibility='visible';
                 //ie6 bug
                 if(linb.browser.ie6){
-                    style.wordWrap='break-word';
-                    style.wordWrap='normal';
+                    t=style.wordWrap=='normal';
+                    _.asyRun(function(){
+                        style.wordWrap=t?'break-word':'normal'
+                    })
                 }
             });
         },
@@ -1148,13 +1151,14 @@ Class('linb.dom','linb.iBox',{
             doc=node.ownerDocument,
             dd=doc.documentElement,
             db=doc.body,
+            _d=/^inline|table.*$/i,
             getStyle=linb.dom.getStyle,
             fixed = getStyle(node, "position") == "fixed",
 
             me=arguments.callee,
             add= me.add || (me.add=function(pos, l, t){
-                pos.left += parseInt(l)||0;
-                pos.top += parseInt(t)||0;
+                pos.left += parseInt(l,10)||0;
+                pos.top += parseInt(t,10)||0;
             }),
             border=me.border || ( me.border = function(node, pos){
                 add(pos, getStyle(node,'borderLeftWidth'), getStyle(node,'borderTopWidth'));
@@ -1175,9 +1179,10 @@ Class('linb.dom','linb.iBox',{
                 ns.cssPos({left :pos.left===null?null:(pos.left - d.left),  top :pos.top===null?null:(pos.top - d.top)});
                 r=ns;
             }else{
-                //for IE
-                if(node.getBoundingClientRect){
-                    pos = node.getBoundingClientRect();
+                //for IE, firefox3(except document.body)
+                if(!(linb.browser.gek && node==document.body) && node.getBoundingClientRect){
+                    t = node.getBoundingClientRect();
+                    pos = {left :t.left, top :t.top};
                     if(target.nodeType==1)
                         add(pos, -(t=target.getBoundingClientRect()).left+target.scrollLeft, -t.top+target.scrollTop);
                     else
@@ -1199,14 +1204,14 @@ Class('linb.dom','linb.iBox',{
 
                     //get scroll offset, stop by target
                     while (parent && parent.tagName && parent!=target && !HTAG[parent.tagName]){
-                        if(!/^inline|table.*$/i.test(getStyle(parent, "display")) )
+                        if(!_d.test(getStyle(parent, "display")) )
                             add(pos, -parent.scrollLeft, -parent.scrollTop );
                         if(browser.gek && getStyle(parent,"overflow")!= "visible" )
                             border(parent,pos);
                         parent = parent.parentNode;
                     }
                     if((browser.gek && getStyle(keepNode,"position")!="absolute"))
-                        add( -db.offsetLeft, -db.offsetTop);
+                        add(pos, -db.offsetLeft, -db.offsetTop);
                     if(fixed)
                         add(pos, Math.max(dd.scrollLeft, db.scrollLeft), Math.max(dd.scrollTop,  db.scrollTop));
                 }
@@ -1214,6 +1219,7 @@ Class('linb.dom','linb.iBox',{
             }
             return r;
         },
+
 //class and src
         hasClass:function(str){
             var arr = this.get(0).className.split(/\s+/);
@@ -1510,6 +1516,17 @@ Class('linb.dom','linb.iBox',{
                 node.offsetHeight>0
             );
         },
+        selectable:function(v){
+            var me=arguments.callee, f = me.f || (me.f=function(){return false});
+             return this.each(function(o){
+                if(linb.browser.gek)
+                    o.style.MozUserSelect=v?"all":"none"
+                else{
+                    o.unselectable=v?"off":"on";
+                    o.onselectstart=v?null:f;
+                }                
+            })
+        },
         activate:function(){
             if(this.canFocus()){
                 var node= this.get(0);
@@ -1544,20 +1561,14 @@ Class('linb.dom','linb.iBox',{
             return this;
         },
         inlineBlock:function(flag){
-            var ns=this;
             if(flag){
                 if(linb.browser.gek)
-                    ns.display('-moz-inline-block').display('-moz-inline-box');
-                else if(linb.browser.ie6)
-                    ns.display('inline').setStyle('zoom',1);
+                    this.display('-moz-inline-block').display('-moz-inline-box');
                 else
-                    ns.display('inline-block');
-            }else{
-                ns.display('');
-                if(linb.browser.ie)
-                    ns.setStyle('zoom',0);
-            }
-            return ns;
+                    this.display('inline-block');
+            }else
+                this.display('');
+            return this;
         },
         topZindex:function(flag){
             //<1000 for css settting
@@ -1722,7 +1733,7 @@ Class('linb.dom','linb.iBox',{
             target.setStyle({position:'absolute',left:'0', top:'0',visibility:'hidden',display:'block', zIndex:linb.dom.top_zIndex});
 
             //add to body, avoid parent is display:none.
-            parent.attach(target);
+            parent.attach(target, true);
 
             if(pos['linb.dom'] || pos.nodeType){
                 var node=linb(pos),
@@ -1852,7 +1863,7 @@ type:4
                         p=linb.event.getPos(e),
                         arr=me.arr,
                         a=arr.copy(),
-                        b, pos, size;
+                        b, pos, w, h;
                     //filter first
                     a.each(function(i){
                         b=true;
@@ -1872,11 +1883,9 @@ type:4
                         v=arr[i];
                         b=true;
                         v.target.each(function(o){
-                            if(o.parentNode){
-                                o=linb([o]);
-                                pos = o.absPos();
-                                size = o.cssSize();
-                                if(p.left>=pos.left && p.top>=pos.top && p.left<=(pos.left+size.width) && p.top<=(pos.top+size.height))
+                            if(o.parentNode && (w=o.offsetWidth) && (h=o.offsetHeight)){
+                                pos=linb([o]).absPos();
+                                if(p.left>=pos.left && p.top>=pos.top && p.left<=(pos.left+w) && p.top<=(pos.top+h))
                                     return b=false;
                             }
                         });
@@ -1920,7 +1929,7 @@ type:4
         hide_value : '-10000px',
         top_zIndex:10000,
 
-        boxArr:'left,top,right,bottom,width,height'.toArr(),
+        boxArr:'width,height,left,top,right,bottom'.toArr(),
         _cursor:{},
         setPxStyle:function(node, key, value){
               var style=node.style;
@@ -1941,7 +1950,11 @@ type:4
                  if((!o) || (window===o.domNode) || (document===o.domNode))continue;
                  if(!document.getElementById(o.domId)){
                      o.$gc();
+                     //clear the cache
                      bak[bak.length]=i;
+                     //clear the cache shadow
+                     if(o.$domId && o.$domId!=o.domId)
+                        bak[bak.length]=o.$domId;
                  }
              }
              for(i=0;i<bak.length;)
@@ -2045,8 +2058,9 @@ type:4
         arg1:true for show cover, false for hide cover
         arg2:true for show loading img, and this time, if arg1 is string, it will show text under the img
         arg3:true for pre text is kept
+        arg4:key for setcover
         */
-        setCover:function(arg1,arg2,arg3){
+        setCover:function(arg1,arg2,arg3,arg4){
             // get or create first
             var me=arguments.callee,
             id="linb.temp:cover:",
@@ -2062,6 +2076,9 @@ type:4
 
             //clear
             if(arg1 === false){
+                if(typeof arg4=='string')
+                    if(typeof me._key =='string' && me._key!=arg4)
+                        return;
                 if(me.show){
                         o1.setStyle({display:'none',zIndex:'0'});
                         body.cursor("");
@@ -2069,6 +2086,7 @@ type:4
                     me.show=false;
                 }
             }else{
+                if(typeof arg4=='string')me._key=arg4;
                 var t = linb([window],false), w=t.scrollWidth(), h=t.scrollHeight();
                 if(!me.show){
                     o1.setStyle({ width : w +'px', height : h+'px', display:'block',zIndex:(linb.dom.top_zIndex+200),cursor:'wait'});
@@ -2254,22 +2272,21 @@ type:4
             _.each(data,function(o,i){
                 _t.push('<textarea name="'+i+'">'+(typeof o=='object'?_.serialize(o):o)+'</textarea>');
             });
-            var d=('<form target="'+target+'" action="'+action+'" method="'+method  + (enctype?'" enctype="' +enctype:'') +  '">'+_t.join('')+'<input type="hidden" name="rnd" value="'+_()+'"></form>').toDom();
+            if(!_.isEmpty(data))_t.push('<input type="hidden" name="rnd" value="'+_()+'">');
+            var d=('<form target="'+target+'" action="'+action+'" method="'+method  + (enctype?'" enctype="' +enctype:'') +  '">'+_t.join('')+'</form>').toDom();
             linb.dom.getMatix().addLast(d);
             d.get(0).submit();
             d.remove();
         },
-        busy:function(flag){
+        busy:function(flag,key){
             var dom=linb.dom;
-            if(dom._busy)return;
             if(flag!==false)
-                dom.setCover(true);
+                dom.setCover(true,0,0,key);
             dom._busy=true;
         },
-        free:function(){
+        free:function(key){
            var dom=linb.dom;
-           //if(!dom._busy)return;
-           dom.setCover(false);
+           dom.setCover(false,0,0,key);
            dom._busy=false;
         },
         UIAction:function(fun){
@@ -2384,7 +2401,7 @@ type:4
                 var n,r,t,style=node.style,me=arguments.callee,contentBox=linb.browser.contentBox,
                 r1=me.r1 || (me.r1=/%$/),
                 getStyle=linb.dom.getStyle,
-                f=linb.dom.setPxStyle,type=typeof value;
+                f=linb.dom.setPxStyle,type=typeof value,t1;
                 if(type=='undefined' || type=='boolean'){
                     if(value===true){
                         n=(getStyle(node,'display')=='none');
@@ -2410,7 +2427,17 @@ type:4
                                 r=node[o[6]]-linb([node])[o[3]]();
                             break;
                         case 3:
+                            //for in firefox, offsetHeight/Width's bad performance
+                            //if(node._bp)
+                            //    r=node['_'+o[6]];
+                            //else{
+                            //    t1=_();
                             r=node[o[6]];
+                            //    if(_()-t1>60){
+                            //        node['_'+o[6]]=r;
+                            //        node._bp=1;
+                            //    }
+                            //}
                             if(!r)
                                 //get from css setting before css applied
                                 r=me(node,1)+(contentBox?(t=linb([node]))[o[2]]():0)+t[o[3]]();
@@ -2439,12 +2466,15 @@ type:4
                             me(node, 1, value - (contentBox?linb([node])[o[2]]():0));
                             break;
                         case 3:
+                            //back value for offsetHeight/offsetWidth slowly
                             me(node, 1, value - (t=linb([node]))[o[3]]() - (contentBox?t[o[2]]():0));
                             break;
                         case 4:
                             me(node, 1, value - (t=linb([node]))[o[4]]() - t[o[3]]() - (contentBox?t[o[2]]():0));
                             break;
                     }
+                    //if(node._bp)
+                    //    node['_'+o[6]]=null;
                 }
             })
         });
@@ -2538,12 +2568,12 @@ type:4
         });
         self.boxArr.each(function(o){
             self.plugIn(o,function(value){
-                var self=this, node=self._nodes[0],type=typeof value,doc=document,t;
+                var self=this, node=self._nodes[0],b=linb.browser,type=typeof value,doc=document,t;
                 if(!node || node.nodeType==3)return;
                 if(type=='undefined'||type=='boolean'){
                     if((o=='width' && (t='Width'))||(o=='height' && (t='Height'))){
-                        if(doc===node)return Math.max( doc.body['scroll'+t], doc.body['offset'+t]);
-                        if(window===node)return window['inner'+t]|| (linb.browser.contentBox && doc.documentElement['client'+t]) ||doc.body['client'+t];
+                        if(doc===node)return Math.max( doc.body['scroll'+t], doc.body['offset'+t], doc.documentElement['scroll'+t], doc.documentElement['offset'+t]);
+                        if(window===node)return b.opr?doc.body['client'+t]:b.kde?window['inner'+t]:(linb.browser.contentBox && doc.documentElement['client'+t]) ||doc.body['client'+t];
                     }
                     //give shortcut
                     if(o=='width')value=parseInt(node.style.width)||self.W(node,1,value);
