@@ -1,6 +1,6 @@
 /*
 jsLinb 1.2
-Copyright(c) 2007-2008 Yingbo Li(linb.net, linb.net[at]gmail.com).
+Copyright(c) 2008 Yingbo Li(linb.net, linb.net[at]gmail.com).
 GPL3 (http://www.opensource.org/licenses/gpl-3.0.html) licenses.
 */
 undefined;

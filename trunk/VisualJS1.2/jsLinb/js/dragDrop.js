@@ -547,6 +547,7 @@ Class('linb.dragDrop',null,{
                 //&nbsp; for IE6
                 if(linb.browser.ie6)
                     o.html('&nbsp;');
+                else o.empty();
                 o=o.get(0);
                 k=o.style;
                 if(linb.browser.ie){
