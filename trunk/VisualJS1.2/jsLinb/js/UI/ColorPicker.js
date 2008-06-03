@@ -735,7 +735,7 @@ Class('linb.UI.ColorPicker', 'linb.UI.iWidget', {
                 });
             }
 
-            if(typeof hsv0 !='undefined')
+            if(hsv0 !== undefined)
                 clr.setStyle('backgroundColor', '#'+cls.rgb2hex(cls.hsv2rgb([hsv0, 1, 1])));
             cls._setTempUI(profile, hex);
         },

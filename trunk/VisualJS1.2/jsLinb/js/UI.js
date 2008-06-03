@@ -271,7 +271,7 @@ new function(){
                         t = properties[i];
                         _.merge(t,o,'all');
                         //merge default value
-                        ds[i] = typeof o.ini!='undefined'?o.ini:typeof ds[i] !='undefined'?ds[i]:undefined;
+                        ds[i] = o.ini!==undefined?o.ini:ds[i] !==undefined?ds[i]:undefined;
                     }else{
                         if(null===o){
                             r=i.initial();
@@ -2556,7 +2556,7 @@ new function(){
                           )
                             return;
                         //can get return value
-                        if(typeof r!='undefined')value=r;
+                        if(r!==undefined)value=r;
                         //before setCtrlValue
                         if(typeof (r=profile.box.ensureV)=='function')
                             value = r.call(profile.box, profile, value);                        
@@ -2624,7 +2624,7 @@ new function(){
                                 //if return false in beforeValueSet, not set
                                 if(profile.beforeValueSet && false=== (r=box.beforeValueSet(profile, ovalue, value)))return;
                                 // can get return value
-                                if(typeof r!='undefined')value=r;
+                                if(r!==undefined)value=r;
                                 //before setCtrlValue
                                 //ensure value
                                 if(typeof (r=profile.box.ensureV)=='function')
@@ -2723,7 +2723,7 @@ new function(){
             createdTrigger:function(){
                 var self=this, b=self.boxing(),p=self.properties;
                 p.$UIvalue = p.value;
-                if(typeof p.value !='undefined')
+                if(p.value !==undefined)
                     b.setCtrlValue(p.value);
                 if(p.disabled)b.disabled(true);
                 self.inValid=1;
@@ -3107,7 +3107,7 @@ new function(){
 
                 //give default caption
                 if('caption' in dm && prop.caption!==null)
-                    prop.caption = prop.caption==undefined ? profile.alias : prop.caption;
+                    prop.caption = prop.caption===undefined ? profile.alias : prop.caption;
 
                 //give border width
                 if('$border' in dm){
@@ -3654,7 +3654,7 @@ new function(){
                     if(!profile.properties.disabled && profile.onClick)
                         r = profile.boxing().onClick(profile, e, src);
                     //**** if dont return false, this click will break sajax in IE
-                    return typeof r != 'undefined'?r:false;
+                    return r !==undefined?r:false;
                 }
             }},
             DataModel:{

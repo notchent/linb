@@ -17,7 +17,7 @@ Class('VisualJS.ClassStruct', 'linb.Com',{
                     //always true
                     _.tryF(self.events.onValueChanged, [ipagprofile, e, self.$dirty || b], self.host);
                 });
-                inn.show(null,self.layoutFill,'main');
+                inn.show(null,self.layoutFill,'main', threadid);
 
                 self.PageEditor=inn;
             },threadid);
@@ -110,7 +110,7 @@ Class('VisualJS.ClassStruct', 'linb.Com',{
                 if(value)
                     if(self.treebarClass.selectItem(value))
                         return self;
-                 self.PageEditor.setText('').setReadonly(true);
+                 self.PageEditor.setText(txt).setReadonly(true);
             }
             self.resetEnv(txt);
             //self.PageEditor.setText(self.PageEditor.getText(),true)

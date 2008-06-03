@@ -161,7 +161,7 @@ Class("linb.UI.Resizer","linb.UI.iWidget",{
            var arr = profile._target.get();
 
            if(id)index = arr.subIndexOf('id',id);
-           if(index==-1 && profile.$focus !=undefined)index=profile.$focus;
+           if(index==-1 && profile.$focus !== undefined)index=profile.$focus;
            if(index==-1 && arr.length>1)index = arr.length-1;
 
            if(index!=-1){

@@ -70,7 +70,7 @@ new function(){
             if(!value)return [];
             var arr=[];
             //hash
-            if(typeof flag!=='undefined')
+            if(flag!==undefined)
                 for(var i in value)
                     arr[arr.length]=flag?i:value[i];
             //other like arguments
@@ -90,7 +90,7 @@ new function(){
     */
     _.merge(_,{
         // type detection
-        exists:function(target)  {return typeof target != 'undefined'},
+        exists:function(target)  {return target!==undefined},
         isNull:function(target)  {return (typeof target == 'object') && !target },
         isObj:function(target)   {return !!target  && (typeof target == 'object' || typeof target == 'function')},
         isBool:function(target)  {return typeof target == 'boolean'},
@@ -223,7 +223,7 @@ new function(){
             return -1;
         },
         subIndexOf:function(sub,value){
-            if(typeof value=='undefined')return -1;
+            if(value===undefined)return -1;
             for(var i=0, l=this.length; i<l; i++)
                 if(this[i][sub] === value)
                     return i;
@@ -828,7 +828,7 @@ Class('linb.dom','linb.iBox',{
         //flag = false: no gc
         html:function(str,flag){
             var s='',t,bak,o=this.get(0);flag=flag!==false;
-            if(typeof str!='undefined'){
+            if(str!==undefined){
                 if(o.nodeType==3)
                     o.nodeValue=str;
                 else{
@@ -851,7 +851,7 @@ Class('linb.dom','linb.iBox',{
         },
         outerHTML:function(str){
             var self=this, t,s='', o=self.get(0),id=o.id;
-            if(typeof str!='undefined'){
+            if(str!==undefined){
                 //clear ehandler
                 if(o.addition&&(t=o.domNode))
                     _.each(o.addition,function(o,i){
@@ -892,7 +892,7 @@ Class('linb.dom','linb.iBox',{
         },
         text:function(str){
             var s='';
-            if(typeof str!='undefined')
+            if(str!==undefined)
                 return this.each(function(o){
                     var b=false,m,n=o;
                     while(m=n.childNodes[0]){
@@ -939,7 +939,7 @@ Class('linb.dom','linb.iBox',{
                 selected:'selected',
                 readonly: "readOnly"
             });
-            if(( t = (typeof key != 'string') )|| value !==undefined ){
+            if(( t = (typeof key != 'string') )|| value !==undefined){
                 if(!t){
                      t={};t[key]=value;key=t;
                 }
@@ -1008,7 +1008,7 @@ Class('linb.dom','linb.iBox',{
             return o.nodeType!==1?'':key=='opacity'?this.opacity():linb.dom.getStyle(o, key, flag);
         },
         opacity:function(value){
-            if(typeof value != 'undefined'){
+            if(value !==undefined){
                 var key;
                 value=parseFloat(value)||0;
                 value= value >0.9999 ? '' : linb.browser.ie ? "alpha(opacity="+ 100*value +")" : value;
@@ -1359,7 +1359,7 @@ Class('linb.dom','linb.iBox',{
                     c = t[name] || (t[name]=[]);
 
                     //if no event_id input, clear all, and add a single
-                    if(typeof event_id =='undefined'){
+                    if(event_id ===undefined){
                         c.length=0;c=t[name]=[];
                         index=-1;
                     }
@@ -1554,7 +1554,7 @@ Class('linb.dom','linb.iBox',{
                 this.get(0).blur();
         },
         enable:function(value){
-            if(typeof value!='undefined')
+            if(value!==undefined)
                 this.disabled(!value);
             else
                 return !this.disabled();
@@ -1597,7 +1597,7 @@ Class('linb.dom','linb.iBox',{
           var self=this, dom=linb.dom;
           if(dom._busy)return;
           var id=self.id();
-          if(typeof dom._cursor[id] =='undefined'){
+          if(dom._cursor[id] ===undefined){
               dom._cursor[id] = _.str(self.cursor());
               //if(!dom.opr)
               self.cursor('wait');
@@ -1609,7 +1609,7 @@ Class('linb.dom','linb.iBox',{
           var self=this, dom=linb.dom;
           if(!dom._busy)return;
           var id=self.id();
-          if(typeof dom._cursor[id] !='undefined'){
+          if(dom._cursor[id] !==undefined){
               cursor=_.str(dom._cursor[id], 'default');
               //if(!dom.opr)
               self.cursor(cursor);
@@ -1695,7 +1695,7 @@ Class('linb.dom','linb.iBox',{
 
             time = time||200;
             step = step||5;
-            type = typeof hash[type]!='undefined'?type:'line';
+            type = hash[type]!==undefined?type:'line';
 
             var self=this, threadid=id||_.id(), delay = time/step, i,j=0, value,
             funs=[function(threadid){
@@ -2538,7 +2538,7 @@ type:4
         });
         'scrollLeft,scrollTop,tabIndex'.toArr().each(function(o){
             self.plugIn(o,function(value,flag){
-                if(typeof value !='undefined')
+                if(value !==undefined)
                     return this.each(function(v){
                         v[o]=value;
                     });

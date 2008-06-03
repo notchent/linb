@@ -1,8 +1,9 @@
 /*
-jsLinb 1.1
-Copyright 2007 Yingbo Li(linb.net, linb.net[at]gmail.com).
+jsLinb 1.2
+Copyright(c) 2007-2008 Yingbo Li(linb.net, linb.net[at]gmail.com).
 Dual licensed under the MIT (http://www.opensource.org/licenses/mit-license.php) and GPL (http://www.opensource.org/licenses/gpl-license.php) licenses.
 */
+undefined;
 /* base _
 *
 *declare _ (global)
@@ -11,10 +12,9 @@ Dual licensed under the MIT (http://www.opensource.org/licenses/mit-license.php)
 /*
 *load linb.logger to redefine window.error
 */
-
 //window.error=function(){return true};
 //time stamp
-_=function(){return new Date().getTime()};
+_=function(){return +new Date()};
 
 /*merge hash from source to target
   target:hash
@@ -55,7 +55,7 @@ _.merge(_,{
     */
     get:function(hash,arr){
         for(var i=0,l=arr.length;i<l;)
-            if(!hash || typeof (hash=hash[arr[i++]])=='undefined' )return;
+            if(!hash || (hash=hash[arr[i++]])===undefined )return;
         return hash;
     },
     /*
@@ -71,7 +71,7 @@ _.merge(_,{
             if(hash[v]&&((m=typeof hash[v])=='object' || m=='function')) hash=hash[v];
             else hash=hash[v]={};
         }
-        if(typeof value=='undefined')
+        if(value===undefined)
             delete hash[key];
         else
             return hash[key]=value;
@@ -626,7 +626,7 @@ Class('linb.thread',null,{
                     return self.abort();
 
             delay = p.tasks[p.index].delay;
-            if(typeof delay=='undefined')delay=p.delay;
+            if(delay===undefined)delay=p.delay;
             p._left= (time || time===0)?time:delay;
 
             if(p._asy!=-1)clearTimeout(p._asy);
@@ -657,7 +657,7 @@ Class('linb.thread',null,{
             var self=this;
             if(self.profile.status=="run")return;
 
-            time = typeof time=='undefined' ?
+            time = time===undefined ?
                     self.profile._left :
                         (time || time===0) ?
                         (time>=0)? time : 0 :
@@ -935,7 +935,7 @@ Class('linb.io',null,{
                     if(o=self.pool[r]){
                         o=o.__||(o.__=[]);
                         o[i]=txt;
-                        while(l--)if(typeof o[i]=='undefined')return;
+                        while(l--)if(o[i]===undefined)return;
                         if(obj=_.unserialize(o.join(''))){
                             o._response=obj;
                             o._e("Response");
@@ -1075,7 +1075,7 @@ Class('linb.ajax','linb.io',{
             with(this){
                 var x=_XML,status = x.status;
                 _response = rspType=='text'?x.responseText:x.responseXML;
-                if(typeof status=='undefined' || status===0 || status==304 || (status >= 200 && status < 300 ))
+                if(status===undefined || status===0 || status==304 || (status >= 200 && status < 300 ))
                     _e("Response");
                 else
                     _e("Error", new Error('XMLHTTP return ' +status));
@@ -1353,7 +1353,7 @@ Class('linb.SC',null,{
             arr = path.split('.');
             if(path=='')return o;
             for(i=0,l=arr.length; i<l; ++i)
-                if (typeof o[arr[i]]=="undefined"){
+                if (o[arr[i]]===undefined){
                     return null;
                 }else
                     o = o[arr[i]];

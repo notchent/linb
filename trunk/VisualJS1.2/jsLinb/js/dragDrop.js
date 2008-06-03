@@ -712,7 +712,7 @@ Class('linb.dragDrop',null,{
             },
             dragable:function(flag, profile, key, data){
                 var self=this, dd=linb.dragDrop;
-                if(typeof flag=='undefined')
+                if(flag===undefined)
                     flag=true;
                 else if(typeof flag=='object'){
                     profile=flag;

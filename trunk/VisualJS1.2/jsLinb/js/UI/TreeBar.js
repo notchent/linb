@@ -448,7 +448,7 @@ Class("linb.UI.TreeBar",["linb.UI.iList", "linb.UI.iWidget","linb.UI.iNavigator"
 
                     if(properties.disabled|| item.disabled)return false;
                     //group not fire event
-                    if(item.sub && (item.group!=undefined?item.group:properties.group)){
+                    if(item.sub && (item.group!==undefined?item.group:properties.group)){
                         profile.getSubNode('MARK1', itemId).onClick();
                         return false;
                     }
@@ -573,7 +573,7 @@ Class("linb.UI.TreeBar",["linb.UI.iList", "linb.UI.iWidget","linb.UI.iNavigator"
                 action:function(v){
                     var self = this,
                         items = this.properties.items,
-                        results = this.itemsSearch(items, function(o){return o.sub && o.group==undefined }),
+                        results = this.itemsSearch(items, function(o){return o.sub && o.group===undefined }),
                         nodes=linb([]);
                     results.each(function(o){
                         nodes.add( self.getSubNodeByItemId('BAR', o.id) );
@@ -617,7 +617,7 @@ Class("linb.UI.TreeBar",["linb.UI.iList", "linb.UI.iWidget","linb.UI.iNavigator"
             item._tabindex = p.tabindex;
             item.href = item.href || 'javascript:;';
             //change css class
-            if(item.sub && (item.group!=undefined?item.group:p.group)){
+            if(item.sub && (item.group!==undefined?item.group:p.group)){
                 item.cls_group = profile.getClass('BAR', '-group');
                 item.mark2Display = 'display:none';
             }

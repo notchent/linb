@@ -1,4 +1,4 @@
-
+//sdfdsf
 Class('App', 'linb.Com',{
     Instance:{
         //base Class for linb.Page

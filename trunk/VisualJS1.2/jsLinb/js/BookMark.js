@@ -57,11 +57,11 @@ Class("linb.BookMark",null,{
     						for (var i = 0; i < historyDelta; i++) self.backStack.push(self.forwardStack.shift());
     					}
     					var cachedHash = self.backStack[self.backStack.length - 1];
-    					if (cachedHash != undefined) {
+    					if (cachedHash !== undefined) {
     						self.lastHash = location.hash;
     						self.callback(cachedHash);
     					}
-    				} else if (self.backStack[self.backStack.length - 1] == undefined && !self.isFirst) {
+    				} else if (self.backStack[self.backStack.length - 1] === undefined && !self.isFirst) {
     					// back button has been pushed to beginning and URL already pointed to hash (e.g. a bookmark)
     					// document.URL doesn't change in Safari
     					if (document.URL.indexOf('#') >= 0) {
