@@ -27,11 +27,13 @@ new function(){
         timeout=60,
         //window.linb is the lib root var
         libKey = "linb",
-        //jslinb Path
-        libPath = "jsLinb/js/linb.js",
+        //jslinb path
+        libPath = "jsLinb/",
+        //jslinb js file Path
+        libName = "js/linb.js",
         //verPath
         verPath = "",        
-        //remote app root path, e.g. apis
+        //remote app root path(modules'll be in this path), e.g. apis
         apiPath = "",
         //app path, e.g. "http://www.x.com/", for linb.ini.appPath (notice: linb.ini.path get from the src property of linb.js file)
         appPath = "",
@@ -59,12 +61,14 @@ new function(){
         }
 
         dft_ver = h.ver || dft_ver;
+        verPath= verPath || h.verPath;
         appPath = h.appPath || appPath;
         if(appPath && !/\/$/.test(appPath+"")) appPath+='/';
         //default is the current html file path
         appPath = h.appPath || location.href.split('?')[0].replace(/[^\\\/]+$/,'');
         rPath = appPath+(verPath?verPath+"/":"")+(dft_ver?dft_ver+"/":"");
-        path = rPath + libPath;
+        h.path = rPath + libPath;
+        path = rPath + libPath + libName;
 
         a=[];
         a.push('"appPath":"'+appPath+'"');
@@ -74,17 +78,19 @@ new function(){
             if(!window[key])window[key]=1;else return;
             
             for(i in h)
-                a.push('"'+encodeURIComponent(i)+'":"'+encodeURIComponent(h[i])+'"');
+                a.push('"'+i+'":"'+h[i]+'"');
             s='window.linb_ini=({'+a.join(',')+'})';
 
             d.write('<script>'+ s + '</script>');
             d.write('<script src="'+ path + '"></script>');
+            if(h.module)
+                 d.write('<script src="'+ rPath + (apiPath?apiPath+"/":"")+ h.module + '.js"></script>');
         }else{
             h.width=h.width||560;
             h.height=h.height||80;
             a.push('"nodeid":"'+id+'"');
             for(i in h)
-                a.push('"'+encodeURIComponent(i)+'":"'+encodeURIComponent(h[i])+'"');
+                a.push('"'+i+'":"'+h[i]+'"');
             s='window.linb_ini=({'+a.join(',')+'})';
             d.open();
             //show in iframe

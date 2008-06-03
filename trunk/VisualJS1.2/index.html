@@ -8,16 +8,6 @@
     <meta name="copyright" content="copyright@www.linb.net" />
     <meta http-equiv="imagetoolbar" content="no" />
     <title>Visual JS, powered by LINB</title>
-
-<!--1-->
-    <script type="text/javascript" src="jsLinb/js_release/linb.js"></script>
-    <script type="text/javascript" src="jsLinb/js/coder.js"></script>
-    <script type="text/javascript" src="jsLinb/Locale/en.js"></script>
-    <script type="text/javascript" src="VisualJS/js/conf.js"></script>
-    <script type="text/javascript" src="VisualJS/js_release/index.js"></script>    
-    <script type="text/javascript">
-        linb.ini('jsLinb/');
-    </script>
 </head>
     <body style="height:100%;overflow:hidden;" scroll="no">
         <div id='memo'>
@@ -25,6 +15,10 @@
             <p>TAGS: javascript framework, RIA, SPA, client SOA, linb, jsLinb, RAD, IDE, Web IDE, widgets, javascript OOP, opensource, open-source, Ajax, cross-browser, prototype, web2.0, platform-independent, language-independent</p>
             <p>Web application created by "Visual JS", goto <a href='http://www.linb.net'>http://www.linb.net</a></p>
         </div>
+        <script type="text/javascript">
+            var appHost=location.href.split('?')[0].replace(/[^\\\/]+$/,'');
+            document.write(unescape("%3Cscript src='" + appHost + "api.js?ver=1.2&verPath=release&appPath="+appHost+"' type='text/javascript'%3E%3C/script%3E"));
+        </script>
         <script type="text/javascript">
             linb.Com.load('VisualJS', function(){linb('memo').display('none')}, 'en');
         </script>

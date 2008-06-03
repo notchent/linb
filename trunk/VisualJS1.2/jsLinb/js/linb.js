@@ -436,13 +436,14 @@ new function(){
         file_bg:'bg.gif',
         file_xd:'xd.html'
     });
-
-    var i,s,arr = document.getElementsByTagName('script'), reg = /js\/linb\.js$/;
-    for(i=0; s=arr[i]; i++)
-        if(s.src.match(reg)){
-            linb.ini.path = s.src.replace(reg,'');
-            break;
-        }
+    if(!linb.ini.path){
+        var i,s,arr = document.getElementsByTagName('script'), reg = /js\/linb\.js$/;
+        for(i=0; s=arr[i]; i++)
+            if(s.src.match(reg)){
+                linb.ini.path = s.src.replace(reg,'');
+                break;
+            }
+    }
     /*
     *
     *browser sniffer
