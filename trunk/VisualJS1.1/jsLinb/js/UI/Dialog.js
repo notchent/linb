@@ -3,7 +3,7 @@ Class("linb.UI.Dialog",["linb.UI.Widget","linb.UI.iContainer"],{
         html:function(html){
             this.get(0).getSubNode('PANEL').html(html);
         },
-        show:function(parent, modal){
+        show:function(parent, modal, left, top){
             parent = parent || linb(document.body);
             return this.each(function(profile){
                 if(profile.$show)return;
@@ -16,7 +16,7 @@ Class("linb.UI.Dialog",["linb.UI.Widget","linb.UI.iContainer"],{
 
                     //in ie, .children can't get the same thread added node(modal div,  here)
                     var t1=profile.root.topZindex(), t2=profile.root.zIndex();
-                    profile.root.zIndex(t1>t2?t1:t2).show();
+                profile.root.zIndex(t1>t2?t1:t2).show(left?(parseInt(left)||0)+'px':null, top?(parseInt(top)||0)+'px':null);
                     if(modal && !profile.$inModal)profile.box.modal(profile);
 
                     profile.box.active(profile);
@@ -138,7 +138,7 @@ Class("linb.UI.Dialog",["linb.UI.Widget","linb.UI.iContainer"],{
         Dragable:['LAND'],
         Appearances:{'default':{
             BORDER:{
-                'border-left':'solid 1px #fff',
+                'border-left':'solid 1px #EEE',
                 'border-top':0,
                 'border-right':'solid 1px #BBB',
                 'border-bottom':'solid 1px #BBB',
@@ -163,7 +163,7 @@ Class("linb.UI.Dialog",["linb.UI.Widget","linb.UI.iContainer"],{
                 left:0,
                 top:0,
                 height:0,
-
+                'white-space':'nowrap',
                 background: linb.UI.getCSSImgPara('barvbg.gif', ' repeat-x left top', null, 'linb.UI.Public'),
                 '*font-size':0,
                 '*line-height':0
@@ -313,6 +313,7 @@ Class("linb.UI.Dialog",["linb.UI.Widget","linb.UI.iContainer"],{
                                 data:[profile.$id],
                                 domId:src.id
                             };
+
                         profile.root.startDrag(e, hash);
                     }
                 },
@@ -688,7 +689,7 @@ Class("linb.UI.Dialog",["linb.UI.Widget","linb.UI.iContainer"],{
                         o.tabIndex=-1;
                     }
                     //save others tabzindex
-                    var h = profile.$focusHash={}, b=linb([document.body],false).dig('*',function(o){return o.tabIndex>0}).get();
+                    var h = profile.$focusHash={}, b=linb([document.body]).dig('*',function(o){return o.tabIndex>0}).get();
                     for(var i=0,o;o=b[i++];){
                         (h[o.tabIndex] = h[o.tabIndex]||[]).push(o);
                         o.tabIndex=-1;
@@ -756,8 +757,8 @@ Class("linb.UI.Dialog",["linb.UI.Widget","linb.UI.iContainer"],{
                 size.height = node.offsetHeight() + 10;
             }
             if(size.height>400)size.height=400;
-            if(size.width<50)size.width=50;
-            if(size.height<20)size.height=20;
+            if(size.width<100)size.width=100;
+            if(size.height<30)size.height=30;
 
             node.cssSize(size).overflow('auto').show();
 
@@ -819,7 +820,7 @@ Class("linb.UI.Dialog",["linb.UI.Widget","linb.UI.iContainer"],{
                 dialog.attach(cmd).attach(div).create();
             }
             this._adjust(dialog,caption, content);
-            dialog.show(linb([document.body],false),true);
+            dialog.show(linb([document.body]),true);
             _.asyRun(function(){
                 dialog.$btn.activate();
             });
@@ -896,12 +897,12 @@ Class("linb.UI.Dialog",["linb.UI.Widget","linb.UI.iContainer"],{
                 dialog.attach(cmd).attach(div).create();
             }
             this._adjust(dialog, caption, content);
-            dialog.show(linb([document.body],false), true);
+            dialog.show(linb([document.body]), true);
             _.asyRun(function(){
                 dialog.$btn.activate();
             });
         },
-        pop:function(caption, content){
+        pop:function(caption, content, cmdStr, left, top){
             var me=arguments.callee, dialog = me.dialog;
             if(!dialog){
                     dialog = new linb.UI.Dialog({
@@ -922,7 +923,7 @@ Class("linb.UI.Dialog",["linb.UI.Widget","linb.UI.iContainer"],{
                 dialog.$cmd=cmd;
 
                 var btn = new linb.UI.Button({
-                    caption:'OK',
+                    caption: cmdStr || 'OK',
                     tabindex:1,
                     width: 60
                 },
@@ -944,10 +945,11 @@ Class("linb.UI.Dialog",["linb.UI.Widget","linb.UI.iContainer"],{
             }
 
             this._adjust(dialog, caption, content);
-            dialog.show(linb([document.body],false));
+            dialog.show(linb([document.body]),false,left, top);
             _.asyRun(function(){
                 dialog.$btn.activate();
             });
+            return dialog;
         },
         //todo:
         prompt:function(caption){
@@ -959,7 +961,7 @@ Class("linb.UI.Dialog",["linb.UI.Widget","linb.UI.iContainer"],{
                 v1=profile.getSubNode('TITLE'),
                 v2=profile.getSubNode('PANEL'),
                 v3=profile.getSubNode('STATUS'),
-                bh,bw;
+                bh,bw,h1,h3;
             if(h){
                 bh = size.height,
                 h1=v1.height(), h3=v3.height();

@@ -44,7 +44,7 @@ Class("linb.UI.Gallery", "linb.UI.List",{
                 'overflow-x': (linb.browser.ie || linb.browser.gek)?'hidden':''
             },
             ITEM:{
-                display:linb.browser.gek?['-moz-inline-block', '-moz-inline-box']: 'inline-block',
+                display:linb.browser.gek?['-moz-inline-block', '-moz-inline-box','inline-block']: 'inline-block',
                 position:'relative',
                 overflow:'hidden',
                 'vertical-align':'top',
@@ -79,14 +79,16 @@ Class("linb.UI.Gallery", "linb.UI.List",{
                 color:'#fff'
             },
             'CONTENT, CAPTION':{
-            	'text-align': 'center'
+            	'text-align': 'center',
+                overflow:'hidden',
+                'white-space':'nowrap'
             },
             CAPTION:{
                 'font-weight':'bold',
                 'border-bottom':'1px solid #A7A6AA'
             },
             ICON:{
-                display:linb.browser.gek?['-moz-inline-block', '-moz-inline-box']: 'inline-block',
+                display:linb.browser.gek?['-moz-inline-block', '-moz-inline-box','inline-block']: 'inline-block',
             	'vertical-align': 'middle'
             },
             'COMMENT':{

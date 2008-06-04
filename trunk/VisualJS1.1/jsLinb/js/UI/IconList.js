@@ -24,7 +24,7 @@ Class("linb.UI.IconList", "linb.UI.List",{
                 'overflow-x': (linb.browser.ie || linb.browser.gek)?'hidden':''
             },
             ITEM:{
-                display:linb.browser.gek?['-moz-inline-block', '-moz-inline-box']: 'inline-block',
+                display:linb.browser.gek?['-moz-inline-block', '-moz-inline-box','inline-block']: 'inline-block',
                 position:'relative',
                 overflow:'hidden',
                 'vertical-align':'top'

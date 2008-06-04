@@ -1,4 +1,4 @@
-Class("linb.UI.MenuBar",["linb.UI.iWidget","linb.UI.iList","linb.UI.iNavigator"],{
+Class("linb.UI.MenuBar",["linb.UI.iList","linb.UI.iWidget","linb.UI.iNavigator"],{
     Instance:{
         /*attach:function(ui){
             //this.reBoxing('UI').attach(ui,[],false);
@@ -147,7 +147,7 @@ Class("linb.UI.MenuBar",["linb.UI.iWidget","linb.UI.iList","linb.UI.iNavigator"]
                 'background-color':'#E4E4E4'
             },
             ITEM:{
-                display:linb.browser.gek?['-moz-inline-block', '-moz-inline-box']: 'inline-block',
+                display:linb.browser.gek?['-moz-inline-block', '-moz-inline-box','inline-block']: 'inline-block',
                 /*must specify this, or static will take more v space*/
                 'vertical-align':'middle',
 //                height:'18px',

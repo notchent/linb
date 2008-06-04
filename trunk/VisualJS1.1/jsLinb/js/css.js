@@ -5,20 +5,44 @@
 */
 Class("linb.css", null,{
     Static:{
+        _id:'linb:css:basecsspoint',
+        _getBasePoint:function(){
+            var ns=this,
+                head=this.getHead(),
+                fc=document.getElementById(ns._id),
+                c;
+            if(!fc){
+                fc=document.createElement('style');
+                fc.type="text/css";
+                fc.id=ns._id;   
+                //first css file or declare block in head
+                for(var i=0,t=head.childNodes,l=t.length;i<l;i++)
+                    if(t[i].type=='text/css'){
+                        c=t[i];
+                        break;
+                    }
+                if(c)
+                    head.insertBefore(fc, c);
+                else
+                    head.appendChild(fc);
+            }
+            return fc;         
+        },
         getHead:function(){
             return this._head || (this._head=document.getElementsByTagName("head")[0]||document.documentElement);
         },
         exists:function(key, value){
             for(var head = this.getHead(),i=0,t=head.childNodes,l;l=t[i++];)
-                if(l[key]==value)
+                if(l[key]==value && l.type=="text/css")
                     return l;
             return false;
         },
-        add:function(txt, id){
+        //if last==true, add to head last node
+        //else add to the before position of the first link
+        add:function(txt, id, last){
             var e, head = this.getHead();
             if(id && this.exists('id',id))
                 return;
-
             e = document.createElement('style');
             e.type="text/css";
             if(id)e.id=id;
@@ -27,21 +51,30 @@ Class("linb.css", null,{
                 e.styleSheet.cssText = txt||'';
             else
                 e.appendChild(document.createTextNode(txt||''));
-            head.appendChild(e);
+            if(!last)
+                head.insertBefore(e, this._getBasePoint());
+            else
+                head.appendChild(e);
             //e.disabled=true;
             //e.disabled=false;
             return e;
         },
-        include:function(href){
+        //if before==true, add to the before postion of the first 'text/css'
+        //else add to the last postion
+        include:function(href, title, before){
             var e, head = this.getHead();
             if(href && this.exists('href',href))
                 return;
             e = document.createElement('link');
             e.type = 'text/css';
             e.rel = 'stylesheet';
+            e.title = title||'';
             e.href = href;
             e.media = 'all';
-            head.appendChild(e);
+            if(before)
+                head.insertBefore(e, this._getBasePoint());
+            else
+                head.appendChild(e);
             //e.disabled=true;
             //e.disabled=false;
             return e;

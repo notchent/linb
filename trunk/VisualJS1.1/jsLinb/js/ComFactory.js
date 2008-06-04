@@ -25,6 +25,17 @@ Class('linb.ComFactory',null,{
         getComFromCache:function(id){
             return this._cache[id];
         },
+        broadcast:function(hash){
+            var i,j,o,p,c=this._cache;
+            for(j in hash){
+                p=hash[j];
+                for(i in c){
+                    o=c[i];
+                    if(typeof p=='function')
+                        p.call(o,i);
+                }
+            }
+        },
         getCom:function(id, threadid, onEnd){
             var c=this._cache,p=this._pro,ini=p._iniMethod;
             if(c[id]){
@@ -181,7 +192,9 @@ Class('linb.ComFactory',null,{
                         if(o.$linb$ && o['linb.UI'] && o.$Appearances['default'] && !o.cssNone){
                             var path = linb.getPath(o.KEY, '/default/css.css','appearance');
                             if(!linb.UI.$cache_csspath[path]){
-                                (new o).get(0).toString();
+                                o=(new o).get(0);
+                                o.toString();
+                                o.destroy();
                                 r=true;
                                 return false;
                             }

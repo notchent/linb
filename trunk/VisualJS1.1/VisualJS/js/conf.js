@@ -30,6 +30,8 @@ CONF={
             {id:'linb.UI.List', caption:'List', icon:'img/widgets.gif', iconPos:'-192px top', dragable:true},
             {id:'linb.UI.ComboInput', caption:'ComboInput', icon:'img/widgets.gif', iconPos:'-144px top', dragable:true},
 
+            {id:'linb.UI.ProgressBar', caption:'ProgressBar', icon:'img/widgets.gif', iconPos:'-608px top', dragable:true},
+
             {id:'linb.UI.Range', caption:'Range', icon:'img/widgets.gif', iconPos:'left -16px', dragable:true},
             {id:'linb.UI.ComboButton', caption:'ComboButton', icon:'img/widgets.gif', iconPos:'-80px top', dragable:true},
     //        {id:'linb.UI.Spin', caption:'Spin', icon:'img/widgets.gif', iconPos:'-160px top', dragable:true},
@@ -43,6 +45,7 @@ CONF={
         ]},
         {id:'linb.UI.iContainer',caption:'Containers',group:true, icon:'img/App.gif', iconPos:'-48px -48px',sub:[
             {id:'linb.UI.Panel', caption:'Panel', icon:'img/widgets.gif', iconPos:'-288px top', dragable:true},
+            {id:'linb.UI.Fieldset', caption:'Fieldset', icon:'img/widgets.gif', iconPos:'-224px top', dragable:true},
             {id:'linb.UI.PanelBar', caption:'PanelBar', icon:'img/widgets.gif', iconPos:'-672px top', dragable:true},
             {id:'linb.UI.Block', caption:'Block', icon:'img/widgets.gif', iconPos:'-304px top', dragable:true},
             {id:'linb.UI.Layout', caption:'Layout', icon:'img/widgets.gif', iconPos:'-336px top', dragable:true},

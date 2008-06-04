@@ -14,7 +14,8 @@ Class("linb.UI.Input", ["linb.UI.Widget", "linb.UI.iForm"],{
         },
         activate:function(){
             var profile = this.get(0);
-            profile.getSubNode('INPUT').activate();
+            if(profile.domNode)
+                profile.getSubNode('INPUT').activate();
             return this;
         },
         disabled:function(value){
@@ -223,7 +224,7 @@ Class("linb.UI.Input", ["linb.UI.Widget", "linb.UI.iForm"],{
                     {caption : "HH:MM", id:"^\(\([0-1][0-9]\)|\([2][0-3])\)\:\([0-5][0-9]\)$"},
                     {caption : "HH:MM:SS", id:"^\(\([0-1][0-9]\)|\([2][0-3])\)\:\([0-5][0-9]\)\\:\([0-5][0-9]\)$"},
                     {caption : "YYYY-MM-DD",id:"^\([0-9]{4}\)\\-\(\([0][0-9]\)|\([1][0-2]\)\)\\-\([0-3][0-9]\)$"},
-                    {caption : "DD/MM/YYYY",id:"^\(\([0-2][0-9]\)|\([3][0-1]\)\)\/\(\([0][0-9]\)|\([1][0-2]\)\)\/\([0-9]{4}\)$"},
+                    {caption : "DD/MM/YYYY",id:"^\(\([0-2][0-9]\)|\([3][0-1]\)\)\/\(\([0][0-9]\)|\([1][0-2]\)\)\/\([0-9]{4}\)$"}
                 ]
             },
             value:'',

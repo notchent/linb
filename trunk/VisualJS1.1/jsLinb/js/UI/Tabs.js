@@ -1,4 +1,4 @@
-Class("linb.UI.Tabs", ["linb.UI.iWidget", "linb.UI.iList", "linb.UI.iContainer"],{
+Class("linb.UI.Tabs", ["linb.UI.iList", "linb.UI.iWidget", "linb.UI.iContainer"],{
     Instance:{
         setCtrlValue:function(value){
             this.each(function(profile){
@@ -222,7 +222,7 @@ Class("linb.UI.Tabs", ["linb.UI.iWidget", "linb.UI.iList", "linb.UI.iContainer"]
                 items:{
                     ITEM:{
                         BOX:{
-                                HANDLE:{
+                            HANDLE:{
                                 tagName: 'a',
                                 href :"{href}",
                                 tabindex: '{_tabindex}',
@@ -320,7 +320,7 @@ Class("linb.UI.Tabs", ["linb.UI.iWidget", "linb.UI.iList", "linb.UI.iContainer"]
             HANDLE:{
                 cursor:'pointer',
                 'vertical-align':'middle',
-                display:linb.browser.gek?['-moz-inline-block', '-moz-inline-box']: 'inline-block',
+                display:linb.browser.gek?['-moz-inline-block', '-moz-inline-box','inline-block']: 'inline-block',
                 'font-size':'12px'
             },
             RULER:{
@@ -381,8 +381,23 @@ Class("linb.UI.Tabs", ["linb.UI.iWidget", "linb.UI.iList", "linb.UI.iContainer"]
                 if(e.width)w = parseInt(o.width)||null;
                 profile.box.resize(profile, profile.properties.$UIvalue, w, h);
             },
+            CAPTION:{
+                onMousedown:function(profile, e, src){
+                    if(linb.event.getBtn(e)!='left')return;
+                    var properties = profile.properties,
+                        item = profile.getItemByDom(src),
+                        box = profile.boxing();
+
+                    if(properties.disabled)return false;
+                    if(box.getUIValue() == item.id){
+                        profile.boxing().onItemActive(profile, profile.getItemByDom(src), src);
+                    }
+                }
+            },
             ITEM:{
-                onClick:function(profile, e, src){return false;},
+                onClick:function(profile, e, src){
+                    return false;
+                },
                 onMousedown:function(profile, e, src){
                     if(linb.event.getBtn(e)!='left')return;
                     var properties = profile.properties,
@@ -391,7 +406,7 @@ Class("linb.UI.Tabs", ["linb.UI.iWidget", "linb.UI.iList", "linb.UI.iContainer"]
                         box = profile.boxing();
 
                     if(properties.disabled)return false;
-                    if(box.getUIValue() == item.id)return false;
+                    if(box.getUIValue() == item.id)return;
 
                     //for some input onblur event
                     profile.getSubNode('HANDLE', itemId).focus();
@@ -401,11 +416,14 @@ Class("linb.UI.Tabs", ["linb.UI.iWidget", "linb.UI.iList", "linb.UI.iContainer"]
                     //if success
                     if(box.getUIValue() == item.id){
                         box.onItemSelected(profile, item, src);
+                        return false;
                     }
                 }
             },
             HANDLE:{
-                onClick:function(profile, e){return profile.box.cancelLink(e)},
+                onClick:function(profile, e, src){
+                    return profile.box.cancelLink(e)
+                },
                 onKeydown:function(profile, e, src){
                     var keys=linb.event.getKey(e), key = keys[0], shift=keys[2];
                     if(key=='space'||key=='enter'){
@@ -456,16 +474,18 @@ Class("linb.UI.Tabs", ["linb.UI.iWidget", "linb.UI.iList", "linb.UI.iContainer"]
             CLOSE:{
                 onClick:function(profile, e, src){
                     var properties = profile.properties,
-                        item = profile.getItemByDom(src);
+                        item = profile.getItemByDom(src),bak;
 
                     if(properties.disabled)return;
                     var instance = profile.boxing();
 
                     if(false===instance.beforePageClose(profile, item, src)) return;
 
+                    bak=_.copy(item);
+
                     instance.removeItems(item.id);
 
-                    instance.afterPageClose(profile, item, src);
+                    instance.afterPageClose(profile, bak);
 
                     profile.box.resize(profile, profile.properties.$UIvalue, profile.root.width(), profile.root.height());
                     //for design mode in firefox
@@ -589,7 +609,8 @@ Class("linb.UI.Tabs", ["linb.UI.iWidget", "linb.UI.iList", "linb.UI.iContainer"]
             beforeNextFocus:null,
             beforePageClose:function(profile, item, src){},
             afterPageClose:function(profile, item, src){},
-            onItemSelected:function(profile, item, src){}
+            onItemSelected:function(profile, item, src){},
+            onItemActive:function(profile, item, src){}
         },
         createdTrigger:function(){
             // set default value
@@ -616,11 +637,18 @@ Class("linb.UI.Tabs", ["linb.UI.iWidget", "linb.UI.iList", "linb.UI.iContainer"]
                 return profile.properties.dropKeysPanel;
         },
         showTips:function(profile, node, pos){
-            var id=node.id;
+            var id=node.id, 
+                p=profile.properties,
+                keys=profile.keys,
+                key=profile.getKey(id);
             if(!id)return false;
             //dont show tips when mouse over PANEL
-            if(profile.getKey(id)==profile.keys.PANEL)return true;
-            return arguments.callee.upper.apply(this,arguments);
+            if(key==keys.PANEL)return true;
+            
+            if(profile.onShowTips)
+                return profile.boxing().onShowTips(profile, node, pos);  
+            else
+                return arguments.callee.upper.apply(this,arguments);
         },
         //for tabs only
         resize:function(profile,key,w,h){

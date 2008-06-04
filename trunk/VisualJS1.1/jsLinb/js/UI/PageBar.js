@@ -5,7 +5,7 @@ Class("linb.UI.PageBar",["linb.UI.iWidget","linb.UI.iNavigator"],{
                 if(!profile.domNode)return;
                 var t,
                     prop = profile.properties,
-                    arr = profile.box._ensureV(value),
+                    arr = profile.box._v2a(value),
                     min=arr[0],
                     cur=arr[1],
                     max=arr[2],
@@ -51,23 +51,6 @@ Class("linb.UI.PageBar",["linb.UI.iWidget","linb.UI.iNavigator"],{
                 }else{
                     display(last,1);display(nexthide,1);display(next,1);
                 }
-            });
-        },
-        setValue:function(value,flag){
-            var upper = arguments.callee.upper;
-            return this.each(function(profile){
-                var arr = profile.box._ensureV(value),
-                    a=[];
-                a[0] = arr[0];
-                a[1] = arr[1];
-                a[2] = arr[2];
-                a[0] = a[0]<=0?1:a[0];
-                a[0] = a[0]<a[1]?a[0]:a[1];
-                a[2] = a[2]>a[1]?a[2]:a[1];
-
-                value = a.join(':');
-
-                upper.apply(profile.boxing(),[value, flag]);
             });
         }
     },
@@ -243,23 +226,31 @@ Class("linb.UI.PageBar",["linb.UI.iWidget","linb.UI.iNavigator"],{
         EventHandlers:{
             onClick:function(profile, src){}
         },
-
-        //private method
-        _ensureV:function(v){
-            var a = v.split(':'),
+        ensureV:function(profile,value){
+            var a = value.split(':'),
                 b=[],
                 fun=function(a){return parseInt(a)||1};
             b[0]=fun(a[0]);
             b[1]=fun(a[1]);
             b[2]=fun(a[2]);
-            return b;
+
+            b[0] = Math.max(b[0],1);
+            b[0] = Math.min(b[0],b[1]);
+            b[2] = Math.max(b[1],b[2]);
+
+            return b.join(':');
         },
+        _v2a:function(v){
+            v = typeof v == 'string'? v.split(':') : v;
+            v[0]=parseInt(v[0]);v[1]=parseInt(v[1]);v[2]=parseInt(v[2]);
+            return v;
+        },        
         _click:function(profile, src){
             profile.boxing().onClick(profile, src);
         },
         _show:function(profile, e, src, flag){
             var prop = profile.properties,
-                arr = profile.box._ensureV(prop.value),
+                arr = profile.box._v2a(prop.value),
                 min=arr[0],
                 cur=arr[1],
                 max=arr[2],

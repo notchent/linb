@@ -68,7 +68,7 @@ Class("linb.UI.CheckBox", "linb.UI.Button",{
             },
             /*span*/
             BOX:{
-                display:linb.browser.gek?['-moz-inline-block', '-moz-inline-box']: 'inline-block',
+                display:linb.browser.gek?['-moz-inline-block', '-moz-inline-box','inline-block']: 'inline-block',
                 'font-size':'12px',
                 'line-height':'14px',
                 overflow:'hidden',
@@ -130,7 +130,7 @@ Class("linb.UI.CheckBox", "linb.UI.Button",{
                 onKeydown:function(profile, e, src){
                     var key = linb.event.getKey(e)[0];
                     if(key =='space' || key=='enter'){
-                        profile.getSubNode('KEY').onClick(true);
+                        profile.root.onClick(true);
                         return false;
                     }
                 }

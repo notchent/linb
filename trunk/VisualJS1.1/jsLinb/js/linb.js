@@ -7,9 +7,9 @@
 *load linb.logger to redefine window.error
 */
 //window.error=function(){return true};
-
+undefined;
 //time stamp
-_=function(){return new Date().getTime()};
+_=function(){return +new Date()};
 
 /*merge hash from source to target
   target:hash
@@ -50,7 +50,7 @@ _.merge(_,{
     */
     get:function(hash,arr){
         for(var i=0,l=arr.length;i<l;)
-            if(!hash || typeof (hash=hash[arr[i++]])=='undefined' )return;
+            if(!hash || (hash=hash[arr[i++]])===undefined )return;
         return hash;
     },
     /*
@@ -66,7 +66,7 @@ _.merge(_,{
             if(hash[v]&&((m=typeof hash[v])=='object' || m=='function')) hash=hash[v];
             else hash=hash[v]={};
         }
-        if(typeof value=='undefined')
+        if(value===undefined)
             delete hash[key];
         else
             return hash[key]=value;
@@ -136,7 +136,6 @@ Class=function(key, parent_key, o){
         for(i=0; t=o.Dependency[i]; i++)
             if(!(_.get(window, t.split('.')) || (linb&&linb.SC&&linb.SC(t))))
                 throw new Error('No dependency class :'+ t);
-
     parent0=_parent[0];
 
     /* collect items
@@ -323,7 +322,7 @@ _.merge(linb,{
     * you need to import jsLinb/Locale/en.js manully, if you don't want to use reLang
     */
     reLang:function(s,cb){
-        var l=linb.Locale,g=linb.getRes,t,v,i,j,f,z,m,a=[];
+        var l=linb.Locale,g=linb.getRes,t,v,i,j,f,m,z,a=[];
         linb.lang=s;
         v = linb.browser.ie ? document.all.tags('span') : document.getElementsByTagName('span');
         for(i=0;t=v[i];i++)if(t.id==linb.langId)a[a.length]=t;
@@ -407,9 +406,10 @@ _.merge(linb,{
             if(key.length==(add?1:0))key.push('linb');
         }else{
             pre=ini.appPath;
-            if(key.length==((add?1:0)+1))key.push('index');
+            if(key.length==((add?1:0)+1) && tag=='.js')key.push('index');
+            if(ini.verPath) pre += ini.verPath + '/';
+            if(ini.ver) pre += ini.ver + '/';
         }
-        if(ini.ver) pre = pre + ini.ver + '/';
         return pre + key.join('\/') + (tag||'\/');
     },
     temp:{},
@@ -421,19 +421,24 @@ _.merge(linb,{
     getObject:function(id){return linb._object[id]}
 });
 new function(){
+      //special var
+    if(window.linb_ini)
+        _.merge(linb.ini,window.linb_ini);
+
     _.merge(linb.ini,{
         appPath:location.href.split('?')[0].replace(/[^\\\/]+$/,''),
         appLangKey:'app',
         file_bg:'bg.gif',
         file_xd:'xd.html'
     });
-
+    if(!linb.ini.path){
     var i,s,arr = document.getElementsByTagName('script'), reg = /js\/linb\.js$/;
     for(i=0; s=arr[i]; i++)
         if(s.src.match(reg)){
             linb.ini.path = s.src.replace(reg,'');
             break;
         }
+    }
     /*
     *
     *browser sniffer
@@ -606,7 +611,7 @@ Class('linb.thread',null,{
             if(p._start===false){
                 p._start=true;
                 //call onstart
-                if(false===_.tryF(p.onStart,[],self))self.abort();
+                if(false===_.tryF(p.onStart,[p.id],self))self.abort();
             }
             if(!p.tasks.length)return self.abort();
             if(p.index>=p.tasks.length)
@@ -616,7 +621,7 @@ Class('linb.thread',null,{
                     return self.abort();
 
             delay = p.tasks[p.index].delay;
-            if(typeof delay=='undefined')delay=p.delay;
+            if(delay===undefined)delay=p.delay;
             p._left= (time || time===0)?time:delay;
 
             if(p._asy!=-1)clearTimeout(p._asy);
@@ -647,7 +652,7 @@ Class('linb.thread',null,{
             var self=this;
             if(self.profile.status=="run")return;
 
-            time = typeof time=='undefined' ?
+            time = time===undefined ?
                     self.profile._left :
                         (time || time===0) ?
                         (time>=0)? time : 0 :
@@ -717,13 +722,13 @@ Class('linb.thread',null,{
                 thread(null, tasks,
                     0,null,
                     //set busy status to UI
-                    function(){
-                        if(dom)dom.busy()
+                    function(threadid){
+                        if(dom)dom.busy(true,threadid)
                     },
                     //set free status to UI
-                    function(){
+                    function(threadid){
                         _.tryF(onEnd);
-                        if(dom)dom.free()
+                        if(dom)dom.free(threadid)
                     }
                 ).start();
             }
@@ -778,6 +783,11 @@ Class('linb.thread',null,{
 ajax    +       +       -                   -                   -           -
 sajax   +       -       +                   -                   -           *
 iajax   +       +       +                   *                   *           -
+*/
+/*
+in IE/firefox/safari, image/css url is enough
+in opear, use xd.html
+   if return multi iframes, randkey will be added in each Fragment Identifiers
 */
 Class('linb.io',null,{
     Constructor:function(uri, queryString, onSuccess, onFail, threadid, args){
@@ -920,7 +930,7 @@ Class('linb.io',null,{
                     if(o=self.pool[r]){
                         o=o.__||(o.__=[]);
                         o[i]=txt;
-                        while(l--)if(typeof o[i]=='undefined')return;
+                        while(l--)if(o[i]===undefined)return;
                         if(obj=_.unserialize(o.join(''))){
                             o._response=obj;
                             o._e("Response");
@@ -929,8 +939,10 @@ Class('linb.io',null,{
                 }else{
                     obj = typeof txt=='string' ? _.unserialize(txt) : txt;
                     if(obj && (o = self.pool[obj[self.randkey]])){
-                        o._response=obj;
-                        o._e("Response");
+                        for(i=0;i<o.length;i++){
+                            o[i]._response=obj;
+                            o[i]._e("Response");
+                        }
                     }
                 }
             }catch(e){
@@ -1058,7 +1070,7 @@ Class('linb.ajax','linb.io',{
             with(this){
                 var x=_XML,status = x.status;
                 _response = rspType=='text'?x.responseText:x.responseXML;
-                if(typeof status=='undefined' || status===0 || status==304 || (status >= 200 && status < 300 ))
+                if(status===undefined || status===0 || status==304 || (status >= 200 && status < 300 ))
                     _e("Response");
                 else
                     _e("Error", new Error('XMLHTTP return ' +status));
@@ -1069,22 +1081,25 @@ Class('linb.ajax','linb.io',{
 Class('linb.sajax','linb.io',{
     Instance:{
         start:function(){
-            var self=this,c=self.constructor, t, n, ok=false;
+            var self=this,id,c=self.constructor, t, n, ok=false;
             if(t=_.tryF(self.beforeStart,[],self))
                 return _.tryF(self.onSuccess,[t, self.rspType, self.threadid], self);
             if (!self._retryNo)
                 self._e("Start");
 
             //first
-            c.pool[self.id]=self;
+            id=self.id;
+            if(c.pool[id])
+                c.pool[id].push(self);
+            else 
+                c.pool[id]=[self];
 
             var w=c._n=document;
 			n = self.node = w.createElement("script");
-			n.src = self.uri + (self.queryString?'?'+self.queryString:'');//+(linb.browser.ie?'&_ie='+_()+Math.random():'');
+			n.src = self.uri + (self.queryString?'?'+self.queryString:'');
 			n.type= 'text/javascript';
 			n.charset='utf-8';
 			n.id='linb:script:'+self.id;
-
             n.onload = n.onreadystatechange = function(){
                 var t=this.readyState;
                 if(!ok && (!t || t == "loaded" || t == "complete") ) {
@@ -1106,12 +1121,19 @@ Class('linb.sajax','linb.io',{
                 self._flag = _.asyRun(function(){if(self && !self._end){self._time()}}, self.timeout);
         },
         _clear:function(){
-            var self=this, n=self.node, c=self.constructor, div=c.div||(c.div=c._n.createElement('div'));
-            delete self.constructor.pool[self.id];
+            var self=this, n=self.node, c=self.constructor, div=c.div||(c.div=c._n.createElement('div')),pool=self.constructor.pool;
+            pool.length=0;
+            delete pool[self.id];
             if(n){
-                self.node=n.onload=n.onreadystatechange=n.onerror=null;
-                if(!linb.debug || self.rspType!='script'){
+                self.node=n.id=n.onload=n.onreadystatechange=n.onerror=null;
+
+                if(self.rspType!='script'){
+                    //in ie + add script with url(remove script immediately) + add the same script(remove script immediately) => crash
+                    //so, always clear it later
                     div.appendChild(n.parentNode&&n.parentNode.removeChild(n)||n);
+                    if(linb.browser.ie)
+                        _.asyRun(function(){div.innerHTML='';n.removeNode()});
+                    else
                     div.innerHTML='';
                 }
             }
@@ -1129,10 +1151,12 @@ Class('linb.sajax','linb.io',{
         customQS:function(obj){
             var c=this.constructor, k=c.randkey, b=c.callback,nr=(this.rspType!='script'),rand=nr?k + '=' + this.id + '&':'';
             if(typeof obj=='string')
-                return (obj && obj + '&') + rand + b + '=linb.sajax.response';
+                return (obj && obj + '&') + rand + (nr?b + '=linb.sajax.response':'');
             else{
+                if(nr){
+                    obj[k]=this.id;
                 obj[b]="linb.sajax.response";
-                if(nr)obj[k]=this.id;
+                }
                 return obj;
             }
         }
@@ -1149,7 +1173,12 @@ Class('linb.iajax','linb.io',{
                 self._e("Start");
 
             //first
-            c.pool[self.id]=self;
+            id=self.id;
+            if(c.pool[id])
+                c.pool[id].push(self);
+            else 
+                c.pool[id]=[self];
+
             //create iframe
             var a=c.createif(document,null,(id='linb:if:'+self.id) );
             self.node=a[0];
@@ -1204,7 +1233,7 @@ Class('linb.iajax','linb.io',{
                         s=[];
                         for(i=0;i<l;i++){
                             t=(frms[i].location.href).split('#')[1];
-                            //for complicated return
+                            //for complicated return <if return multi Fragment Identifiers for opera, data string will be put after "s=">
                             if(t.indexOf('s=')!=-1){
                                 t=t.split('s=')[1];
                                 t=t.split('&')[0];
@@ -1256,6 +1285,7 @@ Class('linb.iajax','linb.io',{
             //not for 'ex-domain include jslinb' case
             if(!d.getElementById('linb:img:bg')){
                 o=d.createElement('img');
+                o.id='linb:img:bg';
                 o.src=i.path + i.file_bg;
                 o.style.display='none';
                 d.body.appendChild(o);
@@ -1318,7 +1348,7 @@ Class('linb.SC',null,{
             arr = path.split('.');
             if(path=='')return o;
             for(i=0,l=arr.length; i<l; ++i)
-                if (typeof o[arr[i]]=="undefined"){
+                if (o[arr[i]]===undefined){
                     return null;
                 }else
                     o = o[arr[i]];

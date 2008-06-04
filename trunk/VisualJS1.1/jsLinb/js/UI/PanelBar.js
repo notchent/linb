@@ -20,9 +20,7 @@ Class("linb.UI.PanelBar", ["linb.UI.Div","linb.UI.iContainer"],{
             BORDER:{
                 tagName : 'div',
                 HANDLE:{
-                    tagName: 'a',
-                    href :"javascript:;",
-                    tabindex: '{tabindex}',
+                    tagName: 'div',
                     style:'{handleDisplay};height:{handleHeight}px',
                     TOGGLE:{
                         className: ' {toggleCls}',
@@ -34,6 +32,9 @@ Class("linb.UI.PanelBar", ["linb.UI.Div","linb.UI.iContainer"],{
                         $order:0
                     },
                     CAPTION:{
+                        tagName: 'a',
+                        href :"{href}",
+                        tabindex: '{tabindex}',
                         text : '{caption}',
                         className:"{disabled}",
                         $order:1
@@ -62,20 +63,23 @@ Class("linb.UI.PanelBar", ["linb.UI.Div","linb.UI.iContainer"],{
             }
         }},
         Appearances:{'default':{
+            'KEY BORDER':{
+                zoom:linb.browser.ie6?1:null
+            },
             PANEL:{
                 position:'relative',
                 left:0,
                 top:0,
                 overflow:'auto',
+                zoom:linb.browser.ie6?1:null,
                 'background-color':'#fff'
             },
             HANDLE:{
-                display:'block',
-                'white-space':'nowrap',
+                overflow:'hidden',
                 background: linb.UI.getCSSImgPara('barvbg.gif', ' repeat-x left top', null, 'linb.UI.Public'),
-                height:'22px',
                 position:'relative',
-                left:0
+                width:linb.browser.ie6?'100%':null,
+                'white-space': 'nowrap'
             },
             'HANDLE-mouseover':{
                 $order:1,
@@ -167,8 +171,11 @@ Class("linb.UI.PanelBar", ["linb.UI.Div","linb.UI.iContainer"],{
                 'background-position' : '-220px -32px'
             },
             CAPTION:{
-                margin: '2px 0 2px 5px',
-                'font-size':'12px'
+                'font-size':'12px',
+                'padding':'0 16px 0 6px',
+                display:'inline',
+                'line-height':'20px',
+                zoom:linb.browser.ie6?1:null
             }
         }},
         Behaviors:{'default':{
@@ -191,9 +198,10 @@ Class("linb.UI.PanelBar", ["linb.UI.Div","linb.UI.iContainer"],{
                     return false;
                 }
             },
-            HANDLE:{
+            CAPTION:{
                 onClick:function(profile, e, src){
-                    profile.boxing().onClickHandle(profile,src);
+                    if(!profile.onClickHandle || false===profile.boxing().onClickHandle(profile,src))
+                        return profile.box.cancelLink(e)
                 }
             },
             CLOSE:{
@@ -249,6 +257,13 @@ Class("linb.UI.PanelBar", ["linb.UI.Div","linb.UI.iContainer"],{
                 }
             },
             dragKey:'',
+            href:{
+                ini:'javascript:;',
+                action:function(v){
+                    if(this.domNode)
+                        this.root.href(v);
+                }
+            },
             html:{
                 ini:'',
                 action:function(v){
@@ -256,7 +271,7 @@ Class("linb.UI.PanelBar", ["linb.UI.Div","linb.UI.iContainer"],{
                 }
             },
             handleHeight:{
-                ini:22,
+                ini:20,
                 action:function(v){
                     this.getSubNode('HANDLE').display(v?'':'none');
                 }
@@ -303,6 +318,11 @@ Class("linb.UI.PanelBar", ["linb.UI.Div","linb.UI.iContainer"],{
             onTriggerOption:function(profile, e, src){},
             onClickHandle:function(profile, src){}
         },
+        renderedTrigger:function(){
+            var self=this, t=self.properties, b=self.box;
+            if(t.toggle)
+                b._toggle(self,t.toggle);
+        },        
         prepareData:function(profile){
             arguments.callee.upper.call(this, profile);
             var data=profile.data, nodisplay='display:none';
@@ -332,14 +352,16 @@ Class("linb.UI.PanelBar", ["linb.UI.Div","linb.UI.iContainer"],{
             p.toggle = value;
 
             //event
-            if(value &&!profile.$ini){
-                if(b.onIniPanelView)b.onIniPanelView(profile);
-                profile.$ini=true;
+            if(value &&!profile.$ini)
+                if(b.onIniPanelView)
+                    if(b.onIniPanelView(profile)!==false)
+                        profile.$ini=true;
+
+            if(value){
+                if(false===b.onOpen(profile))return;
+            }else{
+                if(false===b.onFold(profile))return;
             }
-            if(value)
-                b.onOpen(profile);
-            else
-                b.onFold(profile);
 
             //show/hide/panel
             profile.getSubNode('PANEL').display(value?'':'none');

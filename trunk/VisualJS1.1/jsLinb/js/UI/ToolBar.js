@@ -1,4 +1,4 @@
-Class("linb.UI.ToolBar",["linb.UI.iWidget","linb.UI.iList","linb.UI.iNavigator"],{
+Class("linb.UI.ToolBar",["linb.UI.iList","linb.UI.iWidget","linb.UI.iNavigator"],{
     Instance:{
 //        insertWidgets:function(arr){
 //            return this;
@@ -108,7 +108,7 @@ Class("linb.UI.ToolBar",["linb.UI.iWidget","linb.UI.iList","linb.UI.iNavigator"]
                 'background-color':'#d4d4d4'
             },*/
             ITEM:{
-                display:linb.browser.gek?['-moz-inline-block', '-moz-inline-box']: 'inline-block',
+                display:linb.browser.gek?['-moz-inline-block', '-moz-inline-box','inline-block']: 'inline-block',
                 /*must specify this, or static will take more v space*/
                 'vertical-align':'top',
                 //height:'16px',

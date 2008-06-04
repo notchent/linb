@@ -37,7 +37,7 @@ Class("linb.UI.Button", ["linb.UI.Widget", "linb.UI.iForm"],{
                 TB:{
                     cellpadding:"0",
                     cellspacing:"0",
-                    width:'100%',                    
+                    width:'100%',
                     height:'100%',
                     border:'0',
                     tagName:'table',
@@ -46,7 +46,7 @@ Class("linb.UI.Button", ["linb.UI.Widget", "linb.UI.iForm"],{
                         TD:{
                             align:'{hAlign}',
                             valign:'{vAlign}',
-                            tagName:'td',                            
+                            tagName:'td',
                             BOX:{
                                 ICON:{
                                     $order:1,
@@ -126,7 +126,7 @@ Class("linb.UI.Button", ["linb.UI.Widget", "linb.UI.iForm"],{
             },
             /*span*/
             BOX:{
-                display:linb.browser.gek?['-moz-inline-block', '-moz-inline-box']: 'inline-block',
+                display:linb.browser.gek?['-moz-inline-block', '-moz-inline-box','inline-block']: 'inline-block',
                 'font-size':'12px',
                 'line-height':'14px',
                 overflow:'hidden'

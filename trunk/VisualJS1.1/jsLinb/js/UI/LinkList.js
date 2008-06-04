@@ -36,7 +36,7 @@ Class("linb.UI.LinkList", ["linb.UI.List"],{
             'ITEM-mouseover':{},
             'ITEM-checked':{},
             LINK:{
-                display:linb.browser.gek?['-moz-inline-block', '-moz-inline-box']: 'inline-block',
+                display:linb.browser.gek?['-moz-inline-block', '-moz-inline-box','inline-block']: 'inline-block',
                 'vertical-align':'middle',
                 padding:'1pt 4px 1pt 12px'
             }

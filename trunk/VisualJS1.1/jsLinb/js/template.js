@@ -1,7 +1,8 @@
 Class('linb.template','linb.iProfile',{
-    Constructor:function(parent,template,events,properties){
+    Constructor:function(parent,template,events,properties,domId){
         var self=this;
-        self.domId = self.KEY + ':' + (self.serialId=self.pickSerialId()) + ':',
+        self.$domId = self.KEY + ':' + (self.serialId=self.pickSerialId()) + ':';
+        self.domId = typeof domId == 'string'?domId:self.$domId;
         self._links={};
         self.template={'':[['<div></div>'],[]]};
         self.properties={};
@@ -9,7 +10,7 @@ Class('linb.template','linb.iProfile',{
         self.$id=_.id();
         self.links(self.constructor._cache,'self').links(linb._object,'linb');
         self.box=self.constructor;
-        linb.cache.dom[self.domId]=this;
+        linb.cache.dom[self.domId]=linb.cache.dom[self.$domId]=this;
 
         if(template)self.setTemplate(template);
         if(events)self.setEvents(events);
@@ -21,13 +22,24 @@ Class('linb.template','linb.iProfile',{
         $gc:function(){
             //no detach event here. so, don't add event using addEventlis...
             //use innerHTML way only
-            //$gc in linb.dom can't destory template, use destroy manully
             //template has no memory leak, ignore it when window.unload
+            this.destroy();
+        },
+        setDomId:function(id){
+            var t=this,c=linb.cache.dom,e;
+            if(t.domId!=t.$domId)
+                delete c[t.domId];
+            if(e=document.getElementById(t.domId))
+                e.id=id;
+            c[t.domId=id]=t;
+            return t;
+        },
+        getDomId:function(){
+            return this.domId;
         },
         destroy:function(){
             var self=this,
                 t=linb.cache.domId;
-
             if(self.root){
                 var me=this.constructor, c=me.c||(me.c=document.createElement('div'));
                 c.appendChild(self.root);
@@ -37,6 +49,7 @@ Class('linb.template','linb.iProfile',{
 
             (t[self.KEY] || (t[self.KEY]=[])).push(self.serialId);
             delete linb.cache.dom[self.domId];
+            delete linb.cache.dom[self.$domId];
             self.antiAllLinks();
             self.template=self.properties=self.events=null;
         },
@@ -132,6 +145,8 @@ Class('linb.template','linb.iProfile',{
             return typeof ev=='function'?[ev]:[];
         },
         build:function(properties, tag, result){
+            if(!properties)return '';
+
             var self=this, me=arguments.callee,s,t,n,isA = properties.constructor == Array,
             r1=me.r1||(me.r1=/\[\$e\]/g),
             r2=me.r2||(me.r2=/(^\s*<\w+)(\s|>)(.*)/),
@@ -142,8 +157,11 @@ Class('linb.template','linb.iProfile',{
             result= result || [];
             if(isA){
                 if(typeof temp != 'function')temp = me;
-                for(var i=0;t=properties[i++];)
+                for(var i=0;t=properties[i++];){
+                    //add hash link,
+                    properties[t.id]=t;
                     temp.call(self, t, tag, result);
+                }
             }else{
                 if(typeof temp == 'function')
                     temp.call(self, properties, tag, result);
@@ -179,7 +197,7 @@ Class('linb.template','linb.iProfile',{
             if(!id)return false;
             var p=pro.properties,
                 h=key?p[key]:p,
-                item=h[0];
+                item=h[id];
             linb.UI.Tips.show(pos, item);
             return true;
         },

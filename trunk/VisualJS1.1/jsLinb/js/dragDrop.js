@@ -510,7 +510,8 @@ Class('linb.dragDrop',null,{
             var t,temp,self=this,dom=linb.dom;
             if(!dom.byId(self._id))
                 linb([document.body]).addFirst(
-                    dom.create('<div id="' + self._id + '" style="left:0;top:0;border:0; padding:'+self._size+'px; position: absolute;"><div id="' +self._idi+ '"></div></div>')
+                    //&nbsp; for IE6
+                    dom.create('<div id="' + self._id + '" style="left:0;top:0;border:0; padding:'+self._size+'px; position: absolute;"><div id="' +self._idi+ '">'+(linb.browser.ie6?'&nbsp;':'')+'</div></div>')
                 );
             t=linb(self._id);
             if(self.drop2){
@@ -518,14 +519,17 @@ Class('linb.dragDrop',null,{
             }else{
                 pos.left -=  self._size;
                 pos.top -= self._size;
-                if(!self.target_parent)
+                if(!self.target_parent){
                     dom.setCover(true);
+                    //reset cursor for "move mode"
+                    linb([document.body]).cursor(self.cursor);
+                }
             }
             if(temp=self.target_parent)
                 linb(temp).addLast(t);
 
             if(child){
-                linb(self._idi).addLast(child);
+                linb(self._idi).empty(false).addLast(child);
                 self.proxyIn = child;
             }else
                 self.proxyIn = linb(self._idi);
@@ -540,7 +544,10 @@ Class('linb.dragDrop',null,{
                 id2=self._idi;
             if(dom.byId(id1)){
                 var t,k,o=linb(id2),t=linb(id1);
-                o.empty();
+                //&nbsp; for IE6
+                if(linb.browser.ie6)
+                    o.html('&nbsp;');
+                else o.empty();
                 o=o.get(0);
                 k=o.style;
                 if(linb.browser.ie){
@@ -628,6 +635,10 @@ Class('linb.dragDrop',null,{
                 if((t=linb(d._source)))
                     if(!t.isEmpty()){
                         if(t.position()!= 'absolute') t.position('absolute');
+                        //for ie bug
+                        if(linb.browser.ie)
+                            t.setRegion({right:'auto',bottom:'auto'});
+
                         t.absPos(this.getProxyPos());
                         if(d.topZindex) t.topZindex(true);
                     }
@@ -697,11 +708,12 @@ Class('linb.dragDrop',null,{
         //add dom dd functions
         _.each({
             startDrag:function(e, profile, key, data){
-                return linb.dragDrop.drag(e, this.get(0), profile, key||'', data||null);
+                linb.dragDrop.drag(e, this.get(0), profile, key||'', data||null);
+                return this;
             },
             dragable:function(flag, profile, key, data){
                 var self=this, dd=linb.dragDrop;
-                if(typeof flag=='undefined')
+                if(flag===undefined)
                     flag=true;
                 else if(typeof flag=='object'){
                     profile=flag;

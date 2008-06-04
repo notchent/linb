@@ -34,7 +34,7 @@ Class("linb.UI.RadioBox", "linb.UI.List",{
                padding:'0 0 0 4px',
                cursor:'pointer',
                'vertical-align':'middle',
-               display:linb.browser.gek?['-moz-inline-block', '-moz-inline-box']: 'inline-block',
+               display:linb.browser.gek?['-moz-inline-block', '-moz-inline-box','inline-block']: 'inline-block',
                'vertical-align':'middle',
                'font-size':'12px'
             },

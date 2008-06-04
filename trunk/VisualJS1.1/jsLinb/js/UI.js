@@ -50,6 +50,8 @@ new function(){
                     };
                 //hose
                 if(o.host)r.host='$this$';
+                //domId
+                if(o.$domId!=o.domId)r.domId=o.domId;
                 //appearance behavior and template
                 if(o.appearance && o.appearance!='default')r.appearance = o.appearance;
                 if(o.behavior && o.behavior._id!='default')r.behavior = o.behavior._id;
@@ -269,7 +271,7 @@ new function(){
                         t = properties[i];
                         _.merge(t,o,'all');
                         //merge default value
-                        ds[i] = typeof o.ini!='undefined'?o.ini:typeof ds[i] !='undefined'?ds[i]:undefined;
+                        ds[i] = o.ini!==undefined?o.ini:ds[i] !==undefined?ds[i]:undefined;
                     }else{
                         if(null===o){
                             r=i.initial();
@@ -482,6 +484,7 @@ new function(){
 
                 //clear cache point
                 delete linb.cache.dom[self.domId];
+                delete linb.cache.dom[self.$domId];
                 delete self.box._namePool[self.alias];
 
                 //clear anti links
@@ -498,6 +501,25 @@ new function(){
                 profile.antiLinks('$parent');
                 //and, link
                 profile.links(parent.children, '$parent', [profile, id]);
+            },
+            _reg:/^[\w]*$/,
+            setDomId:function(id){
+                var t=this,
+                    c=linb.cache.dom,
+                    reg=t._reg;
+
+                if(typeof id != 'string' || !reg.test(id))
+                    id=t.$domId;
+
+                if(t.domId!=t.$domId)
+                    delete c[t.domId];
+                if(t.domNode)
+                    t.domNode.id=id;
+                c[t.domId=id]=t;
+                return t;
+            },
+            getDomId:function(){
+                return this.domId;
             },
             //use remove, not $gc
             destroy:function(){
@@ -639,7 +661,7 @@ new function(){
 
                 var c = self.box.$clscache || (self.box.$clscache={}),
                 k=key+":"+tag,
-                cls='[^\\s]*'+self.getClass(key,'',true),
+                cls='[^\\s]*[-\\w]+',//+self.getClass(key,'',true),
                 reg = c[k] || (c[k] = new RegExp(cls + '[-\\w]*' + tag + '[-\\w]*')),
                 r2= c[cls+"*2"] ||(c[cls+"*2"]=new RegExp("("+cls + "[-\\w]*)",'g')),
                 r3= c[cls+"*3"] ||(c[cls+"*3"]=new RegExp("("+cls + ")"))
@@ -661,7 +683,7 @@ new function(){
 
                 var c = self.box.$clscache || (self.box.$clscache={}),
                 k=key+":"+tag,
-                reg = c[k] || (c[k] = new RegExp(self.getClass(key,'',true)+'[-\\w]*'+tag+'[-\\w]*'))
+                reg = c[k] || (c[k] = new RegExp(/*self.getClass(key,'',true)+*/'[-\\w]*'+tag+'[-\\w]*'))
                 ;
                 nodes.removeClass(reg);
 
@@ -669,7 +691,7 @@ new function(){
             },
 
             getSubNodeId:function(key, itemId){
-                var arr = this.domId.split(':');
+                var arr = this.$domId.split(':');
                 arr[0]=key;
                 arr[2]=itemId||'';
                 return arr.join(':');
@@ -846,6 +868,13 @@ new function(){
                 });
                 return arr;
             },
+            setDomId:function(id){
+                this.get(0).setDomId(id);
+                return this;
+            },
+            getDomId:function(){
+                return this.get(0).getDomId();
+            },
             ini:function(properties, events, host, template, behavior, appearance, children, CA, CB, CC, CF){
                 var self=this, profile, c = self.constructor, t='default';
                 //from keep UIProfile object point ( linb.UI.refresh )
@@ -873,10 +902,10 @@ new function(){
                 profile.appearance = appearance || profile.appearance || t;
                 profile.behavior = c.getBehavior(behavior || profile.behavior || t);
                 // custom
-                profile.CA =  CA || profile.CA || {};
-                profile.CB =  CB || profile.CB || {};
-                profile.CC =  CC || profile.CC || {};
-                profile.CF =  CF || profile.CF || {};
+                profile.CA = CA || profile.CA || {};
+                profile.CB = CB || profile.CB || {};
+                profile.CC = CC || profile.CC || {};
+                profile.CF = CF || profile.CF || {};
 
                 if(c.iniProfile)c.iniProfile.call(profile);
 
@@ -888,7 +917,9 @@ new function(){
                 delete profile.events;
 
                 if(!profile.serialId)profile.serialId=c.pickSerialId();
-                profile.domId = profile.makeRootId();
+                profile.$domId = profile.makeRootId();
+
+                profile.domId = profile.domId || profile.$domId;
 
                 //new alias always
                 profile.alias = profile.alias || c.pickAlias();
@@ -921,7 +952,7 @@ new function(){
 
                 //link dom
                 o.root = linb([o.domNode = linb.dom.byId(o.domId)]);
-                linb.cache.dom[o.domId] = o;
+                linb.cache.dom[o.domId] = linb.cache.dom[o.$domId] = o;
 
                 //createdTrigger
                 if(t=o.createdTrigger){
@@ -1037,7 +1068,7 @@ new function(){
                     //destroy and re create
                     box=o.box;
                     //keep serialId and host
-                    sid=o.serialId;
+                    //sid=o.serialId;
                     host=o.host;
                     s = o.beforeSerialized();
                     fun = o.$addOns;
@@ -1048,20 +1079,19 @@ new function(){
                     linb.dom.$gc();
 
                     s.host=host;
+                    //s.serialId=sid;
                     //use the old profile handle
                     _.merge(o,s,'all');
                     o=new box(o).create();
 
                     //for functions like: UI refresh itself
-                    if(fun){
+                    if(fun)
                         fun.call(fun.target,o.get(0));
-                        delete fun.target;
-                    }
 
                     //replace back
+                    //empty, but keep the children
                     replace.empty(false);
                     replace.replace(o.get(0).root);
-                    replace.remove();
 
                     //restore to parent
                     if(b){
@@ -1073,6 +1103,7 @@ new function(){
                     children.each(function(v){
                         o.attach.apply(o,v);
                     });
+                    replace.remove();
                 });
             },
             //set template id to object
@@ -1160,7 +1191,7 @@ new function(){
                     this.appendChild(ui, id);
                 var pro=this.get(0);
                 if(pro.domNode)
-                    pro.getSubNode(pro.keys.PANEL||'KEY').attach(ui);
+                    (pro.keys.PANEL?pro.getSubNode(pro.keys.PANEL):pro.root).attach(ui);
                 return this;
             },
             appendChild:function(target, id){
@@ -1290,7 +1321,7 @@ new function(){
                 var me=arguments.callee;
                 var fun=(me.fun||(me.fun=function(pro,i,h, flag){
                     var node=pro.getSubNode(i,true),b;
-                    if(!node.isEmpty())
+                    if(h[i] && !node.isEmpty())
                         h[i].split(';').each(function(o,i){
                             if((b=o.split(':')).length==2){
                                 b[0]=b[0].replace(/\-(\w)/g,function(a,b){return b.toUpperCase()});
@@ -1436,8 +1467,9 @@ new function(){
                 },
                 span:{
                     $order:16,
-                    display:linb.browser.gek?['-moz-inline-block', '-moz-inline-box']: 'inline-block',
-                    /*must specify this, or static will take more v space*/
+                    display:linb.browser.gek?['-moz-inline-block', '-moz-inline-box','inline-block']: linb.browser.ie6?'inline':'inline-block',
+                    zoom:linb.browser.ie6?1:null,
+                    /*must specify this, or static will take more v space in IE*/
                     'vertical-align':'middle'
                  },
                 'body *': {
@@ -1469,6 +1501,7 @@ new function(){
             $tag_right:"}",
             $tag_special:'#',
             $ID:"#id#",
+            $DOMID:'#domid#',
             $CLS:"#cls#",
             subSerialIdTag:"_serialId",
             $childTag:"<!--{id}-->",
@@ -1633,7 +1666,7 @@ new function(){
 
                 if(template.id!==null)
                     //id
-                    template.id = lkey + ":" + u.$ID + ":" + u.$tag_left + u.subSerialIdTag + u.$tag_right;
+                    template.id = key?lkey + ":" + u.$ID + ":" + u.$tag_left + u.subSerialIdTag + u.$tag_right:u.$DOMID;
                 else
                     delete template.id;
 
@@ -1734,7 +1767,7 @@ new function(){
                     n,t
                 ;
 
-                temp = temp.replace(r1, profile.serialId).replace(r4,profile.getClass('KEY'));
+                temp = temp.replace(r1, profile.serialId).replace(r4,profile.getClass('KEY')).replace(u.$DOMID,profile.domId);
                 if(n=profile.CA)
                     temp = temp.replace(r2, function(a,b){
                         return (t=n[b])?t:'';
@@ -1955,7 +1988,7 @@ new function(){
                                 //hanlder focus
                                 if(b){
                                     //export event
-                                    if(profile.beforeNextFocus && false === profile.boxing().beforeNextFocus(profile,key,shift,e))return false;
+                                    if(profile.beforeNextFocus && false === profile.boxing().beforeNextFocus(profile,key,!!shift,e))return false;
 
                                     if(key!='tab')
                                         linb(src).nextFocus(('up'==key || 'left'==key)?false:true);
@@ -2437,11 +2470,13 @@ new function(){
             */
             copyItem:function(item, hash){
                 if(!hash)hash={};
-                var i,o,w=linb.wrapRes;
+                var i,o,w=linb.wrapRes,me=arguments.callee,r=r||(r=me._r=/(\$)([\w\.]+)/g);
                 for(i in item){
                     if(i.charAt(0)=='$')continue;
                     if(!(i in hash))
-                        hash[i] = (typeof (o=item[i])=='string' && o.charAt(0)=='$')?w(o.slice(1)):o;
+                        hash[i] = (typeof (o=item[i])=='string' && o.indexOf('$')!=-1)?
+                        o.replace(r, function(a,b,c){return w(c)})
+                        :o;
                 }
                 //todo: change it
                 hash.iconDisplay = item.icon?'':'display:none';
@@ -2661,8 +2696,10 @@ new function(){
             },
             Behaviors:{'default':{}},
             EventHandlers:{
+                //$onValueSet
                 beforeValueSet:function(profile, oldValue, newValue, showValue){},
                 afterValueSet:function(profile, oldValue, newValue, showValue){},
+                //$onValueUpdated
                 beforeValueUpdated:function(profile, oldValue, newValue, showValue){},
                 afterValueUpdated:function(profile, oldValue, newValue, showValue){},
 
@@ -2671,7 +2708,7 @@ new function(){
                 //for appearance when mousedown/mouseup
                 beforeClickEffect:function(profile, item, src, type){},
 
-                beforeNextFocus:function(profile, e, src){},
+                beforeNextFocus:function(profile, e, shift, src){},
 
                 afterCreated:function(profile){},
                 afterRendered:function(profile){},
@@ -2679,17 +2716,16 @@ new function(){
 
                 onHotKeydown:function(profile, key, control, shift, alt, e, src){},
                 onHotKeypress:function(profile, key, control, shift, alt, e, src){},
-                onHotKeyup:function(profile, key, control, shift, alt, e, src){}
+                onHotKeyup:function(profile, key, control, shift, alt, e, src){},
+                
+                onShowTips:function(profile, node, pos){}
             },
             createdTrigger:function(){
                 var self=this, b=self.boxing(),p=self.properties;
-
-                if(typeof p.value !='undefined')
+                p.$UIvalue = p.value;
+                if(p.value !==undefined)
                     b.setCtrlValue(p.value);
-
-                if(p.disabled)
-                    b.disabled(true);
-
+                if(p.disabled)b.disabled(true);
                 self.inValid=1;
                 self.created=true;
                 if(self.afterCreated)
@@ -2709,7 +2745,8 @@ new function(){
                 }
                 if(p.dock && p.dock != 'none')
                     s.dock(this,true);
-
+                
+                self.rendered=true;
                 if(self.afterRendered)
                     b.afterRendered(self);
             },
@@ -2728,7 +2765,9 @@ new function(){
                     win=false,
                     region,
                     inMatix='$inMatix',
-                    f,t;
+                    f,t,
+                    //for ie6 1px bug
+                    _adjust=function(v){return linb.browser.ie6?v-v%2:v}
 
 
                 //attached to matix
@@ -2885,9 +2924,10 @@ new function(){
                                             top=(flt?0:obj.top)+margin.top;
                                             if(parseFloat(style.top)!=top)region.top=top;
                                             temp=obj.width - left - right - x;
-                                            if(parseFloat(style.width)!=temp)region.width=temp;
+                                            if(parseFloat(style.width)!=temp)region.width=_adjust(temp);
                                             if(!_.isEmpty(region))node.setRegion(region,true);
                                         }
+
                                         if(!flt)
                                             obj.top += (node.offsetHeight() + margin.top + margin.bottom);
                                         break;
@@ -2898,7 +2938,7 @@ new function(){
                                             bottom=(flt?0:obj.bottom)+margin.bottom;
                                             if(parseFloat(style.bottom)!=bottom)region.bottom=bottom;
                                             temp=obj.width - left - right - x;
-                                            if(parseFloat(style.width)!=temp)region.width=temp;
+                                            if(parseFloat(style.width)!=temp)region.width=_adjust(temp);
                                             if(!_.isEmpty(region))node.setRegion(region,true);
                                         }
                                         if(!flt)
@@ -2912,7 +2952,7 @@ new function(){
                                             if(parseFloat(style.left)!=left)region.left=left;
                                             if(parseFloat(style.top)!=top)region.top=top;
                                             temp=obj.height - top - bottom - y;
-                                            if(parseFloat(style.height)!=temp)region.height=temp;
+                                            if(parseFloat(style.height)!=temp)region.height=_adjust(temp);
                                             if(!_.isEmpty(region))node.setRegion(region,true);
                                         }
                                         if(!flt)
@@ -2927,7 +2967,7 @@ new function(){
                                             if(parseFloat(style.right)!=right)region.right=right;
                                             if(parseFloat(style.top)!=top)region.top=top;
                                             temp=obj.height - top - bottom - y;
-                                            if(parseFloat(style.height)!=temp)region.height=temp;
+                                            if(parseFloat(style.height)!=temp)region.height=_adjust(temp);
                                             if(!_.isEmpty(region))node.setRegion(region,true);
                                         }
                                         if(!flt)
@@ -2945,7 +2985,7 @@ new function(){
                                         obj.later[profile.$id] = obj.later[profile.$id] || {};
                                         _.merge(obj.later[profile.$id],{
                                             node:node,
-                                            width: prop.dockMinW?Math.max(prop.dockMinW,temp):temp,
+                                            width: _adjust(prop.dockMinW?Math.max(prop.dockMinW,temp):temp),
                                             left:left,
                                             top:top
                                         },'all');
@@ -2962,7 +3002,7 @@ new function(){
                                         obj.later[profile.$id] = obj.later[profile.$id] || {};
                                         _.merge(obj.later[profile.$id],{
                                             node:node,
-                                            height: prop.dockMinH?Math.max(prop.dockMinH,temp):temp,
+                                            height: _adjust(prop.dockMinH?Math.max(prop.dockMinH,temp):temp),
                                             left:left,
                                             top:top
                                         },'all');
@@ -3067,7 +3107,7 @@ new function(){
 
                 //give default caption
                 if('caption' in dm && prop.caption!==null)
-                    prop.caption = prop.caption==undefined ? profile.alias : prop.caption;
+                    prop.caption = prop.caption===undefined ? profile.alias : prop.caption;
 
                 //give border width
                 if('$border' in dm){
@@ -3086,7 +3126,7 @@ new function(){
                 if(prop.position)a[a.length] = 'position:'+prop.position;
                 if(prop.visibility)a[a.length]= 'visibility:'+prop.visibility;
                 if(prop.zIndex)a[a.length]= 'z-index:'+prop.zIndex;
-                if(prop.display)a[a.length]= 'display:'+ (prop.display=='inline-block'? linb.browser.gek?'-moz-inline-block;display:-moz-inline-box':'inline-block' :prop.display)
+                if(prop.display)a[a.length]= 'display:'+ (prop.display=='inline-block'? linb.browser.gek?'-moz-inline-block;display:-moz-inline-box;display:inline-block;':'inline-block' :prop.display)
                 a[a.length]= '';
                 data._style = a.join(';');
 
@@ -3142,6 +3182,10 @@ new function(){
                 }
 
                 return result;
+            },
+            showTips:function(profile, node, pos){
+                if(profile.onShowTips)
+                    return profile.boxing().onShowTips(profile, node, pos);          
             }
         },
         Initialize:function(){
@@ -3266,7 +3310,7 @@ new function(){
             }},
             PublicAppearance:{
                 '.linb-uishell':{
-                    display:linb.browser.gek?['-moz-inline-block', '-moz-inline-box']: 'inline-block',
+                    display:linb.browser.gek?['-moz-inline-block', '-moz-inline-box','inline-block']: 'inline-block',
                     overflow:'hidden',
                     /*opera must be 0 not 'none'*/
                     border:0,
@@ -3317,7 +3361,7 @@ new function(){
                 caption:{
                     // ui update function when setCaption
                     action: function(value){
-                        this.getSubNode('CAPTION').html(value);
+                        this.getSubNode('CAPTION').get(0).innerHTML = value;
                     }
                 },
                 // setIcon and getIcon
@@ -3346,10 +3390,6 @@ new function(){
 
             createdTrigger:function(){
                 var self=this, p=self.properties, o=self.boxing();
-
-                p.$UIvalue = p.value;
-                if(p.disabled)o.disabled(true);
-
                 //for performance
                 _.asyRun(function(){
                     if((!self.$noB) && p.border && o._border)o._border(p.border);
@@ -3427,6 +3467,7 @@ new function(){
                         if(index==-1){
                             //if no base specified, use innerHtml dir
                             node = profile.getSubNode(box.ITEMSKEY || profile.keys.ITEMS || profile.keys.KEY);
+
                             if(typeof before=="boolean"){
                                 r=ss.toDom();
                                 //items.length==1 for that one have fake item(for example: editable poll)
@@ -3601,16 +3642,19 @@ new function(){
             cssNone:true,
             Templates:{'default':{
                 tagName:'a',
-                style: 'text-decoration:underline;{_style}',
+                style: '{_style}',
                 href :"{href}",
+                target:'{target}',
                 tabindex: '{tabindex}',
                 text:'{caption}'
             }},
             Behaviors:{'default':{
                 onClick:function(profile, e, src){
-                    if(profile.onClick)
-                        return profile.boxing().onClick(profile, e, src);
-                    //return profile.box.cancelLink(e);
+                    var r;
+                    if(!profile.properties.disabled && profile.onClick)
+                        r = profile.boxing().onClick(profile, e, src);
+                    //**** if dont return false, this click will break sajax in IE
+                    return r !==undefined?r:false;
                 }
             }},
             DataModel:{
@@ -3618,7 +3662,7 @@ new function(){
                 dataField:null,
                 caption:{
                     action:function(v){
-                        this.root.text(v);
+                        this.root.get(0).innerHTML = v;
                     }
                 },
                 href:{
@@ -3627,9 +3671,15 @@ new function(){
                         if(this.domNode)
                             this.root.href(v);
                     }
+                },
+                target:{
+                    ini:'',
+                    action:function(v){
+                        if(this.domNode)
+                            this.root.attr('target',v);
+                    }
                 }
-            }
-            ,
+            },
             EventHandlers:{
                 onClick:function(profile, e){}
             }
@@ -3640,7 +3690,7 @@ new function(){
             cssNone:true,
             Templates:{'default':{
                 tagName:'div',
-                style:(linb.browser.gek?'overflow:auto;outline:none;':'')+'{_style}',
+                style:(linb.browser.gek?'overflow:auto;outline:none;':';')+(linb.browser.ie6?'zoom:1;':';')+'{_style}',
                 //for firefox div focus bug: outline:none; tabindex:'-1'
                 tabindex:'-1',
                 text:'{html}'+linb.UI.$childTag

@@ -1,39 +1,27 @@
 
 Class("linb.Cookies", null,{
     Static:{
-        set:function(key,value,days){
-            key=encodeURIComponent(key);
-            value=encodeURIComponent(value);
-
-            var ep;
-        	if(typeof days == 'number' && isFinite(days)){
-        		var date = new Date();
-        		date.setTime(date.getTime()+(days*24*60*60*1000));
-        		ep = "; expires="+date.toGMTString();
-        	}else{
-        	    ep = "";
-        	}
-        	document.cookie = key+"="+value+ep+"; path=/";
-        	return this;
+        set:function(key,value,days,path,domain,isSecure){
+	        if(key){
+    	        document.cookie = escape(key) + "=" + escape(value) +
+    		        (days?";expires="+(new Date((new Date()).getTime()+(24*60*60*1000*days))).toGMTString():"")+
+    		        (path?";path="+path:"")+
+    		        (domain?";domain="+domain:"")+ 
+    		        (isSecure?";secure":"");
+    		}
+    		return this;
         },
         get:function(key){
-            key=encodeURIComponent(key);
-
-        	var nEQ = key + "=";
-        	var ca = document.cookie.split(';');
-        	for(var i=0;i < ca.length;i++){
-        		var c = ca[i];
-        		while(c.charAt(0)==' '){
-        		    c = c.substring(1,c.length);
-        		}
-        		if (c.indexOf(nEQ) === 0){
-        		    return decodeURIComponent(c.substring(nEQ.length,c.length));
-        		}
+        	var i,a,ca = document.cookie.split( "; " );
+        	for(i=0;i<ca.length;i++){
+        		a=ca[i].split("=");
+        		if(a[0]==escape(key))
+        		    return a[1]?unescape(a[1]):'';
         	}
-        	return '';
+        	return null;
         },
         remove:function(key){
-        	return this.set(key,"",-1);
+        	return this.set(key,"",-1).set(key,"/",-1);
         },
         //get uri para from string
         getURIParas:function(str,key){

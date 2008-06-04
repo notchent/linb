@@ -535,16 +535,16 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                             _.merge(p,{
                                 $compareValue : null,
                                 $getShowValue : function(profile,value){
-                                    return value?o.formatValue(value):'';
+                                    return value?o.ensureV(profile,value):'';
                                 },
                                 $getEditValue : null,
                                 $fromEditValue : function(profile,value){
-                                    return o.formatValue(value);
+                                    return o.ensureV(profile,value);
                                 }
                             },'all');
                             pro=p.properties;
                             if(pro.value)
-                                pro.$UIvalue=pro.value=o.formatValue(pro.value);
+                                pro.$UIvalue=pro.value=o.ensureV(profile,pro.value);
                         });
                     else if(v=='datepicker'){
                         var date=linb.date;

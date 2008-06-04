@@ -815,7 +815,7 @@ Class("linb.UI.TreeGrid","linb.UI.iWidget",{
                 onDragbegin:function(profile, e, src){
                     linb.dragDrop.proxyIn
                     .setStyle({
-                        height:profile.getSubNode('KEY').height()+'px',
+                        height:profile.root.height()+'px',
                         width:'4px',
                         backgroundColor:'#ddd',
                         cursor:'e-resize'
@@ -880,7 +880,7 @@ Class("linb.UI.TreeGrid","linb.UI.iWidget",{
                 onDragbegin:function(profile, e, src){
                     linb.dragDrop.proxyIn
                     .setStyle({
-                        width:profile.getSubNode('KEY').width()+'px',
+                        width:profile.root.width()+'px',
                         height:'4px',
                         backgroundColor:'#ddd',
                         cursor:'n-resize'
@@ -907,7 +907,7 @@ Class("linb.UI.TreeGrid","linb.UI.iWidget",{
                     if(linb.browser.ie && h%2==1)h+=1;
                     o.height(h);
                     if(src.parentNode.id.startWith(profile.keys.HCELL0A)){
-                        profile.box.resize(profile,null,profile.getSubNode('KEY').height());
+                        profile.box.resize(profile,null,profile.root.height());
                     }
                     profile._limited=0;
                 }

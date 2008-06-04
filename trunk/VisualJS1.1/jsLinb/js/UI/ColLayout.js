@@ -1,4 +1,4 @@
-Class("linb.UI.ColLayout",["linb.UI.iWidget", "linb.UI.iList", "linb.UI.iContainer"],{
+Class("linb.UI.ColLayout",["linb.UI.iList", "linb.UI.iWidget", "linb.UI.iContainer"],{
     Instance:{
         getPanel:function(id){
             return this.get(0).getSubNodeByItemId('PANEL', id);
@@ -21,7 +21,7 @@ Class("linb.UI.ColLayout",["linb.UI.iWidget", "linb.UI.iList", "linb.UI.iContain
         },
         //prepare pos/size data for dragDrop
         prepareDD:function(){
-            var self=this, 
+            var self=this,
                 profile=self.get(0),
                 p=profile.properties,
                 root=profile.root,
@@ -82,29 +82,36 @@ Class("linb.UI.ColLayout",["linb.UI.iWidget", "linb.UI.iList", "linb.UI.iContain
                     break;
                 }
             }
-            col=profile._ddincol;
-            arr=o.rows[profile._ddi];      
-            i=0;
-            while(t=arr[i++]){
-                if(top<t[0]){
-                    //if raw changed, clear pos
-                    if(profile._ddid!==t[1])
-                        profile._ddup=null;
-                    j=(top < (to+(t[0]-to)/2));
-                    if(profile._ddid===t[1] && profile._ddup===j)
+            if(profile._ddi!==null){
+                col=profile._ddincol;
+                arr=o.rows[profile._ddi];
+                i=0;
+                while(t=arr[i++]){
+                    if(top<t[0]){
+                        //if raw changed, clear pos
+                        if(profile._ddid!==t[1])
+                            profile._ddup=null;
+                        j=(top < (to+(t[0]-to)/2));
+                        if(profile._ddid===t[1] && profile._ddup===j)
+                            break;
+                        profile._ddid=t[1];
+                        profile._ddup=j;
+                        change=true;
                         break;
-                    profile._ddid=t[1];
-                    profile._ddup=j;
-                    change=true;
-                    break;
+                    }
+                    to=t[0];
                 }
-                to=t[0];
+                if(change|| force)
+                    return [col,profile._ddid,profile._ddup];
+            }else{
+                if(change || force)
+                    return [null];
+                else
+                    return;                
             }
-            if(change|| force)
-                return [col,profile._ddid,profile._ddup];
         },
         _showProxy:function(profile,type,node,height){
-             var self=this, 
+             var self=this,
                  proxy= profile._proxy || (profile._proxy=linb.create('<div style="border:1px dashed #FF0000;">'));
              proxy.height(height||20);
              if(node.isEmpty())return;
@@ -123,7 +130,7 @@ Class("linb.UI.ColLayout",["linb.UI.iWidget", "linb.UI.iList", "linb.UI.iContain
         },
         //
         doDrag:function(pos,height){
-            var self=this, 
+            var self=this,
                 profile=self.get(0),
                 rst=self._checkpos(profile,pos),
                 col,row;
@@ -141,7 +148,7 @@ Class("linb.UI.ColLayout",["linb.UI.iWidget", "linb.UI.iList", "linb.UI.iContain
             }
         },
         doDrop:function(pos, data){
-            var self=this, 
+            var self=this,
                 profile=self.get(0),
                 rst=self._checkpos(profile,pos,true);
             self._hideProxy(profile);
@@ -199,7 +206,7 @@ Class("linb.UI.ColLayout",["linb.UI.iWidget", "linb.UI.iList", "linb.UI.iContain
                 'background-color': '#f0f0f0'
             },
             ITEM:{
-                position:'relative',
+                position:'static',
                 'float':'left',
                 overflow:'hidden',
                 'background-color':'#fff',
@@ -208,8 +215,9 @@ Class("linb.UI.ColLayout",["linb.UI.iWidget", "linb.UI.iList", "linb.UI.iContain
                 'line-height':linb.browser.ie?0:''
             },
             PANEL:{
-                position:'relative',
+                position:'static',
                 overflow:'hidden',
+                zoom:linb.browser.ie6?1:null,
                 /*for opera, opera defalut set border to 3 ;( */
                 'border-width':linb.browser.opr?'0':null,
                 'font-size':linb.browser.ie?0:'',
@@ -262,8 +270,13 @@ Class("linb.UI.ColLayout",["linb.UI.iWidget", "linb.UI.iList", "linb.UI.iContain
                             profile._limited=0;
                         }
                     }
-                    profile._pre.width(profile._preW+off);
-                    profile._next.width(profile._nextW-off);
+                    if(off<0){
+                        profile._pre.width(profile._preW+off);
+                        profile._next.width(profile._nextW-off);
+                    }else{
+                        profile._next.width(profile._nextW-off);
+                        profile._pre.width(profile._preW+off);
+                    }
                 },
                 onDragstop:function(profile, e, src){
                     if(profile._limited){
@@ -271,12 +284,16 @@ Class("linb.UI.ColLayout",["linb.UI.iWidget", "linb.UI.iList", "linb.UI.iContain
                         profile._limited=0;
                     }
                     var arr=profile.getSubNode('ITEM',true).get(),
-                        a=[],t,l=0;
+                        a=[],t,l=0,k;
+                    
                     arr.each(function(o,i){
+                        if(i==arr.length-1)k=l;
                         l = l + (a[i]=linb([o]).offsetWidth());
                     });
                     if(linb.browser.ie||linb.browser.gek)
                         l=src.parentNode.parentNode.offsetWidth;
+                    a[arr.length-1]=l-k-2;
+
                     arr.each(function(o,i){
                         o.style.width = parseInt(a[i]/l*100000)/1000 + '%';
                     });
@@ -293,7 +310,7 @@ Class("linb.UI.ColLayout",["linb.UI.iWidget", "linb.UI.iList", "linb.UI.iContain
             listKey:null,
             width:200,
             height:200,
-            minWidth:100,
+            minWidth:150,
             items:{
                 ini:[],
                 set:function(v){
@@ -354,7 +371,7 @@ Class("linb.UI.ColLayout",["linb.UI.iWidget", "linb.UI.iList", "linb.UI.iContain
             beforeNextFocus:null,
             onDropItem:function(profile, rst){}
         },
-        prepareData:function(profile){           
+        prepareData:function(profile){
             var i=profile.properties.items;
             if(!i || i.constructor != Array || !i.length)
                 i = profile.properties.items = _.clone([

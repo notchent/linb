@@ -397,7 +397,6 @@ Class('linb.UI.DatePicker', 'linb.UI.iWidget', {
         },
         createdTrigger:function(){
             var self=this, p=self.properties, o=self.boxing(), b=self.box;
-            p.$UIvalue = p.value;
             b._setWeekLabel(self);
             self.getSubNode('YTXT').html(linb.wrapRes('date.Y'),false);
             self.getSubNode('MTXT').html(linb.wrapRes('date.M'),false);

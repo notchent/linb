@@ -16,6 +16,14 @@ Class("linb.UI.Tips", null,{
         , linb.getPath(this.KEY,'/css.css','appearance'));
 
         linb([document])
+        .afterMousedown(function(){
+            if(tips.markId){
+                if(tips.showed)
+                    tips.hide();
+                else
+                    tips.cancel();
+            }
+        },'$Tips',-1)
         .afterMousemove(function(obj, e, src){
             if(dd.working)return;
             var event=linb.event,
@@ -45,6 +53,7 @@ Class("linb.UI.Tips", null,{
                 id,
                 //for linb.template
                 tid=node._tid,
+                rn = e.fromElement||e.relatedTarget,
                 from,
                 tempid,evid,
                 pass
@@ -58,13 +67,15 @@ Class("linb.UI.Tips", null,{
 
             //check id
             id=tid?tid:id;
-            tempid=tid?tid+evid:id.replace(event._reg,'$1$3$4');
-            if(tips.markId && tempid==tips.markId)
-                return rt;
-
             if((from=event._getProfile(id)) && from.box){
+                //if onShowTips exists, use custom tips id region, or use item region
+                tempid=tid?tid+evid:from.onShowTips?id:id.replace(event._reg,'$1$3$4');
+                if(tips.markId && tempid==tips.markId)
+                    return rt;
+
                 //set mark src id
                 tips.markId = tempid;
+                tips.pos=event.getPos(e);
                 _.resetRun('$Tips', function(){
                     tips.from=from;
                     tips.enode=node;
@@ -84,6 +95,7 @@ Class("linb.UI.Tips", null,{
                     evid,
                     //for linb.template
                     tid=event.getSrc(e)._tid,
+                    from=tips.from,
                     clear,
                     node = e.toElement||e.relatedTarget;
 
@@ -96,13 +108,14 @@ Class("linb.UI.Tips", null,{
                 }catch(e){clear=1}
 
                 if(!clear){
-                    tempid=tid?tid+node.getAttribute('evid'):id.replace(event._reg,'$1$3$4');
+                    //if onShowTips exists, use custom tips id region, or use item region
+                    tempid=tid?tid+node.getAttribute('evid'):(from && from.onShowTips)?id:id.replace(event._reg,'$1$3$4');
                     clear=tempid !== tips.markId;
                 }
 
                 if(clear){
                     if(tips.showed)tips.hide();
-                    else tips.asyHide();
+                    else tips.cancel();
                 }
                 return event.rtnFalse;
             }
@@ -111,40 +124,54 @@ Class("linb.UI.Tips", null,{
         this.Types = {
             'default' : new function(){
                 this._r=/(\$)([\w\.]+)/g;
-                this.show=function(item, pos){
+                this.show=function(item, pos, key){
                     //if trigger onmouseover before onmousemove, pos will be undefined
                     if(!pos)return;
 
-                    var self=this,node,s,w,h;
+                    var self=this,node,_ruler,s,w,h;
                     if(!(node=self.node)){
                         node = self.node = linb.create('<div class="linb-ui-tips"><div class="linb-ui-tips-i"></div></div>');
+                        _ruler = self._ruler = linb.create('<div class="linb-ui-tips" style="position:absolute;visibility:hidden;left:-10000px;"><div class="linb-ui-tips-i" style="position:relative;"></div></div>');
                         self.n = node.first();
-                        if(linb.dom.support('shadow'))node.shadow();
+                        self._n = _ruler.first();
+                        if(linb.dom.support('shadow')){
+                            node.shadow();
+                            _ruler.shadow();
+                        }
+                        linb([document.body]).addLast(_ruler);
                     }
+                    _ruler = self._ruler;
                     //ensure zindex is the top
                     if(document.body.lastChild!=node.get(0))
                         linb([document.body]).addLast(node);
 
-                    s=item.tips;
+                    s = typeof item=='object'? item[key||'tips'] :item ;
+
                     if(s=s.toString()){
                         //get string
                         s=s.replace(self._r, function(a,b,c){
                             return linb.wrapRes(c);
                         });
-                        //set to auto
-                        var style=node.get(0).style;
-                        style.width=style.height='auto';
-                        self.n.get(0).innerHTML=s;
+                        //set to this one
+                        self._n.get(0).innerHTML=s;
                         //get width
-                        w=Math.min(tips.maxWidth, node.width());
-                        //set width
+                        w=Math.min(tips.maxWidth, _ruler.get(0).offsetWidth);
+
+                        //set content, AND dimension
+                        var style=node.get(0).style;
+                        //hide first
+                        style.visibility='hidden';
+                        //set content
+                        self.n.get(0).innerHTML=s;
+                        //set dimension
                         if(linb.browser.ie){
-                            style.width=Math.round(w/2)*2+2+'px';
-                            h=self.n.height();
-                            style.height=Math.round(h/2)*2+2+'px';
+                            style.width=w+(w%2)+'px';
+                            h=self.n.get(0).offsetHeight;
+                            style.height=h+(h%2)+'px';
                         }else
                             style.width=w+'px';
-                        //pop
+
+                        //pop(visible too)
                         node.popToTop({left:pos.left,top:pos.top,region:{
                             left:pos.left,
                             top:pos.top-12,
@@ -198,14 +225,13 @@ Class("linb.UI.Tips", null,{
 
             //keep older
             self._pos=pos;
-
-            //b=((t=from.CF) && (t=t.showTips) && t(from, node, pos));
-
+            //1.CF
+            b=((t=from.CF) && (t=t.showTips) && t(from, node, pos));
+            //2.showTips / onShowTips
             //check if showTips works
             if(!b)b=(o.showTips && o.showTips(from, node, pos));
 
-            //check if default tips works
-            //tips is a base var
+            //default tips var
             if(!b && (t=from.properties) && (t.tips)){
                 self.show(pos, t);
                 b=true;
@@ -217,37 +243,39 @@ Class("linb.UI.Tips", null,{
                     _.resetRun('$Tips2', self.hide,self.autoHideTime,null,self);
             }
         },
-        show:function(pos, item){
+        show:function(pos, item, key){
             var self=this,t;
             //same item, return
             if(self.item == item)return;
 
             //hide first
-            if(self.curTemplate)self.curTemplate.hide();
+            //if(self.curTemplate)self.curTemplate.hide();
 
             //base check
-            if(!item || !item.tips)return;
-
-            //get template
-            t = self.curTemplate = self.Types[item.tipsTemplate] || self.Types['default'];
-            t.show(item,pos);
-
-            self.Node=t.node.get(0);
-
-            self.item=item;
-            self.showed = true;
+            if(typeof item =='string' || item.tips){
+                //get template
+                t = self.curTemplate = self.Types[item.tipsTemplate] || self.Types['default'];
+                t.show(item,pos,key);
+                self.Node=t.node.get(0);
+                self.item=item;
+                self.showed = true;
+            }
         },
         hide:function(flag){
             var self=this;
             if(flag || self.showed){
                 if(self.curTemplate)self.curTemplate.hide();
-                self.markId = self.from=self.curTemplate = self.item = self.showed = null;
+                self._c();
             }
         },
-        asyHide:function(){
+        cancel:function(){
             var self=this;
             _.resetRun('$Tips', null);
             _.resetRun('$Tips3', null);
+            self._c();
+        },
+        _c:function(){
+            var self=this;
             self.markId = self.from=self.curTemplate = self.item = self.showed = null;
         }
     }
