@@ -154,6 +154,7 @@
         add:'新建',
         'iDir':'文件夹',
         'iHtml':'HTML 文件',
+        'iCSS':'CSS 文件',
         'iJs':'JS 文件',
         'iPhp':'PHP 文件',
         'target':'目标文件(夹)',

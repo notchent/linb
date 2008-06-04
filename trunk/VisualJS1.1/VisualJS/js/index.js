@@ -197,6 +197,9 @@ Class('VisualJS', 'linb.Com',{
                             case 'html':
                                 iconPos='-112px -48px';
                                 break;
+                            case 'css':
+                                iconPos='-208px -48px';
+                                break;                            
                             case 'js':
                                 iconPos='-16px -48px';
                                 break;
@@ -343,7 +346,7 @@ Class('VisualJS', 'linb.Com',{
             if(!item.id)return;
             var page=this,
                 type=item.caption.split('.')[1];
-            if(type!='js' && type!='html'&& type!='php'){
+            if(type!='js' && type!='html' && type!='css' && type!='php'){
                 linb.dom.submit(item.id);
                 return;
             }
@@ -539,6 +542,9 @@ Class('VisualJS', 'linb.Com',{
                         case 'html':
                             iconPos='-112px -48px';
                             break;
+                        case 'css':
+                            iconPos='-208px -48px';
+                            break;                            
                         case 'js':
                             iconPos='-16px -48px';
                             break;
