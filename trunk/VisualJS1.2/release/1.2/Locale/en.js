@@ -151,6 +151,7 @@
         add:'Add',
         'iDir':'Folder',
         'iHtml':'HTML file',
+        'iCSS':'CSS file',
         'iJs':'JS file',
         'iPhp':'PHP file',
         'target':'Target',
