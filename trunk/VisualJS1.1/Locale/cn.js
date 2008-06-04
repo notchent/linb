@@ -117,6 +117,8 @@
         loading:'正在加载 ',
         comCodeErr:'在函数 "iniComponents" 中存在错误，请返回检查代码!',
         nameExists:'别名 "$0" 已经存在，不能重复命名!',
+        domIdExists:'DOM id "$0" 已经存在!',
+        domIdValid:'DOM id 只能是数字或英文字母',
         confirmdel:'删除?',
         confirmdel2:"您是否确认删除选中的$0个控件?",
         wlist: '组件树',

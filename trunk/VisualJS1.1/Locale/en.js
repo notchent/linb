@@ -114,6 +114,8 @@
         loading:'Loading ',
         comCodeErr:'An Error Occurs in Function "iniComponents", Please Go Back to Check the Code',
         nameExists:'A Widget Named "$0" Exists Already!',
+        domIdExists:'A DOM node wich id "$0" exists already!',
+        domIdValid:'DOM id must be char and number only',
         confirmdel:'Delete?',
         confirmdel2:"Are You Sure to Delete the $0 Selected  Component(s)?",
         wlist: 'Widgets List',

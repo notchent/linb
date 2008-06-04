@@ -32,7 +32,7 @@ Class('VisualJS', 'linb.Com',{
             onLoadResource:function(){
                 linb.dom.setCover('Load Resource', true);
             },
-            onLoadWidgets:function(com,threadid,key){
+            onCodeLoaded:function(com,threadid,key){
                 linb.dom.setCover('Load widgets: '+ com.KEY+ key);
             },
             onReady:function(page){
