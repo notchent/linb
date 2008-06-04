@@ -12,23 +12,22 @@ Class('App', 'linb.Com',{
             
             f(
             (new u.Block)
-            .host(t,"block6")
-            .setLeft(600)
-            .setTop(20)
+            .host(t,"block9")
+            .setLeft(30)
+            .setTop(190)
             .setWidth(170)
             .setHeight(152)
             .setBorder(true)
             .setResizable(true)
             );
             
-            t.block6.attach(
+            t.block9.attach(
             (new u.ButtonViews)
-            .host(t,"buttonviews8")
+            .host(t,"buttonviews11")
             .setLeft(0)
             .setTop(0)
             .setItems([{"id":"a","caption":"itema","tips":"item a"},{"id":"b","caption":"itemb","tips":"item b"},{"id":"c","caption":"itemc","tips":"item c"}])
-            .setHandleDock("left")
-            .setHandleVAlign("bottom")
+            .setHandleDock("right")
             );
             
             f(
@@ -49,26 +48,6 @@ Class('App', 'linb.Com',{
             .setTop(0)
             .setItems([{"id":"a","caption":"itema","tips":"item a"},{"id":"b","caption":"itemb","tips":"item b"},{"id":"c","caption":"itemc","tips":"item c"}])
             .setHandleHAlign("right")
-            );
-            
-            f(
-            (new u.Block)
-            .host(t,"block9")
-            .setLeft(30)
-            .setTop(190)
-            .setWidth(170)
-            .setHeight(152)
-            .setBorder(true)
-            .setResizable(true)
-            );
-            
-            t.block9.attach(
-            (new u.ButtonViews)
-            .host(t,"buttonviews11")
-            .setLeft(0)
-            .setTop(0)
-            .setItems([{"id":"a","caption":"itema","tips":"item a"},{"id":"b","caption":"itemb","tips":"item b"},{"id":"c","caption":"itemc","tips":"item c"}])
-            .setHandleDock("right")
             );
             
             f(
@@ -154,6 +133,27 @@ Class('App', 'linb.Com',{
             
             f(
             (new u.Block)
+            .host(t,"block6")
+            .setLeft(600)
+            .setTop(20)
+            .setWidth(170)
+            .setHeight(152)
+            .setBorder(true)
+            .setResizable(true)
+            );
+            
+            t.block6.attach(
+            (new u.ButtonViews)
+            .host(t,"buttonviews8")
+            .setLeft(0)
+            .setTop(0)
+            .setItems([{"id":"a","caption":"itema","tips":"item a"},{"id":"b","caption":"itemb","tips":"item b"},{"id":"c","caption":"itemc","tips":"item c"}])
+            .setHandleDock("left")
+            .setHandleVAlign("bottom")
+            );
+            
+            f(
+            (new u.Block)
             .host(t,"block5")
             .setLeft(410)
             .setTop(20)
@@ -170,14 +170,6 @@ Class('App', 'linb.Com',{
             .setTop(0)
             .setItems([{"id":"a","caption":"itema","tips":"item a"},{"id":"b","caption":"itemb","tips":"item b"},{"id":"c","caption":"itemc","tips":"item c"}])
             .setHandleDock("left")
-            );
-            
-            f(
-            (new u.ColLayout)
-            .host(t,"collayout2")
-            .setLeft(0)
-            .setTop(0)
-            .setItems([{"id":"1","width":"30.3%"},{"id":"2","width":"30.3%"},{"id":"2","width":"39.2%"}])
             );
             
             return n;
