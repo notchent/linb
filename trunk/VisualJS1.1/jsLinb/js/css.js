@@ -75,8 +75,8 @@ Class("linb.css", null,{
                 head.insertBefore(e, this._getBasePoint());
             else
                 head.appendChild(e);
-            //e.disabled=true;
-            //e.disabled=false;
+            e.disabled=true;
+            e.disabled=false;
             return e;
         },
         remove:function(key,value){
