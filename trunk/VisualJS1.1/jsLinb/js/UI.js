@@ -508,7 +508,7 @@ new function(){
                     c=linb.cache.dom,
                     reg=t._reg;
 
-                if(typeof id != 'string' || !reg.test(id))
+                if(typeof id != 'string' || !reg.test(id) || id.trim()=='')
                     id=t.$domId;
 
                 if(t.domId!=t.$domId)
@@ -615,12 +615,15 @@ new function(){
                 return (key || this.key) + ":" + this.serialId + ":";
             },
             getKey:function(id){
+                if(id.indexOf(':')==-1)id=linb.cache.dom[id].$domId;
                 return id.split(":")[0];
             },
             getSubSerialId:function(id){
+                if(id.indexOf(':')==-1)id=linb.cache.dom[id].$domId;
                 return id.split(":")[2];
             },
             getSerialId:function(id){
+                if(id.indexOf(':')==-1)id=linb.cache.dom[id].$domId;
                 return id.split(":")[1];
             },
             getNodeId:function(key, serialId, subSerialId){
@@ -705,7 +708,8 @@ new function(){
 
                 // by key only
                 if(itemId===true)
-                    r =linb([self.domNode]).dig('*', 'id', new RegExp('^'+key+':'+self.serialId));
+                    //key==self.keys.KEY for domId!=$domId
+                    r =linb([self.domNode]).dig('*', 'id', key==self.keys.KEY?self.domId:new RegExp('^'+key+':'+self.serialId));
                 else{
                     if(flag)delete h[key];
                     if(!itemId && h[key] && h[key]._nodes.length==1)return h[key];
@@ -768,18 +772,12 @@ new function(){
                 f(items, fun, deep, single, r);
                 return r;
             }
-        }/*,
+        },
         Static:{
             getFromDomId:function(id){
-                return linb.cache.dom[id];
-            },
-            getFromDomNode:function(node){
-                return linb.cache.dom[linb.event.getId(node)];
-            },
-            getFromDom:function(dom){
-                return linb.cache.dom[dom.get(0).id];
+                return linb.cache.dom[id.replace(linb.event._reg,'$1$3')];
             }
-        }*/
+        }
     });
 
     //linb.UI Class
