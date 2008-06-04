@@ -16,7 +16,7 @@ Class('App', 'linb.Com',{
             .setValue("default")
             .setLeft(230)
             .setTop(210)
-            .setItems([{"id":"default","caption":"default skin"},{"id":"a","caption":"skin a"},{"id":"b","caption":"skin b"}])
+            .setItems([{"id":"default","caption":"default skin"},{"id":"a","caption":"skin a"},{"id":"b","caption":"skin b"},{"id":"none","caption":"no skin"}])
             .setReadonly(true)
             .afterValueUpdated("_comboinput2_aftervalueupdated")
             );
@@ -57,15 +57,19 @@ Class('App', 'linb.Com',{
             SPA.ChangeSkin('default');
         },
         ChangeSkin:function(skin){
-            skin = skin || 'default';
             if(SPA.skinKey)
                 linb.css.remove('title', SPA.skinKey);
-            SPA.skinKey = skin;
-            linb.css.include(linb.getPath('App','css.css','css/'+skin+'/'),skin,false);
+            if(skin){
+                SPA.skinKey = skin;
+                linb.css.include(linb.getPath('App','css.css','css/'+skin+'/'),skin,false);
+            }
         },
         events:{"onReady":"_onready"},
         _comboinput2_aftervalueupdated:function (profile, oldValue, newValue, showValue) {
-            SPA.ChangeSkin(newValue)
+            if(newValue=='none')
+                SPA.ChangeSkin();
+            else
+                SPA.ChangeSkin(newValue);
         }
     }
 });
