@@ -37,7 +37,7 @@ Class('VisualJS.Designer', 'linb.Com',{
                         var b=false;
                         target.each(function(target){
                             target = linb([target],false);
-                            var profile = linb.cache.dom[target.get(0).id], widget=profile.boxing(),p = profile.properties, m = profile.box.getDataModel();
+                            var profile = linb.UIProfile.getFromDomId(target.get(0).id), widget=profile.boxing(),p = profile.properties, m = profile.box.getDataModel();
                             if(size){
                                 var w=null,h=null;
                                 if(size.width){
@@ -474,7 +474,7 @@ Class('VisualJS.Designer', 'linb.Com',{
         _sizeUpdated:function(pro, size){
             var t,self=this;
             if(!(t=self.profileGrid.get(0).$widget))return;
-            if(linb.cache.dom[pro.get(0).id] == t.get(t.length()-1))
+            if(linb.UIProfile.getFromDomId(pro.get(0).id) == t.get(t.length()-1))
                 _.asyRun(function(){
                     if(size.width!==null)
                     self.profileGrid.updateCellbyRowCol('properties:width','value',size.width,true)
@@ -486,7 +486,7 @@ Class('VisualJS.Designer', 'linb.Com',{
         _posUpdated:function(pro, cssPos){
             var t,self=this;
             if(!(t=self.profileGrid.get(0).$widget))return;
-            if(linb.cache.dom[pro.get(0).id] == t.get(t.length()-1))
+            if(linb.UIProfile.getFromDomId(pro.get(0).id) == t.get(t.length()-1))
                 _.asyRun(function(){
                     if(cssPos.left!==null)
                     self.profileGrid.updateCellbyRowCol('properties:left','value',cssPos.left,true)
@@ -571,22 +571,20 @@ Class('VisualJS.Designer', 'linb.Com',{
 
         },
         _giveHandler:function(target){
-            var getRootId = function(id){
-                var arr = id.split(':');
-                return arr[0].split('-')[0]+':'+arr[1]+':';
-            },prevent = function(){
+            var prevent = function(){
                 return;
             };
             var page=this;
             target.root.beforeClick(prevent).afterClick(prevent).onClick(function(pro, e, src){
                 var esrc=linb.event.getSrc(e),
-                    id=esrc.id;
+                    id=esrc.id,profile;
+                    
                 //if lang span, get parent id
                 if(id==linb.langId)id=esrc.parentNode.id;
 
-                if(getRootId(id)!= (id=getRootId(src.id)))return;
-
-                var t,key=linb.event.currentKey,profile=linb.cache.dom[id];
+                if(linb.UIProfile.getFromDomId(id) !== (profile=linb.UIProfile.getFromDomId(src.id)))return;
+                
+                var t,key=linb.event.currentKey;
 
                 if(!profile)return;
                 //if change panel, clear the panel selected
