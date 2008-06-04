@@ -69,6 +69,7 @@ Class("linb.UI.ProgressBar", ["linb.UI.Widget","linb.UI.iForm"],{
             value:0,
             width:300,
             height:24,
+            caption:null,
             background:{
                 ini:'#336699',
                 action:function(v){

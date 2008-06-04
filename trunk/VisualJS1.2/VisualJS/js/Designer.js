@@ -1411,7 +1411,16 @@ Class('VisualJS.Designer', 'linb.Com',{
                                 linb.message(linb.getRes('VisualJS.designer.domIdValid',value));
                                 return false;
                             }
-                            if(linb.dom.byId(value)){
+                            //if empty, return to original name
+                            if(String(value).trim()==''){
+                                value=target.get(0).$domId;
+                                _.asyRun(function(){
+                                    profile.box.changeCellValue(profile, cell,value,true);
+                                });
+                                return false;
+                            }
+                            //if set to original name, not check dom again
+                            if(target.get(0).$domId!=value && linb.dom.byId(value)){
                                 linb.message(linb.getRes('VisualJS.designer.domIdExists',value));
                                 return false;
                             }
