@@ -81,8 +81,10 @@ Class("linb.css", null,{
         },
         remove:function(key,value){
             var head = this.getHead();
-            if(value=this.exists(key,value))
+            if(value=this.exists(key,value)){
+                value.disabled=true;
                 head.removeChild(value);
+            }
         }
         /*,
         refer urls:
