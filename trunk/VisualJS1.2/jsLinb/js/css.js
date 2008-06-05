@@ -6,6 +6,7 @@
 Class("linb.css", null,{
     Static:{
         _id:'linb:css:basecsspoint',
+        _tagrule:'linb:css:tag',
         _getBasePoint:function(){
             var ns=this,
                 head=this.getHead(),
@@ -50,7 +51,7 @@ Class("linb.css", null,{
             if(linb.browser.ie)
                 e.styleSheet.cssText = txt||'';
             else
-                e.appendChild(document.createTextNode(txt||''));
+                try{e.appendChild(document.createTextNode(txt||''))}catch(p){e.styleSheet.cssText = txt||''}
             if(!last)
                 head.insertBefore(e, this._getBasePoint());
             else
@@ -85,60 +86,44 @@ Class("linb.css", null,{
                 value.disabled=true;
                 head.removeChild(value);
             }
-        }
-        /*,
-        refer urls:
-        phrogz.net/CSS/selector_test.html
-        www.howtocreate.co.uk/tutorials/javascript/domstylesheets
-        support only:
-            .a{}
-    `       .b, .c{}
-            .a span{}
-            .a span ,.b span{}
-
-        //css: null represents delete selector from stylesheet
-        setCSSStyle:function(selector, css){
-            var target, selectorText, t,_t, cssRules, add=true;
-            cssRules = linb.browser.ie?'rules':'cssRules';
-            //get styleSheet from the last to the first
-            _.toArr(document.styleSheets).each(function(o){
-                // get cssRule
+        },
+        //selector: a single css exp without ','
+        //css:  
+        //  !!false     =>  remove all related style
+        //  hashtable   =>  update style value
+        setRules:function(selector, value){
+            var ns=this,
+                add=true,
+                ds=document.styleSheets,
+                cssRules = linb.browser.ie?'rules':'cssRules',
+                target, selectorText, t, _t, cssRules;
+            selector = selector.replace(/\s+/g,' ').trim();
+            _.toArr(ds).each(function(o){
                 _.toArr(o[cssRules]).each(function(v,i){
+                    if(!v.selectorText)return;
                     selectorText =  v.selectorText.replace(/\.(\w+)\[CLASS~="\1"\]/g,'.$1')
                                      .replace(/\[ID"([^"]+)"\]/g,'#$1')
                                      .replace(/\*([.#])/g,'$1')
                                      .replace(/\s+/g,' ')
                                      .replace(/(\s*,\s*)/g,',').toLowerCase();
-                    //delete all
-                    if(null===css){
+                    //null=>remove
+                    if(!value){
+                        add=false;
                         _t=selectorText.toArr();
-
                         if(_t.exists(selector)){
-                            // for allow ","(no IE)
-
-                            // if older => .class1, .class2, .class3{}
-                            //      and selector => .class1
-                            //      and css => null
-                            // means delete .class1
-                            // first
-                            //      add => .class2, .class3{}
                             if(_t.length>1){
                                 _t=_t.removeFrom(_t.indexOf(selector)).join(',');
                                 t=v.cssText.slice(v.cssText.indexOf("{")+1,v.cssText.lastIndexOf("}"));
-
                                 if(o.insertRule)
                                     o.insertRule(_t+"{" + t + "}", o[cssRules].length);
                                 else if(o.addRule )
                                     o.addRule(_t, t);
-
                             }
-                            //and delete older => .class1 .class2, .class3{}
-                            if(o.deleteRule )
+                            if(o.deleteRule)
                                 o.deleteRule(i);
                             else
                                 o.removeRule(i);
                         }
-
                     //modify the last one
                     }else{
                         if(selectorText == selector){target=v;return false}
@@ -147,33 +132,32 @@ Class("linb.css", null,{
                 //modify css style
                 if(target)
                     try{
-                        _.each(css,function(o,i){
-                            i=i.replace(/-([a-z])/g,function(z,b){return b.toUpperCase();});
-                            if(typeof o == 'function')
-                                target.style[i]=o(target.style[i]);
-                            else
-                                target.style[i]=o;
+                        _.each(value,function(o,i){
+                            i=i.replace(/(-[a-z])/gi, function(m,a){return a.charAt(1).toUpperCase()});
+                            target.style[i]= typeof o=='function'?o(target.style[i]):o;
                         })
-                    }catch(e){}finally{return ok=false;}
+                    }catch(e){}finally{return add=false;}
+            },null,true);
 
-            },true);
-
-            //delete finished
-            if(null===css)return;
-
-            //not found, add it to the first stylesheet
             if(add){
                 t='';
-                _.each(css,function(o,i){
+                _.each(value,function(o,i){
                     t += i.replace(/([A-Z])/g,"-$1").toLowerCase() + ":" + o +";";
                 });
-                //insert
-                target=document.styleSheets[0];
-                if(target.insertRule)
-                    target.insertRule(selector+"{" + t + "}", target[cssRules].length);
-                else if(target.addRule )
-                    target.addRule(selector, t);
+                _t=selector+"{" + t + "}";
+                if(!(target=document.getElementById(ns._tagrule)))
+                    ns.add(_t,ns._tagrule,true);
+                else{
+                    target=target.sheet || target.styleSheet;
+                    if(target.insertRule)
+                        target.insertRule(_t, target[cssRules].length);
+                    else if(target.addRule )
+                        target.addRule(selector, t);
+                    target.disabled=true;
+                    target.disabled=false;
+                }
             }
-        }*/
+            return ns;
+        }
     }
 });
