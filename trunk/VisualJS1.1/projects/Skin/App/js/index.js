@@ -11,14 +11,12 @@ Class('App', 'linb.Com',{
             var t=this, n=t._nodes=[], u=linb.UI, f=function(c){n.push(c.get(0))};
             
             f(
-            (new u.ComboInput)
-            .host(t,"comboinput2")
-            .setValue("default")
+            (new u.Button)
+            .host(t,"button4")
             .setLeft(230)
-            .setTop(210)
-            .setItems([{"id":"default","caption":"default skin"},{"id":"a","caption":"skin a"},{"id":"b","caption":"skin b"},{"id":"none","caption":"no skin"}])
-            .setReadonly(true)
-            .afterValueUpdated("_comboinput2_aftervalueupdated")
+            .setTop(260)
+            .setCaption("set rules manually")
+            .onClick("_button4_onclick")
             );
             
             f(
@@ -49,6 +47,36 @@ Class('App', 'linb.Com',{
             .setHtml("Change skin")
             );
             
+            f(
+            (new u.Button)
+            .host(t,"button11")
+            .setLeft(100)
+            .setTop(260)
+            .setCaption("clear style")
+            .onClick("_button11_onclick")
+            );
+            
+            f(
+            (new u.ComboInput)
+            .host(t,"comboinput2")
+            .setLeft(230)
+            .setTop(210)
+            .setItems([{"id":"default","caption":"default skin"},{"id":"a","caption":"skin a"},{"id":"b","caption":"skin b"},{"id":"clear","caption":"no skin"}])
+            .setValue("default")
+            .setReadonly(true)
+            .afterValueUpdated("_comboinput2_aftervalueupdated")
+            );
+            
+            f(
+            (new u.Div)
+            .host(t,"div10")
+            .setDomId("unchanged")
+            .setLeft(410)
+            .setTop(100)
+            .setWidth(60)
+            .setHeight(50)
+            );
+            
             return n;
             // ]]code created by designer
         },
@@ -56,20 +84,25 @@ Class('App', 'linb.Com',{
             SPA=this;
             SPA.ChangeSkin('default');
         },
-        ChangeSkin:function(skin){
-            if(SPA.skinKey)
+        ChangeSkin:function(skin){            
+            if(SPA.skinKey && !skin)
                 linb.css.remove('title', SPA.skinKey);
-            if(skin){
-                SPA.skinKey = skin;
-                linb.css.include(linb.getPath('App','css.css','css/'+skin+'/'),skin,false);
-            }
+            else
+                linb.css.swap(linb.getPath('App','css.css','css/'+skin+'/'), 'title', SPA.skinKey, SPA.skinKey = skin);
         },
         events:{"onReady":"_onready"},
         _comboinput2_aftervalueupdated:function (profile, oldValue, newValue, showValue) {
-            if(newValue=='none')
+            if(newValue=='clear')
                 SPA.ChangeSkin();
             else
                 SPA.ChangeSkin(newValue);
+        },
+        _button4_onclick:function () {
+             linb.css.setRules('.linb-ui-div',{border:"solid 1px red"});
+             linb.css.setRules('#panelId',{border:"solid 3px red"});
+        },
+        _button11_onclick:function () {
+            linb.css.clearRules('#panelId').clearRules('#buttonId .linb-ui-button-caption');
         }
     }
 });

@@ -1,6 +1,6 @@
 @charset "utf-8";
 
-#panelId {
+#panelId, #unchanged {
     border: solid 1px #000;
     background:#aaaaaa;
 }
