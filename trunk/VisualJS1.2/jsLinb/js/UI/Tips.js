@@ -13,7 +13,7 @@ Class("linb.UI.Tips", null,{
             ".linb-ui-tips{font-size:0;line-height:0;position:absolute;border:solid gray 1px;background-color:#FFF8DC;overflow:visible;} "+
             ".linb-ui-tips-i{font-size:12px;margin:1px 2px 2px 2px;}"+
             ".linb-ui-tips-i span{display:inline;}"
-        , linb.getPath(this.KEY,'/css.css','appearance'));
+        ,  linb.getPath(this.KEY,'/css.css','appearance'));
 
         linb([document])
         .afterMousedown(function(){

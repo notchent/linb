@@ -59,8 +59,8 @@ Class("linb.css", null,{
         //else add to the before position of the first link
         add:function(txt, id, last){
             var e, ns=this, head = ns.getHead();
-            if(id && ns.exists('id',id))
-                return;
+            if(id && (id=id.replace(/[^\w-$:]/g,'_')) && (e=ns.exists('id',id)))
+                return e;
             e = document.createElement('style');
             e.type="text/css";
             if(id)e.id=id;
@@ -77,14 +77,16 @@ Class("linb.css", null,{
         },
         //if before==true, add to the before postion of the first 'text/css'
         //else add to the last postion
-        include:function(href, before, hash){
+        include:function(href, id, before, hash){
             var e, ns=this, head = ns.getHead();
-            if(href && ns.exists('href',href))
-                return;
+            if(href && (e=ns.exists('href',href)))
+                return e;
             e = document.createElement('link');
             e.type = 'text/css';
             e.rel = 'stylesheet';
             e.href = href;
+            if(id)
+                e.id=id;
             e.media = 'all';
             _.each(hash,function(o,i){
                 e.setAttribute(i,o);
@@ -107,7 +109,7 @@ Class("linb.css", null,{
                 head=ns.getHead(),
                 hash={},e,v;
             hash[key]=v2;
-            e=ns.include(href,false,hash);
+            e=ns.include(href,null,false,hash);
             if(v=ns.exists(key,v1))
                 head.replaceChild(e,v);
             e.disabled=true;

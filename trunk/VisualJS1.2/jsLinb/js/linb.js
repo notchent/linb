@@ -889,7 +889,9 @@ Class('linb.io',null,{
         timeout:10000,
         rspType:'text',
 
-        randkey:'randkey',
+        //paras in request object
+        type:'type',
+        randkey:'id',
         callback:'callback',
 
         buildQS:function(h){
@@ -1306,8 +1308,8 @@ Class('linb.iajax','linb.io',{
         tpl:function(){return '<iframe src="'+this.getDummyRes() + '#"></iframe>'},
         customQS:function(obj){
             var c=this.constructor;
-            obj.method='ipost';
-            obj.tpl=c.tpl();
+            obj[c.type]='ipost';
+            obj[c.callback]=c.tpl();
             obj[c.randkey]=this.id;
             return obj;
         }
