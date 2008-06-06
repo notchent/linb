@@ -11,6 +11,7 @@ mkdir %relPath%%releasePath%%version%jsLinb\js
 mkdir %relPath%%releasePath%%version%jsLinb\appearance
 
 xcopy %relPath%jsLinb\appearance\*.* %relPath%%releasePath%%version%jsLinb\appearance\ /E /Y
+copy  %relPath%jsLinb\ondrag.gif %relPath%%releasePath%%version%jsLinb\ondrag.gif
 copy  %relPath%jsLinb\bg.gif %relPath%%releasePath%%version%jsLinb\bg.gif
 copy  %relPath%jsLinb\loading.gif %relPath%%releasePath%%version%jsLinb\loading.gif
 copy  %relPath%jsLinb\xd.html %relPath%%releasePath%%version%jsLinb\xd.html
