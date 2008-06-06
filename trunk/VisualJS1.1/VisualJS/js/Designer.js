@@ -565,7 +565,7 @@ Class('VisualJS.Designer', 'linb.Com',{
 
                 //fire event
                 //page.onDeleted(page.pProfile, page.tempSelected);
-2
+
                 page._setSelected(null,true);
             });
 
