@@ -5,6 +5,7 @@
 */
 Class("linb.css", null,{
     Static:{
+        _r:linb.browser.ie?'rules':'cssRules',
         _baseid:'linb:css:base',
         _firstid:'linb:css:first',
         _lastid:'linb:css:last',
@@ -120,7 +121,7 @@ Class("linb.css", null,{
             return flag?t:selector+"{" + t + "}";
         },        
         clearRules:function(s){
-            return this.setRules(s);
+            return this.updateRules(s);
         },
         //selector: single css exp without ','; not allow '.a, .b{}'
         //  for *** IE *** allow single css exp only
@@ -130,16 +131,15 @@ Class("linb.css", null,{
         //css:  
         //  !!false     =>  remove all related style
         //  hashtable   =>  update style value
-        setRules:function(selector, value){
+        updateRules:function(selector, value, force){
             var ns=this,
                 add=true,
                 ds=document.styleSheets,
-                cssRules = linb.browser.ie?'rules':'cssRules',
                 target, target2, selectorText, bak, h, e, t, _t;
             selector = selector.replace(/\s+/g,' ').trim();
             bak=selector.toLowerCase();
             _.toArr(ds).each(function(o){
-                _.toArr(o[cssRules]).each(function(v,i){
+                _.toArr(o[ns._r]).each(function(v,i){
                     if(!v.selectorText)return;
                     selectorText =  v.selectorText.replace(/\.(\w+)\[CLASS~="\1"\]/g,'.$1')
                                      .replace(/\[ID"([^"]+)"\]/g,'#$1')
@@ -156,7 +156,7 @@ Class("linb.css", null,{
                             _t=_t.removeFrom(_t.indexOf(bak)).join(',');
                             t=v.cssText.slice(v.cssText.indexOf("{")+1,v.cssText.lastIndexOf("}"));
                             if(o.insertRule)
-                                o.insertRule(_t+"{" + t + "}", o[cssRules].length);
+                                o.insertRule(_t+"{" + t + "}", o[ns._r].length);
                             else if(o.addRule )
                                 o.addRule(_t, t);
                             if(o.deleteRule)
@@ -195,23 +195,27 @@ Class("linb.css", null,{
                 //not in IE
                 }else if(target2){
                     add=false;
-                    o.insertRule(ns._build(selector,value), o[cssRules].length);
+                    o.insertRule(ns._build(selector,value), o[ns._r].length);
                     o.disabled=true;
                     o.disabled=false;                  
                     return false;
                 }
             },null,true);
             //need to add
-            if(add){
-                target=ns._getLast();
+            if(force && add)
+                ns.addRules(selector,value);
+            return ns;
+        },
+        addRules:function(selector,value){
+            var ns=this,
+                target=ns._getLast(),
                 changed=target.sheet || target.styleSheet;
-                if(changed.insertRule)
-                    changed.insertRule(ns._build(selector,value), changed[cssRules].length);
-                else if(changed.addRule )
-                    changed.addRule(selector, ns._build(selector,value,true));
-                target.disabled=true;
-                target.disabled=false;
-            }
+            if(changed.insertRule)
+                changed.insertRule(ns._build(selector,value), changed[ns._r].length);
+            else if(changed.addRule )
+                changed.addRule(selector, ns._build(selector,value,true));
+            target.disabled=true;
+            target.disabled=false;
             return ns;
         }
     }

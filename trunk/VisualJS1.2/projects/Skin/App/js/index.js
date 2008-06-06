@@ -61,7 +61,7 @@ Class('App', 'linb.Com',{
             .host(t,"comboinput2")
             .setLeft(230)
             .setTop(210)
-            .setItems([{"id":"default","caption":"default skin"},{"id":"a","caption":"skin a"},{"id":"b","caption":"skin b"},{"id":"clear","caption":"no skin"}])
+            .setItems([{"id":"default","caption":"default skin"},{"id":"a","caption":"skin a"},{"id":"b","caption":"skin b"}])
             .setValue("default")
             .setReadonly(true)
             .afterValueUpdated("_comboinput2_aftervalueupdated")
@@ -92,14 +92,11 @@ Class('App', 'linb.Com',{
         },
         events:{"onReady":"_onready"},
         _comboinput2_aftervalueupdated:function (profile, oldValue, newValue, showValue) {
-            if(newValue=='clear')
-                SPA.ChangeSkin();
-            else
-                SPA.ChangeSkin(newValue);
+            SPA.ChangeSkin(newValue);
         },
         _button4_onclick:function () {
-             linb.css.setRules('.linb-ui-div',{border:"solid 1px red"});
-             linb.css.setRules('#panelId',{border:"solid 3px red"});
+             linb.css.updateRules('.linb-ui-div',{border:"solid 1px red"});
+             linb.css.updateRules('#panelId',{border:"solid 3px red"});
         },
         _button11_onclick:function () {
             linb.css.clearRules('#panelId').clearRules('#buttonId .linb-ui-button-caption');
