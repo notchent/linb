@@ -2107,7 +2107,7 @@ Class("linb.UI.TreeGrid","linb.UI.iWidget",{
             if(h)
                 rh = profile.getSubNode('HEADER').realHeight();
             profile.getSubNode('BOX').cssSize({width: w?w:null, height:h?h:null});
-            profile.getSubNode('SCROLL').setRegion({top:rh?rh:null, width:w?w:null, height: h?(h-rh):null}).onScroll();
+            profile.getSubNode('SCROLL').setRegion({top:rh?rh:null, width:w?w:null, height: h?(h-rh):null}).onScroll().ieTrigger();
         }
    }
 });

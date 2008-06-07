@@ -7,7 +7,7 @@ Class('App', 'linb.Com',{
         iniComponents:function(){
             // [[code created by designer, don't change it manually
             var t=this, n=t._nodes=[], u=linb.UI, f=function(c){n.push(c.get(0))};
-
+            
             f(
             (new u.Group)
             .host(t,"group1")
@@ -20,14 +20,14 @@ Class('App', 'linb.Com',{
             .setBorder(true)
             .setIcon("img/demo.gif")
             );
-
+            
             t.group1.attach(
             (new u.Input)
             .host(t,"input6")
             .setLeft(30)
             .setTop(50)
             );
-
+            
             t.group1.attach(
             (new u.Button)
             .host(t,"button16")
@@ -35,7 +35,7 @@ Class('App', 'linb.Com',{
             .setTop(10)
             .setCaption("button1")
             );
-
+            
             f(
             (new u.Group)
             .host(t,"group3")
@@ -45,7 +45,7 @@ Class('App', 'linb.Com',{
             .setHeight(216)
             .setCaption("group3")
             );
-
+            
             t.group3.attach(
             (new u.Group)
             .host(t,"group5")
@@ -53,7 +53,7 @@ Class('App', 'linb.Com',{
             .setTop(32)
             .setCaption("group5")
             );
-
+            
             t.group3.attach(
             (new u.Group)
             .host(t,"group4")
@@ -61,7 +61,7 @@ Class('App', 'linb.Com',{
             .setTop(32)
             .setCaption("group4")
             );
-
+            
             f(
             (new u.Group)
             .host(t,"group2")
@@ -74,14 +74,14 @@ Class('App', 'linb.Com',{
             .setIcon("img/demo.gif")
             .setTips("this is group2")
             );
-
+            
             t.group2.attach(
             (new u.Input)
             .host(t,"input2")
             .setLeft(24)
             .setTop(64)
             );
-
+            
             t.group2.attach(
             (new u.Button)
             .host(t,"button1")
@@ -89,7 +89,7 @@ Class('App', 'linb.Com',{
             .setTop(24)
             .setCaption("button1")
             );
-
+            
             f(
             (new u.Panel)
             .host(t,"panel3")
@@ -98,7 +98,7 @@ Class('App', 'linb.Com',{
             .setWidth(260)
             .setHeight(160)
             );
-
+            
             t.panel3.attach(
             (new u.Fieldset)
             .host(t,"fieldset1")
@@ -108,7 +108,24 @@ Class('App', 'linb.Com',{
             .setPosition("relative")
             .setCaption("fieldset1")
             );
-
+            
+            t.fieldset1.attach(
+            (new u.Panel)
+            .host(t,"panel12")
+            .setLeft(10)
+            .setWidth(230)
+            .setHeight(90)
+            .setPosition("relative")
+            );
+            
+            t.panel12.attach(
+            (new u.Button)
+            .host(t,"button14")
+            .setLeft(30)
+            .setTop(30)
+            .setCaption("button14")
+            );
+            
             return n;
             // ]]code created by designer
         }

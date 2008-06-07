@@ -372,7 +372,7 @@ _.merge(linb,{
     request:function(){
         if(!arguments[1])
             arguments[1]=String(_());
-            return (linb.io.crossDomain(arguments[0])?linb.sajax:linb.ajax).apply(null, arguments).start()
+            return (linb.io.crossDomain(arguments[0])?(arguments[5]&&arguments[5].method.toLowerCase()=='post')?linb.iajax:linb.sajax:linb.ajax).apply(null, arguments).start()
     },
     include:function(k,s,f,g){if(k&&linb.SC.evalPath(k))_.tryF(f); else linb.sajax(s,'',f,g,0,{rspType:'script'}).start()},
     /*
@@ -836,7 +836,7 @@ Class('linb.io',null,{
             self.queryString = self.customQS(self.queryString);
 
         if(!self._useForm && typeof self.queryString!='string')
-            self.queryString = con.buildQS(self.queryString);
+            self.queryString = con.buildQS(self.queryString, self._single);
 
         return self;
     },
@@ -894,11 +894,13 @@ Class('linb.io',null,{
         randkey:'id',
         callback:'callback',
 
-        buildQS:function(h){
+        buildQS:function(h, flag){
+            if(flag)
+                return _.serialize(h);
             var a=[],i,o;
             for(i in h){
                 o=h[i];
-                a.push(encodeURIComponent(i)+'='+encodeURIComponent(o));
+                a.push(encodeURIComponent(i)+'='+encodeURIComponent(typeof o=='string'?o:_.serialize(o)));
             }
             return a.join('&');
         },
@@ -1007,6 +1009,7 @@ Class('linb.io',null,{
 });
 Class('linb.ajax','linb.io',{
     Instance:{
+        _single:true,
         _XML:null,
         start:function() {
             var self=this,t;
@@ -1156,11 +1159,12 @@ Class('linb.sajax','linb.io',{
     Static : {
         pool:{},
         customQS:function(obj){
-            var c=this.constructor, k=c.randkey, b=c.callback,nr=(this.rspType!='script'),rand=nr?k + '=' + this.id + '&':'';
+            var c=this.constructor, t=c.type, k=c.randkey, b=c.callback,nr=(this.rspType!='script'),rand=nr?k + '=' + this.id + '&type=script&':'';
             if(typeof obj=='string')
                 return (obj && obj + '&') + rand + (nr?b + '=linb.sajax.response':'');
             else{
                 if(nr){
+                    obj[t]='script';
                     obj[k]=this.id;
                     obj[b]="linb.sajax.response";
                 }
@@ -1199,16 +1203,16 @@ Class('linb.iajax','linb.io',{
 
             k=self.queryString||{};
             for(i in k){
-                if(typeof k[i]=='string'){
-                    t=document.createElement('input');
-                    t.id=t.name=i;
-                    t.value= k[i];
-                    form.appendChild(t);
-                }else if(k[i] && k[i].nodeName=="INPUT"){
+                if(k[i] && k[i].nodeName=="INPUT"){
                     k[i].id=k[i].name=i;
                     form.appendChild(k[i]);
                     b=true;
-                }
+                }else{
+                    t=document.createElement('input');
+                    t.id=t.name=i;
+                    t.value= typeof k[i]=='string'?k[i]:_.serialize(k[i]);
+                    form.appendChild(t);
+                } 
             }
             if(self.method=='POST' && b){
                 form.enctype = 'multipart/form-data';
@@ -1269,18 +1273,19 @@ Class('linb.iajax','linb.io',{
         method:'POST',
         retry:0,
         pool:{},
-        getDummyRes : function(){
+        getDummyRes : function(win){
+            win=win||window;
             var ns=this,
                 arr,o,
-                d=document,
-                i=linb.ini,
+                d=win.document,
+                ini=linb.ini,
                 b=linb.browser,
-                h=window.location.href,
                 f=ns.crossDomain;
             if(ns.dummy)return ns.dummy;
-
+            //can get from linb.ini;
+            if(ini.dummy)return ns.dummy=ini.dummy;
             if(b.opr)
-                return ns.dummy = i.path + i.file_xd;
+                return ns.dummy = ini.path + ini.file_xd;
             if (b.gek) {
                 arr=d.getElementsByTagName("link");
                 for(var i=0,j=arr.length; i<j; i++){
@@ -1289,13 +1294,16 @@ Class('linb.iajax','linb.io',{
                         return ns.dummy=o.href.split('#')[0];
                 }
             }
-            //not for 'ex-domain include jslinb' case
-            if(!d.getElementById('linb:img:bg')){
-                o=d.createElement('img');
-                o.id='linb:img:bg';
-                o.src=i.path + i.file_bg;
-                o.style.display='none';
-                d.body.appendChild(o);
+
+            if(!f(ini.path)){
+                //not for 'ex-domain include jslinb' case
+                if(!d.getElementById('linb:img:bg')){
+                    o=d.createElement('img');
+                    o.id='linb:img:bg';
+                    o.src=ini.path + ini.file_bg;
+                    o.style.display='none';
+                    d.body.appendChild(o);
+                }
             }
             arr=d.getElementsByTagName("img");
             for(var i=0,j=arr.length; i<j; i++){
@@ -1303,12 +1311,18 @@ Class('linb.iajax','linb.io',{
                 if(!f(o.src))
                     return ns.dummy=o.src.split('#')[0];
             }
+            //get from parent, not for opera in this case
+            try{
+                win=win.parent;
+                if(win && !f(''+win.document.location.href))
+                    return ns.getDummyRes(win);
+            }catch(e){}
         },
 
         tpl:function(){return '<iframe src="'+this.getDummyRes() + '#"></iframe>'},
         customQS:function(obj){
             var c=this.constructor;
-            obj[c.type]='ipost';
+            obj[c.type]='frame';
             obj[c.callback]=c.tpl();
             obj[c.randkey]=this.id;
             return obj;

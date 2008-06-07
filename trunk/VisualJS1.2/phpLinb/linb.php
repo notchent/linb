@@ -72,6 +72,14 @@
        */
       const SYM_ID = "id";
       /**
+       * request data symbol: type
+       */
+      const SYM_TYPE = "type";
+      /**
+       * request data symbol: callback
+       */
+      const SYM_CALLBACK = "callback";
+      /**
        * request data symbol: hash
        */
       const SYM_HASH = "hash";
@@ -94,6 +102,8 @@
          *
          */
       const SYM_PARA = "para";
+
+      const MAX_LEN = 800;
 
       /**
        * Request data backup
@@ -298,56 +308,99 @@
        */
       public static function handler(){
          try{
-             $httpdata=NULL;
+             $httpdata=new stdClass;
              $data = self::SYM_DATA;
              $hash = self::SYM_HASH ;
              $id = self::SYM_ID;
+             $type = self::SYM_TYPE;
+             $callback = self::SYM_CALLBACK;
              $err = self::SYM_ERR;
              $key = self::SYM_KEY;
              $para = self::SYM_PARA;
-             $method='POST';
 
-             //get html 'post' first
+             //"post" request
+             //post a=b$c=d
              if(count($_POST)>0){
-                $httpdata = new stdClass;
-                foreach ($_POST as $k=>$v)$httpdata->$k = get_magic_quotes_gpc()?stripslashes($v):$v;
-                if(isset($httpdata->$para))$httpdata->$para = LINB::$json->decode($httpdata->$para);
-            //get html 'get' second
-             }else if(strstr($_SERVER['QUERY_STRING'],'=')!==false){
-                $method='GET';
+                foreach ($_POST as $k=>$v)
+                    $httpdata->$k = get_magic_quotes_gpc()?stripslashes($v):$v;
+             //post {a:'b',c:'d'}
+             //or xmlhttp post
+             }else{
+                //get string post next
+                $request = file_get_contents('php://input');
+                if($request){
+                    $request = LINB::$json->decode($request);
+                    foreach ($request as $k=>$v)
+                        $httpdata->$k = is_string($v)?get_magic_quotes_gpc()?stripslashes($v):$v:$v;
+                }
+              }
+            
+             //"get" request
+             $request = $_SERVER['QUERY_STRING'];
+             //get ?a=b$c=d
+             if($request){
+                 if(strstr($request,'=')!==false){
+                    foreach ($_GET as $k=>$v)
+                        $httpdata->$k = get_magic_quotes_gpc()?stripslashes($v):$v;
+                 //get ?{a:'b',c:'d'}
+                 }else{
+                    $request = LINB::$json->decode(urldecode($request));
+                    foreach ($request as $k=>$v)
+                        $httpdata->$k = is_string($v)?get_magic_quotes_gpc()?stripslashes($v):$v:$v;
+                 }
+             }
+             if($_SERVER['QUERY_STRING']){
     			header ("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
     			header ("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
     			header ("Cache-Control: no-cache, must-revalidate");
     			header ("Pragma: no-cache");
-                $httpdata = new stdClass;
-                foreach ($_GET as $k=>$v)$httpdata->$k = get_magic_quotes_gpc()?stripslashes($v):$v;
-                if(isset($httpdata->$para))$httpdata->$para = LINB::$json->decode($httpdata->$para);
-             }else{
-                 //get ajax/cgi 'post' next
-                 $request = file_get_contents('php://input');
-                 //get ajax/cgi 'get' last
-                 if($request === ""){
-        			$method='GET';
-                    $request = $_SERVER['QUERY_STRING'];
-
-                     //for html encodeURIComponent
-                     $request = urldecode($request);
-                 }
-
-                 if($request){
-                     $httpdata = LINB::$json->decode($request);
-                     if(is_null($httpdata)){
-                        throw new LINB_E("Request format error! data:'$request'");
-                     }
-                 }
-             }
-             //if request data
-             if($httpdata){
-                 // for __autoload
+    		}
+             if(isset($httpdata->$para)){
+                if(is_string($httpdata->$para))
+                    $httpdata->$para = LINB::$json->decode($httpdata->$para);
+                
+                 // for __autoload 
                  LINB::$data = $httpdata;
+
                  $d = self::stimulate($httpdata);
-                 if(isset($d))
-                    echo LINB::$json->encode($d);
+
+                 if(isset($d)){
+                    if(isset($httpdata->$callback))
+                        $cb=$httpdata->$callback;
+                    if(isset($httpdata->$type))
+                        $t=$httpdata->$type;
+
+                    unset($httpdata->$key);
+                    unset($httpdata->$para);
+                    unset($httpdata->$type);
+                    unset($httpdata->$callback);
+                    $httpdata->$data = $d;
+                    $output=LINB::$json->encode($httpdata);
+
+                    if(isset($httpdata->$id)){
+                     	// iframe ajax
+                     	if(isset($t) && $t=='frame'){
+                     	    $output=urlencode($output);
+                     	    $bak=$output;
+                     	    $output='';
+                     	    $temp='';
+                     	    $i=0;
+                     	    $arr = array();
+                     	    while($temp=substr($bak,0,self::MAX_LEN)){
+                     	        $arr[] = "&i=".$i."&s=".$temp;
+                     	        $bak=substr($bak,self::MAX_LEN);
+                     	        $i++;
+                     	    }
+                     	    foreach($arr as $v)
+                     	        $output .= preg_replace("/\#/", '#r='.$httpdata->$id.'&l='.$i.$v, $cb);
+                     	// script tag ajax
+                     	}
+                     	if(isset($t) && $t=='script'){
+                     	    $output = $cb.'('.$output.')';
+                     	}
+                    }
+                    echo $output;
+                }
              }
 
          }catch(LINB_E $e){

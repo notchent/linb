@@ -20,6 +20,8 @@ Class('VisualJS', 'linb.Com',{
             self.toolbar.updateItem('info', content.left(50));
             o.apply(null,arguments);
         };
+        
+        linb(document.body).setStyle({height:'100%',overflow:'hidden'});
     },
     Instance:{
         events:{
@@ -91,7 +93,7 @@ Class('VisualJS', 'linb.Com',{
                     prj = _.isNull(a)?'':decodeURIComponent(a[3]);
                 if(prj){
                     prj=CONF.prjPath+prj;
-                    linb.request(CONF.phpPath,_.serialize({
+                    linb.request(CONF.phpPath,({
                         key:CONF.requestKey,
                         para:{
                             action:'open',
@@ -101,7 +103,7 @@ Class('VisualJS', 'linb.Com',{
                     }),function(txt){
                         var obj = _.unserialize(txt);
                         if(obj && !obj.error)
-                            page._openproject(prj, obj);
+                            page._openproject(prj, obj.data);
                         else linb.message(txt);
                     });
                 }
@@ -174,7 +176,7 @@ Class('VisualJS', 'linb.Com',{
             }else{
                 pathadd=path=path+'/'+name;
             }
-            linb.request(CONF.phpPath, _.serialize({
+            linb.request(CONF.phpPath, ({
                 key:CONF.requestKey,
                 para:{
                     action:'add',
@@ -185,27 +187,27 @@ Class('VisualJS', 'linb.Com',{
                 }
             }),function(txt){
                 var obj = _.unserialize(txt);
-                if(obj && obj.OK){
-                    var iconPos;
-                    if(type=='/')
-                        iconPos='-48px top';
-                    else{
-                        var a = name.split('.');
-                        switch(a[1].toLowerCase()){
-                            case 'html':
-                                iconPos='-112px -48px';
-                                break;
-                            case 'css':
-                                iconPos='-208px -48px';
-                                break;                            
-                            case 'js':
-                                iconPos='-16px -48px';
-                                break;
-                            default:
-                                iconPos='-96px -48px';
+                if(obj && !obj.error && obj.data && obj.data.OK){
+                        var iconPos;
+                        if(type=='/')
+                            iconPos='-48px top';
+                        else{
+                            var a = name.split('.');
+                            switch(a[1].toLowerCase()){
+                                case 'html':
+                                    iconPos='-112px -48px';
+                                    break;
+                                case 'css':
+                                    iconPos='-208px -48px';
+                                    break;                            
+                                case 'js':
+                                    iconPos='-16px -48px';
+                                    break;
+                                default:
+                                    iconPos='-96px -48px';
+                            }
                         }
-                    }
-                    tb.insertItems([{id: pathadd, caption: name , icon:CONF.img_app, iconPos:iconPos, value:pathadd, sub:type=='/'?[]:null}], id)
+                        tb.insertItems([{id: pathadd, caption: name , icon:CONF.img_app, iconPos:iconPos, value:pathadd, sub:type=='/'?[]:null}], id)
                 }else
                     linb.message(txt);
             });
@@ -216,16 +218,16 @@ Class('VisualJS', 'linb.Com',{
             arr.each(function(o,i){
                 a[i]=o;
             });
-            linb.request(CONF.phpPath, _.serialize({
+            linb.request(CONF.phpPath, {
                 key:CONF.requestKey,
                 para:{
                     action:'del',
                     hashCode:_.id(),
                     path:a
                 }
-            }),function(txt){
+            },function(txt){
                 var obj = _.unserialize(txt);
-                if(obj && obj.OK){
+                if(obj && !obj.error && obj.data && obj.data.OK){
                     tb.removeItems(arr);
                     var items = tab.getItems(),b=[];
                     items.each(function(o){
@@ -269,19 +271,19 @@ Class('VisualJS', 'linb.Com',{
                     });
                     break;
                 case 'refresh':
-                    linb.request(CONF.phpPath, _.serialize({
+                    linb.request(CONF.phpPath,  {
                         key:CONF.requestKey,
                         para:{
                             action:'open',
                             hashCode:_.id(),
                             path:self.curProject
                         }
-                    }),function(txt){
+                    } ,function(txt){
                         var obj = _.unserialize(txt);
                         if(!obj || obj.error)
                             linb.message(txt);
                         else{
-                            _.tryF(self._openproject, [self.curProject, obj], self);
+                            _.tryF(self._openproject, [self.curProject, obj.data], self);
                             linb.message(linb.getRes('VisualJS.tool2.refreshOK'));
                         }
                     });
@@ -371,6 +373,10 @@ Class('VisualJS', 'linb.Com',{
                         tb.insertItems([item], items.length?items[items.length-1].id:null);
                         tb.fireItemClickEvent(value);
                         var fun = function(txt){
+                            txt=_.unserialize(txt);
+                            if(txt.error)return;
+                            txt=txt.data.file;
+
                             var itemid=item.id;
                             var callback=function(pagprofile, pro, b){
                                 tb.markDirty(pagprofile.properties.keyId, b);
@@ -405,17 +411,13 @@ Class('VisualJS', 'linb.Com',{
                                 });
                             }
                         } ;
-                        if(filetype!='php')
-                            linb.request(value,'',fun);
-                        else
-                            linb.request(CONF.phpPath,_.serialize({
-                                key:CONF.requestKey,
-                                para:{
-                                    action:'getfile',
-                                    hashCode:_.id(),
-                                    path:value
-                                }}),fun);
-
+                        linb.request(CONF.phpPath,{
+                            key:CONF.requestKey,
+                            para:{
+                                action:'getfile',
+                                hashCode:_.id(),
+                                path:value
+                            }},fun);
                 },240,8,'inexp').start();
             }
         },
@@ -626,13 +628,14 @@ Class('VisualJS', 'linb.Com',{
                                 err='err';
                                 return false;
                             }
-                            linb.request(CONF.phpPath, _.serialize({key:CONF.requestKey, para:{
+                            linb.request(CONF.phpPath, {key:CONF.requestKey, para:{
                                 action:'save',
                                 hashCode:_.id(),
                                 path: o.id,
                                 content:newText
-                                }}), function(txt){
-                                    if(_.unserialize(txt).OK){
+                                }}, function(txt){
+                                    var obj = _.unserialize(txt);
+                                    if(obj && !obj.error && obj.data && obj.data.OK){
                                         o.$obj.resetEnv(newText);
                                         tb.markDirty(o,false,true);
                                     }
@@ -694,7 +697,7 @@ Class('VisualJS', 'linb.Com',{
                     self._dirtyWarn(function(){
                         self.proxy.submit(CONF.phpPath, {key:CONF.requestKey, para:{path: self.curProject, action:'release'}}, null, 'POST');
                         //linb.dom.submit(CONF.phpPath, {key:CONF.requestKey, para:{path: self.curProject, action:'release'}}, null, 'POST');
-                        //linb.request(CONF.phpPath, _.serialize({key:CONF.requestKey, para:{path: self.curProject, action:'release'}}));
+                        //linb.request(CONF.phpPath, ({key:CONF.requestKey, para:{path: self.curProject, action:'release'}}));
                     });
                     break;
                 case 'forum':

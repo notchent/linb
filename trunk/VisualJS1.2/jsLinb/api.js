@@ -32,7 +32,7 @@ new function(){
         //jslinb js file Path
         libName = "js/linb.js",
         //verPath
-        verPath = "release",        
+        verPath = "",        
         //remote app root path(modules'll be in this path), e.g. apis
         apiPath = "",
         //app path, e.g. "http://www.x.com/", for linb.ini.appPath (notice: linb.ini.path get from the src property of linb.js file)
@@ -41,7 +41,7 @@ new function(){
         iniStr = '<div id="loadingInfo">Loading...</div>',
 
         //default version mark
-        dft_ver = "1.2";
+        dft_ver = "";
 
     new function(){
         var d = document,

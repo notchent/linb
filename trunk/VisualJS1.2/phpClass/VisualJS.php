@@ -54,8 +54,7 @@ class VisualJS extends Unit
             return array('OK'=>true);
             break;
         case 'getfile':
-            echo $io->getString($hash->path);
-            return;
+            return array('file'=> $io->getString($hash->path));
             break;
         case 'open':
             $prjpath=$hash->path;

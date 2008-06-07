@@ -12,7 +12,7 @@ Class('VisualJS.ProjectSelector', 'linb.Com',{
             dlg.show(self.parent, true);
 
             linb.dom.setCover(linb.getRes('VisualJS.ps.getting'));
-            linb.request(CONF.phpPath, _.serialize({
+            linb.request(CONF.phpPath, ({
                     key:CONF.requestKey,
                     para:{
                         action:'open',
@@ -26,6 +26,7 @@ Class('VisualJS.ProjectSelector', 'linb.Com',{
                     if(!arr || arr.error)
                         linb.message(txt);
                     else{
+                        arr=arr.data;
                         if(arr && arr.length){
                             self.properties.projectList=[];
                             arr.each(function(i){
@@ -111,19 +112,19 @@ Class('VisualJS.ProjectSelector', 'linb.Com',{
                 return;
             }
 
-            linb.request(CONF.phpPath,_.serialize({
+            linb.request(CONF.phpPath,({
                 key:CONF.requestKey,
                 para:{
                     action:'open',
                     hashCode:_.id(),
                     path:this.projectName
-                }
+                } 
             }),function(txt){
                 var obj = _.unserialize(txt);
                 if(!obj || obj.error)
                     linb.message(txt);
                 else
-                    _.tryF(self.properties.onOK, [pm, obj], self.host);
+                    _.tryF(self.properties.onOK, [pm, obj.data], self.host);
                 self.dialog.close();
             });
         },
