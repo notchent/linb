@@ -35,7 +35,9 @@ Class("linb.UI.ProgressBar", ["linb.UI.Widget","linb.UI.iForm"],{
         //modify
         _.merge(t,{
             BORDER:{
-                border:'solid 1px'
+                border:'solid 1px',
+                'font-size':0,
+                'line-height':0
             },
             INN:{
                 display:'table',

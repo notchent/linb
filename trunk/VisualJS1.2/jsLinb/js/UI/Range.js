@@ -134,12 +134,12 @@ Class("linb.UI.Range", ["linb.UI.iWidget"],{
                 position:'absolute'
             },
             IND1:{
-                background: linb.UI.getCSSImgPara('cmds.gif', ' no-repeat left -226px', null, 'linb.UI.Public'),
+                background: linb.UI.getCSSImgPara('cmds.gif', ' no-repeat left -225px', null, 'linb.UI.Public'),
                 left:'-8px',
                 top:'11px'
             },
             IND2:{
-                background: linb.UI.getCSSImgPara('cmds.gif', ' no-repeat -15px -226px', null, 'linb.UI.Public'),
+                background: linb.UI.getCSSImgPara('cmds.gif', ' no-repeat -15px -225px', null, 'linb.UI.Public'),
                 left:'268px',
                 top:'1px'
             },

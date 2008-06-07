@@ -136,7 +136,6 @@ Class=function(key, parent_key, o){
     for(i=0; t=parent_key[i]; i++)
         if(!(_parent[i]=(_.get(window, t.split('.')) || (linb&&linb.SC&&linb.SC(t)))))
             throw new Error('No parent class :'+ t);
-    
     if(o.Dependency)
         for(i=0; t=o.Dependency[i]; i++)
             if(!(_.get(window, t.split('.')) || (linb&&linb.SC&&linb.SC(t))))
@@ -1019,8 +1018,8 @@ Class('linb.ajax','linb.io',{
                 self._e("Start");
             try {
                 with(self){
-                    //must this.XMLHTTP, else opera will not set the new one
-                   var x = _XML = new XMLHttpRequest();
+                    //must use "self._XML", else opera will not set the new one
+                   var x = self._XML = new window.XMLHttpRequest();
                    if(asy)
                        x.onreadystatechange = function(){
                            if(self && x && x.readyState==4) {
@@ -1078,7 +1077,8 @@ Class('linb.ajax','linb.io',{
         },
         _complete:function() {
             with(this){
-                var x=_XML,status = x.status;
+                //this is for opera
+                var x= this._XML,status = x.status;
                 _response = rspType=='text'?x.responseText:x.responseXML;
                 if(status===undefined || status===0 || status==304 || (status >= 200 && status < 300 ))
                     _e("Response");
@@ -1450,6 +1450,7 @@ Class('linb.SC',null,{
                     if(_.isEmpty(bak)){_.tryF(onEnd,[id]);onEnd=null;}
                 };
             }
+
             for(var i=0,s; s=arr[i++];)
                 this._call(s, _.merge({$name:s},args), true);
         },

@@ -222,7 +222,6 @@ Class("linb.UI.List", ["linb.UI.iWidget", "linb.UI.iForm","linb.UI.iList"],{
                         }
                         break;
                     }
-
                     linb(src).focus();
                     return rt;
                 },

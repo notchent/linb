@@ -2336,8 +2336,8 @@ new function(){
 
                         if(t=profile.$onDragEnter)t.apply(profile,args);
                         if(profile.onDragEnter)box.onDragEnter.apply(box,args);
-
-                        return false;
+                        //dont return false, multi layer dd wont work well
+                        //return false;
                     },
                     beforeMouseout:function(profile, e, src){
                         var self=this,
@@ -2359,7 +2359,7 @@ new function(){
                             if(profile.onDragLeave)box.onDragLeave.apply(box,args);
                             dd._current=null;
                         }
-                        return false;
+                        //return false;
                     },
                     beforeDrop:function(profile, e, src){
                         var self=this,

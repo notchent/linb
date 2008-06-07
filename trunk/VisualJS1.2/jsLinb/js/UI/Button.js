@@ -92,7 +92,9 @@ Class("linb.UI.Button", ["linb.UI.Widget", "linb.UI.iForm"],{
             },
             BORDER:{
                 border:'solid 1px #eee',
-                'background-color':'#f4f4f4'
+                'background-color':'#f4f4f4',
+                'font-size':0,
+                'line-height':0                
             },
             'BORDER-mouseover':{
                 $order:1,

@@ -19,7 +19,6 @@ Class('linb.event',null,{
 
         //for correct mouse hover problems;
         if('mouseover'==type || 'mouseout'==type){
-
             dd=(dragdrop&&dragdrop.drop2)?1:2;
             //for dropable
             if(dd!=1 && fordrag)return self.rtnFalse;
@@ -116,6 +115,7 @@ Class('linb.event',null,{
                 }
 
                 //if fire dd, prevent to fire parent dd
+                //notice: this trigger opera cursor dont change
                 if(src==dragdrop._current)
                     r=false;
             }
