@@ -1961,7 +1961,7 @@ new function(){
                                 var k=linb.event.getKey(e), key = k[0], shift=k[2], b=false;
                                 if(m2[k=src.tagName.toLowerCase()]){
                                     if(m3[key]){
-                                        var reg = linb.UI.getCaretPos(src),txt=src.value;
+                                        var reg = linb([src]).caret(),txt=src.value;
 
                                         switch(key){
                                             case 'up':
@@ -2155,40 +2155,6 @@ new function(){
                 if(!linb.event.getKey(e)[2])
                     return false;
             },
-            getCaretPos:function(input){
-                input.focus();
-                //ie
-                if(linb.browser.ie){
-                    if(input.tagName=='INPUT'){
-                        var i,r = document.selection.createRange().duplicate(),
-            			    dr = input.createTextRange();
-            			    r.move("character", 0);
-            			    dr.move("character", 0);
-                			try{
-                				dr.setEndPoint("EndToEnd", r);
-                				i=String(dr.text).replace(/\r/g, "").length;
-                			}catch(e){i=0;}
-            			    return [i, i];
-            	    }else{
-                         var c= "\x01",
-                         sel= document.selection.createRange(),
-                         txt=sel.text,
-                         l=txt.length,
-                         dul=sel.duplicate()
-                         ;
-                         try{dul.moveToElementText(input)}catch(e){}
-
-                         sel.text=txt+c;
-                         len=(dul.text.indexOf(c));
-                         sel.moveStart('character',-1);
-                         sel.text="";
-                         if(len==-1)len=input.value.length;
-                         return [len,len];
-            	    }
-                //firefox opera safari
-                }else
-                    return [input.selectionStart, input.selectionEnd];
-            },
             /*
             add css file to head, by key and appearance key
             key: linb.dom.Button-box
@@ -2336,8 +2302,8 @@ new function(){
 
                         if(t=profile.$onDragEnter)t.apply(profile,args);
                         if(profile.onDragEnter)box.onDragEnter.apply(box,args);
-
-                        return false;
+                        //dont return false, multi layer dd wont work well
+                        //return false;
                     },
                     beforeMouseout:function(profile, e, src){
                         var self=this,
@@ -2359,7 +2325,7 @@ new function(){
                             if(profile.onDragLeave)box.onDragLeave.apply(box,args);
                             dd._current=null;
                         }
-                        return false;
+                        //return false;
                     },
                     beforeDrop:function(profile, e, src){
                         var self=this,
@@ -4300,7 +4266,7 @@ Class("linb.UI.Tips", null,{
         //for: span(display:-moz-inline-box) cant wrap in firefox
         linb.css.add(
             ".linb-ui-tips{font-size:0;line-height:0;position:absolute;border:solid gray 1px;background-color:#FFF8DC;overflow:visible;} "+
-            ".linb-ui-tips-i{font-size:12px;margin:1px 2px 2px 2px;}"+
+            ".linb-ui-tips-i{font-size:12px;padding:1px 2px 2px 2px;}"+
             ".linb-ui-tips-i span{display:inline;}"
         ,  linb.getPath(this.KEY,'/css.css','appearance'));
 
@@ -6261,7 +6227,9 @@ Class("linb.UI.Label", ["linb.UI.Widget", "linb.UI.iForm"],{
         //modify
         _.merge(t,{
             BORDER:{
-                border:'solid 1px'
+                border:'solid 1px',
+                'font-size':0,
+                'line-height':0
             },
             INN:{
                 display:'table',
@@ -6404,7 +6372,9 @@ Class("linb.UI.Button", ["linb.UI.Widget", "linb.UI.iForm"],{
             },
             BORDER:{
                 border:'solid 1px #eee',
-                'background-color':'#f4f4f4'
+                'background-color':'#f4f4f4',
+                'font-size':0,
+                'line-height':0                
             },
             'BORDER-mouseover':{
                 $order:1,
@@ -7548,7 +7518,7 @@ Class("linb.UI.Input", ["linb.UI.Widget", "linb.UI.iForm"],{
                             },'all');
                             pro=p.properties;
                             if(pro.value)
-                                pro.$UIvalue=pro.value=o.ensureV(profile,pro.value);
+                                pro.$UIvalue=pro.value=o.ensureV(p,pro.value);
                         });
                     else if(v=='datepicker'){
                         var date=linb.date;
@@ -11606,7 +11576,6 @@ Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'
                         }
                         break;
                     }
-
                     linb(src).focus();
                     return rt;
                 },
@@ -12694,6 +12663,7 @@ Class("linb.UI.PanelBar", ["linb.UI.Div","linb.UI.iContainer"],{
                 'background-color':'#fff'
             },
             HANDLE:{
+                '-moz-user-select':linb.browser.gek?'none':null,                
                 overflow:'hidden',
                 background: linb.UI.getCSSImgPara('barvbg.gif', ' repeat-x left top', null, 'linb.UI.Public'),
                 position:'relative',
@@ -16968,12 +16938,12 @@ Class("linb.UI.Range", ["linb.UI.iWidget"],{
                 position:'absolute'
             },
             IND1:{
-                background: linb.UI.getCSSImgPara('cmds.gif', ' no-repeat left -226px', null, 'linb.UI.Public'),
+                background: linb.UI.getCSSImgPara('cmds.gif', ' no-repeat left -225px', null, 'linb.UI.Public'),
                 left:'-8px',
                 top:'11px'
             },
             IND2:{
-                background: linb.UI.getCSSImgPara('cmds.gif', ' no-repeat -15px -226px', null, 'linb.UI.Public'),
+                background: linb.UI.getCSSImgPara('cmds.gif', ' no-repeat -15px -225px', null, 'linb.UI.Public'),
                 left:'268px',
                 top:'1px'
             },
@@ -20013,7 +19983,7 @@ Class("linb.UI.TreeGrid","linb.UI.iWidget",{
             if(h)
                 rh = profile.getSubNode('HEADER').realHeight();
             profile.getSubNode('BOX').cssSize({width: w?w:null, height:h?h:null});
-            profile.getSubNode('SCROLL').setRegion({top:rh?rh:null, width:w?w:null, height: h?(h-rh):null}).onScroll();
+            profile.getSubNode('SCROLL').setRegion({top:rh?rh:null, width:w?w:null, height: h?(h-rh):null}).onScroll().ieTrigger();
         }
    }
 });Class("linb.UI.Dialog",["linb.UI.Widget","linb.UI.iContainer"],{
@@ -21244,42 +21214,20 @@ Class("linb.UI.TextEditor", ["linb.UI.Widget", "linb.UI.iForm"],{
         },
         //for
         insertAtCaret:function(profile, text) {
-            var start,end,input = profile.getSubNode('INPUT'),scrollTop;
-            scrollTop = input.scrollTop() || null;
-
+            var input = profile.getSubNode('INPUT'),
+                scrollTop = input.scrollTop() || null,
+                ret;
             //fire onChange manully
             input.onChange();
-
-            input = input.get(0);
-
-    		if(linb.browser.ie){
-    			linb(input).focus();
-    			var range = document.selection.createRange();
-    			if(range.parentElement() != input)return false;
-    			range.text = '';
-    			var loc = linb.UI.getCaretPos(input);
-                input.value = input.value.substr(0, loc[0])
-                + text
-                + input.value.substr(loc[0], input.value.length);
-                start =  loc[0];
-    		}else{
-    			start = input.selectionStart;
-    			end   = input.selectionEnd;
-    			input.value = input.value.substr(0, start)
-    				+ text
-    				+ input.value.substr(end, input.value.length);
-    		}
-
-    		if(start != null) {
-    			this.setCaretTo(input, start + text.length, scrollTop);
-    		} else {
-    			input.value += text;
-    		}
+            //replace text
+            ret=input.caret(text);
+            //set cursor
+    	    this.setCaretTo(input.get(0), ret||0, scrollTop);
     	},
         //set cursor to textarea
         setCaretTo:function(input, pos, scrollTop){
-            linb(input).focus();
-            var s,c,h,o=linb(input);
+            input.focus()
+            var s,c,h,o=linb([input]);
 
             //opera not support scrollTop in textarea
             if(_.isNumb(scrollTop))
@@ -21295,15 +21243,7 @@ Class("linb.UI.TextEditor", ["linb.UI.Widget", "linb.UI.iForm"],{
                     c.remove();
                 }
             }
-
-            if(linb.browser.ie){
-                //in ie: '/r/n'.lengt =>2, but range.move('character', 1) will pass '/r/n'.
-                pos =  input.value.substr(0, pos).replace(/\r\n/g,'\n').length;
-                var range = input.createTextRange();
-                range.move('character', pos);
-                range.select();
-            }else
-                try{input.setSelectionRange(pos, pos)}catch(e){}
+            o.caret(pos,pos);
         },
         /*
         return array
@@ -21315,7 +21255,7 @@ Class("linb.UI.TextEditor", ["linb.UI.Widget", "linb.UI.iForm"],{
         getParas:function(profile){
             var o = profile.getSubNode('INPUT'), me=arguments.callee, reg = me.reg ||(me.reg=/\r\n/g);
             v = o.get(0).value;
-            loc = linb.UI.getCaretPos(o.get(0));
+            loc = o.caret();
 
             if(loc[0]<0)loc[0]=0;
 
@@ -21884,6 +21824,8 @@ Class('VisualJS', 'linb.Com',{
             self.toolbar.updateItem('info', content.left(50));
             o.apply(null,arguments);
         };
+        
+        linb(document.body).setStyle({height:'100%',overflow:'hidden'});
     },
     Instance:{
         events:{
@@ -22598,7 +22540,6 @@ Class('VisualJS', 'linb.Com',{
             }
             return ' ';
         };
-          linb(document.body).setStyle({height:'100%',overflow:'hidden'})
     }
 });
 Class('VisualJS.PageEditor', 'linb.Com',{

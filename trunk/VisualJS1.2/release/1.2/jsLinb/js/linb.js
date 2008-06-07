@@ -136,7 +136,6 @@ Class=function(key, parent_key, o){
     for(i=0; t=parent_key[i]; i++)
         if(!(_parent[i]=(_.get(window, t.split('.')) || (linb&&linb.SC&&linb.SC(t)))))
             throw new Error('No parent class :'+ t);
-    
     if(o.Dependency)
         for(i=0; t=o.Dependency[i]; i++)
             if(!(_.get(window, t.split('.')) || (linb&&linb.SC&&linb.SC(t))))
@@ -1019,8 +1018,8 @@ Class('linb.ajax','linb.io',{
                 self._e("Start");
             try {
                 with(self){
-                    //must this.XMLHTTP, else opera will not set the new one
-                   var x = _XML = new XMLHttpRequest();
+                    //must use "self._XML", else opera will not set the new one
+                   var x = self._XML = new window.XMLHttpRequest();
                    if(asy)
                        x.onreadystatechange = function(){
                            if(self && x && x.readyState==4) {
@@ -1078,7 +1077,8 @@ Class('linb.ajax','linb.io',{
         },
         _complete:function() {
             with(this){
-                var x=_XML,status = x.status;
+                //this is for opera
+                var x= this._XML,status = x.status;
                 _response = rspType=='text'?x.responseText:x.responseXML;
                 if(status===undefined || status===0 || status==304 || (status >= 200 && status < 300 ))
                     _e("Response");
@@ -1314,7 +1314,6 @@ Class('linb.iajax','linb.io',{
             //get from parent, not for opera in this case
             try{
                 win=win.parent;
-                alert(win.document.location);
                 if(win && !f(''+win.document.location.href))
                     return ns.getDummyRes(win);
             }catch(e){}
@@ -1451,6 +1450,7 @@ Class('linb.SC',null,{
                     if(_.isEmpty(bak)){_.tryF(onEnd,[id]);onEnd=null;}
                 };
             }
+
             for(var i=0,s; s=arr[i++];)
                 this._call(s, _.merge({$name:s},args), true);
         },
@@ -1701,7 +1701,6 @@ Class('linb.event',null,{
 
         //for correct mouse hover problems;
         if('mouseover'==type || 'mouseout'==type){
-
             dd=(dragdrop&&dragdrop.drop2)?1:2;
             //for dropable
             if(dd!=1 && fordrag)return self.rtnFalse;
@@ -1798,6 +1797,7 @@ Class('linb.event',null,{
                 }
 
                 //if fire dd, prevent to fire parent dd
+                //notice: this trigger opera cursor dont change
                 if(src==dragdrop._current)
                     r=false;
             }
@@ -4809,6 +4809,74 @@ Class('linb.dom','linb.iBox',{
                 return value;
             }
         },
+        /*
+        *IE/opera \r\n will take 2 chars
+        *in IE: '/r/n'.lenght is 2, but string.length/range.move/range.select will taks '/r/n' as 1.
+        */
+        caret:function(begin,end){
+            var input =this.get(0), tn=input.tagName, type=typeof begin,ie=linb.browser.ie, pos;
+            if(!/^(input|textarea)$/i.test(tn))return this;
+            input.focus();
+            //set caret
+            if(type=='number'){
+                if(ie){
+					var r = input.createTextRange();
+					r.collapse(true);
+					r.moveEnd('character', end);
+					r.moveStart('character', begin);
+					r.select();
+                }else
+                    input.setSelectionRange(begin, end);
+                return this;
+            //replace text
+            }else if(type=='string'){
+                    var r=this.caret(),l=0,m=0,ret,
+                    v=input.value;
+                    //for IE, minus \r 
+                    if(ie){
+                        l=v.substr(0,r[0]).match(/\r/g);
+                        l=(l && l.length) || 0;
+                    }
+                    //opera will add \r to \n, automatically
+                    if(linb.browser.opr){
+                        l=begin.match(/\n/g);
+                        l=(l && l.length) || 0;
+                        m=begin.match(/\r\n/g);
+                        m=(m && m.length) || 0;
+                        m=l-m;l=0;
+                    }
+                    input.value=v.substr(0,r[0])+begin+v.substr(r[1],v.length);
+                    ret= r[0] - l + m + begin.length;
+                    this.caret(ret,ret);
+                    return ret;
+            //get caret
+            }else{
+                if(ie){
+                    if(tn=='TEXTAREA'){
+                         var c= "\x01",
+                         sel= document.selection.createRange(),
+                         txt=sel.text,
+                         l=txt.length,
+                         dul=sel.duplicate()
+                         ;                         
+                         try{dul.moveToElementText(input)}catch(e){}
+                         sel.text=txt+c;
+                         len=(dul.text).indexOf(c);
+                         sel.moveStart('character',-1);
+                         sel.text="";
+                         if(len==-1)len=input.value.length;
+                         return [len-l,len];
+            	    }else{
+        				var r = document.selection.createRange(),	
+        				    b = -r.duplicate().moveStart('character', -100000),
+        				    e = b + r.text.length;
+        				return[b, e];
+            	    }
+                //firefox opera safari
+                }else
+                    return [input.selectionStart, input.selectionEnd];
+            }
+        },        
         //left,top format: "23px"
         show:function(left,top){
             var style,t,auto='auto',v=linb.dom.hide_value;
@@ -7229,7 +7297,7 @@ Class('linb.dragDrop',null,{
             if(!dom.byId(self._id))
                 linb([document.body]).addFirst(
                     //&nbsp; for IE6
-                    dom.create('<div id="' + self._id + '" style="left:0;top:0;border:0; padding:'+self._size+'px; position: absolute;"><div id="' +self._idi+ '">'+(linb.browser.ie6?'&nbsp;':'')+'</div></div>')
+                    dom.create('<div id="' + self._id + '" style="left:0;top:0;border:0;font-size:0;line-height:0;padding:'+self._size+'px; position: absolute;"><div style="font-size:0;line-height:0;" id="' +self._idi+ '">'+(linb.browser.ie6?'&nbsp;':'')+'</div></div>')
                 );
             t=linb(self._id);
             if(self.drop2){
@@ -7272,6 +7340,7 @@ Class('linb.dragDrop',null,{
                     for(var i in k)
                         if(typeof k[i]!='function')
                             try{k[i]=''}catch(e){}
+                    k.fontSize=k.lineHeight=0;
                 }else
                     o.setAttribute('style','');
 

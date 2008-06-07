@@ -244,42 +244,20 @@ Class("linb.UI.TextEditor", ["linb.UI.Widget", "linb.UI.iForm"],{
         },
         //for
         insertAtCaret:function(profile, text) {
-            var start,end,input = profile.getSubNode('INPUT'),scrollTop;
-            scrollTop = input.scrollTop() || null;
-
+            var input = profile.getSubNode('INPUT'),
+                scrollTop = input.scrollTop() || null,
+                ret;
             //fire onChange manully
             input.onChange();
-
-            input = input.get(0);
-
-    		if(linb.browser.ie){
-    			linb(input).focus();
-    			var range = document.selection.createRange();
-    			if(range.parentElement() != input)return false;
-    			range.text = '';
-    			var loc = linb.UI.getCaretPos(input);
-                input.value = input.value.substr(0, loc[0])
-                + text
-                + input.value.substr(loc[0], input.value.length);
-                start =  loc[0];
-    		}else{
-    			start = input.selectionStart;
-    			end   = input.selectionEnd;
-    			input.value = input.value.substr(0, start)
-    				+ text
-    				+ input.value.substr(end, input.value.length);
-    		}
-
-    		if(start != null) {
-    			this.setCaretTo(input, start + text.length, scrollTop);
-    		} else {
-    			input.value += text;
-    		}
+            //replace text
+            ret=input.caret(text);
+            //set cursor
+    	    this.setCaretTo(input.get(0), ret||0, scrollTop);
     	},
         //set cursor to textarea
         setCaretTo:function(input, pos, scrollTop){
-            linb(input).focus();
-            var s,c,h,o=linb(input);
+            input.focus()
+            var s,c,h,o=linb([input]);
 
             //opera not support scrollTop in textarea
             if(_.isNumb(scrollTop))
@@ -295,15 +273,7 @@ Class("linb.UI.TextEditor", ["linb.UI.Widget", "linb.UI.iForm"],{
                     c.remove();
                 }
             }
-
-            if(linb.browser.ie){
-                //in ie: '/r/n'.lengt =>2, but range.move('character', 1) will pass '/r/n'.
-                pos =  input.value.substr(0, pos).replace(/\r\n/g,'\n').length;
-                var range = input.createTextRange();
-                range.move('character', pos);
-                range.select();
-            }else
-                try{input.setSelectionRange(pos, pos)}catch(e){}
+            o.caret(pos,pos);
         },
         /*
         return array
@@ -315,7 +285,7 @@ Class("linb.UI.TextEditor", ["linb.UI.Widget", "linb.UI.iForm"],{
         getParas:function(profile){
             var o = profile.getSubNode('INPUT'), me=arguments.callee, reg = me.reg ||(me.reg=/\r\n/g);
             v = o.get(0).value;
-            loc = linb.UI.getCaretPos(o.get(0));
+            loc = o.caret();
 
             if(loc[0]<0)loc[0]=0;
 

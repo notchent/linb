@@ -1961,7 +1961,7 @@ new function(){
                                 var k=linb.event.getKey(e), key = k[0], shift=k[2], b=false;
                                 if(m2[k=src.tagName.toLowerCase()]){
                                     if(m3[key]){
-                                        var reg = linb.UI.getCaretPos(src),txt=src.value;
+                                        var reg = linb([src]).caret(),txt=src.value;
 
                                         switch(key){
                                             case 'up':
@@ -2154,40 +2154,6 @@ new function(){
             cancelLink:function(e){
                 if(!linb.event.getKey(e)[2])
                     return false;
-            },
-            getCaretPos:function(input){
-                input.focus();
-                //ie
-                if(linb.browser.ie){
-                    if(input.tagName=='INPUT'){
-                        var i,r = document.selection.createRange().duplicate(),
-            			    dr = input.createTextRange();
-            			    r.move("character", 0);
-            			    dr.move("character", 0);
-                			try{
-                				dr.setEndPoint("EndToEnd", r);
-                				i=String(dr.text).replace(/\r/g, "").length;
-                			}catch(e){i=0;}
-            			    return [i, i];
-            	    }else{
-                         var c= "\x01",
-                         sel= document.selection.createRange(),
-                         txt=sel.text,
-                         l=txt.length,
-                         dul=sel.duplicate()
-                         ;
-                         try{dul.moveToElementText(input)}catch(e){}
-
-                         sel.text=txt+c;
-                         len=(dul.text.indexOf(c));
-                         sel.moveStart('character',-1);
-                         sel.text="";
-                         if(len==-1)len=input.value.length;
-                         return [len,len];
-            	    }
-                //firefox opera safari
-                }else
-                    return [input.selectionStart, input.selectionEnd];
             },
             /*
             add css file to head, by key and appearance key
