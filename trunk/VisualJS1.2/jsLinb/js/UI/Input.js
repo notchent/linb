@@ -302,9 +302,9 @@ Class("linb.UI.Input", ["linb.UI.Widget", "linb.UI.iForm"],{
 
                     //add event for cut/paste text
                     if(ns.domNode){
-                        var src=ns.getSubNode('INPUT').get(0),
+                        var ie=linb.browser.ie,
+                            src=ns.getSubNode('INPUT').get(0),
                             f=function(o){
-                                var ie=linb.browser.ie;
                                 //only for value in IE
                                 if(ie && o.propertyName!='value')return true;
 
@@ -312,13 +312,12 @@ Class("linb.UI.Input", ["linb.UI.Widget", "linb.UI.iForm"],{
                                 if(src.value.length != ns.$Mask.length)
                                     ns.box.changeMask(ns,src,'',true);
                             };
-                        if(linb.browser.ie){
+                        if(ie){
                             src.attachEvent("onpropertychange",f);
                             ns.$ondestory=function(){
                                 src.detachEvent("onpropertychange",f);
                             }
-                        }
-                        if(linb.browser.gek){
+                        }else{
                             src.addEventListener("input",f,false);
                             ns.$ondestory=function(){
                                 src.removeEventListener("onpropertychange",f,false);
