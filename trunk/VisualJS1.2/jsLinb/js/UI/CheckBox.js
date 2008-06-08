@@ -129,7 +129,7 @@ Class("linb.UI.CheckBox", "linb.UI.Button",{
             FOCUS:{
                 onKeydown:function(profile, e, src){
                     var key = linb.event.getKey(e)[0];
-                    if(key =='space' || key=='enter'){
+                    if(key ==' ' || key=='enter'){
                         profile.root.onClick(true);
                         return false;
                     }

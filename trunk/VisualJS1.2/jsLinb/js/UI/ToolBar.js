@@ -206,7 +206,7 @@ Class("linb.UI.ToolBar",["linb.UI.iList","linb.UI.iWidget","linb.UI.iNavigator"]
                                 cur.nextFocus();
                             return false;
                             break;
-                        case 'space':
+                        case ' ':
                         case 'enter':
                             linb(src).onClick();
                             return false;

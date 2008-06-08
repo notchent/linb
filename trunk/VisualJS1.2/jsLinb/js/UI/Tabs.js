@@ -426,7 +426,7 @@ Class("linb.UI.Tabs", ["linb.UI.iList", "linb.UI.iWidget", "linb.UI.iContainer"]
                 },
                 onKeydown:function(profile, e, src){
                     var keys=linb.event.getKey(e), key = keys[0], shift=keys[2];
-                    if(key=='space'||key=='enter'){
+                    if(key==' '||key=='enter'){
                         profile.getSubNode('ITEM',profile.getSubSerialId(src.id)).onMousedown();
                         return false;
                     }

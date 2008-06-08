@@ -541,7 +541,7 @@ Class("linb.UI.TreeBar",["linb.UI.iList", "linb.UI.iWidget","linb.UI.iNavigator"
                             profile.getSubNode('MARK1',profile.getSubSerialId(src.id)).onClick();
                             return false;
                         case 'enter':
-                        case 'space':
+                        case ' ':
                             profile.getSubNode('BAR',profile.getSubSerialId(src.id)).onClick();
                             return false;
 

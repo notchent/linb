@@ -728,7 +728,7 @@ Class("linb.UI.Resizer","linb.UI.iWidget",{
             if(!profile.properties.changable)return;
             var ck=linb.event.currentKey;
              // begin drag use blank
-            if(ck && (ck[1] || (linb.browser.kde&&ck[0]=='space'))){
+            if(ck && (ck[1] || (linb.browser.kde&&ck[0]==' '))){
                 profile.boxing().resetTarget(null);
                 var pos=linb.event.getPos(e);
 

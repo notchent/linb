@@ -264,7 +264,7 @@ Class("linb.UI.MenuBar",["linb.UI.iList","linb.UI.iWidget","linb.UI.iNavigator"]
                                 cur.nextFocus();
                             return false;
                             break;
-                        case 'space':
+                        case ' ':
                         case 'enter':
                             linb(src).onMousedown();
                             return false;
