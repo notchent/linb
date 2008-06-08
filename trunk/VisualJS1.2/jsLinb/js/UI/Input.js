@@ -230,10 +230,10 @@ Class("linb.UI.Input", ["linb.UI.Widget", "linb.UI.iForm"],{
                     //if no value, add mask
                     if(p.mask){
                         if(!src.value)
-                            profile.boxing().updateUIValue(src.value=profile.$Mask);
-                        _.asyRun(function(){
-                            b.setCaret(profile,src)
-                        });
+                            _.asyRun(function(){
+                                profile.boxing().updateUIValue(src.value=profile.$Mask);
+                                b.setCaret(profile,src)
+                            });
                     }
                     //show tips color
                     profile.boxing()._setTB(3);
