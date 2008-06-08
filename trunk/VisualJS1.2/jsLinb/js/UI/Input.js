@@ -284,46 +284,52 @@ Class("linb.UI.Input", ["linb.UI.Widget", "linb.UI.iForm"],{
                 action:function(value){
                     var ns=this,
                         b=ns.box;
-
-                    ns.$MaskFormat=function(ns, v){
-                        var m=ns._maskMap,a=[],r=/[A-Za-z0-9]/;
-                        v.split('').each(function(o,i){
-                            a.push(m[o]||(r.test(o)?"":"\\")+o)
-                        });	
-                        return '^'+a.join('')+'$';	
-                    }(b, value);                    
-                    ns.$Mask = function(ns, v){
-                        var m=ns._maskMap,a=[],s=ns._maskSpace;
-                        v.split('').each(function(o,i){
-                            a.push(m[o]?s:o);
-                        });	
-                        return  a.join('');
-                    }(b,value);
-
-                    //add event for cut/paste text
-                    if(ns.domNode){
-                        var ie=linb.browser.ie,
-                            src=ns.getSubNode('INPUT').get(0),
-                            f=function(o){
-                                //only for value in IE
-                                if(ie && o.propertyName!='value')return true;
-
-                                var src=ie?o.srcElement:this;
-                                if(src.value.length != ns.$Mask.length)
-                                    ns.box.changeMask(ns,src,'',true);
-                            };
-                        if(ie){
-                            src.attachEvent("onpropertychange",f);
-                            ns.$ondestory=function(){
-                                src.detachEvent("onpropertychange",f);
+                    if(value){
+                        ns.$MaskFormat=function(ns, v){
+                            var m=ns._maskMap,a=[],r=/[A-Za-z0-9]/;
+                            v.split('').each(function(o,i){
+                                a.push(m[o]||(r.test(o)?"":"\\")+o)
+                            });	
+                            return '^'+a.join('')+'$';	
+                        }(b, value);                    
+                        ns.$Mask = function(ns, v){
+                            var m=ns._maskMap,a=[],s=ns._maskSpace;
+                            v.split('').each(function(o,i){
+                                a.push(m[o]?s:o);
+                            });	
+                            return  a.join('');
+                        }(b,value);
+    
+                        //add event for cut/paste text
+                        if(ns.domNode){
+                            var ie=linb.browser.ie,
+                                src=ns.getSubNode('INPUT').get(0),
+                                f=function(o){
+                                    //only for value in IE
+                                    if(ie && o.propertyName!='value')return true;
+    
+                                    var src=ie?o.srcElement:this;
+                                    if(src.value.length != ns.$Mask.length)
+                                        ns.box.changeMask(ns,src,'',true);
+                                };
+                            if(ie){
+                                src.attachEvent("onpropertychange",f);
+                                ns.$ondestory=function(){
+                                    src.detachEvent("onpropertychange",f);
+                                }
+                            }else{
+                                src.addEventListener("input",f,false);
+                                ns.$ondestory=function(){
+                                    src.removeEventListener("onpropertychange",f,false);
+                                }
                             }
-                        }else{
-                            src.addEventListener("input",f,false);
-                            ns.$ondestory=function(){
-                                src.removeEventListener("onpropertychange",f,false);
-                            }
-                        }
-                    }                    
+                        }            
+                   }else{
+                        delete ns.$MaskFormat;
+                        delete ns.$Mask;
+                        if(ns.domNode)
+                            _.tryF(ns.$ondestory);
+                   }
                 }
             },
             value:'',
@@ -494,9 +500,11 @@ Class("linb.UI.Input", ["linb.UI.Widget", "linb.UI.iForm"],{
         //check valid manually
         checkValid:function(profile, value){
             var p=profile.properties,
-                vf = (p.mask&&profile.$MaskFormat) || p.valueFormat || profile.$valueFormat;
+                vf1 = (p.mask&&profile.$MaskFormat) ,
+                vf2 = p.valueFormat || profile.$valueFormat;
             if( (profile.onFormatCheck && (profile.boxing().onFormatCheck(profile, value)===false)) ||
-                (vf && typeof vf=='string' && !(new RegExp(vf)).test(value||''))
+                (vf1 && typeof vf1=='string' && !(new RegExp(vf1)).test(value||'')) ||
+                (vf2 && typeof vf2=='string' && !(new RegExp(vf2)).test(value||''))
             ){
                 profile.inValid=2;
                 return false;
