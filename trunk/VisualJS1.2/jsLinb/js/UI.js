@@ -489,6 +489,7 @@ new function(){
 
                 //clear anti links
                 self.antiAllLinks();
+                _.tryF(self.$ondestory);
 
                 _.breakO(self);
             },
@@ -1480,7 +1481,7 @@ new function(){
                 },
                 '.ui-invalid, .ui-invalid *':{
                     $order:19,
-                    'background-color': 'Aqua'
+                    'background-color': '#FFEBCD'
                 },
                 '#linb_lang':{
                     $order:20,

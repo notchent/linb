@@ -71,7 +71,7 @@ Class("linb.UI.Input", ["linb.UI.Widget", "linb.UI.iForm"],{
                         
                         if(properties.mask)
                             _.asyRun(function(){
-                                box.updateUIValue(o.get(0).value=cls.getMask(properties.mask))
+                                box.updateUIValue(o.get(0).value=profile.$Mask)
                             });
                     }else{
                         o.removeClass(v);
@@ -230,8 +230,10 @@ Class("linb.UI.Input", ["linb.UI.Widget", "linb.UI.iForm"],{
                     //if no value, add mask
                     if(p.mask){
                         if(!src.value)
-                            profile.boxing().updateUIValue(src.value=b.getMask(p.mask));
-                        b.setCaret(profile,src);
+                            profile.boxing().updateUIValue(src.value=profile.$Mask);
+                        _.asyRun(function(){
+                            b.setCaret(profile,src)
+                        });
                     }
                     //show tips color
                     profile.boxing()._setTB(3);
@@ -277,7 +279,54 @@ Class("linb.UI.Input", ["linb.UI.Widget", "linb.UI.iForm"],{
                     {caption : "DD/MM/YYYY",id:"^\(\([0-2][0-9]\)|\([3][0-1]\)\)\/\(\([0][0-9]\)|\([1][0-2]\)\)\/\([0-9]{4}\)$"}
                 ]
             },
-            mask:'',
+            mask:{
+                ini:'',
+                action:function(value){
+                    var ns=this,
+                        b=ns.box;
+
+                    ns.$MaskFormat=function(ns, v){
+                        var m=ns._maskMap,a=[],r=/[A-Za-z0-9]/;
+                        v.split('').each(function(o,i){
+                            a.push(m[o]||(r.test(o)?"":"\\")+o)
+                        });	
+                        return '^'+a.join('')+'$';	
+                    }(b, value);                    
+                    ns.$Mask = function(ns, v){
+                        var m=ns._maskMap,a=[],s=ns._maskSpace;
+                        v.split('').each(function(o,i){
+                            a.push(m[o]?s:o);
+                        });	
+                        return  a.join('');
+                    }(b,value);
+
+                    //add event for cut/paste text
+                    if(ns.domNode){
+                        var src=ns.getSubNode('INPUT').get(0),
+                            f=function(o){
+                                var ie=linb.browser.ie;
+                                //only for value in IE
+                                if(ie && o.propertyName!='value')return true;
+
+                                var src=ie?o.srcElement:this;
+                                if(src.value.length != ns.$Mask.length)
+                                    ns.box.changeMask(ns,src,'',true);
+                            };
+                        if(linb.browser.ie){
+                            src.attachEvent("onpropertychange",f);
+                            ns.$ondestory=function(){
+                                src.detachEvent("onpropertychange",f);
+                            }
+                        }
+                        if(linb.browser.gek){
+                            src.addEventListener("input",f,false);
+                            ns.$ondestory=function(){
+                                src.removeEventListener("onpropertychange",f,false);
+                            }
+                        }
+                    }                    
+                }
+            },
             value:'',
             width:120,
             height:20,
@@ -363,20 +412,10 @@ Class("linb.UI.Input", ["linb.UI.Widget", "linb.UI.iForm"],{
                 self.boxing()._setTB(1);
             });
         },
-        getMaskFormat:function(v){
-            var ns=this, m=ns._maskMap,a=[],r=/[A-Za-z0-9]/;
-            v.split('').each(function(o,i){
-                a.push(m[o]||(r.test(o)?"":"\\")+o)
-            });	
-            return '^'+a.join('')+'$';	
-        },
-        getMask:function(v){
-            var ns=this, m=ns._maskMap,a=[],s=ns._maskSpace;
-            v.split('').each(function(o,i){
-                a.push(m[o]?s:o);
-            });	
-            return  a.join('');
-        },
+        renderedTrigger:function(){
+            var p = this.properties;
+            if(p.mask)this.boxing().setMask(p.mask,true);
+        },        
     //v=value.substr(0,caret);
     //i=v.lastIndexOf(ms);
         
@@ -386,7 +425,7 @@ Class("linb.UI.Input", ["linb.UI.Widget", "linb.UI.iForm"],{
                 map=ns._maskMap,
                 ms=ns._maskSpace,           
                 maskTxt=p.mask,
-                maskStr = ns.getMask(maskTxt),     
+                maskStr = profile.$Mask,
                 input = linb([src]),
                 caret = input.caret();
             //for backspace
@@ -456,7 +495,7 @@ Class("linb.UI.Input", ["linb.UI.Widget", "linb.UI.iForm"],{
         //check valid manually
         checkValid:function(profile, value){
             var p=profile.properties,
-                vf = (p.mask&&profile.box.getMaskFormat(p.mask)) || p.valueFormat || profile.$valueFormat;
+                vf = (p.mask&&profile.$MaskFormat) || p.valueFormat || profile.$valueFormat;
             if( (profile.onFormatCheck && (profile.boxing().onFormatCheck(profile, value)===false)) ||
                 (vf && typeof vf=='string' && !(new RegExp(vf)).test(value||''))
             ){
