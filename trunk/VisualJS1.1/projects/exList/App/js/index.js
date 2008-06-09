@@ -8,17 +8,17 @@ Class('App', 'linb.Com',{
         iniComponents:function(){
             // [[code created by designer, don't change it manually
             var t=this, n=t._nodes=[], u=linb.UI, f=function(c){n.push(c.get(0))};
-
+            
             f(
-            (new u.FoldingList)
-            .host(t,"FoldingList1")
-            .setLeft(74)
-            .setTop(85)
+            (new u.RadioBox)
+            .host(t,"radiobox1")
+            .setLeft(70)
+            .setTop(40)
             .setWidth(280)
-            .setHeight(110)
-            .setItems([{"id":"a","caption":"itema","title":"item a","text":"text1"},{"id":"b","caption":"itemb","title":"item b","text":"text2"},{"id":"c","caption":"itemc","title":"item c","text":"text3"}])
+            .setHeight(27)
+            .setItems([{"id":"a","caption":"itema","tips":"item a","sub":[{"id":"aa","caption":"suba"},{"id":"ab","caption":"subb"}]},{"id":"b","caption":"itemb","tips":"item b"},{"id":"c","caption":"itemc","tips":"item c"}])
             );
-
+            
             f(
             (new u.LinkList)
             .host(t,"linklist1")
@@ -29,17 +29,17 @@ Class('App', 'linb.Com',{
             .setItems([{"id":"a","caption":"itema","tips":"item a","sub":[{"id":"aa","caption":"suba"},{"id":"ab","caption":"subb"}]},{"id":"b","caption":"itemb","tips":"item b"},{"id":"c","caption":"itemc","tips":"item c"}])
             .onItemClick("_linklist1_onitemclick")
             );
-
+            
             f(
-            (new u.RadioBox)
-            .host(t,"radiobox1")
-            .setLeft(70)
-            .setTop(40)
+            (new u.FoldingList)
+            .host(t,"FoldingList1")
+            .setLeft(74)
+            .setTop(85)
             .setWidth(280)
-            .setHeight(27)
-            .setItems([{"id":"a","caption":"itema","tips":"item a","sub":[{"id":"aa","caption":"suba"},{"id":"ab","caption":"subb"}]},{"id":"b","caption":"itemb","tips":"item b"},{"id":"c","caption":"itemc","tips":"item c"}])
+            .setHeight(110)
+            .setItems([{"id":"a","caption":"itema","title":"item a","text":"text1"},{"id":"b","caption":"itemb","title":"item b","text":"text2"},{"id":"c","caption":"itemc","title":"item c","text":"text3"}])
             );
-
+            
             f(
             (new u.Gallery)
             .host(t,"gallery2")
@@ -50,13 +50,17 @@ Class('App', 'linb.Com',{
             .setItems([{"id":"a","caption":"itema","tips":"item a","sub":[{"id":"aa","caption":"suba"},{"id":"ab","caption":"subb"}]},{"id":"b","caption":"itemb","tips":"item b"},{"id":"c","caption":"itemc","tips":"item c"}])
             .setItemWidth("120")
             .setItemHeight("80")
+            .onItemSelected("_gallery2_onitemselected")
             );
-
+            
             return n;
             // ]]code created by designer
         },
         _linklist1_onitemclick:function (profile, item, src) {
             alert('"' + item.id + '" clicked')
+        },
+        _gallery2_onitemselected:function (profile, item, src) {
+            return false
         }
     }
 });

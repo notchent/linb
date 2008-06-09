@@ -42,6 +42,21 @@ class JSON{
         }
         return '';
     }
+    function name_value($name, $value){
+        $encoded_value = $this->encode($value);
+        if(JSON::isError($encoded_value)) {
+            return $encoded_value;
+        }
+        return $this->encode(strval($name)) . ':' . $encoded_value;
+    }
+    function reduce_string($str){
+        $str = preg_replace(array(
+                '#^\s*//(.+)$#m',
+                '#^\s*/\*(.+)\*/#Us',
+                '#/\*(.+)\*/\s*$#Us'
+            ), '', $str);
+        return trim($str);
+    }
     function encode($var){
         switch (gettype($var)) {
             case 'boolean':
@@ -162,21 +177,6 @@ class JSON{
                     ? 'null'
                     : new Services_JSON_Error(gettype($var)." can not be encoded as JSON string");
         }
-    }
-    function name_value($name, $value){
-        $encoded_value = $this->encode($value);
-        if(JSON::isError($encoded_value)) {
-            return $encoded_value;
-        }
-        return $this->encode(strval($name)) . ':' . $encoded_value;
-    }
-    function reduce_string($str){
-        $str = preg_replace(array(
-                '#^\s*//(.+)$#m',
-                '#^\s*/\*(.+)\*/#Us',
-                '#/\*(.+)\*/\s*$#Us'
-            ), '', $str);
-        return trim($str);
     }
     function decode($str){
         $str = $this->reduce_string($str);

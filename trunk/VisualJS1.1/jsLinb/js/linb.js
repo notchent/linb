@@ -1,3 +1,9 @@
+/*
+jsLinb 1.2
+Copyright(c) 2008 Yingbo Li(linb.net, linb.net[at]gmail.com).
+GPL3 (http://www.opensource.org/licenses/gpl-3.0.html) licenses.
+*/
+undefined;
 /* base _
 *
 *declare _ (global)
@@ -7,7 +13,6 @@
 *load linb.logger to redefine window.error
 */
 //window.error=function(){return true};
-undefined;
 //time stamp
 _=function(){return +new Date()};
 
@@ -131,7 +136,6 @@ Class=function(key, parent_key, o){
     for(i=0; t=parent_key[i]; i++)
         if(!(_parent[i]=(_.get(window, t.split('.')) || (linb&&linb.SC&&linb.SC(t)))))
             throw new Error('No parent class :'+ t);
-    
     if(o.Dependency)
         for(i=0; t=o.Dependency[i]; i++)
             if(!(_.get(window, t.split('.')) || (linb&&linb.SC&&linb.SC(t))))
@@ -367,7 +371,7 @@ _.merge(linb,{
     request:function(){
         if(!arguments[1])
             arguments[1]=String(_());
-            return (linb.io.crossDomain(arguments[0])?linb.sajax:linb.ajax).apply(null, arguments).start()
+            return (linb.io.crossDomain(arguments[0])?(arguments[5]&&arguments[5].method.toLowerCase()=='post')?linb.iajax:linb.sajax:linb.ajax).apply(null, arguments).start()
     },
     include:function(k,s,f,g){if(k&&linb.SC.evalPath(k))_.tryF(f); else linb.sajax(s,'',f,g,0,{rspType:'script'}).start()},
     /*
@@ -432,12 +436,12 @@ new function(){
         file_xd:'xd.html'
     });
     if(!linb.ini.path){
-    var i,s,arr = document.getElementsByTagName('script'), reg = /js\/linb\.js$/;
-    for(i=0; s=arr[i]; i++)
-        if(s.src.match(reg)){
-            linb.ini.path = s.src.replace(reg,'');
-            break;
-        }
+        var i,s,arr = document.getElementsByTagName('script'), reg = /js\/linb\.js$/;
+        for(i=0; s=arr[i]; i++)
+            if(s.src.match(reg)){
+                linb.ini.path = s.src.replace(reg,'');
+                break;
+            }
     }
     /*
     *
@@ -831,7 +835,7 @@ Class('linb.io',null,{
             self.queryString = self.customQS(self.queryString);
 
         if(!self._useForm && typeof self.queryString!='string')
-            self.queryString = con.buildQS(self.queryString);
+            self.queryString = con.buildQS(self.queryString, self._single);
 
         return self;
     },
@@ -884,14 +888,18 @@ Class('linb.io',null,{
         timeout:10000,
         rspType:'text',
 
-        randkey:'randkey',
+        //paras in request object
+        type:'type',
+        randkey:'id',
         callback:'callback',
 
-        buildQS:function(h){
+        buildQS:function(h, flag){
+            if(flag)
+                return _.serialize(h);
             var a=[],i,o;
             for(i in h){
                 o=h[i];
-                a.push(encodeURIComponent(i)+'='+encodeURIComponent(o));
+                a.push(encodeURIComponent(i)+'='+encodeURIComponent(typeof o=='string'?o:_.serialize(o)));
             }
             return a.join('&');
         },
@@ -921,23 +929,24 @@ Class('linb.io',null,{
             }
         },
         response:function(txt,r,i,l) {
-            var self = this, obj, o;
+            var self = this, obj, o,m;
             try{
                 //multi return from xd.html
                 if(r){
-                    i=parseFloat(i);
-                    l=parseFloat(l);
+                    i=parseFloat(i)||0;
+                    l=parseFloat(l)||1;
                     if(o=self.pool[r]){
-                        o=o.__||(o.__=[]);
-                        o[i]=txt;
-                        while(l--)if(o[i]===undefined)return;
-                        if(obj=_.unserialize(o.join(''))){
-                            o._response=obj;
-                            o._e("Response");
-                        }
+                        m=o.__||(o.__=[]);
+                        m[i]=txt;
+                        while(l--)if(m[i]===undefined)return;
+                        if(obj=_.unserialize(decodeURIComponent(m.join(''))))
+                            for(i=0;i<o.length;i++){
+                                o[i]._response=obj;
+                                o[i]._e("Response");
+                            }
                     }
                 }else{
-                    obj = typeof txt=='string' ? _.unserialize(txt) : txt;
+                    obj = typeof txt=='string' ? _.unserialize(decodeURIComponent(txt)) : txt;
                     if(obj && (o = self.pool[obj[self.randkey]])){
                         for(i=0;i<o.length;i++){
                             o[i]._response=obj;
@@ -1000,6 +1009,7 @@ Class('linb.io',null,{
 });
 Class('linb.ajax','linb.io',{
     Instance:{
+        _single:true,
         _XML:null,
         start:function() {
             var self=this,t;
@@ -1009,8 +1019,8 @@ Class('linb.ajax','linb.io',{
                 self._e("Start");
             try {
                 with(self){
-                    //must this.XMLHTTP, else opera will not set the new one
-                   var x = _XML = new XMLHttpRequest();
+                    //must use "self._XML", else opera will not set the new one
+                   var x = self._XML = new window.XMLHttpRequest();
                    if(asy)
                        x.onreadystatechange = function(){
                            if(self && x && x.readyState==4) {
@@ -1068,7 +1078,8 @@ Class('linb.ajax','linb.io',{
         },
         _complete:function() {
             with(this){
-                var x=_XML,status = x.status;
+                //this is for opera
+                var x= this._XML,status = x.status;
                 _response = rspType=='text'?x.responseText:x.responseXML;
                 if(status===undefined || status===0 || status==304 || (status >= 200 && status < 300 ))
                     _e("Response");
@@ -1134,7 +1145,7 @@ Class('linb.sajax','linb.io',{
                     if(linb.browser.ie)
                         _.asyRun(function(){div.innerHTML='';n.removeNode()});
                     else
-                    div.innerHTML='';
+                        div.innerHTML='';
                 }
             }
         },
@@ -1149,13 +1160,14 @@ Class('linb.sajax','linb.io',{
     Static : {
         pool:{},
         customQS:function(obj){
-            var c=this.constructor, k=c.randkey, b=c.callback,nr=(this.rspType!='script'),rand=nr?k + '=' + this.id + '&':'';
+            var c=this.constructor, t=c.type, k=c.randkey, b=c.callback,nr=(this.rspType!='script'),rand=nr?k + '=' + this.id + '&type=script&':'';
             if(typeof obj=='string')
                 return (obj && obj + '&') + rand + (nr?b + '=linb.sajax.response':'');
             else{
                 if(nr){
+                    obj[t]='script';
                     obj[k]=this.id;
-                obj[b]="linb.sajax.response";
+                    obj[b]="linb.sajax.response";
                 }
                 return obj;
             }
@@ -1192,16 +1204,16 @@ Class('linb.iajax','linb.io',{
 
             k=self.queryString||{};
             for(i in k){
-                if(typeof k[i]=='string'){
-                    t=document.createElement('input');
-                    t.id=t.name=i;
-                    t.value= k[i];
-                    form.appendChild(t);
-                }else if(k[i] && k[i].nodeName=="INPUT"){
+                if(k[i] && k[i].nodeName=="INPUT"){
                     k[i].id=k[i].name=i;
                     form.appendChild(k[i]);
                     b=true;
-                }
+                }else{
+                    t=document.createElement('input');
+                    t.id=t.name=i;
+                    t.value= typeof k[i]=='string'?k[i]:_.serialize(k[i]);
+                    form.appendChild(t);
+                } 
             }
             if(self.method=='POST' && b){
                 form.enctype = 'multipart/form-data';
@@ -1243,7 +1255,7 @@ Class('linb.iajax','linb.io',{
                     }catch(e){
                         return true
                     }
-                    self.constructor.response(decodeURIComponent(s.join('').replace(/\+/g,' ')));
+                    self.constructor.response(s.join('').replace(/\+/g,' '));
                     return false;
                 }
             }
@@ -1262,18 +1274,19 @@ Class('linb.iajax','linb.io',{
         method:'POST',
         retry:0,
         pool:{},
-        getDummyRes : function(){
+        getDummyRes : function(win){
+            win=win||window;
             var ns=this,
                 arr,o,
-                d=document,
-                i=linb.ini,
+                d=win.document,
+                ini=linb.ini,
                 b=linb.browser,
-                h=window.location.href,
                 f=ns.crossDomain;
             if(ns.dummy)return ns.dummy;
-
+            //can get from linb.ini;
+            if(ini.dummy)return ns.dummy=ini.dummy;
             if(b.opr)
-                return ns.dummy = i.path + i.file_xd;
+                return ns.dummy = ini.path + ini.file_xd;
             if (b.gek) {
                 arr=d.getElementsByTagName("link");
                 for(var i=0,j=arr.length; i<j; i++){
@@ -1282,13 +1295,16 @@ Class('linb.iajax','linb.io',{
                         return ns.dummy=o.href.split('#')[0];
                 }
             }
-            //not for 'ex-domain include jslinb' case
-            if(!d.getElementById('linb:img:bg')){
-                o=d.createElement('img');
-                o.id='linb:img:bg';
-                o.src=i.path + i.file_bg;
-                o.style.display='none';
-                d.body.appendChild(o);
+
+            if(!f(ini.path)){
+                //not for 'ex-domain include jslinb' case
+                if(!d.getElementById('linb:img:bg')){
+                    o=d.createElement('img');
+                    o.id='linb:img:bg';
+                    o.src=ini.path + ini.file_bg;
+                    o.style.display='none';
+                    d.body.appendChild(o);
+                }
             }
             arr=d.getElementsByTagName("img");
             for(var i=0,j=arr.length; i<j; i++){
@@ -1296,13 +1312,22 @@ Class('linb.iajax','linb.io',{
                 if(!f(o.src))
                     return ns.dummy=o.src.split('#')[0];
             }
+            //get from parent, not for opera in this case
+            try{
+                win=win.parent;
+                if(win && !f(''+win.document.location.href))
+                    return ns.getDummyRes(win);
+            }catch(e){}
+
+            //for the last change, return xd.html 
+            return ns.dummy = ini.path + ini.file_xd;
         },
 
         tpl:function(){return '<iframe src="'+this.getDummyRes() + '#"></iframe>'},
         customQS:function(obj){
             var c=this.constructor;
-            obj.method='ipost';
-            obj.tpl=c.tpl();
+            obj[c.type]='frame';
+            obj[c.callback]=c.tpl();
             obj[c.randkey]=this.id;
             return obj;
         }
@@ -1429,6 +1454,7 @@ Class('linb.SC',null,{
                     if(_.isEmpty(bak)){_.tryF(onEnd,[id]);onEnd=null;}
                 };
             }
+
             for(var i=0,s; s=arr[i++];)
                 this._call(s, _.merge({$name:s},args), true);
         },

@@ -489,6 +489,7 @@ new function(){
 
                 //clear anti links
                 self.antiAllLinks();
+                _.tryF(self.$ondestory);
 
                 _.breakO(self);
             },
@@ -1480,7 +1481,7 @@ new function(){
                 },
                 '.ui-invalid, .ui-invalid *':{
                     $order:19,
-                    'background-color': 'Aqua'
+                    'background-color': '#FFEBCD'
                 },
                 '#linb_lang':{
                     $order:20,
@@ -1961,7 +1962,7 @@ new function(){
                                 var k=linb.event.getKey(e), key = k[0], shift=k[2], b=false;
                                 if(m2[k=src.tagName.toLowerCase()]){
                                     if(m3[key]){
-                                        var reg = linb.UI.getCaretPos(src),txt=src.value;
+                                        var reg = linb([src]).caret(),txt=src.value;
 
                                         switch(key){
                                             case 'up':
@@ -2155,40 +2156,6 @@ new function(){
                 if(!linb.event.getKey(e)[2])
                     return false;
             },
-            getCaretPos:function(input){
-                input.focus();
-                //ie
-                if(linb.browser.ie){
-                    if(input.tagName=='INPUT'){
-                        var i,r = document.selection.createRange().duplicate(),
-            			    dr = input.createTextRange();
-            			    r.move("character", 0);
-            			    dr.move("character", 0);
-                			try{
-                				dr.setEndPoint("EndToEnd", r);
-                				i=String(dr.text).replace(/\r/g, "").length;
-                			}catch(e){i=0;}
-            			    return [i, i];
-            	    }else{
-                         var c= "\x01",
-                         sel= document.selection.createRange(),
-                         txt=sel.text,
-                         l=txt.length,
-                         dul=sel.duplicate()
-                         ;
-                         try{dul.moveToElementText(input)}catch(e){}
-
-                         sel.text=txt+c;
-                         len=(dul.text.indexOf(c));
-                         sel.moveStart('character',-1);
-                         sel.text="";
-                         if(len==-1)len=input.value.length;
-                         return [len,len];
-            	    }
-                //firefox opera safari
-                }else
-                    return [input.selectionStart, input.selectionEnd];
-            },
             /*
             add css file to head, by key and appearance key
             key: linb.dom.Button-box
@@ -2336,8 +2303,8 @@ new function(){
 
                         if(t=profile.$onDragEnter)t.apply(profile,args);
                         if(profile.onDragEnter)box.onDragEnter.apply(box,args);
-
-                        return false;
+                        //dont return false, multi layer dd wont work well
+                        //return false;
                     },
                     beforeMouseout:function(profile, e, src){
                         var self=this,
@@ -2359,7 +2326,7 @@ new function(){
                             if(profile.onDragLeave)box.onDragLeave.apply(box,args);
                             dd._current=null;
                         }
-                        return false;
+                        //return false;
                     },
                     beforeDrop:function(profile, e, src){
                         var self=this,

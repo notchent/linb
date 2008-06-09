@@ -7,15 +7,15 @@ Class('App', 'linb.Com',{
         iniComponents:function(){
             // [[code created by designer, don't change it manually
             var t=this, n=t._nodes=[], u=linb.UI, f=function(c){n.push(c.get(0))};
-            
+
             f(
             (new u.Block)
             .host(t,"Block2")
             .setDock("top")
             .setHeight(32)
-            
+            .setBorder(true)
             );
-            
+
             t.Block2.attach(
             (new u.Div)
             .host(t,"Div3")
@@ -25,7 +25,7 @@ Class('App', 'linb.Com',{
             .setHeight(24)
             .setHtml("<b>Dialog demo</b>")
             );
-            
+
             f(
             (new u.Layout)
             .host(t,"layout1")
@@ -33,9 +33,8 @@ Class('App', 'linb.Com',{
             .setTop("0")
             .setItems([{"id":"before","pos":"before","locked":false,"size":200,"min":50,"max":400,"cmd":true,"hide":false},{"id":"main","min":10}])
             .setType("horizontal")
-            .setCustomAppearance({"KEY":"border:solid 1px;background-color:#fff;"})
             );
-            
+
             t.layout1.attach(
             (new u.Dialog)
             .host(t,"Dialog1")
@@ -45,7 +44,7 @@ Class('App', 'linb.Com',{
             .setHeight(264)
             .setCaption("Dialog")
             , 'main');
-            
+
             t.Dialog1.attach(
             (new u.Tabs)
             .host(t,"Tabs1")
@@ -54,7 +53,7 @@ Class('App', 'linb.Com',{
             .setItems([{"id":"view1","caption":"view1"},{"id":"view2","caption":"view2"},{"id":"view3","caption":"view3"},{"id":"view4","caption":"view4"}])
             .setValue("view2")
             );
-            
+
             t.Tabs1.attach(
             (new u.Group)
             .host(t,"Group1")
@@ -64,7 +63,7 @@ Class('App', 'linb.Com',{
             .setHeight(160)
             .setCaption("Group1")
             , 'view1');
-            
+
             t.Group1.attach(
             (new u.Button)
             .host(t,"Button16")
@@ -73,7 +72,7 @@ Class('App', 'linb.Com',{
             .setCaption("Close me")
             .onClick("_button16_onclick")
             );
-            
+
             t.layout1.attach(
             (new u.Stacks)
             .host(t,"Stacks1")
@@ -82,7 +81,7 @@ Class('App', 'linb.Com',{
             .setItems([{"id":"view1","caption":"alert"},{"id":"view2","caption":"MDI"},{"id":"view3","caption":"others"}])
             .setValue("view1")
             , 'before');
-            
+
             t.Stacks1.attach(
             (new u.Button)
             .host(t,"Button3")
@@ -91,7 +90,7 @@ Class('App', 'linb.Com',{
             .setCaption("Modal")
             .onClick("_button3_onclick")
             , 'view2');
-            
+
             t.Stacks1.attach(
             (new u.Button)
             .host(t,"Button2")
@@ -100,7 +99,7 @@ Class('App', 'linb.Com',{
             .setCaption("confirm")
             .onClick("_button2_onclick")
             , 'view1');
-            
+
             t.Stacks1.attach(
             (new u.Button)
             .host(t,"Button4")
@@ -109,7 +108,7 @@ Class('App', 'linb.Com',{
             .setCaption("min")
             .onClick("_button4_onclick")
             , 'view3');
-            
+
             t.Stacks1.attach(
             (new u.Button)
             .host(t,"Button5")
@@ -118,7 +117,7 @@ Class('App', 'linb.Com',{
             .setCaption("max")
             .onClick("_button5_onclick")
             , 'view3');
-            
+
             t.Stacks1.attach(
             (new u.Button)
             .host(t,"Button6")
@@ -127,7 +126,7 @@ Class('App', 'linb.Com',{
             .setCaption("no max button")
             .onClick("_button6_onclick")
             , 'view3');
-            
+
             t.Stacks1.attach(
             (new u.Button)
             .host(t,"Button9")
@@ -136,7 +135,7 @@ Class('App', 'linb.Com',{
             .setCaption("no min button")
             .onClick("_button9_onclick")
             , 'view3');
-            
+
             t.Stacks1.attach(
             (new u.Button)
             .host(t,"Button10")
@@ -145,7 +144,7 @@ Class('App', 'linb.Com',{
             .setCaption("no pin button")
             .onClick("_button10_onclick")
             , 'view3');
-            
+
             t.Stacks1.attach(
             (new u.Button)
             .host(t,"Button11")
@@ -154,7 +153,7 @@ Class('App', 'linb.Com',{
             .setCaption("can't move")
             .onClick("_button11_onclick")
             , 'view3');
-            
+
             t.Stacks1.attach(
             (new u.Button)
             .host(t,"Button12")
@@ -163,7 +162,7 @@ Class('App', 'linb.Com',{
             .setCaption("can't resize")
             .onClick("_button12_onclick")
             , 'view3');
-            
+
             t.Stacks1.attach(
             (new u.Button)
             .host(t,"Button1")
@@ -172,7 +171,7 @@ Class('App', 'linb.Com',{
             .setCaption("alert")
             .onClick("_button1_onclick")
             , 'view1');
-            
+
             t.Stacks1.attach(
             (new u.Button)
             .host(t,"Button7")
@@ -181,7 +180,7 @@ Class('App', 'linb.Com',{
             .setCaption("pop")
             .onClick("_button7_onclick")
             , 'view1');
-            
+
             t.Stacks1.attach(
             (new u.Button)
             .host(t,"Button8")
@@ -190,7 +189,7 @@ Class('App', 'linb.Com',{
             .setCaption("New window")
             .onClick("_button8_onclick")
             , 'view2');
-            
+
             t.Stacks1.attach(
             (new u.Button)
             .host(t,"Button13")
@@ -199,7 +198,7 @@ Class('App', 'linb.Com',{
             .setCaption("No shadow")
             .onClick("_button13_onclick")
             , 'view3');
-            
+
             return n;
             // ]]code created by designer
         },

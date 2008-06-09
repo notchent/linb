@@ -7,7 +7,7 @@ Class('App', 'linb.Com',{
         iniComponents:function(){
             // [[code created by designer, don't change it manually
             var t=this, n=t._nodes=[], u=linb.UI, f=function(c){n.push(c.get(0))};
-            
+
             f(
             (new u.Block)
             .host(t,"block1")
@@ -16,21 +16,16 @@ Class('App', 'linb.Com',{
             .setWidth(540)
             .setHeight(270)
             );
-            
+
             t.block1.attach(
             (new u.TreeGrid)
             .host(t,"tg")
             .setHeader([])
             .setRows([])
             .setTabindex("2")
-            .setActiveMode("cell")
-            .beforeRowActive("_tg_beforerowactive")
-            .afterRowActive("_tg_afterrowactive")
-            .beforeCellActive("_tg_beforecellactive")
-            .afterCellActive("_tg_aftercellactive")
             .onDblClickRow("_tg_ondblclickrow")
             );
-            
+
             f(
             (new u.Div)
             .host(t,"div9")
@@ -40,7 +35,7 @@ Class('App', 'linb.Com',{
             .setHeight(30)
             .setHtml("DblClick row hander to open edit dialog!")
             );
-            
+
             return n;
             // ]]code created by designer
         },
@@ -78,18 +73,6 @@ Class('App', 'linb.Com',{
                 var hash=_.unserialize(s);
                 self.tg.setHeader(hash.header).setRows(hash.rows);
             }).start();
-        },
-        _tg_afterrowactive:function (profile, row) {
-            linb.message("afterrow");
-        },
-        _tg_beforerowactive:function (profile, row) {
-            linb.message("before row");
-        },
-        _tg_beforecellactive:function (profile, cell) {
-            linb.message("before cell");
-        },
-        _tg_aftercellactive:function (profile, cell) {
-            linb.message("after cell");
         }
     }
 });

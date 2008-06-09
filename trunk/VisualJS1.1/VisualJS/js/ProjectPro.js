@@ -158,7 +158,7 @@ Class('VisualJS.ProjectPro', 'linb.Com',{
             var pm = self.projectName = self.inputName.updateValue().getValue();
             self.className = self.inputClassName.updateValue().getValue();
 
-            linb.request(CONF.phpPath,_.serialize({
+            linb.request(CONF.phpPath,({
                 key:CONF.requestKey,
                 para:{
                     action:'new',
@@ -171,7 +171,7 @@ Class('VisualJS.ProjectPro', 'linb.Com',{
                 if(!obj || obj.error)
                     linb.message(txt);
                 else
-                    _.tryF(self.properties.onOK, ['projects/'+pm, obj], self.host);
+                    _.tryF(self.properties.onOK, ['projects/'+pm, obj.data], self.host);
                 self.dialog.close();
             },function(txt){
                 linb.message(txt);

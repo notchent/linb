@@ -238,15 +238,15 @@ Class('linb.Com',null,{
             afterCreated:function(){},
             afterShow:function(){}
         },
-        load:function(cls,onEnd,lang,flag){
+        load:function(cls,onEnd,lang,flag,paras){
             //after dom ready
             linb.main(function(){
                 //get app class
                 linb.SC(cls,function(){
                     var a=this,f=function(){
                         if(flag!==false)
-                            (new a()).show();
-                        _.tryF(onEnd,[a],a);
+                            (new a(paras)).show();
+                        _.tryF(onEnd,[a,paras],a);
                     };
                     //get locale info
                     if(lang) linb.reLang(lang, f);

@@ -19,7 +19,6 @@ Class('linb.event',null,{
 
         //for correct mouse hover problems;
         if('mouseover'==type || 'mouseout'==type){
-
             dd=(dragdrop&&dragdrop.drop2)?1:2;
             //for dropable
             if(dd!=1 && fordrag)return self.rtnFalse;
@@ -116,6 +115,7 @@ Class('linb.event',null,{
                 }
 
                 //if fire dd, prevent to fire parent dd
+                //notice: this trigger opera cursor dont change
                 if(src==dragdrop._current)
                     r=false;
             }
@@ -259,7 +259,7 @@ Class('linb.event',null,{
                         t = arguments.callee.map ={};
                         var k,arr =
                         ("3,enter,8,backspace,9,tab,12,numlock,13,enter,19,pause,20,capslock," +
-                        "27,esc,32,space,33,pageup,34,pagedown,35,end,36,home,37,left,38,up,39,right,40,down,44,printscreen," +
+                        "27,esc,32, ,33,pageup,34,pagedown,35,end,36,home,37,left,38,up,39,right,40,down,44,printscreen," +
                         "45,insert,46,delete,50,down,52,left,54,right,56,up," +
                         "91,win,92,win,93,apps," +
                         "96,0,97,1,98,2,99,3,100,4,101,5,102,6,103,7,104,8,105,9," +

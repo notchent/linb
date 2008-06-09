@@ -396,7 +396,7 @@ Class('linb.UI.ColorPicker', 'linb.UI.iWidget', {
                                 cur.nextFocus();
                             return false;
                             break;
-                        case 'space':
+                        case ' ':
                         case 'enter':
                             linb(src.id).onClick();
                             return false;

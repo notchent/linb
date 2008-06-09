@@ -1034,6 +1034,74 @@ Class('linb.dom','linb.iBox',{
                 return value;
             }
         },
+        /*
+        *IE/opera \r\n will take 2 chars
+        *in IE: '/r/n'.lenght is 2, but string.length/range.move/range.select will taks '/r/n' as 1.
+        */
+        caret:function(begin,end){
+            var input =this.get(0), tn=input.tagName, type=typeof begin,ie=linb.browser.ie, pos;
+            if(!/^(input|textarea)$/i.test(tn))return this;
+            input.focus();
+            //set caret
+            if(type=='number'){
+                if(ie){
+					var r = input.createTextRange();
+					r.collapse(true);
+					r.moveEnd('character', end);
+					r.moveStart('character', begin);
+					r.select();
+                }else
+                    input.setSelectionRange(begin, end);
+                return this;
+            //replace text
+            }else if(type=='string'){
+                    var r=this.caret(),l=0,m=0,ret,
+                    v=input.value;
+                    //for IE, minus \r 
+                    if(ie){
+                        l=v.substr(0,r[0]).match(/\r/g);
+                        l=(l && l.length) || 0;
+                    }
+                    //opera will add \r to \n, automatically
+                    if(linb.browser.opr){
+                        l=begin.match(/\n/g);
+                        l=(l && l.length) || 0;
+                        m=begin.match(/\r\n/g);
+                        m=(m && m.length) || 0;
+                        m=l-m;l=0;
+                    }
+                    input.value=v.substr(0,r[0])+begin+v.substr(r[1],v.length);
+                    ret= r[0] - l + m + begin.length;
+                    this.caret(ret,ret);
+                    return ret;
+            //get caret
+            }else{
+                if(ie){
+                    if(tn=='TEXTAREA'){
+                         var c= "\x01",
+                         sel= document.selection.createRange(),
+                         txt=sel.text,
+                         l=txt.length,
+                         dul=sel.duplicate()
+                         ;                         
+                         try{dul.moveToElementText(input)}catch(e){}
+                         sel.text=txt+c;
+                         len=(dul.text).indexOf(c);
+                         sel.moveStart('character',-1);
+                         sel.text="";
+                         if(len==-1)len=input.value.length;
+                         return [len-l,len];
+            	    }else{
+        				var r = document.selection.createRange(),	
+        				    b = -r.duplicate().moveStart('character', -100000),
+        				    e = b + r.text.length;
+        				return[b, e];
+            	    }
+                //firefox opera safari
+                }else
+                    return [input.selectionStart, input.selectionEnd];
+            }
+        },        
         //left,top format: "23px"
         show:function(left,top){
             var style,t,auto='auto',v=linb.dom.hide_value;

@@ -222,7 +222,6 @@ Class("linb.UI.List", ["linb.UI.iWidget", "linb.UI.iForm","linb.UI.iList"],{
                         }
                         break;
                     }
-
                     linb(src).focus();
                     return rt;
                 },
@@ -264,7 +263,7 @@ Class("linb.UI.List", ["linb.UI.iWidget", "linb.UI.iForm","linb.UI.iList"],{
                                 cur.nextFocus();
                             return false;
                             break;
-                        case 'space':
+                        case ' ':
                         case 'enter':
                             linb(src.id).onClick();
                             return false;

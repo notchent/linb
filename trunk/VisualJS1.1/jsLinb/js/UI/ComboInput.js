@@ -544,7 +544,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                             },'all');
                             pro=p.properties;
                             if(pro.value)
-                                pro.$UIvalue=pro.value=o.ensureV(profile,pro.value);
+                                pro.$UIvalue=pro.value=o.ensureV(p,pro.value);
                         });
                     else if(v=='datepicker'){
                         var date=linb.date;

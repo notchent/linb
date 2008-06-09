@@ -75,6 +75,7 @@ Class("linb.UI.PanelBar", ["linb.UI.Div","linb.UI.iContainer"],{
                 'background-color':'#fff'
             },
             HANDLE:{
+                '-moz-user-select':linb.browser.gek?'none':null,                
                 overflow:'hidden',
                 background: linb.UI.getCSSImgPara('barvbg.gif', ' repeat-x left top', null, 'linb.UI.Public'),
                 position:'relative',
