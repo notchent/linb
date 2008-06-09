@@ -1,9 +1,3 @@
-/*
-jsLinb 1.2
-Copyright(c) 2008 Yingbo Li(linb.net, linb.net[at]gmail.com).
-GPL3 (http://www.opensource.org/licenses/gpl-3.0.html) licenses.
-*/
-undefined;
 /* base _
 *
 *declare _ (global)
@@ -13,6 +7,7 @@ undefined;
 *load linb.logger to redefine window.error
 */
 //window.error=function(){return true};
+undefined;
 //time stamp
 _=function(){return +new Date()};
 
