@@ -1,0 +1,1 @@
+linb.Com.load('VisualJS', function(){linb(linb.ini.prgId).remove()}, 'en');
