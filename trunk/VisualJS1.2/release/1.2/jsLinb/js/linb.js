@@ -929,23 +929,24 @@ Class('linb.io',null,{
             }
         },
         response:function(txt,r,i,l) {
-            var self = this, obj, o;
+            var self = this, obj, o,m;
             try{
                 //multi return from xd.html
                 if(r){
-                    i=parseFloat(i);
-                    l=parseFloat(l);
+                    i=parseFloat(i)||0;
+                    l=parseFloat(l)||1;
                     if(o=self.pool[r]){
-                        o=o.__||(o.__=[]);
-                        o[i]=txt;
-                        while(l--)if(o[i]===undefined)return;
-                        if(obj=_.unserialize(o.join(''))){
-                            o._response=obj;
-                            o._e("Response");
-                        }
+                        m=o.__||(o.__=[]);
+                        m[i]=txt;
+                        while(l--)if(m[i]===undefined)return;
+                        if(obj=_.unserialize(decodeURIComponent(m.join(''))))
+                            for(i=0;i<o.length;i++){
+                                o[i]._response=obj;
+                                o[i]._e("Response");
+                            }
                     }
                 }else{
-                    obj = typeof txt=='string' ? _.unserialize(txt) : txt;
+                    obj = typeof txt=='string' ? _.unserialize(decodeURIComponent(txt)) : txt;
                     if(obj && (o = self.pool[obj[self.randkey]])){
                         for(i=0;i<o.length;i++){
                             o[i]._response=obj;
@@ -1254,7 +1255,7 @@ Class('linb.iajax','linb.io',{
                     }catch(e){
                         return true
                     }
-                    self.constructor.response(decodeURIComponent(s.join('').replace(/\+/g,' ')));
+                    self.constructor.response(s.join('').replace(/\+/g,' '));
                     return false;
                 }
             }
@@ -1317,6 +1318,9 @@ Class('linb.iajax','linb.io',{
                 if(win && !f(''+win.document.location.href))
                     return ns.getDummyRes(win);
             }catch(e){}
+
+            //for the last change, return xd.html 
+            return ns.dummy = ini.path + ini.file_xd;
         },
 
         tpl:function(){return '<iframe src="'+this.getDummyRes() + '#"></iframe>'},
