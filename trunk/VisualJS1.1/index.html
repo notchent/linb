@@ -16,15 +16,32 @@
             <span style='color:red;'>Loading...</span>
             
         </div>
-
-	    <script type="text/javascript" src="jsLinb/js_release/linb.js"></script>
-	    <script type="text/javascript" src="jsLinb/js/coder.js"></script>
-	    <script type="text/javascript" src="jsLinb/Locale/en.js"></script>
-	    <script type="text/javascript" src="VisualJS/js/conf.js"></script>
-	    <script type="text/javascript" src="VisualJS/js_release/index.js"></script>    
-	    <script type="text/javascript">
-	        linb.ini('jsLinb/');
-	        linb.Com.load('VisualJS', function(){linb('memo').display('none')}, 'en');
-	    </script>
+        <script type="text/javascript">
+            //is dummey proxy?
+            var proxy;
+            if((proxy=parent) && (proxy=proxy.parent) && (proxy=proxy.linb) && (proxy=proxy.iajax) &&location.href.indexOf('#')!=-1)
+                proxy=true;
+            //get data from server
+            if(proxy){
+                var p=parent.parent.linb.iajax,
+                    rtn=(location.href.split('#')[1]||'');
+                //return multi str
+                if(rtn.indexOf('&')!=-1){
+                    var hash={},
+                        a=rtn.split('&'),
+                        arr,o;
+                    for(var i=0,l=a.length;i<l;i++){
+                        o=a[i];
+                        arr=o.split('=');
+                        hash[arr[0]]=arr[1];
+                    }                    
+                    p.response(hash.s,hash.r,parseFloat(hash.i),parseFloat(hash.l));
+                }else
+                    p.response(rtn);
+            }else{
+                var appHost=location.href.split('?')[0].replace(/[^\\\/]+$/,'');
+                document.write(unescape("%3Cscript src='" + appHost + "api.js?prgId=memo&dummy=1&module=visualjs&appPath="+appHost+"' type='text/javascript'%3E%3C/script%3E"));
+            }
+        </script>
     </body>
 </html>
