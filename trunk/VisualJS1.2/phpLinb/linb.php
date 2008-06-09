@@ -460,7 +460,20 @@
    LINB::$DIR_LINB = dirname(__FILE__).DIRECTORY_SEPARATOR;
    LINB::$DIR_APP = realpath('.').DIRECTORY_SEPARATOR;
    LINB::$DIR_CLASS  = 'phpClass'.DIRECTORY_SEPARATOR;
-   LINB::$json = new JSON;
+   
+   //for php 5.22 json enabled
+   if(function_exists("json_encode")){
+        class JSON{
+            function encode($var){
+                return json_encode($var);
+            }
+            function decode($var){
+                return json_decode($var);
+            }
+        }
+        LINB::$json = new JSON;
+   }else
+        LINB::$json = new JSON;
 
    // handle http request
    LINB::handler();
