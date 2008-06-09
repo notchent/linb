@@ -41,7 +41,7 @@ new function(){
         iniStr = '<div id="loadingInfo">Loading...</div>',
 
         //default version mark
-        dft_ver = "1.2";
+        dft_ver = "1.1";
 
     new function(){
         var d = document,
