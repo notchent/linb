@@ -101,7 +101,7 @@ Class('VisualJS', 'linb.Com',{
                             path:prj
                         }
                     }),function(txt){
-                        var obj = _.unserialize(txt);
+                        var obj = typeof txt=='string'?_.unserialize(txt):txt;
                         if(obj && !obj.error)
                             page._openproject(prj, obj.data);
                         else linb.message(txt);
@@ -186,7 +186,7 @@ Class('VisualJS', 'linb.Com',{
                     filename:name
                 }
             }),function(txt){
-                var obj = _.unserialize(txt);
+                var obj = typeof txt=='string'?_.unserialize(txt):txt;
                 if(obj && !obj.error && obj.data && obj.data.OK){
                         var iconPos;
                         if(type=='/')
@@ -226,7 +226,7 @@ Class('VisualJS', 'linb.Com',{
                     path:a
                 }
             },function(txt){
-                var obj = _.unserialize(txt);
+                var obj = typeof txt=='string'?_.unserialize(txt):txt;
                 if(obj && !obj.error && obj.data && obj.data.OK){
                     tb.removeItems(arr);
                     var items = tab.getItems(),b=[];
@@ -279,7 +279,7 @@ Class('VisualJS', 'linb.Com',{
                             path:self.curProject
                         }
                     } ,function(txt){
-                        var obj = _.unserialize(txt);
+                        var obj = typeof txt=='string'?_.unserialize(txt):txt;
                         if(!obj || obj.error)
                             linb.message(txt);
                         else{
@@ -373,7 +373,7 @@ Class('VisualJS', 'linb.Com',{
                         tb.insertItems([item], items.length?items[items.length-1].id:null);
                         tb.fireItemClickEvent(value);
                         var fun = function(txt){
-                            txt=_.unserialize(txt);
+                            txt = typeof txt=='string'?_.unserialize(txt):txt;
                             if(txt.error)return;
                             txt=txt.data.file;
 
@@ -634,7 +634,7 @@ Class('VisualJS', 'linb.Com',{
                                 path: o.id,
                                 content:newText
                                 }}, function(txt){
-                                    var obj = _.unserialize(txt);
+                                    var obj = typeof txt=='string'?_.unserialize(txt):txt;
                                     if(obj && !obj.error && obj.data && obj.data.OK){
                                         o.$obj.resetEnv(newText);
                                         tb.markDirty(o,false,true);

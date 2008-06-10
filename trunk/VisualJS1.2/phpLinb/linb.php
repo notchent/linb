@@ -24,7 +24,7 @@
            	   throw new LINB_E("Error: class '$class' not exists!");
            }
        }catch (LINB_E $e){
-           LINB::echoException($e);
+           LINB::echoException('001', $e);
        }
     }
 
@@ -46,10 +46,10 @@
             parent::__construct($message, $code);
         }
 		function _handle_exception(Exception $e) {
-	        LINB::echoException($e);
+	        LINB::echoException('002', $e);
 	    }
 		function _handle_error($errno, $errstr, $errfile, $errline) {
-	        LINB::echoException($errstr, $errfile, $errline);
+	        LINB::echoException('002', $errstr, $errfile, $errline);
 	    }
     };
 	$err = new LINB_E();
@@ -315,12 +315,6 @@
          try{
              $httpdata=new stdClass;
              $data = self::SYM_DATA;
-             $hash = self::SYM_HASH ;
-             $id = self::SYM_ID;
-             $type = self::SYM_TYPE;
-             $callback = self::SYM_CALLBACK;
-             $err = self::SYM_ERR;
-             $key = self::SYM_KEY;
              $para = self::SYM_PARA;
 
              //"post" request
@@ -365,71 +359,82 @@
                     $httpdata->$para = LINB::$json->decode($httpdata->$para);
                 
                  // for __autoload 
-                 LINB::$data = $httpdata;
-
+                 LINB::$data = &$httpdata;
                  $d = self::stimulate($httpdata);
-
-                 if(isset($d)){
-                    if(isset($httpdata->$callback))
-                        $cb=$httpdata->$callback;
-                    if(isset($httpdata->$type))
-                        $t=$httpdata->$type;
-
-                    unset($httpdata->$key);
-                    unset($httpdata->$para);
-                    unset($httpdata->$type);
-                    unset($httpdata->$callback);
-                    $httpdata->$data = $d;
-                    $output=LINB::$json->encode($httpdata);
-
-                    if(isset($httpdata->$id)){
-                     	// iframe ajax
-                     	if(isset($t) && $t=='frame'){
-                     	    $output=urlencode($output);
-                     	    $bak=$output;
-                     	    $output='';
-                     	    $temp='';
-                     	    $i=0;
-                     	    $arr = array();
-                     	    while($temp=substr($bak,0,self::MAX_LEN)){
-                     	        $arr[] = "&i=".$i."&s=".$temp;
-                     	        $bak=substr($bak,self::MAX_LEN);
-                     	        $i++;
-                     	    }
-                     	    foreach($arr as $v)
-                     	        $output .= preg_replace("/\#/", '#r='.$httpdata->$id.'&l='.$i.$v, $cb);
-                     	// script tag ajax
-                     	}
-                     	if(isset($t) && $t=='script'){
-                     	    $output = $cb.'('.$output.')';
-                     	}
-                    }
-                    echo $output;
-                }
+                 if(isset($d))
+                    echo LINB::formatResponse($d);
              }
-
          }catch(LINB_E $e){
-             LINB::echoException($e);
+             LINB::echoException('003', $e);
          }
       }
-      public static function echoException($e, $file='', $line=-1){
+      public static function formatResponse($d, $ok=true){
+            $data = self::SYM_DATA;
+            $hash = self::SYM_HASH ;
+            $id = self::SYM_ID;
+            $type = self::SYM_TYPE;
+            $callback = self::SYM_CALLBACK;
+            $err = self::SYM_ERR;
+            $key = self::SYM_KEY;
+            $para = self::SYM_PARA;
+                     
+            $httpdata = &LINB::$data;
+            if(isset($httpdata->$callback))
+                $cb=$httpdata->$callback;
+            if(isset($httpdata->$type))
+                $t=$httpdata->$type;
+
+            unset($httpdata->$key);
+            unset($httpdata->$para);
+            unset($httpdata->$type);
+            unset($httpdata->$callback);
+            if($ok)
+                $httpdata->$data = $d;
+            else
+                $httpdata->$err = $d;
+            $output=LINB::$json->encode($httpdata);
+
+            if(isset($httpdata->$id)){
+             	// iframe ajax
+             	if(isset($t) && $t=='frame'){
+             	    $output=urlencode($output);
+             	    $bak=$output;
+             	    $output='';
+             	    $temp='';
+             	    $i=0;
+             	    $arr = array();
+             	    while($temp=substr($bak,0,self::MAX_LEN)){
+             	        $arr[] = "&i=".$i."&s=".$temp;
+             	        $bak=substr($bak,self::MAX_LEN);
+             	        $i++;
+             	    }
+             	    foreach($arr as $v)
+             	        $output .= preg_replace("/\#/", '#r='.$httpdata->$id.'&l='.$i.$v, $cb);
+             	// script tag ajax
+             	}
+             	if(isset($t) && $t=='script'){
+             	    $output = $cb.'('.$output.')';
+             	}
+            }
+            return $output;        
+      }
+    
+      public static function echoException($eid, $e, $file='', $line=-1){
+           $id = LINB::SYM_ID ;
+           $err = LINB::SYM_ERR;
+
       	    if($e instanceof Exception){
       	    	$file = $e->getFile();
       	    	$line = $e->getLine();
       	    	$e = $e->getMessage();
       	    }
-            if(LINB::$debug){
-                $e = $e." at ".$file."(".$line.")";
-            }
 
-           $httpdata = array();
-      	   if(isset(LINB::$data)){
-       	       $httpdata = LINB::$data;
-      	   }
-           $id = LINB::SYM_ID ;
-           $err = LINB::SYM_ERR;
-           $httpdata = array( $id => isset($httpdata->$id)?$httpdata->$id:'-1', $err => $e);
-           echo LINB::$json->encode($httpdata);
+            if(LINB::$debug)
+                $e = $e." at ".$file."(".$line.")";
+
+           $d = array( $id => $eid, $err => $e);
+
+           echo LINB::formatResponse($d,false );
       }
    }
 

@@ -22,7 +22,7 @@ Class('VisualJS.ProjectSelector', 'linb.Com',{
                     }
                 }),
                 function(txt){
-                    var arr = _.unserialize(txt);
+                    var obj = typeof txt=='string'?_.unserialize(txt):txt;
                     if(!arr || arr.error)
                         linb.message(txt);
                     else{
@@ -120,7 +120,7 @@ Class('VisualJS.ProjectSelector', 'linb.Com',{
                     path:this.projectName
                 } 
             }),function(txt){
-                var obj = _.unserialize(txt);
+                var obj = typeof txt=='string'?_.unserialize(txt):txt;
                 if(!obj || obj.error)
                     linb.message(txt);
                 else

@@ -167,7 +167,7 @@ Class('VisualJS.ProjectPro', 'linb.Com',{
                     className: this.className
                 }
             }),function(txt){
-                var obj = _.unserialize(txt);
+                var obj = typeof txt=='string'?_.unserialize(txt):txt;
                 if(!obj || obj.error)
                     linb.message(txt);
                 else
