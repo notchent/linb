@@ -189,7 +189,7 @@ Class('App', 'linb.Com',{
                     }, function(msg){
                         alert('request raise err in "'+this.uri+'" with "'+this.queryString+'": "' + msg +'"');
                     },
-                threadid).start();
+                threadid,{method:'GET'}).start();
             }]);
         },
         _btniajaxpost_onclick:function (profile, e, value) {
@@ -205,7 +205,7 @@ Class('App', 'linb.Com',{
                     }, function(msg){
                         alert('request raise err in "'+this.uri+'" with "'+this.queryString+'": "' + msg +'"');
                     },
-                threadid,{method:'POST'}).start();
+                threadid).start();
             }]);
         }
     }
