@@ -103,10 +103,7 @@ Class('linb.logger', null, {
             //height() is ok
             h = div.height();
 
-            if(linb.browser.ie6){
-                div.width(width+10)
-                .last().width(width);
-            }
+            if(linb.browser.ie6)div.cssSize({ height :h, width :width+2});
 
             div.fx({top:[st-h-20,st+20]}).start();
             _.asyRun(function(){
