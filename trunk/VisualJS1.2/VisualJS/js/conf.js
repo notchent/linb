@@ -1,4 +1,4 @@
-var _img_app=linb.getPath('img/','app.gif');
+var _img_app=linb.getPath('img/','App.gif');
 var _img_widgets=linb.getPath('img/','widgets.gif');
 CONF={
     dftLang:'en',

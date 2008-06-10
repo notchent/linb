@@ -462,7 +462,7 @@ Class('VisualJS', 'linb.Com',{
             (new u.PanelBar)
             .host(t,"panelbar2")
             .setCaption("$VisualJS.pm.title")
-            .setIcon(CONF.img_app)
+            .setIcon('@CONF.img_app')
             .setIconPos("-128px -48px")
             , 'before');
 
@@ -498,10 +498,10 @@ Class('VisualJS', 'linb.Com',{
             .setAlign("right")
             .setDisabled(true)
             .setItems([{id:'only', sub:[
-                {id:'refresh', icon:CONF.img_app, iconPos:'-113px -16px', tips:'$VisualJS.tool2.refresh'},
+                {id:'refresh', icon:'@CONF.img_app', iconPos:'-113px -16px', tips:'$VisualJS.tool2.refresh'},
                 {type:'split'},
-                {id:'new', icon:CONF.img_app, iconPos:'-0px -16px', tips:'$VisualJS.tool2.new'},
-                {id:'delete', icon:CONF.img_app, iconPos:'-80px -16px', tips:'$VisualJS.tool2.del'}
+                {id:'new', icon:'@CONF.img_app', iconPos:'-0px -16px', tips:'$VisualJS.tool2.new'},
+                {id:'delete', icon:'@CONF.img_app', iconPos:'-80px -16px', tips:'$VisualJS.tool2.del'}
             ]}])
             .afterCreated(function (profile) {
                 profile.getSubNode("ITEMS").setStyle({borderLeftWidth:0, borderRightWidth:0, borderBottomWidth:0});

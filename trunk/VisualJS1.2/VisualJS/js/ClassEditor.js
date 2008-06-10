@@ -185,7 +185,7 @@ Class('VisualJS.ClassEditor', 'linb.Com',{
             .host(t,"buttonview")
             .setLeft(0)
             .setTop(0)
-            .setItems([{"id":"normal","caption":"$VisualJS.classEditor.nv","icon":"img/App.gif","iconPos":"-80px -48px","tips":"$VisualJS.classEditor.nvtips"},{"id":"struct","caption":"$VisualJS.classEditor.sv","icon":"img/App.gif","iconPos":"-32px -48px","tips":"$VisualJS.classEditor.svtips"},{"id":"design","caption":"$VisualJS.classEditor.dv","icon":"img/App.gif","iconPos":"-192px -48px","tips":"$VisualJS.classEditor.dvtips"}])
+            .setItems([{"id":"normal","caption":"$VisualJS.classEditor.nv","icon":'@CONF.img_app',"iconPos":"-80px -48px","tips":"$VisualJS.classEditor.nvtips"},{"id":"struct","caption":"$VisualJS.classEditor.sv","icon":'@CONF.img_app',"iconPos":"-32px -48px","tips":"$VisualJS.classEditor.svtips"},{"id":"design","caption":"$VisualJS.classEditor.dv","icon":'@CONF.img_app',"iconPos":"-192px -48px","tips":"$VisualJS.classEditor.dvtips"}])
             .setValue("normal")
             .setHandleSize("28")
             .beforeValueUpdated("_buttonview_beforeValueUpdated")

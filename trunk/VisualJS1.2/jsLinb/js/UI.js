@@ -49,7 +49,7 @@ new function(){
                         key:o.key
                     };
                 //hose
-                if(o.host)r.host='$this$';
+                if(o.host)r.host='@this';
                 //domId
                 if(o.$domId!=o.domId)r.domId=o.domId;
                 //appearance behavior and template
@@ -1583,6 +1583,7 @@ new function(){
                     return para.replace('{*}',s);
                 }
             },
+
            /* deep template function
               template: string
               properties: hash
@@ -2435,13 +2436,15 @@ new function(){
             */
             copyItem:function(item, hash){
                 if(!hash)hash={};
-                var i,o,w=linb.wrapRes,me=arguments.callee,r=r||(r=me._r=/(\$)([\w\.]+)/g);
+                var i,o,w=linb.wrapRes,me=arguments.callee,r=r||(r=me._r=/(\s|^)(\$)([\w]+[\.][\w\.]+[\w])/g);
                 for(i in item){
                     if(i.charAt(0)=='$')continue;
                     if(!(i in hash))
-                        hash[i] = (typeof (o=item[i])=='string' && o.indexOf('$')!=-1)?
-                        o.replace(r, function(a,b,c){return w(c)})
-                        :o;
+                        hash[i] = typeof (o=item[i])=='string' ? 
+                                  (
+                                      ((o.indexOf('$')!=-1) ? (o=o.replace(r, function(a,b,c,d){return b+w(d)})) : o)
+                                    &&((o.charAt(0)=='@') ? (linb.SC.evalPath(o.substr(1,o.length)) || o) : o)
+                                  ) : o;
                 }
                 //todo: change it
                 hash.iconDisplay = item.icon?'':'display:none';

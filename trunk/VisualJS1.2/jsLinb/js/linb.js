@@ -1513,7 +1513,7 @@ new function(){
         '"' : '\\"',
         '\\': '\\\\'
     },
-    H={'$window$':'window','$this$':'this'},
+    H={'@window$':'window','@this':'this'},
     A=/[\x00-\x1f\x7f-\x9f\\\"]/g,
     B=/[^\x00-\xff]/g,
     C=/^\s*\x7b/, // /^\s*\{/

@@ -266,15 +266,18 @@
     }
 
       /**
-       * Staight cll
+       * Staight call
        *
        * @param string $key
        * @return object
        */
-      public static function SC($key){
-          if (!isset(self::$H[$key])) {
+      public static function SC($key, $new=false){
+          if ($new || !isset(self::$H[$key])) {
             try{
-                self::$H[$key] = new $key();
+                if ($new)
+                    return new $key();
+                else
+                    self::$H[$key] = new $key();
             }catch(LINB_E $e){
                 throw $e;
             }
@@ -449,8 +452,8 @@
    * @param string $key
    * @return object
     */
-   function SC($key){
-     return LINB::SC($key);
+   function SC($key, $new=false){
+     return LINB::SC($key, $new);
    }
 
    ///////////////
