@@ -94,7 +94,11 @@
        * request data symbol: error
        */
       const SYM_ERR = "error";
-        /**
+      /**
+       * request data symbol: error
+       */
+      const SYM_MESSAGE = "message";
+      /**
          * request data sub symbol: key
          *
          */
@@ -421,7 +425,7 @@
     
       public static function echoException($eid, $e, $file='', $line=-1){
            $id = LINB::SYM_ID ;
-           $err = LINB::SYM_ERR;
+           $msg = LINB::SYM_MESSAGE;
 
       	    if($e instanceof Exception){
       	    	$file = $e->getFile();
@@ -432,7 +436,7 @@
             if(LINB::$debug)
                 $e = $e." at ".$file."(".$line.")";
 
-           $d = array( $id => $eid, $err => $e);
+           $d = array( $id => $eid, $msg => $e);
 
            echo LINB::formatResponse($d,false );
       }

@@ -22,7 +22,7 @@ Class('VisualJS.ProjectSelector', 'linb.Com',{
                     }
                 }),
                 function(txt){
-                    var obj = typeof txt=='string'?_.unserialize(txt):txt;
+                    var arr = typeof txt=='string'?_.unserialize(txt):txt;
                     if(!arr || arr.error)
                         linb.message(txt);
                     else{
