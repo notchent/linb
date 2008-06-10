@@ -168,8 +168,8 @@ Class('VisualJS.ProjectPro', 'linb.Com',{
                 }
             }),function(txt){
                 var obj = typeof txt=='string'?_.unserialize(txt):txt;
-                if(!obj || obj.error)
-                    linb.message(txt);
+                if(obj.error)
+                    linb.message(obj.error.message);
                 else
                     _.tryF(self.properties.onOK, ['projects/'+pm, obj.data], self.host);
                 self.dialog.close();

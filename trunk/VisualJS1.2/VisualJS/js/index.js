@@ -104,7 +104,7 @@ Class('VisualJS', 'linb.Com',{
                         var obj = typeof txt=='string'?_.unserialize(txt):txt;
                         if(obj && !obj.error)
                             page._openproject(prj, obj.data);
-                        else linb.message(txt);
+                        else linb.message(obj.error.message);
                     });
                 }
 
@@ -209,7 +209,7 @@ Class('VisualJS', 'linb.Com',{
                         }
                         tb.insertItems([{id: pathadd, caption: name , icon:CONF.img_app, iconPos:iconPos, value:pathadd, sub:type=='/'?[]:null}], id)
                 }else
-                    linb.message(txt);
+                    linb.message(obj.error.message);
             });
         },
         _delfile:function(id){
@@ -236,7 +236,7 @@ Class('VisualJS', 'linb.Com',{
                     },null,true);
                     tab.removeItems(b);
                 }else
-                    linb.message(txt);
+                    linb.message(obj.error.message);
             });
         },
         _projecttool_onclick:function(profile,id, groupid, src){
@@ -281,7 +281,7 @@ Class('VisualJS', 'linb.Com',{
                     } ,function(txt){
                         var obj = typeof txt=='string'?_.unserialize(txt):txt;
                         if(!obj || obj.error)
-                            linb.message(txt);
+                            linb.message(obj.error.message);
                         else{
                             _.tryF(self._openproject, [self.curProject, obj.data], self);
                             linb.message(linb.getRes('VisualJS.tool2.refreshOK'));
@@ -374,7 +374,10 @@ Class('VisualJS', 'linb.Com',{
                         tb.fireItemClickEvent(value);
                         var fun = function(txt){
                             txt = typeof txt=='string'?_.unserialize(txt):txt;
-                            if(txt.error)return;
+                            if(txt.error){
+                                linb.message(obj.error.message);
+                                return;
+                            }
                             txt=txt.data.file;
 
                             var itemid=item.id;
@@ -640,7 +643,7 @@ Class('VisualJS', 'linb.Com',{
                                         tb.markDirty(o,false,true);
                                     }
                                 },function(txt){
-                                    linb.message(txt);
+                                    linb.message(obj.error.message);
                                 // post
                                 },null,{method: 'POST'})
                         }
