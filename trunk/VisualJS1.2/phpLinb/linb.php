@@ -24,7 +24,7 @@
            	   throw new LINB_E("Error: class '$class' not exists!");
            }
        }catch (LINB_E $e){
-           LINB::echoException('001', $e);
+           throw new LINB_E($e->getMessage(), $e->getCode());
        }
     }
 
@@ -46,10 +46,10 @@
             parent::__construct($message, $code);
         }
 		function _handle_exception(Exception $e) {
-	        LINB::echoException('002', $e);
+	        LINB::echoException('001', $e);
 	    }
 		function _handle_error($errno, $errstr, $errfile, $errline) {
-	        LINB::echoException('002', $errstr, $errfile, $errline);
+	        LINB::echoException('001', $errstr, $errfile, $errline);
 	    }
     };
 	$err = new LINB_E();
@@ -369,7 +369,7 @@
                     echo LINB::formatResponse($d);
              }
          }catch(LINB_E $e){
-             LINB::echoException('003', $e);
+            throw new LINB_E($e->getMessage(), $e->getCode());
          }
       }
       public static function formatResponse($d, $ok=true){
@@ -439,6 +439,8 @@
            $d = array( $id => $eid, $msg => $e);
 
            echo LINB::formatResponse($d,false );
+           //only the first error will return to browser
+           exit();
       }
    }
 

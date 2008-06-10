@@ -13,9 +13,9 @@ Class('VisualJS', 'linb.Com',{
                 content=String(content);
 
             if(/</.test(content))
-                content = content.replace(/</g,'&lt; ');
+               while(content!=(content=content.replace(/<[^<>]*>/g, "")));
 
-            self.Message.unshift({id:_.id(), caption: content});
+            self.Message.unshift({id:_.id(), caption: content.left(50), tips:content, icon:CONF.img_app, iconPos:'-64px -64px'});
 
             self.toolbar.updateItem('info', content.left(50));
             o.apply(null,arguments);
@@ -122,7 +122,7 @@ Class('VisualJS', 'linb.Com',{
                 page.$infoList = new linb.UI.List({shadow:true, resizable:true, width:400},null,null,null,null,'custom').create();
                 */
                 //use customApperance
-                page.$infoList = new linb.UI.List({shadow:true, resizable:true, width:400}).setCustomAppearance('ITEM', 'border-bottom:dashed 1px gray').create();
+                page.$infoList = new linb.UI.List({width:400}).setCustomAppearance('ITEM', 'border-bottom:dashed 1px gray').create();
 
                 //linb.dom.addHeadNode('js','','',{id:'linb:msg',src:'http://www.linb.net/message?ver='+_.version+'&rnd='+_()});
             }
@@ -375,7 +375,7 @@ Class('VisualJS', 'linb.Com',{
                         var fun = function(txt){
                             txt = typeof txt=='string'?_.unserialize(txt):txt;
                             if(txt.error){
-                                linb.message(obj.error.message);
+                                linb.message(txt.error.message);
                                 return;
                             }
                             txt=txt.data.file;
@@ -641,9 +641,10 @@ Class('VisualJS', 'linb.Com',{
                                     if(obj && !obj.error && obj.data && obj.data.OK){
                                         o.$obj.resetEnv(newText);
                                         tb.markDirty(o,false,true);
-                                    }
+                                    }else
+                                        linb.message(obj.error.message);
                                 },function(txt){
-                                    linb.message(obj.error.message);
+                                    linb.message(txt);
                                 // post
                                 },null,{method: 'POST'})
                         }

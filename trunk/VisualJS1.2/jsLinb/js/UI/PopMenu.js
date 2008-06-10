@@ -1,3 +1,4 @@
+//set "linb.UI.Widget" at the first parent class
 Class("linb.UI.PopMenu",["linb.UI.Widget","linb.UI.iList","linb.UI.iNavigator"],{
     Instance:{
         activate:function(){
