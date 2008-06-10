@@ -686,7 +686,7 @@ Class('VisualJS', 'linb.Com',{
                         return;
                     }
                     self._dirtyWarn(function(){
-                        linb.dom.submit(self.curProject);
+                        linb.dom.submit(linb.ini.appPath+self.curProject);
                     });
                     break;
                 case 'release':
