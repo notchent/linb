@@ -11,7 +11,7 @@ Class("linb.UI.Tips", null,{
         //for: span(display:-moz-inline-box) cant wrap in firefox
         linb.css.add(
             ".linb-ui-tips{font-size:0;line-height:0;position:absolute;border:solid gray 1px;background-color:#FFF8DC;overflow:visible;} "+
-            ".linb-ui-tips-i{font-size:12px;padding:1px 2px 2px 2px;}"+
+            ".linb-ui-tips-i{font-size:12px;padding:1px 2px 2px 2px;overflow:hidden;}"+
             ".linb-ui-tips-i span{display:inline;}"
         ,  linb.getPath(this.KEY,'/css.css','appearance'));
 
@@ -158,18 +158,20 @@ Class("linb.UI.Tips", null,{
                         w=Math.min(tips.maxWidth, _ruler.get(0).offsetWidth);
 
                         //set content, AND dimension
-                        var style=node.get(0).style;
+                        var style=node.get(0).style, styleI=self.n.get(0).style;
                         //hide first
                         style.visibility='hidden';
                         //set content
                         self.n.get(0).innerHTML=s;
                         //set dimension
                         if(linb.browser.ie){
-                            style.width=w+(w%2)+'px';
+                            styleI.width=w+(w%2)+'px';
+                            //for shadow in IE
+                            style.width=w+(w%2)+10+'px';
                             h=self.n.get(0).offsetHeight;
                             style.height=h+(h%2)+'px';
                         }else
-                            style.width=w+'px';
+                            styleI.width=w+'px';
 
                         //pop(visible too)
                         node.popToTop({left:pos.left,top:pos.top,region:{
