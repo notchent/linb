@@ -1,21 +1,21 @@
 Class('App', 'linb.Com',{
     Instance:{
         //base Class for linb.Page
-        base:["linb.UI", "linb.coder"],
+        base:["linb.UI","linb.coder"],
         //requried class for the App
         required:["linb.UI.Button","linb.UI.PopMenu","linb.UI.MenuBar","linb.UI.ToolBar","linb.UI.Block"],
 
         iniComponents:function(){
             // [[code created by designer, don't change it manually
             var t=this, n=t._nodes=[], u=linb.UI, f=function(c){n.push(c.get(0))};
-
+            
             f(
             (new u.PopMenu)
             .host(t,"popmenu1")
             .setItems([{"id":"itema","caption":"itema","tips":"item a"},{"type":"split"},{"id":"itemb","caption":"itemb","tips":"item b"},{"id":"itemc","caption":"itemc","tips":"item c"},{"id":"itemd","caption":"itemd","tips":"item d"}])
             .onMenuSelected("_popmenu1_onmenuselected")
             );
-
+            
             f(
             (new u.PopMenu)
             .host(t,"popmenu2")
@@ -23,16 +23,7 @@ Class('App', 'linb.Com',{
             .setItems([{"id":"itema","caption":"itema","tips":"item a"},{"id":"itemb","caption":"itemb","tips":"item b","sub":[{"id":"itema1","caption":"itema","tips":"item a"},{"id":"itemb1","caption":"itemb","tips":"item b","sub":[{"id":"itemc11","caption":"itemc","tips":"item c"},{"id":"itemd11","caption":"itemd","tips":"item d"}]},{"id":"itemc1","caption":"itemc","tips":"item c"},{"id":"itemd1","caption":"itemd","tips":"item d","sub":[{"id":"itemc11","caption":"itemc","tips":"item c"},{"id":"itemd11","caption":"itemd","tips":"item d"}]}]},{"id":"itemc","caption":"itemc","tips":"item c"},{"id":"itemd","caption":"itemd","tips":"item d"},{"id":"iteme","caption":"iteme"},{"id":"itemf","caption":"itemf"},{"id":"itemg","caption":"itemg"},{"id":"itemh","caption":"itemh"},{"id":"itemi","caption":"itemi"},{"id":"itemj","caption":"itemj"},{"id":"itemk","caption":"itemk"},{"id":"iteml","caption":"iteml"},{"id":"itemm","caption":"itemm"},{"id":"itemn","caption":"itemn"},{"id":"itemo","caption":"itemo"},{"id":"itemp","caption":"itemp"}])
             .onMenuSelected("_popmenu2_onmenuselected")
             );
-
-            f(
-            (new u.Button)
-            .host(t,"button1")
-            .setLeft(70)
-            .setTop(30)
-            .setCaption("button1")
-            .onClick("_button1_onclick")
-            );
-
+            
             f(
             (new u.Button)
             .host(t,"button3")
@@ -41,7 +32,16 @@ Class('App', 'linb.Com',{
             .setCaption("button3")
             .onClick("_button3_onclick")
             );
-
+            
+            f(
+            (new u.Button)
+            .host(t,"button2")
+            .setLeft(222)
+            .setTop(30)
+            .setCaption("button1")
+            .onClick("_button2_onclick")
+            );
+            
             f(
             (new u.Block)
             .host(t,"block1")
@@ -52,7 +52,7 @@ Class('App', 'linb.Com',{
             .setResizable(true)
             .setBorder(true)
             );
-
+            
             t.block1.attach(
             (new u.ToolBar)
             .host(t,"toolbar2")
@@ -62,23 +62,31 @@ Class('App', 'linb.Com',{
             .setAlign("right")
             .onClick("_toolbar2_onclick")
             );
-
+            
             t.block1.attach(
             (new u.MenuBar)
             .host(t,"menubar1")
             .setItems([{"id":"file","caption":"File","sub":[{"id":"newproject","caption":"New Project","icon":"img/App.gif","iconPos":"-32px top"},{"id":"openproject","caption":"Open Project","add":"Ctrl+Alt+O","icon":"img/App.gif","iconPos":"-48px top"},{"id":"closeproject","caption":"Close Project"},{"type":"split"},{"id":"save","caption":"Save","icon":"img/App.gif","iconPos":"-80px top"},{"id":"saveall","caption":"Save All","add":"Ctrl+Alt+S","icon":"img/App.gif","iconPos":"-96px top"}]},{"id":"tools","caption":"Tools","sub":[{"id":"command","caption":"Command Window","icon":"img/App.gif","iconPos":"-112px top"},{"id":"spy","caption":"Components Spy","icon":"img/App.gif","iconPos":"-128px top"}]},{"id":"build","caption":"Build","sub":[{"id":"debug","caption":"Debug","icon":"img/App.gif","iconPos":"top left","add":"F9"},{"id":"release","caption":"Release","icon":"img/App.gif","iconPos":"-64px top","add":"Ctrl+F9"},{"type":"split"},{"id":"setting","caption":"Build Setting"}]},{"id":"help","caption":"Help","sub":[{"id":"Forum","caption":"forum"},{"type":"split"},{"id":"License","caption":"License"},{"type":"split"},{"id":"about","caption":"About"}]}])
             .onMenuSelected("_menubar1_onmenuselected")
             );
-
+            
+            t.block1.attach(
+            (new u.MenuBar)
+            .host(t,"menubar3")
+            .setHoverActive(false)
+            .setItems([{"id":"file","caption":"File","sub":[{"id":"newproject","caption":"New Project","icon":"img/App.gif","iconPos":"-32px top"},{"id":"openproject","caption":"Open Project","add":"Ctrl+Alt+O","icon":"img/App.gif","iconPos":"-48px top"},{"id":"closeproject","caption":"Close Project"},{"type":"split"},{"id":"save","caption":"Save","icon":"img/App.gif","iconPos":"-80px top"},{"id":"saveall","caption":"Save All","add":"Ctrl+Alt+S","icon":"img/App.gif","iconPos":"-96px top"}]},{"id":"tools","caption":"Tools","sub":[{"id":"command","caption":"Command Window","icon":"img/App.gif","iconPos":"-112px top"},{"id":"spy","caption":"Components Spy","icon":"img/App.gif","iconPos":"-128px top"}]},{"id":"build","caption":"Build","sub":[{"id":"debug","caption":"Debug","icon":"img/App.gif","iconPos":"top left","add":"F9"},{"id":"release","caption":"Release","icon":"img/App.gif","iconPos":"-64px top","add":"Ctrl+F9"},{"type":"split"},{"id":"setting","caption":"Build Setting"}]},{"id":"help","caption":"Help","sub":[{"id":"Forum","caption":"forum"},{"type":"split"},{"id":"License","caption":"License"},{"type":"split"},{"id":"about","caption":"About"}]}])
+            .onMenuSelected("_menubar1_onmenuselected")
+            );
+            
             f(
             (new u.Button)
-            .host(t,"button2")
-            .setLeft(222)
+            .host(t,"button1")
+            .setLeft(70)
             .setTop(30)
             .setCaption("button1")
-            .onClick("_button2_onclick")
+            .onClick("_button1_onclick")
             );
-
+            
             return n;
             // ]]code created by designer
         },
