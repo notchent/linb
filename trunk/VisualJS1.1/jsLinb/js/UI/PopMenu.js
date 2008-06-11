@@ -411,24 +411,19 @@ Class("linb.UI.PopMenu",["linb.UI.Widget","linb.UI.iList","linb.UI.iNavigator"],
                         item = profile.getItemByDom(src),
                         itemId = item.id;
                     var action = true;
-                    //if sub pop (e.type=='mouseover'?e.fromElement:e.toElement)||e.relatedTarget;
+                    //if cursor move to submenu, keep the hover face
                     if(profile.$subPopMenuShowed){
                         var node = e.toElement||e.relatedTarget;
                         var target = profile.$subPopMenuShowed.get(0).root.get(0);
                         try{
                             do{
-                                if(node==target)return;
+                                if(node==target)
+                                    return;
                             }while((node && (node=node.parentNode)))
                         }catch(a){}
-                    }else{
-                        profile.removeTagClass('ITEM', '-mouseover', linb([src],false));
-                        profile.$highLight = null;
-
-                        if(profile.$subPopMenuShowed){
-                            profile.$subPopMenuShowed.hide();
-                            profile.$subPopMenuShowed = null;
-                        }
-                   }
+                    }
+                    profile.removeTagClass('ITEM', '-mouseover', linb([src],false));
+                    profile.$highLight = null;
                 },
                 onClick:function(profile, e, src){
                     var properties = profile.properties,
@@ -573,7 +568,26 @@ Class("linb.UI.PopMenu",["linb.UI.Widget","linb.UI.iList","linb.UI.iNavigator"],
                         return false;
                     }else return false;
                 }
-            }
+            },
+            BORDER:{
+                onMouseout:function(profile, e, src){
+                    if(profile.properties.hoverActive){
+                        var p1=linb.event.getPos(e),
+                            size, p2, b;
+                        profile.$groupPopMenu.each(function(o){
+                            o=linb([o]);
+                            p2=o.absPos();
+                            size=o.cssSize();
+                            if(p1.left>p2.left && p1.top>p2.top && p1.left<p2.left+size.width && p1.top<p2.top+size.height)
+                                return b=1;
+                        });
+                        if(!b){
+                            profile.boxing().hide();
+                            profile.$groupPopMenu.length=0;                        
+                        }
+                    } 
+                }
+            },
         }},
         DataModel:({
             dataField:null,
@@ -594,6 +608,7 @@ Class("linb.UI.PopMenu",["linb.UI.Widget","linb.UI.iList","linb.UI.iNavigator"],
             height:100,
             left:-10000,
 
+            hoverActive:false,
 
             //opera needs more space for initialize
             width:300,

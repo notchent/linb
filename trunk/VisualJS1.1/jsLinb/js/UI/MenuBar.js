@@ -22,7 +22,7 @@ Class("linb.UI.MenuBar",["linb.UI.iList","linb.UI.iWidget","linb.UI.iNavigator"]
                 sub  = sub ||[];
 
                 //TODO: create menu
-                menu = linb.create('PopMenu',{position:'absolute', items:sub});
+                menu = linb.create('PopMenu',{position:'absolute', items:sub, hoverActive:profile.properties.hoverActive});
 
                 profile.getSubNode('POOL').attach(menu);
 
@@ -196,12 +196,28 @@ Class("linb.UI.MenuBar",["linb.UI.iList","linb.UI.iWidget","linb.UI.iNavigator"]
                         }
                     }else{
                         profile.addTagClass('ITEM', '-mouseover',linb([this],false));
+                        
+                        if(p.hoverActive)
+                            profile.boxing().pop(itemId, this);
                     }
                 },
                 onMouseout:function(profile, e, src){
                     var p = profile.properties;
                     if(p.disabled)return;
                     profile.removeTagClass('ITEM', '-mouseover', linb([this],false));
+                    
+                    if(p.hoverActive){
+                        var pop = profile.$allRelatedPopMenus[profile.$currentmenu];
+                        if(pop){
+                            var node=pop.get(0).root,
+                                p1=linb.event.getPos(e),
+                                size=node.cssSize(),
+                                add=3,
+                                p2=node.absPos();
+                            if(p1.left>p2.left && p1.top>p2.top-add && p1.left<p2.left+size.width && p1.top<p2.top+size.height){}else
+                                profile.boxing().hide();
+                        }
+                    }
                 },
                 onMousedown:function(profile, e, src){
                     var p = profile.properties;
@@ -296,6 +312,8 @@ Class("linb.UI.MenuBar",["linb.UI.iList","linb.UI.iWidget","linb.UI.iNavigator"]
             $border:1,
             left:0,
             top:0,
+            
+            hoverActive:true,
 
             handler:{
                 ini:true,
