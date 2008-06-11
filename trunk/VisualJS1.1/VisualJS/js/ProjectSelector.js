@@ -22,9 +22,9 @@ Class('VisualJS.ProjectSelector', 'linb.Com',{
                     }
                 }),
                 function(txt){
-                    var arr = _.unserialize(txt);
-                    if(!arr || arr.error)
-                        linb.message(txt);
+                    var arr = typeof txt=='string'?_.unserialize(txt):txt;
+                    if(arr.error)
+                        linb.message(arr.error.message);
                     else{
                         arr=arr.data;
                         if(arr && arr.length){
@@ -79,7 +79,7 @@ Class('VisualJS.ProjectSelector', 'linb.Com',{
             .setWidth(90)
             .setZIndex("1")
             .setCaption("$VisualJS.cancel")
-            .setIcon("img/App.gif")
+            .setIcon('@CONF.img_app')
             .setIconPos("-16px -16px")
             .onClick("_btncancel_onclick")
             );
@@ -92,7 +92,7 @@ Class('VisualJS.ProjectSelector', 'linb.Com',{
             .setWidth(90)
             .setZIndex("1")
             .setCaption("$VisualJS.ok")
-            .setIcon("img/App.gif")
+            .setIcon('@CONF.img_app')
             .setIconPos("-64px -16px")
             .onClick("_btnok_onclick")
             );
@@ -120,9 +120,9 @@ Class('VisualJS.ProjectSelector', 'linb.Com',{
                     path:this.projectName
                 } 
             }),function(txt){
-                var obj = _.unserialize(txt);
+                var obj = typeof txt=='string'?_.unserialize(txt):txt;
                 if(!obj || obj.error)
-                    linb.message(txt);
+                    linb.message(obj.error.message);
                 else
                     _.tryF(self.properties.onOK, [pm, obj.data], self.host);
                 self.dialog.close();

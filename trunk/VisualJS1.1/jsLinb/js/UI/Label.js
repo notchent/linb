@@ -81,6 +81,7 @@ Class("linb.UI.Label", ["linb.UI.Widget", "linb.UI.iForm"],{
             icon:{
                 ini:'',
                 action: function(value){
+                    value=linb.UI.transImgPath(value);
                     var self=this,k=self.keys;
                     self.getSubNodes(['ICON','SICON'])
                         .display(value?'':'none')

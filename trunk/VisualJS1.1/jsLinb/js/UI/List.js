@@ -1,4 +1,4 @@
-Class("linb.UI.List", ["linb.UI.iWidget", "linb.UI.iForm","linb.UI.iList"],{
+Class("linb.UI.List", ["linb.UI.iList","linb.UI.iWidget", "linb.UI.iForm"],{
     Instance:{
         setCtrlValue:function(value){
             return this.each(function(profile){

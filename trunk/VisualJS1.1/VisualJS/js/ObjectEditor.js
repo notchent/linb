@@ -102,7 +102,7 @@ Class('VisualJS.ObjectEditor', 'linb.Com',{
             .setTop(8)
             .setWidth("100")
             .setCaption("Cancel")
-            .setIcon("img/App.gif")
+            .setIcon('@CONF.img_app')
             .setIconPos("-16px -16px")
             .onClick("_btncancel_onclick")
             );
@@ -114,7 +114,7 @@ Class('VisualJS.ObjectEditor', 'linb.Com',{
             .setTop(8)
             .setWidth("100")
             .setCaption("OK")
-            .setIcon("img/App.gif")
+            .setIcon('@CONF.img_app')
             .setIconPos("-64px -16px")
             .onClick("_btnok_onclick")
             );

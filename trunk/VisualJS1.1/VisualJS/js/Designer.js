@@ -206,13 +206,13 @@ Class('VisualJS.Designer', 'linb.Com',{
                     sub:[
                     {
                         id : "format",
-                        icon : "img/App.gif",
+                        icon : CONF.img_app,
                         iconPos:"-32px -48px",
                         type : "button",
                         tips : tbk+'tocode'
                     },{
                         id : "json",
-                        icon : "img/App.gif",
+                        icon : CONF.img_app,
                         iconPos:"-128px -64px",
                         type : "button",
                         tips : tbk+'tojson'
@@ -982,7 +982,7 @@ Class('VisualJS.Designer', 'linb.Com',{
                         linb.ComFactory.newCom('VisualJS.ObjectEditor',function(){
                             this.host = page;
                             this.setProperties({
-                                icon:'img/App.gif',
+                                icon:CONF.img_app,
                                 iconPos:'-32px -32px',
                                 text: getCode(o),
                                 caption:o.widgetName+" => "+o.funName,
@@ -1057,7 +1057,7 @@ Class('VisualJS.Designer', 'linb.Com',{
                             this.host = page;
                             this.setProperties({
                                 caption:o.widgetName+" => "+o.name,
-                                icon:'img/App.gif',
+                                icon:CONF.img_app,
                                 iconPos:obj.constructor==Array?'-128px -32px':'-16px -32px',
                                 text:linb.coder.decode(
                                     _.serialize(
@@ -1546,7 +1546,7 @@ Class('VisualJS.Designer', 'linb.Com',{
                                 this.host = page;
                                 this.setProperties({
                                         caption:o.widgetName+" => "+o.name,
-                                        icon:'img/App.gif',
+                                        icon:CONF.img_app,
                                         iconPos:obj.constructor==Array?'-128px -32px':'-16px -32px',
                                         text:linb.coder.decode(
                                             _.serialize(
@@ -1649,7 +1649,7 @@ Class('VisualJS.Designer', 'linb.Com',{
                     linb.ComFactory.newCom('VisualJS.ObjectEditor',function(){
                         this.host = page;
                         this.setProperties({
-                            icon:'img/App.gif',
+                            icon:CONF.img_app,
                             iconPos:'-32px -32px',
                             caption:o.widgetName+" => "+o.funName,
                             text: getCode(o),
@@ -1834,7 +1834,7 @@ Class('VisualJS.Designer', 'linb.Com',{
             arr.push('// [[code created by designer, don\'t change it manually\n');
             arr.push('var t=this, n=t._nodes=[], u=linb.UI, f=function(c){n.push(c.get(0))};');
             fun = function(v, pName, argsStr, arr){
-                var self=arguments.callee, ui=v.box['linb.UI'], o = v.beforeSerialized(),name=o.alias, b;
+                var self=arguments.callee, ui=v.box['linb.UI'], o=v.beforeSerialized(), name=o.alias, b;
 
                 delete o.id;
 
@@ -2071,7 +2071,7 @@ Class('VisualJS.Designer', 'linb.Com',{
                         ).replace(/\n/g, '\n'+' '.repeat(12))+
                         '\n'+' '.repeat(8)+ '}';
                 }
-                
+
                 //get required class list
                 var arr = this.properties.clsObject.Instance.required || [];
                 arr.merge(this.getClassList(nodes));

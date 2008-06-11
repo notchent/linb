@@ -222,7 +222,7 @@ Class('App', 'linb.Com',{
             return false;
         },
         _div9_aftercreated:function (profile) {
-profile.root.setStyle('backgroundImage','url(img/app.gif)')
+            profile.root.setStyle('backgroundImage','url(img/app.gif)')
         }
     }
 });

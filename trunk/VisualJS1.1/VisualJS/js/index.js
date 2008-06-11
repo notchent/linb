@@ -13,11 +13,11 @@ Class('VisualJS', 'linb.Com',{
                 content=String(content);
 
             if(/</.test(content))
-                content = content.replace(/</g,'&lt; ');
+               while(content!=(content=content.replace(/<[^<>]*>/g, "")));
 
-            self.Message.unshift({id:_.id(), caption: content});
+            self.Message.unshift({id:_.id(), caption: content.length>50?content.left(50)+'...':'', tips:content, icon:CONF.img_app, iconPos:'-64px -64px'});
 
-            self.toolbar.updateItem('info', content.left(50));
+            self.toolbar.updateItem('info', content.length>50?content.left(50)+'...':'');
             o.apply(null,arguments);
         };
         
@@ -101,10 +101,10 @@ Class('VisualJS', 'linb.Com',{
                             path:prj
                         }
                     }),function(txt){
-                        var obj = _.unserialize(txt);
+                        var obj = typeof txt=='string'?_.unserialize(txt):txt;
                         if(obj && !obj.error)
                             page._openproject(prj, obj.data);
-                        else linb.message(txt);
+                        else linb.message(obj.error.message);
                     });
                 }
 
@@ -122,7 +122,7 @@ Class('VisualJS', 'linb.Com',{
                 page.$infoList = new linb.UI.List({shadow:true, resizable:true, width:400},null,null,null,null,'custom').create();
                 */
                 //use customApperance
-                page.$infoList = new linb.UI.List({shadow:true, resizable:true, width:400}).setCustomAppearance('ITEM', 'border-bottom:dashed 1px gray').create();
+                page.$infoList = new linb.UI.List({width:400}).setCustomAppearance('ITEM', 'border-bottom:dashed 1px gray').create();
 
                 //linb.dom.addHeadNode('js','','',{id:'linb:msg',src:'http://www.linb.net/message?ver='+_.version+'&rnd='+_()});
             }
@@ -186,7 +186,7 @@ Class('VisualJS', 'linb.Com',{
                     filename:name
                 }
             }),function(txt){
-                var obj = _.unserialize(txt);
+                var obj = typeof txt=='string'?_.unserialize(txt):txt;
                 if(obj && !obj.error && obj.data && obj.data.OK){
                         var iconPos;
                         if(type=='/')
@@ -209,7 +209,7 @@ Class('VisualJS', 'linb.Com',{
                         }
                         tb.insertItems([{id: pathadd, caption: name , icon:CONF.img_app, iconPos:iconPos, value:pathadd, sub:type=='/'?[]:null}], id)
                 }else
-                    linb.message(txt);
+                    linb.message(obj.error.message);
             });
         },
         _delfile:function(id){
@@ -226,7 +226,7 @@ Class('VisualJS', 'linb.Com',{
                     path:a
                 }
             },function(txt){
-                var obj = _.unserialize(txt);
+                var obj = typeof txt=='string'?_.unserialize(txt):txt;
                 if(obj && !obj.error && obj.data && obj.data.OK){
                     tb.removeItems(arr);
                     var items = tab.getItems(),b=[];
@@ -236,7 +236,7 @@ Class('VisualJS', 'linb.Com',{
                     },null,true);
                     tab.removeItems(b);
                 }else
-                    linb.message(txt);
+                    linb.message(obj.error.message);
             });
         },
         _projecttool_onclick:function(profile,id, groupid, src){
@@ -279,9 +279,9 @@ Class('VisualJS', 'linb.Com',{
                             path:self.curProject
                         }
                     } ,function(txt){
-                        var obj = _.unserialize(txt);
+                        var obj = typeof txt=='string'?_.unserialize(txt):txt;
                         if(!obj || obj.error)
-                            linb.message(txt);
+                            linb.message(obj.error.message);
                         else{
                             _.tryF(self._openproject, [self.curProject, obj.data], self);
                             linb.message(linb.getRes('VisualJS.tool2.refreshOK'));
@@ -373,8 +373,11 @@ Class('VisualJS', 'linb.Com',{
                         tb.insertItems([item], items.length?items[items.length-1].id:null);
                         tb.fireItemClickEvent(value);
                         var fun = function(txt){
-                            txt=_.unserialize(txt);
-                            if(txt.error)return;
+                            txt = typeof txt=='string'?_.unserialize(txt):txt;
+                            if(txt.error){
+                                linb.message(txt.error.message);
+                                return;
+                            }
                             txt=txt.data.file;
 
                             var itemid=item.id;
@@ -462,7 +465,7 @@ Class('VisualJS', 'linb.Com',{
             (new u.PanelBar)
             .host(t,"panelbar2")
             .setCaption("$VisualJS.pm.title")
-            .setIcon(CONF.img_app)
+            .setIcon('@CONF.img_app')
             .setIconPos("-128px -48px")
             , 'before');
 
@@ -498,10 +501,10 @@ Class('VisualJS', 'linb.Com',{
             .setAlign("right")
             .setDisabled(true)
             .setItems([{id:'only', sub:[
-                {id:'refresh', icon:CONF.img_app, iconPos:'-113px -16px', tips:'$VisualJS.tool2.refresh'},
+                {id:'refresh', icon:'@CONF.img_app', iconPos:'-113px -16px', tips:'$VisualJS.tool2.refresh'},
                 {type:'split'},
-                {id:'new', icon:CONF.img_app, iconPos:'-0px -16px', tips:'$VisualJS.tool2.new'},
-                {id:'delete', icon:CONF.img_app, iconPos:'-80px -16px', tips:'$VisualJS.tool2.del'}
+                {id:'new', icon:'@CONF.img_app', iconPos:'-0px -16px', tips:'$VisualJS.tool2.new'},
+                {id:'delete', icon:'@CONF.img_app', iconPos:'-80px -16px', tips:'$VisualJS.tool2.del'}
             ]}])
             .afterCreated(function (profile) {
                 profile.getSubNode("ITEMS").setStyle({borderLeftWidth:0, borderRightWidth:0, borderBottomWidth:0});
@@ -634,11 +637,12 @@ Class('VisualJS', 'linb.Com',{
                                 path: o.id,
                                 content:newText
                                 }}, function(txt){
-                                    var obj = _.unserialize(txt);
+                                    var obj = typeof txt=='string'?_.unserialize(txt):txt;
                                     if(obj && !obj.error && obj.data && obj.data.OK){
                                         o.$obj.resetEnv(newText);
                                         tb.markDirty(o,false,true);
-                                    }
+                                    }else
+                                        linb.message(obj.error.message);
                                 },function(txt){
                                     linb.message(txt);
                                 // post
@@ -686,7 +690,7 @@ Class('VisualJS', 'linb.Com',{
                         return;
                     }
                     self._dirtyWarn(function(){
-                        linb.dom.submit(self.curProject);
+                        linb.dom.submit(linb.ini.appPath+self.curProject);
                     });
                     break;
                 case 'release':

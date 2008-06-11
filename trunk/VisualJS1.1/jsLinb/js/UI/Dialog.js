@@ -82,8 +82,8 @@ Class("linb.UI.Dialog",["linb.UI.Widget","linb.UI.iContainer"],{
                 tagName:'div',
                 style:'height:{_titleHeight}px;',
                 ICON:{
-                    $order:0
-                   // style:'background:url({icon}) transparent no-repeat  {iconPos};{iconDisplay}'
+                    $order:0,
+                    style:'background:url({icon}) transparent no-repeat  {iconPos};{iconDisplay}'
                 },
                 CAPTION:{
                     $order:1,

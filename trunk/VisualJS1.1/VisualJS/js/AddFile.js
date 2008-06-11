@@ -60,7 +60,7 @@ Class('VisualJS.AddFile', 'linb.Com',{
             .setTop(210)
             .setWidth(90)
             .setCaption("$VisualJS.cancel")
-            .setIcon("img/App.gif")
+            .setIcon('@CONF.img_app')
             .setIconPos("-16px -16px")
             .onClick("_btncancel_onclick")
             );
@@ -122,7 +122,7 @@ Class('VisualJS.AddFile', 'linb.Com',{
             .setTop(210)
             .setWidth(90)
             .setCaption("$VisualJS.ok")
-            .setIcon("img/App.gif")
+            .setIcon('@CONF.img_app')
             .setIconPos("-64px -16px")
             .onClick("_btnok_onclick")
             );

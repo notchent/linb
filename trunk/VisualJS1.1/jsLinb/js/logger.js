@@ -73,7 +73,8 @@ Class('linb.logger', null, {
         }
 
         linb.message = function(content, caption, type, width, time){
-           width = width||200;
+           width = width || 200;
+           if(linb.browser.ie)width=width+(width%2);
            var div, h, me=arguments.callee,
            stack=me.stack||(me.stack=[]),
            t=linb(window), left = t.scrollLeft() + t.width()/2 - width/2, height=t.height(), st=t.scrollTop();
@@ -82,7 +83,7 @@ Class('linb.logger', null, {
                div =
                '<div style="font-size:0;line-height:0;border:solid 1px #cdcdcd;position:absolute;overflow:visible;top:-50px;z-index:'+linb.dom.top_zIndex+'; background:#fefefe">' +
                '<div style="font-size:14px;overflow:hidden;font-weight:bold;padding:2px;"></div>'+
-               '<div style="padding:5px;"></div>'+
+               '<div style="padding:5px;overflow:hidden;"></div>'+
                '</div>';
                div = linb.create(div);
                if(div.edge)div.edge();
@@ -102,7 +103,7 @@ Class('linb.logger', null, {
             //height() is ok
             h = div.height();
 
-            if(linb.browser.ie6)div.cssSize({ height :h, width :width+1});
+            if(linb.browser.ie6)div.cssSize({ height :h, width :width+2});
 
             div.fx({top:[st-h-20,st+20]}).start();
             _.asyRun(function(){
