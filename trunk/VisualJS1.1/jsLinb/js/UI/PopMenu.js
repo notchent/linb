@@ -379,7 +379,7 @@ Class("linb.UI.PopMenu",["linb.UI.Widget","linb.UI.iList","linb.UI.iNavigator"],
 
                         //no create
                         if(!(pop = profile.$allRelatedPopMenus[itemId])){
-                            pop = (new linb.UI.PopMenu({position:'absolute', items:item.sub})).create(true);
+                            pop = (new linb.UI.PopMenu({position:'absolute', items:item.sub, hoverActive:profile.properties.hoverActive})).create(true);
                             pop.onMenuSelected(function(pro, id, item, src){
                                 profile.boxing().onMenuSelected(profile, id, item, src);
                             });
@@ -582,10 +582,11 @@ Class("linb.UI.PopMenu",["linb.UI.Widget","linb.UI.iList","linb.UI.iNavigator"],
                                 return b=1;
                         });
                         if(!b){
+                            while(b=profile.$parentPopMenu)profile=b;
                             profile.boxing().hide();
-                            profile.$groupPopMenu.length=0;                        
+                            profile.$groupPopMenu.length=0;
                         }
-                    } 
+                    }
                 }
             },
         }},
