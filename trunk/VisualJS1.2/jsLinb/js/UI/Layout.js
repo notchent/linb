@@ -457,11 +457,11 @@ Class("linb.UI.Layout",["linb.UI.iList", "linb.UI.iWidget", "linb.UI.iContainer"
                             var box = o.boxing(),
                                 temp = linb.dom.getMatix(),
                                 //keep children
-                                children = o.children.copy(),
+                                children = _.copy(o.children),
                                 p
                             ;
                             o.children.length=0;
-                            children.each(function(o){
+                            _.arr.each(children,function(o){
                                 //for flush dock
                                 delete o[0].$dockParent;
                                 //keep it in dom
@@ -482,7 +482,7 @@ Class("linb.UI.Layout",["linb.UI.iList", "linb.UI.iWidget", "linb.UI.iContainer"
                             box.insertItems(v);
 
                             //restore children
-                            children.each(function(v){
+                            _.arr.each(children,function(v){
                                 box.attach.apply(box,v);
                             });
 
@@ -511,7 +511,7 @@ Class("linb.UI.Layout",["linb.UI.iList", "linb.UI.iWidget", "linb.UI.iContainer"
         prepareDefaultValue:function(profile, items){
             var main, before=[], after=[];
             //arrage items
-            items.each(function(o){
+            _.arr.each(items,function(o){
                 if(o.id=='main'){
                     main=o
                 }else{
@@ -528,12 +528,12 @@ Class("linb.UI.Layout",["linb.UI.iList", "linb.UI.iWidget", "linb.UI.iContainer"
 
             //reset items
             items.length = 0;
-            items.insertAny(before,0);
-            items.insertAny(main);
-            items.insertAny(after);
+            _.arr.insertAny(items, before,0);
+            _.arr.insertAny(items, main);
+            _.arr.insertAny(items, after);
 
             //set the items to default value
-            items.each(function(o){
+            _.arr.each(items,function(o){
                 o.id = _.isStr(o.id)?o.id:profile.$id+':'+_.id();
                 o.min = o.min || 10;
                 if(o.id!='main'){
@@ -590,7 +590,7 @@ Class("linb.UI.Layout",["linb.UI.iList", "linb.UI.iWidget", "linb.UI.iContainer"
         },
         createdTrigger:function(){
             var t, profile=this;
-            profile.properties.items.each(function(item){
+            _.arr.each(profile.properties.items,function(item){
                 if(item.id!='main'){
                     if(item.hide && (t=profile.getSubSerialIdByItemId(item.id))){
                             item.hide=false;
@@ -603,7 +603,7 @@ Class("linb.UI.Layout",["linb.UI.iList", "linb.UI.iWidget", "linb.UI.iContainer"
             var _t,t=profile.properties, m,n, itemId, temp1,temp2,temp, key=profile.keys.ITEM, panel=profile.keys.PANEL;
 
             var obj={}, obj2={};
-            t.items.each(function(o){
+            _.arr.each(t.items,function(o){
                 itemId = profile.getSubSerialIdByItemId(o.id);
                 obj[itemId] = {};
                 obj2[itemId] = {};
@@ -612,7 +612,7 @@ Class("linb.UI.Layout",["linb.UI.iList", "linb.UI.iWidget", "linb.UI.iContainer"
                 if(!_.isNull(w)){
                     //get left
                     temp=temp1=temp2=0;
-                    t.items.each(function(o){
+                    _.arr.each(t.items,function(o){
                         if(o.id=='main')return;
                         itemId = profile.getSubSerialIdByItemId(o.id);
                         if(o.pos=='before'){
@@ -627,7 +627,7 @@ Class("linb.UI.Layout",["linb.UI.iList", "linb.UI.iWidget", "linb.UI.iContainer"
                             obj[itemId].width = m - (o.locked?0:t._handlerSize);
                         }
                     });
-                    t.items.each(function(o){
+                    _.arr.each(t.items,function(o){
                         if(o.id=='main')return;
                         itemId = profile.getSubSerialIdByItemId(o.id);
                         if(o.pos=='after'){
@@ -663,7 +663,7 @@ Class("linb.UI.Layout",["linb.UI.iList", "linb.UI.iWidget", "linb.UI.iContainer"
                 if(!_.isNull(h)){
                     //get top
                     temp=temp1=temp2=0;
-                    t.items.each(function(o){
+                    _.arr.each(t.items,function(o){
                         if(o.id=='main')return;
                         itemId=profile.getSubSerialIdByItemId(o.id);
                         if(o.pos=='before'){
@@ -678,7 +678,7 @@ Class("linb.UI.Layout",["linb.UI.iList", "linb.UI.iWidget", "linb.UI.iContainer"
                             obj[itemId].height=m-(o.locked?0:t._handlerSize);
                         }
                     });
-                    t.items.each(function(o){
+                    _.arr.each(t.items,function(o){
                         if(o.id=='main')return;
                         itemId=profile.getSubSerialIdByItemId(o.id);
                         if(o.pos=='after'){

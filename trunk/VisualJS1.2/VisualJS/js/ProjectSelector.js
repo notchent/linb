@@ -29,7 +29,7 @@ Class('VisualJS.ProjectSelector', 'linb.Com',{
                         arr=arr.data;
                         if(arr && arr.length){
                             self.properties.projectList=[];
-                            arr.each(function(i){
+                            _.arr.each(arr,function(i){
                                 if(i.type===0){
                                     self.properties.projectList.push({id:i.location,caption:i.name})
                                 }
@@ -118,7 +118,7 @@ Class('VisualJS.ProjectSelector', 'linb.Com',{
                     action:'open',
                     hashCode:_.id(),
                     path:this.projectName
-                } 
+                }
             }),function(txt){
                 var obj = typeof txt=='string'?_.unserialize(txt):txt;
                 if(!obj || obj.error)

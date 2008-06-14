@@ -120,11 +120,11 @@ Class('linb.Com.TimeSpan', 'linb.Com',{
                 ns.setValue(date.parse(ns.iniFrom), date.parse(ns.iniTo));
 
             t=[];
-            date.TIMEZONE.each(function(o,i){
+            _.arr.each(date.TIMEZONE,function(o,i){
                 a=null;
                 if(o.sub){
                     a=[];
-                    o.sub.each(function(v,j){
+                    _.arr.each(o.sub,function(v,j){
                         a[a.length]={id:j, value:v.v, caption: (v.v?v.v+' -- ':'') + wrap(v.id.replace(reg,'_'))};
                     })
                 }

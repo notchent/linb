@@ -151,7 +151,7 @@ Class("linb.UI.Gallery", "linb.UI.List",{
         prepareItem:function(profile, item){
             var p = profile.properties;
 
-            'itemWidth,itemHeight,iconWidth,iconHeight,itemPadding,itemMargin'.toArr().each(function(i){
+            _.arr.each(_.toArr('itemWidth,itemHeight,iconWidth,iconHeight,itemPadding,itemMargin'),function(i){
                 item[i] = item[i] || p[i];
             });
 

@@ -58,10 +58,8 @@ Class('App', 'linb.Com',{
         },
         _objtree_aftercreated:function (profile) {
             profile.boxing().setItems([
-                {id:'String', caption:'String', icon:'img/img.gif', iconPos:'left top'},
-                {id:'Array', caption:'Array', icon:'img/img.gif', iconPos:'left top'},
-                {id:'_', caption:'_', icon:'img/img.gif', iconPos:'left top'},
                 {id:'Class', caption:'Class', icon:'img/img.gif', iconPos:'left -48px'},
+                {id:'_', caption:'_', icon:'img/img.gif', iconPos:'left -48px', sub:[]},
                 {id:'linb', caption:'linb',icon:'img/img.gif', iconPos:'left top', sub:[]}
             ]);
         },
@@ -78,7 +76,7 @@ Class('App', 'linb.Com',{
                 obj.parent.sort();
                 arr.push('<h2><span class="linb-custom-cmd"></span>Direct Super Classes</h2>');
                 arr.push('<div class="linb-custom-block">')
-                obj.parent.each(function(o){
+                _.arr.each(obj.parent,function(o){
                     arr.push('<p><span class="linb-custom-icon" style="background-position:' +this._iconPosMap.cls+';"></span>'+o+'</p>');
                 },this);
                 arr.push('</div>')
@@ -87,7 +85,7 @@ Class('App', 'linb.Com',{
                 obj.children.sort();
                 arr.push('<h2 ><span class="linb-custom-cmd"></span>Direct Sub Classes</h2>');
                 arr.push('<div class="linb-custom-block">')
-                obj.children.each(function(o){
+                _.arr.each(obj.children,function(o){
                     arr.push('<p><span class="linb-custom-icon" style="background-position:' +this._iconPosMap.cls+';"></span>'+ o +'</p>');
                 },this);
                 arr.push('</div>')
@@ -102,7 +100,7 @@ Class('App', 'linb.Com',{
                 obj.vars.sort();
                 arr.push('<h2 ><span class="linb-custom-cmd"></span>Static Properties</h2>');
                 arr.push('<div class="linb-custom-block">')
-                obj.vars.each(function(o){
+                _.arr.each(obj.vars,function(o){
                     arr.push('<p><span class="linb-custom-icon" style="background-position:' +this._iconPosMap.mem+';"></span>'+ o +'</p>');
                 },this);
                 arr.push('</div>')
@@ -112,7 +110,7 @@ Class('App', 'linb.Com',{
                 arr.push('<div class="linb-custom-block">')
                 if(obj.funs.self){
                     obj.funs.self.sort();
-                    obj.funs.self.each(function(o){
+                    _.arr.each(obj.funs.self,function(o){
                         arr.push('<p><span class="linb-custom-icon" style="background-position:' +this._iconPosMap.fun+';"></span>'+ o +'</p>');
                     },this);
                 }
@@ -121,7 +119,7 @@ Class('App', 'linb.Com',{
                         arr.push('<h3 ><span class="linb-custom-cmd"></span>Inherite from '+i+'</h3>');
                         arr.push('<div class="linb-custom-block">')
                         obj.funs[i].sort();
-                        obj.funs[i].each(function(o){
+                        _.arr.each(obj.funs[i],function(o){
                             arr.push('<p><span class="linb-custom-icon" style="background-position:' +this._iconPosMap.fun+';"></span>'+ o +'</p>');
                         },this);
                         arr.push('</div>')
@@ -133,7 +131,7 @@ Class('App', 'linb.Com',{
                 obj.provars.sort();
                 arr.push('<h2 ><span class="linb-custom-cmd"></span>Instance Properties</h2>');
                 arr.push('<div class="linb-custom-block">')
-                obj.provars.each(function(o){
+                _.arr.each(obj.provars,function(o){
                     arr.push('<p><span class="linb-custom-icon" style="background-position:' +this._iconPosMap.mem+';"></span>'+ o +'</p>');
                 },this);
                 arr.push('</div>')
@@ -143,7 +141,7 @@ Class('App', 'linb.Com',{
                 if(obj.profuns.self){
                     obj.profuns.self.sort();
                     arr.push('<div class="linb-custom-block">')
-                    obj.profuns.self.each(function(o){
+                    _.arr.each(obj.profuns.self,function(o){
                         arr.push('<p><span class="linb-custom-icon" style="background-position:' +this._iconPosMap.fun+';"></span>'+ o +'</p>');
                     },this);
                 }
@@ -152,7 +150,7 @@ Class('App', 'linb.Com',{
                         obj.profuns[i].sort();
                         arr.push('<h3 ><span class="linb-custom-cmd"></span>Inherite from '+i+'</h3>');
                         arr.push('<div class="linb-custom-block">')
-                        obj.profuns[i].each(function(o){
+                        _.arr.each(obj.profuns[i],function(o){
                             arr.push('<p><span class="linb-custom-icon" style="background-position:' +this._iconPosMap.fun+';"></span>'+ o +'</p>');
                         },this);
                         arr.push('</div>')
@@ -164,7 +162,7 @@ Class('App', 'linb.Com',{
                 obj.events.sort();
                 arr.push('<h2 ><span class="linb-custom-cmd"></span>Events</h2>');
                 arr.push('<div class="linb-custom-block">')
-                obj.events.each(function(o){
+                _.arr.each(obj.events,function(o){
                     arr.push('<p><span class="linb-custom-icon" style="background-position:' +this._iconPosMap.event+';"></span>'+ o +'</p>');
                 },this);
                 arr.push('</div>')
@@ -202,12 +200,11 @@ Class('App', 'linb.Com',{
             obj.key = id;
 
             if(cls){
-
-                o.$parent.each(function(o,i){
+                _.arr.each(o.$parent,function(o,i){
                     if(!obj.parent)obj.parent=[];
                     obj.parent.push(o.KEY);
                 });
-                o.$children.each(function(o){
+                _.arr.each(o.$children,function(o){
                     if(!obj.children)obj.children=[];
                     obj.children.push(o);
                 });
@@ -282,10 +279,16 @@ Class('App', 'linb.Com',{
             return  obj ;
         },
         _objtree_onrequestdata:function (profile, item, threadid) {
-            var id=item.id, o=linb.SC.evalPath(id), arr=[],sub=[],temp;
+            var id=item.id, o=linb.SC.evalPath(id), arr=[],sub=[],temp,
+            f=function(o){
+                for(var i in o)
+                    if('prototype'!=i&&'constructor'!=i&&i.charAt(0)!='_')
+                        return true; 
+                return false;
+            };
 
             for(var i in o){
-                if(i!='upper' && typeof o[i] == 'function' && o[i].$linb$){
+                if(i!='upper' && typeof o[i] == 'function' && (id=='_'?f(o[i]):o[i].$linb$)){
                     temp={id:id+'.'+i, caption:i, icon:'img/img.gif'};
 
                     for(var j in o[i])

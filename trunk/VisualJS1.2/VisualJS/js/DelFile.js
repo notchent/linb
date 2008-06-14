@@ -19,7 +19,7 @@
             var arr = linb.UI.pickObj(prop.items),
                 f=function(o){
                     var self=arguments.callee;
-                    o.filter(function(o,i){
+                    _.filter(o,function(o,i){
                         delete o.group;
                         if(o.sub && o.sub.length)
                            self(o.sub);
@@ -119,10 +119,10 @@
         _treebar_beforevalueupdated:function (profile, oldValue, newValue, showValue) {
             var arr = newValue.split(';');
             arr.sort();
-            arr.filter(function(o,j){
+            _.filter(arr,function(o,j){
                 for(var i=0,l=this.length;i<l;i++){
                     if(i==j)break;
-                    if(this[j].startWith(this[i]))
+                    if(_.str.startWith(this[j],this[i]))
                         return false;
                 }
             });

@@ -35,9 +35,14 @@ new function(){
         /*shadow copy for hash
         */
         copy:function(hash){
-            var i,h={};
-            for(i in hash)
-                h[i]=hash[i];
+            var i,h;
+            if(hash.constructor==Array){
+                h=[];
+                for(var i=0, l=hash.length; i<l; i++)h[h.length]=hash[i];
+            }else{
+                h={};
+                for(i in hash)h[i]=hash[i];
+            }
             return h;
         },
         /*deep copy for hash
@@ -50,21 +55,33 @@ new function(){
                 return h;
             }else return hash;
         },
-        /*filter hash
+        /*filter hash/array
         fun: filter function(will delete "return false")
         */
-        filter:function(hash, fun, target){
-            var i, bak={};
-            for(i in hash)
-                if(false===fun.call(target, hash[i], i, hash))
-                    bak[i]=1;
-            for(i in bak)
-                delete hash[i];
+        filter:function(obj, fun, target,force){
+            if(!force && obj && obj.constructor == Array){
+                var i,l,a=[],o;
+                for(i=0, l=obj.length; i<l; i++)a[a.length]=obj[i];
+                obj.length=0;
+                for(i=0, l=a.length; i<l; i++)
+                    if(fun.call(target||a,a[i],i,a)!==false)
+                        obj[obj.length]=a[i];
+            }else{
+                var i, bak={};
+                for(i in obj)
+                    if(false===fun.call(target, obj[i], i, obj))
+                        bak[i]=1;
+                for(i in bak)
+                    delete obj[i];
+            }
+            return obj;
         },
         /*convert iterator to Array
         value: something can be iteratorred
         _.toArr({a:1},true) => [a];
         _.toArr({a:1},false) => [1];
+        _.toArr('a,b') => ['a','b'];
+        _.toArr('a;b',';') => ['a','b'];
         */
         toArr:function(value, flag){
             if(!value)return [];
@@ -75,8 +92,11 @@ new function(){
                     arr[arr.length]=flag?i:value[i];
             //other like arguments
             else{
-                for(var i=0,l=value.length; i<l; ++i)
-                    arr[i]=value[i];
+                if(typeof value=='string')
+                    arr=value.split(flag||',');
+                else
+                    for(var i=0,l=value.length; i<l; ++i)
+                        arr[i]=value[i];
             }
             return arr;
         },
@@ -121,69 +141,37 @@ new function(){
     *Power function, array , and string
     *
     */
-    /*
-    * for function
-       _.merge(Function.prototype,{
-            body:function(){
-                with (String(this))return slice(indexOf("{") + 1, lastIndexOf("}"));
-            },
-            args:function(){
-                with (String(this)) return slice(indexOf("(") + 1, indexOf(")")).split(',');
-            },
-            clone:function(){
-                return new Function(this.args(),this.body());
-            }
-        });
-    */
-    /*for string
-    */
-    _.merge(String.prototype,{
-        //string to array according to input
-        toArr:function(c){
-            return this.split(c||',');
+    _.merge(_.str,{
+        startWith:function(s,str){
+            return s.indexOf(str) === 0;
         },
-        left:function(len){
-            return this.slice(0,len);
+        endWith:function (s,str) {
+            var l=s.length-str.length;
+            return l>=0 && s.lastIndexOf(str) === l;
         },
-        right:function(len){
-            with(this) return slice(length-len,length);
+        repeat:function(s,time){
+            return new Array(time+1).join(s);
         },
-        exists:function(str){
-            return this.indexOf(str)>-1;
+        initial:function(s){
+            return s.charAt(0).toUpperCase() + s.substring(1);
         },
-        startWith:function(str){
-            return this.indexOf(str) === 0;
+        trim:function(s){
+            return this.ltrim(this.rtrim(s));
         },
-        endWith:function (str) {
-            var l = this.length - str.length;
-            return l >= 0 && this.lastIndexOf(str) === l;
+        ltrim:function(s){
+            return s.replace(/^ */,"");
         },
-        repeat:function(time){
-            var arr=new Array(time+1);
-            return arr.join(this);
+        rtrim:function(s){
+            return s.replace(/ *$/,"");
         },
-        initial:function(){
-            return this.charAt(0).toUpperCase() + this.substring(1);
+/*
+        blen : function(s){
+            var _t=s.match(/[^\x00-\xff]/ig);
+            return s.length+(null===_t?0:_t.length);
         },
-        trim:function(){
-            return this.ltrim().rtrim();
-        },
-        ltrim:function(){
-            var s=arguments.callee;
-            return this.replace(s.r||(s.r=/^ */),"");
-        },
-        rtrim:function(){
-            var s=arguments.callee;
-            return this.replace(s.r||(s.r=/ *$/),"");
-        },
-    /*        blen : function(){
-            var s=arguments.callee,
-            _t=this.match(s.r||(s.r=/[^\x00-\xff]/ig));
-            return this.length+(null===_t?0:_t.length);
-        },
-    */
-        toDom:function(flag){
-            var p=linb.dom.getMatix().html(this, false).get(0),t,r=[],i;
+*/
+        toDom:function(s,flag){
+            var p=linb.dom.getMatix().html(s, false).get(0),t,r=[],i;
             //get nodes
             for(var i=0,t=p.childNodes,l=t.length;i<l;i++)r[r.length]=t[i];
             //clear
@@ -196,41 +184,34 @@ new function(){
             return linb(r);
         }
     });
-    /*for array*/
-    _.merge(Array.prototype,{
-        /*
-        fun: fun to apply
-        order: true - max to min , or min to max
-        atarget: for this
-        */
-        each:function(fun,target,order){
-            var self=this, i, l=self.length;
-            target = target||self;
-            if(!order){
-                for(i=0; i<l; i++)
-                    if(fun.call(target, self[i], i, self)===false)
-                        break;
-            }else
-                for(i=l-1; i>=0; i--)
-                    if(fun.call(target, self[i], i, self)===false)
-                        break;
-            return self;
+    _.merge(_.fun,{
+        body:function(f){
+            with (String(f))return slice(indexOf("{") + 1, lastIndexOf("}"));
         },
-        indexOf:function(value) {
-            for(var i=0, l=this.length; i<l; i++)
-                if(this[i] === value)
-                    return i;
-            return -1;
+        args:function(f){
+            with (String(f)) return slice(indexOf("(") + 1, indexOf(")")).split(',');
         },
-        subIndexOf:function(sub,value){
+        clone:function(f){
+            return new Function(f.args(),f.body());
+        }
+    });
+    _.merge(_.arr,{
+        subIndexOf:function(arr,sub,value){
             if(value===undefined)return -1;
-            for(var i=0, l=this.length; i<l; i++)
-                if(this[i][sub] === value)
+            for(var i=0, l=arr.length; i<l; i++)
+                if(arr[i][sub] === value)
                     return i;
             return -1;
         },
-        exists:function(value){
-            return this.indexOf(value)>-1;
+        removeFrom:function(arr, index,length){
+            arr.splice(index, length || 1);
+            return arr;
+        },
+        removeValue:function(arr, value){
+            for(var l=arr.length,i=l-1; i>=0; i--)
+                if(arr[i]===value)
+                    arr.splice(i,1);
+            return arr;
         },
         /*
          insert something to array
@@ -248,23 +229,25 @@ new function(){
          [1,2].insertAny([3,4],3,true)
             will return [1,2,[3,4]]
         */
-        insertAny:function (arr, index, flag) {
-            var self=this,a,l=self.length;
+        insertAny:function (arr, target,index, flag) {
+            var a,l=arr.length;
             index = index===0?0:(index||l);
             if(index<0 || index>l)index=l;
-            a=self.splice(index,l-index);
-            if(arr.constructor!=Array || flag)
-                self[self.length]=arr;
+            a=arr.splice(index,l-index);
+            if(target.constructor!=Array || flag)
+                arr[arr.length]=target;
             else
-                self.push.apply(self, arr);
+                arr.push.apply(arr, target);
 
-            self.push.apply(self, a);
+            arr.push.apply(arr, a);
             return index;
         },
-        copy:function () {
-            var i,l,arr=[];
-            for(i=0, l=this.length; i<l; i++)arr[arr.length]=this[i];
-            return arr;
+        clean:function(arr){
+            var i,l,a=_.copy(arr);arr.length=0;
+            for(i=0, l=a.length; i<l; i++)
+                if(this.indexOf(arr,a[i])==-1)
+                    arr[arr.length]=a[i];
+           return arr;
         },
         /*each according to 'value'
         merge array
@@ -276,71 +259,49 @@ new function(){
         [1,2].merge([2,3,4],false)
             will return [1]
         */
-        merge:function(arr,flag){
-            var self=this,i,l;
+        merge:function(arr,target,flag){
+            var i,l;
             if(flag!==false){
                 var copy=[];
-                for(i=0, l=self.length; i<l; i++)copy[copy.length]=self[i];
-                for(i=0, l=arr.length; i<l; i++)
-                    if(copy.indexOf(arr[i])==-1)
-                        self[self.length]=arr[i];
+                for(i=0, l=arr.length; i<l; i++)copy[copy.length]=arr[i];
+                for(i=0, l=target.length; i<l; i++)
+                    if(this.indexOf(copy,target[i])==-1)
+                        arr[arr.length]=target[i];
                 copy.length=0;
             }else{
-                for(i=0, l=self.length; i<l; i++)
-                    if(arr.indexOf(self[i])>-1)
-                        self.splice(i, 1);
+                for(i=0, l=arr.length; i<l; i++)
+                    if(this.indexOf(target,arr[i])>-1)
+                        arr.splice(i, 1);
             }
-            return self;
+            return arr;
         },
-    /*        swap:function(a,b){
-            var self=this, t = self[a];
-            self[a] = self[b];
-            self[b] =t;
-            return self;
-        },
-    */
-        removeFrom:function(index,length){
-            this.splice(index, length || 1);
-            return this;
-        },
-        clean:function(){
-            var self=this,i,l,a=self.copy();self.length=0;
-            for(i=0, l=a.length; i<l; i++)
-                if(self.indexOf(a[i])==-1)
-                    self[self.length]=a[i];
-           return self;
-        },
-        removeValue:function(value){
-            var self=this;
-            for(var l=self.length,i=l-1; i>=0; i--)
-                if(self[i]===value)
-                    self.splice(i,1);
-            return self;
+        indexOf:function(arr, value) {
+            for(var i=0, l=arr.length; i<l; i++)
+                if(arr[i] === value)
+                    return i;
+            return -1;
         },
         /*
-        filter array
-        fun: return false will be delete
+        fun: fun to apply
+        order: true - max to min , or min to max
+        atarget: for this
         */
-        filter:function(fun,target){
-            /*
-            for(var l=this.length,i=l-1; i>=0; i--)
-                if(fun.call(target||this,this[i],i,this)!==false)
-                    this.splice(i,1);
-            return this;
-            */
-            var self=this,i,l,arr=[],o;
-            for(i=0, l=self.length; i<l; i++)arr[arr.length]=self[i];
-            self.length=0;
-            for(i=0, l=arr.length; i<l; i++)
-                if(fun.call(target||arr,arr[i],i,arr)!==false)
-                    self[self.length]=arr[i];
-            return self;
+        each:function(arr,fun,target,order){
+            var i, l=arr.length, a=arr;
+            if(a.constructor!=Array)
+                throw new Error('Iterator Array only');
+            target = target||arr;
+            if(!order){
+                for(i=0; i<l; i++)
+                    if(fun.call(target, a[i], i, a)===false)
+                        break;
+            }else
+                for(i=l-1; i>=0; i--)
+                    if(fun.call(target, a[i], i, a)===false)
+                        break;
+            return arr;
         }
-    },'all');
-    Array.prototype.boxing = Array.prototype.reBoxing = function(key,flag){
-        var t=linb.iBox.$type[key];
-        if(t)return new (linb.SC(t))(this, flag);
-    };
+    });
 };
 
 //linb.iBox
@@ -383,7 +344,7 @@ Class('linb.iBox',null, {
             return this._nodes.pop();
         },
         exists:function(node){
-            return this._nodes.exists(node);
+            return _.arr.indexOf(this._nodes,node)!=-1;
         },
         isEmpty:function(){
             return !this._nodes.length;
@@ -391,7 +352,7 @@ Class('linb.iBox',null, {
         //flag is ture => minus
         add:function(e, flag){
             var self=this, arr = self.constructor.clean(e);
-            self._nodes.merge(arr, flag);
+            _.arr.merge(self._nodes,arr, flag);
             return self;
         },
         minus:function(e){
@@ -430,8 +391,8 @@ Class('linb.iBox',null, {
             var arr,o, t,me=arguments.callee,r1=me.r1||(me.r1=/^\s*<((\n|\r|.)*?)>\s*$/);
             if(tag.constructor==Array){
                 arr=[];
-                tag.each(function(v,i){
-                    arr.insertAny(me.apply(null,v instanceof Array?v:[v])._nodes,-1);
+                _.arr.each(tag,function(v,i){
+                    _.arr.insertAny(arr,me.apply(null,v instanceof Array?v:[v])._nodes,-1);
                 });
                 return arr;
             }
@@ -448,7 +409,7 @@ Class('linb.iBox',null, {
                     o =new (linb.SC(t))(false);
                     o.ini.apply(o, arr).create();
                 }else if(r1.test(tag))
-                    o = tag.toDom();
+                    o = _.str.toDom(tag);
                 //normal
                 else{
                     o=document.createElement(tag);
@@ -536,7 +497,7 @@ Class('linb.dom','linb.iBox',{
             var arr=[],r;
             this.each(function(o){
                 r=fun.apply(o, args||[]);
-                if(r)arr.insertAny(r);
+                if(r)_.arr.insertAny(arr,r);
             });
             return linb(arr);
         },
@@ -860,7 +821,7 @@ Class('linb.dom','linb.iBox',{
 
 
                 if(linb.browser.gek){
-                    var n=self.replace(str.toDom(),false);
+                    var n=self.replace(_.str.toDom(str),false);
                     self._nodes[0]=n.get(0);
                 }else{
                     var b,r = (b=o.previousSibling)?o.previousSibling:o.parentNode;
@@ -1291,13 +1252,13 @@ Class('linb.dom','linb.iBox',{
 //class and src
         hasClass:function(str){
             var arr = this.get(0).className.split(/\s+/);
-            return arr.exists(str);
+            return _.arr.indexOf(arr,str)!=-1;
         },
         addClass:function(str){
             var arr, t, me=arguments.callee,reg=(me.reg||(me.reg=/\s+/));
             return this.each(function(o){
                 arr = (t=o.className).split(reg);
-                if(!arr.exists(str))
+                if(_.arr.indexOf(arr,str)==-1)
                     o.className = t + " " +str;
             });
         },
@@ -1400,7 +1361,7 @@ Class('linb.dom','linb.iBox',{
         },
         clearEventHandler:function(){
             return this.each(function(o){
-                linb.event._events.each(function(s){
+                _.arr.each(linb.event._events,function(s){
                    if(o[s="on"+s])o[s]=null;
                    if(o.getAttribute && o.getAttribute(s))o.removeAttribute(s);
                 });
@@ -1411,7 +1372,7 @@ Class('linb.dom','linb.iBox',{
             if(!(name  instanceof Array))
                 name=[[name,fun,event_id]];
 
-            name.each(function(o,i){
+            _.arr.each(name,function(o,i){
                 name=o[0];fun=o[1];event_id='$'+o[2];
                 type=event._getEventType(name);
                 if(typeof event_id!='string')
@@ -1433,8 +1394,8 @@ Class('linb.dom','linb.iBox',{
                     }
                     if(tagVar)c.$tagVar=tagVar;
                     c[event_id]=fun;
-                    c.removeValue(event_id);
-                    c.insertAny(event_id, index);
+                    _.arr.removeValue(c,event_id);
+                    _.arr.insertAny(c,event_id, index);
                 });
             });
             return self;
@@ -1451,7 +1412,7 @@ Class('linb.dom','linb.iBox',{
             if(!(name instanceof Array))
                 name=[[name,event_id]];
 
-            name.each(function(o,i){
+            _.arr.each(name,function(o,i){
                 name=o[0];event_id='$'+o[1];
                 type=event._getEventType(name);
                 self.each(function(o){
@@ -1460,14 +1421,14 @@ Class('linb.dom','linb.iBox',{
                     if(!(c=dom[id]))return;
                     if(!(t=c.events))return;
                     if(flag)
-                        event._getEventName(type).each(function(o){
+                        _.arr.each(event._getEventName(type),function(o){
                             delete t[o];
                         });
                     else{
                         if(typeof event_id == 'string'){
                             if(k=t[name]){
-                                if(k.exists(event_id))
-                                    k.removeValue(event_id);
+                                if(_.arr.indexOf(k,event_id)!=-1)
+                                    _.arr.removeValue(k,event_id);
                                 delete k[event_id];
                             }
                         }else
@@ -1490,7 +1451,7 @@ Class('linb.dom','linb.iBox',{
                 return _.get(linb.cache.dom,[id,'events',name,'$' + event_id]);
             else{
                 var r=[],arr = _.get(linb.cache.dom,[id,'events',name]);
-                arr.each(function(o,i){
+                _.arr.each(arr,function(o,i){
                     r[r.length]=[o,arr[o]];
                 });
                 return r;
@@ -1506,7 +1467,7 @@ Class('linb.dom','linb.iBox',{
 
                 if(!(c=linb.cache.dom[id]))return;
                 _.filter(c.addition, function(i,v){
-                    if(v.startWith("on"))return false;
+                    if(_.str.startWith(v,"on"))return false;
                 });
                 _.breakO(c.events,2);
                 delete c.events;
@@ -1776,7 +1737,7 @@ Class('linb.dom','linb.iBox',{
                     _.each(args,function(o,i){
                         if(typeof o == 'function') o(j, step);
                         else{
-                            value = String((i.toLowerCase().endWith('color')) ? color(type, o, step, j) : (o[0] + (o[1]-o[0])*hash[type](j/step)));
+                            value = String( _.str.endWith(i.toLowerCase(),'color') ? color(type, o, step, j) : (o[0] + (o[1]-o[0])*hash[type](j/step)));
                             (self[i]) ? (self[i](value)) :(self.setStyle(i, value));
                         }
                     });
@@ -1925,15 +1886,15 @@ type:4
             var ns=this,
                 doc=document,
                 sid='$blur_triggers$',
-                target = group?group:linb(ns.get()),
+                target = linb(group?group:ns.get()),
                 fun=linb.dom._blurTrigger||(linb.dom._blurTrigger=function(p,e){
                     var me=arguments.callee,
                         p=linb.event.getPos(e),
                         arr=me.arr,
-                        a=arr.copy(),
+                        a=_.copy(arr),
                         b, pos, w, h;
                     //filter first
-                    a.each(function(i){
+                    _.arr.each(a,function(i){
                         b=true;
                         if(!(v=arr[i].target))b=false;
                         else
@@ -1942,12 +1903,12 @@ type:4
                                     return b=false;
                             });
                         if(!b){
-                            arr.removeValue(i);
+                            _.arr.removeValue(arr,i);
                             delete arr[i];
                         };
                     });
-                    a=arr.copy();
-                    a.each(function(i){
+                    a=_.copy(arr);
+                    _.arr.each(a,function(i){
                         v=arr[i];
                         b=true;
                         v.target.each(function(o){
@@ -1959,7 +1920,7 @@ type:4
                         });
                         if(b){
                             _.tryF(v.trigger,[],v.target);
-                            arr.removeValue(i);
+                            _.arr.removeValue(arr,i);
                             delete arr[i];
                         }else
                             //if the top layer popwnd cant be triggerred, prevent the other layer popwnd trigger
@@ -1972,7 +1933,7 @@ type:4
 
             //remove this trigger
             if(!trigger){
-                arr.removeValue(id);
+                _.arr.removeValue(arr,id);
                 delete arr[id];
             //double link
             }else
@@ -1997,7 +1958,7 @@ type:4
         hide_value : '-10000px',
         top_zIndex:10000,
 
-        boxArr:'width,height,left,top,right,bottom'.toArr(),
+        boxArr:_.toArr('width,height,left,top,right,bottom'),
         _cursor:{},
         setPxStyle:function(node, key, value){
               var style=node.style;
@@ -2091,7 +2052,7 @@ type:4
             2: get the second empty temp div
         */
         _matixid:"linb.matix::",
-        isMatix:function(id){return id && id.startWith(this._matixid)},
+        isMatix:function(id){return id && _.str.startWith(id,this._matixid)},
         getMatix:function(index){
             var i=1,id,o,count=0,me=arguments.callee,m=me.m,doc=document;
             index=index || 1;
@@ -2179,156 +2140,6 @@ type:4
             return !!(node[name] || (node.getAttribute && node.getAttribute(name)));
         },
         /*
-        css: expression for selector attribute selector, must include '[]'
-        context: dom nodes array
-        flag: true: not select, just filter
-
-        Example:
-        "div[id='div4'] input[class~='c'][class~='a'], div[id='div5'] input[class~='ac']"
-            in 'div4', select class includes 'c' and 'a'
-            in 'div5', select class includes 'ac'
-            and return those all
-
-
-        selector:function(css, context, flag){
-            var me=arguments.callee;
-
-            css=_.str(css);
-            css = css.indexOf('[')==-1?(css+'[]'):css;
-            if(css == '[]' && flag )return context;
-            context = context || [document];
-
-            var match,
-            r0=me.r0 || (me.r0=/("[^"\n\r]*")|(\'[^\'\n\r]*\')|( )/g),
-            f1=me.f1 || (me.f1=function(o,a,b,c){return c?'\x01':o}),
-            r1=me.r1 || (me.r1=/\[(\w*)([=!~\|\^\$\*]?)=?['"]?([^\]'"]*)['"]?\]/g),
-            r2=me.r2 || (me.r2=/\[(\w*)([=!~\|\^\$\*]?)=?['"]?([^\]'"]*)['"]?\]/),
-            r3=me.r3 || (me.r3=/\[(\w*)\((\w*)\)([=!~\|\^\$\*]?)=?['"]?([^\]'"]*)['"]?\]/g),
-            r4=me.r4 || (me.r4=/\[(\w*)\((\w*)\)([=!~\|\^\$\*]?)=?['"]?([^\]'"]*)['"]?\]/),
-            select = flag
-            ?me.s1 || (me.s1=function(context,tag){
-              return tag
-              ?context.filter(function(o){
-                  return o.nodeName.toLowerCase() == tag.toLowerCase();
-              })
-              :context;
-            })
-            :me.s2 || (me.s2=function(context,tag) {
-              var arr = [];
-              if(!tag)tag="*";
-              context.each(function(o){
-                if(tag=="*" || (o.nodeName.toLowerCase() == tag.toLowerCase()))
-                    arr.insertAny(o);
-
-                if(!(o.nodeType==1 || o.nodeType==9))return;
-                arr.insertAny(_.toArr((tag=='*')?o.all?o.all:o.getElementsByTagName("*"):o.getElementsByTagName(tag)));
-            });
-              return arr;
-            }),
-            selector= me.selector || (me.selector = {
-                '=':  function(m,n){return m==n},
-                '!':  function(m,n){return m!=n},
-                '~':  function(m,n){return m && (new RegExp('(^|\\s)'+n+'(\\s|$)')).test(m)},
-                '|':  function(m,n){return m && (new RegExp('^'+n+'-?')).test(m)},
-                '^':  function(m,n){return m && m.startWith(n)},
-                '$':  function(m,n){return m && m.endWith(n)},
-                '*':  function(m,n){return m && m.exists(n)},
-                '':   function(m,n){return !!m}
-            }),
-            bak, tag, exp1, exp2, temp, arr=[],  b, t;
-
-            css.split(",").each(function(o){
-                bak=context;
-                //protect space in string
-                o=o.trim().replace(r0,f1);
-
-                o.split("\x01").each(function(v){
-                    exp1 = []; exp2 = []; temp = [];
-                    tag = v.slice(0,v.indexOf('['));
-                    v = v.slice(v.indexOf('['),v.length);
-
-                    if(match = v.match(r1))
-                        match.each(function(o){
-                            if(o.match(r2))
-                                exp1.push([RegExp.$2, RegExp.$1, RegExp.$3]);
-                        });
-
-                    if(match = v.match(r3))
-                        match.each(function(o){
-                            if(o.match(r4))
-                                exp2.push([RegExp.$3, RegExp.$1, RegExp.$2, RegExp.$4]);
-                        });
-
-
-                    //no expression found, throw error
-                    if(exp1.length===0 && exp2.length===0)throw new Error(linb.getRes('selector', me[0]));
-
-                    t=linb();
-                    select(bak,tag).each(function(n){
-                        if(n.nodeType==1 || n.nodeType==9){
-                            b=true;
-                            // test attr first
-                            exp1.each(function(o,i){
-                                // '[]' will match[["","",""]]
-                                if(o[1]!=""){
-                                    t.set([n]);
-                                    if((!selector[o[0]](t.attr(o[1]), o[2])))
-                                        return b=false;
-                                }
-                            });
-                            if(b){
-                                //then, test linb.dom functions
-                                exp2.each(function(o,i){
-                                    t.set([n]);
-                                    if((!t[o[1]]) || (!selector[o[0]](String(t[o[1]](o[2]?o[2]:undefined)), o[3])))
-                                        return b=false;
-                                });
-                            }
-
-                            if(b)temp.push(n);
-                        }
-                    });
-                    bak=temp;
-                    if(!temp.length)return false;
-                });
-                arr.insertAny(temp);
-            });
-            return arr;
-        },
-
-*/
-/*
-        //import css
-        includeCSSFile:function(path){
-            var me=arguments.callee,
-            r1=me.r1 ||(me.r1=/(url\()\s*([\t\s\w()\/.\\'"-:#=&?]+)\s*(\))/g),
-            r2=me.r2 ||(me.r2=/(AlphaImageLoader\(src\=['"])([\t\s\w()\/.\\'"-:#=&?~]*)(['"])/g),
-            r3=me.r3 ||(me.r3=/^(file||https?||ftps?):\/\//)
-            ;
-
-            linb.request(path,'',function(str){
-                //fix url path
-                str = str.replace(r1, function(s,a,b,c){
-                    return a+ (r3.test(b) ? b : (path+b)) + c
-                });
-                if(linb.browser.ie)
-                    str = str.replace(r2, function(s,a,b,c){
-                        return a+ (r3.test(b) ? b : (path+b)) + c
-                    });
-                linb.css.add(str, path)
-            },null,null,{asy:false});
-
-            return path;
-        },
-        maxTabindex:function(){
-            var l=0, arr=linb([document.body]).dig('*',function(o){return o.tabIndex>0}).get();
-            for(var i=0,o;o=arr[i++];)
-                l=l>o.tabIndex?l:o.tabIndex;
-            return ++l;
-        },
-*/
-
-        /*
         action: uri
         data:hash{key:value}
         method:'post'(default) or 'get'
@@ -2341,7 +2152,7 @@ type:4
                 _t.push('<textarea name="'+i+'">'+(typeof o=='object'?_.serialize(o):o)+'</textarea>');
             });
             if(!_.isEmpty(data))_t.push('<input type="hidden" name="rnd" value="'+_()+'">');
-            var d=('<form target="'+target+'" action="'+action+'" method="'+method  + (enctype?'" enctype="' +enctype:'') +  '">'+_t.join('')+'</form>').toDom();
+            var d=_.str.toDom('<form target="'+target+'" action="'+action+'" method="'+method  + (enctype?'" enctype="' +enctype:'') +  '">'+_t.join('')+'</form>');
             linb.dom.getMatix().addLast(d);
             d.get(0).submit();
             d.remove();
@@ -2367,9 +2178,9 @@ type:4
           ).start();
         },
         fxProxy:function(from, to, onStart, onEnd, time, step, type, id){
-            var args = {}, me=arguments.callee, arr = me.arr || (me.arr=arr='left,top,width,height'.toArr()),
+            var args = {}, me=arguments.callee, arr = me.arr || (me.arr=arr=_.toArr('left,top,width,height')),
                 node = me.node = (me.node=linb.create("<div style='border:dashed 1px blue;position:absolute;left:-10000px;'></div>"));
-            arr.each(function(i){
+            _.arr.each(arr,function(i){
                 args[i]=[from[i],to[i]];
             });
             linb(document.body).addLast(node);
@@ -2394,7 +2205,7 @@ type:4
         });
 
         //readonly profile
-        'nodeName,nodeType,tagName,offsetLeft,offsetTop,offsetParent,scrollWidth,scrollHeight'.toArr().each(function(o){
+        _.arr.each(_.toArr('nodeName,nodeType,tagName,offsetLeft,offsetTop,offsetParent,scrollWidth,scrollHeight'),function(o){
             self.plugIn(o,function(value){
                 var t=this.get(0),w=window,d=document;
                 if(t==w||t==d){
@@ -2410,13 +2221,13 @@ type:4
 
         var p='padding',m='margin',b='border',c='client',o='offset',r='real',w='width',h='height',W='Width',H='Height',T='Top',L='Left',t='top',l='left',R='Right',B='Bottom';
         //dimesion
-        [   [p+'H',p+T,p+B],
+        _.arr.each([   [p+'H',p+T,p+B],
             [p+'W',p+L,p+R],
             [b+'H',b+T+W,b+B+W],
             [b+'W',b+L+W,b+R+W],
             [m+'W',m+L,m+R],
             [m+'H',m+T,m+B]
-        ].each(function(o){
+        ],function(o){
             //use get Style dir
             var node,fun=linb.dom.getStyle;
             self.plugIn(o[0],function(){
@@ -2463,8 +2274,8 @@ type:4
         |<--    realWidth       -->|
         */
 
-        [['W',w, p+'W', b+'W', m+'W', c+W, o+W],
-        ['H',h, p+'H', b+'H', m+'H', c+H, o+H]].each(function(o){
+        _.arr.each([['W',w, p+'W', b+'W', m+'W', c+W, o+W],
+        ['H',h, p+'H', b+'H', m+'H', c+H, o+H]],function(o){
             self.plugIn(o[0],function(node,index,value){
                 var n,r,t,style=node.style,me=arguments.callee,contentBox=linb.browser.contentBox,
                 r1=me.r1 || (me.r1=/%$/),
@@ -2546,8 +2357,8 @@ type:4
                 }
             })
         });
-        [[c+W,'W',2],[o+W,'W',3],[r+W,'W',4],
-         [c+H,'H',2],[o+H,'H',3],[r+H,'H',4]].each(function(o){
+        _.arr.each([[c+W,'W',2],[o+W,'W',3],[r+W,'W',4],
+         [c+H,'H',2],[o+H,'H',3],[r+H,'H',4]],function(o){
             self.plugIn(o[0],function(value){
                 var type=typeof value;
                 if(type=='undefined' || type=='boolean')
@@ -2558,7 +2369,7 @@ type:4
                     });
             })
         });
-        [[l+'By',l, o+L],[t+'By',t,o+T],[w+'By',w,o+W],[h+'By',h,o+H]].each(function(o){
+        _.arr.each([[l+'By',l, o+L],[t+'By',t,o+T],[w+'By',w,o+W],[h+'By',h,o+H]],function(o){
             self.plugIn(o[0],function(value,flag){
                 if(value===0)return this;
                 var t,m,v,args,k=o[1];
@@ -2583,7 +2394,7 @@ type:4
         self.addCustomEvent=function(o){
             if(!(o instanceof Array))o=[o];
             var self=this,f;
-            o.each(function(o){
+            _.arr.each(o,function(o){
                 f=function(fun, event_id, flag, tagVar){
                     if(typeof fun  == 'function')
                         return this.addEvent(o, fun, event_id, flag, tagVar);
@@ -2599,12 +2410,12 @@ type:4
             return self;
         };
         //changable profile
-        'disabled,readonly,checked,className,value,title,name,href,src'.toArr().each(function(o){
+        _.arr.each(_.toArr('disabled,readonly,checked,className,value,title,name,href,src'),function(o){
             self.plugIn(o,function(value){
                 return this.attr(o,value);
             })
         });
-        'scrollLeft,scrollTop,tabIndex'.toArr().each(function(o){
+        _.arr.each(_.toArr('scrollLeft,scrollTop,tabIndex'),function(o){
             self.plugIn(o,function(value,flag){
                 if(value !==undefined)
                     return this.each(function(v){
@@ -2622,7 +2433,7 @@ type:4
             })
         });
         //css shortcut
-        'cursor,backgroundColor,display,overflow,color,background,position,zIndex,visibility,border'.toArr().each(function(o){
+        _.arr.each(_.toArr('cursor,backgroundColor,display,overflow,color,background,position,zIndex,visibility,border'),function(o){
             self.plugIn(o,function(value){
                 if(value===undefined){
                     var node=this._nodes[0];
@@ -2634,7 +2445,7 @@ type:4
                     return this.setStyle(o, value);
             });
         });
-        self.boxArr.each(function(o){
+        _.arr.each(self.boxArr,function(o){
             self.plugIn(o,function(value){
                 var self=this, node=self._nodes[0],b=linb.browser,type=typeof value,doc=document,t;
                 if(!node || node.nodeType==3)return;
@@ -2676,8 +2487,8 @@ type:4
             });
         });
         // for linb.dom event
-        linb.event._events.each(function(o){
-            linb.event._getEventName(o).each(function(o){
+        _.arr.each(linb.event._events,function(o){
+            _.arr.each(linb.event._getEventName(o),function(o){
                 self.addCustomEvent(o);
             })
         });

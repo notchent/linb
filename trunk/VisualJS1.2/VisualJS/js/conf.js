@@ -9,7 +9,7 @@ CONF={
     phpPath:linb.ini.appPath + 'request.php',
     prjPath:'projects/',
     requestKey:'VisualJS',
-    
+
     path_link:"http://www.linb.net",
     path_video:'http://linb.googlecode.com/files/video.html',
     path_forum:'http://groups.google.com/group/linb',
@@ -104,7 +104,7 @@ CONF={
 new function(){
     var fun=function(items,hash){
         var self=arguments.callee;
-        items.each(function(o){
+        _.arr.each(items,function(o){
             hash[o.id]=o;
             if(o.sub && o.sub.length)
             self(o.sub, hash);
@@ -112,6 +112,6 @@ new function(){
     };
     CONF.mapWidgets = {};
     fun(CONF.widgets, CONF.mapWidgets);
-    
+
     linb.ini.appLangKey="VisualJS";
 };

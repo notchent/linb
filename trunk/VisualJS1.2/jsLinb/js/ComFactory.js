@@ -59,7 +59,7 @@ Class('linb.ComFactory',null,{
                             var arr = com.getUIObj().get(),
                                 fun=function(arr,firstlayer){
                                     var self1 = arguments.callee;
-                                    arr.each(function(v,i){
+                                    _.arr.each(arr,function(v,i){
                                         //if tag exists, replace tag with com from linb.ComFactory
                                         if(v.key=='linb.UI.Tag'){
                                             var tag=v, cid=tag.properties.tagKey;
@@ -84,7 +84,7 @@ Class('linb.ComFactory',null,{
                                         }
                                         if(v.children){
                                             var a=[];
-                                            v.children.each(function(o){
+                                            _.arr.each(v.children,function(o){
                                                 a[a.length]=o[0];
                                             });
                                             self1(a);

@@ -27,7 +27,7 @@ Class("linb.UI.Shadow","linb.UI.iWidget",{
                 // for dom
                 var s = this.get(0),b=false;
                 // for dom Node, destroy shadows
-                linb.UI.Shadow._cache.each(function(o){
+                _.arr.each(linb.UI.Shadow._cache,function(o){
                     if(o._target==s){b=true;return false;}
                 });
                 return b;
@@ -36,7 +36,7 @@ Class("linb.UI.Shadow","linb.UI.iWidget",{
                 // for dom
                 var s = this.get(0),b=null;
                 // for dom Node, destroy shadows
-                linb.UI.Shadow._cache.each(function(o){
+                _.arr.each(linb.UI.Shadow._cache,function(o){
                     if(o._target==s){b=o;return false;}
                 });
                 return b.boxing();
@@ -45,8 +45,8 @@ Class("linb.UI.Shadow","linb.UI.iWidget",{
                 // for dom
                 var s = this.get();
                 // for dom Node, destroy shadows
-                linb.UI.Shadow._cache.each(function(o){
-                    if(s.exists(linb(o._target).get(0)))
+                _.arr.each(linb.UI.Shadow._cache,function(o){
+                    if(_.arr.indexOf(s,linb(o._target).get(0))!=-1)
                         o.boxing().destroy();
                 });
                 return this;

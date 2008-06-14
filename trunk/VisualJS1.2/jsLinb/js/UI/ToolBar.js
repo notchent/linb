@@ -267,7 +267,7 @@ Class("linb.UI.ToolBar",["linb.UI.iList","linb.UI.iWidget","linb.UI.iNavigator"]
 
             d.mode = p.align=='right'?'text-align:right;':'';
 
-            d.items.filter(function(o){
+            _.filter(d.items,function(o){
                 return !o.$del;
             });
         },
@@ -278,7 +278,7 @@ Class("linb.UI.ToolBar",["linb.UI.iList","linb.UI.iWidget","linb.UI.iNavigator"]
 
             //don't change original data
             var a = sitem.sub ||[];
-            a.each(function(item){
+            _.arr.each(a,function(item){
                 t={id: item.id};
 
                 id=profile.pickSubId('items');
@@ -292,7 +292,7 @@ Class("linb.UI.ToolBar",["linb.UI.iList","linb.UI.iWidget","linb.UI.iNavigator"]
 
                 //prepare inner type only: split/label/button
                 t.type = t.type || 'button';
-                if(t.type.exists('.')){
+                if(t.type.indexOf('.')!=-1){
                     t.$del=true;
                     return;
                 }

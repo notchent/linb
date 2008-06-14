@@ -158,7 +158,7 @@ Class("linb.UI.ButtonViews", "linb.UI.Tabs",{
                         t=self.properties,
                         hs = self.getSubNode('LIST'),
                         hl = self.getSubNode('ITEMS');
-                    if(['left','right'].exists(t.handleDock)){
+                    if(t.handleDock=='left'||t.handleDock=='right'){
                         hs.add(hl).width(v);
                     }else{
                         hs.height(v);
@@ -180,7 +180,7 @@ Class("linb.UI.ButtonViews", "linb.UI.Tabs",{
                 hl = profile.getSubNode('ITEMS'),
                 wc=null,hc=null;
 
-            if(['top','bottom'].exists(t.handleDock)){
+            if(t.handleDock=='top'||t.handleDock=='bottom'){
                 if(w){
                     hs.width(w);
                     hl.width(w);

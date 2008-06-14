@@ -21,9 +21,7 @@ Class("linb.UI.MenuBar",["linb.UI.iList","linb.UI.iWidget","linb.UI.iNavigator"]
                     sub = item.sub;
                 sub  = sub ||[];
 
-                //TODO: create menu
                 menu = linb.create('PopMenu',{position:'absolute', items:sub, hoverActive:profile.properties.hoverActive});
-
                 profile.getSubNode('POOL').attach(menu);
 
                 var self=this;
@@ -196,7 +194,7 @@ Class("linb.UI.MenuBar",["linb.UI.iList","linb.UI.iWidget","linb.UI.iNavigator"]
                         }
                     }else{
                         profile.addTagClass('ITEM', '-mouseover',linb([this],false));
-                        
+
                         if(p.hoverActive)
                             profile.boxing().pop(itemId, this);
                     }
@@ -205,7 +203,7 @@ Class("linb.UI.MenuBar",["linb.UI.iList","linb.UI.iWidget","linb.UI.iNavigator"]
                     var p = profile.properties;
                     if(p.disabled)return;
                     profile.removeTagClass('ITEM', '-mouseover', linb([this],false));
-                    
+
                     if(p.hoverActive){
                         var pop = profile.$allRelatedPopMenus[profile.$currentmenu];
                         if(pop){
@@ -312,7 +310,7 @@ Class("linb.UI.MenuBar",["linb.UI.iList","linb.UI.iWidget","linb.UI.iNavigator"]
             $border:1,
             left:0,
             top:0,
-            
+
             hoverActive:true,
 
             handler:{

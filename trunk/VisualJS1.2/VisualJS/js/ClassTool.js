@@ -72,7 +72,7 @@ Class('VisualJS.ClassTool',null,{
                 while(/(\{([^\{\}]*)\})|(\[([^\[\]]*)\])/.test(str)){
                     str = str.replace(/\s*(((function\s*([\w$]+\s*)?\(\s*([\w$\s,]*)\s*\)\s*)?(\{([^\{\}]*)\}))|(\[([^\[\]]*)\]))/g, '');
                 }
-                if (str.trim()!='') return false;
+                if (_.str.trim(str)!='') return false;
 
                 return {comments: comments, code:code};
             }catch(e){linb.message(linb.getRes('VisualJS.classtool.err3')+":"+_.Error(e));return false}
@@ -182,19 +182,19 @@ Class('VisualJS.ClassTool',null,{
 
                 var obj = eval('({' + str + '})');
                 //get code of those
-                ['Constructor', 'Initialize', 'Before', 'After'].each(function(i){
+                _.arr.each(['Constructor', 'Initialize', 'Before', 'After'],function(i){
                     if(obj[i]){
                         result[i] = result[i] || {};
                         result[i].code = restore(restore1(restore2(obj[i])));
                     }else
                         result[i] = {};
-                    'code,comments'.toArr().each(function(j){
+                    _.arr.each(_.toArr('code,comments'),function(j){
                         result[i][j] = _.exists(result[i][j])?result[i][j]:null;
                     });
                 });
 
                 var obj2;
-                ['Instance', 'Static'].each(function(i){
+                _.arr.each(['Instance', 'Static'],function(i){
                     if(obj[i]){
                         //for not function/{}/[] vars
                         var temp = cache2["'"+obj[i]+"'"];
@@ -230,7 +230,7 @@ Class('VisualJS.ClassTool',null,{
                         });
                     }else
                         result[i] = {};
-                    'code,comments,sub,frame'.toArr().each(function(j){
+                    _.arr.each(_.toArr('code,comments,sub,frame'),function(j){
                         result[i][j] = _.exists(result[i][j])?result[i][j]:null;
                     });
                 });

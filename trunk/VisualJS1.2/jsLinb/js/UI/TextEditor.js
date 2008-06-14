@@ -131,12 +131,12 @@ Class("linb.UI.TextEditor", ["linb.UI.Widget", "linb.UI.iForm"],{
                         case 'enter':
                             var paras = profile.box.getParas(profile);
                             str = paras[1];
-                            var len = str.length - str.ltrim().length;
+                            var len = str.length - _.str.ltrim(str).length;
 
                             if(str.charAt(str.length-1)=="{")
                                 len +=4;
                             if(len){
-                                profile.box.insertAtCaret(profile, ((linb.browser.ie||linb.browser.opr)?'\r\n':'\n')+' '.repeat(len));
+                                profile.box.insertAtCaret(profile, ((linb.browser.ie||linb.browser.opr)?'\r\n':'\n')+_.str.repeat(' ',len));
                                 profile.$enter=true;
                                 return false;
                             }

@@ -107,7 +107,7 @@ Class("linb.UI.ColLayout",["linb.UI.iList", "linb.UI.iWidget", "linb.UI.iContain
                 if(change || force)
                     return [null];
                 else
-                    return;                
+                    return;
             }
         },
         _showProxy:function(profile,type,node,height){
@@ -285,8 +285,8 @@ Class("linb.UI.ColLayout",["linb.UI.iList", "linb.UI.iWidget", "linb.UI.iContain
                     }
                     var arr=profile.getSubNode('ITEM',true).get(),
                         a=[],t,l=0,k;
-                    
-                    arr.each(function(o,i){
+
+                    _.arr.each(arr,function(o,i){
                         if(i==arr.length-1)k=l;
                         l = l + (a[i]=linb([o]).offsetWidth());
                     });
@@ -294,7 +294,7 @@ Class("linb.UI.ColLayout",["linb.UI.iList", "linb.UI.iWidget", "linb.UI.iContain
                         l=src.parentNode.parentNode.offsetWidth;
                     a[arr.length-1]=l-k-2;
 
-                    arr.each(function(o,i){
+                    _.arr.each(arr,function(o,i){
                         o.style.width = parseInt(a[i]/l*100000)/1000 + '%';
                     });
                 }
@@ -319,11 +319,11 @@ Class("linb.UI.ColLayout",["linb.UI.iList", "linb.UI.iWidget", "linb.UI.iContain
                             var box = o.boxing(),
                                 temp = linb.dom.getMatix(),
                                 //keep children
-                                children = o.children.copy(),
+                                children = _.copy(o.children),
                                 p
                             ;
                             o.children.length=0;
-                            children.each(function(o){
+                            _.arr.each(children,function(o){
                                 //for flush dock
                                 delete o[0].$dockParent;
                                 //keep it in dom
@@ -344,7 +344,7 @@ Class("linb.UI.ColLayout",["linb.UI.iList", "linb.UI.iWidget", "linb.UI.iContain
                             box.insertItems(v);
 
                             //restore children
-                            children.each(function(v){
+                            _.arr.each(children,function(v){
                                 box.attach.apply(box,v);
                             });
 

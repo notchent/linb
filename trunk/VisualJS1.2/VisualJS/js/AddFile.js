@@ -21,7 +21,7 @@ Class('VisualJS.AddFile', 'linb.Com',{
 
             var  arr = linb.UI.pickObj(prop.items||[]),f=function(o){
                 var self=arguments.callee;
-                o.filter(function(o,i){
+                _.filter(o,function(o,i){
                     var k=o.sub;
                     if(k)
                        self(o.sub);

@@ -103,7 +103,7 @@
 
             getAll:function(){
                 var r={};
-                this._cache.each(function(o){
+                _.arr.each(this._cache,function(o){
                     r[o.alias]=o;
                 });
                 return r;
@@ -118,7 +118,7 @@
                 if(dsname)return this.getDataSource(dsname);
             },
             getDataSource:function(name){
-                var r, index = this._cache.subIndexOf('alias',name);
+                var r, index = _.arr.subIndexOf(this._cache,'alias',name);
                 if(index!=-1)r=this._cache[index];
                 if(r) return r.object;
             },

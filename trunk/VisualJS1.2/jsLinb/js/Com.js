@@ -199,8 +199,8 @@ Class('linb.Com',null,{
         },
 
         getUIObj:function(){
-            var nodes = this._nodes.copy();
-            nodes.filter(function(o){
+            var nodes = _.copy(this._nodes);
+            _.filter(nodes,function(o){
                 return !!o.box.hasDomRoot;
             });
             return linb.UI.pack(nodes, false);

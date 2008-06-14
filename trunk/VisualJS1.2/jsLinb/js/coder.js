@@ -177,7 +177,7 @@ Class("linb.coder", null,{
 
             if(!_.isArr(reg)){reg=[reg,target]}else{ignore_case=target}
             if(!_.isArr(reg[0])){reg=[reg]};
-            reg.each(function(o){
+            _.arr.each(reg,function(o){
                 m= (_.isStr(o[0])?o[0]:_.isReg(o[0])?String(o[0]).slice(1, -1):"");
                 n= _.isFun(o[1])?o[1]:_.str(o[1]);
                 len = ((m).replace(reg1, "").match(reg2) || "").length;
@@ -291,12 +291,12 @@ Class("linb.coder", null,{
                 // to no \n ,all space
                 add_arr =[ [/(\b|\x24)\s+(\b|\x24)/, "$1 $2"], [/([+\-])\s+([+\-])/, "$1 $2"], [/\s+/, ""] ];
                 if(key=='css'){
-                    add_arr.insertAny([/\s+(\.)/, " $1"],2,true);
-                    add_arr.insertAny([/(\d*\.?\d+|\d+\.?\d*)(cm|em|ex|pt|px|%|\:)?/, " $0 "],-1,true);
+                    _.arr.insertAny(add_arr,[/\s+(\.)/, " $1"],2,true);
+                    _.arr.insertAny(add_arr,[/(\d*\.?\d+|\d+\.?\d*)(cm|em|ex|pt|px|%|\:)?/, " $0 "],-1,true);
                 }
                 arr.length=0;
-                arr.insertAny(pre_arr);
-                arr.insertAny(add_arr);
+                _.arr.insertAny(arr,pre_arr);
+                _.arr.insertAny(arr,add_arr);
                 str = this.replace(str, arr);
 
                 // format 1
@@ -312,16 +312,16 @@ Class("linb.coder", null,{
                 ];
                 if(key!='css'){
                     //insert a
-                    add_arr.insertAny([/for\s*\([\w ]+\sin\s/, "$0"],2,true);
-                    add_arr.insertAny([/for\s*\(([^;]*);([^;]*);([^)]*)\)/, "for($1; $2; $3)"],3,true);
+                    _.arr.insertAny(add_arr,[/for\s*\([\w ]+\sin\s/, "$0"],2,true);
+                    _.arr.insertAny(add_arr,[/for\s*\(([^;]*);([^;]*);([^)]*)\)/, "for($1; $2; $3)"],3,true);
                     //insert b
                     // '=>' is for php
-                    add_arr.insertAny([/(,)(("[^"\n\r]*"|'[^'\n\r]*'|\w+)?(:|=>))/, function(a,i){return a[i+1]+"\n"+space[deep]+a[i+2]}],4,true);
-                    add_arr.insertAny([/\b(case|default)\b[^:]+:/, function(a,i){return a[i]+"\n"+space[deep]}],-1,true);
+                    _.arr.insertAny(add_arr,[/(,)(("[^"\n\r]*"|'[^'\n\r]*'|\w+)?(:|=>))/, function(a,i){return a[i+1]+"\n"+space[deep]+a[i+2]}],4,true);
+                    _.arr.insertAny(add_arr,[/\b(case|default)\b[^:]+:/, function(a,i){return a[i]+"\n"+space[deep]}],-1,true);
                 }
                 arr.length=0;
-                arr.insertAny(pre_arr);
-                arr.insertAny(add_arr)
+                _.arr.insertAny(arr,pre_arr);
+                _.arr.insertAny(arr,add_arr)
                 str = this.replace(str, arr);
 
                 // format 2
@@ -342,8 +342,8 @@ Class("linb.coder", null,{
                     );
                 };
                 arr.length=0;
-                arr.insertAny(pre_arr);
-                arr.insertAny(add_arr)
+                _.arr.insertAny(arr,pre_arr);
+                _.arr.insertAny(arr,add_arr)
 
                 str = this.replace(str, arr);
                 str = restore2(restore1(str));
@@ -414,7 +414,7 @@ Class("linb.coder", null,{
             });
 
             //sort items
-            ["reg1", "reg2", "string1", "string2", "number"].each(function(s){
+            _.arr.each(["reg1", "reg2", "string1", "string2", "number"],function(s){
                 if(a[s]){
                     f(a[s],s);
                     delete a[s];
@@ -439,7 +439,7 @@ Class("linb.coder", null,{
             if(paras && paras[0]){
                 aa.push("<div id='"+_key+"-"+'cmd'+":"+id+"' class='cmd'>");
 
-                paras.each(function(s){
+                _.arr.each(paras,function(s){
                      aa.push("<a id='"+_key+"-"+s+":"+id+"' href='javascript:;' onclick='linb.coder.action(this,\""+s+"\");return false;'>"+s+"</a>");
                 });
 
@@ -480,7 +480,7 @@ Class("linb.coder", null,{
                     i++;
                     _t=linb(id)
                     cls = _.str(_t.className()).split(' ');
-                    o=linb.coder.parse(_t.text(), cls[0], cls[1]?cls[1].split('-'):undefined, null, String(i)).toDom();
+                    o=_.str.toDom(linb.coder.parse(_t.text(), cls[0], cls[1]?cls[1].split('-'):undefined, null, String(i)));
                     _t.replace(o.id(id+':'+i));
                 }else{
                     linb.thread(threadid).abort();

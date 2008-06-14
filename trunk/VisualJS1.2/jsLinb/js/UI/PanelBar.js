@@ -75,7 +75,7 @@ Class("linb.UI.PanelBar", ["linb.UI.Div","linb.UI.iContainer"],{
                 'background-color':'#fff'
             },
             HANDLE:{
-                '-moz-user-select':linb.browser.gek?'none':null,                
+                '-moz-user-select':linb.browser.gek?'none':null,
                 overflow:'hidden',
                 background: linb.UI.getCSSImgPara('barvbg.gif', ' repeat-x left top', null, 'linb.UI.Public'),
                 position:'relative',
@@ -237,7 +237,7 @@ Class("linb.UI.PanelBar", ["linb.UI.Div","linb.UI.iContainer"],{
                     var dialog = new linb.UI.Dialog(pro);
                     linb(document.body).attach(dialog);
 
-                    profile.children.each(function(o){
+                    _.arr.each(profile.children,function(o){
                         dialog.attach(o[0]);
                     });
                     profile.boxing().destroy();
@@ -323,7 +323,7 @@ Class("linb.UI.PanelBar", ["linb.UI.Div","linb.UI.iContainer"],{
             var self=this, t=self.properties, b=self.box;
             if(t.toggle)
                 b._toggle(self,t.toggle);
-        },        
+        },
         prepareData:function(profile){
             arguments.callee.upper.call(this, profile);
             var data=profile.data, nodisplay='display:none';

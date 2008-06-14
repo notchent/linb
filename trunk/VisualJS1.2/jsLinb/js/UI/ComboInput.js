@@ -26,7 +26,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                 else{
                     //get from items
                     if('listbox'==pro.type || 'combobox' == pro.type){
-                        if( (v=pro.items.subIndexOf('id',value))!=-1){
+                        if( (v=_.arr.subIndexOf(pro.items,'id',value))!=-1){
                             v=pro.items[v].caption;
                             v=v.charAt(0)=='$'?linb.getRes(v.slice(1)):v;
                         }else
@@ -147,7 +147,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                         case 'helpinput':
                             linb.SC('linb.UI.List');
                             o = linb.create('List');
-                            o.host(profile).setItems(pro.items.copy()).adjustSize();
+                            o.host(profile).setItems(_.copy(pro.items)).adjustSize();
                             o.beforeValueUpdated(function(pro, ovalue, value, showValue){
                                 //give showValue
                                 this.$showValue = showValue;
@@ -511,10 +511,10 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
             },
             type:{
                 ini:'combobox',
-                listbox:'none,combobox,listbox,upload,getter,helpinput,cmdbox,popbox,timepicker,datepicker,colorpicker'.toArr(),
+                listbox:_.toArr('none,combobox,listbox,upload,getter,helpinput,cmdbox,popbox,timepicker,datepicker,colorpicker'),
                 set:function(v){
                     var self=this,pro;
-                    if(v.exists(':')){
+                    if(v.indexOf(':')!=-1){
                         var arr=v.split(':');
                         if(arr[1]=='readonly')
                             self.setReadonly(true);

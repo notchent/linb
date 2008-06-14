@@ -682,7 +682,7 @@ Class('linb.UI.ColorPicker', 'linb.UI.iWidget', {
                 vv=linb.getRes('color.LIST.'+v);
             ex.setStyle({backgroundColor:'#'+v, color:hsv[2]>0.6?'#000':'#FFF'});
             ex.text(vv==v?'#'+v:vv);
-        },      
+        },
         //reset example block
         _updateDftTip:function(p){
             var cls=p.box,
@@ -791,7 +791,7 @@ Class('linb.UI.ColorPicker', 'linb.UI.iWidget', {
         ensureV:function(profile,v){
             var ns=this,me=arguments.callee,map=me.map||(me.map=(function(){
                 var h={};
-                ns.C16.split('').each(function(o,i){
+                _.arr.each(ns.C16.split(''),function(o,i){
                     h[o]=1;
                 });
                 return h;
@@ -809,7 +809,7 @@ Class('linb.UI.ColorPicker', 'linb.UI.iWidget', {
         hsv2rgb: function(h, s, v) {
             if(h instanceof Array) {
                 s=h[1]; v=h[2]; h=h[0];
-            }            
+            }
             var me=arguments.callee, f = me.f ||
                 (me.f=function(n) {
                     return Math.min(255, Math.round(n*256));
@@ -847,21 +847,21 @@ Class('linb.UI.ColorPicker', 'linb.UI.iWidget', {
                 v = max,
                 h;
             switch (max) {
-                case min: 
-                    h=0; 
+                case min:
+                    h=0;
                     break;
                 case r:
-                    h=60*(g-b)/delta; 
+                    h=60*(g-b)/delta;
                     if(g<b)h+=360;
                     break;
                 case g:
-                    h=(60*(b-r)/delta)+120; 
+                    h=(60*(b-r)/delta)+120;
                     break;
                 case b:
                     h=(60*(r-g)/delta)+240;
                     break;
             }
-            return [Math.round(h), s, v];            
+            return [Math.round(h), s, v];
         },
         //rgb values into a hex string; 255,255,255 -> FFFFFF
         rgb2hex: function(r, g, b) {

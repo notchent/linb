@@ -32,10 +32,10 @@ Class("linb.css", null,{
                 }
             }else
                 head.appendChild(fc);
-            return fc;         
+            return fc;
         },
         _getCss:function(id, last){
-            return document.getElementById(id) || this._createCss(id, last);      
+            return document.getElementById(id) || this._createCss(id, last);
         },
         _getBase:function(){
             return this._getCss(this._baseid);
@@ -121,7 +121,7 @@ Class("linb.css", null,{
                 t += i.replace(/([A-Z])/g,"-$1").toLowerCase() + ":" + o +";";
             });
             return flag?t:selector+"{" + t + "}";
-        },        
+        },
         clearRules:function(s){
             return this.updateRules(s);
         },
@@ -130,7 +130,7 @@ Class("linb.css", null,{
         /*
         *in IE: don't use multi css exp for skin
         */
-        //css:  
+        //css:
         //  !!false     =>  remove all related style
         //  hashtable   =>  update style value
         updateRules:function(selector, value, force){
@@ -138,10 +138,10 @@ Class("linb.css", null,{
                 add=true,
                 ds=document.styleSheets,
                 target, target2, selectorText, bak, h, e, t, _t;
-            selector = selector.replace(/\s+/g,' ').trim();
+            selector = _.str.trim(selector.replace(/\s+/g,' '));
             bak=selector.toLowerCase();
-            _.toArr(ds).each(function(o){
-                _.toArr(o[ns._r]).each(function(v,i){
+            _.arr.each(_.toArr(ds),function(o){
+                _.arr.each(_.toArr(o[ns._r]),function(v,i){
                     if(!v.selectorText)return;
                     selectorText =  v.selectorText.replace(/\.(\w+)\[CLASS~="\1"\]/g,'.$1')
                                      .replace(/\[ID"([^"]+)"\]/g,'#$1')
@@ -150,12 +150,12 @@ Class("linb.css", null,{
                                      .replace(/\*\|/g,'')
                                      .replace(/(\s*,\s*)/g,',').toLowerCase();
                     /*Notice: in IE, no ',' in any selectorTExt*/
-                    _t=selectorText.toArr();
+                    _t=_.toArr(selectorText);
                     //null=>remove
                     if(!value){
                         add=false;
-                        if(_t.exists(bak) && _t.length>1){
-                            _t=_t.removeFrom(_t.indexOf(bak)).join(',');
+                        if(_.arr.indexOf(_t,bak)!=-1 && _t.length>1){
+                            _t=_.arr.removeFrom(_t,_.arr.indexOf(_t,bak)).join(',');
                             t=v.cssText.slice(v.cssText.indexOf("{")+1,v.cssText.lastIndexOf("}"));
                             if(o.insertRule)
                                 o.insertRule(_t+"{" + t + "}", o[ns._r].length);
@@ -164,23 +164,23 @@ Class("linb.css", null,{
                             if(o.deleteRule)
                                 o.deleteRule(i);
                             else
-                                o.removeRule(i);          
+                                o.removeRule(i);
                             o.disabled=true;
-                            o.disabled=false;                  
+                            o.disabled=false;
                         }else if(selectorText == bak){
                             if(o.deleteRule)
                                 o.deleteRule(i);
                             else
-                                o.removeRule(i);                            
+                                o.removeRule(i);
                             o.disabled=true;
-                            o.disabled=false;                  
+                            o.disabled=false;
                         }
                     //modify the last one
                     }else{
                         //for single css exp, (all single css exp in IE)
                         if(selectorText==bak){target=v;return false}
                         //for multi css exps, not in IE
-                        if(_t.exists(bak)){target2=v;return false}
+                        if(_.arr.indexOf(_t,bak)!=-1){target2=v;return false}
                     }
                 },null,true);
                 if(target){
@@ -192,14 +192,14 @@ Class("linb.css", null,{
                         })
                     }catch(e){}
                     o.disabled=true;
-                    o.disabled=false;                                      
+                    o.disabled=false;
                     return false;
                 //not in IE
                 }else if(target2){
                     add=false;
                     o.insertRule(ns._build(selector,value), o[ns._r].length);
                     o.disabled=true;
-                    o.disabled=false;                  
+                    o.disabled=false;
                     return false;
                 }
             },null,true);

@@ -100,7 +100,7 @@ new function(){
                         delete c.alias;
                         if(host)c.host=host;
                         if(c.children){
-                            c.children.each(function(a){
+                            _.arr.each(c.children,function(a){
                                 self(a[0], host);
                             });
                         }
@@ -199,7 +199,7 @@ new function(){
 
             if(self === linb.Base)return;
 
-            m=me.a1 || (me.a1='$Keys,$DataModel,$DataStruct,$EventHandlers'.toArr());
+            m=me.a1 || (me.a1=_.toArr('$Keys,$DataModel,$DataStruct,$EventHandlers'));
             for(j=0;v=m[j++];){
                 if(t=self.$parent){
                     k={};
@@ -223,7 +223,7 @@ new function(){
             self.setEventHandlers(self.EventHandlers);
             delete self.EventHandlers;
 
-            m=me.a5 || (me.a5='createdTrigger,renderedTrigger'.toArr());
+            m=me.a5 || (me.a5=_.toArr('createdTrigger,renderedTrigger'));
             for(j=0;v=m[j++];){
                 temp=[];
                 if(t=self.$parent)
@@ -274,7 +274,7 @@ new function(){
                         ds[i] = o.ini!==undefined?o.ini:ds[i] !==undefined?ds[i]:undefined;
                     }else{
                         if(null===o){
-                            r=i.initial();
+                            r=_.str.initial(i);
                             delete ds[i];
                             delete properties[i]
                             delete self.prototype['get'+r];
@@ -289,7 +289,7 @@ new function(){
 
                 _.each(hash,function(o,i){
                     if(o===null || sc[i.charAt(0)] || typeof o == 'function')return;
-                    r=i.initial();
+                    r=_.str.initial(i);
                     //readonly properties
                     if(!(o && o.readonly)){
                         //custom set
@@ -421,12 +421,12 @@ new function(){
                 var o = this._pool[name];
                 if(!o)
                     o = this._pool[name] = new linb.iDataBinder();
-                if(pro && !o._nodes.exists(pro))o._nodes.push(pro);
+                if(pro && _.arr.indexOf(o._nodes,pro)==-1)o._nodes.push(pro);
             },
             unlink:function(name, pro){
                 var o = this._pool[name];
                 if(o)
-                    o._nodes.removeValue(pro);
+                    _.arr.removeValue(o._nodes,pro);
             },
             getDataBinder:function(name){
                 return this._pool[name];
@@ -509,7 +509,7 @@ new function(){
                     c=linb.cache.dom,
                     reg=t._reg;
 
-                if(typeof id != 'string' || !reg.test(id) || id.trim()=='')
+                if(typeof id != 'string' || !reg.test(id) || _.str.trim(id)=='')
                     id=t.$domId;
 
                 if(t.domId!=t.$domId)
@@ -762,7 +762,7 @@ new function(){
                 var r = [];
                 var f = arguments.callee.f || (arguments.callee.f = function(items, fun, deep, single, r){
                     var me = arguments.callee;
-                    items.each(function(o){
+                    _.arr.each(items,function(o){
                         if(fun===true || fun.call(null, o)){
                             r.push(o);
                             if(single)return false;
@@ -807,7 +807,7 @@ new function(){
             }
             */
 
-            m=me.a2 || (me.a2='$Templates,$Behaviors,$Appearances'.toArr());
+            m=me.a2 || (me.a2=_.toArr('$Templates,$Behaviors,$Appearances'));
             for(j=0;v=m[j++];){
                 k={};
                 if(t=self.$parent){
@@ -826,8 +826,8 @@ new function(){
                     self[v]={};
             }
 
-            m=me.a3 || (me.a3='Templates,Behaviors,Appearances'.toArr());
-            w=me.a4 || (me.a4='setTemplate,setBehavior,setAppearance'.toArr());
+            m=me.a3 || (me.a3=_.toArr('Templates,Behaviors,Appearances'));
+            w=me.a4 || (me.a4=_.toArr('setTemplate,setBehavior,setAppearance'));
             for(j=0;v=m[j];j++){
                 u=self[v];
                 for(i in u)
@@ -840,13 +840,13 @@ new function(){
                 delete self.PublicAppearance;
             }
             if(self.Dropable && self.Dropable.length){
-                self.Dropable.each(function(o){
+                _.arr.each(self.Dropable,function(o){
                     self.dropable(o)
                 });
                 delete self.Dropable;
             }
             if(self.Dragable&& self.Dragable.length){
-                self.Dragable.each(function(o){
+                _.arr.each(self.Dragable,function(o){
                     self.dragable(o)
                 });
                 delete self.Dragable;
@@ -862,7 +862,7 @@ new function(){
             },
             toDomNodes:function(){
                 var t, arr=[];
-                this._nodes.each(function(o){
+                _.arr.each(this._nodes,function(o){
                     if(t=o.domNode)arr.push(t);
                 });
                 return arr;
@@ -924,8 +924,8 @@ new function(){
                 profile.alias = profile.alias || c.pickAlias();
                 c._namePool[profile.alias]=1;
 
-                profile.createdTrigger=c.$createdTrigger.copy();
-                profile.renderedTrigger=c.$renderedTrigger.copy();
+                profile.createdTrigger=_.copy(c.$createdTrigger);
+                profile.renderedTrigger=_.copy(c.$renderedTrigger);
 
                 //not register subcontrols id / dom cache
                 //attribute in innerHTML won't cause memory leak in IE.
@@ -1034,7 +1034,7 @@ new function(){
             clone:function(flag){
                 var arr=[];
                 this.each(function(o){
-                    arr.insertAny(linb.create(o.clone(flag)).get());
+                    _.arr.insertAny(arr,linb.create(o.clone(flag)).get());
                 });
                 return this.constructor.pack(arr,false);
             },
@@ -1054,9 +1054,9 @@ new function(){
                     o.root.replace(replace,true);
 
                     //keep children
-                    children = o.children.copy();
+                    children = _.copy(o.children);
                     o.children.length=0;
-                    children.each(function(o){
+                    _.arr.each(children,function(o){
                         //for flush dock
                         delete o[0].$dockParent;
 
@@ -1099,7 +1099,7 @@ new function(){
                         p.attach(o);
 
                     //restore children
-                    children.each(function(v){
+                    _.arr.each(children,function(v){
                         o.attach.apply(o,v);
                     });
                     replace.remove();
@@ -1229,7 +1229,7 @@ new function(){
 
                 var pb = new linb.UI.PanelBar(pro);
                 this.attach(pb, item&&item.id);
-                children.each(function(o){
+                _.arr.each(children,function(o){
                     pb.attach(o[0]);
                 });
             },
@@ -1275,7 +1275,7 @@ new function(){
                 var fun=(me.fun||(me.fun=function(pro,i, h, flag){
                     var node=pro.getSubNode(i,true),b;
                     if(!node.isEmpty())
-                        h[i].split(/\s+/).each(function(o){
+                        _.arr.each(h[i].split(/\s+/),function(o){
                             if(!flag)
                                 node.addClass(o);
                             else
@@ -1321,7 +1321,7 @@ new function(){
                 var fun=(me.fun||(me.fun=function(pro,i,h, flag){
                     var node=pro.getSubNode(i,true),b;
                     if(h[i] && !node.isEmpty())
-                        h[i].split(';').each(function(o,i){
+                        _.arr.each(h[i].split(';'),function(o,i){
                             if((b=o.split(':')).length==2){
                                 b[0]=b[0].replace(/\-(\w)/g,function(a,b){return b.toUpperCase()});
                                 try{node.setStyle(b[0], flag?'':b[1])}catch(e){}
@@ -1513,9 +1513,9 @@ new function(){
             unserialize:function(str,flag){
                 var a=_.unserialize(str),f=function(o){
                     delete o.serialId;
-                    o.children.each(f);
+                    _.arr.each(o.children,f);
                 };
-                a.each(function(o){
+                _.arr.each(a,function(o){
                     if(!flag)f(o);
                 });
                 return linb.create(a);
@@ -1525,7 +1525,7 @@ new function(){
                     return e._nodes;
                 else{
                     var r = this._dom2ui(linb.dom.pack(e)._nodes);
-                    r.filter(function(o){
+                    _.filter(r,function(o){
                         return o.box['linb.UI'];
                     });
                     return r;
@@ -1533,7 +1533,7 @@ new function(){
             },
             _dom2ui:function(arr){
                 var i=0,a=[],t,key=this.KEY;
-                arr.each(function(o){
+                _.arr.each(arr,function(o){
                     if((t=linb.cache.dom[o.id]) && t.key)
                         a[i++] = t;
                 });
@@ -1558,7 +1558,7 @@ new function(){
             getByCacheId:function(ids){
                 var arr=[],t,n=this._cache;
                 ids = ids instanceof Array?ids:[ids];
-                ids.each(function(id){
+                _.arr.each(ids,function(id){
                     if(t=n[id])arr[arr.length]=t;
                 });
                 return linb.UI.pack(arr,false);
@@ -1858,7 +1858,7 @@ new function(){
                                 for(var o,i=0,l=arr.length;i<l;i++){
                                     o=arr[i];
                                     if(typeof o=='string')
-                                        nodes.insertAny(profile.getSubNode(o,cid).get());
+                                        _.arr.insertAny(nodes,profile.getSubNode(o,cid).get());
                                     else
                                         funs.push(o);
                                 }
@@ -1892,7 +1892,7 @@ new function(){
                             nodes.length=0;
                         }
                         if(funs&&funs.length){
-                            funs.each(function(o){
+                            _.arr.each(funs,function(o){
                                 _.tryF(o,[profile],profile)
                             });
                             funs.length=0;
@@ -1903,7 +1903,7 @@ new function(){
                 },t;
                 if(hash._hoverEffect)
                     _.each(hash._hoverEffect,function(o,i){
-                        t=['','KEY','$key'].exists(i)?hash:(hash[i]||(hash[i]={}));
+                        t=_.arr.indexOf(['','KEY','$key'],i)!=-1?hash:(hash[i]||(hash[i]={}));
                         if(!o)
                             t.afterMouseover = t.afterMouseout = null;
                         else{
@@ -1914,7 +1914,7 @@ new function(){
 
                 if(hash._clickEffect)
                     _.each(hash._clickEffect,function(o,i){
-                        t=['','KEY','$key'].exists(i)?hash:(hash[i]||(hash[i]={}));
+                        t=_.arr.indexOf(['','KEY','$key'],i)!=-1?hash:(hash[i]||(hash[i]={}));
                         if(!o)
                             t.afterMousedown = t.afterMouseup = null;
                         else{
@@ -2000,7 +2000,7 @@ new function(){
 
             mapKeys:function(v){
                 var self=this;
-                v.each(function(i){
+                _.arr.each(v,function(i){
                     self.$Keys[i] = self.KEY+ "-" + i;
                 })
             },
@@ -2244,7 +2244,7 @@ new function(){
                                 r[r.length]=j+":"+v(self.KEY)+";"+enter;break;
                             //arrray
                             default:
-                                v.each(function(k){
+                                _.arr.each(v,function(k){
                                     //neglect '' or null
                                     if(k)r[r.length]=j+":"+k+";"+enter;
                                 });
@@ -2440,7 +2440,7 @@ new function(){
                 for(i in item){
                     if(i.charAt(0)=='$')continue;
                     if(!(i in hash))
-                        hash[i] = typeof (o=item[i])=='string' ? 
+                        hash[i] = typeof (o=item[i])=='string' ?
                                   (
                                       ((o.indexOf('$')!=-1) ? (o=o.replace(r, function(a,b,c,d){return b+w(d)})) : o)
                                     &&((o.charAt(0)=='@') ? (linb.SC.evalPath(o.substr(1,o.length)) || o) : o)
@@ -2527,13 +2527,13 @@ new function(){
                         if(r!==undefined)value=r;
                         //before setCtrlValue
                         if(typeof (r=profile.box.ensureV)=='function')
-                            value = r.call(profile.box, profile, value);                        
+                            value = r.call(profile.box, profile, value);
                         if(typeof(r=profile.$onValueUpdated)=='function')r.call(profile,value);
                         //before value copy
                         if(profile.domNode)box.setCtrlValue(value);
                         //value copy
                         prop.$UIvalue = value;
-                        
+
                         if(profile.domNode)box.setDirtyMark();
                         if(profile.afterValueUpdated)box.afterValueUpdated(profile, ovalue, value);
                     }
@@ -2596,7 +2596,7 @@ new function(){
                                 //before setCtrlValue
                                 //ensure value
                                 if(typeof (r=profile.box.ensureV)=='function')
-                                    value = r.call(profile.box, profile, value);                                    
+                                    value = r.call(profile.box, profile, value);
                                 if(typeof(r=profile.$onValueSet)=='function')r.call(profile,value);
                                 //before value copy
                                 if(profile.domNode)box.setCtrlValue(value);
@@ -2685,7 +2685,7 @@ new function(){
                 onHotKeydown:function(profile, key, control, shift, alt, e, src){},
                 onHotKeypress:function(profile, key, control, shift, alt, e, src){},
                 onHotKeyup:function(profile, key, control, shift, alt, e, src){},
-                
+
                 onShowTips:function(profile, node, pos){}
             },
             createdTrigger:function(){
@@ -2713,7 +2713,7 @@ new function(){
                 }
                 if(p.dock && p.dock != 'none')
                     s.dock(this,true);
-                
+
                 self.rendered=true;
                 if(self.afterRendered)
                     b.afterRendered(self);
@@ -2857,7 +2857,7 @@ new function(){
                             //self refrence
                             f.node=p;
                             f.arr=['top','bottom','left','right','center','middle','width','height'];
-                            f.arr.each(function(key){
+                            _.arr.each(f.arr,function(key){
                                 f[key]=[];
                             });
                             //is window resizer
@@ -3008,7 +3008,7 @@ new function(){
                 }
                 //run once now
                 if(value != 'none' && flag)
-                    profile.$dock(profile, {width:1, height:1, $dockid:['width','height','fill','cover'].exists(value)?profile.$id:null, $type: value});
+                    profile.$dock(profile, {width:1, height:1, $dockid:_.arr.indexOf(['width','height','fill','cover'],value)!=-1?profile.$id:null, $type: value});
             },
             checkValid:function(profile, value){
                 return true;
@@ -3065,7 +3065,7 @@ new function(){
                     data = profile.data,
                     dm = this.getDataModel(),
                     me = arguments.callee,
-                    map = me.map || (me.map='left,top,bottom,right,width,height'.toArr()),
+                    map = me.map || (me.map=_.toArr('left,top,bottom,right,width,height')),
                     a=[''],
                     t
                     ;
@@ -3153,12 +3153,12 @@ new function(){
             },
             showTips:function(profile, node, pos){
                 if(profile.onShowTips)
-                    return profile.boxing().onShowTips(profile, node, pos);          
+                    return profile.boxing().onShowTips(profile, node, pos);
             }
         },
         Initialize:function(){
             var self=this, hash={};
-            'left,top,width,height,right,bottom'.toArr().each(function(o){
+            _.arr.each(_.toArr('left,top,width,height,right,bottom'),function(o){
                 hash[o] = {
                     ini:'auto',
                     action:function(value){
@@ -3246,15 +3246,15 @@ new function(){
             });
 
             self.setDataModel(hash);
-            'left,top,width,height,right,bottom,zIndex,position,visibility'.toArr().each(function(key){
-                var n='refresh'+key.initial();
+            _.arr.each(_.toArr('left,top,width,height,right,bottom,zIndex,position,visibility'),function(key){
+                var n='refresh'+_.str.initial(key);
                 self.prototype[n] = Class._fun(function(){
                     var self=this;
                     self.each(function(profile){
                         var t = (profile.domNode)?profile.root[key]():profile.properties[key];
-                        self['set'+key.initial()](t);
+                        self['set'+_.str.initial(key)](t);
                     });
-                    return self['get'+key.initial()]();
+                    return self['get'+_.str.initial(key)]();
                 },n,self.KEY);;
             });
         }
@@ -3421,11 +3421,11 @@ new function(){
                 return this.each(function(profile){
                     box=profile.box;
                     items = profile.properties.items;
-                    index = items.subIndexOf('id',base);
+                    index = _.arr.subIndexOf(items,'id',base);
                     if(index==-1){
-                        items.insertAny(arr);
+                        _.arr.insertAny(items,arr);
                     }else
-                        items.insertAny(arr, before?index:index+1);
+                        _.arr.insertAny(items,arr, before?index:index+1);
 
                     // prepare properties format
                     data = box.prepareItems(profile, arr, base);
@@ -3437,7 +3437,7 @@ new function(){
                             node = profile.getSubNode(box.ITEMSKEY || profile.keys.ITEMS || profile.keys.KEY);
 
                             if(typeof before=="boolean"){
-                                r=ss.toDom();
+                                r=_.str.toDom(ss);
                                 //items.length==1 for that one have fake item(for example: editable poll)
                                 if(before||items.length==1)
                                     node.addFirst(r);
@@ -3446,7 +3446,7 @@ new function(){
                             }else
                                 node.html(ss);
                         }else{
-                            r = ss.toDom();
+                            r = _.str.toDom(ss);
                             node=profile.getSubNodeByItemId(box.ITEMKEY || 'ITEM', base);
                             if(before===true)
                                 node.addPre(r);
@@ -3464,9 +3464,9 @@ new function(){
                     remove=function(profile, arr, target, ns, force){
                         var self=arguments.callee;
                         if(!ns)ns=linb([]);
-                        arr.filter(function(o){
+                        _.filter(arr,function(o){
                             var serialId,b;
-                            if(force || (b=target.exists(o.id))){
+                            if(force || (b=(_.arr.indexOf(target,o.id)!=-1))){
                                 if(serialId=profile.ItemIdMapSubSerialId[o.id]){
                                     // clear maps
                                     delete profile.SubSerialIdMapItem[serialId];
@@ -3486,7 +3486,7 @@ new function(){
                                 for(var i in o)o[i]=null;
                                 return false;
                             }
-                        },null,true);
+                        });
                         ns.remove();
                     };
                 if(b)profile.boxing().beforeRemoveItems(profile, arr);
@@ -3497,12 +3497,12 @@ new function(){
                     // clear value
                     if(v=profile.properties.value){
                         if((v=v.split(';')).length>1){
-                            v.filter(function(o){
-                                return !arr.exists(o);
+                            _.filter(v,function(o){
+                                return _.arr.indexOf(arr,o)==-1;
                             });
                             profile.properties.value=v.join(';');
                         }else{
-                            if(arr.exists(profile.properties.value))
+                            if(_.arr.indexOf(arr,profile.properties.value)!=-1)
                                 profile.properties.value=null;
                         }
                     }
@@ -3541,7 +3541,7 @@ new function(){
             .setCacheList('test1', [a0,a2,a3])
             .setCacheList('test2', [a1,a2,a3]);
 
-            'getItemByItemId,getItemByDom,getIdBySubId,getSubSerialIdByItemId'.toArr().each(function(s){
+            _.arr.each(_.toArr('getItemByItemId,getItemByDom,getIdBySubId,getSubSerialIdByItemId'),function(s){
                 this[s]=function(){
                     var t=this.get(0);
                     return t[s].apply(t,arguments);
@@ -3597,7 +3597,7 @@ new function(){
         }
     });
 
-    'iContainer,iForm,iMisc,iNavigator,iSchedule'.toArr().each(function(i){
+    _.arr.each(_.toArr('iContainer,iForm,iMisc,iNavigator,iSchedule'),function(i){
         Class(u+i,null,{
             Static:{
                 $i:true
@@ -3708,11 +3708,11 @@ new function(){
                     }
                 }
             },
-            _l:'left,top,bottom,right,width,height,zIndex,tabindex,position,dock,dockFloat,dockMinW,dockMinH,dockOrder,dockMargin'.toArr(),
+            _l:_.toArr('left,top,bottom,right,width,height,zIndex,tabindex,position,dock,dockFloat,dockMinW,dockMinH,dockOrder,dockMargin'),
             //replace tag profile with other UI profile
             replace:function(tagProfile, profile){
                 //reset properties
-                this._l.each(function(s){
+                _.arr.each(this._l,function(s){
                     if(s in tagProfile.properties)profile.properties[s]=tagProfile.properties[s];
                 });
                 _.merge(profile.CA,tagProfile.CA,'all');
@@ -3722,7 +3722,7 @@ new function(){
                     //get tag links
                     var clink = tagProfile.parent.children,
                         linkObj = clink[tagProfile.$id],
-                        index = clink.indexOf(linkObj);
+                        index = _.arr.indexOf(clink,linkObj);
                     tagProfile.parent.boxing().attach(profile, linkObj[1]);
                     // set to tag index
                     clink[index] = clink.pop();

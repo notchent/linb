@@ -25,11 +25,11 @@ Class("linb.UI.PageBar",["linb.UI.iWidget","linb.UI.iNavigator"],{
                     ;
                 //change href and text
                 change(first, min, min);
-                change(prehide, '','..' + '.'.repeat(String(cur-1-min).length) );
+                change(prehide, '','..' + _.str.repeat('.',String(cur-1-min).length) );
                 change(pre, cur-1);
                 change(current, cur, cur);
                 change(next, cur+1);
-                change(nexthide, '','..' + '.'.repeat(String(max-cur-1).length) );
+                change(nexthide, '','..' + _.str.repeat('.',String(max-cur-1).length) );
                 change(last, max, max);
 
                 //show or hide
@@ -244,7 +244,7 @@ Class("linb.UI.PageBar",["linb.UI.iWidget","linb.UI.iNavigator"],{
             v = typeof v == 'string'? v.split(':') : v;
             v[0]=parseInt(v[0]);v[1]=parseInt(v[1]);v[2]=parseInt(v[2]);
             return v;
-        },        
+        },
         _click:function(profile, src){
             profile.boxing().onClick(profile, src);
         },

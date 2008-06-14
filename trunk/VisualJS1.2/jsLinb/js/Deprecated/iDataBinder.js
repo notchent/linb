@@ -8,7 +8,7 @@
         Instance:{
             each:function(fun){
                 var self=this;
-                self._nodes.each(function(o,i){
+                _.arr.each(self._nodes,function(o,i){
                     return fun.call(self, o, i);
                 });
                 return self;
@@ -74,7 +74,7 @@
 
                 linb.DataSource.bind(name, name);
 
-                if(pro && !o._nodes.exists(pro))o._nodes.push(pro);
+                if(pro && _.arr.indexOf(o._nodes,pro)==-1)o._nodes.push(pro);
             },
             getDataBinder:function(name){
                 return this._pool[name];

@@ -19,7 +19,7 @@ Class('VisualJS.PageEditor', 'linb.Com',{
                 "parent.sandbox=MSIE?this:{eval:function(s){return eval(s)}}"+
                 "<\/script>"
             );
-            txt=txt.trim();
+            txt=_.str.trim(txt);
             try{
                 try{
                     sandbox.eval(txt);

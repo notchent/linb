@@ -42,12 +42,12 @@ Class("linb.UI.List", ["linb.UI.iList","linb.UI.iWidget", "linb.UI.iForm"],{
                     uiv = uiv?uiv.split(';'):[];
                     value = value?value.split(';'):[];
                     //check all
-                    uiv.each(function(o){
-                        if(!value.exists(o))
+                    _.arr.each(uiv,function(o){
+                        if(_.arr.indexOf(value,o)==-1)
                             rm('ITEM','-checked',getN(k, getI(o)))
                     });
-                    value.each(function(o){
-                        if(!uiv.exists(o))
+                    _.arr.each(value,function(o){
+                        if(_.arr.indexOf(uiv,o)==-1)
                             add('ITEM','-checked',getN(k, getI(o)))
                     });
                 }
@@ -196,8 +196,8 @@ Class("linb.UI.List", ["linb.UI.iList","linb.UI.iWidget", "linb.UI.iForm"],{
                         var value = box.getUIValue(),
                             arr = value?value.split(';'):[];
 
-                        if(arr.exists(item.id))
-                            arr.removeValue(item.id);
+                        if(_.arr.indexOf(arr,item.id)!=-1)
+                            _.arr.removeValue(arr,item.id);
                         else
                             arr.push(item.id);
                         arr.sort();
@@ -282,8 +282,8 @@ Class("linb.UI.List", ["linb.UI.iList","linb.UI.iWidget", "linb.UI.iForm"],{
                         clearTimeout(profile._wordcachetimeout);
 
                         var arr = profile.properties.items;
-                        arr.each(function(o,i){
-                            if(o.caption.toLowerCase().startWith(profile._wordcache)){
+                        _.arr.each(arr,function(o,i){
+                            if(_.str.startWith(o.caption.toLowerCase(),profile._wordcache)){
                                 profile.getSubNodeByItemId('ITEM', o.id).focus();
                                 return false;
                             }

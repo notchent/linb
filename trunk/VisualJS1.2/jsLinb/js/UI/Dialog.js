@@ -508,9 +508,6 @@ Class("linb.UI.Dialog",["linb.UI.Widget","linb.UI.iContainer"],{
             data.closeDisplay = data.closeBtn?'':nodisplay;
             data.pinDisplay = data.pinBtn?'':nodisplay;
             data.landDisplay = data.landBtn?'':nodisplay;
-
-            data.iconDisplay = data.icon?'':nodisplay;
-
             var status=profile.properties.status;
             if(status=='min'||status=='max')
                 profile.$noR=profile.$noS=1;

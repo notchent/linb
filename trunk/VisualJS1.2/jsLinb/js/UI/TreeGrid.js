@@ -16,20 +16,20 @@ Class("linb.UI.TreeGrid","linb.UI.iWidget",{
 
             //get column width
             var ws=[], hw=profile.getSubNode('HCELL0').width();
-            profile.properties.header.each(function(v){
+            _.arr.each(profile.properties.header,function(v){
                 ws.push(profile.getSubNode('HCELL', profile.header_ItemIdMapSerialId[v.id]).width());
             });
 
             //give width at here
-            arr.each(function(o){
+            _.arr.each(arr,function(o){
                 o.rowHandlerWidth = hw-o._layer*profile.properties.$subMargin;
-                o.cells.each(function(v,i){
+                _.arr.each(o.cells,function(v,i){
                     v.width=ws[i];
                 })
             });
 
             //build dom
-            var nodes = profile.box.subBuild(profile, 'rows', arr).toDom();
+            var nodes = _.str.toDom(profile.box.subBuild(profile, 'rows', arr));
             //get base dom
             if(!base){
                 //no base add to parent
@@ -54,7 +54,7 @@ Class("linb.UI.TreeGrid","linb.UI.iWidget",{
             }
 
             //add sub
-            arr.each(function(o){
+            _.arr.each(arr,function(o){
                 //not open sub
                 o.open=false;
                 ////the following code need to handle treemark icon from + to -
@@ -68,11 +68,11 @@ Class("linb.UI.TreeGrid","linb.UI.iWidget",{
             var profile=this.get(0);
             profile.properties.header = header;
 
-            var rows = profile.properties.rows.copy();
+            var rows = _.copy(profile.properties.rows);
             this.removeAllRows();
 
             var arr = profile.box.prepareHeader(profile, header);
-            var nodes = profile.box.subBuild(profile, 'header', arr).toDom();
+            var nodes = _.str.toDom(profile.box.subBuild(profile, 'header', arr));
             profile.getSubNode('HCELL', true).remove();
             profile.getSubNode('HCELLS').addLast(nodes);
 
@@ -126,10 +126,10 @@ Class("linb.UI.TreeGrid","linb.UI.iWidget",{
             else
                 tar = (b[pid].sub || (b[pid].sub=[]));
             if(!base)
-                tar.insertAny(arr, before?0:-1);
+                _.arr.insertAny(tar,arr, before?0:-1);
             else{
-                var index = tar.subIndexOf('_serialId', base);
-                tar.insertAny(arr, before?index:(index+1));
+                var index = _.arr.subIndexOf(tar,'_serialId', base);
+                _.arr.insertAny(tar,arr, before?index:(index+1));
             }
 
             //insert
@@ -150,7 +150,7 @@ Class("linb.UI.TreeGrid","linb.UI.iWidget",{
 
             //get array
             ids = _.isArr(ids)?ids:[ids];
-            ids.each(function(id){
+            _.arr.each(ids,function(id){
                 //get item id
                 if(!(id=profile.row_ItemIdMapSerialId[id]))return;
 
@@ -173,7 +173,7 @@ Class("linb.UI.TreeGrid","linb.UI.iWidget",{
 
                     //clear properties.row array
                     if(temp= row._pid?(temp=profile.row_SerialIdMapItem[row._pid])?temp.sub:null:profile.properties.row)
-                        temp.filter(function(o){
+                        _.filter(temp,function(o){
                             return o._serialId != id;
                         });
 
@@ -188,7 +188,7 @@ Class("linb.UI.TreeGrid","linb.UI.iWidget",{
                     //for sub delete
                     if(row.sub){
                         var arr=[];
-                        row.sub.each(function(o){
+                        _.arr.each(row.sub,function(o){
                             arr.push(o.id)
                         });
                         this.removeRows(arr);
@@ -257,7 +257,7 @@ Class("linb.UI.TreeGrid","linb.UI.iWidget",{
         },
         openRows:function(rows, flag){
             if(rows && rows.length)
-                rows.each(function(o){
+                _.arr.each(rows,function(o){
                     if(o.sub && o.sub.length && !o.iniFold && !o._checked)
                         this.openRow(o.id, flag);
                 },this);
@@ -330,16 +330,16 @@ Class("linb.UI.TreeGrid","linb.UI.iWidget",{
                 if(!profile.$allrowscache){
                     var all=[];
                     all.push(profile.getSubNode('HCELLS').get(0));
-                    all.insertAny(profile.getSubNode('CELLS',true).get(),-1);
+                    _.arr.insertAny(all,profile.getSubNode('CELLS',true).get(),-1);
                     //filter dispaly==none
-                    all.filter(function(o){
+                    _.filter(all,function(o){
                         return !!o.offsetWidth;
                     });
                     profile.$allrowscache = all;
                 }
 
                 //get index
-                var index = profile.$allrowscache.indexOf(temp);
+                var index = _.arr.indexOf(profile.$allrowscache,temp);
                 var rowLen = profile.$allrowscache.length;
 
                 //adjust index
@@ -842,14 +842,14 @@ Class("linb.UI.TreeGrid","linb.UI.iWidget",{
 
                     //collect cell id
                     var ids=[],ws=[];
-                    if(src.parentNode.id.startWith(profile.keys.HCELL0A)){
+                    if(_.str.startWith(src.parentNode.id,profile.keys.HCELL0A)){
                         var map = profile.row_SerialIdMapItem,
                         p=profile.properties;
                         _.each(profile.row_ItemIdMapSerialId,function(v){
                             ids.push(profile.getSubNodeId(profile.keys.CELL0,v));
                             ws.push(w-map[v]._layer*p.$subMargin);
                         });
-                        ids.each(function(o,i){
+                        _.arr.each(ids,function(o,i){
                             linb(o).width(ws[i]);
                         });
                     }else{
@@ -906,7 +906,7 @@ Class("linb.UI.TreeGrid","linb.UI.iWidget",{
                     //for ie's strange bug
                     if(linb.browser.ie && h%2==1)h+=1;
                     o.height(h);
-                    if(src.parentNode.id.startWith(profile.keys.HCELL0A)){
+                    if(_.str.startWith(src.parentNode.id,profile.keys.HCELL0A)){
                         profile.box.resize(profile,null,profile.root.height());
                     }
                     profile._limited=0;
@@ -945,7 +945,7 @@ Class("linb.UI.TreeGrid","linb.UI.iWidget",{
 
                     var order = col._order || false,
                     type = col.type || 'input',
-                    index = p.header.indexOf(col),
+                    index = _.arr.indexOf(p.header,col),
                     me=arguments.callee,
                     fun = me.fun||(me.fun = function(profile, root, index, type, order){
                         var rows,parent,self=arguments.callee;
@@ -959,7 +959,7 @@ Class("linb.UI.TreeGrid","linb.UI.iWidget",{
                         }
                         //sor sub first
                         var a1=[], a2=[], a3=[] ,a4=[];
-                        rows.each(function(row){
+                        _.arr.each(rows,function(row){
                             if(row.sub && row.sub.length>1)
                                 self(profile, row, index, type, order);
 
@@ -1009,12 +1009,12 @@ Class("linb.UI.TreeGrid","linb.UI.iWidget",{
                         var b = root._created, bak=_.copy(rows), c;
                         if(b)
                             a1=parent.childNodes;
-                        a2.each(function(o,i){
+                        _.arr.each(a2,function(o,i){
                             rows[i]=bak[o];
                             if(b)a3[i]=a1[o];
                         });
                         if(b){
-                            a3.each(function(o,i){
+                            _.arr.each(a3,function(o,i){
                                 parent.appendChild(o);
                                 if(i%2)
                                     a4[a4.length]=o;
@@ -1098,8 +1098,8 @@ Class("linb.UI.TreeGrid","linb.UI.iWidget",{
                     profile.removeTagClass('HCELL', '-dragover', linb(src));
 
                     //get index in HCELL array
-                    var fromIndex = p.header.subIndexOf('_serialId',fromId),
-                    toIndex = p.header.subIndexOf('_serialId',toId)
+                    var fromIndex = _.arr.subIndexOf(p.header,'_serialId',fromId),
+                    toIndex = _.arr.subIndexOf(p.header,'_serialId',toId)
                     ;
                     //if same or same position, return
                     if(fromIndex===toIndex|| fromIndex===toIndex-1)return;
@@ -1122,15 +1122,15 @@ Class("linb.UI.TreeGrid","linb.UI.iWidget",{
                     //HCELL position
                     //keep refrence, and remove
                     var temp=p.header[fromIndex];
-                    p.header.removeFrom(fromIndex);
+                    _.arr.removeFrom(p.header,fromIndex);
                     //insert to right pos
-                    p.header.insertAny(temp,toIndex);
+                    _.arr.insertAny(p.header,temp,toIndex);
                     //cell position row_SerialIdMapItem
                     var allitems = profile.itemsSearch(p.rows, true, true);
-                    allitems.each(function(o){
+                    _.arr.each(allitems,function(o){
                         temp=o.cells[fromIndex];
-                        o.cells.removeFrom(fromIndex);
-                        o.cells.insertAny(temp,toIndex);
+                        _.arr.removeFrom(o.cells,fromIndex);
+                        _.arr.insertAny(o.cells,temp,toIndex);
                     });
 
                     //fire after event
@@ -1521,7 +1521,7 @@ Class("linb.UI.TreeGrid","linb.UI.iWidget",{
             var toParentId, toParent, toIndex,
             fromParentId = fromRow._pid,
             fromParent = fromParentId?map[fromParentId].sub:profile.properties.rows,
-            fromIndex = fromParent.subIndexOf('_serialId',fromId);
+            fromIndex = _.arr.subIndexOf(fromParent,'_serialId',fromId);
 
             if(flag){
                 toParentId = toRow._serialId, toParent;
@@ -1535,7 +1535,7 @@ Class("linb.UI.TreeGrid","linb.UI.iWidget",{
             }else{
                 toParentId = toRow._pid;
                 toParent = toParentId?map[toParentId].sub:profile.properties.rows;
-                toIndex = toParent.subIndexOf('_serialId',toId);
+                toIndex = _.arr.subIndexOf(toParent,'_serialId',toId);
             }
             //if same or same position, return;
             if(toParentId==fromParentId && (toIndex==fromIndex || toIndex== fromIndex+1))return;
@@ -1554,9 +1554,9 @@ Class("linb.UI.TreeGrid","linb.UI.iWidget",{
             }
 
             //remove first
-            fromParent.removeFrom(fromIndex);
+            _.arr.removeFrom(fromParent,fromIndex);
             //insert according to index
-            toParent.insertAny(fromRow,toIndex);
+            _.arr.insertAny(toParent,fromRow,toIndex);
 
             if(flag)
                 profile.getSubNode('SUB', toId).addLast(linb.dragDrop.data);
@@ -1606,7 +1606,7 @@ Class("linb.UI.TreeGrid","linb.UI.iWidget",{
                 SubID=linb.UI.subSerialIdTag,
                 pro=profile.properties,
                 header=[], temp, t;
-            arr.each(function(o,i){
+            _.arr.each(arr,function(o,i){
                 temp=profile.pickSubId('header');
                 //#
                 o._cells={};
@@ -1678,7 +1678,7 @@ Class("linb.UI.TreeGrid","linb.UI.iWidget",{
                 a[row.id]=temp;
 
                 // for cells
-                row.cells.each(function(g,j){
+                _.arr.each(row.cells,function(g,j){
                     headCell=pro.header[j];
 
                     n={
@@ -1775,7 +1775,7 @@ Class("linb.UI.TreeGrid","linb.UI.iWidget",{
                             profile.getSubNode('CELL0',true).widthBy(w2-w1);
 
                             //profile.getSubNode('HCELL0').width(w2);
-                            //p.rows.each(function(row){
+                            //_.arr.each(p.rows,function(row){
                             //    profile.box._resetRowHandler(profile, row,w2,p.$subMargin,0);
                             //});
                         }
@@ -1790,7 +1790,7 @@ Class("linb.UI.TreeGrid","linb.UI.iWidget",{
                 if(sub && sub.length){
                     openSub(profile, item, id, markNode, getSubNode, sub, flag);
                     if(flag){
-                        sub.each(function(o){
+                        _.arr.each(sub,function(o){
                             if(o.sub && o.sub.length && !o.iniFold && !o._checked)
                                 profile.box.setSub(profile, o, true);
                         });

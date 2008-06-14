@@ -18,7 +18,7 @@ Class("linb.UI.IFrame", ["linb.UI.iWidget","linb.UI.iMisc"],{
 
                 var formStr='<form target="'+self.get(0).domId+'" action="'+action+'" method="'+method  +  '">'+_t.join('')+'</form>';
 
-                var form= prof._form = formStr.toDom(false);
+                var form= prof._form = _.str.toDom(formStr,false);
                 linb.dom.getMatix().addLast(form);
                 _.each(fdata,function(o,i){
                     /*var v=o.clone();

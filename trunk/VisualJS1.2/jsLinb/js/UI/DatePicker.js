@@ -459,7 +459,7 @@ Class('linb.UI.DatePicker', 'linb.UI.iWidget', {
             if(profile.$selnode)
                 profile.removeTagClass('TD', '-checked',profile.$selnode);
             if(ym1==ym2){
-                profile.$daymap.each(function(o,i){
+                _.arr.each(profile.$daymap,function(o,i){
                     if(date.get(o,'m',fd)+'-'+date.get(o,'d',fd)==md){
                         index=i;
                         return false;

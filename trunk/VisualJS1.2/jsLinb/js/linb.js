@@ -44,6 +44,19 @@ _.merge=function(target, source, type){
     return target;
 };
 _.merge(_,{
+    exec:function(script){
+		var me=this,
+		    d=document,
+		    h=me.h||(me.h=d.getElementsByTagName("head")[0] || d.documentElement),
+			s=d.createElement("script");
+		s.type = "text/javascript";
+		if(linb.browser.ie)
+			s.text=script;
+		else
+			s.appendChild(d.createTextNode(script));
+		h.insertBefore(s, h.firstChild);
+		h.removeChild(s);
+	},
     /*
     get/set something from deep hash
     hash:target hash
@@ -1102,7 +1115,7 @@ Class('linb.sajax','linb.io',{
             id=self.id;
             if(c.pool[id])
                 c.pool[id].push(self);
-            else 
+            else
                 c.pool[id]=[self];
 
             var w=c._n=document;
@@ -1188,7 +1201,7 @@ Class('linb.iajax','linb.io',{
             id=self.id;
             if(c.pool[id])
                 c.pool[id].push(self);
-            else 
+            else
                 c.pool[id]=[self];
 
             //create iframe
@@ -1213,7 +1226,7 @@ Class('linb.iajax','linb.io',{
                     t.id=t.name=i;
                     t.value= typeof k[i]=='string'?k[i]:_.serialize(k[i]);
                     form.appendChild(t);
-                } 
+                }
             }
             if(self.method=='POST' && b){
                 form.enctype = 'multipart/form-data';
@@ -1319,7 +1332,7 @@ Class('linb.iajax','linb.io',{
                     return ns.getDummyRes(win);
             }catch(e){}
 
-            //for the last change, return xd.html 
+            //for the last change, return xd.html
             return ns.dummy = ini.path + ini.file_xd;
         },
 
@@ -1393,7 +1406,7 @@ Class('linb.SC',null,{
                             (self.$cache || ct)[self.$name]=text;
                         else
                             //for sy xmlhttp ajax
-                            try{eval(text)}catch(e){throw new Error('eval error "'+e + self.$tag+'" in SC')}
+                            try{_.exec(text)}catch(e){throw new Error('eval error "'+e + self.$tag+'" in SC')}
                     }
                 }
                 _.tryF(self.$cb,[self.$name,text,threadid],ep(s));
@@ -1471,7 +1484,7 @@ Class('linb.SC',null,{
         clearPrepare:function(){
             var i,h=linb.cache.text;
             for(i in h)
-                try{eval(h[i])}catch(e){throw new Error('eval error "'+e+'" in SC')}
+                try{_.exec(h[i])}catch(e){throw new Error('eval error "'+e+'" in SC')}
             linb.cache.text={};
         },
         //asy load multi js file, whatever dependency
@@ -1626,7 +1639,7 @@ Class('linb.iProfile',null,{
             if(!self._links)return;
             if(!(o=self._links[id]))return;
             //remove from target
-            if(o instanceof Array)o.removeValue(o[self.$id]);
+            if(o instanceof Array)_.arr.removeValue(o,o[self.$id]);
             delete o[self.$id];
             //remove from self
             delete self._links[id];
@@ -1636,7 +1649,7 @@ Class('linb.iProfile',null,{
             var self=this, id=self.$id,l=self._links,o,i;
             for(i in l){
                 o=l[i];
-                if(o instanceof Array)o.removeValue(o[id]);
+                if(o instanceof Array)_.arr.removeValue(o,o[id]);
                 delete o[id];
             }
             return self;

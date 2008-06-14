@@ -103,11 +103,11 @@ Class("linb.UI.PopMenu",["linb.UI.Widget","linb.UI.iList","linb.UI.iNavigator"],
             });
         },
         pop:function(obj, parent, type){
-            var profile=this.get(0),
-                root = profile.root;
+            var profile=this.get(0);
             //ensure created
             if(!profile.created)
                 profile.boxing().create(true);
+            var root = profile.root;
 
             //clear highLight first
             if(profile.$highLight)
@@ -162,7 +162,7 @@ Class("linb.UI.PopMenu",["linb.UI.Widget","linb.UI.iList","linb.UI.iNavigator"],
 
             if(t=profile.$parentPopMenu)t.$subPopMenuShowed=null;
 
-            profile.$groupPopMenu.removeValue(root.get(0));
+            _.arr.removeValue(profile.$groupPopMenu,root.get(0));
 
             if(false!==flag)profile.boxing().onHide(profile);
         }
@@ -471,7 +471,7 @@ Class("linb.UI.PopMenu",["linb.UI.Widget","linb.UI.iList","linb.UI.iNavigator"],
                         case 'up':
                             r=true;
                             flag=false;
-                            items.each(function(o,i){
+                            _.arr.each(items,function(o,i){
                                 if(o.type == 'split')return;
                                 if(flag){
                                     tid=o.id;
@@ -487,7 +487,7 @@ Class("linb.UI.PopMenu",["linb.UI.Widget","linb.UI.iList","linb.UI.iNavigator"],
                         case 'down':
                             r=true;
                             flag=false;
-                            items.each(function(o,i){
+                            _.arr.each(items,function(o,i){
                                 if(o.type == 'split')return;
                                 if(flag){
                                     tid=o.id;
@@ -552,8 +552,8 @@ Class("linb.UI.PopMenu",["linb.UI.Widget","linb.UI.iList","linb.UI.iNavigator"],
                         clearTimeout(profile._wordcachetimeout);
 
                         var arr = profile.properties.items;
-                        arr.each(function(o,i){
-                            if(o.caption.toLowerCase().startWith(profile._wordcache)){
+                        _.arr.each(arr,function(o,i){
+                            if(_.str.startWith(o.caption.toLowerCase(),profile._wordcache)){
                                 profile.getSubNodeByItemId('ITEM', o.id).focus();
                                 return false;
                             }
@@ -576,7 +576,7 @@ Class("linb.UI.PopMenu",["linb.UI.Widget","linb.UI.iList","linb.UI.iNavigator"],
                     if(profile.properties.hoverActive){
                         var p1=linb.event.getPos(e),
                             size, p2, b;
-                        profile.$groupPopMenu.each(function(o){
+                        _.arr.each(profile.$groupPopMenu,function(o){
                             o=linb([o]);
                             p2=o.absPos();
                             size=o.cssSize();
@@ -590,7 +590,7 @@ Class("linb.UI.PopMenu",["linb.UI.Widget","linb.UI.iList","linb.UI.iNavigator"],
                         }
                     }
                 }
-            },
+            }
         }},
         DataModel:({
             dataField:null,

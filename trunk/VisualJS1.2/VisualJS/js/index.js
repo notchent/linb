@@ -20,7 +20,7 @@ Class('VisualJS', 'linb.Com',{
             self.toolbar.updateItem('info', content.length>50?content.left(50)+'...':'');
             o.apply(null,arguments);
         };
-        
+
         linb(document.body).setStyle({height:'100%',overflow:'hidden'});
     },
     Instance:{
@@ -199,7 +199,7 @@ Class('VisualJS', 'linb.Com',{
                                     break;
                                 case 'css':
                                     iconPos='-208px -48px';
-                                    break;                            
+                                    break;
                                 case 'js':
                                     iconPos='-16px -48px';
                                     break;
@@ -215,7 +215,7 @@ Class('VisualJS', 'linb.Com',{
         _delfile:function(id){
             var tb = this.treebarPrj, tab=this.tabsMain;
             arr = id.split(';'), a=[];
-            arr.each(function(o,i){
+            _.arr.each(arr,function(o,i){
                 a[i]=o;
             });
             linb.request(CONF.phpPath, {
@@ -230,7 +230,7 @@ Class('VisualJS', 'linb.Com',{
                 if(obj && !obj.error && obj.data && obj.data.OK){
                     tb.removeItems(arr);
                     var items = tab.getItems(),b=[];
-                    items.each(function(o){
+                    _.arr.each(items,function(o){
                         if(!tb.getSubSerialIdByItemId(o.id))
                             b.push(o.id);
                     },null,true);
@@ -292,18 +292,18 @@ Class('VisualJS', 'linb.Com',{
         },
         _dirtyWarn:function(callback){
             var self=this, dirty,tb = this.tabsMain, items = tb.getItems(),tree = this.treebarPrj;
-            items.each(function(o){
+            _.arr.each(items,function(o){
                 if(o._dirty)return !(dirty=true);
             });
             if(dirty)
                 linb.UI.Dialog.confirm(linb.getRes('VisualJS.notsave'), linb.getRes('VisualJS.notsave3'), callback);
             else
                 callback();
-        },        
+        },
         _closeproject:function(callback){
             var self=this, dirty,tb = this.tabsMain, items = tb.getItems(),tree = this.treebarPrj;
-            items.each(function(o){
-                if(o._dirty)return !(dirty=true);
+            _.arr.each(items,function(o){
+                if(o && o._dirty)return !(dirty=true);
             });
             var fun = function(){
                 tb.clearItems();
@@ -535,7 +535,7 @@ Class('VisualJS', 'linb.Com',{
             },
             arr=[hash['*']];
             //add sub
-            obj.each(function(o){
+            _.arr.each(obj,function(o){
                 if(!o.type)
                     iconPos='-48px top';
                 else{
@@ -546,7 +546,7 @@ Class('VisualJS', 'linb.Com',{
                             break;
                         case 'css':
                             iconPos='-208px -48px';
-                            break;                            
+                            break;
                         case 'js':
                             iconPos='-16px -48px';
                             break;
@@ -623,7 +623,7 @@ Class('VisualJS', 'linb.Com',{
                     }
                     var tb = this.tabsMain, count=0, err;
                     var items = tb.getItems();
-                    items.each(function(o){
+                    _.arr.each(items,function(o){
                         if(o._dirty){
                             count++;
                             var newText = o.$obj.getText();
@@ -671,7 +671,7 @@ Class('VisualJS', 'linb.Com',{
                     if(!this.Message.length)
                         return;
                     var list=this.$infoList, node=list.reBoxing();
-                    list.setItems(this.Message.copy());
+                    list.setItems(_.copy(this.Message));
                     node.popToTop(src,null,4);
                     var unFun=function(){
                         node.hide();

@@ -8,7 +8,7 @@ Class('App', 'linb.Com',{
         iniComponents:function(){
             // [[code created by designer, don't change it manually
             var t=this, n=t._nodes=[], u=linb.UI, f=function(c){n.push(c.get(0))};
-            
+
             f(
             (new u.Group)
             .host(t,"group")
@@ -18,9 +18,9 @@ Class('App', 'linb.Com',{
             .setHeight(270)
             .setCaption("record")
             .setDisplay('none')
-            
+
             );
-            
+
             t.group.attach(
             (new u.Input)
             .host(t,"inPhone")
@@ -30,7 +30,7 @@ Class('App', 'linb.Com',{
             .setDataBinder("dataBinder1")
             .setDataField("phone")
             );
-            
+
             t.group.attach(
             (new u.Div)
             .host(t,"div14")
@@ -40,7 +40,7 @@ Class('App', 'linb.Com',{
             .setHtml("Company")
             .setCustomAppearance({"KEY":"text-align:right;"})
             );
-            
+
             t.group.attach(
             (new u.Div)
             .host(t,"div13")
@@ -50,7 +50,7 @@ Class('App', 'linb.Com',{
             .setHtml("Name")
             .setCustomAppearance({"KEY":"text-align:right;"})
             );
-            
+
             t.group.attach(
             (new u.Div)
             .host(t,"div15")
@@ -60,7 +60,7 @@ Class('App', 'linb.Com',{
             .setHtml("Title")
             .setCustomAppearance({"KEY":"text-align:right;"})
             );
-            
+
             t.group.attach(
             (new u.Div)
             .host(t,"div16")
@@ -70,7 +70,7 @@ Class('App', 'linb.Com',{
             .setHtml("Phone Number")
             .setCustomAppearance({"KEY":"text-align:right;"})
             );
-            
+
             t.group.attach(
             (new u.Div)
             .host(t,"div17")
@@ -80,7 +80,7 @@ Class('App', 'linb.Com',{
             .setHtml("Memo")
             .setCustomAppearance({"KEY":"text-align:right;"})
             );
-            
+
             t.group.attach(
             (new u.Input)
             .host(t,"inName")
@@ -91,7 +91,7 @@ Class('App', 'linb.Com',{
             .setDataBinder("dataBinder1")
             .setDataField("name")
             );
-            
+
             t.group.attach(
             (new u.Input)
             .host(t,"inCompany")
@@ -101,7 +101,7 @@ Class('App', 'linb.Com',{
             .setDataBinder("dataBinder1")
             .setDataField("company")
             );
-            
+
             t.group.attach(
             (new u.Input)
             .host(t,"inTitle")
@@ -111,7 +111,7 @@ Class('App', 'linb.Com',{
             .setDataBinder("dataBinder1")
             .setDataField("title")
             );
-            
+
             t.group.attach(
             (new u.Input)
             .host(t,"inMemo")
@@ -123,7 +123,7 @@ Class('App', 'linb.Com',{
             .setDataBinder("dataBinder1")
             .setDataField("memo")
             );
-            
+
             f(
             (new u.Button)
             .host(t,"btnNew")
@@ -133,7 +133,7 @@ Class('App', 'linb.Com',{
             .setCaption("New")
             .onClick("_btnnew_onclick")
             );
-            
+
             f(
             (new u.Button)
             .host(t,"btnUpdate")
@@ -144,7 +144,7 @@ Class('App', 'linb.Com',{
             .setDisplay('none')
             .onClick("_btnupdate_onclick")
             );
-            
+
             f(
             (new u.List)
             .host(t,"list")
@@ -155,7 +155,7 @@ Class('App', 'linb.Com',{
             .setItems([])
             .onItemSelected("_list_onitemselected")
             );
-            
+
             f(
             (new u.Button)
             .host(t,"btnDel")
@@ -166,7 +166,7 @@ Class('App', 'linb.Com',{
             .setDisplay('none')
             .onClick("_btndel_onclick")
             );
-            
+
             f(
             (new u.Div)
             .host(t,"div23")
@@ -177,7 +177,7 @@ Class('App', 'linb.Com',{
             .setHtml("Contact Book")
             .setCustomAppearance({"KEY":"font-weight:bold;font-size:14px;color:blue;"})
             );
-            
+
             return n;
             // ]]code created by designer
         },
@@ -192,7 +192,7 @@ Class('App', 'linb.Com',{
                 },function(response){
                     linb.log(this);
                     var arr=[];
-                    response.data.each(function(o){
+                    _.arr.each(response.data,function(o){
                         arr.push({id:o.id, caption:o.name, _obj:o});
                     });
                     ns.list.setItems(arr,true);
@@ -202,16 +202,16 @@ Class('App', 'linb.Com',{
             }]);
         },
         _btnnew_onclick:function (profile, e, value) {
-            
+
             SPA.editStatus='new';
-            
+
             var db=linb.iDataBinder.getDataBinder('dataBinder1');
             db.resetValue();
 
             SPA.btnDel.setDisplay('none');
             SPA.btnUpdate.setDisplay('').setCaption('Create');
             SPA.group.setDisplay('').setCaption('Create new one');
-            
+
             SPA.list.resetValue();
             delete SPA.$selItem;
         },
@@ -226,7 +226,7 @@ Class('App', 'linb.Com',{
                 },function(response){
                     linb.log(this);
                     SPA.list.removeItems([SPA.$selItem.id]);
-                    
+
                     var db= linb.iDataBinder.getDataBinder('dataBinder1');
                     db.resetValue();
 
@@ -240,7 +240,7 @@ Class('App', 'linb.Com',{
         },
         _btnupdate_onclick:function (profile, e, value) {
             if(SPA.editStatus=='new'){
-                
+
                 if(!SPA.inName.getUIValue()){
                     alert('Specify name please');
                     SPA.inName.activate();
@@ -253,7 +253,7 @@ Class('App', 'linb.Com',{
                 linb.thread.asyUI(null,[function(threadid){
                     linb.sajax(CONF.service,hash,function(response){
                         linb.log(this);
-                        
+
                         hash.id=String(response.data[0]);
                         delete hash.api;
                         var h={id:hash.id, caption:hash.name, _obj:hash};
@@ -291,13 +291,13 @@ Class('App', 'linb.Com',{
         },
         _list_onitemselected:function (profile, item, src) {
             SPA.$selItem = item;
-            
+
             var db=linb.iDataBinder.getDataBinder('dataBinder1');
             db.resetValue(item._obj);
-            
+
             SPA.group.setDisplay('');
             SPA.btnUpdate.setDisplay('');
-            
+
             SPA.btnUpdate.setCaption('Update');
             SPA.group.setCaption('Record');
             SPA.btnDel.setDisplay('');

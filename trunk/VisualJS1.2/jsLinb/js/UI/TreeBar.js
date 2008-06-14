@@ -23,20 +23,20 @@ Class("linb.UI.TreeBar",["linb.UI.iList", "linb.UI.iWidget","linb.UI.iNavigator"
                     uiv = uiv?uiv.split(';'):[];
                     value = value?value.split(';'):[];
                     if(flag){
-                        value.each(function(o){
+                        _.arr.each(value,function(o){
                             profile.addTagClass('BAR','-checked', profile.getSubNodeByItemId('BAR', o));
                             profile.addTagClass('MARK2','-checked', profile.getSubNodeByItemId('MARK2', o));
                         });
                     }else{
                         //check all
-                        uiv.each(function(o){
-                            if(!value.exists(o)){
+                        _.arr.each(uiv,function(o){
+                            if(_.arr.indexOf(value,o)==-1){
                                 profile.removeTagClass('BAR','-checked',profile.getSubNodeByItemId('BAR',  o));
                                 profile.removeTagClass('MARK2','-checked',profile.getSubNodeByItemId('MARK2',  o));
                             }
                         });
-                        value.each(function(o){
-                            if(!uiv.exists(o)){
+                        _.arr.each(value,function(o){
+                            if(_.arr.indexOf(uiv,o)==-1){
                                 profile.addTagClass('BAR','-checked', profile.getSubNodeByItemId('BAR', o));
                                 profile.addTagClass('MARK2','-checked', profile.getSubNodeByItemId('MARK2', o));
                             }
@@ -71,10 +71,10 @@ Class("linb.UI.TreeBar",["linb.UI.iList", "linb.UI.iWidget","linb.UI.iNavigator"
                     tar = k.sub || (k.sub= []);
                 }
                 if(!base)
-                    tar.insertAny(arr, before?0:-1);
+                    _.arr.insertAny(tar,arr, before?0:-1);
                 else{
-                    var index = tar.subIndexOf(id, base);
-                    tar.insertAny(arr, before?index:(index+1));
+                    var index = _.arr.subIndexOf(tar,id, base);
+                    _.arr.insertAny(tar,arr, before?index:(index+1));
                 }
                 if(profile.domNode){
                     if(!base){
@@ -86,7 +86,7 @@ Class("linb.UI.TreeBar",["linb.UI.iList", "linb.UI.iWidget","linb.UI.iNavigator"
                                 node=profile.getSubNodeByItemId('SUB', pid);
                         }
                         if(node){
-                            r=self.subBuild(profile, 'items', profile.box.prepareItems(profile, arr, pid)).toDom();
+                            r=_.str.toDom(self.subBuild(profile, 'items', profile.box.prepareItems(profile, arr, pid)));
                             if(before)
                                 node.addFirst(r);
                             else
@@ -95,7 +95,7 @@ Class("linb.UI.TreeBar",["linb.UI.iList", "linb.UI.iWidget","linb.UI.iNavigator"
                     }else{
                         k=profile.getItemByItemId(pid);
                         if(k._created){
-                            r=self.subBuild(profile, 'items', profile.box.prepareItems(profile, arr, pid)).toDom();
+                            r=_.str.toDom(self.subBuild(profile, 'items', profile.box.prepareItems(profile, arr, pid)));
                             node=profile.getSubNodeByItemId('ITEM', base);
                             if(before)
                                 node.addPre(r);
@@ -146,7 +146,7 @@ Class("linb.UI.TreeBar",["linb.UI.iList", "linb.UI.iWidget","linb.UI.iNavigator"
                 domP=profile.root;
             }
 
-            ids.each(function(id){
+            _.arr.each(ids,function(id){
                 var domId = profile.getSubSerialIdByItemId(id),
                 iItem = profile.getItemByItemId(id);
 
@@ -156,11 +156,11 @@ Class("linb.UI.TreeBar",["linb.UI.iList", "linb.UI.iWidget","linb.UI.iNavigator"
                 else
                     sub = profile.properties.items;
 
-                var index = sub.subIndexOf('id', id);
+                var index = _.arr.subIndexOf(sub,'id', id);
 
                 sub[index]._pid = toPid;
                 //move parent link
-                pItemSub.insertAny(sub[index]);
+                _.arr.insertAny(pItemSub,sub[index]);
                 sub.remove(index);
                 //move
                 domP.addLast(profile.getSubNode('ITEM',domId));
@@ -168,7 +168,7 @@ Class("linb.UI.TreeBar",["linb.UI.iList", "linb.UI.iWidget","linb.UI.iNavigator"
         },
         toggleNodes:function(items, flag, recursive){
             if(items && items.length)
-                items.each(function(o){
+                _.arr.each(items,function(o){
                     if(o.sub && o.sub.length && ((flag&&!o._checked)||(!flag&&o._checked)))
                         this.toggleNode(o.id, flag);
                 },this);
@@ -192,7 +192,7 @@ Class("linb.UI.TreeBar",["linb.UI.iList", "linb.UI.iWidget","linb.UI.iNavigator"
                     fun=function(arr, catId, layer){
                         layer = layer || 0;
                         var me=arguments.callee;
-                        arr.each(function(o){
+                        _.arr.each(arr,function(o){
                             if(o.id==catId){
                                 a.push(o);
                                 ref = o.sub;
@@ -213,7 +213,7 @@ Class("linb.UI.TreeBar",["linb.UI.iList", "linb.UI.iWidget","linb.UI.iNavigator"
                 if(res){
                     a.reverse();
                     a.pop();
-                    a.each(function(o){
+                    _.arr.each(a,function(o){
                         if(!o._checked)
                             profile.box.setSub(profile, o, true);
                     });
@@ -461,8 +461,8 @@ Class("linb.UI.TreeBar",["linb.UI.iList", "linb.UI.iWidget","linb.UI.iNavigator"
                         var value = box.getUIValue(),
                             arr = value?value.split(';'):[];
 
-                        if(arr.exists(item.id))
-                            arr.removeValue(item.id);
+                        if(_.arr.indexOf(arr,item.id)!=-1)
+                            _.arr.removeValue(arr,item.id);
                         else
                             arr.push(item.id);
                         arr.sort();
@@ -575,7 +575,7 @@ Class("linb.UI.TreeBar",["linb.UI.iList", "linb.UI.iWidget","linb.UI.iNavigator"
                         items = this.properties.items,
                         results = this.itemsSearch(items, function(o){return o.sub && o.group===undefined }),
                         nodes=linb([]);
-                    results.each(function(o){
+                    _.arr.each(results,function(o){
                         nodes.add( self.getSubNodeByItemId('BAR', o.id) );
                     });
                     var cls1=this.getClass('BAR'), cls2 = this.getClass('BAR', '-group');
@@ -696,7 +696,7 @@ Class("linb.UI.TreeBar",["linb.UI.iList", "linb.UI.iWidget","linb.UI.iNavigator"
                     if(sub && sub.length){
                         openSub(profile, item, id, markNode, subNs, barNode, sub, recursive);
                         if(recursive){
-                            sub.each(function(o){
+                            _.arr.each(sub,function(o){
                                 if(o.sub && o.sub.length && !o._checked)
                                     profile.box.setSub(profile, o, true, recursive);
                             });

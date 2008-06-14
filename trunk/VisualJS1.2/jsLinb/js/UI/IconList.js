@@ -75,7 +75,7 @@ Class("linb.UI.IconList", "linb.UI.List",{
         }),
         prepareItem:function(profile, item){
             var p = profile.properties;
-            'itemWidth,itemHeight,itemPadding,itemMargin'.toArr().each(function(i){
+            _.arr.each(_.toArr('itemWidth,itemHeight,itemPadding,itemMargin'),function(i){
                 item[i] = item[i] || p[i];
             });
             item._tabindex = p.tabindex;

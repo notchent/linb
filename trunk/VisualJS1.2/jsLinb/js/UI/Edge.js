@@ -33,7 +33,7 @@ Class("linb.UI.Edge","linb.UI.iWidget",{
                 // for dom
                 var s = this.id(), b=false;
                 // for dom Node, destroy shadows
-                linb.UI.Edge._cache.each(function(o){
+                _.arr.each(linb.UI.Edge._cache,function(o){
                     if(o.$edgeId==s){b=true;return false;}
                 });
                 return b;
@@ -42,7 +42,7 @@ Class("linb.UI.Edge","linb.UI.iWidget",{
                 // for dom
                 var s = this.id(), b=null;
                 // for dom Node, destroy shadows
-                linb.UI.Edge._cache.each(function(o){
+                _.arr.each(linb.UI.Edge._cache,function(o){
                     if(o.$edgeId==s){b=o;return false;}
                 });
                 return b && b.boxing();
@@ -50,7 +50,7 @@ Class("linb.UI.Edge","linb.UI.iWidget",{
             unEdge:function(){
                 var s = this.id();
                 // for dom Node, destroy resizers
-                linb.UI.Edge._cache.each(function(o){
+                _.arr.each(linb.UI.Edge._cache,function(o){
                     if(o.$edgeId==s)
                         o.boxing().destroy();
                 });

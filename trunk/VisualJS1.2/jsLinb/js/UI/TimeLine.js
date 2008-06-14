@@ -443,7 +443,7 @@ Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'
                     var p=profile.properties,
                         box=profile.box,
                         z=box.zoom,
-                        index = z.indexOf(p._unitParas),
+                        index = _.arr.indexOf(z,p._unitParas),
                         o;
                     if(index > 0){
                         profile.pause=true;
@@ -464,7 +464,7 @@ Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'
                     var p=profile.properties,
                         box=profile.box,
                         z=box.zoom,
-                        index = z.indexOf(p._unitParas),
+                        index = _.arr.indexOf(z,p._unitParas),
                         o;
                     if(index < z.length -1){
                         profile.pause=true;
@@ -1082,7 +1082,7 @@ Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'
 
             //get unitparas from timespan key
             if(p.timeSpanKey){
-                zoom.each(function(o){
+                _.arr.each(zoom,function(o){
                     if(o[0]===p.timeSpanKey){
                         _unitParas=p._unitParas=o;
                         return false;
@@ -1362,9 +1362,9 @@ Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'
             }
             addLb.reverse();
             // add to band UI
-            node.addFirst(profile.box.subBuild(profile, key, addLb).toDom());
+            node.addFirst(_.str.toDom(profile.box.subBuild(profile, key, addLb)));
             // add to memory list
-            marks.insertAny(addLb.reverse(),0);
+            _.arr.insertAny(marks,addLb.reverse(),0);
         },
         _addRight:function(profile, labelEnd, tag, node, offsetCount,  offset){
             var t=profile.properties,
@@ -1391,9 +1391,9 @@ Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'
             }
             // build
             // add to band UI
-            node.addLast(profile.box.subBuild(profile, key, addLb).toDom());
+            node.addLast(_.str.toDom(profile.box.subBuild(profile, key, addLb)));
             // add to memory list
-            marks.insertAny(addLb,-1);
+            _.arr.insertAny(marks,addLb,-1);
         },
         _getMoveNodes:function(profile){
             return profile.$moveban = profile.$moveban || profile.getSubNodes(['BAND','ITEMS']);
@@ -1432,14 +1432,14 @@ Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'
                 t._band_width = Math.ceil(date.diff(_smallLabelStart, _smallLabelEnd, 'ms')/rate);
 
                 //reset tasks position var
-                t.items.each(function(o){
+                _.arr.each(t.items,function(o){
                     o._left += offsetPxs;
                     profile.box._trimTask(profile,o);
                 });
                 labelsBottom.children().each(function(o){
                     o.style.left = (parseFloat(o.style.left)||0) + offsetPxs + "px";
                 });
-                t._smallMarks.each(function(o){
+                _.arr.each(t._smallMarks,function(o){
                     o.left += offsetPxs;
                 });
 
@@ -1455,7 +1455,7 @@ Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'
                 if(t.multiTasks){
                     var arr=[];
                     // remove tasks
-                    t.items.each(function(o){
+                    _.arr.each(t.items,function(o){
                         if(o._left >= t._band_width ||  (o._left+o._width) <= 0){
                             //delete from lines
                             delete t._lines[o._line][o.id];
@@ -1489,7 +1489,7 @@ Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'
                     labelsTop.children().each(function(o){
                         o.style.left = (parseFloat(o.style.left)||0) + offsetPxs + "px";
                     });
-                    t._bigMarks.each(function(o){
+                    _.arr.each(t._bigMarks,function(o){
                         o.left += offsetPxs;
                     });
                     bigLabelStart=date.getRoundDown(_smallLabelStart, bigLabelUnit, bigLabelCount);
@@ -1555,7 +1555,7 @@ Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'
             var t=profile.properties,
                 b=false,
                 index=0;
-            t._lines.each(function(v,i){
+            _.arr.each(t._lines,function(v,i){
                 if(i===0)return;
                 b=true;
                 _.each(v,function(v){
@@ -1575,7 +1575,7 @@ Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'
                 t=profile.properties;
             t._lines.length = 1;
             //re caculate from current line
-            t.items.each(function(v){
+            _.arr.each(t.items,function(v){
                 if(v._line===0)return;
 
                 //get pos from current line

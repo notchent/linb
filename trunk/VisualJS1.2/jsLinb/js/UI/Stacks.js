@@ -107,7 +107,7 @@ Class("linb.UI.Stacks", "linb.UI.Tabs",{
             // change value
             if(h){
                 t2=t1=0;
-                t.items.each(function(o){
+                _.arr.each(t.items,function(o){
                     obj = profile.getSubNodeByItemId('ITEM', o.id);
                     obj.bottom('auto').top(t1);
 
@@ -115,7 +115,7 @@ Class("linb.UI.Stacks", "linb.UI.Tabs",{
                     t1 += obj.height();
                     if(o.id == key)return false;
                 });
-                t.items.each(function(o){
+                _.arr.each(t.items,function(o){
                     if(o.id == key)return false;
                     obj = profile.getSubNodeByItemId('ITEM', o.id);
                     obj.top('auto').bottom(t2);

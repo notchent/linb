@@ -530,7 +530,7 @@ Class("linb.UI.Poll", "linb.UI.List",{
             var a=arr,b=profile.properties.newOption;
             if(!profile.prepared){
                 if(profile.properties.editable || b){
-                    a=arr.copy();
+                    a=_.copy(arr);
                     a.push({
                         id:'$custom',
                         editable:true,

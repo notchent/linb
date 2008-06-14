@@ -78,7 +78,7 @@ Class("linb.UI.Tabs", ["linb.UI.iList", "linb.UI.iWidget", "linb.UI.iContainer"]
             });
 
             this.insertItems([i], id);
-            children.each(function(o){
+            _.arr.each(children,function(o){
                 this.attach(o[0], i.id);
             },this);
         },
@@ -102,7 +102,7 @@ Class("linb.UI.Tabs", ["linb.UI.iList", "linb.UI.iWidget", "linb.UI.iContainer"]
                 id = profile.getItemIdByDom(domId),
                 arr=[];
             if(id)
-                profile.children.each(function(o){
+                _.arr.each(profile.children,function(o){
                     if(o[1]==id)arr.push(o);
                 });
             return arr;
@@ -128,7 +128,7 @@ Class("linb.UI.Tabs", ["linb.UI.iList", "linb.UI.iWidget", "linb.UI.iContainer"]
         afterInsertItems:function(profile, data, base, before){
             var box=profile.box,obj,v;
             if(profile.properties.hasPanel && (obj=profile.root)){
-                obj.addLast(box.subBuild(profile, 'panels', data).toDom());
+                obj.addLast(_.str.toDom(box.subBuild(profile, 'panels', data)));
 
                 if(!(v=this.getUIValue()))
                     this.fireItemClickEvent((v=profile.properties.items[0]) && (v=v.id));
@@ -148,7 +148,7 @@ Class("linb.UI.Tabs", ["linb.UI.iList", "linb.UI.iWidget", "linb.UI.iContainer"]
 
             self.each(function(profile){
                 if(profile.properties.hasPanel)
-                    arr.each(function(o){
+                    _.arr.each(arr,function(o){
                         // get ui serial id
                         serialId=profile.getSubSerialIdByItemId(o);
                         if(serialId && !(obj = profile.getSubNode('PANEL', serialId) ).isEmpty() ){
@@ -161,7 +161,7 @@ Class("linb.UI.Tabs", ["linb.UI.iList", "linb.UI.iWidget", "linb.UI.iContainer"]
 
             self.each(function(profile){
                 if(profile.properties.hasPanel){
-                    if(arr.exists(profile.boxing().getUIValue())){
+                    if(_.arr.indexOf(arr,profile.boxing().getUIValue())!=-1){
                         var i;
                         profile.boxing().fireItemClickEvent((i=profile.properties.items[0]) && i.id);
                     }
@@ -517,7 +517,7 @@ Class("linb.UI.Tabs", ["linb.UI.iList", "linb.UI.iWidget", "linb.UI.iContainer"]
                     var dialog = new linb.UI.Dialog(pro);
                     linb(document.body).attach(dialog);
 
-                    profile.children.each(function(o){
+                    _.arr.each(profile.children,function(o){
                         if(o[1]==id)
                             dialog.attach(o[0]);
                     },null,true);
@@ -565,9 +565,9 @@ Class("linb.UI.Tabs", ["linb.UI.iList", "linb.UI.iWidget", "linb.UI.iContainer"]
                             var box = o.boxing(),
                                 p,
                                 temp = linb.dom.getMatix(),
-                                children = o.children.copy();
+                                children = _.copy(o.children);
                             o.children.length=0;
-                            children.each(function(o){
+                            _.arr.each(children,function(o){
                                 //for flush dock
                                 delete o[0].$dockParent;
                                 //keep it in dom
@@ -586,7 +586,7 @@ Class("linb.UI.Tabs", ["linb.UI.iList", "linb.UI.iWidget", "linb.UI.iContainer"]
                             box.insertItems(v);
 
                             //restore children
-                            children.each(function(v){
+                            _.arr.each(children,function(v){
                                 box.attach.apply(box,v);
                             });
 
@@ -637,16 +637,16 @@ Class("linb.UI.Tabs", ["linb.UI.iList", "linb.UI.iWidget", "linb.UI.iContainer"]
                 return profile.properties.dropKeysPanel;
         },
         showTips:function(profile, node, pos){
-            var id=node.id, 
+            var id=node.id,
                 p=profile.properties,
                 keys=profile.keys,
                 key=profile.getKey(id);
             if(!id)return false;
             //dont show tips when mouse over PANEL
             if(key==keys.PANEL)return true;
-            
+
             if(profile.onShowTips)
-                return profile.boxing().onShowTips(profile, node, pos);  
+                return profile.boxing().onShowTips(profile, node, pos);
             else
                 return arguments.callee.upper.apply(this,arguments);
         },

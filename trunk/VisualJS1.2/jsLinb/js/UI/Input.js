@@ -1,5 +1,5 @@
 Class("linb.UI.Input", ["linb.UI.Widget", "linb.UI.iForm"],{
-    Instance:{  
+    Instance:{
         _setTB:function(type){
             var profile=this.get(0), p=profile.properties, o, t;
             if(!profile.host|| !p.tipsBinder)return;
@@ -68,7 +68,7 @@ Class("linb.UI.Input", ["linb.UI.Widget", "linb.UI.iForm"],{
 
                         //display tips
                         profile.tips = p.tipsErr || p.tips;
-                        
+
                         if(properties.mask)
                             _.asyRun(function(){
                                 box.updateUIValue(o.get(0).value=profile.$Mask)
@@ -120,9 +120,9 @@ Class("linb.UI.Input", ["linb.UI.Widget", "linb.UI.iForm"],{
             '~':'[+-]',
     		'1':'[0-9]',
     		'a':'[A-Za-z]',
-    		'*':'[A-Za-z0-9]'            
+    		'*':'[A-Za-z0-9]'
         },
-        _maskSpace:'_',              
+        _maskSpace:'_',
         Appearances:{'default':{
             KEY:{
                 'font-family': '"Verdana", "Helvetica", "sans-serif"',
@@ -287,19 +287,19 @@ Class("linb.UI.Input", ["linb.UI.Widget", "linb.UI.iForm"],{
                     if(value){
                         ns.$MaskFormat=function(ns, v){
                             var m=ns._maskMap,a=[],r=/[A-Za-z0-9]/;
-                            v.split('').each(function(o,i){
+                            _.arr.each(v.split(''),function(o,i){
                                 a.push(m[o]||(r.test(o)?"":"\\")+o)
-                            });	
-                            return '^'+a.join('')+'$';	
-                        }(b, value);                    
+                            });
+                            return '^'+a.join('')+'$';
+                        }(b, value);
                         ns.$Mask = function(ns, v){
                             var m=ns._maskMap,a=[],s=ns._maskSpace;
-                            v.split('').each(function(o,i){
+                            _.arr.each(v.split(''),function(o,i){
                                 a.push(m[o]?s:o);
-                            });	
+                            });
                             return  a.join('');
                         }(b,value);
-    
+
                         //add event for cut/paste text
                         if(ns.domNode){
                             var ie=linb.browser.ie,
@@ -307,7 +307,7 @@ Class("linb.UI.Input", ["linb.UI.Widget", "linb.UI.iForm"],{
                                 f=function(o){
                                     //only for value in IE
                                     if(ie && o.propertyName!='value')return true;
-    
+
                                     var src=ie?o.srcElement:this;
                                     if(src.value.length != ns.$Mask.length)
                                         ns.box.changeMask(ns,src,'',true);
@@ -323,7 +323,7 @@ Class("linb.UI.Input", ["linb.UI.Widget", "linb.UI.iForm"],{
                                     src.removeEventListener("onpropertychange",f,false);
                                 }
                             }
-                        }            
+                        }
                    }else{
                         delete ns.$MaskFormat;
                         delete ns.$Mask;
@@ -420,15 +420,15 @@ Class("linb.UI.Input", ["linb.UI.Widget", "linb.UI.iForm"],{
         renderedTrigger:function(){
             var p = this.properties;
             if(p.mask)this.boxing().setMask(p.mask,true);
-        },        
+        },
     //v=value.substr(0,caret);
     //i=v.lastIndexOf(ms);
-        
+
         changeMask:function(profile,src,v,dir){
             var ns=this,
                 p=profile.properties,
                 map=ns._maskMap,
-                ms=ns._maskSpace,           
+                ms=ns._maskSpace,
                 maskTxt=p.mask,
                 maskStr = profile.$Mask,
                 input = linb([src]),
@@ -448,7 +448,7 @@ Class("linb.UI.Input", ["linb.UI.Widget", "linb.UI.iForm"],{
                     input.caret(from,Math.max(caret[1],from))
                 }
             }
- 
+
             var caret = input.caret(),
                 value=src.value,
                 reg = ns._maskMap[p.mask.charAt(caret[0])],
@@ -461,18 +461,18 @@ Class("linb.UI.Input", ["linb.UI.Widget", "linb.UI.iForm"],{
                 //if any char input
                 if(v)
                     t=t.substr(0,caret[0])+v+t.substr(caret[0]+1,t.length-caret[0]-1);
-                
+
                 //get corret string according to maskTxt
                 var a=[];
-                maskTxt.split('').each(function(o,i){
+                _.arr.each(maskTxt.split(''),function(o,i){
                     a.push( (new RegExp('^'+(map[o]?map[o]:'\\'+o)+'$').test(t.charAt(i))) ? t.charAt(i) : maskStr.charAt(i))
                 });
-                
+
                 //if input visible char
                 if(dir===true){
                     v=maskStr.substr(caret[0]+1,value.length-caret[0]-1);
                     i=v.indexOf(ms);
-                    i=caret[0] + (i==-1?0:i) + 1;      
+                    i=caret[0] + (i==-1?0:i) + 1;
                 }else
                     i=caret[0];
                 //in opera, delete/backspace cant be stopbubbled
@@ -480,11 +480,11 @@ Class("linb.UI.Input", ["linb.UI.Widget", "linb.UI.iForm"],{
                 if(linb.browser.opr){
                     //delete
                     if(dir===undefined)
-                        a.insertAny(ms,i);
+                        _.arr.insertAny(a,ms,i);
                     //backspace
                     if(dir===false)
-                        a.insertAny(ms,i++);
-                }                        
+                        _.arr.insertAny(a,ms,i++);
+                }
                 profile.boxing().updateUIValue(src.value=a.join(''));
                 ns.setCaret(profile,src,i);
             }
@@ -495,7 +495,7 @@ Class("linb.UI.Input", ["linb.UI.Widget", "linb.UI.iForm"],{
                 if(typeof pos !='number')
                     pos=src.value.indexOf(this._maskSpace);
                 linb([src]).caret(pos,pos);
-            }            
+            }
         },
         //check valid manually
         checkValid:function(profile, value){

@@ -35,7 +35,7 @@ Class("linb.UI.Resizer","linb.UI.iWidget",{
             }
             profile.regionBlocks = c;
             //ajust border
-            c.each(function(o){
+            _.arr.each(c,function(o){
                 o[0].left -=l;//+1;
                 o[0].top -=t;//+1;
                 o[1].width-=2;
@@ -79,18 +79,17 @@ Class("linb.UI.Resizer","linb.UI.iWidget",{
                                     b.focus(this.tid);
                             }
                     };
-                    o.regionBlocks.each(function(v){
+                    _.arr.each(o.regionBlocks,function(v){
                         if(o.regPool.length()){
                             t=o.regPool.pop();
                             linb(t).cssPos(v[0]).cssSize(v[1]);
                         }else{
-                            t = '<div style="position:absolute;border:dashed 1px blue;left:{l}px;top:{t}px;width:{w}px;height:{h}px;"></div>'
+                            t = _.str.toDom('<div style="position:absolute;border:dashed 1px blue;left:{l}px;top:{t}px;width:{w}px;height:{h}px;"></div>'
                             .replace('{l}',v[0].left)
                             .replace('{t}',v[0].top)
                             .replace('{w}',v[1].width)
                             .replace('{h}',v[1].height)
-                            .toDom()
-                            ;
+                            );
                             t.onClick(fun);
                             t=t.get(0)
                         }
@@ -160,7 +159,7 @@ Class("linb.UI.Resizer","linb.UI.iWidget",{
 
            var arr = profile._target.get();
 
-           if(id)index = arr.subIndexOf('id',id);
+           if(id)index = _.arr.subIndexOf(arr,'id',id);
            if(index==-1 && profile.$focus !== undefined)index=profile.$focus;
            if(index==-1 && arr.length>1)index = arr.length-1;
 
@@ -223,7 +222,7 @@ Class("linb.UI.Resizer","linb.UI.iWidget",{
             unResizable:function(){
                 var s = this.id();
                 // for dom Node, destroy resizers
-                linb.UI.Resizer._cache.each(function(o){
+                _.arr.each(linb.UI.Resizer._cache,function(o){
                     if(o.$resizeId==s)
                         o.boxing().destroy();
                 });
@@ -233,7 +232,7 @@ Class("linb.UI.Resizer","linb.UI.iWidget",{
                 // for dom
                 var s = this.id(), b=false;
                 // for dom Node, destroy shadows
-                linb.UI.Resizer._cache.each(function(o){
+                _.arr.each(linb.UI.Resizer._cache,function(o){
                     if(o.$resizeId==s){b=true;return false;}
                 });
                 return b;
@@ -242,7 +241,7 @@ Class("linb.UI.Resizer","linb.UI.iWidget",{
                 // for dom
                 var s = this.id(), b=null;
                 // for dom Node, destroy shadows
-                linb.UI.Resizer._cache.each(function(o){
+                _.arr.each(linb.UI.Resizer._cache,function(o){
                     if(o.$resizeId==s){b=o;return false;}
                 });
                 return b.boxing();

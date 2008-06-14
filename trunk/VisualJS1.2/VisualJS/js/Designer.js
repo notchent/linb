@@ -35,7 +35,7 @@ Class('VisualJS.Designer', 'linb.Com',{
                     var self=this;
                     if(target){
                         var b=false;
-                        target.each(function(target){
+                        _.arr.each(target,function(target){
                             target = linb([target],false);
                             var profile = linb.UIProfile.getFromDomId(target.get(0).id), widget=profile.boxing(),p = profile.properties, m = profile.box.getDataModel();
                             if(size){
@@ -163,7 +163,7 @@ Class('VisualJS.Designer', 'linb.Com',{
                         epoff.left=ep.left-ppos.left;
                         epoff.top=ep.top-ppos.top;
 
-                        arr.each(function(o){
+                        _.arr.each(arr,function(o){
                             if(m=o[0].root){
                                 if(o[0].children.length)
                                     if(rt=me(o[0].children, ep, m))
@@ -181,7 +181,7 @@ Class('VisualJS.Designer', 'linb.Com',{
                         return rt;
                     };
                     if(!(arr=this.tempSelected) || !arr.length)return;
-                    arr.each(function(o){
+                    _.arr.each(arr,function(o){
                         t=linb.UIProfile.getFromCacheId(o);
                         ret=fun(t.children, ep, t.root);
                         if(ret)return false;
@@ -518,7 +518,7 @@ Class('VisualJS.Designer', 'linb.Com',{
             if(linb.cache.$dropPool[profile.box.KEY])
                 self._enablePanelDesign(profile);
              if(profile.children && profile.children.length){
-                profile.children.each(function(o){
+                _.arr.each(profile.children,function(o){
                     me.call(self, o[0]);
                 });
              }
@@ -578,12 +578,12 @@ Class('VisualJS.Designer', 'linb.Com',{
             target.root.beforeClick(prevent).afterClick(prevent).onClick(function(pro, e, src){
                 var esrc=linb.event.getSrc(e),
                     id=esrc.id,profile;
-                    
+
                 //if lang span, get parent id
                 if(id==linb.langId)id=esrc.parentNode.id;
 
                 if(linb.UIProfile.getFromDomId(id) !== (profile=linb.UIProfile.getFromDomId(src.id)))return;
-                
+
                 var t,key=linb.event.currentKey;
 
                 if(!profile)return;
@@ -624,7 +624,7 @@ Class('VisualJS.Designer', 'linb.Com',{
                     || !(new RegExp('\\b'+key+'\\b')).test(profile.box.getDropKeys(profile, this))
 
                     || data.parentId == profile.$id
-                    || (data.data && data.data.exists(profile.$id))
+                    || (data.data && _.arr.indexOf(data.data,profile.$id)!=-1)
 
                     || (profile.onDropTest && (false===profile.boxing().onDropTest(profile, key, data)))
                     )return;
@@ -679,8 +679,8 @@ Class('VisualJS.Designer', 'linb.Com',{
 
                                     var p=target.get(0).properties;
 
-                                    if(!p.$left)target.setLeft(['top','bottom','width','fill','cover'].exists(p.dock)?0:cssPos.left);
-                                    if(!p.$top)target.setTop(['left','right','height','fill','cover'].exists(p.dock)?0:cssPos.top);
+                                    if(!p.$left)target.setLeft(_.arr.indexOf(['top','bottom','width','fill','cover'],p.dock)!=-1?0:cssPos.left);
+                                    if(!p.$top)target.setTop(_.arr.indexOf(['left','right','height','fill','cover'],p.dock)!=-1?0:cssPos.top);
                                     if(!p.$position)target.setPosition('absolute');
                                     target.setZIndex(1);
                                 }else{
@@ -819,7 +819,7 @@ Class('VisualJS.Designer', 'linb.Com',{
                     xx2 = xx1 + region.width;
                     yy2 = yy1 + region.height;
                     if(m=profile.children){
-                        m.each(function(v,i){
+                        _.arr.each(m,function(v,i){
                             v=v[0];
                             if(v.domNode.parentNode===self && v.domNode.style.display!='none' && v.domNode.style.visibility!='hidden'){
                                 o=v.root;
@@ -848,10 +848,10 @@ Class('VisualJS.Designer', 'linb.Com',{
 
             //drop key
             var a = profile.properties.dropKeys.split(/[^\w]+/);
-            a.filter(function(o){
+            _.filter(a,function(o){
                 return !!o;
             });
-            if(a.indexOf('iDesign')==-1)
+            if(_.arr.indexOf(a,'iDesign')==-1)
                 a.push('iDesign');
             profile.properties.dropKeys=a.join(':');
 
@@ -882,8 +882,8 @@ Class('VisualJS.Designer', 'linb.Com',{
                 reSelectObject:function(obj, node){
                     var profile = this;
                     id=obj.$id;
-                    if(profile.selected && profile.selected.exists(id)){
-                        profile.selected.removeValue(id);
+                    if(profile.selected && _.arr.indexOf(profile.selected,id)!=-1){
+                        _.arr.removeValue(profile.selected,id);
                     }else{
                         (profile.selected ||(profile.selected=[])).push(id);
                     }
@@ -960,7 +960,7 @@ Class('VisualJS.Designer', 'linb.Com',{
                     }else{
                         if(!o.ini)return '';
 
-                        code = ' '.repeat(8) + o.ini.toString().replace(/\n/g,'\n'+' '.repeat(8));
+                        code = _.str.repeat(' ',8) + o.ini.toString().replace(/\n/g,'\n'+_.str.repeat(' ',8));
 
                         //new em
                         o.mapName = '_'+o.funName.toLowerCase();
@@ -1111,31 +1111,31 @@ Class('VisualJS.Designer', 'linb.Com',{
                     var arr= [],map=CONF.mapWidgets[pro.box.KEY];
                     t = map && map.Templates;//_.toArr(pro.box.$Templates,true);
                     if(!t)t=[];
-                    if(!t.exists('default'))t.insertAny('default',0);
-                    t.each(function(o){
+                    if(_.arr.indexOf(t,'default')==-1)_.arr.insertAny(t,'default',0);
+                    _.arr.each(t,function(o){
                          arr.push({id:o,caption:o,value:o});
                     });
                     linb.UI.setCacheList(pro.box.KEY+':template', arr);
                     arr= [];
                     t = map && map.Appearances;//_.toArr(pro.box.$Appearances,true);
                     if(!t)t=[];
-                    if(!t.exists('default'))t.insertAny('default',0);
-                    t.each(function(o){
+                    if(_.arr.indexOf(t,'default')==-1)_.arr.insertAny(t,'default',0);
+                    _.arr.each(t,function(o){
                          arr.push({id:o,caption:o,value:o});
                     });
                     linb.UI.setCacheList(pro.box.KEY+':appearance', arr);
                     arr= [];
                     t = map && map.Behaviors;//_.toArr(pro.box.$Behaviors,true);
                     if(!t)t=[];
-                    if(!t.exists('default'))t.insertAny('default',0);
-                    t.each(function(o){
+                    if(_.arr.indexOf(t,'default')==-1)_.arr.insertAny(t,'default',0);
+                    _.arr.each(t,function(o){
                          arr.push({id:o,caption:o,value:o});
                     });
                     linb.UI.setCacheList(pro.box.KEY+':behavior', arr);
                     arr= [];
 
                     //get properties
-                    uis.each(function(t,i){
+                    _.arr.each(uis,function(t,i){
                         if(i===len-1)return;
                         if(!cache[0] && t.key != pro.key){
                             cache[0]=1;
@@ -1211,7 +1211,7 @@ Class('VisualJS.Designer', 'linb.Com',{
                     	        var t,nodes;
                     	        if(page.tempSelected && page.tempSelected.length){
                     	            nodes=[];
-                    	            page.tempSelected.each(function(i){
+                    	            _.arr.each(page.tempSelected,function(i){
                     	                nodes.push(linb.Profile.getFromCacheId(i));
                     	            });
                     	        }else
@@ -1295,7 +1295,7 @@ Class('VisualJS.Designer', 'linb.Com',{
                         return;
                     }
                     var zIndex=0;
-                    sel.each(function(o){
+                    _.arr.each(sel,function(o){
                         var ins = o.boxing();
                         var node=ins.reBoxing();
 
@@ -1366,7 +1366,7 @@ Class('VisualJS.Designer', 'linb.Com',{
                 //run
                 switch(type){
                     case 'properties':
-                        funName = 'set' + property.initial();
+                        funName = 'set' + _.str.initial(property);
                         //for canvas
                         if(target.get(0) == this.canvas.get(0)){
                             this.canvas[funName](value);
@@ -1375,7 +1375,7 @@ Class('VisualJS.Designer', 'linb.Com',{
                             target.each(function(o){
                                 o.boxing()[funName](value);
                             });
-                            if(['left','top','width','height','right','bottom','dock','dockOrder'].exists(property))
+                            if(_.arr.indexOf(['left','top','width','height','right','bottom','dock','dockOrder'],property)!=-1)
                                 this.resizer.rePosSize();
                         }
                         break;
@@ -1387,7 +1387,7 @@ Class('VisualJS.Designer', 'linb.Com',{
                                 em[property] = nv;
                                 _.set(page.properties.clsStruct,['sub','Instance', 'sub','events', 'code'], _.serialize(em));
                                 _.set(page.properties.clsStruct,['sub','Instance', 'sub','events', 'comments'],
-                                    _.get(page.properties.clsStruct,['sub','Instance', 'sub','events', 'comments'] || '\n'+' '.repeat(8)));
+                                    _.get(page.properties.clsStruct,['sub','Instance', 'sub','events', 'comments'] || '\n'+_.str.repeat(' ',8)));
 
                                 _.set(page.properties.clsObject,['Instance','events', property], nv);
                             }
@@ -1410,7 +1410,7 @@ Class('VisualJS.Designer', 'linb.Com',{
                                 return false;
                             }
                             //if empty, return to original name
-                            if(String(value).trim()==''){
+                            if(_.str.trim(String(value))==''){
                                 value=target.get(0).$domId;
                                 _.asyRun(function(){
                                     profile.box.changeCellValue(profile, cell,value,true);
@@ -1452,7 +1452,7 @@ Class('VisualJS.Designer', 'linb.Com',{
             //for properties
             if(id=='properties'){
                 _.each(target.box.$DataStruct,function(o,i){
-                     if(['_','$'].exists(i.charAt(0))) return;
+                     if(i.charAt(0)=='_'||i.charAt(0)=='$') return;
                     if(dm[i].hidden) return;
 
                     list=null;
@@ -1471,15 +1471,15 @@ Class('VisualJS.Designer', 'linb.Com',{
                             var d = dm[i].listbox;
                             list = function(){
                                 var a = d.call(target),list=[];
-                                a.each(function(o){
+                                _.arr.each(a,function(o){
                                     list.push({id:o, caption:o, value:o})
                                 });
                                 return list;
                             };
                         }else if(_.isObj(dm[i].listbox[0]))
-                            list = dm[i].listbox.copy();
+                            list = _.copy(dm[i].listbox);
                         else
-                            dm[i].listbox.each(function(o,i){
+                            _.arr.each(dm[i].listbox,function(o,i){
                                 list.push({id:o, caption:o})
                             });
                         linb.UI.setCacheList(listKey, list);
@@ -1490,16 +1490,16 @@ Class('VisualJS.Designer', 'linb.Com',{
                             var d = dm[i].combobox;
                             list = function(){
                                 var a = d.call(target),list=[];
-                                a.each(function(o){
+                                _.arr.each(a,function(o){
                                     list.push({id:o, caption:o})
                                 });
                                 return list;
                             };
                         }else{
                             if(_.isObj(dm[i].combobox[0]))
-                                list= dm[i].combobox.copy();
+                                list= _.copy(dm[i].combobox);
                             else
-                                dm[i].combobox.each(function(o,i){
+                                _.arr.each(dm[i].combobox,function(o,i){
                                     list.push({id:o, caption:o})
                                 });
                         }
@@ -1508,7 +1508,7 @@ Class('VisualJS.Designer', 'linb.Com',{
                     }else if(dm[i].helpinput){
                         listKey = target.key+":"+"properties"+":"+i;
                         type='helpinput';
-                        list= dm[i].helpinput.copy();
+                        list= _.copy(dm[i].helpinput);
                         linb.UI.setCacheList(listKey, list);
                     }else if(dm[i].trigger){
                         listKey='';
@@ -1516,7 +1516,7 @@ Class('VisualJS.Designer', 'linb.Com',{
                         value=i;
                         $fun = function(profile, cell, pro){
                             var o = cell.$tagVar;
-                            var f = o.profile.boxing()['trigger'+o.name.initial()];
+                            var f = o.profile.boxing()['trigger'+_.str.initial(o.name)];
                             _.tryF(f,null,o.profile.boxing());
 
                             var v='try again';
@@ -1541,7 +1541,7 @@ Class('VisualJS.Designer', 'linb.Com',{
                         $fun = function(profile, cell){
                             var o = cell.$tagVar;
                             var node = profile.getSubNode('CELL', cell._serialId);
-                            var obj =o.profile.boxing()['get'+o.name.initial()]();
+                            var obj =o.profile.boxing()['get'+_.str.initial(o.name)]();
                             linb.ComFactory.newCom('VisualJS.ObjectEditor',function(){
                                 this.host = page;
                                 this.setProperties({
@@ -1558,9 +1558,9 @@ Class('VisualJS.Designer', 'linb.Com',{
                                         onOK:function(page){
                                             this._change();
                                             var t,tagVar = page.properties.tagVar;
-                                            tagVar.profile.boxing()['set'+o.name.initial()](page.properties.object);
+                                            tagVar.profile.boxing()['set'+_.str.initial(o.name)](page.properties.object);
 
-                                            if(['dockMargin'].exists(o.name))
+                                            if('dockMargin'==o.name)
                                                 deeppage.resizer.rePosSize();
 
                                             node.focus();
@@ -1572,7 +1572,7 @@ Class('VisualJS.Designer', 'linb.Com',{
                                                     tagVar.profile.boxing().setItems([]);
 
                                                 if(t=linb.cache.$dropPool[tagVar.profile.box.KEY]){
-                                                    //t.each(function(i){
+                                                    //_.arr.each(t,function(i){
                                                         var i=t[0];
                                                         deeppage._enablePanelDesignFace(tagVar.profile, i);
                                                     //});
@@ -1627,7 +1627,7 @@ Class('VisualJS.Designer', 'linb.Com',{
                         o.mapName=funName;
                     //if em doesn't exist
                     }else{
-                        code = ' '.repeat(8) + o.ini.toString().replace(/\n/g,'\n'+' '.repeat(8));
+                        code = _.str.repeat(' ',8) + o.ini.toString().replace(/\n/g,'\n'+_.str.repeat(' ',8));
 
                         //new em
                         o.mapName = '_'+o.widgetName.toLowerCase()+'_'+o.funName.toLowerCase();
@@ -1694,11 +1694,11 @@ Class('VisualJS.Designer', 'linb.Com',{
                 });
             }
             //check others to disable editable
-            uis.each(function(tt,i){
+            _.arr.each(uis,function(tt,i){
                 if(i===(len-1))return;
                 if(id=='properties'){
                     var cache=[],cache2=0;
-                    arr.each(function(o,i){
+                    _.arr.each(arr,function(o,i){
                         if(cache2 == arr.length)return false;
                         if(!cache[i] && tt.properties[o.cells[0].value] !== target.properties[o.cells[0].value] ){
                             o.cells[1].type='label';
@@ -1772,7 +1772,7 @@ Class('VisualJS.Designer', 'linb.Com',{
                     if(profile.children && profile.children.length){
                         var sub=[];
                         item.sub = sub;
-                        profile.children.each(function(o){
+                        _.arr.each(profile.children,function(o){
                             self.call(null, o[0], sub, map);
                         });
                     }
@@ -1801,18 +1801,17 @@ Class('VisualJS.Designer', 'linb.Com',{
             if(!flag)
                 this._clearSelect(this.canvas.get(0));
             var arr=[], c = this.canvas.get(0).children;
-            c.each(function(o){
+            _.arr.each(c,function(o){
                 arr.push(o[0]);
             });
 
             var items = this.iconlist.getItems();
             if(items && items.length)
-                items.each(function(o,i){
+                _.arr.each(items,function(o,i){
                     arr.push(linb.Profile.getFromCacheId(o.id));
                 });
-            arr.clean();
+            return _.arr.clean(arr);
 
-            return arr;
         },
         getJSONCode:function(nodes){
             //sort by tabindex
@@ -1870,7 +1869,7 @@ Class('VisualJS.Designer', 'linb.Com',{
                 if(o.properties){
                     _.each(o.properties,function(o,i){
                         //serialize is very important
-                        arr.push('\n.set' + i.initial() + '(' + _.serialize(o) +')');
+                        arr.push('\n.set' + _.str.initial(i) + '(' + _.serialize(o) +')');
                     });
                 }
 
@@ -1894,7 +1893,7 @@ Class('VisualJS.Designer', 'linb.Com',{
                     arr.push('\n);');
 
                 if(v.children && v.children.length){
-                    v.children.each(function(o){
+                    _.arr.each(v.children,function(o){
                         var j = o[0],sa=[],s;
                         for(var i=1;i<o.length;i++){
                             switch(typeof o[i]){
@@ -1914,7 +1913,7 @@ Class('VisualJS.Designer', 'linb.Com',{
                     },this);
                 }
             };
-            nodes.each(function(v){
+            _.arr.each(nodes,function(v){
                 fun(v, null, null, arr);
             });
             arr.push('\n\n');
@@ -1928,12 +1927,12 @@ Class('VisualJS.Designer', 'linb.Com',{
                 var self=arguments.callee;
                 hash[target.box.KEY]=1;
                 if(target.children && target.children.length){
-                    target.children.each(function(o){
+                    _.arr.each(target.children,function(o){
                         self.call(null, o[0]);
                     });
                 }
             };
-            nodes.each(function(o){
+            _.arr.each(nodes,function(o){
                 fun(o);
             });
             return _.toArr(hash,true);
@@ -1945,12 +1944,12 @@ Class('VisualJS.Designer', 'linb.Com',{
                 var self=arguments.callee;
                 hash[target.alias]=1;
                 if(target.children && target.children.length){
-                    target.children.each(function(o){
+                    _.arr.each(target.children,function(o){
                         self.call(null, o[0]);
                     });
                 }
             };
-            nodes.each(function(o){
+            _.arr.each(nodes,function(o){
                 fun(o);
             });
             return hash;
@@ -2017,17 +2016,17 @@ Class('VisualJS.Designer', 'linb.Com',{
                             page.iconlist.clearItems();
 
                             var n2 = [];
-                            nodes.filter(function(target){
+                            _.filter(nodes,function(target){
                                 if(!target.box.hasDomRoot){
                                     n2.push(target);
                                     return false;
                                 }
                             });
                             page.canvas.attach(linb.UI.pack(nodes, false));
-                            nodes.each(function(o){
+                            _.arr.each(nodes,function(o){
                                 page._designable(o);
                             });
-                            n2.each(function(target){
+                            _.arr.each(n2,function(target){
                                 //give design mark
                                 target.properties.$design=page.properties.$design;
                                 page.iconlist.insertItems([{id:target.$id, icon:'img/widgets.gif', iconPos:CONF.mapWidgets[target.box.KEY].iconPos}],null,false);
@@ -2064,31 +2063,31 @@ Class('VisualJS.Designer', 'linb.Com',{
                         _.set(ins,['sub','iniComponents','comments'],null);
                 }else{
                     if(!_.get(ins,['sub','iniComponents', 'comments']))
-                        _.set(ins,['sub','iniComponents','comments'],'\n'+' '.repeat(8));
+                        _.set(ins,['sub','iniComponents','comments'],'\n'+_.str.repeat(' ',8));
                     ins.sub.iniComponents.code =
                         ('function(){\n' +
                         this.getJSCode(nodes)
-                        ).replace(/\n/g, '\n'+' '.repeat(12))+
-                        '\n'+' '.repeat(8)+ '}';
+                        ).replace(/\n/g, '\n'+_.str.repeat(' ',12))+
+                        '\n'+_.str.repeat(' ',8)+ '}';
                 }
 
                 //get required class list
                 var arr = this.properties.clsObject.Instance.required || [];
-                arr.merge(this.getClassList(nodes));
+                _.arr.merge(arr,this.getClassList(nodes));
 
                 var base=this.properties.clsObject.Instance.base || [];
-                arr.each(function(o){
+                _.arr.each(arr,function(o){
                     o=linb.SC(o);
                     if(o.Dependency)
-                        base.merge(o.Dependency);
+                        _.arr.merge(base,o.Dependency);
                 });
                 _.set(ins,['sub','base','code'],_.serialize(base));
                 if(!_.get(ins,['sub','base','comments']))
-                    _.set(ins,['sub','base','comments'],'\n'+' '.repeat(8));
+                    _.set(ins,['sub','base','comments'],'\n'+_.str.repeat(' ',8));
 
                 _.set(ins,['sub','required','code'],_.serialize(arr));
                 if(!_.get(ins,['sub','required','comments']))
-                    _.set(ins,['sub','required','comments'],'\n'+' '.repeat(8));
+                    _.set(ins,['sub','required','comments'],'\n'+_.str.repeat(' ',8));
 
                 //get all code
                 return VisualJS.ClassTool.getCodeFromStruct(this.properties.clsStruct);
