@@ -1057,7 +1057,7 @@ Class('linb.dom','linb.iBox',{
             }else if(type=='string'){
                     var r=this.caret(),l=0,m=0,ret,
                     v=input.value;
-                    //for IE, minus \r 
+                    //for IE, minus \r
                     if(ie){
                         l=v.substr(0,r[0]).match(/\r/g);
                         l=(l && l.length) || 0;
@@ -1083,7 +1083,7 @@ Class('linb.dom','linb.iBox',{
                          txt=sel.text,
                          l=txt.length,
                          dul=sel.duplicate()
-                         ;                         
+                         ;
                          try{dul.moveToElementText(input)}catch(e){}
                          sel.text=txt+c;
                          len=(dul.text).indexOf(c);
@@ -1092,7 +1092,7 @@ Class('linb.dom','linb.iBox',{
                          if(len==-1)len=input.value.length;
                          return [len-l,len];
             	    }else{
-        				var r = document.selection.createRange(),	
+        				var r = document.selection.createRange(),
         				    b = -r.duplicate().moveStart('character', -100000),
         				    e = b + r.text.length;
         				return[b, e];
@@ -1101,7 +1101,7 @@ Class('linb.dom','linb.iBox',{
                 }else
                     return [input.selectionStart, input.selectionEnd];
             }
-        },        
+        },
         //left,top format: "23px"
         show:function(left,top){
             var style,t,auto='auto',v=linb.dom.hide_value;
@@ -1592,7 +1592,7 @@ Class('linb.dom','linb.iBox',{
                 else{
                     o.unselectable=v?"off":"on";
                     o.onselectstart=v?null:f;
-                }                
+                }
             })
         },
         activate:function(){
