@@ -103,11 +103,11 @@ Class("linb.UI.PopMenu",["linb.UI.Widget","linb.UI.iList","linb.UI.iNavigator"],
             });
         },
         pop:function(obj, parent, type){
-            var profile=this.get(0),
-                root = profile.root;
+            var profile=this.get(0);
             //ensure created
             if(!profile.created)
                 profile.boxing().create(true);
+            var root = profile.root;
 
             //clear highLight first
             if(profile.$highLight)
