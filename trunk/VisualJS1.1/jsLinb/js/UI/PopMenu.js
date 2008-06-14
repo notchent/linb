@@ -12,12 +12,13 @@ Class("linb.UI.PopMenu",["linb.UI.Widget","linb.UI.iList","linb.UI.iNavigator"],
                 border = profile.getSubNode('BORDER'),
                 size1 = root.cssSize(),
                 size2 = border.cssSize(),
-                h = Math.min(profile.properties.maxHeight, items.height() + size1.height - size2.height + 2),
-                w = Math.min(profile.properties.maxWidth, items.width() + size1.width - size2.width + 2)
+                pro=profile.properties,
+                h = Math.min(pro.maxHeight, items.height() + size1.height - size2.height + 2),
+                w = Math.min(pro.maxWidth, items.width() + size1.width - size2.width + 2)
                 ;
 
-                profile.properties.width=w;
-                profile.properties.height=h;
+                pro.width=w;
+                pro.height=h;
 
                 root.cssSize({ width :w, height :h},true);
 
@@ -102,7 +103,8 @@ Class("linb.UI.PopMenu",["linb.UI.Widget","linb.UI.iList","linb.UI.iNavigator"],
             });
         },
         pop:function(obj, parent, type){
-            var profile=this.get(0);
+            var profile=this.get(0),
+                root = profile.root;
             //ensure created
             if(!profile.created)
                 profile.boxing().create(true);
@@ -111,7 +113,7 @@ Class("linb.UI.PopMenu",["linb.UI.Widget","linb.UI.iList","linb.UI.iNavigator"],
             if(profile.$highLight)
                 profile.removeTagClass('ITEM', '-mouseover', linb([profile.$highLight],false));
 
-            profile.root.popToTop(obj, parent, type);
+            root.popToTop(obj, parent, type);
 
             var f=function(){
                 var p=arguments.callee.profile;
@@ -122,10 +124,10 @@ Class("linb.UI.PopMenu",["linb.UI.Widget","linb.UI.iList","linb.UI.iNavigator"],
 
 
             if(!profile.$groupPopMenu || !profile.$groupPopMenu.length){
-                profile.$groupPopMenu = [profile.root.get(0)];
+                profile.$groupPopMenu = [root.get(0)];
                 //group blur trigger
-                profile.root.setBlurTrigger(profile.$id, null);
-                profile.root.setBlurTrigger(profile.$id, f, profile.$groupPopMenu);
+                root.setBlurTrigger(profile.$id, null);
+                root.setBlurTrigger(profile.$id, f, profile.$groupPopMenu);
             }
 /*
             var t = profile.properties.items;
@@ -139,15 +141,15 @@ Class("linb.UI.PopMenu",["linb.UI.Widget","linb.UI.iList","linb.UI.iNavigator"],
 */
         },
         hide:function(flag){
-            var t,profile=this.get(0);
+            var t,profile=this.get(0),root=profile.root;
 
             //remove trigger
-            profile.root.setBlurTrigger(profile.$id,null);
+            root.setBlurTrigger(profile.$id,null);
 
             if(profile.$hideMenuPool)
-                profile.$hideMenuPool.addLast(profile.root);
+                profile.$hideMenuPool.addLast(root);
             else
-                profile.root.display('none');
+                root.display('none');
 
             //hide all parent pop
             var p=profile.$childPopMenu,q;
@@ -160,7 +162,7 @@ Class("linb.UI.PopMenu",["linb.UI.Widget","linb.UI.iList","linb.UI.iNavigator"],
 
             if(t=profile.$parentPopMenu)t.$subPopMenuShowed=null;
 
-            profile.$groupPopMenu.removeValue(profile.root.get(0));
+            profile.$groupPopMenu.removeValue(root.get(0));
 
             if(false!==flag)profile.boxing().onHide(profile);
         }
