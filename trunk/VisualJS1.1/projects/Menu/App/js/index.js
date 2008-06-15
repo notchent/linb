@@ -1,6 +1,6 @@
 Class('App', 'linb.Com',{
     Instance:{
-        //base Class for linb.Page
+        //base Class for linb.Com
         base:["linb.UI","linb.coder"],
         //requried class for the App
         required:["linb.UI.Button","linb.UI.PopMenu","linb.UI.MenuBar","linb.UI.ToolBar","linb.UI.Block"],

@@ -1,6 +1,6 @@
 Class('App', 'linb.Com',{
     Instance:{
-        //base Class for linb.Page
+        //base Class for linb.Com
         base:["linb.UI"],
         events:{"onReady":"_onready"},
         required:["linb.UI.Div","linb.UI.Input","linb.UI.Button"],
