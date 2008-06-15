@@ -1,7 +1,7 @@
 Class('App', 'linb.Com',{
     Instance:{
         langKey:'app',
-        //base Class for linb.Page
+        //base Class for linb.Com
         base:["linb.UI"],
         //requried class for the App
         required:["linb.UI.Button","linb.UI.RadioBox"],
