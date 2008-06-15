@@ -105,6 +105,16 @@ class VisualJS extends Unit
             $io->dirMake($path, true);
             $io->setString($path.DIRECTORY_SEPARATOR.self::EN_PATH, '{}');
             break;
+        case 'upload_img':
+            $uploader = LINB::SC('Uploader');
+            $uploader->set_type('image');
+            $r = array();
+            foreach($_FILES as $file)
+                if(!empty($file['name']))
+                    $r[] = $uploader->save($_FILES['file'],$save_path);
+            unset($uploader);
+            return $r;
+            break;
         }
         $prjpath = str_replace("/", "\\", $prjpath);
         //$b = $io->dirList($prjpath);

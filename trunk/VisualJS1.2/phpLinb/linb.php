@@ -166,7 +166,7 @@
 		    'object' => array('is_object', new stdClass())
 		);
 		if(!in_array($type, array_keys($map))){
-			throw new Exception('$type is not a valid type.');
+			throw new LINB_E('$type is not a valid type.');
 		}
 		$r=$map[$type][1];
 		if(isset($v) || $map[$type][0]($v)){
@@ -337,7 +337,7 @@
                         $httpdata->$k = is_string($v)?get_magic_quotes_gpc()?stripslashes($v):$v:$v;
                 }
               }
-            
+
              //"get" request
              $request = $_SERVER['QUERY_STRING'];
              //get ?a=b$c=d
@@ -361,8 +361,8 @@
              if(isset($httpdata->$para)){
                 if(is_string($httpdata->$para))
                     $httpdata->$para = LINB::$json->decode($httpdata->$para);
-                
-                 // for __autoload 
+
+                 // for __autoload
                  LINB::$data = &$httpdata;
                  $d = self::stimulate($httpdata);
                  if(isset($d))
@@ -381,7 +381,7 @@
             $err = self::SYM_ERR;
             $key = self::SYM_KEY;
             $para = self::SYM_PARA;
-                     
+
             $httpdata = &LINB::$data;
             if(isset($httpdata->$callback))
                 $cb=$httpdata->$callback;
@@ -420,9 +420,9 @@
              	    $output = $cb.'('.$output.')';
              	}
             }
-            return $output;        
+            return $output;
       }
-    
+
       public static function echoException($eid, $e, $file='', $line=-1){
            $id = LINB::SYM_ID ;
            $msg = LINB::SYM_MESSAGE;
@@ -476,7 +476,7 @@
    LINB::$DIR_LINB = dirname(__FILE__).DIRECTORY_SEPARATOR;
    LINB::$DIR_APP = realpath('.').DIRECTORY_SEPARATOR;
    LINB::$DIR_CLASS  = 'phpClass'.DIRECTORY_SEPARATOR;
-   
+
    //for php 5.22 json enabled
    if(function_exists("json_encode")){
         class JSON{
