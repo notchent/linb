@@ -611,7 +611,7 @@ Class("linb.UI.PopMenu",["linb.UI.Widget","linb.UI.iList","linb.UI.iNavigator"],
             height:100,
             left:-10000,
 
-            hoverActive:false,
+            hoverActive:0,
 
             //opera needs more space for initialize
             width:300,

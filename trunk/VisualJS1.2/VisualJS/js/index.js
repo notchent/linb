@@ -107,10 +107,6 @@ Class('VisualJS', 'linb.Com',{
                         else linb.message(obj.error.message);
                     });
                 }
-
-                page.proxy=new linb.UI.IFrame({height:1,left:-10000,top:-10000,src:'javascript:;'});
-                linb(document.body).attach(page.proxy);
-
                 /*
                 //use appearance
                 var appea = linb.UI.List.getAppearance('custom');
@@ -129,7 +125,7 @@ Class('VisualJS', 'linb.Com',{
         },
 
         base:['linb.UI','linb.date'],
-        required:["linb.UI.List","linb.UI.PopMenu","linb.UI.MenuBar","linb.UI.ToolBar","linb.UI.Layout","linb.UI.Tabs","linb.UI.TreeBar","linb.UI.Dialog","linb.UI.PanelBar","linb.UI.IFrame","linb.UI.Tips","linb.UI.Shadow","linb.UI.Resizer","linb.UI.Edge","linb.UI.Div"],
+        required:["linb.UI.List","linb.UI.PopMenu","linb.UI.MenuBar","linb.UI.ToolBar","linb.UI.Layout","linb.UI.Tabs","linb.UI.TreeBar","linb.UI.Dialog","linb.UI.PanelBar","linb.UI.Tips","linb.UI.Shadow","linb.UI.Resizer","linb.UI.Edge","linb.UI.Div"],
         //back ground lazy load
         background:[
 
@@ -699,9 +695,7 @@ Class('VisualJS', 'linb.Com',{
                         return;
                     }
                     self._dirtyWarn(function(){
-                        self.proxy.submit(CONF.phpPath, {key:CONF.requestKey, para:{path: self.curProject, action:'release'}}, null, 'POST');
-                        //linb.dom.submit(CONF.phpPath, {key:CONF.requestKey, para:{path: self.curProject, action:'release'}}, null, 'POST');
-                        //linb.request(CONF.phpPath, ({key:CONF.requestKey, para:{path: self.curProject, action:'release'}}));
+                        linb.iajax(CONF.phpPath, {key:CONF.requestKey, para:{path: self.curProject, action:'release'}}, null, {method:'POST'}).start();
                     });
                     break;
                 case 'forum':

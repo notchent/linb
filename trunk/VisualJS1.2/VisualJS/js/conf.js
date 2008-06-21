@@ -74,11 +74,10 @@ CONF={
             {id:'linb.UI.Calendar', caption:'Calendar', icon:_img_widgets, iconPos:'-496px top', dragable:true},
             {id:'linb.UI.TimeLine', caption:'TimeLine', icon:_img_widgets, iconPos:'-528px top', dragable:true}
         ]}/*,
-        {id:'linb.UI.iMedia',caption:'Medias',group:true, icon:_img_app, iconPos:'-48px -48px', sub:[
-            {id:'linb.UI.IFrame', caption:'IFrame', icon:_img_widgets, iconPos:'-544px top', dragable:true},
-            {id:'linb.UI.Flash', caption:'Flash', icon:_img_widgets, iconPos:'-560px top', dragable:true},
-            {id:'linb.UI.Sound', caption:'Sound', icon:_img_widgets, iconPos:'-592px top, dragable:true},
-            {id:'linb.UI.Vector', caption:'Embed', icon:_img_widgets, iconPos:'-576px top', dragable:true}
+        {id:'linb.UI.iMisc',caption:'Medias',group:true, icon:_img_app, iconPos:'-48px -48px', sub:[
+            {id:'linb.UI.Media', caption:'Media', icon:_img_widgets, iconPos:'-576px top', dragable:true},
+            {id:'linb.UI.Shape', caption:'Shape', icon:_img_widgets, iconPos:'-544px top', dragable:true},
+            {id:'linb.UI.Chart', caption:'Chart', icon:_img_widgets, iconPos:'-560px top', dragable:true}
         ]}*/
     ],
     ComFactoryProfile:{

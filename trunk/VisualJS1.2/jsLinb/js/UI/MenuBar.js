@@ -181,22 +181,24 @@ Class("linb.UI.MenuBar",["linb.UI.iList","linb.UI.iWidget","linb.UI.iNavigator"]
             },
             ITEM:{
                 onMouseover:function(profile, e, src){
-                    var p = profile.properties;
+                    var p = profile.properties, ns=this;
                     if(p.disabled)return;
                     var item = profile.getItemByDom(src),
                         itemId = item.id;
                     if(p.$menuPop){
                         if(p.$menuPop != itemId){
-                            profile.addTagClass('ITEM', '-mousedown', linb([this],false));
+                            profile.addTagClass('ITEM', '-mousedown', linb([ns],false));
                             //show current popmenu
-                            profile.boxing().pop(itemId, this);
+                            profile.boxing().pop(itemId, ns);
                             p.$menuPop = itemId;
                         }
                     }else{
-                        profile.addTagClass('ITEM', '-mouseover',linb([this],false));
+                        profile.addTagClass('ITEM', '-mouseover',linb([ns],false));
 
                         if(p.hoverActive)
-                            profile.boxing().pop(itemId, this);
+                            _.resetRun(profile.$id+':hoveractive', function(){
+                                profile.boxing().pop(itemId, ns);
+                            },p.hoverActive);
                     }
                 },
                 onMouseout:function(profile, e, src){
@@ -205,16 +207,18 @@ Class("linb.UI.MenuBar",["linb.UI.iList","linb.UI.iWidget","linb.UI.iNavigator"]
                     profile.removeTagClass('ITEM', '-mouseover', linb([this],false));
 
                     if(p.hoverActive){
-                        var pop = profile.$allRelatedPopMenus[profile.$currentmenu];
-                        if(pop){
+                        var pop = profile.$allRelatedPopMenus;
+                        if(pop=pop && pop[profile.$currentmenu]){
                             var node=pop.get(0).root,
                                 p1=linb.event.getPos(e),
                                 size=node.cssSize(),
                                 add=3,
                                 p2=node.absPos();
+
                             if(p1.left>p2.left && p1.top>p2.top-add && p1.left<p2.left+size.width && p1.top<p2.top+size.height){}else
-                                profile.boxing().hide();
+                                pop.hide();
                         }
+                        _.resetRun(profile.$id+':hoveractive', null);
                     }
                 },
                 onMousedown:function(profile, e, src){
@@ -311,7 +315,7 @@ Class("linb.UI.MenuBar",["linb.UI.iList","linb.UI.iWidget","linb.UI.iNavigator"]
             left:0,
             top:0,
 
-            hoverActive:true,
+            hoverActive:200,
 
             handler:{
                 ini:true,

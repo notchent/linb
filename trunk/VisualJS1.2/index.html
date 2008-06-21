@@ -33,14 +33,14 @@
                         o=a[i];
                         arr=o.split('=');
                         hash[arr[0]]=arr[1];
-                    }                    
+                    }
                     p.response(hash.s,hash.r,parseFloat(hash.i),parseFloat(hash.l));
                 }else
                     p.response(rtn);
             }else{
-                var appHost="http://localhost:8080/visualjs1.2/";
+                var appHost=location.href.split('?')[0].replace(/[^\\\/]+$/,'');
                 document.write(unescape("%3Cscript src='" + appHost + "api.js?prgId=memo&dummy=1&module=visualjs&appPath="+appHost+"' type='text/javascript'%3E%3C/script%3E"));
             }
-        </script>        
+        </script>
     </body>
 </html>
