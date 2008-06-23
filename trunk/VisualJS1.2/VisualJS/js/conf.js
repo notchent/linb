@@ -101,12 +101,16 @@ CONF={
     }
 };
 new function(){
+    
     var fun=function(items,hash){
         var self=arguments.callee;
         _.arr.each(items,function(o){
             hash[o.id]=o;
-            if(o.sub && o.sub.length)
-            self(o.sub, hash);
+            if(o.sub && o.sub.length){
+                self(o.sub, hash);
+                o.tips='$VisualJS.designer.openwidgets';
+            }else
+                o.tips='$VisualJS.designer.dragwidget';
         });
     };
     CONF.mapWidgets = {};
