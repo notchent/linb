@@ -1,5 +1,5 @@
 set relPath=..\
-set version=1.2\
+set version=1.1\
 set appname=VisualJS\
 set releasePath=release\
 set apiName=visualjs.js

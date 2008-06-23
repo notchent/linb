@@ -108,8 +108,11 @@ new function(){
         var self=arguments.callee;
         items.each(function(o){
             hash[o.id]=o;
-            if(o.sub && o.sub.length)
-            self(o.sub, hash);
+            if(o.sub && o.sub.length){
+                self(o.sub, hash);
+                o.tips='$VisualJS.designer.openwidgets';
+            }else
+                o.tips='$VisualJS.designer.dragwidget';
         });
     };
     CONF.mapWidgets = {};

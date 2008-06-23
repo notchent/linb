@@ -260,7 +260,7 @@ Class('VisualJS.Designer', 'linb.Com',{
                                 pos=linb.event.getPos(e);
 
                             if(item.dragable){
-                                profile.getSubNode('ICON', itemId).startDrag(e,{drop2:true, icon:linb.ini.path +'onDrag.gif', dragMode:'add', cursor:'pointer', target_left:pos.left+12,target_top:pos.top+12, move:false, key:item.dragKey || profile.properties.dragKey, data:{type:item.id, iconPos:item.iconPos}});
+                                profile.getSubNode('ICON', itemId).startDrag(e,{drop2:true, icon:linb.ini.path +'ondrag.gif', dragMode:'add', cursor:'pointer', target_left:pos.left+12,target_top:pos.top+12, move:false, key:item.dragKey || profile.properties.dragKey, data:{type:item.id, iconPos:item.iconPos}});
                                 profile.removeTagClass('BAR','-mouseover',linb([src]));
 
                                 page._clearSelect();

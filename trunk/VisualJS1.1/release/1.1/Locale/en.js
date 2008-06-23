@@ -123,6 +123,8 @@
         gridcol1: 'property',
         gridcol2: 'value',
         colneOK:'$0 Widgets Cloned',
+        openwidgets:'Expend/Fold the widgtes list',
+        dragwidget:'You can drag this widget to the design window!',        
         tool:{
             tocode:"Serialize selection to JS code",
             tojson:"Serialize selection to JSON code",

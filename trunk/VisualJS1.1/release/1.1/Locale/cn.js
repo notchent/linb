@@ -126,6 +126,8 @@
         gridcol1: '键',
         gridcol2: '值',
         colneOK:'$0 个控件克隆成功!',
+        openwidgets:'打开/折叠控件列表',
+        dragwidget:'可以拖拽这个控件到设计窗口中!',        
         tool:{
             tocode:"序列化到 javascript 代码",
             tojson:"序列化到 JSON 代码",
