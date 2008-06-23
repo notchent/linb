@@ -35,7 +35,7 @@ Class('VisualJS.Designer', 'linb.Com',{
                     var self=this;
                     if(target){
                         var b=false;
-                        _.arr.each(target,function(target){
+                        target.each(function(target){
                             target = linb([target],false);
                             var profile = linb.UIProfile.getFromDomId(target.get(0).id), widget=profile.boxing(),p = profile.properties, m = profile.box.getDataModel();
                             if(size){
@@ -1135,7 +1135,7 @@ Class('VisualJS.Designer', 'linb.Com',{
                     arr= [];
 
                     //get properties
-                    _.arr.each(uis,function(t,i){
+                    uis.each(function(t,i){
                         if(i===len-1)return;
                         if(!cache[0] && t.key != pro.key){
                             cache[0]=1;
@@ -1694,7 +1694,7 @@ Class('VisualJS.Designer', 'linb.Com',{
                 });
             }
             //check others to disable editable
-            _.arr.each(uis,function(tt,i){
+            uis.each(function(tt,i){
                 if(i===(len-1))return;
                 if(id=='properties'){
                     var cache=[],cache2=0;

@@ -287,9 +287,14 @@ new function(){
         atarget: for this
         */
         each:function(arr,fun,target,order){
-            var i, l=arr.length, a=arr;
-            if(a.constructor!=Array)
-                throw new Error('Iterator Array only');
+            var i, l, a=arr;
+            if(a.constructor!=Array){
+                if((a=a._nodes) || a.constructor!=Array)
+                    throw new Error('Iterator Array only');
+                if(order===undefined)
+                    order=1;
+            }
+            l=a.length;
             target = target||arr;
             if(!order){
                 for(i=0; i<l; i++)
