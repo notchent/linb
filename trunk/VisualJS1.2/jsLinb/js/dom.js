@@ -1691,11 +1691,11 @@ Class('linb.dom','linb.iBox',{
             var me=arguments.callee,
             hash = me.lib ||  (me.lib = {
                 line:function(x){return x},
-                inexp:function(x){return (x==0) ? 0 : Math.pow(2, 10 * (x - 1))},
-                outexp:function(x){return (x==1) ? 1 : -Math.pow(2, -10 * x) + 1},
-                insine: function(x) { return -1 * Math.cos(x * (Math.PI/2)) + 1; },
-                outsine: function(x) { return Math.sin(x * (Math.PI/2)); },
-                inoutsine: function(x) { return -1/2 * (Math.cos(Math.PI*x) - 1); }
+                inexp:function(x){return (x==0)?0:Math.pow(2,10*(x-1))},
+                outexp:function(x){return (x==1)?1:-Math.pow(2,-10*x)+1},
+                insine:function(x){return -1*Math.cos(x*(Math.PI/2))+1},
+                outsine:function(x){return Math.sin(x*(Math.PI/2))},
+                inoutsine:function(x){return -1/2*(Math.cos(Math.PI*x)-1)}
             }),
             color = me.color || (me.color = function(type, args, step, j){
                 var f,fun,value = 0 + (100-0)*hash[type](j/step), from = args[0], to = args[1];

@@ -347,7 +347,7 @@
                         $httpdata->$k = get_magic_quotes_gpc()?stripslashes($v):$v;
                  //get ?{a:'b',c:'d'}
                  }else{
-                    $request = LINB::$json->decode(urldecode($request));
+                    $request = LINB::$json->decode(rawurldecode($request));
                     foreach ($request as $k=>$v)
                         $httpdata->$k = is_string($v)?get_magic_quotes_gpc()?stripslashes($v):$v:$v;
                  }
@@ -401,7 +401,7 @@
             if(isset($httpdata->$id)){
              	// iframe ajax
              	if(isset($t) && $t=='frame'){
-             	    $output=urlencode($output);
+             	    $output=rawurlencode($output);
              	    $bak=$output;
              	    $output='';
              	    $temp='';
