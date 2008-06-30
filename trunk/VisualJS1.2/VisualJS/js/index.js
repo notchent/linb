@@ -15,9 +15,10 @@ Class('VisualJS', 'linb.Com',{
             if(/</.test(content))
                while(content!=(content=content.replace(/<[^<>]*>/g, "")));
 
-            self.Message.unshift({id:_.id(), caption: content.length>50?content.left(50)+'...':'', tips:content, icon:CONF.img_app, iconPos:'-64px -64px'});
+            self.Message.unshift({id:_.id(), caption: content.length>50?content.substr(0,50)+'...':'', tips:content, icon:CONF.img_app, iconPos:'-64px -64px'});
 
-            self.toolbar.updateItem('info', content.length>50?content.left(50)+'...':'');
+            self.toolbar.updateItem('info', content.length>50?content.substr(0,50)+'...':'');
+
             o.apply(null,arguments);
         };
 
