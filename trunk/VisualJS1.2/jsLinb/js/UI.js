@@ -3622,6 +3622,7 @@ new function(){
                     if(!profile.properties.disabled && profile.onClick)
                         r = profile.boxing().onClick(profile, e, src);
                     //**** if dont return false, this click will break sajax in IE
+                    //**** In IE, click a href(not return false) will break the current script downloading
                     return r !==undefined?r:false;
                 }
             }},

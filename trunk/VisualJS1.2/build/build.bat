@@ -9,9 +9,11 @@ mkdir %relPath%%releasePath%%version%%appname%
 mkdir %relPath%%releasePath%%version%%appname%js
 mkdir %relPath%%releasePath%%version%jsLinb
 mkdir %relPath%%releasePath%%version%jsLinb\js
+mkdir %relPath%%releasePath%%version%jsLinb\Locale
 mkdir %relPath%%releasePath%%version%jsLinb\appearance
 
 xcopy %relPath%jsLinb\appearance\*.* %relPath%%releasePath%%version%jsLinb\appearance\ /E /Y
+xcopy %relPath%jsLinb\Locale\*.* %relPath%%releasePath%%version%jsLinb\Locale\ /E /Y
 copy  %relPath%jsLinb\ondrag.gif %relPath%%releasePath%%version%jsLinb\ondrag.gif
 copy  %relPath%jsLinb\bg.gif %relPath%%releasePath%%version%jsLinb\bg.gif
 copy  %relPath%jsLinb\loading.gif %relPath%%releasePath%%version%jsLinb\loading.gif
