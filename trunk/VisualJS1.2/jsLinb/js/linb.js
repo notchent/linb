@@ -1529,7 +1529,15 @@ new function(){
     H={'@window$':'window','@this':'this'},
     A=/[\x00-\x1f\x7f-\x9f\\\"]/g,
     B=/[^\x00-\xff]/g,
-    C=/^\s*\x7b/, // /^\s*\{/
+    C=/^\s*\x7b/, // /^\s*\{/,
+    D=/^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2}(?:\.\d*)?)Z$/,
+    E=function(t,i,a,v){
+        for(i in t)
+            if((a=typeof (v=t[i]))=='string' && (v=D.exec(v)))
+                t[i]=new Date(Date.UTC(+v[1],+v[2]-1,+v[3],+v[4],+v[5],+v[6]));
+            else if(a=='object')
+                E(t[i]);
+    },
     R=function(n){return n<10?'0'+n:n},
     F='function',
     N='number',
@@ -1608,14 +1616,16 @@ new function(){
     /*serialize object to string
     bool/string/number/array/hash/simple function
     */
-    _.serialize = function (o, b, f){
-        return ((f=T[b?O:typeof o]) && f(o))||'';
+    _.serialize = function (o, b){
+        return ((b=T[b?O:typeof o]) && b(o))||'';
     };
     /*unserialize string to object
     */
-    _.unserialize = function(t){
+    _.unserialize = function(t,a){
         try{
-            return eval(C.test(t) ? '('+t+')' : t);
+            t=eval(C.test(t) ? '('+t+')' : t);
+            if(!a && typeof t==='object')E(t);
+            return t;
         }catch(e){
             return false;
         }

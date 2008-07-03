@@ -3,43 +3,91 @@
 <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
     <meta http-equiv="Content-Style-Type" content="text/css" />
-    <meta name="keywords" content="javascript framework, RIA, SPA, client SOA, linb, jsLinb, RAD, IDE, Web IDE, widgets, javascript OOP, opensource, open-source, Ajax, cross-browser, prototype, web2.0, platform-independent, language-independent" />
-    <meta name="description" content="Web application created by Visual JS, powered by LINB framework" />
+    <meta name="keywords" content="javascript framework,RIA,SPA,linb,jsLinb,RAD,IDE,Web IDE,widgets,OOP,opensource,open-source,Ajax,cross-browser,web2.0,platform-independent,language-independent" />
+    <meta name="description" content="Ajax RIA solution for professional application" />
     <meta name="copyright" content="copyright@www.linb.net" />
     <meta http-equiv="imagetoolbar" content="no" />
     <title>Visual JS, powered by LINB</title>
 </head>
     <body style="height:100%;overflow:hidden;" scroll="no">
-        <div id='memo'>
-            <h3 style='color:red;'>Loading...</h3>
-            <p>TAGS: javascript framework, RIA, SPA, client SOA, linb, jsLinb, RAD, IDE, Web IDE, widgets, javascript OOP, opensource, open-source, Ajax, cross-browser, prototype, web2.0, platform-independent, language-independent</p>
-            <p>Web application created by "Visual JS", goto <a href='http://www.linb.net'>http://www.linb.net</a></p>
+        <div id='prgId' style="font: 12px arial; margin:0pt auto; width:400px;">
+            <div style="height:40px;"></div>
+            <div id="linb:loading:" style="color:#333333;font-size:14px;font-weight:bold;border-bottom:dashed 1px #888;">Please choose your prefer language</div>
+            <div style="line-height:20px;padding-top:8px;">
+                <a id='en' style="text-decoration: none;" href="javascript:;" onclick="__setCookie('lang','en')">English</a> <br />
+                <a id='cn' style="text-decoration: none;" href="javascript:;" onclick="__setCookie('lang','cn')">中文(Chinese)</a>
+            </div>
         </div>
+
         <script type="text/javascript">
             //is dummey proxy?
-            var proxy;
-            if((proxy=parent) && (proxy=proxy.parent) && (proxy=proxy.linb) && (proxy=proxy.iajax) &&location.href.indexOf('#')!=-1)
-                proxy=true;
+            var __proxy;
+            if((__proxy=parent) && (__proxy=__proxy.parent) && (__proxy=__proxy.linb) && (__proxy=__proxy.iajax) &&location.href.indexOf('#')!=-1)
+                __proxy=true;
             //get data from server
-            if(proxy){
-                var p=parent.parent.linb.iajax,
-                    rtn=(location.href.split('#')[1]||'');
-                //return multi str
-                if(rtn.indexOf('&')!=-1){
-                    var hash={},
-                        a=rtn.split('&'),
-                        arr,o;
-                    for(var i=0,l=a.length;i<l;i++){
-                        o=a[i];
-                        arr=o.split('=');
-                        hash[arr[0]]=arr[1];
-                    }
-                    p.response(hash.s,hash.r,parseFloat(hash.i),parseFloat(hash.l));
-                }else
-                    p.response(rtn);
+            if(__proxy){
+                (function(){
+                    var p=parent.parent.linb.iajax,
+                        rtn=(location.href.split('#')[1]||'');
+                    //return multi str
+                    if(rtn.indexOf('&')!=-1){
+                        var hash={},
+                            a=rtn.split('&'),
+                            arr,o;
+                        for(var i=0,l=a.length;i<l;i++){
+                            o=a[i];
+                            arr=o.split('=');
+                            hash[arr[0]]=arr[1];
+                        }
+                        p.response(hash.s,hash.r,parseFloat(hash.i),parseFloat(hash.l));
+                    }else
+                        p.response(rtn);
+                }())
             }else{
-                var appHost=location.href.split('?')[0].replace(/[^\\\/]+$/,'');
-                document.write(unescape("%3Cscript src='" + appHost + "api.js?prgId=memo&dummy=1&module=visualjs&appPath="+appHost+"' type='text/javascript'%3E%3C/script%3E"));
+                var __appHost=location.href.split('?')[0].replace(/[^\\\/]+$/,'');
+                document.write(unescape("%3Cscript src='" + __appHost + "api.js?prgId=prgId&dummy=1&module=visualjs&appPath="+__appHost+"' type='text/javascript'%3E%3C/script%3E"));
+
+                //set default lang
+                var __dftLang = (function(){
+                    var dft='zh-cn',
+                        map={
+                            'en-us':'en',
+                            'zh-cn':'cn'
+                        },
+                        n=navigator,
+                        l=(n.language || n.userLanguage || n.systemLanguage || n.browserLanguage || '').toLowerCase();
+                    return map[l] || map[dft];
+                })(),
+                __showProgress=function(){
+                    var node=document.getElementById('linb:loading:');
+                    node.innerHTML = "Loading";
+                    (function(){
+                        var node=document.getElementById('linb:loading:');
+                        if(node){
+                            node.innerHTML = node.innerHTML + " .";
+                            setTimeout(arguments.callee,100);
+                        }
+                    }());
+                },
+                __getCookie=function(key){
+                	var i,a,ca = document.cookie.split( "; " );
+                	for(i=0;i<ca.length;i++){
+                		a=ca[i].split("=");
+                		if(a[0]==escape(key))
+                		    return a[1]?unescape(a[1]):'';
+                	}
+                },
+                __setCookie=function(key,value,days,path,domain,isSecure){
+        	        document.cookie = escape(key) + "=" + escape(value) +
+        		        (days?";expires="+(new Date((new Date()).getTime()+(24*60*60*1000*days))).toGMTString():"")+
+        		        (path?";path="+path:"")+
+        		        (domain?";domain="+domain:"")+ 
+        		        (isSecure?";secure":"");
+                    __showProgress();
+                }
+                document.getElementById(__getCookie('lang') || __dftLang).focus();
+                if(__getCookie('lang'))
+                    __showProgress();
             }
         </script>
     </body>
