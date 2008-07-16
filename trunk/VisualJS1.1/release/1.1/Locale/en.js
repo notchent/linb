@@ -93,7 +93,7 @@
         codeerr:'Can\'t Parse Code Due to Error: $0!'
     },
     pageEditor:{
-        format: "Fromat View",
+        format: "Format View",
         check:"Syntax Check",
         'reset':"Reset Code",
         formattips:"Format Code to a New Dialog",
