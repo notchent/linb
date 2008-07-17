@@ -342,7 +342,8 @@ Class('VisualJS', 'linb.Com',{
         _treebarprj_onitemselected:function(profile, item, src){
             if(!item.id)return;
             var page=this,
-                type=item.caption.split('.')[1];
+                arr = item.caption.split('.'),
+                type=arr[arr.length-1];
             if(type!='js' && type!='html' && type!='css' && type!='php'){
                 linb.dom.submit(item.id);
                 return;

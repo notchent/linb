@@ -1831,7 +1831,7 @@ Class('VisualJS.Designer', 'linb.Com',{
 
             var page = this,t,arr=[];
             arr.push('// [[code created by designer, don\'t change it manually\n');
-            arr.push('var t=this, n=t._nodes=[], u=linb.UI, f=function(c){n.push(c.get(0))};');
+            arr.push('var host = this,\n    children = [],\n    attach = function(child){\n        children.push(child.get(0))\n    };');
             fun = function(v, pName, argsStr, arr){
                 var self=arguments.callee, ui=v.box['linb.UI'], o=v.beforeSerialized(), name=o.alias, b;
 
@@ -1855,37 +1855,37 @@ Class('VisualJS.Designer', 'linb.Com',{
                 if(pName)
                     arr.push(pName+'.attach(');
                 else
-                    arr.push('f(');
-                arr.push('\n(new ' + o.key.replace('linb.UI','u') + ')');
-                arr.push('\n.host(t,"'+name+'")');
+                    arr.push('attach(');
+                arr.push('(new ' + o.key + ')');
+                arr.push('\n    .host(host,"'+name+'")');
                 if(o.domId!=o.$domId)
-                    arr.push('\n.setDomId("'+o.domId+'")');
+                    arr.push('\n    .setDomId("'+o.domId+'")');
                 if(o.template)
-                    arr.push('\n.template("' + o.template + '")');
+                    arr.push('\n    .template("' + o.template + '")');
                 if(o.behavior)
-                    arr.push('\n.behavior("' + o.behavior + '")');
+                    arr.push('\n    .behavior("' + o.behavior + '")');
                 if(o.appearance)
-                    arr.push('\n.appearance("' + o.appearance + '")');
+                    arr.push('\n    .appearance("' + o.appearance + '")');
                 if(o.properties){
                     _.each(o.properties,function(o,i){
                         //serialize is very important
-                        arr.push('\n.set' + _.str.initial(i) + '(' + _.serialize(o) +')');
+                        arr.push('\n    .set' + _.str.initial(i) + '(' + _.serialize(o) +')');
                     });
                 }
 
                 if(o.events){
                     _.each(o.events,function(o,i){
-                        arr.push('\n.' + i + '('+ _.serialize(o) +')');
+                        arr.push('\n    .' + i + '('+ _.serialize(o) +')');
                     });
                 }
                 if(o.CA)
-                    arr.push('\n.setCustomAppearance('+ _.serialize(o.CA) +')');
+                    arr.push('\n    .setCustomAppearance('+ _.serialize(o.CA) +')');
                 if(o.CC)
-                    arr.push('\n.setCustomClass('+ _.serialize(o.CC) +')');
+                    arr.push('\n    .setCustomClass('+ _.serialize(o.CC) +')');
                 if(o.CB)
-                    arr.push('\n.setCustomBehavior('+ _.serialize(o.CB) +')');
+                    arr.push('\n    .setCustomBehavior('+ _.serialize(o.CB) +')');
                 if(o.CF)
-                    arr.push('\n.setCustomFunction('+ _.serialize(o.CF) +')');
+                    arr.push('\n    .setCustomFunction('+ _.serialize(o.CF) +')');
 
                 if(pName)
                     arr.push('\n'+(argsStr?(', '+argsStr):'')+');');
@@ -1909,7 +1909,7 @@ Class('VisualJS.Designer', 'linb.Com',{
                             s = sa.join(',');
                         else
                             s = null;
-                        self.call(this, j, 't.'+name, s,  arr);
+                        self.call(this, j, 'host.'+name, s,  arr);
                     },this);
                 }
             };
@@ -1917,7 +1917,7 @@ Class('VisualJS.Designer', 'linb.Com',{
                 fun(v, null, null, arr);
             });
             arr.push('\n\n');
-            arr.push('return n;\n');
+            arr.push('return children;\n');
             arr.push('// ]]code created by designer');
             return arr.join('');
         },
@@ -2096,7 +2096,7 @@ Class('VisualJS.Designer', 'linb.Com',{
             return this.properties.text;
         },
         iniComponents:function(){
-           // [[code created by designer, don't change it manually
+           // [[code created by designer
             var t=this, n=t._nodes=[], u=linb.UI, f=function(c){n.push(c.get(0))};
 
             f(

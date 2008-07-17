@@ -14,7 +14,7 @@ Class('VisualJS.PageEditor', 'linb.Com',{
             document.body.appendChild(iframe);
             frames[frames.length - 1].document.write(
                 "<script>"+
-                "var Class=function(a,b,c){}, _={}, linb={};"+
+                "var Class=parent._.fun.clone(parent.Class), _=parent._.clone(parent._), linb=parent._.clone(parent.linb);"+
                 "var MSIE/*@cc_on =1@*/;"+
                 "parent.sandbox=MSIE?this:{eval:function(s){return eval(s)}}"+
                 "<\/script>"

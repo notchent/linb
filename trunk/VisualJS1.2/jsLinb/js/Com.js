@@ -60,7 +60,7 @@ Class('linb.Com',null,{
         },
         innerCall:function(name){
             var self=this;
-            _.tryF(self[name],[self.threadid],self);
+            return _.tryF(self[name],[self.threadid],self);
         },
         show:function(onEnd,parent,showId,threadid){
             var self=this,f=function(){
@@ -118,7 +118,7 @@ Class('linb.Com',null,{
             if(self.iniComponents)
                 funs.push(function(){
                     self.fireEvent('beforeIniComponents');
-                    self.innerCall('iniComponents');
+                    self._nodes = self.innerCall('iniComponents');
                     self.fireEvent('afterIniComponents');
                 });
             //build Outer components
@@ -151,7 +151,7 @@ Class('linb.Com',null,{
 
         //for overwrite
         iniComponents:function(){
-            return this._nodes;
+            return [];
         },
         requestData:function(group, threadid, onEnd){
             var thread=linb.thread;

@@ -37,7 +37,7 @@ new function(){
                 {id:'linb.UI.ProgressBar', caption:'ProgressBar', icon:_img_widgets, iconPos:'-608px top', dragable:true},
     
                 {id:'linb.UI.Range', caption:'Range', icon:_img_widgets, iconPos:'left -16px', dragable:true},
-                {id:'linb.UI.ComboButton', caption:'ComboButton', icon:_img_widgets, iconPos:'-80px top', dragable:true},
+                //{id:'linb.UI.ComboButton', caption:'ComboButton', icon:_img_widgets, iconPos:'-80px top', dragable:true},
                 {id:'linb.UI.TimePicker', caption:'TimePicker', icon:_img_widgets, iconPos:'-240px top', dragable:true},
                 {id:'linb.UI.DatePicker', caption:'DatePicker', icon:_img_widgets, iconPos:'-256px top', dragable:true},
                 {id:'linb.UI.ColorPicker', caption:'ColorPicker', icon:_img_widgets, iconPos:'-272px top', dragable:true},

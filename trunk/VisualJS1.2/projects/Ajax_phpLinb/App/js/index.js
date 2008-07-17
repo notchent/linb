@@ -6,115 +6,108 @@ Class('App', 'linb.Com',{
         required:["linb.UI.Div","linb.UI.Input","linb.UI.Button"],
         iniComponents:function(){
             // [[code created by designer, don't change it manually
-            var t=this, n=t._nodes=[], u=linb.UI, f=function(c){n.push(c.get(0))};
+            var host = this,
+                children = [],
+                attach = function(child){
+                    children.push(child.get(0))
+                };
             
-            f(
-            (new u.Button)
-            .host(t,"btnAjaxPost")
-            .setLeft(270)
-            .setTop(350)
-            .setCaption("ajax post")
-            .onClick("_btnajaxpost_onclick")
+            attach((new linb.UI.Button)
+                .host(host,"btnSAjax")
+                .setLeft(140)
+                .setTop(390)
+                .setCaption("sajax")
+                .onClick("_btnsajax_onclick")
             );
             
-            f(
-            (new u.Input)
-            .host(t,"request")
-            .setValue("{\n    key:'test',\n    para:{\n        p1:'client_set'\n    }\n}")
-            .setLeft(140)
-            .setTop(230)
-            .setWidth(400)
-            .setHeight(110)
-            .setInputArea("textarea")
+            attach((new linb.UI.Input)
+                .host(host,"request")
+                .setValue("{\n    key:'test',\n    para:{\n        p1:'client_set'\n    }\n}")
+                .setLeft(140)
+                .setTop(230)
+                .setWidth(400)
+                .setHeight(110)
+                .setInputArea("textarea")
             );
             
-            f(
-            (new u.Button)
-            .host(t,"btnSAjax")
-            .setLeft(140)
-            .setTop(390)
-            .setCaption("sajax")
-            .onClick("_btnsajax_onclick")
+            attach((new linb.UI.Button)
+                .host(host,"btnIAjaxGet")
+                .setLeft(140)
+                .setTop(420)
+                .setCaption("iajax get")
+                .onClick("_btniajaxget_onclick")
             );
             
-            f(
-            (new u.Button)
-            .host(t,"btnIAjaxGet")
-            .setLeft(140)
-            .setTop(420)
-            .setCaption("iajax get")
-            .onClick("_btniajaxget_onclick")
+            attach((new linb.UI.Div)
+                .host(host,"divTable")
+                .setLeft(40)
+                .setTop(20)
+                .setWidth(580)
+                .setHeight(180)
             );
             
-            f(
-            (new u.Div)
-            .host(t,"divTable")
-            .setLeft(40)
-            .setTop(20)
-            .setWidth(580)
-            .setHeight(180)
+            attach((new linb.UI.Div)
+                .host(host,"div20")
+                .setLeft(40)
+                .setTop(270)
+                .setWidth(90)
+                .setHeight(20)
+                .setHtml("Request data : ")
             );
             
-            f(
-            (new u.Div)
-            .host(t,"div20")
-            .setLeft(40)
-            .setTop(270)
-            .setWidth(90)
-            .setHeight(20)
-            .setHtml("Request data : ")
+            attach((new linb.UI.Input)
+                .host(host,"response")
+                .setLeft(140)
+                .setTop(450)
+                .setWidth(400)
+                .setHeight(90)
+                .setInputArea("textarea")
+                .setReadonly(true)
             );
             
-            f(
-            (new u.Input)
-            .host(t,"response")
-            .setLeft(140)
-            .setTop(450)
-            .setWidth(400)
-            .setHeight(90)
-            .setInputArea("textarea")
-            .setReadonly(true)
+            attach((new linb.UI.Div)
+                .host(host,"div35")
+                .setLeft(40)
+                .setTop(490)
+                .setWidth(90)
+                .setHeight(20)
+                .setHtml("Response data : ")
             );
             
-            f(
-            (new u.Div)
-            .host(t,"div35")
-            .setLeft(40)
-            .setTop(490)
-            .setWidth(90)
-            .setHeight(20)
-            .setHtml("Response data : ")
+            attach((new linb.UI.Button)
+                .host(host,"btnIAjaxPost")
+                .setLeft(270)
+                .setTop(420)
+                .setCaption("iajax post")
+                .onClick("_btniajaxpost_onclick")
             );
             
-            f(
-            (new u.Button)
-            .host(t,"btnIAjaxPost")
-            .setLeft(270)
-            .setTop(420)
-            .setCaption("iajax post")
-            .onClick("_btniajaxpost_onclick")
+            attach((new linb.UI.Button)
+                .host(host,"btnAjaxGet")
+                .setLeft(140)
+                .setTop(350)
+                .setCaption("ajax get")
+                .onClick("_btnajaxget_onclick")
             );
             
-            f(
-            (new u.Button)
-            .host(t,"btnAjaxGet")
-            .setLeft(140)
-            .setTop(350)
-            .setCaption("ajax get")
-            .onClick("_btnajaxget_onclick")
+            attach((new linb.UI.Button)
+                .host(host,"btnAjaxPost")
+                .setLeft(270)
+                .setTop(350)
+                .setCaption("ajax post")
+                .onClick("_btnajaxpost_onclick")
             );
             
-            f(
-            (new u.Div)
-            .host(t,"div86")
-            .setLeft(50)
-            .setTop(200)
-            .setWidth(460)
-            .setHeight(20)
-            .setHtml("Use firebug or fiddler to monitor the request/response data please!")
+            attach((new linb.UI.Div)
+                .host(host,"div86")
+                .setLeft(50)
+                .setTop(200)
+                .setWidth(460)
+                .setHeight(20)
+                .setHtml("Use firebug or fiddler to monitor the request/response data please!")
             );
             
-            return n;
+            return children;
             // ]]code created by designer
         },
         _onready:function () {

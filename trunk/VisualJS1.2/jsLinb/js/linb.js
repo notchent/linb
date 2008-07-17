@@ -246,6 +246,8 @@ Class=function(key, parent_key, o){
 
     _parent.lenght=0;
     _Static=_Instance=_parent=o=null;
+    
+    _this.destroy=function(){Class.$gc(this.KEY)};
     /*return Class
     */
     return _this;
@@ -298,19 +300,15 @@ _.merge(Class, {
         }
     },
     $gc:function(key){
-        var t = _.get(window, key.split('.'));
+        if(typeof key=='object')key=key.KEY||"";
+        var t = _.get(window, key.split('.')),s;
         if(t){
-            /*remove from SC cache
-            */
-            //linb.SC.remove(key);
-
-            /*destroy children
-            */
-            for(var i=0,o; t=t.$children[i];i++){
-                o=_.get(window,o.split('.'));
-                o.$gc();
-            }
-
+            //remove from SC cache
+            if(s=_.get(window,['linb','cache','SC']))delete s[key];
+            //destroy children
+            for(var i=0,o; o=t.$children[i];i++)
+                if(o=_.get(window,o.split('.')))
+                    CLASS.$gc(O);
             t.$parent.length=t.$children.length=0;
             _.set(window, key.split('.'));
         }

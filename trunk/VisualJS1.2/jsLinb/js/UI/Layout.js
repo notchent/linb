@@ -458,7 +458,7 @@ Class("linb.UI.Layout",["linb.UI.iList", "linb.UI.iWidget", "linb.UI.iContainer"
                                 temp = linb.dom.getMatix(),
                                 //keep children
                                 children = _.copy(o.children),
-                                p
+                                p,vv
                             ;
                             o.children.length=0;
                             _.arr.each(children,function(o){
@@ -477,9 +477,9 @@ Class("linb.UI.Layout",["linb.UI.iList", "linb.UI.iWidget", "linb.UI.iContainer"
 
                             //set items
                             //for adjust 'main'
-                            v = o.box.prepareDefaultValue(o, v);
+                            vv = o.box.prepareDefaultValue(o, v);
                             //inset items
-                            box.insertItems(v);
+                            box.insertItems(vv);
 
                             //restore children
                             _.arr.each(children,function(v){
@@ -494,7 +494,7 @@ Class("linb.UI.Layout",["linb.UI.iList", "linb.UI.iWidget", "linb.UI.iContainer"
                             var size = o.root.cssSize();
                             o.box.resize(o, size.width, size.height);
                         }else
-                            o.properties.items = v;
+                            o.properties.items = _.copy(v);
                     });
                 }
             }

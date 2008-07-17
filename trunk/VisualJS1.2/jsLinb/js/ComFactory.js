@@ -39,7 +39,7 @@ Class('linb.ComFactory',null,{
         getCom:function(id, threadid, onEnd){
             var c=this._cache,p=this._pro,ini=p._iniMethod;
             if(c[id]){
-                _.tryF(onEnd, [threadid], c[id]);
+                _.tryF(onEnd, [threadid,c[id]], c[id]);
                 return c[id];
             }else{
                 if(!(p=p[id]))return null;
@@ -100,7 +100,7 @@ Class('linb.ComFactory',null,{
                         if(onEnd)
                             linb.thread(threadid).insert({
                                 task:onEnd,
-                                args:[threadid],
+                                args:[threadid,o],
                                 target:o
                             });
 
@@ -136,15 +136,17 @@ Class('linb.ComFactory',null,{
             }
         },
         newCom:function(cls,onEnd,threadid){
-            var o;
-            if(o=linb.SC.evalPath(cls))
-                _.tryF(onEnd,[threadid],new o);
+            var o=linb.SC.evalPath(cls);
+            o=typeof o == 'function' ?new o():null;
+            if(o)
+                _.tryF(onEnd,[threadid,o],o);
             else
                 linb.thread.asyUI(threadid,
                     [function(threadid){
                         linb.SC(cls, function(){
-                            var o=new (linb.SC.evalPath(cls))();
-                            _.tryF(onEnd,[threadid],o);
+                            var o=linb.SC.evalPath(cls);
+                            o=typeof o == 'function' ?new o():null;
+                            _.tryF(onEnd,[threadid,o],o);
                         }, true,{threadid:threadid});
                     }]
                 );

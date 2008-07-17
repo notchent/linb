@@ -698,7 +698,9 @@ new function(){
                 var arr = this.$domId.split(':');
                 arr[0]=key;
                 arr[2]=itemId||'';
-                return arr.join(':');
+                key=arr.join(':');
+                if(key==this.$domId)return linb.cache.dom[key].domId;
+                else return key;
             },
 
             //flag : remove from cache
@@ -2371,6 +2373,7 @@ new function(){
                 self.prototype.empty=function(){
                     return this.each(function(o){
                         o.getSubNode(key).empty();
+                        o.children=[];
                     });
                 };
                 //attach EventHandlers

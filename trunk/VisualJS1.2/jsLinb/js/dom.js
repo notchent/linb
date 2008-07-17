@@ -192,7 +192,7 @@ new function(){
             with (String(f)) return slice(indexOf("(") + 1, indexOf(")")).split(',');
         },
         clone:function(f){
-            return new Function(f.args(),f.body());
+            return new Function(_.fun.args(f),_.fun.body(f));
         }
     });
     _.merge(_.arr,{
@@ -1764,7 +1764,7 @@ Class('linb.dom','linb.iBox',{
             parent = linb(parent || document.body);
 
             //prepare
-            target.setStyle({position:'absolute',left:'0', top:'0',visibility:'hidden',display:'block', zIndex:linb.dom.top_zIndex});
+            target.setStyle({position:'absolute',left:linb.dom.hide_value, top:linb.dom.hide_value,display:'block', zIndex:linb.dom.top_zIndex});
 
             //add to body, avoid parent is display:none.
             parent.attach(target, true);
