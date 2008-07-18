@@ -44,8 +44,14 @@ class VisualJS extends Unit
             if(!$io->exists($hash->path))
                 $io->dirMake($hash->path, true);
 
-            if($hash->type == 'file')
-                $io->setString($io->absPath($file), ' ');
+            if($hash->type == 'file'){
+                $template = " ";
+                if(substr($file,-3,3)==self::FILE_JS){
+                    $template = $io->getString(self::TEMPLATE_JS);
+                    $template = LINB::parseTemplate($template, array("className" => "Specify_Class_Name_Here"));
+                }
+                $io->setString($io->absPath($file), $template);
+            }
 
             return array('OK'=>true);
             break;

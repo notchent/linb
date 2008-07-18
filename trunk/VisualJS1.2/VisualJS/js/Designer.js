@@ -1387,7 +1387,7 @@ Class('VisualJS.Designer', 'linb.Com',{
                                 em[property] = nv;
                                 _.set(page.properties.clsStruct,['sub','Instance', 'sub','events', 'code'], _.serialize(em));
                                 _.set(page.properties.clsStruct,['sub','Instance', 'sub','events', 'comments'],
-                                    _.get(page.properties.clsStruct,['sub','Instance', 'sub','events', 'comments'] || '\n'+_.str.repeat(' ',8)));
+                                    _.get(page.properties.clsStruct,['sub','Instance', 'sub','events', 'comments']) || ('\n'+_.str.repeat(' ',8)) );
 
                                 _.set(page.properties.clsObject,['Instance','events', property], nv);
                             }
@@ -1830,8 +1830,8 @@ Class('VisualJS.Designer', 'linb.Com',{
             });
 
             var page = this,t,arr=[];
-            arr.push('// [[code created by designer, don\'t change it manually\n');
-            arr.push('var host = this,\n    children = [],\n    attach = function(child){\n        children.push(child.get(0))\n    };');
+            arr.push('// [[code created by jsLinb UI Builder\n');
+            arr.push('var host=this, children=[], attach=function(child){children.push(child.get(0))};');
             fun = function(v, pName, argsStr, arr){
                 var self=arguments.callee, ui=v.box['linb.UI'], o=v.beforeSerialized(), name=o.alias, b;
 
@@ -1918,7 +1918,7 @@ Class('VisualJS.Designer', 'linb.Com',{
             });
             arr.push('\n\n');
             arr.push('return children;\n');
-            arr.push('// ]]code created by designer');
+            arr.push('// ]]code created by jsLinb UI Builder');
             return arr.join('');
         },
         getClassList:function(nodes){

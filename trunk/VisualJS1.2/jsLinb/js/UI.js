@@ -333,26 +333,27 @@ new function(){
                     }else{
                         this.$EventHandlers[i]=o;
                         var f=function(fun){
-                            var args = arguments, type=typeof fun;
-                            if(args.length ==1 && (type == 'function' || type == 'string'))
-                                return this.each(function(v){
-                                    if(v.domNode)
+                                var l=arguments.length;
+                                if(l==1 && (typeof fun == 'function' || typeof fun == 'string'))
+                                    return this.each(function(v){
+                                        if(v.domNode)
+                                            v.resetCache();
+                                        v[i] =fun;
+                                    });
+                                else if(l==1 && null===fun)
+                                    return this.each(function(v){
                                         v.resetCache();
-                                    v[i] =fun;
-                                });
-                            else if(args.length ==1 && null===fun)
-                                return this.each(function(v){
-                                    v.resetCache();
-                                    delete v[i];
-                                });
-                            else{
-                                //need to return event result
-                                var v = this.get(0), t=v[i], k=v.host || v;
-//                                if(this.get(0).properties.$design)return;
-                                if(typeof t=='string')t=k[t];
-                                if(typeof t=='function')return _.tryF(t, args, k);
-                            }
-                        };
+                                        delete v[i];
+                                    });
+                                else{
+                                    var args=[], v=this.get(0), t=v[i], k=v.host || v;
+                                    if(arguments[0]!=v)args[0]=v;
+                                    for(j=0;j<l;j++)args[args.length]=arguments[j];
+                                    v.$lastEvent=i;
+                                    if(typeof t=='string')t=k[t];
+                                    if(typeof t=='function')return _.tryF(t, args, k);
+                                }
+                            };
                         f.$event$=1;
                         return this.plugIn(i,f);
                     }
@@ -716,7 +717,7 @@ new function(){
                 else{
                     if(flag)delete h[key];
                     if(!itemId && h[key] && h[key]._nodes.length==1)return h[key];
-                    r = (t=linb.dom.byId(s=self.getSubNodeId(key, itemId))) ? linb([t]) : linb([self.domNode]).dig('*', 'id', s);
+                    r = (t=linb.dom.byId(s=self.getSubNodeId(key, itemId))) ? linb([t]) : ((t=self.domNode) && linb([t]).dig('*', 'id', s));
                     if(!itemId && !flag)h[key]=r;
                 }
                 return r;

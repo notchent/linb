@@ -233,8 +233,8 @@ Class("linb.UI.Tips", null,{
             //check if showTips works
             if(!b)b=(o.showTips && o.showTips(from, node, pos));
 
-            //default tips var
-            if(!b && (t=from.properties) && (t.tips)){
+            //default tips var(profile.tips > profile.properties.tips)
+            if(!b && ((t=from) && t.tips)||(t && (t=t.properties) && (t.tips))){
                 self.show(pos, t);
                 b=true;
             }

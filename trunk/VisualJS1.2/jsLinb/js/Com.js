@@ -55,6 +55,7 @@ Class('linb.Com',null,{
                 if(typeof t=='string')t=self.host[t];
                 args=args||[];
                 args.splice(0,0,self,self.threadid);
+                self.$lastEvent=name;
                 if(typeof t=='function')t.apply(self.host, args);
             }
         },

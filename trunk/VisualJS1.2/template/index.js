@@ -1,14 +1,14 @@
-//App class, inherit from linb.Com
+/*
+* This is the default code for creating a class inherit from linb.Com
+* Modify the code to fit your needs
+*/
 Class('{className}', 'linb.Com',{
     Instance:{
         //base Class for linb.Com
         base:["linb.UI"],
         //requried class for the App
-        //"linb.UI.Tips","linb.UI.Resizer","linb.UI.Edge","linb.UI.Shadow"
-        required:[]
-        /*,
-        //custom attach to parent dom node
-        customAttach:function(){}
-        */
+        required:[],
+        //Com events
+        events:{}
     }
 });
