@@ -708,7 +708,7 @@ new function(){
             getSubNode:function(key, itemId, flag){
                 var self=this;
                 key=self.keys[key] || key;
-                var r,t,s,h=self._domNode||(self._domNode={});
+                var r,t,s,h=self.$cache_domid||(self.$cache_domid={});
 
                 // by key only
                 if(itemId===true)

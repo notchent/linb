@@ -28,7 +28,7 @@ Class('linb.date',null,{
         TEXTFORMAT:{
             utciso:function(d,f){f=linb.date.fix; return d.getUTCFullYear() + '-' +f(d.getUTCMonth() + 1) + '-' +f(d.getUTCDate()) + 'T' +f(d.getUTCHours()) + ':' +f(d.getUTCMinutes()) + ':' +f(d.getUTCSeconds()) + 'Z'},
             iso:function(d,f){f=linb.date.fix; return d.getFullYear() + '-' +f(d.getMonth() + 1) + '-' +f(d.getDate()) + 'T' +f(d.getHours()) + ':' +f(d.getMinutes()) + ':' +f(d.getSeconds())},
-            ms:function(d){return linb.date.fix(d.getMinutes(),3)+ linb.wrapRes('date.MS')},
+            ms:function(d){return linb.date.fix(d.getMilliseconds(),3)+ linb.wrapRes('date.MS')},
             s:function(d){return linb.date.fix(d.getSeconds())+ linb.wrapRes('date.S')},
             n:function(d){return linb.date.fix(d.getMinutes())+ linb.wrapRes('date.N')},
             h :function(d){return linb.date.fix(d.getHours())+ linb.wrapRes('date.H')},
@@ -45,7 +45,7 @@ Class('linb.date',null,{
             dhn:function(d){return linb.wrapRes('date.DHN-'+d.getDate()+"-"+d.getHours()+"-"+d.getMinutes())},
             mdhn:function(d){return linb.wrapRes('date.MDHN-'+(d.getMonth()+1)+"-"+d.getDate()+"-"+d.getHours()+"-"+d.getMinutes())},
             hns:function(d){return linb.wrapRes('date.HNS-'+d.getHours()+"-"+d.getMinutes()+"-"+d.getSeconds())},
-            hnsms:function(d){return linb.wrapRes('date.HNSMS-'+d.getHours()+"-"+d.getMinutes()+"-"+d.getSeconds()+"-"+d.getMinutes())},
+            hnsms:function(d){return linb.wrapRes('date.HNSMS-'+d.getHours()+"-"+d.getMinutes()+"-"+d.getSeconds()+"-"+d.getMilliseconds())},
 
             yq:function(d){return linb.wrapRes('date.YQ-'+d.getFullYear()+"-"+(parseInt((d.getMonth()+3)/3-1)+1))},
 
@@ -1010,7 +1010,7 @@ Class('linb.date',null,{
         fix:function(s,l,c){
             l=l||2;
             c=c||'0';
-            s=String(s);
+            s+="";
             if(s.length<l)
                 for(var i=s.length;i<l;i++)
                     s=c+s;
@@ -1274,7 +1274,7 @@ Class('linb.date',null,{
             return self.diff(date2, date, 'd')+1;
         },
         parse:function(s){
-            s=String(s);
+            s+="";
             var self=this,utc,
                 me=arguments.callee,
                 dp=me.dp||(me.dp={

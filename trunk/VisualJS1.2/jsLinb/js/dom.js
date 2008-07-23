@@ -16,7 +16,7 @@ new function(){
                         if(l<n && target[i] && (typeof target[i]=='object' || typeof target[i]=='function'))self(target[i],n,l);
                         if(!(p && p[i]) && i!="prototype" && i!="constructor")try{delete target[i]}catch(e){}
                     }
-                target[_t]=null;
+                try{delete target[_t]}catch(e){}
                 if(target.constructor==Array)target.length=0;
             }
         },

@@ -716,7 +716,7 @@ Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'
             items:{
                 ini:[]
             },
-
+            fixWidth:false,
             dateStart : new Date,
             scrollRateBase:5
         },
@@ -1465,13 +1465,15 @@ Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'
                     profile.boxing().removeItems(arr);
 
                     //use insertItems in onGetTasks
-                    if(profile.onGetTasks)
-                        profile.boxing().onGetTasks(profile,
+                    if(profile.onGetTasks){
+                        arr=profile.boxing().onGetTasks(profile,
                             offsetCount>0 ? _smallLabelStart : bak_e,
                             offsetCount>0 ? bak_s : _smallLabelEnd,
                             t._rate,
                             offsetCount>0 ? 'left' : 'right');
-
+                        if(arr.length)
+                            profile.boxing().insertItems(arr,null,true);
+                    }
 
                     //adjust the items
                     self._reArrage(profile);
@@ -1675,6 +1677,12 @@ Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'
             }else
                 return false;
         },
+        beforeSerialized:function(profile){
+            var w=profile.properties.width,
+                o=arguments.callee.upper.call(this, profile);
+            o.properties.width=w;
+            return o;
+        },
         resize:function(profile,w,h){
             var p=profile.properties,
                 f=function(k){return profile.getSubNode(k)},
@@ -1691,7 +1699,13 @@ Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'
             }
             if(w && w!=p.width){
                 f('BORDER').width(w-off1);
-                if(p.width!=w)p.width=w;
+                p.width=w;
+
+                //if width changed, refresh the timeline
+                if(!p.fixWidth){   
+                    profile.boxing().refresh();
+                    profile.box._focus(profile);
+                }
             }
         }
     }

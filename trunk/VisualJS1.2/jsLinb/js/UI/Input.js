@@ -27,7 +27,7 @@ Class("linb.UI.Input", ["linb.UI.Widget", "linb.UI.iForm"],{
         setCtrlValue:function(value){
             if(_.isNull(value) || !_.exists(value))value='';
             return this.each(function(profile){
-                profile.getSubNode('INPUT').value(value.toString());
+                profile.getSubNode('INPUT').value(value+"");
             });
         },
         getCtrlValue:function(){

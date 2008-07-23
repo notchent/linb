@@ -147,7 +147,7 @@ Class("linb.UI.Tips", null,{
 
                     s = typeof item=='object'? item[key||'tips'] :item ;
 
-                    if(s=s.toString()){
+                    if(s+=""){
                         //get string
                         s=s.replace(self._r, function(a,b,c){
                             return linb.wrapRes(c);
