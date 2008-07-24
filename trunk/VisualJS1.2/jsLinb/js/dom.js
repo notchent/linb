@@ -765,7 +765,7 @@ Class('linb.dom','linb.iBox',{
         },
         //flag : false => remove from dom tree, not free memory
         remove:function(flag){
-            var me=arguments.callee,c=me.c||(me.c=document.createElement('div'));
+            var me=arguments.callee,c=me._c||(me._c=document.createElement('div'));
             if(flag===false)
                 this.each(function(o,i){
                     if(o.parentNode)o.parentNode.removeChild(o);

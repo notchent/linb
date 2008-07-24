@@ -400,24 +400,25 @@
 
             if(isset($httpdata->$id)){
              	// iframe ajax
-             	if(isset($t) && $t=='frame'){
-             	    $output=rawurlencode($output);
-             	    $bak=$output;
-             	    $output='';
-             	    $temp='';
-             	    $i=0;
-             	    $arr = array();
-             	    while($temp=substr($bak,0,self::MAX_LEN)){
-             	        $arr[] = "&i=".$i."&s=".$temp;
-             	        $bak=substr($bak,self::MAX_LEN);
-             	        $i++;
-             	    }
-             	    foreach($arr as $v)
-             	        $output .= preg_replace("/\#/", '#r='.$httpdata->$id.'&l='.$i.$v, $cb);
-             	// script tag ajax
-             	}
-             	if(isset($t) && $t=='script'){
-             	    $output = $cb.'('.$output.')';
+             	if(isset($t)){
+             	    if($t=='wn')
+             	        $output="<div id='id'>".$output."</div><script>window.name=document.getElementById('id').innerHTML;</script>";
+             	    else if($t=='fim' || $t=='frame'){
+                 	    $output=rawurlencode($output);
+                 	    $bak=$output;
+                 	    $output='';
+                 	    $temp='';
+                 	    $i=0;
+                 	    $arr = array();
+                 	    while($temp=substr($bak,0,self::MAX_LEN)){
+                 	        $arr[] = "&i=".$i."&s=".$temp;
+                 	        $bak=substr($bak,self::MAX_LEN);
+                 	        $i++;
+                 	    }
+                 	    foreach($arr as $v)
+                 	        $output .= preg_replace("/\#/", '#r='.$httpdata->$id.'&l='.$i.$v, $cb);
+             	    }else if($t=='script')
+             	        $output = $cb.'('.$output.')';
              	}
             }
             return $output;

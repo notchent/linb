@@ -45,18 +45,18 @@ _.merge=function(target, source, type){
 };
 _.merge(_,{
     exec:function(script){
-		var me=this,
-		    d=document,
-		    h=me.h||(me.h=d.getElementsByTagName("head")[0] || d.documentElement),
-			s=d.createElement("script");
-		s.type = "text/javascript";
-		if(linb.browser.ie)
-			s.text=script;
-		else
-			s.appendChild(d.createTextNode(script));
-		h.insertBefore(s, h.firstChild);
-		h.removeChild(s);
-	},
+        var me=this,
+            d=document,
+            h=me.h||(me.h=d.getElementsByTagName("head")[0] || d.documentElement),
+            s=d.createElement("script");
+        s.type = "text/javascript";
+        if(linb.browser.ie)
+            s.text=script;
+        else
+            s.appendChild(d.createTextNode(script));
+        h.insertBefore(s, h.firstChild);
+        h.removeChild(s);
+    },
     /*
     get/set something from deep hash
     hash:target hash
@@ -246,7 +246,7 @@ Class=function(key, parent_key, o){
 
     _parent.lenght=0;
     _Static=_Instance=_parent=o=null;
-    
+
     _this.destroy=function(){Class.$gc(this.KEY)};
     /*return Class
     */
@@ -444,7 +444,8 @@ new function(){
         appPath:location.href.split('?')[0].replace(/[^\\\/]+$/,''),
         appLangKey:'app',
         file_bg:'bg.gif',
-        file_xd:'xd.html'
+        file_xd:'xd.html',
+        file_blank:'blank.html'
     });
     if(!linb.ini.path){
         var i,s,arr = document.getElementsByTagName('script'), reg = /js\/linb\.js$/;
@@ -951,37 +952,28 @@ Class('linb.io',null,{
                         m[i]=txt;
                         while(l--)if(m[i]===undefined)return;
                         if(obj=_.unserialize(decodeURIComponent(m.join(''))))
-                            for(i=0;i<o.length;i++){
-                                o[i]._response=obj;
-                                o[i]._e("Response");
-                            }
+                            o[o.length-1]._response=obj;
+                            o[o.length-1]._e("Response");
                     }
                 }else{
                     obj = typeof txt=='string' ? _.unserialize(decodeURIComponent(txt)) : txt;
                     if(obj && (o = self.pool[obj[self.randkey]])){
-                        for(i=0;i<o.length;i++){
-                            o[i]._response=obj;
-                            o[i]._e("Response");
-                        }
+                        o[o.length-1]._response=obj;
+                        o[o.length-1]._e("Response");
                     }
                 }
             }catch(e){
                 linb.logger && linb.logger.trace(e);
             }
         },
-        createif:function(doc,content,id,src,onLoad){
-            var n = doc.createElement(linb.browser.ie?"<iframe name='"+id+"'>":"iframe"),w,d;
+        createif:function(doc,id,onLoad){
+            var e=linb.browser.ie,n = doc.createElement(e?"<iframe name='"+id+"' "+(onLoad?"onload='linb.iajax._o(\""+id+"\")'":"")+">":"iframe"),w;
             if(id)n.id=n.name=id;
-            if(src)n.src=src;
-            if(onLoad)n.onload=onLoad;
+            if(!e&&onLoad)n.onload=onLoad;
             n.style.display = "none";
             doc.body.appendChild(n);
-            w=frames[frames.length - 1];
-            d=w.document;
-            d.open();
-            d.write(content||'');
-            d.close();
-            return [n,w,d];
+            w=frames[frames.length-1];
+            return [n,w,w.document];
         },
         crossDomain:function(uri){
             var me=arguments.callee,
@@ -1117,11 +1109,11 @@ Class('linb.sajax','linb.io',{
                 c.pool[id]=[self];
 
             var w=c._n=document;
-			n = self.node = w.createElement("script");
-			n.src = self.uri + (self.queryString?'?'+self.queryString:'');
-			n.type= 'text/javascript';
-			n.charset='utf-8';
-			n.id='linb:script:'+self.id;
+            n = self.node = w.createElement("script");
+            n.src = self.uri + (self.queryString?'?'+self.queryString:'');
+            n.type= 'text/javascript';
+            n.charset='utf-8';
+            n.id='linb:script:'+self.id;
             n.onload = n.onreadystatechange = function(){
                 var t=this.readyState;
                 if(!ok && (!t || t == "loaded" || t == "complete") ) {
@@ -1136,7 +1128,7 @@ Class('linb.sajax','linb.io',{
             };
 
             //w.getElementsByTagName("head")[0].appendChild(n);
-			w.body.appendChild(n);
+            w.body.appendChild(n);
 
             //set timeout
             if(self.timeout > 0)
@@ -1189,7 +1181,7 @@ Class('linb.iajax','linb.io',{
     Instance:{
         _useForm:true,
         start:function(){
-            var self=this,c=self.constructor, i, id, t, n, k, o, b, form, ok=false;
+            var self=this,c=self.constructor, i, id, t, n, k, o, b, form,onload;
             if(t=_.tryF(self.beforeStart,[],self))
                 return _.tryF(self.onSuccess,[t, self.rspType, self.threadid], self);
             if (!self._retryNo)
@@ -1201,9 +1193,22 @@ Class('linb.iajax','linb.io',{
                 c.pool[id].push(self);
             else
                 c.pool[id]=[self];
-
+                
+            if(self.type=='wn')
+                self._onload = onload = function(id){
+                    var w=self.node.contentWindow,g=linb.browser.gek,c=linb.iajax,i=linb.ini,l=i.path+i.file_blank,m;
+                    if(!g)try{if(w.location=='about:blank')return}catch(e){}
+                    if(self._ok){
+                        c.response(w.name)
+                    }else{
+                        w.location=l;
+                        self._ok=1;
+                        if(!g)try{c.response(w.name)}catch(e){}
+                    }
+                };
+            
             //create iframe
-            var a=c.createif(document,null,(id='linb:if:'+self.id) );
+            var a=c.createif(document,id, onload);
             self.node=a[0];
             self.frm=a[1];
             //create form
@@ -1234,12 +1239,13 @@ Class('linb.iajax','linb.io',{
             document.body.appendChild(form);
             //submit
             form.submit();
-
-            if(!linb.browser.opr)
-                (function(){
-                    if(self._c())
-                        self._tf = setTimeout(arguments.callee,50);
-                })();
+            //use fim
+            if(self.type!='wn')
+                if(!linb.browser.opr)
+                    (function(){
+                        if(self._c())
+                            self._tf = setTimeout(arguments.callee,50);
+                    })();
 
             //set timeout
             if(self.timeout > 0)
@@ -1274,6 +1280,7 @@ Class('linb.iajax','linb.io',{
         },
         _clear:function(){
             var self=this, n=self.node,f=self.form, c=self.constructor, div=c.div||(c.div=document.createElement('div'));
+			if(self.type=='wn'&&linb.browser.gek)try{n.onload=null;var d=n.contentWindow.document;d.write(" ");d.close()}catch(e){}
             self.form=self.node=self.frm=null;
             clearTimeout(self._tf);
             if(n)div.appendChild(n.parentNode.removeChild(n));
@@ -1285,7 +1292,11 @@ Class('linb.iajax','linb.io',{
         method:'POST',
         retry:0,
         pool:{},
-        getDummyRes : function(win){
+        _o:function(id){
+            var self=this,p=self.pool[id],o=p[p.length-1];
+            _.tryF(o._onload);
+        },
+        getDummyRes:function(win){
             win=win||window;
             var ns=this,
                 arr,o,
@@ -1336,10 +1347,14 @@ Class('linb.iajax','linb.io',{
 
         tpl:function(){return '<iframe src="'+this.getDummyRes() + '#"></iframe>'},
         customQS:function(obj){
-            var c=this.constructor;
-            obj[c.type]='frame';
-            obj[c.callback]=c.tpl();
-            obj[c.randkey]=this.id;
+            var s=this,c=s.constructor,t=c.type;
+            if(s.type=='wn')
+                obj[t]='wn';
+            else{
+                obj[t]='fim';
+                obj[c.callback]=c.tpl();
+            }
+            obj[c.randkey]=s.id;
             return obj;
         }
     }
@@ -1528,15 +1543,21 @@ new function(){
     A=/[\x00-\x1f\x7f-\x9f\\\"]/g,
     B=/[^\x00-\xff]/g,
     C=/^\s*\x7b/, // /^\s*\{/,
-    D=/^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2}(?:\.\d*)?)Z$/,
-    E=function(t,i,a,v){
+    D=/^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})(?:\.(\d{1,3}))?((?:[+-](\d{2}):(\d{2}))|Z)?$/,
+    E=function(t,i,a,v,m,n){
         for(i in t)
-            if((a=typeof (v=t[i]))=='string' && (v=D.exec(v)))
-                t[i]=new Date(Date.UTC(+v[1],+v[2]-1,+v[3],+v[4],+v[5],+v[6]));
-            else if(a=='object')
-                E(t[i]);
+            if((a=typeof (v=t[i]))=='string' && (v=D.exec(v))){
+                m=v[8]&&v[8].charAt(0);
+                if(m!='Z')n=(m=='-'?-1:1)*((+v[9]||0)*60)+(+v[10]||0);
+                else n=0;
+                m=new Date(+v[1],+v[2]-1,+v[3],+v[4],+v[5],+v[6],+v[7]||0);
+                n-=m.getTimezoneOffset();
+                if(n)m.setTime(m.getTime()+n*60000);
+                t[i]=m;
+            }else if(a=='object') E(t[i]);
     },
     R=function(n){return n<10?'0'+n:n},
+
     F='function',
     N='number',
     L='boolean',
@@ -1592,7 +1613,9 @@ new function(){
                      R(x.getUTCDate()) + 'T' +
                      R(x.getUTCHours()) + ':' +
                      R(x.getUTCMinutes()) + ':' +
-                     R(x.getUTCSeconds()) + 'Z"';
+                     R(x.getUTCSeconds()) +
+                     ((v=x.getUTCMilliseconds())?'.'+(v<10?'00'+v:v<100?'0'+v:v):'') +
+                     'Z"';
             }else{
                 if(typeof x.beforeSerialized == F)
                     x = x.beforeSerialized();
