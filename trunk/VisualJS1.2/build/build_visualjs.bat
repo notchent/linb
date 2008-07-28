@@ -33,7 +33,8 @@ copy %relPath%jsLinb\js\UI.js /b + %relPath%jsLinb\js\coder.js /b + %relPath%jsL
 
 java -jar yuicompressor.jar -o %relPath%%releasePath%%version%jsLinb/js/linb.js      --nomunge      linb.js
 java -jar yuicompressor.jar -o %relPath%%releasePath%%version%%appname%js/index.js      --nomunge   index.js
-
+rem copy linb.js %relPath%%releasePath%%version%jsLinb\js\linb.js
+rem copy index.js %relPath%%releasePath%%version%%appname%js\index.js
 
 del /q linb.js
 del /q index.js

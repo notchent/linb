@@ -49,7 +49,26 @@ Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'
                 picker=cls._picker;
             if(picker && picker.domNode)
                 profile.getSubNode('POOL').addLast(picker.root.display('none'));
-        }
+        },
+        getTimeRange:function(){
+            var profile=this.get(0), p=profile.properties;
+            return [p._smallLabelStart, p._smallLabelEnd];
+        },
+        addTasks:function(arr){
+            return this.insertItems(arr,null,true);
+        },
+        iniTasks:function(){
+            var profile=this.get(0), p=profile.properties;
+            if(profile.onGetTasks)
+                profile.boxing().onGetTasks(profile,
+                    p._smallLabelStart,
+                    p._smallLabelEnd,
+                    p._rate,
+                    'ini');
+        },
+        setPauseFlag:function(value){
+            return this.get(0).pauseA=!!value;
+        }    
     },
     Static:{
         Dropable:['ITEMS'],
@@ -217,7 +236,7 @@ Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'
             },
             BAND:{
                 onMousedown:function(profile, e, src){
-                    if(profile.pause)return;
+                    if(profile.pauseA||profile.pause)return;
                     var t=profile.properties,
                         r=-t._band_left,
                         date=linb.date,
@@ -283,7 +302,7 @@ Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'
                 },
                 onMousedown:function(profile, e, src){
                     if(profile.properties.disabled || profile.properties.readonly)return;
-                    if(profile.pause)return;
+                    if(profile.pauseA||profile.pause)return;
 
                     var o = profile.getSubNode('ACTIVE'),
                         x = linb.event.getPos(e).left;
@@ -330,8 +349,8 @@ Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'
 
                     if(profile.properties.multiTasks){
                         task={id:_.id(),caption:p.dftCaption,start:start,end:end};
-                        if(profile.beoferAddTasks && false===b.beoferAddTasks(profile, [task])){}else
-                            b.insertItems([task],null,true);
+                        if(profile.beforeNewTasks && false===b.beforeNewTasks(profile, [task])){}else
+                            b.addTasks([task]);
                     }else
                         b.updateUIValue(start+":"+end);
 
@@ -350,7 +369,7 @@ Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'
                     });
                 },
                 onKeydown:function(profile, e, src){
-                    if(profile.pause)return;
+                    if(profile.pauseA||profile.pause)return;
                     profile.pause=true;
 
                     // speed
@@ -396,7 +415,7 @@ Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'
             },
             PRE:{
                 onClick:function(profile, e){
-                    if(profile.pause)return;
+                    if(profile.pauseA||profile.pause)return;
 
                     var t=profile.properties,
                         date=linb.date,
@@ -417,7 +436,7 @@ Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'
             },
             NEXT:{
                 onClick:function(profile, e){
-                    if(profile.pause)return;
+                    if(profile.pauseA||profile.pause)return;
                     var t=profile.properties,
                         date=linb.date,
                         rate=t._rate,
@@ -439,7 +458,7 @@ Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'
             },
             ZOOMIN:{
                 onClick:function(profile, e){
-                    if(profile.pause)return;
+                    if(profile.pauseA||profile.pause)return;
                     var p=profile.properties,
                         box=profile.box,
                         z=box.zoom,
@@ -451,7 +470,7 @@ Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'
 
                         o = profile.getSubNodes(['VIEW','BAND']);
                         o.fx( {opacity:[1,0.2]}, null, function(){
-                            profile.boxing().refresh();
+                            profile.boxing().clearItems().refresh();
                             profile.box._focus(profile);
                             profile.pause=false;
                         },200,5,'insine').start();
@@ -460,7 +479,7 @@ Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'
             },
             ZOOMOUT:{
                 onClick:function(profile, e){
-                    if(profile.pause)return;
+                    if(profile.pauseA||profile.pause)return;
                     var p=profile.properties,
                         box=profile.box,
                         z=box.zoom,
@@ -472,7 +491,7 @@ Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'
 
                         o = profile.getSubNodes(['VIEW','BAND']);
                         o.fx( {opacity:[1,0.2]}, null, function(){
-                            profile.boxing().refresh();
+                            profile.boxing().clearItems().refresh();
                             profile.box._focus(profile);
                             profile.pause=false;
                         },200,5,'insine').start();
@@ -481,7 +500,7 @@ Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'
             },
             DATE:{
                 onClick:function(profile, e, src){
-                    if(profile.pause)return;
+                    if(profile.pauseA||profile.pause)return;
                     var cls=profile.box,
                         box=profile.boxing(),
                         start=profile.properties.dateStart,
@@ -502,7 +521,7 @@ Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'
                                 box=profile.boxing();
                             profile.properties.dateStart=v;
                             //obj.fx( {opacity:[1,0.2]}, null, function(){
-                                box.refresh();
+                                box.clearItems().refresh();
                                 profile.box._focus(profile);
                             //    profile.pause=false;
                             //},200,5,'insine').start()
@@ -637,7 +656,7 @@ Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'
             timeSpanKey : {
                 ini:'',
                 action:function(){
-                    this.boxing().refresh();
+                    this.boxing().clearItems().refresh();
                 }
             },
             //timespan of a small label is equal to smallLabelCount*smallLabelUnit
@@ -725,7 +744,7 @@ Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'
             onTriggerOption:function(profile, e, src){},
             onGetTasks:function(profile, start, end, minMs, type){},
             beforeChangeTask:function(profile, item){},
-            beoferAddTasks:function(profile, items){},
+            beforeNewTasks:function(profile, items){},
             beforeDelTasks:function(profile, arr){}
         },
         Appearances:{'default':{
@@ -997,6 +1016,7 @@ Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'
 
             self.$active = self.getSubNode('ACTIVE').get(0);
             cls._ajustHeight(self);
+            self.boxing().iniTasks();
         },
         buildViewItems:function(){
             var i,t,arr=this.zoom,s='date.VIEWS.',wrap=linb.wrapRes,a=[];
@@ -1038,8 +1058,8 @@ Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'
                     task.start = box._getTime(profile, r.left);
                     task.end = box._getTime(profile, r.left+r.width);
 
-                    if(profile.beoferAddTasks && false===b.beoferAddTasks(profile, [task])){}else
-                        b.insertItems([task],null,true);
+                    if(profile.beforeNewTasks && false===b.beforeNewTasks(profile, [task])){}else
+                        b.addTasks([task]);
                 }
             },'all');
         },
@@ -1464,15 +1484,13 @@ Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'
                     });
                     profile.boxing().removeItems(arr);
 
-                    //use insertItems in onGetTasks
+                    //use addTasks in onGetTasks
                     if(profile.onGetTasks){
-                        arr=profile.boxing().onGetTasks(profile,
+                        profile.boxing().onGetTasks(profile,
                             offsetCount>0 ? _smallLabelStart : bak_e,
                             offsetCount>0 ? bak_s : _smallLabelEnd,
                             t._rate,
                             offsetCount>0 ? 'left' : 'right');
-                        if(arr.length)
-                            profile.boxing().insertItems(arr,null,true);
                     }
 
                     //adjust the items
@@ -1703,7 +1721,7 @@ Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'
 
                 //if width changed, refresh the timeline
                 if(!p.fixWidth){   
-                    profile.boxing().refresh();
+                    profile.boxing().clearItems().refresh();
                     profile.box._focus(profile);
                 }
             }

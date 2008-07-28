@@ -68,7 +68,7 @@ new function(){
             h.appPath=appPath;
         //dummy
         if(!h.type && h.dummy)
-            h.dummy=location.href+'?'+Math.random();                
+            h.dummy=location.href.split('?')[0].split('#')[0]+"?$_dummy_$";
 
         if(appPath && !/\/$/.test(appPath+"")) appPath+='/';
         //default is the current html file path

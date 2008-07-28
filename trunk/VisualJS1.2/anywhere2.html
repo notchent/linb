@@ -30,34 +30,13 @@
         </div>
         <script type="text/javascript">
         (function(){
-            //is dummey proxy?
-            var proxy;
-            try{
-                if((proxy=parent) && (proxy=proxy.parent) && (proxy=proxy.linb) && (proxy=proxy.iajax) &&location.href.indexOf('#')!=-1)
-                    proxy=true;
-            }catch(e){}
-            //get data from server
-            if(proxy===true){
-                var p=parent.parent.linb.iajax,
-                    rtn=(location.href.split('#')[1]||'');
-                //return multi str
-                if(rtn.indexOf('&')!=-1){
-                    var hash={},
-                        a=rtn.split('&'),
-                        arr,o;
-                    for(var i=0,l=a.length;i<l;i++){
-                        o=a[i];
-                        arr=o.split('=');
-                        hash[arr[0]]=arr[1];
-                    }
-                    p.response(hash.s,hash.r,parseFloat(hash.i),parseFloat(hash.l));
-                }else
-                    p.response(rtn);
-            }else{
+            var mark = "$_dummy_$",
+                isDummy = location.href.split('#')[1]==mark;
+            if(!isDummy){
                 //var appHost=location.href.split('?')[0].replace(/[^\\\/]+$/,'');
                 //*** Switch to this line, and you can copy this html file to anywhere ***
                 var appHost='http://www.linb.net/VisualJS/';
-                document.write(unescape("%3Cscript src='" + appHost + "api.js?prgId=prgId&dummy=1&ajax_fim=1&module=visualjs&appPath="+appHost+"' type='text/javascript'%3E%3C/script%3E"));
+                document.write(unescape("%3Cscript src='" + appHost + "api.js?prgId=prgId&dummy=1&module=visualjs&appPath="+appHost+"' type='text/javascript'%3E%3C/script%3E"));
                 //set default lang
                 var dftLang=function(){
                     var dft='en-us',

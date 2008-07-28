@@ -11,19 +11,21 @@
 * l:total count
 * s:string
 */
-    var p=parent.parent.linb.iajax,
-        rtn=(location.href.split('#')[1]||'');
-    //return multi str
-    if(rtn.indexOf('&')!=-1){
-        var hash={},
-            a=rtn.split('&'),
-            arr,o;
-        for(var i=0,l=a.length;i<l;i++){
-            o=a[i];
-            arr=o.split('=');
-            hash[arr[0]]=arr[1];
-        }
-        p.response(hash.s,hash.r,parseFloat(hash.i),parseFloat(hash.l));
-    }else
-        p.response(rtn);
+    var rtn=(location.href.split('#')[1]||'');
+    if(rtn!='$_dummy_$'){
+        var p=parent.parent.linb.iajax,
+        //return multi str
+        if(rtn.indexOf('&')!=-1){
+            var hash={},
+                a=rtn.split('&'),
+                arr,o;
+            for(var i=0,l=a.length;i<l;i++){
+                o=a[i];
+                arr=o.split('=');
+                hash[arr[0]]=arr[1];
+            }
+            p.response(hash.s,hash.r,parseFloat(hash.i),parseFloat(hash.l));
+        }else
+            p.response(rtn);
+    }
 </script>

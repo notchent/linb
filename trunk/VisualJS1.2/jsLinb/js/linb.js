@@ -440,13 +440,6 @@ new function(){
     if(window.linb_ini)
         _.merge(linb.ini,window.linb_ini);
 
-    _.merge(linb.ini,{
-        appPath:location.href.split('?')[0].replace(/[^\\\/]+$/,''),
-        appLangKey:'app',
-        file_bg:'bg.gif',
-        file_xd:'xd.html',
-        file_blank:'blank.html'
-    });
     if(!linb.ini.path){
         var i,s,arr = document.getElementsByTagName('script'), reg = /js\/linb\.js$/;
         for(i=0; s=arr[i]; i++)
@@ -455,6 +448,13 @@ new function(){
                 break;
             }
     }
+    _.merge(linb.ini,{
+        appPath:location.href.split('?')[0].replace(/[^\\\/]+$/,''),
+        appLangKey:'app',
+        file_bg:'bg.gif',
+        file_xd:'xd.html',
+        dummy_tag:'$_dummy_$'
+    });
     /*
     *
     *browser sniffer
@@ -844,7 +844,7 @@ Class('linb.io',null,{
 
 
         if(self.customQS)
-            self.queryString = self.customQS(self.queryString);
+            self.queryString = self.customQS(self.queryString,self);
 
         if(!self._useForm && typeof self.queryString!='string')
             self.queryString = con.buildQS(self.queryString, self._single);
@@ -1162,7 +1162,7 @@ Class('linb.sajax','linb.io',{
     },
     Static : {
         pool:{},
-        customQS:function(obj){
+        customQS:function(obj,ins){
             var c=this.constructor, t=c.type, k=c.randkey, b=c.callback,nr=(this.rspType!='script'),rand=nr?k + '=' + this.id + '&type=script&':'';
             if(typeof obj=='string')
                 return (obj && obj + '&') + rand + (nr?b + '=linb.sajax.response':'');
@@ -1180,6 +1180,7 @@ Class('linb.sajax','linb.io',{
 Class('linb.iajax','linb.io',{
     Instance:{
         _useForm:true,
+        type:'wn',
         start:function(){
             var self=this,c=self.constructor, i, id, t, n, k, o, b, form,onload;
             if(t=_.tryF(self.beforeStart,[],self))
@@ -1196,15 +1197,16 @@ Class('linb.iajax','linb.io',{
                 
             if(self.type=='wn')
                 self._onload = onload = function(id){
-                    var w=self.node.contentWindow,g=linb.browser.gek,c=linb.iajax,i=linb.ini,l=i.path+i.file_blank,m;
-                    if(!g)try{if(w.location=='about:blank')return}catch(e){}
-                    if(self._ok){
-                        c.response(w.name)
-                    }else{
-                        w.location=l;
-                        self._ok=1;
-                        if(!g)try{c.response(w.name)}catch(e){}
-                    }
+                    //in some situation, this function will be triggered twice.
+                    //in IE/opera, "setting an image file as dummy" will trigger the second onload event with 'self.node == null'
+                    if(!self.node)return;
+                    var w=self.node.contentWindow,c=linb.iajax;
+                    //in opera, "set location" will trigger location=='about:blank' at first
+                    if(!linb.browser.opr)try{if(w.location=='about:blank')return}catch(e){}
+                    try{
+                        w.location=c.getDummyRes()+'#'+linb.ini.dummy_tag;
+                        c.response(w.name);
+                    }catch(e){}
                 };
             
             //create iframe
@@ -1280,7 +1282,7 @@ Class('linb.iajax','linb.io',{
         },
         _clear:function(){
             var self=this, n=self.node,f=self.form, c=self.constructor, div=c.div||(c.div=document.createElement('div'));
-			if(self.type=='wn'&&linb.browser.gek)try{n.onload=null;var d=n.contentWindow.document;d.write(" ");d.close()}catch(e){}
+			if(self.type=='wn'&&linb.browser.gek&&n)try{n.onload=null;var d=n.contentWindow.document;d.write(" ");d.close()}catch(e){}
             self.form=self.node=self.frm=null;
             clearTimeout(self._tf);
             if(n)div.appendChild(n.parentNode.removeChild(n));
@@ -1336,9 +1338,9 @@ Class('linb.iajax','linb.io',{
             }
             //get from parent, not for opera in this case
             try{
-                win=win.parent;
-                if(win && !f(''+win.document.location.href))
-                    return ns.getDummyRes(win);
+                if(win!=win.parent)
+                    if((win=win.parent) && !f(''+win.document.location.href))
+                        return ns.getDummyRes(win);
             }catch(e){}
 
             //for the last change, return xd.html
@@ -1346,9 +1348,9 @@ Class('linb.iajax','linb.io',{
         },
 
         tpl:function(){return '<iframe src="'+this.getDummyRes() + '#"></iframe>'},
-        customQS:function(obj){
+        customQS:function(obj,ins){
             var s=this,c=s.constructor,t=c.type;
-            if(s.type=='wn')
+            if(ins.type=='wn')
                 obj[t]='wn';
             else{
                 obj[t]='fim';

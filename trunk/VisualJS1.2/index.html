@@ -33,10 +33,12 @@
         (function(){
             //is dummey proxy?
             var proxy;
-            if((proxy=parent) && (proxy=proxy.parent) && (proxy=proxy.linb) && (proxy=proxy.iajax) &&location.href.indexOf('#')!=-1)
-                proxy=true;
+            try{
+                if((proxy=parent) && (proxy=proxy.parent) && (proxy=proxy.linb) && (proxy=proxy.iajax) &&location.href.indexOf('#')!=-1)
+                    proxy=true;
+            }catch(e){}
             //get data from server
-            if(proxy){
+            if(proxy===true){
                 var p=parent.parent.linb.iajax,
                     rtn=(location.href.split('#')[1]||'');
                 //return multi str
@@ -57,7 +59,6 @@
                 //*** Switch to this line, and you can copy this html file to anywhere ***
                 //var appHost='http://www.linb.net/VisualJS/';
                 document.write(unescape("%3Cscript src='" + appHost + "api.js?prgId=prgId&dummy=1&module=visualjs&appPath="+appHost+"' type='text/javascript'%3E%3C/script%3E"));
-
                 //set default lang
                 var dftLang=function(){
                     var dft='en-us',
