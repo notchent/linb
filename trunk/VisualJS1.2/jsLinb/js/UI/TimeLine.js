@@ -66,8 +66,11 @@ Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'
                     p._rate,
                     'ini');
         },
-        setPauseFlag:function(value){
-            return this.get(0).pauseA=!!value;
+        setPauseFlag:function(value, tips){
+            var profile=this.get(0);
+            profile.pauseA=!!value;
+            profile.box._setTips(profile, tips||"", true);
+            return this;
         }    
     },
     Static:{
@@ -155,6 +158,8 @@ Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'
                         id:null,
                         className:null,
                         tagName:'div',
+                        onselectstart:'return false',
+                        unselectable:'on',
                         style:'width:{width}px;left:{left}px;',
                         text:'{text}'
                     }
@@ -164,6 +169,8 @@ Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'
                         id:null,
                         className:null,
                         tagName:'div',
+                        onselectstart:'return false',
+                        unselectable:'on',
                         style:'width:{width}px;left:{left}px;',
                         text:'{text}'
                     }
@@ -548,6 +555,9 @@ Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'
             },
             ITEM:{
                 onMousedown:function(profile, e, src){
+                    if(profile.onClickTask)
+                        profile.boxing().onClickTask(profile, e, src);
+
                     // prevent timeline's onMousedown
                     return false;
                 },
@@ -745,7 +755,8 @@ Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'
             onGetTasks:function(profile, start, end, minMs, type){},
             beforeChangeTask:function(profile, item){},
             beforeNewTasks:function(profile, items){},
-            beforeDelTasks:function(profile, arr){}
+            beforeDelTasks:function(profile, arr){},
+            onClickTask:function(profile, event, src){}
         },
         Appearances:{'default':{
             KEY:{
@@ -844,6 +855,7 @@ Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'
                 'text-align':'center',
                 position:'absolute',
                 cursor:'move',
+                "-moz-user-select":linb.browser.gek?'none':'',
                 top:0,
                 height:'100%'
             },
@@ -1290,7 +1302,8 @@ Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'
                 return profile.getSubNode('TIPS').get(0).innerHTML;
         },
         _rr:/\<[^>]*\>/g,
-        _setTips:function(profile, text){
+        _setTips:function(profile, text, force){
+            if(!force && profile.pauseA)return;
             var t,s='$dd_tooltip';
             text=text.replace(this._rr,'');
             if(t = profile[s] || (profile[s] = profile.getSubNode('TIPS').get(0).childNodes[0])){
