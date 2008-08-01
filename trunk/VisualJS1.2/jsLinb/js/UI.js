@@ -694,7 +694,9 @@ new function(){
 
                 return self;
             },
-
+            getRoot:function(){
+                return this.root;
+            },
             getSubNodeId:function(key, itemId){
                 var arr = this.$domId.split(':');
                 arr[0]=key;
@@ -703,7 +705,6 @@ new function(){
                 if(key==this.$domId)return linb.cache.dom[key].domId;
                 else return key;
             },
-
             //flag : remove from cache
             getSubNode:function(key, itemId, flag){
                 var self=this;
@@ -3421,7 +3422,7 @@ new function(){
                     node,
                     items, index, r,
                     data,box,
-                    b=this.afterInsertItems;
+                    b=this.$afterInsertItems;
                 return this.each(function(profile){
                     box=profile.box;
                     items = profile.properties.items;
@@ -3458,13 +3459,13 @@ new function(){
                                 node.addNext(r);
                         }
                     }
-                    if(b)profile.boxing().afterInsertItems(profile, data, base, before);
+                    if(b)profile.boxing().$afterInsertItems(profile, data, base, before);
                 });
             },
             removeItems:function(arr){
                 if(!(arr instanceof Array))arr=[arr];
                 var obj,v,
-                    b=this.beforeRemoveItems;
+                    b=this.$afterRemoveItems;
                     remove=function(profile, arr, target, ns, force){
                         var self=arguments.callee;
                         if(!ns)ns=linb([]);
@@ -3493,7 +3494,6 @@ new function(){
                         });
                         ns.remove();
                     };
-                if(b)profile.boxing().beforeRemoveItems(profile, arr);
                 return this.each(function(profile){
                     // clear properties
                     remove(profile, profile.properties.items, arr);
@@ -3510,6 +3510,7 @@ new function(){
                                 profile.properties.value=null;
                         }
                     }
+                    if(b)profile.boxing().$afterRemoveItems(profile, arr);
                 });
             },
             clearItems:function(key){
@@ -3527,8 +3528,8 @@ new function(){
                     profile.SubSerialIdMapItem={};
                     profile.ItemIdMapSubSerialId={};
 
-                    //set value
-                    profile.properties.value=null;
+                    //keep the value
+                    //profile.properties.value=null;
                 });
             }
         },

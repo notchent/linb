@@ -125,7 +125,7 @@ Class("linb.UI.Tabs", ["linb.UI.iList", "linb.UI.iWidget", "linb.UI.iContainer"]
             arr: hash(view properties) or array of hash
             before: views will insert before it, string
         */
-        afterInsertItems:function(profile, data, base, before){
+        $afterInsertItems:function(profile, data, base, before){
             var box=profile.box,obj,v;
             if(profile.properties.hasPanel && (obj=profile.root)){
                 obj.addLast(_.str.toDom(box.subBuild(profile, 'panels', data)));

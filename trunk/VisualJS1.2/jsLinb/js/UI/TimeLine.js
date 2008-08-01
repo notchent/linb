@@ -36,11 +36,17 @@ Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'
                 items=p.items;
             if(items.length && !p.multiTasks){
                 target=new Date(items[0].start);
-                if(target<p.dateStart || target>date.add(p.dateStart,'ms',p.width*p._rate))
-                    profile.box._rePosition(profile, -date.diff(p.dateStart,target,'ms')/p._rate + p._band_left);
+                if(target<p.dateStart || target>date.add(p.dateStart,'ms',p.width*p._rate)){
+                    p.dateStart=target;
+                    var k=p.$UIvalue;
+                    this.refresh().updateUIValue(k);
+                }
             }
         },
-        afterInsertItems:function(profile){
+        $afterInsertItems:function(profile){
+            profile.box._reArrage(profile);
+        },
+        $afterRemoveItems:function(profile){
             profile.box._reArrage(profile);
         },
         _cache:function(){
@@ -57,6 +63,45 @@ Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'
         addTasks:function(arr){
             return this.insertItems(arr,null,true);
         },
+        refreshTask:function(item){
+            var self=this,
+                profile=self.get(0),
+                box=profile.box,
+                items=self.getItems(),
+                index=_.arr.subIndexOf(items, 'id', item.id),
+                oitem, node, changed;
+            if(index!=-1){
+                box.prepareItem(profile, item, {});
+                oitem=items[index];
+
+                if(oitem.caption!=item.caption)
+                    profile.getSubNodeByItemId('CON',item.id).html(item.caption);
+                if(oitem.bgColor!=item.bgColor)
+                    profile.getSubNodeByItemId('NORMAL',item.id).setStyle('background',item.bgColor);
+                if(oitem._left!=item._left || oitem._width!=item._width){
+                    box._resetItem(profile,{left:item._left, width:item._width},profile.getSubNodeByItemId('ITEM',item.id).get(0));
+                }
+                _.merge(oitem, item, 'with');
+            }
+
+            /*
+            var self=this,
+                items=self.getItems(),
+                index = _.arr.subIndexOf(items, 'id', item.id);
+            if(index!=-1){
+                var flag=index===0,baseid;
+                if(!flag)
+                    baseid=items[index-1].id;
+                self.removeItems([item.id]);
+                self.insertItems([item],baseid,flag);
+            }
+            return self;
+            */
+        },
+        removeTasks:function(ids){
+            this.removeItems(ids);
+            return this;
+        },
         iniTasks:function(){
             var profile=this.get(0), p=profile.properties;
             if(profile.onGetTasks)
@@ -71,7 +116,7 @@ Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'
             profile.pauseA=!!value;
             profile.box._setTips(profile, tips||"", true);
             return this;
-        }    
+        }
     },
     Static:{
         Dropable:['ITEMS'],
@@ -187,7 +232,7 @@ Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'
                         NORMAL:{
                             $order:1,
                             tagName:'div',
-                            style:'{_normalDisplay};{_height};{_border}',
+                            style:'{_normalDisplay};{_height};{_border}{_bgcolor}',
                             LEFT:{
                                 $order:1,
                                 tagName:'div'
@@ -477,7 +522,8 @@ Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'
 
                         o = profile.getSubNodes(['VIEW','BAND']);
                         o.fx( {opacity:[1,0.2]}, null, function(){
-                            profile.boxing().clearItems().refresh();
+                            //if multiTasks, updateUIValue will be ignored
+                            profile.boxing().clearItems().refresh().updateUIValue(p.$UIvalue);
                             profile.box._focus(profile);
                             profile.pause=false;
                         },200,5,'insine').start();
@@ -498,7 +544,8 @@ Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'
 
                         o = profile.getSubNodes(['VIEW','BAND']);
                         o.fx( {opacity:[1,0.2]}, null, function(){
-                            profile.boxing().clearItems().refresh();
+                            //if multiTasks, updateUIValue will be ignored
+                            profile.boxing().clearItems().refresh().updateUIValue(p.$UIvalue);
                             profile.box._focus(profile);
                             profile.pause=false;
                         },200,5,'insine').start();
@@ -525,10 +572,12 @@ Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'
                         .beforeValueUpdated(function(p, ov, v){
                             var profile=this,
                                 obj = profile.getSubNodes(['VIEW','BAND']),
-                                box=profile.boxing();
-                            profile.properties.dateStart=v;
+                                box=profile.boxing(),
+                                p=profile.properties;
+                            p.dateStart=v;
                             //obj.fx( {opacity:[1,0.2]}, null, function(){
-                                box.clearItems().refresh();
+                                //if multiTasks, updateUIValue will be ignored
+                                box.clearItems().refresh().updateUIValue(p.$UIvalue);
                                 profile.box._focus(profile);
                             //    profile.pause=false;
                             //},200,5,'insine').start()
@@ -605,9 +654,12 @@ Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'
                         r = profile.box._deActive(profile),
                         ac=profile.$active;
 
-                    if(profile.properties.multiTasks)
-                        box._resetItem(profile,r,src);
-                    else{
+                    if(profile.properties.multiTasks){
+                        var start = box._getTime(profile, r.left),
+                            end = box._getTime(profile,r.left+r.width);
+                        if(profile.beforeChangeTask && false===profile.boxing().beforeChangeTask(profile, profile.getItemByDom(src), start, end)){}else
+                            box._resetItem(profile,r,src);
+                    }else{
                         var start=box._getTime(profile, r.left),
                             end=box._getTime(profile, r.left+r.width)
                             ;
@@ -666,7 +718,8 @@ Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'
             timeSpanKey : {
                 ini:'',
                 action:function(){
-                    this.boxing().clearItems().refresh();
+                    //if multiTasks, updateUIValue will be ignored
+                    this.boxing().clearItems().refresh().updateUIValue(this.properties.$UIvalue);
                 }
             },
             //timespan of a small label is equal to smallLabelCount*smallLabelUnit
@@ -745,7 +798,7 @@ Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'
             items:{
                 ini:[]
             },
-            fixWidth:false,
+            fixWidth:true,
             dateStart : new Date,
             scrollRateBase:5
         },
@@ -753,7 +806,7 @@ Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'
             beforeClose:function(profile, src){},
             onTriggerOption:function(profile, e, src){},
             onGetTasks:function(profile, start, end, minMs, type){},
-            beforeChangeTask:function(profile, item){},
+            beforeChangeTask:function(profile, item, start, end){},
             beforeNewTasks:function(profile, items){},
             beforeDelTasks:function(profile, arr){},
             onClickTask:function(profile, event, src){}
@@ -989,6 +1042,7 @@ Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'
                 border:'solid 1px #203A83'
             },
             'NORMAL-mouseover':{
+                $order:2,
                 'border-color': 'red'
             },
             'NORMAL div':{
@@ -1012,8 +1066,6 @@ Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'
             },
             'RIGHT':{
                 cursor:'w-resize',
-                //for ie6
-                'background-color': '#C6D6F7',
                 right:0
             },
             'CON':{
@@ -1244,6 +1296,8 @@ Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'
             item._top = t.multiTasks? 'top:' + (t.taskHeight+3) * index + 'px':'';
             item._height = 'height:' + (t.multiTasks?'16px':'100%');
             item._border = t.multiTasks?'':'border-top:0;border-bottom:0';
+
+            item._bgcolor = item.bgColor?'background-color:'+item.bgColor+';':'';
 
             t._lines = t._lines || [{}];
 
@@ -1607,6 +1661,9 @@ Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'
             var self=this, o, h,
                 t=profile.properties;
             t._lines.length = 1;
+            t.items.sort(function(x,y){
+                return x.start>y.start?1:x.start==y.start?0:-1;
+            });
             //re caculate from current line
             _.arr.each(t.items,function(v){
                 if(v._line===0)return;
@@ -1656,6 +1713,7 @@ Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'
                     // else show normal
                     }else{
                         if(t._min){
+                            delete t._line;
                             t._min=false;
                             f('NORMAL',t.id).display('block');
                             f('MIN',t.id).display('none');
@@ -1733,8 +1791,9 @@ Class('linb.UI.TimeLine', ['linb.UI.iWidget','linb.UI.iList','linb.UI.iSchedule'
                 p.width=w;
 
                 //if width changed, refresh the timeline
-                if(!p.fixWidth){   
-                    profile.boxing().clearItems().refresh();
+                if(!p.fixWidth){
+                    //if multiTasks, updateUIValue will be ignored
+                    profile.boxing().clearItems().refresh().updateUIValue(p.$UIvalue);
                     profile.box._focus(profile);
                 }
             }

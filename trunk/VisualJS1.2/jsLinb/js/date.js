@@ -10,7 +10,6 @@ Class('linb.date',null,{
     Static:{
         _key1:'MILLISECOND,SECOND,MINUTE,HOUR,DAY,WEEK,MONTH,QUARTER,YEAR,DECADE,CENTURY'.split(','),
         _key2:'ms,s,n,h,d,ww,m,q,y,de,c'.split(','),
-
         // Conversion factors
         TIMEUNIT : {
             MILLISECOND : 1,

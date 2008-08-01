@@ -2014,7 +2014,7 @@ type:4
                 a=[];
                 //can't be e, or opera will crash
                 for(i=0;i<arr.length;i++)
-                    if(t=(typeof (t=arr[i])=='string' ? document.getElementById(t) : (t&&t.domNode) ? t.domNode : t ) || null)
+                    if( t = typeof (t=arr[i])=='string' ? document.getElementById(t) : t ? t.nodeType ? t : t.domNode ? t.domNode : t===window ? t : 0 : 0)
                         a[a.length]=t;
             }else
                 a=arr;

@@ -565,11 +565,11 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                                     //parse from local text mm/dd/yyyy
                                     var v=linb.date.parse(value);
                                     if(v)v=linb.date.getRoundDown(v,'d',1);
-                                    return v?String(v.getTime()):'';
+                                    return v?String(v.getTime()):'0';
                                 }
                             },'all');
                             if(pro.value){
-                                var d=date.parse(parseInt(pro.value))||new Date;
+                                var d=new Date(parseInt(pro.value)||0);
                                 pro.$UIvalue=pro.value=String(date.getRoundDown(d,'d',1).getTime());
                             }
                         });
@@ -651,6 +651,9 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                 data.typePos = 'background-position:'+profile.box.posMap[profile.data.type];
             data.saveDisplay = data.saveBtn?'':'display:none';
             data.popbtnDisplay = data.type!='none'?'':'display:none';
+        },
+        ensureV:function(profile, value){
+            return profile.properties.type=='datepicker' ? (value.constructor==Date?value.getTime():value) + "" :value;
         },
         resize:function(profile,w,h){
             var size=linb.UI.Widget.resize.apply(this,arguments),

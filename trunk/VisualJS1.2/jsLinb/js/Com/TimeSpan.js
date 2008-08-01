@@ -12,6 +12,8 @@ Class('linb.Com.TimeSpan', 'linb.Com',{
 
         //task caption
         taskTitle:'',//'task title',
+        
+        showCommandPanel:true,
 
         //text information
         txtInfo:'',//'info',
@@ -28,7 +30,8 @@ Class('linb.Com.TimeSpan', 'linb.Com',{
         //big time range
         timeStart:'',//"2008-01-16T00:00Z",
         timeEnd:'',//"2008-01-18T00:00Z",
-
+        
+        //getUIvalue actually
         getValue:function(){
             var ns=this,
                 date=linb.date,
@@ -37,12 +40,13 @@ Class('linb.Com.TimeSpan', 'linb.Com',{
                 uv=v.split(":");
             return [date.unpackTimeZone(new Date(parseInt(uv[0])),tz), date.unpackTimeZone(new Date(parseInt(uv[1])),tz)];
         },
-        setValue:function(iniFrom, iniTo){
+        setValue:function(iniFrom, iniTo, force){
             var ns=this,
                 timeline=ns.timeline,
                 tz=ns._timezone,
                 date=linb.date,
-                aj;
+                aj,
+                key = force===false?'updateUIValue':'setValue';
             //set min/max time range first
             if(ns.timeEnd)
                 ns._timeEnd = date.packTimeZone(date.parse(ns.timeEnd), tz);
@@ -58,17 +62,17 @@ Class('linb.Com.TimeSpan', 'linb.Com',{
             ;
                 if(a && b && !self.$lock){
                     self.$lock=1;
-                    timeline.setValue(a.getTime()+":"+b.getTime(),true);
+                    timeline[key](a.getTime()+":"+b.getTime(),true);
 
                     if(ns._timeEnd)
                         timeline.setMaxDate(date.getText(ns._timeEnd,'utciso'));
                     if(ns._timeStart)
                         timeline.setMinDate(date.getText(ns._timeStart,'utciso'));
 
-                    ns.dateFrom.setValue(date.getRoundDown(a,'d').getTime(),true);
-                    ns.dateTo.setValue(date.getRoundDown(b,'d').getTime(),true);
-                    ns.timeFrom.setValue(date.get(a,'h')+':'+date.get(a,'n'), true);
-                    ns.timeTo.setValue(date.get(b,'h')+':'+date.get(b,'n'), true);
+                    ns.dateFrom[key](date.getRoundDown(a,'d').getTime(),true);
+                    ns.dateTo[key](date.getRoundDown(b,'d').getTime(),true);
+                    ns.timeFrom[key](date.get(a,'h')+':'+date.get(a,'n'), true);
+                    ns.timeTo[key](date.get(b,'h')+':'+date.get(b,'n'), true);
                     _.asyRun(function(){
                         timeline.visibleTask();
                     });
@@ -84,7 +88,7 @@ Class('linb.Com.TimeSpan', 'linb.Com',{
             ns._timezone=ns._getTimezone(ns.timezone=tz);
             if(uv){
                 uv=uv.split(':');
-                ns.setValue(date.unpackTimeZone(new Date(parseInt(uv[0])),old), date.unpackTimeZone(new Date(parseInt(uv[1])),old));
+                ns.setValue(date.unpackTimeZone(new Date(parseInt(uv[0])),old), date.unpackTimeZone(new Date(parseInt(uv[1])),old), false);
             }
         },
         required:["linb.UI.TimeLine","linb.UI.ComboInput","linb.UI.Button","linb.UI.Panel","linb.UI.PopMenu"],
@@ -105,7 +109,10 @@ Class('linb.Com.TimeSpan', 'linb.Com',{
                 wrap=function(s){return linb.wrapRes('date.TIMEZONE.'+s)};
             ns.divFrom.setHtml(ns.txtFrom);
             ns.divTo.setHtml(ns.txtTo);
-            ns.divInfo.setHtml(ns.txtInfo);
+            if(!ns.showCommandPanel)
+                ns.panelCmd.setDisplay('none');
+            if(ns.txtInfo)
+                ns.divInfo.setDisplay('').setHtml(ns.txtInfo);
             ns.divTZ.setHtml(ns.txtTZ);
 
             ns.timeline.setDftCaption(ns.taskTitle);
@@ -142,162 +149,155 @@ Class('linb.Com.TimeSpan', 'linb.Com',{
                 })();
         },
         iniComponents:function(){
-            // [[code created by designer, don't change it manually
-            var t=this, n=t._nodes=[], u=linb.UI, f=function(c){n.push(c.get(0))};
-
-            f(
-            (new u.PopMenu)
-            .host(t,"tzpop")
-            .setItems([])
-            .setMaxHeight(300)
-            .onMenuSelected("_pop")
+            // [[code created by jsLinb UI Builder
+            var host=this, children=[], attach=function(child){children.push(child.get(0))};
+            
+            attach((new linb.UI.PopMenu)
+                .host(host,"tzpop")
+                .setItems([])
+                .setMaxHeight(300)
+                .onMenuSelected("_pop")
             );
-
-            f(
-            (new u.Panel)
-            .host(t,"panelMain")
-            .setWidth(410)
-            .setHeight(260)
+            
+            attach((new linb.UI.Panel)
+                .host(host,"panelMain")
+                .setWidth(410)
+                .setHeight('auto')
+                .setCustomAppearance({"KEY":"padding-top:5px;"})
             );
-
-            t.panelMain.attach(
-            (new u.ComboInput)
-            .host(t,"dateFrom")
-            .setLeft(67)
-            .setTop(170)
-            .setItems([])
-            .setType("datepicker")
-            .setValue('')
-            .setWidth(104)
-            .beforeValueUpdated("_4")
+            
+            host.panelMain.attach((new linb.UI.Div)
+                .host(host,"divInfo")
+                .setWidth(390)
+                .setHeight(30)
+                .setDisplay('none')
+                .setPosition("relative")
             );
-
-            t.panelMain.attach(
-            (new u.ComboInput)
-            .host(t,"timeFrom")
-            .setLeft(172)
-            .setTop(170)
-            .setWidth(48)
-            .setItems([])
-            .setType("timepicker")
-            .setValue('')
-            .beforeValueUpdated("_3")
+            
+            host.panelMain.attach((new linb.UI.TimeLine)
+                .host(host,"timeline")
+                .setHeight(129)
+                .setWidth(390)
+                .setItems([])
+                .setPosition("relative")
+                .setTabindex("2")
+                .setLeft("10")
+                .beforeValueUpdated("_5")
             );
-
-            t.panelMain.attach(
-            (new u.Div)
-            .host(t,"divTZ")
-            .setLeft(10)
-            .setTop(200)
-            .setWidth(53)
-            .setHeight(16)
-            .setCustomAppearance('KEY','text-align:right')
+            
+            host.panelMain.attach((new linb.UI.Panel)
+                .host(host,"panel61")
+                .setWidth(400)
+                .setHeight(61)
+                .setTabindex("4")
+                .setPosition("relative")
             );
-
-            t.panelMain.attach(
-            (new u.Div)
-            .host(t,"divFrom")
-            .setLeft(10)
-            .setTop(173)
-            .setWidth(53)
-            .setHeight(16)
-            .setCustomAppearance('KEY','text-align:right')
+            
+            host.panel61.attach((new linb.UI.ComboInput)
+                .host(host,"cbiTZ")
+                .setItems([])
+                .setType("popbox")
+                .setReadonly(true)
+                .setLeft(60)
+                .setTop(30)
+                .setWidth(340)
+                .onClickButton("_clc")
             );
-
-            t.panelMain.attach(
-            (new u.ComboInput)
-            .host(t,"timeTo")
-            .setLeft(351)
-            .setTop(170)
-            .setWidth(48)
-            .setItems([])
-            .setType("timepicker")
-            .setValue('')
-            .beforeValueUpdated("_1")
+            
+            host.panel61.attach((new linb.UI.ComboInput)
+                .host(host,"timeFrom")
+                .setLeft(166)
+                .setTop(4)
+                .setWidth(48)
+                .setItems([])
+                .setType("timepicker")
+                .beforeValueUpdated("_3")
             );
-
-            t.panelMain.attach(
-            (new u.ComboInput)
-            .host(t,"dateTo")
-            .setLeft(246)
-            .setTop(170)
-            .setItems([])
-            .setType("datepicker")
-            .setValue('')
-            .setWidth(104)
-            .beforeValueUpdated("_2")
+            
+            host.panel61.attach((new linb.UI.ComboInput)
+                .host(host,"dateFrom")
+                .setLeft(61)
+                .setTop(4)
+                .setItems([])
+                .setType("datepicker")
+                .setWidth(104)
+                .beforeValueUpdated("_4")
             );
-
-            t.panelMain.attach(
-            (new u.Div)
-            .host(t,"divTo")
-            .setLeft(224)
-            .setTop(173)
-            .setWidth(20)
-            .setHeight(16)
-            .setCustomAppearance('KEY','text-align:right')
+            
+            host.panel61.attach((new linb.UI.Div)
+                .host(host,"divFrom")
+                .setLeft(4)
+                .setTop(7)
+                .setWidth(53)
+                .setHeight(16)
+                .setCustomAppearance({"KEY":"text-align:right"})
             );
-
-            t.panelMain.attach(
-            (new u.TimeLine)
-            .host(t,"timeline")
-            .setLeft(10)
-            .setTop(36)
-            .setHeight(129)
-            .setWidth(390)
-            .setItems([])
-            .beforeValueUpdated("_5")
+            
+            host.panel61.attach((new linb.UI.ComboInput)
+                .host(host,"timeTo")
+                .setLeft(352)
+                .setTop(4)
+                .setWidth(48)
+                .setItems([])
+                .setType("timepicker")
+                .beforeValueUpdated("_1")
             );
-
-            t.panelMain.attach(
-            (new u.Div)
-            .host(t,"divInfo")
-            .setLeft(10)
-            .setTop(4)
-            .setWidth(390)
-            .setHeight(30)
+            
+            host.panel61.attach((new linb.UI.ComboInput)
+                .host(host,"dateTo")
+                .setLeft(247)
+                .setTop(4)
+                .setItems([])
+                .setType("datepicker")
+                .setWidth(104)
+                .beforeValueUpdated("_2")
             );
-
-            t.panelMain.attach(
-            (new u.ComboInput)
-            .host(t,"cbiTZ")
-            .setType('popbox')
-            .setReadonly(true)
-            .setLeft(66)
-            .setTop(196)
-            .setWidth(334)
-            .setItems([])
-            .onClickButton('_clc')
+            
+            host.panel61.attach((new linb.UI.Div)
+                .host(host,"divTo")
+                .setLeft(217)
+                .setTop(7)
+                .setWidth(28)
+                .setHeight(16)
+                .setCustomAppearance({"KEY":"text-align:right"})
             );
-
-            t.panelMain.attach(
-            (new u.Div)
-            .host(t,"panelCmd")
-            .setLeft(5)
-            .setTop(225)
-            .setWidth(400)
-            .setHeight(30)
+            
+            host.panel61.attach((new linb.UI.Div)
+                .host(host,"divTZ")
+                .setLeft(4)
+                .setTop(34)
+                .setWidth(53)
+                .setHeight(16)
+                .setCustomAppearance({"KEY":"text-align:right"})
             );
-
-            t.panelCmd.attach(
-            (new u.Button)
-            .host(t,"cmdCancel")
-            .setLeft(50)
-            .setTop(5)
-            .onClick('_cancel')
+            
+            host.panelMain.attach((new linb.UI.Panel)
+                .host(host,"panelCmd")
+                .setWidth(400)
+                .setHeight(30)
+                .setTabindex("5")
+                .setPosition("relative")
             );
-
-            t.panelCmd.attach(
-            (new u.Button)
-            .host(t,"cmdOK")
-            .setLeft(250)
-            .setTop(5)
-            .onClick('_ok')
+            
+            host.panelCmd.attach((new linb.UI.Button)
+                .host(host,"cmdCancel")
+                .setLeft(50)
+                .setTop(5)
+                .setCaption("cmdCancel")
+                .onClick("_cancel")
             );
-
-            return n;
-            // ]]code created by designer
-        },
+            
+            host.panelCmd.attach((new linb.UI.Button)
+                .host(host,"cmdOK")
+                .setLeft(250)
+                .setTop(5)
+                .setCaption("cmdOK")
+                .onClick("_ok")
+            );
+            
+            return children;
+            // ]]code created by jsLinb UI Builder
+        }, 
         _getTimezone:function(s) {
            var sign,hh,mm;
            sign = s.substr(0,1)=='-'?-1:1;

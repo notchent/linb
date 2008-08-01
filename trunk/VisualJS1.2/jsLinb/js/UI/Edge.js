@@ -7,6 +7,7 @@ Class("linb.UI.Edge","linb.UI.iWidget",{
             parent.attach(self);
             //save id
             v.$edgeId = linb(target).id();
+            v.$tieId = tieId;
             //observer
             if(v.properties.borderActive){
                 var t = v.behavior.TAG,
@@ -14,13 +15,23 @@ Class("linb.UI.Edge","linb.UI.iWidget",{
                     k='afterMouse',
                     m
                 ;
-                if(s)s
-                .addObserver(m=k+'over', 'tag', -1, t[m], [v])
-                .addObserver(m=k+'out', 'tag', -1, t[m], [v])
-                .addObserver(m=k+'down', 'tag', -1, t[m], [v])
-                .addObserver(m=k+'up', 'tag', -1, t[m], [v]);
+                if(linb.dom.byId(tieId))
+                    linb(tieId).addObserver(m=k+'over', 'tag', -1, t[m], [v])
+                    .addObserver(m=k+'out', 'tag', -1, t[m], [v])
+                    .addObserver(m=k+'down', 'tag', -1, t[m], [v])
+                    .addObserver(m=k+'up', 'tag', -1, t[m], [v]);
             }
             return target;
+        },
+        _detach:function(){
+            var self=this, v=self.get(0),k='afterMouse', n;
+            if(n=v.$tieId)
+                if(n=linb.dom.byId(n))
+                    linb(n).removeObserver(m=k+'over', 'tag')
+                    .removeObserver(m=k+'out', 'tag')
+                    .removeObserver(m=k+'down', 'tag')
+                    .removeObserver(m=k+'up', 'tag');
+            return self;
         }
     },
     Initialize:function(){
@@ -52,7 +63,7 @@ Class("linb.UI.Edge","linb.UI.iWidget",{
                 // for dom Node, destroy resizers
                 _.arr.each(linb.UI.Edge._cache,function(o){
                     if(o.$edgeId==s)
-                        o.boxing().destroy();
+                        o.boxing()._detach().destroy();
                 });
                 return this;
             }
