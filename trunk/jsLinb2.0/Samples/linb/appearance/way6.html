@@ -1,0 +1,167 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html style="height:100%" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <meta name="keywords" content="javascript framework, RIA, SPA, client SOA, linb, jsLinb, RAD, IDE, Web IDE, widgets, javascript OOP, opensource, open-source, Ajax, cross-browser, prototype, web2.0, platform-independent, language-independent" />
+    <meta name="description" content="Web application created by Visual JS, powered by LINB framework" />
+    <meta name="copyright" content="copyright@www.linb.net" />
+    <meta http-equiv="imagetoolbar" content="no" />
+    <style>
+        .cls1{
+            border:dashed 2px #0000ff;
+        }
+        .cls2{
+            font-size:14px; 
+            border:solid 1px #444; 
+            margin: 4px;
+        }
+    </style>
+    <title>jsLinb appearance sample -- use itemClass and itemStyle</title>
+</head>
+    <body style="height:100%;overflow:hidden;" scroll="no">
+        <script type="text/javascript" src="../../../runtime/jsLinb/js/linb-all.js"></script>
+        <script type="text/javascript">
+            linb.main(function(){
+var tgdata= {
+     header: [
+        {
+            "id" : "col1",
+            "caption" : "col1",
+            "type" : "input",
+            "width" : 50
+        },
+        {
+            "id" : "col2",
+            "caption" : "col2",
+            "type" : "number",
+            "format":"^-?\\d\\d*$",
+            "headerStyle":"background-color:#eee;",
+            "cellStyle":"background-color:#eee;",
+            "renderer":function(i,oi){return '['+ i.caption+']'},
+            "cellRenderer":function(i,oi){return 'RMB'+ i.value},
+            "width" : 80
+        },
+        {
+            "id" : "col3",
+            "caption" : "col3",
+            "type" : "checkbox",
+            "width" : 40
+        },
+        {
+            "id" : "col4",
+            "caption" : "col4",
+            "type" : "colorpicker",
+            "width" : 60
+        }
+    ],
+    rows: [
+        {
+            "id" : "row1",
+            "cells" : ["cell11",1,true,'#FFFFFF']
+        },
+        {
+            "id" : "row2",
+            "rowStyle":"font-weight:bold;background-color:#eee;",
+            "cells" : ["cell21",2,true,'#eeeAAA']
+        },
+        {
+            "id" : "row3",
+            "cells" : ["cell31",3,false,'#00FFFF']
+        },
+        {
+            "id" : "row4",
+            "cells" : ["cell41",4,false,'#FF00FF'],
+            "sub" : [
+                {
+                    "id" : "row5",
+                    "cells" : ["in51",5,false,'#0000FF']
+                },
+                {
+                    "id" : "row6",
+                    "cells" : ["in61",6,false,'#FF0000']
+                },
+                {
+                    "id" : "row7",
+                    "cells" : ["in71",7,false,'#F0000F']
+                },
+                {
+                    "id" : "row8",
+                    "cells" : ["in81",8,false,'#555555']
+                }
+            ]
+        },
+        {
+            "id" : "row9",
+            "cells" : ["cell91",9,false,'#FFFFFF'],
+            "sub" : [
+                {
+                    "id" : "row10",
+                    "cells" : ["in101",10,false,'#FFFFFF']
+                },
+                {
+                    "id" : "row11",
+                    "cells" : ["in111",11,false,'#FFFF00']
+                },
+                {
+                    "id" : "row12",
+                    "cells" : ["in121",12,false,'#FF00FF']
+                },
+                {
+                    "id" : "row13",
+                    "cells" : ["in131",13,false,'#00FFFF']
+                }
+            ]
+        }
+    ]
+};
+Class('App', 'linb.Com',{
+    Instance:{
+        //Com events
+        events:{}, 
+        iniComponents:function(){
+            // [[code created by jsLinb UI Builder
+            var host=this, children=[], append=function(child){children.push(child.get(0))};
+            
+            append((new linb.UI.List)
+                .host(host,"list3")
+                .setItems([{"id":"a", "caption":"itema", "itemClass":"cls1"}, {"id":"b", "caption":"itemb", "itemClass":"cls2"}])
+                .setLeft(40)
+                .setTop(40)
+            );
+            
+            append((new linb.UI.List)
+                .host(host,"list4")
+                .setItems([{"id":"a", "caption":"16px", "itemStyle":"font-size:14px;"}, {"id":"b", "caption":"18px", "itemStyle":"font-size:18px;"}, {"id":"d", "caption":"20px", "itemStyle":"font-size:20px;"}, {"id":"e", "caption":"22px", "itemStyle":"font-size:22px;"}])
+                .setLeft(200)
+                .setTop(40)
+            );
+            
+            append((new linb.UI.Pane)
+                .host(host,"pane3")
+                .setLeft(350)
+                .setTop(40)
+                .setWidth(280)
+                .setHeight(150)
+            );
+            
+            host.pane3.append((new linb.UI.TreeGrid)
+                .host(host,"tg")
+                .setDockMargin({"left":0, "top":0, "right":0, "bottom":0})
+                .setHeader(tgdata.header)
+                .setRows(tgdata.rows)
+            );
+            
+            return children;
+            // ]]code created by jsLinb UI Builder
+        }, 
+        base:[], 
+        required:["linb.UI.List", "linb.UI.Pane", "linb.UI.TreeGrid"]
+    }
+});
+(new App).show();
+            });
+        </script>
+    <style>#linbar a{text-decoration:underline;font-size:12px;margin-right:2px;padding:2px;}#linbar_more a{text-decoration:none;padding:3px;font-size:12px;text-decoration:none;display:block;}#linbar a:hover, #linbar_more a:hover{text-decoration:none;color:#fff!important;background:#598EDD;}#linbar small{font-size:9px;}#linbar_more{position:absolute;display:none;top:19px;width:80px;z-index:6000;border:solid 1px;border-color:#E4F1FD #598EDD #598EDD #598EDD; background:#E4F1FD;}</style><script>var linbar={byId:function(id){return document.getElementById(id).style},get1:function(){return this.byId('linbar')},get2:function(){return this.byId('linbar_more')},get3:function(){return this.byId('linbar_l')},show:function(){var n=this;if(n._t1){clearTimeout(n._t1);delete n._t1;}var s=n.get1();s.height='19px';s.backgroundColor='#E4F1FD';n.get3().display='block';},hide:function(){var n=this;if(n._t1){clearTimeout(n._t1);delete n._t1;}n._t1=setTimeout(function(){var s=n.get1();s.height='3px';s.backgroundColor='#598EDD';n.get3().display='none';n.get2().display='none';},600);},showPop:function(ele){var n=this;if(n._t1){clearTimeout(n._t1);delete n._t1;}if(n._t2){clearTimeout(n._t2);delete n._t2;}if(ele){var s=n.get2();s.left=(ele.offsetLeft-4)+'px';s.display='block';}},hidePop:function(){var n=this;if(n._t2){clearTimeout(n._t2);delete n._t2;}n._t2=setTimeout(function(){n.get2().display='none';},100);n.hide();}};</script><div id='linbar' onmouseout="linbar.hide()"  onmouseover="linbar.show()" style='position:absolute;width:100%;left:0;top:0;height:3px;z-index:5000;background:#598EDD;line-height:19px;overflow:hidden;'><nobr><a href='http://www.linb.net'><strong> Home</strong></a><a href='http://code.google.com/p/linb/downloads/list'>Download</a><a href='http://linb.googlecode.com/svn/trunk/jsLinb2.0/'>SVN</a><a href='http://groups.google.com/group/linb'>forum</a><a href='API'>API</a><a href='CodeSnip'>CodeSnip</a><a href='VisualJS'>UI Builder</a><a href='Samples' onmouseout="linbar.hidePop()"  onmouseover="linbar.showPop(this)">Samples</a><small style="margin-left:-3px;">&#9660;</small><a href='http://www.sigmawidgets.com/'>Commercial Support</a></nobr></div><div id='linbar_l' style="left:0;position:absolute;top:19px;display:none;border-top:1px solid #598EDD;font-size:0;line-height:0;width:100%;z-index:5500;"></div><div id='linbar_more' onmouseout="linbar.hidePop()"  onmouseover="linbar.showPop()"><a href='JSONEditor'>JSONEditor</a><a href='Samples/comb/Themes'>Themes</a><a href='Samples/comb/PicEditor'>PicEditor</a><a href='Samples'>more ...</a></div>
+</body>
+</html>

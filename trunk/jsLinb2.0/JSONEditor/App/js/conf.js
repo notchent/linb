@@ -1,0 +1,10 @@
+CONF={
+    comsProfile:{
+        codeview:{
+            cls:'App.CodeView'
+        },
+        treeview:{
+            cls:'App.TreeView'
+        }
+    }
+}

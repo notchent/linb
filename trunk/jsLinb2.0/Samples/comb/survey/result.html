@@ -1,0 +1,14 @@
+<script>
+    var qs=location.href.split('?')[1].replace(/\+/g,' '),
+        arr=qs.split('&'),
+        item;
+    document.write('<ul>');
+    for(var i in arr){
+        item=arr[i].split('=');
+        item[1]=decodeURIComponent(item[1]);
+        document.write('<li>'+item[0] + ' : <strong>' + item[1]+'</strong></li>');
+    }
+    document.write('</ul>');
+    document.close();
+
+</script>

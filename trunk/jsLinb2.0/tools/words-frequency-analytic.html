@@ -1,0 +1,34 @@
+<textarea id='code'></textarea>
+
+<button id='cmd'>·ÖÎö¹Ø¼ü×Ö</button>
+
+<div id='out'></div>
+
+<script>
+document.getElementById('cmd').onclick=function(){
+    var v=document.getElementById('code').value,
+        a=v.split(/\b/g),
+        h={},
+        i,t,
+        out=[];
+    for(i=0;i<a.length;i++){
+        t=a[i];
+        if(!h[t])h[t]=0;
+        h[t]++;
+    }
+    
+    a.length=0;
+    for(i in h)
+        if(/\w{2}/.test(i))
+            a.push(i);
+        
+    a.sort(function(x,y){
+        return h[x]>h[y]?-1:1
+    });
+        
+    for(i=0;i<a.length;i++)
+        out.push(a[i]+":"+h[a[i]]);
+
+    document.getElementById('out').innerHTML='<p>Words count:'+out.length+'</p>'+out.join('<br />');
+};
+</script>

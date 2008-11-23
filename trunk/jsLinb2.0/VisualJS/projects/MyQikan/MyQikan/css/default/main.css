@@ -1,0 +1,483 @@
+@charset "utf-8";
+
+/*
+index.js
+*/
+#panelTop{
+    padding-top:10px ;
+    background:#FFFFFF url(img/top_bg.png) repeat-x scroll;
+}
+#panelTopBar{
+    padding-right: 5px;
+    text-align:right;
+}
+#panelTitle{
+    text-align:center;
+    padding:0 3px 0 3px;
+    overflow:hidden;
+}
+
+#layout{
+    background:#FFFFFF url(img/layout_bg.png) repeat scroll;
+}
+.layout-item{
+    background:none;
+}
+.layout-move{
+    background:none;
+}
+
+.div-title{
+    display : inline;
+    font-size:20px;
+    color:#549B3F;
+    text-align:center;
+    overflow:hidden;
+}
+#divPwd, #divUsr{
+    text-align:right;
+}
+#divLoginInfo{
+    font-weight:bold;
+    padding-top:5px;
+}
+#panelTreeInfo{
+    font-weight:bold;
+    border-top:1px solid #E5E5E5;
+    overflow:hidden;
+    padding:2px 0 0 4px;
+}
+
+
+.small-font div{
+    font-size:12px;
+}
+.middle-font div{
+    font-size:14px;     
+}
+.big-font div{
+    font-size:18px;
+}
+
+#cmdAddmodule, #returnCustomBtn, #cmdLogin, #cmdLogout, #cmdAddTab, #linkReaderClose{
+    font-weight: bold;
+    COLOR: #6c654f;
+    text-decoration:none;
+}
+#cmdAddTab .linb-tag{
+    background: url(img/icons.gif) no-repeat scroll -17px -61px;
+    width:16px;
+    height:20px;
+    margin-right:3px;
+}
+#returnCustomBtn .linb-tag{
+    background: url(img/icons.gif) no-repeat scroll -17px -81px;
+    width:16px;
+    height:20px;
+    margin-right:3px;
+}
+#cmdAddmodule .linb-tag{
+    background: url(img/icons.gif) no-repeat scroll -17px top;
+    width:16px;
+    height:20px;
+    margin-right:3px;
+}
+#cmdLogin .linb-tag{
+    background: url(img/icons.gif) no-repeat scroll -17px -21px;
+    width:16px;
+    height:20px;
+    margin-right:3px;
+}
+#cmdLogout .linb-tag{
+    background: url(img/icons.gif) no-repeat scroll -17px -41px;
+    width:16px;
+    height:20px;
+    margin-right:3px;
+}
+#panelbarI .linb-tag{
+    background: url(img/icons.gif) no-repeat scroll -17px -81px;
+    width:16px;
+    height:16px;
+    margin-right:3px;
+} 
+#linkReaderClose .linb-tag{
+    background: url(img/icons.gif) no-repeat scroll left -81px;
+    width:16px;
+    height:20px;
+    margin-right:3px;
+}
+#btnHow2dd .linb-tag{
+    background: url(img/icons.gif) no-repeat scroll -120px top;
+    width:18px;
+    height:20px;
+    margin-right:3px;
+}
+#linkDemo, #linkEmail{
+    font-weight:bold;
+}
+#linkDemo .linb-tag{
+    background: url(img/icons.gif) no-repeat scroll -120px 0;
+    width:18px;
+    height:20px;
+    margin-right:3px;
+}
+#linkEmail .linb-tag{
+    background: url(img/icons.gif) no-repeat scroll -120px -21px;
+    width:18px;
+    height:20px;
+    margin-right:3px;
+}
+
+#treebar .linb-tag, #treebarI .linb-tag{
+    background: url(img/icons.gif) no-repeat scroll;
+    width:16px;
+    height:16px;
+    margin-right:3px;
+}
+
+#divBottom{
+    background: url(img/bottom_bg.png) repeat-x scroll left top;
+    border-top:1px solid #E0E0E0;
+    padding:5px;
+    color:#888888;
+    text-align:center;
+}
+#divBottom p{
+    line-height:22px;
+}
+#divNotlogin{
+    display:inline;
+    color:red;
+    padding:3px;
+    vertical-align:bottom;
+}
+#panelLogin{
+    background-color:#FFF;
+}
+#inputUsr input, #inputPwd input{
+   background-color:#FFFFCC;
+}
+
+#divReaderTitle{
+    text-align:center;
+    font-weight:bold;
+    font-size:16px;
+    color:#006699;
+}
+#divHead{
+    margin-top:20px;
+}
+#panelReaderBar{
+    background: url(img/bottom_bg.png) repeat-x scroll left top;
+    border-top:1px solid #E0E0E0;
+    padding-top:3px;
+    text-align:right;
+}
+#panelbarI .linb-panelbar-caption, #panelLeft  .linb-panelbar-caption{
+    padding-top:3px;    
+}
+
+#panelLeft{
+    border-right:1px solid #C3C3C3;
+}
+#panelLeft .linb-panelbar-handle, #panelbarI .linb-panelbar-handle{
+    background:#EAEAEA;
+}
+#panelbarI .linb-panelbar-handle{
+    border-top:1px solid #C3C3C3;
+}
+#panelLeft .linb-panelbar-close, #panelbarI .linb-panelbar-close{
+    background: url(img/icons.gif) no-repeat scroll left -81px;
+    margin:2px 4px 2px 0pt;
+}
+#panelArticle{
+    border-top:1px solid #C3C3C3;
+}
+
+
+.panelLeft-panel{
+    background:#F7F7F7;
+    border-right:1px solid #C3C3C3;
+    color:#333333;
+}
+#treebar a, #treebarI a{
+    font-size:14px;
+}
+
+.treebar-bar, .treebari-bar{
+    background:none;
+}
+
+.linb-tips{
+    border:solid #F3AF10 1px;
+    background-color:#FEFED4;
+}
+#tabs .linb-tabs-close{
+    background: url(img/icons.gif) no-repeat scroll left -81px;
+}
+#tabs .linb-tabs-handle{
+    font-weight:bold;
+}
+#tabs .linb-tabs-item{
+    cursor:pointer;
+    padding-right:8px;
+    vertical-align:top;    
+    background: url(img/tabs.gif) no-repeat right top;
+    border-bottom:1px solid #F9A346;
+}
+#tabs .linb-tabs-item-checked{
+    background-position:right -200px;
+}
+#tabs .linb-tabs-box{
+    padding:8px 0 4px 8px;
+    border:0;
+    vertical-align:top;
+    text-align: center;   
+    background: url(img/tabs.gif) no-repeat left -50px;
+}
+#tabs .linb-tabs-box-checked{
+    background-position:left -250px;
+}
+#tabs .linb-tabs-items {
+    background:url(img/dot.gif) repeat-x scroll center bottom;
+    padding-left:4px;
+    padding-right:4px;
+    position:relative;
+}
+#panelFeedback{
+    background:url(img/feedback_bg.png) repeat-x scroll;
+    border:solid 1px #F3AE0F;
+}
+#divFbTxt{
+    font-weight:bold;
+}
+#btnFbClose{
+    background: url(img/icons.gif) no-repeat scroll left -81px;
+    width:16px;
+    height:16px;
+}
+
+
+.mag-tips{
+	padding:3px;
+}
+.mag-tips p{
+	font-weight:bold;
+	text-align:center;
+}
+.mag-tips div{
+	text-align:center;
+	color:#006699;
+	padding-bottom:3px;
+}
+.mag-tips li{
+    color:#777;
+    border-bottom:dotted 1px #CCC;
+    margin-bottom:2px;
+}
+
+
+/*
+Module1.js
+*/
+.module-handler, .module-handler-ro{
+    background:transparent url(img/module_handler.png) repeat-x scroll left top;
+    cursor:move;
+}
+.module-handler-mouseover, .module-handler-ro-mouseover{
+    background:transparent url(img/module_handler.png) repeat-x scroll left -25px;
+}
+.module-handler, .module-handler-mouseover{
+    cursor:move;
+}
+.module-handler-ro, .module-handler-ro-mouseover{
+    cursor:default;
+}
+.module-inn .linb-panelbar-toggle{
+    background: url(img/icons.gif) no-repeat scroll left top;    
+}
+.module-inn .linb-panelbar-toggle-checked{
+    background: url(img/icons.gif) no-repeat scroll left -17px;
+}
+.module-inn .linb-panelbar-close, .module-inn .linb-panelbar-close-mouseover, .module-inn .linb-panelbar-close-checked{
+    background: url(img/icons.gif) no-repeat scroll left -33px;
+}
+.module-pic{
+    margin-bottom:4px;
+}
+.module-pic .linb-goldinggroup-toggle{
+    background: url(img/icons.gif) no-repeat scroll left -65px;
+    margin-right:6px;
+}
+.module-pic .linb-goldinggroup-fieldset-checked{
+    padding-left:0;
+}
+.module-pic .linb-goldinggroup-fieldset-checked .linb-goldinggroup-toggle{
+    background: url(img/icons.gif) no-repeat scroll left -49px;
+    margin-right:6px;
+}
+.module-cmdlist{
+    text-align:right;
+}
+ 
+.module-cap{
+    cursor:pointer;
+}
+.module-inn{
+    border:3px solid #D7D7D7;
+    margin:6px;
+    visibility:visible;
+    MIN-HEIGHT: auto;
+    display:block;
+}
+.module-inn-panel{
+    padding:6px;
+    position:static;
+}
+.module-inn-bottom{
+    margin: 0pt 5px 2px 5px;
+}
+.module-inn-border{
+    border:1px solid #F9A040;
+}
+.module-inn ul{
+    list-style-image:none;
+    list-style-position:outside;
+    list-style-type:none;
+    padding-left:5px;
+    display:block;
+}
+.module-inn li{
+    color:#000;
+    line-height:1em;
+    margin:0;
+    padding:1px 0pt 1px 10px;
+    background:transparent url(img/bullet.png) no-repeat scroll left 0.5ex;
+    list-style-type:none;
+    margin-bottom:2px;
+    display:block;
+}
+.module-inn li a{
+    color:#0000FF;
+    display:block;
+    border-bottom:1px solid #FFF;
+    text-decoration:none;
+    font-size:14px;
+}
+.module-inn li a:hover{
+    background:#FFFFE0 none repeat scroll 0%;
+    border-bottom:1px solid #DCDC87;
+    color:#FF6600;
+    display:block;
+    text-decoration:none;
+}
+.module-inn li a:visited{
+    color:#000;
+}
+ 
+.cmd-pre{
+    border:0pt none;
+    cursor:pointer;
+    float:left;
+}
+.cmd-next{
+    border:0pt none;
+    cursor:pointer;
+    float:right;
+}
+.cmd-pre .linb-tag{
+    background: url(img/icons.gif) no-repeat scroll -33px 0px;
+    width:16px;
+    height:16px;
+    margin-right:3px;
+} 
+.cmd-next .linb-tag{
+    background: url(img/icons.gif) no-repeat scroll -33px -21px;
+    width:16px;
+    height:16px;
+    margin-right:3px;
+} 
+/*
+.module-oldmag .linb-tag{
+    background: url(img/icons.gif) no-repeat scroll -33px -41px;
+    width:16px;
+    height:16px;
+    margin-right:3px;
+}
+.module-boundmag .linb-tag{
+    background: url(img/icons.gif) no-repeat scroll -17px -101px;
+    width:16px;
+    height:16px;
+    margin-right:3px;
+}*/
+
+#articleMessage{
+    padding:5px;
+    overflow:visible;
+    white-space:nowrap;
+}
+#needCharge{
+    color: red;
+}
+.multipages-list{
+    color: red;
+    padding-left:50px;
+}
+.title-page{
+    font-family:ËÎÌו;
+    color:red;
+    font-size:12px;
+    font-weight:normal;
+}
+
+.currentPage{
+    font-weight:bold;    
+    color:red;
+}
+
+.loadingBlock{
+    text-align:center;
+    font-weight:bold;
+}
+.loadingBlock span{
+    background: url(img/loading.gif) no-repeat;
+    width:16px;
+    height:16px;
+}
+
+.article-header{
+    border-bottom:dotted 1px #DEDEDE;
+}
+.article-title{
+    color:#990000;
+    font-family:ËÎÌו;
+    font-size:18px;
+    font-weight:bold;
+    padding-top:10px;
+    text-align:center;
+}
+.article-author{
+    text-align:center;
+    padding:4px;
+}
+.article-ltitle{
+    text-align:center;
+    padding:4px;
+    color:#666666;
+}
+.article-content{
+    color:#333333;
+    font-family:ËÎÌו;
+    line-height:150%;
+    padding:20px;
+    font-size:14px;
+}
+#fontSmall{
+    font-size:12px;
+}
+#fontMiddle{
+    font-size:14px;
+}
+#fontBig{
+    font-size:18px;
+}
