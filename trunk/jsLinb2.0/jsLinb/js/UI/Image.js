@@ -7,7 +7,7 @@ Class("linb.UI.Image", "linb.UI",{
     Static:{
         Templates:{
             tagName:'image',
-            style:'{_style};background:transparent;',
+            style:'{_style}',
             border:"0",
             width:"{width}",
             height:"{height}"

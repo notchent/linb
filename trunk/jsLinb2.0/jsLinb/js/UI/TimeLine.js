@@ -917,9 +917,6 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
             onClickTask:function(profile, task, e, src){}
         },
         Appearances:{
-            KEY:{
-                background:'transparent'
-            },
             BORDER:{
                 overflow: 'hidden',
                 position: 'relative',

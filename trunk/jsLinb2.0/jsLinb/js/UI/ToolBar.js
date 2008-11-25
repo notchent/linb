@@ -97,16 +97,22 @@ Class("linb.UI.ToolBar",["linb.UI","linb.absList"],{
                 'line-height':0
             },
             HANDLER:{
-                height:'22px',
+                height:'20px',
                 width:'6px',
-                'vertical-align':'middle',
                 background: linb.UI.$bg('handler.gif', ' left top #EBEADB ', true),
+                position:'absolute',
+                left:'2px',
+                top:'2px',
                 cursor:'move'
             },
             GROUP:{
                 'font-size':0,
                 'line-height':0,
-                padding:'2px 4px 0px 2px'
+                position:'relative',
+                padding:'2px 4px 0px 9px'
+            },
+            ITEM:{
+                'vertical-align':'middle'
             },
             BOX:{
                 display:linb.$inlineBlock,

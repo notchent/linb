@@ -196,7 +196,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                             o = linb.create('ColorPicker');
                             o.host(profile);
                             o.beforeClose(function(){this.boxing()._cache();return false});
-                            o.onOK(function(p, o, v){
+                            o.beforeUIValueSet(function(p, o, v){
                                 //update value
                                 this.boxing().setUIValue('#'+v)._cache();
                             });

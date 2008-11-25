@@ -117,7 +117,8 @@ Class("linb.UI.PopMenu",["linb.UI.Widget","linb.absList"],{
             //clear highLight first
             if(profile.$highLight)
                 linb([profile.$highLight]).tagClass('-mouseover',false);
-
+            profile._conainer=parent;
+            
             root.popToTop(obj, type, parent);
 
             var f=function(){
@@ -221,7 +222,7 @@ Class("linb.UI.PopMenu",["linb.UI.Widget","linb.absList"],{
                     tagName : 'a',
                     href :linb.$href,
                     tabindex: 1,
-                    className: '{cls}',
+                    className: '{cls} {disabled}',
                     ICON:{
                         style:'background:url({icon}) transparent  no-repeat {iconPos};',
                         className:'ui-icon',
@@ -462,14 +463,19 @@ Class("linb.UI.PopMenu",["linb.UI.Widget","linb.absList"],{
                             profile[sms] = pop;
                         }else
                             if(profile.onShowSubMenu){
-                                var r=profile.boxing().onShowSubMenu(profile, item, src);
-                                if(r['linb.UI']){
+                                var r=profile['$sub:'+item.id];
+                                if(r && r['linb.UI'] && !r.isEmpty()){}
+                                else
+                                    r=profile.boxing().onShowSubMenu(profile, item, src);
+                                if(r && r['linb.UI'] && !r.isEmpty()){
                                     profile[sms] = r;
                                     r=r.reBoxing();
                                     r.onMouseout(function(p,e,src){
                                         profile.box._mouseout(profile, e, src);
                                     },null,-1);
                                     profile[popgrp].push(r.get(0));
+
+                                    r.popToTop(src,2,profile._conainer); 
                                 }
                             }
                     }
@@ -495,9 +501,10 @@ Class("linb.UI.PopMenu",["linb.UI.Widget","linb.absList"],{
                     profile.$highLight = null;
                 },
                 onClick:function(profile, e, src){
-                    var properties = profile.properties,
+                    var prop = profile.properties,
                         item = profile.getItemByDom(src),
                         itemId = item.id;
+                    if(prop.disabled || item.disabled)return false;
 
                     if(!item.sub){
                         if(item.type=='checkbox')
@@ -505,7 +512,7 @@ Class("linb.UI.PopMenu",["linb.UI.Widget","linb.absList"],{
 
                         if(profile.onMenuSelected)profile.boxing().onMenuSelected(profile, item, src);
 
-                        if(properties.hideAfterClick){
+                        if(prop.hideAfterClick){
                             linb([src]).tagClass('-mouseover',false);
                             //hide all parent pop
                             _.asyRun(function(){
@@ -642,7 +649,7 @@ Class("linb.UI.PopMenu",["linb.UI.Widget","linb.absList"],{
             $fix:true,
 
             shadow:true,
-            _maxHeight:200,
+            _maxHeight:260,
             _maxWidth:300,
             left:-10000,
 

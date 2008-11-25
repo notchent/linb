@@ -14,7 +14,7 @@ Class("linb.UI.ProgressBar", ["linb.UI.Widget","linb.absValue"] ,{
         _.merge(t.FRAME.BORDER,{
             FILL:{
                 tagName:'div',
-                style:'width:{value}%;background:{fillBG};',
+                style:'width:{value}%;',
                 text:'{html}'+linb.UI.$childTag
             },
             INN:{
@@ -81,6 +81,11 @@ Class("linb.UI.ProgressBar", ["linb.UI.Widget","linb.absValue"] ,{
                 }
             },
             $border:1
+        },
+        _prepareData:function(profile){
+            var data=arguments.callee.upper.call(this, profile);
+            data.fillBG = data.fillBG?'background:'+data.fillBG:'';
+            return data;
         },
         _ensureValue:function(profile,value){
             return parseInt(value)||0;

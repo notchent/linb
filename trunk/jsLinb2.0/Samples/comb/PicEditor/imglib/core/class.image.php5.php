@@ -13,8 +13,10 @@
  * MODERATOR
  * Ronald Zötsch - ZUTZ Automatisering
  **************************************************************************/
-
-include_once ("class.image.config.win.php");
+if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN')
+    include_once ("class.image.config.win.php");
+else 
+    include_once ("class.image.config.unix.php");
 include ("class.image.interface.php");
 
 class clsImage implements interfaceImage {

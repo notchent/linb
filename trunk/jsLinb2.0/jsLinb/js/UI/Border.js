@@ -145,7 +145,6 @@ Class("linb.UI.Border","linb.UI",{
         SIZE:4,
         Templates:{
             tagName:'div',
-            style:'background:transparent;',
             TAG:{},
             T:{style:'width:100%;left:0;top:-{_extend}px;height:{_borderSize}px;'},
             RT:{style:'top:-{_extend}px;right:-{_extend}px;width:{_borderSize}px;height:{_borderSize}px;'},

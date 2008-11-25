@@ -78,7 +78,8 @@ Class("linb.UI.RadioBox", "linb.UI.List",{
                 overflow:'auto',
                 'overflow-x': (linb.browser.ie || linb.browser.gek)?'hidden':'',
                 position:'relative',
-                'line-height':'12px'
+                'line-height':'12px',
+                background:'transparent'
             }
         }
     }

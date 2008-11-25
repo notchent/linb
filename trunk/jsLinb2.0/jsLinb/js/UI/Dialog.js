@@ -159,6 +159,7 @@ Class("linb.UI.Dialog","linb.UI.Widget",{
             PANEL:{
                 tagName:'div',
                 $order:2,
+                className:'ui-content',
                 text:'{html}'+linb.UI.$childTag
             },
             STATUS:{

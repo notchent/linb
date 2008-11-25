@@ -2,7 +2,7 @@ Class("linb.UI.Panel", "linb.UI.Div",{
     Static:{
         Templates:{
             tagName : 'div',
-            style:'{_style};background:transparent;',
+            style:'{_style}',
             BORDER:{
                 tagName : 'div',
                 BAR:{
@@ -82,7 +82,7 @@ Class("linb.UI.Panel", "linb.UI.Div",{
                 PANEL:{
                     $order:1,
                     tagName : 'div',
-                    className:'ui-panel',
+                    className:'ui-content',
                     style:'{panelDisplay}',
                     text:'{html}'+linb.UI.$childTag
                 }

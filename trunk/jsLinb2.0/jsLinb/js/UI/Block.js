@@ -6,7 +6,7 @@ Class("linb.UI.Block", "linb.UI.Widget",{
         _.merge(t.FRAME.BORDER,{
             PANEL:{
                 tagName:'div',
-                className:'ui-panel',
+                className:'ui-content',
                 text:'{html}'+linb.UI.$childTag
             }
         },'all');

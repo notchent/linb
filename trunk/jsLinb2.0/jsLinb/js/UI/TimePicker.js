@@ -40,7 +40,7 @@ Class('linb.UI.TimePicker', ['linb.UI',"linb.absValue"], {
         this.setTemplate({
             tagName : 'div',
             onselectstart:'return false',
-            style:'{_style};background:transparent;',
+            style:'{_style}',
             BORDER:{
                 tagName : 'div',
                 BAR:{
@@ -99,7 +99,7 @@ Class('linb.UI.TimePicker', ['linb.UI',"linb.absValue"], {
                 },
                 M:{
                     $order:1,
-                    className:'ui-panel',
+                    className:'ui-content',
                     tagName:'div',
                     text:m
                 },

@@ -1402,9 +1402,8 @@ Class("linb.UI",  "linb.absObj", {
         
         linb.UI.$cache_css += linb.UI.buildCSSText({
             '.ui-ctrl':{
-                'background-color':'#fff'
             },
-            '.ui-panel':{
+            '.ui-content':{
                 'background-color':'#fff'
             },
             '.ui-btn':{
@@ -3536,7 +3535,7 @@ new function(){
         Static:{
             Templates:{
                 tagName:'a',
-                style: '{_style};background:transparent;',
+                style: '{_style}',
                 href :"{href}",
                 target:'{target}',
                 tabindex: '{tabindex}',
@@ -3589,7 +3588,7 @@ new function(){
             },
             Templates:{
                 tagName:'div',
-                style:'{_style};background:transparent;',
+                style:'{_style}',
                 //for firefox div focus bug: outline:none; tabindex:'-1'
                 tabindex:'-1',
                 text:'{html}'+linb.UI.$childTag

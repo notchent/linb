@@ -116,7 +116,7 @@ Class('linb.UI.DatePicker', ['linb.UI',"linb.absValue"], {
                 CON:{
                     $order:2,
                     tagName:'div',
-                    className:'ui-panel',
+                    className:'ui-content',
                     BODY:{
                         $order:1,
                         tagName:'table',
@@ -146,8 +146,7 @@ Class('linb.UI.DatePicker', ['linb.UI',"linb.absValue"], {
         Appearances:{
             KEY:{
                 overflow:'visible',
-                '-moz-user-select': 'none',
-                background:'transparent'
+                '-moz-user-select': 'none'
             },
             BORDER:{
                 overflow: 'visible',

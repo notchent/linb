@@ -1,12 +1,12 @@
 /*background here*/
-html, .ui-ctrl, .ui-panel{
+html, .ui-content{
     background:transparent url(Public/bg1.png) repeat scroll 0 50%;
 }
 .widget-shell{
     background:transparent;
 }
 .ui-btn{
-    background:transparent url(Public/button.gif) repeat-x scroll left -50px;
+    background:transparent url(Public/button.gif) repeat-x scroll left -26px;
     border-color: #73767d;
 }
 
@@ -87,31 +87,40 @@ html, .ui-ctrl, .ui-panel{
     padding-left:8px;
 }
 .linb-button-td{
-    background:transparent url(Public/button.gif) repeat-x scroll left -50px;
+    background:transparent url(Public/button.gif) repeat-x scroll left -25px;
 }
 .linb-button-tdr{
-    background:transparent url(Public/button.gif) no-repeat scroll right -100px;
-    padding-right:8px;
+    background:transparent url(Public/button.gif) no-repeat scroll right -50px;
+    padding-left:8px;
+}
+.linb-button-drop{
+    background:transparent url(Public/button.gif) no-repeat scroll right -225px;
+    padding-left:16px;
 }
 .linb-button-border-mouseover .linb-button-tdl{
-    background-position:left -150px;
+    background-position:left -75px;
 }
 .linb-button-border-mouseover .linb-button-td{
-    background-position:left -200px;
+    background-position:left -100px;
 }
 .linb-button-border-mouseover .linb-button-tdr{
-    background-position:right -250px;
+    background-position:right -125px;
 }
 .linb-button-border-mousedown .linb-button-tdl, .linb-button-border-checked .linb-button-tdl{
-    background-position:left -300px;
+    background-position:left -150px;
 }
 .linb-button-border-mousedown .linb-button-td, .linb-button-border-checked .linb-button-td{
-    background-position:left -350px;
+    background-position:left -175px;
 }
 .linb-button-border-mousedown .linb-button-tdr, .linb-button-border-checked .linb-button-tdr{
-    background-position:right -400px;
+    background-position:right -200px;
 }
-
+.linb-button-drop-mouseover, .linb-button-border-mouseover .linb-button-drop{
+    background-position:right -250px;
+}
+.linb-button-drop-mousedown, .linb-button-border-mousedown .linb-button-drop{
+    background-position:right -275px;
+}
 /*linb.UI.Panel*/
 
 
@@ -175,6 +184,12 @@ html, .ui-ctrl, .ui-panel{
 }
 .linb-poll-mark-checked-mousedown{
     background-position: -128px -32px;
+}
+.linb-poll-bar{
+    background:transparent url(Public/cmds.gif) no-repeat scroll -130px -190px;
+}
+.linb-poll-bari{
+    background:transparent url(Public/cmds.gif) no-repeat scroll -150px -225px;
 }
 
 /*linb.UI.Input*/

@@ -144,7 +144,7 @@ Class("linb.UI.Resizer","linb.UI",{
     Static:{
         Templates:{
             tagName:'div',
-            style:'{_style};background:transparent;'
+            style:'{_style};'
         },
         Appearances:{
             KEY:{

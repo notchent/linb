@@ -100,7 +100,6 @@ Class("linb.UI.Shadow","linb.UI",{
         SIZE:8,
         Templates:{
             tagName:'div',
-            style:'background:transparent;',
             R:{
                 tagName: 'div',
                 style:'top:{shadowOffset}px;width:{shadowSize}px;right:-{pos}px;'

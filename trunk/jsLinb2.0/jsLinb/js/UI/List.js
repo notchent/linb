@@ -90,6 +90,7 @@ Class("linb.UI.List", ["linb.UI", "linb.absList","linb.absValue" ],{
             ITEMS:{
                $order:10,
                tagName:'div',
+               className:'ui-content',
                text:"{items}"
             },
             $dynamic:{

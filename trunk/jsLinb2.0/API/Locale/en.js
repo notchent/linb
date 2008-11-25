@@ -8259,21 +8259,6 @@ _.set(linb.Locale,["en","doc","linb","UI","ColorPicker"], {
         },
 
 
-        onOK:{
-            $desc:"Fired when user click OK button.",
-            $paras:[
-                "profile : linb.UIProfile object.",
-                "oValue : String, the old value.",
-                "nValue : String, the new value."
-            ],
-            $snippet:[
-                "var id='linb.temp.clr9'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
-                "var o;linb(id).prepend(o=new linb.UI.ColorPicker({position:'relative'}));"+
-                "o.onOK(function(p,o,n){alert(o+':'+n)});"+
-                "o.beforeClose(function(){return false;});"+
-                "}"
-            ]
-        },
         beforeClose:{
             $desc:"Fired before user click close button or cancel button. If returns false, close function will be ignored.",
             $paras:[
@@ -8282,7 +8267,6 @@ _.set(linb.Locale,["en","doc","linb","UI","ColorPicker"], {
             $snippet:[
                 "var id='linb.temp.clr9'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var o;linb(id).prepend(o=new linb.UI.ColorPicker({position:'relative'}));"+
-                "o.onOK(function(p,o,n){alert(o+':'+n)});"+
                 "o.beforeClose(function(){return false;});"+
                 "}"
             ]
@@ -10109,9 +10093,9 @@ _.set(linb.Locale,["en","doc","linb","UI","PopMenu"], {
                 "var o=(new linb.UI.PopMenu({autoHide:true, items:[{id:'a',caption:'item a',tips:'item a'},{id:'b',icon:'img/img.gif',caption:'itemb',tips:'item b',sub:true},{id:'c',caption:'item c',type:'checkbox',value:false},{id:'d',caption:'item d',type:'checkbox',value:true,add:'[Esc]'}]}));"+
                 "var cp=(new linb.UI.ColorPicker).render(true);"+
                 "cp.beforeClose(function(){cp.hide();return false;})"+
-                ".onOK(function(p,old,n){o.onMenuSelected(o.get(0),{id:'b',value:n}); o.hide();});"+
+                ".afterUIValueSet(function(p,old,n){o.onMenuSelected(o.get(0),{id:'b',value:n}); o.hide();});"+
                 "o.onShowSubMenu(function(p,item,src){"+
-                "if(item.id=='b'){cp.reBoxing().popToTop(src,2,linb(id));return cp;}"+
+                "if(item.id=='b'){return cp;}"+
                 "})"+
                 ".onMenuSelected(function(p,i){alert(i.id+':'+i.value)});"+
                 "linb(id).onClick(function(p,e,s){var p1=linb.Event.getPos(e), p2=linb([s]).offset(), pos={left:p1.left-p2.left,top:p1.top-p2.top}o.pop(pos,null,s);})"+
@@ -10232,7 +10216,7 @@ _.set(linb.Locale,["en","doc","linb","UI","MenuBar"], {
                 "var o=(new linb.UI.MenuBar({parentID:id,autoShowTime:0,items:[{id:'id',caption:'menu',sub:[{id:'a',caption:'item a',tips:'item a'},{id:'b',icon:'img/img.gif',caption:'itemb',tips:'item b',sub:true},{id:'c',caption:'item c',type:'checkbox',value:false},{id:'d',caption:'item d',type:'checkbox',value:true,add:'[Esc]'}]}]}));"+
                 "var cp=(new linb.UI.ColorPicker).render(true);"+
                 "cp.beforeClose(function(){cp.hide();return false;})"+
-                ".onOK(function(p,old,n){o.onMenuSelected(o.get(0),null,{id:'b',value:n}); o.hide();});"+
+                ".afterUIValueSet(function(p,old,n){o.onMenuSelected(o.get(0),null,{id:'b',value:n}); o.hide();});"+
                 "o.onShowSubMenu(function(pm, p,item,src){"+
                 "if(item.id=='b'){cp.reBoxing().popToTop(src,2,linb(id));return cp;}"+
                 "})"+

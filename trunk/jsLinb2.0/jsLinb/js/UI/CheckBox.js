@@ -62,6 +62,7 @@ Class("linb.UI.CheckBox", "linb.UI.Button",{
                 'font-size':'12px',
                 'line-height':'14px',
                 overflow:'hidden',
+                'vertical-align':'middle',
                 'white-space':'nowrap'
             },
             TD:{

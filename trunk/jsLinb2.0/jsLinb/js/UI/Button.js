@@ -102,8 +102,7 @@ Class("linb.UI.Button", ["linb.UI.Widget","linb.absValue"],{
                 'padding-left':'3px'
             },
             'TD':{
-                background: linb.UI.$bg('button.gif', ' repeat-x left -25px',true),
-                'padding-top':'3px'
+                background: linb.UI.$bg('button.gif', ' repeat-x left -25px',true)
             },
             TDR:{
                 background: linb.UI.$bg('button.gif', ' no-repeat right -50px',true),
@@ -114,11 +113,11 @@ Class("linb.UI.Button", ["linb.UI.Widget","linb.absValue"],{
                 background: linb.UI.$bg('button.gif', ' no-repeat right -225px',true),
                 'padding-left':'16px'
             },
-            'DROP-mouseover, BORDER-mouseover DROP':{
+            'BORDER-mouseover DROP':{
                 $order:11,
                 'background-position':'right -250px'            
             },
-            'DROP-mousedown, BORDER-mousedown DROP':{
+            'BORDER-mouseover DROP-mousedown':{
                 $order:12,
                 'background-position':'right -275px'            
             },
@@ -208,15 +207,6 @@ Class("linb.UI.Button", ["linb.UI.Widget","linb.absValue"],{
                     linb([this]).removeClass(profile.getClass('DROP','-mousedown'));
                     return false;
                 },
-                onMouseover:function(profile){
-                    if(profile.properties.type!='drop')return;
-                    linb([this]).addClass(profile.getClass('DROP','-mouseover'));
-                    return false;
-                },
-                onMouseout:function(profile){
-                    if(profile.properties.type!='drop')return;
-                    linb([this]).removeClass(profile.getClass('DROP','-mouseover')).onMouseup();
-                },
                 onClick:function(profile, e, src){
                     if(profile.properties.type!='drop')return;
                     profile.boxing().onClickDrop(profile, e, src);
@@ -255,7 +245,7 @@ Class("linb.UI.Button", ["linb.UI.Widget","linb.absValue"],{
                 }
             },
             vAlign:{
-                ini:'top',
+                ini:'middle',
                 listbox:['top','middle','bottom'],
                 action: function(v){
                     var self=this, c=self.getSubNode('TD'), t=self.properties;

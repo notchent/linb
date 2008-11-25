@@ -11,7 +11,7 @@ Class("linb.UI.Layout",["linb.UI", "linb.absList"],{
     Static:{
         Templates:{
             tagName:'div',
-            style:'{_style};background:transparent;',
+            style:'{_style}',
             text:"{items}",
             $dynamic:{
                 items:{
@@ -33,6 +33,7 @@ Class("linb.UI.Layout",["linb.UI", "linb.absList"],{
                         },
                         PANEL:{
                             tagName:'div',
+                            className:'ui-content',
                             style:'position:absolute;left:0;top:0;',
                             text:linb.UI.$childTag
                         }

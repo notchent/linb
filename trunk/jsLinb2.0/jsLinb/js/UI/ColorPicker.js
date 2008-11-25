@@ -26,7 +26,7 @@ Class('linb.UI.ColorPicker', ['linb.UI',"linb.absValue"], {
                     f('V',ff(hsv[2]));
                     delete profile.$hexinhsv;
                 }
-
+                cls._setClrName(profile,hexs);
                 cls._updateDftTip(profile);
                 //dont update adv UI again, if adv value is the newest
                 if(p.advance && profile.$hexinadv != hexs){
@@ -117,7 +117,7 @@ Class('linb.UI.ColorPicker', ['linb.UI',"linb.absValue"], {
                 CON:{
                     $order:1,
                     tagName:'div',
-                    className:'ui-panel',
+                    className:'ui-content',
                     SIMPLE:{
                         tagName:'div',
                         TOP:{
@@ -233,8 +233,7 @@ Class('linb.UI.ColorPicker', ['linb.UI',"linb.absValue"], {
         },
         Appearances:{
             KEY:{
-                '-moz-user-select': 'none',
-                background:'transparent'
+                '-moz-user-select': 'none'
             },
             BORDER:{
                 overflow: 'visible',
@@ -372,55 +371,11 @@ Class('linb.UI.ColorPicker', ['linb.UI',"linb.absValue"], {
                 },
                 onClick:function(p,e,s){
                     var sid=p.getSubId(s.id);
-                    p.boxing().setUIValue(sid);
+                    p.boxing()._setCtrlValue(p.$tempValue=sid);
                     if(!p.properties.advance)
-                        p.getSubNode('OK').onClick();
+                        p.boxing().setUIValue(sid);
                     return false;
-                }/*,
-                onKeydown:function(profile, e, src){
-                    var keys=linb.Event.getKey(e), key = keys[0], shift=keys[2],
-                    cur = linb(src),
-                    first = profile.root.nextFocus(true, true, false),
-                    last = profile.root.nextFocus(false, true, false);
-
-                    switch(linb.Event.getKey(e)[0]){
-                        case 'tab':
-                            if(shift){
-                                if(src!=first.get(0)){
-                                    first.focus();
-                                    return false;
-                                }
-                            }else{
-                                if(src!=last.get(0)){
-                                    last.focus();
-                                    return false;
-                                }
-                            }
-                            break;
-                        case 'left':
-                        case 'up':
-                            var next = cur.nextFocus(false, true, false);
-                            if(cur.get(0)==first.get(0))
-                                last.focus();
-                            else
-                                cur.nextFocus(false);
-                            return false;
-                            break;
-                        case 'right':
-                        case 'down':
-                            var next = cur.nextFocus(true, false, false);
-                            if(cur.get(0)==last.get(0))
-                                first.focus();
-                            else
-                                cur.nextFocus();
-                            return false;
-                            break;
-                        case 'enter':
-                            linb(src.id).onClick();
-                            return false;
-                            break;
-                    }
-                }*/
+                }
             },
             LIST:{
                 onMouseout:function(p,e,s){
@@ -429,8 +384,7 @@ Class('linb.UI.ColorPicker', ['linb.UI',"linb.absValue"], {
             },
             OK:{
                 onClick:function(p,e,src){
-                    var pro=p.properties;
-                    p.boxing().onOK(p, pro.value, pro.value=pro.$UIvalue);
+                    p.boxing().setUIValue(p.$tempValue);
                 }
             },
             CANCEL:{
@@ -623,20 +577,22 @@ Class('linb.UI.ColorPicker', ['linb.UI',"linb.absValue"], {
             return data;
         },
         EventHandlers:{
-            beforeClose:function(profile, src){},
-            onOK:function(profile, oValue, nValue){}
+            beforeClose:function(profile, src){}
         },
         RenderTrigger:function(){
             this.$onValueSet=this.$onValueUpdated=function(v){
-                var p=this,
-                    k='color.LIST.',
-                    vv=linb.getRes(k+v);
-                if(vv==v)
-                    p.$clrN2 = p.$clrN = '#'+v;
-                else{
-                    p.$clrN = vv;
-                    p.$clrN2 = linb.wrapRes(k+v);
-                }
+                this.box._setClrName(this,v);
+            };
+        },
+        _setClrName:function(profile,v){
+            var p=profile,
+                k='color.LIST.',
+                vv=linb.getRes(k+v);
+            if(vv==v)
+                p.$clrN2 = p.$clrN = '#'+v;
+            else{
+                p.$clrN = vv;
+                p.$clrN2 = linb.wrapRes(k+v);
             }
         },
         _slist:"FFFFFF,FFFFF0,FFFFE0,FFFF00,FFFAFA,FFFAF0,FFFACD,FFF8DC,FFF5EE,FFF0F5,FFEFD5,FFEBCD,FFE4E1,FFE4C4,FFE4B5,FFDEAD,FFDAB9,FFD700,FFC0CB,FFB6C1,FFA500,FFA07A,FF8C00,FF7F50,FF69B4,FF6347,FF4500,FF1493,FF00FF,FF00FF,FF0000,FDF5E6,FAFAD2,FAF0E6,FAEBD7,FA8072,F8F8FF,F5FFFA,F5F5F5,F5DEB3,F4A460,F0FFFF,F0FFF0,F0F8FF,F0E68C,F08080,EEE8AA,EE82EE,E9967A,E6E6FA,E1FFFF,DEB887,DDA0DD,DCDCDC,DC143C,DB7093,DAA520,DA70D6,D8BFD8,D3D3D3,D2B48C,D2691E,CD853F,CD5C5C,C71585,C0C0C0,BDB76B,BC8F8F,BA55D3,B22222,B0E0E6,B0C4DE,AFEEEE,ADFF2F,ADD8E6,A9A9A9,A52A2A,A0522D,9932CC,98FB98,9400D3,9370DB,90EE90,8FBC8F,8B4513,8B008B,8B0000,8A2BE2,87CEFA,87CEEB,808080,808000,800080,800000,7FFFAA,7FFF00,7CFC00,7B68EE,778899,708090,6B8E23,6A5ACD,696969,6495ED,5F9EA0,556B2F,4B0082,48D1CC,483D8B,4682B4,4169E1,40E0D0,3CB371,32CD32,2F4F4F,2E8B57,228B22,20B2AA,1E90FF,191970,00FFFF,00FFFF,00FF7F,00FF00,00FA9A,00CED1,00BFFF,008B8B,008080,008000,006400,0000FF,0000CD,00008B,000080,000000".split(','),
@@ -689,7 +645,7 @@ Class('linb.UI.ColorPicker', ['linb.UI',"linb.absValue"], {
 
                 //set the cur hex value of hsv for preventing update adv UI again
                 if(hsv)profile.$hexinhsv=v;
-                profile.boxing().setUIValue(v);
+                profile.boxing()._setCtrlValue(profile.$tempValue=v);
                 delete profile.$hexinhsv;
             }
             linb([src]).css('background','');
@@ -803,7 +759,7 @@ Class('linb.UI.ColorPicker', ['linb.UI',"linb.absValue"], {
         _updateValueByPos:function(profile, e, flag){
             //set the cur hex value of adv for preventing update adv UI again
             profile.$hexinadv=profile.$t_hex;
-            profile.boxing().setUIValue(profile.$t_hex);
+            profile.boxing()._setCtrlValue(profile.$tempValue=profile.$t_hex);
             delete profile.$hexinadv;
         },
         _prepareAdv:function(profile,e){
