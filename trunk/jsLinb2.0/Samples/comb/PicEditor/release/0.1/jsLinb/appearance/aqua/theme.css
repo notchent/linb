@@ -115,10 +115,10 @@ html, .ui-content{
 .linb-button-border-mousedown .linb-button-tdr, .linb-button-border-checked .linb-button-tdr{
     background-position:right -200px;
 }
-.linb-button-drop-mouseover, .linb-button-border-mouseover .linb-button-drop{
+.linb-button-border-mouseover .linb-button-drop{
     background-position:right -250px;
 }
-.linb-button-drop-mousedown, .linb-button-border-mousedown .linb-button-drop{
+.linb-button-border-mouseover .linb-button-drop-mousedown{
     background-position:right -275px;
 }
 /*linb.UI.Panel*/
