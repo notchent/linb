@@ -1,5 +1,5 @@
 Class('linb.Template','linb.absProfile',{
-    Constructor:function(parent,template,properties,events,domId){
+    Constructor:function(template,properties,events,domId){
         var self=this;
         self.$id = self.$domId = self.KEY + ':' + (self.serialId=self._pickSerialId()) + ':';
         self.domId = typeof domId == 'string'?domId:self.$domId;
@@ -15,7 +15,6 @@ Class('linb.Template','linb.absProfile',{
         if(template)self.setTemplate(typeof template=='string'?{'':template}:template);
         if(events)self.setEvents(events);
         if(properties)self.setProperties(properties);
-        if(parent)parent.appendChild(self.render());
         return self;
     },
     Instance : {
@@ -139,13 +138,14 @@ Class('linb.Template','linb.absProfile',{
                 c.innerHTML = str;
                 self.domNode = c.removeChild(c.firstChild);
             }
-            return self.domNode;
+            return self;
         },
         renderOnto:function(node){
             var id,domNode,style='style',t;
             if(typeof node=='string')node=document.getElementById(node);
             id=node.id||(node.id=_.id());
-            node.parentNode.replaceChild(domNode=this.render(),node);
+            domNode=this.domNode;
+            node.parentNode.replaceChild(domNode,node);
 
             if(domNode.tabIndex!=node.tabIndex)
                 domNode.tabIndex!=node.tabIndex;
@@ -238,7 +238,6 @@ Class('linb.Template','linb.absProfile',{
                 t=linb.absObj.$specialChars,
                 properties = _.isEmpty(self.properties)?null:_.clone(self.properties,function(o,i){return !t[(i+'').charAt(0)]});            
             return 'new linb.Template(' + 
-            s(self.parent||null) + "," + 
             s(self.template||null) + "," + 
             s(properties) + "," + 
             s(_.isEmpty(self.events)?null:self.events) + "," + 

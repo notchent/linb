@@ -15,7 +15,7 @@
             
 var o=new linb.UI.List({zIndex:'1000',items:[{id:'a',caption:'a'},{id:'b',object:new linb.UI.Button(null,{onClick:function(){alert(9)}})},{id:'c',object:new linb.UI.Input},{id:'d',object:new linb.UI.CheckBox(null,{onCheck:function(){alert(9)}})}]});
 linb('body').append(o);
-o.insertItems([{id:'e', object:new linb.Template(null,{'':'<div style=\"border:solid 1px;\">{id}: {caption}</div>'})},{id:'f', object:new linb.Template(null,{'':'<div style=\"border:solid 1px;\">{id}: {caption}</div>'})}],null,true);
+o.insertItems([{id:'e', object:new linb.Template({'':'<div style=\"border:solid 1px;\">{id}: {caption}</div>'})},{id:'f', object:new linb.Template({'':'<div style=\"border:solid 1px;\">{id}: {caption}</div>'})}],null,true);
 var str=o.serialize();
 o.destroy();
 linb('body').append(_.unserialize(str));

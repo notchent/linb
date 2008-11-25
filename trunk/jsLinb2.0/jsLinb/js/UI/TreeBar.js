@@ -633,7 +633,7 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
                                 item._created=true;
                                 subNs.css('display','none');
                                 if(typeof sub=='string')
-                                    subNs.html(sub,false);
+                                    subNs.html(item.sub=sub,false);
                                 else if(sub.constructor==Array)
                                     b.insertItems(sub, item.id);
                                 else if(sub['linb.Template']||sub['linb.UI'])

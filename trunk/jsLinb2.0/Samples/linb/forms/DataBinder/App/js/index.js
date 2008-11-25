@@ -67,11 +67,11 @@ Class('App', 'linb.Com',{
             
             host.group1.append((new linb.UI.Div)
                 .host(host,"div40")
-                .setLeft(10)
+                .setLeft(30)
                 .setTop(50)
                 .setWidth(60)
                 .setHeight(20)
-                .setHtml("Any string:")
+                .setHtml("Any :")
             );
             
             host.group1.append((new linb.UI.Input)
@@ -80,7 +80,6 @@ Class('App', 'linb.Com',{
                 .setDataField("web")
                 .setLeft(80)
                 .setTop(50)
-                .setValueFormat("^\\w+$")
             );
             
             return children;

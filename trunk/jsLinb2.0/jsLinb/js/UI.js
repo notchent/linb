@@ -3033,7 +3033,7 @@ Class("linb.UI",  "linb.absObj", {
                 if(typeof items[i]!='object')
                     items[i]={id:items[i]};
                 item=items[i];
-                if(!item.caption)item.caption=item.id;
+                if(!'caption' in item)item.caption=item.id;
 
                 dataItem={id: item.id};
                 if(pid)dataItem._parent = pid;

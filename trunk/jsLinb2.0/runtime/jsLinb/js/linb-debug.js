@@ -6105,7 +6105,7 @@ type:4
         },"window",-1);
     }
 });Class('linb.Template','linb.absProfile',{
-    Constructor:function(parent,template,properties,events,domId){
+    Constructor:function(template,properties,events,domId){
         var self=this;
         self.$id = self.$domId = self.KEY + ':' + (self.serialId=self._pickSerialId()) + ':';
         self.domId = typeof domId == 'string'?domId:self.$domId;
@@ -6121,7 +6121,6 @@ type:4
         if(template)self.setTemplate(typeof template=='string'?{'':template}:template);
         if(events)self.setEvents(events);
         if(properties)self.setProperties(properties);
-        if(parent)parent.appendChild(self.render());
         return self;
     },
     Instance : {
@@ -6245,13 +6244,14 @@ type:4
                 c.innerHTML = str;
                 self.domNode = c.removeChild(c.firstChild);
             }
-            return self.domNode;
+            return self;
         },
         renderOnto:function(node){
             var id,domNode,style='style',t;
             if(typeof node=='string')node=document.getElementById(node);
             id=node.id||(node.id=_.id());
-            node.parentNode.replaceChild(domNode=this.render(),node);
+            domNode=this.domNode;
+            node.parentNode.replaceChild(domNode,node);
 
             if(domNode.tabIndex!=node.tabIndex)
                 domNode.tabIndex!=node.tabIndex;
@@ -6344,7 +6344,6 @@ type:4
                 t=linb.absObj.$specialChars,
                 properties = _.isEmpty(self.properties)?null:_.clone(self.properties,function(o,i){return !t[(i+'').charAt(0)]});            
             return 'new linb.Template(' + 
-            s(self.parent||null) + "," + 
             s(self.template||null) + "," + 
             s(properties) + "," + 
             s(_.isEmpty(self.events)?null:self.events) + "," + 
@@ -11266,7 +11265,7 @@ Class("linb.UI",  "linb.absObj", {
                 if(typeof items[i]!='object')
                     items[i]={id:items[i]};
                 item=items[i];
-                if(!item.caption)item.caption=item.id;
+                if(!'caption' in item)item.caption=item.id;
 
                 dataItem={id: item.id};
                 if(pid)dataItem._parent = pid;
@@ -23064,7 +23063,7 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
                                 item._created=true;
                                 subNs.css('display','none');
                                 if(typeof sub=='string')
-                                    subNs.html(sub,false);
+                                    subNs.html(item.sub=sub,false);
                                 else if(sub.constructor==Array)
                                     b.insertItems(sub, item.id);
                                 else if(sub['linb.Template']||sub['linb.UI'])
@@ -27616,7 +27615,7 @@ caption
                             subNs.css('display','none');
 
                             if(typeof sub=='string')
-                                subNs.html(sub,false);
+                                subNs.html(item.sub=sub,false);
                             else if(sub.constructor==Array)
                                 b.insertRows(sub, item.id);
                             else if(sub['linb.Template']||sub['linb.UI'])

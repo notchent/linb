@@ -3652,14 +3652,13 @@ _.set(linb.Locale,["en","doc","linb","Template"], {
         ],
         $snippet:[
             "var id='linb.temp.2'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
-                "var t=new linb.Template(null,{'':'<div>{caption}</div>'},{id:'1',caption:'cap'}); t.setDomId('abc'); linb(id).append(t); alert(linb.Template.getFromDomId('abc').serialize());"+
+                "var t=new linb.Template({'':'<div>{caption}</div>'},{id:'1',caption:'cap'}); t.setDomId('abc'); linb(id).append(t); alert(linb.Template.getFromDomId('abc').serialize());"+
             "}"
         ]
     },
     constructor:{
         $desc:"A template for creating interactive HTML.",
         $paras:[
-            "parent [Optional] : parent DOM element.",
             "template [Optional] : key/value pairs, a set of templates.",
             "properties [Optional] : key/value pairs, a set of properties.",
             "events [Optional] : key/value pairs, a set of events.",
@@ -3668,8 +3667,8 @@ _.set(linb.Locale,["en","doc","linb","Template"], {
         $snippet:[
             "var id='linb.temp.t1'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
         "\n//Create a linb.Template, and append to dom directly.\n"+
-        "var t=new linb.Template(linb.Dom.byId(id), {'':'<div  onclick=[$e]>{pre} {items} {next}</div>',items:'<p onclick=[$e] onmouseover=[$e]>{id} : {caption}</p>'},{pre:'{{{',next:'}}}',items:[{id:1,caption:'a1'},{id:2,caption:'a2'}]},{onClick:function(p){alert(p.domId)},items:{onClick:function(p,e,s){alert(p.domId);}}}, 't_t');"+
-            ""+
+        "var t=new linb.Template({'':'<div  onclick=[$e]>{pre} {items} {next}</div>',items:'<p onclick=[$e] onmouseover=[$e]>{id} : {caption}</p>'},{pre:'{{{',next:'}}}',items:[{id:1,caption:'a1'},{id:2,caption:'a2'}]},{onClick:function(p){alert(p.domId)},items:{onClick:function(p,e,s){alert(p.domId);}}}, 't_t');"+
+            "linb(id).append(t);"+
             "}"
         ]
     },
@@ -3682,7 +3681,7 @@ _.set(linb.Locale,["en","doc","linb","Template"], {
             $rtn:"DOM element",
             $snippet:[
             "var id='linb.temp.2'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
-                "var t=new linb.Template(null,{'':'<div>{caption}</div>'},{id:'1',caption:'cap'}); t.setDomId('t_2'); linb(id).append(t); alert(t.getRootNode());"+
+                "var t=new linb.Template({'':'<div>{caption}</div>'},{id:'1',caption:'cap'}); t.setDomId('t_2'); linb(id).append(t); alert(t.getRootNode());"+
             "}"
             ]
         },
@@ -3694,7 +3693,7 @@ _.set(linb.Locale,["en","doc","linb","Template"], {
             ],
             $snippet:[
             "var id='linb.temp.0.1'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
-            "var t=new linb.Template(null, {'':'<div>{items}</div>','items':'<span onclick=[$e]>{con}</span>'},{items:[{id:'a',con:'a'},{id:'b',con:'b'}]},{items:{onClick:function(p,e,src){alert(_.serialize(p.getItem(src)))}}}); t.setDomId('t_3'); linb(id).append(t);"+
+            "var t=new linb.Template({'':'<div>{items}</div>','items':'<span onclick=[$e]>{con}</span>'},{items:[{id:'a',con:'a'},{id:'b',con:'b'}]},{items:{onClick:function(p,e,src){alert(_.serialize(p.getItem(src)))}}}); t.setDomId('t_3'); linb(id).append(t);"+
             "}"
             ]
         },
@@ -3705,14 +3704,14 @@ _.set(linb.Locale,["en","doc","linb","Template"], {
                 "properties [Optional] : key/value(any) pairs."
             ],
             $snippet:[
-                "var t=new linb.Template(null,{'':'<div>{caption}</div>'},{id:'1',caption:'cap'}); alert(t.toHtml())"
+                "var t=new linb.Template({'':'<div>{caption}</div>'},{id:'1',caption:'cap'}); alert(t.toHtml())"
             ]
         },
         serialize:{
             $desc:"To serialize the current object to a string representation.",
             $rtn:"String or Array",
             $snippet:[
-                "var t=new linb.Template(null,{'':'<div>{caption}</div>'},{id:'1',caption:'cap'}); alert(t.serialize())"
+                "var t=new linb.Template({'':'<div>{caption}</div>'},{id:'1',caption:'cap'}); alert(t.serialize())"
             ]
         },
         destroy:{
@@ -3722,15 +3721,15 @@ _.set(linb.Locale,["en","doc","linb","Template"], {
             $desc:"Gets DOM id from the current template.",
             $rtn:"String",
             $snippet:[
-                "var t=new linb.Template(null,{'':'<div>{caption}</div>'},{id:'1',caption:'cap'}); t.setDomId('t_1'); alert(t.getDomId())"
+                "var t=new linb.Template({'':'<div>{caption}</div>'},{id:'1',caption:'cap'}); t.setDomId('t_1'); alert(t.getDomId())"
             ]
         },
         render:{
             $desc:"To render the current template to DOM element.",
-            $rtn:"DOM element",
+            $rtn:"[self]",
             $snippet:[
             "var id='linb.temp.3'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
-                "var t=new linb.Template(null, {'':'<div>{caption}</div>'},{id:'1',caption:'cap'}); t.setDomId('t_3'); linb(id).append(t.render());"+
+                "var t=new linb.Template({'':'<div>{caption}</div>'},{id:'1',caption:'cap'}); t.setDomId('t_3'); linb(id).append(t);"+
             "}"
             ]
         },
@@ -3741,7 +3740,7 @@ _.set(linb.Locale,["en","doc","linb","Template"], {
             ],
             $snippet:[
             "var id='linb.temp.4'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><div id=\"renderOnto\"></div><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
-                "var t=new linb.Template(null, {'':'<div>{caption}</div>'},{id:'1',caption:'cap'}); t.setDomId('t_4'); t.renderOnto('renderOnto');"+
+                "var t=new linb.Template({'':'<div>{caption}</div>'},{id:'1',caption:'cap'}); t.setDomId('t_4'); t.renderOnto('renderOnto');"+
             "}"
             ]
         },
@@ -3753,7 +3752,7 @@ _.set(linb.Locale,["en","doc","linb","Template"], {
             ],
             $snippet:[
             "var id='linb.temp.5'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
-                "var t=new linb.Template(null, {'':'<div>{caption}</div>'},{id:'1',caption:'cap'}); t.setDomId('t_5'); linb(id).append(t);"+
+                "var t=new linb.Template({'':'<div>{caption}</div>'},{id:'1',caption:'cap'}); t.setDomId('t_5'); linb(id).append(t);"+
             "}"
             ]
         },
@@ -6346,7 +6345,7 @@ _.set(linb.Locale,["en","doc","linb","UI"], {
                 "var id='linb.temp.a6'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var o=new linb.UI.List({position:'relative',items:[{id:'a',caption:'a'},{id:'b',caption:'b'}]});"+
                 "o.setCustomFunction('render',{items:function(profile,item){"+
-                "    return new linb.Template(null,{'':'<div style=\"border:solid 1px;\">{id}: {caption}</div>'},item);"+
+                "    return new linb.Template({'':'<div style=\"border:solid 1px;\">{id}: {caption}</div>'},item);"+
                 "}});"+
                 "linb(id).append(o);"+
                 "}"
