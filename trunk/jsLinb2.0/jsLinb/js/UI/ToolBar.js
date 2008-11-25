@@ -166,7 +166,7 @@ Class("linb.UI.ToolBar",["linb.UI","linb.absList"],{
             BOX:{
                 onClick:function(profile, e, src){
                     if(profile.properties.disabled)return;
-                    var id2=src.parentNode.id,
+                    var id2=src.parentNode.parentNode.parentNode.id,
                         item2 = profile.getItemByDom(id2);
                     if(item2.disabled)return;
 

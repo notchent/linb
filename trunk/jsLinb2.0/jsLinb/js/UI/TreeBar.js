@@ -359,7 +359,8 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
                         item = profile.getItemByDom(src),
                         itemId =profile.getSubId(src.id),
                         box = profile.boxing(),
-                        rt;
+                        ks=linb.Event.getKey(e),
+                        rt,rt2;
 
                     if(properties.disabled|| item.disabled)return false;
                     //group not fire event
@@ -375,27 +376,46 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
                     case 'multi':
                         var value = box.getUIValue(),
                             arr = value?value.split(';'):[];
+                        if(arr.length&&(ks[1]||ks[2])){
+                            //for select
+                            rt2=false;
+                            if(ks[2]){
+                                if(profile.$firstV._pid!=item._pid)return false;
+                                var items=properties.items;
+                                if(item._pid){
+                                    var pitem=profile.getItemByItemId(item._pid);
+                                    if(pitem)items=pitem.sub;
+                                }
+                                var i1=_.arr.subIndexOf(items,'id',profile.$firstV.id),
+                                    i2=_.arr.subIndexOf(items,'id',item.id),
+                                    i;
+                                arr.length=0;
+                                for(i=Math.min(i1,i2);i<=Math.max(i1,i2);i++)
+                                    arr.push(items[i].id);
+                            }else{
+                                if(_.arr.indexOf(arr,item.id)!=-1)
+                                    _.arr.removeValue(arr,item.id);
+                                else
+                                    arr.push(item.id);
+                            }
+                            arr.sort();
+                            value = arr.join(';');
 
-                        if(_.arr.indexOf(arr,item.id)!=-1)
-                            _.arr.removeValue(arr,item.id);
-                        else
-                            arr.push(item.id);
-                        arr.sort();
-                        value = arr.join(';');
-
-                        //update string value only for _setCtrlValue
-                        if(box.getUIValue() == value)
-                            rt=false;
-                        else{
-                            box.setUIValue(value);
+                            //update string value only for _setCtrlValue
                             if(box.getUIValue() == value)
-                                rt=box.onItemSelected(profile, item, src);
+                                rt=false;
+                            else{
+                                box.setUIValue(value);
+                                if(box.getUIValue() == value)
+                                    rt=box.onItemSelected(profile, item, src)||rt2;
+                            }
+                            break;
                         }
-                        break;
                     case 'single':
                         if(box.getUIValue() == item.id)
                             rt=false;
                         else{
+                            profile.$firstV=item;
                             box.setUIValue(item.id);
                             if(box.getUIValue() == item.id)
                                 rt=box.onItemSelected(profile, item, src);

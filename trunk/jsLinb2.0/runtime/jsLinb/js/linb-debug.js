@@ -19188,7 +19188,8 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
                         item = profile.getItemByDom(src),
                         itemId =profile.getSubId(src.id),
                         box = profile.boxing(),
-                        rt;
+                        ks=linb.Event.getKey(e),
+                        rt,rt2;
 
                     if(properties.disabled|| item.disabled)return false;
 
@@ -19200,26 +19201,40 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
                         var value = box.getUIValue(),
                             arr = value?value.split(';'):[];
 
-                        if(_.arr.indexOf(arr,item.id)!=-1)
-                            _.arr.removeValue(arr,item.id);
-                        else
-                            arr.push(item.id);
-                        arr.sort();
-                        value = arr.join(';');
+                        if(arr.length&&(ks[1]||ks[2])){
+                            //for select
+                            rt2=false;
+                            if(ks[2]){
+                                var items=properties.items,
+                                    i1=_.arr.subIndexOf(items,'id',profile.$firstV.id),
+                                    i2=_.arr.subIndexOf(items,'id',item.id),
+                                    i;
+                                arr.length=0;
+                                for(i=Math.min(i1,i2);i<=Math.max(i1,i2);i++)
+                                    arr.push(items[i].id);
+                            }else{
+                                if(_.arr.indexOf(arr,item.id)!=-1)
+                                    _.arr.removeValue(arr,item.id);
+                                else
+                                    arr.push(item.id);
+                            }
 
-                        //update string value only for setCtrlValue
-                        if(box.getUIValue() == value)
-                            rt=false;
-                        else{
-                            box.setUIValue(value);
-                            if(box.getUIValue() == value)
-                                rt=box.onItemSelected(profile, item, src);
+                            arr.sort();
+                            value = arr.join(';');
+
+                            //update string value only for setCtrlValue
+                            if(box.getUIValue() != value){
+                                box.setUIValue(value);
+                                if(box.getUIValue() == value)
+                                    rt=box.onItemSelected(profile, item, src)||rt2;
+                            }
+                            break;
                         }
-                        break;
                     case 'single':
                         if(box.getUIValue() == item.id)
                             rt=false;
                         else{
+                            profile.$firstV=item;
                             box.setUIValue(item.id);
                             if(box.getUIValue() == item.id)
                                 rt=box.onItemSelected(profile, item, src);
@@ -22789,7 +22804,8 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
                         item = profile.getItemByDom(src),
                         itemId =profile.getSubId(src.id),
                         box = profile.boxing(),
-                        rt;
+                        ks=linb.Event.getKey(e),
+                        rt,rt2;
 
                     if(properties.disabled|| item.disabled)return false;
                     //group not fire event
@@ -22805,27 +22821,46 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
                     case 'multi':
                         var value = box.getUIValue(),
                             arr = value?value.split(';'):[];
+                        if(arr.length&&(ks[1]||ks[2])){
+                            //for select
+                            rt2=false;
+                            if(ks[2]){
+                                if(profile.$firstV._pid!=item._pid)return false;
+                                var items=properties.items;
+                                if(item._pid){
+                                    var pitem=profile.getItemByItemId(item._pid);
+                                    if(pitem)items=pitem.sub;
+                                }
+                                var i1=_.arr.subIndexOf(items,'id',profile.$firstV.id),
+                                    i2=_.arr.subIndexOf(items,'id',item.id),
+                                    i;
+                                arr.length=0;
+                                for(i=Math.min(i1,i2);i<=Math.max(i1,i2);i++)
+                                    arr.push(items[i].id);
+                            }else{
+                                if(_.arr.indexOf(arr,item.id)!=-1)
+                                    _.arr.removeValue(arr,item.id);
+                                else
+                                    arr.push(item.id);
+                            }
+                            arr.sort();
+                            value = arr.join(';');
 
-                        if(_.arr.indexOf(arr,item.id)!=-1)
-                            _.arr.removeValue(arr,item.id);
-                        else
-                            arr.push(item.id);
-                        arr.sort();
-                        value = arr.join(';');
-
-                        //update string value only for _setCtrlValue
-                        if(box.getUIValue() == value)
-                            rt=false;
-                        else{
-                            box.setUIValue(value);
+                            //update string value only for _setCtrlValue
                             if(box.getUIValue() == value)
-                                rt=box.onItemSelected(profile, item, src);
+                                rt=false;
+                            else{
+                                box.setUIValue(value);
+                                if(box.getUIValue() == value)
+                                    rt=box.onItemSelected(profile, item, src)||rt2;
+                            }
+                            break;
                         }
-                        break;
                     case 'single':
                         if(box.getUIValue() == item.id)
                             rt=false;
                         else{
+                            profile.$firstV=item;
                             box.setUIValue(item.id);
                             if(box.getUIValue() == item.id)
                                 rt=box.onItemSelected(profile, item, src);
@@ -24326,7 +24361,7 @@ Class("linb.UI.ToolBar",["linb.UI","linb.absList"],{
             BOX:{
                 onClick:function(profile, e, src){
                     if(profile.properties.disabled)return;
-                    var id2=src.parentNode.id,
+                    var id2=src.parentNode.parentNode.parentNode.id,
                         item2 = profile.getItemByDom(id2);
                     if(item2.disabled)return;
 
@@ -25905,6 +25940,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                     SCROLL:{
                         $order:1,
                         tagName:'div',
+                        className:'ui-content ',
                         BODY:{
                             tagName:'div',
                             text:'{rows}'
@@ -26832,12 +26868,12 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                             if(getPro(profile, cell, 'disabled'))
                                 return false;
                             id = linb(src).parent().id();
-                            box._sel(profile, 'cell', src, id);
+                            box._sel(profile, 'cell', src, id, e);
                         }else if(mode=='row'){
                             if(p.disabled || cell._row.disabled)
                                 return false;
                             id = linb(src).parent(2).id();
-                            box._sel(profile, 'row', src, id);
+                            box._sel(profile, 'row', src, id, e);
                         }
                     }
                     //ie6: if 'a' has a child 'span', you click 'span' will not tigger to focus 'a'
@@ -27197,8 +27233,10 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                         cells.each(function(o){
                             if(o.parentNode.offsetWidth>0){
                                 n=map[profile.getSubId(o.id)];
-                                ns.push(o);
-                                ws.push(linb([o]).addClass(cls).width() + n._layer*ww);
+                                if(n){
+                                    ns.push(o);
+                                    ws.push(linb([o]).addClass(cls).width() + n._layer*ww);
+                                }
                             }
                         });
                         ws.push(pro._minColW);
@@ -27719,7 +27757,7 @@ caption
             }else
                 return value;
         },
-        _sel:function(profile, type, src, id, ctrl, shift){
+        _sel:function(profile, type, src, id, e){
             var properties=profile.properties;
             if(properties.activeMode!=type)return;
 
@@ -27727,9 +27765,10 @@ caption
                 map = type=='cell'?profile.cellMap:profile.rowMap,
                 box=profile.boxing(),
                 targetItem=map[targetId],
+                ks=linb.Event.getKey(e),
                 sid=type=='cell'?(targetItem._row.id+'|'+targetItem._col.id):targetItem.id,
                 mode=properties.selMode,
-                rt;
+                rt,rt2;
             switch(mode){
             case 'none':
                 rt=box.onRowSelected(profile, targetItem, src);
@@ -27737,30 +27776,51 @@ caption
             case 'multi':
                 var value = box.getUIValue(),
                     arr = value?value.split(';'):[];
+                if(arr.length&&(ks[1]||ks[2])){
+                    //for select
+                    rt2=false;
+                    //todo: give cell multi selection function
+                    if(ks[2] && type=='row'){
+                        if(profile.$firstV._pid!=targetItem._pid)return false;
+                        var items=properties.rows;
+                        if(targetItem._pid){
+                            var pitem=map[targetItem._pid];
+                            if(pitem)items=pitem.sub;
+                        }
+                        var i1=_.arr.subIndexOf(items,'id',profile.$firstV.id),
+                            i2=_.arr.subIndexOf(items,'id',targetItem.id),
+                            i;
+                        arr.length=0;
+                        for(i=Math.min(i1,i2);i<=Math.max(i1,i2);i++)
+                            arr.push(items[i].id);
+                    }else{
+                        if(_.arr.indexOf(arr,sid)!=-1)
+                            _.arr.removeValue(arr,sid);
+                        else
+                            arr.push(sid);
+                    }
 
-                if(_.arr.indexOf(arr,sid)!=-1)
-                    _.arr.removeValue(arr,sid);
-                else
-                    arr.push(sid);
-                arr.sort();
-                value = arr.join(';');
+                    arr.sort();
+                    value = arr.join(';');
 
-                //update string value only for setCtrlValue
-                if(box.getUIValue() == value)
-                    rt=false;
-                else{
-                    box.setUIValue(value);
+                    //update string value only for setCtrlValue
                     if(box.getUIValue() == value)
-                        rt=box.onRowSelected(profile, targetItem, src);
+                        rt=false;
+                    else{
+                        box.setUIValue(value);
+                        if(box.getUIValue() == value)
+                            rt=box.onRowSelected(profile, targetItem, src);
+                    }
+                    break;
                 }
-                break;
             case 'single':
                 if(box.getUIValue() == sid)
                     rt=false;
                 else{
+                    profile.$firstV=targetItem;
                     box.setUIValue(sid);
                     if(box.getUIValue() == sid)
-                        rt=box.onRowSelected(profile, targetItem, src);
+                        rt=box.onRowSelected(profile, targetItem, src)||rt2;
                 }
                 break;
             }

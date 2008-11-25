@@ -1,18 +1,18 @@
 
 Class('App', 'linb.Com',{
     Instance:{
-        tg2page:0, 
+        tg2page:0,
         //base Class for linb.Com
-        base:["linb.UI"], 
+        base:["linb.UI"],
         //requried class for the App
-        required:["linb.UI.Tabs", "linb.UI.TreeGrid", "linb.UI.Layout", "linb.UI.Panel", "linb.UI.ToolBar", "linb.UI.Block", "linb.UI.PageBar", "linb.UI.Dialog", "linb.UI.ComboInput", "linb.UI.Button"], 
+        required:["linb.UI.Tabs", "linb.UI.TreeGrid", "linb.UI.Layout", "linb.UI.Panel", "linb.UI.ToolBar", "linb.UI.Block", "linb.UI.PageBar", "linb.UI.Dialog", "linb.UI.ComboInput", "linb.UI.Button"],
         //Com events
-        events:{"onReady":"_onready", "onRender":"_onrender"}, 
-        _loaded:{}, 
+        events:{"onReady":"_onready", "onRender":"_onrender"},
+        _loaded:{},
         iniComponents:function(){
             // [[code created by jsLinb UI Builder
             var host=this, children=[], append=function(child){children.push(child.get(0))};
-            
+
             append((new linb.UI.Tabs)
                 .host(host,"tabs")
                 .setItems([{"id":"a", "caption":"editable,rowDragable,colMovable"}, {"id":"b", "caption":"data binding"}, {"id":"c", "caption":"grid for select"}, {"id":"d", "caption":"others"}])
@@ -20,7 +20,7 @@ Class('App', 'linb.Com',{
                 .setTop(0)
                 .onItemSelected("_tabs2_onitemselected")
             );
-            
+
             host.tabs.append((new linb.UI.Dialog)
                 .host(host,"dialog10")
                 .setLeft(20)
@@ -33,7 +33,7 @@ Class('App', 'linb.Com',{
                 .setCloseBtn(false)
                 .setPinBtn(false)
             , 'd');
-            
+
             host.dialog10.append((new linb.UI.TreeGrid)
                 .host(host,"tg5")
                 .setHeader([])
@@ -44,14 +44,14 @@ Class('App', 'linb.Com',{
                 .setDragKey("abc")
                 .afterUIValueSet("_tg5_afteruivalueset")
             );
-            
+
             host.tabs.append((new linb.UI.Layout)
                 .host(host,"layout4")
                 .setItems([{"id":"before", "pos":"before", "locked":false, "size":260, "min":50, "max":500, "hide":false, "cmd":false}, {"id":"main", "min":10}])
                 .setLeft(0)
                 .setTop(0)
             , 'b');
-            
+
             host.layout4.append((new linb.UI.TreeGrid)
                 .host(host,"tg2")
                 .setSelMode("none")
@@ -60,31 +60,29 @@ Class('App', 'linb.Com',{
                 .afterRowActive("_tg2_afterRowActive")
                 .setCustomStyle({'CELL':'border-right:none;padding-right:1px;'})
             , 'before');
-            
+
             host.layout4.append((new linb.UI.Panel)
                 .host(host,"panelFrom")
                 .setCaption("panelFrom")
             , 'main');
-            
+
             host.layout4.append((new linb.UI.Button)
                 .host(host,"button19")
                 .setLeft(520)
                 .setTop(50)
                 .setWidth(130)
-                .setHeight(30)
                 .setZIndex(10)
-                .setBorder(true)
                 .setCaption("Update")
                 .onClick("_button19_onclick")
             , 'main');
-            
+
             host.layout4.append((new linb.UI.Block)
                 .host(host,"block2")
                 .setDock("bottom")
                 .setHeight(24)
                 .setCustomStyle({"BORDER":"border:solid 1px #CDCDCD;", "PANEL":"background-color:#F4F4F4;"})
             , 'before');
-            
+
             host.block2.append((new linb.UI.PageBar)
                 .host(host,"pagebar3")
                 .setLeft(20)
@@ -92,7 +90,7 @@ Class('App', 'linb.Com',{
                 .setValue("1:1:5")
                 .onClick("_pagebar3_onclick")
             );
-            
+
             host.tabs.append((new linb.UI.ComboInput)
                 .host(host,"comboinput4")
                 .setLeft(80)
@@ -101,7 +99,7 @@ Class('App', 'linb.Com',{
                 .setItems([{"id":"a", "caption":"itema", "tips":"item a"}, {"id":"b", "caption":"itemb", "tips":"item b"}, {"id":"c", "caption":"itemc", "tips":"item c"}])
                 .onClickButton("_comboinput4_onclickbutton")
             , 'c');
-            
+
             host.tabs.append((new linb.UI.Dialog)
                 .host(host,"dialog7")
                 .setLeft(20)
@@ -114,14 +112,14 @@ Class('App', 'linb.Com',{
                 .setCloseBtn(false)
                 .setPinBtn(false)
             , 'd');
-            
+
             host.dialog7.append((new linb.UI.TreeGrid)
                 .host(host,"tg3")
                 .setSelMode("none")
                 .setHeader([])
                 .setRows([])
             );
-            
+
             host.tabs.append((new linb.UI.ComboInput)
                 .host(host,"comboinput8")
                 .setLeft(230)
@@ -130,7 +128,7 @@ Class('App', 'linb.Com',{
                 .setItems([{"id":"a", "caption":"itema", "tips":"item a"}, {"id":"b", "caption":"itemb", "tips":"item b"}, {"id":"c", "caption":"itemc", "tips":"item c"}])
                 .onClickButton("_comboinput8_onclickbutton")
             , 'c');
-            
+
             host.tabs.append((new linb.UI.ComboInput)
                 .host(host,"comboinput9")
                 .setLeft(80)
@@ -139,7 +137,7 @@ Class('App', 'linb.Com',{
                 .setItems([{"id":"a", "caption":"itema", "tips":"item a"}, {"id":"b", "caption":"itemb", "tips":"item b"}, {"id":"c", "caption":"itemc", "tips":"item c"}])
                 .onClickButton("_comboinput9_onclickbutton")
             , 'c');
-            
+
             host.tabs.append((new linb.UI.Dialog)
                 .host(host,"dialog8")
                 .setLeft(410)
@@ -152,7 +150,7 @@ Class('App', 'linb.Com',{
                 .setCloseBtn(false)
                 .setPinBtn(false)
             , 'd');
-            
+
             host.dialog8.append((new linb.UI.TreeGrid)
                 .host(host,"tg4")
                 .setSelMode("multi")
@@ -161,7 +159,7 @@ Class('App', 'linb.Com',{
                 .onGetContent("_tg4_ongetcontent")
                 .afterUIValueSet("_tg4_afteruivalueset")
             );
-            
+
             host.tabs.append((new linb.UI.TreeGrid)
                 .host(host,"tg1")
                 .setRowNumbered(true)
@@ -175,7 +173,7 @@ Class('App', 'linb.Com',{
                 .setDragKey("abc")
                 .onClickButton("_tg1_onClickButton")
             , 'a');
-            
+
             host.tabs.append((new linb.UI.Dialog)
                 .host(host,"dialog9")
                 .setLeft(410)
@@ -188,7 +186,7 @@ Class('App', 'linb.Com',{
                 .setCloseBtn(false)
                 .setPinBtn(false)
             , 'd');
-            
+
             host.dialog9.append((new linb.UI.TreeGrid)
                 .host(host,"tg6")
                 .setAltRowsBg(true)
@@ -196,7 +194,7 @@ Class('App', 'linb.Com',{
                 .setHeader([])
                 .setRows([])
             );
-            
+
             host.tabs.append((new linb.UI.ComboInput)
                 .host(host,"comboinput10")
                 .setLeft(230)
@@ -205,10 +203,10 @@ Class('App', 'linb.Com',{
                 .setItems([{"id":"a", "caption":"itema", "tips":"item a"}, {"id":"b", "caption":"itemb", "tips":"item b"}, {"id":"c", "caption":"itemc", "tips":"item c"}])
                 .onClickButton("_comboinput10_onclickbutton")
             , 'c');
-            
+
             return children;
             // ]]code created by jsLinb UI Builder
-        }, 
+        },
         _tabs2_onitemselected:function (profile, item, src) {
             var id=item.id;
             if(SPA._loaded[id])return;
@@ -252,7 +250,7 @@ Class('App', 'linb.Com',{
                     }]);
                     SPA.tg4.setHeader(['col1','col2','col3','col4'])
                     .setRows([{cells:['11','12','13','14'],sub:new linb.UI.Button({position:'relative'})},{id:'row2',cells:['21','22','23','24'],sub:true},['31','32','33','34'],['41','42','43','44']]);
-                    
+
                     SPA.tg5.setHeader(['col1','col2','col3','col4'])
                 .setRows([{cells:['11','12','13','14'],preview:'<h5>preview 1</h5><p>the preview message1 will displayed here</p>'},{cells:['21','22','23','24'],preview:'<h5>preview 2</h5><p>the preview message2 will displayed here</p>'},{id:'grp1',group:true,
                     caption:'group layer 1',
@@ -272,7 +270,7 @@ Class('App', 'linb.Com',{
             }
 
             SPA._loaded[id]=true;
-        }, 
+        },
         _tg1_onClickButton:function(profile, cell, proEditor){
             switch(profile.box.getCellPro(profile, cell, 'type')){
                 case 'getter':
@@ -284,7 +282,7 @@ Class('App', 'linb.Com',{
                     linb.message(cell._row.id+'/'+cell._header.id+' clicked!');
                 break;
             }
-        }, 
+        },
         _tg2_afterRowActive:function(profile, row){
             if(!SPA.$dbBinder){
                 SPA.$dbBinder = new linb.DataBinder();
@@ -369,9 +367,9 @@ Class('App', 'linb.Com',{
                 nodes.setPosition('relative');
 
                 for(var i=0;i<ns.length;i+=2){
-                    str += '<tr><td align="right" style="text-decoration:underline;">'+ ns[i][0] +"</td><td>"+ ns[i][1].build() +'</td>';
+                    str += '<tr><td align="right" style="text-decoration:underline;">'+ ns[i][0] +"</td><td>"+ ns[i][1].toHtml() +'</td>';
                     if(ns[i+1])
-                        str +='<td align="right"  style="text-decoration:underline;">'+ ns[i+1][0] +"</td><td>"+ ns[i+1][1].build() +'</td>';
+                        str +='<td align="right"  style="text-decoration:underline;">'+ ns[i+1][0] +"</td><td>"+ ns[i+1][1].toHtml() +'</td>';
                     str +='</tr>';
                 }
 
@@ -384,7 +382,7 @@ Class('App', 'linb.Com',{
                 hash[o._col.id]=o.value;
             });
             SPA.$dbBinder.resetValue(hash).getUI().setDisabled(false)
-        }, 
+        },
 //This function can build form dynamically
 /*        _tg2_afterRowActive:function(profile, row){
             SPA.panelFrom.setHtml('');
@@ -478,9 +476,9 @@ Class('App', 'linb.Com',{
             nodes.setPosition('relative');
 
             for(var i=0;i<ns.length;i+=2){
-                str += '<tr><td align="right" style="text-decoration:underline;">'+ ns[i][0] +"</td><td>"+ ns[i][1].build() +'</td>';
+                str += '<tr><td align="right" style="text-decoration:underline;">'+ ns[i][0] +"</td><td>"+ ns[i][1].toHtml() +'</td>';
                 if(ns[i+1])
-                    str +='<td align="right"  style="text-decoration:underline;">'+ ns[i+1][0] +"</td><td>"+ ns[i+1][1].build() +'</td>';
+                    str +='<td align="right"  style="text-decoration:underline;">'+ ns[i+1][0] +"</td><td>"+ ns[i+1][1].toHtml() +'</td>';
                 str +='</tr>';
             }
 
@@ -493,10 +491,10 @@ Class('App', 'linb.Com',{
             SPA=this;
             linb.UI.cacheData('demo',[{id:'a',caption:'cap a',icon:'img/img.gif'},{id:'b',caption:'cap b',icon:'img/img.gif',iconPos:'left -16px'},{id:'c',caption:'cap c',icon:'img/img.gif',iconPos:'left -32px'}]);
             linb.CSS.setStyleRules('.linb-demo1',{'background-color':'#AEDEAE'});
-        }, 
+        },
         _onrender:function () {
             SPA.tabs.fireItemClickEvent('a');
-        }, 
+        },
         _pagebar3_onclick:function (profile, src) {
 
             var self = profile.boxing(),
@@ -515,13 +513,13 @@ Class('App', 'linb.Com',{
             SPA.$curRow=null;
 
             return false;
-        }, 
+        },
         _tg4_afteruivalueset:function (profile, oldValue, newValue) {
             linb.message(newValue);
-        }, 
+        },
         _tg5_afteruivalueset:function (profile, oldValue, newValue) {
             linb.message(newValue);
-        }, 
+        },
         _poptg:function(profile, pos, mode1, mode2, callback){
             var g;
             if(!SPA.popTg){
@@ -544,7 +542,7 @@ Class('App', 'linb.Com',{
                 g.hide();
                 linb.Event.keyboardHook('esc');
             });
-        }, 
+        },
         _comboinput4_onclickbutton:function (profile, pos, e, src) {
             this._poptg(profile,pos,'cell','single',function(p, oldValue, newValue) {
                 var a=(newValue||'').split('|');
@@ -552,7 +550,7 @@ Class('App', 'linb.Com',{
                 profile.boxing().setUIValue(newValue.value);
                 SPA.popTg.hide();
              });
-        }, 
+        },
         _comboinput8_onclickbutton:function (profile, pos, e, src) {
             this._poptg(profile,pos,'cell','multi',function(p, oldValue, newValue) {
                 newValue=newValue||'';
@@ -564,18 +562,18 @@ Class('App', 'linb.Com',{
                 });
                 profile.boxing().setUIValue(a.join(';'));
              });
-        }, 
+        },
         _comboinput9_onclickbutton:function (profile, pos, e, src) {//
             this._poptg(profile,pos,'row','single',function(p, oldValue, newValue) {
                 profile.boxing().setUIValue(newValue);
                 SPA.popTg.hide();
              });
-        }, 
+        },
         _comboinput10_onclickbutton:function (profile, pos, e, src) {
              this._poptg(profile,pos,'row','multi',function(p, oldValue, newValue) {
                 profile.boxing().setUIValue(newValue);
              });
-        }, 
+        },
         _button19_onclick:function (profile, e, src, value) {
             if(SPA.$dbBinder && SPA.$curRow){
                 if(SPA.$dbBinder.checkValid()){

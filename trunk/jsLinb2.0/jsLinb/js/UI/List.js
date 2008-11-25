@@ -167,7 +167,8 @@ Class("linb.UI.List", ["linb.UI", "linb.absList","linb.absValue" ],{
                         item = profile.getItemByDom(src),
                         itemId =profile.getSubId(src.id),
                         box = profile.boxing(),
-                        rt;
+                        ks=linb.Event.getKey(e),
+                        rt,rt2;
 
                     if(properties.disabled|| item.disabled)return false;
 
@@ -179,26 +180,40 @@ Class("linb.UI.List", ["linb.UI", "linb.absList","linb.absValue" ],{
                         var value = box.getUIValue(),
                             arr = value?value.split(';'):[];
 
-                        if(_.arr.indexOf(arr,item.id)!=-1)
-                            _.arr.removeValue(arr,item.id);
-                        else
-                            arr.push(item.id);
-                        arr.sort();
-                        value = arr.join(';');
+                        if(arr.length&&(ks[1]||ks[2])){
+                            //for select
+                            rt2=false;
+                            if(ks[2]){
+                                var items=properties.items,
+                                    i1=_.arr.subIndexOf(items,'id',profile.$firstV.id),
+                                    i2=_.arr.subIndexOf(items,'id',item.id),
+                                    i;
+                                arr.length=0;
+                                for(i=Math.min(i1,i2);i<=Math.max(i1,i2);i++)
+                                    arr.push(items[i].id);
+                            }else{
+                                if(_.arr.indexOf(arr,item.id)!=-1)
+                                    _.arr.removeValue(arr,item.id);
+                                else
+                                    arr.push(item.id);
+                            }
 
-                        //update string value only for setCtrlValue
-                        if(box.getUIValue() == value)
-                            rt=false;
-                        else{
-                            box.setUIValue(value);
-                            if(box.getUIValue() == value)
-                                rt=box.onItemSelected(profile, item, src);
+                            arr.sort();
+                            value = arr.join(';');
+
+                            //update string value only for setCtrlValue
+                            if(box.getUIValue() != value){
+                                box.setUIValue(value);
+                                if(box.getUIValue() == value)
+                                    rt=box.onItemSelected(profile, item, src)||rt2;
+                            }
+                            break;
                         }
-                        break;
                     case 'single':
                         if(box.getUIValue() == item.id)
                             rt=false;
                         else{
+                            profile.$firstV=item;
                             box.setUIValue(item.id);
                             if(box.getUIValue() == item.id)
                                 rt=box.onItemSelected(profile, item, src);
