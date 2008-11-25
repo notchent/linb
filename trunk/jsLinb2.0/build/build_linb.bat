@@ -7,12 +7,12 @@ set rawPath=\linb-raw.js
 set debugPath=\linb-debug.js
 
 
-rem mkdir %outPath%
-rem mkdir %outPath%jsLinb
-rem mkdir %outPath%jsLinb\js
-rem mkdir %outPath%jsLinb\js\Com
-rem mkdir %outPath%jsLinb\Locale
-rem mkdir %outPath%jsLinb\appearance
+mkdir %outPath%
+mkdir %outPath%jsLinb
+mkdir %outPath%jsLinb\js
+mkdir %outPath%jsLinb\js\Com
+mkdir %outPath%jsLinb\Locale
+mkdir %outPath%jsLinb\appearance
 
 
 rem ==================
@@ -64,7 +64,7 @@ rem =======================
 set oPath=..\
 
 rd %oPath%%outPath% /S /Q
-rem mkdir %oPath%%outPath%
+mkdir %oPath%%outPath%
 xcopy %outPath%*.* %oPath%%outPath% /E /Y
 
 rd %outPath% /S /Q
