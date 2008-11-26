@@ -1,8 +1,8 @@
 Class('App.Test1', 'linb.Com',{
     Instance:{
         showDlg:function(){
-            if(this.dlgCaption)
-                this.dlg.setCaption(this.dlgCaption);
+            if(this.properties.dlgCaption)
+                this.dlg.setCaption(this.properties.dlgCaption);
             this.dlg.show();
         },
         events:{

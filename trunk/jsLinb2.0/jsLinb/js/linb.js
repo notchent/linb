@@ -123,7 +123,7 @@ _.merge(_,{
         else delete cache[k];
     },
     //Dependency: linb.Dom linb.Thread
-    observableRun:function(fun,node){
+    observableRun:function(fun){
         linb.Thread(0,typeof fun=='function'?[fun]:fun,0,0,function(){linb.Dom.busy()},function(){linb.Dom.free()}).start();
     },
 

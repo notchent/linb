@@ -409,8 +409,7 @@ _.set(linb.Locale,["en","doc"], {
         observableRun:{
             $desc:"Wraps a function to an UI-Observable thread and executes this thread. ",
             $paras:[
-                "fun [Required] : Function, arguments: [threadid]. The function to be wrapped. ",
-                "node [Optional] : Dom element ."
+                "fun [Required] : Function, arguments: [threadid]. The function to be wrapped. "
             ],
             $snippet:[
                 "_.observableRun(_.fun());",
@@ -4181,7 +4180,7 @@ _.set(linb.Locale,["en","doc","linb","ComFactory"], {
             "linb.ComFactory.setProfile({test1:'App.Test1',test2:'App.Test2'});"+
             "linb.ComFactory.setProfile('test1','App.Test1');"+
             "linb.ComFactory.setProfile({test1:{cls:'App.Test1'},test2:{cls:'App.Test2'}});"+
-            "linb.ComFactory.setProfile('test1',{cls:'App.Test1',props:{dlgCaption:'dialog caption'}});"+
+            "linb.ComFactory.setProfile('test1',{cls:'App.Test1',properties:{dlgCaption:'dialog caption'}});"+
             "alert(_.serialize(linb.ComFactory.getProfile()));"+
             "alert(linb.ComFactory.getProfile('test1'));"
         ]
@@ -4289,7 +4288,7 @@ _.set(linb.Locale,["en","doc","linb","ComFactory"], {
         ],
         $snippet:[
             "linb.ComFactory.destroyAll();"+
-            "linb.ComFactory.setProfile('test1',{cls:'App.Test1',props:{dlgCaption:'dialog caption'}});"+
+            "linb.ComFactory.setProfile('test1',{cls:'App.Test1',properties:{dlgCaption:'dialog caption'}});"+
             "linb.ComFactory.getCom('test1',function(){ this.showDlg(); _.asyRun(function(){linb.ComFactory.storeCom('test1')},1000); });"
         ]
     }
@@ -6555,7 +6554,8 @@ _.set(linb.Locale,["en","doc","linb","UI","Tag"], {
         $desc:"To replace the tagProfile with the profile.",
         $paras:[
             "tagProfile [Required] : the profile of linb.UI.Tag object.",
-            "profile [Required] : the profile of the target UI object"
+            "profile [Required] : the profile of the target UI object",
+            "com [Optional] : linb.Com object, if the tagProfile is in a com objcet directly(no parent UIProfile), you have to specify this."
         ],
         $demo:"Generally, you don't need to use this function manually."
     },

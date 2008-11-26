@@ -1,7 +1,7 @@
 Class('VisualJS.ClassStruct', 'linb.Com',{
     Instance:{
         events:{
-            onRender:function(page){
+            onRead:function(page){
                 page.setText(page.properties.text, true);
             }
         },

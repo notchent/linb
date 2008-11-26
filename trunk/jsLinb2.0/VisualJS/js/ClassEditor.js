@@ -1,26 +1,21 @@
 /*
-An editor for js class
+An editor for js jsLinb class
 */
 Class('VisualJS.ClassEditor', 'linb.Com',{
     Instance:{
-        views:null,
-        events:{
-            onRender:function(page, threadid){
-                page.views={};
-                linb.ComFactory.newCom('VisualJS.PageEditor',function(){
-                    var inn=this;
-                    inn.host = page;
-                    inn.setProperties({
-                        text:page.properties.text,
-                        checkType:'js'
-                    });
-                    inn.setEvents('onValueChanged',function(ipage, profile, b, r){
-                         _.tryF(page.events.onValueChanged, [page, ipage, b], page.host);
-                    });
-                    inn.show(null,page.buttonview,'normal');
+        $pageviewType:'linb.UI.ButtonViews',
+        $firstView:"normal",
 
-                    page.views['normal']=inn
-                },threadid);
+        views:{},
+        base:['linb.UI'],
+        required:[
+            'linb.UI.Tabs',
+            'linb.UI.ButtonViews',
+            'VisualJS.ClassTool'
+        ],
+        events:{
+            onReady:function(com, threadid){
+                com._loadSubBlock(com.$firstView,threadid)
             }
         },
         activate:function(){
@@ -62,10 +57,10 @@ Class('VisualJS.ClassEditor', 'linb.Com',{
 
             self.views[self.buttonview.getUIValue()].resetEnv(text);
         },
-        _buttonview_aftercreated:function(profile){
+        _onrender:function(profile){
             profile.getSubNode('PANEL',true).css({borderBottom:'0',borderLeft:'0',borderRight:'0'});
         },
-        _buttonview_beforeValueUpdated:function(profile, ov, nv){
+        _beforeValueUpdated:function(profile, ov, nv){
             var self=this,
                 p=self.properties,
                 t;
@@ -107,93 +102,104 @@ Class('VisualJS.ClassEditor', 'linb.Com',{
             }else
                 return false;
         },
-        _buttonview_onitemselected:function(profile, item, src){
+        _onitemselected:function(profile, item){
+            this._loadSubBlock(item.id);
+        },
+        _loadSubBlock:function(subId,threadid){
             var self=this,
                 p=self.properties,
                 t;
             if(!self.views) return;
 
             //set text to after editor view
-            if(!(t=self.views[item.id])){
-                if(item.id=='struct')
-                    linb.ComFactory.newCom('VisualJS.ClassStruct',function(){
-                        this
-                        .setHost(self)
-                        .setProperties({
+            if(!(t=self.views[subId])){
+                if(subId=='normal'){
+                    linb.ComFactory.newCom('VisualJS.PageEditor',function(threadid){
+                        var inn=this;
+                        inn.host = self;
+                        inn.setProperties({
+                            text:p.text,
+                            checkType:'js'
+                        })
+                        .setEvents('onValueChanged',function(ipage, profile, b, r){
+                             _.tryF(self.events.onValueChanged, [self, ipage, b], self.host);
+                        });
+     
+                        inn.create(function(o,threadid){
+                            self.buttonview.append(inn.getUIComponents(),'normal');
+                        },threadid);
+                        
+                        self.views['normal']=inn
+                    },threadid);
+                }else if(subId=='struct'){
+                    linb.ComFactory.newCom('VisualJS.ClassStruct',function(threadid){
+alert(p.text);
+                        var inn=this;
+                        inn.host = self;
+                        inn.setProperties({
                             text:p.text,
                             clsStruct:p.clsStruct,
                             clsObject:p.clsObject
                         })
-                        .setEvents({
-                            onValueChanged:function(ipage, profile, b){
-                                //need double check
-                                _.tryF(self.events.onValueChanged, [this, ipage, (p.textO != p.text) || b], self.host);
-                            }
+                        .setEvents('onValueChanged',function(ipage, profile, b, r){
+                             _.tryF(self.events.onValueChanged, [self, ipage, (p.textO != p.text) || b], self.host);
                         });
-
-                        this.show(null,self.buttonview,'struct');
-                        self.views['struct']=this;
+                        inn.create(function(o,threadid){
+                            self.buttonview.append(inn.getUIComponents(),'struct');
+                        },threadid);
+                        self.views['struct']=inn;
                     })
-                else if(item.id=='design')
+                }else if(subId=='design'){
                     linb.ComFactory.newCom('VisualJS.Designer',function(){
-                        this
-                        .setHost(self)
-                        .setProperties({
+                        var inn=this;
+                        inn.host = self;
+                        ini.setProperties({
                             $design:p.$design,
                             text:p.text,
                             clsStruct:p.clsStruct,
                             clsObject:p.clsObject
                         })
-                        .setEvents({
-                            onValueChanged:function(ipage, profile, b){
-                                //need double check
-                                _.tryF(self.events.onValueChanged, [this, ipage,  (p.textO != p.text) || b], self.host);
-                            }
+                        .setEvents('onValueChanged',function(ipage, profile, b, r){
+                             _.tryF(self.events.onValueChanged, [self, ipage, (p.textO != p.text) || b], self.host);
                         });
-
-                        this.show(null,self.buttonview,'design');
+                        inn.create(function(o,threadid){
+                            self.buttonview.append(inn.getUIComponents(),'struct');
+                        },threadid);
                         self.views['design']=this;
                     });
+                }
             }else{
                 _.observableRun(function(threadid){
                     if(t.created){
-                        if(item.id=='struct' || item.id=='design'){
+                        if(subId=='struct' || subId=='design'){
                             t.properties.clsStruct=p.clsStruct;
                             t.properties.clsObject=p.clsObject;
                         }
                         t.setText(p.text, false, threadid).activate();
                     }
-                },src);
+                });
             }
         },
-        base:['linb.UI'],
-        required:[
-            'linb.UI.Tabs',
-            'linb.UI.ButtonViews',
-            'VisualJS.ClassTool'
-        ],
+
         parepareData:function(properties){
             properties.textO = properties.text;
         },
-        iniComponents:function(){
+        iniExComs:function(){
             // [[code created by jsLinb UI Builder
-            var t=this, n=[], u=linb.UI, f=function(c){n.push(c.get(0))};
+            var host = this,
+                children = host._nodes,
+                pageview = (new (linb.SC.get(host.$pageviewType)))
+                    .host(host,"buttonview")
+                    .setItems([{"id":"normal","caption":"$VisualJS.classEditor.nv","icon":'@CONF.img_app',"iconPos":"-80px -48px","tips":"$VisualJS.classEditor.nvtips"},{"id":"struct","caption":"$VisualJS.classEditor.sv","icon":'@CONF.img_app',"iconPos":"-32px -48px","tips":"$VisualJS.classEditor.svtips"},{"id":"design","caption":"$VisualJS.classEditor.dv","icon":'@CONF.img_app',"iconPos":"-192px -48px","tips":"$VisualJS.classEditor.dvtips"}])
+                    .beforeUIValueSet("_beforeValueUpdated")
+                    .onRender("_onrender")
+                    .onItemSelected("_onitemselected")
+                    .setValue(host.$firstView)
 
-            f(
-            (new u.ButtonViews)
-            .host(t,"buttonview")
-            .setLeft(0)
-            .setTop(0)
-            .setItems([{"id":"normal","caption":"$VisualJS.classEditor.nv","icon":'@CONF.img_app',"iconPos":"-80px -48px","tips":"$VisualJS.classEditor.nvtips"},{"id":"struct","caption":"$VisualJS.classEditor.sv","icon":'@CONF.img_app',"iconPos":"-32px -48px","tips":"$VisualJS.classEditor.svtips"},{"id":"design","caption":"$VisualJS.classEditor.dv","icon":'@CONF.img_app',"iconPos":"-192px -48px","tips":"$VisualJS.classEditor.dvtips"}])
-            .setValue("normal")
-            .setBarSize("28")
-            .beforeUIValueSet("_buttonview_beforeValueUpdated")
-            .onRender("_buttonview_aftercreated")
-            .onItemSelected("_buttonview_onitemselected")
-            );
+            if(host.$pageviewType=='linb.UI.ButtonViews')
+                pageview.setBarSize(28);
 
-            return n;
-            // ]]code created by jsLinb UI Builder
+            children.push(pageview.get(0));
         }
     }
 });

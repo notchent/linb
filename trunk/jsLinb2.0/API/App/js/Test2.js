@@ -1,6 +1,6 @@
 Class('App.Test2', 'linb.Com',{
     Instance:{
-        props:{
+        properties:{
             pro1:'pro1'
         },
         iniComponents:function(){

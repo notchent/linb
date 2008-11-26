@@ -386,7 +386,7 @@ Class('VisualJS.Designer', 'linb.Com',{
                 page._enablePanelDesign(page.canvas.get(0));
 
                 //set to default status
-                page.setText(page.properties.text,true,threadid);
+                page.setText(page.properties.text||"",true,threadid);
             },
             onSelected:function(page, profile, ids){
                 var v=null, id = ids && ids[ids.length-1];

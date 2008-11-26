@@ -123,7 +123,7 @@ _.merge(_,{
         else delete cache[k];
     },
     //Dependency: linb.Dom linb.Thread
-    observableRun:function(fun,node){
+    observableRun:function(fun){
         linb.Thread(0,typeof fun=='function'?[fun]:fun,0,0,function(){linb.Dom.busy()},function(){linb.Dom.free()}).start();
     },
 
@@ -6506,6 +6506,8 @@ Class('linb.Com',null,{
                 if(self.background)
                     linb.SC.background(self.background);
                 self._fireEvent('onReady');
+            });
+            funs.push(function(threadid){
                 _.tryF(onEnd,[self, threadid],self.host);
             });
             //use asyUI to insert tasks
@@ -7909,12 +7911,16 @@ Class("linb.Tips", null,{
                 //ensure array
                 var iniMethod = p.iniMethod || ini || 'create',
                     clsPath = p.cls || p,
-                    props = p.props,
+                    properties = p.properties,
+                    events = p.events,
                     cls,
-                    task=function(cls,props,threadid){
+                    task=function(cls,properties,threadid){
                         var o = new cls();
-                        if(props)
-                            _.merge(o,props,'all');
+                        if(properties)
+                            _.merge(o.properties,properties,'all');
+                        if(events)
+                            _.merge(o.events,event,'all');
+
                         linb.ComFactory.setCom(id, o);
 
                         var args = [function(com){
@@ -7938,11 +7944,7 @@ Class("linb.Tips", null,{
                                                     // no UI in this com
                                                     if(!(root=ui.get(0)))return;
 
-                                                    linb.UI.Tag.replace(tag,root);
-
-                                                    //if the first layer, and in com's _nodes array
-                                                    if(firstlayer && com._nodes[i]==tag)
-                                                        com._nodes[i]=root;
+                                                    linb.UI.Tag.replace(tag,root,firstlayer?com:null);
                                                 },threadid]);
                                         }
                                         if(v.children){
@@ -7966,16 +7968,6 @@ Class("linb.Tips", null,{
                                 args:[threadid,o],
                                 scope:o
                             });
-
-                        //composed event here
-                        linb.Thread(threadid).insert({
-                            task:function(threadid){
-                                this._fireEvent('afterComposed');
-                            },
-                            args:[threadid],
-                            scope:o
-                        });
-
                         //latter
                         _.tryF(o[iniMethod], args, o);
                     };
@@ -7986,7 +7978,7 @@ Class("linb.Tips", null,{
                             if(cls=linb.SC.get(clsPath)){
                                 linb.Thread(threadid).insert({
                                     task:task,
-                                    args:[cls, props, threadid]
+                                    args:[cls, properties, threadid]
                                 });
                             }
                         };
@@ -8009,7 +8001,7 @@ Class("linb.Tips", null,{
             else
                 linb.Thread.observableRun(threadid,
                     [function(threadid){
-                        linb.SC(cls, function(path){
+                        linb.SC(cls, function(path,txt,threadid){
                             if(path){
                                 var o=linb.SC.get(cls);
                                 o=typeof o == 'function' ?new o():null;
@@ -11855,13 +11847,14 @@ new function(){
             },
             _l:_.toArr('left,top,bottom,right,width,height,zIndex,tabindex,position,dock,dockFloat,dockMinW,dockMinH,dockOrder,dockMargin'),
             //replace tag profile with other UI profile
-            replace:function(tagProfile, profile){
+            replace:function(tagProfile, profile, com){
                 //reset properties
                 _.arr.each(this._l,function(s){
                     if(s in tagProfile.properties)profile.properties[s]=tagProfile.properties[s];
                 });
                 _.merge(profile.CS,tagProfile.CS,'all');
                 _.merge(profile.CC,tagProfile.CC,'all');
+
                 //if parent exist, replace
                 if(tagProfile.parent){
                     //get tag link
@@ -11875,7 +11868,18 @@ new function(){
                     //detach tag from parent
                     tagProfile.unLink('$parent');
                     delete tagProfile.parent;
+                //for _nodes in com
+                }else if(com){
+                    _.arr.each(com._nodes,function(o,i){
+                        if(o===tagProfile){
+                            com._nodes[i]=profile;
+                            return false;
+                        }
+                    });
                 }
+                
+                if(tagProfile.domNode)
+                    profile.boxing().renderOnto(tagProfile.domNode);
             }
         }
     });

@@ -145,6 +145,8 @@ Class('linb.Com',null,{
                 if(self.background)
                     linb.SC.background(self.background);
                 self._fireEvent('onReady');
+            });
+            funs.push(function(threadid){
                 _.tryF(onEnd,[self, threadid],self.host);
             });
             //use asyUI to insert tasks

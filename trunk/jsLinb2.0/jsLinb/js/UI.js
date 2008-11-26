@@ -3623,13 +3623,14 @@ new function(){
             },
             _l:_.toArr('left,top,bottom,right,width,height,zIndex,tabindex,position,dock,dockFloat,dockMinW,dockMinH,dockOrder,dockMargin'),
             //replace tag profile with other UI profile
-            replace:function(tagProfile, profile){
+            replace:function(tagProfile, profile, com){
                 //reset properties
                 _.arr.each(this._l,function(s){
                     if(s in tagProfile.properties)profile.properties[s]=tagProfile.properties[s];
                 });
                 _.merge(profile.CS,tagProfile.CS,'all');
                 _.merge(profile.CC,tagProfile.CC,'all');
+
                 //if parent exist, replace
                 if(tagProfile.parent){
                     //get tag link
@@ -3643,7 +3644,18 @@ new function(){
                     //detach tag from parent
                     tagProfile.unLink('$parent');
                     delete tagProfile.parent;
+                //for _nodes in com
+                }else if(com){
+                    _.arr.each(com._nodes,function(o,i){
+                        if(o===tagProfile){
+                            com._nodes[i]=profile;
+                            return false;
+                        }
+                    });
                 }
+                
+                if(tagProfile.domNode)
+                    profile.boxing().renderOnto(tagProfile.domNode);
             }
         }
     });

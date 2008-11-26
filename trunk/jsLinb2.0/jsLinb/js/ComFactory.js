@@ -46,12 +46,16 @@ Class('linb.ComFactory',null,{
                 //ensure array
                 var iniMethod = p.iniMethod || ini || 'create',
                     clsPath = p.cls || p,
-                    props = p.props,
+                    properties = p.properties,
+                    events = p.events,
                     cls,
-                    task=function(cls,props,threadid){
+                    task=function(cls,properties,threadid){
                         var o = new cls();
-                        if(props)
-                            _.merge(o,props,'all');
+                        if(properties)
+                            _.merge(o.properties,properties,'all');
+                        if(events)
+                            _.merge(o.events,event,'all');
+
                         linb.ComFactory.setCom(id, o);
 
                         var args = [function(com){
@@ -75,11 +79,7 @@ Class('linb.ComFactory',null,{
                                                     // no UI in this com
                                                     if(!(root=ui.get(0)))return;
 
-                                                    linb.UI.Tag.replace(tag,root);
-
-                                                    //if the first layer, and in com's _nodes array
-                                                    if(firstlayer && com._nodes[i]==tag)
-                                                        com._nodes[i]=root;
+                                                    linb.UI.Tag.replace(tag,root,firstlayer?com:null);
                                                 },threadid]);
                                         }
                                         if(v.children){
@@ -103,16 +103,6 @@ Class('linb.ComFactory',null,{
                                 args:[threadid,o],
                                 scope:o
                             });
-
-                        //composed event here
-                        linb.Thread(threadid).insert({
-                            task:function(threadid){
-                                this._fireEvent('afterComposed');
-                            },
-                            args:[threadid],
-                            scope:o
-                        });
-
                         //latter
                         _.tryF(o[iniMethod], args, o);
                     };
@@ -123,7 +113,7 @@ Class('linb.ComFactory',null,{
                             if(cls=linb.SC.get(clsPath)){
                                 linb.Thread(threadid).insert({
                                     task:task,
-                                    args:[cls, props, threadid]
+                                    args:[cls, properties, threadid]
                                 });
                             }
                         };
@@ -146,7 +136,7 @@ Class('linb.ComFactory',null,{
             else
                 linb.Thread.observableRun(threadid,
                     [function(threadid){
-                        linb.SC(cls, function(path){
+                        linb.SC(cls, function(path,txt,threadid){
                             if(path){
                                 var o=linb.SC.get(cls);
                                 o=typeof o == 'function' ?new o():null;
