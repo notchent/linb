@@ -133,7 +133,6 @@ Class('VisualJS.ClassEditor', 'linb.Com',{
                     },threadid);
                 }else if(subId=='struct'){
                     linb.ComFactory.newCom('VisualJS.ClassStruct',function(threadid){
-alert(p.text);
                         var inn=this;
                         inn.host = self;
                         inn.setProperties({

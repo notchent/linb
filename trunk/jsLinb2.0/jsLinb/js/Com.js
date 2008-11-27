@@ -2,7 +2,7 @@
 beforeCreated
 onLoadBaseClass
 onLoadResource
-    loadResource (asy)
+    iniResources (asy)
 beforeIniComponents
     iniComponents (asy)
 afterIniComponents
@@ -113,10 +113,10 @@ Class('linb.Com',null,{
                     },function(){resume(threadid)});
                 });
             //load resource here
-            if(self.loadResource)
+            if(self.iniResources)
                 funs.push(function(){
                     self._fireEvent('onLoadResource');
-                    self._innerCall('loadResource');
+                    self._innerCall('iniResources');
                 });
             //load required class
             if((t=self.required) && t.length)

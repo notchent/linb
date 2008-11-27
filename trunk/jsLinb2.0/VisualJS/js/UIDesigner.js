@@ -2,37 +2,16 @@ Class('UIDesigner', 'linb.Com',{
     Instance:{
         $classEditor:null,
         $pageviewType:'linb.UI.Tabs', 
-        $firstView:"struct",
+        $firstView:"normal",
         $dftCodePath:'template/index.js',
         $code:'',
 
         events:{
             onReady:function(com, threadid){
-                //New an instance of VisualJS.ClassEditor
-                linb.ComFactory.newCom('VisualJS.ClassEditor',function(threadid){
-                    var inn=this;
-                    inn.host = com;
-                    inn.setProperties({
-                        text:com.$code,
-                        checkType:'js'
-                    });
-                    inn.$pageviewType=com.$pageviewType;
-                    inn.$firstView=com.$firstView;
-                    inn.setEvents('onValueChanged',function(ipage, profile, b, r){
-                         _.tryF(com.events.onValueChanged, [com, ipage, b], com.host);
-                    });
-                    
-                    //Create it first
-                    inn.create(function(o,threadid){
-                        //Replace the Tag one
-                        linb.UI.Tag.replace(com.container.get(0), inn.buttonview.get(0), com);
-                    },threadid);
-
-                    com.$classEditor=inn;
-                },threadid);
+                com.$classEditor.setText(com.$code);
             }
         }, 
-        loadResource:function(threadid){
+        iniResources:function(threadid){
             //Load default code
             var com=this;
             linb.Ajax(com.$dftCodePath,'',function(code){
@@ -40,6 +19,27 @@ Class('UIDesigner', 'linb.Com',{
             },function(){
                 alert(com.$dftCodePath + " doesn't exist!");
             },threadid).start();
+        },
+        iniExComs:function(threadid){
+            var com=this;
+            //New an instance of VisualJS.ClassEditor
+            linb.ComFactory.newCom('VisualJS.ClassEditor',function(threadid){
+                var inn=this;
+                inn.host = com;
+                inn.$pageviewType=com.$pageviewType;
+                inn.$firstView=com.$firstView;
+                inn.setEvents('onValueChanged',function(ipage, profile, b, r){
+                     _.tryF(com.events.onValueChanged, [com, ipage, b], com.host);
+                });
+                
+                //Create it first
+                inn.create(function(o,threadid){
+                    //Replace the Tag one
+                    linb.UI.Tag.replace(com.container.get(0), inn.buttonview.get(0), com);
+                },threadid);
+
+                com.$classEditor=inn;
+            },threadid);
         },
         iniComponents:function(){
             // [[code created by jsLinb UI Builder

@@ -1,14 +1,20 @@
 /*
-* This is the default code for creating a class inherit from linb.Com
-* Modify the code to fit your needs
+* The default code is a com class (inherited from linb.Com)
 */
 Class('{className}', 'linb.Com',{
     Instance:{
-        //base Class for linb.Com
+        //base Class for this com
         base:["linb.UI"],
-        //requried class for the App
+        //requried class for this com
         required:[],
-        //Com events
-        events:{}
+
+        properties:{},
+        events:{},
+        iniResources:function(threadid){
+        },
+        iniComponents:function(threadid){
+        },
+        iniExComs:function(threadid){
+        }
     }
 });

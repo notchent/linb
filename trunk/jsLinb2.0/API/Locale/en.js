@@ -3826,7 +3826,7 @@ _.set(linb.Locale,["en","doc","linb","Com"], {
             "com.base=['linb.UI','linb.Date'];"+
             "com.required=['linb.UI.Dialog','linb.UI.Button'];"+
             "com.iniComponents=function(){order.push('iniComponents'); return (new linb.UI.Dialog()).host(this, 'dialog2').setWidth(150).setHeight(150).get() };"+
-            "com.loadResource=function(){order.push('loadResource'); };"+
+            "com.iniResources=function(){order.push('iniResources'); };"+
             "com.iniExComs=function(){order.push('iniExComs'); };"+
 
             "var abox=com.getComponents();"+
@@ -3892,8 +3892,8 @@ _.set(linb.Locale,["en","doc","linb","Com"], {
             "            return children;\n" +
             "            // ]]code created by jsLinb UI Builder\n" +
             "        }," +
-            "        loadResource : function(){" +
-            "            this._info.push('loadResource');" +
+            "        iniResources : function(){" +
+            "            this._info.push('iniResources');" +
             "        }," +
             "        iniExComs : function(){" +
             "            this._info.push('iniExComs');" +
@@ -3932,8 +3932,8 @@ _.set(linb.Locale,["en","doc","linb","Com"], {
             "            return children;\n" +
             "            // ]]code created by jsLinb UI Builder\n" +
             "        }," +
-            "        loadResource : function(){" +
-            "            this._info.push('loadResource');" +
+            "        iniResources : function(){" +
+            "            this._info.push('iniResources');" +
             "        }," +
             "        iniExComs : function(){" +
             "            this._info.push('iniExComs');" +
