@@ -1,44 +1,44 @@
 Class('VisualJS.ClassStruct', 'linb.Com',{
     Instance:{
-        events:{
-            onRead:function(page){
-                page.setText(page.properties.text, true);
-            }
-        },
+        $PageEditor:null,
+        $curBlock:null, 
+        $bakValue:null,
+        $bakCurCode:null,
+        
         iniExComs:function(threadid){
             var self=this;
             linb.ComFactory.newCom('VisualJS.PageEditor',function(){
                 var inn=this;
                 inn.host = self;
-                inn.setProperties({
-                    checkType:'js'
-                });
+                inn.$data={text:''};
+                inn.$checkType='js';
+
                 inn.setEvents('onValueChanged',function(ipagprofile, e, b){
-                    //always true
-                    _.tryF(self.events.onValueChanged, [ipagprofile, e, self.$dirty || b], self.host);
+                    _.tryF(self.events.onValueChanged, [ipagprofile, e, b], self.host);
                 });
                 inn.show(null,self.layoutFill,'main', threadid);
 
-                self.PageEditor=inn;
+                self.$PageEditor=inn;
             },threadid);
         },
         activate:function(){
-            this.PageEditor.activate();
+            this.$PageEditor.activate();
         },
         check:function(txt){
-            return this.PageEditor.check(txt);
+            return this.$PageEditor.check(txt);
         },
-        getText:function(){
+        getValue:function(resetBak){
             var self=this,
-                p=self.properties,
-                r=self.refer,
-                //get frm pageeditor
-                txt = self.PageEditor.getText(false);
+                data=self.$data,
+                r=self.$curBlock,
+
+                txt = self.$PageEditor.getValue();
             if(txt===false)return false;
             //check dirty
-            if(self.$dirty || p.temptext != txt){
-                if(r){
-                    if(false === self.check(txt))return false;
+            if(data.$bakCurCode != txt){
+                if(!self.$readonly){
+                    if(false === self.check(txt))
+                        return false;
                     //parse comments and code, check code in the process
                     var result = VisualJS.ClassTool.parseSingleBlock(txt);
                     if(false === result){
@@ -46,30 +46,29 @@ Class('VisualJS.ClassStruct', 'linb.Com',{
                         return false;
                     }
                     //set back
-                    p.temptext = txt;
-
+                    data.$bakCurCode = txt;
+    
                     //set back and get new class text
                     r.comments = result.comments;
                     r.code = result.code;
-
-                    txt = VisualJS.ClassTool.getCodeFromStruct(p.clsStruct);
-                    return p.clsStruct.comments.replace(/^[\r\n]*/, '') + txt;
                 }
-            }
-            return p.text;
-        },
-        setText:function(txt, flag){
-            var self=this,
-                p=self.properties;
 
-            txt=txt.replace(/\r\n/g,'\n');
-            if(flag || p.text != txt){
-                p.text = txt;
-                var clsStruct = p.clsStruct,
-                    clsObject = p.clsObject;
-//linb.log('rebuild struct')
-                    value=self.treebarClass.getUIValue()
-                ;
+                txt = VisualJS.ClassTool.getCodeFromStruct(data.clsStruct);
+                txt=data.clsStruct.comments.replace(/^[\r\n]*/, '') + txt;
+
+                if(resetBak)
+                    self.$bakValue = txt;                
+                return txt;
+            }
+            return data.text;
+        },
+        refreshView:function(){
+            var self=this,
+                data=self.$data,
+                clsStruct = data.clsStruct,
+                clsObject = data.clsObject;
+                value=self.treebarClass.getUIValue();
+            if(self.$bakValue != data.text){
                 self.treebarClass.setValue(null,true);
                 var items=[
                     {id:'Class',caption:'Class', caption:clsStruct.name, icon:'img/App.gif', iconPos:'-16px -48px', group:true, sub:[
@@ -80,9 +79,11 @@ Class('VisualJS.ClassStruct', 'linb.Com',{
                         {id:'Before',caption:'Before', icon:'img/App.gif', iconPos:'-32px -32px'},
                         {id:'After',caption:'After', icon:'img/App.gif', iconPos:'-32px -32px'}
                 ]}];
-
-                var t,m,icon,j=items[0].sub;
-                t=p.clsStruct.sub;
+    
+                var t=clsStruct.sub,
+                    j=items[0].sub,
+                    m,icon;
+    
                 if(t){
                     m=t.Instance;
                     if(m && (m = m.sub)){
@@ -102,38 +103,32 @@ Class('VisualJS.ClassStruct', 'linb.Com',{
                         });
                     }
                 }
-
+    
                 //reset
-                delete self.refer;
-
+                delete self.$curBlock;
+    
                 self.treebarClass.setItems(items);
-                if(value)
-                    if(self.treebarClass.selectItem(value))
-                        return self;
-                 self.PageEditor.setText(txt||'').setReadonly(true);
+                if(value && self.treebarClass.getItemByItemId(value)){
+                    self.treebarClass.selectItem(value);
+                    self.$readonly=false;
+                }else{
+                    self.$PageEditor.setValue(data.text).setReadonly(true);
+                    self.$readonly=true;
+                }
             }
-            self.resetEnv(txt);
-            //self.PageEditor.setText(self.PageEditor.getText(),true)
-
             return self;
         },
-        resetEnv:function(text){
-            var self=this;
-            if(!text)text=self.getText();
-            self.$dirty=false;
-            self.properties.text = text;
-            self.PageEditor.resetEnv(text);
-        },
+ 
         _treebarclass_beforevalueupdated:function(profile, ov, nv){
             var self=this,
-                p=self.PageEditor;
-            if(!self.refer)return;
+                p=self.$PageEditor;
+            if(!self.$curBlock)return;
 
-            //get frm pageeditor
-            var txt = p.getText();
+            //get frm $PageEditor
+            var txt = p.getValue();
             if(txt===false)return false;
             //check dirty
-            if(self.properties.temptext != txt){
+            if(self.$bakCurCode != txt){
                 if(false === self.check(txt))return false;
                 //parse comments and code, check code in the process
                 var result = VisualJS.ClassTool.parseSingleBlock(txt);
@@ -143,20 +138,18 @@ Class('VisualJS.ClassStruct', 'linb.Com',{
                 }
 
                 //set back and get new class text
-                self.refer.comments = result.comments;
-                self.refer.code = result.code;
-
-                //set dirty
-                self.$dirty = true;
+                self.$curBlock.comments = result.comments;
+                self.$curBlock.code = result.code;
             }
         },
         _treebarclass_onitemselected:function(profile, item, node){
                 if(!item.id)return;
                 var self=this,
-                    p=self.PageEditor,
+                    data=self.$data,
+                    p=self.$PageEditor,
                     value = item.id;
                 _.observableRun(function(threadid){
-                    var o=self.properties.clsStruct,t,m,arr;
+                    var o=data.clsStruct,t,m,arr;
                     var comments, code;
                     switch(value){
                         case 'Class':
@@ -186,17 +179,17 @@ Class('VisualJS.ClassStruct', 'linb.Com',{
                     code = code || (o&&o.code) || '';
 
                     linb.Thread.suspend(threadid);
-                    var t = linb([node],false).cssRegion(true),
-                    pro = p.texteditor.reBoxing().cssRegion(true);
+                    var t = linb([node]).cssRegion(true),
+                        pro = p.texteditor.reBoxing().cssRegion(true);
 
                     linb.Dom.animate({border:'dashed 1px #ff0000'},{left:[t.left,pro.left],top:[t.top,pro.top],width:[t.width,pro.width],height:[t.height,pro.height]}
                         ,null,function(){
                             //keep old value
-                            p.setText(self.properties.temptext = comments+code).activate();
-                            p.setReadonly(value=='Class' || value=='Instance' || value=='Static')
+                            p.setValue(self.$bakCurCode = comments+code).activate();
+                            p.setReadonly(self.$readonly = value=='Class' || value=='Instance' || value=='Static')
 
                         },240,8,'inexp').start();
-                    self.refer=o;
+                    self.$curBlock=o;
                     linb.Thread.resume(threadid);
                 },node);
         },

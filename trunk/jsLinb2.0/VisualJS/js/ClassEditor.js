@@ -3,80 +3,69 @@ An editor for js jsLinb class
 */
 Class('VisualJS.ClassEditor', 'linb.Com',{
     Instance:{
+        $data:{},
         $pageviewType:'linb.UI.ButtonViews',
-
+        
         views:{},
-        base:['linb.UI'],
-        required:[
-            'linb.UI.Tabs',
-            'linb.UI.ButtonViews',
-            'VisualJS.ClassTool'
-        ],
+        
         activate:function(){
             var self=this,t;
-            if(!self.views) return;
             var view = self.buttonview.getUIValue();
             if(t=self.views[view])
-                if(t.created)
-                    t.activate();
+                t.activate();
         },
         onDestroy:function(){
              _.each(this.views,function(o){
                 o.destroy();
             });
         },
-        getText:function(){
+        getValue:function(resetBak){
             var view = this.buttonview.getUIValue();
-            return this.views[view].getText();
+            return this.views[view].getValue(resetBak);
         },
-        setText:function(txt, flag){
-            var self=this;
-            txt=txt.replace(/\r\n/g,'\n');
 
-            self.$data={
-                textO:txt,
-                text:txt,
-                clsStruct:null,
-                clsObject:null
-            };
-
-            return self;
-        },
         showPage:function(key){
+            //need to trigger beforeUIValueSet
             this.buttonview.setUIValue(key,true);
         },
-        resetEnv:function(text){
+        setValue:function(text){
             var self=this,
-                p=self.properties;
-            if(!text)text=self.getText();
-            p.clsStruct=p.clsObject=null;
-            p.textO = p.text = text;
+                data=self.$data;
+            text=text.replace(/\r\n/g,'\n');
 
-            self.views[self.buttonview.getUIValue()].resetEnv(text);
+            self.$bakValue=data.text = text;
+            data.clsStruct=data.clsObject=null;
+
+            var view = self.buttonview.getUIValue();
+            self.views[view].refreshView();
         },
         _beforeValueUpdated:function(profile, ov, nv){
             var self=this,
-                t,str=self.$data.text;
-console.log(nv,  self.views[nv])
+                data=self.$data,
+                t,str=data.text;
             if(t=self.views[ov]){
-                if(ov=='normal'){
-                    //not a class
-                    if(!VisualJS.ClassTool.isClassText(r)){
-                        p.clsStruct=p.clsObject=null;
-                        linb.message(linb.getRes('VisualJS.classtool.noClass'));
-                        return false;
+                //getvalue and reset the bak value
+                var r = t.getValue(true);
+                if(r!==data.text){
+                    if(ov=='normal'){
+                        //not a class
+                        if(!VisualJS.ClassTool.isClassText(r)){
+                            linb.message(linb.getRes('VisualJS.classtool.noClass'));
+                            return false;
+                        }
                     }
-                }
-
-                var r = t.getText();
-                if(false===r)
-                    return false;
-                else{
-                    if(false==self._adjustData(str=r))
+                    if(false===r)
                         return false;
+                    data.text=r;
                 }
             }
-            self.views[nv].setText(str);
+            
+            //adjust data
+            if(nv=='struct' || nv=='design')
+                if(false==self._adjustData(r))
+                    return false;
+
+            self.views[nv].refreshView();
         },
         _adjustData:function(str){
             var self=this,
@@ -110,8 +99,9 @@ console.log(nv,  self.views[nv])
                 var inn=this;
                 inn.host = self;
                 inn.$data=data;
-                inn.setEvents('onValueChanged',function(ipage, profile, b, r){
-                     _.tryF(self.events.onValueChanged, [self, ipage, b], self.host);
+                inn.$checkType='js';
+                inn.setEvents('onValueChanged',function(ipage, profile, b){
+                     _.tryF(self.events.onValueChanged, [self, ipage,  (self.$bakValue != data.text) || b], self.host);
                 });
                 inn.create(function(o,threadid){
                     self.buttonview.append(inn.getUIComponents(),'normal');
@@ -124,7 +114,7 @@ console.log('normal page created')
                 inn.host = self;
                 inn.$data=data;
                 inn.setEvents('onValueChanged',function(ipage, profile, b, r){
-                     _.tryF(self.events.onValueChanged, [self, ipage, (data.textO != data.text) || b], self.host);
+                     _.tryF(self.events.onValueChanged, [self, ipage, (self.$bakValue != data.text) || b], self.host);
                 });
                 inn.create(function(o,threadid){
                     self.buttonview.append(inn.getUIComponents(),'struct');
@@ -137,7 +127,7 @@ console.log('struct page created')
                 inn.host = self;
                 inn.$data=data;
                 inn.setEvents('onValueChanged',function(ipage, profile, b, r){
-                     _.tryF(self.events.onValueChanged, [self, ipage, (data.textO != datap.text) || b], self.host);
+                     _.tryF(self.events.onValueChanged, [self, ipage, (self.$bakValue != datap.text) || b], self.host);
                 });
                 inn.create(function(o,threadid){
                     self.buttonview.append(inn.getUIComponents(),'struct');

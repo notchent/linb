@@ -3,9 +3,10 @@ Class('VisualJS.PageEditor', 'linb.Com',{
     Instance:{
         events:{
             onReady:function(page){
-                if(page.properties.checkType!='js')
+                //todo: toolbar
+                if(page.$checkType!='js')
                     page.toolbar.showItem('check',false);
-                page.setText(page.properties.text);
+                page.setValue(page.properties.text);
            }
         },
         eval2:function(txt){
@@ -64,57 +65,49 @@ Class('VisualJS.PageEditor', 'linb.Com',{
             return r;
         },
         check:function(txt){
-            switch(this.properties.checkType){
+            switch(this.$checkType){
                 case 'js':
                     return this.eval2(txt);
                 break;
             }
             return true;
         },
-        //flag=false, not check
-        getText:function(flag){
+
+        getValue:function(resetBak, forceCheck){
             var self=this,
                 txt = self.texteditor.getUIValue().replace(/\r\n/g,'\n');
-            if(self.properties.text != txt){
-                if(false!==flag)
-                    if(self.check(txt)===false)return false;
+            if(self.$bakValue != txt || forceCheck){
+                if(self.check(txt)===false)
+                    return false;
+
+                if(resetBak)
+                    self.$bakValue = txt;
                 return txt;
             }else
-                return self.properties.text;
+                return self.$bakValue;
         },
         activate:function(){
-            if(this.texteditor){
-                var self=this;
-                _.asyRun(function(){
-                    self.texteditor.activate();self=null;
-                });
-            }
+            this.texteditor.activate();
         },
         setReadonly:function(b){
             this.texteditor.setReadonly(b);
         },
-        setText:function(txt, flag){
+        setValue:function(txt, flag){
             var self=this;
             txt = txt||'';
-            self.properties.text = txt.replace(/\r\n/g,'\n');
-            //self.texteditor.setUIValue(txt);
+            self.$bakValue=txt.replace(/\r\n/g,'\n');
             self.texteditor.setValue(txt,true);
-
-            //reset
-            self._dirty=false;
             return self;
         },
-        resetEnv:function(text){
-            this._dirty=false;
-            this.properties.text = text||txt.replace(/\r\n/g,'\n');
+        refreshView:function(txt){
+            var self=this;
+            if(self.$data.text!=self.getValue())
+                self.setValue(self.$data.text);
+            return self;
         },
-        _texteditor_onKeyPress:function(profile, oV, nV){
-            var self=this,
-                ov = self._dirty,a,b,r=nV.replace(/\r\n/g,'\n');
-            self._dirty = self.properties.text !== r;
-
-            if(ov!=self._dirty)
-                _.tryF(self.events.onValueChanged, [self, profile, self._dirty, r], self.host);
+        _texteditor_onChange:function(profile, oV, nV){
+            var self=this;
+           _.tryF(self.events.onValueChanged, [self, profile, oV!==nV, oV], self.host);
         },
         iniComponents:function(){
             // [[code created by jsLinb UI Builder
@@ -137,7 +130,7 @@ Class('VisualJS.PageEditor', 'linb.Com',{
             (new u.TextEditor)
             .host(t,"texteditor")
             .setDock("fill")
-            .onChange("_texteditor_onKeyPress")
+            .onChange("_texteditor_onChange")
             );
 
             return n;
@@ -145,23 +138,28 @@ Class('VisualJS.PageEditor', 'linb.Com',{
         }
         ,_toolbar_onclick: function(profile, item){
             var self=this;
-            _.observableRun(function(){
-                switch(item.id){
-                    case 'format':
-                        var code=linb.Coder.formatHTML(self.texteditor.getUIValue(), self.properties.checkType,['plain']);
-                        var dialog = new linb.UI.Dialog();
-                        dialog.setLeft(100).setTop(100).setWidth(300).setHeight(200).setStatus('max').setMinBtn(false).setMaxBtn(false).setCaption('$VisualJS.pageEditor.formatted')
-                        .render();
-                        dialog.setHtml(code);
-                        dialog.show(linb('body'),true);
-                        break;
-                    case 'check':
-                        var txt = self.getText();
-                        if(txt!==false)
-                            linb.message(linb.getRes('VisualJS.checkOK'));
-                        break;
-                }
-            });
+            switch(item.id){
+                case 'format':
+                    var code=linb.Coder.formatHTML(self.texteditor.getUIValue(), self.$checkType,['plain']),
+                        dialog = new linb.UI.Dialog({
+                            left:100,
+                            top:100,
+                            width:300,
+                            height:200,
+                            minBtn:false,
+                            maxBtn:false,
+                            status:'max',
+                            html:code,
+                            caption:'$VisualJS.pageEditor.formatted'
+                        });
+                    dialog.show(linb('body'),true);
+                    break;
+                case 'check':
+                    var txt = self.getValue();
+                    if(txt!==false)
+                        linb.message(linb.getRes('VisualJS.checkOK'));
+                    break;
+            }
         }
     }
 });

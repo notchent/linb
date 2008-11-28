@@ -4,19 +4,28 @@ Class('UIDesigner', 'linb.Com',{
         $pageviewType:'linb.UI.Tabs',
         $firstView:"normal",
         $dftCodePath:'template/index.js',
-        $code:'',
+        $iniCode:'',
 
+        onDestroy:function(){
+            this.$classEditor.destroy();
+        },
         events:{
+            onReady:function(){
+                SPA=this;
+            },
             onRender:function(com, threadid){
-                com.$classEditor.setText(com.$code);
                 com.$classEditor.showPage(com.$firstView);
+                com.setValue(com.$iniCode);
+            },
+            onValueChanged:function(com, ipage, b, nv){
+                console.log(b);
             }
         },
         iniResources:function(threadid){
             //Load default code
             var com=this;
             linb.Ajax(com.$dftCodePath,'',function(code){
-                com.$code=code.replace('{className}','App');
+                com.$iniCode=code.replace('{className}','App');
             },function(){
                 alert(com.$dftCodePath + " doesn't exist!");
             },threadid).start();
@@ -28,15 +37,9 @@ Class('UIDesigner', 'linb.Com',{
                 var inn=this;
                 inn.host = com;
                 inn.$pageviewType=com.$pageviewType;
-                inn.setEvents('onValueChanged',function(ipage, profile, b, r){
-                     _.tryF(com.events.onValueChanged, [com, ipage, b], com.host);
+                inn.setEvents('onValueChanged',function(ipage, profile, b, nV){
+                     _.tryF(com.events.onValueChanged, [com, ipage, b, nV], com.host);
                 });
-                inn.$data={
-                    textO:com.$code,
-                    text:com.$code,
-                    clsStruct:null,
-                    clsObject:null
-                };
 console.log('o')
                 //Create it first
                 inn.create(function(o,threadid){
@@ -47,6 +50,12 @@ console.log(4)
 
                 com.$classEditor=inn;
             },threadid);
+        },
+        getValue:function(){
+            return this.$classEditor.getValue();
+        },
+        setValue:function(str){
+            this.$classEditor.setValue(str);
         },
         iniComponents:function(){
             // [[code created by jsLinb UI Builder
