@@ -28,7 +28,7 @@ Class("linb.UI.Border","linb.UI",{
             var self=this, v=self.get(0),n,nl=null,tag='tag';
             if(n=v.$tieId)
                 if(n=linb.Dom.byId(n))
-                    linb(n).afterMouseover(nl,tag).afterMouseout(nl,tag).afterMouseup(nl,tag);
+                    linb(n).afterMouseover(nl,tag).afterMouseout(nl,tag).afterMousedown(nl,tag).afterMouseup(nl,tag);
             return self;
         }
     },

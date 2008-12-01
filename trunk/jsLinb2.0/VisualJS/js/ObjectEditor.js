@@ -62,7 +62,7 @@ Class('VisualJS.ObjectEditor', 'linb.Com',{
                 prop = page.properties,
                 dlg=page.dialog;
             dlg.setCaption(prop.caption).setImage(prop.image).setImagePos(prop.imagePos);
-            
+
 
             page.$PageEditor.setValue(prop.text);
             if(prop.fromRegion)
@@ -92,7 +92,7 @@ Class('VisualJS.ObjectEditor', 'linb.Com',{
             );
 
             t.dialog.append(
-            (new u.Pane)
+            (new u.Block)
             .host(t,"panelB")
             .setDock("bottom")
             .setHeight(35)

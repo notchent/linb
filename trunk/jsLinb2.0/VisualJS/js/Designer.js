@@ -56,7 +56,7 @@ Class('VisualJS.Designer', 'linb.Com',{
                 page.setViewSize(page.$viewSize['800']);
 
                 page.$curViewSize='800';
-                    
+
                 var tbpath = linb.ini.appPath+'img/designer/toolbar.gif',
                     tbk='$VisualJS.designer.tool.';
                 page.toolbar.setItems([{
@@ -575,26 +575,27 @@ Class('VisualJS.Designer', 'linb.Com',{
             var t=profile.behavior.DropableKeys;
             if(t && t.length)
                 self._enablePanelDesign(profile);
-             if(profile.children && profile.children.length){
+            if(profile.children && profile.children.length){
                 _.arr.each(profile.children,function(o){
                     me.call(self, o[0]);
                 });
-             }
-             //for UI refresh itself
-             profile.$addOns=function(profile){
+            }
+            //for UI refresh itself
+            profile.$addOns=function(profile){
                 me.call(self,profile);
             };
         },
 
         _WidgetsSelected : function(ids){
             var self=this;
-            this._setSelected(ids,true);
-            this.iconlist.setUIValue(null);
+            self._setSelected(ids,true);
+            self.iconlist.setUIValue(null);
         },
         _clearSelect : function(profile){
-            this.resizer.resetTarget(null,false);
-            this._detatchResizer();
-            this.iconlist.setUIValue(null);
+            var self=this;
+            self.resizer.resetTarget(null,false);
+            self._detatchResizer();
+            self.iconlist.setUIValue(null);
         },
         getByCacheId:function(idArr){
             var arr=[],t,n=linb.UI._cache;
@@ -605,9 +606,9 @@ Class('VisualJS.Designer', 'linb.Com',{
             return linb.UI.pack(arr,false);
         },
         _deleteSelected : function(){
-            if(!this.tempSelected || !this.tempSelected.length)return;
             var page = this;
-            linb.UI.Dialog.confirm(linb.getRes('VisualJS.designer.confirmdel'),linb.getRes('VisualJS.designer.confirmdel2', this.tempSelected.length),function(){
+            if(!page.tempSelected || !page.tempSelected.length)return;
+            linb.UI.Dialog.confirm(linb.getRes('VisualJS.designer.confirmdel'),linb.getRes('VisualJS.designer.confirmdel2', page.tempSelected.length),function(){
                 var sel = page.getByCacheId(page.tempSelected);
                 if(!sel.isEmpty()){
                     var ids=[];
@@ -635,22 +636,22 @@ Class('VisualJS.Designer', 'linb.Com',{
 
         },
         _giveHandler:function(target){
-            var prevent = function(){
-                return;
-            };
-            var page=this;
+            var prevent = function(){return},
+                page=this;
             target.root.beforeClick(prevent).afterClick(prevent).onClick(function(pro, e, src){
                 var esrc=linb.Event.getSrc(e),
                     id=esrc.id,profile;
 
                 //if lang span, get parent id
-                if(id==linb.langId)id=esrc.parentNode.id;
+                if(id==linb.$langId)
+                    id=esrc.parentNode.id;
 
                 if(linb.UIProfile.getFromDomId(id) !== (profile=linb.UIProfile.getFromDomId(src.id)))return;
 
+                if(!profile)return;
+
                 var t,key=linb.Event.$keyboard;
 
-                if(!profile)return;
                 //if change panel, clear the panel selected
                 if(page.pProfile && (page.pProfile !=profile.parent))
                     page.pProfile.selected = [];
@@ -698,8 +699,7 @@ Class('VisualJS.Designer', 'linb.Com',{
                     //show region
                     _.resetRun('setDropFace', dd.setDropFace, 0, [this], dd);
 
-                    var id = (id=profile.getItemByDom(src)) && id.id;
-                    if(profile.onDragEnter)profile.boxing().onDragEnter(profile, e, this, id);
+                    if(profile.onDragEnter)profile.boxing().onDragEnter(profile, e, this, key, data, profile.getItemByDom(src));
                 },
                 beforeDrop:function(profile, e, src){
                     self._change();
@@ -745,9 +745,9 @@ Class('VisualJS.Designer', 'linb.Com',{
 
                                     var p=target.get(0).properties;
 
-                                    if(!p.$left)target.setLeft(_.arr.indexOf(['top','bottom','width','fill','cover'],p.dock)!=-1?0:cssPos.left);
-                                    if(!p.$top)target.setTop(_.arr.indexOf(['left','right','height','fill','cover'],p.dock)!=-1?0:cssPos.top);
-                                    if(!p.$position)target.setPosition('absolute');
+                                    target.setLeft(_.arr.indexOf(['top','bottom','width','fill','cover'],p.dock)!=-1?0:cssPos.left);
+                                    target.setTop(_.arr.indexOf(['left','right','height','fill','cover'],p.dock)!=-1?0:cssPos.top);
+                                    target.setPosition('absolute');
                                     target.setZIndex(1);
                                 }else{
                                     //give design mark
@@ -1389,7 +1389,8 @@ Class('VisualJS.Designer', 'linb.Com',{
         },
         $profilegrid_beforecellvalueset: function(profile, cell,hash){
              this._change();
-             var page = this;
+             var page = this,
+             data=page.$data;
              try{
                 //get properties
                 var attr,t,type,funName,property,value,target=profile.$widget;
@@ -1413,7 +1414,7 @@ Class('VisualJS.Designer', 'linb.Com',{
                             target.each(function(o){
                                 o.boxing()[funName](value);
                             });
-                            if(_.arr.indexOf(['left','top','width','height','right','bottom','dock','dockOrder'],property)!=-1)
+                            if(_.arr.indexOf(['left','top','width','height','right','bottom','dock','dockOrder','dockMargin','dockFloat','dockIgnore','dockMinH','dockMinW'],property)!=-1)
                                 this.resizer.rePosSize();
                         }
                         break;
@@ -1427,7 +1428,7 @@ Class('VisualJS.Designer', 'linb.Com',{
                                 _.set(page.$data.clsStruct,['sub','Instance', 'sub','events', 'comments'],
                                     _.get(page.$data.clsStruct,['sub','Instance', 'sub','events', 'comments']) || ('\n'+_.str.repeat(' ',8)) );
 
-                                _.set(page.properties.clsObject,['Instance','events', property], hash.value);
+                                _.set(data.clsObject,['Instance','events', property], hash.value);
                             }
 
                         }else
@@ -1435,7 +1436,7 @@ Class('VisualJS.Designer', 'linb.Com',{
                                 if(hash.value){
                                     o[property]=hash.value;
                                     //hash.value=... from clsStruct
-                                    _.set(page.properties.clsObject,['Instance', property], hash.value);
+                                    _.set(data.clsObject,['Instance', property], hash.value);
                                 }else
                                     delete o[property];
                             });
@@ -1443,8 +1444,13 @@ Class('VisualJS.Designer', 'linb.Com',{
                     default:
                         if(property=='domId'){
                             //you can modify domId to original one
-                            if(target.get(0).$domId!=value && !/^[\w]*$/.test(value)){
+                            if(target.get(0).$domId!=value && !/^[\w_-]*$/.test(value)){
                                 linb.message(linb.getRes('VisualJS.designer.domIdValid',value));
+                                return false;
+                            }
+                            //if set to original name, not check dom again
+                            if(target.get(0).$domId!=value && linb.Dom.byId(value)){
+                                linb.message(linb.getRes('VisualJS.designer.domIdExists',value));
                                 return false;
                             }
                             //if empty, return to original name
@@ -1453,12 +1459,6 @@ Class('VisualJS.Designer', 'linb.Com',{
                                 _.asyRun(function(){
                                     profile.boxing().updateCell(cell,{value:value});
                                 });
-                                return false;
-                            }
-                            //if set to original name, not check dom again
-                            if(target.get(0).$domId!=value && linb.Dom.byId(value)){
-                                linb.message(linb.getRes('VisualJS.designer.domIdExists',value));
-                                return false;
                             }
                             this.listObject.setUIValue(value,true);
                             target.setDomId(value);
@@ -1682,7 +1682,7 @@ Class('VisualJS.Designer', 'linb.Com',{
                 $fun = function(profile, cell){
                     var o = cell.$tagVar;
                     var node = profile.getSubNode('CELL', cell._serialId);
-                    
+
                     linb.ComFactory.getCom('objEditor',function(){
                         this.host = page;
                         this.setProperties({
@@ -1711,7 +1711,7 @@ Class('VisualJS.Designer', 'linb.Com',{
                                 node.focus();
                             }
                         });
-                        this.show();                        
+                        this.show();
                     });
                 };
 
@@ -1724,7 +1724,7 @@ Class('VisualJS.Designer', 'linb.Com',{
                          ini:o
                     };
                     arr.push({id:'event:'+i, cells:[
-                        {value:i, type:null, $tagVar:null},
+                        {value:i, type:'lable'},
                         {value:typeof target[i]=='string'?target[i]:'', type: 'popbox', $tagVar:$tagVar, event:$fun}
                     ]});
                 });

@@ -422,7 +422,7 @@ Class('linb.UIProfile','linb.Profile', {
             var self=this,t,ele=linb.Dom.byId(self.domId);
             //for dynRender
             if(!ele)return;
-            
+
             //link dom
             self.root = linb([self.domNode = ele]);
             linb.cache.dom[self.domId] = linb.cache.dom[self.$domId] = self;
@@ -513,7 +513,7 @@ Class('linb.UIProfile','linb.Profile', {
         setDomId:function(id){
             var t=this, c=linb.cache.dom, reg=t._reg;
             //ensure the value
-            if(typeof id== 'string' && reg.test(id) && !linb.Dom.byId(id)){
+            if(typeof id== 'string' && (reg.test(id)||id==t.$domId) && !linb.Dom.byId(id)){
                 //delete the original one
                 if(t.domId!=t.$domId)delete c[t.domId];
                 //set profile's domId
@@ -936,7 +936,7 @@ Class("linb.UI",  "linb.absObj", {
             return this.each(function(profile){
                 _.resetRun(profile.$id+':busy',function(){
                     var parentNode=profile.getSubNode(key||'BORDER'),
-                        size=parentNode.cssSize(), 
+                        size=parentNode.cssSize(),
                         node;
                     if(!(node=profile.$busy)){
                         node=profile.$busy=linb.create('<div style="left:0;top:0;z-index:10;position:absolute;background-color:#DDD;"></div><div style="left:0;top:0;z-index:20;text-align:center;position:absolute;">'+html+'</div>');
@@ -966,7 +966,7 @@ Class("linb.UI",  "linb.absObj", {
         },
         render:function(triggerLayOut){
             var self=this, arr=[], i, l, o, t, m, div, matix,n=self._nodes, a=[],byId=linb.Dom.byId;
-            
+
             linb.UI.$applyCSS();
 
             for(i=0;o=n[i++];)
@@ -1372,21 +1372,21 @@ Class("linb.UI",  "linb.absObj", {
             },
             position:{
                 ini : 'absolute',
-                listbox:['relative','absolute'],
+                listbox:['static','relative','absolute'],
                 action:function(value){
                     if(this.domNode)
                         this.root.css('position',value);
                 }
             },
             visibility:{
-                combobox:['','visible','hidden'],
+                listbox:['visible','hidden'],
                 action:function(value){
                     if(this.domNode)
                         this.root.css('visibility',value);
                 }
             },
             display:{
-                combobox:['','none','block','inline','inline-block'],
+                listbox:['none','block','inline','inline-block'],
                 action:function(value){
                     if(this.domNode){
                         if(value=='inline-block')
@@ -1399,7 +1399,7 @@ Class("linb.UI",  "linb.absObj", {
         });
 
         self.setDataModel(hash);
-        
+
         linb.UI.$cache_css += linb.UI.buildCSSText({
             '.ui-ctrl':{
             },
@@ -1486,7 +1486,7 @@ Class("linb.UI",  "linb.absObj", {
                 background: linb.UI.$bg('busy.gif', ' no-repeat center center', true)
             },
             '.uibar-bar':{
-                position:'relative'  
+                position:'relative'
             },
             '.uibar-t':{
                 background: linb.UI.$bg('barvbg.gif', ' repeat-x left top', true),
@@ -1548,7 +1548,7 @@ Class("linb.UI",  "linb.absObj", {
                 top:0,
                 width:'100%',
                 height:'100%'
-            },            
+            },
             '.ui-dirty':{
                 background: linb.UI.$bg('dirty.gif', ' no-repeat left top', true)
             },
@@ -1575,7 +1575,7 @@ Class("linb.UI",  "linb.absObj", {
         $CLS:"#cls#",
         $tag_subId:"_serialId",
         $childTag:"<!--{id}-->",
-        
+
         $theme:'default',
         _getChildren:function(profile){
             return profile.children;
@@ -2496,7 +2496,7 @@ Class("linb.UI",  "linb.absObj", {
         DataModel:{
             tag:'',
             tagVar:{
-                ini:null
+                ini:{}
             },
             disabled:{
                 ini:false,
@@ -2951,6 +2951,8 @@ Class("linb.UI",  "linb.absObj", {
                 _.arr.each(p.items,function(o){if(o.object &&o.object['linb.UIProfile'])o.object=o.object.boxing()});
                 p.items = _.clone(p.items,function(o,i){return !t[(i+'').charAt(0)]&&o!=undefined});
             }
+            if(_.isEmpty(p.tagVar))
+                delete p.tagVar;
             if((t=p.dockMargin)&&!t.left&&!t.top&&!t.right&&!t.bottom)
                 delete p.dockMargin;
             if(p.items&&(p.items.length==0||p.listKey))
@@ -3037,7 +3039,7 @@ Class("linb.UI",  "linb.absObj", {
 
                 dataItem={id: item.id};
                 if(pid)dataItem._pid = pid;
-                
+
                 id=dataItem[SubID]=typeof serialId=='string'?serialId:profile.pickSubId('items');
 
                 if(false!==mapCache){
@@ -3151,7 +3153,7 @@ Class("linb.absList", "linb.absObj",{
                                     delete profile.SubSerialIdMapItem[serialId];
                                     delete profile.ItemIdMapSubSerialId[o.id];
                                     profile.reclaimSubId(serialId, 'items');
-    
+
                                     //parent node is deleted
                                     if(!force){
                                         if(!(obj = profile.getSubNode(profile.keys[key]?key:'ITEM', serialId) ).isEmpty() )
@@ -3682,7 +3684,7 @@ new function(){
                         }
                     });
                 }
-                
+
                 if(tagProfile.domNode)
                     profile.boxing().renderOnto(tagProfile.domNode);
             }

@@ -86,6 +86,7 @@ Class("linb.UI.ToolBar",["linb.UI","linb.absList"],{
                 left:0,
                 top:0
             },
+            ICON:{margin:0},
             ITEMS:{
                 display:'block',
                 border: 'solid 1px',

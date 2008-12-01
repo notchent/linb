@@ -28,7 +28,7 @@ Class("linb.UI.Block", "linb.UI.Widget",{
         self.setAppearance(t);
     },
     Static:{
-        Behaviors:{        
+        Behaviors:{
             DropableKeys:['PANEL']
         },
         DataModel:{

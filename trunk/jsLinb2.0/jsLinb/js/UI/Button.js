@@ -95,7 +95,7 @@ Class("linb.UI.Button", ["linb.UI.Widget","linb.absValue"],{
             },
             BORDER:{
                 'font-size':0,
-                'line-height':0                
+                'line-height':0
             },
             TDL:{
                 background: linb.UI.$bg('button.gif', ' no-repeat left top',true),
@@ -115,11 +115,11 @@ Class("linb.UI.Button", ["linb.UI.Widget","linb.absValue"],{
             },
             'BORDER-mouseover DROP':{
                 $order:11,
-                'background-position':'right -250px'            
+                'background-position':'right -250px'
             },
             'BORDER-mouseover DROP-mousedown':{
                 $order:12,
-                'background-position':'right -275px'            
+                'background-position':'right -275px'
             },
 
 
@@ -260,7 +260,7 @@ Class("linb.UI.Button", ["linb.UI.Widget","linb.absValue"],{
             value:false,
             type:{
                 ini:'normal',
-                listBox:['normal','status','drop','big'],
+                listbox:['normal','status','drop','big'],
                 action:function(value){
                     var self=this,
                         root=self.getRoot(),
