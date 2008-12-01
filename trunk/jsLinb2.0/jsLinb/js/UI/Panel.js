@@ -45,7 +45,7 @@ Class("linb.UI.Panel", "linb.UI.Div",{
                             $order:0
                         },
                         ICON:{
-                            style:'background:url({icon}) transparent  no-repeat {iconPos}; {iconDisplay}',
+                            style:'background:url({image}) transparent  no-repeat {imagePos}; {iconDisplay}',
                             className:'ui-icon',
                             $order:0
                         },
@@ -194,15 +194,14 @@ Class("linb.UI.Panel", "linb.UI.Div",{
                     this.getSubNode('CAPTION').get(0).innerHTML = value;
                 }
             },
-            // setIcon and getIcon
-            icon:{
+            image:{
                 action: function(value){
                     this.getSubNode('ICON')
                         .css('display',value?'':'none')
                         .css('backgroundImage','url('+(value||'')+')');
                 }
             },
-            iconPos:{
+            imagePos:{
                 action: function(value){
                     this.getSubNode('ICON')
                         .css('backgroundPosition', value);

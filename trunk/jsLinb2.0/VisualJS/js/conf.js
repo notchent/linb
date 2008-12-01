@@ -21,75 +21,73 @@ new function(){
 
         mapWidgets:{},
         widgets: [
-            {id:'linb.Data',caption:'Data', group:true, icon:'img/App.gif', iconPos:'-48px -48px', sub:[
-                {id:'linb.DataBinder', caption:'DataBinder', icon:'img/widgets.gif', iconPos:'-640px top', dragable:true}
+            {id:'linb.Data',caption:'Data', group:true, image:'img/App.gif', imagePos:'-48px -48px', sub:[
+                {id:'linb.DataBinder', caption:'DataBinder', image:'img/widgets.gif', imagePos:'-640px top', dragable:true}
             ]},
-            {id:'linb.UI.absForm',caption:'Form Elements',group:true, icon:_img_app, iconPos:'-48px -48px',sub:[
-                {id:'linb.UI.Tag', caption:'Tag Element', icon:_img_widgets, iconPos:'left top', dragable:true},
-                {id:'linb.UI.Div', caption:'Div Element', icon:_img_widgets, iconPos:'-624px top', dragable:true},
+            {id:'linb.UI.absForm',caption:'Form Elements',group:true, image:_img_app, imagePos:'-48px -48px',sub:[
+                {id:'linb.UI.Tag', caption:'Tag Element', image:_img_widgets, imagePos:'left top', dragable:true},
+                {id:'linb.UI.Div', caption:'Div Element', image:_img_widgets, imagePos:'-624px top', dragable:true},
 
-                {id:'linb.UI.Label', caption:'Label', icon:_img_widgets, iconPos:'-16px top', dragable:true},
-                {id:'linb.UI.Link', caption:'Link', icon:_img_widgets, iconPos:'-32px top', dragable:true},
-                {id:'linb.UI.Button', caption:'Button', icon:_img_widgets, iconPos:'-48px top', dragable:true/*, Appearances:['default','link','block']*/},
-                {id:'linb.UI.CheckBox', caption:'CheckBox', icon:_img_widgets, iconPos:'-96px top', dragable:true},
-                {id:'linb.UI.Input', caption:'Input', icon:_img_widgets, iconPos:'-112px top', dragable:true},
-                {id:'linb.UI.TextEditor', caption:'TextEditor', icon:_img_widgets, iconPos:'-128px top', dragable:true},
-                {id:'linb.UI.List', caption:'List', icon:_img_widgets, iconPos:'-192px top', dragable:true},
-                {id:'linb.UI.ComboInput', caption:'ComboInput', icon:_img_widgets, iconPos:'-144px top', dragable:true},
+                {id:'linb.UI.Label', caption:'Label', image:_img_widgets, imagePos:'-16px top', dragable:true},
+                {id:'linb.UI.Link', caption:'Link', image:_img_widgets, imagePos:'-32px top', dragable:true},
+                {id:'linb.UI.Button', caption:'Button', image:_img_widgets, imagePos:'-48px top', dragable:true/*, Appearances:['default','link','block']*/},
+                {id:'linb.UI.CheckBox', caption:'CheckBox', image:_img_widgets, imagePos:'-96px top', dragable:true},
+                {id:'linb.UI.Input', caption:'Input', image:_img_widgets, imagePos:'-112px top', dragable:true},
+                {id:'linb.UI.TextEditor', caption:'TextEditor', image:_img_widgets, imagePos:'-128px top', dragable:true},
+                {id:'linb.UI.List', caption:'List', image:_img_widgets, imagePos:'-192px top', dragable:true},
+                {id:'linb.UI.ComboInput', caption:'ComboInput', image:_img_widgets, imagePos:'-144px top', dragable:true},
 
-                {id:'linb.UI.ProgressBar', caption:'ProgressBar', icon:_img_widgets, iconPos:'-608px top', dragable:true},
+                {id:'linb.UI.ProgressBar', caption:'ProgressBar', image:_img_widgets, imagePos:'-608px top', dragable:true},
 
-                {id:'linb.UI.Range', caption:'Range', icon:_img_widgets, iconPos:'left -16px', dragable:true},
-                //{id:'linb.UI.ComboButton', caption:'ComboButton', icon:_img_widgets, iconPos:'-80px top', dragable:true},
-                {id:'linb.UI.TimePicker', caption:'TimePicker', icon:_img_widgets, iconPos:'-240px top', dragable:true},
-                {id:'linb.UI.DatePicker', caption:'DatePicker', icon:_img_widgets, iconPos:'-256px top', dragable:true},
-                {id:'linb.UI.ColorPicker', caption:'ColorPicker', icon:_img_widgets, iconPos:'-272px top', dragable:true},
-                {id:'linb.UI.RadioBox', caption:'RadioBox', icon:_img_widgets, iconPos:'-208px top', dragable:true},
-                {id:'linb.UI.Poll', caption:'Poll', icon:_img_widgets, iconPos:'-208px -16px', dragable:true},
-                {id:'linb.UI.Group', caption:'Group', icon:_img_widgets, iconPos:'-224px top', dragable:true}
+                {id:'linb.UI.Range', caption:'Range', image:_img_widgets, imagePos:'left -16px', dragable:true},
+                //{id:'linb.UI.ComboButton', caption:'ComboButton', image:_img_widgets, imagePos:'-80px top', dragable:true},
+                {id:'linb.UI.TimePicker', caption:'TimePicker', image:_img_widgets, imagePos:'-240px top', dragable:true},
+                {id:'linb.UI.DatePicker', caption:'DatePicker', image:_img_widgets, imagePos:'-256px top', dragable:true},
+                {id:'linb.UI.ColorPicker', caption:'ColorPicker', image:_img_widgets, imagePos:'-272px top', dragable:true},
+                {id:'linb.UI.RadioBox', caption:'RadioBox', image:_img_widgets, imagePos:'-208px top', dragable:true},
+                {id:'linb.UI.Poll', caption:'Poll', image:_img_widgets, imagePos:'-208px -16px', dragable:true},
+                {id:'linb.UI.Group', caption:'Group', image:_img_widgets, imagePos:'-224px top', dragable:true}
             ]},
-            {id:'linb.UI.absContainer',caption:'Containers',group:true, icon:_img_app, iconPos:'-48px -48px',sub:[
-                {id:'linb.UI.Pane', caption:'Pane', icon:_img_widgets, iconPos:'-288px top', dragable:true},
-                {id:'linb.UI.Panel', caption:'Panel', icon:_img_widgets, iconPos:'-672px top', dragable:true},
-                {id:'linb.UI.Block', caption:'Block', icon:_img_widgets, iconPos:'-304px top', dragable:true},
-                {id:'linb.UI.Layout', caption:'Layout', icon:_img_widgets, iconPos:'-336px top', dragable:true},
+            {id:'linb.UI.absContainer',caption:'Containers',group:true, image:_img_app, imagePos:'-48px -48px',sub:[
+                {id:'linb.UI.Pane', caption:'Pane', image:_img_widgets, imagePos:'-288px top', dragable:true},
+                {id:'linb.UI.Panel', caption:'Panel', image:_img_widgets, imagePos:'-672px top', dragable:true},
+                {id:'linb.UI.Block', caption:'Block', image:_img_widgets, imagePos:'-304px top', dragable:true},
+                {id:'linb.UI.Layout', caption:'Layout', image:_img_widgets, imagePos:'-336px top', dragable:true},
 
-                {id:'linb.UI.Tabs', caption:'Tabs', icon:_img_widgets, iconPos:'-352px top', dragable:true},
+                {id:'linb.UI.Tabs', caption:'Tabs', image:_img_widgets, imagePos:'-352px top', dragable:true},
 
-                {id:'linb.UI.Stacks', caption:'Stacks', icon:_img_widgets, iconPos:'-368px top', dragable:true},
-                {id:'linb.UI.ButtonViews', caption:'ButtonViews', icon:_img_widgets, iconPos:'-384px top', dragable:true},
-                {id:'linb.UI.IconList', caption:'IconList', icon:_img_widgets, iconPos:'-384px top', dragable:true},
-                {id:'linb.UI.Dialog', caption:'Dialog', icon:_img_widgets, iconPos:'-320px top', dragable:true}
+                {id:'linb.UI.Stacks', caption:'Stacks', image:_img_widgets, imagePos:'-368px top', dragable:true},
+                {id:'linb.UI.ButtonViews', caption:'ButtonViews', image:_img_widgets, imagePos:'-384px top', dragable:true},
+                {id:'linb.UI.IconList', caption:'IconList', image:_img_widgets, imagePos:'-384px top', dragable:true},
+                {id:'linb.UI.Dialog', caption:'Dialog', image:_img_widgets, imagePos:'-320px top', dragable:true}
             ]},
-            {id:'linb.UI.absNavigator',caption:'Navigators',group:true, icon:_img_app, iconPos:'-48px -48px', sub:[
-                {id:'linb.UI.PageBar', caption:'PageBar', icon:_img_widgets, iconPos:'-48px -16px', dragable:true},
+            {id:'linb.UI.absNavigator',caption:'Navigators',group:true, image:_img_app, imagePos:'-48px -48px', sub:[
+                {id:'linb.UI.PageBar', caption:'PageBar', image:_img_widgets, imagePos:'-48px -16px', dragable:true},
 
-                {id:'linb.UI.PopMenu', caption:'PopMenu', icon:_img_widgets, iconPos:'-400px top', dragable:true},
-                {id:'linb.UI.MenuBar', caption:'MenuBar', icon:_img_widgets, iconPos:'-416px top', dragable:true},
-                {id:'linb.UI.ToolBar', caption:'ToolBar', icon:_img_widgets, iconPos:'-432px top', dragable:true},
-                {id:'linb.UI.LinkList', caption:'LinkList', icon:_img_widgets, iconPos:'-16px -16px', dragable:true},
-                {id:'linb.UI.FoldingList', caption:'FoldingList', icon:_img_widgets, iconPos:'-32px -16px', dragable:true},
-                {id:'linb.UI.Gallery', caption:'Gallery', icon:_img_widgets, iconPos:'-448px top', dragable:true},
-                {id:'linb.UI.TreeBar', caption:'TreeBar', icon:_img_widgets, iconPos:'-464px top', dragable:true},
-                {id:'linb.UI.TreeGrid', caption:'TreeGrid', icon:_img_widgets, iconPos:'-480px top', dragable:true}
+                {id:'linb.UI.PopMenu', caption:'PopMenu', image:_img_widgets, imagePos:'-400px top', dragable:true},
+                {id:'linb.UI.MenuBar', caption:'MenuBar', image:_img_widgets, imagePos:'-416px top', dragable:true},
+                {id:'linb.UI.ToolBar', caption:'ToolBar', image:_img_widgets, imagePos:'-432px top', dragable:true},
+                {id:'linb.UI.LinkList', caption:'LinkList', image:_img_widgets, imagePos:'-16px -16px', dragable:true},
+                {id:'linb.UI.FoldingList', caption:'FoldingList', image:_img_widgets, imagePos:'-32px -16px', dragable:true},
+                {id:'linb.UI.Gallery', caption:'Gallery', image:_img_widgets, imagePos:'-448px top', dragable:true},
+                {id:'linb.UI.TreeBar', caption:'TreeBar', image:_img_widgets, imagePos:'-464px top', dragable:true},
+                {id:'linb.UI.TreeGrid', caption:'TreeGrid', image:_img_widgets, imagePos:'-480px top', dragable:true}
             ]},
-            {id:'linb.UI.absSchedule',caption:'Schedules',group:true, icon:_img_app, iconPos:'-48px -48px', sub:[
-                {id:'linb.UI.Calendar', caption:'Calendar', icon:_img_widgets, iconPos:'-496px top', dragable:true},
-                {id:'linb.UI.TimeLine', caption:'TimeLine', icon:_img_widgets, iconPos:'-528px top', dragable:true}
+            {id:'linb.UI.absSchedule',caption:'Schedules',group:true, image:_img_app, imagePos:'-48px -48px', sub:[
+                {id:'linb.UI.Calendar', caption:'Calendar', image:_img_widgets, imagePos:'-496px top', dragable:true},
+                {id:'linb.UI.TimeLine', caption:'TimeLine', image:_img_widgets, imagePos:'-528px top', dragable:true}
             ]},
-            {id:'linb.UI.absMisc',caption:'Medias',group:true, icon:_img_app, iconPos:'-48px -48px', sub:[
-                {id:'linb.UI.Image', caption:'Image Element', icon:_img_widgets, iconPos:'-624px top', dragable:true}
+            {id:'linb.UI.absMisc',caption:'Medias',group:true, image:_img_app, imagePos:'-48px -48px', sub:[
+                {id:'linb.UI.Image', caption:'Image Element', image:_img_widgets, imagePos:'-624px top', dragable:true}
 
 /*
-                {id:'linb.UI.Media', caption:'Media', icon:_img_widgets, iconPos:'-576px top', dragable:true},
-                {id:'linb.UI.Shape', caption:'Shape', icon:_img_widgets, iconPos:'-544px top', dragable:true},
-                {id:'linb.UI.Chart', caption:'Chart', icon:_img_widgets, iconPos:'-560px top', dragable:true}
+                {id:'linb.UI.Media', caption:'Media', image:_img_widgets, imagePos:'-576px top', dragable:true},
+                {id:'linb.UI.Shape', caption:'Shape', image:_img_widgets, imagePos:'-544px top', dragable:true},
+                {id:'linb.UI.Chart', caption:'Chart', image:_img_widgets, imagePos:'-560px top', dragable:true}
 */
             ]}
         ],
         ComFactoryProfile:{
-            _iniMethod:'create',
-
             about:{
                 cls:'VisualJS.About'
             },
@@ -104,6 +102,10 @@ new function(){
             },
             prjSel:{
                 cls:'VisualJS.ProjectSelector'
+            },
+            
+            objEditor:{
+                cls:'VisualJS.ObjectEditor'
             }
         }
     };

@@ -62,8 +62,8 @@ Class('App.linb_UI_Label', 'linb.Com',{
                 .setWidth(224)
                 .setHeight(32)
                 .setBorder(true)
-                .setCaption("label with icon")
-                .setIcon("img/demo.gif")
+                .setCaption("label with image")
+                .setImage("img/demo.gif")
             );
             
             append((new linb.UI.Label)

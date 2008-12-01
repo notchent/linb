@@ -1686,6 +1686,10 @@ Class('linb.SC',null,{
         callback: fire this function after all js loaded
         */
         loadSnips:function(pathArr,cache,callback,onEnd, id){
+            if(!pathArr || !pathArr.length){
+                _.tryF(onEnd,[id]);
+                return;
+            }
             var bak={}, options={$p:1,$cache:cache||linb.cache.text};
             for(var i=0,l=pathArr.length;i<l;i++)
                 bak[pathArr[i]]=1;

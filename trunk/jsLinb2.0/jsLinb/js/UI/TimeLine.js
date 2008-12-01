@@ -65,29 +65,6 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
         addTasks:function(arr){
             return this.insertItems(arr,null,true);
         },
-        refreshTask:function(id,options){
-            var self=this,
-                profile=self.get(0),
-                box=profile.box,
-                items=self.getItems(),
-                index=_.arr.subIndexOf(items, 'id', id),
-                item, oitem, arr;
-            if(index!=-1){
-                oitem=_.copy(item=items[index]);
-                _.merge(item, options, 'all');
-                arr=box._prepareItems(profile, [item],null,false);
-                item=arr[0];
-
-                if(oitem.caption!=item.caption)
-                    profile.getSubNodeByItemId('CON',id).html(item.caption);
-                if(oitem.background!=item.background)
-                    profile.getSubNodeByItemId('NORMAL',id).css('background',item.background);
-                if(oitem._left!=item._left || oitem._width!=item._width){
-                    box._resetItem(profile,{left:item._left, width:item._width},profile.getSubNodeByItemId('ITEM',id).get(0));
-                }
-            }
-            return self;
-        },
         removeTasks:function(ids){
             this.removeItems(ids);
             return this;
@@ -1683,7 +1660,7 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
                 this._setItemNode(profile, o,'width',w+'px');
         },
         _setItemNode:function(profile, item, key, value){
-            var t=item._node || (item._node = profile.getSubNodeByItemId('ITEM',item.id).get(0));
+            var t=profile.getSubNodeByItemId('ITEM',item.id).get(0);
             t.style[key]=value;
         },
         _getLinePos:function(profile,o){
@@ -1696,7 +1673,7 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
                 if(i===0)return;
                 b=true;
                 _.each(v,function(v){
-                    if(o!==v)
+                    if(o.id!==v.id)
                         if(((o._left + o._width)>=v._left) && ((v._left + v._width)>=o._left))
                             return b=false;
                 });

@@ -22,7 +22,7 @@ Class("linb.Template.PrdGallery","linb.Template",{
                     linb.Tips.hide();
                 },
                 onMousedown:function(profile,e,src){
-                    linb(src).startDrag(e,{dragType:"icon",dragCursor:"default",shadowFrom:src},'prd',profile.getItem(src));
+                    linb(src).startDrag(e,{dragType:"image",dragCursor:"default",shadowFrom:src},'prd',profile.getItem(src));
                     linb(src).css('backgroundColor','transparent');
                     linb.Tips.hide();
                 }

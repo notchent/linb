@@ -159,7 +159,7 @@ Class('linb.Template','linb.absProfile',{
             this.setDomId(id);
         },
         toHtml:function(properties){
-            return this._doTemplate(properties||this.properties);
+            return this._doTemplate(properties||this.properties||{});
         },
         _buildTemplate:function(str){
             if(typeof str=='string'){

@@ -6,7 +6,7 @@
                 dlg=self.dialog;
             if(prop.fromRegion)
                 dlg.setFromRegion(prop.fromRegion);
-            dlg.setCaption(prop.caption).setIcon(prop.icon).setIconPos(prop.iconPos);
+            dlg.setCaption(prop.caption).setImage(prop.image).setImagePos(prop.imagePos);
 
             if(!dlg.get(0).root)
                 dlg.render();
@@ -59,8 +59,8 @@
             .setTop(150)
             .setWidth(90)
             .setCaption("$VisualJS.cancel")
-            .setIcon('@CONF.img_app')
-            .setIconPos("-16px -16px")
+            .setImage('@CONF.img_app')
+            .setImagePos("-16px -16px")
             .onClick("_btncancel_onclick")
             );
 
@@ -71,8 +71,8 @@
             .setTop(150)
             .setWidth(90)
             .setCaption("$VisualJS.ok")
-            .setIcon('@CONF.img_app')
-            .setIconPos("-64px -16px")
+            .setImage('@CONF.img_app')
+            .setImagePos("-64px -16px")
             .onClick("_btnok_onclick")
             );
 

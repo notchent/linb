@@ -16,7 +16,9 @@ Class('VisualJS.ClassStruct', 'linb.Com',{
                 inn.setEvents('onValueChanged',function(ipagprofile, e, b){
                     _.tryF(self.events.onValueChanged, [ipagprofile, e, b], self.host);
                 });
-                inn.show(null,self.layoutFill,'main', threadid);
+                inn.create(function(o,threadid){
+                    self.layoutFill.append(inn.getUIComponents(),'main');
+                },threadid);
 
                 self.$PageEditor=inn;
             },threadid);
@@ -71,13 +73,13 @@ Class('VisualJS.ClassStruct', 'linb.Com',{
             if(self.$bakValue != data.text){
                 self.treebarClass.setValue(null,true);
                 var items=[
-                    {id:'Class',caption:'Class', caption:clsStruct.name, icon:'img/App.gif', iconPos:'-16px -48px', group:true, sub:[
-                        {id:'Constructor',caption:'Constructor', icon:'img/App.gif', iconPos:'-32px -32px'},
-                        {id:'Instance',caption:'Instance', icon:'img/App.gif', iconPos:'-16px -32px', sub:[]},
-                        {id:'Static',caption:'Static',  icon:'img/App.gif', iconPos:'-16px -32px', sub:[]},
-                        {id:'Initialize',caption:'Initialize', icon:'img/App.gif', iconPos:'-32px -32px'},
-                        {id:'Before',caption:'Before', icon:'img/App.gif', iconPos:'-32px -32px'},
-                        {id:'After',caption:'After', icon:'img/App.gif', iconPos:'-32px -32px'}
+                    {id:'Class',caption:'Class', caption:clsStruct.name, image:'img/App.gif', imagePos:'-16px -48px', group:true, sub:[
+                        {id:'Constructor',caption:'Constructor', image:'img/App.gif', imagePos:'-32px -32px'},
+                        {id:'Instance',caption:'Instance', image:'img/App.gif', imagePos:'-16px -32px', sub:[]},
+                        {id:'Static',caption:'Static',  image:'img/App.gif', imagePos:'-16px -32px', sub:[]},
+                        {id:'Initialize',caption:'Initialize', image:'img/App.gif', imagePos:'-32px -32px'},
+                        {id:'Before',caption:'Before', image:'img/App.gif', imagePos:'-32px -32px'},
+                        {id:'After',caption:'After', image:'img/App.gif', imagePos:'-32px -32px'}
                 ]}];
     
                 var t=clsStruct.sub,
@@ -91,7 +93,7 @@ Class('VisualJS.ClassStruct', 'linb.Com',{
                             icon = 'img/App.gif';
                             iconPos = (typeof clsObject.Instance[i] == 'function')?'-32px -32px':'0 -32px';
                             if(_.isHash(clsObject.Instance[i]))icon = 'block.gif';
-                            j[1].sub.push({id:'Instance.'+i, caption:i, icon:icon, iconPos:iconPos});
+                            j[1].sub.push({id:'Instance.'+i, caption:i, image:icon, imagePos:iconPos});
                         });
                     }
                     m=t.Static;
@@ -99,7 +101,7 @@ Class('VisualJS.ClassStruct', 'linb.Com',{
                         _.each(m,function(o,i){
                             icon = (typeof clsObject.Static[i] == 'function')?'function.gif':'property.gif';
                             if(_.isHash(clsObject.Static[i]))icon = 'block.gif';
-                            j[2].sub.push({id:'Static.'+i, caption:i,  icon:'img/'+icon});
+                            j[2].sub.push({id:'Static.'+i, caption:i,  image:'img/'+icon});
                         });
                     }
                 }

@@ -14,7 +14,7 @@ Class("linb.UI.RadioBox", "linb.UI.List",{
                         $order:0
                     },
                     ICON:{
-                        style:'background:url({icon}) transparent  no-repeat {iconPos};{iconDisplay}',
+                        style:'background:url({image}) transparent  no-repeat {imagePos};{iconDisplay}',
                         className:'ui-icon',
                         $order:1
                     },

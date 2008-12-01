@@ -1,15 +1,30 @@
 Class('VisualJS.Designer', 'linb.Com',{
     Instance:{
-        panelHeight:600,
-        panelWidth:800,
+        $bakCurCode:null,
+
+        $viewSize:{
+            '800':{
+                width:800,
+                height:600
+            },
+            '1024':{
+                width:1024,
+                height:768
+            },
+            '1280':{
+                width:1280,
+                height:1024
+            }
+        },
         dropPosition:'absolute',
         dropOffset:10,
+
         _setItems:function(target){
             var profile=target.get(0),
                 pro=profile.properties,
                 items=profile.box.$DataStruct.items,
-                key=profile.KEY;
-            
+                key=profile.key;
+
             if(key=='linb.UI.TreeGrid'){
                 pro.header=['col1','col2', 'col3', 'col4'];
                 pro.rows=[['row1 col1','row1 col2','row1 col3','row1 col4'],['row2 col1','row2 col2','row2 col3','row2 col4'],{cells:['row3 col1','row3 col2','row3 col3','row3 col4'],sub:[['sub1','sub2','sub3','sub4']]}];
@@ -26,8 +41,79 @@ Class('VisualJS.Designer', 'linb.Com',{
             }
         },
         events:{
-            onRender:function(page, threadid){
-                
+            onSelected:function(page, profile, ids){
+                var v=null, id = ids && ids[ids.length-1];
+                if(id){
+                    var o = linb.getObject(id);
+                    if(o)
+                        v = o;
+                }
+                page.listObject.setUIValue(v?v.alias:'page', true);
+
+                _.resetRun('$profilegrid$', page._refreshProfileGrid,0,[ids],page);
+            },
+            onReady:function(page){
+                page.setViewSize(page.$viewSize['800']);
+
+                page.$curViewSize='800';
+                    
+                var tbpath = linb.ini.appPath+'img/designer/toolbar.gif',
+                    tbk='$VisualJS.designer.tool.';
+                page.toolbar.setItems([{
+                    id:'code',
+                    sub:[
+                    {
+                        id : "viewsize",
+                        type:'button',
+                        dropButton:true,
+                        caption:'800 &#215 600',
+                        tips:tbk+'viewsize'
+                    },
+                    {
+                        id : "format",
+                        image : CONF.img_app,
+                        imagePos:"-32px -48px",
+                        type : "button",
+                        tips : tbk+'tocode'
+                    },{
+                        id : "json",
+                        image : CONF.img_app,
+                        imagePos:"-128px -64px",
+                        type : "button",
+                        tips : tbk+'tojson'
+                    }]},
+                    {id:'align',
+                    sub:[
+                        {id:'left',caption:'',image:tbpath,imagePos:'0 top', tips:tbk+'left'},
+                        {id:'center',caption:'',image:tbpath,imagePos:'-16px top',tips:tbk+'center'},
+                        {id:'right',caption:'',image:tbpath,imagePos:'-32px top',tips:tbk+'right'},
+                        {id:'s1',type:'split'},
+                        {id:'top',caption:'',image:tbpath,imagePos:'-48px top',tips:tbk+'top'},
+                        {id:'middle',caption:'',image:tbpath,imagePos:'-64px top',tips:tbk+'middle'},
+                        {id:'bottom',caption:'',image:tbpath,imagePos:'-80px top',tips:tbk+'bottom'},
+                        {id:'s2',type:'split'},
+                        {id:'w',caption:'',image:tbpath,imagePos:'-96px top',tips:tbk+'width'},
+                        {id:'wh',caption:'',image:tbpath,imagePos:'-112px top',tips:tbk+'wh'},
+                        {id:'h',caption:'',image:tbpath,imagePos:'-128px top',tips:tbk+'height'}
+                    ]},
+                    {id:'pos',
+                    sub:[
+                        {id:'zindex1',caption:'',image:tbpath,imagePos:'-144px top',tips:tbk+'toplayer'},
+                        {id:'zindex2',caption:'',image:tbpath,imagePos:'-160px top',tips:tbk+'bottomlayer'},
+                        {id:'s1',type:'split'},
+                        {id:'repos',caption:'',image:tbpath,imagePos:'-176px top',tips:tbk+'gridxy'},
+                        {id:'resize',caption:'',image:tbpath,imagePos:'-192px top',tips:tbk+'gridwh'},
+                        {id:'s2',type:'split'},
+                        {id:'clone',caption:'',image:tbpath,imagePos:'-240px top',tips:tbk+'clone'}
+                    ]},
+                    {id:'del',
+                    sub:[
+                        {id:'delete',caption:'',image:tbpath,imagePos:'-256px top', tips:tbk+'delete'}
+                    ]}
+                    ]
+                );
+            },
+            onRender:function(page){
                 var _refresh=page._refresh=function(obj, key){
                     obj.each(function(profile){
                         var t = (profile.domNode)?profile.root[key]():profile.properties[key];
@@ -239,15 +325,15 @@ Class('VisualJS.Designer', 'linb.Com',{
 
                             if(item.dragable){
                                 profile.getSubNode('ICON', itemId).startDrag(e,{
-                                    dragType:'icon', 
-                                    proxyNode:linb(src).clone(true).id('', true).css({border:'solid 1px #ccc',padding:'3px',opacity:0.6}),
-                                    dragCursor:'pointer', 
+                                    dragType:'icon',
+                                    shadowFrom:src,
+                                    dragCursor:'pointer',
                                     targetLeft:pos.left+12,
-                                    targetTop:pos.top+12, 
-                                    dragKey:item.dragKey || profile.properties.dragKey, 
+                                    targetTop:pos.top+12,
+                                    dragKey:item.dragKey || profile.properties.dragKey,
                                     dragData:{
-                                        type:item.id, 
-                                        iconPos:item.iconPos
+                                        type:item.id,
+                                        imagePos:item.imagePos
                                     }
                                 });
                                 linb([src]).tagClass('-mouseover',false);
@@ -385,74 +471,6 @@ Class('VisualJS.Designer', 'linb.Com',{
 
                 page._enablePanelDesign(page.canvas.get(0));
 
-                //set to default status
-                page.setText(page.properties.text||"",true,threadid);
-            },
-            onSelected:function(page, profile, ids){
-                var v=null, id = ids && ids[ids.length-1];
-                if(id){
-                    var o = linb.getObject(id);
-                    if(o)
-                        v = o;
-                }
-                page.listObject.setUIValue(v?v.alias:'page', true);
-
-                _.resetRun('$profilegrid$', page._refreshProfileGrid,0,[ids],page);
-            },
-            onReady:function(page){
-                //set canvas width, height
-                page.canvas.setWidth(page.panelWidth).setHeight(page.panelHeight);
-                page.panelBG.setWidth(page.panelWidth).setHeight(page.panelHeight);
-                
-
-                var tbpath = linb.ini.appPath+'img/designer/toolbar.gif',
-                    tbk='$VisualJS.designer.tool.';
-                page.toolbar.setItems([{
-                    id:'code',
-                    sub:[
-                    {
-                        id : "format",
-                        icon : CONF.img_app,
-                        iconPos:"-32px -48px",
-                        type : "button",
-                        tips : tbk+'tocode'
-                    },{
-                        id : "json",
-                        icon : CONF.img_app,
-                        iconPos:"-128px -64px",
-                        type : "button",
-                        tips : tbk+'tojson'
-                    }]},
-                    {id:'align',
-                    sub:[
-                        {id:'left',caption:'',icon:tbpath,iconPos:'0 top', tips:tbk+'left'},
-                        {id:'center',caption:'',icon:tbpath,iconPos:'-16px top',tips:tbk+'center'},
-                        {id:'right',caption:'',icon:tbpath,iconPos:'-32px top',tips:tbk+'right'},
-                        {id:'s1',type:'split'},
-                        {id:'top',caption:'',icon:tbpath,iconPos:'-48px top',tips:tbk+'top'},
-                        {id:'middle',caption:'',icon:tbpath,iconPos:'-64px top',tips:tbk+'middle'},
-                        {id:'bottom',caption:'',icon:tbpath,iconPos:'-80px top',tips:tbk+'bottom'},
-                        {id:'s2',type:'split'},
-                        {id:'w',caption:'',icon:tbpath,iconPos:'-96px top',tips:tbk+'width'},
-                        {id:'wh',caption:'',icon:tbpath,iconPos:'-112px top',tips:tbk+'wh'},
-                        {id:'h',caption:'',icon:tbpath,iconPos:'-128px top',tips:tbk+'height'}
-                    ]},
-                    {id:'pos',
-                    sub:[
-                        {id:'zindex1',caption:'',icon:tbpath,iconPos:'-144px top',tips:tbk+'toplayer'},
-                        {id:'zindex2',caption:'',icon:tbpath,iconPos:'-160px top',tips:tbk+'bottomlayer'},
-                        {id:'s1',type:'split'},
-                        {id:'repos',caption:'',icon:tbpath,iconPos:'-176px top',tips:tbk+'gridxy'},
-                        {id:'resize',caption:'',icon:tbpath,iconPos:'-192px top',tips:tbk+'gridwh'},
-                        {id:'s2',type:'split'},
-                        {id:'clone',caption:'',icon:tbpath,iconPos:'-240px top',tips:tbk+'clone'}
-                    ]},
-                    {id:'del',
-                    sub:[
-                        {id:'delete',caption:'',icon:tbpath,iconPos:'-256px top', tips:tbk+'delete'}
-                    ]}
-                    ]
-                );
             }
         },
         //dettach resizer and proxy from panel
@@ -693,7 +711,7 @@ Class('VisualJS.Designer', 'linb.Com',{
                         dragKey = dd.dragKey,
                         dragData = dd.dragData,
                         type=dragData.type,
-                        iconPos = dragData.iconPos,
+                        imagePos = dragData.imagePos,
                         data=dragData.data,
                         pos=dragData.pos,
 
@@ -705,7 +723,7 @@ Class('VisualJS.Designer', 'linb.Com',{
                             if(!(t['linb.UI'] && !t.$noDomRoot)){
                                 //give design mark
                                 var o = linb.create(type, {$design:self.properties.$design}).get(0);
-                                page.iconlist.insertItems([{id:o.$id, image:'img/widgets.gif', iconPos:iconPos}],null,false);
+                                page.iconlist.insertItems([{id:o.$id, image:'img/widgets.gif', imagePos:imagePos}],null,false);
                                 page.iconlist.setUIValue(o.$id);
                                 //
                             }else{
@@ -982,25 +1000,28 @@ Class('VisualJS.Designer', 'linb.Com',{
 
         },
         _refreshProfileGrid:function(ids){
-            var page=this;
-            //delete grid first
-            this.profileGrid.removeAllRows();
+            var page=this,
+                data=page.$data;
+            page.profileGrid.removeAllRows();
             if(!ids || !ids.length){
-                var pro = this.canvas.get(0);
-                var arr=[];
-                var eh = _.get(this.properties.clsObject,['Static','EventHandlers']);
+                var pro = this.canvas.get(0),
+                    arr=[],
+                    eh=_.get(data.clsObject,['Static','EventHandlers']),
+                    em=_.get(data.clsObject,['Instance','events']);
                 if(!eh)eh=linb.Com.EventHandlers;
-                var em=_.get(this.properties.clsObject,['Instance','events']);
                 var getCode=function(o){
-                    var code;
+                    var code,
+                        em = _.get(o.clsStruct,['sub','Instance', 'sub','events', 'code']);
+                    if(em)
+                        em=_.unserialize(em);
+                    else
+                        em={};
 
-                    var em = _.get(o.clsStruct,['sub','Instance', 'sub','events', 'code']);
-                    if(em)em=_.unserialize(em);else em={};
-
-                    var funName = em[o.funName] || ('_'+o.funName.toLowerCase());
-                    var item = _.get(o.clsStruct, ['sub','Instance', 'sub', funName]);
-                    var comments = (item? (item.comments || '') :'');
-                    if(comments)comments = comments.replace(/^[\r\n]*/, '');
+                    var funName = em[o.funName] || ('_'+o.funName.toLowerCase()),
+                        item = _.get(o.clsStruct, ['sub','Instance', 'sub', funName]);
+                        comments = (item? (item.comments || '') :'');
+                    if(comments)
+                        comments = comments.replace(/^[\r\n]*/, '');
 
                     //if em exists
                     if(item&&item.code){
@@ -1027,13 +1048,13 @@ Class('VisualJS.Designer', 'linb.Com',{
                 };
                 _.each(eh,function(o,i){
                     var $fun = function(profile, cell){
-                        var o = cell.$tagVar;
-                        var node = profile.getSubNode('CELL', cell._serialId);
-                        linb.ComFactory.newCom('VisualJS.ObjectEditor',function(){
+                        var o = cell.$tagVar,
+                            node = profile.getSubNode('CELL', cell._serialId);
+                        linb.ComFactory.getCom('objEditor',function(){
                             this.host = page;
                             this.setProperties({
-                                icon:CONF.img_app,
-                                iconPos:'-32px -32px',
+                                image:CONF.img_app,
+                                imagePos:'-32px -32px',
                                 text: getCode(o),
                                 caption:o.widgetName+" => "+o.funName,
                                 fromRegion:node.cssRegion(true),
@@ -1062,15 +1083,15 @@ Class('VisualJS.Designer', 'linb.Com',{
                                     node.focus();
                                 }
                             });
-                            this.show(linb([document.body]));
+                            this.show();
                         });
 
                     },
                     $tagVar = {
                          widgetName: 'page',
-                         obj : this.properties.clsObject,
-                         clsStruct: this.properties.clsStruct,
-                         clsObject: this.properties.clsObject,
+                         obj : data.clsObject,
+                         clsStruct: data.clsStruct,
+                         clsObject: data.clsObject,
                          funName: i,
                          mapName:(em&&em[i])||'',
                          ini:o
@@ -1079,36 +1100,35 @@ Class('VisualJS.Designer', 'linb.Com',{
                         {value:i, type:null, $tagVar: null, event:null },
                         {value:(em&&em[i])||'', type:'popbox', $tagVar:$tagVar, event:$fun}]
                     });
-                },this);
+                });
                 var rows=[
                     {id:'alias',           cells:[{value:'alias', type:'label'},{value: "page", type:'label'}] },
                     {id:'domId',           cells:[{value:'domId', type:'label'},{value: "*", type:'label'}] },
                     {id:'properties:width', cells:[{value:'width',type:'label'}, {value: pro.properties.width}] },
                     {id:'properties:height',cells:[{value:'height', type:'label'}, {value: pro.properties.height}] },
-                    {id:'UIE', cells:[{value:'events',type:'label'}, {value:'...', type:'label'}], sub: arr}
+                    {id:'UIE', group:true, caption:'events', sub:arr}
                 ];
                 var list=[];
 
-                this.profileGrid.insertRows(rows);
-                this.profileGrid.get(0).$widget=this.canvas;
+                page.profileGrid.insertRows(rows);
+                page.profileGrid.get(0).$widget=page.canvas;
             }else{
                 var t,len,uis = page.getByCacheId(ids);
                 //if exists, give grid info
                 if(len = uis._nodes.length){
-                    var pro = uis.get(this.SelectedFocus);
-                    var cache =[0,0,0,0,0,0,0,0],
-                    cache2=0;
-
-                    var $fun = function(profile, cell){
-                        var o = cell.$tagVar;
-                        var node = profile.getSubNode('CELL', cell._serialId);
-                        var obj =o.profile[o.name];
-                        linb.ComFactory.newCom('VisualJS.ObjectEditor',function(){
+                    var pro = uis.get(this.SelectedFocus),
+                        cache =[0,0,0,0,0,0,0,0],
+                        cache2=0,
+                    $fun = function(profile, cell){
+                        var o = cell.$tagVar,
+                            node = profile.getSubNode('CELL', cell._serialId),
+                            obj =o.profile[o.name];
+                        linb.ComFactory.getCom('objEditor',function(){
                             this.host = page;
                             this.setProperties({
                                 caption:o.widgetName+" => "+o.name,
-                                icon:CONF.img_app,
-                                iconPos:obj.constructor==Array?'-128px -32px':'-16px -32px',
+                                image:CONF.img_app,
+                                imagePos:obj.constructor==Array?'-128px -32px':'-16px -32px',
                                 text:linb.Coder.formatText(
                                     _.serialize(
                                         _.clone(obj, function(o,i){return (i+'').charAt(0)!='_'})
@@ -1123,7 +1143,7 @@ Class('VisualJS.Designer', 'linb.Com',{
                                     node.focus();
                                 }
                             });
-                            this.show(linb([document.body]));
+                            this.show();
                         });
                     };
 
@@ -1131,24 +1151,28 @@ Class('VisualJS.Designer', 'linb.Com',{
                             {id:'key', cells:[{value:'class', type:'label'},{value:'<strong>'+pro.key+'</strong>',type:'label'}] },
                             {id:'alias',cells:[{value:'alias', type:'label'},{value:pro.alias}] },
                             {id:'domId',cells:[{value:'domId', type:'label'},{value:pro.domId}] },
-                            {id:'properties',   cells:[{value:'properties',type:'label'},{value:'...', type:'label'}], sub:true},
-                            {id:'UIE', cells:[{value:'events',type:'label'}, {value:'...', type:'label'}], sub:true},
+                            {id:'properties',  group:true, caption:'properties', sub:true},
+                            {id:'UIE', group:true, caption:'events', sub:true},
                             {id:'CS',cells:[{value:'Custom Style', type:'label'},{value:'(Collection)', event:$fun, $tagVar:{
+                                widgetName:pro.alias,
                                 name:'CS',
                                 funName:'setCustomStyle',
                                 profile:pro
                             }, type:'popbox',editorReadonly:true}] },
                             {id:'CC',cells:[{value:'Custom Class', type:'label'},{value:'(Collection)', event:$fun, $tagVar:{
+                                widgetName:pro.alias,
                                 name:'CC',
                                 funName:'setCustomClass',
                                 profile:pro
                             }, type:'popbox',editorReadonly:true}] },
                             {id:'CB',cells:[{value:'Custom Behaviors', type:'label'},{value:'(Collection)', event:$fun, $tagVar:{
+                                widgetName:pro.alias,
                                 name:'CB',
                                 funName:'setCustomBehavior',
                                 profile:pro
                             }, type:'popbox',editorReadonly:true}] },
                             {id:'CF',cells:[{value:'Custom Functions', type:'label'},{value:'(Collection)', event:$fun, $tagVar:{
+                                widgetName:pro.alias,
                                 name:'CF',
                                 funName:'setCustomFunction',
                                 profile:pro
@@ -1193,8 +1217,8 @@ Class('VisualJS.Designer', 'linb.Com',{
                     var rows=[
                             {id:'key',  cells:[{value:'class',type:'label'},{value: pro.key, type:'label'}] },
                             {id:'alias', cells:[{value:'alias', type:'label'},{value:pro.alias, type:'label'}] },
-                            {id:'properties', cells:[{value:'properties',type:'label'},{value:'', type:'label'}], sub:true},
-                            {id:'UIE',  cells:[{value:'events',type:'label'},{value:'', type:'label'}], sub:true}
+                            {id:'properties',  group:true, caption:'properties', sub:true},
+                            {id:'UIE', group:true, caption:'events', sub:true}
                     ];
                     if(pro.domId)_.arr.insertAny(rows,{id:'domId', cells:[{value:'domId', type:'label'},{value:pro.domId, type:'label'}] },1);
                     this.profileGrid.insertRows(rows);
@@ -1209,11 +1233,14 @@ Class('VisualJS.Designer', 'linb.Com',{
         },
 
         //avoid to conflict with design code
-        $toolbar_onclick:function(profile, item, group, src){
+        $toolbar_onclick:function(profile, item, group, e, src){
             var page = this, id=item.id;
             switch(group.id){
                 case 'code':
                     switch(id){
+                        case 'viewsize':
+                            page.popViewSize.pop(src);
+                            break;
                         case 'format':
                         case 'json':
                             _.observableRun(function(){
@@ -1379,8 +1406,9 @@ Class('VisualJS.Designer', 'linb.Com',{
                         funName = 'set' + _.str.initial(property);
                         //for canvas
                         if(target.get(0) == this.canvas.get(0)){
-                            this.canvas[funName](value);
-                            this.panelBG[funName](value);
+                            var temp={};
+                            temp[property]=value;
+                            page.setViewSize(temp);
                         }else{
                             target.each(function(o){
                                 o.boxing()[funName](value);
@@ -1392,12 +1420,12 @@ Class('VisualJS.Designer', 'linb.Com',{
                     case 'event':
                         if(target.get(0) == this.canvas.get(0)){
                             if(hash.value){
-                                var em = _.get(page.properties.clsStruct,['sub','Instance', 'sub','events', 'code']);
+                                var em = _.get(page.$data.clsStruct,['sub','Instance', 'sub','events', 'code']);
                                 if(em)em=_.unserialize(em);else em={};
                                 em[property] = hash.value;
-                                _.set(page.properties.clsStruct,['sub','Instance', 'sub','events', 'code'], _.serialize(em));
-                                _.set(page.properties.clsStruct,['sub','Instance', 'sub','events', 'comments'],
-                                    _.get(page.properties.clsStruct,['sub','Instance', 'sub','events', 'comments']) || ('\n'+_.str.repeat(' ',8)) );
+                                _.set(page.$data.clsStruct,['sub','Instance', 'sub','events', 'code'], _.serialize(em));
+                                _.set(page.$data.clsStruct,['sub','Instance', 'sub','events', 'comments'],
+                                    _.get(page.$data.clsStruct,['sub','Instance', 'sub','events', 'comments']) || ('\n'+_.str.repeat(' ',8)) );
 
                                 _.set(page.properties.clsObject,['Instance','events', property], hash.value);
                             }
@@ -1551,12 +1579,12 @@ Class('VisualJS.Designer', 'linb.Com',{
                             var o = cell.$tagVar;
                             var node = profile.getSubNode('CELL', cell._serialId);
                             var obj =o.profile.boxing()['get'+_.str.initial(o.name)]();
-                            linb.ComFactory.newCom('VisualJS.ObjectEditor',function(){
+                            linb.ComFactory.getCom('objEditor',function(){
                                 this.host = page;
                                 this.setProperties({
                                         caption:o.widgetName+" => "+o.name,
-                                        icon:CONF.img_app,
-                                        iconPos:obj.constructor==Array?'-128px -32px':'-16px -32px',
+                                        image:CONF.img_app,
+                                        imagePos:obj.constructor==Array?'-128px -32px':'-16px -32px',
                                         text:linb.Coder.formatText(
                                             _.serialize(
                                                 _.clone(obj, function(o,i){return (i+'').charAt(0)!='_'})
@@ -1590,7 +1618,7 @@ Class('VisualJS.Designer', 'linb.Com',{
 
                                         }
                                 });
-                                this.show(linb([document.body]));
+                                this.show();
                             });
                         };
                         $tagVar = {
@@ -1654,11 +1682,12 @@ Class('VisualJS.Designer', 'linb.Com',{
                 $fun = function(profile, cell){
                     var o = cell.$tagVar;
                     var node = profile.getSubNode('CELL', cell._serialId);
-                    linb.ComFactory.newCom('VisualJS.ObjectEditor',function(){
+                    
+                    linb.ComFactory.getCom('objEditor',function(){
                         this.host = page;
                         this.setProperties({
-                            icon:CONF.img_app,
-                            iconPos:'-32px -32px',
+                            image:CONF.img_app,
+                            imagePos:'-32px -32px',
                             caption:o.widgetName+" => "+o.funName,
                             text: getCode(o),
                             fromRegion:node.cssRegion(true),
@@ -1682,15 +1711,14 @@ Class('VisualJS.Designer', 'linb.Com',{
                                 node.focus();
                             }
                         });
-                        this.show(linb([document.body]));
+                        this.show();                        
                     });
-
                 };
 
                 _.each(target.box.$EventHandlers,function(o,i){
                     $tagVar = {
                          profile: target,
-                         clsStruct: page.properties.clsStruct,
+                         clsStruct: page.$data.clsStruct,
                          widgetName: target.alias,
                          funName: i,
                          ini:o
@@ -1775,7 +1803,7 @@ Class('VisualJS.Designer', 'linb.Com',{
                 var items=[];
                 var fun = function(profile, items, map){
                     var self=arguments.callee,t,
-                        item = {id:profile.$id, caption:profile.alias, icon: (t=map[profile.box.KEY])?t.icon:'', iconPos:(t=map[profile.box.KEY])?t.iconPos:''};
+                        item = {id:profile.$id, caption:profile.alias, image: (t=map[profile.box.KEY])?t.image:'', imagePos:(t=map[profile.box.KEY])?t.imagePos:''};
                     items.push(item);
                     if(profile.children && profile.children.length){
                         var sub=[];
@@ -1873,7 +1901,7 @@ Class('VisualJS.Designer', 'linb.Com',{
                 arr.push('\n    .host(host,"'+name+'")');
                 if(o.domId!=o.$domId)
                     arr.push('\n    .setDomId("'+o.domId+'")');
-                if(o.properties){ 
+                if(o.properties){
                     _.each(o.properties,function(o,i){
                         if(i=='value')return;
                         t='set' + _.str.initial(i);
@@ -1978,105 +2006,89 @@ Class('VisualJS.Designer', 'linb.Com',{
         },
         activate:function(){
         },
-        resetEnv:function(text){
-            this._dirty=false;
-            this.properties.text = text||this.getText();
-
-            this._clearSelect();
-            //reset
-            this._setSelected([], true);
-        },
-        setText:function(txt, flag, threadid){
-            var self=this;
-            txt=txt.replace(/\r\n/g,'\n');
-            if(flag || this.properties.text != txt){
-                this.properties.text = txt;
-
-                var clsStruct = this.properties.clsStruct;
-                var clsObject = this.properties.clsObject;
-
-                var comCode = _.get(clsStruct,['sub','Instance','sub','iniComponents','code']);
-                if(comCode == this.properties.comCode)return this;
-
-                var page = this;
-//linb.log('rebuild ui')
-
-                linb.Thread.observableRun(threadid,[
-                    function(){
-                        linb.Dom.setCover(linb.getRes('VisualJS.designer.emptyContent'));
-                    },
-                    function(){
-                        var ns=self.getWidgets();
-                        _.arr.each(ns,function(o){
-                            o.boxing().destroy();
-                        });
-                        //page.canvas.reBoxing().empty();
-                        //call gc dir
-                        linb.Dom.__gc();
-                        linb.Dom.setCover(linb.getRes('VisualJS.designer.prepare'));
-                    },
-                    function(threadid){
-                        linb.Thread.suspend(threadid);
-                        //load required class and build Coms
-                        linb.SC.group(clsObject.Instance.required,function(key){
-                            linb.Dom.setCover(linb.getRes('VisualJS.designer.loading')+' ' + key+'...');
-                        },function(){
-                            linb.Dom.setCover(linb.getRes('VisualJS.designer.createContent'));
-                            linb.Thread.resume(threadid);
-                        });
-                    },
-                    function(){
-                        try{
-                            //var nodes = clsObject.Instance.iniComponents();
-                            //avoid call event in desinger
-                            var nodes = clsObject.Instance.iniComponents.call(null);
-
-                            page.iconlist.clearItems();
-
-                            var n2 = [];
-                            _.filter(nodes,function(target){
-                                if(!(target.box['linb.UI'] && !target.box.$noDomRoot)){
-                                    n2.push(target);
-                                    return false;
-                                }
-                            });
-                            page.canvas.append(linb.UI.pack(nodes, false));
-                            _.arr.each(nodes,function(o){
-                                page._designable(o);
-                            });
-                            _.arr.each(n2,function(target){
-                                //give design mark
-                                target.properties.$design=page.properties.$design;
-                                page.iconlist.insertItems([{id:target.$id, image:'img/widgets.gif', iconPos:CONF.mapWidgets[target.box.KEY].iconPos}],null,false);
-                            });
-
-                            if(page.layoutBase.reBoxing().css('display')=='none'){
-                                page.layoutBase.reBoxing().css('display','block');
-                                page.layoutBase.reBoxing().parent().css('background','');
-                            }
-
-                        }catch(e){
-                            page.iconlist.clearItems();
-                            page.canvas.reBoxing().empty();
-                            //call gc dir
-                            linb.Dom.__gc();
-                            //page.properties.text = '';
-                            page.layoutBase.reBoxing().css('display','none');
-                            page.layoutBase.reBoxing().parent().css('background','url(img/error.gif)');
-
-                            linb.message(linb.getRes('VisualJS.designer.comCodeErr'));
-                            linb.message(String(e));
-                        }
-                    }
-                ]);
+        refreshView:function(){
+            var self=this,
+                data=self.$data,
+                clsStruct = data.clsStruct,
+                clsObject = data.clsObject,
+                comCode;
+            //ensure Instance.iniComponents
+            if(!clsObject.Instance){
+                clsObject.Instance={};
+                _.set(clsStruct,['sub','Instance'],{comments:'',frame:'{*3}',sub:{}});
             }
-            //reset
-            this.resetEnv(txt);
-            return this;
+            if(!clsObject.Instance.iniComponents){
+                _.set(clsStruct,['sub','Instance','sub','iniComponents'],{code:'function(){}',comments:''});
+                clsObject.Instance.iniComponents=_.fun();
+            }
+
+            comCode = _.get(clsStruct,['sub','Instance','sub','iniComponents','code']);
+            if(comCode == self.$bakCurCode)return self;
+
+            var ns=self.getWidgets();
+            _.arr.each(ns,function(o){
+                o.boxing().destroy();
+            });
+            //call gc dir
+            linb.Dom.__gc();
+            linb.Dom.setCover(linb.getRes('VisualJS.designer.prepare'));
+
+            self.$bakCurCode=comCode;
+
+            self._dirty=false;
+            self._clearSelect();
+            self._setSelected([], true);
+
+            //load required class and build Coms
+            linb.SC.group(clsObject.Instance.required,function(key){
+                linb.Dom.setCover(linb.getRes('VisualJS.designer.loading')+' ' + key+'...');
+            },function(){
+                linb.Dom.setCover(linb.getRes('VisualJS.designer.createContent'));
+                try{
+                    self.iconlist.clearItems();
+
+                    var nodes = clsObject.Instance.iniComponents.call(null)||[];
+                    var n2 = [];
+                    _.filter(nodes,function(target){
+                        if(!(target.box['linb.UI'] && !target.box.$noDomRoot)){
+                            n2.push(target);
+                            return false;
+                        }
+                    });
+                    self.canvas.append(linb.UI.pack(nodes, false));
+                    _.arr.each(nodes,function(o){
+                        self._designable(o);
+                    });
+                    _.arr.each(n2,function(target){
+                        self.iconlist.insertItems([{id:target.$id, image:'img/widgets.gif', iconPos:CONF.mapWidgets[target.box.KEY].iconPos}],null,false);
+                    });
+
+                    var t=self.layoutBase.reBoxing();
+                    if(t.css('display')=='none'){
+                        t.css('display','block');
+                        t.parent().css('background','');
+                    }
+
+                }catch(e){
+                    self.iconlist.clearItems();
+                    self.canvas.reBoxing().empty();
+                    //call gc dir
+                    linb.Dom.__gc();
+                    //self.properties.text = '';
+                    self.layoutBase.reBoxing().css('display','none').parent().css('background','url(img/error.gif)');
+                    linb.message(linb.getRes('VisualJS.designer.comCodeErr'));
+                    linb.message(String(e));
+                }
+                linb.Dom.setCover(false);
+            });
+
+            return self;
         },
-        getText:function(){
-            if(this._dirty){
-                var nodes = this.getWidgets(), ins = this.properties.clsStruct.sub.Instance;
+        getValue:function(){
+            var self=this,
+                data=self.$data;
+            if(self._dirty){
+                var nodes = self.getWidgets(), ins = data.clsStruct.sub.Instance;
                 //get iniComponents code
                 if(!nodes.length){
                     if(_.get(ins,['sub','iniComponents', 'comments']))
@@ -2086,19 +2098,20 @@ Class('VisualJS.Designer', 'linb.Com',{
                         _.set(ins,['sub','iniComponents','comments'],'\n'+_.str.repeat(' ',8));
                     ins.sub.iniComponents.code =
                         ('function(){\n' +
-                        this.getJSCode(nodes)
+                        self.getJSCode(nodes)
                         ).replace(/\n/g, '\n'+_.str.repeat(' ',12))+
                         '\n'+_.str.repeat(' ',8)+ '}';
                 }
 
                 //get required class list
-                var arr = this.properties.clsObject.Instance.required || [];
-                var arr2 = this.getClassList(nodes);
+                var arr = data.clsObject.Instance.required || [],
+                    arr2 = self.getClassList(nodes),
+                    base=data.clsObject.Instance.base || [];
+
                 for(var i=0;i<arr2.length;i++)
                     if(_.arr.indexOf(arr,arr2[i])==-1)
                         arr.push(arr2[i]);
-                        
-                var base=this.properties.clsObject.Instance.base || [];
+
                 _.arr.each(arr,function(o){
                     o=linb.SC(o);
                     if(o.Dependency){
@@ -2116,21 +2129,64 @@ Class('VisualJS.Designer', 'linb.Com',{
                     _.set(ins,['sub','required','comments'],'\n'+_.str.repeat(' ',8));
 
                 //get all code
-                return VisualJS.ClassTool.getCodeFromStruct(this.properties.clsStruct);
+                return VisualJS.ClassTool.getCodeFromStruct(data.clsStruct);
             }
             //todo: get text from struct
-            return this.properties.text;
+            return data.text;
+        },
+        _popvs_onmenusel:function(p,item){
+            var page=this;
+            page.setViewSize(page.$viewSize[item.id]);
+        },
+        setViewSize:function(size){
+            var page=this,
+                w=page.canvas.getWidth(),
+                h=page.canvas.getHeight(),
+                b;
+            if(size.width && String(size.width)!=String(w)){
+                page.canvas.setWidth(size.width);
+                page.panelBG.setWidth(size.width);
+                b=1;
+            }
+            if(size.height && String(size.height)!=String(h)){
+                page.canvas.setHeight(size.height);
+                page.panelBG.setHeight(size.height);
+                b=1;
+            }
+            if(b){
+                w=size.width||w;
+                h=size.height||h;
+
+                //update toolbar caption
+                page.toolbar.updateItem('viewsize', {caption:w + " &#215 " + h});
+                //update properties treegrid value
+                var t=page.profileGrid;
+                if(t&&(t=t.get(0).$widget)&&(t.get(0) == page.canvas.get(0))){
+                    _.asyRun(function(){
+                        page.profileGrid.updateCellByRowCol('properties:width','value',{value:w});
+                        page.profileGrid.updateCellByRowCol('properties:height','value',{value:h});
+                    });
+                }
+            }
         },
         iniComponents:function(){
            // [[code created by jsLinb UI Builder
             var t=this, n=[], u=linb.UI, f=function(c){n.push(c.get(0))};
+
+
+            f(
+            (new u.PopMenu)
+            .host(t,"popViewSize")
+            .setItems([{id:'800',caption:'800 &#215 600'},{id:'1024',caption:'1024 &#215 768'},{id:'1280',caption:'1280 &#215 1024'}])
+            .onMenuSelected('_popvs_onmenusel')
+            );
 
             f(
             (new u.Layout)
             .host(t,"layoutBase")
             .setLeft(0)
             .setTop(0)
-            .setItems([{"id":"main","min":10},{"id":"after","pos":"after","locked":false,"cmd":false,"size":270,"min":100,"max":300,"hide":false}])
+            .setItems([{"id":"before","pos":"before","locked":false,"cmd":true,"size":150,"min":100,"max":300,"hide":false},{"id":"main","min":10},{"id":"after","pos":"after","locked":false,"cmd":false,"size":250,"min":100,"max":300,"hide":false}])
             .setType("horizontal")
             );
 
@@ -2138,12 +2194,12 @@ Class('VisualJS.Designer', 'linb.Com',{
             (new u.IconList)
             .host(t,"iconlist")
             .setDock("bottom")
-            .setHeight(20)
+            .setHeight(40)
             .setItemWidth(16)
             .setItemHeight(16)
             .setZIndex(10)
             .setItems([])
-            .setCustomStyle({KEY:'background:#FFFACD',"ITEMS":"padding:2px"})
+            .setCustomStyle({KEY:'border-top:solid 1px #CDCDCD;'})
             .afterUIValueSet("$iconlist_aftervalueupdated")
             , 'main');
 
@@ -2154,54 +2210,55 @@ Class('VisualJS.Designer', 'linb.Com',{
             , 'main');
 
             t.layoutBase.append(
-            (new u.Layout)
-            .host(t,"layoutLeft")
-            .setLeft(0)
-            .setTop(0)
-            .setItems([{"id":"main","min":10},{"id":"after","pos":"after","locked":false,"size":300,"min":100,"max":500,"cmd":true,"hide":false}])
+            (new u.Panel)
+            .host(t,"panelRigth")
+            .setCaption("Properties and Events")
+            .setCustomStyle({PANEL:'overflow:hidden'})
             , 'after');
 
-            t.layoutLeft.append(
+            t.panelRigth.append(
             (new u.ComboInput)
             .host(t,"listObject")
             .setDock("top")
             .setType("popbox")
             .setReadonly(true)
-            .setItems([])
             .onClickButton("$listobject_onlistshow")
-            , 'after');
+            );
 
-            t.layoutLeft.append(
+            t.panelRigth.append(
             (new u.TreeGrid)
             .host(t,"profileGrid")
-            .setHeader([{"id":"name","caption":"$VisualJS.designer.gridcol1","width":80,"type":"label"},{"id":"value","caption":"$VisualJS.designer.gridcol2","width":130,"type":"input"}])
-            .setRows([])
-            .setAltRowsBg(false)
+            .setHeader([{"id":"name","caption":"$VisualJS.designer.gridcol1","width":60,"type":"label"},{"id":"value","caption":"$VisualJS.designer.gridcol2","width":130,"type":"input"}])
+            .setAltRowsBg(true)
             .setColSortable(false)
             .setEditable(true)
             .beforeCellUpdated("$profilegrid_beforecellvalueset")
             .onGetContent("$profilegrid_onrequestdata")
             .afterRowActive("$profilegrid_afterrowactive")
-            , 'after');
+            );
 
-            t.layoutLeft.append(
+            t.layoutBase.append(
+            (new u.Panel)
+            .host(t,"panelLeft")
+            .setCaption("Tools Box")
+            .setCustomStyle({PANEL:'overflow:hidden'})
+            , 'before');
+
+            t.panelLeft.append(
             (new u.TreeBar)
             .host(t,"treebarCom")
-            .setLeft(0)
-            .setTop(0)
-            .setItems([])
             .setGroup(true)
             .setSelMode("none")
             .setDragKey("___iDesign")
-            , 'main');
+            );
+
 
             t.layoutBase.append(
             (new u.Div)
             .host(t,"panelDiv")
+            .setDomId("panelDiv")
             .setDock("fill")
-            .onRender(function (pro) {
-                pro.root.addClass("linbdesign");
-            })
+            .setCustomClass({KEY:'linbdesign'})
             .setCustomStyle({"KEY":"overflow:auto;"})
             , 'main');
 
@@ -2263,9 +2320,39 @@ Class('VisualJS.Designer', 'linb.Com',{
                 'background-position' : 'left top'
             }
         }),'linb.UI.design');
-        
+
+        //ensure to show ondrag.gif immi
         var preLoad=new Image();
         preLoad.src=linb.ini.path +'ondrag.gif';
         preLoad=null;
+
+       //avoid dynRender in designer
+       var recover=function(obj){
+           var me=arguments.callee;
+           _.arr.each(obj.$children,function(o){
+                var o=linb.SC.get(o);
+                o._getChildren=linb.UI._getChildren;
+                if(o.$children)
+                    me(o);
+            });
+        };
+        recover(linb.UI);
+
+        linb.Com.EventHandlers={
+            beforeCreated:function(){},
+            onLoadBaseClass:function(key){},
+            onLoadResource:function(){},
+            beforeIniComponents:function(){},
+            afterIniComponents:function(){},
+            onLoadWidgets:function(key){},
+            onReady:function(){},
+            onRender:function(){}
+        };
+        window.onbeforeunload = function(e){
+            if(linb.browser.ie)
+                window.event.returnValue = ' ';
+            else
+                return ' ';
+        };
     }
 });

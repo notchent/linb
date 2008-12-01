@@ -49,7 +49,7 @@ Class('App', 'linb.Com',{
             
             host.block3.append((new linb.UI.Stacks)
                 .host(host,"stacks1")
-                .setItems([{"id":"a", "caption":"Task", "tips":"Task - Orders - Customers", "icon":"img/module.gif"}, {"id":"b", "caption":"Set up", "tips":"item b", "icon":"img/module.gif"}, {"id":"c", "caption":"About", "tips":"item c", "icon":"img/module.gif"}])
+                .setItems([{"id":"a", "caption":"Task", "tips":"Task - Orders - Customers", "image":"img/module.gif"}, {"id":"b", "caption":"Set up", "tips":"item b", "image":"img/module.gif"}, {"id":"c", "caption":"About", "tips":"item c", "image":"img/module.gif"}])
                 .setLeft(0)
                 .setTop(0)
                 .setValue("a")
@@ -70,7 +70,7 @@ Class('App', 'linb.Com',{
                 .setWidth(110)
                 .setPosition("relative")
                 .setCaption("Orders")
-                .setIcon("img/order.gif")
+                .setImage("img/order.gif")
                 .setVAlign("middle")
                 .onClick("_button12_onclick")
             , 'a');
@@ -81,7 +81,7 @@ Class('App', 'linb.Com',{
                 .setTop(60)
                 .setWidth(110)
                 .setCaption("Customers")
-                .setIcon("img/customer.gif")
+                .setImage("img/customer.gif")
                 .onClick("_button13_onclick")
             , 'a');
             
@@ -106,7 +106,7 @@ Class('App', 'linb.Com',{
                 .setLeft(0)
                 .setTop(0)
                 .setCaption("Orders")
-                .setIcon("img/order.gif")
+                .setImage("img/order.gif")
             );
             
             host.dialog7.append((new linb.UI.Label)
@@ -385,7 +385,7 @@ Class('App', 'linb.Com',{
                 .setTop(0)
                 .setVisibility("visible")
                 .setCaption("Customers")
-                .setIcon("img/customer.gif")
+                .setImage("img/customer.gif")
             );
             
             host.dialog14.append((new linb.UI.Tabs)

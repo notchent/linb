@@ -1065,7 +1065,7 @@ _.set(linb.Locale,["en","doc","linb","Ajax"], {
             "<br>&nbsp;&nbsp;<strong>method: 'GET' or 'POST', the request method. Default is 'GET'.</strong>"+
             "<br>&nbsp;&nbsp;retry: Number, how many times it is tried when the request is timeout."+
             "<br>&nbsp;&nbsp;timeout: Number, the timeout time(ms) for this request."+
-            "<br>&nbsp;&nbsp;resType: String 'text' or 'xml', Response type of the request."+
+            "<strong><br>&nbsp;&nbsp;resType: String 'text' or 'xml', Response type of the request.</strong>"+
             "<br><em>//functions</em>"+
             "<br>&nbsp;&nbsp;cusomQS: Function, arguments: [obj, type]. A function to customize query string object."+
             "<br><em>//normal events</em>"+
@@ -1156,7 +1156,7 @@ _.set(linb.Locale,["en","doc","linb","SAjax"], {
             "<br>&nbsp;&nbsp;threadid: String, a thread id to be bound to the current request."+
             "<br>&nbsp;&nbsp;retry: Number, how many times it is tried when the request is timeout."+
             "<br>&nbsp;&nbsp;timeout: Number, the timeout time(ms) for this request."+
-            "<br>&nbsp;&nbsp;resType: String, 'json' or 'script'. Response type of the request."+
+            "<strong><br>&nbsp;&nbsp;resType: String, 'json' or 'script'. Response type of the request.</strong>"+
             "<br><em>//functions</em>"+
             "<br>&nbsp;&nbsp;cusomQS: Function, arguments: [obj, type]. A function to customize query string object."+
             "<br><em>//normal events</em>"+
@@ -2233,7 +2233,7 @@ _.set(linb.Locale,["en","doc","linb","Dom"], {
                 "var a=[0,200,400,600,800,1000,1200,1400];"+
                 "linb(id+'a').dragable(true,{dragType:'move'});" +
                 "linb(id+'b').dragable(true,{dragType:'copy',targetReposition:false});"+
-                "linb(id+'c').dragable(true,{dragType:'icon',shadowFrom:id+'c'});"+
+                "linb(id+'c').dragable(true,{dragType:'image',shadowFrom:id+'c'});"+
                 "linb(id+'d').dragable(true,{dragType:'shape',targetReposition:false});"+
                 "linb(id+'e').dragable(true,{dragDefer:20,targetReposition:false});"+
                 "linb(id+'f').dragable(true,{xMagneticLines:a,yMagneticLines:a,magneticDistance:50,targetReposition:false});"+
@@ -3964,6 +3964,11 @@ _.set(linb.Locale,["en","doc","linb","Com"], {
         ]
     },
     prototype:{
+        render:{
+            $desc:'To render the inner UI Components',
+            $rtn:"[self]",
+            $demo:"You have to call this function after the com was created. And linb.Com.show will trigger this function automatically."
+        },
         setComponents:{
             $desc:"Sets the current Com's Components.",
             $rtn:"[self]",
@@ -4235,7 +4240,8 @@ _.set(linb.Locale,["en","doc","linb","ComFactory"], {
         $paras:[
             "id [Required] : String, the Com id.",
             "onEnd [Optional] : Function, the callback function, it will be executed once when the Com is created successfully.",
-            "threadid [Optional] : String, the inner threadid"
+            "threadid [Optional] : String, the inner threadid",
+            "singleton[Optional] : Bool, default is true. If singleton is false, that indicates ComFactory won't get it from the cache, and won't cache the result."
         ],
         $snippet:[
             "linb.ComFactory.destroyAll();"+
@@ -4524,6 +4530,22 @@ _.set(linb.Locale,["en","doc","linb","absList"], {
                 "}"
             ]
         },
+        updateItem:{
+            $desc:"Updates the specified item(key or value) and the corresponding DOM Element.",
+            $rtn:"String",
+            $paras:[
+                "id [Required] : String. The node id.",
+                "options [Required] : object. a key/value pairs."
+            ],
+            $snippet:[
+                "var id='linb.temp.absl0-1'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var o=new linb.UI.TreeBar({width:'auto',iniFold:true,height:'auto',dock:'none',position:'relative',items:[{id:'a',caption:'a'},{id:'b',caption:'b'},{id:'c',caption:'c',sub:[{id:'cz',caption:'cz'}]}]});"+
+                "linb(id).prepend(o);"+
+                "_.asyRun(function(){o.updateItem('b',{caption:'bbb', image:'img/img.gif', imagePos:'left -16px'})},1000);" + 
+                "}"
+            ]
+        },
+
         getItems:{
             $desc:"Gets the items proerpy from the current UI object.",
             $rtn:"String",
@@ -6858,18 +6880,18 @@ _.set(linb.Locale,["en","doc","linb","UI","Label"], {
                 "}"
             ]
         },
-        getIcon :{
-            $desc:"Gets the Icon property value on the first UIProfile",
+        getImage :{
+            $desc:"Gets the image property value on the first UIProfile",
             $rtn:"String",
             $snippet:[
                 "var id='linb.temp.lbl13'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var btn;linb(id).prepend(btn=new linb.UI.Label({height:50}));"+
-                "_.asyRun(function(){btn.setIcon('img/img.gif'); alert(btn.getIcon())},1000)"+
+                "_.asyRun(function(){btn.setImage('img/img.gif'); alert(btn.getImage())},1000)"+
                 "}"
             ]
         },
-        setIcon :{
-            $desc:"Sets the Icon property value on the each UIProfile, and reflects the value to UI.",
+        setImage :{
+            $desc:"Sets the image property value on the each UIProfile, and reflects the value to UI.",
             $rtn:"[self]",
             $paras:[
                 "value [Required] :String,  image path.",
@@ -6878,22 +6900,22 @@ _.set(linb.Locale,["en","doc","linb","UI","Label"], {
             $snippet:[
                 "var id='linb.temp.lbl14'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var btn;linb(id).prepend(btn=new linb.UI.Label({height:50}));"+
-                "_.asyRun(function(){btn.setIcon('img/img.gif'); alert(btn.getIcon())},1000)"+
+                "_.asyRun(function(){btn.setImage('img/img.gif'); alert(btn.getImage())},1000)"+
                 "}"
             ]
         },
-        getIconPos :{
-            $desc:"Gets the IconPos property value on the first UIProfile",
+        getImagePos :{
+            $desc:"Gets the image position property value on the first UIProfile",
             $rtn:"String",
             $snippet:[
                 "var id='linb.temp.lbl15'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var btn;linb(id).prepend(btn=new linb.UI.Label({height:50}));"+
-                "_.asyRun(function(){btn.setIcon('img/img.gif').setIconPos('left -16px'); alert(btn.getIconPos())},1000)"+
+                "_.asyRun(function(){btn.setImage('img/img.gif').setImagePos('left -16px'); alert(btn.getImagePos())},1000)"+
                 "}"
             ]
         },
-        setIconPos :{
-            $desc:"Sets the IconPos property value on the each UIProfile, and reflects the value to UI.",
+        setImagePos :{
+            $desc:"Sets the image positon property value on the each UIProfile, and reflects the value to UI.",
             $rtn:"[self]",
             $paras:[
                 "value [Required] : String, corresponding CSS value.",
@@ -6902,7 +6924,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Label"], {
             $snippet:[
                 "var id='linb.temp.lbl16'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var btn;linb(id).prepend(btn=new linb.UI.Label({height:50}));"+
-                "_.asyRun(function(){btn.setIcon('img/img.gif').setIconPos('left -16px'); alert(btn.getIconPos())},1000)"+
+                "_.asyRun(function(){btn.setImage('img/img.gif').setImagePos('left -16px'); alert(btn.getImagePos())},1000)"+
                 "}"
             ]
         }
@@ -7103,18 +7125,18 @@ _.set(linb.Locale,["en","doc","linb","UI","Button"], {
                 "}"
             ]
         },
-        getIcon :{
-            $desc:"Gets icon image url.",
+        getImage :{
+            $desc:"Gets image url.",
             $rtn:"String",
             $snippet:[
                 "var id='linb.temp.btn13'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var btn;linb(id).prepend(btn=new linb.UI.Button({height:50}));"+
-                "_.asyRun(function(){btn.setIcon('img/img.gif'); alert(btn.getIcon())},1000)"+
+                "_.asyRun(function(){btn.setImage('img/img.gif'); alert(btn.getImage())},1000)"+
                 "}"
             ]
         },
-        setIcon :{
-            $desc:"Sets icon image url, and reflects the value to UI.",
+        setImage :{
+            $desc:"Sets image url, and reflects the value to UI.",
             $rtn:"[self]",
             $paras:[
                 "value [Required] :String,  image path.",
@@ -7123,22 +7145,22 @@ _.set(linb.Locale,["en","doc","linb","UI","Button"], {
             $snippet:[
                 "var id='linb.temp.btn14'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var btn;linb(id).prepend(btn=new linb.UI.Button({height:50}));"+
-                "_.asyRun(function(){btn.setIcon('img/img.gif'); alert(btn.getIcon())},1000)"+
+                "_.asyRun(function(){btn.setImage('img/img.gif'); alert(btn.getImage())},1000)"+
                 "}"
             ]
         },
-        getIconPos :{
-            $desc:"Gets icon image postion.",
+        getImagePos :{
+            $desc:"Gets image postion.",
             $rtn:"String",
             $snippet:[
                 "var id='linb.temp.btn15'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var btn;linb(id).prepend(btn=new linb.UI.Button({height:50}));"+
-                "_.asyRun(function(){btn.setIcon('img/img.gif').setIconPos('left -16px'); alert(btn.getIconPos())},1000)"+
+                "_.asyRun(function(){btn.setImage('img/img.gif').setImagePos('left -16px'); alert(btn.getImagePos())},1000)"+
                 "}"
             ]
         },
-        setIconPos :{
-            $desc:"Sets icon image postion, and reflects the value to UI.",
+        setImagePos :{
+            $desc:"Sets image image postion, and reflects the value to UI.",
             $rtn:"[self]",
             $paras:[
                 "value [Required] : String, corresponding CSS value.",
@@ -7147,7 +7169,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Button"], {
             $snippet:[
                 "var id='linb.temp.btn16'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var btn;linb(id).prepend(btn=new linb.UI.Button({height:50}));"+
-                "_.asyRun(function(){btn.setIcon('img/img.gif').setIconPos('left -16px'); alert(btn.getIconPos())},1000)"+
+                "_.asyRun(function(){btn.setImage('img/img.gif').setImagePos('left -16px'); alert(btn.getImagePos())},1000)"+
                 "}"
             ]
         },
@@ -7594,18 +7616,18 @@ _.set(linb.Locale,["en","doc","linb","UI","Group"], {
                 "}"
             ]
         },
-        getIcon :{
-            $desc:"Gets icon image url",
+        getImage :{
+            $desc:"Gets image url",
             $rtn:"String",
             $snippet:[
                 "var id='linb.temp.grp3'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var btn;linb(id).prepend(btn=new linb.UI.Group({height:50}));"+
-                "_.asyRun(function(){btn.setIcon('img/img.gif'); alert(btn.getIcon())},1000)"+
+                "_.asyRun(function(){btn.setImage('img/img.gif'); alert(btn.getImage())},1000)"+
                 "}"
             ]
         },
-        setIcon :{
-            $desc:"Sets icon image url, and reflects the value to UI.",
+        setImage :{
+            $desc:"Sets image url, and reflects the value to UI.",
             $rtn:"[self]",
             $paras:[
                 "value [Required] :String,  image path.",
@@ -7614,22 +7636,22 @@ _.set(linb.Locale,["en","doc","linb","UI","Group"], {
             $snippet:[
                 "var id='linb.temp.grp4'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var btn;linb(id).prepend(btn=new linb.UI.Group({height:50}));"+
-                "_.asyRun(function(){btn.setIcon('img/img.gif'); alert(btn.getIcon())},1000)"+
+                "_.asyRun(function(){btn.setImage('img/img.gif'); alert(btn.getImage())},1000)"+
                 "}"
             ]
         },
-        getIconPos :{
-            $desc:"Gets icon image position",
+        getImagePos :{
+            $desc:"Gets image position",
             $rtn:"String",
             $snippet:[
                 "var id='linb.temp.grp5'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var btn;linb(id).prepend(btn=new linb.UI.Group({height:50}));"+
-                "_.asyRun(function(){btn.setIcon('img/img.gif').setIconPos('left -16px'); alert(btn.getIconPos())},1000)"+
+                "_.asyRun(function(){btn.setImage('img/img.gif').setImagePos('left -16px'); alert(btn.getImagePos())},1000)"+
                 "}"
             ]
         },
-        setIconPos :{
-            $desc:"Sets icon image position, and reflects the value to UI.",
+        setImagePos :{
+            $desc:"Sets image position, and reflects the value to UI.",
             $rtn:"[self]",
             $paras:[
                 "value [Required] : String, corresponding CSS value.",
@@ -7638,7 +7660,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Group"], {
             $snippet:[
                 "var id='linb.temp.grp6'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var btn;linb(id).prepend(btn=new linb.UI.Group({height:50}));"+
-                "_.asyRun(function(){btn.setIcon('img/img.gif').setIconPos('left -16px'); alert(btn.getIconPos())},1000)"+
+                "_.asyRun(function(){btn.setImage('img/img.gif').setImagePos('left -16px'); alert(btn.getImagePos())},1000)"+
                 "}"
             ]
         },
@@ -8674,7 +8696,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Gallery"], {
     },
     prototype:{
         getStatus:{
-            $desc:"Gets a specified item icon status.",
+            $desc:"Gets a specified item image status.",
             $paras:[
                 "subId [Required] : String, the sub Id."
             ],
@@ -8688,7 +8710,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Gallery"], {
             ]
         },
         getImgHeight:{
-            $desc:"Gets item icon height",
+            $desc:"Gets item image height",
             $rtn:"String",
             $snippet:[
                 "var id='linb.temp.ga1'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -8698,7 +8720,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Gallery"], {
             ]
         },
         setImgHeight:{
-            $desc:"Sets item icon heiht, and reflects the value to UI.",
+            $desc:"Sets item image heiht, and reflects the value to UI.",
             $rtn:"[self]",
             $paras:[
                 "value [Required] : Number.",
@@ -8712,7 +8734,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Gallery"], {
             ]
         },
         getImgWidth:{
-            $desc:"Gets item icon width",
+            $desc:"Gets item image width",
             $rtn:"String",
             $snippet:[
                 "var id='linb.temp.ga3'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -8722,7 +8744,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Gallery"], {
             ]
         },
         setImgWidth:{
-            $desc:"Sets item icon width, and reflects the value to UI.",
+            $desc:"Sets item image width, and reflects the value to UI.",
             $rtn:"[self]",
             $paras:[
                 "value [Required] : Number.",
@@ -8840,7 +8862,7 @@ _.set(linb.Locale,["en","doc","linb","UI","IconList"], {
     },
     prototype:{
         getStatus:{
-            $desc:"Gets a specified icon status.",
+            $desc:"Gets a specified image status.",
             $paras:[
                 "subId [Required] : String, the sub Id."
             ],
@@ -9125,18 +9147,18 @@ _.set(linb.Locale,["en","doc","linb","UI","Panel"], {
                 "}"
             ]
         },
-        getIcon :{
-            $desc:"Gets the icon image url",
+        getImage :{
+            $desc:"Gets the image url",
             $rtn:"String",
             $snippet:[
                 "var id='linb.temp.panel3'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var btn;linb(id).prepend(btn=new linb.UI.Panel({height:50}));"+
-                "_.asyRun(function(){btn.setIcon('img/img.gif'); alert(btn.getIcon())},1000)"+
+                "_.asyRun(function(){btn.setImage('img/img.gif'); alert(btn.getImage())},1000)"+
                 "}"
             ]
         },
-        setIcon :{
-            $desc:"Sets the icon image url, and reflects the value to UI.",
+        setImage :{
+            $desc:"Sets the image url, and reflects the value to UI.",
             $rtn:"[self]",
             $paras:[
                 "value [Required] :String,  image path.",
@@ -9145,22 +9167,22 @@ _.set(linb.Locale,["en","doc","linb","UI","Panel"], {
             $snippet:[
                 "var id='linb.temp.panel4'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var btn;linb(id).prepend(btn=new linb.UI.Panel({height:50}));"+
-                "_.asyRun(function(){btn.setIcon('img/img.gif'); alert(btn.getIcon())},1000)"+
+                "_.asyRun(function(){btn.setImage('img/img.gif'); alert(btn.getImage())},1000)"+
                 "}"
             ]
         },
-        getIconPos :{
-            $desc:"Gets icon image position",
+        getImagePos :{
+            $desc:"Gets image image position",
             $rtn:"String",
             $snippet:[
                 "var id='linb.temp.panel5'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var btn;linb(id).prepend(btn=new linb.UI.Panel({height:50}));"+
-                "_.asyRun(function(){btn.setIcon('img/img.gif').setIconPos('left -16px'); alert(btn.getIconPos())},1000)"+
+                "_.asyRun(function(){btn.setImage('img/img.gif').setImagePos('left -16px'); alert(btn.getImagePos())},1000)"+
                 "}"
             ]
         },
-        setIconPos :{
-            $desc:"Sets icon image position, and reflects the value to UI.",
+        setImagePos :{
+            $desc:"Sets image position, and reflects the value to UI.",
             $rtn:"[self]",
             $paras:[
                 "value [Required] : String, corresponding CSS value.",
@@ -9169,7 +9191,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Panel"], {
             $snippet:[
                 "var id='linb.temp.panel6'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var btn;linb(id).prepend(btn=new linb.UI.Panel({height:50}));"+
-                "_.asyRun(function(){btn.setIcon('img/img.gif').setIconPos('left -16px'); alert(btn.getIconPos())},1000)"+
+                "_.asyRun(function(){btn.setImage('img/img.gif').setImagePos('left -16px'); alert(btn.getImagePos())},1000)"+
                 "}"
             ]
         },
@@ -9899,20 +9921,6 @@ _.set(linb.Locale,["en","doc","linb","UI","ToolBar"], {
                 "}"
             ]
         },
-        updateItem:{
-            $desc:"To update the specified item's caption.",
-            $rtn:"[self]",
-            $paras:[
-                "itemId [Required] : String.",
-                "caption [Required] : String."
-            ],
-            $snippet:[
-                "var id='linb.temp.tool6'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:200px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
-                "var o;linb(id).prepend(o=(new linb.UI.ToolBar({items:[{id:'ga', sub:[{id:'ga1',caption:'ga1'},{id:'ga2',caption:'ga2'}]}]})));"+
-                "_.asyRun(function(){o.updateItem('ga2','b b b b')},1000);"+
-                "}"
-            ]
-        },
         showItem:{
             $desc:"To show/hide the specified item.",
             $rtn:"[self]",
@@ -9964,7 +9972,7 @@ _.set(linb.Locale,["en","doc","linb","UI","PopMenu"], {
             ],
             $snippet:[
                 "var id='linb.temp.pm0'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:200px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
-                "var o=(new linb.UI.PopMenu({items:[{id:'a',caption:'item a',tips:'item a'},{id:'b',icon:'img/img.gif',caption:'itemb',tips:'item b',sub:[{id:'ba',caption:'item ba',tips:'item ba'},{id:'bb',caption:'item bb',tips:'item bb',sub:[{id:'bba',caption:'item bba',tips:'item bba'}]}]},{id:'c',caption:'item c',type:'checkbox',value:false},{id:'d',caption:'item d',type:'checkbox',value:true,add:'[Esc]'}]}));"+
+                "var o=(new linb.UI.PopMenu({items:[{id:'a',caption:'item a',tips:'item a'},{id:'b',image:'img/img.gif',caption:'itemb',tips:'item b',sub:[{id:'ba',caption:'item ba',tips:'item ba'},{id:'bb',caption:'item bb',tips:'item bb',sub:[{id:'bba',caption:'item bba',tips:'item bba'}]}]},{id:'c',caption:'item c',type:'checkbox',value:false},{id:'d',caption:'item d',type:'checkbox',value:true,add:'[Esc]'}]}));"+
                 "linb(id).onClick(function(p,e,s){var p1=linb.Event.getPos(e), p2=linb([s]).offset(), pos={left:p1.left-p2.left,top:p1.top-p2.top}o.pop(pos,null,s); })"+
                 "}"
             ]
@@ -9977,7 +9985,7 @@ _.set(linb.Locale,["en","doc","linb","UI","PopMenu"], {
             ],
             $snippet:[
                 "var id='linb.temp.pm1'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:200px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
-                "var o=(new linb.UI.PopMenu({items:[{id:'a',caption:'item a',tips:'item a'},{id:'b',icon:'img/img.gif',caption:'itemb',tips:'item b',sub:[{id:'ba',caption:'item ba',tips:'item ba'},{id:'bb',caption:'item bb',tips:'item bb',sub:[{id:'bba',caption:'item bba',tips:'item bba'}]}]},{id:'c',caption:'item c',type:'checkbox',value:false},{id:'d',caption:'item d',type:'checkbox',value:true,add:'[Esc]'}]}));"+
+                "var o=(new linb.UI.PopMenu({items:[{id:'a',caption:'item a',tips:'item a'},{id:'b',image:'img/img.gif',caption:'itemb',tips:'item b',sub:[{id:'ba',caption:'item ba',tips:'item ba'},{id:'bb',caption:'item bb',tips:'item bb',sub:[{id:'bba',caption:'item bba',tips:'item bba'}]}]},{id:'c',caption:'item c',type:'checkbox',value:false},{id:'d',caption:'item d',type:'checkbox',value:true,add:'[Esc]'}]}));"+
                 "linb(id).onClick(function(p,e,s){var p1=linb.Event.getPos(e), p2=linb([s]).offset(), pos={left:p1.left-p2.left,top:p1.top-p2.top}o.pop(pos,null,s); _.asyRun(function(){o.hide()},3000);})"+
                 "}"
             ]
@@ -9987,7 +9995,7 @@ _.set(linb.Locale,["en","doc","linb","UI","PopMenu"], {
             $rtn:"Bool",
             $snippet:[
                 "var id='linb.temp.pm2'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:200px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
-                "var o=(new linb.UI.PopMenu({items:[{id:'a',caption:'item a',tips:'item a'},{id:'b',icon:'img/img.gif',caption:'itemb',tips:'item b',sub:[{id:'ba',caption:'item ba',tips:'item ba'},{id:'bb',caption:'item bb',tips:'item bb',sub:[{id:'bba',caption:'item bba',tips:'item bba'}]}]},{id:'c',caption:'item c',type:'checkbox',value:false},{id:'d',caption:'item d',type:'checkbox',value:true}]}));"+
+                "var o=(new linb.UI.PopMenu({items:[{id:'a',caption:'item a',tips:'item a'},{id:'b',image:'img/img.gif',caption:'itemb',tips:'item b',sub:[{id:'ba',caption:'item ba',tips:'item ba'},{id:'bb',caption:'item bb',tips:'item bb',sub:[{id:'bba',caption:'item bba',tips:'item bba'}]}]},{id:'c',caption:'item c',type:'checkbox',value:false},{id:'d',caption:'item d',type:'checkbox',value:true}]}));"+
                 "o.setAutoHide(true);"+
                 "alert(o.getAutoHide());"+
                 "linb(id).onClick(function(p,e,s){var p1=linb.Event.getPos(e), p2=linb([s]).offset(), pos={left:p1.left-p2.left,top:p1.top-p2.top}o.pop(pos,null,s); })"+
@@ -10015,7 +10023,7 @@ _.set(linb.Locale,["en","doc","linb","UI","PopMenu"], {
             $rtn:"Bool",
             $snippet:[
                 "var id='linb.temp.pm4'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:200px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
-                "var o=(new linb.UI.PopMenu({items:[{id:'a',caption:'item a',tips:'item a'},{id:'b',icon:'img/img.gif',caption:'itemb',tips:'item b',sub:[{id:'ba',caption:'item ba',tips:'item ba'},{id:'bb',caption:'item bb',tips:'item bb',sub:[{id:'bba',caption:'item bba',tips:'item bba'}]}]},{id:'c',caption:'item c',type:'checkbox',value:false},{id:'d',caption:'item d',type:'checkbox',value:true}]}));"+
+                "var o=(new linb.UI.PopMenu({items:[{id:'a',caption:'item a',tips:'item a'},{id:'b',image:'img/img.gif',caption:'itemb',tips:'item b',sub:[{id:'ba',caption:'item ba',tips:'item ba'},{id:'bb',caption:'item bb',tips:'item bb',sub:[{id:'bba',caption:'item bba',tips:'item bba'}]}]},{id:'c',caption:'item c',type:'checkbox',value:false},{id:'d',caption:'item d',type:'checkbox',value:true}]}));"+
                 "o.setHideAfterClick(false);"+
                 "alert(o.getHideAfterClick());"+
                 "linb(id).onClick(function(p,e,s){var p1=linb.Event.getPos(e), p2=linb([s]).offset(), pos={left:p1.left-p2.left,top:p1.top-p2.top}o.pop(pos,null,s); })"+
@@ -10046,7 +10054,7 @@ _.set(linb.Locale,["en","doc","linb","UI","PopMenu"], {
             ],
             $snippet:[
                 "var id='linb.temp.pm31'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:200px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
-                "var o=(new linb.UI.PopMenu({items:[{id:'a',caption:'item a',tips:'item a'},{id:'b',icon:'img/img.gif',caption:'itemb',tips:'item b',sub:[{id:'ba',caption:'item ba',tips:'item ba'},{id:'bb',caption:'item bb',tips:'item bb',sub:[{id:'bba',caption:'item bba',tips:'item bba'}]}]},{id:'c',caption:'item c',type:'checkbox',value:false},{id:'d',caption:'item d',type:'checkbox',value:true,add:'[Esc]'}]}));"+
+                "var o=(new linb.UI.PopMenu({items:[{id:'a',caption:'item a',tips:'item a'},{id:'b',image:'img/img.gif',caption:'itemb',tips:'item b',sub:[{id:'ba',caption:'item ba',tips:'item ba'},{id:'bb',caption:'item bb',tips:'item bb',sub:[{id:'bba',caption:'item bba',tips:'item bba'}]}]},{id:'c',caption:'item c',type:'checkbox',value:false},{id:'d',caption:'item d',type:'checkbox',value:true,add:'[Esc]'}]}));"+
                 "o.beforeHide(function(){alert('before hide')});"+
                 "linb(id).onClick(function(p,e,s){var p1=linb.Event.getPos(e), p2=linb([s]).offset(), pos={left:p1.left-p2.left,top:p1.top-p2.top}o.pop(pos,null,s);})"+
                 "}"
@@ -10059,7 +10067,7 @@ _.set(linb.Locale,["en","doc","linb","UI","PopMenu"], {
             ],
             $snippet:[
                 "var id='linb.temp.pm11'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:200px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
-                "var o=(new linb.UI.PopMenu({items:[{id:'a',caption:'item a',tips:'item a'},{id:'b',icon:'img/img.gif',caption:'itemb',tips:'item b',sub:[{id:'ba',caption:'item ba',tips:'item ba'},{id:'bb',caption:'item bb',tips:'item bb',sub:[{id:'bba',caption:'item bba',tips:'item bba'}]}]},{id:'c',caption:'item c',type:'checkbox',value:false},{id:'d',caption:'item d',type:'checkbox',value:true,add:'[Esc]'}]}));"+
+                "var o=(new linb.UI.PopMenu({items:[{id:'a',caption:'item a',tips:'item a'},{id:'b',image:'img/img.gif',caption:'itemb',tips:'item b',sub:[{id:'ba',caption:'item ba',tips:'item ba'},{id:'bb',caption:'item bb',tips:'item bb',sub:[{id:'bba',caption:'item bba',tips:'item bba'}]}]},{id:'c',caption:'item c',type:'checkbox',value:false},{id:'d',caption:'item d',type:'checkbox',value:true,add:'[Esc]'}]}));"+
                 "o.onHide(function(){alert('hidden')});"+
                 "linb(id).onClick(function(p,e,s){var p1=linb.Event.getPos(e), p2=linb([s]).offset(), pos={left:p1.left-p2.left,top:p1.top-p2.top}o.pop(pos,null,s);})"+
                 "}"
@@ -10074,7 +10082,7 @@ _.set(linb.Locale,["en","doc","linb","UI","PopMenu"], {
             ],
             $snippet:[
                 "var id='linb.temp.pm12'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:200px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
-                "var o=(new linb.UI.PopMenu({items:[{id:'a',caption:'item a',tips:'item a'},{id:'b',icon:'img/img.gif',caption:'itemb',tips:'item b',sub:[{id:'ba',caption:'item ba',tips:'item ba'},{id:'bb',caption:'item bb',tips:'item bb',sub:[{id:'bba',caption:'item bba',tips:'item bba'}]}]},{id:'c',caption:'item c',type:'checkbox',value:false},{id:'d',caption:'item d',type:'checkbox',value:true,add:'[Esc]'}]}));"+
+                "var o=(new linb.UI.PopMenu({items:[{id:'a',caption:'item a',tips:'item a'},{id:'b',image:'img/img.gif',caption:'itemb',tips:'item b',sub:[{id:'ba',caption:'item ba',tips:'item ba'},{id:'bb',caption:'item bb',tips:'item bb',sub:[{id:'bba',caption:'item bba',tips:'item bba'}]}]},{id:'c',caption:'item c',type:'checkbox',value:false},{id:'d',caption:'item d',type:'checkbox',value:true,add:'[Esc]'}]}));"+
                 "o.onMenuSelected(function(p,item){if(item.type=='checkbox')alert(item.value); else alert(item.id); });"+
                 "linb(id).onClick(function(p,e,s){var p1=linb.Event.getPos(e), p2=linb([s]).offset(), pos={left:p1.left-p2.left,top:p1.top-p2.top}o.pop(pos,null,s);})"+
                 "}"
@@ -10089,7 +10097,7 @@ _.set(linb.Locale,["en","doc","linb","UI","PopMenu"], {
             ],
             $snippet:[
                 "var id='linb.temp.pm13'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:200px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
-                "var o=(new linb.UI.PopMenu({autoHide:true, items:[{id:'a',caption:'item a',tips:'item a'},{id:'b',icon:'img/img.gif',caption:'itemb',tips:'item b',sub:true},{id:'c',caption:'item c',type:'checkbox',value:false},{id:'d',caption:'item d',type:'checkbox',value:true,add:'[Esc]'}]}));"+
+                "var o=(new linb.UI.PopMenu({autoHide:true, items:[{id:'a',caption:'item a',tips:'item a'},{id:'b',image:'img/img.gif',caption:'itemb',tips:'item b',sub:true},{id:'c',caption:'item c',type:'checkbox',value:false},{id:'d',caption:'item d',type:'checkbox',value:true,add:'[Esc]'}]}));"+
                 "var cp=(new linb.UI.ColorPicker).render(true);"+
                 "cp.beforeClose(function(){cp.hide();return false;})"+
                 ".afterUIValueSet(function(p,old,n){o.onMenuSelected(o.get(0),{id:'b',value:n}); o.hide();});"+
@@ -10133,7 +10141,7 @@ _.set(linb.Locale,["en","doc","linb","UI","MenuBar"], {
             $rtn:"Number",
             $snippet:[
                 "var id='linb.temp.menu2'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:200px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
-                "var o=(new linb.UI.MenuBar({items:[{id:'id',caption:'menu',sub:[{id:'a',caption:'item a',tips:'item a'},{id:'b',icon:'img/img.gif',caption:'itemb',tips:'item b',sub:[{id:'ba',caption:'item ba',tips:'item ba'},{id:'bb',caption:'item bb',tips:'item bb',sub:[{id:'bba',caption:'item bba',tips:'item bba'}]}]},{id:'c',caption:'item c',type:'checkbox',value:false},{id:'d',caption:'item d',type:'checkbox',value:true,add:'[Esc]'}]}]}));"+
+                "var o=(new linb.UI.MenuBar({items:[{id:'id',caption:'menu',sub:[{id:'a',caption:'item a',tips:'item a'},{id:'b',image:'img/img.gif',caption:'itemb',tips:'item b',sub:[{id:'ba',caption:'item ba',tips:'item ba'},{id:'bb',caption:'item bb',tips:'item bb',sub:[{id:'bba',caption:'item bba',tips:'item bba'}]}]},{id:'c',caption:'item c',type:'checkbox',value:false},{id:'d',caption:'item d',type:'checkbox',value:true,add:'[Esc]'}]}]}));"+
                 "linb(id).prepend(o);"+
                 "alert(o.getAutoShowTime());"+
                 "_.asyRun(function(){o.setAutoShowTime(0)});"+
@@ -10149,7 +10157,7 @@ _.set(linb.Locale,["en","doc","linb","UI","MenuBar"], {
             ],
             $snippet:[
                 "var id='linb.temp.menu3'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:200px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
-                "var o=(new linb.UI.MenuBar({items:[{id:'id',caption:'menu',sub:[{id:'a',caption:'item a',tips:'item a'},{id:'b',icon:'img/img.gif',caption:'itemb',tips:'item b',sub:[{id:'ba',caption:'item ba',tips:'item ba'},{id:'bb',caption:'item bb',tips:'item bb',sub:[{id:'bba',caption:'item bba',tips:'item bba'}]}]},{id:'c',caption:'item c',type:'checkbox',value:false},{id:'d',caption:'item d',type:'checkbox',value:true,add:'[Esc]'}]}]}));"+
+                "var o=(new linb.UI.MenuBar({items:[{id:'id',caption:'menu',sub:[{id:'a',caption:'item a',tips:'item a'},{id:'b',image:'img/img.gif',caption:'itemb',tips:'item b',sub:[{id:'ba',caption:'item ba',tips:'item ba'},{id:'bb',caption:'item bb',tips:'item bb',sub:[{id:'bba',caption:'item bba',tips:'item bba'}]}]},{id:'c',caption:'item c',type:'checkbox',value:false},{id:'d',caption:'item d',type:'checkbox',value:true,add:'[Esc]'}]}]}));"+
                 "linb(id).prepend(o);"+
                 "alert(o.getAutoShowTime());"+
                 "_.asyRun(function(){o.setAutoShowTime(1000)});"+
@@ -10161,7 +10169,7 @@ _.set(linb.Locale,["en","doc","linb","UI","MenuBar"], {
             $rtn:"Bool",
             $snippet:[
                 "var id='linb.temp.menu4'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:200px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
-                "var o=(new linb.UI.MenuBar({items:[{id:'id',caption:'menu',sub:[{id:'a',caption:'item a',tips:'item a'},{id:'b',icon:'img/img.gif',caption:'itemb',tips:'item b',sub:[{id:'ba',caption:'item ba',tips:'item ba'},{id:'bb',caption:'item bb',tips:'item bb',sub:[{id:'bba',caption:'item bba',tips:'item bba'}]}]},{id:'c',caption:'item c',type:'checkbox',value:false},{id:'d',caption:'item d',type:'checkbox',value:true,add:'[Esc]'}]}]}));"+
+                "var o=(new linb.UI.MenuBar({items:[{id:'id',caption:'menu',sub:[{id:'a',caption:'item a',tips:'item a'},{id:'b',image:'img/img.gif',caption:'itemb',tips:'item b',sub:[{id:'ba',caption:'item ba',tips:'item ba'},{id:'bb',caption:'item bb',tips:'item bb',sub:[{id:'bba',caption:'item bba',tips:'item bba'}]}]},{id:'c',caption:'item c',type:'checkbox',value:false},{id:'d',caption:'item d',type:'checkbox',value:true,add:'[Esc]'}]}]}));"+
                 "linb(id).prepend(o);"+
                 "alert(o.getHandler());"+
                 "_.asyRun(function(){o.setHandler(false)});"+
@@ -10177,7 +10185,7 @@ _.set(linb.Locale,["en","doc","linb","UI","MenuBar"], {
             ],
             $snippet:[
                 "var id='linb.temp.menu5'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:200px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
-                "var o=(new linb.UI.MenuBar({items:[{id:'id',caption:'menu',sub:[{id:'a',caption:'item a',tips:'item a'},{id:'b',icon:'img/img.gif',caption:'itemb',tips:'item b',sub:[{id:'ba',caption:'item ba',tips:'item ba'},{id:'bb',caption:'item bb',tips:'item bb',sub:[{id:'bba',caption:'item bba',tips:'item bba'}]}]},{id:'c',caption:'item c',type:'checkbox',value:false},{id:'d',caption:'item d',type:'checkbox',value:true,add:'[Esc]'}]}]}));"+
+                "var o=(new linb.UI.MenuBar({items:[{id:'id',caption:'menu',sub:[{id:'a',caption:'item a',tips:'item a'},{id:'b',image:'img/img.gif',caption:'itemb',tips:'item b',sub:[{id:'ba',caption:'item ba',tips:'item ba'},{id:'bb',caption:'item bb',tips:'item bb',sub:[{id:'bba',caption:'item bba',tips:'item bba'}]}]},{id:'c',caption:'item c',type:'checkbox',value:false},{id:'d',caption:'item d',type:'checkbox',value:true,add:'[Esc]'}]}]}));"+
                 "linb(id).prepend(o);"+
                 "alert(o.getHandler());"+
                 "_.asyRun(function(){o.setHandler(false)});"+
@@ -10196,7 +10204,7 @@ _.set(linb.Locale,["en","doc","linb","UI","MenuBar"], {
             ],
             $snippet:[
                 "var id='linb.temp.pm12'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:200px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
-                "var o=(new linb.UI.MenuBar({items:[{id:'id',caption:'menu',sub:[{id:'a',caption:'item a',tips:'item a'},{id:'b',icon:'img/img.gif',caption:'itemb',tips:'item b',sub:[{id:'ba',caption:'item ba',tips:'item ba'},{id:'bb',caption:'item bb',tips:'item bb',sub:[{id:'bba',caption:'item bba',tips:'item bba'}]}]},{id:'c',caption:'item c',type:'checkbox',value:false},{id:'d',caption:'item d',type:'checkbox',value:true,add:'[Esc]'}]}]}));"+
+                "var o=(new linb.UI.MenuBar({items:[{id:'id',caption:'menu',sub:[{id:'a',caption:'item a',tips:'item a'},{id:'b',image:'img/img.gif',caption:'itemb',tips:'item b',sub:[{id:'ba',caption:'item ba',tips:'item ba'},{id:'bb',caption:'item bb',tips:'item bb',sub:[{id:'bba',caption:'item bba',tips:'item bba'}]}]},{id:'c',caption:'item c',type:'checkbox',value:false},{id:'d',caption:'item d',type:'checkbox',value:true,add:'[Esc]'}]}]}));"+
                 "o.onMenuSelected(function(pm,p,item){if(item.type=='checkbox')linb.message(item.value); else linb.message(item.id); });"+
                 "linb(id).prepend(o);"+
                 "}"
@@ -10212,7 +10220,7 @@ _.set(linb.Locale,["en","doc","linb","UI","MenuBar"], {
             ],
             $snippet:[
                 "var id='linb.temp.menu13'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:200px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
-                "var o=(new linb.UI.MenuBar({parentID:id,autoShowTime:0,items:[{id:'id',caption:'menu',sub:[{id:'a',caption:'item a',tips:'item a'},{id:'b',icon:'img/img.gif',caption:'itemb',tips:'item b',sub:true},{id:'c',caption:'item c',type:'checkbox',value:false},{id:'d',caption:'item d',type:'checkbox',value:true,add:'[Esc]'}]}]}));"+
+                "var o=(new linb.UI.MenuBar({parentID:id,autoShowTime:0,items:[{id:'id',caption:'menu',sub:[{id:'a',caption:'item a',tips:'item a'},{id:'b',image:'img/img.gif',caption:'itemb',tips:'item b',sub:true},{id:'c',caption:'item c',type:'checkbox',value:false},{id:'d',caption:'item d',type:'checkbox',value:true,add:'[Esc]'}]}]}));"+
                 "var cp=(new linb.UI.ColorPicker).render(true);"+
                 "cp.beforeClose(function(){cp.hide();return false;})"+
                 ".afterUIValueSet(function(p,old,n){o.onMenuSelected(o.get(0),null,{id:'b',value:n}); o.hide();});"+
@@ -10463,40 +10471,40 @@ _.set(linb.Locale,["en","doc","linb","UI","Dialog"], {
                 "var dlg=(new linb.UI.Dialog).show(null,false, 100,100); alert(dlg.getMovable());_.asyRun(function(){dlg.setMovable(false);},1000);"
             ]
         },
-        getIcon :{
-            $desc:"Gets icon image url.",
+        getImage :{
+            $desc:"Gets image url.",
             $rtn:"String",
             $snippet:[
-                "var dlg=(new linb.UI.Dialog).show(null,false, 100,100); alert(dlg.getIcon());_.asyRun(function(){dlg.setIcon('img/img.gif');},1000);"
+                "var dlg=(new linb.UI.Dialog).show(null,false, 100,100); alert(dlg.getImage());_.asyRun(function(){dlg.setImage('img/img.gif');},1000);"
             ]
         },
-        setIcon :{
-            $desc:"Sets icon image url, and reflects the value to UI.",
+        setImage :{
+            $desc:"Sets image url, and reflects the value to UI.",
             $rtn:"[self]",
             $paras:[
                 "value [Required] :String,  image path.",
                 "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
-                "var dlg=(new linb.UI.Dialog).show(null,false, 100,100); alert(dlg.getIcon());_.asyRun(function(){dlg.setIcon('img/img.gif');},1000);"
+                "var dlg=(new linb.UI.Dialog).show(null,false, 100,100); alert(dlg.getImage());_.asyRun(function(){dlg.setImage('img/img.gif');},1000);"
             ]
         },
-        getIconPos :{
-            $desc:"Gets icon image position",
+        getImagePos :{
+            $desc:"Gets image position",
             $rtn:"String",
             $snippet:[
-                "var dlg=(new linb.UI.Dialog).show(null,false, 100,100); alert(dlg.getIconPos());_.asyRun(function(){dlg.setIcon('img/img.gif').setIconPos('left -16px');},1000);"
+                "var dlg=(new linb.UI.Dialog).show(null,false, 100,100); alert(dlg.getImagePos());_.asyRun(function(){dlg.setImage('img/img.gif').setImagePos('left -16px');},1000);"
             ]
         },
-        setIconPos :{
-            $desc:"Sets icon image position, and reflects the value to UI.",
+        setImagePos :{
+            $desc:"Sets image position, and reflects the value to UI.",
             $rtn:"[self]",
             $paras:[
                 "value [Required] : String, corresponding CSS value.",
                 "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
-                "var dlg=(new linb.UI.Dialog).show(null,false, 100,100); alert(dlg.getIconPos());_.asyRun(function(){dlg.setIcon('img/img.gif').setIconPos('left -16px');},1000);"
+                "var dlg=(new linb.UI.Dialog).show(null,false, 100,100); alert(dlg.getImagePos());_.asyRun(function(){dlg.setImage('img/img.gif').setImagePos('left -16px');},1000);"
             ]
         },
         getHtml:{
@@ -11300,7 +11308,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Poll"], {
                 "var id='linb.temp.pool45'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var o=new linb.UI.Poll({width:'auto',height:'auto',editable:true, title:'a survey',newOption:'new', toggle:true, position:'relative',items:[{id:'a',caption:'option 1',percent:0.5,message:'50%'},{id:'b',caption:'option 2',percent:0.8,message:'80%'}]});"+
                 "o.onCustomEdit(function(profile, node, flag, value, item, callback){"+
-                "if(flag==1||flag==2){var p=new linb.UI.PopMenu({items:[{id:'a',caption:'item a',tips:'item a'},{id:'b',icon:'img/img.gif',caption:'itemb',tips:'item b'}]});p.pop(node);p.onMenuSelected(function(p,i){callback(i.caption)}); return p;};"+
+                "if(flag==1||flag==2){var p=new linb.UI.PopMenu({items:[{id:'a',caption:'item a',tips:'item a'},{id:'b',image:'img/img.gif',caption:'itemb',tips:'item b'}]});p.pop(node);p.onMenuSelected(function(p,i){callback(i.caption)}); return p;};"+
                 "});"+
                 "linb(id).prepend(o);"+
                 "}"
@@ -11521,24 +11529,6 @@ _.set(linb.Locale,["en","doc","linb","UI","TreeBar"], {
                 "var o=new linb.UI.TreeBar({width:'auto',iniFold:true,height:'auto',dock:'none',position:'relative',items:[{id:'a',caption:'a'},{id:'b',caption:'b'},{id:'c',caption:'c',sub:[{id:'cz',caption:'cz'}]}]});"+
                 "linb(id).prepend(o);"+
                 "_.asyRun(function(){o.selectItem('b')},1000);"+
-                "}"
-            ]
-        },
-        updateItem:{
-            $desc:"Updates the specified item(key or value) and the corresponding DOM Element.",
-            $rtn:"String",
-            $paras:[
-                "id [Required] : String. The node id.",
-                "name [Required] : String. The key in the item.",
-                "value [Required] : Any, The value to be set."
-            ],
-            $snippet:[
-                "var id='linb.temp.tb16'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
-                "var o=new linb.UI.TreeBar({width:'auto',iniFold:true,height:'auto',dock:'none',position:'relative',items:[{id:'a',caption:'a'},{id:'b',caption:'b'},{id:'c',caption:'c',sub:[{id:'cz',caption:'cz'}]}]});"+
-                "linb(id).prepend(o);"+
-                "_.asyRun(function(){o.updateItem('b','caption','bbb')},1000);"+
-                "_.asyRun(function(){o.updateItem('b','icon','img/img.gif')},2000);"+
-                "_.asyRun(function(){o.updateItem('b','iconPos','left -16px')},3000);"+
                 "}"
             ]
         },
@@ -13060,22 +13050,6 @@ _.set(linb.Locale,["en","doc","linb","UI","TimeLine"], {
                 "var o=new linb.UI.TimeLine({position:'relative'});"+
                 "linb(id).prepend(o);"+
                 "_.asyRun(function(){o.setUnitPixs(36);alert(o.getUnitPixs());},1000);"+
-                "}"
-            ]
-        },
-        refreshTask:{
-            $desc:"Refresh a specified task.",
-            $rtn:"[self]",
-            $paras:[
-                "id [Required] : String, task id.",
-                "options [Required] : options Object."
-            ],
-            $snippet:[
-                "var id='linb.temp.tl40'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
-                "var o=new linb.UI.TimeLine({position:'relative'});"+
-                "linb(id).prepend(o);"+
-                "o.addTasks([{id:'task1',caption:'task 1',from:(new Date).getTime(), to:(new Date).getTime()+1000*60*60*4 }]);"+
-                "_.asyRun(function(){var id=o.getItems()[0].id, options={caption:'caption changed',background:'#ff00ff'}; o.refreshTask(id, options);},1000);"+
                 "}"
             ]
         },

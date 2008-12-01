@@ -11,7 +11,7 @@ Class('App', 'linb.Com',{
                 .setTop(30)
                 .setWidth(140)
                 .setCaption("drag me to calendar")
-                .setIcon("img/task.gif")
+                .setImage("img/task.gif")
                 .onRender("_button3_aftercreated")
             );
             
@@ -60,7 +60,7 @@ Class('App', 'linb.Com',{
                 .setTop(30)
                 .setWidth(140)
                 .setCaption("drag me to calendar")
-                .setIcon("img/task2.gif")
+                .setImage("img/task2.gif")
                 .onRender("_button4_aftercreated")
             );
             

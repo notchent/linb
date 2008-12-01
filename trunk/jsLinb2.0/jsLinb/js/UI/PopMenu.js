@@ -224,7 +224,7 @@ Class("linb.UI.PopMenu",["linb.UI.Widget","linb.absList"],{
                     tabindex: 1,
                     className: '{cls} {disabled}',
                     ICON:{
-                        style:'background:url({icon}) transparent  no-repeat {iconPos};',
+                        style:'background:url({image}) transparent  no-repeat {imagePos};',
                         className:'ui-icon',
                         $order:0
                     },

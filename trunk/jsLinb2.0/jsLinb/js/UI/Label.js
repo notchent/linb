@@ -19,7 +19,7 @@ Class("linb.UI.Label", "linb.UI.Widget",{
                 $order:1,
                 style:'display:none;',
                 SICON:{
-                    style:'background:url({icon}) transparent no-repeat {iconPos};{iconDisplay}',
+                    style:'background:url({image}) transparent no-repeat {imagePos};{iconDisplay}',
                     className:'ui-icon',
                     $order:0
                 },
@@ -32,7 +32,7 @@ Class("linb.UI.Label", "linb.UI.Widget",{
             BOX:{
                 $order:2,
                 ICON:{
-                    style:'background:url({icon}) transparent no-repeat {iconPos};{iconDisplay}',
+                    style:'background:url({image}) transparent no-repeat {imagePos};{iconDisplay}',
                     className:'ui-icon',
                     $order:0
                 },
@@ -71,8 +71,7 @@ Class("linb.UI.Label", "linb.UI.Widget",{
                     if(p.vAlign!='top')b.setVAlign(p.vAlign,true);
                 }
             },
-            // setIcon and getIcon
-            icon:{
+            image:{
                 action: function(value){
                     var self=this,k=self.keys;
                     self.getSubNodes(['ICON','SICON'])
@@ -80,7 +79,7 @@ Class("linb.UI.Label", "linb.UI.Widget",{
                         .css('backgroundImage','url('+(value||'')+')');
                 }
             },
-            iconPos:{
+            imagePos:{
                 action: function(value){
                     var self=this,k=self.keys;
                     self.getSubNodes(['ICON','SICON'])

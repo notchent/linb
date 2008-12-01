@@ -1,20 +1,28 @@
 Class('VisualJS.ObjectEditor', 'linb.Com',{
     Instance:{
+        $PageEditor:null,
+        $bakValue:null,
+
         iniExComs:function(threadid){
             var self=this;
             linb.ComFactory.newCom('VisualJS.PageEditor',function(){
                 var inn=this;
                 inn.host = self;
-                inn.setProperties({
-                    checkType:'js'
-                });
-                inn.show(null,self.dialog,null,threadid);
-
-                self.PageEditor=inn;
+                inn.$checkType='js';
+                inn.create(function(o,threadid){
+                    self.dialog.append(inn.getUIComponents());
+                },threadid);
+                self.$PageEditor=inn;
             },threadid);
         },
+        activate:function(){
+            this.$PageEditor.activate();
+        },
         check:function(txt){
-            return this.PageEditor.check(txt);
+            return this.$PageEditor.check(txt);
+        },
+        setValue:function(text){
+            this.$PageEditor.setValue(text);
         },
         _dialog_beforeclose:function(profile){
             this.dialog.hide();
@@ -26,7 +34,7 @@ Class('VisualJS.ObjectEditor', 'linb.Com',{
         _btnok_onclick:function(){
             var self=this,
                 prop=self.properties,
-                txt = self.PageEditor.getText(false);
+                txt = self.$PageEditor.getValue();
             if(txt===false)return false;
             //check dirty
             if(prop.text != txt){
@@ -49,18 +57,20 @@ Class('VisualJS.ObjectEditor', 'linb.Com',{
             }
             self.dialog.close();
         },
-
         customAppend:function(parent){
             var page=this,
                 prop = page.properties,
                 dlg=page.dialog;
-            dlg.setCaption(prop.caption).setIcon(prop.icon).setIconPos(prop.iconPos);
-            page.PageEditor.setText(prop.text);
+            dlg.setCaption(prop.caption).setImage(prop.image).setImagePos(prop.imagePos);
+            
+
+            page.$PageEditor.setValue(prop.text);
             if(prop.fromRegion)
                 dlg.setFromRegion(prop.fromRegion);
 
             if(!dlg.get(0).root)
-                dlg.render();
+                dlg.render(true);
+
             dlg.show(parent, true);
 
             return false;
@@ -102,8 +112,8 @@ Class('VisualJS.ObjectEditor', 'linb.Com',{
             .setTop(8)
             .setWidth("100")
             .setCaption("Cancel")
-            .setIcon('@CONF.img_app')
-            .setIconPos("-16px -16px")
+            .setImage('@CONF.img_app')
+            .setImagePos("-16px -16px")
             .onClick("_btncancel_onclick")
             );
 
@@ -114,8 +124,8 @@ Class('VisualJS.ObjectEditor', 'linb.Com',{
             .setTop(8)
             .setWidth("100")
             .setCaption("OK")
-            .setIcon('@CONF.img_app')
-            .setIconPos("-64px -16px")
+            .setImage('@CONF.img_app')
+            .setImagePos("-64px -16px")
             .onClick("_btnok_onclick")
             );
 

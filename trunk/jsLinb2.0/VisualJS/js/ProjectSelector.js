@@ -5,7 +5,7 @@ Class('VisualJS.ProjectSelector', 'linb.Com',{
             var self=this,
                 dlg=self.dialog,
                 prop = self.properties;
-            dlg.setCaption(prop.caption).setIcon(prop.icon).setIconPos(prop.iconPos);
+            dlg.setCaption(prop.caption).setImage(prop.image).setImagePos(prop.imagePos);
             self.listName.setUIValue('').setItems([]);
             if(prop.fromRegion)
                 dlg.setFromRegion(prop.fromRegion);
@@ -79,8 +79,8 @@ Class('VisualJS.ProjectSelector', 'linb.Com',{
             .setWidth(90)
             .setZIndex("1")
             .setCaption("$VisualJS.cancel")
-            .setIcon('@CONF.img_app')
-            .setIconPos("-16px -16px")
+            .setImage('@CONF.img_app')
+            .setImagePos("-16px -16px")
             .onClick("_btncancel_onclick")
             );
 
@@ -92,8 +92,8 @@ Class('VisualJS.ProjectSelector', 'linb.Com',{
             .setWidth(90)
             .setZIndex("1")
             .setCaption("$VisualJS.ok")
-            .setIcon('@CONF.img_app')
-            .setIconPos("-64px -16px")
+            .setImage('@CONF.img_app')
+            .setImagePos("-64px -16px")
             .onClick("_btnok_onclick")
             );
 

@@ -141,10 +141,10 @@ Class('App', 'linb.Com',{
         },
         _objtree_aftercreated:function (profile) {
             var items=[
-                {id:'Namespace', href:'#a=Namespace', caption:'Namespace', icon:'img/img.gif', iconPos:'left -48px'},
-                {id:'Class', href:'#a=Class', caption:'Class', icon:'img/img.gif', iconPos:'left -48px'},
-                {id:'_', href:'#a=_', caption:'_', icon:'img/img.gif', iconPos:'left -48px', sub:[]},
-                {id:'linb', href:'#a=linb', caption:'linb',icon:'img/img.gif', iconPos:'left top', sub:[]}
+                {id:'Namespace', href:'#a=Namespace', caption:'Namespace', image:'img/img.gif', imagePos:'left -48px'},
+                {id:'Class', href:'#a=Class', caption:'Class', image:'img/img.gif', imagePos:'left -48px'},
+                {id:'_', href:'#a=_', caption:'_', image:'img/img.gif', imagePos:'left -48px', sub:[]},
+                {id:'linb', href:'#a=linb', caption:'linb',image:'img/img.gif', imagePos:'left top', sub:[]}
             ];
             var self=this,
                 o=items[2], id=o.id, sub=o.sub,
@@ -154,7 +154,7 @@ Class('App', 'linb.Com',{
                         if('prototype'!=i && 'constructor' != i&& 'upper' !=i)
                             if(typeof o[i]=='function'&& o[i].$linb$){
                                 
-                                temp={id:id+'.'+i, href:'#a='+id+'.'+i, caption:id+'.'+i, icon:'img/img.gif',iconPos:ref._iconPosMap['cls']};
+                                temp={id:id+'.'+i, href:'#a='+id+'.'+i, caption:id+'.'+i, image:'img/img.gif',imagePos:ref._iconPosMap['cls']};
                                 if(typeof linb.getRes('doc.'+id+'.'+i)!='object')
                                     temp.itemClass='ccss-item';
                                 sub=arguments.callee(linb.SC.get(id+'.'+i),ref);
@@ -170,7 +170,7 @@ Class('App', 'linb.Com',{
             for(var i in o){
                 for(var j in o[i]){
                      if('prototype'!=j&&'constructor'!=j&&j.charAt(0)!='_'&&j.charAt(0)!='$'){
-                        sub.push({id:id+'.'+i, href:'#a='+id+'.'+i, caption:id+'.'+i, icon:'img/img.gif', iconPos:self._iconPosMap[typeof o[i]=='function'?'fun':'hash']});
+                        sub.push({id:id+'.'+i, href:'#a='+id+'.'+i, caption:id+'.'+i, image:'img/img.gif', imagePos:self._iconPosMap[typeof o[i]=='function'?'fun':'hash']});
                         break;
                     }
                 }

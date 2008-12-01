@@ -29,15 +29,17 @@ Class('linb.ComFactory',null,{
 
         setCom:function(id, obj){
             this._cache[id]=obj;
-            obj.comRefId=id;
+            if(obj)obj.comRefId=id;
             return this;
         },
         getComFromCache:function(id){
             return this._cache[id]||null;
         },
-        getCom:function(id, onEnd,threadid){
+        //singleton:false->don't get it from cache, and don't cache the result.
+        getCom:function(id, onEnd, threadid, singleton){
+            singleton=singleton!==false;
             var c=this._cache,p=this._pro,ini=p._iniMethod;
-            if(c[id]){
+            if(singleton && c[id]){
                 _.tryF(onEnd, [threadid,c[id]], c[id]);
                 return c[id];
             }else{
@@ -48,6 +50,7 @@ Class('linb.ComFactory',null,{
                     clsPath = p.cls || p,
                     properties = p.properties,
                     events = p.events,
+                    singleton=p.singleton!==false,
                     cls,
                     task=function(cls,properties,threadid){
                         var o = new cls();
@@ -56,7 +59,8 @@ Class('linb.ComFactory',null,{
                         if(events)
                             _.merge(o.events,event,'all');
 
-                        linb.ComFactory.setCom(id, o);
+                        if(singleton)
+                            linb.ComFactory.setCom(id, o);
 
                         var args = [function(com){
                             var arr = com.getUIComponents().get(),
@@ -80,7 +84,7 @@ Class('linb.ComFactory',null,{
                                                     if(!(root=ui.get(0)))return;
 
                                                     linb.UI.Tag.replace(tag,root,firstlayer?com:null);
-                                                },threadid]);
+                                                },threadid, ]);
                                         }
                                         if(v.children){
                                             var a=[];

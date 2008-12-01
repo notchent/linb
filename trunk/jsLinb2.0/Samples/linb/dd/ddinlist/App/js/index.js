@@ -13,7 +13,7 @@ Class('App', 'linb.Com',{
             
             append((new linb.UI.Gallery)
                 .host(host,"gallery1")
-                .setItems([{"id":"a6", "icon":"img/a.gif", "caption":"item6a", "tips":"item6 a"}, {"id":"b6", "caption":"itemb6", "icon":"img/b.gif", "tips":"item6 b"}, {"id":"c6", "icon":"img/c.gif", "caption":"itemc6", "tips":"item6 c"}])
+                .setItems([{"id":"a6", "image":"img/a.gif", "caption":"item6a", "tips":"item6 a"}, {"id":"b6", "caption":"itemb6", "image":"img/b.gif", "tips":"item6 b"}, {"id":"c6", "image":"img/c.gif", "caption":"itemc6", "tips":"item6 c"}])
                 .setLeft(350)
                 .setTop(50)
                 .setWidth(160)
@@ -27,7 +27,7 @@ Class('App', 'linb.Com',{
             
             append((new linb.UI.List)
                 .host(host,"list3")
-                .setItems([{"id":"1a", "caption":"item1a", "icon":"img/a.gif", "tips":"item1 a"}, {"id":"1b", "caption":"item1b", "icon":"img/a.gif", "tips":"item1 b"}, {"id":"1c", "icon":"img/a.gif", "caption":"item1c", "tips":"item1 c"}])
+                .setItems([{"id":"1a", "caption":"item1a", "image":"img/a.gif", "tips":"item1 a"}, {"id":"1b", "caption":"item1b", "image":"img/a.gif", "tips":"item1 b"}, {"id":"1c", "image":"img/a.gif", "caption":"item1c", "tips":"item1 c"}])
                 .setLeft(40)
                 .setTop(50)
                 .setWidth(110)
@@ -46,7 +46,7 @@ Class('App', 'linb.Com',{
             
             host.block3.append((new linb.UI.TreeBar)
                 .host(host,"treebar3")
-                .setItems([{"id":"a3", "icon":"img/a.gif", "caption":"item3a", "tips":"item a", "sub":[{"id":"a3a", "icon":"img/b.gif", "caption":"suba"}, {"id":"a3b", "icon":"img/b.gif", "caption":"subb"}]}, {"id":"b3", "caption":"item3b", "icon":"img/a.gif", "tips":"item3 b"}, {"id":"c3", "icon":"img/a.gif", "caption":"itemc3", "tips":"item3 c"}])
+                .setItems([{"id":"a3", "image":"img/a.gif", "caption":"item3a", "tips":"item a", "sub":[{"id":"a3a", "image":"img/b.gif", "caption":"suba"}, {"id":"a3b", "image":"img/b.gif", "caption":"subb"}]}, {"id":"b3", "caption":"item3b", "image":"img/a.gif", "tips":"item3 b"}, {"id":"c3", "image":"img/a.gif", "caption":"itemc3", "tips":"item3 c"}])
                 .setLeft(0)
                 .setTop(0)
                 .setDropKeys("abc")
@@ -55,7 +55,7 @@ Class('App', 'linb.Com',{
             
             append((new linb.UI.IconList)
                 .host(host,"list4")
-                .setItems([{"id":"2a", "icon":"img/a.gif", "caption":"item2a", "tips":"item2 a"}, {"id":"2b", "caption":"item2b", "icon":"img/b.gif", "tips":"item2 b"}, {"id":"2c", "icon":"img/c.gif", "caption":"item2c", "tips":"item2 c"}])
+                .setItems([{"id":"2a", "image":"img/a.gif", "caption":"item2a", "tips":"item2 a"}, {"id":"2b", "caption":"item2b", "image":"img/b.gif", "tips":"item2 b"}, {"id":"2c", "image":"img/c.gif", "caption":"item2c", "tips":"item2 c"}])
                 .setLeft(200)
                 .setTop(50)
                 .setWidth(110)
@@ -67,7 +67,7 @@ Class('App', 'linb.Com',{
             
             append((new linb.UI.RadioBox)
                 .host(host,"radiobox1")
-                .setItems([{"id":"a4", "icon":"img/a.gif", "caption":"item4a", "tips":"item4 a"}, {"id":"b4", "caption":"item4b", "icon":"img/b.gif", "tips":"item4 b"}, {"id":"c4", "icon":"img/c.gif", "caption":"item4c", "tips":"item4 c"}])
+                .setItems([{"id":"a4", "image":"img/a.gif", "caption":"item4a", "tips":"item4 a"}, {"id":"b4", "caption":"item4b", "image":"img/b.gif", "tips":"item4 b"}, {"id":"c4", "image":"img/c.gif", "caption":"item4c", "tips":"item4 c"}])
                 .setLeft(300)
                 .setTop(180)
                 .setWidth(210)

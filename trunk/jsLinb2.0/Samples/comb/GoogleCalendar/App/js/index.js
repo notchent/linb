@@ -188,7 +188,7 @@ Class('App', 'linb.Com',{
                 self.refreshUIFromData(task,null,null,host.timeline1.getTimeSpanKey());
                 self.onTaskModified = function(task){
                     var a = host._formatData([task]);
-                    host.timeline1.refreshTask(a[0].id, a[0]);
+                    host.timeline1.updateItem(a[0].id, a[0]);
                 };
                 self.onTaskDeleted = function(id){
                     host.timeline1.removeTasks([id]);

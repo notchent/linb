@@ -11,7 +11,7 @@ Class('App', 'linb.Com',{
             
             append((new linb.UI.MenuBar)
                 .host(host,"menubar2")
-                .setItems([{"id":"menFile", "caption":"File   ", "tips":"File", "sub":[{"id":"menFileNew", "caption":"New", "sub":[{"id":"menFileNewMailMessage", "caption":"Main Message", "icon":"img/demo.gif"}, {"id":"menFileNewAppointment", "caption":"Appointment", "icon":"img/demo.gif"}]}, {"id":"menFileOpen", "caption":"Open"}, {"id":"menFileOpen", "caption":"Open"}, {"id":"menFileDataFile", "caption":"Data File Management..."}, {"id":"menFileClose", "caption":"Close All Items"}, {"id":"menFileExport", "caption":"Export and import"}, {"id":"menFileWorkOffline", "caption":"Work Offline"}, {"id":"menFileExit", "caption":"Exit"}]}, {"id":"menEdit", "caption":"Edit"}, {"id":"menView", "caption":"View"}])
+                .setItems([{"id":"menFile", "caption":"File   ", "tips":"File", "sub":[{"id":"menFileNew", "caption":"New", "sub":[{"id":"menFileNewMailMessage", "caption":"Main Message", "image":"img/demo.gif"}, {"id":"menFileNewAppointment", "caption":"Appointment", "image":"img/demo.gif"}]}, {"id":"menFileOpen", "caption":"Open"}, {"id":"menFileOpen", "caption":"Open"}, {"id":"menFileDataFile", "caption":"Data File Management..."}, {"id":"menFileClose", "caption":"Close All Items"}, {"id":"menFileExport", "caption":"Export and import"}, {"id":"menFileWorkOffline", "caption":"Work Offline"}, {"id":"menFileExit", "caption":"Exit"}]}, {"id":"menEdit", "caption":"Edit"}, {"id":"menView", "caption":"View"}])
             );
             
             append((new linb.UI.Layout)
@@ -38,7 +38,7 @@ Class('App', 'linb.Com',{
             
             host.layout4.append((new linb.UI.Tabs)
                 .host(host,"tabs6")
-                .setItems([{"id":"a", "caption":"File", "icon":"img/file.gif"}, {"id":"b", "caption":"Project", "icon":"img/proj.gif"}, {"id":"c", "caption":"Outline", "icon":"img/outl.gif"}])
+                .setItems([{"id":"a", "caption":"File", "image":"img/file.gif"}, {"id":"b", "caption":"Project", "image":"img/proj.gif"}, {"id":"c", "caption":"Outline", "image":"img/outl.gif"}])
                 .setLeft(0)
                 .setTop(0)
                 .setDropKeysPanel("mydropkey")

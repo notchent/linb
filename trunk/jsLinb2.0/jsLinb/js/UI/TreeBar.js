@@ -101,26 +101,6 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
 
             });
         },
-
-        updateItem:function(id, name, value){
-            return this.each(function(profile){
-                var item = profile.getItemByItemId(id),
-                    fun = function(key,id){return profile.getSubNodeByItemId(key, id)};
-                if(!item)return;
-                switch(item[name]=value){
-                    case 'caption':
-                        fun('ITEMCAPTION', id).html(value,false);
-                        break;
-                    case 'icon':
-                        fun('MARK2', id).css('display',value?'':'none').css('backgroundImage','url('+(value||'')+')');
-                        break;
-                    case 'iconPos':
-                        fun('MARK2', id).css('backgroundPosition', value);
-                        break;
-                }
-            });
-        },
-
         _toggleNodes:function(items, expend, recursive){
             var self=this;
             _.arr.each(items,function(o){
@@ -234,7 +214,7 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
                                 style:'{mark2Display}'
                             },
                             ITEMICON:{
-                                style:'background:url({icon}) transparent  no-repeat   {iconPos}; {iconDisplay}',
+                                style:'background:url({image}) transparent  no-repeat   {imagePos}; {iconDisplay}',
                                 className:'ui-icon',
                                 $order:2
                             },

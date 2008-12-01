@@ -53,9 +53,7 @@ Class("linb.UI.Input", ["linb.UI.Widget","linb.absValue"] ,{
                 else{
                     var err = profile.getSubNode('ERROR');
                     if(profile.inValid==2){
-                        //bg to input
                         o.addClass(v);
-                        //display icon
                         err.css('display','block');
                     }else{
                         o.removeClass(v);

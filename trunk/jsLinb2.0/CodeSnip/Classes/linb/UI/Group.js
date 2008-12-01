@@ -12,7 +12,7 @@ Class('App.linb_UI_Group', 'linb.Com',{
                 .setWidth(200)
                 .setHeight(150)
                 .setCaption("group2")
-                .setIcon("img/demo.gif")
+                .setImage("img/demo.gif")
             );
             
             host.group2.append((new linb.UI.Input)

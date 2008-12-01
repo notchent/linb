@@ -1,9 +1,7 @@
 Class("linb.UI.ToolBar",["linb.UI","linb.absList"],{
     Instance:{
-        updateItem:function(itemId, caption){
-            return this.each(function(profile){
-                profile.getSubNodeByItemId('CAPTION', itemId).html(caption,false);
-            });
+        updateItem:function(subId,options){
+            return arguments.callee.upper.apply(this,[subId,options,'items.sub',]);
         },
         showItem:function(itemId, value){
             return this.each(function(profile){
@@ -61,7 +59,7 @@ Class("linb.UI.ToolBar",["linb.UI","linb.absList"],{
                                 ICON:{
                                     $order:1,
                                     className:'ui-icon',
-                                    style:'background:url({icon}) transparent no-repeat  {iconPos}; {iconDisplay}'
+                                    style:'background:url({image}) transparent no-repeat  {imagePos}; {iconDisplay}'
                                 },
                                 CAPTION:{
                                     $order:2,
@@ -145,6 +143,7 @@ Class("linb.UI.ToolBar",["linb.UI","linb.absList"],{
             },
             DROP:{
                 width:'7px',
+                height:'16px',
                 'vertical-align':'middle',
                 background: linb.UI.$bg('icon.gif', ' no-repeat left bottom', true)
             },
@@ -227,30 +226,24 @@ Class("linb.UI.ToolBar",["linb.UI","linb.absList"],{
 
             return d;
         },
-        _prepareItem:function(profile, oitem, sitem){
-            var dn='display:none';
-            oitem.mode2 = profile.properties.handler ? '' : dn;
-            oitem.grpStyle=sitem.visible===false?dn:'';
+        _prepareItem:function(profile, oitem, sitem, pid,  mapCache, serialId){
+            var fun=function(profile, dataItem, item, pid, mapCache,serialId){
+                var dn='display:none',
+                id=dataItem[linb.UI.$tag_subId]=typeof serialId=='string'?serialId:profile.pickSubId('items'),
+                t;
 
-            var arr=[],
-                a = sitem.sub ||[],
-                dataItem,id,t;
-            _.arr.each(a,function(item){
-                dataItem={id: item.id};
-
-                id=profile.pickSubId('items');
-
-                //give item subid
-                dataItem[linb.UI.$tag_subId] = profile.ItemIdMapSubSerialId[item.id] = id;
-                profile.SubSerialIdMapItem[id] = item;
+                if(false!==mapCache){
+                    profile.ItemIdMapSubSerialId[item.id] = id;
+                    profile.SubSerialIdMapItem[id] = item;
+                }
 
                 if(t=item.object){
                     t=dataItem.object=item.object=t['linb.absBox']?t.get(0):t;
                     //relative it.
                     if(t['linb.UIProfile']){
                         t.properties.position='relative';
-                        if(!t.CS.KEY)t.CS.KEY={};
-                        t.CS.KEY +=';vertical-align:middle;';
+                        if(!t.CS.KEY)t.CS.KEY='';
+                        t.CS.KEY ='vertical-align:middle;margin-left:4px;' + t.CS.KEY;
                     }
                     item.$id=t.$id;
                     t.$item=item;
@@ -265,12 +258,28 @@ Class("linb.UI.ToolBar",["linb.UI","linb.absList"],{
                     dataItem.labelDisplay=dataItem.label?'':dn;
                     dataItem.captionDisplay=dataItem.caption?'':dn;
                     dataItem.dropDisplay=item.dropButton?'':dn;
-                    dataItem.boxDisplay= (!dataItem.split && (dataItem.caption || dataItem.icon))?'':dn;
+                    dataItem.boxDisplay= (!dataItem.split && (dataItem.caption || dataItem.image))?'':dn;
                 }
+                item._pid=pid;
+            };
 
-                arr.push(dataItem);
-            });
-            oitem.sub = arr;
+            if(pid){
+                fun(profile,oitem,sitem,pid,mapCache,serialId);
+            }else{
+                var arr=[],
+                dataItem,
+                a=sitem.sub||[];
+
+                pid=sitem.id;
+                oitem.mode2 = profile.properties.handler ? '' : dn;
+                oitem.grpStyle=sitem.visible===false?dn:'';
+                oitem.sub = arr;
+                _.arr.each(a,function(item){
+                    dataItem={id: item.id};
+                    fun(profile,dataItem,item,pid,mapCache,serialId);
+                    arr.push(dataItem);
+                });
+            }
         }
     }
 });

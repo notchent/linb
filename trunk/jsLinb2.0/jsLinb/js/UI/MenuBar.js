@@ -91,7 +91,7 @@ Class("linb.UI.MenuBar",["linb.UI","linb.absList" ],{
                         ICON:{
                             $order:1,
                             className:'ui-icon',
-                            style:'background:url({icon}) transparent no-repeat  {iconPos}; {iconDisplay}'
+                            style:'background:url({image}) transparent no-repeat  {imagePos}; {iconDisplay}'
                         },
                         CAPTION:{
                             $order:2,

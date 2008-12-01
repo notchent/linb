@@ -67,8 +67,8 @@ Class('App.linb_UI_Button', 'linb.Com',{
                 .setTop(20)
                 .setWidth(180)
                 .setHeight("22")
-                .setCaption("with icon")
-                .setIcon("img/demo.gif")
+                .setCaption("with image")
+                .setImage("img/demo.gif")
             );
             
             append((new linb.UI.Button)
@@ -92,8 +92,8 @@ Class('App.linb_UI_Button', 'linb.Com',{
                 .setTop(50)
                 .setWidth(270)
                 .setHeight("22")
-                .setCaption("drop button with icon")
-                .setIcon("img/demo.gif")
+                .setCaption("drop button with image")
+                .setImage("img/demo.gif")
                 .setType("drop")
                 .onClick("_button12_onclick")
                 .onClickDrop("_button12_onclickdrop")

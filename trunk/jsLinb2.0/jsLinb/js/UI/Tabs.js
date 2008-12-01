@@ -30,8 +30,10 @@ Class("linb.UI.Tabs", ["linb.UI", "linb.absList","linb.absValue"],{
                             if(properties.dynRender){
                                 var arr=profile.children,a=[];
                                 _.arr.each(arr,function(o){
-                                    if(o[1]==value && !o[0].rendered)
+                                    if(o[1]==value && !o[0]['parent:'+profile.$id]){
                                         a.push(o[0]);
+                                        o[0]['parent:'+profile.$id]=1;
+                                    }
                                 });
                                 if(a.length)
                                     box.append(linb.UI.pack(a),value);
@@ -66,11 +68,11 @@ Class("linb.UI.Tabs", ["linb.UI", "linb.absList","linb.absValue"],{
 
             _.merge(i, {
                 caption:para.caption,
-                icon:para.icon,
+                image:para.image,
                 closeBtn:para.closeBtn || false,
                 landBtn:para.landBtn || false,
                 optBtn:para.optBtn || false,
-                iconPos:para.iconPos,
+                imagePos:para.imagePos,
                 dragKey:para.dragKey,
                 dropKeys:para.dropKeys,
                 id : para.id || para.tag || _.id()
@@ -229,7 +231,7 @@ Class("linb.UI.Tabs", ["linb.UI", "linb.absList","linb.absValue"],{
                                     style:"white-space:nowrap;",
                                     RULER:{},
                                     ICON:{
-                                        style:'background:url({icon}) transparent  no-repeat {iconPos};{iconDisplay}',
+                                        style:'background:url({image}) transparent  no-repeat {imagePos};{iconDisplay}',
                                         className:'ui-icon',
                                         $order:0
                                     },

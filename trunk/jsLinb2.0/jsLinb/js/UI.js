@@ -2478,7 +2478,7 @@ Class("linb.UI",  "linb.absObj", {
                 hashOut.caption=o(hashIn,hashOut,profile);
 
             //todo: change it
-            hashOut.iconDisplay = hashIn.icon?'':'display:none';
+            hashOut.iconDisplay = hashIn.image?'':'display:none';
             return hashOut;
         },
 
@@ -3022,7 +3022,7 @@ Class("linb.UI",  "linb.absObj", {
             profile.prepared=true;
             return data;
         },
-        _prepareItems:function(profile, items, pid, mapCache){
+        _prepareItems:function(profile, items, pid, mapCache, serialId){
             var result=[],
                 item,dataItem,t,
                 SubID=linb.UI.$tag_subId,id ,
@@ -3033,15 +3033,15 @@ Class("linb.UI",  "linb.absObj", {
                 if(typeof items[i]!='object')
                     items[i]={id:items[i]};
                 item=items[i];
-                if(!'caption' in item)item.caption=item.id;
+                if(!('caption' in item))item.caption=item.id;
 
                 dataItem={id: item.id};
-                if(pid)dataItem._parent = pid;
-                id=profile.pickSubId('items');
+                if(pid)dataItem._pid = pid;
+                
+                id=dataItem[SubID]=typeof serialId=='string'?serialId:profile.pickSubId('items');
+
                 if(false!==mapCache){
-                    //give item subid
-                    if(!dataItem[SubID])
-                        dataItem[SubID] = profile.ItemIdMapSubSerialId[item.id] = id;
+                    profile.ItemIdMapSubSerialId[item.id] = id;
                     profile.SubSerialIdMapItem[id] = item;
                 }
                 if(t=item.object){
@@ -3059,7 +3059,7 @@ Class("linb.UI",  "linb.absObj", {
                     //others
                     ajd(profile, item, dataItem);
                     if(this._prepareItem)
-                        this._prepareItem(profile, dataItem, item, pid);
+                        this._prepareItem(profile, dataItem, item, pid, mapCache, serialId);
                 }
                 result.push(dataItem);
             }
@@ -3210,6 +3210,35 @@ Class("linb.absList", "linb.absObj",{
                 //keep the value
                 //profile.properties.value=null;
             });
+        },
+        updateItem:function(subId,options){
+            var self=this,
+                profile=self.get(0),
+                box=profile.box,
+                items=profile.properties.items,
+                item=profile.queryItems(items,function(o){return o.id==subId},true,true),
+                serialId,node;
+            if(item.length){
+                item=item[0];
+                _.merge(item, options, 'all');
+                item.id=subId;
+
+                //prepared already?
+                serialId=_.get(profile,['ItemIdMapSubSerialId',subId]);
+                arr=box._prepareItems(profile, [item],item._pid,false, serialId);
+
+                //in dom already?
+                node=profile.getSubNodeByItemId('ITEM',subId);
+                if(!node.isEmpty()){
+                    //for the sub node
+                    if(items.sub){
+                        delete item._created;
+                        delete item._checked;
+                    }
+                    node.outerHTML(profile.buildItems(arguments[2]||'items',arr));
+                }
+            }
+            return self;
         },
         fireItemClickEvent:function(subId){
             var profile = this.get(0),

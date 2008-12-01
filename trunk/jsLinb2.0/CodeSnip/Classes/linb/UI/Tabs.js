@@ -11,7 +11,7 @@ Class('App.linb_UI_Tabs', 'linb.Com',{
             
             append((new linb.UI.Tabs)
                 .host(host,"Tabs1")
-                .setItems([{"id":"view1", "caption":"view1", "icon":"img/demo.gif"}, {"id":"view2", "caption":"view2"}, {"id":"view3", "caption":"view3", "closeBtn":true}, {"id":"view4", "caption":"view4", "closeBtn":true, "landBtn":true, "optBtn":true}, {"id":"view5", "caption":"view5", "closeBtn":true, "landBtn":true, "optBtn":true}, {"id":"view6", "caption":"view6", "closeBtn":true}, {"id":"view7", "caption":"view7", "closeBtn":true, "landBtn":true, "optBtn":true}, {"id":"view8", "caption":"view8", "closeBtn":true}, {"id":"view9", "caption":"view9", "closeBtn":true}, {"id":"view10", "caption":"view10", "closeBtn":true}, {"id":"view11", "caption":"view11", "closeBtn":true}])
+                .setItems([{"id":"view1", "caption":"view1", "image":"img/demo.gif"}, {"id":"view2", "caption":"view2"}, {"id":"view3", "caption":"view3", "closeBtn":true}, {"id":"view4", "caption":"view4", "closeBtn":true, "landBtn":true, "optBtn":true}, {"id":"view5", "caption":"view5", "closeBtn":true, "landBtn":true, "optBtn":true}, {"id":"view6", "caption":"view6", "closeBtn":true}, {"id":"view7", "caption":"view7", "closeBtn":true, "landBtn":true, "optBtn":true}, {"id":"view8", "caption":"view8", "closeBtn":true}, {"id":"view9", "caption":"view9", "closeBtn":true}, {"id":"view10", "caption":"view10", "closeBtn":true}, {"id":"view11", "caption":"view11", "closeBtn":true}])
                 .setLeft(0)
                 .setTop(0)
                 .setValue("view1")

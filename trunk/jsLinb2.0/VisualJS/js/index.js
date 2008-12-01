@@ -15,9 +15,9 @@ Class('VisualJS', 'linb.Com',{
             if(/</.test(content))
                while(content!=(content=content.replace(/<[^<>]*>/g, "")));
 
-            self.Message.unshift({id:_.id(), caption: content.length>50?content.substr(0,50)+'...':content, tips:content, icon:CONF.img_app, iconPos:'-64px -64px'});
+            self.Message.unshift({id:_.id(), caption: content.length>50?content.substr(0,50)+'...':content, tips:content, image:CONF.img_app, imagePos:'-64px -64px'});
 
-            self.toolbar.updateItem('info', content.length>50?content.substr(0,50)+'...':content);
+            self.toolbar.updateItem('info', {caption:content.length>50?content.substr(0,50)+'...':content});
 
             o.apply(null,arguments);
         };
@@ -42,19 +42,19 @@ Class('VisualJS', 'linb.Com',{
                 linb.ComFactory.setProfile(CONF.ComFactoryProfile);
                 this.menubar.setItems([
                     {id:'file', caption:'$VisualJS.menu.file', sub:[
-                        {id:'newproject', caption:'$VisualJS.menu.newproject', icon:CONF.img_app, iconPos:'-32px top'},
-                        {id:'openproject', caption:'$VisualJS.menu.openproject', add:'Ctrl+Alt+O', icon:CONF.img_app, iconPos:'-48px top'},
+                        {id:'newproject', caption:'$VisualJS.menu.newproject', image:CONF.img_app, imagePos:'-32px top'},
+                        {id:'openproject', caption:'$VisualJS.menu.openproject', add:'Ctrl+Alt+O', image:CONF.img_app, imagePos:'-48px top'},
                         {id:'closeproject', caption:'$VisualJS.menu.closeproject'},
                         {type:'split'},
-                        {id:'saveall', caption:'$VisualJS.menu.saveall', add:'Ctrl+Alt+S', icon:CONF.img_app, iconPos:'-96px top'}
+                        {id:'saveall', caption:'$VisualJS.menu.saveall', add:'Ctrl+Alt+S', image:CONF.img_app, imagePos:'-96px top'}
                     ]},
                     {id:'build',caption:'$VisualJS.menu.build', sub:[
-                        {id:'debug', caption:'$VisualJS.menu.debug', icon:CONF.img_app, iconPos:'top left',add:'F9'},
-                        {id:'release', caption:'$VisualJS.menu.release', icon:CONF.img_app, iconPos:'-64px top',add:'Ctrl+F9'}
+                        {id:'debug', caption:'$VisualJS.menu.debug', image:CONF.img_app, imagePos:'top left',add:'F9'},
+                        {id:'release', caption:'$VisualJS.menu.release', image:CONF.img_app, imagePos:'-64px top',add:'Ctrl+F9'}
                     ]},
                     {id:'help',caption:'$VisualJS.menu.help', sub:[
                         {id:'forum', caption:'$VisualJS.menu.forum'},
-                        {id:'download', caption:'$VisualJS.menu.download', icon:CONF.img_app, iconPos:'-144px 0px'},
+                        {id:'download', caption:'$VisualJS.menu.download', image:CONF.img_app, imagePos:'-144px 0px'},
                         {type:'split'},
                         {id:'license', caption:'$VisualJS.menu.license', sub:[
                             {id:'gpllicense', caption:'$VisualJS.menu.gpllicense'},
@@ -62,28 +62,28 @@ Class('VisualJS', 'linb.Com',{
                             {id:'purchase', caption:'$VisualJS.menu.purchase'}
                         ]},
                         {type:'split'},
-                        {id:'flash', icon:CONF.img_app, iconPos:'-128px -17px', caption:'$VisualJS.tool.flash'},
-                        {id:'demo', icon:CONF.img_app, iconPos:'-48px -64px ', caption:'$VisualJS.tool.demo'},
+                        {id:'flash', image:CONF.img_app, imagePos:'-128px -17px', caption:'$VisualJS.tool.flash'},
+                        {id:'demo', image:CONF.img_app, imagePos:'-48px -64px ', caption:'$VisualJS.tool.demo'},
                         {split:true},
                         {id:'about', caption:'$VisualJS.menu.about'}
                     ]}
                 ]);
                 this.toolbar.setItems([{id:'only', sub:[
-                    {id:'newproject', icon:CONF.img_app, iconPos:'-32px top', tips:'$VisualJS.tool.newp'},
-                    {id:'openproject', icon:CONF.img_app, iconPos:'-48px top', tips:'$VisualJS.tool.open'},
+                    {id:'newproject', image:CONF.img_app, imagePos:'-32px top', tips:'$VisualJS.tool.newp'},
+                    {id:'openproject', image:CONF.img_app, imagePos:'-48px top', tips:'$VisualJS.tool.open'},
                     {split:true},
-                    {id:'saveall', icon:CONF.img_app, iconPos:'-96px top', tips:'$VisualJS.tool.saveall'},
+                    {id:'saveall', image:CONF.img_app, imagePos:'-96px top', tips:'$VisualJS.tool.saveall'},
                     {split:true},
-                    {id:'debug', icon:CONF.img_app, iconPos:'top left', tips:'$VisualJS.tool.debug'},
-                    {id:'release', icon:CONF.img_app, iconPos:'-64px top', tips:'$VisualJS.tool.release'},
+                    {id:'debug', image:CONF.img_app, imagePos:'top left', tips:'$VisualJS.tool.debug'},
+                    {id:'release', image:CONF.img_app, imagePos:'-64px top', tips:'$VisualJS.tool.release'},
                     {split:true},
-                    {id:'download', tips:'$VisualJS.menu.download', icon:CONF.img_app, iconPos:'-144px 0px'},
-                    {id:'flash', icon:CONF.img_app, iconPos:'-128px -17px', tips:'$VisualJS.tool.flash'},
-                    {id:'demo', icon:CONF.img_app, iconPos:'-48px -64px ', tips:'$VisualJS.tool.demo'},
+                    {id:'download', tips:'$VisualJS.menu.download', image:CONF.img_app, imagePos:'-144px 0px'},
+                    {id:'flash', image:CONF.img_app, imagePos:'-128px -17px', tips:'$VisualJS.tool.flash'},
+                    {id:'demo', image:CONF.img_app, imagePos:'-48px -64px ', tips:'$VisualJS.tool.demo'},
                     {split:true},
-                    {id:'ec', icon:CONF.img_app, iconPos:'-98px -16px', tips:'$VisualJS.tool.ec'},
+                    {id:'ec', image:CONF.img_app, imagePos:'-98px -16px', tips:'$VisualJS.tool.ec'},
                     {split:true},
-                    {id:'info', icon:CONF.img_app, iconPos:'-286px -64px ', caption:'$VisualJS.noMessage', tips:'$VisualJS.message'}
+                    {id:'info', image:CONF.img_app, imagePos:'-286px -64px ', caption:'$VisualJS.noMessage', tips:'$VisualJS.message'}
                 ]}]);
                 this.floatLogo.setCustomStyle({"KEY":"background-image:url("+linb.getPath('img/','logo.gif')+");position:absolute;top:0px;right:0px;width:120px;height:60px;z-index:100;cursor:pointer;"})
             },
@@ -185,26 +185,26 @@ Class('VisualJS', 'linb.Com',{
             }),function(txt){
                 var obj = typeof txt=='string'?_.unserialize(txt):txt;
                 if(obj && !obj.error && obj.data && obj.data.OK){
-                        var iconPos;
+                        var imagePos;
                         if(type=='/')
-                            iconPos='-48px top';
+                            imagePos='-48px top';
                         else{
                             var a = name.split('.');
                             switch(a[1].toLowerCase()){
                                 case 'html':
-                                    iconPos='-112px -48px';
+                                    imagePos='-112px -48px';
                                     break;
                                 case 'css':
-                                    iconPos='-208px -48px';
+                                    imagePos='-208px -48px';
                                     break;
                                 case 'js':
-                                    iconPos='-16px -48px';
+                                    imagePos='-16px -48px';
                                     break;
                                 default:
-                                    iconPos='-96px -48px';
+                                    imagePos='-96px -48px';
                             }
                         }
-                        tb.insertItems([{id: pathadd, caption: name , icon:CONF.img_app, iconPos:iconPos, value:pathadd, sub:type=='/'?[]:null}], id)
+                        tb.insertItems([{id: pathadd, caption: name , image:CONF.img_app, imagePos:imagePos, value:pathadd, sub:type=='/'?[]:null}], id)
                 }else
                     linb.message(obj.error.message);
             });
@@ -245,8 +245,8 @@ Class('VisualJS', 'linb.Com',{
                     linb.ComFactory.getCom('addFile',function(){
                         this.host = self;
                         this.setProperties({
-                            icon:CONF.img_app,
-                            iconPos:'-0px -16px',
+                            image:CONF.img_app,
+                            imagePos:'-0px -16px',
                             caption:'$VisualJS.tool2.new',
                             onOK: self._addfile,
                             fromRegion:linb(src).cssRegion(true),
@@ -260,8 +260,8 @@ Class('VisualJS', 'linb.Com',{
                         this.host = self;
                         this.setProperties({
                             fromRegion:linb(src).cssRegion(true),
-                            icon:CONF.img_app,
-                            iconPos:'-80px -16px',
+                            image:CONF.img_app,
+                            imagePos:'-80px -16px',
                             caption:'$VisualJS.tool2.del',
                             items:self.curPrjFiles,
                             onOK: self._delfile
@@ -355,7 +355,7 @@ Class('VisualJS', 'linb.Com',{
                 arr = value.split('/'),
                 filename = arr[arr.length-1],
                 filetype = filename.split('.')[1],
-                iconPos = filetype=='js'?'-16px -48px':'-128px -48px';
+                imagePos = filetype=='js'?'-16px -48px':'-128px -48px';
 
             filetype = filetype=='js'?'class':filetype;
 
@@ -367,7 +367,7 @@ Class('VisualJS', 'linb.Com',{
             }else{
                 linb.Dom.animate({border:'dashed 1px #ff0000'},{left:[t.left,pro.left],top:[t.top,pro.top],width:[t.width,pro.width],height:[t.height,pro.height]}
                     ,null,function(){
-                        var item = {id:value, tips:value, caption:filename , closeBtn:true, icon:CONF.img_app, iconPos:iconPos},
+                        var item = {id:value, tips:value, caption:filename , closeBtn:true, image:CONF.img_app, imagePos:imagePos},
                             items = tb.getItems()
                         ;
                         tb.insertItems([item], items.length?items[items.length-1].id:null);
@@ -466,8 +466,8 @@ Class('VisualJS', 'linb.Com',{
             (new u.Panel)
             .host(t,"panelbar2")
             .setCaption("$VisualJS.pm.title")
-            .setIcon('@CONF.img_app')
-            .setIconPos("-128px -48px")
+            .setImage('@CONF.img_app')
+            .setImagePos("-128px -48px")
             , 'before');
 
             t.panelbar2.append(
@@ -502,10 +502,10 @@ Class('VisualJS', 'linb.Com',{
             .setHAlign("right")
             .setDisabled(true)
             .setItems([{id:'only', sub:[
-                {id:'refresh', icon:'@CONF.img_app', iconPos:'-113px -16px', tips:'$VisualJS.tool2.refresh'},
+                {id:'refresh', image:'@CONF.img_app', imagePos:'-113px -16px', tips:'$VisualJS.tool2.refresh'},
                 {type:'split'},
-                {id:'new', icon:'@CONF.img_app', iconPos:'-0px -16px', tips:'$VisualJS.tool2.new'},
-                {id:'delete', icon:'@CONF.img_app', iconPos:'-80px -16px', tips:'$VisualJS.tool2.del'}
+                {id:'new', image:'@CONF.img_app', imagePos:'-0px -16px', tips:'$VisualJS.tool2.new'},
+                {id:'delete', image:'@CONF.img_app', imagePos:'-80px -16px', tips:'$VisualJS.tool2.del'}
             ]}])
             .onRender(function (profile) {
                 profile.getSubNode("ITEMS").css({borderLeftWidth:0, borderRightWidth:0, borderBottomWidth:0});
@@ -530,32 +530,32 @@ Class('VisualJS', 'linb.Com',{
                 ):-1;
             });
             //root
-            var names=pm.split('/'), name=names[names.length-1], iconPos,
+            var names=pm.split('/'), name=names[names.length-1], imagePos,
             hash={
-                '*':{id:pm, caption: name , icon:CONF.img_app, iconPos:'-128px -48px', value:pm, sub:[]}
+                '*':{id:pm, caption: name , image:CONF.img_app, imagePos:'-128px -48px', value:pm, sub:[]}
             },
             arr=[hash['*']];
             //add sub
             _.arr.each(obj,function(o){
                 if(!o.type)
-                    iconPos='-48px top';
+                    imagePos='-48px top';
                 else{
                     var a = o.name.split('.');
                     switch(a[1].toLowerCase()){
                         case 'html':
-                            iconPos='-112px -48px';
+                            imagePos='-112px -48px';
                             break;
                         case 'css':
-                            iconPos='-208px -48px';
+                            imagePos='-208px -48px';
                             break;
                         case 'js':
-                            iconPos='-16px -48px';
+                            imagePos='-16px -48px';
                             break;
                         default:
-                            iconPos='-96px -48px';
+                            imagePos='-96px -48px';
                     }
                 }
-                hash[o.id] = {id:o.location, caption: o.name , icon:CONF.img_app, iconPos:iconPos, value:o.location};
+                hash[o.id] = {id:o.location, caption: o.name , image:CONF.img_app, imagePos:imagePos, value:o.location};
                 if(!o.type)
                     hash[o.id].sub=[];
 
@@ -579,8 +579,8 @@ Class('VisualJS', 'linb.Com',{
                                 jsLINBPath : '',
                                 className : 'App',
                                 readonly : false,
-                                icon:CONF.img_app,
-                                iconPos:'-32px top',
+                                image:CONF.img_app,
+                                imagePos:'-32px top',
                                 fromRegion:linb(src).cssRegion(true),
                                 onOK: self._openproject
                             });
@@ -605,8 +605,8 @@ Class('VisualJS', 'linb.Com',{
                             this.host = self;
                             this.setProperties({
                                 caption:linb.getRes('VisualJS.dialog.select'),
-                                icon:CONF.img_app,
-                                iconPos:'-48px top',
+                                image:CONF.img_app,
+                                imagePos:'-48px top',
                                 fromRegion:linb(src).cssRegion(true),
                                 onOK: self._openproject
                             });
@@ -729,36 +729,5 @@ Class('VisualJS', 'linb.Com',{
                     linb.message(linb.getRes('VisualJS.soon'));
             }
         }
-    },
-    Initialize:function(){
-       //avoid dynRender in designer
-       var recover=function(obj){
-           var me=arguments.callee;
-           _.arr.each(obj.$children,function(o){
-                var o=linb.SC.get(o);
-                o._getChildren=linb.UI._getChildren;
-                if(o.$children)
-                    me(o);
-            });
-        };
-        recover(linb.UI);
-        
-        linb.Com.EventHandlers={
-            beforeCreated:function(){},
-            onLoadBaseClass:function(key){},
-            onLoadResource:function(){},
-            beforeIniComponents:function(){},
-            afterIniComponents:function(){},
-            onLoadWidgets:function(key){},
-            onReady:function(){},
-            onRender:function(){}
-        };
-        window.onbeforeunload = function(e){
-            if(linb.browser.ie)
-                window.event.returnValue = ' ';
-            else
-                return ' ';
-        };
-        
     }
 });

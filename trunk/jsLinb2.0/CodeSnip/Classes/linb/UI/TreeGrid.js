@@ -485,7 +485,7 @@ Class('App.linb_UI_TreeGrid', 'linb.Com',{
 */
         _onready:function () {
             SPA=this;
-            linb.UI.cacheData('demo',[{id:'a',caption:'cap a',icon:'img/img.gif'},{id:'b',caption:'cap b',icon:'img/img.gif',iconPos:'left -16px'},{id:'c',caption:'cap c',icon:'img/img.gif',iconPos:'left -32px'}]);
+            linb.UI.cacheData('demo',[{id:'a',caption:'cap a',image:'img/img.gif'},{id:'b',caption:'cap b',image:'img/img.gif',imagePos:'left -16px'},{id:'c',caption:'cap c',image:'img/img.gif',imagePos:'left -32px'}]);
             linb.CSS.setStyleRules('.linb-demo1',{'background-color':'#AEDEAE'});
         },
         _pagebar3_onclick:function (profile, src) {

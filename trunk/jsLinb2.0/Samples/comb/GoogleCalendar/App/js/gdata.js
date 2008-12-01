@@ -4,7 +4,7 @@ var gService,
  
     SERVICE_TITLE = "linb-timeline-0.1",
     handleError = function(e){
-       alert(true,String(e.message));
+       alert(String(e.message));
        linb.Dom.setCover(false);
     },
     _google_init = function(){

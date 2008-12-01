@@ -66,7 +66,7 @@ Class('App.linb_UI_List', 'linb.Com',{
             
             append((new linb.UI.List)
                 .host(host,"list1")
-                .setItems([{"id":"item a", "caption":"item a", "icon":"img/demo.gif"}, {"id":"item b", "caption":"item b", "icon":"img/demo.gif"}, {"id":"item c", "caption":"item c", "icon":"img/demo.gif"}])
+                .setItems([{"id":"item a", "caption":"item a", "image":"img/demo.gif"}, {"id":"item b", "caption":"item b", "image":"img/demo.gif"}, {"id":"item c", "caption":"item c", "image":"img/demo.gif"}])
                 .setLeft(160)
                 .setTop(80)
                 .setHeight(100)
@@ -76,7 +76,7 @@ Class('App.linb_UI_List', 'linb.Com',{
             
             append((new linb.UI.List)
                 .host(host,"list4")
-                .setItems([{"id":"item a", "caption":"item a", "icon":"img/demo.gif"}, {"id":"item b", "caption":"item b", "icon":"img/demo.gif"}, {"id":"item c", "caption":"item c", "icon":"img/demo.gif"}])
+                .setItems([{"id":"item a", "caption":"item a", "image":"img/demo.gif"}, {"id":"item b", "caption":"item b", "image":"img/demo.gif"}, {"id":"item c", "caption":"item c", "image":"img/demo.gif"}])
                 .setLeft(30)
                 .setTop(80)
                 .setHeight(100)
@@ -123,7 +123,7 @@ Class('App.linb_UI_List', 'linb.Com',{
             
             append((new linb.UI.List)
                 .host(host,"list23")
-                .setItems([{"id":"item a", "caption":"item a", "icon":"img/demo.gif"}, {"id":"item b", "caption":"item b", "icon":"img/demo.gif"}, {"id":"item c", "caption":"item c", "icon":"img/demo.gif"}])
+                .setItems([{"id":"item a", "caption":"item a", "image":"img/demo.gif"}, {"id":"item b", "caption":"item b", "image":"img/demo.gif"}, {"id":"item c", "caption":"item c", "image":"img/demo.gif"}])
                 .setLeft(300)
                 .setTop(80)
                 .setHeight(100)

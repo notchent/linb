@@ -1,47 +1,43 @@
 Class('App', 'linb.Com',{
     Instance:{
         //base Class for linb.Com
-        base:["linb.UI"],
+        base:["linb.UI"], 
         //requried class for the App
         //"linb.Tips","linb.UI.Resizer","linb.UI.Border","linb.UI.Shadow"
-        required:["linb.UI.Layout","linb.UI.Panel","linb.UI.TreeBar","linb.UI.Block","linb.UI.Tabs","linb.UI.Div"],
+        required:["linb.UI.Layout", "linb.UI.Panel", "linb.UI.TreeBar", "linb.UI.Block", "linb.UI.Tabs", "linb.UI.Div", "linb.UI.Link"], 
         iniComponents:function(){
             // [[code created by jsLinb UI Builder
-            var host = this,
-                children = [],
-                append = function(child){
-                    children.push(child.get(0))
-                };
+            var host=this, children=[], append=function(child){children.push(child.get(0))};
             
             append((new linb.UI.Layout)
                 .host(host,"layout")
                 .setDomId("ce_layout")
-                .setItems([{"id":"before","pos":"before","locked":false,"size":200,"min":50,"max":400,"hide":false,"cmd":true},{"id":"main","min":10}])
+                .setItems([{"id":"before", "pos":"before", "locked":false, "size":200, "min":50, "max":400, "hide":false, "cmd":true, "caption":"before"}, {"id":"main", "min":10, "caption":"main"}])
+                .setDockMargin({"left":10, "top":10, "right":10, "bottom":10})
                 .setLeft(0)
                 .setTop(0)
                 .setType("horizontal")
-                .setDockMargin({"left":10,"top":10,"right":10,"bottom":10})
-                .setCustomStyle({"ITEM":"background:#fff;","MOVE":"background:#fff;border:0"})
+                .setCustomStyle({"ITEM":"background:#fff;", "MOVE":"background:#fff;border:0"})
             );
             
             host.layout.append((new linb.UI.Layout)
                 .host(host,"layout_r")
                 .setDomId("ce_layout_r")
-                .setItems([{"id":"main","min":10},{"id":"after","pos":"after","locked":false,"size":300,"min":50,"max":600,"hide":false,"cmd":true}])
+                .setItems([{"id":"main", "min":10, "caption":"main"}, {"id":"after", "pos":"after", "locked":false, "size":300, "min":50, "max":600, "hide":false, "cmd":true, "caption":"after"}])
                 .setLeft(0)
                 .setTop(0)
-                .setCustomStyle({"ITEM":"background:#fff","MOVE":"background:#fff;border:0"})
+                .setCustomStyle({"ITEM":"background:#fff", "MOVE":"background:#fff;border:0"})
             , 'main');
             
             host.layout_r.append((new linb.UI.Block)
                 .host(host,"stage")
                 .setDomId("ce_stage")
                 .setDock("fill")
-                .setDockMargin({"left":4,"top":4,"right":0,"bottom":0})
+                .setDockMargin({"left":4, "top":4, "right":0, "bottom":0})
                 .setLeft(30)
                 .setTop(50)
-                .setShadow(true)
                 .setBorder(true)
+                .setShadow(true)
             , 'main');
             
             host.stage.append((new linb.UI.Div)
@@ -52,11 +48,21 @@ Class('App', 'linb.Com',{
                 .setHeight(30)
             );
             
+            host.layout_r.append((new linb.UI.Link)
+                .host(host,"openinbuild")
+                .setTop(10)
+                .setRight(50)
+                .setVisibility('hidden')
+                .setCaption("Open it in UI builder")
+                .onClick("_openinbuild_onclick")
+                .setCustomStyle({"KEY":"font-weight:bold;text-decoration:underline;"})
+            , 'main');
+            
             host.layout_r.append((new linb.UI.Block)
                 .host(host,"blockCode")
                 .setDomId("ce_blockCode")
                 .setDock("fill")
-                .setDockMargin({"left":4,"top":4,"right":4,"bottom":4})
+                .setDockMargin({"left":4, "top":4, "right":4, "bottom":4})
                 .setLeft(120)
                 .setTop(80)
                 .setCustomStyle({"PANEL":"background:#F4F4F4"})
@@ -66,11 +72,11 @@ Class('App', 'linb.Com',{
                 .host(host,"blockL")
                 .setDomId("ce_blockL")
                 .setDock("fill")
-                .setDockMargin({"left":4,"top":4,"right":0,"bottom":0})
+                .setDockMargin({"left":4, "top":4, "right":0, "bottom":0})
                 .setLeft(20)
                 .setTop(100)
-                .setShadow(true)
                 .setBorder(true)
+                .setShadow(true)
             , 'before');
             
             host.blockL.append((new linb.UI.Panel)
@@ -85,7 +91,6 @@ Class('App', 'linb.Com',{
             host.comtreebar.append((new linb.UI.TreeBar)
                 .host(host,"treebar")
                 .setDomId("ce_treebar")
-                .setItems([])
                 .setLeft(0)
                 .setTop(0)
                 .setAnimCollapse(true)
@@ -94,7 +99,7 @@ Class('App', 'linb.Com',{
             
             return children;
             // ]]code created by jsLinb UI Builder
-        },
+        }, 
         _onready:function () {
             Class("Component");
             var ns=this;
@@ -105,8 +110,8 @@ Class('App', 'linb.Com',{
                     //fire event
                     ns.treebar.onItemSelected(ns.treebar.get(0), {id: str} );
                 }
-            })          
-        },
+            })
+        }, 
         _treebar_onitemselected:function (profile, item, src) {
             var host=this,
                 id = 'Classes.'+item.id,
@@ -118,6 +123,7 @@ Class('App', 'linb.Com',{
                         msg = 'Related file <strong>"' + path + '"</strong> doesn\'t exists, or has invalid format!';
                     host.stage.setHtml(msg);
                     host.blockCode.setHtml(msg);
+                    host.openinbuild.setVisibility('hidden');
                 };
 
             //destroy the instance
@@ -134,9 +140,9 @@ Class('App', 'linb.Com',{
             //set loading... message
             host.stage.setHtml(message);
             host.blockCode.setHtml(message);
-            
+
             linb.History.setFI(item.id, false)
-            
+
             linb.Thread.observableRun(null,[function(threadid){
                 //get com
                 linb.Ajax(path,"",function(txt){
@@ -154,6 +160,8 @@ Class('App', 'linb.Com',{
                                 host.stage.getSubNode('PANEL').html('');
                                 host.stage.append(this.getUIComponents(),false);
                             });
+                            host.openinbuild.setVisibility('visible');
+                            host.$path=path;
                         }else
                             fail();
                     }catch(e){
@@ -162,8 +170,12 @@ Class('App', 'linb.Com',{
                 },function(msg){
                     fail()
                 },threadid).start();
-            }]);                
-        },
-        events:{"onReady":"_onready"}
+            }]);
+        }, 
+        events:{"onReady":"_onready"}, 
+        _openinbuild_onclick:function (profile, e) {
+    var a=linb.ini.path.split('/').slice(0,-3),path=a.join('/')+'/VisualJS/UIBuilder.html';
+            linb.Dom.submit(path + "#url=" + encodeURIComponent(this.$path));
+        }
     }
 });

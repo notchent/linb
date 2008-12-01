@@ -30,7 +30,7 @@ Class('App.linb_UI_Gallery', 'linb.Com',{
                 .setTop(120)
                 .setWidth(284)
                 .setHeight(167)
-                .setItems([{"id":"a","caption":"itema","icon":"img/demo.gif","comment":"item a comment"},{"id":"b","caption":"itemb","icon":"img/demo.gif","comment":"item b comment"},{"id":"c","caption":"itemc","icon":"img/demo.gif","comment":"item c comment"},{"id":"d","caption":"itemd","icon":"img/demo.gif","comment":"item d comment"},{"id":"e","caption":"iteme","icon":"img/demo.gif","comment":"item e comment"},{"id":"f","caption":"itemf","icon":"img/demo.gif","comment":"item f comment"}])
+                .setItems([{"id":"a","caption":"itema","image":"img/demo.gif","comment":"item a comment"},{"id":"b","caption":"itemb","image":"img/demo.gif","comment":"item b comment"},{"id":"c","caption":"itemc","image":"img/demo.gif","comment":"item c comment"},{"id":"d","caption":"itemd","image":"img/demo.gif","comment":"item d comment"},{"id":"e","caption":"iteme","image":"img/demo.gif","comment":"item e comment"},{"id":"f","caption":"itemf","image":"img/demo.gif","comment":"item f comment"}])
                 .setItemWidth("64")
                 .setItemHeight("64")
                 .onItemSelected("_gallery2_onitemselected")

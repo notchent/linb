@@ -14,8 +14,8 @@ Class('App.linb_UI_CheckBox', 'linb.Com',{
                 .setTop(110)
                 .setWidth(190)
                 .setHeight(30)
-                .setCaption("with icon")
-                .setIcon("img/demo.gif")
+                .setCaption("with image")
+                .setImage("img/demo.gif")
             );
             
             append((new linb.UI.CheckBox)

@@ -8,100 +8,100 @@
         img_widgets:_img_widgets,
     
         widgets: [
-            {id:'linb.UI',caption:'UI Components',group:true, icon:_img_app, iconPos:'-64px -48px', sub:[
-                {id:'linb.UI.absForm',caption:'Form Elements',group:true, icon:_img_app, iconPos:'-48px -48px',sub:[
-                    //{id:'linb.UI.Tag', caption:'Tag Element', icon:_img_widgets, iconPos:'left top'},
-                    {id:'linb.UI.Div', caption:'Div Element', icon:_img_widgets, iconPos:'-624px top'},
+            {id:'linb.UI',caption:'UI Components',group:true, image:_img_app, imagePos:'-64px -48px', sub:[
+                {id:'linb.UI.absForm',caption:'Form Elements',group:true, image:_img_app, imagePos:'-48px -48px',sub:[
+                    //{id:'linb.UI.Tag', caption:'Tag Element', image:_img_widgets, imagePos:'left top'},
+                    {id:'linb.UI.Div', caption:'Div Element', image:_img_widgets, imagePos:'-624px top'},
         
-                    {id:'linb.UI.Label', caption:'Label', icon:_img_widgets, iconPos:'-16px top'},
-                    {id:'linb.UI.Link', caption:'Link', icon:_img_widgets, iconPos:'-32px top'},
-                    {id:'linb.UI.Button', caption:'Button', icon:_img_widgets, iconPos:'-48px top'},
-                    {id:'linb.UI.CheckBox', caption:'CheckBox', icon:_img_widgets, iconPos:'-96px top'},
-                    {id:'linb.UI.Input', caption:'Input', icon:_img_widgets, iconPos:'-112px top'},
-                    {id:'linb.UI.TextEditor', caption:'TextEditor', icon:_img_widgets, iconPos:'-128px top'},
-                    {id:'linb.UI.List', caption:'List', icon:_img_widgets, iconPos:'-192px top'},
-                    {id:'linb.UI.ComboInput', caption:'ComboInput', icon:_img_widgets, iconPos:'-144px top'},
+                    {id:'linb.UI.Label', caption:'Label', image:_img_widgets, imagePos:'-16px top'},
+                    {id:'linb.UI.Link', caption:'Link', image:_img_widgets, imagePos:'-32px top'},
+                    {id:'linb.UI.Button', caption:'Button', image:_img_widgets, imagePos:'-48px top'},
+                    {id:'linb.UI.CheckBox', caption:'CheckBox', image:_img_widgets, imagePos:'-96px top'},
+                    {id:'linb.UI.Input', caption:'Input', image:_img_widgets, imagePos:'-112px top'},
+                    {id:'linb.UI.TextEditor', caption:'TextEditor', image:_img_widgets, imagePos:'-128px top'},
+                    {id:'linb.UI.List', caption:'List', image:_img_widgets, imagePos:'-192px top'},
+                    {id:'linb.UI.ComboInput', caption:'ComboInput', image:_img_widgets, imagePos:'-144px top'},
         
-                    {id:'linb.UI.ProgressBar', caption:'ProgressBar', icon:_img_widgets, iconPos:'-608px top'},
+                    {id:'linb.UI.ProgressBar', caption:'ProgressBar', image:_img_widgets, imagePos:'-608px top'},
         
-                    {id:'linb.UI.Range', caption:'Range', icon:_img_widgets, iconPos:'left -16px'},
-                    //{id:'linb.UI.ComboButton', caption:'ComboButton', icon:_img_widgets, iconPos:'-80px top'},
-                    {id:'linb.UI.TimePicker', caption:'TimePicker', icon:_img_widgets, iconPos:'-240px top'},
-                    {id:'linb.UI.DatePicker', caption:'DatePicker', icon:_img_widgets, iconPos:'-256px top'},
-                    {id:'linb.UI.ColorPicker', caption:'ColorPicker', icon:_img_widgets, iconPos:'-272px top'},
-                    {id:'linb.UI.RadioBox', caption:'RadioBox', icon:_img_widgets, iconPos:'-208px top'},
-                    {id:'linb.UI.Poll', caption:'Poll', icon:_img_widgets, iconPos:'-208px -16px'},
-                    {id:'linb.UI.Group', caption:'Group', icon:_img_widgets, iconPos:'-224px top'}
+                    {id:'linb.UI.Range', caption:'Range', image:_img_widgets, imagePos:'left -16px'},
+                    //{id:'linb.UI.ComboButton', caption:'ComboButton', image:_img_widgets, imagePos:'-80px top'},
+                    {id:'linb.UI.TimePicker', caption:'TimePicker', image:_img_widgets, imagePos:'-240px top'},
+                    {id:'linb.UI.DatePicker', caption:'DatePicker', image:_img_widgets, imagePos:'-256px top'},
+                    {id:'linb.UI.ColorPicker', caption:'ColorPicker', image:_img_widgets, imagePos:'-272px top'},
+                    {id:'linb.UI.RadioBox', caption:'RadioBox', image:_img_widgets, imagePos:'-208px top'},
+                    {id:'linb.UI.Poll', caption:'Poll', image:_img_widgets, imagePos:'-208px -16px'},
+                    {id:'linb.UI.Group', caption:'Group', image:_img_widgets, imagePos:'-224px top'}
                 ]},
-                {id:'linb.UI.absContainer',caption:'Containers',group:true, icon:_img_app, iconPos:'-48px -48px',sub:[
-                    {id:'linb.UI.Pane', caption:'Pane', icon:_img_widgets, iconPos:'-288px top'},
-                    {id:'linb.UI.Panel', caption:'Panel', icon:_img_widgets, iconPos:'-672px top'},
-                    {id:'linb.UI.Block', caption:'Block', icon:_img_widgets, iconPos:'-304px top'},
-                    {id:'linb.UI.Layout', caption:'Layout', icon:_img_widgets, iconPos:'-336px top'},
-                    //{id:'linb.UI.ColLayout', caption:'ColLayout', icon:_img_widgets, iconPos:'-336px top'},
+                {id:'linb.UI.absContainer',caption:'Containers',group:true, image:_img_app, imagePos:'-48px -48px',sub:[
+                    {id:'linb.UI.Pane', caption:'Pane', image:_img_widgets, imagePos:'-288px top'},
+                    {id:'linb.UI.Panel', caption:'Panel', image:_img_widgets, imagePos:'-672px top'},
+                    {id:'linb.UI.Block', caption:'Block', image:_img_widgets, imagePos:'-304px top'},
+                    {id:'linb.UI.Layout', caption:'Layout', image:_img_widgets, imagePos:'-336px top'},
+                    //{id:'linb.UI.ColLayout', caption:'ColLayout', image:_img_widgets, imagePos:'-336px top'},
         
-                    {id:'linb.UI.Tabs', caption:'Tabs', icon:_img_widgets, iconPos:'-352px top'},
+                    {id:'linb.UI.Tabs', caption:'Tabs', image:_img_widgets, imagePos:'-352px top'},
         
-                    {id:'linb.UI.Stacks', caption:'Stacks', icon:_img_widgets, iconPos:'-368px top'},
-                    {id:'linb.UI.ButtonViews', caption:'ButtonViews', icon:_img_widgets, iconPos:'-384px top'},
-                    {id:'linb.UI.Dialog', caption:'Dialog', icon:_img_widgets, iconPos:'-320px top'}
+                    {id:'linb.UI.Stacks', caption:'Stacks', image:_img_widgets, imagePos:'-368px top'},
+                    {id:'linb.UI.ButtonViews', caption:'ButtonViews', image:_img_widgets, imagePos:'-384px top'},
+                    {id:'linb.UI.Dialog', caption:'Dialog', image:_img_widgets, imagePos:'-320px top'}
                 ]},
-                {id:'linb.UI.absNavigator',caption:'Navigators',group:true, icon:_img_app, iconPos:'-48px -48px', sub:[
-                    {id:'linb.UI.PageBar', caption:'PageBar', icon:_img_widgets, iconPos:'-48px -16px'},
+                {id:'linb.UI.absNavigator',caption:'Navigators',group:true, image:_img_app, imagePos:'-48px -48px', sub:[
+                    {id:'linb.UI.PageBar', caption:'PageBar', image:_img_widgets, imagePos:'-48px -16px'},
         
-                    {id:'linb.UI.PopMenu', caption:'PopMenu', icon:_img_widgets, iconPos:'-400px top'},
-                    {id:'linb.UI.MenuBar', caption:'MenuBar', icon:_img_widgets, iconPos:'-416px top'},
-                    {id:'linb.UI.ToolBar', caption:'ToolBar', icon:_img_widgets, iconPos:'-432px top'},
-                    {id:'linb.UI.LinkList', caption:'LinkList', icon:_img_widgets, iconPos:'-16px -16px'},
-                    {id:'linb.UI.FoldingList', caption:'FoldingList', icon:_img_widgets, iconPos:'-32px -16px'},
-                    {id:'linb.UI.Gallery', caption:'Gallery', icon:_img_widgets, iconPos:'-448px top'},
-                    {id:'linb.UI.TreeBar', caption:'TreeBar', icon:_img_widgets, iconPos:'-464px top'},
-                    {id:'linb.UI.TreeGrid', caption:'TreeGrid', icon:_img_widgets, iconPos:'-480px top'}
+                    {id:'linb.UI.PopMenu', caption:'PopMenu', image:_img_widgets, imagePos:'-400px top'},
+                    {id:'linb.UI.MenuBar', caption:'MenuBar', image:_img_widgets, imagePos:'-416px top'},
+                    {id:'linb.UI.ToolBar', caption:'ToolBar', image:_img_widgets, imagePos:'-432px top'},
+                    {id:'linb.UI.LinkList', caption:'LinkList', image:_img_widgets, imagePos:'-16px -16px'},
+                    {id:'linb.UI.FoldingList', caption:'FoldingList', image:_img_widgets, imagePos:'-32px -16px'},
+                    {id:'linb.UI.Gallery', caption:'Gallery', image:_img_widgets, imagePos:'-448px top'},
+                    {id:'linb.UI.TreeBar', caption:'TreeBar', image:_img_widgets, imagePos:'-464px top'},
+                    {id:'linb.UI.TreeGrid', caption:'TreeGrid', image:_img_widgets, imagePos:'-480px top'}
                 ]},
-                {id:'linb.UI.absSchedule',caption:'Schedules',group:true, icon:_img_app, iconPos:'-48px -48px', sub:[
-                    {id:'linb.UI.Calendar', caption:'Calendar', icon:_img_widgets, iconPos:'-496px top'},
-                    {id:'linb.UI.TimeLine', caption:'TimeLine', icon:_img_widgets, iconPos:'-528px top'}
+                {id:'linb.UI.absSchedule',caption:'Schedules',group:true, image:_img_app, imagePos:'-48px -48px', sub:[
+                    {id:'linb.UI.Calendar', caption:'Calendar', image:_img_widgets, imagePos:'-496px top'},
+                    {id:'linb.UI.TimeLine', caption:'TimeLine', image:_img_widgets, imagePos:'-528px top'}
                 ]}/*,
-                {id:'linb.UI.absMisc',caption:'Medias',group:true, icon:_img_app, iconPos:'-48px -48px', sub:[
-                    {id:'linb.UI.Media', caption:'Media', icon:_img_widgets, iconPos:'-576px top'},
-                    {id:'linb.UI.Shape', caption:'Shape', icon:_img_widgets, iconPos:'-544px top'},
-                    {id:'linb.UI.Chart', caption:'Chart', icon:_img_widgets, iconPos:'-560px top'}
+                {id:'linb.UI.absMisc',caption:'Medias',group:true, image:_img_app, imagePos:'-48px -48px', sub:[
+                    {id:'linb.UI.Media', caption:'Media', image:_img_widgets, imagePos:'-576px top'},
+                    {id:'linb.UI.Shape', caption:'Shape', image:_img_widgets, imagePos:'-544px top'},
+                    {id:'linb.UI.Chart', caption:'Chart', image:_img_widgets, imagePos:'-560px top'}
                 ]}*/
             ]},
-            {id:'tech.UI', caption:'UI Related', group:true, icon:_img_app, iconPos:'-64px -48px', sub:[
-                {id:'tech.UI.createUI',caption:'to create widget',icon:_img_app, iconPos:'-48px -64px'},
-                {id:'tech.UI.showUI',caption:'to show widget',icon:_img_app, iconPos:'-48px -64px'},
-                {id:'tech.UI.event',caption:'Events',icon:_img_app, iconPos:'0 -32px'},
-                {id:'tech.UI.ca',caption:'Custom Appearances',icon:_img_app, iconPos:'-48px -64px'},
-                {id:'tech.UI.cb',caption:'Custom Behaviors',icon:_img_app, iconPos:'-48px -64px'},
-                {id:'tech.UI.cc',caption:'Custom Class',icon:_img_app, iconPos:'-48px -64px'},
-                {id:'tech.UI.cf',caption:'Custom Functions',icon:_img_app, iconPos:'-48px -64px'}
+            {id:'tech.UI', caption:'UI Related', group:true, image:_img_app, imagePos:'-64px -48px', sub:[
+                {id:'tech.UI.createUI',caption:'to create widget',image:_img_app, imagePos:'-48px -64px'},
+                {id:'tech.UI.showUI',caption:'to show widget',image:_img_app, imagePos:'-48px -64px'},
+                {id:'tech.UI.event',caption:'Events',image:_img_app, imagePos:'0 -32px'},
+                {id:'tech.UI.ca',caption:'Custom Appearances',image:_img_app, imagePos:'-48px -64px'},
+                {id:'tech.UI.cb',caption:'Custom Behaviors',image:_img_app, imagePos:'-48px -64px'},
+                {id:'tech.UI.cc',caption:'Custom Class',image:_img_app, imagePos:'-48px -64px'},
+                {id:'tech.UI.cf',caption:'Custom Functions',image:_img_app, imagePos:'-48px -64px'}
             ]},
-            {id:'tech.form', caption:'Form Related', group:true, icon:_img_app, iconPos:'-64px -48px', sub:[
-                {id:'tech.form.v', caption:'Validators', group:true, icon:_img_app, iconPos:'-48px -48px', sub:[
-                    {id:'tech.form.v1',caption:'Base',icon:_img_app, iconPos:'-48px -64px'},
-                    {id:'tech.form.v2',caption:'Tips Binder',icon:_img_app, iconPos:'-48px -64px'},
-                    {id:'tech.form.v3',caption:'Dynamic',icon:_img_app, iconPos:'-48px -64px'}
+            {id:'tech.form', caption:'Form Related', group:true, image:_img_app, imagePos:'-64px -48px', sub:[
+                {id:'tech.form.v', caption:'Validators', group:true, image:_img_app, imagePos:'-48px -48px', sub:[
+                    {id:'tech.form.v1',caption:'Base',image:_img_app, imagePos:'-48px -64px'},
+                    {id:'tech.form.v2',caption:'Tips Binder',image:_img_app, imagePos:'-48px -64px'},
+                    {id:'tech.form.v3',caption:'Dynamic',image:_img_app, imagePos:'-48px -64px'}
                  ]},
-                {id:'tech.form.f', caption:'formatters', group:true, icon:_img_app, iconPos:'-48px -48px', sub:[
-                    {id:'tech.form.f1',caption:'formater 1',icon:_img_app, iconPos:'-48px -64px'},
-                    {id:'tech.form.f2',caption:'formater 2',icon:_img_app, iconPos:'-48px -64px'}
+                {id:'tech.form.f', caption:'formatters', group:true, image:_img_app, imagePos:'-48px -48px', sub:[
+                    {id:'tech.form.f1',caption:'formater 1',image:_img_app, imagePos:'-48px -64px'},
+                    {id:'tech.form.f2',caption:'formater 2',image:_img_app, imagePos:'-48px -64px'}
                  ]}
             ]},
-            {id:'snip', caption:'Common Funcions', group:true, icon:_img_app, iconPos:'-64px -48px', sub:[
-                {id:'snip.tooltips',caption:'ToolTips',icon:_img_app, iconPos:'-48px -64px'},
-                {id:'snip.serialize',caption:'(un)serialize',icon:_img_app, iconPos:'-48px -64px'},
-                {id:'snip.panelRel',caption:'Pane Related',icon:_img_app, iconPos:'-48px -64px'},
-                {id:'snip.panelBarRel',caption:'Panel Related',icon:_img_app, iconPos:'-48px -64px'}
+            {id:'snip', caption:'Common Funcions', group:true, image:_img_app, imagePos:'-64px -48px', sub:[
+                {id:'snip.tooltips',caption:'ToolTips',image:_img_app, imagePos:'-48px -64px'},
+                {id:'snip.serialize',caption:'(un)serialize',image:_img_app, imagePos:'-48px -64px'},
+                {id:'snip.panelRel',caption:'Pane Related',image:_img_app, imagePos:'-48px -64px'},
+                {id:'snip.panelBarRel',caption:'Panel Related',image:_img_app, imagePos:'-48px -64px'}
             ]}/*,    
-            {id:'app', caption:'Application Related', group:true, icon:_img_app, iconPos:'-64px -48px', sub:[
-                {id:'app.2',caption:'Skinable',icon:_img_app, iconPos:'-48px -64px'},
-                {id:'app.3',caption:'Locale',icon:_img_app, iconPos:'-48px -64px'},
-                {id:'app.5',caption:'Data Exchange',icon:_img_app, iconPos:'-48px -64px'}
+            {id:'app', caption:'Application Related', group:true, image:_img_app, imagePos:'-64px -48px', sub:[
+                {id:'app.2',caption:'Skinable',image:_img_app, imagePos:'-48px -64px'},
+                {id:'app.3',caption:'Locale',image:_img_app, imagePos:'-48px -64px'},
+                {id:'app.5',caption:'Data Exchange',image:_img_app, imagePos:'-48px -64px'}
             ]},
-            {id:'demo.app', caption:'Demos', group:true, icon:_img_app, iconPos:'-64px -48px', sub:[
-                {id:'demo.app.1',caption:'1',icon:_img_app, iconPos:'-48px -64px'},
-                {id:'demo.app.2',caption:'2',icon:_img_app, iconPos:'-48px -64px'}
+            {id:'demo.app', caption:'Demos', group:true, image:_img_app, imagePos:'-64px -48px', sub:[
+                {id:'demo.app.1',caption:'1',image:_img_app, imagePos:'-48px -64px'},
+                {id:'demo.app.2',caption:'2',image:_img_app, imagePos:'-48px -64px'}
             ]}*/
         ]
     };

@@ -11,7 +11,8 @@ Class('VisualJS.ClassTool',null,{
 //set try out
 //            try{
             str = str.slice(str.indexOf('{')+1, str.lastIndexOf('}'));
-            return eval('({'+str+'})');
+            var obj = eval('({'+str+'})');
+            return obj;
 //            }catch(e){linb.message(linb.getRes('VisualJS.classtool.err1'))+":"+String(e);return false}
         },
         getCodeFromStruct:function(o){
@@ -216,7 +217,6 @@ Class('VisualJS.ClassTool',null,{
                         result[i] = result[i] || {};
                         result2 = result[i].sub = {};
                         result[i].frame = frame;
-
 
                         temp = temp.replace(/(:)([^,\}]+)/g, code3);
                         temp = restore1(temp);

@@ -25,6 +25,7 @@ Class("linb.UI.Gallery", "linb.UI.List",{
                                 $order:1,
                                 //for firefox2 image in -moz-inline-box cant change height bug
                                 ICONWRAP:{
+                                    tagName : 'div',
                                     IMAGE:{
                                         tagName : 'img',
                                         src:'{image}'

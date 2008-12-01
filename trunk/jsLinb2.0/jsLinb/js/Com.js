@@ -76,11 +76,11 @@ Class('linb.Com',null,{
         },
         show:function(onEnd,parent,subId,threadid){
             var self=this,f=function(){
+                self.render();
                 if(self.customAppend)
                     self.customAppend.call(self, parent,subId,threadid);
                 else
                     (parent||linb('body')).append(self.getUIComponents(),subId);
-                self._fireEvent('onRender');
                 _.tryF(onEnd,[self, threadid],self.host);
             };
             self.threadid=threadid;
@@ -89,6 +89,12 @@ Class('linb.Com',null,{
                 f();
             else
                 self.create(f,threadid);
+        },
+        render:function(triggerLayOut){
+            var self=this;
+            self.getUIComponents().render(triggerLayOut);
+            self._fireEvent('onRender');
+            self.rendered=true;
         },
         create:function(onEnd, threadid){
             //get paras

@@ -74,7 +74,7 @@ Class('App', 'linb.Com',{
             
             host.pnlNote.append((new linb.UI.Gallery)
                 .host(host,"gallery5")
-                .setItems([{"id":"a", "caption":"Meeting..", "tips":"Meeting with Mr. Lincon", "icon":"img/notice.gif"}, {"id":"b", "caption":"1:1 talk", "tips":"1:1 talk with Mr. Terry", "icon":"img/notice.gif"}, {"id":"c", "caption":"Interview", "tips":"Interview with BCC", "icon":"img/notice.gif"}])
+                .setItems([{"id":"a", "caption":"Meeting..", "tips":"Meeting with Mr. Lincon", "image":"img/notice.gif"}, {"id":"b", "caption":"1:1 talk", "tips":"1:1 talk with Mr. Terry", "image":"img/notice.gif"}, {"id":"c", "caption":"Interview", "tips":"Interview with BCC", "image":"img/notice.gif"}])
                 .setDock("fill")
                 .setLeft(210)
                 .setTop(130)
@@ -117,7 +117,7 @@ Class('App', 'linb.Com',{
             
             host.layout4.append((new linb.UI.ButtonViews)
                 .host(host,"buttonviews4")
-                .setItems([{"id":"email", "icon":"img/allinone.gif", "iconPos":"-80px top", "tips":"Email", "caption":"email"}, {"id":"note", "icon":"img/allinone.gif", "iconPos":"-96px top", "tips":"Note", "caption":"note"}, {"id":"contact", "icon":"img/allinone.gif", "iconPos":"-48px top", "tips":"Contact", "caption":"contact"}])
+                .setItems([{"id":"email", "image":"img/allinone.gif", "imagePos":"-80px top", "tips":"Email", "caption":"email"}, {"id":"note", "image":"img/allinone.gif", "imagePos":"-96px top", "tips":"Note", "caption":"note"}, {"id":"contact", "image":"img/allinone.gif", "imagePos":"-48px top", "tips":"Contact", "caption":"contact"}])
                 .setLeft(0)
                 .setTop(0)
                 .setBarHAlign("right")
@@ -135,7 +135,7 @@ Class('App', 'linb.Com',{
             
             host.panelbar4.append((new linb.UI.TreeBar)
                 .host(host,"treebar5")
-                .setItems([{"id":"a", "caption":"Personal Folder", "icon":"img/allinone.gif", "iconPos":"-128px top", "tips":"Personal Only", "sub":[{"id":"aa", "caption":"Inbox", "icon":"img/allinone.gif", "iconPos":"-16px top"}, {"id":"ab", "caption":"Sent Items", "icon":"img/allinone.gif", "iconPos":"-208px top"}, {"id":"ac", "caption":"Deleted Items", "icon":"img/allinone.gif", "iconPos":"-240px top"}]}, {"id":"b", "caption":"<font color=red><b>Inbox(6)</b></font>", "tips":"incoming messages go here", "icon":"img/allinone.gif", "iconPos":"-16px top"}, {"id":"c", "caption":"Outbox", "tips":"Sent items go here", "icon":"img/allinone.gif", "iconPos":"-112px top"}])
+                .setItems([{"id":"a", "caption":"Personal Folder", "image":"img/allinone.gif", "imagePos":"-128px top", "tips":"Personal Only", "sub":[{"id":"aa", "caption":"Inbox", "image":"img/allinone.gif", "imagePos":"-16px top"}, {"id":"ab", "caption":"Sent Items", "image":"img/allinone.gif", "imagePos":"-208px top"}, {"id":"ac", "caption":"Deleted Items", "image":"img/allinone.gif", "imagePos":"-240px top"}]}, {"id":"b", "caption":"<font color=red><b>Inbox(6)</b></font>", "tips":"incoming messages go here", "image":"img/allinone.gif", "imagePos":"-16px top"}, {"id":"c", "caption":"Outbox", "tips":"Sent items go here", "image":"img/allinone.gif", "imagePos":"-112px top"}])
                 .setLeft(0)
                 .setTop(0)
                 .setValue("")
@@ -159,7 +159,7 @@ Class('App', 'linb.Com',{
             
             host.group1.append((new linb.UI.RadioBox)
                 .host(host,"radiobox2")
-                .setItems([{"id":"a", "caption":"Show note icons", "tips":"Show note icons"}, {"id":"b", "caption":"Notes List", "tips":"Show notes within a list"}, {"id":"c", "caption":"Other", "tips":"Other"}])
+                .setItems([{"id":"a", "caption":"Show note images", "tips":"Show note images"}, {"id":"b", "caption":"Notes List", "tips":"Show notes within a list"}, {"id":"c", "caption":"Other", "tips":"Other"}])
                 .setDock("fill")
                 .setLeft(30)
                 .setTop(20)
@@ -282,14 +282,14 @@ Class('App', 'linb.Com',{
             
             append((new linb.UI.ToolBar)
                 .host(host,"toolbar7")
-                .setItems([{"id":"toolSection1", "sub":[{"id":"toolNewMail", "caption":"New Mail", "tips":"New Mail Message", "icon":"img/allinone.gif", "iconPos":"-80px top"}], "caption":"toolSection1"}, {"id":"toolSection2", "sub":[{"id":"toolPrint", "tips":"print", "icon":"img/allinone.gif", "iconPos":"top left"}, {"id":"toolMove", "tips":"Move to folder", "icon":"img/allinone.gif", "iconPos":"-64px top"}, {"id":"toolDelete", "tips":"Delete", "icon":"img/allinone.gif", "iconPos":"-224px top"}], "caption":"toolSection2"}, {"id":"toolSection3", "sub":[{"id":"toolReply", "tips":"reply", "caption":"Reply", "icon":"img/allinone.gif", "iconPos":"-160px top"}, {"id":"toolReplyAll", "tips":"Reply to all", "caption":"Reply to All", "icon":"img/allinone.gif", "iconPos":"-176px top"}, {"id":"toolForward", "tips":"Forward", "caption":"Forward", "icon":"img/allinone.gif", "iconPos":"-112px top"}, {"id":"toolRendReceive", "tips":"Rend / Receive", "caption":"Rend/Receive", "icon":"img/allinone.gif", "iconPos":"-192px top"}], "caption":"toolSection3"}])
+                .setItems([{"id":"toolSection1", "sub":[{"id":"toolNewMail", "caption":"New Mail", "tips":"New Mail Message", "image":"img/allinone.gif", "imagePos":"-80px top"}], "caption":"toolSection1"}, {"id":"toolSection2", "sub":[{"id":"toolPrint", "tips":"print", "image":"img/allinone.gif", "imagePos":"top left"}, {"id":"toolMove", "tips":"Move to folder", "image":"img/allinone.gif", "imagePos":"-64px top"}, {"id":"toolDelete", "tips":"Delete", "image":"img/allinone.gif", "imagePos":"-224px top"}], "caption":"toolSection2"}, {"id":"toolSection3", "sub":[{"id":"toolReply", "tips":"reply", "caption":"Reply", "image":"img/allinone.gif", "imagePos":"-160px top"}, {"id":"toolReplyAll", "tips":"Reply to all", "caption":"Reply to All", "image":"img/allinone.gif", "imagePos":"-176px top"}, {"id":"toolForward", "tips":"Forward", "caption":"Forward", "image":"img/allinone.gif", "imagePos":"-112px top"}, {"id":"toolRendReceive", "tips":"Rend / Receive", "caption":"Rend/Receive", "image":"img/allinone.gif", "imagePos":"-192px top"}], "caption":"toolSection3"}])
                 .setDockOrder("3")
                 .onClick("_toolbar7_onclick")
             );
             
             append((new linb.UI.MenuBar)
                 .host(host,"menubar2")
-                .setItems([{"id":"menFile", "caption":"File", "tips":"File", "sub":[{"id":"menFileNew", "caption":"New", "sub":[{"id":"menFileNewMailMessage", "caption":"Main Message", "icon":"img/allinone.gif", "iconPos":"-80px top"}, {"id":"menFileNewAppointment", "caption":"Appointment", "icon":"img/allinone.gif", "iconPos":"-256px top"}]}, {"id":"menFileOpen", "caption":"Open"}, {"id":"menFileOpen", "caption":"Open"}, {"id":"menFileDataFile", "caption":"Data File Management..."}, {"id":"menFileClose", "caption":"Close All Items"}, {"id":"menFileExport", "caption":"Export and import"}, {"id":"menFileWorkOffline", "caption":"Work Offline"}, {"id":"menPrint", "caption":"Print ...", "icon":"img/allinone.gif", "iconPos":"top left"}, {"id":"menFileExit", "caption":"Exit"}]}, {"id":"menEdit", "caption":"Edit", "sub":[{"id":"idNotImplented", "caption":"Not Implemented"}]}, {"id":"menView", "caption":"View", "sub":[{"id":"idNotImplented", "caption":"Not Implemented"}]}])
+                .setItems([{"id":"menFile", "caption":"File", "tips":"File", "sub":[{"id":"menFileNew", "caption":"New", "sub":[{"id":"menFileNewMailMessage", "caption":"Main Message", "image":"img/allinone.gif", "imagePos":"-80px top"}, {"id":"menFileNewAppointment", "caption":"Appointment", "image":"img/allinone.gif", "imagePos":"-256px top"}]}, {"id":"menFileOpen", "caption":"Open"}, {"id":"menFileOpen", "caption":"Open"}, {"id":"menFileDataFile", "caption":"Data File Management..."}, {"id":"menFileClose", "caption":"Close All Items"}, {"id":"menFileExport", "caption":"Export and import"}, {"id":"menFileWorkOffline", "caption":"Work Offline"}, {"id":"menPrint", "caption":"Print ...", "image":"img/allinone.gif", "imagePos":"top left"}, {"id":"menFileExit", "caption":"Exit"}]}, {"id":"menEdit", "caption":"Edit", "sub":[{"id":"idNotImplented", "caption":"Not Implemented"}]}, {"id":"menView", "caption":"View", "sub":[{"id":"idNotImplented", "caption":"Not Implemented"}]}])
                 .setHandler(false)
             );
             

@@ -33,11 +33,14 @@ Class('VisualJS.ClassEditor', 'linb.Com',{
                 data=self.$data;
             text=text.replace(/\r\n/g,'\n');
 
+            if(false==self._adjustData(text))
+                return false;
+
             self.$bakValue=data.text = text;
-            data.clsStruct=data.clsObject=null;
 
             var view = self.buttonview.getUIValue();
-            self.views[view].refreshView();
+            if(self.views[view])
+                self.views[view].refreshView();
         },
         _beforeValueUpdated:function(profile, ov, nv){
             var self=this,
@@ -62,9 +65,11 @@ Class('VisualJS.ClassEditor', 'linb.Com',{
             
             //adjust data
             if(nv=='struct' || nv=='design')
-                if(false==self._adjustData(r))
+                if(false==self._adjustData(data.text))
                     return false;
 
+            if(!self.views[nv].rendered)
+                self.views[nv].render();
             self.views[nv].refreshView();
         },
         _adjustData:function(str){
@@ -87,7 +92,7 @@ Class('VisualJS.ClassEditor', 'linb.Com',{
                 children = self._nodes,
                 pageview = (new (linb.SC.get(self.$pageviewType)))
                     .host(self,"buttonview")
-                    .setItems([{"id":"normal","caption":"$VisualJS.classEditor.nv","icon":'@CONF.img_app',"iconPos":"-80px -48px","tips":"$VisualJS.classEditor.nvtips"},{"id":"struct","caption":"$VisualJS.classEditor.sv","icon":'@CONF.img_app',"iconPos":"-32px -48px","tips":"$VisualJS.classEditor.svtips"},{"id":"design","caption":"$VisualJS.classEditor.dv","icon":'@CONF.img_app',"iconPos":"-192px -48px","tips":"$VisualJS.classEditor.dvtips"}])
+                    .setItems([{"id":"normal","caption":"$VisualJS.classEditor.nv","image":'@CONF.img_app',"imagePos":"-80px -48px","tips":"$VisualJS.classEditor.nvtips"},{"id":"struct","caption":"$VisualJS.classEditor.sv","image":'@CONF.img_app',"imagePos":"-32px -48px","tips":"$VisualJS.classEditor.svtips"},{"id":"design","caption":"$VisualJS.classEditor.dv","image":'@CONF.img_app',"imagePos":"-192px -48px","tips":"$VisualJS.classEditor.dvtips"}])
                     .beforeUIValueSet("_beforeValueUpdated")
 
             if(self.$pageviewType=='linb.UI.ButtonViews')
@@ -105,7 +110,6 @@ Class('VisualJS.ClassEditor', 'linb.Com',{
                 });
                 inn.create(function(o,threadid){
                     self.buttonview.append(inn.getUIComponents(),'normal');
-console.log('normal page created')
                 },threadid);
                 self.views['normal']=inn
             },threadid);
@@ -118,7 +122,6 @@ console.log('normal page created')
                 });
                 inn.create(function(o,threadid){
                     self.buttonview.append(inn.getUIComponents(),'struct');
-console.log('struct page created')
                 },threadid);
                 self.views['struct']=inn;
             },threadid);
@@ -127,13 +130,12 @@ console.log('struct page created')
                 inn.host = self;
                 inn.$data=data;
                 inn.setEvents('onValueChanged',function(ipage, profile, b, r){
-                     _.tryF(self.events.onValueChanged, [self, ipage, (self.$bakValue != datap.text) || b], self.host);
+                     _.tryF(self.events.onValueChanged, [self, ipage, (self.$bakValue != data.text) || b], self.host);
                 });
                 inn.create(function(o,threadid){
-                    self.buttonview.append(inn.getUIComponents(),'struct');
-console.log('desinger page created')
+                    self.buttonview.append(inn.getUIComponents(),'design');
                 },threadid);
-                self.views['design']=this;
+                self.views['design']=inn;
             },threadid);
 
         }

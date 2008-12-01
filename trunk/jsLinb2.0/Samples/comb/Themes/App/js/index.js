@@ -9,7 +9,7 @@ Class('App', 'linb.Com',{
             
             append((new linb.UI.Tabs)
                 .host(host,"tabs2")
-                .setItems([{"id":"1", "caption":"page 1", "icon":"img/demo.gif", "landBtn":true, "closeBtn":true}, {"id":"2", "caption":"page 2", "icon":"img/demo.gif", "landBtn":true, "closeBtn":true}, {"id":"3", "caption":"page 3", "closeBtn":true}, {"id":"5", "caption":"page 4"}])
+                .setItems([{"id":"1", "caption":"page 1", "image":"img/demo.gif", "landBtn":true, "closeBtn":true}, {"id":"2", "caption":"page 2", "image":"img/demo.gif", "landBtn":true, "closeBtn":true}, {"id":"3", "caption":"page 3", "closeBtn":true}, {"id":"5", "caption":"page 4"}])
                 .setLeft(0)
                 .setTop(0)
                 .setValue("1")
@@ -21,7 +21,7 @@ Class('App', 'linb.Com',{
                 .setTop(153)
                 .setZIndex("10")
                 .setCaption("dialog16")
-                .setIcon("img/demo.gif")
+                .setImage("img/demo.gif")
                 .setOptBtn(true)
                 .setLandBtn(true)
             , '2');
@@ -64,7 +64,7 @@ Class('App', 'linb.Com',{
             
             host.tabs2.append((new linb.UI.TreeBar)
                 .host(host,"treebar3")
-                .setItems([{"id":"a", "caption":"tree item a", "icon":"img/demo.gif"}, {"id":"b", "caption":"tree item b", "icon":"img/demo.gif"}, {"id":"c", "caption":"tree item c", "icon":"img/demo.gif"}, {"id":"d", "caption":"tree d", "sub":["sub d a", "sub d b", "sub d c"]}, {"id":"e", "group":true, "caption":"tree group e", "sub":["sub e 1", "sub e 2"]}, {"id":"f", "group":true, "caption":"tree group f", "sub":["sub f 1", "sub f 2"]}])
+                .setItems([{"id":"a", "caption":"tree item a", "image":"img/demo.gif"}, {"id":"b", "caption":"tree item b", "image":"img/demo.gif"}, {"id":"c", "caption":"tree item c", "image":"img/demo.gif"}, {"id":"d", "caption":"tree d", "sub":["sub d a", "sub d b", "sub d c"]}, {"id":"e", "group":true, "caption":"tree group e", "sub":["sub e 1", "sub e 2"]}, {"id":"f", "group":true, "caption":"tree group f", "sub":["sub f 1", "sub f 2"]}])
                 .setDock("none")
                 .setLeft(400)
                 .setTop(150)
@@ -79,7 +79,7 @@ Class('App', 'linb.Com',{
             
             host.tabs2.append((new linb.UI.ToolBar)
                 .host(host,"toolbar20")
-                .setItems([{"id":"file", "sub":[{"id":"a", "caption":"a", "icon":"img/demo.gif"}, {"id":"b", "caption":"b", "icon":"img/demo.gif"}], "caption":"file"}, {"id":"tools", "sub":[{"id":"aa", "caption":"aa"}, {"id":"b b", "caption":"b b"}], "caption":"tools"}])
+                .setItems([{"id":"file", "sub":[{"id":"a", "caption":"a", "image":"img/demo.gif"}, {"id":"b", "caption":"b", "image":"img/demo.gif"}], "caption":"file"}, {"id":"tools", "sub":[{"id":"aa", "caption":"aa"}, {"id":"b b", "caption":"b b"}], "caption":"tools"}])
             , '3');
             
             host.tabs2.append((new linb.UI.LinkList)
@@ -180,7 +180,7 @@ Class('App', 'linb.Com',{
             
             host.tabs2.append((new linb.UI.Stacks)
                 .host(host,"stacks1")
-                .setItems([{"id":"a", "caption":"stack a", "landBtn":true, "closeBtn":true, "icon":"img/demo.gif"}, {"id":"b", "caption":"stack b", "landBtn":true, "closeBtn":true, "icon":"img/demo.gif"}, {"id":"c", "caption":"stack c"}])
+                .setItems([{"id":"a", "caption":"stack a", "landBtn":true, "closeBtn":true, "image":"img/demo.gif"}, {"id":"b", "caption":"stack b", "landBtn":true, "closeBtn":true, "image":"img/demo.gif"}, {"id":"c", "caption":"stack c"}])
                 .setDock("none")
                 .setLeft(520)
                 .setTop(10)
@@ -189,7 +189,7 @@ Class('App', 'linb.Com',{
             
             host.tabs2.append((new linb.UI.ButtonViews)
                 .host(host,"buttonviews2")
-                .setItems([{"id":"a", "caption":"buttonview a", "icon":"img/demo.gif", "closeBtn":true, "landBtn":true}, {"id":"b", "caption":"buttonview b", "icon":"img/demo.gif", "closeBtn":true, "landBtn":true}, {"id":"c", "caption":"buttonview c"}])
+                .setItems([{"id":"a", "caption":"buttonview a", "image":"img/demo.gif", "closeBtn":true, "landBtn":true}, {"id":"b", "caption":"buttonview b", "image":"img/demo.gif", "closeBtn":true, "landBtn":true}, {"id":"c", "caption":"buttonview c"}])
                 .setDock("none")
                 .setLeft(20)
                 .setTop(190)
@@ -232,7 +232,7 @@ Class('App', 'linb.Com',{
                 .setTop(20)
                 .setWidth(70)
                 .setCaption("label")
-                .setIcon("img/demo.gif")
+                .setImage("img/demo.gif")
             , '1');
             
             host.tabs2.append((new linb.UI.TextEditor)
@@ -246,7 +246,7 @@ Class('App', 'linb.Com',{
             
             host.tabs2.append((new linb.UI.RadioBox)
                 .host(host,"radiobox1")
-                .setItems([{"id":"1", "icon":"img/demo.gif", "caption":"radio 1"}, {"id":"2", "icon":"img/demo.gif", "caption":"radio 2"}, {"id":"3", "caption":"radio 3"}, {"id":"4", "caption":"radio 4"}, {"id":"5", "caption":"radio 5"}])
+                .setItems([{"id":"1", "image":"img/demo.gif", "caption":"radio 1"}, {"id":"2", "image":"img/demo.gif", "caption":"radio 2"}, {"id":"3", "caption":"radio 3"}, {"id":"4", "caption":"radio 4"}, {"id":"5", "caption":"radio 5"}])
                 .setLeft(30)
                 .setTop(370)
             , '1');
@@ -296,7 +296,7 @@ Class('App', 'linb.Com',{
                 .setLeft(430)
                 .setTop(20)
                 .setCaption("checkbox")
-                .setIcon("img/demo.gif")
+                .setImage("img/demo.gif")
             , '1');
             
             host.tabs2.append((new linb.UI.Input)
@@ -312,7 +312,7 @@ Class('App', 'linb.Com',{
                 .setLeft(270)
                 .setTop(20)
                 .setCaption("button")
-                .setIcon("img/demo.gif")
+                .setImage("img/demo.gif")
             , '1');
             
             host.tabs2.append((new linb.UI.ProgressBar)
@@ -348,7 +348,7 @@ Class('App', 'linb.Com',{
             
             host.tabs2.append((new linb.UI.List)
                 .host(host,"list2")
-                .setItems([{"id":"1", "icon":"img/demo.gif", "caption":"1"}, {"id":"2", "icon":"img/demo.gif", "caption":"2"}, {"id":"3", "caption":"List"}])
+                .setItems([{"id":"1", "image":"img/demo.gif", "caption":"1"}, {"id":"2", "image":"img/demo.gif", "caption":"2"}, {"id":"3", "caption":"List"}])
                 .setLeft(170)
                 .setTop(60)
                 .setHeight(100)

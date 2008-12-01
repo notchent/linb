@@ -46,7 +46,7 @@ Class("linb.UI.Group", "linb.UI.Div",{
                             style:"{toggleDispplay}"
                         },
                         ICON:{
-                            style:'background:url({icon}) transparent  no-repeat {iconPos};{iconDisplay}',
+                            style:'background:url({image}) transparent  no-repeat {imagePos};{iconDisplay}',
                             className:'ui-icon',
                             $order:1
                         },
@@ -131,15 +131,14 @@ Class("linb.UI.Group", "linb.UI.Div",{
                     this.box._toggle(this, v);
                 }
             },
-            // setIcon and getIcon
-            icon:{
+            image:{
                 action: function(value){
                     this.getSubNode('ICON')
                         .css('display',value?'':'none')
                         .css('backgroundImage','url('+(value||'')+')');
                 }
             },
-            iconPos:{
+            imagePos:{
                 action: function(value){
                     this.getSubNode('ICON')
                         .css('backgroundPosition', value);

@@ -122,7 +122,7 @@ Class('VisualJS.PageEditor', 'linb.Com',{
             t.panel.append(
             (new u.ToolBar)
             .host(t,"toolbar")
-            .setItems([{"id":"only","sub":[{"id":"format","caption":"$VisualJS.pageEditor.format","icon":'@CONF.img_app',"iconPos":"-32px -48px","type":"button","tips":"$VisualJS.pageEditor.formattips"},{"id":"check","caption":"$VisualJS.pageEditor.check","icon":'@CONF.img_app',"iconPos":"0 -48px","type":"button","tips":"$VisualJS.pageEditor.checktips"}]}])
+            .setItems([{"id":"only","sub":[{"id":"format","caption":"$VisualJS.pageEditor.format","image":'@CONF.img_app',"imagePos":"-32px -48px","type":"button","tips":"$VisualJS.pageEditor.formattips"},{"id":"check","caption":"$VisualJS.pageEditor.check","image":'@CONF.img_app',"imagePos":"0 -48px","type":"button","tips":"$VisualJS.pageEditor.checktips"}]}])
             .onClick("_toolbar_onclick")
             );
 

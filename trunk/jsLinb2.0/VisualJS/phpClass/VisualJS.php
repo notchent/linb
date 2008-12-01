@@ -30,6 +30,31 @@ class VisualJS extends Unit
         $io = LINB::SC('IO');
         //only input relative path, and not ./ or ../ allowed
         switch($hash->action){
+        case 'fetchwebfile':
+            $content=file_get_contents($hash->path);
+            if ($content!==false) {
+               return $content;
+            }else{
+               throw new LINB_E("Error: Can\'t get ".$hash->path);            
+            }
+            break;
+        case 'downloadjs':
+    		header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
+    		header("Cache-Control: private",false);
+            header("Content-Description: File Transfer");
+    		header("Content-Type: application/force-download");
+            header("Accept-Ranges: bytes");
+            header("Content-Disposition: attachment; filename=\"jsLinb.Class.js\";");
+    		header("Content-Transfer-Encoding: binary");
+    		header("Content-Length: ".strlen($hash->content));
+    		header("Pragma: public");
+    		header("Expires: 0");
+            echo $hash->content;
+            
+            return;
+            break;
+        
+        
         case 'del':
             foreach( $hash->path as $v)
                 $io->delete($v);

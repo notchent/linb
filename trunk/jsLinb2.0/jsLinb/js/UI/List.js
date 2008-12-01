@@ -102,7 +102,7 @@ Class("linb.UI.List", ["linb.UI", "linb.absList","linb.absValue" ],{
                         href :linb.$href,
                         tabindex:'{_tabindex}',
                         ICON:{
-                            style:'background:url({icon}) transparent  no-repeat {iconPos};{iconDisplay}',
+                            style:'background:url({image}) transparent  no-repeat {imagePos};{iconDisplay}',
                             className:'ui-icon',
                             $order:0
                         },

@@ -1686,6 +1686,10 @@ Class('linb.SC',null,{
         callback: fire this function after all js loaded
         */
         loadSnips:function(pathArr,cache,callback,onEnd, id){
+            if(!pathArr || !pathArr.length){
+                _.tryF(onEnd,[id]);
+                return;
+            }
             var bak={}, options={$p:1,$cache:cache||linb.cache.text};
             for(var i=0,l=pathArr.length;i<l;i++)
                 bak[pathArr[i]]=1;
@@ -6265,7 +6269,7 @@ type:4
             this.setDomId(id);
         },
         toHtml:function(properties){
-            return this._doTemplate(properties||this.properties);
+            return this._doTemplate(properties||this.properties||{});
         },
         _buildTemplate:function(str){
             if(typeof str=='string'){
@@ -6437,11 +6441,11 @@ Class('linb.Com',null,{
         },
         show:function(onEnd,parent,subId,threadid){
             var self=this,f=function(){
+                self.render();
                 if(self.customAppend)
                     self.customAppend.call(self, parent,subId,threadid);
                 else
                     (parent||linb('body')).append(self.getUIComponents(),subId);
-                self._fireEvent('onRender');
                 _.tryF(onEnd,[self, threadid],self.host);
             };
             self.threadid=threadid;
@@ -6450,6 +6454,12 @@ Class('linb.Com',null,{
                 f();
             else
                 self.create(f,threadid);
+        },
+        render:function(triggerLayOut){
+            var self=this;
+            self.getUIComponents().render(triggerLayOut);
+            self._fireEvent('onRender');
+            self.rendered=true;
         },
         create:function(onEnd, threadid){
             //get paras
@@ -7894,15 +7904,17 @@ Class("linb.Tips", null,{
 
         setCom:function(id, obj){
             this._cache[id]=obj;
-            obj.comRefId=id;
+            if(obj)obj.comRefId=id;
             return this;
         },
         getComFromCache:function(id){
             return this._cache[id]||null;
         },
-        getCom:function(id, onEnd,threadid){
+        //singleton:false->don't get it from cache, and don't cache the result.
+        getCom:function(id, onEnd, threadid, singleton){
+            singleton=singleton!==false;
             var c=this._cache,p=this._pro,ini=p._iniMethod;
-            if(c[id]){
+            if(singleton && c[id]){
                 _.tryF(onEnd, [threadid,c[id]], c[id]);
                 return c[id];
             }else{
@@ -7913,6 +7925,7 @@ Class("linb.Tips", null,{
                     clsPath = p.cls || p,
                     properties = p.properties,
                     events = p.events,
+                    singleton=p.singleton!==false,
                     cls,
                     task=function(cls,properties,threadid){
                         var o = new cls();
@@ -7921,7 +7934,8 @@ Class("linb.Tips", null,{
                         if(events)
                             _.merge(o.events,event,'all');
 
-                        linb.ComFactory.setCom(id, o);
+                        if(singleton)
+                            linb.ComFactory.setCom(id, o);
 
                         var args = [function(com){
                             var arr = com.getUIComponents().get(),
@@ -7945,7 +7959,7 @@ Class("linb.Tips", null,{
                                                     if(!(root=ui.get(0)))return;
 
                                                     linb.UI.Tag.replace(tag,root,firstlayer?com:null);
-                                                },threadid]);
+                                                },threadid, ]);
                                         }
                                         if(v.children){
                                             var a=[];
@@ -10702,7 +10716,7 @@ Class("linb.UI",  "linb.absObj", {
                 hashOut.caption=o(hashIn,hashOut,profile);
 
             //todo: change it
-            hashOut.iconDisplay = hashIn.icon?'':'display:none';
+            hashOut.iconDisplay = hashIn.image?'':'display:none';
             return hashOut;
         },
 
@@ -11246,7 +11260,7 @@ Class("linb.UI",  "linb.absObj", {
             profile.prepared=true;
             return data;
         },
-        _prepareItems:function(profile, items, pid, mapCache){
+        _prepareItems:function(profile, items, pid, mapCache, serialId){
             var result=[],
                 item,dataItem,t,
                 SubID=linb.UI.$tag_subId,id ,
@@ -11257,15 +11271,15 @@ Class("linb.UI",  "linb.absObj", {
                 if(typeof items[i]!='object')
                     items[i]={id:items[i]};
                 item=items[i];
-                if(!'caption' in item)item.caption=item.id;
+                if(!('caption' in item))item.caption=item.id;
 
                 dataItem={id: item.id};
-                if(pid)dataItem._parent = pid;
-                id=profile.pickSubId('items');
+                if(pid)dataItem._pid = pid;
+                
+                id=dataItem[SubID]=typeof serialId=='string'?serialId:profile.pickSubId('items');
+
                 if(false!==mapCache){
-                    //give item subid
-                    if(!dataItem[SubID])
-                        dataItem[SubID] = profile.ItemIdMapSubSerialId[item.id] = id;
+                    profile.ItemIdMapSubSerialId[item.id] = id;
                     profile.SubSerialIdMapItem[id] = item;
                 }
                 if(t=item.object){
@@ -11283,7 +11297,7 @@ Class("linb.UI",  "linb.absObj", {
                     //others
                     ajd(profile, item, dataItem);
                     if(this._prepareItem)
-                        this._prepareItem(profile, dataItem, item, pid);
+                        this._prepareItem(profile, dataItem, item, pid, mapCache, serialId);
                 }
                 result.push(dataItem);
             }
@@ -11434,6 +11448,35 @@ Class("linb.absList", "linb.absObj",{
                 //keep the value
                 //profile.properties.value=null;
             });
+        },
+        updateItem:function(subId,options){
+            var self=this,
+                profile=self.get(0),
+                box=profile.box,
+                items=profile.properties.items,
+                item=profile.queryItems(items,function(o){return o.id==subId},true,true),
+                serialId,node;
+            if(item.length){
+                item=item[0];
+                _.merge(item, options, 'all');
+                item.id=subId;
+
+                //prepared already?
+                serialId=_.get(profile,['ItemIdMapSubSerialId',subId]);
+                arr=box._prepareItems(profile, [item],item._pid,false, serialId);
+
+                //in dom already?
+                node=profile.getSubNodeByItemId('ITEM',subId);
+                if(!node.isEmpty()){
+                    //for the sub node
+                    if(items.sub){
+                        delete item._created;
+                        delete item._checked;
+                    }
+                    node.outerHTML(profile.buildItems(arguments[2]||'items',arr));
+                }
+            }
+            return self;
         },
         fireItemClickEvent:function(subId){
             var profile = this.get(0),
@@ -13150,7 +13193,7 @@ Class("linb.UI.Label", "linb.UI.Widget",{
                 $order:1,
                 style:'display:none;',
                 SICON:{
-                    style:'background:url({icon}) transparent no-repeat {iconPos};{iconDisplay}',
+                    style:'background:url({image}) transparent no-repeat {imagePos};{iconDisplay}',
                     className:'ui-icon',
                     $order:0
                 },
@@ -13163,7 +13206,7 @@ Class("linb.UI.Label", "linb.UI.Widget",{
             BOX:{
                 $order:2,
                 ICON:{
-                    style:'background:url({icon}) transparent no-repeat {iconPos};{iconDisplay}',
+                    style:'background:url({image}) transparent no-repeat {imagePos};{iconDisplay}',
                     className:'ui-icon',
                     $order:0
                 },
@@ -13202,8 +13245,7 @@ Class("linb.UI.Label", "linb.UI.Widget",{
                     if(p.vAlign!='top')b.setVAlign(p.vAlign,true);
                 }
             },
-            // setIcon and getIcon
-            icon:{
+            image:{
                 action: function(value){
                     var self=this,k=self.keys;
                     self.getSubNodes(['ICON','SICON'])
@@ -13211,7 +13253,7 @@ Class("linb.UI.Label", "linb.UI.Widget",{
                         .css('backgroundImage','url('+(value||'')+')');
                 }
             },
-            iconPos:{
+            imagePos:{
                 action: function(value){
                     var self=this,k=self.keys;
                     self.getSubNodes(['ICON','SICON'])
@@ -13460,7 +13502,7 @@ Class("linb.UI.Button", ["linb.UI.Widget","linb.absValue"],{
                                 ICON:{
                                     $order:1,
                                     className:'ui-icon',
-                                    style:'background:url({icon}) transparent no-repeat  {iconPos};{iconDisplay}'
+                                    style:'background:url({image}) transparent no-repeat  {imagePos};{iconDisplay}'
                                 },
                                 CAPTION:{
                                     $order:2,
@@ -13626,15 +13668,14 @@ Class("linb.UI.Button", ["linb.UI.Widget","linb.absValue"],{
                     this.getSubNode('CAPTION').get(0).innerHTML = value;
                 }
             },
-            // setIcon and getIcon
-            icon:{
+            image:{
                 action: function(value){
                     this.getSubNode('ICON')
                         .css('display',value?'':'none')
                         .css('backgroundImage','url('+(value||'')+')');
                 }
             },
-            iconPos:{
+            imagePos:{
                 action: function(value){
                     this.getSubNode('ICON')
                         .css('backgroundPosition', value);
@@ -13907,9 +13948,7 @@ Class("linb.UI.Input", ["linb.UI.Widget","linb.absValue"] ,{
                 else{
                     var err = profile.getSubNode('ERROR');
                     if(profile.inValid==2){
-                        //bg to input
                         o.addClass(v);
-                        //display icon
                         err.css('display','block');
                     }else{
                         o.removeClass(v);
@@ -15231,7 +15270,7 @@ Class("linb.UI.Group", "linb.UI.Div",{
                             style:"{toggleDispplay}"
                         },
                         ICON:{
-                            style:'background:url({icon}) transparent  no-repeat {iconPos};{iconDisplay}',
+                            style:'background:url({image}) transparent  no-repeat {imagePos};{iconDisplay}',
                             className:'ui-icon',
                             $order:1
                         },
@@ -15316,15 +15355,14 @@ Class("linb.UI.Group", "linb.UI.Div",{
                     this.box._toggle(this, v);
                 }
             },
-            // setIcon and getIcon
-            icon:{
+            image:{
                 action: function(value){
                     this.getSubNode('ICON')
                         .css('display',value?'':'none')
                         .css('backgroundImage','url('+(value||'')+')');
                 }
             },
-            iconPos:{
+            imagePos:{
                 action: function(value){
                     this.getSubNode('ICON')
                         .css('backgroundPosition', value);
@@ -17233,29 +17271,6 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
         addTasks:function(arr){
             return this.insertItems(arr,null,true);
         },
-        refreshTask:function(id,options){
-            var self=this,
-                profile=self.get(0),
-                box=profile.box,
-                items=self.getItems(),
-                index=_.arr.subIndexOf(items, 'id', id),
-                item, oitem, arr;
-            if(index!=-1){
-                oitem=_.copy(item=items[index]);
-                _.merge(item, options, 'all');
-                arr=box._prepareItems(profile, [item],null,false);
-                item=arr[0];
-
-                if(oitem.caption!=item.caption)
-                    profile.getSubNodeByItemId('CON',id).html(item.caption);
-                if(oitem.background!=item.background)
-                    profile.getSubNodeByItemId('NORMAL',id).css('background',item.background);
-                if(oitem._left!=item._left || oitem._width!=item._width){
-                    box._resetItem(profile,{left:item._left, width:item._width},profile.getSubNodeByItemId('ITEM',id).get(0));
-                }
-            }
-            return self;
-        },
         removeTasks:function(ids){
             this.removeItems(ids);
             return this;
@@ -18851,7 +18866,7 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
                 this._setItemNode(profile, o,'width',w+'px');
         },
         _setItemNode:function(profile, item, key, value){
-            var t=item._node || (item._node = profile.getSubNodeByItemId('ITEM',item.id).get(0));
+            var t=profile.getSubNodeByItemId('ITEM',item.id).get(0);
             t.style[key]=value;
         },
         _getLinePos:function(profile,o){
@@ -18864,7 +18879,7 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
                 if(i===0)return;
                 b=true;
                 _.each(v,function(v){
-                    if(o!==v)
+                    if(o.id!==v.id)
                         if(((o._left + o._width)>=v._left) && ((v._left + v._width)>=o._left))
                             return b=false;
                 });
@@ -19127,7 +19142,7 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
                         href :linb.$href,
                         tabindex:'{_tabindex}',
                         ICON:{
-                            style:'background:url({icon}) transparent  no-repeat {iconPos};{iconDisplay}',
+                            style:'background:url({image}) transparent  no-repeat {imagePos};{iconDisplay}',
                             className:'ui-icon',
                             $order:0
                         },
@@ -19487,6 +19502,7 @@ Class("linb.UI.Gallery", "linb.UI.List",{
                                 $order:1,
                                 //for firefox2 image in -moz-inline-box cant change height bug
                                 ICONWRAP:{
+                                    tagName : 'div',
                                     IMAGE:{
                                         tagName : 'img',
                                         src:'{image}'
@@ -20432,7 +20448,7 @@ Class("linb.UI.Panel", "linb.UI.Div",{
                             $order:0
                         },
                         ICON:{
-                            style:'background:url({icon}) transparent  no-repeat {iconPos}; {iconDisplay}',
+                            style:'background:url({image}) transparent  no-repeat {imagePos}; {iconDisplay}',
                             className:'ui-icon',
                             $order:0
                         },
@@ -20581,15 +20597,14 @@ Class("linb.UI.Panel", "linb.UI.Div",{
                     this.getSubNode('CAPTION').get(0).innerHTML = value;
                 }
             },
-            // setIcon and getIcon
-            icon:{
+            image:{
                 action: function(value){
                     this.getSubNode('ICON')
                         .css('display',value?'':'none')
                         .css('backgroundImage','url('+(value||'')+')');
                 }
             },
-            iconPos:{
+            imagePos:{
                 action: function(value){
                     this.getSubNode('ICON')
                         .css('backgroundPosition', value);
@@ -21042,8 +21057,10 @@ Class("linb.UI.Tabs", ["linb.UI", "linb.absList","linb.absValue"],{
                             if(properties.dynRender){
                                 var arr=profile.children,a=[];
                                 _.arr.each(arr,function(o){
-                                    if(o[1]==value && !o[0].rendered)
+                                    if(o[1]==value && !o[0]['parent:'+profile.$id]){
                                         a.push(o[0]);
+                                        o[0]['parent:'+profile.$id]=1;
+                                    }
                                 });
                                 if(a.length)
                                     box.append(linb.UI.pack(a),value);
@@ -21078,11 +21095,11 @@ Class("linb.UI.Tabs", ["linb.UI", "linb.absList","linb.absValue"],{
 
             _.merge(i, {
                 caption:para.caption,
-                icon:para.icon,
+                image:para.image,
                 closeBtn:para.closeBtn || false,
                 landBtn:para.landBtn || false,
                 optBtn:para.optBtn || false,
-                iconPos:para.iconPos,
+                imagePos:para.imagePos,
                 dragKey:para.dragKey,
                 dropKeys:para.dropKeys,
                 id : para.id || para.tag || _.id()
@@ -21241,7 +21258,7 @@ Class("linb.UI.Tabs", ["linb.UI", "linb.absList","linb.absValue"],{
                                     style:"white-space:nowrap;",
                                     RULER:{},
                                     ICON:{
-                                        style:'background:url({icon}) transparent  no-repeat {iconPos};{iconDisplay}',
+                                        style:'background:url({image}) transparent  no-repeat {imagePos};{iconDisplay}',
                                         className:'ui-icon',
                                         $order:0
                                     },
@@ -21983,7 +22000,7 @@ Class("linb.UI.ButtonViews", "linb.UI.Tabs",{
                         $order:0
                     },
                     ICON:{
-                        style:'background:url({icon}) transparent  no-repeat {iconPos};{iconDisplay}',
+                        style:'background:url({image}) transparent  no-repeat {imagePos};{iconDisplay}',
                         className:'ui-icon',
                         $order:1
                     },
@@ -22550,26 +22567,6 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
 
             });
         },
-
-        updateItem:function(id, name, value){
-            return this.each(function(profile){
-                var item = profile.getItemByItemId(id),
-                    fun = function(key,id){return profile.getSubNodeByItemId(key, id)};
-                if(!item)return;
-                switch(item[name]=value){
-                    case 'caption':
-                        fun('ITEMCAPTION', id).html(value,false);
-                        break;
-                    case 'icon':
-                        fun('MARK2', id).css('display',value?'':'none').css('backgroundImage','url('+(value||'')+')');
-                        break;
-                    case 'iconPos':
-                        fun('MARK2', id).css('backgroundPosition', value);
-                        break;
-                }
-            });
-        },
-
         _toggleNodes:function(items, expend, recursive){
             var self=this;
             _.arr.each(items,function(o){
@@ -22683,7 +22680,7 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
                                 style:'{mark2Display}'
                             },
                             ITEMICON:{
-                                style:'background:url({icon}) transparent  no-repeat   {iconPos}; {iconDisplay}',
+                                style:'background:url({image}) transparent  no-repeat   {imagePos}; {iconDisplay}',
                                 className:'ui-icon',
                                 $order:2
                             },
@@ -23391,7 +23388,7 @@ Class("linb.UI.PopMenu",["linb.UI.Widget","linb.absList"],{
                     tabindex: 1,
                     className: '{cls} {disabled}',
                     ICON:{
-                        style:'background:url({icon}) transparent  no-repeat {iconPos};',
+                        style:'background:url({image}) transparent  no-repeat {imagePos};',
                         className:'ui-icon',
                         $order:0
                     },
@@ -23967,7 +23964,7 @@ Class("linb.UI.MenuBar",["linb.UI","linb.absList" ],{
                         ICON:{
                             $order:1,
                             className:'ui-icon',
-                            style:'background:url({icon}) transparent no-repeat  {iconPos}; {iconDisplay}'
+                            style:'background:url({image}) transparent no-repeat  {imagePos}; {iconDisplay}'
                         },
                         CAPTION:{
                             $order:2,
@@ -24199,10 +24196,8 @@ Class("linb.UI.MenuBar",["linb.UI","linb.absList" ],{
 
 Class("linb.UI.ToolBar",["linb.UI","linb.absList"],{
     Instance:{
-        updateItem:function(itemId, caption){
-            return this.each(function(profile){
-                profile.getSubNodeByItemId('CAPTION', itemId).html(caption,false);
-            });
+        updateItem:function(subId,options){
+            return arguments.callee.upper.apply(this,[subId,options,'items.sub',]);
         },
         showItem:function(itemId, value){
             return this.each(function(profile){
@@ -24260,7 +24255,7 @@ Class("linb.UI.ToolBar",["linb.UI","linb.absList"],{
                                 ICON:{
                                     $order:1,
                                     className:'ui-icon',
-                                    style:'background:url({icon}) transparent no-repeat  {iconPos}; {iconDisplay}'
+                                    style:'background:url({image}) transparent no-repeat  {imagePos}; {iconDisplay}'
                                 },
                                 CAPTION:{
                                     $order:2,
@@ -24344,6 +24339,7 @@ Class("linb.UI.ToolBar",["linb.UI","linb.absList"],{
             },
             DROP:{
                 width:'7px',
+                height:'16px',
                 'vertical-align':'middle',
                 background: linb.UI.$bg('icon.gif', ' no-repeat left bottom', true)
             },
@@ -24426,30 +24422,24 @@ Class("linb.UI.ToolBar",["linb.UI","linb.absList"],{
 
             return d;
         },
-        _prepareItem:function(profile, oitem, sitem){
-            var dn='display:none';
-            oitem.mode2 = profile.properties.handler ? '' : dn;
-            oitem.grpStyle=sitem.visible===false?dn:'';
+        _prepareItem:function(profile, oitem, sitem, pid,  mapCache, serialId){
+            var fun=function(profile, dataItem, item, pid, mapCache,serialId){
+                var dn='display:none',
+                id=dataItem[linb.UI.$tag_subId]=typeof serialId=='string'?serialId:profile.pickSubId('items'),
+                t;
 
-            var arr=[],
-                a = sitem.sub ||[],
-                dataItem,id,t;
-            _.arr.each(a,function(item){
-                dataItem={id: item.id};
-
-                id=profile.pickSubId('items');
-
-                //give item subid
-                dataItem[linb.UI.$tag_subId] = profile.ItemIdMapSubSerialId[item.id] = id;
-                profile.SubSerialIdMapItem[id] = item;
+                if(false!==mapCache){
+                    profile.ItemIdMapSubSerialId[item.id] = id;
+                    profile.SubSerialIdMapItem[id] = item;
+                }
 
                 if(t=item.object){
                     t=dataItem.object=item.object=t['linb.absBox']?t.get(0):t;
                     //relative it.
                     if(t['linb.UIProfile']){
                         t.properties.position='relative';
-                        if(!t.CS.KEY)t.CS.KEY={};
-                        t.CS.KEY +=';vertical-align:middle;';
+                        if(!t.CS.KEY)t.CS.KEY='';
+                        t.CS.KEY ='vertical-align:middle;margin-left:4px;' + t.CS.KEY;
                     }
                     item.$id=t.$id;
                     t.$item=item;
@@ -24464,12 +24454,28 @@ Class("linb.UI.ToolBar",["linb.UI","linb.absList"],{
                     dataItem.labelDisplay=dataItem.label?'':dn;
                     dataItem.captionDisplay=dataItem.caption?'':dn;
                     dataItem.dropDisplay=item.dropButton?'':dn;
-                    dataItem.boxDisplay= (!dataItem.split && (dataItem.caption || dataItem.icon))?'':dn;
+                    dataItem.boxDisplay= (!dataItem.split && (dataItem.caption || dataItem.image))?'':dn;
                 }
+                item._pid=pid;
+            };
 
-                arr.push(dataItem);
-            });
-            oitem.sub = arr;
+            if(pid){
+                fun(profile,oitem,sitem,pid,mapCache,serialId);
+            }else{
+                var arr=[],
+                dataItem,
+                a=sitem.sub||[];
+
+                pid=sitem.id;
+                oitem.mode2 = profile.properties.handler ? '' : dn;
+                oitem.grpStyle=sitem.visible===false?dn:'';
+                oitem.sub = arr;
+                _.arr.each(a,function(item){
+                    dataItem={id: item.id};
+                    fun(profile,dataItem,item,pid,mapCache,serialId);
+                    arr.push(dataItem);
+                });
+            }
         }
     }
 });
@@ -24966,7 +24972,7 @@ Class("linb.UI.Range", ["linb.UI","linb.absValue"],{
                 bottom:0
             },
             'MOVE-TOP':{
-                'border-top':'solid 1px #cdcdcd',
+                'border-top':'solid 1px #fff',
                 'border-bottom':'solid 1px #cdcdcd',
                 width:'100%',
                 bottom:0,
@@ -24974,7 +24980,7 @@ Class("linb.UI.Range", ["linb.UI","linb.absValue"],{
                 cursor:'n-resize'
             },
             'MOVE-BOTTOM':{
-                'border-top':'solid 1px #cdcdcd',
+                'border-top':'solid 1px #fff',
                 'border-bottom':'solid 1px #cdcdcd',
                 width:'100%',
                 top:0,
@@ -24982,7 +24988,7 @@ Class("linb.UI.Range", ["linb.UI","linb.absValue"],{
                 cursor:'n-resize'
             },
             'MOVE-LEFT':{
-                'border-left':'solid 1px #cdcdcd',
+                'border-left':'solid 1px #fff',
                 'border-right':'solid 1px #cdcdcd',
                 height:'100%',
                 right:0,
@@ -24990,7 +24996,7 @@ Class("linb.UI.Range", ["linb.UI","linb.absValue"],{
                 cursor:'w-resize'
             },
             'MOVE-RIGHT':{
-                'border-left':'solid 1px #cdcdcd',
+                'border-left':'solid 1px #fff',
                 'border-right':'solid 1px #cdcdcd',
                 height:'100%',
                 left:0,
@@ -28174,7 +28180,7 @@ Class("linb.UI.Dialog","linb.UI.Widget",{
                     ICON:{
                         $order:0,
                         className:'ui-icon',
-                        style:'background:url({icon}) transparent no-repeat  {iconPos};{iconDisplay}'
+                        style:'background:url({image}) transparent no-repeat  {imagePos};{iconDisplay}'
                     },
                     CAPTION:{
                         $order:1,
@@ -28423,15 +28429,14 @@ Class("linb.UI.Dialog","linb.UI.Widget",{
                     this.getSubNode('CAPTION').get(0).innerHTML = value;
                 }
             },
-            // setIcon and getIcon
-            icon:{
+            image:{
                 action: function(value){
                     this.getSubNode('ICON')
                         .css('display',value?'':'none')
                         .css('backgroundImage','url('+(value||'')+')');
                 }
             },
-            iconPos:{
+            imagePos:{
                 action: function(value){
                     this.getSubNode('ICON')
                         .css('backgroundPosition', value);

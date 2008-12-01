@@ -56,7 +56,7 @@ Class("linb.UI.Button", ["linb.UI.Widget","linb.absValue"],{
                                 ICON:{
                                     $order:1,
                                     className:'ui-icon',
-                                    style:'background:url({icon}) transparent no-repeat  {iconPos};{iconDisplay}'
+                                    style:'background:url({image}) transparent no-repeat  {imagePos};{iconDisplay}'
                                 },
                                 CAPTION:{
                                     $order:2,
@@ -222,15 +222,14 @@ Class("linb.UI.Button", ["linb.UI.Widget","linb.absValue"],{
                     this.getSubNode('CAPTION').get(0).innerHTML = value;
                 }
             },
-            // setIcon and getIcon
-            icon:{
+            image:{
                 action: function(value){
                     this.getSubNode('ICON')
                         .css('display',value?'':'none')
                         .css('backgroundImage','url('+(value||'')+')');
                 }
             },
-            iconPos:{
+            imagePos:{
                 action: function(value){
                     this.getSubNode('ICON')
                         .css('backgroundPosition', value);

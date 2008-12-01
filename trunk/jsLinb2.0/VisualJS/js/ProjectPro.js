@@ -4,7 +4,7 @@ Class('VisualJS.ProjectPro', 'linb.Com',{
             var self=this,
                 prop = self.properties;
 
-            self.dialog.setCaption(prop.caption).setIcon(prop.icon).setIconPos(prop.iconPos);
+            self.dialog.setCaption(prop.caption).setImage(prop.image).setImagePos(prop.imagePos);
             self.inputName.setValue(prop.projectName, true);
             self.inputClassName.setValue(prop.className, true);
             self._refreshLabel(prop.projectName);
@@ -82,8 +82,8 @@ Class('VisualJS.ProjectPro', 'linb.Com',{
             .setWidth(90)
             .setTabindex("0")
             .setCaption("$VisualJS.cancel")
-            .setIcon('@CONF.img_app')
-            .setIconPos("-16px -16px")
+            .setImage('@CONF.img_app')
+            .setImagePos("-16px -16px")
             .onClick("_btncancel_onclick")
             );
 
@@ -132,8 +132,8 @@ Class('VisualJS.ProjectPro', 'linb.Com',{
             .setTop(152)
             .setWidth(90)
             .setCaption("$VisualJS.ok")
-            .setIcon('@CONF.img_app')
-            .setIconPos("-64px -16px")
+            .setImage('@CONF.img_app')
+            .setImagePos("-64px -16px")
             .onClick("_btnok_onclick")
             );
 

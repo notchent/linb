@@ -100,7 +100,7 @@ Class("linb.UI.Layout",["linb.UI", "linb.absList"],{
                 bottom:0
             },
             'MOVE-TOP':{
-                'border-top':'solid 1px #cdcdcd',
+                'border-top':'solid 1px #fff',
                 'border-bottom':'solid 1px #cdcdcd',
                 width:'100%',
                 bottom:0,
@@ -108,7 +108,7 @@ Class("linb.UI.Layout",["linb.UI", "linb.absList"],{
                 cursor:'n-resize'
             },
             'MOVE-BOTTOM':{
-                'border-top':'solid 1px #cdcdcd',
+                'border-top':'solid 1px #fff',
                 'border-bottom':'solid 1px #cdcdcd',
                 width:'100%',
                 top:0,
@@ -116,7 +116,7 @@ Class("linb.UI.Layout",["linb.UI", "linb.absList"],{
                 cursor:'n-resize'
             },
             'MOVE-LEFT':{
-                'border-left':'solid 1px #cdcdcd',
+                'border-left':'solid 1px #fff',
                 'border-right':'solid 1px #cdcdcd',
                 height:'100%',
                 right:0,
@@ -124,7 +124,7 @@ Class("linb.UI.Layout",["linb.UI", "linb.absList"],{
                 cursor:'w-resize'
             },
             'MOVE-RIGHT':{
-                'border-left':'solid 1px #cdcdcd',
+                'border-left':'solid 1px #fff',
                 'border-right':'solid 1px #cdcdcd',
                 height:'100%',
                 left:0,
