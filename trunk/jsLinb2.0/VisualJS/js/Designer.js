@@ -1097,7 +1097,7 @@ Class('VisualJS.Designer', 'linb.Com',{
                          ini:o
                     };
                     arr.push({id:'event:'+i, cells:[
-                        {value:i, type:null, $tagVar: null, event:null },
+                        {value:i, type:'label'},
                         {value:(em&&em[i])||'', type:'popbox', $tagVar:$tagVar, event:$fun}]
                     });
                 });
@@ -1146,65 +1146,42 @@ Class('VisualJS.Designer', 'linb.Com',{
                             this.show();
                         });
                     };
-
+                    
                     var rows=[
                             {id:'key', cells:[{value:'class', type:'label'},{value:'<strong>'+pro.key+'</strong>',type:'label'}] },
                             {id:'alias',cells:[{value:'alias', type:'label'},{value:pro.alias}] },
                             {id:'domId',cells:[{value:'domId', type:'label'},{value:pro.domId}] },
                             {id:'properties',  group:true, caption:'properties', sub:true},
                             {id:'UIE', group:true, caption:'events', sub:true},
-                            {id:'CS',cells:[{value:'Custom Style', type:'label'},{value:'(Collection)', event:$fun, $tagVar:{
+                            {id:'CS',cells:[{value:'Custom Style', type:'label'},{value:'[<strong> key/value pairs</strong>]', event:$fun, $tagVar:{
                                 widgetName:pro.alias,
                                 name:'CS',
                                 funName:'setCustomStyle',
                                 profile:pro
-                            }, type:'popbox',editorReadonly:true}] },
-                            {id:'CC',cells:[{value:'Custom Class', type:'label'},{value:'(Collection)', event:$fun, $tagVar:{
+                            }, editorReadonly:true}] },
+                            {id:'CC',cells:[{value:'Custom Class', type:'label'},{value:'[<strong> key/value pairs</strong>]', event:$fun, $tagVar:{
                                 widgetName:pro.alias,
                                 name:'CC',
                                 funName:'setCustomClass',
                                 profile:pro
-                            }, type:'popbox',editorReadonly:true}] },
-                            {id:'CB',cells:[{value:'Custom Behaviors', type:'label'},{value:'(Collection)', event:$fun, $tagVar:{
+                            }, editorReadonly:true}] },
+                            {id:'CB',cells:[{value:'Custom Behaviors', type:'label'},{value:'[<strong> key/value pairs</strong>]', event:$fun, $tagVar:{
                                 widgetName:pro.alias,
                                 name:'CB',
                                 funName:'setCustomBehavior',
                                 profile:pro
-                            }, type:'popbox',editorReadonly:true}] },
-                            {id:'CF',cells:[{value:'Custom Functions', type:'label'},{value:'(Collection)', event:$fun, $tagVar:{
+                            }, editorReadonly:true}] },
+                            {id:'CF',cells:[{value:'Custom Functions', type:'label'},{value:'[<strong> key/value pairs</strong>]', event:$fun, $tagVar:{
                                 widgetName:pro.alias,
                                 name:'CF',
                                 funName:'setCustomFunction',
                                 profile:pro
-                            }, type:'popbox',editorReadonly:true}] }
+                            }, editorReadonly:true}] }
                     ];
+                    //if selected more than one
+                    if(uis._nodes.length>1)
+                        rows=[rows[3]];
 
-                    //get properties
-                    uis.each(function(t,i){
-                        if(i===len-1)return;
-                        if(!cache[0] && t.key != pro.key){
-                            cache[0]=1;
-                            cache2++;
-                        }
-                        if(!cache[1]){
-                            rows[1].cells[1].type='label';
-                            cache[1]=1;
-                            cache2++;
-                        }
-                        if(!cache[2] && t.domId!=pro.domId){
-                            rows[2].cells[1].type='label';
-                            cache[2]=1;
-                            cache2++;
-                        }
-
-                        if(!cache[5]){
-                            rows[5].cells[1].type='label';
-                            cache[5]=1;
-                            cache2++;
-                        }
-                        //all *ed
-                        if(cache2==7)return false;
-                    });
                     this.profileGrid.insertRows(rows);
 
                     //set target
@@ -1387,6 +1364,8 @@ Class('VisualJS.Designer', 'linb.Com',{
              profile.boxing().editCellbyRowCol(profile, row.id, 'value');
              return false;
         },
+        _map1:{'left':1,'top':1,'width':1,'height':1,'right':1,'bottom':1},
+        _map2:{'left':1,'top':1,'width':1,'height':1,'right':1,'bottom':1,'dock':1,'dockOrder':1,'dockMargin':1,'dockFloat':1,'dockIgnore':1,'dockMinH':1,'dockMinW':1},
         $profilegrid_beforecellvalueset: function(profile, cell,hash){
              this._change();
              var page = this,
@@ -1411,10 +1390,17 @@ Class('VisualJS.Designer', 'linb.Com',{
                             temp[property]=value;
                             page.setViewSize(temp);
                         }else{
+                            if(page._map1[property]){
+                                value=(value==''||value=='auto')?value:(parseFloat(value)||'auto');
+                                this.listObject.setUIValue(value,true);
+                                _.asyRun(function(){
+                                    profile.boxing().updateCell(cell,{value:value});
+                                });
+                            }
                             target.each(function(o){
                                 o.boxing()[funName](value);
                             });
-                            if(_.arr.indexOf(['left','top','width','height','right','bottom','dock','dockOrder','dockMargin','dockFloat','dockIgnore','dockMinH','dockMinW'],property)!=-1)
+                            if(page._map2[property])
                                 this.resizer.rePosSize();
                         }
                         break;
@@ -1500,7 +1486,44 @@ Class('VisualJS.Designer', 'linb.Com',{
                      cv='';
                     //filter
                     if(dm[i].inner){return}
-                    else if(dm[i].readonly){
+                    else if(i=='renderer'){
+                        type='popbox';
+                        editorReadonly=true;
+                        //keep object
+                        $tag = null;
+
+                        $fun = function(profile, cell){
+                            var o = cell.$tagVar;
+                            var node = profile.getSubNode('CELL', cell._serialId);
+        
+                            linb.ComFactory.getCom('objEditor',function(){
+                                this.host = page;
+                                this.setProperties({
+                                    image:CONF.img_app,
+                                    imagePos:'-32px -32px',
+                                    caption:o.widgetName+" => renderer ",
+                                    text: typeof o.ini=='function'?String(o.ini):'function(){\n}',
+                                    fromRegion:node.cssRegion(true),
+                                    tagVar:o,
+                                    onOK:function(page){
+                                        this._change();
+                                        var tagVar = page.properties.tagVar,
+                                            code=page.properties.result.code;
+                                        tagVar.profile.properties.renderer = code!==null?new Function(_.fun.args(code), _.fun.body(code)):null;
+                                        node.focus();
+                                    }
+                                });
+                                this.show();
+                            });
+                        };
+
+                        $tagVar = {
+                             widgetName:target.alias,
+                             profile: target,
+                             ini:target.properties[i]
+                        };
+                        cv='[<strong> Function </strong>]';
+                    }else if(dm[i].readonly){
                         type='label';
                     }else if(dm[i].listbox){
                         type='listbox';
@@ -1568,6 +1591,10 @@ Class('VisualJS.Designer', 'linb.Com',{
                     }else if(_.isBool(o)){
                         type='checkbox';
                         $tag = i;
+                    }else if(page._map1[i]){
+                        type='input';
+                    }else if(_.isNumb(o)){
+                        type='number';
                     }else if(_.isObj(o)){
                         type='popbox';
                         editorReadonly=true;
@@ -1626,7 +1653,7 @@ Class('VisualJS.Designer', 'linb.Com',{
                              profile: target,
                              name:i
                         };
-                        cv='(Collection)';
+                        cv='[<strong> key/value pairs</strong>]';
                     }else{
                         type='input';
                     }
@@ -1724,7 +1751,7 @@ Class('VisualJS.Designer', 'linb.Com',{
                          ini:o
                     };
                     arr.push({id:'event:'+i, cells:[
-                        {value:i, type:'lable'},
+                        {value:i, type:'label'},
                         {value:typeof target[i]=='string'?target[i]:'', type: 'popbox', $tagVar:$tagVar, event:$fun}
                     ]});
                 });
@@ -2212,7 +2239,7 @@ Class('VisualJS.Designer', 'linb.Com',{
             t.layoutBase.append(
             (new u.Panel)
             .host(t,"panelRigth")
-            .setCaption("Properties and Events")
+            .setCaption("Component config")
             .setCustomStyle({PANEL:'overflow:hidden'})
             , 'after');
 
@@ -2229,7 +2256,7 @@ Class('VisualJS.Designer', 'linb.Com',{
             (new u.TreeGrid)
             .host(t,"profileGrid")
             .setHeader([{"id":"name","caption":"$VisualJS.designer.gridcol1","width":60,"type":"label"},{"id":"value","caption":"$VisualJS.designer.gridcol2","width":130,"type":"input"}])
-            .setAltRowsBg(true)
+            .setAltRowsBg(false)
             .setColSortable(false)
             .setEditable(true)
             .beforeCellUpdated("$profilegrid_beforecellvalueset")

@@ -228,10 +228,8 @@ Class("linb.UI.ToolBar",["linb.UI","linb.absList"],{
             return d;
         },
         _prepareItem:function(profile, oitem, sitem, pid,  mapCache, serialId){
-            var fun=function(profile, dataItem, item, pid, mapCache,serialId){
-                var dn='display:none',
-                id=dataItem[linb.UI.$tag_subId]=typeof serialId=='string'?serialId:profile.pickSubId('items'),
-                t;
+            var dn='display:none', fun=function(profile, dataItem, item, pid, mapCache,serialId){
+                var id=dataItem[linb.UI.$tag_subId]=typeof serialId=='string'?serialId:profile.pickSubId('items'), t;
 
                 if(false!==mapCache){
                     profile.ItemIdMapSubSerialId[item.id] = id;

@@ -879,6 +879,7 @@ Class('linb.Thread',null,{
         });
     },
     Instance:{
+        _fun:_.fun(),
         __gc:function(){
             var m=linb.cache.thread,t=m[this.id];
             if(t){
@@ -888,17 +889,23 @@ Class('linb.Thread',null,{
             }
         },
         _task:function(){
-            var self=this,p=self.profile,t={args:[]}, value=p.tasks[p.index],r,i;
+            var self=this,p=self.profile,t={args:[]}, value=p.tasks[p.index],r,i,type=typeof value;
             p._asy=-1;
-            //get args
-            if(typeof value == 'function') t.task=value;
-            else for(i in value) t[i]=value[i];
-            //maybe abort
-            if(!t.task)return;
+            
+            //maybe aborted
+            if(!p.status)return;
 
-            //give default delay or callback
-            if(typeof t.delay != 'number')t.delay=p.delay;
-            if(!t.callback)t.callback=p.callback
+            //function
+            if(type=='function') t.task=value;
+            //hash
+            else if(type=='object')
+                for(i in value) t[i]=value[i];
+            //others, give all default
+
+            //defalut task
+            if(typeof t.task!='function')t.task=self._fun;
+            //default callback
+            if(typeof t.callback!='function')t.callback=p.callback
 
             //last arg is threadid
             t.args.push(p.id);
@@ -931,7 +938,7 @@ Class('linb.Thread',null,{
             self.start();
         },
         start:function(time){
-            var self=this, p = self.profile, delay;
+            var self=this, p=self.profile, task,delay;
             if(p._start===false){
                 p._start=true;
                 //call onstart
@@ -944,9 +951,9 @@ Class('linb.Thread',null,{
                     self.profile.index = 0;
                 else
                     return self.abort();
+            task=p.tasks[p.index];
 
-            delay = p.tasks[p.index].delay;
-            if(typeof delay != 'number')delay=p.delay;
+            delay=typeof task=='number'?task:typeof task.delay=='number'?task.delay:p.delay;
             p._left= (time || time===0)?time:delay;
 
             if(p._asy!=-1)clearTimeout(p._asy);
