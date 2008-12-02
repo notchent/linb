@@ -670,7 +670,7 @@ Class("linb.UI.Tabs", ["linb.UI", "linb.absList","linb.absValue"],{
                 o = profile.boxing().getPanel(key),
                 item = profile.getItemByItemId(key),
                 l=profile.getSubNode('LIST'),
-                forceCheckH=false,
+                forceH=0,
                 listH;
             ;
             if(!o || o.isEmpty())return;
@@ -681,8 +681,8 @@ Class("linb.UI.Tabs", ["linb.UI", "linb.absList","linb.absValue"],{
 
             var wc=null,hc=null;
             if(width && item._w!=width)
-                forceH=true;
-            if((height && item._h!=height) || forceCheckH){
+                forceH=1;
+            if((height && item._h!=height) || forceH){
                 item._h=height;
                 listH = l.get(0).offsetHeight ||
                     //for opear 9.0 get height bug, get offsetheight in firefox is slow

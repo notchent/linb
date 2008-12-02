@@ -9617,21 +9617,21 @@ Class("linb.UI",  "linb.absObj", {
             },
             position:{
                 ini : 'absolute',
-                listbox:['static','relative','absolute'],
+                listbox:['','static','relative','absolute'],
                 action:function(value){
                     if(this.domNode)
                         this.root.css('position',value);
                 }
             },
             visibility:{
-                listbox:['visible','hidden'],
+                listbox:['','visible','hidden'],
                 action:function(value){
                     if(this.domNode)
                         this.root.css('visibility',value);
                 }
             },
             display:{
-                listbox:['none','block','inline','inline-block'],
+                listbox:['','none','block','inline','inline-block'],
                 action:function(value){
                     if(this.domNode){
                         if(value=='inline-block')
@@ -13529,7 +13529,7 @@ Class("linb.UI.Button", ["linb.UI.Widget","linb.absValue"],{
                 }
             }
         },'all');
-        t.className='{bigCls}';
+        t.className='{customCls}';
         this.setTemplate(t);
     },
     Static:{
@@ -13538,13 +13538,13 @@ Class("linb.UI.Button", ["linb.UI.Widget","linb.absValue"],{
                 'font-size':'12px',
                 'line-height':'12px'
             },
-            'BIG':{
-                background:'#FFF'
+            'CUSTOM':{
+                background:'transparent'
             },
-            'BIG BOX':{
+            'CUSTOM BOX':{
                 'white-space':'normal'
             },
-            'BIG td':{
+            'CUSTOM td':{
                 $order:20,
                 background:'none'
             },
@@ -13715,20 +13715,20 @@ Class("linb.UI.Button", ["linb.UI.Widget","linb.absValue"],{
             value:false,
             type:{
                 ini:'normal',
-                listbox:['normal','status','drop','big'],
+                listbox:['normal','status','drop','custom'],
                 action:function(value){
                     var self=this,
                         root=self.getRoot(),
                         tdr=self.getSubNode('TDR'),
-                        drop=self.getClass('DROP'),big=self.getClass('BIG');
+                        drop=self.getClass('DROP'),custom=self.getClass('CUSTOM');
                     if(value=='drop')
                         tdr.addClass(drop);
                     else
                         tdr.removeClass(drop);
-                    if(value=='big')
-                        root.addClass(big);
+                    if(value=='custom')
+                        root.addClass(custom);
                     else
-                        root.removeClass(big);
+                        root.removeClass(custom);
                 }
             },
             width:120,
@@ -13740,7 +13740,7 @@ Class("linb.UI.Button", ["linb.UI.Widget","linb.absValue"],{
         },
         _prepareData:function(profile){
             var data=arguments.callee.upper.call(this, profile);
-            data.bigCls = data.type=='big'?profile.getClass('BIG'):'';
+            data.customCls = data.type=='custom'?profile.getClass('CUSTOM'):'';
             data.dropCls = data.type=='drop'?profile.getClass('DROP'):'';
             return data;
         },
@@ -19062,7 +19062,7 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
                     ;
                 if(p.selMode=='single'){
                     var itemId = getI(uiv);
-                    if(uiv && itemId)
+                    if(uiv!==null && itemId)
                         getN(k,itemId).tagClass('-checked',false);
 
                     itemId = getI(value);
@@ -19157,7 +19157,7 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
                         },
                         CAPTION:{
                             tagName : 'text',
-                            text : '{caption}',
+                            text : '{caption}&nbsp;',
                             $order:1
                         }
                     }
@@ -21706,7 +21706,7 @@ Class("linb.UI.Tabs", ["linb.UI", "linb.absList","linb.absValue"],{
                 o = profile.boxing().getPanel(key),
                 item = profile.getItemByItemId(key),
                 l=profile.getSubNode('LIST'),
-                forceCheckH=false,
+                forceH=0,
                 listH;
             ;
             if(!o || o.isEmpty())return;
@@ -21717,8 +21717,8 @@ Class("linb.UI.Tabs", ["linb.UI", "linb.absList","linb.absValue"],{
 
             var wc=null,hc=null;
             if(width && item._w!=width)
-                forceH=true;
-            if((height && item._h!=height) || forceCheckH){
+                forceH=1;
+            if((height && item._h!=height) || forceH){
                 item._h=height;
                 listH = l.get(0).offsetHeight ||
                     //for opear 9.0 get height bug, get offsetheight in firefox is slow
@@ -24304,9 +24304,6 @@ Class("linb.UI.ToolBar",["linb.UI","linb.absList"],{
                 height:'20px',
                 width:'6px',
                 background: linb.UI.$bg('handler.gif', ' left top #EBEADB ', true),
-                position:'absolute',
-                left:'2px',
-                top:'2px',
                 cursor:'move'
             },
             GROUP:{
@@ -24435,6 +24432,8 @@ Class("linb.UI.ToolBar",["linb.UI","linb.absList"],{
         _prepareItem:function(profile, oitem, sitem, pid,  mapCache, serialId){
             var dn='display:none', fun=function(profile, dataItem, item, pid, mapCache,serialId){
                 var id=dataItem[linb.UI.$tag_subId]=typeof serialId=='string'?serialId:profile.pickSubId('items'), t;
+                if(typeof item=='string')
+                    item={caption:item};
 
                 if(false!==mapCache){
                     profile.ItemIdMapSubSerialId[item.id] = id;

@@ -2,21 +2,21 @@
 Class('App.TreeView', 'linb.Com',{
     Instance:{
         //base Class for linb.Com
-        base:["linb.UI"], 
+        base:["linb.UI"],
         //requried class for the App
-        required:["linb.UI.Layout", "linb.UI.TextEditor", "linb.UI.Button", "linb.UI.TreeGrid"], 
+        required:["linb.UI.Layout", "linb.UI.TextEditor", "linb.UI.Button", "linb.UI.TreeGrid"],
         //Com events
-        events:{"onReady":"_onready"}, 
+        events:{"onReady":"_onready"},
         iniComponents:function(){
             // [[code created by jsLinb UI Builder
             var host=this, children=[], append=function(child){children.push(child.get(0))};
-            
+
             append((new linb.UI.Layout)
                 .host(host,"layout7")
                 .setItems([{"id":"before", "pos":"before", "size":30, "locked":true, "min":10, "hide":false, "cmd":false, "caption":"after"}, {"id":"main", "min":10, "caption":"main"}])
                 .setType("horizontal")
             );
-            
+
             host.layout7.append((new linb.UI.TreeGrid)
                 .host(host,"tg")
                 .setEditable(true)
@@ -31,26 +31,26 @@ Class('App.TreeView', 'linb.Com',{
                 .beforeIniEditor('_tg_beforeIniEditor')
                 .beforeCellUpdated("_tg_beforecellupdated")
             , 'main');
-            
+
             host.layout7.append((new linb.UI.Button)
                 .host(host,"button26")
                 .setDock("fill")
                 .setLeft(20)
                 .setTop(110)
-                .setType('big')
+                .setType('custom')
                 .setCaption("<")
                 .setVAlign("middle")
                 .setBorder(true)
                 .onClick("_button26_onclick")
                 .setCustomStyle({KEY:'background:#eee;'})
             , 'before');
-            
+
             return children;
             // ]]code created by jsLinb UI Builder
-        }, 
+        },
         _button26_onclick:function (profile, e, src, value) {
             SPA.toCodeView()
-        }, 
+        },
         _onready:function () {
             linb.CSS.addStyleSheet('.c-cmd1{border:0;width:36px;height:18px;background:url(img/pre.gif) center;}' +
             '.c-cmd2{border:0;width:36px;height:18px;background:url(img/next.gif) center;}'+
@@ -101,7 +101,7 @@ Class('App.TreeView', 'linb.Com',{
                       //reg
                         /^\/(\\[\/\\]|[^*\/])(\\.|[^\/\n\\])*\/[gim]*$/.test(v) ? ['regexp', v]  :
                       //bool
-                        /^(true|false)$/.test(v) ? ['boolean',v.toLowerCase()] : 
+                        /^(true|false)$/.test(v) ? ['boolean',v.toLowerCase()] :
                       //date
                         /^new Date\([0-9 \,]*\)$/i.test(v) ? ['date', _.serialize(_.unserialize(v))] :
                       //function
@@ -121,7 +121,7 @@ Class('App.TreeView', 'linb.Com',{
                 v[1]=_.serialize(v[1]);
             }
               return v;
-        }, 
+        },
         _json2rows:function(obj,array,rows){
             var me=arguments.callee;
             if(!rows)rows=[];
@@ -209,7 +209,7 @@ Class('App.TreeView', 'linb.Com',{
                         this.tg.insertRows(sub,row.id);
                         this.tg.toggleRow(row.id, true);
                         options.caption=va[0]=='hash'?'{...}':'[...]';
-                    }                    
+                    }
                     if(map[type]!=map[va[0]])
                         profile.getSubNode('TOGGLE',row._serialId).css('display',map[va[0]]?'':'none');
 

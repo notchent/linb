@@ -74,7 +74,7 @@ Class("linb.UI.Button", ["linb.UI.Widget","linb.absValue"],{
                 }
             }
         },'all');
-        t.className='{bigCls}';
+        t.className='{customCls}';
         this.setTemplate(t);
     },
     Static:{
@@ -83,13 +83,13 @@ Class("linb.UI.Button", ["linb.UI.Widget","linb.absValue"],{
                 'font-size':'12px',
                 'line-height':'12px'
             },
-            'BIG':{
-                background:'#FFF'
+            'CUSTOM':{
+                background:'transparent'
             },
-            'BIG BOX':{
+            'CUSTOM BOX':{
                 'white-space':'normal'
             },
-            'BIG td':{
+            'CUSTOM td':{
                 $order:20,
                 background:'none'
             },
@@ -260,20 +260,20 @@ Class("linb.UI.Button", ["linb.UI.Widget","linb.absValue"],{
             value:false,
             type:{
                 ini:'normal',
-                listbox:['normal','status','drop','big'],
+                listbox:['normal','status','drop','custom'],
                 action:function(value){
                     var self=this,
                         root=self.getRoot(),
                         tdr=self.getSubNode('TDR'),
-                        drop=self.getClass('DROP'),big=self.getClass('BIG');
+                        drop=self.getClass('DROP'),custom=self.getClass('CUSTOM');
                     if(value=='drop')
                         tdr.addClass(drop);
                     else
                         tdr.removeClass(drop);
-                    if(value=='big')
-                        root.addClass(big);
+                    if(value=='custom')
+                        root.addClass(custom);
                     else
-                        root.removeClass(big);
+                        root.removeClass(custom);
                 }
             },
             width:120,
@@ -285,7 +285,7 @@ Class("linb.UI.Button", ["linb.UI.Widget","linb.absValue"],{
         },
         _prepareData:function(profile){
             var data=arguments.callee.upper.call(this, profile);
-            data.bigCls = data.type=='big'?profile.getClass('BIG'):'';
+            data.customCls = data.type=='custom'?profile.getClass('CUSTOM'):'';
             data.dropCls = data.type=='drop'?profile.getClass('DROP'):'';
             return data;
         },

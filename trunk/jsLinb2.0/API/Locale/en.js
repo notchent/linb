@@ -4541,7 +4541,7 @@ _.set(linb.Locale,["en","doc","linb","absList"], {
                 "var id='linb.temp.absl0-1'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var o=new linb.UI.TreeBar({width:'auto',iniFold:true,height:'auto',dock:'none',position:'relative',items:[{id:'a',caption:'a'},{id:'b',caption:'b'},{id:'c',caption:'c',sub:[{id:'cz',caption:'cz'}]}]});"+
                 "linb(id).prepend(o);"+
-                "_.asyRun(function(){o.updateItem('b',{caption:'bbb', image:'img/img.gif', imagePos:'left -16px'})},1000);" + 
+                "_.asyRun(function(){o.updateItem('b',{caption:'bbb', image:'img/img.gif', imagePos:'left -16px'})},1000);" +
                 "}"
             ]
         },
@@ -6951,7 +6951,7 @@ _.set(linb.Locale,["en","doc","linb","UI","ProgressBar"], {
             $rtn:"[self]",
             $paras:[
                 "value [Required] : String.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."                
+                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.pb1-2'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -7067,7 +7067,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Button"], {
             $desc:"Sets button type.",
             $rtn:"[self]",
             $paras:[
-                "value [Required] : 'normal', 'drop', 'status' or 'big'.",
+                "value [Required] : 'normal', 'drop', 'status' or 'custom'.",
                 "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
@@ -7854,7 +7854,7 @@ _.set(linb.Locale,["en","doc","linb","UI","ComboInput"], {
                 "_.asyRun(function(){o.setListKey('test2')},1000);"+
                 "}"
             ]
-        },        
+        },
         getSaveBtn:{
             $desc:"Determines whether save button shows up or not.",
             $rtn:"String",

@@ -13,7 +13,7 @@ Class("linb.UI.List", ["linb.UI", "linb.absList","linb.absValue" ],{
                     ;
                 if(p.selMode=='single'){
                     var itemId = getI(uiv);
-                    if(uiv && itemId)
+                    if(uiv!==null && itemId)
                         getN(k,itemId).tagClass('-checked',false);
 
                     itemId = getI(value);
@@ -108,7 +108,7 @@ Class("linb.UI.List", ["linb.UI", "linb.absList","linb.absValue" ],{
                         },
                         CAPTION:{
                             tagName : 'text',
-                            text : '{caption}',
+                            text : '{caption}&nbsp;',
                             $order:1
                         }
                     }

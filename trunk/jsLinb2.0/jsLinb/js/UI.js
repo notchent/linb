@@ -1372,21 +1372,21 @@ Class("linb.UI",  "linb.absObj", {
             },
             position:{
                 ini : 'absolute',
-                listbox:['static','relative','absolute'],
+                listbox:['','static','relative','absolute'],
                 action:function(value){
                     if(this.domNode)
                         this.root.css('position',value);
                 }
             },
             visibility:{
-                listbox:['visible','hidden'],
+                listbox:['','visible','hidden'],
                 action:function(value){
                     if(this.domNode)
                         this.root.css('visibility',value);
                 }
             },
             display:{
-                listbox:['none','block','inline','inline-block'],
+                listbox:['','none','block','inline','inline-block'],
                 action:function(value){
                     if(this.domNode){
                         if(value=='inline-block')

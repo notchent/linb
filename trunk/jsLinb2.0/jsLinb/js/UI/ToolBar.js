@@ -99,9 +99,6 @@ Class("linb.UI.ToolBar",["linb.UI","linb.absList"],{
                 height:'20px',
                 width:'6px',
                 background: linb.UI.$bg('handler.gif', ' left top #EBEADB ', true),
-                position:'absolute',
-                left:'2px',
-                top:'2px',
                 cursor:'move'
             },
             GROUP:{
@@ -230,6 +227,8 @@ Class("linb.UI.ToolBar",["linb.UI","linb.absList"],{
         _prepareItem:function(profile, oitem, sitem, pid,  mapCache, serialId){
             var dn='display:none', fun=function(profile, dataItem, item, pid, mapCache,serialId){
                 var id=dataItem[linb.UI.$tag_subId]=typeof serialId=='string'?serialId:profile.pickSubId('items'), t;
+                if(typeof item=='string')
+                    item={caption:item};
 
                 if(false!==mapCache){
                     profile.ItemIdMapSubSerialId[item.id] = id;

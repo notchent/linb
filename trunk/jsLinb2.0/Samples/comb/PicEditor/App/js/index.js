@@ -1,20 +1,20 @@
 Class('App', 'linb.Com',{
     Instance:{
-        events:{"onReady":"_onready","onRender":"_onRender"}, 
+        events:{"onReady":"_onready","onRender":"_onRender"},
         paras:{
             sessionname : '',
 
             filename : "",
             tag : '',
             fileext : "jpg"
-        }, 
+        },
         getPath:function(paras){
             return CONF.basePath +   CONF.workingPath + (paras.origin=='demos'?'demos':paras.origin=='upload'?('upload'+'/'+paras.sessionname):(paras.logindate +'/'+paras.sessionname)) + '/' +paras.filename+(paras.origin?'':('/'+paras.tag))+'.'+paras.fileext;
-        }, 
+        },
         iniComponents:function(){
             // [[code created by jsLinb UI Builder
             var host=this, children=[], append=function(child){children.push(child.get(0))};
-            
+
             append((new linb.UI.Pane)
                 .host(host,"paneTop")
                 .setDomId("paneTop")
@@ -22,7 +22,7 @@ Class('App', 'linb.Com',{
                 .setHeight(36)
                 .setPosition("relative")
             );
-            
+
             host.paneTop.append((new linb.UI.Pane)
                 .host(host,"paneTopRight")
                 .setDomId("paneTopRight")
@@ -31,7 +31,7 @@ Class('App', 'linb.Com',{
                 .setHeight(20)
                 .setRight(10)
             );
-            
+
             host.paneTopRight.append((new linb.UI.Link)
                 .host(host,"linkLangEn")
                 .setLeft(15)
@@ -42,7 +42,7 @@ Class('App', 'linb.Com',{
                 .onClick("_linklangen_onclick")
                 .setCustomClass({"KEY":"btn-lang"})
             );
-            
+
             host.paneTopRight.append((new linb.UI.Link)
                 .host(host,"linkLangCn")
                 .setLeft(10)
@@ -52,7 +52,7 @@ Class('App', 'linb.Com',{
                 .onClick("_linklangcn_onclick")
                 .setCustomClass({"KEY":"btn-lang"})
             );
-            
+
             host.paneTop.append((new linb.UI.Div)
                 .host(host,"vLogo")
                 .setDomId("vLogo")
@@ -61,7 +61,7 @@ Class('App', 'linb.Com',{
                 .setWidth(32)
                 .setHeight(32)
             );
-            
+
             host.paneTop.append((new linb.UI.Pane)
                 .host(host,"panelTopLeft")
                 .setDomId("panelTopLeft")
@@ -71,7 +71,7 @@ Class('App', 'linb.Com',{
                 .setHeight(20)
                 .setHtml("$app.caption.logo")
             );
-            
+
             append((new linb.UI.Pane)
                 .host(host,"paneMain")
                 .setDomId("paneMain")
@@ -80,7 +80,7 @@ Class('App', 'linb.Com',{
                 .setPosition("relative")
                 .setCustomStyle({"KEY":"margin-left:100px;"})
             );
-            
+
             host.paneMain.append((new linb.UI.Tabs)
                 .host(host,"tabsCmds")
                 .setDomId("tabsCmds")
@@ -93,7 +93,7 @@ Class('App', 'linb.Com',{
                 .onItemSelected("_tb_onitemseltected")
                 .setCustomStyle({"PANEL":"border-left:solid 1px #91A7B4;border-right:solid 1px #91A7B4;", "KEY":"border-bottom:solid 1px #91A7B4;"})
             );
-            
+
             host.tabsCmds.append((new linb.UI.Button)
                 .host(host,"btnRot")
                 .setLeft(661)
@@ -102,7 +102,7 @@ Class('App', 'linb.Com',{
                 .setCaption("$app.basic.rot")
                 .beforeHoverEffect("_btnrot_beforehovereffect")
             , 'basic');
-            
+
             host.tabsCmds.append((new linb.UI.Button)
                 .host(host,"btnMir")
                 .setLeft(781)
@@ -111,7 +111,7 @@ Class('App', 'linb.Com',{
                 .setCaption("$app.basic.mir")
                 .beforeHoverEffect("_btnmir_beforehovereffect")
             , 'basic');
-            
+
             host.tabsCmds.append((new linb.UI.Button)
                 .host(host,"btnOne")
                 .setLeft(661)
@@ -120,7 +120,7 @@ Class('App', 'linb.Com',{
                 .setCaption("$app.basic.one")
                 .beforeHoverEffect("_btnone_beforehovereffect")
             , 'basic');
-            
+
             host.tabsCmds.append((new linb.UI.Button)
                 .host(host,"btnFilter")
                 .setLeft(781)
@@ -129,7 +129,7 @@ Class('App', 'linb.Com',{
                 .setCaption("$app.basic.filter")
                 .beforeHoverEffect("_btnfilter_beforehovereffect")
             , 'basic');
-            
+
             host.tabsCmds.append((new linb.UI.Button)
                 .host(host,"btnApply")
                 .setLeft(11)
@@ -137,7 +137,7 @@ Class('App', 'linb.Com',{
                 .setCaption("$app.caption.applyCrop")
                 .onClick("_crop_onclick")
             , 'crop');
-            
+
             host.tabsCmds.append((new linb.UI.Button)
                 .host(host,"btnResizeApply")
                 .setLeft(10)
@@ -145,7 +145,7 @@ Class('App', 'linb.Com',{
                 .setCaption("$app.caption.applyResize")
                 .onClick("_resize_onclick")
             , 'resize');
-            
+
             host.tabsCmds.append((new linb.UI.Div)
                 .host(host,"vFont")
                 .setLeft(351)
@@ -154,7 +154,7 @@ Class('App', 'linb.Com',{
                 .setHtml("$app.addtext.font")
                 .setCustomClass({"KEY":"app-label"})
             , 'text');
-            
+
             host.tabsCmds.append((new linb.UI.Div)
                 .host(host,"vFontSize")
                 .setLeft(141)
@@ -164,7 +164,7 @@ Class('App', 'linb.Com',{
                 .setHtml("$app.addtext.fontsize")
                 .setCustomClass({"KEY":"app-label"})
             , 'text');
-            
+
             host.tabsCmds.append((new linb.UI.Div)
                 .host(host,"vFontColor")
                 .setLeft(121)
@@ -173,7 +173,7 @@ Class('App', 'linb.Com',{
                 .setHtml("$app.addtext.fontcolor")
                 .setCustomClass({"KEY":"app-label"})
             , 'text');
-            
+
             host.tabsCmds.append((new linb.UI.Button)
                 .host(host,"btnAddText")
                 .setLeft(11)
@@ -182,7 +182,7 @@ Class('App', 'linb.Com',{
                 .setCaption("$app.caption.addtext")
                 .onClick("_btnaddtext_onclick")
             , 'text');
-            
+
             host.tabsCmds.append((new linb.UI.ComboInput)
                 .host(host,"ciFontSize")
                 .setLeft(231)
@@ -193,7 +193,7 @@ Class('App', 'linb.Com',{
                 .setValue("32")
                 .afterUIValueSet("_fontsize_us")
             , 'text');
-            
+
             host.tabsCmds.append((new linb.UI.ComboInput)
                 .host(host,"ciFontColor")
                 .setLeft(231)
@@ -204,7 +204,7 @@ Class('App', 'linb.Com',{
                 .setValue("#FFFF00")
                 .beforeUIValueSet("_cifontcolor_beforeuivalueset")
             , 'text');
-            
+
             host.tabsCmds.append((new linb.UI.Range)
                 .host(host,"rangeCon")
                 .setLeft(10)
@@ -215,7 +215,7 @@ Class('App', 'linb.Com',{
                 .setValue("-100:0")
                 .afterUIValueSet("_rangecon_afteruivalueset")
             , 'basic');
-            
+
             host.tabsCmds.append((new linb.UI.Range)
                 .host(host,"rangeBri")
                 .setLeft(331)
@@ -226,7 +226,7 @@ Class('App', 'linb.Com',{
                 .setValue("-100:0")
                 .afterUIValueSet("_rangebri_afteruivalueset")
             , 'basic');
-            
+
             host.tabsCmds.append((new linb.UI.Div)
                 .host(host,"div39")
                 .setLeft(21)
@@ -235,7 +235,7 @@ Class('App', 'linb.Com',{
                 .setHeight(30)
                 .setHtml("$app.basic.con")
             , 'basic');
-            
+
             host.tabsCmds.append((new linb.UI.Div)
                 .host(host,"div40")
                 .setLeft(347)
@@ -244,7 +244,7 @@ Class('App', 'linb.Com',{
                 .setHeight(30)
                 .setHtml("$app.basic.bri")
             , 'basic');
-            
+
             host.tabsCmds.append((new linb.UI.Button)
                 .host(host,"button12")
                 .setLeft(21)
@@ -253,7 +253,7 @@ Class('App', 'linb.Com',{
                 .setCaption("$app.caption.applyIcon")
                 .onClick("_button12_onclick")
             , 'frm2');
-            
+
             host.tabsCmds.append((new linb.UI.Button)
                 .host(host,"button25")
                 .setLeft(171)
@@ -262,7 +262,7 @@ Class('App', 'linb.Com',{
                 .setCaption("$app.caption.applyFrm")
                 .onClick("_button13_onclick")
             , 'frm');
-            
+
             host.tabsCmds.append((new linb.UI.Div)
                 .host(host,"div46")
                 .setLeft(11)
@@ -273,7 +273,7 @@ Class('App', 'linb.Com',{
                 .setHtml("$app.caption.frmbg")
                 .setCustomClass({"KEY":"app-label"})
             , 'frm');
-            
+
             host.tabsCmds.append((new linb.UI.ComboInput)
                 .host(host,"iBGFrm")
                 .setDomId("iBGFrm")
@@ -285,7 +285,7 @@ Class('App', 'linb.Com',{
                 .setValue("#FFFFFF")
                 .afterUIValueSet("_btnbgfrm_onclick")
             , 'frm');
-            
+
             host.tabsCmds.append((new linb.UI.Div)
                 .host(host,"divFont")
                 .setLeft(455)
@@ -294,7 +294,7 @@ Class('App', 'linb.Com',{
                 .setHeight("40")
                 .setCustomStyle('KEY','overflow:visible;')
             , 'text');
-            
+
             host.paneMain.append((new linb.UI.Pane)
                 .host(host,"paneInfo")
                 .setDomId("paneInfo")
@@ -302,7 +302,7 @@ Class('App', 'linb.Com',{
                 .setHeight("40")
                 .setPosition("relative")
             );
-            
+
             host.paneInfo.append((new linb.UI.Div)
                 .host(host,"vInfo")
                 .setDomId("vInfo")
@@ -311,7 +311,7 @@ Class('App', 'linb.Com',{
                 .setHeight("auto")
                 .setPosition("relative")
             );
-            
+
             host.paneInfo.append((new linb.UI.Div)
                 .host(host,"vInfo2")
                 .setDomId("vInfo2")
@@ -320,7 +320,7 @@ Class('App', 'linb.Com',{
                 .setHeight("auto")
                 .setPosition("relative")
             );
-            
+
             host.paneMain.append((new linb.UI.Pane)
                 .host(host,"panePic")
                 .setDomId("panePic")
@@ -328,7 +328,7 @@ Class('App', 'linb.Com',{
                 .setHeight("auto")
                 .setPosition("relative")
             );
-            
+
             host.panePic.append((new linb.UI.Pane)
                 .host(host,"paneImageBorder")
                 .setDomId("paneImageBorder")
@@ -336,7 +336,7 @@ Class('App', 'linb.Com',{
                 .setHeight("auto")
                 .setPosition("relative")
             );
-            
+
             host.paneImageBorder.append((new linb.UI.Image)
                 .host(host,"imgBig")
                 .setDomId("imgBig")
@@ -345,7 +345,7 @@ Class('App', 'linb.Com',{
                 .beforeLoad("_imgbig_beforeload")
                 .afterLoad("_imgbig_afterload")
             );
-            
+
             host.paneMain.append((new linb.UI.Pane)
                 .host(host,"paneBottom")
                 .setDomId("paneBottom")
@@ -353,7 +353,7 @@ Class('App', 'linb.Com',{
                 .setHeight("auto")
                 .setPosition("relative")
             );
-            
+
             append((new linb.UI.Dialog)
                 .host(host,"dlgHistory")
                 .setDomId("dlgHistory")
@@ -366,7 +366,7 @@ Class('App', 'linb.Com',{
                 .setCloseBtn(false)
                 .setPinBtn(false)
             );
-            
+
             host.dlgHistory.append((new linb.UI.IconList)
                 .host(host,"ilHistory")
                 .setDomId("ilHistory")
@@ -375,7 +375,7 @@ Class('App', 'linb.Com',{
                 .setItemHeight(32)
                 .onItemSelected("_il_onitemseletcted")
             );
-            
+
             append((new linb.UI.Pane)
                 .host(host,"paneDemo")
                 .setDomId("paneDemo")
@@ -384,13 +384,13 @@ Class('App', 'linb.Com',{
                 .setWidth(91)
                 .setHeight(385)
             );
-            
+
             host.paneDemo.append((new linb.UI.Stacks)
                 .host(host,"stack")
                 .setItems([{"id":"files", "caption":"$app.caption.upload_short"}, {"id":"demos", "caption":"$app.caption.demos_short"}])
                 .setValue("demos")
             );
-            
+
             host.stack.append((new linb.UI.IconList)
                 .host(host,"ilDemo")
                 .setDock("fill")
@@ -399,7 +399,7 @@ Class('App', 'linb.Com',{
                 .setItemHeight(38)
                 .onItemSelected("_ildemo_onitemselected")
             , 'demos');
-            
+
             host.stack.append((new linb.UI.IconList)
                 .host(host,"ilPhoto")
                 .setDock("fill")
@@ -408,20 +408,20 @@ Class('App', 'linb.Com',{
                 .setItemHeight(38)
                 .onItemSelected("_ilphoto_onitemselected")
             , 'files');
-            
+
             append((new linb.UI.Button)
                 .host(host,"btnUpload")
                 .setLeft(3)
                 .setTop(62)
                 .setWidth(93)
                 .setHeight(42)
-                .setType('big')
+                .setType('custom')
                 .setBorder(true)
                 .setCaption("$app.caption.upload")
                 .setVAlign("middle")
                 .onClick("_btnupload_click")
             );
-            
+
             append((new linb.UI.Button)
                 .host(host,"btnSave")
                 .setDomId("btnSave")
@@ -429,13 +429,13 @@ Class('App', 'linb.Com',{
                 .setTop(108)
                 .setWidth(93)
                 .setHeight(42)
-                .setType('big')
+                .setType('custom')
                 .setBorder(true)
                 .setCaption("$app.caption.save")
                 .setVAlign("middle")
                 .onClick("_btnsave_click")
             );
-            
+
             append((new linb.UI.ComboInput)
                 .host(host,"iBGC")
                 .setDomId("iBGC")
@@ -445,10 +445,10 @@ Class('App', 'linb.Com',{
                 .setType("colorpicker")
                 .afterUIValueSet("_btnbgc_onclick")
             );
-            
+
             return children;
             // ]]code created by jsLinb UI Builder
-        }, 
+        },
         _onRender:function(){
             linb.CSS.includeLink(linb.getPath('css','main.css','default/'));
 
@@ -458,7 +458,7 @@ Class('App', 'linb.Com',{
             var rand=SPA.ilDemo.getItems()[parseInt(Math.random()*6)];
             SPA.ilDemo.fireItemClickEvent(rand.id);
             SPA.iBGC.setValue(linb('body').css('backgroundColor'));
-        }, 
+        },
         _tb_onitemseltected:function(profile,item){
             linb('imgBig').onClick(null).attr({width:null,height:null});
             SPA.hideResizer();
@@ -483,10 +483,10 @@ Class('App', 'linb.Com',{
                             var path=CONF.basePath + 'font/' + o.preview;
                             items.push({id:i, _obj:o, caption:i, path:path, renderer:f});
                         });
-                        
+
                         //
                         SPA.divFont.getRoot().onMouseover(SPA._divfont_mover).onMouseout(SPA._divfont_mout);
-                        
+
                         SPA.$fontFamilies=items;
                         SPA.$fontFamily=items[0].caption;
                         SPA.AddText.getSubNode('INPUT').css('fontFamily',SPA.$fontFamily);
@@ -541,15 +541,15 @@ Class('App', 'linb.Com',{
                     }
                     break;
             }
-        }, 
+        },
         _linklangen_onclick:function (profile, e) {
             linb.reLang('en');
             linb.Cookies.set('lang','en');
-        }, 
+        },
         _linklangcn_onclick:function (profile, e) {
             linb.reLang('cn');
             linb.Cookies.set('lang','cn');
-        }, 
+        },
         _onready:function () {
             SPA=this;
 
@@ -589,19 +589,19 @@ Class('App', 'linb.Com',{
             });
             SPA.ciFontSize.setItems(fontItems);
 
-        }, 
+        },
 
         _iniSome:function(){
             SPA.hideFrm();
            // SPA.tabsCmds.fireItemClickEvent('basice',true);
-        }, 
+        },
         _il_onitemseletcted:function(profile, item, src){
             var il=profile.boxing();
             SPA.paras = _.copy(item._obj);
             SPA.imgBig.setSrc(SPA.getPath(SPA.paras));
 
             SPA._iniSome();
-        }, 
+        },
         _ildemo_onitemselected:function (profile, item, src) {
             if(SPA.$curID!=item.id){
                 SPA.$curID=item.id;
@@ -618,7 +618,7 @@ Class('App', 'linb.Com',{
 
                 SPA._iniSome();
             }
-        }, 
+        },
         _ilphoto_onitemselected:function (profile, item, src) {
             if(SPA.$curID!=item.id){
                 SPA.$curID=item.id;
@@ -634,14 +634,14 @@ Class('App', 'linb.Com',{
 
                 SPA._iniSome();
             }
-        }, 
+        },
 
         _imgbig_beforeload:function (profile) {
             _.resetRun('$changCon',function(){
                 SPA.vInfo2.setHtml('<image src="img/loading.gif"/>');
                 _.resetRun('$imgvisible',function(){SPA.imgBig.setDisplay('none')});
             });
-        }, 
+        },
         _imgbig_afterload:function (profile, path, width, height) {
             _.resetRun('$changCon',function(){
                 SPA.vInfo2.setHtml(linb.wrapRes('app.caption.width') + ' <span class="val-size">'+width + '</span><span style="width:10px;"></span>' + linb.wrapRes('app.caption.height') + ' <span class="val-size">' + height+'</span>');
@@ -649,19 +649,19 @@ Class('App', 'linb.Com',{
             _.resetRun('$imgvisible',function(){SPA.imgBig.setDisplay('')});
             SPA.$width=width;
             SPA.$height=height;
-        }, 
+        },
         _imgbig_onerror:function (profile) {
             SPA.vInfo2.setHtml('<image src="img/error.gif"/>'+linb.wrapRes('app.imageErr'));
-        }, 
+        },
         _btnbgc_onclick:function (profile, o, value) {
             linb.doc.query('html').css('backgroundColor',value);
-        }, 
+        },
         _btnbgfrm_onclick:function (profile, o, value) {
             if(SPA.frm && SPA.$frmId){
                 SPA.frm.css('background',value);
                 SPA.$frmBg=value.slice(1);
             }
-        }, 
+        },
 
         showResizer:function(){
             var resizer;
@@ -683,10 +683,10 @@ Class('App', 'linb.Com',{
                 linb('panePic').append(resizer);
             }
             resizer.cssPos(linb('imgBig').offset(null,linb('panePic'))).cssSize(linb('imgBig').cssSize());
-        }, 
+        },
         hideResizer:function(){
             if(SPA.resizer) SPA.resizer.hide();
-        }, 
+        },
         showIcon:function(url){
             var icon;
             if(!(icon=SPA.icon)){
@@ -710,11 +710,11 @@ Class('App', 'linb.Com',{
             icon.cssRegion({left:0,top:0,width:icon.first().attr('width'),height:icon.first().attr('height')});
             if(linb.browser.ie6)
                 icon.first().fixPng('scale');
-        }, 
+        },
         hideIcon:function(){
             delete SPA.$iconId;
             if(SPA.icon) SPA.icon.hide();
-        }, 
+        },
         showFrm:function(url){
             var frm;
             if(!(frm=SPA.frm)){
@@ -764,14 +764,14 @@ Class('App', 'linb.Com',{
             //hide the original one
             _.resetRun('$imgvisible',function(){SPA.imgBig.setDisplay('none')});
 
-        }, 
+        },
         hideFrm:function(){
             delete SPA.$frmBg;
             delete SPA.$frmId;
             SPA.iBGFrm.setValue('#FFFFFF',true)
             _.resetRun('$imgvisible',function(){SPA.imgBig.setDisplay('')});
             if(SPA.frm) SPA.frm.hide();
-        }, 
+        },
         showCrop:function(){
             var crop;
             if(!(crop=SPA.crop)){
@@ -790,10 +790,10 @@ Class('App', 'linb.Com',{
                 linb('panePic').append(crop);
             }
             crop.cssRegion({left:0,top:0,width:100,height:100});
-        }, 
+        },
         hideCrop:function(){
             if(SPA.crop) SPA.crop.hide();
-        }, 
+        },
         showText:function(){
             var AddText;
             if(!(AddText=SPA.AddText)){
@@ -823,10 +823,10 @@ Class('App', 'linb.Com',{
                 SPA.AddText.getSubNode('INPUT').css({fontSize:'32px',color:'#FFFF00',fontFamily:SPA.$fontFamily||''});
             }
             AddText.setLeft(0).setTop(0).setWidth(300).setHeight(100).setValue('freedom');
-        }, 
+        },
         hideText:function(){
             if(SPA.AddText) SPA.AddText.hide();
-        }, 
+        },
         _btnsave_click:function(){
             var id='ifr_for_download';
             if(!linb.Dom.byId(id))
@@ -835,7 +835,7 @@ Class('App', 'linb.Com',{
             var hash=_.copy(SPA.paras);
             hash.action='download';
             linb.Dom.submit(CONF.service, {key:'ImgProcess',para:hash}, 'get', id);
-        }, 
+        },
         _btnupload_click:function (profile, e, src) {
             linb.ComFactory.getCom('uploader',function(){
                 if(!SPA.com_uploader){
@@ -868,10 +868,10 @@ Class('App', 'linb.Com',{
                     SPA.com_uploader.hide();
                 })
             });
-        }, 
+        },
 
-        base:[], 
-        required:["linb.UI.Pane", "linb.UI.Link", "linb.UI.Div", "linb.UI.ComboInput", "linb.UI.Tabs", "linb.UI.Button", "linb.UI.Image", "linb.UI.Dialog", "linb.UI.IconList", "linb.UI.Panel", "linb.UI.Range", "linb.UI.Stacks"], 
+        base:[],
+        required:["linb.UI.Pane", "linb.UI.Link", "linb.UI.Div", "linb.UI.ComboInput", "linb.UI.Tabs", "linb.UI.Button", "linb.UI.Image", "linb.UI.Dialog", "linb.UI.IconList", "linb.UI.Panel", "linb.UI.Range", "linb.UI.Stacks"],
 
         _showpopmenu:function(src,type,id){
             var aysid='__'+id, key='com_'+id;
@@ -908,26 +908,26 @@ Class('App', 'linb.Com',{
                         SPA[key].hide();
                     });
             }
-        }, 
+        },
         _btnrot_beforehovereffect:function (profile, item, e, src, type) {
             this._showpopmenu(src,type,'rotation');
-        }, 
+        },
         _btnmir_beforehovereffect:function (profile, item, e, src, type) {
             this._showpopmenu(src,type,'mirror');
-        }, 
+        },
         _btnfilter_beforehovereffect:function (profile, item, e, src, type) {
             this._showpopmenu(src,type,'filter');
-        }, 
+        },
 
         _btnone_beforehovereffect:function (profile, item, e, src, type) {
             this._showpopmenu(src,type,'onecolor');
-        }, 
+        },
 
         _showFontFamily:function(src,type,id){
             var aysid='__'+id, key='com_'+id;
             if(type=='mouseover'){
                 _.resetRun(aysid,null);
-                
+
                 if(!SPA[key]){
                     var o=SPA[key]=new linb.UI.List({
                         items:SPA.$fontFamilies,
@@ -965,10 +965,10 @@ Class('App', 'linb.Com',{
 
         _fontsize_us:function (profile, o, v) {
             if(SPA.AddText)SPA.AddText.getSubNode('INPUT').css('fontSize',v+'px');
-        }, 
+        },
         _cifontcolor_beforeuivalueset:function (profile, oldValue, newValue) {
             if(SPA.AddText)SPA.AddText.getSubNode('INPUT').css('color',newValue);
-        }, 
+        },
         _btnaddtext_onclick:function(profile){
             var  hash=_.copy(SPA.paras);
             hash.action='writetext';
@@ -987,7 +987,7 @@ Class('App', 'linb.Com',{
 
                 SPA.showText();
             });
-        }, 
+        },
         _crop_onclick:function(profile){
             var img=SPA.imgBig.getRoot(),
                 hash=_.copy(SPA.paras);
@@ -1000,7 +1000,7 @@ Class('App', 'linb.Com',{
             SPA.request2(hash,function(){
                 SPA.showCrop();
             });
-        }, 
+        },
         _resize_onclick:function(profile){
             var img=SPA.imgBig.getRoot(),
                 w=img.attr('width'),
@@ -1014,14 +1014,14 @@ Class('App', 'linb.Com',{
 
                 SPA.request2(hash);
             }
-        }, 
+        },
         popMsg:function(msg){
             var dlg=linb.UI.Dialog.pop(msg);
             _.asyRun(function(){
                 if(dlg.getRoot())dlg.destroy();
                 dlg=null;
             },3000);
-        }, 
+        },
         request1:function(hash, callback, file){
             linb.Thread.observableRun(null, [function(threadid){
                 var data={key:'ImgProcess',para:hash}, options;
@@ -1045,7 +1045,7 @@ Class('App', 'linb.Com',{
                     SPA.popMsg(_.serialize(rsp));
                 }, threadid,options)
             }]);
-        }, 
+        },
         request2:function(hash, callback){
             linb.Thread.observableRun(null, [function(threadid){
                 linb.request(CONF.service, {key:'ImgProcess',para:hash}, function(rsp){
@@ -1098,20 +1098,20 @@ Class('App', 'linb.Com',{
                     linb.message(rsp);
                 }, threadid);
             }]);
-        }, 
+        },
         _rangecon_afteruivalueset:function (profile, oldValue, newValue) {
            var hash=_.copy(SPA.paras);
            hash.action='filter_contrast';
            hash.value=Number(newValue.split(':')[1]);
            SPA.request2(hash,function(){profile.boxing().setValue('-100:0',true)});
-        }, 
+        },
         _rangebri_afteruivalueset:function (profile, oldValue, newValue) {
            var hash=_.copy(SPA.paras);
            hash.action='filter_brightness';
            hash.value=Number(newValue.split(':')[1]);
 
            SPA.request2(hash,function(){profile.boxing().setValue('-100:0',true)});
-        }, 
+        },
         _button12_onclick:function (profile, e, src, value) {
             if(!SPA.$iconId)return;
 
@@ -1125,7 +1125,7 @@ Class('App', 'linb.Com',{
             hash.height=reg.height;
 
             SPA.request2(hash,function(){SPA.hideIcon()});
-        }, 
+        },
         _button13_onclick:function (profile, e, src, value) {
             if(!SPA.$frmId)return;
             var hash=_.copy(SPA.paras);

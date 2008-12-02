@@ -531,26 +531,22 @@ Class('VisualJS.Designer', 'linb.Com',{
         _sizeUpdated:function(pro, size){
             var t,self=this;
             if(!(t=self.profileGrid.get(0).$widget))return;
-            if(linb.UIProfile.getFromDomId(pro.get(0).id) == t.get(t._nodes.length-1))
-                _.asyRun(function(){
-                    if(size.width!==null)
-                    self.profileGrid.updateCellByRowCol('properties:width','value',{value:size.width})
-                    if(size.height!==null)
-                    self.profileGrid.updateCellByRowCol('properties:height','value',{value:size.height})
-                    ;
-                })
+            if(linb.UIProfile.getFromDomId(pro.get(0).id) == t.get(t._nodes.length-1)){
+                if(size.width!==null)
+                    self.profileGrid.updateCellByRowCol('properties:width','value',{value:size.width});
+                if(size.height!==null)
+                    self.profileGrid.updateCellByRowCol('properties:height','value',{value:size.height});
+            }
         },
         _posUpdated:function(pro, cssPos){
             var t,self=this;
             if(!(t=self.profileGrid.get(0).$widget))return;
-            if(linb.UIProfile.getFromDomId(pro.get(0).id) == t.get(t._nodes.length-1))
-                _.asyRun(function(){
-                    if(cssPos.left!==null)
-                    self.profileGrid.updateCellByRowCol('properties:left','value',{value:cssPos.left})
-                    if(cssPos.top!==null)
-                    self.profileGrid.updateCellByRowCol('properties:top','value',{value:cssPos.top})
-                    ;
-                })
+            if(linb.UIProfile.getFromDomId(pro.get(0).id) == t.get(t._nodes.length-1)){
+                if(cssPos.left!==null)
+                    self.profileGrid.updateCellByRowCol('properties:left','value',{value:cssPos.left});
+                if(cssPos.top!==null)
+                    self.profileGrid.updateCellByRowCol('properties:top','value',{value:cssPos.top});
+            }
         },
         parseFun:function(txt){
             var str = txt;
@@ -640,11 +636,14 @@ Class('VisualJS.Designer', 'linb.Com',{
                 page=this;
             target.root.beforeClick(prevent).afterClick(prevent).onClick(function(pro, e, src){
                 var esrc=linb.Event.getSrc(e),
-                    id=esrc.id,profile;
+                    id,profile;
 
-                //if lang span, get parent id
-                if(id==linb.$langId)
-                    id=esrc.parentNode.id;
+                //for lang span, or inner renderer
+                while((!esrc.id || esrc.id==linb.$langId) && esrc.parentNode!==document&& esrc.parentNode!==window)
+                    esrc=esrc.parentNode;
+
+                id=esrc.id;
+                if(!id)return;
 
                 if(linb.UIProfile.getFromDomId(id) !== (profile=linb.UIProfile.getFromDomId(src.id)))return;
 
@@ -1146,11 +1145,11 @@ Class('VisualJS.Designer', 'linb.Com',{
                             this.show();
                         });
                     };
-                    
+
                     var rows=[
                             {id:'key', cells:[{value:'class', type:'label'},{value:'<strong>'+pro.key+'</strong>',type:'label'}] },
-                            {id:'alias',cells:[{value:'alias', type:'label'},{value:pro.alias}] },
-                            {id:'domId',cells:[{value:'domId', type:'label'},{value:pro.domId}] },
+                            {id:'alias',cells:[{value:'alias', type:'label'},{value:pro.alias,type:uis._nodes.length===1?'input':'label'}] },
+                            {id:'domId',cells:[{value:'domId', type:'label'},{value:pro.domId,type:uis._nodes.length===1?'input':'label'}] },
                             {id:'properties',  group:true, caption:'properties', sub:true},
                             {id:'UIE', group:true, caption:'events', sub:true},
                             {id:'CS',cells:[{value:'Custom Style', type:'label'},{value:'[<strong> key/value pairs</strong>]', event:$fun, $tagVar:{
@@ -1158,29 +1157,29 @@ Class('VisualJS.Designer', 'linb.Com',{
                                 name:'CS',
                                 funName:'setCustomStyle',
                                 profile:pro
-                            }, editorReadonly:true}] },
+                            }, type:'popbox', editorReadonly:true}] },
                             {id:'CC',cells:[{value:'Custom Class', type:'label'},{value:'[<strong> key/value pairs</strong>]', event:$fun, $tagVar:{
                                 widgetName:pro.alias,
                                 name:'CC',
                                 funName:'setCustomClass',
                                 profile:pro
-                            }, editorReadonly:true}] },
+                            }, type:'popbox', editorReadonly:true}] },
                             {id:'CB',cells:[{value:'Custom Behaviors', type:'label'},{value:'[<strong> key/value pairs</strong>]', event:$fun, $tagVar:{
                                 widgetName:pro.alias,
                                 name:'CB',
                                 funName:'setCustomBehavior',
                                 profile:pro
-                            }, editorReadonly:true}] },
+                            }, type:'popbox', editorReadonly:true}] },
                             {id:'CF',cells:[{value:'Custom Functions', type:'label'},{value:'[<strong> key/value pairs</strong>]', event:$fun, $tagVar:{
                                 widgetName:pro.alias,
                                 name:'CF',
                                 funName:'setCustomFunction',
                                 profile:pro
-                            }, editorReadonly:true}] }
+                            }, type:'popbox', editorReadonly:true}] }
                     ];
                     //if selected more than one
                     if(uis._nodes.length>1)
-                        rows=[rows[3]];
+                        rows=rows.slice(0,4);
 
                     this.profileGrid.insertRows(rows);
 
@@ -1364,8 +1363,8 @@ Class('VisualJS.Designer', 'linb.Com',{
              profile.boxing().editCellbyRowCol(profile, row.id, 'value');
              return false;
         },
-        _map1:{'left':1,'top':1,'width':1,'height':1,'right':1,'bottom':1},
-        _map2:{'left':1,'top':1,'width':1,'height':1,'right':1,'bottom':1,'dock':1,'dockOrder':1,'dockMargin':1,'dockFloat':1,'dockIgnore':1,'dockMinH':1,'dockMinW':1},
+        _map1:{left:1,top:1,width:1,height:1,right:1,bottom:1},
+        _map2:{left:1,top:1,width:1,height:1,right:1,position:1,bottom:1,dock:1,dockOrder:1,dockMargin:1,dockFloat:1,dockIgnore:1,dockMinH:1,dockMinW:1},
         $profilegrid_beforecellvalueset: function(profile, cell,hash){
              this._change();
              var page = this,
@@ -1390,18 +1389,24 @@ Class('VisualJS.Designer', 'linb.Com',{
                             temp[property]=value;
                             page.setViewSize(temp);
                         }else{
+                            var b;
                             if(page._map1[property]){
-                                value=(value==''||value=='auto')?value:(parseFloat(value)||'auto');
-                                this.listObject.setUIValue(value,true);
-                                _.asyRun(function(){
+                                value=String((value=='auto')?value:(parseFloat(value)||'auto'));
+
+                                //if the value changed in the process
+                                if(value!==hash.value){
                                     profile.boxing().updateCell(cell,{value:value});
-                                });
+                                    b=1;
+                                }
                             }
+
                             target.each(function(o){
-                                o.boxing()[funName](value);
+                                if(value!==o.properties.property)
+                                    o.boxing()[funName](value);
                             });
                             if(page._map2[property])
                                 this.resizer.rePosSize();
+                            if(b)return false;
                         }
                         break;
                     case 'event':
@@ -1429,6 +1434,9 @@ Class('VisualJS.Designer', 'linb.Com',{
                         break;
                     default:
                         if(property=='domId'){
+                            if(value==target.domId)
+                                return false;
+
                             //you can modify domId to original one
                             if(target.get(0).$domId!=value && !/^[\w_-]*$/.test(value)){
                                 linb.message(linb.getRes('VisualJS.designer.domIdValid',value));
@@ -1439,18 +1447,26 @@ Class('VisualJS.Designer', 'linb.Com',{
                                 linb.message(linb.getRes('VisualJS.designer.domIdExists',value));
                                 return false;
                             }
+                            var b;
                             //if empty, return to original name
-                            if(_.str.trim(String(value))==''){
+                            if(_.str.trim(String(value))=='')
                                 value=target.get(0).$domId;
-                                _.asyRun(function(){
-                                    profile.boxing().updateCell(cell,{value:value});
-                                });
+
+                            //if the value changed in the process
+                            if(value!==hash.value){
+                                profile.boxing().updateCell(cell,{value:value});
+                                b=1;
                             }
-                            this.listObject.setUIValue(value,true);
                             target.setDomId(value);
+                            if(b)return false;
                         }else{
                             if(property=='alias'){
+                                if(value==target.alias)
+                                    return false;
+
                                 var hash = this.getNames();
+                                if(!value)
+                                    return false;
                                 if(hash[value]){
                                     linb.message(linb.getRes('VisualJS.designer.nameExists',value));
                                     return false;
@@ -1495,7 +1511,7 @@ Class('VisualJS.Designer', 'linb.Com',{
                         $fun = function(profile, cell){
                             var o = cell.$tagVar;
                             var node = profile.getSubNode('CELL', cell._serialId);
-        
+
                             linb.ComFactory.getCom('objEditor',function(){
                                 this.host = page;
                                 this.setProperties({
@@ -1756,24 +1772,19 @@ Class('VisualJS.Designer', 'linb.Com',{
                     ]});
                 });
             }
+
             //check others to disable editable
-            uis.each(function(tt,i){
-                if(i===(len-1))return;
-                if(id=='properties'){
-                    var cache=[],cache2=0;
-                    _.arr.each(arr,function(o,i){
-                        if(cache2 == arr.length)return false;
-                        if(!cache[i] && tt.properties[o.cells[0].value] !== target.properties[o.cells[0].value] ){
-                            o.cells[1].type='label';
-                            cache[i]=1;
-                            cache2++;
-                        }
-                    });
+            _.filter(arr,function(o,i){
+                var ns=uis._nodes,key=o.cells[0].value,value=o.cells[1].value,prop;
+                for(var i=0;i<ns.length-1;i++){
+                    prop=ns[i].properties;
+                    if(!(key in prop))
+                        return false;
+                    if(prop[key]!==value)
+                        return false;
                 }
-                //multi event disabled
-                if(id=='UIE')
-                    arr.length=0;
             });
+
             return arr;
         },
         $iconlist_aftervalueupdated:function(profile, ov, nv){
@@ -2189,10 +2200,8 @@ Class('VisualJS.Designer', 'linb.Com',{
                 //update properties treegrid value
                 var t=page.profileGrid;
                 if(t&&(t=t.get(0).$widget)&&(t.get(0) == page.canvas.get(0))){
-                    _.asyRun(function(){
-                        page.profileGrid.updateCellByRowCol('properties:width','value',{value:w});
-                        page.profileGrid.updateCellByRowCol('properties:height','value',{value:h});
-                    });
+                    page.profileGrid.updateCellByRowCol('properties:width','value',{value:w});
+                    page.profileGrid.updateCellByRowCol('properties:height','value',{value:h});
                 }
             }
         },
