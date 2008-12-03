@@ -1,7 +1,6 @@
 Class('VisualJS.Designer', 'linb.Com',{
     Instance:{
         $bakCurCode:null,
-
         $viewSize:{
             '800':{
                 width:800,
@@ -567,7 +566,7 @@ Class('VisualJS.Designer', 'linb.Com',{
             //change
             self._giveHandler(profile);
             //give design mark
-            profile.properties.$design=self.properties.$design;
+            profile.$ignore=true;
             var t=profile.behavior.DropableKeys;
             if(t && t.length)
                 self._enablePanelDesign(profile);
@@ -721,7 +720,7 @@ Class('VisualJS.Designer', 'linb.Com',{
                             var page=arguments.callee.page,t=linb.SC(type);
                             if(!(t['linb.UI'] && !t.$noDomRoot)){
                                 //give design mark
-                                var o = linb.create(type, {$design:self.properties.$design}).get(0);
+                                var o = linb.create(type).get(0);
                                 page.iconlist.insertItems([{id:o.$id, image:'img/widgets.gif', imagePos:imagePos}],null,false);
                                 page.iconlist.setUIValue(o.$id);
                                 //
@@ -738,7 +737,7 @@ Class('VisualJS.Designer', 'linb.Com',{
                                         top : parseInt((dropy - basePos.top)/offset)*offset
                                     };
                                     //give design mark
-                                    target = new (linb.SC(linb.absBox.$type[type]))({$design:self.properties.$design});
+                                    target = new (linb.SC(linb.absBox.$type[type]));
                                     page._setItems(target);
                                     target.render();
 
@@ -750,7 +749,7 @@ Class('VisualJS.Designer', 'linb.Com',{
                                     target.setZIndex(1);
                                 }else{
                                     //give design mark
-                                    target = new (linb.SC(linb.absBox.$type[type]))({$design:self.properties.$design});
+                                    target = new (linb.SC(linb.absBox.$type[type]));
                                     page._setItems(target);
                                     target.render();
                                 }
@@ -2384,6 +2383,7 @@ Class('VisualJS.Designer', 'linb.Com',{
             onReady:function(){},
             onRender:function(){}
         };
+
         window.onbeforeunload = function(e){
             if(linb.browser.ie)
                 window.event.returnValue = ' ';

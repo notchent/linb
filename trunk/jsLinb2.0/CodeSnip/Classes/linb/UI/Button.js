@@ -1,9 +1,9 @@
 Class('App.linb_UI_Button', 'linb.Com',{
     Instance:{
         //base Class for linb.Com
-        base:["linb.UI"],
+        base:["linb.UI"], 
         //requried class for the App
-        required:["linb.UI.Button", "linb.UI.Div"],
+        required:["linb.UI.Button", "linb.UI.Div"], 
         iniComponents:function(){
             // [[code created by jsLinb UI Builder
             var host=this, children=[], append=function(child){children.push(child.get(0))};
@@ -11,7 +11,7 @@ Class('App.linb_UI_Button', 'linb.Com',{
             append((new linb.UI.Button)
                 .host(host,"button22")
                 .setLeft(20)
-                .setTop(120)
+                .setTop(90)
                 .setWidth(180)
                 .setHeight("22")
                 .setCaption("align:left")
@@ -22,7 +22,7 @@ Class('App.linb_UI_Button', 'linb.Com',{
                 .host(host,"button20")
                 .setDisabled(true)
                 .setLeft(20)
-                .setTop(50)
+                .setTop(20)
                 .setWidth(180)
                 .setHeight("22")
                 .setCaption("disabled")
@@ -44,7 +44,7 @@ Class('App.linb_UI_Button', 'linb.Com',{
             append((new linb.UI.Button)
                 .host(host,"button29")
                 .setLeft(20)
-                .setTop(80)
+                .setTop(50)
                 .setWidth(190)
                 .setHeight("30")
                 .setShadow(true)
@@ -54,7 +54,7 @@ Class('App.linb_UI_Button', 'linb.Com',{
             append((new linb.UI.Button)
                 .host(host,"button22")
                 .setLeft(20)
-                .setTop(150)
+                .setTop(120)
                 .setWidth(180)
                 .setHeight("22")
                 .setCaption("align:right")
@@ -63,8 +63,8 @@ Class('App.linb_UI_Button', 'linb.Com',{
 
             append((new linb.UI.Button)
                 .host(host,"button30")
-                .setLeft(20)
-                .setTop(20)
+                .setLeft(140)
+                .setTop(196)
                 .setWidth(180)
                 .setHeight("22")
                 .setCaption("with image")
@@ -76,7 +76,7 @@ Class('App.linb_UI_Button', 'linb.Com',{
                 .setLeft(230)
                 .setTop(80)
                 .setWidth(280)
-                .setHeight(110)
+                .setHeight(60)
                 .setBorder(true)
                 .setShadow(true)
                 .setResizer(true)
@@ -100,42 +100,59 @@ Class('App.linb_UI_Button', 'linb.Com',{
             );
 
             append((new linb.UI.Button)
-                .host(host,'button13')
-                .setLeft(30)
-                .setTop(210)
+                .host(host,"button13")
+                .setLeft(20)
+                .setTop(190)
                 .setWidth(90)
                 .setHeight(60)
-                .setRenderer(function(){return '<img src=img/demo.gif /><br />renderer'})
+                .setRenderer(function () {
+                return "<img src=img/demo.gif /><br />renderer";
+            })
                 .setBorder(true)
-                .setType('custom')
+                .setCaption("button13")
+                .setType("custom")
+            );
+
+            append((new linb.UI.Button)
+                .host(host,"button14")
+                .setLeft(20)
+                .setTop(260)
+                .setWidth(90)
+                .setHeight(60)
+                .setRenderer(function anonymous() {
+                return "renderer<br /><img src=img/demo.gif />";
+            })
+                .setBorder(true)
+                .setCaption("button13")
+                .setType("custom")
             );
 
             return children;
             // ]]code created by jsLinb UI Builder
-        },
+        }, 
         _button25_onclick:function (profile, e, value) {
             linb.message('clicked');
-        },
+        }, 
         _button24_onclick:function (profile, e, value) {
             linb.message('dbl clicked');
-        },
+        }, 
         _button28_ontoggle:function (profile, e, value) {
             linb.message(value?'checked':'unchecked');
-        },
+        }, 
         _button19_beforehovereffect:function (profile, item, src, type) {
             linb.message(type);
             return false;
-        },
+        }, 
         _button18_beforeclickeffect:function (profile, item, src, type) {
             linb.message(type);
             return false;
-        },
+        }, 
         _div9_aftercreated:function (profile) {
             profile.root.css('backgroundImage','url(img/app.gif)')
-        },
+        }, 
         _button12_onclick:function (profile, e, src, value) {
             linb.message('you clicked button')
-        },
+        }, 
         _button12_onclickdrop:function (profile, e, src) {
             linb.message('you clicked drop button')
         }

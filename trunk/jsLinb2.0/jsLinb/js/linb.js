@@ -1241,6 +1241,7 @@ Class('linb.absIO',null,{
             return [n,w,w.document];
         },
         isCrossDomain:function(uri){
+            uri=uri||'';
             var me=arguments.callee,
                 r=me.r || (me.r=/(http(s)?\:\/\/)?([\w\.]+(:[\d]+)?)(.*)/),t;
             if((t=uri.indexOf(':'))==-1||t>uri.indexOf('/'))return false;

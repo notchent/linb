@@ -5,11 +5,18 @@ Class("linb.UI.ToolBar",["linb.UI","linb.absList"],{
         },
         showItem:function(itemId, value){
             return this.each(function(profile){
+                profile.getItemByItemId(itemId).visible=value!==false;
                 profile.getSubNodeByItemId('ITEM', itemId).css('display',value===false?'none':'');
             });
         },
         showGroup:function(grpId, value){
             return this.each(function(profile){
+                _.arr.each(profile.properties.items,function(o){
+                    if(o.id==grpId){
+                        o.visible=value!==false;
+                        return false;
+                    }
+                });
                 profile.getSubNodeByItemId('GROUP', grpId).css('display',value===false?'none':'');
             });
         }
@@ -26,7 +33,7 @@ Class("linb.UI.ToolBar",["linb.UI","linb.absList"],{
                 items:{
                     GROUP:{
                         className:'{groupClass}',
-                        style:'{grpStyle}{gruopStyle}',
+                        style:'{grpDisplay} {groupStyle}',
                         HANDLER:{
                             style:'{mode2}'
                         },
@@ -39,6 +46,7 @@ Class("linb.UI.ToolBar",["linb.UI","linb.absList"],{
                 },
                 'items.sub':{
                     ITEM:{
+                        style:'{itemDisplay}',
                     //for firefox2 image in -moz-inline-box cant change height bug
                         IBWRAP:{
                             tagName:'div',
@@ -99,7 +107,8 @@ Class("linb.UI.ToolBar",["linb.UI","linb.absList"],{
                 height:'20px',
                 width:'6px',
                 background: linb.UI.$bg('handler.gif', ' left top #EBEADB ', true),
-                cursor:'move'
+                cursor:'move',
+                'vertical-align':'middle'
             },
             GROUP:{
                 'font-size':0,
@@ -226,7 +235,7 @@ Class("linb.UI.ToolBar",["linb.UI","linb.absList"],{
         },
         _prepareItem:function(profile, oitem, sitem, pid,  mapCache, serialId){
             var dn='display:none', fun=function(profile, dataItem, item, pid, mapCache,serialId){
-                var id=dataItem[linb.UI.$tag_subId]=typeof serialId=='string'?serialId:profile.pickSubId('items'), t;
+                var id=dataItem[linb.UI.$tag_subId]=typeof serialId=='string'?serialId:('a_'+profile.pickSubId('aitem')), t;
                 if(typeof item=='string')
                     item={caption:item};
 
@@ -258,6 +267,7 @@ Class("linb.UI.ToolBar",["linb.UI","linb.absList"],{
                     dataItem.dropDisplay=item.dropButton?'':dn;
                     dataItem.boxDisplay= (!dataItem.split && (dataItem.caption || dataItem.image))?'':dn;
                 }
+                dataItem.itemDisplay=item.visible===false?dn:'';
                 item._pid=pid;
             };
 
@@ -270,7 +280,7 @@ Class("linb.UI.ToolBar",["linb.UI","linb.absList"],{
 
                 pid=sitem.id;
                 oitem.mode2 = profile.properties.handler ? '' : dn;
-                oitem.grpStyle=sitem.visible===false?dn:'';
+                oitem.grpDisplay=sitem.visible===false?dn:'';
                 oitem.sub = arr;
                 _.arr.each(a,function(item){
                     dataItem={id: item.id};

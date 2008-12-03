@@ -66,14 +66,14 @@ Class("linb.UI.Image", "linb.UI",{
                 }
             },
             width:{
-                ini:'',
+                ini:'auto',
                 action:function(v){
                     var src=this.getRootNode();
                     src.width=v;
                 }
             },
             height:{
-                ini:'',
+                ini:'auto',
                 action:function(v){
                     var src=this.getRootNode();
                     src.height=v;

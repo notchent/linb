@@ -233,6 +233,7 @@ Class('linb.absObj',"linb.absBox",{
                             });
                         else{
                             var args=[], v=this.get(0), t=v[i], k=v.host || v,j;
+                            if(v.$ignore)return;
                             if(arguments[0]!=v)args[0]=v;
                             for(j=0;j<l;j++)args[args.length]=arguments[j];
                             v.$lastEvent=i;
@@ -553,21 +554,24 @@ Class('linb.UIProfile','linb.Profile', {
                 for(var i=0,l=t.length;i<l;i++)
                     if(typeof t[t[i]]=='function')
                         funs[funs.length]=t[t[i]];
+            
 
             //for event attached on linb widgets
             //get event function path of cache
             key = id.split(":")[0].split("-")[1];
 
-            //for design mode
+            //for priority intercept
             if(typeof (((t=self._CB) && (key?(t=t[key]):1)) && (t=t[name]))=='function')
                 funs[funs.length]=t;
-            //get event function from customBehavior first
-            else if(typeof (((t=self.CB) && (key?(t=t[key]):1)) && (t=t[name]))=='function')
-                funs[funs.length]=t;
             else{
-                //get event function from public behavior
-                if(typeof (((t=self.behavior) && (key?(t=t[key]):1)) && (t=t[name]))=='function')
+                //get event function from customBehavior first
+                if(typeof (((t=self.CB) && (key?(t=t[key]):1)) && (t=t[name]))=='function')
                     funs[funs.length]=t;
+                else{
+                    //get event function from public behavior
+                    if(typeof (((t=self.behavior) && (key?(t=t[key]):1)) && (t=t[name]))=='function')
+                        funs[funs.length]=t;
+                }
             }
             return g[$k] = funs;
         },

@@ -1241,6 +1241,7 @@ Class('linb.absIO',null,{
             return [n,w,w.document];
         },
         isCrossDomain:function(uri){
+            uri=uri||'';
             var me=arguments.callee,
                 r=me.r || (me.r=/(http(s)?\:\/\/)?([\w\.]+(:[\d]+)?)(.*)/),t;
             if((t=uri.indexOf(':'))==-1||t>uri.indexOf('/'))return false;
@@ -8478,6 +8479,7 @@ Class('linb.absObj',"linb.absBox",{
                             });
                         else{
                             var args=[], v=this.get(0), t=v[i], k=v.host || v,j;
+                            if(v.$ignore)return;
                             if(arguments[0]!=v)args[0]=v;
                             for(j=0;j<l;j++)args[args.length]=arguments[j];
                             v.$lastEvent=i;
@@ -8798,21 +8800,24 @@ Class('linb.UIProfile','linb.Profile', {
                 for(var i=0,l=t.length;i<l;i++)
                     if(typeof t[t[i]]=='function')
                         funs[funs.length]=t[t[i]];
+            
 
             //for event attached on linb widgets
             //get event function path of cache
             key = id.split(":")[0].split("-")[1];
 
-            //for design mode
+            //for priority intercept
             if(typeof (((t=self._CB) && (key?(t=t[key]):1)) && (t=t[name]))=='function')
                 funs[funs.length]=t;
-            //get event function from customBehavior first
-            else if(typeof (((t=self.CB) && (key?(t=t[key]):1)) && (t=t[name]))=='function')
-                funs[funs.length]=t;
             else{
-                //get event function from public behavior
-                if(typeof (((t=self.behavior) && (key?(t=t[key]):1)) && (t=t[name]))=='function')
+                //get event function from customBehavior first
+                if(typeof (((t=self.CB) && (key?(t=t[key]):1)) && (t=t[name]))=='function')
                     funs[funs.length]=t;
+                else{
+                    //get event function from public behavior
+                    if(typeof (((t=self.behavior) && (key?(t=t[key]):1)) && (t=t[name]))=='function')
+                        funs[funs.length]=t;
+                }
             }
             return g[$k] = funs;
         },
@@ -12010,14 +12015,14 @@ new function(){
                 }
             },
             width:{
-                ini:'',
+                ini:'auto',
                 action:function(v){
                     var src=this.getRootNode();
                     src.width=v;
                 }
             },
             height:{
-                ini:'',
+                ini:'auto',
                 action:function(v){
                     var src=this.getRootNode();
                     src.height=v;
@@ -24210,11 +24215,18 @@ Class("linb.UI.ToolBar",["linb.UI","linb.absList"],{
         },
         showItem:function(itemId, value){
             return this.each(function(profile){
+                profile.getItemByItemId(itemId).visible=value!==false;
                 profile.getSubNodeByItemId('ITEM', itemId).css('display',value===false?'none':'');
             });
         },
         showGroup:function(grpId, value){
             return this.each(function(profile){
+                _.arr.each(profile.properties.items,function(o){
+                    if(o.id==grpId){
+                        o.visible=value!==false;
+                        return false;
+                    }
+                });
                 profile.getSubNodeByItemId('GROUP', grpId).css('display',value===false?'none':'');
             });
         }
@@ -24231,7 +24243,7 @@ Class("linb.UI.ToolBar",["linb.UI","linb.absList"],{
                 items:{
                     GROUP:{
                         className:'{groupClass}',
-                        style:'{grpStyle}{gruopStyle}',
+                        style:'{grpDisplay} {groupStyle}',
                         HANDLER:{
                             style:'{mode2}'
                         },
@@ -24244,6 +24256,7 @@ Class("linb.UI.ToolBar",["linb.UI","linb.absList"],{
                 },
                 'items.sub':{
                     ITEM:{
+                        style:'{itemDisplay}',
                     //for firefox2 image in -moz-inline-box cant change height bug
                         IBWRAP:{
                             tagName:'div',
@@ -24304,7 +24317,8 @@ Class("linb.UI.ToolBar",["linb.UI","linb.absList"],{
                 height:'20px',
                 width:'6px',
                 background: linb.UI.$bg('handler.gif', ' left top #EBEADB ', true),
-                cursor:'move'
+                cursor:'move',
+                'vertical-align':'middle'
             },
             GROUP:{
                 'font-size':0,
@@ -24431,7 +24445,7 @@ Class("linb.UI.ToolBar",["linb.UI","linb.absList"],{
         },
         _prepareItem:function(profile, oitem, sitem, pid,  mapCache, serialId){
             var dn='display:none', fun=function(profile, dataItem, item, pid, mapCache,serialId){
-                var id=dataItem[linb.UI.$tag_subId]=typeof serialId=='string'?serialId:profile.pickSubId('items'), t;
+                var id=dataItem[linb.UI.$tag_subId]=typeof serialId=='string'?serialId:('a_'+profile.pickSubId('aitem')), t;
                 if(typeof item=='string')
                     item={caption:item};
 
@@ -24463,6 +24477,7 @@ Class("linb.UI.ToolBar",["linb.UI","linb.absList"],{
                     dataItem.dropDisplay=item.dropButton?'':dn;
                     dataItem.boxDisplay= (!dataItem.split && (dataItem.caption || dataItem.image))?'':dn;
                 }
+                dataItem.itemDisplay=item.visible===false?dn:'';
                 item._pid=pid;
             };
 
@@ -24475,7 +24490,7 @@ Class("linb.UI.ToolBar",["linb.UI","linb.absList"],{
 
                 pid=sitem.id;
                 oitem.mode2 = profile.properties.handler ? '' : dn;
-                oitem.grpStyle=sitem.visible===false?dn:'';
+                oitem.grpDisplay=sitem.visible===false?dn:'';
                 oitem.sub = arr;
                 _.arr.each(a,function(item){
                     dataItem={id: item.id};

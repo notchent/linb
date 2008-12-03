@@ -403,7 +403,6 @@ Class('VisualJS', 'linb.Com',{
                                 linb.ComFactory.newCom('VisualJS.ClassEditor',function(){
                                     this.host = page;
                                     this.setProperties({
-                                        $design:page.curProject,
                                         checkType:'js',
                                         text:txt,
                                         textO:txt,
