@@ -1283,6 +1283,11 @@ Class('VisualJS.Designer', 'linb.Com',{
                         var src = page.getByCacheId(this.tempSelected);
                         //clone and added to its' parent
                         var tar = src.clone();
+                        tar.each(function(o){
+                            o=o.properties;
+                            if(parseInt(o.left)||o.left===0)o.left+=10;
+                            if(parseInt(o.top)||o.top===0)o.top+=10;
+                        });
 
                         src.get(0).parent.boxing().append(tar);
 
