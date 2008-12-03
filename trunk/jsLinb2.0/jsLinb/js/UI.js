@@ -56,7 +56,7 @@ Class('linb.Profile','linb.absProfile',{
                     host:o.host
                 };
             //host
-            if(o.host && rtnString===false && !keepHost )r.host='@this';
+            if(o.host && rtnString!==false && !keepHost )r.host='@this';
 
             //properties
             var c={}, p=o.box.$DataStruct, map=linb.absObj.$specialChars;
@@ -554,7 +554,7 @@ Class('linb.UIProfile','linb.Profile', {
                 for(var i=0,l=t.length;i<l;i++)
                     if(typeof t[t[i]]=='function')
                         funs[funs.length]=t[t[i]];
-            
+
 
             //for event attached on linb widgets
             //get event function path of cache
@@ -620,8 +620,8 @@ Class('linb.UIProfile','linb.Profile', {
                     key:o.key,
                     host:o.host
                 };
-            //hose
-            if(o.host && rtnString===false && !keepHost )r.host='@this';
+            //host
+            if(o.host && rtnString!==false && !keepHost )r.host='@this';
             //domId
             if(o.$domId!=o.domId)r.domId=o.domId;
 

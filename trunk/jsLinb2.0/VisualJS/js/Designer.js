@@ -115,7 +115,7 @@ Class('VisualJS.Designer', 'linb.Com',{
             onRender:function(page){
                 var _refresh=page._refresh=function(obj, key){
                     obj.each(function(profile){
-                        var t = (profile.domNode)?profile.root[key]():profile.properties[key];
+                        var t = (profile.domNode)?(parseInt(profile.root.css(key))||""):profile.properties[key];
                         obj['set'+_.str.initial(key)](t);
                     });
                     return obj['get'+_.str.initial(key)]();
@@ -1312,7 +1312,7 @@ Class('VisualJS.Designer', 'linb.Com',{
                         return;
                     }
                     var zIndex=0;
-                    _.arr.each(sel,function(o){
+                    sel.each(function(o){
                         var ins = o.boxing();
                         var node=ins.reBoxing();
 
