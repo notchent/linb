@@ -76,7 +76,7 @@ Class('linb.Profile','linb.absProfile',{
 });
 //absObj Class
 Class('linb.absObj',"linb.absBox",{
-    //properties, events, host, children
+    //properties, events, host
     Constructor:function(){
         arguments.callee.upper.apply(this,arguments);
         //for pack function
@@ -869,7 +869,7 @@ Class("linb.UI",  "linb.absObj", {
             return arr;
         },
 
-        _ini:function(properties, events, host, children, CS, CC, CB, CF){
+        _ini:function(properties, events, host, CS, CC, CB, CF){
             var self=this,
                 c=self.constructor,
                 profile,
@@ -922,13 +922,15 @@ Class("linb.UI",  "linb.absObj", {
             //set links
             profile.link(linb.UI._cache,'UI').link(c._cache,'self').link(linb._pool,'linb');
 
-            children = children || profile.children || [];
+            temp=profile.children;
             profile.children=[];
-            for(var i=0,v;v=children[i++];){
-                //from serialize
-                if(!v[0]['linb.UIProfile'])
-                    v[0]=new (linb.SC(v[0].key))(v[0]).get(0);
-                v[0].linkParent(profile,v[1]);
+            if(temp && temp.length){
+                for(var i=0,v;v=temp[i++];){
+                    //from serialize
+                    if(!v[0]['linb.UIProfile'])
+                        v[0]=new (linb.SC(v[0].key))(v[0]).get(0);
+                    v[0].linkParent(profile,v[1]);
+                }
             }
             self._nodes.push(profile);
 
@@ -939,7 +941,10 @@ Class("linb.UI",  "linb.absObj", {
             html=html||'<span style="background:'+ linb.UI.$bg('busy.gif',' no-repeat left center')('linb.UI.Public') +';padding-left:16px;">'+message+'</span>';
             return this.each(function(profile){
                 _.resetRun(profile.$id+':busy',function(){
-                    var parentNode=profile.getSubNode(key||'BORDER'),
+                    key=key||'BORDER';
+                    if(!profile.keys[key])return;
+
+                    var parentNode=profile.getSubNode(),
                         size=parentNode.cssSize(),
                         node;
                     if(!(node=profile.$busy)){

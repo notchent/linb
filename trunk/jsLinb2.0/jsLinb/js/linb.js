@@ -704,7 +704,7 @@ _.merge(linb,{
     getObject:function(id){return linb._pool['$'+id]},
 
     //Dependency: linb.absBox
-    //create:function(tag, properties, events, host, children){
+    //create:function(tag, properties, events, host){
     create:function(tag, id){
         var arr,o,t,me=arguments.callee,r1=me.r1||(me.r1=/</);
         if(typeof tag == 'string'){

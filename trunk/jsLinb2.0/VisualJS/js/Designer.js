@@ -115,7 +115,7 @@ Class('VisualJS.Designer', 'linb.Com',{
             onRender:function(page){
                 var _refresh=page._refresh=function(obj, key){
                     obj.each(function(profile){
-                        var t = (profile.domNode)?(parseInt(profile.root.css(key))||""):profile.properties[key];
+                        var t = (profile.domNode)?(parseInt(profile.root.css(key))||0):profile.properties[key];
                         obj['set'+_.str.initial(key)](t);
                     });
                     return obj['get'+_.str.initial(key)]();
@@ -1219,10 +1219,10 @@ Class('VisualJS.Designer', 'linb.Com',{
                         case 'format':
                         case 'json':
                             _.observableRun(function(){
-                    	        var dialog = new linb.UI.Dialog();
-                    	        dialog.setLeft(100).setTop(100).setWidth(300).setHeight(200).setStatus('max').setMinBtn(false).setMaxBtn(false).setCaption('Formatted code');
-                    	        dialog.render();
-                    	        var t,nodes;
+                    	        var dialog = page.$codeDlg || (page.$codeDlg=new linb.UI.Dialog({left:100,top:100,width:600,height:400,minBtn:false,caption:'$VisualJS.pageEditor.formatted'},{beforeClose:function(p){p.boxing().hide();return false}})),
+                    	            t,
+                    	            nodes,
+                    	            code;
                     	        if(page.tempSelected && page.tempSelected.length){
                     	            nodes=[];
                     	            _.arr.each(page.tempSelected,function(i){
@@ -1231,7 +1231,6 @@ Class('VisualJS.Designer', 'linb.Com',{
                     	        }else
                     	            nodes = page.getWidgets();
 
-                                var code;
                                 switch(id){
                                     case 'format':
                                         code=linb.Coder.formatHTML(page.getJSCode(nodes),'js',['plain']);

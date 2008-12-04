@@ -26,7 +26,9 @@ Class('UIDesigner', 'linb.Com',{
                 var self=this;
                 linb('body')
                 .append( new linb.UI.Button(
-                    {caption:'Open', zIndex:100, left:'auto', top:4, right:10, width:75, height:58, type:'custom', border:true, renderer:function(item){return '<img src=img/open.gif /><br />' + item.caption;}},
+                    {caption:'Open', 
+                        tips:'Open jsLinb class file (URL).',
+                        zIndex:100, left:'auto', top:4, right:10, width:75, height:58, type:'custom', border:true, renderer:function(item){return '<img src=img/open.gif /><br />' + item.caption;}},
                     {onClick:function(){
                         if(self.$openFile){
                             self.$openFile.dlg.show(null,true,100,100);
@@ -63,7 +65,9 @@ Class('UIDesigner', 'linb.Com',{
                     }})
                 )
                 .append( new linb.UI.Button(
-                    {caption:'Download', zIndex:100, left:'auto', top:4, right:90,  width:75, height:58, type:'custom', border:true, renderer:function(item){return '<img src=img/download.gif /><br />' + item.caption;}},
+                    {caption:'Download', 
+                        tips:'Download file and save it to locale disk.',
+                        zIndex:100, left:'auto', top:4, right:90,  width:75, height:58, type:'custom', border:true, renderer:function(item){return '<img src=img/download.gif /><br />' + item.caption;}},
                     {onClick:function(){
                         var id='ifr_for_download',
                             content=self.getValue();
@@ -82,27 +86,29 @@ Class('UIDesigner', 'linb.Com',{
                     }})
                 )
                 .append( self.$save2server = new linb.UI.Button(
-                    {caption:'Save', zIndex:100, left:'auto', top:4, right:170, width:75, height:58, type:'custom', border:true, renderer:function(item){return '<img src=img/save.gif /><br />' + item.caption;}},
+                    {caption:'Save', 
+                        tips:'Save original file (in server).',
+                        zIndex:100, left:'auto', top:4, right:170, width:75, height:58, type:'custom', border:true, renderer:function(item){return '<img src=img/save.gif /><br />' + item.caption;}},
                     {onClick:function(){
                         var content=self.getValue();
                         if(false===content)return;
-                        //change the url to relative path format
-                        var s1=self.$url.replace(/^.+\:\/\/[^/]+\//,''),
-                            s2=linb.ini.appPath.replace(/^.+\:\/\/[^/]+\//,''),
-                            a1=s1.split('/'),
-                            a2=s2.split('/'),
-                            count=0,
-                            index=0,
-                            path,
-                            as='';
-                        _.arr.each(a2,function(o,i){
-                            if(a1[i]!=o){
-                                index=i;
-                                return false;
-                            }else count++;
-                        });
-                        as +=_.str.repeat('../',(a2.length-index));
-                        path = as + a1.slice(index-count).join('/');
+                        var path=self.$url;
+                        if(/^(http|https)\:\/\//.test(self.$url)){
+                            //change the url to relative path format
+                            var s1=self.$url.replace(/^.+\:\/\/[^/]+\//,''),
+                                s2=linb.ini.appPath.replace(/^.+\:\/\/[^/]+\//,'').replace(/\/$/,''),
+                                a1=s1.split('/'),
+                                a2=s2.split('/'),
+                                count=0,
+                                as='';
+                            _.arr.each(a2,function(o,i){
+                                if(a1[i]!=o)
+                                    return false;
+                                else count++;
+                            });
+                            as +=_.str.repeat('../',(a2.length-count));
+                            path = as + a1.slice(count,a1.length).join('/');
+                        }
 
                         linb.IAjax(CONF.phpPath, {
                             key:CONF.requestKey, para:{
@@ -125,6 +131,7 @@ Class('UIDesigner', 'linb.Com',{
                 self.$btnTheme=new linb.UI.Button({
                     type:'drop',
                     caption:'Default Theme',
+                    tips:'To switch theme',
                     position:'absolute',
                     top:12,
                     left:6,

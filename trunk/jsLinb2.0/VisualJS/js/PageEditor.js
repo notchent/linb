@@ -140,18 +140,9 @@ Class('VisualJS.PageEditor', 'linb.Com',{
             var self=this;
             switch(item.id){
                 case 'format':
-                    var code=linb.Coder.formatHTML(self.texteditor.getUIValue(), self.$checkType,['plain']),
-                        dialog = new linb.UI.Dialog({
-                            left:100,
-                            top:100,
-                            width:300,
-                            height:200,
-                            minBtn:false,
-                            maxBtn:false,
-                            status:'max',
-                            html:code,
-                            caption:'$VisualJS.pageEditor.formatted'
-                        });
+                    var code=linb.Coder.formatHTML(self.texteditor.getUIValue(), self.$checkType,['plain']),                    
+            	        dialog = self.$codeDlg || (self.$codeDlg=new linb.UI.Dialog({left:100,top:100,width:600,height:400,minBtn:false,caption:'$VisualJS.pageEditor.formatted'},{beforeClose:function(p){p.boxing().hide();return false}}));
+            	    dialog.setHtml(code);
                     dialog.show(linb('body'),true);
                     break;
                 case 'check':

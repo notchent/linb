@@ -669,7 +669,7 @@ _.set(linb.Locale,["en","doc","linb"], {
             "//create DOM element \n var a=linb.create('<div>node</div>'); alert(a.get(0).nodeName)",
             "//create text DOM element \n var a=linb.create('text node',true); alert(a.get(0).nodeName)",
             "//create linb.UI object \n var a=linb.create('linb.UI.Button'); alert(a.get(0).key)",
-            "//create linb.UI object \n //parameters: // key,properties, events, host, children \n var a=linb.create('linb.UI.Button',{caption:'btn'}); alert(a.get(0).key)",
+            "//create linb.UI object \n //parameters: // key,properties, events, host \n var a=linb.create('linb.UI.Button',{caption:'btn'}); alert(a.get(0).key)",
             "//create linb.UI object \n var profile = (new linb.UI.Button()).get(0); var a=linb.create(profile); alert(a.get(0).key)"
         ]
     },

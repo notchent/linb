@@ -7,7 +7,7 @@ Class('App.linb_UI_Button', 'linb.Com',{
         iniComponents:function(){
             // [[code created by jsLinb UI Builder
             var host=this, children=[], append=function(child){children.push(child.get(0))};
-
+            
             append((new linb.UI.Button)
                 .host(host,"button22")
                 .setLeft(20)
@@ -17,7 +17,7 @@ Class('App.linb_UI_Button', 'linb.Com',{
                 .setCaption("align:left")
                 .setHAlign("left")
             );
-
+            
             append((new linb.UI.Button)
                 .host(host,"button20")
                 .setDisabled(true)
@@ -29,7 +29,7 @@ Class('App.linb_UI_Button', 'linb.Com',{
                 .setType("status")
                 .onChecked("_button28_ontoggle")
             );
-
+            
             append((new linb.UI.Button)
                 .host(host,"button28")
                 .setLeft(230)
@@ -40,7 +40,7 @@ Class('App.linb_UI_Button', 'linb.Com',{
                 .setType("status")
                 .onChecked("_button28_ontoggle")
             );
-
+            
             append((new linb.UI.Button)
                 .host(host,"button29")
                 .setLeft(20)
@@ -50,7 +50,7 @@ Class('App.linb_UI_Button', 'linb.Com',{
                 .setShadow(true)
                 .setCaption("shadow")
             );
-
+            
             append((new linb.UI.Button)
                 .host(host,"button22")
                 .setLeft(20)
@@ -60,23 +60,23 @@ Class('App.linb_UI_Button', 'linb.Com',{
                 .setCaption("align:right")
                 .setHAlign("right")
             );
-
+            
             append((new linb.UI.Button)
                 .host(host,"button30")
-                .setLeft(140)
-                .setTop(196)
+                .setLeft(20)
+                .setTop(160)
                 .setWidth(180)
                 .setHeight("22")
                 .setCaption("with image")
                 .setImage("img/demo.gif")
             );
-
+            
             append((new linb.UI.Button)
                 .host(host,"button34")
                 .setLeft(230)
                 .setTop(80)
                 .setWidth(280)
-                .setHeight(60)
+                .setHeight(100)
                 .setBorder(true)
                 .setShadow(true)
                 .setResizer(true)
@@ -85,7 +85,7 @@ Class('App.linb_UI_Button', 'linb.Com',{
                 .setVAlign("bottom")
                 .setType("custom")
             );
-
+            
             append((new linb.UI.Button)
                 .host(host,"button12")
                 .setLeft(230)
@@ -98,7 +98,7 @@ Class('App.linb_UI_Button', 'linb.Com',{
                 .onClick("_button12_onclick")
                 .onClickDrop("_button12_onclickdrop")
             );
-
+            
             append((new linb.UI.Button)
                 .host(host,"button13")
                 .setLeft(20)
@@ -112,7 +112,7 @@ Class('App.linb_UI_Button', 'linb.Com',{
                 .setCaption("button13")
                 .setType("custom")
             );
-
+            
             append((new linb.UI.Button)
                 .host(host,"button14")
                 .setLeft(20)
@@ -126,7 +126,7 @@ Class('App.linb_UI_Button', 'linb.Com',{
                 .setCaption("button13")
                 .setType("custom")
             );
-
+            
             return children;
             // ]]code created by jsLinb UI Builder
         }, 
