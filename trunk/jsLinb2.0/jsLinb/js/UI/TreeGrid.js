@@ -521,7 +521,8 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
             KEY:{
                 //in firefox, a can focused with display:block
                 display:'block',
-                position:'absolute'
+                position:'absolute',
+                overflow:'hidden'
             },
             BOX:{
                 display:'block',
@@ -533,6 +534,9 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                 background:  linb.UI.$bg('head.gif', ' #EBEADB repeat-x left bottom'),
                 position:'relative',
                 overflow:'hidden'
+            },
+            HI:{
+                position:'relative'
             },
             SCROLL:{
                 overflow:'auto',
@@ -591,10 +595,11 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                 position:'absolute',
                 //if set z-index, disappearing in opera
                 //'z-index':'10',
+                background: linb.browser.ie?'url('+linb.ini.file_bg+')':null,
                 width:'4px',
-                top:'0px',
+                top:'0',
+                right:'0',
                 height:'100%',
-                right:'0px',
                 cursor:'e-resize',
                 'font-size':0,
                 'line-height':0
@@ -620,6 +625,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                 'border-right': '1px solid #ACA899'
             },
             PREVIEW:{
+                position:'relative',
                 display:'none',
                 'padding-left':'16px',
                 'border-top': '1px dashed #ACA899',
@@ -632,6 +638,10 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
             'CELL-disabled':{
                  $order:8,
                  'background-color':'#EBEADB'
+            },
+            'CELL-disabled CELLA':{
+                 $order:8,
+                 color:'#999'
             },
             'CELLS-active, CELL-active':{
                  $order:5,
@@ -703,7 +713,8 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                 position:'relative',
                 overflow:linb.browser.ie6?'hidden':'',
                 'font-size':'12px',
-                'line-height':'20px'
+                'line-height':'20px',
+                'vertical-align':'top'
             },
             'ALT':{
                 'background-color':'#f1f1f1'
@@ -834,7 +845,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                     o.startDrag(e, {
                         horizontalOnly:true,
                         dragType:'blank',
-                        dragDefer:1,
+                        dragDefer:2,
                         maxLeftOffset:minW,
                         maxRightOffset:maxW,
                         targetReposition:false
@@ -869,7 +880,8 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                     var o=linb(src).parent(2),
                         w=o.width() + linb.DragDrop.getProfile().offset.x,
                         col=profile.colMap[profile.getSubId(src.id)];
-                    o.width(col.width=w);
+                    o.width(w);
+                    if(col)col.width=w;
 
                     //collect cell id
                     var ids=[],ws=[];
@@ -933,7 +945,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                     o.startDrag(e, {
                         verticalOnly:true,
                         dragType:'blank',
-                        dragDefer:1,
+                        dragDefer:2,
                         maxTopOffset:minH,
                         maxBottomOffset:maxH ,
                         targetReposition:false
@@ -1029,7 +1041,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                             parent = profile.getSubNode('BODY').get(0);
                         }
                         //sor sub first
-                        var a1=[], a2=[], a3=[] ,a4=[], t;
+                        var a1=[], a2=[], a3=[] ,a4=[], t,ff;
                         _.arr.each(rows,function(row){
                             if(row.sub && row.sub.length>1)
                                 self(profile, row, index, type, order);
@@ -1037,44 +1049,20 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                              a1[a1.length]=(t=row.cells)?(t=t[index])?t.value:'':row[index];
                              a2[a2.length]=a2.length;
                         });
-
                         switch(type){
                             case 'number':
-                                a2.sort( !order?
-                                    function(x,y){
-                                       x=parseFloat(a1[x])||0; y=parseFloat(a1[y])||0;
-                                       return x>y?1:x==y?0:-1;
-                                    }:
-                                    function(x,y){
-                                       x=parseFloat(a1[x])||0; y=parseFloat(a1[y])||0;
-                                       return x<y?1:x==y?0:-1;
-                                    }
-                                );
+                                ff=function(n){return parseFloat(n)||0};
                                 break;
                             case 'date':
-                                a2.sort( !order?
-                                    function(x,y){
-                                       x=Date.parse(new Date(a1[x])); y=Date.parse(new Date(a1[y]));
-                                       return x>y?1:x==y?0:-1;
-                                    }:
-                                    function(x,y){
-                                       x=Date.parse(new Date(a1[x])); y=Date.parse(new Date(a1[y]));
-                                       return x<y?1:x==y?0:-1;
-                                    }
-                                );
+                                ff=function(n){return new Date(n).getTime()||0};
                                 break;
                             default:
-                                a2.sort( !order?
-                                    function(x,y){
-                                       x=a1[x];y=a1[y];
-                                       return x>y?1:x==y?0:-1;
-                                    }:
-                                    function(x,y){
-                                       x=a1[x];y=a1[y];
-                                       return x<y?1:x==y?0:-1;
-                                    }
-                                );
+                                ff=function(n){return n||''};
                         }
+                        a2.sort(function(x,y){
+                           x=ff(a1[x]); y=ff(a1[y]);
+                           return (x>y?1:x==y?0:-1)*(order?1:-1);
+                        });
                         //sort memory array
                         //sort domnode
                         var b = root._created, bak=_.copy(rows), c;
@@ -1128,7 +1116,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                         targetLeft:pos.left+12,
                         targetTop:pos.top+12,
                         targetReposition:false,
-                        dragDefer: 1,
+                        dragDefer: 2,
                         dragKey:profile.$id + ":col",
                         dragData:o.id()
                     });
@@ -1272,6 +1260,12 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                     if(p.disabled || row.disabled)return false;
                     if(profile.onDblClickRow)profile.boxing().onDblClickRow(profile, row, e, src);
                     return false;
+                },
+                onClick:function(profile){
+                    var p = profile.properties,
+                        row = profile.rowMap[profile.getSubId(this.id)];
+                    if(row.group)
+                        profile.getSubNode('TOGGLE',row._serialId).onClick();
                 }
             },
             CELL:{
@@ -1296,10 +1290,10 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                         event=getPro(profile, cell, 'event'),
                         mode = p.activeMode, id, type,event;
 
-                    if(!disabled && type=='button'){
+                    if(!disabled && (type=='button'||type=='label')){
                         if(typeof event == 'function' && false===event.call(profile._host||profile, profile, cell, null,null,e,src)){}
                         else
-                            profile.boxing().onClickButton(profile, cell, null, null, e, src);
+                            profile.boxing().onClickCell(profile, cell, e, src);
                         return false;
                     }
                     if(getPro(profile, cell, 'editable')){
@@ -1442,8 +1436,10 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
             },
             FIRSTCELL:{
                 onClick:function(profile, e, src){
-                    linb([src]).next().first().onClick(true);
-                    return false;
+                    var p = profile.properties,
+                        row = profile.rowMap[profile.getSubId(this.id)];
+                    if(!row.group)
+                        profile.getSubNode('TOGGLE',row._serialId).onClick();
                 }
             }
         },
@@ -1638,7 +1634,8 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
             afterCellUpdated:function(profile, cell, options){},
 
             onDblClickRow:function(profile, row, e, src){},
-            onClickButton:function(profile, cell, proEditor, pos, e, src){}
+            onClickButton:function(profile, cell, proEditor, pos, e, src){},
+            onClickCell:function(profile, cell, e, src){}
         },
         RenderTrigger:function(){
             var ns=this, pro=ns.properties,ins=ns.boxing();
@@ -1710,7 +1707,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                 targetLeft:pos.left+12,
                 targetTop:pos.top+12,
                 dragCursor:'pointer',
-                dragDefer:1,
+                dragDefer:2,
                 dragKey: profile.box.getDragKey(profile, src),
                 dragData: profile.box.getDragData(profile, src)
             });
@@ -2466,14 +2463,14 @@ caption
             if(linb.browser.ie6)
                 _.resetRun(profile.$id+'4',function(){
                     var body=profile.getSubNode('BODY'),
-                    scroll=profile.getSubNode('SCROLL'),
-                    w=scroll.width();
-                    scroll.width(0);
-                    body.width(body.width('auto').width());
-                    scroll.width(w,false);
+                    lastcol=profile.getSubNode('HCELLS').last().get(0);
+                    body.width(lastcol.offsetWidth+lastcol.offsetLeft);
                 });
         },
         _showTips:function(profile, node, pos){
+            if(profile.onShowTips)
+                return profile.boxing().onShowTips(profile, node, pos);
+
             var ks=profile.keys,item,hcell=ks.HCELL+':',sid,id,pid;
             if(profile.properties.disabled)return;
 

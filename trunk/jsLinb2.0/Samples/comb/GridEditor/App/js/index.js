@@ -30,7 +30,7 @@ Class('App', 'linb.Com',{
                 .setTop(10)
                 .setWidth(270)
                 .setHeight(30)
-                .setHtml("DblClick row hander to open edit dialog!")
+                .setHtml("DblClick row  to open edit dialog!")
             );
             
             return children;

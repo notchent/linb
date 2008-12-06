@@ -36,35 +36,84 @@ Class('App', 'linb.Com',{
 
         },
         Instance:{
+        $S_CLS:{'Namespace':1,'Class':1,'_':1,'_.fun':1,'_.arr':1,'_.str':1,'linb':1},
         $CLS_FUN:{'Namespace':1,'Class':1,'_':1,'_.fun':1,'linb':1,'linb.Thread':1,'linb.Ajax':1,'linb.SAjax':1,'linb.IAjax':1,'linb.SC':1},
         $CLS_STATIC:{'_.fun':1,'linb':1,'linb.Thread':1,'linb.Ajax':1,'linb.SAjax':1,'linb.IAjax':1,'linb.SC':1,'linb.Event':1,'linb.DragDrop':1,'linb.CSS':1,'linb.History':1,'linb.Cookies':1,'linb.ComFactory':1,'linb.Debugger':1,'linb.Date':1,'linb.Tips':1,'linb.Coder':1},
-        events:{onReady:'_onready'},
-        _onready:function(){
+        events:{onRender:'_onrender'},
+        _onrender:function(){
             SPA=this;
             linb.UI.Border.$abstract=linb.UI.Shadow.$abstract=linb.UI.Resizer.$abstract=true;
             linb.History.setCallback(function(str){
                 str=str.replace('#','');
-                var hash=_.urlDecode(str),id;
-                if(!hash.a && str){
-                    if(str.indexOf('.prototype.')!=1)
-                        hash.a=str.split('.prototype.')[0];
-                    else
-                        hash.a=str.slice(0,str.lastIndexOf('.'));
+                var obj, t, id1, id2, id3, id4;
+                obj=linb.SC.get(str);
+//input must be a valid object path
+                while(!obj && str.indexOf('.')!=-1){
+                    t=str.split('.');
+                    t.pop();
+                    str=t.join('.');
+                    obj=linb.SC.get(str);
                 }
-                if(id=hash.a){
-                    if(SPA._curId==id)
-                        return;
-                    SPA._curId=id;
-                    _.resetRun('SPA',function(){
-                        SPA.objTree.openToNode(id).setValue(id);
+
+                if(str.indexOf('.prototype.')!=-1){
+                    id1=str.split('.prototype.')[0];
+                    if(obj){
+                        id2= id1 + (obj.$event$?'._event':'._prototype');
+                        if(obj.$original$)
+                            id3= obj.$original$==linb.SC.get(id1).KEY? null: (id2 + '.' + obj.$original$.replace(/\./g,'_'));
+                    }
+                    id4=str;
+                }else{
+                    //show to class layer only
+                    if(SPA.$S_CLS[str] || obj.$linb$){
+                        id1=str;
+                        //construcotr or global function
+                        id2=id1+'.constructor';
+                        id4=id1+'._global';
+
+                        id3=id2+'.'+id1.replace(/\./g,'_');
+                    //show to static method
+                    }else if(typeof obj=='function'){
+                        id1=str.slice(0,str.lastIndexOf('.'));
+                        id2=id1+'._staticM';
+                        if(obj && obj.$original$)
+                            id3=obj.$original$==linb.SC.get(id1).KEY?null:id2+'.'+obj.$original$.replace(/\./g,'_');
+                        id4=str;
+                    //show to static property
+                    }else{
+                        id1=str.slice(0,str.lastIndexOf('.'));
+                        id2=id1+'._staticP';
+                        //properties: no super
+                        id3=null;
+                        id4=str;
+                    }
+                }
+ 
+
+                if(id1){
+                    if(SPA._curId!=id1){
+                        SPA._curId=id1;
+                        SPA.objTree.openToNode(id1).setValue(id1);
                         var node=SPA.divHead.getRoot(),
                             ics=SPA._iconPosMap,
                             f=SPA._clickForToggle
                             ;
-                        SPA.divHead.setHtml( SPA._format( SPA._parse(id) ) );
+                        //build html
+                        SPA.divHead.setHtml( SPA._format( SPA._parse(id1) ) );
+                        //attach event
                         node.query('h2').css('cursor','pointer').onClick(f).first().css('backgroundPosition',ics.close);
                         node.query('h3').css('cursor','pointer').onClick(f).first().css('backgroundPosition',ics.close);
-                    },50);
+                    }
+                    //open
+                    _.arr.each([id2,id3,id4],function(id){
+                        var t;
+                        if(id && (t=linb.Dom.byId(id)) && _.get(t,['nextSibling', 'style', 'display'])!='block')linb(id).onClick();
+                    });
+                    //focus
+                    if(id4 && (t=linb.Dom.byId(id4)))
+                        _.asyRun(function(){
+                            SPA.divHead.getRoot().scrollTop(linb(id4).offset(null,SPA.divHead.getRoot()).top);
+                        });
                 }
             });            
         },
@@ -141,10 +190,10 @@ Class('App', 'linb.Com',{
         },
         _objtree_aftercreated:function (profile) {
             var items=[
-                {id:'Namespace', href:'#a=Namespace', caption:'Namespace', image:'img/img.gif', imagePos:'left -48px'},
-                {id:'Class', href:'#a=Class', caption:'Class', image:'img/img.gif', imagePos:'left -48px'},
-                {id:'_', href:'#a=_', caption:'_', image:'img/img.gif', imagePos:'left -48px', sub:[]},
-                {id:'linb', href:'#a=linb', caption:'linb',image:'img/img.gif', imagePos:'left top', sub:[]}
+                {id:'Namespace', href:'#Namespace', caption:'Namespace', image:'img/img.gif', imagePos:'left -48px'},
+                {id:'Class', href:'#Class', caption:'Class', image:'img/img.gif', imagePos:'left -48px'},
+                {id:'_', href:'#_', caption:'_', image:'img/img.gif', imagePos:'left -48px', sub:[]},
+                {id:'linb', href:'#linb', caption:'linb',image:'img/img.gif', imagePos:'left top', sub:[]}
             ];
             var self=this,
                 o=items[2], id=o.id, sub=o.sub,
@@ -154,7 +203,7 @@ Class('App', 'linb.Com',{
                         if('prototype'!=i && 'constructor' != i&& 'upper' !=i)
                             if(typeof o[i]=='function'&& o[i].$linb$){
                                 
-                                temp={id:id+'.'+i, href:'#a='+id+'.'+i, caption:id+'.'+i, image:'img/img.gif',imagePos:ref._iconPosMap['cls']};
+                                temp={id:id+'.'+i, href:'#'+id+'.'+i, caption:id+'.'+i, image:'img/img.gif',imagePos:ref._iconPosMap['cls']};
                                 if(typeof linb.getRes('doc.'+id+'.'+i)!='object')
                                     temp.itemClass='ccss-item';
                                 sub=arguments.callee(linb.SC.get(id+'.'+i),ref);
@@ -170,7 +219,7 @@ Class('App', 'linb.Com',{
             for(var i in o){
                 for(var j in o[i]){
                      if('prototype'!=j&&'constructor'!=j&&j.charAt(0)!='_'&&j.charAt(0)!='$'){
-                        sub.push({id:id+'.'+i, href:'#a='+id+'.'+i, caption:id+'.'+i, image:'img/img.gif', imagePos:self._iconPosMap[typeof o[i]=='function'?'fun':'hash']});
+                        sub.push({id:id+'.'+i, href:'#'+id+'.'+i, caption:id+'.'+i, image:'img/img.gif', imagePos:self._iconPosMap[typeof o[i]=='function'?'fun':'hash']});
                         break;
                     }
                 }
@@ -186,15 +235,16 @@ Class('App', 'linb.Com',{
         _getFunArgs:function(f,i){
             with (''+(i?f[i]:f)) return (i||'') + ' ( ' + slice(indexOf("(") + 1, indexOf(")")) + ' )';
         },
-        _getItem:function(pos, head, key, flag){
+        _getItem:function(pos, head, key, okey, flag){
             var con = this.getDoc(key),t;
-            return '<a name="'+key+'" ></a> <div class="p"> <h4 id="'+_.id()+'">' + 
+            okey=okey||key;
+            return '<a name="'+okey+'" ></a> <div class="p"> <h4 id="'+okey+'">' + 
                     (con?'<span class="linb-custom-icon" style="background-position:' +pos+';"></span>':'') + 
                     head +
                     (flag !==false?((t=linb.SC(key)).$linb$||t.$auto$ ?"":'<a href="javascript:;" onclick="return SPA.showCode(event,\''+key+'\');">&nbsp;&nbsp;&nbsp;&nbsp;[Original Code]</a>'):"") + 
                     '</h4>' + 
                     (con?'<div class="con">'+con+'</div>':"") + 
-                    (flag!==false?'<a class="totop" href="#'+key+'."> ^ </a>':'')+
+                    (flag!==false?'<a class="totop" href="#'+okey+'._list"> ^ </a>':'')+
                     '</div>'
                     ;
         },
@@ -209,24 +259,24 @@ Class('App', 'linb.Com',{
             arr.push('<div>')
             if(obj.parent){
                 obj.parent.sort();
-                arr.push('<h2 id="'+_.id()+'" class="inherite"><span class="linb-custom-cmd"></span>Direct Super Classes</h2>');
+                arr.push('<h2 id="'+key+'._parent'+'" class="inherite"><span class="linb-custom-cmd"></span>Direct Super Classes</h2>');
                 arr.push('<div class="linb-custom-block">')
                 _.arr.each(obj.parent,function(o){
-                    arr.push('<div class="p"><a href="#a='+o+'"><div><span class="linb-custom-icon" style="background-position:' +ipm.cls+';"></span>'+ o +'</div></a></div>');
+                    arr.push('<div class="p"><a href="#'+o+'"><div><span class="linb-custom-icon" style="background-position:' +ipm.cls+';"></span>'+ o +'</div></a></div>');
                 });
                 arr.push('</div>')
             }
             if(obj.children){
                 obj.children.sort();
-                arr.push('<h2 id="'+_.id()+'" class="inherite"><span class="linb-custom-cmd"></span>Direct Sub Classes</h2>');
+                arr.push('<h2 id="'+key+'._children'+'" class="inherite"><span class="linb-custom-cmd"></span>Direct Sub Classes</h2>');
                 arr.push('<div class="linb-custom-block">')
                 _.arr.each(obj.children,function(o){
-                    arr.push('<div class="p"><a href="#a='+o+'"><div><span class="linb-custom-icon" style="background-position:' +ipm.cls+';"></span>'+ o +'</div></a></div>');
+                    arr.push('<div class="p"><a href="#'+o+'"><div><span class="linb-custom-icon" style="background-position:' +ipm.cls+';"></span>'+ o +'</div></a></div>');
                 });
                 arr.push('</div>')
             }
             if(this.$CLS_FUN[key]){
-                arr.push('<h2 id="'+_.id()+'" class="notice"><span class="linb-custom-cmd"></span>Global Function</h2>');
+                arr.push('<h2 id="'+key+'._global'+'" class="notice"><span class="linb-custom-cmd"></span>Global Function</h2>');
                 arr.push('<div class="linb-custom-block">');
                 arr.push(getItem(ipm.fun, obj.key + ' ' + this._getFunArgs(linb.SC(obj.key)), obj.key));
                 arr.push('</div>')
@@ -238,24 +288,24 @@ Class('App', 'linb.Com',{
             }
 
             if(obj.con && !this.$CLS_FUN[key] && !this.$CLS_STATIC[key]){
-                arr.push('<h2 id="'+_.id()+'" ><span class="linb-custom-cmd"></span>Constructor</h2>');
+                arr.push('<h2 id="'+key+'.construcotr'+'" ><span class="linb-custom-cmd"></span>Constructor</h2>');
                 arr.push('<div class="linb-custom-block">');
-                arr.push(getItem(ipm.con,obj.key + obj.con, obj.key+'.constructor', false));
+                arr.push(getItem(ipm.con,obj.key + obj.con, obj.key+'.constructor', null, false));
                 arr.push('</div>')
             }
             if(obj.vars){
                 obj.vars.sort();
-                arr.push('<h2 id="'+_.id()+'" ><span class="linb-custom-cmd"></span>Static Properties</h2>');
+                arr.push('<h2 id="'+key+'._staticP'+'" ><span class="linb-custom-cmd"></span>Static Properties</h2>');
                 var a1=[],a2=[],tt;
                 _.arr.each(obj.vars,function(o){
                     tt=key + dot + o;
-                    a1.push(getItem(ipm.mem,o, tt, false));
+                    a1.push(getItem(ipm.mem,o, tt, tt, false));
                     a2.push("<a id='short-abc' href='#"+tt+"' >"+o+"</a> &nbsp;&nbsp;&nbsp;");
                 });
                 arr.push('<div class="linb-custom-block">'+'<div class="linb-custom-list">'+a2.join('')+'</div>'+a1.join('')+'</div>')
             }
             if(obj.funs){
-                arr.push('<h2 id="'+_.id()+'" ><span class="linb-custom-cmd"></span>Static Methods</h2>');
+                arr.push('<h2 id="'+key+'._staticM'+'" ><span class="linb-custom-cmd"></span>Static Methods</h2>');
                 arr.push('<div class="linb-custom-block">');
                 if(obj.funs.self){
                     obj.funs.self.sort();
@@ -263,19 +313,20 @@ Class('App', 'linb.Com',{
                     _.arr.each(obj.funs.self,function(o){
                         tt=key + dot + o[0];
                         a1.push(getItem(ipm.fun,o[1], tt));
-                        a2.push("<a id='short-abc' name='"+tt+".' href='#"+tt+"' >"+o[0]+"</a> &nbsp;&nbsp;&nbsp;");
+                        a2.push("<a id='short-abc' name='"+tt+"._list' href='#"+tt+"' >"+o[0]+"</a> &nbsp;&nbsp;&nbsp;");
                     });
                     arr.push('<div class="linb-custom-list">'+a2.join('')+'</div>'+a1.join(''))
                 }
                 for(var i in obj.funs){
                     if(i!='self'){
-                        arr.push('<h3 id="'+_.id()+'"><span class="linb-custom-cmd"></span>Inherite from '+i+'</h3>');
+                        arr.push('<h3 id="'+key+'._staticM.'+i.replace(/\./g,'_')+'"><span class="linb-custom-cmd"></span>Inherite from '+i+'</h3>');
                         obj.funs[i].sort();
                         var a1=[],a2=[],tt;
                         _.arr.each(obj.funs[i],function(o){
                             tt=i + dot + o[0];
-                            a1.push(getItem(ipm.fun,o[1], tt));
-                            a2.push("<a id='short-abc' name='"+tt+".' href='#"+tt+"' >"+o[0]+"</a> &nbsp;&nbsp;&nbsp;");
+                            a1.push(getItem(ipm.fun,o[1], tt, key+dot+o[0]));
+                            tt=key + dot + o[0];
+                            a2.push("<a id='short-abc' name='"+tt+"._list' href='#"+tt+"' >"+o[0]+"</a> &nbsp;&nbsp;&nbsp;");
                         });
                         arr.push('<div class="linb-custom-block">'+'<div class="linb-custom-list">'+a2.join('')+'</div>'+a1.join('')+'</div>')
                     }
@@ -284,17 +335,17 @@ Class('App', 'linb.Com',{
             }
             if(obj.provars){
                 obj.provars.sort();
-                arr.push('<h2 id="'+_.id()+'" ><span class="linb-custom-cmd"></span>Instance Properties</h2>');
+                arr.push('<h2 id="'+key+'._prototypeP'+'" ><span class="linb-custom-cmd"></span>Instance Properties</h2>');
                 var a1=[],a2=[],tt;
                 _.arr.each(obj.provars,function(o){
                     tt=key + pdot + o;
-                    a1.push(getItem(ipm.mem,o, tt, false));
+                    a1.push(getItem(ipm.mem,o, tt, tt,false));
                     a2.push("<a id='short-abc' href='#"+tt+"' >"+o+"</a> &nbsp;&nbsp;&nbsp;");
                 });
                 arr.push('<div class="linb-custom-block">'+'<div class="linb-custom-list">'+a2.join('')+'</div>'+a1.join('')+'</div>')
             }
             if(obj.profuns){
-                arr.push('<h2 id="'+_.id()+'" ><span class="linb-custom-cmd"></span>Instance Methods</h2>');
+                arr.push('<h2 id="'+key+'._prototype'+'" ><span class="linb-custom-cmd"></span>Instance Methods</h2>');
                 arr.push('<div class="linb-custom-block">');
                 if(obj.profuns.self){
                     obj.profuns.self.sort();
@@ -302,19 +353,20 @@ Class('App', 'linb.Com',{
                     _.arr.each(obj.profuns.self,function(o){
                         tt=key + pdot + o[0];
                         a1.push(getItem(ipm.fun,o[1], tt));
-                        a2.push("<a id='short-abc' name='"+tt+".' href='#"+tt+"' >"+o[0]+"</a> &nbsp;&nbsp;&nbsp;");
+                        a2.push("<a id='short-abc' name='"+tt+"._list' href='#"+tt+"' >"+o[0]+"</a> &nbsp;&nbsp;&nbsp;");
                     });
                     arr.push('<div class="linb-custom-list">'+a2.join('')+'</div>'+a1.join(''))
                 }
                 for(var i in obj.profuns){
                     if(i!='self'){
-                        arr.push('<h3 id="'+_.id()+'" ><span class="linb-custom-cmd"></span>Inherite from '+i+'</h3>');
+                        arr.push('<h3 id="'+key+'._prototype.'+i.replace(/\./g,'_')+'" ><span class="linb-custom-cmd"></span>Inherite from '+i+'</h3>');
                         obj.profuns[i].sort();
                         var a1=[],a2=[],tt;
                         _.arr.each(obj.profuns[i],function(o){
                             tt=i + pdot + o[0];
-                            a1.push(getItem(ipm.fun,o[1], tt));
-                            a2.push("<a id='short-abc' name='"+tt+".' href='#"+tt+"' >"+o[0]+"</a> &nbsp;&nbsp;&nbsp;");
+                            a1.push(getItem(ipm.fun,o[1], tt,key+pdot+o[0]));
+                            tt=key + pdot + o[0];
+                            a2.push("<a id='short-abc' name='"+tt+"._list' href='#"+tt+"' >"+o[0]+"</a> &nbsp;&nbsp;&nbsp;");
                         });
                         arr.push('<div class="linb-custom-block">'+'<div class="linb-custom-list">'+a2.join('')+'</div>'+a1.join('')+'</div>')
                     }
@@ -322,7 +374,7 @@ Class('App', 'linb.Com',{
                 arr.push('</div>')
             }
             if(obj.events){
-                arr.push('<h2 id="'+_.id()+'" ><span class="linb-custom-cmd"></span>Events</h2>');
+                arr.push('<h2 id="'+key+'._event'+'" ><span class="linb-custom-cmd"></span>Events</h2>');
                 arr.push('<div class="linb-custom-block">');
                 arr.push('<div>'+SPA.getDoc(obj.key=='linb.Dom'?'linb.Dom.Events':'linb.UI.Events')+'</div>');
 
@@ -331,8 +383,8 @@ Class('App', 'linb.Com',{
                     var a1=[],a2=[],tt;
                     _.arr.each(obj.events.self,function(o){
                         tt=key + pdot + o[0];
-                        a1.push(getItem(ipm.event,o[1], tt, false));
-                        a2.push("<a id='short-abc' name='"+tt+".' href='#"+tt+"' >"+o[0]+"</a> &nbsp;&nbsp;&nbsp;");
+                        a1.push(getItem(ipm.event,o[1], tt, tt,false));
+                        a2.push("<a id='short-abc' name='"+tt+"._list' href='#"+tt+"' >"+o[0]+"</a> &nbsp;&nbsp;&nbsp;");
                     });
                     arr.push('<div class="linb-custom-list">'+a2.join('')+'</div>'+a1.join(''))
                 }
@@ -340,11 +392,12 @@ Class('App', 'linb.Com',{
                     if(i!='self'){
                         obj.events[i].sort();
                         var a1=[],a2=[],tt;
-                        arr.push('<h3 id="'+_.id()+'" ><span class="linb-custom-cmd"></span>Inherite from '+i+'</h3>');
+                        arr.push('<h3 id="'+key+'._event.'+i.replace(/\./g,'_')+'" ><span class="linb-custom-cmd"></span>Inherite from '+i+'</h3>');
                         _.arr.each(obj.events[i],function(o){
                             tt=i + pdot + o[0];
-                            a1.push(getItem(ipm.event,o[1], tt, false));
-                            a2.push("<a id='short-abc' name='"+tt+".' href='#"+tt+"' >"+o[0]+"</a> &nbsp;&nbsp;&nbsp;");
+                            a1.push(getItem(ipm.event,o[1], tt,key+pdot+o[0],false));
+                            tt=key + pdot + o[0];
+                            a2.push("<a id='short-abc' name='"+tt+"._list' href='#"+tt+"' >"+o[0]+"</a> &nbsp;&nbsp;&nbsp;");
                         });
                         arr.push('<div class="linb-custom-block">'+'<div class="linb-custom-list">'+a2.join('')+'</div>'+a1.join('')+'</div>')
                     }
@@ -418,7 +471,7 @@ Class('App', 'linb.Com',{
                             }
                         }
                     }
-
+                    
                     o=o.prototype;
                     for(var i in o){
                         if(filter(i,o[i])){
@@ -446,6 +499,17 @@ Class('App', 'linb.Com',{
                                 if(!obj.provars)obj.provars=[];
                                 obj.provars.push(i);
                             }
+                        }
+                    }
+                    
+                    //add linb.Com event
+                    if(o.KEY=='linb.Com'){
+                        if(!obj.events)obj.events={};
+                        if(!obj.events.self)obj.events.self=[];
+                        var es=linb.Com.$EventHandlers;
+                        for(var i in es){
+                            o=es[i];
+                            obj.events.self.push([i,this._getFunArgs(es,i)]);
                         }
                     }
                 }

@@ -5,7 +5,7 @@ Class('App', 'linb.Com',{
         base:["linb.UI"], 
         //requried class for the App
         required:["linb.UI.Pane", "linb.UI.ToolBar"], 
-        //Com events
+        //Com events 
         events:{}, 
         iniComponents:function(){
             // [[code created by jsLinb UI Builder

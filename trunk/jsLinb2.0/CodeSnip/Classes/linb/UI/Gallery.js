@@ -18,7 +18,7 @@ Class('App.linb_UI_Gallery', 'linb.Com',{
                 .setTop(95)
                 .setWidth(270)
                 .setHeight(270)
-                .setItems([{"id":"a","caption":"itema","tips":"item a","sub":[{"id":"aa","caption":"suba"},{"id":"ab","caption":"subb"}]},{"id":"b","caption":"itemb","tips":"item b"},{"id":"c","caption":"itemc","tips":"item c"}])
+                .setItems([{"id":"a","caption":"itema","image":"img/demo.gif","tips":"item a"},{"id":"b","caption":"itemb","image":"img/demo.gif","tips":"item b"},{"id":"c","caption":"itemc","image":"img/demo.gif","tips":"item c"}])
                 .setItemWidth("120")
                 .setItemHeight("80")
                 .onItemSelected("_gallery2_onitemselected")

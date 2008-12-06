@@ -516,8 +516,8 @@ Class("linb.UI.Tabs", ["linb.UI", "linb.absList","linb.absValue"],{
                         dragKey: item.dragkey || properties.dragKey ,
                         dock:'none',
                         tag:item.tag||item.id,
-                        width:size.width,
-                        height:size.height,
+                        width:Math.max(size.width,200),
+                        height:Math.max(size.height,100),
                         left:pos.left,
                         top:pos.top
                     },'all');

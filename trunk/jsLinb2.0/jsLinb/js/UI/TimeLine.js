@@ -1776,7 +1776,10 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
             items.top(b?-scroll.scrollTop():0);
         },
         _showTips:function(profile, node, pos){
-            var t=profile.properties,
+            if(profile.onShowTips)
+                return profile.boxing().onShowTips(profile, node, pos);
+             
+             var t=profile.properties,
                 id=node.id,
                 format=t._timeFormat,
                 sid=profile.getSubId(id),

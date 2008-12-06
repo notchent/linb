@@ -56,7 +56,9 @@ Class('linb.Profile','linb.absProfile',{
                     host:o.host
                 };
             //host
-            if(o.host && rtnString!==false && !keepHost )r.host='@this';
+            if(r.host===self){
+                delete r.host;
+            }else if(o.host && rtnString!==false && !keepHost )r.host='@this';
 
             //properties
             var c={}, p=o.box.$DataStruct, map=linb.absObj.$specialChars;
@@ -621,7 +623,9 @@ Class('linb.UIProfile','linb.Profile', {
                     host:o.host
                 };
             //host
-            if(o.host && rtnString!==false && !keepHost )r.host='@this';
+            if(r.host===self){
+                delete r.host;
+            }else if(o.host && rtnString!==false && !keepHost )r.host='@this';
             //domId
             if(o.$domId!=o.domId)r.domId=o.domId;
 
@@ -857,7 +861,7 @@ Class("linb.UI",  "linb.absObj", {
             this.each(function(o){
                 a[a.length]=o.serialize(false, keepHost);
             });
-            return rtnString===false?a:"linb.UI.unserialize("+_.serialize(a)+")";
+            return rtnString===false?a:a.length==1?" new "+a[0].key+"("+_.serialize(a[0])+")":"linb.UI.unserialize("+_.serialize(a)+")";
         },
 
         _toDomElems:function(){
@@ -941,10 +945,10 @@ Class("linb.UI",  "linb.absObj", {
             html=html||'<span style="background:'+ linb.UI.$bg('busy.gif',' no-repeat left center')('linb.UI.Public') +';padding-left:16px;">'+message+'</span>';
             return this.each(function(profile){
                 _.resetRun(profile.$id+':busy',function(){
-                    key=key||'BORDER';
-                    if(!profile.keys[key])return;
+                    var keys=profile.keys;
+                    key=keys[key]||keys['BORDER']||keys['PANEL']||keys['KEY'];
 
-                    var parentNode=profile.getSubNode(),
+                    var parentNode=profile.getSubNode(key),
                         size=parentNode.cssSize(),
                         node;
                     if(!(node=profile.$busy)){
@@ -2957,7 +2961,6 @@ Class("linb.UI",  "linb.absObj", {
 
             if(p.items && p.items.length){
                 t=linb.absObj.$specialChars;
-                _.arr.each(p.items,function(o){if(o.object &&o.object['linb.UIProfile'])o.object=o.object.boxing()});
                 p.items = _.clone(p.items,function(o,i){return !t[(i+'').charAt(0)]&&o!=undefined});
             }
             if(_.isEmpty(p.tagVar))
@@ -3056,7 +3059,7 @@ Class("linb.UI",  "linb.absObj", {
                     profile.SubSerialIdMapItem[id] = item;
                 }
                 if(t=item.object){
-                    t=dataItem.object=item.object=t['linb.absBox']?t.get(0):t;
+                    t=dataItem.object=t['linb.absBox']?t.get(0):t;
                     //relative it.
                     if(t['linb.UIProfile'])
                         t.properties.position='relative';
@@ -3300,6 +3303,9 @@ Class("linb.absList", "linb.absObj",{
         },
         //
         _showTips:function(profile, node, pos){
+            if(profile.onShowTips)
+                return profile.boxing().onShowTips(profile, node, pos);
+
             var t=profile.properties,
                 id=node.id,
                 sid=profile.getSubId(id),
@@ -3573,6 +3579,12 @@ new function(){
     });
     Class(u+".Link", u,{
         Static:{
+            Appearances:{
+                KEY:{
+                   'font-size':linb.browser.ie?'12px':null,
+                   'line-height':linb.browser.ie?'14px':null
+                }
+            },
             Templates:{
                 tagName:'a',
                 style: '{_style}',

@@ -35,7 +35,9 @@ Class("linb.UI.ProgressBar", ["linb.UI.Widget","linb.absValue"] ,{
             BORDER:{
                 border:'1px solid #91A7B4',
                 'font-size':0,
-                'line-height':0
+                'line-height':0,
+                //in ie6, if no overflow:hidden, children with height:100% will not work.
+                overflow:'hidden'
             },
             INN:{
                 display:'table',
@@ -52,6 +54,8 @@ Class("linb.UI.ProgressBar", ["linb.UI.Widget","linb.absValue"] ,{
             },
             FILL:{
                 position:'absolute',
+                
+                width:'1px',
                 left:0,
                 top:0,
                 height:'100%',

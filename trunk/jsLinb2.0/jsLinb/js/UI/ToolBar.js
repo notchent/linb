@@ -245,7 +245,7 @@ Class("linb.UI.ToolBar",["linb.UI","linb.absList"],{
                 }
 
                 if(t=item.object){
-                    t=dataItem.object=item.object=t['linb.absBox']?t.get(0):t;
+                    t=dataItem.object=t['linb.absBox']?t.get(0):t;
                     //relative it.
                     if(t['linb.UIProfile']){
                         t.properties.position='relative';

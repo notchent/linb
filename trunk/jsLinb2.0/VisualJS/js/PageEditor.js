@@ -107,7 +107,7 @@ Class('VisualJS.PageEditor', 'linb.Com',{
         },
         _texteditor_onChange:function(profile, oV, nV){
             var self=this;
-           _.tryF(self.events.onValueChanged, [self, profile, oV!==nV, oV], self.host);
+           _.tryF(self.events.onValueChanged, [self, profile, self.$bakValue!==nV, nV], self.host);
         },
         iniComponents:function(){
             // [[code created by jsLinb UI Builder

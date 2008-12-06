@@ -7,7 +7,7 @@ Class('VisualJS.OpenFile', 'linb.Com',{
             append((new linb.UI.Dialog)
                 .host(host,"dlg")
                 .setWidth(690)
-                .setHeight(140)
+                .setHeight(100)
                 .setResizer(false)
                 .setCaption("Open jsLinb Class File")
                 .setMinBtn(false)
@@ -25,11 +25,29 @@ Class('VisualJS.OpenFile', 'linb.Com',{
             
             host.pane6.append((new linb.UI.ComboInput)
                 .host(host,"combo")
-                .setLeft(20)
+                .setLeft(50)
                 .setTop(10)
-                .setWidth(640)
+                .setWidth(517)
                 .setValueFormat("^(http|https)\\:\\/\\/[\\w\\-\\_\\.]+[\\w\\-\\_](:[\\w]*)?\\/?([\\w\\-\\._\\?\\,\\'\\/\\\\\\+&amp;%\\$#\\=~])*$")
                 .setType("none")
+            );
+            
+            host.pane6.append((new linb.UI.Div)
+                .host(host,"div19")
+                .setLeft(20)
+                .setTop(10)
+                .setWidth("40")
+                .setHeight(20)
+                .setHtml("URL:")
+            );
+            
+            host.pane6.append((new linb.UI.Button)
+                .host(host,"button5")
+                .setLeft(570)
+                .setTop(9)
+                .setWidth(90)
+                .setCaption("Open it")
+                .onClick("_open")
             );
             
             host.dlg.append((new linb.UI.Pane)
@@ -47,36 +65,20 @@ Class('VisualJS.OpenFile', 'linb.Com',{
                 .setPosition("relative")
                 .setCaption("Open from samples")
                 .setToggle(false)
-                .onExpend('_grp_onexpend')
-                .onFold('_grp_onfold')
-                .onIniPanelView('_grp_iniview')
+                .onIniPanelView("_grp_iniview")
+                .onFold("_grp_onfold")
+                .onExpend("_grp_onexpend")
             );
             
             host.group1.append((new linb.UI.TreeBar)
                 .host(host,"treebar")
-                .setDock('none')
-                .setPosition('relative')
+                .setDock("none")
                 .setLeft(10)
                 .setWidth(620)
                 .setHeight(140)
-                .setSelMode('none')
-                .onItemSelected('_tb_onsel')
-            );
-            
-            host.dlg.append((new linb.UI.Pane)
-                .host(host,"pane8")
-                .setWidth("auto")
-                .setHeight(40)
                 .setPosition("relative")
-            );
-            
-            host.pane8.append((new linb.UI.Button)
-                .host(host,"btn")
-                .setLeft(280)
-                .setTop(10)
-                .setWidth(90)
-                .setCaption("Open it")
-                .onClick("_open")
+                .setSelMode("none")
+                .onItemSelected("_tb_onsel")
             );
             
             return children;
@@ -96,15 +98,15 @@ Class('VisualJS.OpenFile', 'linb.Com',{
             return false;
         }, 
         _grp_onexpend:function(profile){
-            this.dlg.setHeight(280);
-        },
+            this.dlg.setHeight(240);
+        }, 
         _grp_onfold:function(profile){
-            this.dlg.setHeight(140);
-        },
+            this.dlg.setHeight(100);
+        }, 
         _grp_iniview:function(profile){
             var ins=profile.boxing(),
             self=this;
-            ins.busy('PANEL');
+            ins.busy();
             linb.Thread.observableRun(null,[function(threadid){
                 linb.Ajax('js/ClsSamples.js','',function(txt){
                     var items = _.unserialize(txt);
@@ -118,9 +120,9 @@ Class('VisualJS.OpenFile', 'linb.Com',{
                     ins.free();
                 },threadid).start();
             }]);
-        },
+        }, 
         _tb_onsel:function(profile, item){
-            linb.message(item.value);
+            _.tryF(this.onOpenFile,[item.value],this);
         }
     }
 });

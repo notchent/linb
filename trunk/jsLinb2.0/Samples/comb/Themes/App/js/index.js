@@ -413,7 +413,7 @@ Class('App', 'linb.Com',{
                 .setTop(17)
                 .setWidth(280)
                 .setHeight(30)
-                .setCaption("Click here, select a theme to switch =>")
+                .setCaption("Click here to change the theme =>")
                 .setShadowText(true)
                 .setFontSize("14px")
                 .setFontWeight("bold")

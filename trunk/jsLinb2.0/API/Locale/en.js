@@ -2618,7 +2618,7 @@ _.set(linb.Locale,["en","doc","linb","Dom"], {
             $rtn:"[self]",
             $paras:[
                 "pos [Reqired] : {left:Number,top:Number} object(The css left and top value) or linb.Dom object(for getting position).",
-                "type [Optional] : Number, from 1 to 4, pop positoin type. Default is 1.",
+                "type [Optional] : Number, from 1 to 4, pop position type. Default is 1.",
                 "parent [Optional] : linb.Dom object. the parent element to hold the pop element. Default is [document.body]."
             ],
             $snippet:[
@@ -3814,14 +3814,14 @@ _.set(linb.Locale,["en","doc","linb","Com"], {
             "    $1:1"+
             "  },"+
             "  {"+
-            "    beforeCreated:function(){order.push('beforeCreated'); linb.log('beforeCreated',arguments);},"+
-            "    onLoadBaseClass:function(c,t,key){order.push('onLoadBaseClass: '+key); linb.log('onLoadBaseClass: '+key,arguments); },"+
-            "    onLoadResource:function(){order.push('onLoadResource'); linb.log('onLoadResource',arguments);},"+
-            "    beforeIniComponents:function(){order.push('beforeIniComponents'); linb.log('beforeIniComponents',arguments);},"+
-            "    afterIniComponents:function(){order.push('afterIniComponents'); linb.log('afterIniComponents',arguments);},"+
-            "    onLoadReqiredClass:function(c,t,key){order.push('onLoadReqiredClass: '+key); linb.log('onLoadReqiredClass: '+key,arguments);},"+
-            "    onReady:function(){order.push('onReady'); linb.log('onReady',arguments);},"+
-            "    onRender:function(com){order.push('onRender'); linb.log('onRender',arguments); com.dialog1.setHtml(order.join('<br />'));}"+
+            "    beforeCreated:function(){order.push('beforeCreated'); linb.log('beforeCreated');},"+
+            "    onLoadBaseClass:function(c,t,key){order.push('onLoadBaseClass: '+key); linb.log('onLoadBaseClass: '+key); },"+
+            "    onLoadResource:function(){order.push('onLoadResource'); linb.log('onLoadResource');},"+
+            "    beforeIniComponents:function(){order.push('beforeIniComponents'); linb.log('beforeIniComponents');},"+
+            "    afterIniComponents:function(){order.push('afterIniComponents'); linb.log('afterIniComponents');},"+
+            "    onLoadReqiredClass:function(c,t,key){order.push('onLoadReqiredClass: '+key); linb.log('onLoadReqiredClass: '+key);},"+
+            "    onReady:function(){order.push('onReady'); linb.log('onReady');},"+
+            "    onRender:function(com){order.push('onRender'); linb.log('onRender'); com.dialog1.setHtml(order.join('<br />'));}"+
             "  });"+
             "com.base=['linb.UI','linb.Date'];"+
             "com.required=['linb.UI.Dialog','linb.UI.Button'];"+
@@ -3845,35 +3845,35 @@ _.set(linb.Locale,["en","doc","linb","Com"], {
             "            beforeCreated : function(com){" +
             "                com._info=[];" +
             "                com._info.push('beforeCreated');" +
-            "                linb.log('beforeCreated', arguments);" +
+            "                linb.log('beforeCreated');" +
             "            }," +
             "            onLoadBaseClass : function(com, t, key){" +
             "                com._info.push('onLoadBaseClass: ' + key);" +
-            "                linb.log('onLoadBaseClass: ' + key, arguments);" +
+            "                linb.log('onLoadBaseClass: ' + key);" +
             "            }," +
             "            onLoadResource : function(com){" +
             "                com._info.push('onLoadResource');" +
-            "                linb.log('onLoadResource', arguments);" +
+            "                linb.log('onLoadResource');" +
             "            }," +
             "            beforeIniComponents : function(com){" +
             "                com._info.push('beforeIniComponents');" +
-            "                linb.log('beforeIniComponents', arguments);" +
+            "                linb.log('beforeIniComponents');" +
             "            }," +
             "            afterIniComponents : function(com){" +
             "                com._info.push('afterIniComponents');" +
-            "                linb.log('afterIniComponents', arguments);" +
+            "                linb.log('afterIniComponents');" +
             "            }," +
             "            onLoadReqiredClass : function(com, t, key){" +
             "                com._info.push('onLoadReqiredClass: ' + key);" +
-            "                linb.log('onLoadReqiredClass: ' + key, arguments);" +
+            "                linb.log('onLoadReqiredClass: ' + key);" +
             "            }," +
             "            onReady : function(com){" +
             "                com._info.push('onReady');" +
-            "                linb.log('onReady', arguments);" +
+            "                linb.log('onReady');" +
             "            }," +
             "            onRender : function(com){" +
             "                com._info.push('onRender');" +
-            "                linb.log('onRender', arguments);" +
+            "                linb.log('onRender');" +
             "                com.dialog1.setHtml(com._info.join('<br />'));" +
             "            }" +
             "        }," +
@@ -4168,6 +4168,74 @@ _.set(linb.Locale,["en","doc","linb","Com"], {
             $snippet:[
                 "linb.SC('App.Test1',function(){var com=new this; com.create(function(com){com.setHost(window,'com_alias'); alert(com.getHost()===window); alert(window.com_alias)});},false);"
             ]
+        },
+        
+        beforeCreated:{
+            $desc:'Fired before com is created.',
+            $paras:[
+                'com : linb.Com object.',
+                'threadid : String, thread id.'
+            ],
+            $memo:'See constructor.'
+        },
+        onLoadBaseClass:{
+            $desc:'Fired when com loads base classes.',
+            $paras:[
+                'com : linb.Com object.',
+                'threadid : String, thread id.',
+                'key: String, base class name.'
+            ],
+            $memo:'See constructor.'
+        },
+        onLoadResource:{
+            $desc:'Fired when com loads resources.',
+            $paras:[
+                'com : linb.Com object.',
+                'threadid : String, thread id.',
+                'key: String, base class name.'
+            ],
+            $memo:'See constructor.'
+        },
+        beforeIniComponents:{
+            $desc:'Fired beofre com object initializes inner components.',
+            $paras:[
+                'com : linb.Com object.',
+                'threadid : String, thread id.'
+            ],
+            $memo:'See constructor.'
+        },
+        afterIniComponents:{
+            $desc:'Fired after com object initializes inner components.',
+            $paras:[
+                'com : linb.Com object.',
+                'threadid : String, thread id.'
+            ],
+            $memo:'See constructor.'
+        },
+        onLoadRequiredClass:{
+            $desc:'Fired when com loads requried Classes.',
+            $paras:[
+                'com : linb.Com object.',
+                'threadid : String, thread id.',
+                'key: String, class name.'
+            ],
+            $memo:'See constructor.'
+        },
+        onReady:{
+            $desc:'Fired when com is ready.',
+            $paras:[
+                'com : linb.Com object.',
+                'threadid : String, thread id.'
+            ],
+            $memo:'See constructor.'
+        },
+        onRender:{
+            $desc:'Fired when com is added to DOM.',
+            $paras:[
+                'com : linb.Com object.',
+                'threadid : String, thread id.'
+            ],
+            $memo:'See constructor.'
         }
     }
 });
@@ -5856,7 +5924,7 @@ _.set(linb.Locale,["en","doc","linb","UI"], {
             ]
         },
         getPosition:{
-            $desc:"Gets the positoin(corresponding to the CSS value of the root DOM element) property value on the first UIProfile",
+            $desc:"Gets the position(corresponding to the CSS value of the root DOM element) property value on the first UIProfile",
             $rtn:"String",
             $snippet:[
                 "var id='linb.temp.ui25'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -5866,7 +5934,7 @@ _.set(linb.Locale,["en","doc","linb","UI"], {
             ]
         },
         setPosition:{
-            $desc:"Sets the positoin(corresponding to the CSS value of the root DOM element) property value on the each UIProfile, and reflects the value to UI.",
+            $desc:"Sets the position(corresponding to the CSS value of the root DOM element) property value on the each UIProfile, and reflects the value to UI.",
             $rtn:"[self]",
             $paras:[
                 "value [Required] : corresponding CSS value.",
@@ -9967,7 +10035,7 @@ _.set(linb.Locale,["en","doc","linb","UI","PopMenu"], {
             $rtn:"[self]",
             $paras:[
                 "obj [Required] : {left:Nubmer,top:Number} or a DOM element.",
-                "type [Optional] : Number, from 1 to 4, pop positoin type. Default is 1.",
+                "type [Optional] : Number, from 1 to 4, pop position type. Default is 1.",
                 "parent [Optional} : DOM element or linb.Dom object. The popmenu's parent element."
             ],
             $snippet:[
@@ -12486,7 +12554,7 @@ _.set(linb.Locale,["en","doc","linb","UI","TreeGrid"], {
            ]
         },
         onClickButton :{
-            $desc:"Fired when a cell which type is 'button/getter/popbox/cmdbox' is clicked.",
+            $desc:"Fired when a cell which type is 'getter/popbox/cmdbox' is clicked.",
             $paras:[
                 "profile : linb.UIProfile object.",
                 "cell: the cell object.",
@@ -12497,6 +12565,24 @@ _.set(linb.Locale,["en","doc","linb","UI","TreeGrid"], {
             ],
             $snippet:[
                 "var id='linb.temp.grid60'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var o=new linb.UI.TreeGrid({editable:false,position:'relative'});"+
+                "linb.Ajax('App/js/grid.js','',function(s){var hash=_.unserialize(s);hash.header[0].type='button';hash.header[1].type='cmdbox';hash.header[2].type='popbox';o.setHeader(hash.header).setRows(hash.rows);},null,null,{asy:false}).start();"+
+                "o.setEditable(true);"+
+                "linb(id).prepend(o);"+
+                "o.onClickButton(function(p,cell){linb.message(cell.value)});" +
+                "}"
+           ]
+        },
+        onClickCell:{
+            $desc:"Fired when a cell which type is 'label/button' is clicked.",
+            $paras:[
+                "profile : linb.UIProfile object.",
+                "cell: the cell object.",
+                "e: the DOM event object.",
+                "src: the related DOM element."
+            ],
+            $snippet:[
+                "var id='linb.temp.grid60-1'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var o=new linb.UI.TreeGrid({editable:false,position:'relative'});"+
                 "linb.Ajax('App/js/grid.js','',function(s){var hash=_.unserialize(s);hash.header[0].type='button';hash.header[1].type='cmdbox';hash.header[2].type='popbox';o.setHeader(hash.header).setRows(hash.rows);},null,null,{asy:false}).start();"+
                 "o.setEditable(true);"+

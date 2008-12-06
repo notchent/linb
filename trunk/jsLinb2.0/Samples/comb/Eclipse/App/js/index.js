@@ -38,7 +38,7 @@ Class('App', 'linb.Com',{
             
             host.layout4.append((new linb.UI.Tabs)
                 .host(host,"tabs6")
-                .setItems([{"id":"a", "caption":"File", "image":"img/file.gif"}, {"id":"b", "caption":"Project", "image":"img/proj.gif"}, {"id":"c", "caption":"Outline", "image":"img/outl.gif"}])
+                .setItems([{"id":"File", "caption":"File", "image":"img/file.gif"}, {"id":"Project", "caption":"Project", "image":"img/proj.gif"}, {"id":"Outline", "caption":"Outline", "image":"img/outl.gif"}])
                 .setLeft(0)
                 .setTop(0)
                 .setDropKeysPanel("mydropkey")

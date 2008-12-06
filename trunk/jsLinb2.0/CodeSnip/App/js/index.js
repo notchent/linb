@@ -53,6 +53,7 @@ Class('App', 'linb.Com',{
                 .setTop(10)
                 .setRight(50)
                 .setVisibility('hidden')
+                .setTarget('_blank')
                 .setCaption("Open it in UI builder")
                 .onClick("_openinbuild_onclick")
                 .setCustomStyle({"KEY":"font-weight:bold;text-decoration:underline;"})
@@ -124,6 +125,7 @@ Class('App', 'linb.Com',{
                     host.stage.setHtml(msg);
                     host.blockCode.setHtml(msg);
                     host.openinbuild.setVisibility('hidden');
+                    
                 };
 
             //destroy the instance
@@ -161,6 +163,10 @@ Class('App', 'linb.Com',{
                                 host.stage.append(this.getUIComponents(),false);
                             });
                             host.openinbuild.setVisibility('visible');
+                            
+                            var a=linb.ini.path.split('/').slice(0,-3),b=a.join('/')+'/VisualJS/UIBuilder.html';
+                            host.openinbuild.setHref(b + "#url=" + encodeURIComponent(path))
+                            
                             host.$path=path;
                         }else
                             fail();
@@ -174,8 +180,7 @@ Class('App', 'linb.Com',{
         }, 
         events:{"onReady":"_onready"}, 
         _openinbuild_onclick:function (profile, e) {
-    var a=linb.ini.path.split('/').slice(0,-3),path=a.join('/')+'/VisualJS/UIBuilder.html';
-            linb.Dom.submit(path + "#url=" + encodeURIComponent(this.$path));
+            return true;
         }
     }
 });

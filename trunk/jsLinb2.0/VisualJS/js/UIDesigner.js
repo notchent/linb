@@ -9,6 +9,8 @@ Class('UIDesigner', 'linb.Com',{
         $iniCode:'',
         
         $url:'',
+        
+        $dirty:false,
 
         onDestroy:function(){
             this.$classEditor.destroy();
@@ -30,6 +32,10 @@ Class('UIDesigner', 'linb.Com',{
                         tips:'Open jsLinb class file (URL).',
                         zIndex:100, left:'auto', top:4, right:10, width:75, height:58, type:'custom', border:true, renderer:function(item){return '<img src=img/open.gif /><br />' + item.caption;}},
                     {onClick:function(){
+                        if(self.$dirty){
+                            if(false===confirm('You are about to close a file without saving it. Do you want to continue?'))
+                                return;
+                        }
                         if(self.$openFile){
                             self.$openFile.dlg.show(null,true,100,100);
                         }else{
@@ -88,6 +94,7 @@ Class('UIDesigner', 'linb.Com',{
                 .append( self.$save2server = new linb.UI.Button(
                     {caption:'Save', 
                         tips:'Save original file (in server).',
+                        display:'none',
                         zIndex:100, left:'auto', top:4, right:170, width:75, height:58, type:'custom', border:true, renderer:function(item){return '<img src=img/save.gif /><br />' + item.caption;}},
                     {onClick:function(){
                         var content=self.getValue();
@@ -112,7 +119,7 @@ Class('UIDesigner', 'linb.Com',{
 
                         linb.IAjax(CONF.phpPath, {
                             key:CONF.requestKey, para:{
-                                action:'save',
+                                action:'savetoserver',
                                 hashCode:_(),
                                 path: path,
                                 content:content
@@ -120,6 +127,8 @@ Class('UIDesigner', 'linb.Com',{
                                 var obj = typeof txt=='string'?_.unserialize(txt):txt;
                                 if(obj && !obj.error && obj.data && obj.data.OK){
                                     linb.message('Saved to server!');
+                                    self.imgEdit.setDisplay('none');
+                                    self.$dirty=false;
                                 }else
                                     linb.message(obj.error.message);
                             },function(txt){
@@ -133,8 +142,9 @@ Class('UIDesigner', 'linb.Com',{
                     caption:'Default Theme',
                     tips:'To switch theme',
                     position:'absolute',
-                    top:12,
-                    left:6,
+                    top:40,
+                    right:250,
+                    left:'auto',
                     width:110,
                     zIndex:100
                 },{
@@ -153,6 +163,7 @@ Class('UIDesigner', 'linb.Com',{
             var com=this,
                 url=_.urlDecode(location.href.split('#')[1],'url'),
                 hash={};
+
             hash.ajax1=linb.Ajax(com.$dftCodePath,'',function(code){
                 com.$iniCode=code.replace('{className}','App');
             },function(){
@@ -189,7 +200,8 @@ Class('UIDesigner', 'linb.Com',{
                 inn.host = com;
                 inn.$pageviewType=com.$pageviewType;
                 inn.setEvents('onValueChanged',function(ipage, profile, b, nV){
-                     _.tryF(com.events.onValueChanged, [com, ipage, b, nV], com.host);
+                    com.imgEdit.setDisplay(b?'':'none');
+                    com.$dirty=b;
                 });
 
                 //Create it first
@@ -205,35 +217,77 @@ Class('UIDesigner', 'linb.Com',{
             return this.$classEditor.getValue();
         },
         setValue:function(str,url){
+            var self=this;
             if(str)
-                this.$classEditor.setValue(str);
+                self.$classEditor.setValue(str);
             if(url)
-                this.$url=url;
-            this.$save2server.setDisplay(this.$url?!linb.absIO.isCrossDomain(this.$url)?'':'none':'none');
+                self.$url=url;
+            var dis=self.$url?!linb.absIO.isCrossDomain(self.$url)?'':'none':'none';
+            self.$save2server.setDisplay(dis);
+            self.paneTop.setDisplay(dis);
+
+            if(self.$url)
+                self.urlLink.setHref(self.$url).setCaption(self.$url);
+            self.imgEdit.setDisplay('none');
+            self.$dirty=false;
         },
         iniComponents:function(){
             // [[code created by jsLinb UI Builder
             var host=this, children=[], append=function(child){children.push(child.get(0))};
-
+            
             append((new linb.UI.PopMenu)
                 .host(host,"popMenu")
-                .setItems([{id:'default',caption:'Default Theme'},{id:'aqua',caption:'Aqua Theme'},{id:'vista',caption:'Vista Theme'}])
-                .onMenuSelected('_onmenusel')
+                .setItems([{"id":"default", "caption":"Default Theme"}, {"id":"aqua", "caption":"Aqua Theme"}, {"id":"vista", "caption":"Vista Theme"}])
+                .onMenuSelected("_onmenusel")
             );
-
             
             append((new linb.UI.Image)
                 .host(host,"image1")
                 .setDock("center")
+                .setTop(6)
                 .setSrc("img/builder.gif")
             );
-
-
+            
             append((new linb.UI.Tag)
                 .host(host,"container")
                 .setDock("fill")
-                .setDockMargin({left:0,top:40,right:0,bottom:0})
+                .setDockMargin({"left":0, "top":40, "right":0, "bottom":0})
             );
+            
+            append((new linb.UI.Pane)
+                .host(host,"paneTop")
+                .setTop(10)
+                .setWidth("auto")
+                .setHeight(20)
+                .setDisplay('none')
+                .setPosition("relative")
+            );
+            
+            host.paneTop.append((new linb.UI.Image)
+                .host(host,"imgEdit")
+                .setLeft(20)
+                .setTop(0)
+                .setSrc('img/inedit.gif')
+                .setDisplay('none')
+            );
+            host.paneTop.append((new linb.UI.Div)
+                .host(host,"div18")
+                .setLeft(40)
+                .setTop(0)
+                .setWidth(90)
+                .setHeight(20)
+                .setHtml("Target File: ")
+            );
+            
+            host.paneTop.append((new linb.UI.Link)
+                .host(host,"urlLink")
+                .setLeft(106)
+                .setTop(1)
+                .setTarget("_blank")
+                .setCaption("")
+                .onClick(function(){return true})
+            );
+            
             return children;
             // ]]code created by jsLinb UI Builder
         },

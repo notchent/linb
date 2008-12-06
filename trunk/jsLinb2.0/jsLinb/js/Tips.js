@@ -150,7 +150,8 @@ Class("linb.Tips", null,{
                         linb('body').append(node);
 
                     s = typeof item=='object'? item[key||linb.Tips.TIPSKEY] :item ;
-
+                    if(typeof s=='function')
+                        s=s();
                     if(s+=""){
                         var html=/^\s*\</.test(s);
                         //get string

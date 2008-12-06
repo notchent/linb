@@ -402,7 +402,11 @@ Class('linb.DragDrop',null,{
                 };
                 //for mousemove before drag
                 d.$mousemove = doc.onmousemove;
+                var pbak={};
                 doc.onmousemove = function(e){
+                    var p=linb.Event.getPos(e);
+                    if(p.left===pbak.left&&p.top===pbak.top)return;
+                    pbak=p;
                     if(--d._defer<=0)linb.DragDrop._start(e);
                     return false;
                 };

@@ -36,8 +36,8 @@ Class('App', 'linb.Com',{
             
             append((new linb.UI.Div)
                 .host(host,"divInfo")
-                .setLeft(50)
-                .setTop(20)
+                .setLeft(30)
+                .setTop(40)
                 .setWidth(430)
                 .setHeight(30)
                 .setCustomStyle({"KEY":"font-size:16px;font-weight:bold;"})
@@ -56,7 +56,7 @@ Class('App', 'linb.Com',{
             
             append((new linb.UI.Link)
                 .host(host,"link1")
-                .setLeft(40)
+                .setLeft(50)
                 .setTop(90)
                 .setCaption("link1")
                 .setHref("#link1")
@@ -78,6 +78,15 @@ Class('App', 'linb.Com',{
                 .setWidth(480)
                 .setHeight(12)
                 .setHtml("<a href='#normal_href_element_of_HTML'>normal href element of HTML'</a><a href=www.google.cn>google</a>")
+            );
+            
+            append((new linb.UI.Div)
+                .host(host,"div13")
+                .setLeft(30)
+                .setTop(20)
+                .setWidth(670)
+                .setHeight(20)
+                .setHtml("Press backward button on your browser after playing with the following control to see what happens")
             );
             
             return children;

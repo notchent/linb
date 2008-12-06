@@ -359,7 +359,19 @@ Class("linb.UI.Range", ["linb.UI","linb.absValue"],{
                 if(left>300)left=300;
                 
                 s.left=left+'px';
+
                 profile.box._ondrag.apply(profile.box,[profile,left,src,1]);
+
+                var  rate = profile._rate,
+                    arr = pro.$UIvalue.split(':');
+                if(type===0){
+                    profile._v1=left;
+                    arr[0]= Math.floor((profile._v1)/rate + pro.min);
+                }else{
+                    profile._v2=left;
+                    arr[1]= Math.floor((profile._v2)/rate + pro.min);
+                }
+                profile.boxing().setUIValue(arr.join(':'));                
             }
         },
         _ondrag:function(profile, left, src, tag){

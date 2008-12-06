@@ -53,7 +53,15 @@ class VisualJS extends Unit
             
             return;
             break;
-        
+        case 'savetoserver':
+            $io->setString($hash->path, $hash->content);
+            return array('OK'=>true);
+            //throw new LINB_E("You cant save file to this server!");
+            break;
+            
+            
+            
+            
         
         case 'del':
             foreach( $hash->path as $v)

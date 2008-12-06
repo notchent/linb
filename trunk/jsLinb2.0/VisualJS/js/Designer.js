@@ -47,7 +47,7 @@ Class('VisualJS.Designer', 'linb.Com',{
                     if(o)
                         v = o;
                 }
-                page.listObject.setUIValue(v?v.alias:'page', true);
+                page.listObject.setUIValue(v?v.alias:'com', true);
 
                 _.resetRun('$profilegrid$', page._refreshProfileGrid,0,[ids],page);
             },
@@ -1006,7 +1006,7 @@ Class('VisualJS.Designer', 'linb.Com',{
                     arr=[],
                     eh=_.get(data.clsObject,['Static','EventHandlers']),
                     em=_.get(data.clsObject,['Instance','events']);
-                if(!eh)eh=linb.Com.EventHandlers;
+                if(!eh)eh=linb.Com.$EventHandlers;
                 var getCode=function(o){
                     var code,
                         em = _.get(o.clsStruct,['sub','Instance', 'sub','events', 'code']);
@@ -1086,7 +1086,7 @@ Class('VisualJS.Designer', 'linb.Com',{
 
                     },
                     $tagVar = {
-                         widgetName: 'page',
+                         widgetName: 'com',
                          obj : data.clsObject,
                          clsStruct: data.clsStruct,
                          clsObject: data.clsObject,
@@ -1094,17 +1094,15 @@ Class('VisualJS.Designer', 'linb.Com',{
                          mapName:(em&&em[i])||'',
                          ini:o
                     };
-                    arr.push({id:'event:'+i, cells:[
+                    arr.push({id:'event:'+i, tipk:'event', tipv:i, cells:[
                         {value:i, type:'label'},
                         {value:(em&&em[i])||'', type:'popbox', $tagVar:$tagVar, event:$fun}]
                     });
                 });
                 var rows=[
-                    {id:'alias',           cells:[{value:'alias', type:'label'},{value: "page", type:'label'}] },
-                    {id:'domId',           cells:[{value:'domId', type:'label'},{value: "*", type:'label'}] },
-                    {id:'properties:width', cells:[{value:'width',type:'label'}, {value: pro.properties.width}] },
-                    {id:'properties:height',cells:[{value:'height', type:'label'}, {value: pro.properties.height}] },
-                    {id:'UIE', group:true, caption:'events', sub:arr}
+                    {id:'properties:width', cells:[{value:'width',type:'label', tips:'Canvas width'}, {value: pro.properties.width}] },
+                    {id:'properties:height',cells:[{value:'height', type:'label', tips:'Canvas height'}, {value: pro.properties.height}] },
+                    {id:'UIE', group:true, caption:'events',sub:arr}
                 ];
                 var list=[];
 
@@ -1146,30 +1144,30 @@ Class('VisualJS.Designer', 'linb.Com',{
                     };
 
                     var rows=[
-                            {id:'key', cells:[{value:'class', type:'label'},{value:'<strong>'+pro.key+'</strong>',type:'label'}] },
-                            {id:'alias',cells:[{value:'alias', type:'label'},{value:pro.alias,type:uis._nodes.length===1?'input':'label'}] },
-                            {id:'domId',cells:[{value:'domId', type:'label'},{value:pro.domId,type:uis._nodes.length===1?'input':'label'}] },
+                            {id:'key', tipk:'class', cells:[{value:'class', type:'label', tips:'Click to open API window.'},{value:'<strong>'+pro.key+'</strong>',type:'label', tips:'Click to open API window.'}] },
+                            {id:'alias',tipk:'fun', tipv:'alias',cells:[{value:'alias', type:'label'},{value:pro.alias,type:uis._nodes.length===1?'input':'label'}] },
+                            {id:'domId',tipk:'fun', tipv:'setDomId',cells:[{value:'setDomId',caption:'domId', type:'label'},{value:pro.domId,type:uis._nodes.length===1?'input':'label'}] },
                             {id:'properties',  group:true, caption:'properties', sub:true},
                             {id:'UIE', group:true, caption:'events', sub:true},
-                            {id:'CS',cells:[{value:'Custom Style', type:'label'},{value:'[<strong> key/value pairs</strong>]', event:$fun, $tagVar:{
+                            {id:'CS', tipk:'fun', tipv:'setCustomStyle', cells:[{value:'setCustomStyle',caption:'Custom Style', type:'label'},{value:'[<strong> key/value pairs</strong>]', event:$fun, $tagVar:{
                                 widgetName:pro.alias,
                                 name:'CS',
                                 funName:'setCustomStyle',
                                 profile:pro
                             }, type:'popbox', editorReadonly:true}] },
-                            {id:'CC',cells:[{value:'Custom Class', type:'label'},{value:'[<strong> key/value pairs</strong>]', event:$fun, $tagVar:{
+                            {id:'CC',tipk:'fun', tipv:'setCustomClass',cells:[{value:'setCustomClass',caption:'Custom Class', type:'label'},{value:'[<strong> key/value pairs</strong>]', event:$fun, $tagVar:{
                                 widgetName:pro.alias,
                                 name:'CC',
                                 funName:'setCustomClass',
                                 profile:pro
                             }, type:'popbox', editorReadonly:true}] },
-                            {id:'CB',cells:[{value:'Custom Behaviors', type:'label'},{value:'[<strong> key/value pairs</strong>]', event:$fun, $tagVar:{
+                            {id:'CB',tipk:'fun', tipv:'setCustomBehavior',cells:[{value:'setCustomBehavior',caption:'Custom Behaviors', type:'label'},{value:'[<strong> key/value pairs</strong>]', event:$fun, $tagVar:{
                                 widgetName:pro.alias,
                                 name:'CB',
                                 funName:'setCustomBehavior',
                                 profile:pro
                             }, type:'popbox', editorReadonly:true}] },
-                            {id:'CF',cells:[{value:'Custom Functions', type:'label'},{value:'[<strong> key/value pairs</strong>]', event:$fun, $tagVar:{
+                            {id:'CF',tipk:'fun', tipv:'setCustomFunction',cells:[{value:'setCustomFunction',caption:'Custom Functions', type:'label'},{value:'[<strong> key/value pairs</strong>]', event:$fun, $tagVar:{
                                 widgetName:pro.alias,
                                 name:'CF',
                                 funName:'setCustomFunction',
@@ -1191,7 +1189,7 @@ Class('VisualJS.Designer', 'linb.Com',{
 
                     var rows=[
                             {id:'key',  cells:[{value:'class',type:'label'},{value: pro.key, type:'label'}] },
-                            {id:'alias', cells:[{value:'alias', type:'label'},{value:pro.alias, type:'label'}] },
+                            {id:'alias',tipk:'fun',tipv:'alias', cells:[{value:'alias', type:'label'},{value:pro.alias, type:'label'}] },
                             {id:'properties',  group:true, caption:'properties', sub:true},
                             {id:'UIE', group:true, caption:'events', sub:true}
                     ];
@@ -1484,6 +1482,63 @@ Class('VisualJS.Designer', 'linb.Com',{
                 return false;
              }
         },
+        $tg_click:function(profile, cell,  e, src){
+            var page=this,
+                row=cell._row,
+                i=row.tipv,
+                name=row.tipk=='property'?'get' + _.str.initial(i):i,
+                widget,key,fun;
+            if(!(widget=profile.$widget))return;
+            if(widget==page.canvas)
+                key='linb.Com';
+            else if(!(key=widget.get(0)&&widget.get(0).key))return;
+            if(row.tipk=='class')
+                linb.Dom.submit('../API/#'+key);
+            else
+                linb.Dom.submit('../API/#'+key + (key='linb.Com'?'.':'.prototype.') + name);
+        },
+        $tg_tips:function(profile,node,pos){
+            var page=this,
+                ks=profile.keys, 
+                cell, sid,id,pid,
+                o, widget,key,
+                str='';
+            if(profile.properties.disabled)return;
+            if(!(widget=profile.$widget))return;
+            
+            if(widget==page.canvas)
+                key='linb.Com';
+            else if(!(key=widget.get(0)&&widget.get(0).key))return;
+
+            id=node.id;
+            pid=node.parentNode.id;
+            sid=profile.getSubId(id);
+
+            if(id.indexOf(ks.CELL+':')==0 || pid.indexOf(ks.CELL+':')==0 || pid.indexOf(ks.CELLA+':')==0)
+                cell = profile.cellMap[sid];
+ 
+            if(cell){
+                row=cell._row;
+                if(row.tipk){
+                    if(row.tipk=='class'){
+                        str+= '<div>'+key+' [Class]</div>'; 
+                    }else if(row.tipk=='fun'){
+                        str+= '<div>'+key+' [function] : <b>'+row.tipv + '</b></div> ';                        
+                    }else if(row.tipk=='property'){
+                        str+= '<div>'+key+' [property] : <b>'+row.tipv+ '</b></div> ';
+                    }else if(row.tipk=='event'){
+                        str+= '<div>'+key+' [event] : <b>'+row.tipv+ '</b> </div>';
+                    }
+                    if(row.tipk=='class' || cell.value==row.tipv)
+                        str +='<div><em style="background-color:#EBEADB;">Click to open API window.</em></div>';
+
+                    linb.Tips.show(pos, str);
+                }else if(cell.tips)
+                    linb.Tips.show(pos, cell.tips);
+            }else
+                linb.Tips.hide();
+            return true;
+        },
         $profilegrid_onrequestdata: function(profile, item, callback, threadId){
             var cv,arr=[],t,page=this,
                 id=item.id,
@@ -1682,8 +1737,8 @@ Class('VisualJS.Designer', 'linb.Com',{
                         //for serialized string
                         //cv = cv.replace(/^\"/,'').replace(/\"$/,'');
                     }
-
-                    arr.push({id:'properties:'+i, cells:[
+                    
+                    arr.push({id:'properties:'+i, tipk:'property', tipv:i, cells:[
                         {value:i},
                         {value:cv, type:type , editorReadonly:editorReadonly, $tag:$tag, event:$fun , $tagVar:$tagVar,  editorListKey:listKey}
                     ]});
@@ -1769,7 +1824,7 @@ Class('VisualJS.Designer', 'linb.Com',{
                          funName: i,
                          ini:o
                     };
-                    arr.push({id:'event:'+i, cells:[
+                    arr.push({id:'event:'+i, tipk:'event',tipv:i, cells:[
                         {value:i, type:'label'},
                         {value:typeof target[i]=='string'?target[i]:'', type: 'popbox', $tagVar:$tagVar, event:$fun}
                     ]});
@@ -2267,13 +2322,18 @@ Class('VisualJS.Designer', 'linb.Com',{
             t.panelRigth.append(
             (new u.TreeGrid)
             .host(t,"profileGrid")
-            .setHeader([{"id":"name","caption":"$VisualJS.designer.gridcol1","width":60,"type":"label"},{"id":"value","caption":"$VisualJS.designer.gridcol2","width":130,"type":"input"}])
+            .setHeader([
+            {"id":"name","caption":"$VisualJS.designer.gridcol1","width":70,"type":"label"},
+            {"id":"value","caption":"$VisualJS.designer.gridcol2","width":120,"type":"input"}
+            ])
             .setAltRowsBg(false)
             .setColSortable(false)
             .setEditable(true)
             .beforeCellUpdated("$profilegrid_beforecellvalueset")
             .onGetContent("$profilegrid_onrequestdata")
             .afterRowActive("$profilegrid_afterrowactive")
+            .onShowTips("$tg_tips")
+            .onClickCell('$tg_click')
             );
 
             t.layoutBase.append(
@@ -2376,17 +2436,6 @@ Class('VisualJS.Designer', 'linb.Com',{
             });
         };
         recover(linb.UI);
-
-        linb.Com.EventHandlers={
-            beforeCreated:function(){},
-            onLoadBaseClass:function(key){},
-            onLoadResource:function(){},
-            beforeIniComponents:function(){},
-            afterIniComponents:function(){},
-            onLoadWidgets:function(key){},
-            onReady:function(){},
-            onRender:function(){}
-        };
 
         window.onbeforeunload = function(e){
             if(linb.browser.ie)

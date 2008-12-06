@@ -361,7 +361,15 @@ html, .ui-content{
     border:solid 1px #aeaeae;
     border-top:0;
 }
-
+.linb-dialog-bar-focus .linb-dialog-bartdl{
+    background-position : right -66px;
+}
+.linb-dialog-bar-focus .linb-dialog-bartdm{
+    background-position : right -88px;
+}
+.linb-dialog-bar-focus .linb-dialog-bartdr{
+    background-position : right -110px;
+}
 /*linb.UI.PopMenu*/
 .linb-popmenu-items{
     background:transparent url(PopMenu/bg.gif) repeat-y scroll 0 0;
@@ -465,13 +473,14 @@ html, .ui-content{
 }
 .linb-treegrid-collist {
     background: #FDFDFD url(TreeGrid/collist.gif) no-repeat center bottom;
-    border:solid 1px #D9E8FB;
+    border-right:solid 1px #d4d4d4;
+    border-bottom:solid 1px #d4d4d4;
 }
 .linb-treegrid-sort{
-    background: #f5f5f5 url(Public/cmds.gif) no-repeat -191px top;
+    background: url(Public/cmds.gif) no-repeat -191px top;
 }
 .linb-treegrid-sort-checked{
-    background: #f5f5f5 url(Public/cmds.gif) no-repeat -206px top;
+    background: url(Public/cmds.gif) no-repeat -206px top;
 }
 .linb-treegrid-sub {
     border-left:solid 1px #f1f1f1;

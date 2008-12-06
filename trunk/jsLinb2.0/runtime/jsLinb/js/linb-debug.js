@@ -533,9 +533,6 @@ _.merge(Class, {
     /*envelop a function by some keys
     */
     _fun:function(fun, name, original, upper){
-if(name=='setValue' && original=='linb.UI.Tabs')
-    var a=0;
-
         fun.$name$=name;
         fun.$original$=original;
         if(upper)fun.upper = upper;
@@ -1217,7 +1214,7 @@ Class('linb.absIO',null,{
         _id:1,
         method:'GET',
         retry:2,
-        timeout:10000,
+        timeout:60000,
         rspType:'text',
 
         //paras in request object
@@ -5738,8 +5735,10 @@ type:4
                 content = typeof visible=='string'?visible:'',
                 o1,o2;
 
-            if((o1=linb(id)).isEmpty())
-                linb('body').prepend(o1=linb.create('<div id="'+ id +'" style="position:absolute;z-index:'+(linb.Dom.TOP_ZINDEX+200)+';display:none;left:0;top:0;background-image:url('+linb.ini.path+linb.ini.file_bg+')"><div id="'+id2+'" style="position:absolute;font-size:12px"></div></div>'));
+            if((o1=linb(id)).isEmpty()){
+                linb('body').prepend(o1=linb.create('<div id="'+ id +'" style="position:absolute;display:none;left:0;top:0;background-image:url('+linb.ini.path+linb.ini.file_bg+')"><div id="'+id2+'" style="position:absolute;font-size:12px"></div></div>'));
+                o1.get(0).zIndexIgnore=1;
+            }
             o2=linb(id2);
 
             //clear
@@ -5748,7 +5747,7 @@ type:4
                     return;
                 if(me._showed){
                     o2.empty(false);
-                    o1.css({cursor:'',display:'none'});
+                    o1.css({zIndex:0,cursor:'',display:'none'});
                     me._showed=false;
                 }
                 delete me._label;
@@ -5756,7 +5755,7 @@ type:4
                 if(typeof label=='string')me._label=label;
                 var t = linb.win;
                 if(!me._showed){
-                    o1.css({display:'',width:t.scrollWidth()+'px',height:t.scrollHeight()+'px',cursor:'wait'});
+                    o1.css({zIndex:linb.Dom.TOP_ZINDEX*2,display:'',width:t.scrollWidth()+'px',height:t.scrollHeight()+'px',cursor:'wait'});
                     me._showed=true;
                 }
                 //show content
@@ -6635,6 +6634,16 @@ Class('linb.Com',null,{
                 fun();
             else
                 linb.main(fun);
+        },
+        $EventHandlers:{
+            beforeCreated:function(com, threadid){},
+            onLoadBaseClass:function(com, threadid, key){},
+            onLoadResource:function(com, threadid){},
+            beforeIniComponents:function(com, threadid){},
+            afterIniComponents:function(com, threadid){},
+            onLoadRequiredClass:function(com, threadid, key){},
+            onReady:function(com, threadid){},
+            onRender:function(com, threadid){}
         }
     }
 });
@@ -7067,7 +7076,11 @@ Class('linb.DragDrop',null,{
                 };
                 //for mousemove before drag
                 d.$mousemove = doc.onmousemove;
+                var pbak={};
                 doc.onmousemove = function(e){
+                    var p=linb.Event.getPos(e);
+                    if(p.left===pbak.left&&p.top===pbak.top)return;
+                    pbak=p;
                     if(--d._defer<=0)linb.DragDrop._start(e);
                     return false;
                 };
@@ -7579,7 +7592,8 @@ Class("linb.Tips", null,{
                         linb('body').append(node);
 
                     s = typeof item=='object'? item[key||linb.Tips.TIPSKEY] :item ;
-
+                    if(typeof s=='function')
+                        s=s();
                     if(s+=""){
                         var html=/^\s*\</.test(s);
                         //get string
@@ -8302,7 +8316,9 @@ Class('linb.Profile','linb.absProfile',{
                     host:o.host
                 };
             //host
-            if(o.host && rtnString!==false && !keepHost )r.host='@this';
+            if(r.host===self){
+                delete r.host;
+            }else if(o.host && rtnString!==false && !keepHost )r.host='@this';
 
             //properties
             var c={}, p=o.box.$DataStruct, map=linb.absObj.$specialChars;
@@ -8867,7 +8883,9 @@ Class('linb.UIProfile','linb.Profile', {
                     host:o.host
                 };
             //host
-            if(o.host && rtnString!==false && !keepHost )r.host='@this';
+            if(r.host===self){
+                delete r.host;
+            }else if(o.host && rtnString!==false && !keepHost )r.host='@this';
             //domId
             if(o.$domId!=o.domId)r.domId=o.domId;
 
@@ -9103,7 +9121,7 @@ Class("linb.UI",  "linb.absObj", {
             this.each(function(o){
                 a[a.length]=o.serialize(false, keepHost);
             });
-            return rtnString===false?a:"linb.UI.unserialize("+_.serialize(a)+")";
+            return rtnString===false?a:a.length==1?" new "+a[0].key+"("+_.serialize(a[0])+")":"linb.UI.unserialize("+_.serialize(a)+")";
         },
 
         _toDomElems:function(){
@@ -9187,10 +9205,10 @@ Class("linb.UI",  "linb.absObj", {
             html=html||'<span style="background:'+ linb.UI.$bg('busy.gif',' no-repeat left center')('linb.UI.Public') +';padding-left:16px;">'+message+'</span>';
             return this.each(function(profile){
                 _.resetRun(profile.$id+':busy',function(){
-                    key=key||'BORDER';
-                    if(!profile.keys[key])return;
+                    var keys=profile.keys;
+                    key=keys[key]||keys['BORDER']||keys['PANEL']||keys['KEY'];
 
-                    var parentNode=profile.getSubNode(),
+                    var parentNode=profile.getSubNode(key),
                         size=parentNode.cssSize(),
                         node;
                     if(!(node=profile.$busy)){
@@ -11203,7 +11221,6 @@ Class("linb.UI",  "linb.absObj", {
 
             if(p.items && p.items.length){
                 t=linb.absObj.$specialChars;
-                _.arr.each(p.items,function(o){if(o.object &&o.object['linb.UIProfile'])o.object=o.object.boxing()});
                 p.items = _.clone(p.items,function(o,i){return !t[(i+'').charAt(0)]&&o!=undefined});
             }
             if(_.isEmpty(p.tagVar))
@@ -11302,7 +11319,7 @@ Class("linb.UI",  "linb.absObj", {
                     profile.SubSerialIdMapItem[id] = item;
                 }
                 if(t=item.object){
-                    t=dataItem.object=item.object=t['linb.absBox']?t.get(0):t;
+                    t=dataItem.object=t['linb.absBox']?t.get(0):t;
                     //relative it.
                     if(t['linb.UIProfile'])
                         t.properties.position='relative';
@@ -11546,6 +11563,9 @@ Class("linb.absList", "linb.absObj",{
         },
         //
         _showTips:function(profile, node, pos){
+            if(profile.onShowTips)
+                return profile.boxing().onShowTips(profile, node, pos);
+
             var t=profile.properties,
                 id=node.id,
                 sid=profile.getSubId(id),
@@ -11819,6 +11839,12 @@ new function(){
     });
     Class(u+".Link", u,{
         Static:{
+            Appearances:{
+                KEY:{
+                   'font-size':linb.browser.ie?'12px':null,
+                   'line-height':linb.browser.ie?'14px':null
+                }
+            },
             Templates:{
                 tagName:'a',
                 style: '{_style}',
@@ -13405,7 +13431,9 @@ Class("linb.UI.Label", "linb.UI.Widget",{
             BORDER:{
                 border:'1px solid #91A7B4',
                 'font-size':0,
-                'line-height':0
+                'line-height':0,
+                //in ie6, if no overflow:hidden, children with height:100% will not work.
+                overflow:'hidden'
             },
             INN:{
                 display:'table',
@@ -13422,6 +13450,8 @@ Class("linb.UI.Label", "linb.UI.Widget",{
             },
             FILL:{
                 position:'absolute',
+                
+                width:'1px',
                 left:0,
                 top:0,
                 height:'100%',
@@ -19001,7 +19031,10 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
             items.top(b?-scroll.scrollTop():0);
         },
         _showTips:function(profile, node, pos){
-            var t=profile.properties,
+            if(profile.onShowTips)
+                return profile.boxing().onShowTips(profile, node, pos);
+             
+             var t=profile.properties,
                 id=node.id,
                 format=t._timeFormat,
                 sid=profile.getSubId(id),
@@ -20584,8 +20617,8 @@ Class("linb.UI.Panel", "linb.UI.Div",{
                     _.merge(pro, properties, 'with');
                     _.merge(pro,{
                         dock:'none',
-                        width:size.width,
-                        height:size.height,
+                        width:Math.max(size.width,200),
+                        height:Math.max(size.height,100),
                         left:pos.left,
                         top:pos.top
                     },'all');
@@ -21562,8 +21595,8 @@ Class("linb.UI.Tabs", ["linb.UI", "linb.absList","linb.absValue"],{
                         dragKey: item.dragkey || properties.dragKey ,
                         dock:'none',
                         tag:item.tag||item.id,
-                        width:size.width,
-                        height:size.height,
+                        width:Math.max(size.width,200),
+                        height:Math.max(size.height,100),
                         left:pos.left,
                         top:pos.top
                     },'all');
@@ -24460,7 +24493,7 @@ Class("linb.UI.ToolBar",["linb.UI","linb.absList"],{
                 }
 
                 if(t=item.object){
-                    t=dataItem.object=item.object=t['linb.absBox']?t.get(0):t;
+                    t=dataItem.object=t['linb.absBox']?t.get(0):t;
                     //relative it.
                     if(t['linb.UIProfile']){
                         t.properties.position='relative';
@@ -24867,7 +24900,19 @@ Class("linb.UI.Range", ["linb.UI","linb.absValue"],{
                 if(left>300)left=300;
                 
                 s.left=left+'px';
+
                 profile.box._ondrag.apply(profile.box,[profile,left,src,1]);
+
+                var  rate = profile._rate,
+                    arr = pro.$UIvalue.split(':');
+                if(type===0){
+                    profile._v1=left;
+                    arr[0]= Math.floor((profile._v1)/rate + pro.min);
+                }else{
+                    profile._v2=left;
+                    arr[1]= Math.floor((profile._v2)/rate + pro.min);
+                }
+                profile.boxing().setUIValue(arr.join(':'));                
             }
         },
         _ondrag:function(profile, left, src, tag){
@@ -26115,7 +26160,8 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
             KEY:{
                 //in firefox, a can focused with display:block
                 display:'block',
-                position:'absolute'
+                position:'absolute',
+                overflow:'hidden'
             },
             BOX:{
                 display:'block',
@@ -26127,6 +26173,9 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                 background:  linb.UI.$bg('head.gif', ' #EBEADB repeat-x left bottom'),
                 position:'relative',
                 overflow:'hidden'
+            },
+            HI:{
+                position:'relative'
             },
             SCROLL:{
                 overflow:'auto',
@@ -26185,10 +26234,11 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                 position:'absolute',
                 //if set z-index, disappearing in opera
                 //'z-index':'10',
+                background: linb.browser.ie?'url('+linb.ini.file_bg+')':null,
                 width:'4px',
-                top:'0px',
+                top:'0',
+                right:'0',
                 height:'100%',
-                right:'0px',
                 cursor:'e-resize',
                 'font-size':0,
                 'line-height':0
@@ -26214,6 +26264,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                 'border-right': '1px solid #ACA899'
             },
             PREVIEW:{
+                position:'relative',
                 display:'none',
                 'padding-left':'16px',
                 'border-top': '1px dashed #ACA899',
@@ -26226,6 +26277,10 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
             'CELL-disabled':{
                  $order:8,
                  'background-color':'#EBEADB'
+            },
+            'CELL-disabled CELLA':{
+                 $order:8,
+                 color:'#999'
             },
             'CELLS-active, CELL-active':{
                  $order:5,
@@ -26297,7 +26352,8 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                 position:'relative',
                 overflow:linb.browser.ie6?'hidden':'',
                 'font-size':'12px',
-                'line-height':'20px'
+                'line-height':'20px',
+                'vertical-align':'top'
             },
             'ALT':{
                 'background-color':'#f1f1f1'
@@ -26428,7 +26484,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                     o.startDrag(e, {
                         horizontalOnly:true,
                         dragType:'blank',
-                        dragDefer:1,
+                        dragDefer:2,
                         maxLeftOffset:minW,
                         maxRightOffset:maxW,
                         targetReposition:false
@@ -26463,7 +26519,8 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                     var o=linb(src).parent(2),
                         w=o.width() + linb.DragDrop.getProfile().offset.x,
                         col=profile.colMap[profile.getSubId(src.id)];
-                    o.width(col.width=w);
+                    o.width(w);
+                    if(col)col.width=w;
 
                     //collect cell id
                     var ids=[],ws=[];
@@ -26527,7 +26584,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                     o.startDrag(e, {
                         verticalOnly:true,
                         dragType:'blank',
-                        dragDefer:1,
+                        dragDefer:2,
                         maxTopOffset:minH,
                         maxBottomOffset:maxH ,
                         targetReposition:false
@@ -26623,7 +26680,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                             parent = profile.getSubNode('BODY').get(0);
                         }
                         //sor sub first
-                        var a1=[], a2=[], a3=[] ,a4=[], t;
+                        var a1=[], a2=[], a3=[] ,a4=[], t,ff;
                         _.arr.each(rows,function(row){
                             if(row.sub && row.sub.length>1)
                                 self(profile, row, index, type, order);
@@ -26631,44 +26688,20 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                              a1[a1.length]=(t=row.cells)?(t=t[index])?t.value:'':row[index];
                              a2[a2.length]=a2.length;
                         });
-
                         switch(type){
                             case 'number':
-                                a2.sort( !order?
-                                    function(x,y){
-                                       x=parseFloat(a1[x])||0; y=parseFloat(a1[y])||0;
-                                       return x>y?1:x==y?0:-1;
-                                    }:
-                                    function(x,y){
-                                       x=parseFloat(a1[x])||0; y=parseFloat(a1[y])||0;
-                                       return x<y?1:x==y?0:-1;
-                                    }
-                                );
+                                ff=function(n){return parseFloat(n)||0};
                                 break;
                             case 'date':
-                                a2.sort( !order?
-                                    function(x,y){
-                                       x=Date.parse(new Date(a1[x])); y=Date.parse(new Date(a1[y]));
-                                       return x>y?1:x==y?0:-1;
-                                    }:
-                                    function(x,y){
-                                       x=Date.parse(new Date(a1[x])); y=Date.parse(new Date(a1[y]));
-                                       return x<y?1:x==y?0:-1;
-                                    }
-                                );
+                                ff=function(n){return new Date(n).getTime()||0};
                                 break;
                             default:
-                                a2.sort( !order?
-                                    function(x,y){
-                                       x=a1[x];y=a1[y];
-                                       return x>y?1:x==y?0:-1;
-                                    }:
-                                    function(x,y){
-                                       x=a1[x];y=a1[y];
-                                       return x<y?1:x==y?0:-1;
-                                    }
-                                );
+                                ff=function(n){return n||''};
                         }
+                        a2.sort(function(x,y){
+                           x=ff(a1[x]); y=ff(a1[y]);
+                           return (x>y?1:x==y?0:-1)*(order?1:-1);
+                        });
                         //sort memory array
                         //sort domnode
                         var b = root._created, bak=_.copy(rows), c;
@@ -26722,7 +26755,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                         targetLeft:pos.left+12,
                         targetTop:pos.top+12,
                         targetReposition:false,
-                        dragDefer: 1,
+                        dragDefer: 2,
                         dragKey:profile.$id + ":col",
                         dragData:o.id()
                     });
@@ -26866,6 +26899,12 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                     if(p.disabled || row.disabled)return false;
                     if(profile.onDblClickRow)profile.boxing().onDblClickRow(profile, row, e, src);
                     return false;
+                },
+                onClick:function(profile){
+                    var p = profile.properties,
+                        row = profile.rowMap[profile.getSubId(this.id)];
+                    if(row.group)
+                        profile.getSubNode('TOGGLE',row._serialId).onClick();
                 }
             },
             CELL:{
@@ -26890,10 +26929,10 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                         event=getPro(profile, cell, 'event'),
                         mode = p.activeMode, id, type,event;
 
-                    if(!disabled && type=='button'){
+                    if(!disabled && (type=='button'||type=='label')){
                         if(typeof event == 'function' && false===event.call(profile._host||profile, profile, cell, null,null,e,src)){}
                         else
-                            profile.boxing().onClickButton(profile, cell, null, null, e, src);
+                            profile.boxing().onClickCell(profile, cell, e, src);
                         return false;
                     }
                     if(getPro(profile, cell, 'editable')){
@@ -27036,8 +27075,10 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
             },
             FIRSTCELL:{
                 onClick:function(profile, e, src){
-                    linb([src]).next().first().onClick(true);
-                    return false;
+                    var p = profile.properties,
+                        row = profile.rowMap[profile.getSubId(this.id)];
+                    if(!row.group)
+                        profile.getSubNode('TOGGLE',row._serialId).onClick();
                 }
             }
         },
@@ -27232,7 +27273,8 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
             afterCellUpdated:function(profile, cell, options){},
 
             onDblClickRow:function(profile, row, e, src){},
-            onClickButton:function(profile, cell, proEditor, pos, e, src){}
+            onClickButton:function(profile, cell, proEditor, pos, e, src){},
+            onClickCell:function(profile, cell, e, src){}
         },
         RenderTrigger:function(){
             var ns=this, pro=ns.properties,ins=ns.boxing();
@@ -27304,7 +27346,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                 targetLeft:pos.left+12,
                 targetTop:pos.top+12,
                 dragCursor:'pointer',
-                dragDefer:1,
+                dragDefer:2,
                 dragKey: profile.box.getDragKey(profile, src),
                 dragData: profile.box.getDragData(profile, src)
             });
@@ -28060,14 +28102,14 @@ caption
             if(linb.browser.ie6)
                 _.resetRun(profile.$id+'4',function(){
                     var body=profile.getSubNode('BODY'),
-                    scroll=profile.getSubNode('SCROLL'),
-                    w=scroll.width();
-                    scroll.width(0);
-                    body.width(body.width('auto').width());
-                    scroll.width(w,false);
+                    lastcol=profile.getSubNode('HCELLS').last().get(0);
+                    body.width(lastcol.offsetWidth+lastcol.offsetLeft);
                 });
         },
         _showTips:function(profile, node, pos){
+            if(profile.onShowTips)
+                return profile.boxing().onShowTips(profile, node, pos);
+
             var ks=profile.keys,item,hcell=ks.HCELL+':',sid,id,pid;
             if(profile.properties.disabled)return;
 
@@ -28392,7 +28434,7 @@ Class("linb.UI.Dialog","linb.UI.Widget",{
                     //set pinned status
                     t.pinned = !t.pinned;
                     //set appea
-                    profile.getSubNode('PIN').tagClass('-checked', !t.pinned);
+                    profile.getSubNode('PIN').tagClass('-checked', t.pinned);
                     //set lock flag for not movable
                     profile._locked = t.pinned;
 
@@ -28727,7 +28769,7 @@ Class("linb.UI.Dialog","linb.UI.Widget",{
         },
         _deActive:function(){
             if(profile=linb.UI._cache['$'+this.activeWndId])
-                profile.getSubNodes('BAR').tagClass('-focus',false);
+                profile.getSubNode('BAR').tagClass('-focus',false);
             delete this.activeWndId;
         },
         _modal:function(profile){
@@ -28775,6 +28817,7 @@ Class("linb.UI.Dialog","linb.UI.Widget",{
         _unModal:function(profile){
             if(profile.$inModal){
                 profile.$modalDiv.setDock('none');
+                profile.root.css('zIndex',0);
                 profile.getSubNode('BORDER').append(profile.$modalDiv.reBoxing().css('display','none'));
 
                 profile.$inModal=false;

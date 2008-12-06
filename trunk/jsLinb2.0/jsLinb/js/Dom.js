@@ -1645,8 +1645,10 @@ type:4
                 content = typeof visible=='string'?visible:'',
                 o1,o2;
 
-            if((o1=linb(id)).isEmpty())
-                linb('body').prepend(o1=linb.create('<div id="'+ id +'" style="position:absolute;z-index:'+(linb.Dom.TOP_ZINDEX+200)+';display:none;left:0;top:0;background-image:url('+linb.ini.path+linb.ini.file_bg+')"><div id="'+id2+'" style="position:absolute;font-size:12px"></div></div>'));
+            if((o1=linb(id)).isEmpty()){
+                linb('body').prepend(o1=linb.create('<div id="'+ id +'" style="position:absolute;display:none;left:0;top:0;background-image:url('+linb.ini.path+linb.ini.file_bg+')"><div id="'+id2+'" style="position:absolute;font-size:12px"></div></div>'));
+                o1.get(0).zIndexIgnore=1;
+            }
             o2=linb(id2);
 
             //clear
@@ -1655,7 +1657,7 @@ type:4
                     return;
                 if(me._showed){
                     o2.empty(false);
-                    o1.css({cursor:'',display:'none'});
+                    o1.css({zIndex:0,cursor:'',display:'none'});
                     me._showed=false;
                 }
                 delete me._label;
@@ -1663,7 +1665,7 @@ type:4
                 if(typeof label=='string')me._label=label;
                 var t = linb.win;
                 if(!me._showed){
-                    o1.css({display:'',width:t.scrollWidth()+'px',height:t.scrollHeight()+'px',cursor:'wait'});
+                    o1.css({zIndex:linb.Dom.TOP_ZINDEX*2,display:'',width:t.scrollWidth()+'px',height:t.scrollHeight()+'px',cursor:'wait'});
                     me._showed=true;
                 }
                 //show content

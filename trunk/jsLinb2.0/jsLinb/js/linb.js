@@ -533,9 +533,6 @@ _.merge(Class, {
     /*envelop a function by some keys
     */
     _fun:function(fun, name, original, upper){
-if(name=='setValue' && original=='linb.UI.Tabs')
-    var a=0;
-
         fun.$name$=name;
         fun.$original$=original;
         if(upper)fun.upper = upper;
@@ -1217,7 +1214,7 @@ Class('linb.absIO',null,{
         _id:1,
         method:'GET',
         retry:2,
-        timeout:10000,
+        timeout:60000,
         rspType:'text',
 
         //paras in request object

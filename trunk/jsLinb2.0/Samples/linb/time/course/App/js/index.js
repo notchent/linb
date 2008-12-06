@@ -34,7 +34,7 @@ Class('App', 'linb.Com',{
                 .setRowNumbered(true)
                 .setHeader([{"id":"course", "type":"label", "caption":"course", "width":240}, {"caption":"from", "type":"datepicker", "width":120}, {"caption":"to", "type":"datepicker", "width":120}, {"type":"button", "caption":"remove", "width":45, "cellClass":"gridbutton"}])
                 .setDropKeys("iEvent2")
-                .onClickButton("_treegrid2_onclickbutton")
+                .onClickCell("_treegrid2_onclickcell")
                 .onDrop("_od")
             );
             
@@ -199,7 +199,7 @@ Class('App', 'linb.Com',{
                 renderer:renderer
             });
         }, 
-        _treegrid2_onclickbutton:function (profile, cell, proEditor, pos, e, src) {
+        _treegrid2_onclickcell:function (profile, cell,  e, src) {
             linb.UI.Dialog.confirm('confirm','Do you mean to remove the course?',function(){
                 profile.boxing().removeRows([cell._row.id]);
             });

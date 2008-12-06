@@ -168,6 +168,7 @@ Class('App.linb_UI_TreeGrid', 'linb.Com',{
                 .setDropKeys("abc")
                 .setDragKey("abc")
                 .onClickButton("_tg1_onClickButton")
+                .onClickCell("_tg1_onClickcell")
             , 'a');
 
             host.tabs.append((new linb.UI.Dialog)
@@ -267,6 +268,9 @@ Class('App.linb_UI_TreeGrid', 'linb.Com',{
 
             SPA._loaded[id]=true;
         },
+        _tg1_onClickcell:function(profile, cell){
+            linb.message(cell._row.id+'/'+cell._col.id+' clicked!');
+        },
         _tg1_onClickButton:function(profile, cell, proEditor){
             switch(profile.box.getCellPro(profile, cell, 'type')){
                 case 'getter':
@@ -274,8 +278,7 @@ Class('App.linb_UI_TreeGrid', 'linb.Com',{
                 break;
                 case 'cmdbox':
                 case 'popbox':
-                case 'button':
-                    linb.message(cell._row.id+'/'+cell._header.id+' clicked!');
+                    linb.message(cell._row.id+'/'+cell._col.id+' button clicked!');
                 break;
             }
         },
@@ -379,7 +382,7 @@ Class('App.linb_UI_TreeGrid', 'linb.Com',{
             });
             SPA.$dbBinder.resetValue(hash).getUI().setDisabled(false)
         },
-//This function can build form dynamically
+//This function can be used to build form dynamically
 /*        _tg2_afterRowActive:function(profile, row){
             SPA.panelFrom.setHtml('');
 

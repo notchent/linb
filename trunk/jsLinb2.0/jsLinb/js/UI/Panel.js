@@ -162,8 +162,8 @@ Class("linb.UI.Panel", "linb.UI.Div",{
                     _.merge(pro, properties, 'with');
                     _.merge(pro,{
                         dock:'none',
-                        width:size.width,
-                        height:size.height,
+                        width:Math.max(size.width,200),
+                        height:Math.max(size.height,100),
                         left:pos.left,
                         top:pos.top
                     },'all');

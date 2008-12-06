@@ -1,12 +1,12 @@
 //defines a class here, first
 Class("linb.Template.PrdGallery","linb.Template",{
-    Constructor:function(parent,template,properties,events,domId){
+    Constructor:function(template,properties,events,domId){
         var self=this,arr=_.toArr(arguments);
-        arr[1]=arr[1]||{
+        arr[0]=arr[0]||{
             ""      : "<div><h3 class='gallery1-head'>{head}</h3><ul class='gallery1-ul'>{items}</ul><div style='clear:both;'></div></div>",
             items : "<li class='gallery1-li' onclick=[$e] onmouseover=[$e] onmouseout=[$e] onmousedown=[$e]><div class='gallery1-left'><div><a href='{href}'><img src='{src}'/><p>{price}</p></a></div></div><div class='gallery1-right'><a href='{href}'><h4>{title}</h4><div>{desc}</div></a></div></li>"
         };
-        arr[3]=arr[3]||{
+        arr[2]=arr[2]||{
             items:{
                 onMouseover:function(profile,e,src){
                     linb(src).css('backgroundColor','#EEE');

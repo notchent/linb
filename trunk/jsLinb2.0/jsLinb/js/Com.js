@@ -262,6 +262,16 @@ Class('linb.Com',null,{
                 fun();
             else
                 linb.main(fun);
+        },
+        $EventHandlers:{
+            beforeCreated:function(com, threadid){},
+            onLoadBaseClass:function(com, threadid, key){},
+            onLoadResource:function(com, threadid){},
+            beforeIniComponents:function(com, threadid){},
+            afterIniComponents:function(com, threadid){},
+            onLoadRequiredClass:function(com, threadid, key){},
+            onReady:function(com, threadid){},
+            onRender:function(com, threadid){}
         }
     }
 });

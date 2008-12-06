@@ -291,7 +291,7 @@ Class("linb.UI.Dialog","linb.UI.Widget",{
                     //set pinned status
                     t.pinned = !t.pinned;
                     //set appea
-                    profile.getSubNode('PIN').tagClass('-checked', !t.pinned);
+                    profile.getSubNode('PIN').tagClass('-checked', t.pinned);
                     //set lock flag for not movable
                     profile._locked = t.pinned;
 
@@ -626,7 +626,7 @@ Class("linb.UI.Dialog","linb.UI.Widget",{
         },
         _deActive:function(){
             if(profile=linb.UI._cache['$'+this.activeWndId])
-                profile.getSubNodes('BAR').tagClass('-focus',false);
+                profile.getSubNode('BAR').tagClass('-focus',false);
             delete this.activeWndId;
         },
         _modal:function(profile){
@@ -674,6 +674,7 @@ Class("linb.UI.Dialog","linb.UI.Widget",{
         _unModal:function(profile){
             if(profile.$inModal){
                 profile.$modalDiv.setDock('none');
+                profile.root.css('zIndex',0);
                 profile.getSubNode('BORDER').append(profile.$modalDiv.reBoxing().css('display','none'));
 
                 profile.$inModal=false;
