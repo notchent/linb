@@ -3,7 +3,7 @@ Class('VisualJS.ObjectEditor', 'linb.Com',{
         $PageEditor:null,
         $bakValue:null,
 
-        iniExComs:function(threadid){
+        iniExComs:function(com, threadid){
             var self=this;
             linb.ComFactory.newCom('VisualJS.PageEditor',function(){
                 var inn=this;

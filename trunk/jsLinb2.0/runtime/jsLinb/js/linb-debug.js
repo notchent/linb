@@ -6372,6 +6372,7 @@ type:4
     }
 });/*
 beforeCreated
+onCreated
 onLoadBaseClass
 onLoadResource
     iniResources (asy)
@@ -6444,7 +6445,7 @@ Class('linb.Com',null,{
         },
         _innerCall:function(name){
             var self=this;
-            return _.tryF(self[name],[self.threadid],self);
+            return _.tryF(self[name],[self, self.threadid],self);
         },
         show:function(onEnd,parent,subId,threadid){
             var self=this,f=function(){
@@ -6481,6 +6482,7 @@ Class('linb.Com',null,{
             //if no threadid or threadid doesnt exist, reset threadid to self
             funs.push(function(threadid){
                 self.threadid=threadid;
+                self._fireEvent('onCreated');
             });
             //base classes
             if((t=self.base) && t.length)
@@ -7981,7 +7983,7 @@ Class("linb.Tips", null,{
                                                     if(!(root=ui.get(0)))return;
 
                                                     linb.UI.Tag.replace(tag,root,firstlayer?com:null);
-                                                },threadid, ]);
+                                                },threadid]);
                                         }
                                         if(v.children){
                                             var a=[];
@@ -8037,7 +8039,7 @@ Class("linb.Tips", null,{
             else
                 linb.Thread.observableRun(threadid,
                     [function(threadid){
-                        linb.SC(cls, function(path,txt,threadid){
+                        linb.SC(cls, function(path,txt){
                             if(path){
                                 var o=linb.SC.get(cls);
                                 o=typeof o == 'function' ?new o():null;
@@ -8101,6 +8103,7 @@ Class("linb.Tips", null,{
     }
 });Class('linb.Debugger', null, {
     Static:{
+        $time:_(),
         _id1:'linb:dbg::_frm',
         _id4:'linb:dbg::_head',
         _id2:'linb:dbg::_con',
@@ -8135,13 +8138,15 @@ Class("linb.Tips", null,{
             }
         },
         log:function(){
-            var t1,t2,self=this,arr=arguments,str;
+            var t1,t2,time,self=this,arr=arguments,str;
             if(!arr.length)return;
 
             t1 = document.createElement("div");
             t2 = document.createElement("div");
             t2.className='linb-dbg-con1';
-            t2.appendChild(document.createTextNode('Time stamp : '+_()));
+            time=_();
+            t2.appendChild(document.createTextNode('Time stamp : '+time +'('+(time-self.$time)+')' ));
+            self.$time=time;
             t1.appendChild(t2);
             for(var i=0,l=arr.length;i<l;i++){
                 str=arr[i];
@@ -16970,6 +16975,7 @@ Class("linb.UI.Group", "linb.UI.Div",{
                 TAIL:{
                     $order:2,
                     tagName:'div',
+                    className:'ui-content',
                     CAPTION:{
                         text : '{caption}'
                     },
@@ -26933,12 +26939,12 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                         if(typeof event == 'function' && false===event.call(profile._host||profile, profile, cell, null,null,e,src)){}
                         else
                             profile.boxing().onClickCell(profile, cell, e, src);
-                        return false;
+                        if(type=='button')
+                            return false;
                     }
-                    if(getPro(profile, cell, 'editable')){
-                        if(!disabled &&type=='checkbox')
+                    if(!disabled &&type=='checkbox')
+                        if(getPro(profile, cell, 'editable'))
                             box._updCell(profile, cell, !cell.value);
-                    }
                     if(!p.editable){
                         if(mode=='cell'){
                             if(getPro(profile, cell, 'disabled'))

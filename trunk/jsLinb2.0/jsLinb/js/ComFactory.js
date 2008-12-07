@@ -84,7 +84,7 @@ Class('linb.ComFactory',null,{
                                                     if(!(root=ui.get(0)))return;
 
                                                     linb.UI.Tag.replace(tag,root,firstlayer?com:null);
-                                                },threadid, ]);
+                                                },threadid]);
                                         }
                                         if(v.children){
                                             var a=[];
@@ -140,7 +140,7 @@ Class('linb.ComFactory',null,{
             else
                 linb.Thread.observableRun(threadid,
                     [function(threadid){
-                        linb.SC(cls, function(path,txt,threadid){
+                        linb.SC(cls, function(path,txt){
                             if(path){
                                 var o=linb.SC.get(cls);
                                 o=typeof o == 'function' ?new o():null;

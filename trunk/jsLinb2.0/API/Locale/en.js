@@ -819,10 +819,10 @@ _.set(linb.Locale,["en","doc","linb","Thread"], {
         "cycle [Optional]: To Determines whether or not the current linb.Thread is in circular mode. Default is false."
     ],
     $snippet:[
-        "linb.Thread(null, [function(){linb.message(1)},function(){linb.message(2)}]).start()",
+        "var s=1; linb.Thread(null, [function(){linb.message(s)},2000,{task:function(){linb.message(s)}}],200,function(){s++}).start()",
         "linb.Thread(null, [function(){linb.message(1)},function(){linb.message(2)}],2000).start()",
         "linb.Thread('_id', [function(){linb.message(1);linb.Thread('_id').abort();},function(){linb.message(2)}]).start();",
-        "linb.Thread(null, [function(){linb.message(1)},{task:function(){},callback:function(){return false}},function(){linb.message(2)}]).start()",
+        "linb.Thread(null, [function(){linb.message(1)},2000,{task:function(){},callback:function(){return false}},function(){linb.message(2)}]).start()",
         "var a=[];linb.Thread(null, [function(threadid){a.push(threadid+' task1')},function(threadid){a.push(threadid+' task2')}],null,function(threadid){a.push(threadid+' callback')},function(threadid){a.push(threadid+' start')},function(threadid){a.push(threadid+' end'); alert(a);}).start()",
         "var a=[];linb.Thread(null, [function(threadid){a.push(threadid+' task1')},{task:function(threadid){a.push(threadid+' task2')},callback:function(threadid){a.push(threadid+' not the default callback')}}],null,function(threadid){a.push(threadid+' callback')},function(threadid){a.push(threadid+' start')},function(threadid){a.push(threadid+' end'); alert(a);}).start()",
         "var a=[],i=3; linb.Thread(null, [function(){a.push(1)},function(){a.push(2)}],0,function(){i--;if(!i)return false;},null,function(){alert(a);},true).start()"
@@ -3815,6 +3815,7 @@ _.set(linb.Locale,["en","doc","linb","Com"], {
             "  },"+
             "  {"+
             "    beforeCreated:function(){order.push('beforeCreated'); linb.log('beforeCreated');},"+
+            "    onCreated:function(){order.push('onCreated'); linb.log('onCreated');},"+
             "    onLoadBaseClass:function(c,t,key){order.push('onLoadBaseClass: '+key); linb.log('onLoadBaseClass: '+key); },"+
             "    onLoadResource:function(){order.push('onLoadResource'); linb.log('onLoadResource');},"+
             "    beforeIniComponents:function(){order.push('beforeIniComponents'); linb.log('beforeIniComponents');},"+
@@ -3846,6 +3847,10 @@ _.set(linb.Locale,["en","doc","linb","Com"], {
             "                com._info=[];" +
             "                com._info.push('beforeCreated');" +
             "                linb.log('beforeCreated');" +
+            "            }," +
+            "            onCreated : function(com){" +
+            "                com._info.push('onCreated');" +
+            "                linb.log('onCreated');" +
             "            }," +
             "            onLoadBaseClass : function(com, t, key){" +
             "                com._info.push('onLoadBaseClass: ' + key);" +
@@ -3909,6 +3914,7 @@ _.set(linb.Locale,["en","doc","linb","Com"], {
             "        required : ['linb.UI.Dialog']," +
             "        events:{" +
             "            beforeCreated : '_trace'," +
+            "            onCreated : '_trace'," +
             "            onLoadBaseClass : '_trace'," +
             "            onLoadResource : '_trace'," +
             "            beforeIniComponents : '_trace'," +
@@ -4172,6 +4178,14 @@ _.set(linb.Locale,["en","doc","linb","Com"], {
         
         beforeCreated:{
             $desc:'Fired before com is created.',
+            $paras:[
+                'com : linb.Com object.',
+                'threadid : String, thread id.'
+            ],
+            $memo:'See constructor.'
+        },
+        onCreated:{
+            $desc:'Fired when com is created.',
             $paras:[
                 'com : linb.Com object.',
                 'threadid : String, thread id.'

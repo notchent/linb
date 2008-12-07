@@ -45,6 +45,7 @@ Class('App', 'linb.Com',{
             linb.UI.Border.$abstract=linb.UI.Shadow.$abstract=linb.UI.Resizer.$abstract=true;
             linb.History.setCallback(function(str){
                 str=str.replace('#','');
+                if(!str)return;
                 var obj, t, id1, id2, id3, id4;
                 obj=linb.SC.get(str);
 //input must be a valid object path

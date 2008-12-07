@@ -1294,12 +1294,12 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                         if(typeof event == 'function' && false===event.call(profile._host||profile, profile, cell, null,null,e,src)){}
                         else
                             profile.boxing().onClickCell(profile, cell, e, src);
-                        return false;
+                        if(type=='button')
+                            return false;
                     }
-                    if(getPro(profile, cell, 'editable')){
-                        if(!disabled &&type=='checkbox')
+                    if(!disabled &&type=='checkbox')
+                        if(getPro(profile, cell, 'editable'))
                             box._updCell(profile, cell, !cell.value);
-                    }
                     if(!p.editable){
                         if(mode=='cell'){
                             if(getPro(profile, cell, 'disabled'))

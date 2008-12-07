@@ -158,7 +158,7 @@ Class('UIDesigner', 'linb.Com',{
                 linb('body').append(self.$btnTheme);
             }
         },
-        iniResources:function(threadid){
+        iniResources:function(com, threadid){
             //Load default code(insert to the current thread)
             var com=this,
                 url=_.urlDecode(location.href.split('#')[1],'url'),
@@ -192,7 +192,7 @@ Class('UIDesigner', 'linb.Com',{
 
             linb.Ajax.group(hash,null,null,null,threadid).start();
         },
-        iniExComs:function(threadid){
+        iniExComs:function(com, threadid){
             var com=this;
             //New an instance of VisualJS.ClassEditor
             linb.ComFactory.newCom('VisualJS.ClassEditor',function(threadid){

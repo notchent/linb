@@ -1,5 +1,6 @@
 Class('linb.Debugger', null, {
     Static:{
+        $time:_(),
         _id1:'linb:dbg::_frm',
         _id4:'linb:dbg::_head',
         _id2:'linb:dbg::_con',
@@ -34,13 +35,15 @@ Class('linb.Debugger', null, {
             }
         },
         log:function(){
-            var t1,t2,self=this,arr=arguments,str;
+            var t1,t2,time,self=this,arr=arguments,str;
             if(!arr.length)return;
 
             t1 = document.createElement("div");
             t2 = document.createElement("div");
             t2.className='linb-dbg-con1';
-            t2.appendChild(document.createTextNode('Time stamp : '+_()));
+            time=_();
+            t2.appendChild(document.createTextNode('Time stamp : '+time +'('+(time-self.$time)+')' ));
+            self.$time=time;
             t1.appendChild(t2);
             for(var i=0,l=arr.length;i<l;i++){
                 str=arr[i];

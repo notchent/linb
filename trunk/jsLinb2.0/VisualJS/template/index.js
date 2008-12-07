@@ -10,11 +10,11 @@ Class('{className}', 'linb.Com',{
 
         properties:{},
         events:{},
-        iniResources:function(threadid){
+        iniResources:function(com, threadid){
         },
-        iniComponents:function(threadid){
+        iniComponents:function(com, threadid){
         },
-        iniExComs:function(threadid){
+        iniExComs:function(com, hreadid){
         }
     }
 });

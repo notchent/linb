@@ -85,7 +85,7 @@ Class('VisualJS.ClassEditor', 'linb.Com',{
                 return false;
             }
         },
-        iniExComs:function(threadid){
+        iniExComs:function(com, threadid){
             // [[code created by jsLinb UI Builder
             var self = this,
                 data=self.$data;

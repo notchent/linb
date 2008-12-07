@@ -1,5 +1,6 @@
 /*
 beforeCreated
+onCreated
 onLoadBaseClass
 onLoadResource
     iniResources (asy)
@@ -72,7 +73,7 @@ Class('linb.Com',null,{
         },
         _innerCall:function(name){
             var self=this;
-            return _.tryF(self[name],[self.threadid],self);
+            return _.tryF(self[name],[self, self.threadid],self);
         },
         show:function(onEnd,parent,subId,threadid){
             var self=this,f=function(){
@@ -109,6 +110,7 @@ Class('linb.Com',null,{
             //if no threadid or threadid doesnt exist, reset threadid to self
             funs.push(function(threadid){
                 self.threadid=threadid;
+                self._fireEvent('onCreated');
             });
             //base classes
             if((t=self.base) && t.length)
