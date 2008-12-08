@@ -2136,7 +2136,7 @@ Class('VisualJS.Designer', 'linb.Com',{
             self._setSelected([], true);
 
             //load required class and build Coms
-            linb.SC.group(clsObject.Instance.required,function(key){
+            linb.SC.groupCall(clsObject.Instance.required,function(key){
                 linb.Dom.setCover(linb.getRes('VisualJS.designer.loading')+' ' + key+'...');
             },function(){
                 linb.Dom.setCover(linb.getRes('VisualJS.designer.createContent'));

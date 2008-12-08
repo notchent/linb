@@ -10,7 +10,7 @@
     <title>jsLinb IO sample -- monitor</title>
 </head>
     <body>
-        <div id='loading'>Loading...</div>
+        <div id='loading'><img src="../../../../runtime/loading.gif" alt="Loading..." /></div>
         <div id='layout' style="margin:0 auto;width:680px;border:solid 1px;padding:4px;margin-top:20px;">
             <div>
                 <p><strong>Service uri</strong> : You can change it to raise some kind of error!</p>
@@ -43,7 +43,7 @@
         <script type="text/javascript" src="../../../../runtime/jsLinb/js/linb.js"></script>
         <script type="text/javascript">
             linb.main(function(){
-                linb('loading').css('display','none');
+                linb('loading').remove();
 
                 var getRequest=function(){
                     setResponse("");

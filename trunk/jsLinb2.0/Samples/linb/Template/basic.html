@@ -10,7 +10,7 @@
     <title>linb.Template sample -- basic</title>
 </head>
     <body>
-        <div id='loading'>Loading...</div>
+        <div id='loading'><img src="../../../runtime/loading.gif" alt="Loading..." /></div>
         <div id='basic'></div>
         <script type="text/javascript" src="../../../runtime/jsLinb/js/linb.js"></script>
         <script type="text/javascript">
@@ -21,7 +21,7 @@
             //Template
             linb.main(function(){
                 //hide loading message
-                linb('loading').css('display','none');
+                linb('loading').remove();
 
                 //for tips stack
                 var stack=[];

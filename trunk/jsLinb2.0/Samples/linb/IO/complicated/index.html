@@ -10,7 +10,7 @@
     <title>jsLinb IO sample -- complicated interaction</title>
 </head>
     <body>
-        <div id='loading'>Loading...</div>
+        <div id='loading'><img src="../../../../runtime/loading.gif" alt="Loading..." /></div>
         <div id='layout' style="margin:0 auto;width:680px;border:solid 1px;padding:4px;margin-top:20px;">
             <div>
                 <div> <button id='ajax_get'>Click me to trigger the request thread</button></div><br />
@@ -28,7 +28,7 @@
         <script type="text/javascript" src="../../../../runtime/jsLinb/js/linb-debug.js"></script>
         <script type="text/javascript">
             linb.main(function(){
-                linb('loading').css('display','none');
+                linb('loading').remove();
 
                 var trace=function(str,tid){
                     linb('monitor').append(linb.create('<p>'+str+ (tid?' threadid:'+tid:'')+' </p>'));

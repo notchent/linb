@@ -10,7 +10,7 @@
     <title>linb.Template sample -- product gallery 1</title>
 </head>
 <body>
-    <div id='loading'>Loading...</div>
+    <div id='loading'><img src="../../../runtime/loading.gif" alt="Loading..." /></div>
 
     <div id='gallery1' style="margin:0 auto;width:680px;border:solid 1px;padding:4px;margin-top:20px;"></div>
     <div style="text-align:center;padding:10px;"><button id="cmd">reorder</button></div>
@@ -25,7 +25,7 @@
         //code snippets for linb.Template
         linb.main(function(){
             //hide loading message
-            linb('loading').css('display','none');
+            linb('loading').remove();
 
             //drop
             linb('drop').dropable(true, 'prd').onDrop(function(){

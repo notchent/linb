@@ -16,7 +16,7 @@ var gService,
         linb.SC('App',function(path){
             if(path){
                 new App().show();
-                linb('loading').css('display','none');
+                linb('loading').remove();
             }else
                  throw new Error('App doesnt exists!');
         });

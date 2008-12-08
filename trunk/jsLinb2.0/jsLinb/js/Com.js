@@ -100,8 +100,6 @@ Class('linb.Com',null,{
         create:function(onEnd, threadid){
             //get paras
             var self=this,
-                suspend=linb.Thread.suspend,
-                resume=linb.Thread.resume,
                 t,funs=[]
                 ;
             self.threadid=threadid;
@@ -115,10 +113,9 @@ Class('linb.Com',null,{
             //base classes
             if((t=self.base) && t.length)
                 funs.push(function(threadid){
-                    suspend(threadid);
-                    linb.SC.group(self.base,function(key){
+                    linb.SC.groupCall(self.base,function(key){
                         self._fireEvent('onLoadBaseClass', [key]);
-                    },function(){resume(threadid)});
+                    },null,threadid);
                 });
             //load resource here
             if(self.iniResources)
@@ -129,10 +126,9 @@ Class('linb.Com',null,{
             //load required class
             if((t=self.required) && t.length)
                 funs.push(function(threadid){
-                    suspend(threadid);
-                    linb.SC.group(self.required,function(key){
+                    linb.SC.groupCall(self.required,function(key){
                         self._fireEvent('onLoadReqiredClass', [key]);
-                    },function(){resume(threadid)});
+                    },null,threadid);
                 });
             //inner components
             if(self.iniComponents)

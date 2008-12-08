@@ -38,7 +38,7 @@ new function(){
         //app path, e.g. "http://www.x.com/", for linb.ini.appPath (notice: linb.ini.path get from the src property of linb.js file)
         appPath = "",
         //ini string
-        iniStr = '<div id="loadingInfo">Loading...</div>',
+        iniStr = '<div id="loading"><img src="../../../runtime/loading.gif" alt="Loading..." /></div>',
 
         //default version mark
         dft_ver = "";

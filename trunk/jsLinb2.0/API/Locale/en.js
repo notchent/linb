@@ -869,13 +869,13 @@ _.set(linb.Locale,["en","doc","linb","Thread"], {
             "group [Required]: Array, a set of linb.Thread object(or threadid).",
             "callback [Optional]: Function, arguments: [threadid]. Callback function for the shell thread.",
             "onStart [Optional]: Function, arguments: [threadid].  onStart function for the shell thread.",
-            "onEnd [Optional]:  Function, arguments: [threadid].  onEnd function for the shell thread.",
-            "threadid [Optional]: String, a thread id to be bound to the current request."
+            "onEnd [Optional]:  Function, arguments: [threadid].  onEnd function for the shell thread."
         ],
         $snippet:[
             "var a=[]; var t1=linb.Thread('t1',[function(){a.push(1)},function(){a.push(2)}]), t2=linb.Thread('t2',[function(){a.push('a')},function(){a.push('b')}]);"+
             "linb.Thread.group(null,[t1,'t2'],function(){a.push('|')},function(){a.push('<')},function(){a.push('>');alert(a);}).start();"
-        ]
+        ],
+        $memo:"You have to use start function to start [thread group]!"
     },
     suspend:{
         $desc:"Suspends the specified thread until the [resume] function will be called.",
@@ -1012,7 +1012,8 @@ _.set(linb.Locale,["en","doc","linb","absIO"], {
         ],
         $snippet:[
             "var out=[];var a=linb.Ajax('uri1',0,0,0,0,{retry:0,timeout:500}), b=linb.SAjax('uri2',0,0,0,0,{retry:0,timeout:500}), c=linb.IAjax('uri3',0,0,0,0,{retry:0,timeout:500}); linb.absIO.group({a:a,b:b,c:c},function(id){out.push(id+' end')},function(){out.push('start')},function(){out.push('end');alert(out)}).start();"
-        ]
+        ],
+        $memo:"You have to use start function to start [absIO group]."
     },
     isCrossDomain:{
         $desc:"To Determines whether  or not the given path is a cross domain URI.",
@@ -1357,17 +1358,17 @@ _.set(linb.Locale,["en","doc","linb","SC"], {
         ],
         $memo:"It's a wrap of [_.get]."
     },
-    group:{
+    groupCall:{
         $desc:"To group a set of path names to load code snippet and execute them in parallel.",
         $paras:[
             "pathArr [Required]: Array, a set of path names(String).",
             "callback [Optional]: Function, arguments:[path, code]. A function to be executed whenever the code snip returns. If returns successfully, [path] will be the [path name], and [this] pointer will be an empty object/{}; if fails, [path] will be [null], and [this] pointer will be the inner linb.Ajax/iajax object.",
             "onEnd [Optional]: Function, arguments:[the process id]. A function to be executed after all the code snippet are loaded and executed.",
-            "id [Optional]: String, Assigns an unique id to this process."
+            "threadid [Optional]: String, a thread id to be bound to the current request. [suspend the thread -> execute the request -> resume the thread]"
         ],
         $snippet:[
             "/*\n//The most common usage: \n"+
-            "linb.SC.group(['linb.UI.Button','linb.UI.Input','linb.UI.List'],function(path){alert(path+' loaded.')},function(){alert('ends.')});"+
+            "linb.SC.groupCall(['linb.UI.Button','linb.UI.Input','linb.UI.List'],function(path){alert(path+' loaded.')},function(){alert('ends.')});"+
             "\n*/"
         ]
     },
@@ -1377,8 +1378,7 @@ _.set(linb.Locale,["en","doc","linb","SC"], {
             "pathArr [Required]: Array, a set of path names(String).",
             "callback [Optional]: Function, arguments:[path, code]. A function to be executed whenever the code snip returns. If returns successfully, [path] will be the [path name], and [this] pointer will be an empty object/{}; if fails, [path] will be [null], and [this] pointer will be the inner linb.Ajax/iajax object.",
             "onStart [Optional]: Function, onStart function for the shell thread.",
-            "onEnd [Optional]: Function, onEnd function for the shell thread.",
-            "id [Optional]: Stirng, id for the shell thread."
+            "onEnd [Optional]: Function, onEnd function for the shell thread."
         ],
         $snippet:[
             "/*\n//The most common usage: \n"+
@@ -1393,7 +1393,7 @@ _.set(linb.Locale,["en","doc","linb","SC"], {
             "cache [Optional]: Object[Key/value pairs], target cache pool. Defalut is [linb.cache.text].",
             "callback [Optional]: Function, arguments:[path, code]. A function to be executed whenever the code returns. If returns successfully, [path] will be the [path name], and [this] pointer will be an empty object/{}; if fails, [path] will be [null], and [this] pointer will be the inner linb.Ajax/iajax object.",
             "onEnd [Optional]: Function, arguments:[the process id]. A function to be executed whenever all the code snippets returned.",
-            "id [Optional]: String, Assigns an unique id to this process."
+            "threadid [Optional]: String, a thread id to be bound to the current request. [suspend the thread -> execute the request -> resume the thread]"
         ],
         $snippet:[
             "/*\n//The most common usage: \n"+

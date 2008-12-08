@@ -168,7 +168,7 @@ Class('UIDesigner', 'linb.Com',{
                 com.$iniCode=code.replace('{className}','App');
             },function(){
                 alert(com.$dftCodePath + " doesn't exist!");
-            },threadid);
+            });
             
             if(url){
                 com.$url=url;
@@ -187,10 +187,12 @@ Class('UIDesigner', 'linb.Com',{
                         linb.message(obj.error.message);
                 },function(){
                     alert(url + " doesn't exist!");
-                },threadid);
+                });
             }
-
-            linb.Ajax.group(hash,null,null,null,threadid).start();
+            linb.Thread.suspend(threadid);
+            linb.absIO.group(hash,null,null,function(id,key){
+                linb.Thread.resume(threadid);
+            }).start();
         },
         iniExComs:function(com, threadid){
             var com=this;

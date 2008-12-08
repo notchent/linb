@@ -1246,7 +1246,7 @@ Class('linb.absIO',null,{
             return  location.host != uri.replace(r,'$3')
         },
         //get multi ajax results once
-        group: function(hash, callback, onStart, onEnd, threadid){
+        group:function(hash, callback, onStart, onEnd){
             var i,f=function(o,i,hash){
                 hash[i]=linb.Thread(null,[function(threadid){
                     o.threadid=threadid;
@@ -1690,9 +1690,9 @@ Class('linb.SC',null,{
         arr: key array, ['linb.UI.Button','linb.UI.Input']
         callback: fire this function after all js loaded
         */
-        loadSnips:function(pathArr,cache,callback,onEnd, id){
+        loadSnips:function(pathArr,cache,callback,onEnd,threadid){
             if(!pathArr || !pathArr.length){
-                _.tryF(onEnd,[id]);
+                _.tryF(onEnd,[threadid]);
                 return;
             }
             var bak={}, options={$p:1,$cache:cache||linb.cache.text};
@@ -1704,14 +1704,18 @@ Class('linb.SC',null,{
                     //give callback call
                     if(callback)_.tryF(callback,arguments,this);
                     delete bak[path||this.$tag];
-                    if(_.isEmpty(bak)){_.tryF(onEnd,[id]);onEnd=null;}
+                    if(_.isEmpty(bak)){
+                        _.tryF(onEnd,[threadid]);
+                        onEnd=null;
+                        linb.Thread.resume(threadid);
+                    }
                 };
             }
-
+            linb.Thread.suspend(threadid);
             for(var i=0,s; s=pathArr[i++];)
                 this._call(s, _.merge({$tag:s},options), true);
         },
-        background:function(pathArr, callback, onStart, onEnd, id){
+        background:function(pathArr, callback, onStart, onEnd){
             var i=0,j,t,self=this,fun=function(threadid){
                 while(pathArr.length>i && (t=self.get(j=pathArr[i++])));
                 if(!t)
@@ -1732,24 +1736,26 @@ Class('linb.SC',null,{
         //asy load multi js file, whatever dependency
         /*
         *1.busy UI
-        *3.linb.SC.group some js/class
+        *3.linb.SC.groupCall some js/class
         *4.resume thread
         *5.linb.SC.loadSnips other js/class
         *6.execute other ..
         *7.free UI
         */
-        group:function(pathArr, callback, onEnd, id){
+        groupCall:function(pathArr, callback, onEnd, threadid){
             if(pathArr){
                 //clear first
                 var self=this;
                 self.execSnips();
+                linb.Thread.suspend(threadid);
                 self.loadSnips(pathArr, 0, callback, function(){
                     self.execSnips();
-                    _.tryF(onEnd,[id]);
+                    _.tryF(onEnd,[threadid]);
                     onEnd=null;
-                },id);
+                    linb.Thread.resume(threadid);
+                });
             }else
-                _.tryF(onEnd,[id]);
+                _.tryF(onEnd,[threadid]);
         }
     }
 });
