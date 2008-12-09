@@ -193,7 +193,7 @@ Class('VisualJS.ClassStruct', 'linb.Com',{
                         },240,8,'inexp').start();
                     self.$curBlock=o;
                     linb.Thread.resume(threadid);
-                },node);
+                });
         },
         iniComponents:function(){
             // [[code created by jsLinb UI Builder

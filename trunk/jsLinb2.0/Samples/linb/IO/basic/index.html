@@ -99,49 +99,49 @@
                 linb('ajax_get').onClick(function(){
                     var hash=getRequest();
                     if(hash)
-                        linb.Thread.observableRun(null,[function(threadid){
+                        linb.Thread.observableRun(function(threadid){
                             linb.Ajax('request.php',hash, onOK, onFail,threadid).start();
-                        }]);
+                        });
                 });
                 //use linb.Ajax post
                 linb('ajax_post').onClick(function(){
                     var hash=getRequest();
                     if(hash)
-                        linb.Thread.observableRun(null,[function(threadid){
+                        linb.Thread.observableRun(function(threadid){
                             linb.Ajax('request.php',hash, onOK, onFail,threadid,{method:'POST'}).start();
-                        }]);
+                        });
                 });
                 //use linb.SAjax
                 linb('sajax').onClick(function(){
                     var hash=getRequest();
                     if(hash)
-                        linb.Thread.observableRun(null,[function(threadid){
+                        linb.Thread.observableRun(function(threadid){
                             linb.SAjax('request.php',hash, onOK, onFail,threadid).start();
-                        }]);
+                        });
                 });
                 //use linb.IAjax get
                 linb('iajax_get').onClick(function(){
                     var hash=getRequest();
                     if(hash)
-                        linb.Thread.observableRun(null,[function(threadid){
+                        linb.Thread.observableRun(function(threadid){
                             linb.IAjax('request.php',hash, onOK, onFail,threadid,{method:'GET'}).start();
-                        }]);
+                        });
                 });
                 //use linb.IAjax post
                 linb('iajax_post').onClick(function(){
                     var hash=getRequest();
                     if(hash)
-                        linb.Thread.observableRun(null,[function(threadid){
+                        linb.Thread.observableRun(function(threadid){
                             linb.IAjax('request.php',hash, onOK, onFail,threadid).start();
-                        }]);
+                        });
                 });
                 //use linb.request function
                 linb('linb_request').onClick(function(){
                     var hash=getRequest();
                     if(hash)
-                        linb.Thread.observableRun(null,[function(threadid){
+                        linb.Thread.observableRun(function(threadid){
                             linb.request('request.php',hash, onOK, onFail,threadid);
-                        }]);
+                        });
                 });
             });
         </script>

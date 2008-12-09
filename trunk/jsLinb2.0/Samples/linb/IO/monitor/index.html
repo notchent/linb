@@ -73,7 +73,7 @@
                 linb('ajax_get').onClick(function(){
                     var hash=getRequest();
                     if(hash)
-                        linb.Thread.observableRun(null,[function(threadid){
+                        linb.Thread.observableRun(function(threadid){
                             linb.Ajax({
                                 uri:linb('uri').get(0).value,
                                 query: hash,
@@ -90,13 +90,13 @@
                                 beforeFail:function(){trace(this,'beforeFail')}
 
                             }).start();
-                        }]);
+                        });
                 });
                 //use linb.Ajax post
                 linb('ajax_post').onClick(function(){
                     var hash=getRequest();
                     if(hash)
-                        linb.Thread.observableRun(null,[function(threadid){
+                        linb.Thread.observableRun(\function(threadid){
                             linb.Ajax({
                                 uri:linb('uri').get(0).value,
                                 query: hash,
@@ -115,13 +115,13 @@
                                 beforeFail:function(){trace(this,'beforeFail')}
 
                             }).start();
-                        }]);
+                        });
                 });
                 //use linb.SAjax
                 linb('sajax').onClick(function(){
                     var hash=getRequest();
                     if(hash)
-                        linb.Thread.observableRun(null,[function(threadid){
+                        linb.Thread.observableRun(function(threadid){
                             linb.SAjax({
                                 uri:linb('uri').get(0).value,
                                 query: hash,
@@ -138,13 +138,13 @@
                                 beforeFail:function(){trace(this,'beforeFail')}
 
                             }).start();
-                        }]);
+                        });
                 });
                 //use linb.IAjax get
                 linb('iajax_get').onClick(function(){
                     var hash=getRequest();
                     if(hash)
-                        linb.Thread.observableRun(null,[function(threadid){
+                        linb.Thread.observableRun(function(threadid){
                             linb.IAjax({
                                 uri:linb('uri').get(0).value,
                                 query: hash,
@@ -163,13 +163,13 @@
                                 beforeFail:function(){trace(this,'beforeFail')}
 
                             }).start();
-                        }]);
+                        });
                 });
                 //use linb.IAjax post
                 linb('iajax_post').onClick(function(){
                     var hash=getRequest();
                     if(hash)
-                        linb.Thread.observableRun(null,[function(threadid){
+                        linb.Thread.observableRun(function(threadid){
                             linb.IAjax({
                                 uri:linb('uri').get(0).value,
                                 query: hash,
@@ -185,7 +185,7 @@
                                 beforeSuccess:function(){trace(this,'beforeSuccess')},
                                 beforeFail:function(){trace(this,'beforeFail')}
                             }).start();
-                        }]);
+                        });
                 });
             });
         </script>

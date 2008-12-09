@@ -9,7 +9,7 @@ Class('App', 'linb.Com',{
         events:{"onCreated":"_beforecreated", "onReady":"_onready"}, 
         _beforecreated:function (com, threadid) {
             SPA=this;
-            linb.log(threadid,'index.js is loaded');
+            linb.log('thread id: '+threadid,'index.js is loaded');
             
             linb.Thread(threadid).insert(1000);
         }, 
@@ -45,7 +45,7 @@ Class('App', 'linb.Com',{
             // ]]code created by jsLinb UI Builder
         }, 
         _onready:function (com, threadid) {
-            linb.log(threadid,'index.js is ready');
+            linb.log('thread id: '+threadid,'index.js is ready');
             linb.Thread(threadid).insert(1000);
         }
     }

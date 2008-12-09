@@ -110,8 +110,7 @@ Class('linb.ComFactory',null,{
                         //latter
                         _.tryF(o[iniMethod], args, o);
                     };
-                linb.Thread.observableRun(threadid,
-                    [function(threadid){
+                linb.Thread.observableRun(function(threadid){
                         var f=function(a,b,threadid){
                             var cls;
                             if(cls=linb.SC.get(clsPath)){
@@ -126,9 +125,9 @@ Class('linb.ComFactory',null,{
                                 f(0,0,threadid);
                             else
                                 throw new Error(cls+' doesnt exists!');
-                        }, true,{threadid:threadid});
+                        }, true,threadid);
 
-                    }]
+                    },null,threadid
                 );
             }
         },
@@ -138,18 +137,16 @@ Class('linb.ComFactory',null,{
             if(o)
                 _.tryF(onEnd,[threadid,o],o);
             else
-                linb.Thread.observableRun(threadid,
-                    [function(threadid){
-                        linb.SC(cls, function(path,txt){
-                            if(path){
-                                var o=linb.SC.get(cls);
-                                o=typeof o == 'function' ?new o():null;
-                                _.tryF(onEnd,[threadid,o],o);
-                            }else
-                                 throw new Error(cls+' doesnt exists!');
-                        }, true,{threadid:threadid});
-                    }]
-                );
+                linb.Thread.observableRun(function(threadid){
+                    linb.SC(cls, function(path,txt){
+                        if(path){
+                            var o=linb.SC.get(cls);
+                            o=typeof o == 'function' ?new o():null;
+                            _.tryF(onEnd,[threadid,o],o);
+                        }else
+                             throw new Error(cls+' doesnt exists!');
+                    }, true,threadid);
+                },null,threadid);
         },
         storeCom:function(id){
             var m,t,c=this._cache,domId=this._domId;

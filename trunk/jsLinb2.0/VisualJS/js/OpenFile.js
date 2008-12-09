@@ -107,7 +107,7 @@ Class('VisualJS.OpenFile', 'linb.Com',{
             var ins=profile.boxing(),
             self=this;
             ins.busy();
-            linb.Thread.observableRun(null,[function(threadid){
+            linb.Thread.observableRun(function(threadid){
                 linb.Ajax('js/ClsSamples.js','',function(txt){
                     var items = _.unserialize(txt);
                     if(false===items){
@@ -119,7 +119,7 @@ Class('VisualJS.OpenFile', 'linb.Com',{
                     linb.message(msg);
                     ins.free();
                 },threadid).start();
-            }]);
+            });
         }, 
         _tb_onsel:function(profile, item){
             _.tryF(this.onOpenFile,[item.value],this);

@@ -1023,7 +1023,7 @@ Class('App', 'linb.Com',{
             },3000);
         },
         request1:function(hash, callback, file){
-            linb.Thread.observableRun(null, [function(threadid){
+            linb.Thread.observableRun(function(threadid){
                 var data={key:'ImgProcess',para:hash}, options;
                 if(file){
                     data.file=file;
@@ -1044,10 +1044,10 @@ Class('App', 'linb.Com',{
                 },function(rsp){
                     SPA.popMsg(_.serialize(rsp));
                 }, threadid,options)
-            }]);
+            });
         },
         request2:function(hash, callback){
-            linb.Thread.observableRun(null, [function(threadid){
+            linb.Thread.observableRun(function(threadid){
                 linb.request(CONF.service, {key:'ImgProcess',para:hash}, function(rsp){
                     if(typeof rsp=='string')rsp=_.unserialize(rsp);
                     if(rsp.error)
@@ -1097,7 +1097,7 @@ Class('App', 'linb.Com',{
                 },function(rsp){
                     linb.message(rsp);
                 }, threadid);
-            }]);
+            });
         },
         _rangecon_afteruivalueset:function (profile, oldValue, newValue) {
            var hash=_.copy(SPA.paras);

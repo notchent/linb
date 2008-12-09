@@ -783,7 +783,7 @@ Class('VisualJS.Designer', 'linb.Com',{
                         }else{
                             _.observableRun(function(){
                                 linb.Dom.setCover(linb.getRes('VisualJS.designer.loading') + type);
-                                linb.SC(type, true, fun);
+                                linb.SC(type, fun, true);
                             });
                         }
                     }else{

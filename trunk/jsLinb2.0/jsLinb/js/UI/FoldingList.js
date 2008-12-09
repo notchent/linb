@@ -47,7 +47,7 @@ Class("linb.UI.FoldingList", ["linb.UI.List"],{
                             profile.boxing().fillContent(item.id, item._body=o);
                         };
                         if(profile.onGetContent)
-                            linb.Thread.observableRun(null,
+                            linb.Thread.observableRun(
                                 function(threadId){
                                     var r = profile.boxing().onGetContent(profile, item, callback, threadId);
                                     if(r) callback(r);

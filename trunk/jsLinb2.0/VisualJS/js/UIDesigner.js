@@ -44,7 +44,7 @@ Class('UIDesigner', 'linb.Com',{
                                 self.$openFile=this;
                                 //event handler for openFile Com
                                 this.onOpenFile=function(url){
-                                    linb.Thread.observableRun(null,[function(threadid){
+                                    linb.Thread.observableRun(function(threadid){
                                         linb.Ajax(CONF.phpPath,{
                                             key:CONF.requestKey,
                                             para:{
@@ -61,7 +61,7 @@ Class('UIDesigner', 'linb.Com',{
                                         },function(){
                                             alert(url + " doesn't exist!");
                                         },threadid).start();
-                                    }]);
+                                    });
                                 };
                                 this.create(function(){
                                     this.dlg.show(null,true,100,100);
@@ -189,10 +189,7 @@ Class('UIDesigner', 'linb.Com',{
                     alert(url + " doesn't exist!");
                 });
             }
-            linb.Thread.suspend(threadid);
-            linb.absIO.group(hash,null,null,function(id,key){
-                linb.Thread.resume(threadid);
-            }).start();
+            linb.absIO.groupCall(hash,null,null,null,threadid);
         },
         iniExComs:function(com, threadid){
             var com=this;

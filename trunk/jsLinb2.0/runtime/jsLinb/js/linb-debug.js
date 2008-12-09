@@ -123,8 +123,8 @@ _.merge(_,{
         else delete cache[k];
     },
     //Dependency: linb.Dom linb.Thread
-    observableRun:function(fun){
-        linb.Thread(0,typeof fun=='function'?[fun]:fun,0,0,function(){linb.Dom.busy()},function(){linb.Dom.free()}).start();
+    observableRun:function(tasks,onEnd,threadid){
+        linb.Thread.observableRun(tasks,onEnd,threadid);
     },
 
     /*break object memory link
@@ -1043,9 +1043,9 @@ Class('linb.Thread',null,{
             return !!linb.cache.thread[id];
         },
         //Dependency: linb.Dom
-        observableRun:function(threadid,tasks,onEnd){
+        observableRun:function(tasks,onEnd,threadid){
             var thread=linb.Thread, dom=linb.Dom;
-            if(typeof tasks=='function')tasks=[tasks];
+            if(!_.isArr(tasks))tasks=[tasks];
             //if thread exists, just inset task to the next positiong
             if(linb.cache.thread[threadid]){
                 if(typeof onEnd=='function')
@@ -1061,7 +1061,7 @@ Class('linb.Thread',null,{
                     },
                     //set free status to UI
                     function(threadid){
-                        _.tryF(onEnd);
+                        _.tryF(onEnd,arguments,this);
                         if(dom)dom.free(threadid)
                     }
                 ).start();
@@ -1246,7 +1246,7 @@ Class('linb.absIO',null,{
             return  location.host != uri.replace(r,'$3')
         },
         //get multi ajax results once
-        group:function(hash, callback, onStart, onEnd){
+        groupCall:function(hash, callback, onStart, onEnd, threadid){
             var i,f=function(o,i,hash){
                 hash[i]=linb.Thread(null,[function(threadid){
                     o.threadid=threadid;
@@ -1254,7 +1254,13 @@ Class('linb.absIO',null,{
                 }]);
             };
             for(i in hash)f(hash[i],i,hash);
-            return linb.Thread.group(null, hash, callback, onStart, onEnd);
+            return linb.Thread.group(null, hash, callback, function(){
+                linb.Thread(threadid).suspend();
+                _.tryF(onStart,arguments,this);
+            }, function(){
+                _.tryF(onEnd,arguments,this);
+                linb.Thread(threadid).resume();
+            }).start();
         }
     }
 });
@@ -1602,13 +1608,14 @@ Class('linb.IAjax','linb.absIO',{
 *  dependency: _ ; Class ; linb ; linb.Thread ; linb.absIO/ajax
 */
 Class('linb.SC',null,{
-    Constructor:function(path, callback, isAsy, options){
+    Constructor:function(path, callback, isAsy, threadid, options){
         var p = linb.cache.SC,r;
         if(r=p[path]||(p[path]=_.get(window,path.split('.'))))
-            _.tryF(callback,[path,null,options&&options.threadid],r);
+            _.tryF(callback,[path,null,threadid],r);
         else{
             options=options||{};
             options.$cb=callback;
+            if(isAsy)options.threadid=threadid;
             r=p[path]=linb.SC._call(path||'', options, isAsy);
         }
         return r;
@@ -1715,7 +1722,7 @@ Class('linb.SC',null,{
             for(var i=0,s; s=pathArr[i++];)
                 this._call(s, _.merge({$tag:s},options), true);
         },
-        background:function(pathArr, callback, onStart, onEnd){
+        runInBG:function(pathArr, callback, onStart, onEnd){
             var i=0,j,t,self=this,fun=function(threadid){
                 while(pathArr.length>i && (t=self.get(j=pathArr[i++])));
                 if(!t)
@@ -6525,33 +6532,27 @@ Class('linb.Com',null,{
                 self.loaded=true;
                 //lazy load
                 if(self.background)
-                    linb.SC.background(self.background);
+                    linb.SC.runInBG(self.background);
                 self._fireEvent('onReady');
             });
             funs.push(function(threadid){
                 _.tryF(onEnd,[self, threadid],self.host);
             });
             //use asyUI to insert tasks
-            linb.Thread.observableRun(threadid, funs, function(){
+            linb.Thread.observableRun(funs, function(){
                 self.created=true;
-            });
+            },threadid);
         },
 
         iniComponents:function(){},
 
 //<<<todo:
 
-        requestData:function(group, threadid, onEnd){
+        requestData:function(group, onEnd, threadid){
             var thread=linb.Thread;
-            thread.observableRun(threadid, [function(t){
-                //ensure busy/free order
-                //if threadid is null, t is the real thread
-                thread.suspend(threadid||t);
-                linb.absIO.group(group, null, null, function(){
-                    _.tryF(onEnd);
-                    thread.resume(threadid||t);
-                }).start();
-            }]);
+            thread.observableRun(function(t){
+                linb.absIO.groupCall(group, null, null, onEnd,thread||t);
+            },null,threadid);
         },
         /* build order:
         +-----------+
@@ -6571,11 +6572,11 @@ Class('linb.Com',null,{
         4.thread end
         */
         //buid UI
-        composeUI:function(threadid, onEnd, flag){
+        composeUI:function(onEnd, threadid, flag){
             _.tryF(onEnd);
         },
         //fill data
-        fillUI:function(threadid, onEnd, flag){
+        fillUI:function(onEnd, threadid, flag){
             _.tryF(onEnd);
         },
 //>>>todo end
@@ -8011,8 +8012,7 @@ Class("linb.Tips", null,{
                         //latter
                         _.tryF(o[iniMethod], args, o);
                     };
-                linb.Thread.observableRun(threadid,
-                    [function(threadid){
+                linb.Thread.observableRun(function(threadid){
                         var f=function(a,b,threadid){
                             var cls;
                             if(cls=linb.SC.get(clsPath)){
@@ -8027,9 +8027,9 @@ Class("linb.Tips", null,{
                                 f(0,0,threadid);
                             else
                                 throw new Error(cls+' doesnt exists!');
-                        }, true,{threadid:threadid});
+                        }, true,threadid);
 
-                    }]
+                    },null,threadid
                 );
             }
         },
@@ -8039,18 +8039,16 @@ Class("linb.Tips", null,{
             if(o)
                 _.tryF(onEnd,[threadid,o],o);
             else
-                linb.Thread.observableRun(threadid,
-                    [function(threadid){
-                        linb.SC(cls, function(path,txt){
-                            if(path){
-                                var o=linb.SC.get(cls);
-                                o=typeof o == 'function' ?new o():null;
-                                _.tryF(onEnd,[threadid,o],o);
-                            }else
-                                 throw new Error(cls+' doesnt exists!');
-                        }, true,{threadid:threadid});
-                    }]
-                );
+                linb.Thread.observableRun(function(threadid){
+                    linb.SC(cls, function(path,txt){
+                        if(path){
+                            var o=linb.SC.get(cls);
+                            o=typeof o == 'function' ?new o():null;
+                            _.tryF(onEnd,[threadid,o],o);
+                        }else
+                             throw new Error(cls+' doesnt exists!');
+                    }, true,threadid);
+                },null,threadid);
         },
         storeCom:function(id){
             var m,t,c=this._cache,domId=this._domId;
@@ -20114,7 +20112,7 @@ Class("linb.UI.Poll", "linb.UI.List",{
                             profile.boxing().fillContent(item.id, item._body=o);
                         };
                         if(profile.onGetContent)
-                            linb.Thread.observableRun(null,
+                            linb.Thread.observableRun(
                                 function(threadId){
                                     var r = profile.boxing().onGetContent(profile, item, callback, threadId);
                                     if(r) callback(r);
@@ -22179,7 +22177,7 @@ Class("linb.UI.FoldingList", ["linb.UI.List"],{
                             profile.boxing().fillContent(item.id, item._body=o);
                         };
                         if(profile.onGetContent)
-                            linb.Thread.observableRun(null,
+                            linb.Thread.observableRun(
                                 function(threadId){
                                     var r = profile.boxing().onGetContent(profile, item, callback, threadId);
                                     if(r) callback(r);

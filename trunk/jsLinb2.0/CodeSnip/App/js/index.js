@@ -145,7 +145,7 @@ Class('App', 'linb.Com',{
 
             linb.History.setFI(item.id, false)
 
-            linb.Thread.observableRun(null,[function(threadid){
+            linb.Thread.observableRun(function(threadid){
                 //get com
                 linb.Ajax(path,"",function(txt){
                     try{
@@ -176,7 +176,7 @@ Class('App', 'linb.Com',{
                 },function(msg){
                     fail()
                 },threadid).start();
-            }]);
+            });
         }, 
         events:{"onReady":"_onready"}, 
         _openinbuild_onclick:function (profile, e) {

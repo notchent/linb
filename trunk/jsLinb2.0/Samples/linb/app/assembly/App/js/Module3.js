@@ -4,6 +4,18 @@ Class('App.Module3', 'linb.Com',{
         customAppend:function(){
             this.dialog.show();
         }, 
+        iniResources:function(com, threadid){
+            var ns=this;
+            linb.absIO.groupCall({data:linb.Ajax('App/js/data.js','',function(txt){
+                ns.$cap=txt;
+            })},null,function(threadid){
+                linb.log('thread id: '+threadid, 'to get Datasource in Module3.js');
+                linb.Thread(threadid).insert(1000);
+            },function(threadid){
+                linb.log('thread id: '+threadid, 'Datasource is ready in Module3.js');
+                linb.Thread(threadid).insert(1000);
+            },threadid);
+        },
         iniComponents:function(){
             // [[code created by jsLinb UI Builder
             var host=this, children=[], append=function(child){children.push(child.get(0))};
@@ -49,12 +61,14 @@ Class('App.Module3', 'linb.Com',{
             alert("I'm in Module3");
         }, 
         _beforecreated:function (com, threadid) {
-            linb.log(threadid, 'Module3.js is loaded');
+            linb.log('thread id: '+threadid, 'Module3.js is loaded');
             linb.Thread(threadid).insert(1000);
         }, 
         events:{"onCreated":"_beforecreated", "onReady":"_onready"}, 
         _onready:function (com, threadid) {
-            linb.log(threadid, 'Module3.js is ready');
+            com.dialog.setCaption(com.$cap);
+            
+            linb.log('thread id: '+threadid, 'Module3.js is ready');
             linb.Thread(threadid).insert(1000);
         }
     }

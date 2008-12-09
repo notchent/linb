@@ -47,12 +47,12 @@ Class('App.Module1', 'linb.Com',{
             alert("I'm in Module1");
         }, 
         _beforecreated:function (com, threadid) {
-            linb.log(threadid,'Module1.js is loaded');
+            linb.log('thread id: '+threadid,'Module1.js is loaded');
             linb.Thread(threadid).insert(1000);
         }, 
         events:{"onCreated":"_beforecreated", "onReady":"_onready"}, 
         _onready:function (com, threadid) {
-            linb.log(threadid,'Module1.js is ready');
+            linb.log('thread id: '+threadid,'Module1.js is ready');
             linb.Thread(threadid).insert(1000);
         }
     }

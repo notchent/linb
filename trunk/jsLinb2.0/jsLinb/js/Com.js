@@ -147,33 +147,27 @@ Class('linb.Com',null,{
                 self.loaded=true;
                 //lazy load
                 if(self.background)
-                    linb.SC.background(self.background);
+                    linb.SC.runInBG(self.background);
                 self._fireEvent('onReady');
             });
             funs.push(function(threadid){
                 _.tryF(onEnd,[self, threadid],self.host);
             });
             //use asyUI to insert tasks
-            linb.Thread.observableRun(threadid, funs, function(){
+            linb.Thread.observableRun(funs, function(){
                 self.created=true;
-            });
+            },threadid);
         },
 
         iniComponents:function(){},
 
 //<<<todo:
 
-        requestData:function(group, threadid, onEnd){
+        requestData:function(group, onEnd, threadid){
             var thread=linb.Thread;
-            thread.observableRun(threadid, [function(t){
-                //ensure busy/free order
-                //if threadid is null, t is the real thread
-                thread.suspend(threadid||t);
-                linb.absIO.group(group, null, null, function(){
-                    _.tryF(onEnd);
-                    thread.resume(threadid||t);
-                }).start();
-            }]);
+            thread.observableRun(function(t){
+                linb.absIO.groupCall(group, null, null, onEnd,thread||t);
+            },null,threadid);
         },
         /* build order:
         +-----------+
@@ -193,11 +187,11 @@ Class('linb.Com',null,{
         4.thread end
         */
         //buid UI
-        composeUI:function(threadid, onEnd, flag){
+        composeUI:function(onEnd, threadid, flag){
             _.tryF(onEnd);
         },
         //fill data
-        fillUI:function(threadid, onEnd, flag){
+        fillUI:function(onEnd, threadid, flag){
             _.tryF(onEnd);
         },
 //>>>todo end

@@ -123,8 +123,8 @@ _.merge(_,{
         else delete cache[k];
     },
     //Dependency: linb.Dom linb.Thread
-    observableRun:function(fun){
-        linb.Thread(0,typeof fun=='function'?[fun]:fun,0,0,function(){linb.Dom.busy()},function(){linb.Dom.free()}).start();
+    observableRun:function(tasks,onEnd,threadid){
+        linb.Thread.observableRun(tasks,onEnd,threadid);
     },
 
     /*break object memory link
@@ -1043,9 +1043,9 @@ Class('linb.Thread',null,{
             return !!linb.cache.thread[id];
         },
         //Dependency: linb.Dom
-        observableRun:function(threadid,tasks,onEnd){
+        observableRun:function(tasks,onEnd,threadid){
             var thread=linb.Thread, dom=linb.Dom;
-            if(typeof tasks=='function')tasks=[tasks];
+            if(!_.isArr(tasks))tasks=[tasks];
             //if thread exists, just inset task to the next positiong
             if(linb.cache.thread[threadid]){
                 if(typeof onEnd=='function')
@@ -1061,7 +1061,7 @@ Class('linb.Thread',null,{
                     },
                     //set free status to UI
                     function(threadid){
-                        _.tryF(onEnd);
+                        _.tryF(onEnd,arguments,this);
                         if(dom)dom.free(threadid)
                     }
                 ).start();
@@ -1246,7 +1246,7 @@ Class('linb.absIO',null,{
             return  location.host != uri.replace(r,'$3')
         },
         //get multi ajax results once
-        group:function(hash, callback, onStart, onEnd){
+        groupCall:function(hash, callback, onStart, onEnd, threadid){
             var i,f=function(o,i,hash){
                 hash[i]=linb.Thread(null,[function(threadid){
                     o.threadid=threadid;
@@ -1254,7 +1254,13 @@ Class('linb.absIO',null,{
                 }]);
             };
             for(i in hash)f(hash[i],i,hash);
-            return linb.Thread.group(null, hash, callback, onStart, onEnd);
+            return linb.Thread.group(null, hash, callback, function(){
+                linb.Thread(threadid).suspend();
+                _.tryF(onStart,arguments,this);
+            }, function(){
+                _.tryF(onEnd,arguments,this);
+                linb.Thread(threadid).resume();
+            }).start();
         }
     }
 });
@@ -1602,13 +1608,14 @@ Class('linb.IAjax','linb.absIO',{
 *  dependency: _ ; Class ; linb ; linb.Thread ; linb.absIO/ajax
 */
 Class('linb.SC',null,{
-    Constructor:function(path, callback, isAsy, options){
+    Constructor:function(path, callback, isAsy, threadid, options){
         var p = linb.cache.SC,r;
         if(r=p[path]||(p[path]=_.get(window,path.split('.'))))
-            _.tryF(callback,[path,null,options&&options.threadid],r);
+            _.tryF(callback,[path,null,threadid],r);
         else{
             options=options||{};
             options.$cb=callback;
+            if(isAsy)options.threadid=threadid;
             r=p[path]=linb.SC._call(path||'', options, isAsy);
         }
         return r;
@@ -1715,7 +1722,7 @@ Class('linb.SC',null,{
             for(var i=0,s; s=pathArr[i++];)
                 this._call(s, _.merge({$tag:s},options), true);
         },
-        background:function(pathArr, callback, onStart, onEnd){
+        runInBG:function(pathArr, callback, onStart, onEnd){
             var i=0,j,t,self=this,fun=function(threadid){
                 while(pathArr.length>i && (t=self.get(j=pathArr[i++])));
                 if(!t)

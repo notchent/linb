@@ -38,7 +38,7 @@ Class('App.SubModule1', 'linb.Com',{
             alert("I'm in SubModule1");
         }, 
         _beforecreated:function (com, threadid) {
-            linb.log(threadid, 'SubModule1.js is loaded');
+            linb.log('thread id: '+threadid, 'SubModule1.js is loaded');
             linb.Thread(threadid).insert(1000);
         }, 
         events:{"onCreated":"_beforecreated", "onReady":"_onready"}, 
@@ -49,7 +49,7 @@ Class('App.SubModule1', 'linb.Com',{
             },threadid);
         },
         _onready:function (com, threadid) {
-            linb.log(threadid, 'SubModule1.js is ready');
+            linb.log('thread id: '+threadid, 'SubModule1.js is ready');
             linb.Thread(threadid).insert(1000);
         }
     }

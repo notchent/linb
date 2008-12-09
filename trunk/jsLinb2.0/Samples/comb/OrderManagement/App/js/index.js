@@ -639,9 +639,9 @@ Class('App', 'linb.Com',{
             SPA.$v1=key;
             var ns=this;
             ns.tgd_orders_details.setTag(key);
-            linb.Thread.observableRun(null, [function(threadid){
+            linb.Thread.observableRun(function(threadid){
                 linb.Ajax('Data/Orders.js','rnd=' + Math.random(),ns._ajax1_onrequestok,null,threadid).start();
-            }]);
+            });
         },  
         _pagebar1_onclick:function (profile, src) {
             var pb = profile.boxing(),
@@ -717,9 +717,9 @@ Class('App', 'linb.Com',{
                 this._calculateTotal(SPA.global_data_customer[idx]);
             }else{
                 var ns=this;
-                linb.Thread.observableRun(null, [function(threadid){
+                linb.Thread.observableRun(function(threadid){
                     linb.Ajax('Data/Customers.js','rnd=' + Math.random(),ns._ajax2_onrequestok,null,threadid).start();
-                }]);
+                });
             }
         },
         _pagebar11_onclick:function (profile, src) {

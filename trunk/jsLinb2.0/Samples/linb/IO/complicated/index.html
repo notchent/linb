@@ -39,7 +39,7 @@
                     linb('response').attr('value','');
                     linb('monitor').empty();
 
-                    linb.Thread.observableRun(null,[function(threadid){
+                    linb.Thread.observableRun(function(threadid){
                         linb.Ajax({
                             uri:'first.js',
                             threadid:threadid,
@@ -63,7 +63,7 @@
                                         
                                         linb.Thread.suspend(threadid);
                                         trace('--thread' + threadid +' is suspended here.');
-                                        linb.absIO.group({
+                                        linb.absIO.groupCall({
                                             'third':linb.Ajax({
                                                 uri:obj.nexturi1,
                                                 threadid:threadid,
@@ -90,7 +90,7 @@
                                             trace('the group end',this.threadid);
                                             linb.Thread.resume(threadid);
                                             trace('--thread' + threadid +' is resumed here');
-                                        }).start();
+                                        });
                                     },
                                     onStart:function(){trace('the second onStart',this.threadid)},
                                     onEnd:function(){trace('the second onEnd',this.threadid)}
@@ -99,7 +99,7 @@
                             onStart:function(){trace('the first onStart',this.threadid)},
                             onEnd:function(){trace('the first onEnd',this.threadid)}
                         }).start();
-                    }]);
+                    });
                 });
             });
         </script>

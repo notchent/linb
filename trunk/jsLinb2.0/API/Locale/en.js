@@ -407,9 +407,11 @@ _.set(linb.Locale,["en","doc"], {
             ]
         },
         observableRun:{
-            $desc:"Wraps a function to an UI-Observable thread and executes this thread. ",
+            $desc:"Wraps a function/a set of functions to an UI-Observable thread and executes it. ",
             $paras:[
-                "fun [Required] : Function, arguments: [threadid]. The function to be wrapped. "
+                "tasks [Required]: Funtion or Array, A single task(function) or a set of tasks(functions).",
+                "onEnd [Optional]: Function, 'on end' callback function.",
+                "threadid [Required]: Stirng, thread id. If this thread exists, all [tasks] will be insert into this thread."
             ],
             $snippet:[
                 "_.observableRun(_.fun());",
@@ -840,13 +842,15 @@ _.set(linb.Locale,["en","doc","linb","Thread"], {
     observableRun:{
         $desc:"Wraps a set of functions and an onEnd function to an UI-Observable thread and executes this thread. <br /> If specified [threadid] does not exist, create a new linb.Thread, set 'dom.busy' to [thread onStart] function, and 'dom.free' to [thread onEnd] function. <br /> If specified [threadid] exists, inserts tasks and onEnd function to this existing thread.",
         $paras:[
-            "threadid [Required]: Stirng, thread id. Uses [null] if you don't want to specify it.",
-            "tasks [Required]: Array, a set of tasks(functions).",
-            "onEnd [Optional]: Function, 'on end' callback function."
+            "tasks [Required]: Funtion or Array, A single task(function) or a set of tasks(functions).",
+            "onEnd [Optional]: Function, 'on end' callback function.",
+            "threadid [Required]: Stirng, thread id. If this thread exists, all [tasks] will be insert into this thread."
         ],
         $snippet:[
-            "linb.Thread.observableRun(null, [{task:function(){},delay:2000}],function(){alert('end')});",
-            "var a=[];linb.Thread.observableRun('__id', [{task:function(){a.push(3);},delay:2000}],function(){a.push(4);alert(a);}); linb.Thread.observableRun('__id',[function(){a.push(1)}],function(){a.push(2)});"
+            "linb.Thread.observableRun(function(){linb.message('fun')},function(){alert('end')});",
+            "linb.Thread.observableRun(2000,function(){alert('end')});",
+            "linb.Thread.observableRun([function(){linb.message('fun')},2000],function(){alert('end')});",
+            "var a=[];linb.Thread.observableRun([{task:function(){a.push(3);},delay:2000}],function(){a.push(4);alert(a);},'__id'); linb.Thread.observableRun([function(){a.push(1)}],function(){a.push(2)},'__id');"
         ]
     },
 
@@ -1001,19 +1005,19 @@ _.set(linb.Locale,["en","doc","linb","absIO"], {
             "alert(linb.absIO.buildQS({a:1,b:{aa:1,bb:2}},true)); alert(linb.absIO.buildQS({a:1,b:{aa:1,bb:2}}));"
         ]
     },*/
-    group:{
+    groupCall:{
         $desc:"To group a set of linb.absIO object, wrap them to a shell thread. You can execute them in parallel.",
         $rtn:"linb.Thread",
         $paras:[
             "hash [Required]: hash object, A set of linb.absIO object",
             "callback [Optional]: Function,  this function will be triggered after each linb.absIO object has ended.",
             "onStart [Optional]: Function, onStart function for the shell thread.",
-            "onEnd [Optional]: Function, onEnd function for the shell thread."
+            "onEnd [Optional]: Function, onEnd function for the shell thread.",
+            "threadid [Optional]: String, a thread id to be bound to the current request. [suspend the thread -> execute the request -> resume the thread]"
         ],
         $snippet:[
-            "var out=[];var a=linb.Ajax('uri1',0,0,0,0,{retry:0,timeout:500}), b=linb.SAjax('uri2',0,0,0,0,{retry:0,timeout:500}), c=linb.IAjax('uri3',0,0,0,0,{retry:0,timeout:500}); linb.absIO.group({a:a,b:b,c:c},function(id){out.push(id+' end')},function(){out.push('start')},function(){out.push('end');alert(out)}).start();"
-        ],
-        $memo:"You have to use start function to start [absIO group]."
+            "var out=[];var a=linb.Ajax('uri1',0,0,0,0,{retry:0,timeout:500}), b=linb.SAjax('uri2',0,0,0,0,{retry:0,timeout:500}), c=linb.IAjax('uri3',0,0,0,0,{retry:0,timeout:500}); linb.absIO.group({a:a,b:b,c:c},function(id){out.push(id+' end')},function(){out.push('start')},function(){out.push('end');alert(out)})"
+        ]
     },
     isCrossDomain:{
         $desc:"To Determines whether  or not the given path is a cross domain URI.",
@@ -1086,14 +1090,14 @@ _.set(linb.Locale,["en","doc","linb","Ajax"], {
     $snippet:[
         "var out=[]; linb.Ajax('no.js','', function(){out.push('ok')}, function(){out.push('fail');alert(out);}, null, { onStart:function(){out.push('onStart')}, onEnd:function(){out.push('onEnd') }, onTimeout:function(){out.push('onTimeout')}, onRetry:function(){out.push('onRetry')} }).start();",
         "/*\n//The most common usage: \n"+
-         "linb.Thread.observableRun(null,[function(threadid){\n"+
+         "linb.Thread.observableRun(function(threadid){\n"+
          "       linb.Ajax('request.php',hash, function(response){\n"+
          "               //setResponse(_.unserialize(response));\n"+
          "           }, function(msg){\n"+
          "               //show error msg\n"+
          "           },\n"+
          "       threadid).start();\n"+
-         "   }]);*/"
+         "   });*/"
     ],
     $memo:"Uses [linb.request] to handle simple request, it can switch ajax/sajax/iajax automatically according to url and request method.",
     callback:{
@@ -1176,14 +1180,14 @@ _.set(linb.Locale,["en","doc","linb","SAjax"], {
     ],
     $snippet:[
         "/*\n//The most common usage: \n"+
-         "linb.Thread.observableRun(null,[function(threadid){\n"+
+         "linb.Thread.observableRun(function(threadid){\n"+
          "       linb.SAjax('request.php',hash, function(response){\n"+
          "               //setResponse(response);\n"+
          "           }, function(msg){\n"+
          "               //show error msg\n"+
          "           },\n"+
          "       threadid).start();\n"+
-         "   }]);*/"
+         "   });*/"
     ],
     $memo:"<br />1.Uses [linb.include] to include a .js file.<br />2.Uses [linb.request] to handle simple request, it can switch ajax/sajax automatically according to url.",
     callback:{
@@ -1268,23 +1272,23 @@ _.set(linb.Locale,["en","doc","linb","IAjax"], {
     ],
     $snippet:[
         "/*\n//The most common usage: \n"+
-         "linb.Thread.observableRun(null,[function(threadid){\n"+
+         "linb.Thread.observableRun(function(threadid){\n"+
          "       linb.IAjax('request.php',hash, function(response){\n"+
          "               //setResponse(response);\n"+
          "           }, function(msg){\n"+
          "               //show error msg\n"+
          "           },\n"+
          "       threadid).start();\n"+
-         "   }]);*/",
+         "   });*/",
         "/*\n//The most common usage: \n"+
-         "linb.Thread.observableRun(null,[function(threadid){\n"+
+         "linb.Thread.observableRun(function(threadid){\n"+
          "       linb.SAjax('request.php',hash, function(response){\n"+
          "               //setResponse(response);\n"+
          "           }, function(msg){\n"+
          "               //show error msg\n"+
          "           },\n"+
          "       threadid).start();\n"+
-         "   },{method:'GET'}]);*/"
+         "   },{method:'GET'});*/"
     ],
     $memo:"You have to use linb.IAjax to post cross domain data, or to upload an iamge file.",
 
@@ -1340,6 +1344,7 @@ _.set(linb.Locale,["en","doc","linb","SC"], {
         "path [Required]: String, path name of a class/object(e.g. 'linb.UI.Button').",
         "callback [Optional]: Function, arguments:[path, code, threadid]. A function to be executed whenever the straight call returns. If returns successfully, [path] will be the [path name], and [this] pointer will be the result class/object; if fails, [path] will be [null], and [this] pointer will be the inner linb.Ajax/iajax object.",
         "isAsy [Optional]: Bool, to Determines whether or not  the current SC is in asynchronous Mode. If the target class exists, this parameter is invalide. Default is [false].",
+        "threadid [Optional]: String, a thread id to be bound to the current request. [suspend the thread -> execute the request -> resume the thread]",
         "options [Optional]: Object, a set of key/value pairs that configure the inner linb.Ajax(asynchronous mode) or linb.SAjax(synchronous mode)."
     ],
     $snippet:[
@@ -1372,7 +1377,7 @@ _.set(linb.Locale,["en","doc","linb","SC"], {
             "\n*/"
         ]
     },
-    background:{
+    runInBG:{
         $desc:"To load a set of code snippet and execute them one by one in the background. (wrap them to a shell thread).",
         $paras:[
             "pathArr [Required]: Array, a set of path names(String).",
@@ -1382,7 +1387,7 @@ _.set(linb.Locale,["en","doc","linb","SC"], {
         ],
         $snippet:[
             "/*\n//The most common usage: \n"+
-            "linb.SC.background(['linb.UI.Button','linb.UI.Input','linb.UI.List'],null,null,function(){alert('ends.')});"+
+            "linb.SC.runInBG(['linb.UI.Button','linb.UI.Input','linb.UI.List'],null,null,function(){alert('ends.')});"+
             "\n*/"
         ]
     },
@@ -4083,16 +4088,16 @@ _.set(linb.Locale,["en","doc","linb","Com"], {
             $desc:"Executes a group of linb.absIO objects.",
             $paras:[
                 "group [Require] : Array, a set of linb.absIO objects.",
-                "threadid [Optional] : String, the inner thread id.",
-                "onEnd [Optional]:  Function, the callback function, it will be executed after all the absIO were finished."
+                "onEnd [Optional]:  Function, the callback function, it will be executed after all the absIO were finished.",
+                "threadid [Optional] : String, the inner thread id."
             ],
             $memo:"Usually, this function will be used in 'fillUI' function for requesting data from server and filling data into UI."
         },
         composeUI:{
             $desc:"Composes the current Com's UI.",
             $paras:[
-                "threadid [Optional] : String, the inner thread id.",
                 "onEnd [Optional]:  Function, the callback function, it must be called in the current composeUI function.",
+                "threadid [Optional] : String, the inner thread id.",
                 "flag [Optional] : Bool, a parameter for user to Determines whether or not  the current UI will be forced to compose."
             ],
             $memo:"For sub class overwriting."
@@ -4100,8 +4105,8 @@ _.set(linb.Locale,["en","doc","linb","Com"], {
         fillUI:{
             $desc:"Fills the current Com's UI.",
             $paras:[
-                "threadid [Optional] : String, the inner thread id.",
                 "onEnd [Optional]:  Function, the callback function, it must be called in the current fillUI function.",
+                "threadid [Optional] : String, the inner thread id.",
                 "flag [Optional] : Bool, a parameter for user to Determines whether or not  the current UI will be forced to fill."
             ],
             $memo:"For sub class overwriting."
