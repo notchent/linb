@@ -127,6 +127,8 @@ Class('App.TreeView', 'linb.Com',{
             if(!rows)rows=[];
             _.each(obj,function(o,i){
                 var row={},type=SPA.getType(o);
+                i={value:array?'[index]':i,disabled:array};
+
                 if(type=='hash'){
                     row.sub=[];
                     row.cells=[i,{value:'{...}'},''];
@@ -137,7 +139,7 @@ Class('App.TreeView', 'linb.Com',{
                     me(o,true,row.sub);
                 }else{
                     SPA.getType(o);
-                    row.cells=[{value:array?'[index]':i,disabled:array},_.serialize(o),''];
+                    row.cells=[i,_.serialize(o),''];
                 }
                 row._type=type;
                 rows.push(row);

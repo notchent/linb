@@ -424,7 +424,7 @@ _.set(linb.Locale,["en","doc"], {
             $rtn: "String",
             $paras:[
                 "obj [Required]: Object, target object. ",
-                "datetype  [Optional]: String, 'utc' or 'gmt'. Force to serialize all the [Date]in the target object into ISO UTC string, ISO GMT string, or the default format( new Date(yyyy,mm,dd,hh,nn,ss,ms) )."
+                "dateformat  [Optional]: String, 'utc' or 'gmt'. Force to serialize all the [Date]in the target object into ISO UTC string, ISO GMT string, or the default format( new Date(yyyy,mm,dd,hh,nn,ss,ms) )."
             ],
             $snippet:[
                 "alert(_.serialize('a'));"+

@@ -547,7 +547,8 @@ Class('linb.Dom','linb.absBox',{
                     'for':'htmlFor',
                     maxlength: "maxLength",
                     cellspacing: "cellSpacing",
-                    rowspan: "rowSpan"
+                    rowspan: "rowSpan",
+                    value:'value'
                 }),
                 map2 = me.map2||(me.map2={
                     href:1,src:1,style:1

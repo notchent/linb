@@ -87,7 +87,6 @@ Class("linb.UI.Input", ["linb.UI.Widget","linb.absValue"] ,{
                 INPUT:{
                     tagName : 'input',
                     type : '{type}',
-                    value:'{value}',
                     tabindex:'{tabindex}',
                     cursor:'{cursor}',
                     style:'{_css}'

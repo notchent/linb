@@ -62,8 +62,8 @@ Class('App', 'linb.Com',{
             , 'before');
 
             host.layout4.append((new linb.UI.Panel)
-                .host(host,"panelFrom")
-                .setCaption("panelFrom")
+                .host(host,"FormBuilder")
+                .setCaption("Form Builder")
             , 'main');
 
             host.layout4.append((new linb.UI.Button)
@@ -376,7 +376,7 @@ Class('App', 'linb.Com',{
                     str +='</tr>';
                 }
 
-                SPA.panelFrom.setHtml('<table cellspacing="4" style="border-spacing:10px;border-collapse:separate;">'+str+'</table>',false);
+                SPA.FormBuilder.setHtml('<table cellspacing="4" style="border-spacing:10px;border-collapse:separate;">'+str+'</table>',false);
                 nodes.render(true);
             }
             var hash={};
@@ -386,110 +386,6 @@ Class('App', 'linb.Com',{
             });
             SPA.$dbBinder.resetValue(hash).getUI().setDisabled(false)
         },
-//This function can build form dynamically
-/*        _tg2_afterRowActive:function(profile, row){
-            SPA.panelFrom.setHtml('');
-
-            var cells=row.cells,t,
-                ns=[],
-                getPro=linb.UI.TreeGrid.getCellPro,
-                name,widget,type,t;
-
-            _.arr.each(cells,function(o){
-                type=getPro(profile, o, 'type');
-                ns.push(t=[o._col.caption]);
-
-                if(type=='checkbox')
-                    widget=widget=new linb.UI.CheckBox();
-                else if(!type || type=='label')
-                    widget=new linb.UI.Label({caption:o.caption});
-                else if(!type || type=='button')
-                    widget=new linb.UI.Button();
-                else
-                    widget=new linb.UI.ComboInput();
-
-                if(widget.setDataBinder)
-                    widget.setDataBinder('tr2').setDataField(o._col.id);
-
-                t[1]=widget.get(0);
-
-                switch(type){
-                    case 'number':
-                        widget.setType('none').setCustomStyle('INPUT',"text-align:right;");
-                        break;
-                    case 'progress':
-                        widget.setType('none').setValueFormat("^(0([\\.]\\d*[0-9]+)|0|1)$").setCustomStyle('INPUT',"text-align:right;");
-                        break;
-                    case 'input':
-                        widget.setType('none');
-                        break;
-                    case 'textarea':
-                        widget.setType('none').setMultiLines(true).setWidth(200).setHeight(100);
-                        break;
-                    case 'listbox':
-                    case 'combobox':
-                    case 'helpinput':
-                        widget.setType(type);
-                        if(t=getPro(profile,o,'editorListKey'))
-                            widget.setListKey(t);
-                        else if(t=getPro(profile,o,'editorListItems'))
-                            widget.setItems(t);
-                        break;
-                    case 'timepicker':
-                    case 'datepicker':
-                    case 'colorpicker':
-                        widget.setType(type);
-                        break;
-                    case 'getter':
-                    case 'popbox':
-                    case 'cmdbox':
-                        widget.setType(type).onClickButton(function(pro, pos, e, src){
-                            if(getPro(profile, o, 'disabled'))return false;
-                            var event=getPro(profile, o, 'event');
-                            if(typeof event == 'function' && false===event.call(profile._host||profile, profile, o, pro, pos,e,src)){}
-                            else
-                                profile.boxing().onClickButton(profile, pro.$cell, pro, pos, e, src);
-                        });
-                        break;
-                }
-
-                if(widget.setValue)
-                    widget.setValue(o.$value).setUIValue(o.value);
-
-                var editorFormat = getPro(profile, o,'editorFormat'),
-                    editorReadonly = getPro(profile, o,'editorReadonly');
-
-                if(widget.setReadonly)widget.setReadonly(!!editorReadonly);
-                if(editorFormat){
-                    if(typeof editorFormat == 'function'){
-                        if(widget.beforeFormatCheck)widget.beforeFormatCheck(editorFormat);
-                    }else{
-                        if(widget.setValueFormat)widget.setValueFormat(editorFormat);
-                    }
-                }
-            });
-
-
-            var str='', nodes=[];
-
-            _.arr.each(ns,function(arr){
-                nodes.push(arr[1]);
-            })
-            nodes=linb.UI.pack(nodes,false);
-            nodes.setPosition('relative');
-
-            for(var i=0;i<ns.length;i+=2){
-                str += '<tr><td align="right" style="text-decoration:underline;">'+ ns[i][0] +"</td><td>"+ ns[i][1].toHtml() +'</td>';
-                if(ns[i+1])
-                    str +='<td align="right"  style="text-decoration:underline;">'+ ns[i+1][0] +"</td><td>"+ ns[i+1][1].toHtml() +'</td>';
-                str +='</tr>';
-            }
-
-            SPA.panelFrom.setHtml('<table cellspacing="4" style="border-spacing:10px;border-collapse:separate;">'+str+'</table>',false);
-
-            nodes.render(true);
-        },
-*/
         _onready:function () {
             SPA=this;
             linb.UI.cacheData('demo',[{id:'a',caption:'cap a',image:'img/img.gif'},{id:'b',caption:'cap b',image:'img/img.gif',imagePos:'left -16px'},{id:'c',caption:'cap c',image:'img/img.gif',imagePos:'left -32px'}]);
@@ -606,18 +502,3 @@ Class('App', 'linb.Com',{
         }
     }
 });
-
-
-
-var UIHelper=[
-    {tips:"UIHelper 1",delay:3000,time:1000,pos:{left:100,top:100}},
-    {tips:"UIHelper 2",delay:3000,time:1000,pos:{left:200,top:100}},
-    {tips:"UIHelper 3",delay:3000,time:1000,pos:{left:200,top:100}}
-];
-
-_.arr.each(UIHelper,function(o){
-    o.task=function(){linb.Tips.show(this.pos, this); _.resetRun('$$$',function(){linb.Tips.hide()},this.time)};
-    o.scope=o;
-});
-
-linb.Thread(null,UIHelper).start();

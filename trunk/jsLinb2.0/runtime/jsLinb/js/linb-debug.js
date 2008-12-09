@@ -1,8 +1,8 @@
 /*
 jsLinb 2.0
 Copyright(c) 2008 Yingbo Li(www.linb.net, linb.net[at]gmail.com)
-GPL3 (http://www.opensource.org/licenses/gpl-3.0.html) licenses
-Contact linb.net[at]gmail.com for Commercial Support or cooperation
+Open Source under LGPL (http://www.gnu.org/licenses/lgpl-3.0-standalone.html)
+Contact linb.net[at]gmail.com for Commercial issues
 */
 
 undefined;
@@ -1835,10 +1835,10 @@ new function(){
             )
             + '"'
     };
-    T[O]=function(x,dateformat,l){
+    T[O]=function(x,dateformat,deep){
         var me=arguments.callee, map = me.map || (me.map={prototype:1,constructor:1,toString:1,valueOf:1});
-        l=l||0;
-        if(l>99)return "too much recursion!";
+        deep=deep||1;
+        if(deep>=3)return '"too much recursion!"';
         if (x){
             var a=[], b=[], c=x.constructor, f, i, l, v;
             if(x===window)return "window";
@@ -1851,7 +1851,7 @@ new function(){
                 l = x.length;
                 for(i=0;i<l;++i)
                     if(f=T[typeof (v=x[i])])
-                        if(typeof (v=f(v,dateformat,l+1))==S)
+                        if(typeof (v=f(v,dateformat,deep+1))==S)
                             b[b.length]=v;
 
                 a[2]=']';
@@ -1889,7 +1889,7 @@ new function(){
                         for(i in x)
                             if(!map[i])
                                 if (f=T[typeof (v=x[i])])
-                                    if (typeof (v=f(v,dateformat,l+1))==S)
+                                    if (typeof (v=f(v,dateformat,deep+1))==S)
                                         b[b.length] = T.string(i) + ':' + v;
                         a[2]='}';
                     }
@@ -4650,7 +4650,8 @@ Class('linb.Dom','linb.absBox',{
                     'for':'htmlFor',
                     maxlength: "maxLength",
                     cellspacing: "cellSpacing",
-                    rowspan: "rowSpan"
+                    rowspan: "rowSpan",
+                    value:'value'
                 }),
                 map2 = me.map2||(me.map2={
                     href:1,src:1,style:1
@@ -14036,7 +14037,6 @@ Class("linb.UI.Input", ["linb.UI.Widget","linb.absValue"] ,{
                 INPUT:{
                     tagName : 'input',
                     type : '{type}',
-                    value:'{value}',
                     tabindex:'{tabindex}',
                     cursor:'{cursor}',
                     style:'{_css}'
