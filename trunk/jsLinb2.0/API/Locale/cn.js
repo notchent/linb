@@ -5,7 +5,7 @@ $rtn string
 $snippet array
 $memo string
 */
-_.set(linb.Locale,["en","doc"], {
+_.set(linb.Locale,["cn","doc"], {
     Namespace:{
         $desc:"申明一个名字空间.",
         $paras:[
@@ -606,7 +606,7 @@ _.set(linb.Locale,["en","doc"], {
      }
 });
 
-_.set(linb.Locale,["en","doc","linb"], {
+_.set(linb.Locale,["cn","doc","linb"], {
     $desc:"将一系列的DOM元素包装成linb.Dom对象的快捷函数.",
     $rtn:"linb.Dom object",
     $paras:[
@@ -800,7 +800,7 @@ _.set(linb.Locale,["en","doc","linb"], {
     }
 });
 
-_.set(linb.Locale,["en","doc","linb","Thread"], {
+_.set(linb.Locale,["cn","doc","linb","Thread"], {
     $desc:"获取或生成一个linb.Thread对象. <br /> linb.Thread 模式: <strong>[onStart function]--delay 1-->[task function 1][回调函数 1]--delay 2-->[task function 2][回调函数 2]--delay 3-->[task function ...n][回调函数 ...n][onEnd function]</strong>",
     $rtn:"linb.tread object",
     $paras:[
@@ -989,7 +989,7 @@ _.set(linb.Locale,["en","doc","linb","Thread"], {
     }
 });
 
-_.set(linb.Locale,["en","doc","linb","Dom"], {
+_.set(linb.Locale,["cn","doc","linb","Dom"], {
     constructor:{
         $desc:"一般情况下, 不要使用[new linb.Dom()]创造一个新实例, 而是使用[linb(nodes, flag)]一个新linb.Dom实例对象."
     },
@@ -2116,7 +2116,7 @@ _.set(linb.Locale,["en","doc","linb","Dom"], {
         onUnload:{}
     }
 });
-_.set(linb.Locale,["en","doc","linb","absIO"], {
+_.set(linb.Locale,["cn","doc","linb","absIO"], {
     /*buildQS:{
         $desc:"To build query string.",
         $rtn:"String",
@@ -2173,7 +2173,7 @@ _.set(linb.Locale,["en","doc","linb","absIO"], {
     }
 });
 
-_.set(linb.Locale,["en","doc","linb","Ajax"], {
+_.set(linb.Locale,["cn","doc","linb","Ajax"], {
     $desc:"生成一个linb.Ajax对象. <strong>linb.Ajax对象可以处理当前域的GET/POST请求; linb.Ajax 也是唯一一个能够处理同步请求的Ajax类.</strong>",
     $rtn:"linb.Ajax object",
     $paras:[
@@ -2266,7 +2266,7 @@ _.set(linb.Locale,["en","doc","linb","Ajax"], {
     }
 });
 
-_.set(linb.Locale,["en","doc","linb","SAjax"], {
+_.set(linb.Locale,["cn","doc","linb","SAjax"], {
     $desc:"To Create a linb.SAjax object. <strong>linb.SAjax can handle GET request cross domain, but cant POST data.</strong>.",
     $rtn:"linb.SAjax object",
     $paras:[
@@ -2358,7 +2358,7 @@ _.set(linb.Locale,["en","doc","linb","SAjax"], {
     }
 });
 
-_.set(linb.Locale,["en","doc","linb","IAjax"], {
+_.set(linb.Locale,["cn","doc","linb","IAjax"], {
     $desc:"生成一个linb.IAjax对象. <strong>linb.IAjax 可以处理跨域的GET/POST请求, 而且可以向服务器提交文件(上传内容).</strong>",
     $rtn:"linb.IAjax object",
     $paras:[
@@ -2459,7 +2459,7 @@ _.set(linb.Locale,["en","doc","linb","IAjax"], {
     }
 });
 
-_.set(linb.Locale,["en","doc","linb","SC"], {
+_.set(linb.Locale,["cn","doc","linb","SC"], {
     $desc:"直接调用. Uses path name to call a specified class/object. If the target class/object exists, returns it directly, but if the target class/object does not exist, loads it from code(in memory or in the remote file[linb.Ajax/linb.SAjax]) first, returns it, and executes the 回调函数(if it exists).",
     $rtn:"class/object[in synchronous mode], undefined[in asynchronous mode]",
     $paras:[
@@ -2541,7 +2541,7 @@ _.set(linb.Locale,["en","doc","linb","SC"], {
     }
 });
 
-_.set(linb.Locale,["en","doc","linb","Event"], {
+_.set(linb.Locale,["cn","doc","linb","Event"], {
     getBtn :{
         $desc:"获取鼠标的哪个键被按下了.",
         $rtn:"String",
@@ -2668,7 +2668,7 @@ _.set(linb.Locale,["en","doc","linb","Event"], {
     }
 });
 
-_.set(linb.Locale,["en","doc","linb","absBox"],{
+_.set(linb.Locale,["cn","doc","linb","absBox"],{
     pack:{
         $desc: "To create a [linb.absBox] object, and pack a set of value to this object. ",
         $rtn: "linb.absBox",
@@ -2743,7 +2743,7 @@ _.set(linb.Locale,["en","doc","linb","absBox"],{
     }
 });
 
-_.set(linb.Locale,["en","doc","linb","DragDrop"], {
+_.set(linb.Locale,["cn","doc","linb","DragDrop"], {
     abort:{
         $desc:"取消当前的D&D(Drag & Drop)操作.",
         $snippet:[
@@ -2862,7 +2862,7 @@ _.set(linb.Locale,["en","doc","linb","DragDrop"], {
     }
 });
 
-_.set(linb.Locale,["en","doc","linb","CSS"], {
+_.set(linb.Locale,["cn","doc","linb","CSS"], {
     addStyleSheet:{
         $desc:"添加一个&lt;style>元素到&lt;head>区域中.",
         $rtn:"style DOM element",
@@ -2937,7 +2937,7 @@ _.set(linb.Locale,["en","doc","linb","CSS"], {
     }
 });
 
-_.set(linb.Locale,["en","doc","linb","History"], {
+_.set(linb.Locale,["cn","doc","linb","History"], {
     setCallback:{
         $desc:"设置回调函数。 该函数会在片段标志符(Fragement Identifier)改变时被调用.",
         $rtn:"[self]",
@@ -2971,7 +2971,7 @@ _.set(linb.Locale,["en","doc","linb","History"], {
     }
 });
 
-_.set(linb.Locale,["en","doc","linb","Cookies"], {
+_.set(linb.Locale,["cn","doc","linb","Cookies"], {
     get:{
         $desc:"获取指定名字的cookie值.",
         $rtn:"String",
@@ -3008,7 +3008,7 @@ _.set(linb.Locale,["en","doc","linb","Cookies"], {
         ]
     }
 });
-_.set(linb.Locale,["en","doc","linb","Debugger"], {
+_.set(linb.Locale,["cn","doc","linb","Debugger"], {
     'log':{
         $desc:"在Debugger窗口中打印日志信息.",
         $snippet:[
@@ -3033,7 +3033,7 @@ _.set(linb.Locale,["en","doc","linb","Debugger"], {
     }
 });
 
-_.set(linb.Locale,["en","doc","linb","Date"], {
+_.set(linb.Locale,["cn","doc","linb","Date"], {
     add:{
         $desc:"在基准时间戳加上一个时间段.",
         $rtn:"the result Date object.",
@@ -3233,7 +3233,7 @@ _.set(linb.Locale,["en","doc","linb","Date"], {
         ]
     }
 });
-_.set(linb.Locale,["en","doc","linb","absObj"], {
+_.set(linb.Locale,["cn","doc","linb","absObj"], {
     getAll:{
         $desc:"获取该类的所有对象实例.",
         $rtn:"the current Class object",
@@ -3295,7 +3295,7 @@ _.set(linb.Locale,["en","doc","linb","absObj"], {
     }
 });
 
-_.set(linb.Locale,["en","doc","linb","absProfile"], {
+_.set(linb.Locale,["cn","doc","linb","absProfile"], {
     prototype:{
         getId:{
             $desc:"获取唯一的标志符.",
@@ -3340,7 +3340,7 @@ _.set(linb.Locale,["en","doc","linb","absProfile"], {
     }
 });
 
-_.set(linb.Locale,["en","doc","linb","Profile"], {
+_.set(linb.Locale,["cn","doc","linb","Profile"], {
     constructor:{
         $desc:"生成一个profile对象",
         $memo:"一般情况下，程序员无需直接调用该函数."
@@ -3385,7 +3385,7 @@ _.set(linb.Locale,["en","doc","linb","Profile"], {
     }
 });
 
-_.set(linb.Locale,["en","doc","linb","UIProfile"], {
+_.set(linb.Locale,["cn","doc","linb","UIProfile"], {
     constructor:{
         $desc:"生成一个UI profile对象",
         $memo:"一般情况下，程序员无需直接调用该函数."
@@ -3640,7 +3640,7 @@ _.set(linb.Locale,["en","doc","linb","UIProfile"], {
     }
 });
 
-_.set(linb.Locale,["en","doc","linb","Template"], {
+_.set(linb.Locale,["cn","doc","linb","Template"], {
     getFromDomId:{
         $desc:"从一个DOM元素中获取一个模板(template)对象.",
         $rtn:"linb.Template",
@@ -3800,7 +3800,7 @@ _.set(linb.Locale,["en","doc","linb","Template"], {
 });
 
 
-_.set(linb.Locale,["en","doc","linb","Com"], {
+_.set(linb.Locale,["cn","doc","linb","Com"], {
     constructor:{
         $desc:"linb.Com的构造函数",
         $paras:[
@@ -4167,7 +4167,7 @@ _.set(linb.Locale,["en","doc","linb","Com"], {
 });
 
 
-_.set(linb.Locale,["en","doc","linb","ComFactory"], {
+_.set(linb.Locale,["cn","doc","linb","ComFactory"], {
     setProfile:{
         $desc:"设置应用模块工厂(ComFatory)的profile.",
         $rtn:'[self]',
@@ -4291,10 +4291,10 @@ _.set(linb.Locale,["en","doc","linb","ComFactory"], {
             "linb.ComFactory.getCom('test1',function(){ this.showDlg(); _.asyRun(function(){linb.ComFactory.storeCom('test1')},1000); });"
         ]
     }
-});_.set(linb.Locale,["en","doc","linb","DomProfile"], {
+});_.set(linb.Locale,["cn","doc","linb","DomProfile"], {
 });
 
-_.set(linb.Locale,["en","doc","linb","DataBinder"], {
+_.set(linb.Locale,["cn","doc","linb","DataBinder"], {
     constructor:{
         $desc:"生成一个databinder对象."
     },
@@ -4377,7 +4377,7 @@ _.set(linb.Locale,["en","doc","linb","DataBinder"], {
     }
 });
 
-_.set(linb.Locale,["en","doc","linb","Tips"], {
+_.set(linb.Locale,["cn","doc","linb","Tips"], {
     AUTOHIDETIME:{
         $desc:"指示多少毫秒后tip自动隐藏. 该参数在MOABLE设置为[true]时有效.",
         $snippet:["alert(linb.Tips.AUTOHIDETIME)"]
@@ -4426,7 +4426,7 @@ _.set(linb.Locale,["en","doc","linb","Tips"], {
     }
 });
 
-_.set(linb.Locale,["en","doc","linb","Coder"], {
+_.set(linb.Locale,["cn","doc","linb","Coder"], {
     formatText:{
         $desc:"将js/css/php/html代码片段格式化为更加可读的格式.",
         $rtn:"String",
@@ -4507,7 +4507,7 @@ _.set(linb.Locale,["en","doc","linb","Coder"], {
 });
 
 
-_.set(linb.Locale,["en","doc","linb","absList"], {
+_.set(linb.Locale,["cn","doc","linb","absList"], {
     prototype:{
         fireItemClickEvent:{
             $desc:"当list中的某一项被选择时调用.",
@@ -4661,7 +4661,7 @@ _.set(linb.Locale,["en","doc","linb","absList"], {
     }
 });
 
-_.set(linb.Locale,["en","doc","linb","absValue"], {
+_.set(linb.Locale,["cn","doc","linb","absValue"], {
     prototype:{
         getDataBinder:{
             $desc:"获取绑定的数据绑定器名称",
@@ -4899,7 +4899,7 @@ _.set(linb.Locale,["en","doc","linb","absValue"], {
     }
 });
 
-_.set(linb.Locale,["en","doc","linb","absPlus"], {
+_.set(linb.Locale,["cn","doc","linb","absPlus"], {
     prototype:{
         getDragKey:{
             $desc:"获取拖动时的标志键",
@@ -5291,7 +5291,7 @@ _.set(linb.Locale,["en","doc","linb","absPlus"], {
         }
     }
 });
-_.set(linb.Locale,["en","doc","linb","UI"], {
+_.set(linb.Locale,["cn","doc","linb","UI"], {
     buildCSSText:{
         $desc:"由指定的键/值对生成CSS样式.",
         $rtn:"String. CSS样式",
@@ -6383,7 +6383,7 @@ _.set(linb.Locale,["en","doc","linb","UI"], {
         }
     }
 });
-_.set(linb.Locale,["en","doc","linb","UI","Widget"], {
+_.set(linb.Locale,["cn","doc","linb","UI","Widget"], {
     constructor:{
         $desc:"生成一个linb.UI.Widget对象."
     },
@@ -6463,7 +6463,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Widget"], {
     }
 });
 
-_.set(linb.Locale,["en","doc","linb","UI","Div"], {
+_.set(linb.Locale,["cn","doc","linb","UI","Div"], {
     constructor:{
         $desc:"生成一个linb.UI.Div对象."
     },
@@ -6495,13 +6495,13 @@ _.set(linb.Locale,["en","doc","linb","UI","Div"], {
     }
 });
 
-_.set(linb.Locale,["en","doc","linb","UI","Pane"], {
+_.set(linb.Locale,["cn","doc","linb","UI","Pane"], {
     constructor:{
         $desc:"生成一个linb.UI.Pane对象."
     }
 });
 
-_.set(linb.Locale,["en","doc","linb","UI","Tag"], {
+_.set(linb.Locale,["cn","doc","linb","UI","Tag"], {
     constructor:{
         $desc:"生成一个linb.UI.Tag对象. linb.UI.Tag is a proxy UI class for 'Inversion of Control' in jsLinb.",
         $memo:"linb.UI.Tag is for embedding a target UI object(from linb.Com object) into an existing UI dynamically.",
@@ -6535,7 +6535,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Tag"], {
     }
 });
 
-_.set(linb.Locale,["en","doc","linb","UI","Link"], {
+_.set(linb.Locale,["cn","doc","linb","UI","Link"], {
     constructor:{
         $desc:"生成一个linb.UI.Link对象."
     },
@@ -6629,13 +6629,13 @@ _.set(linb.Locale,["en","doc","linb","UI","Link"], {
     }
 });
 
-_.set(linb.Locale,["en","doc","linb","UI","Border"], {});
+_.set(linb.Locale,["cn","doc","linb","UI","Border"], {});
 
-_.set(linb.Locale,["en","doc","linb","UI","Shadow"], {});
+_.set(linb.Locale,["cn","doc","linb","UI","Shadow"], {});
 
-_.set(linb.Locale,["en","doc","linb","UI","Resizer"], {});
+_.set(linb.Locale,["cn","doc","linb","UI","Resizer"], {});
 
-_.set(linb.Locale,["en","doc","linb","UI","Block"], {
+_.set(linb.Locale,["cn","doc","linb","UI","Block"], {
     constructor:{
         $desc:"生成一个linb.UI.Block 对象."
     },
@@ -6667,7 +6667,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Block"], {
     }
 });
 
-_.set(linb.Locale,["en","doc","linb","UI","Label"], {
+_.set(linb.Locale,["cn","doc","linb","UI","Label"], {
     constructor:{
         $desc:"生成一个linb.UI.Label对象."
     },
@@ -6866,7 +6866,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Label"], {
         }
     }
 });
-_.set(linb.Locale,["en","doc","linb","UI","ProgressBar"], {
+_.set(linb.Locale,["cn","doc","linb","UI","ProgressBar"], {
     constructor:{
         $desc:"Creates a linb.UI.ProgressBar object."
     },
@@ -6900,7 +6900,7 @@ _.set(linb.Locale,["en","doc","linb","UI","ProgressBar"], {
     }
 });
 
-_.set(linb.Locale,["en","doc","linb","UI","Button"], {
+_.set(linb.Locale,["cn","doc","linb","UI","Button"], {
     constructor:{
         $desc:"生成一个linb.UI.Button对象."
     },
@@ -7138,13 +7138,13 @@ _.set(linb.Locale,["en","doc","linb","UI","Button"], {
     }
 });
 
-_.set(linb.Locale,["en","doc","linb","UI","CheckBox"], {
+_.set(linb.Locale,["cn","doc","linb","UI","CheckBox"], {
     constructor:{
         $desc:"生成一个linb.UI.CheckBox对象."
     }
 });
 
-_.set(linb.Locale,["en","doc","linb","UI","Input"], {
+_.set(linb.Locale,["cn","doc","linb","UI","Input"], {
     constructor:{
         $desc:"生成一个linb.UI.Input对象."
     },
@@ -7440,7 +7440,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Input"], {
         }
     }
 });
-_.set(linb.Locale,["en","doc","linb","UI","TextEditor"], {
+_.set(linb.Locale,["cn","doc","linb","UI","TextEditor"], {
     constructor:{
         $desc:"生成一个linb.UI.TextEditor对象."
     },
@@ -7497,7 +7497,7 @@ _.set(linb.Locale,["en","doc","linb","UI","TextEditor"], {
         }
     }
 });
-_.set(linb.Locale,["en","doc","linb","UI","Group"], {
+_.set(linb.Locale,["cn","doc","linb","UI","Group"], {
     constructor:{
         $desc:"生成一个linb.UI.Group对象."
     },
@@ -7676,7 +7676,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Group"], {
     }
 });
 
-_.set(linb.Locale,["en","doc","linb","UI","ComboInput"], {
+_.set(linb.Locale,["cn","doc","linb","UI","ComboInput"], {
     constructor:{
         $desc:"生成一个linb.UI.ComboInput对象."
     },
@@ -7832,13 +7832,13 @@ _.set(linb.Locale,["en","doc","linb","UI","ComboInput"], {
 });
 
 
-_.set(linb.Locale,["en","doc","linb","UI","Stacks"], {
+_.set(linb.Locale,["cn","doc","linb","UI","Stacks"], {
     constructor:{
         $desc:"生成一个linb.UI.Stacks对象."
     }
 });
 
-_.set(linb.Locale,["en","doc","linb","UI","ButtonViews"], {
+_.set(linb.Locale,["cn","doc","linb","UI","ButtonViews"], {
     constructor:{
         $desc:"生成一个linb.UI.ButtonViews对象."
     },
@@ -7944,14 +7944,14 @@ _.set(linb.Locale,["en","doc","linb","UI","ButtonViews"], {
     }
 });
 
-_.set(linb.Locale,["en","doc","linb","UI","RadioBox"], {
+_.set(linb.Locale,["cn","doc","linb","UI","RadioBox"], {
     constructor:{
         $desc:"生成linb.UI.RadioBox对象."
     }
 });
 
 
-_.set(linb.Locale,["en","doc","linb","UI","ColorPicker"], {
+_.set(linb.Locale,["cn","doc","linb","UI","ColorPicker"], {
     constructor:{
         $desc:"生成一个linb.UI.ColorPicker对象."
     },
@@ -8135,7 +8135,7 @@ _.set(linb.Locale,["en","doc","linb","UI","ColorPicker"], {
     }
 });
 
-_.set(linb.Locale,["en","doc","linb","UI","DatePicker"], {
+_.set(linb.Locale,["cn","doc","linb","UI","DatePicker"], {
     constructor:{
         $desc:"生成一个linb.UI.DatePicker对象."
     },
@@ -8186,7 +8186,7 @@ _.set(linb.Locale,["en","doc","linb","UI","DatePicker"], {
     }
 });
 
-_.set(linb.Locale,["en","doc","linb","UI","TimePicker"], {
+_.set(linb.Locale,["cn","doc","linb","UI","TimePicker"], {
     constructor:{
         $desc:"生成一个linb.UI.TimePicker对象."
     },
@@ -8226,7 +8226,7 @@ _.set(linb.Locale,["en","doc","linb","UI","TimePicker"], {
     }
 });
 
-_.set(linb.Locale,["en","doc","linb","UI","Range"], {
+_.set(linb.Locale,["cn","doc","linb","UI","Range"], {
     constructor:{
         $desc:"生成一个linb.UI.Range对象."
     },
@@ -8378,7 +8378,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Range"], {
     }
 });
 
-_.set(linb.Locale,["en","doc","linb","UI","List"], {
+_.set(linb.Locale,["cn","doc","linb","UI","List"], {
     constructor:{
         $desc:"生成一个linb.UI.List对象."
     },
@@ -8467,7 +8467,7 @@ _.set(linb.Locale,["en","doc","linb","UI","List"], {
             ]
         }
     }
-});_.set(linb.Locale,["en","doc","linb","UI","LinkList"], {
+});_.set(linb.Locale,["cn","doc","linb","UI","LinkList"], {
     constructor:{
         $desc:"生成一个linb.UI.LinkList对象."
     },
@@ -8514,7 +8514,7 @@ _.set(linb.Locale,["en","doc","linb","UI","List"], {
     }
 });
 
-_.set(linb.Locale,["en","doc","linb","UI","Gallery"], {
+_.set(linb.Locale,["cn","doc","linb","UI","Gallery"], {
     constructor:{
         $desc:"生成一个linb.UI.Gallery (画廊)对象."
     },
@@ -8680,7 +8680,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Gallery"], {
     }
 });
 
-_.set(linb.Locale,["en","doc","linb","UI","IconList"], {
+_.set(linb.Locale,["cn","doc","linb","UI","IconList"], {
     constructor:{
         $desc:"生成linb.UI.IconList 对象."
     },
@@ -8798,7 +8798,7 @@ _.set(linb.Locale,["en","doc","linb","UI","IconList"], {
     }
 });
 
-_.set(linb.Locale,["en","doc","linb","UI","Panel"], {
+_.set(linb.Locale,["cn","doc","linb","UI","Panel"], {
     constructor:{
         $desc:"生辰一个linb.UI.Panel对象."
     },
@@ -9127,7 +9127,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Panel"], {
     }
 });
 
-_.set(linb.Locale,["en","doc","linb","UI","PageBar"], {
+_.set(linb.Locale,["cn","doc","linb","UI","PageBar"], {
     constructor:{
         $desc:"Creates a linb.UI.PageBar object."
     },
@@ -9282,7 +9282,7 @@ _.set(linb.Locale,["en","doc","linb","UI","PageBar"], {
     }
 });
 
-_.set(linb.Locale,["en","doc","linb","UI","Layout"], {
+_.set(linb.Locale,["cn","doc","linb","UI","Layout"], {
     constructor:{
         $desc:"生成一个linb.UI.Layout对象."
     },
@@ -9355,7 +9355,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Layout"], {
     }
 });
 
-_.set(linb.Locale,["en","doc","linb","UI","Tabs"], {
+_.set(linb.Locale,["cn","doc","linb","UI","Tabs"], {
     constructor:{
         $desc:"生成一个linb.UI.Tabs对象."
     },
@@ -9656,13 +9656,13 @@ _.set(linb.Locale,["en","doc","linb","UI","Tabs"], {
     }
 });
 
-_.set(linb.Locale,["en","doc","linb","UI","Calendar"], {
+_.set(linb.Locale,["cn","doc","linb","UI","Calendar"], {
     constructor:{
         $desc:"生成一个linb.UI.Calendar对象."
     }
 });
 
-_.set(linb.Locale,["en","doc","linb","UI","ToolBar"], {
+_.set(linb.Locale,["cn","doc","linb","UI","ToolBar"], {
     constructor:{
         $desc:"生成一个linb.UI.ToolBar对象."
     },
@@ -9779,7 +9779,7 @@ _.set(linb.Locale,["en","doc","linb","UI","ToolBar"], {
 });
 
 
-_.set(linb.Locale,["en","doc","linb","UI","PopMenu"], {
+_.set(linb.Locale,["cn","doc","linb","UI","PopMenu"], {
     constructor:{
         $desc:"生成一个linb.UI.PopMenu对象."
     },
@@ -9935,7 +9935,7 @@ _.set(linb.Locale,["en","doc","linb","UI","PopMenu"], {
 });
 
 
-_.set(linb.Locale,["en","doc","linb","UI","MenuBar"], {
+_.set(linb.Locale,["cn","doc","linb","UI","MenuBar"], {
     constructor:{
         $desc:"生成一个linb.UI.MenuBar对象."
     },
@@ -10058,7 +10058,7 @@ _.set(linb.Locale,["en","doc","linb","UI","MenuBar"], {
 });
 
 
-_.set(linb.Locale,["en","doc","linb","UI","Dialog"], {
+_.set(linb.Locale,["cn","doc","linb","UI","Dialog"], {
     constructor:{
         $desc:"生成一个linb.UI.Dialog对象."
     },
@@ -10473,7 +10473,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Dialog"], {
     }
 });
 
-_.set(linb.Locale,["en","doc","linb","UI","Image"], {
+_.set(linb.Locale,["cn","doc","linb","UI","Image"], {
     constructor:{
         $desc:"生成一个linb.UI.Image对象."
     },
@@ -10608,7 +10608,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Image"], {
     }
 });
 
-_.set(linb.Locale,["en","doc","linb","UI","FoldingList"], {
+_.set(linb.Locale,["cn","doc","linb","UI","FoldingList"], {
     constructor:{
         $desc:"生成一个linb.UI.FoldingList对象."
     },
@@ -10777,7 +10777,7 @@ _.set(linb.Locale,["en","doc","linb","UI","FoldingList"], {
         }
     }
 });
-_.set(linb.Locale,["en","doc","linb","UI","Poll"], {
+_.set(linb.Locale,["cn","doc","linb","UI","Poll"], {
     constructor:{
         $desc:"生成一个投票对象."
     },
@@ -11161,7 +11161,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Poll"], {
     }
 });
 
-_.set(linb.Locale,["en","doc","linb","UI","TreeBar"], {
+_.set(linb.Locale,["cn","doc","linb","UI","TreeBar"], {
     constructor:{
         $desc:"生成一个linb.UI.TreeBar对象."
     },
@@ -11451,7 +11451,7 @@ _.set(linb.Locale,["en","doc","linb","UI","TreeBar"], {
 
 
 
-_.set(linb.Locale,["en","doc","linb","UI","TimeLine"], {
+_.set(linb.Locale,["cn","doc","linb","UI","TimeLine"], {
     constructor:{
         $desc:"生成一个linb.UI.TimeLine对象."
     },
@@ -12094,7 +12094,7 @@ _.set(linb.Locale,["en","doc","linb","UI","TimeLine"], {
         }
     }
 });
-_.set(linb.Locale,["en","doc","linb","UI","TreeGrid"], {
+_.set(linb.Locale,["cn","doc","linb","UI","TreeGrid"], {
     constructor:{
         $desc:"生成linb.UI.TreeGrid对象."
     },
