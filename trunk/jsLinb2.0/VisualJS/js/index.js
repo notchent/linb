@@ -64,7 +64,7 @@ Class('VisualJS', 'linb.Com',{
                         {type:'split'},
                         {id:'flash', image:CONF.img_app, imagePos:'-128px -17px', caption:'$VisualJS.tool.flash'},
                         {id:'demo', image:CONF.img_app, imagePos:'-48px -64px ', caption:'$VisualJS.tool.demo'},
-                        {split:true},
+                        {type:'split'},
                         {id:'about', caption:'$VisualJS.menu.about'}
                     ]}
                 ]);
