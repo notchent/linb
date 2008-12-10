@@ -3,10 +3,11 @@ Class('VisualJS.PageEditor', 'linb.Com',{
     Instance:{
         events:{
             onReady:function(page){
-                //todo: toolbar
+                page.setValue(page.properties.text);
+           },
+           onRender:function(page){
                 if(page.$checkType!='js')
                     page.toolbar.showItem('check',false);
-                page.setValue(page.properties.text);
            }
         },
         eval2:function(txt){
@@ -92,7 +93,7 @@ Class('VisualJS.PageEditor', 'linb.Com',{
         setReadonly:function(b){
             this.texteditor.setReadonly(b);
         },
-        setValue:function(txt, flag){
+        setValue:function(txt){
             var self=this;
             txt = txt||'';
             self.$bakValue=txt.replace(/\r\n/g,'\n');

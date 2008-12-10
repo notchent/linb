@@ -33,12 +33,12 @@ Class('VisualJS.ClassEditor', 'linb.Com',{
                 data=self.$data;
             text=text.replace(/\r\n/g,'\n');
 
-            if(false==self._adjustData(text))
-                return false;
-
             self.$bakValue=data.text = text;
 
             var view = self.buttonview.getUIValue();
+            if(false==self._adjustData(text,false))
+                view='normal';
+
             if(self.views[view])
                 self.views[view].refreshView();
         },
@@ -72,16 +72,18 @@ Class('VisualJS.ClassEditor', 'linb.Com',{
                 self.views[nv].render();
             self.views[nv].refreshView();
         },
-        _adjustData:function(str){
+        _adjustData:function(str, showErr){
             var self=this,
                 data=self.$data;
+            showErr=showErr!==false;
             try{
                 data.clsStruct = VisualJS.ClassTool.getClassStruct(str);
                 data.clsObject = VisualJS.ClassTool.getClassObject(str);
                 data.text = str;
             }catch(e){
                 data.clsStruct = data.clsObject = null;
-                linb.message(linb.getRes('VisualJS.classEditor.codeerr',String(e)));
+                if(showErr)
+                    linb.message(linb.getRes('VisualJS.classEditor.codeerr',String(e)));
                 return false;
             }
         },

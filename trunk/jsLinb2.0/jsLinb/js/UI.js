@@ -2948,14 +2948,14 @@ Class("linb.UI",  "linb.absObj", {
                     delete p.height;delete p.left;delete p.top;delete p.right;delete p.bottom;
                     break;
                 case 'width':
-                    delete p.width;
+                    delete p.width;delete p.left;delete p.right;
                     break;
                 case 'height':
-                    delete p.height;
+                    delete p.height;delete p.top;delete p.bottom;
                     break;
                 case 'fill':
                 case 'cover':
-                    delete p.width;delete p.height;
+                    delete p.width;delete p.height;delete p.left;delete p.top;delete p.right;delete p.bottom;
                     break;
             }
 

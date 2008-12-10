@@ -1732,7 +1732,7 @@ Class('linb.SC',null,{
                     linb.Thread(threadid).abort();
                 if(pathArr.length==i)i++;
             };
-            linb.Thread(id||null, [fun], 1000, callback, onStart, onEnd, true).start();
+            linb.Thread(null, [fun], 1000, callback, onStart, onEnd, true).start();
         },
         execSnips:function(cache){
             var i,h=cache||linb.cache.text;

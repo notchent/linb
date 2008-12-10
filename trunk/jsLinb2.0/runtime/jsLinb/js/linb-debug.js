@@ -1732,7 +1732,7 @@ Class('linb.SC',null,{
                     linb.Thread(threadid).abort();
                 if(pathArr.length==i)i++;
             };
-            linb.Thread(id||null, [fun], 1000, callback, onStart, onEnd, true).start();
+            linb.Thread(null, [fun], 1000, callback, onStart, onEnd, true).start();
         },
         execSnips:function(cache){
             var i,h=cache||linb.cache.text;
@@ -1838,7 +1838,7 @@ new function(){
     T[O]=function(x,dateformat,deep){
         var me=arguments.callee, map = me.map || (me.map={prototype:1,constructor:1,toString:1,valueOf:1});
         deep=deep||1;
-        if(deep>=3)return '"too much recursion!"';
+        if(deep>99)return '"too much recursion!"';
         if (x){
             var a=[], b=[], c=x.constructor, f, i, l, v;
             if(x===window)return "window";
@@ -11214,14 +11214,14 @@ Class("linb.UI",  "linb.absObj", {
                     delete p.height;delete p.left;delete p.top;delete p.right;delete p.bottom;
                     break;
                 case 'width':
-                    delete p.width;
+                    delete p.width;delete p.left;delete p.right;
                     break;
                 case 'height':
-                    delete p.height;
+                    delete p.height;delete p.top;delete p.bottom;
                     break;
                 case 'fill':
                 case 'cover':
-                    delete p.width;delete p.height;
+                    delete p.width;delete p.height;delete p.left;delete p.top;delete p.right;delete p.bottom;
                     break;
             }
 
@@ -24368,7 +24368,7 @@ Class("linb.UI.ToolBar",["linb.UI","linb.absList"],{
                 'font-size':0,
                 'line-height':0,
                 position:'relative',
-                padding:'2px 4px 0px 9px'
+                padding:'2px 4px 0px 2px'
             },
             ITEM:{
                 'vertical-align':'middle'

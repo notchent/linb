@@ -114,7 +114,7 @@ Class("linb.UI.ToolBar",["linb.UI","linb.absList"],{
                 'font-size':0,
                 'line-height':0,
                 position:'relative',
-                padding:'2px 4px 0px 9px'
+                padding:'2px 4px 0px 2px'
             },
             ITEM:{
                 'vertical-align':'middle'

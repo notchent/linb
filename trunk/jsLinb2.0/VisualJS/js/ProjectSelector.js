@@ -1,4 +1,3 @@
-
 Class('VisualJS.ProjectSelector', 'linb.Com',{
     Instance:{
         customAppend:function(){
@@ -6,7 +5,7 @@ Class('VisualJS.ProjectSelector', 'linb.Com',{
                 dlg=self.dialog,
                 prop = self.properties;
             dlg.setCaption(prop.caption).setImage(prop.image).setImagePos(prop.imagePos);
-            self.listName.setUIValue('').setItems([]);
+            self.listName.setItems([]).setUIValue('',true);
             if(prop.fromRegion)
                 dlg.setFromRegion(prop.fromRegion);
             dlg.show(self.parent, true);
@@ -27,8 +26,8 @@ Class('VisualJS.ProjectSelector', 'linb.Com',{
                         linb.message(arr.error.message);
                     else{
                         arr=arr.data;
+                        self.properties.projectList=[];
                         if(arr && arr.length){
-                            self.properties.projectList=[];
                             _.arr.each(arr,function(i){
                                 if(i.type===0){
                                     self.properties.projectList.push({id:i.location,caption:i.name})
@@ -43,66 +42,64 @@ Class('VisualJS.ProjectSelector', 'linb.Com',{
                     linb.Dom.setCover(false);
                 }
             );
-        },
+        }, 
         iniComponents:function(){
             // [[code created by jsLinb UI Builder
-            var t=this, n=[], u=linb.UI, f=function(c){n.push(c.get(0))};
-
-            f(
-            (new u.Dialog)
-            .host(t,"dialog")
-            .setLeft(100)
-            .setTop(100)
-            .setWidth(340)
-            .setHeight(190)
-            .setMinBtn(false)
-            .setMaxBtn(false)
-            .setResizer(false)
-            .setCaption("dialog")
-            .onHotKeydown("_dialog_onhotkey")
-            .beforeClose("_dialog_beforeclose")
+            var host=this, children=[], append=function(child){children.push(child.get(0))};
+            
+            append((new linb.UI.Dialog)
+                .host(host,"dialog")
+                .setLeft(140)
+                .setTop(100)
+                .setWidth(340)
+                .setHeight(190)
+                .setResizer(false)
+                .setCaption("$VisualJS.dialog.select")
+                .setImage("@CONF.img_app")
+                .setImagePos("-48px top")
+                .setMinBtn(false)
+                .setMaxBtn(false)
+                .onHotKeydown("_dialog_onhotkey")
+                .beforeClose("_dialog_beforeclose")
             );
-
-            t.dialog.append(
-            (new u.List)
-            .host(t,"listName")
-            .setDock("top")
-            .setHeight(120)
-            .setItems([])
+            
+            host.dialog.append((new linb.UI.List)
+                .host(host,"listName")
+                .setDock("top")
+                .setHeight(120)
+                .onDblclick("_listname_ondblclick")
             );
-
-            t.dialog.append(
-            (new u.Button)
-            .host(t,"btnCancel")
-            .setLeft(140)
-            .setTop(130)
-            .setWidth(90)
-            .setZIndex("1")
-            .setCaption("$VisualJS.cancel")
-            .setImage('@CONF.img_app')
-            .setImagePos("-16px -16px")
-            .onClick("_btncancel_onclick")
+            
+            host.dialog.append((new linb.UI.Button)
+                .host(host,"btnCancel")
+                .setLeft(121)
+                .setTop(130)
+                .setWidth(90)
+                .setZIndex("1")
+                .setCaption("$VisualJS.cancel")
+                .setImage("@CONF.img_app")
+                .setImagePos("-16px -16px")
+                .onClick("_btncancel_onclick")
             );
-
-            t.dialog.append(
-            (new u.Button)
-            .host(t,"btnOK")
-            .setLeft(230)
-            .setTop(130)
-            .setWidth(90)
-            .setZIndex("1")
-            .setCaption("$VisualJS.ok")
-            .setImage('@CONF.img_app')
-            .setImagePos("-64px -16px")
-            .onClick("_btnok_onclick")
+            
+            host.dialog.append((new linb.UI.Button)
+                .host(host,"btnOK")
+                .setLeft(221)
+                .setTop(130)
+                .setWidth(90)
+                .setZIndex("1")
+                .setCaption("$VisualJS.ok")
+                .setImage("@CONF.img_app")
+                .setImagePos("-64px -16px")
+                .onClick("_btnok_onclick")
             );
-
-            return n;
+            
+            return children;
             // ]]code created by jsLinb UI Builder
-        },
+        }, 
         _btncancel_onclick:function(){
             this.dialog.close();
-        },
+        }, 
         _btnok_onclick:function(){
             var self=this,
                 pm = self.projectName = self.listName.getUIValue();
@@ -127,14 +124,17 @@ Class('VisualJS.ProjectSelector', 'linb.Com',{
                     _.tryF(self.properties.onOK, [pm, obj.data], self.host);
                 self.dialog.close();
             });
-        },
+        }, 
         _dialog_beforeclose:function(profile){
             this.dialog.hide();
             return false;
-        },
+        }, 
         _dialog_onhotkey:function(profile, key, control, shift, alt){
             if(key=='esc')
                 profile.boxing().close();
+        }, 
+        _listname_ondblclick:function (profile, item, src) {
+            this.btnOK.onClick();
         }
     }
 });

@@ -252,7 +252,7 @@ Class('VisualJS', 'linb.Com',{
                             fromRegion:linb(src).cssRegion(true),
                             items: self.curPrjFiles
                         });
-                        this.show(linb([document.body]));
+                        this.show(linb('body'));
                     });
                     break;
                 case 'delete':
@@ -266,7 +266,7 @@ Class('VisualJS', 'linb.Com',{
                             items:self.curPrjFiles,
                             onOK: self._delfile
                         });
-                        this.show(linb([document.body]));
+                        this.show(linb('body'));
                     });
                     break;
                 case 'refresh':
@@ -333,7 +333,7 @@ Class('VisualJS', 'linb.Com',{
             var item = this.tabsMain.getItemByItemId(ov);
             if(!item)return;
             if(t=item.$obj){
-                if(t.getText()===false)return false;
+                if(t.getValue()===false)return false;
             }
         },
         _tabmain_onitemselected:function(profile,item,src){
@@ -365,63 +365,80 @@ Class('VisualJS', 'linb.Com',{
             if(tb.getItemByItemId(value)){
                 tb.fireItemClickEvent(value);
             }else{
-                linb.Dom.animate({border:'dashed 1px #ff0000'},{left:[t.left,pro.left],top:[t.top,pro.top],width:[t.width,pro.width],height:[t.height,pro.height]}
-                    ,null,function(){
-                        var item = {id:value, tips:value, caption:filename , closeBtn:true, image:CONF.img_app, imagePos:imagePos},
-                            items = tb.getItems()
-                        ;
-                        tb.insertItems([item], items.length?items[items.length-1].id:null);
-                        tb.fireItemClickEvent(value);
-                        var fun = function(txt){
+                //animate
+                linb.Dom.animate({border:'dashed 1px #ff0000'},{left:[t.left,pro.left],top:[t.top,pro.top],width:[t.width,pro.width],height:[t.height,pro.height]},null,function(){},240,8,'inexp').start();
+
+                var filecon;
+                _.observableRun([
+                    //get file content
+                    function(threadid){
+                        var funOK = function(txt){
                             txt = typeof txt=='string'?_.unserialize(txt):txt;
                             if(txt.error){
                                 linb.message(txt.error.message);
                                 return;
                             }
-                            txt=txt.data.file;
-
-                            var itemid=item.id;
-                            var callback=function(pagprofile, pro, b){
-                                tb.markItemCaption(pagprofile.properties.keyId, b);
-                            };
-
-                            item.newText = item.text = txt;
-
-                            if(filetype != 'class'){
-                                linb.ComFactory.newCom('VisualJS.PageEditor',function(){
-                                    this.host = page;
-                                    this.setProperties({
-                                        text:txt,
-                                        checkType:filetype,
-                                        keyId:itemid
-                                    });
-                                    this.setEvents('onValueChanged',callback);
-                                    this.show(null,tb.getCurPanel());
-                                    item.$obj=this;
-                                });
-                            }else{
-                                linb.ComFactory.newCom('VisualJS.ClassEditor',function(){
-                                    this.host = page;
-                                    this.setProperties({
-                                        checkType:'js',
-                                        text:txt,
-                                        textO:txt,
-                                        keyId:itemid
-                                    });
-                                    this.setEvents('onValueChanged',callback);
-                                    this.show(null,tb.getCurPanel());
-                                    item.$obj=this;
-                                });
-                            }
-                        } ;
+                            filecon=txt.data.file;
+                        }, 
+                        funFail=function(msg){
+                            linb.message(msg);
+                        };
                         linb.request(CONF.phpPath,{
                             key:CONF.requestKey,
                             para:{
                                 action:'getfile',
                                 hashCode:_.id(),
                                 path:value
-                            }},fun);
-                },240,8,'inexp').start();
+                        }},funOK,funFail,threadid);
+                    },
+                    //add tab page
+                    function(threadid){
+                        if(filecon){
+                            var item = {
+                                    id:value, tips:value, caption:filename , closeBtn:true, image:CONF.img_app, imagePos:imagePos,
+                                    newText:filecon,
+                                    text:filecon
+                                },
+                                items = tb.getItems(),
+                                itemid=item.id,
+                                callback=function(pagprofile, pro, b){
+                                    tb.markItemCaption(pagprofile.properties.keyId, b);
+                                };
+                            tb.insertItems([item], items.length?items[items.length-1].id:null);
+                            tb.fireItemClickEvent(value);
+    
+                            if(filetype != 'class'){
+                                linb.ComFactory.newCom('VisualJS.PageEditor',function(){
+                                    var inn=this;
+                                    inn.host = page;
+                                    inn.setProperties({
+                                        keyId:itemid
+                                    });
+                                    inn.$checkType=filetype;
+                                    inn.setEvents('onValueChanged',callback);
+                                    inn.show(function(com){
+                                        com.setValue(filecon);
+                                    },tb.getCurPanel());
+                                    item.$obj=inn;
+                                },threadid);
+                            }else{
+                                linb.ComFactory.newCom('VisualJS.ClassEditor',function(){
+                                    var inn=this;
+                                    inn.host = page;
+                                    inn.setProperties({
+                                        keyId:itemid
+                                    });
+                                    inn.setEvents('onValueChanged',callback);
+                                    inn.show(function(com){
+                                        com.setValue(filecon);
+                                        com.showPage('normal');
+                                    },tb.getCurPanel());
+                                    item.$obj=this;
+                                },threadid);
+                            }
+                        }
+                    }
+                ]);
             }
         },
         iniComponents:function(){
@@ -573,17 +590,14 @@ Class('VisualJS', 'linb.Com',{
                         linb.ComFactory.getCom('prjPro',function(){
                             this.host = self;
                             this.setProperties({
-                                caption:'$VisualJS.dialog.newone',
                                 projectName : 'SPA_'+parseInt(Math.random()*10000000000),
                                 jsLINBPath : '',
                                 className : 'App',
                                 readonly : false,
-                                image:CONF.img_app,
-                                imagePos:'-32px top',
                                 fromRegion:linb(src).cssRegion(true),
                                 onOK: self._openproject
                             });
-                            this.show(linb([document.body]));
+                            this.show(linb('body'));
                         });
                     };
                     if(this.curProject)
@@ -603,13 +617,10 @@ Class('VisualJS', 'linb.Com',{
                         linb.ComFactory.getCom('prjSel',function(){
                             this.host = self;
                             this.setProperties({
-                                caption:linb.getRes('VisualJS.dialog.select'),
-                                image:CONF.img_app,
-                                imagePos:'-48px top',
                                 fromRegion:linb(src).cssRegion(true),
                                 onOK: self._openproject
                             });
-                            this.show(linb([document.body]));
+                            this.show(linb('body'));
                         });
                     };
                     if(this.curProject)
@@ -622,40 +633,43 @@ Class('VisualJS', 'linb.Com',{
                         linb.message(linb.getRes('VisualJS.ps.noprj'));
                         return;
                     }
-                    var tb = this.tabsMain, count=0, err;
-                    var items = tb.getItems();
+                    var tb=this.tabsMain, 
+                        count=0,
+                        items=tb.getItems(),
+                        hash={};
                     _.arr.each(items,function(o){
                         if(o._dirty){
-                            count++;
-                            var newText = o.$obj.getText();
-                            if(false===newText){
-                                err='err';
+                            var newText = o.$obj.getValue();
+                            if(false===newText)
                                 return false;
-                            }
-                            linb.request(CONF.phpPath, {key:CONF.requestKey, para:{
-                                action:'save',
-                                hashCode:_.id(),
-                                path: o.id,
-                                content:newText
-                                }}, function(txt){
+
+                            hash[o.id]=linb.IAjax(CONF.phpPath, {key:CONF.requestKey, para:{
+                                    action:'save',
+                                    hashCode:_.id(),
+                                    path: o.id,
+                                    content:newText
+                                }}, 
+                                function(txt){
                                     var obj = typeof txt=='string'?_.unserialize(txt):txt;
                                     if(obj && !obj.error && obj.data && obj.data.OK){
-                                        o.$obj.resetEnv(newText);
+                                        o.$obj.setValue(newText);
                                         tb.markItemCaption(o.id,false,true);
+                                        count++;
                                     }else
                                         linb.message(obj.error.message);
                                 },function(txt){
                                     linb.message(txt);
-                                // post
-                                },null,{method: 'POST'})
+                                }
+                            );
                         }
-                    },this);
-                    if(!err){
-                        if(count)
-                            linb.message(linb.getRes('VisualJS.ps.saved', count));
-                        else
-                            linb.message(linb.getRes('VisualJS.ps.noSaved'));
-                    }
+                    });
+
+                    if(!_.isEmpty(hash))
+                        _.observableRun(function(threadid){
+                            linb.absIO.groupCall(hash,null,null,function(){
+                                linb.message(linb.getRes('VisualJS.ps.saved', count));
+                            },threadid);
+                        });
                     break;
                 case 'ec':
                     linb.reLang(linb.$lang=='en'?'cn':'en',function(){
@@ -721,7 +735,7 @@ Class('VisualJS', 'linb.Com',{
                     break;
                 case 'about':
                     linb.ComFactory.getCom('about',function(){
-                        this.show(linb([document.body]));
+                        this.dialog.show(null,true);
                     });
                     break;
                 default:

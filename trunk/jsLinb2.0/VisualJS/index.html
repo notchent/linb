@@ -14,7 +14,7 @@
         #prgId a{display:block;text-decoration:none;padding:2px;}
         #prgId a:hover{color:#DD8700;background-color:#ddd;}
         #prgList{line-height:20px;padding:4px;border-top:solid #ddd 1px;border-bottom:solid #ddd 1px;}
-        #prgLoading{padding-top:10px;}
+        #loading{padding-top:10px;text-align:center;}
         #lang{padding:2px;color:#A0522D;}
     </style>
 </head>
@@ -26,7 +26,7 @@
                 <a id="en" href="javascript:;" onclick="document.cookie='lang=en';document.getElementById('lang').innerHTML=this.innerHTML;return false">English</a>
                 <a id="cn" href="javascript:;" onclick="document.cookie='lang=cn';document.getElementById('lang').innerHTML=this.innerHTML;return false">中文(Chinese)</a>
             </div>
-            <div id="prgLoading">Loading</div>
+            <div id="loading"><img src="../../../runtime/loading.gif" alt="Loading..." /></div>
         </div>
 
         <script type="text/javascript">
@@ -62,15 +62,6 @@
                 var n=document.getElementById(cookieLang() || dftLang());
                 n.focus();
                 document.getElementById('lang').innerHTML=n.innerHTML;
-
-                //show loading progress
-                (function(){
-                    var n=document.getElementById('prgLoading');
-                    if(n){
-                        n.innerHTML = n.innerHTML + " .";
-                        setTimeout(arguments.callee,200);
-                    }
-                }());
             }
         }())
         </script>
