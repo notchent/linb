@@ -237,10 +237,6 @@ _.merge(_,{
         }
         return arr;
     },
-    //* Fomat error message
-    Error:function(error){
-        return error ? (error.message || error.description || error.toString()) :''
-    },
     urlEncode:function(hash){
         var a=[],i,o;
         for(i in hash){
@@ -358,7 +354,7 @@ _.merge(_,{
                 if(flag)
                     arr.unshift(target);
                 else
-                    arr.unshift.apply(arr, target);                
+                    arr.unshift.apply(arr, target);
             }else{
                 var a;
                 if(!index || index<0 || index>l)index=l;
@@ -888,7 +884,7 @@ Class('linb.Thread',null,{
         _task:function(){
             var self=this,p=self.profile,t={args:[]}, value=p.tasks[p.index],r,i,type=typeof value;
             p._asy=-1;
-            
+
             //maybe aborted
             if(!p.status)return;
 

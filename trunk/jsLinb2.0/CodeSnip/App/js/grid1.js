@@ -8,8 +8,8 @@
             "colSortable":false,
             "colResizer":false,
             "type" : "label",
-            "renderer" : function(cell){return "<span style='width:16px;height:16px;background:url(img/img.gif) left top'></span>"+cell.caption},
-            "cellRenderer" : function(cell){return "<span style='width:16px;height:16px;background:url(img/img.gif) left -16px'></span>"+cell.value},
+            "renderer" : function(cell){return "<span style='width:16px;height:16px;background:url(img/demo.gif) left top'></span>"+cell.caption},
+            "cellRenderer" : function(cell){return "<span style='width:16px;height:16px;background:url(img/demo.gif) left -16px'></span>"+cell.value},
             "width" : 120
         },
         {

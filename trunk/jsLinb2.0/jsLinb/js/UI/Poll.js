@@ -457,6 +457,7 @@ Class("linb.UI.Poll", "linb.UI.List",{
             }
         },
         DataModel:{
+            $checkbox:1,
             title:{
                 action:function(v){
                     this.getSubNode('TITLE').html(v);
@@ -510,7 +511,7 @@ Class("linb.UI.Poll", "linb.UI.List",{
                         id='$custom',
                         sid='_special',
                         t,
-                        cs=self._cs;                    
+                        cs=self._cs;
                     if(!v){
                         if(cs)
                             cs.remove();
@@ -518,7 +519,7 @@ Class("linb.UI.Poll", "linb.UI.List",{
                         if(!cs){
                             t={
                                 id:id,
-                                caption:v                               
+                                caption:v
                             };
                             t[linb.UI.$tag_subId]=sid;
                             cs=self.buildItems('items',self.box._prepareItems(self,[t]));
@@ -613,7 +614,7 @@ Class("linb.UI.Poll", "linb.UI.List",{
                 item._del = '';
             }
 
-            
+
         },
         _buildBody:function(profile,item){
             return item.text?'<pre>'+item.text.replace(/</g,"&lt;")+'</pre>':'';

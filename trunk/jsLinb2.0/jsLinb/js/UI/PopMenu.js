@@ -17,7 +17,7 @@ Class("linb.UI.PopMenu",["linb.UI.Widget","linb.absList"],{
                 pro.height=h;
                 //set size first, for adding shadow later
                 root.cssSize({width:w,height:h});
-                
+
                 //avoid blazing(shadow elements) when resize the border
                 linb.UI.$tryResize(profile,w,h,null,true);
                 if(pro.shadow){
@@ -25,7 +25,7 @@ Class("linb.UI.PopMenu",["linb.UI.Widget","linb.absList"],{
                     var ins=profile.boxing();
                     if(ins._shadow)
                         ins._shadow(true);
-                 }    
+                 }
             });
             return this._setScroll();
         },
@@ -118,7 +118,7 @@ Class("linb.UI.PopMenu",["linb.UI.Widget","linb.absList"],{
             if(profile.$highLight)
                 linb([profile.$highLight]).tagClass('-mouseover',false);
             profile._conainer=parent;
-            
+
             root.popToTop(obj, type, parent);
 
             var f=function(){
@@ -211,10 +211,11 @@ Class("linb.UI.PopMenu",["linb.UI.Widget","linb.absList"],{
             'items.split':{
                 ITEMSPLIT:{
                     tagName:'div',
+                    style:linb.browser.ie6?null:"height:2px",
                     //span is for ie6 to replace setting height;(in ie6, if set height to div, its width will be very large)
-                    ITEMIN:{
+                    ITEMIN:linb.browser.ie6?{
                         style:"width:2px;height:2px;font-size:0;line-height:0;"
-                    }
+                    }:null
                 }
             },
             'items.button':{
@@ -475,7 +476,7 @@ Class("linb.UI.PopMenu",["linb.UI.Widget","linb.absList"],{
                                     },null,-1);
                                     profile[popgrp].push(r.get(0));
 
-                                    r.popToTop(src,2,profile._conainer); 
+                                    r.popToTop(src,2,profile._conainer);
                                 }
                             }
                     }

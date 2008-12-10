@@ -5,7 +5,7 @@ Class("linb.UI.ProgressBar", ["linb.UI.Widget","linb.absValue"] ,{
                 profile.getSubNode('FILL').width(value+"%");
                 profile.getSubNode('CAP').text(profile.properties.captionTpl.replace(/\{value\}/g,value));
             });
-        }        
+        }
     },
     Initialize:function(){
         var self=this,
@@ -18,12 +18,12 @@ Class("linb.UI.ProgressBar", ["linb.UI.Widget","linb.absValue"] ,{
                 text:'{html}'+linb.UI.$childTag
             },
             INN:{
+                $order:2,
                 tagName:'div',
                 CAP:{
-                    $order:2,
                     tagName:'div'
                 }
-            }            
+            }
         },'all');
         //set back
         self.setTemplate(t);
@@ -54,7 +54,7 @@ Class("linb.UI.ProgressBar", ["linb.UI.Widget","linb.absValue"] ,{
             },
             FILL:{
                 position:'absolute',
-                
+
                 width:'1px',
                 left:0,
                 top:0,

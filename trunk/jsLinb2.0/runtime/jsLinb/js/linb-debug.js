@@ -237,10 +237,6 @@ _.merge(_,{
         }
         return arr;
     },
-    //* Fomat error message
-    Error:function(error){
-        return error ? (error.message || error.description || error.toString()) :''
-    },
     urlEncode:function(hash){
         var a=[],i,o;
         for(i in hash){
@@ -358,7 +354,7 @@ _.merge(_,{
                 if(flag)
                     arr.unshift(target);
                 else
-                    arr.unshift.apply(arr, target);                
+                    arr.unshift.apply(arr, target);
             }else{
                 var a;
                 if(!index || index<0 || index>l)index=l;
@@ -888,7 +884,7 @@ Class('linb.Thread',null,{
         _task:function(){
             var self=this,p=self.profile,t={args:[]}, value=p.tasks[p.index],r,i,type=typeof value;
             p._asy=-1;
-            
+
             //maybe aborted
             if(!p.status)return;
 
@@ -8324,7 +8320,12 @@ Class('linb.Profile','linb.absProfile',{
             //host
             if(r.host===self){
                 delete r.host;
-            }else if(o.host && rtnString!==false && !keepHost )r.host='@this';
+            }else if(o.host && !keepHost ){
+                if(rtnString!==false)
+                    r.host='@this';
+                else
+                    delete r.host;
+            }
 
             //properties
             var c={}, p=o.box.$DataStruct, map=linb.absObj.$specialChars;
@@ -8891,7 +8892,13 @@ Class('linb.UIProfile','linb.Profile', {
             //host
             if(r.host===self){
                 delete r.host;
-            }else if(o.host && rtnString!==false && !keepHost )r.host='@this';
+            }else if(o.host && !keepHost ){
+                if(rtnString!==false)
+                    r.host='@this';
+                else
+                    delete r.host;
+            }
+
             //domId
             if(o.$domId!=o.domId)r.domId=o.domId;
 
@@ -10028,6 +10035,7 @@ Class("linb.UI",  "linb.absObj", {
 
             var a=[], b={}, tagName=template.tagName, text= template.text, sc=linb.absObj.$specialChars;
             for(var i in template){
+                if(!template[i])continue;
                 if(!sc[i.charAt(0)] && !map1[i]){
                     o=template[i];
                     if(!r2.test(i)){
@@ -13407,7 +13415,7 @@ Class("linb.UI.Label", "linb.UI.Widget",{
                 profile.getSubNode('FILL').width(value+"%");
                 profile.getSubNode('CAP').text(profile.properties.captionTpl.replace(/\{value\}/g,value));
             });
-        }        
+        }
     },
     Initialize:function(){
         var self=this,
@@ -13420,12 +13428,12 @@ Class("linb.UI.Label", "linb.UI.Widget",{
                 text:'{html}'+linb.UI.$childTag
             },
             INN:{
+                $order:2,
                 tagName:'div',
                 CAP:{
-                    $order:2,
                     tagName:'div'
                 }
-            }            
+            }
         },'all');
         //set back
         self.setTemplate(t);
@@ -13456,7 +13464,7 @@ Class("linb.UI.Label", "linb.UI.Widget",{
             },
             FILL:{
                 position:'absolute',
-                
+
                 width:'1px',
                 left:0,
                 top:0,
@@ -19278,7 +19286,7 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
                         var value = box.getUIValue(),
                             arr = value?value.split(';'):[];
 
-                        if(arr.length&&(ks[1]||ks[2])){
+                        if(arr.length&&(ks[1]||ks[2]||properties.$checkbox)){
                             //for select
                             rt2=false;
                             if(ks[2]){
@@ -20296,6 +20304,7 @@ Class("linb.UI.Poll", "linb.UI.List",{
             }
         },
         DataModel:{
+            $checkbox:1,
             title:{
                 action:function(v){
                     this.getSubNode('TITLE').html(v);
@@ -20349,7 +20358,7 @@ Class("linb.UI.Poll", "linb.UI.List",{
                         id='$custom',
                         sid='_special',
                         t,
-                        cs=self._cs;                    
+                        cs=self._cs;
                     if(!v){
                         if(cs)
                             cs.remove();
@@ -20357,7 +20366,7 @@ Class("linb.UI.Poll", "linb.UI.List",{
                         if(!cs){
                             t={
                                 id:id,
-                                caption:v                               
+                                caption:v
                             };
                             t[linb.UI.$tag_subId]=sid;
                             cs=self.buildItems('items',self.box._prepareItems(self,[t]));
@@ -20452,7 +20461,7 @@ Class("linb.UI.Poll", "linb.UI.List",{
                 item._del = '';
             }
 
-            
+
         },
         _buildBody:function(profile,item){
             return item.text?'<pre>'+item.text.replace(/</g,"&lt;")+'</pre>':'';
@@ -23239,7 +23248,7 @@ Class("linb.UI.PopMenu",["linb.UI.Widget","linb.absList"],{
                 pro.height=h;
                 //set size first, for adding shadow later
                 root.cssSize({width:w,height:h});
-                
+
                 //avoid blazing(shadow elements) when resize the border
                 linb.UI.$tryResize(profile,w,h,null,true);
                 if(pro.shadow){
@@ -23247,7 +23256,7 @@ Class("linb.UI.PopMenu",["linb.UI.Widget","linb.absList"],{
                     var ins=profile.boxing();
                     if(ins._shadow)
                         ins._shadow(true);
-                 }    
+                 }
             });
             return this._setScroll();
         },
@@ -23340,7 +23349,7 @@ Class("linb.UI.PopMenu",["linb.UI.Widget","linb.absList"],{
             if(profile.$highLight)
                 linb([profile.$highLight]).tagClass('-mouseover',false);
             profile._conainer=parent;
-            
+
             root.popToTop(obj, type, parent);
 
             var f=function(){
@@ -23433,10 +23442,11 @@ Class("linb.UI.PopMenu",["linb.UI.Widget","linb.absList"],{
             'items.split':{
                 ITEMSPLIT:{
                     tagName:'div',
+                    style:linb.browser.ie6?null:"height:2px",
                     //span is for ie6 to replace setting height;(in ie6, if set height to div, its width will be very large)
-                    ITEMIN:{
+                    ITEMIN:linb.browser.ie6?{
                         style:"width:2px;height:2px;font-size:0;line-height:0;"
-                    }
+                    }:null
                 }
             },
             'items.button':{
@@ -23697,7 +23707,7 @@ Class("linb.UI.PopMenu",["linb.UI.Widget","linb.absList"],{
                                     },null,-1);
                                     profile[popgrp].push(r.get(0));
 
-                                    r.popToTop(src,2,profile._conainer); 
+                                    r.popToTop(src,2,profile._conainer);
                                 }
                             }
                     }
@@ -27496,7 +27506,13 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                 reg1=/</g,
                 me=arguments.callee,
                 dcls=me._dcls||(me._dcls=profile.getClass('CELL', '-disabled')),
-                ren=me._ren||(me._ren=function(profile,cell,ncell,fun){return typeof cell.$caption=='string'? cell.$caption: typeof cell.caption =='string'?cell.caption:typeof fun=='function'?fun(cell.value):cell.value}),
+                //1. $caption in cell (for special set)
+                //2. caption in ncell(if [ncell] is not [cell], the [caption] maybe is the result of cell.renderer)
+                //3. renderer in cell
+                //4. default caption function
+                //5. value in cell
+                //6. ""
+                ren=me._ren||(me._ren=function(profile,cell,ncell,fun){return typeof cell.$caption=='string'? cell.$caption: typeof ncell.caption =='string'?ncell.caption: typeof cell.renderer=='function'? cell.renderer(cell) : typeof fun=='function'?fun(cell.value):cell.value || ""}),
                 f1=me._f1=(me._f1=function(v){return linb.Date.getText(new Date(parseInt(v)), 'ymd')}),
                 f2=me._f2=(me._f2=function(v){return (v.split('\n')[0]||"").replace(/ /g,'&nbsp;').replace(reg1,'&lt;')}),
                 f3=me._f3=(me._f3=function(v){return v*1000/10+'%'})

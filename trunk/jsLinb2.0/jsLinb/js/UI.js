@@ -58,7 +58,12 @@ Class('linb.Profile','linb.absProfile',{
             //host
             if(r.host===self){
                 delete r.host;
-            }else if(o.host && rtnString!==false && !keepHost )r.host='@this';
+            }else if(o.host && !keepHost ){
+                if(rtnString!==false)
+                    r.host='@this';
+                else
+                    delete r.host;
+            }
 
             //properties
             var c={}, p=o.box.$DataStruct, map=linb.absObj.$specialChars;
@@ -625,7 +630,13 @@ Class('linb.UIProfile','linb.Profile', {
             //host
             if(r.host===self){
                 delete r.host;
-            }else if(o.host && rtnString!==false && !keepHost )r.host='@this';
+            }else if(o.host && !keepHost ){
+                if(rtnString!==false)
+                    r.host='@this';
+                else
+                    delete r.host;
+            }
+
             //domId
             if(o.$domId!=o.domId)r.domId=o.domId;
 
@@ -1762,6 +1773,7 @@ Class("linb.UI",  "linb.absObj", {
 
             var a=[], b={}, tagName=template.tagName, text= template.text, sc=linb.absObj.$specialChars;
             for(var i in template){
+                if(!template[i])continue;
                 if(!sc[i.charAt(0)] && !map1[i]){
                     o=template[i];
                     if(!r2.test(i)){

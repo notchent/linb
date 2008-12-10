@@ -180,7 +180,7 @@ Class("linb.UI.List", ["linb.UI", "linb.absList","linb.absValue" ],{
                         var value = box.getUIValue(),
                             arr = value?value.split(';'):[];
 
-                        if(arr.length&&(ks[1]||ks[2])){
+                        if(arr.length&&(ks[1]||ks[2]||properties.$checkbox)){
                             //for select
                             rt2=false;
                             if(ks[2]){
