@@ -9929,9 +9929,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Tabs"], {
                 "o.onShowOptions(function(p,item){alert(item.id);})"+
                 "}"
             ]
-        },
-
-
+        }
     }
 });
 

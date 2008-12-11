@@ -599,7 +599,7 @@ _.merge(linb,{
     Locale:{en:{}},
     $lang:'en',
     $href:'javascript:;',
-    $langId:'linb.lang',
+    $langId:'linblangkey',
     reLang:function(key,callback){
         var l=linb.Locale,g=linb.getRes,t,v,i,j,f,m,z,a=[];
         linb.$lang=key;
@@ -1948,7 +1948,14 @@ _.id.prototype = {
             return value = b.join('');
         }
     }
-};(linb.Locale.en||(linb.Locale.en={})).date={
+};(linb.Locale.en||(linb.Locale.en={})).inline={
+    ok:'O K',
+    cancel:'Cancel',
+    today:'Today',
+    yes:'Yes',
+    no:'No'
+};
+linb.Locale.en.date={
     WEEKS:{
         '0':'Su',
         '1':'Mo',
@@ -2020,7 +2027,6 @@ _.id.prototype = {
     YMDHNS:function(n,a,b,c,d,e,f){return b+'/'+c+'/'+a + ' ' +d+":"+e+":"+f},
     ALL:function(n,a,b,c,d,e,f,g){return b+'/'+c+'/'+a + ' ' +d+":"+e+":"+f +" " +g}
 };
-
 linb.Locale.en.color={
   LIST:{
     "FFFFFF":"White",
@@ -9841,8 +9847,8 @@ Class("linb.UI",  "linb.absObj", {
             '.ui-invalid, .ui-invalid *':{
                 'background-color': '#FFEBCD'
             },
-            '#linb.lang':{
-                'vertical-align':'text-top'
+            '#linblangkey':{
+                'vertical-align':'baseline'
             }
         });
     },
@@ -10871,6 +10877,8 @@ Class("linb.UI",  "linb.absObj", {
                     _.asyRun(profile.$resizeFun=function(){
                         delete profile.$rs_args;
                         delete profile.$resizeFun;
+                        //destroyed before resize
+                        if(!linb.Dom.byId(profile.domId))return;
                         t.apply(s,args);
                         var style=profile.domNode.style;
                         if('_$v' in profile){
@@ -11819,6 +11827,7 @@ new function(){
                 var self=this, p=self.properties, o=self.boxing();
                 //for performance
                 _.asyRun(function(){
+                    if(!linb.Dom.byId(self.domId))return;
                     if((!self.$noB) && p.border && o._border)o._border(p.border);
                     if((!self.$noR) && p.resizer && o.setResizer)o.setResizer(p.resizer,true);
                     if((!self.$noS) && p.shadow && o._shadow)o._shadow(p.shadow);
@@ -15370,6 +15379,9 @@ Class("linb.UI.Group", "linb.UI.Div",{
             LEGEND:{
                 'margin-left':'3px'
             },
+            HANDLE:{
+                cursor:'default'
+            },
             PANEL:{
                 position:'relative',
                 overflow:'auto'
@@ -15633,7 +15645,7 @@ Class("linb.UI.Group", "linb.UI.Div",{
                                 href:linb.$href,
                                 className:'ui-btn',
                                 style:'display:{submitDispay};',
-                                text:'O K'
+                                text:linb.wrapRes('inline.ok')
                             },
                             CANCEL:{
                                 $order:1,
@@ -15641,7 +15653,7 @@ Class("linb.UI.Group", "linb.UI.Div",{
                                 style:'display:{submitDispay};',
                                 tagName:'a',
                                 href:linb.$href,
-                                text:'Cancel'
+                                text:linb.wrapRes('inline.cancel')
                             },
                             TOGGLE:{
                                 $order:2,
@@ -16495,7 +16507,7 @@ Class("linb.UI.Group", "linb.UI.Div",{
                         TODAY:{
                             tagName:'button',
                             className:'ui-btn',
-                            text:'TODAY'
+                            text:linb.wrapRes('inline.today')
                         }
                     }
                 }
@@ -16990,7 +17002,7 @@ Class("linb.UI.Group", "linb.UI.Div",{
                     OK:{
                         tagName:'button',
                         className:'ui-btn',
-                        text:'O K'
+                        text:linb.wrapRes('inline.ok')
                     }
                 }
             }
@@ -18241,7 +18253,7 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
                 cursor:'move',
                 "-moz-user-select":linb.browser.gek?'none':'',
                 top:0,
-                overflow:'hidden',
+                overflow:'visible',
                 height:'100%'
             },
             'BIGLABEL div':{
@@ -28918,7 +28930,7 @@ Class("linb.UI.Dialog","linb.UI.Widget",{
                 }),
 
                 btn = dialog.$btn = new linb.UI.Button({
-                    caption:'OK',
+                    caption:'$inline.ok',
                     width: 60,
                     tabindex:1
                 },
@@ -28969,7 +28981,7 @@ Class("linb.UI.Dialog","linb.UI.Widget",{
                     height:24
                 }),
                 btn = new linb.UI.Button({
-                    caption:'Yes',
+                    caption:'$inline.yes',
                     width: 60,
                     tabindex:1,
                     left:0
@@ -28984,7 +28996,7 @@ Class("linb.UI.Dialog","linb.UI.Widget",{
                 cmd.append(btn);
 
                 btn = dialog.$btn=new linb.UI.Button({
-                    caption:'No',
+                    caption:'$inline.no',
                     tabindex:1,
                     width: 60,
                     left:80
@@ -29028,7 +29040,7 @@ Class("linb.UI.Dialog","linb.UI.Widget",{
                 height:24
             })
             .append( dialog.$btn = new linb.UI.Button({
-                caption: cmdStr || 'OK',
+                caption: cmdStr || '$inline.ok',
                 tabindex:1,
                 width: 60
             },
@@ -29093,7 +29105,7 @@ Class("linb.UI.Dialog","linb.UI.Widget",{
                 })
                 .setCustomStyle('KEY',"text-align:center;")
                 .append(new linb.UI.Button({
-                    caption:'Yes',
+                    caption:'$inline.yes',
                     width: 60,
                     left:70,
                     tabindex:1
@@ -29106,7 +29118,7 @@ Class("linb.UI.Dialog","linb.UI.Widget",{
                 }));
 
                 cmd.append(new linb.UI.Button({
-                    caption:'No',
+                    caption:'$inline.no',
                     tabindex:1,
                     left:140,
                     width: 60

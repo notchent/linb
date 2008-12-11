@@ -599,7 +599,7 @@ _.merge(linb,{
     Locale:{en:{}},
     $lang:'en',
     $href:'javascript:;',
-    $langId:'linb.lang',
+    $langId:'linblangkey',
     reLang:function(key,callback){
         var l=linb.Locale,g=linb.getRes,t,v,i,j,f,m,z,a=[];
         linb.$lang=key;

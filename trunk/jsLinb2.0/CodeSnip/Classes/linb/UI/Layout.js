@@ -116,4 +116,4 @@ Class('App.linb_UI_Layout', 'linb.Com',{
             // ]]code created by jsLinb UI Builder
         }
     }
-});n
+});

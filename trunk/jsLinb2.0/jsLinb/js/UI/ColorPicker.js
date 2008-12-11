@@ -147,7 +147,7 @@ Class('linb.UI.ColorPicker', ['linb.UI',"linb.absValue"], {
                                 href:linb.$href,
                                 className:'ui-btn',
                                 style:'display:{submitDispay};',
-                                text:'O K'
+                                text:linb.wrapRes('inline.ok')
                             },
                             CANCEL:{
                                 $order:1,
@@ -155,7 +155,7 @@ Class('linb.UI.ColorPicker', ['linb.UI',"linb.absValue"], {
                                 style:'display:{submitDispay};',
                                 tagName:'a',
                                 href:linb.$href,
-                                text:'Cancel'
+                                text:linb.wrapRes('inline.cancel')
                             },
                             TOGGLE:{
                                 $order:2,

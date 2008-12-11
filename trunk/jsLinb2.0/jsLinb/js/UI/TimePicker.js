@@ -113,7 +113,7 @@ Class('linb.UI.TimePicker', ['linb.UI',"linb.absValue"], {
                     OK:{
                         tagName:'button',
                         className:'ui-btn',
-                        text:'O K'
+                        text:linb.wrapRes('inline.ok')
                     }
                 }
             }

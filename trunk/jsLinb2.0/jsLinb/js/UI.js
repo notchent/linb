@@ -1579,8 +1579,8 @@ Class("linb.UI",  "linb.absObj", {
             '.ui-invalid, .ui-invalid *':{
                 'background-color': '#FFEBCD'
             },
-            '#linb.lang':{
-                'vertical-align':'text-top'
+            '#linblangkey':{
+                'vertical-align':'baseline'
             }
         });
     },
@@ -2609,6 +2609,8 @@ Class("linb.UI",  "linb.absObj", {
                     _.asyRun(profile.$resizeFun=function(){
                         delete profile.$rs_args;
                         delete profile.$resizeFun;
+                        //destroyed before resize
+                        if(!linb.Dom.byId(profile.domId))return;
                         t.apply(s,args);
                         var style=profile.domNode.style;
                         if('_$v' in profile){
@@ -3557,6 +3559,7 @@ new function(){
                 var self=this, p=self.properties, o=self.boxing();
                 //for performance
                 _.asyRun(function(){
+                    if(!linb.Dom.byId(self.domId))return;
                     if((!self.$noB) && p.border && o._border)o._border(p.border);
                     if((!self.$noR) && p.resizer && o.setResizer)o.setResizer(p.resizer,true);
                     if((!self.$noS) && p.shadow && o._shadow)o._shadow(p.shadow);

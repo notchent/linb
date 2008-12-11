@@ -135,7 +135,7 @@ Class('linb.UI.DatePicker', ['linb.UI',"linb.absValue"], {
                         TODAY:{
                             tagName:'button',
                             className:'ui-btn',
-                            text:'TODAY'
+                            text:linb.wrapRes('inline.today')
                         }
                     }
                 }

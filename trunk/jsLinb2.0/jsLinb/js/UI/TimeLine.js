@@ -972,7 +972,7 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
                 cursor:'move',
                 "-moz-user-select":linb.browser.gek?'none':'',
                 top:0,
-                overflow:'hidden',
+                overflow:'visible',
                 height:'100%'
             },
             'BIGLABEL div':{

@@ -84,6 +84,9 @@ Class("linb.UI.Group", "linb.UI.Div",{
             LEGEND:{
                 'margin-left':'3px'
             },
+            HANDLE:{
+                cursor:'default'
+            },
             PANEL:{
                 position:'relative',
                 overflow:'auto'

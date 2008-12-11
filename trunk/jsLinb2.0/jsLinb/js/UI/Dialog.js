@@ -758,7 +758,7 @@ Class("linb.UI.Dialog","linb.UI.Widget",{
                 }),
 
                 btn = dialog.$btn = new linb.UI.Button({
-                    caption:'OK',
+                    caption:'$inline.ok',
                     width: 60,
                     tabindex:1
                 },
@@ -809,7 +809,7 @@ Class("linb.UI.Dialog","linb.UI.Widget",{
                     height:24
                 }),
                 btn = new linb.UI.Button({
-                    caption:'Yes',
+                    caption:'$inline.yes',
                     width: 60,
                     tabindex:1,
                     left:0
@@ -824,7 +824,7 @@ Class("linb.UI.Dialog","linb.UI.Widget",{
                 cmd.append(btn);
 
                 btn = dialog.$btn=new linb.UI.Button({
-                    caption:'No',
+                    caption:'$inline.no',
                     tabindex:1,
                     width: 60,
                     left:80
@@ -868,7 +868,7 @@ Class("linb.UI.Dialog","linb.UI.Widget",{
                 height:24
             })
             .append( dialog.$btn = new linb.UI.Button({
-                caption: cmdStr || 'OK',
+                caption: cmdStr || '$inline.ok',
                 tabindex:1,
                 width: 60
             },
@@ -933,7 +933,7 @@ Class("linb.UI.Dialog","linb.UI.Widget",{
                 })
                 .setCustomStyle('KEY',"text-align:center;")
                 .append(new linb.UI.Button({
-                    caption:'Yes',
+                    caption:'$inline.yes',
                     width: 60,
                     left:70,
                     tabindex:1
@@ -946,7 +946,7 @@ Class("linb.UI.Dialog","linb.UI.Widget",{
                 }));
 
                 cmd.append(new linb.UI.Button({
-                    caption:'No',
+                    caption:'$inline.no',
                     tabindex:1,
                     left:140,
                     width: 60

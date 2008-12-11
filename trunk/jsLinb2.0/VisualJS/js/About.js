@@ -33,7 +33,7 @@ Class('VisualJS.About', 'linb.Com',{
                 .setTop(100)
                 .setWidth(50)
                 .setZIndex("10")
-                .setCaption("O K")
+                .setCaption("$inline.ok")
                 .onClick("_button3_onclick")
             );
             
