@@ -9,8 +9,8 @@ Class("linb.UI.PopMenu",["linb.UI.Widget","linb.absList"],{
                 size1 = root.cssSize(),
                 size2 = border.cssSize(),
                 pro=profile.properties,
-                h = Math.min(pro._maxHeight, items.height() + size1.height - size2.height + 2),
-                w = Math.min(pro._maxWidth, items.width() + size1.width - size2.width + 2)
+                h = Math.min(pro._maxHeight, items.height() + size1.height - size2.height+1),
+                w = Math.min(pro._maxWidth, items.width() + size1.width - size2.width+1)
                 ;
 
                 pro.width=w;
@@ -210,12 +210,7 @@ Class("linb.UI.PopMenu",["linb.UI.Widget","linb.absList"],{
              },
             'items.split':{
                 ITEMSPLIT:{
-                    tagName:'div',
-                    style:linb.browser.ie6?null:"height:2px",
-                    //span is for ie6 to replace setting height;(in ie6, if set height to div, its width will be very large)
-                    ITEMIN:linb.browser.ie6?{
-                        style:"width:2px;height:2px;font-size:0;line-height:0;"
-                    }:null
+                    tagName : 'a'
                 }
             },
             'items.button':{
@@ -307,7 +302,6 @@ Class("linb.UI.PopMenu",["linb.UI.Widget","linb.absList"],{
                 position:'relative',
                 overflow:'visible',
                 'white-space': 'nowrap',
-
                 color:'#000',
                 'font-family': '"Verdana", "Helvetica", "sans-serif"',
                 cursor:'pointer',
@@ -316,10 +310,11 @@ Class("linb.UI.PopMenu",["linb.UI.Widget","linb.absList"],{
             ITEMSPLIT:{
                 display:'block',
                 position:'relative',
-                overflow:'hidden',
-
-                'font-size':0,
-                'line-height':0,
+                overflow:'visible',
+                'white-space': 'nowrap',
+                'font-size':'1px',
+                'line-height':'1px',
+                padding:'1px',
                 margin:'2px 2px 2px 26px',
                 background: linb.UI.$bg('hsplit.gif', ' repeat-x left top', true)
             },

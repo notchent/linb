@@ -63,7 +63,7 @@ Class('App', 'linb.Com',{
         _button22_onclick:function (profile, e, value) {
             var db;
             if(!this.$formObj)return;
-            if(!(db=this.$formObj.databinder))return;
+            if(!(db=this.$formObj.dbbinder))return;
 
             db=linb.DataBinder.getFromName(db);
             var data=db.getValue();

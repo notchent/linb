@@ -96,7 +96,7 @@
                 linb('ajax_post').onClick(function(){
                     var hash=getRequest();
                     if(hash)
-                        linb.Thread.observableRun(\function(threadid){
+                        linb.Thread.observableRun(function(threadid){
                             linb.Ajax({
                                 uri:linb('uri').get(0).value,
                                 query: hash,
