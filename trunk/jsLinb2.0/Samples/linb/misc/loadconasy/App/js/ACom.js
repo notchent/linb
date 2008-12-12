@@ -10,7 +10,8 @@ Class('App.ACom', 'linb.Com',{
                 .setDock("none")
                 .setLeft(0)
                 .setTop(0)
-                .setWidth("auto")
+                .setWidth(240)
+                .setHeight(100)
                 .setPosition("relative")
                 .setValue("item a")
             );

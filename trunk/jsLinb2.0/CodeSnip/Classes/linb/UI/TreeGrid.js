@@ -287,7 +287,7 @@ Class('App.linb_UI_TreeGrid', 'linb.Com',{
                 SPA.$dbBinder = new linb.DataBinder();
                 SPA.$dbBinder.setName('tr2');
 
-                var cells=profile.properties.header,t,
+                var cells=profile.properties.header,
                     ns=[],
                     name,widget,type,t;
 

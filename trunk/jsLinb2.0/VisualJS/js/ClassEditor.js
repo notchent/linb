@@ -2,11 +2,13 @@
 An editor for js jsLinb class
 */
 Class('VisualJS.ClassEditor', 'linb.Com',{
+    Constructor:function(){
+        arguments.callee.upper.apply(this,arguments);
+        this.$data={};
+        this.views={};
+    },
     Instance:{
-        $data:{},
         $pageviewType:'linb.UI.ButtonViews',
-        
-        views:{},
         
         activate:function(){
             var self=this,t;
@@ -28,15 +30,15 @@ Class('VisualJS.ClassEditor', 'linb.Com',{
             //need to trigger beforeUIValueSet
             this.buttonview.setUIValue(key,true);
         },
-        setValue:function(text){
+        setValue:function(txt){
             var self=this,
                 data=self.$data;
-            text=text.replace(/\r\n/g,'\n');
+            txt=(txt||'').replace(/\r\n/g,'\n');
 
-            self.$bakValue=data.text = text;
+            self.$bakValue=data.text = txt;
 
             var view = self.buttonview.getUIValue();
-            if(false==self._adjustData(text,false))
+            if(false==self._adjustData(txt,false))
                 view='normal';
 
             if(self.views[view])
@@ -49,6 +51,8 @@ Class('VisualJS.ClassEditor', 'linb.Com',{
             if(t=self.views[ov]){
                 //getvalue and reset the bak value
                 var r = t.getValue(true);
+                if(r===false)return false;
+
                 if(r!==data.text){
                     if(ov=='normal'){
                         //not a class
@@ -77,6 +81,8 @@ Class('VisualJS.ClassEditor', 'linb.Com',{
                 data=self.$data;
             showErr=showErr!==false;
             try{
+                if(!VisualJS.ClassTool.isClassText(str))
+                    throw Error(linb.getRes('VisualJS.classtool.noClass'));
                 data.clsStruct = VisualJS.ClassTool.getClassStruct(str);
                 data.clsObject = VisualJS.ClassTool.getClassObject(str);
                 data.text = str;
@@ -90,7 +96,7 @@ Class('VisualJS.ClassEditor', 'linb.Com',{
         iniExComs:function(com, threadid){
             // [[code created by jsLinb UI Builder
             var self = this,
-                data=self.$data;
+                data=self.$data,
                 children = self._nodes,
                 pageview = (new (linb.SC.get(self.$pageviewType)))
                     .host(self,"buttonview")

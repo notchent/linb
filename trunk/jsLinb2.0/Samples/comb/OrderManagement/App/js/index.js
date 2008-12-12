@@ -383,7 +383,6 @@ Class('App', 'linb.Com',{
                 .host(host,"dialog14")
                 .setLeft(0)
                 .setTop(0)
-                .setVisibility("visible")
                 .setCaption("Customers")
                 .setImage("img/customer.gif")
             );

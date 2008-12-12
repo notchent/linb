@@ -35,7 +35,7 @@ Class('VisualJS.PageEditor', 'linb.Com',{
                 var line=e.line||e.lineNumber;
                 alert((e.name?e.name+' : ':'') + (e.description||e.message||'') + (line?'\n line : '+line:'') );
 
-                if(_.isNumb(line=parseInt(line))=='number'){
+                if(_.isNumb(line=parseInt(line))){
                     var inp=this.texteditor.getSubNode('INPUT').get(0),
                     str=inp.value,
                     l=str.length,
@@ -95,8 +95,9 @@ Class('VisualJS.PageEditor', 'linb.Com',{
         },
         setValue:function(txt){
             var self=this;
-            txt = txt||'';
-            self.$bakValue=txt.replace(/\r\n/g,'\n');
+            txt = (txt||'').replace(/\r\n/g,'\n');
+
+            self.$bakValue=txt;
             self.texteditor.setValue(txt,true);
             return self;
         },

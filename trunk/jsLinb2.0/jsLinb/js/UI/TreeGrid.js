@@ -559,7 +559,9 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                 'background-color':' #fff',
                 'border-bottom':'1px solid #ACA899',
                 left:0,
-                top:'0'
+                top:'0',
+                'font-size':0,
+                'line-height':0
             },
             'SORT, SORT-checked':{
                 width:'15px',

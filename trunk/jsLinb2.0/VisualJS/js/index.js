@@ -245,9 +245,6 @@ Class('VisualJS', 'linb.Com',{
                     linb.ComFactory.getCom('addFile',function(){
                         this.host = self;
                         this.setProperties({
-                            image:CONF.img_app,
-                            imagePos:'-0px -16px',
-                            caption:'$VisualJS.tool2.new',
                             onOK: self._addfile,
                             fromRegion:linb(src).cssRegion(true),
                             items: self.curPrjFiles
@@ -260,9 +257,6 @@ Class('VisualJS', 'linb.Com',{
                         this.host = self;
                         this.setProperties({
                             fromRegion:linb(src).cssRegion(true),
-                            image:CONF.img_app,
-                            imagePos:'-80px -16px',
-                            caption:'$VisualJS.tool2.del',
                             items:self.curPrjFiles,
                             onOK: self._delfile
                         });
@@ -409,6 +403,9 @@ Class('VisualJS', 'linb.Com',{
     
                             if(filetype != 'class'){
                                 linb.ComFactory.newCom('VisualJS.PageEditor',function(){
+                                    var tabPage=tb.getPanel(item.id);
+                                    if(tabPage.isEmpty())return;
+
                                     var inn=this;
                                     inn.host = page;
                                     inn.setProperties({
@@ -418,11 +415,14 @@ Class('VisualJS', 'linb.Com',{
                                     inn.setEvents('onValueChanged',callback);
                                     inn.show(function(com){
                                         com.setValue(filecon);
-                                    },tb.getCurPanel());
+                                    }, tabPage);
                                     item.$obj=inn;
                                 },threadid);
                             }else{
                                 linb.ComFactory.newCom('VisualJS.ClassEditor',function(){
+                                    var tabPage=tb.getPanel(item.id);
+                                    if(tabPage.isEmpty())return;
+                                    
                                     var inn=this;
                                     inn.host = page;
                                     inn.setProperties({
@@ -432,8 +432,8 @@ Class('VisualJS', 'linb.Com',{
                                     inn.show(function(com){
                                         com.setValue(filecon);
                                         com.showPage('normal');
-                                    },tb.getCurPanel());
-                                    item.$obj=this;
+                                    }, tabPage);
+                                    item.$obj=inn;
                                 },threadid);
                             }
                         }

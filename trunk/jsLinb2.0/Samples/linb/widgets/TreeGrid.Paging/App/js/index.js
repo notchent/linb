@@ -6,7 +6,7 @@ Class('App', 'linb.Com',{
         //requried class for the App
         required:["linb.UI.Pane", "linb.UI.PageBar", "linb.UI.TreeGrid", "linb.UI.ComboInput"], 
         //Com events
-        events:{"onReady":"_onready"}, 
+        events:{"onRender":"_onready"}, 
         iniComponents:function(){
             // [[code created by jsLinb UI Builder
             var host=this, children=[], append=function(child){children.push(child.get(0))};

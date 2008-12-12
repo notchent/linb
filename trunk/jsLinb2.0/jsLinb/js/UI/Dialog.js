@@ -625,6 +625,7 @@ Class("linb.UI.Dialog","linb.UI.Widget",{
             self.activeWndId = profile.$id;
         },
         _deActive:function(){
+            var profile;
             if(profile=linb.UI._cache['$'+this.activeWndId])
                 profile.getSubNode('BAR').tagClass('-focus',false);
             delete this.activeWndId;

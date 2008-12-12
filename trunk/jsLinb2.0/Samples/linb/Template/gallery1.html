@@ -11,11 +11,11 @@
 </head>
 <body>
     <div id='loading'><img src="../../../runtime/loading.gif" alt="Loading..." /></div>
-
-    <div id='gallery1' style="margin:0 auto;width:680px;border:solid 1px;padding:4px;margin-top:20px;"></div>
+    <div style='height:20px;'></div>
+    <div id='gallery1' style="margin:0 auto;width:680px;border:solid 1px;padding:4px;"></div>
     <div style="text-align:center;padding:10px;"><button id="cmd">reorder</button></div>
-
-    <div id='drop' style="margin:0 auto;width:680px;margin-top:20px;border:solid 1px #CCC;height:32px;height:100px;position:relative;">
+    <div style='height:20px;'></div>
+    <div id='drop' style="margin:0 auto;width:680px;border:solid 1px #CCC;height:32px;height:100px;position:relative;">
         drag a product here
     </div>
 
@@ -59,7 +59,7 @@
                             //here, just use linb.Template to build a html string
                             var item=profile.getItem(src),
                                 tpl=new linb.Template({"":"<div style='text-align:center;border:solid 1px;background:#fff;'><h4>{title}</h4><img src='{src}'></div><p>{desc}</p>"},item),
-                                html=tpl.build();
+                                html=tpl.toHtml();
                             linb.Tips.show(linb.Event.getPos(e),html);
                         },
                         onMouseout:function(profile,e,src){
@@ -67,7 +67,7 @@
                             linb.Tips.hide();
                         },
                         onMousedown:function(profile,e,src){
-                            linb(src).startDrag(e,{dragType:"image",dragCursor:"default",shadowFrom:src},'prd',profile.getItem(src));
+                            linb(src).startDrag(e,{dragType:"icon",dragCursor:"default",shadowFrom:src},'prd',profile.getItem(src));
                             linb(src).css('backgroundColor','transparent');
                             linb.Tips.hide();
                         }

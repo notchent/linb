@@ -1414,8 +1414,9 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
                 m,n,increment;
 
             if(increment=t.increment){
+                m=x;
                 x=Math.floor(x/increment)*increment;
-                w=Math.floor((w+increment-1)/increment)*increment;
+                w=Math.floor((w-x+m+increment-1)/increment)*increment;
             }
 
             m = (p(x)||0);

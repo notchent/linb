@@ -326,8 +326,12 @@ Class("linb.UI.PopMenu",["linb.UI.Widget","linb.absList"],{
                 $order:2,
                 'background-color':'#B6BDD2'
             },
-            'CHECKBOX':{
-               background: linb.UI.$bg('cmds.gif', ' no-repeat -112px 1px', true)
+            CHECKBOX:{
+               background: linb.UI.$bg('cmds.gif', ' no-repeat -112px 1px', true),
+               margin:0
+            },
+            ICON:{
+                margin:0
             },
             'CHECKBOX-checked':{
                $order:1,

@@ -6,7 +6,6 @@
                 dlg=self.dialog;
             if(prop.fromRegion)
                 dlg.setFromRegion(prop.fromRegion);
-            dlg.setCaption(prop.caption).setImage(prop.image).setImagePos(prop.imagePos);
 
             if(!dlg.get(0).root)
                 dlg.render();
@@ -47,7 +46,9 @@
             .setMinBtn(false)
             .setMaxBtn(false)
             .setPinBtn(false)
-            .setCaption("dialog")
+            .setCaption("$VisualJS.tool2.del")
+            .setImage('@CONF.img_app')
+            .setImagePos('-80px -16px')
             .onHotKeydown("_dialog_onhotkey")
             .beforeClose("_dialog_beforeclose")
             );

@@ -8302,7 +8302,7 @@ Class('linb.Profile','linb.absProfile',{
         },
         __gc:function(){
             this.unLinkAll();
-            _.tryF(this.clearCache);
+            _.tryF(this.clearCache,[],this);
             var o=_.get(this,['box','_namePool']);
             if(o)delete o[self.alias];
             _.breakO(this);
@@ -8736,7 +8736,7 @@ Class('linb.UIProfile','linb.Profile', {
             //for dock case
             if(t=self.$dockParent)
                 if(t=self.constructor.getFromDomId(t))
-                    _.tryF(t.clearCache);
+                    _.tryF(t.clearCache,[],t);
 
             //clear dom link
             if(self.nodeVars && (t=self.domNode))
@@ -9315,8 +9315,12 @@ Class("linb.UI",  "linb.absObj", {
         show:function(left,top){
             return this.each(function(o){
                 if(o.domNode){
-                    o.properties.dockIgnore=false;
+                    var t=o.properties;
+                    t.dockIgnore=false;
                     o.root.show(left,top);
+                    
+                    if(t.dock && t.dock!='none')
+                        linb.UI.$dock(o,true);
                 }
             });
         },
@@ -9702,6 +9706,7 @@ Class("linb.UI",  "linb.absObj", {
                 background:linb.UI.$bg('button.gif', ' repeat-x left -26px',true),
                 border:'solid 1px #616161',
                 padding:'0 3px',
+                cursor:'default',
                 'font-size':'12px',
                 'vertical-align':'middle'
             },
@@ -11918,7 +11923,8 @@ new function(){
                 KEY:{
                    // overflow:(linb.browser.gek && !linb.browser.gek3)?'auto':null,
                     outline:linb.browser.gek?'none':null,
-                    zoom:linb.browser.ie6?'1':null
+                    zoom:linb.browser.ie6?'1':null,
+                    background:linb.browser.ie?'url('+linb.ini.file_bg+') no-repeat left top':null
                 }
             },
             Templates:{
@@ -12946,7 +12952,7 @@ Class("linb.UI.Resizer","linb.UI",{
                 template._id is main id, which can input by create arg
                 template._did is sub id, which must be built on fly, and cached
             */
-            template = profile.box.getTemplate(hash);
+            var template = profile.box.getTemplate(hash);
             // set template dynamic
             if(!template){
                 var t,n;
@@ -14344,9 +14350,8 @@ Class("linb.UI.Input", ["linb.UI.Widget","linb.absValue"] ,{
         },
         _dynamicTemplate:function(profile){
             var properties = profile.properties,
-                hash = profile._exhash = "$" +
-                    'multiLines:'+properties.multiLines;
-                    template = profile.box.getTemplate(hash);
+                hash = profile._exhash = "$" +'multiLines:'+properties.multiLines,
+                template = profile.box.getTemplate(hash);
 
             properties.$UIvalue = properties.value;
 
@@ -15384,7 +15389,8 @@ Class("linb.UI.Group", "linb.UI.Div",{
             },
             PANEL:{
                 position:'relative',
-                overflow:'auto'
+                overflow:'auto',
+                 background:linb.browser.ie?'url('+linb.ini.file_bg+') no-repeat left top':null
             },
             'FIELDSET-checked PANEL':{
                 $order:4,
@@ -18695,8 +18701,9 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
                 m,n,increment;
 
             if(increment=t.increment){
+                m=x;
                 x=Math.floor(x/increment)*increment;
-                w=Math.floor((w+increment-1)/increment)*increment;
+                w=Math.floor((w-x+m+increment-1)/increment)*increment;
             }
 
             m = (p(x)||0);
@@ -19780,8 +19787,11 @@ Class("linb.UI.IconList", "linb.UI.List",{
                 'overflow-x': (linb.browser.ie || linb.browser.gek)?'hidden':''
             },
             ITEMS:{
+                overflow:'auto',
+                'overflow-x': (linb.browser.ie || linb.browser.gek)?'hidden':'',
                 position:'relative',
-                overflow:'visible'
+                'line-height':'12px',
+                background: 'url('+linb.ini.file_bg+') no-repeat left top'
             },
             ITEM:{
                 display:linb.$inlineBlock,
@@ -22144,7 +22154,7 @@ Class("linb.UI.ButtonViews", "linb.UI.Tabs",{
                 'overflow-x': (linb.browser.ie || linb.browser.gek)?'hidden':'',
                 position:'relative',
                 'line-height':'12px',
-                background:'transparent'
+                background: 'url('+linb.ini.file_bg+') no-repeat left top'
             }
         }
     }
@@ -23569,8 +23579,12 @@ Class("linb.UI.PopMenu",["linb.UI.Widget","linb.absList"],{
                 $order:2,
                 'background-color':'#B6BDD2'
             },
-            'CHECKBOX':{
-               background: linb.UI.$bg('cmds.gif', ' no-repeat -112px 1px', true)
+            CHECKBOX:{
+               background: linb.UI.$bg('cmds.gif', ' no-repeat -112px 1px', true),
+               margin:0
+            },
+            ICON:{
+                margin:0
             },
             'CHECKBOX-checked':{
                $order:1,
@@ -24090,8 +24104,7 @@ Class("linb.UI.MenuBar",["linb.UI","linb.absList" ],{
             ITEM:{
                 display:linb.$inlineBlock,
                 zoom:linb.browser.ie6?1:null,
-                /*must specify this, or static will take more v space*/
-                'vertical-align':'middle',
+                'vertical-align':'baseline',
                 margin:'0  4px 0 4px',
                 padding:'1px 2px',
                 cursor:'default',
@@ -24385,7 +24398,8 @@ Class("linb.UI.ToolBar",["linb.UI","linb.absList"],{
                 'font-size':0,
                 'line-height':0,
                 position:'relative',
-                padding:'2px 4px 0px 2px'
+                padding:'2px 4px 0px 2px',
+                'vertical-align':'baseline'
             },
             ITEM:{
                 'vertical-align':'middle'
@@ -26221,7 +26235,9 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                 'background-color':' #fff',
                 'border-bottom':'1px solid #ACA899',
                 left:0,
-                top:'0'
+                top:'0',
+                'font-size':0,
+                'line-height':0
             },
             'SORT, SORT-checked':{
                 width:'15px',
@@ -28797,6 +28813,7 @@ Class("linb.UI.Dialog","linb.UI.Widget",{
             self.activeWndId = profile.$id;
         },
         _deActive:function(){
+            var profile;
             if(profile=linb.UI._cache['$'+this.activeWndId])
                 profile.getSubNode('BAR').tagClass('-focus',false);
             delete this.activeWndId;

@@ -6,7 +6,6 @@ Class('VisualJS.AddFile', 'linb.Com',{
                 prop = self.properties;
             if(prop.fromRegion)
                 dlg.setFromRegion(prop.fromRegion);
-            dlg.setCaption(prop.caption).setImage(prop.image).setImagePos(prop.imagePos);
 
             if(!dlg.get(0).root)
                 dlg.render();
@@ -48,7 +47,9 @@ Class('VisualJS.AddFile', 'linb.Com',{
             .setMinBtn(false)
             .setMaxBtn(false)
             .setPinBtn(false)
-            .setCaption("dialog")
+            .setCaption("$VisualJS.tool2.new")
+            .setImage('CONF.img_app')
+            .setImagePos('-0px -16px')
             .onHotKeydown("_dialog_onhotkey")
             .beforeClose("_dialog_beforeclose")
             );

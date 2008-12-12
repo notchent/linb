@@ -14,7 +14,7 @@ Class("linb.Template.PrdGallery","linb.Template",{
                     //here, just use linb.Template to build a html string
                     var item=profile.getItem(src),
                         tpl=new linb.Template({"":"<div style='text-align:center;border:solid 1px;background:#fff;'><h4>{title}</h4><img src='{src}'></div><p>{desc}</p>"},item),
-                        html=tpl.build();
+                        html=tpl.toHtml();
                     linb.Tips.show(linb.Event.getPos(e),html);
                 },
                 onMouseout:function(profile,e,src){
@@ -22,7 +22,7 @@ Class("linb.Template.PrdGallery","linb.Template",{
                     linb.Tips.hide();
                 },
                 onMousedown:function(profile,e,src){
-                    linb(src).startDrag(e,{dragType:"image",dragCursor:"default",shadowFrom:src},'prd',profile.getItem(src));
+                    linb(src).startDrag(e,{dragType:"icon",dragCursor:"default",shadowFrom:src},'prd',profile.getItem(src));
                     linb(src).css('backgroundColor','transparent');
                     linb.Tips.hide();
                 }

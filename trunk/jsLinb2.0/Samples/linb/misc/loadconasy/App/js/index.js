@@ -62,11 +62,8 @@ Class('App', 'linb.Com',{
             case 'arr':
                 return [{id:'suba',caption:'sub item a'}, {id:'subb',caption:'sub item b'}];
             case 'com':
-            console.log(threadid);
                 linb.ComFactory.newCom('App.ACom',function(threadid){
-            console.log(threadid);
                     this.create(function(com, threadid){
-            console.log(threadid);
                         callback(com.getUIComponents());
                     },threadid)
                 },threadid);

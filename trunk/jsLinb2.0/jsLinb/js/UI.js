@@ -34,7 +34,7 @@ Class('linb.Profile','linb.absProfile',{
         },
         __gc:function(){
             this.unLinkAll();
-            _.tryF(this.clearCache);
+            _.tryF(this.clearCache,[],this);
             var o=_.get(this,['box','_namePool']);
             if(o)delete o[self.alias];
             _.breakO(this);
@@ -468,7 +468,7 @@ Class('linb.UIProfile','linb.Profile', {
             //for dock case
             if(t=self.$dockParent)
                 if(t=self.constructor.getFromDomId(t))
-                    _.tryF(t.clearCache);
+                    _.tryF(t.clearCache,[],t);
 
             //clear dom link
             if(self.nodeVars && (t=self.domNode))
@@ -1047,8 +1047,12 @@ Class("linb.UI",  "linb.absObj", {
         show:function(left,top){
             return this.each(function(o){
                 if(o.domNode){
-                    o.properties.dockIgnore=false;
+                    var t=o.properties;
+                    t.dockIgnore=false;
                     o.root.show(left,top);
+                    
+                    if(t.dock && t.dock!='none')
+                        linb.UI.$dock(o,true);
                 }
             });
         },
@@ -1434,6 +1438,7 @@ Class("linb.UI",  "linb.absObj", {
                 background:linb.UI.$bg('button.gif', ' repeat-x left -26px',true),
                 border:'solid 1px #616161',
                 padding:'0 3px',
+                cursor:'default',
                 'font-size':'12px',
                 'vertical-align':'middle'
             },
@@ -3650,7 +3655,8 @@ new function(){
                 KEY:{
                    // overflow:(linb.browser.gek && !linb.browser.gek3)?'auto':null,
                     outline:linb.browser.gek?'none':null,
-                    zoom:linb.browser.ie6?'1':null
+                    zoom:linb.browser.ie6?'1':null,
+                    background:linb.browser.ie?'url('+linb.ini.file_bg+') no-repeat left top':null
                 }
             },
             Templates:{

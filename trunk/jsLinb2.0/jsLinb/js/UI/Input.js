@@ -377,9 +377,8 @@ Class("linb.UI.Input", ["linb.UI.Widget","linb.absValue"] ,{
         },
         _dynamicTemplate:function(profile){
             var properties = profile.properties,
-                hash = profile._exhash = "$" +
-                    'multiLines:'+properties.multiLines;
-                    template = profile.box.getTemplate(hash);
+                hash = profile._exhash = "$" +'multiLines:'+properties.multiLines,
+                template = profile.box.getTemplate(hash);
 
             properties.$UIvalue = properties.value;
 

@@ -428,7 +428,7 @@ Class("linb.UI.Resizer","linb.UI",{
                 template._id is main id, which can input by create arg
                 template._did is sub id, which must be built on fly, and cached
             */
-            template = profile.box.getTemplate(hash);
+            var template = profile.box.getTemplate(hash);
             // set template dynamic
             if(!template){
                 var t,n;

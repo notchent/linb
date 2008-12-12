@@ -1,4 +1,8 @@
 Class('VisualJS.Designer', 'linb.Com',{
+    Constructor:function(){
+        arguments.callee.upper.apply(this,arguments);
+        this.$host={};
+    },
     Instance:{
         $bakCurCode:null,
         $viewSize:{
@@ -1543,6 +1547,7 @@ Class('VisualJS.Designer', 'linb.Com',{
             var cv,arr=[],t,page=this,
                 id=item.id,
                 deeppage=this,
+                type,
                 uis = profile.$widget, len=uis._nodes.length;
 
             //get the last one first
@@ -2143,8 +2148,10 @@ Class('VisualJS.Designer', 'linb.Com',{
                 try{
                     self.iconlist.clearItems();
 
-                    var nodes = clsObject.Instance.iniComponents.call(null)||[];
-                    var n2 = [];
+                    //reset host here
+                    self.$host={};
+                    var nodes = clsObject.Instance.iniComponents.call(self.$host)||[],
+                        n2 = [];
                     _.filter(nodes,function(target){
                         if(!(target.box['linb.UI'] && !target.box.$noDomRoot)){
                             n2.push(target);

@@ -149,6 +149,9 @@ Class('App', 'linb.Com',{
                     case 'colorpicker':
                         widget.setType(type);
                         break;
+                    case 'spin':
+                        widget.setType(type);
+                        break;
                     case 'getter':
                     case 'popbox':
                     case 'cmdbox':

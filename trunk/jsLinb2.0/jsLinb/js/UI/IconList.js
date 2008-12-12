@@ -35,8 +35,11 @@ Class("linb.UI.IconList", "linb.UI.List",{
                 'overflow-x': (linb.browser.ie || linb.browser.gek)?'hidden':''
             },
             ITEMS:{
+                overflow:'auto',
+                'overflow-x': (linb.browser.ie || linb.browser.gek)?'hidden':'',
                 position:'relative',
-                overflow:'visible'
+                'line-height':'12px',
+                background: 'url('+linb.ini.file_bg+') no-repeat left top'
             },
             ITEM:{
                 display:linb.$inlineBlock,

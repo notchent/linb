@@ -142,8 +142,7 @@ Class("linb.UI.MenuBar",["linb.UI","linb.absList" ],{
             ITEM:{
                 display:linb.$inlineBlock,
                 zoom:linb.browser.ie6?1:null,
-                /*must specify this, or static will take more v space*/
-                'vertical-align':'middle',
+                'vertical-align':'baseline',
                 margin:'0  4px 0 4px',
                 padding:'1px 2px',
                 cursor:'default',

@@ -2238,7 +2238,7 @@ _.set(linb.Locale,["en","doc","linb","Dom"], {
                 "var a=[0,200,400,600,800,1000,1200,1400];"+
                 "linb(id+'a').dragable(true,{dragType:'move'});" +
                 "linb(id+'b').dragable(true,{dragType:'copy',targetReposition:false});"+
-                "linb(id+'c').dragable(true,{dragType:'image',shadowFrom:id+'c'});"+
+                "linb(id+'c').dragable(true,{dragType:'icon',shadowFrom:id+'c'});"+
                 "linb(id+'d').dragable(true,{dragType:'shape',targetReposition:false});"+
                 "linb(id+'e').dragable(true,{dragDefer:20,targetReposition:false});"+
                 "linb(id+'f').dragable(true,{xMagneticLines:a,yMagneticLines:a,magneticDistance:50,targetReposition:false});"+
