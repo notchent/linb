@@ -575,7 +575,7 @@ _.merge(Class, {
             //destroy children
             for(var i=0,o; o=t.$children[i];i++)
                 if(o=_.get(window,o.split('.')))
-                    CLASS.__gc(O);
+                    CLASS.__gc(o);
             t.$parent.length=t.$children.length=0;
             _.set(window, key.split('.'));
         }

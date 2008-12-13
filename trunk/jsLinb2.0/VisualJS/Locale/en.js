@@ -28,7 +28,7 @@
         help: 'Help',
         forum: 'Go to Forum...',
         license:'License',
-        gpllicense:'GPL License',
+        gpllicense:'LGPL License',
         clicense: 'Commercial License',
         purchase:'Purchase License',
         download:'Download Source Code...',

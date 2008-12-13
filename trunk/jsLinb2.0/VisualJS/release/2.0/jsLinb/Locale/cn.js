@@ -1,4 +1,11 @@
-(linb.Locale.cn||(linb.Locale.cn={})).date={
+(linb.Locale.cn||(linb.Locale.cn={})).inline={
+    ok:'确定',
+    cancel:'取消',
+    today:'今天',
+    yes:'是的',
+    no:'不是'
+};
+linb.Locale.cn.date={
     WEEKS:{
         '0':'日',
         '1':'一',

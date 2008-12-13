@@ -12,12 +12,12 @@ new function(){
         requestKey:'VisualJS',
 
         path_link:"http://www.linb.net",
-        path_video:'http://linb.googlecode.com/files/video.html',
+        //path_video:'http://linb.googlecode.com/files/video.html',
         path_forum:'http://groups.google.com/group/linb',
         path_download:'http://code.google.com/p/linb/downloads/list',
-        path_gpllicence:'http://www.gnu.org/licenses/gpl-3.0.txt',
-        path_licence:'license.txt',
-        path_purchase:'http://linb.googlecode.com/files/purchase.html',
+        path_gpllicence:'http://www.gnu.org/licenses/lgpl-3.0-standalone.html',
+        path_licence:'http://www.sigmawidgets.com/license.html',
+        path_purchase:'http://www.sigmawidgets.com/buy_now2.html',
 
         mapWidgets:{},
         widgets: [

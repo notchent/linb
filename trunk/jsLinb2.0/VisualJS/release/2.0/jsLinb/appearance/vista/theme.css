@@ -1,12 +1,12 @@
 /*background here*/
-html, .ui-ctrl, .ui-content{
+html, .ui-content{
     background:#f4f4f4;
 }
 .widget-shell{
     background:transparent;
 }
 .ui-btn{
-    background:transparent url(Public/button.gif) repeat-x scroll left -50px;
+    background:transparent url(Public/button.gif) repeat-x scroll left -26px;
     border-color: #73767d;
 }
 .ui-dragable{
@@ -144,28 +144,38 @@ html, .ui-ctrl, .ui-content{
     background:transparent url(Public/button.gif) no-repeat scroll left top;
 }
 .linb-button-td{
-    background:transparent url(Public/button.gif) repeat-x scroll left -50px;
+    background:transparent url(Public/button.gif) repeat-x scroll left -25px;
 }
 .linb-button-tdr{
-    background:transparent url(Public/button.gif) no-repeat scroll right -100px;
+    background:transparent url(Public/button.gif) no-repeat scroll right -50px;
+}
+.linb-button-drop{
+    background:transparent url(Public/button.gif) no-repeat scroll right -225px;
+    padding-left:16px;
 }
 .linb-button-border-mouseover .linb-button-tdl{
-    background-position:left -150px;
+    background-position:left -75px;
 }
 .linb-button-border-mouseover .linb-button-td{
-    background-position:left -200px;
+    background-position:left -100px;
 }
 .linb-button-border-mouseover .linb-button-tdr{
-    background-position:right -250px;
+    background-position:right -125px;
 }
 .linb-button-border-mousedown .linb-button-tdl, .linb-button-border-checked .linb-button-tdl{
-    background-position:left -300px;
+    background-position:left -150px;
 }
 .linb-button-border-mousedown .linb-button-td, .linb-button-border-checked .linb-button-td{
-    background-position:left -350px;
+    background-position:left -175px;
 }
 .linb-button-border-mousedown .linb-button-tdr, .linb-button-border-checked .linb-button-tdr{
-    background-position:right -400px;
+    background-position:right -200px;
+}
+.linb-button-border-mouseover .linb-button-drop{
+    background-position:right -250px;
+}
+.linb-button-border-mouseover .linb-button-drop-mousedown{
+    background-position:right -275px;
 }
 
 /*linb.UI.Panel*/
@@ -231,6 +241,12 @@ html, .ui-ctrl, .ui-content{
 }
 .linb-poll-mark-checked-mousedown{
     background-position: -128px -32px;
+}
+.linb-poll-bar{
+    background:transparent url(Public/cmds.gif) no-repeat scroll -130px -190px;
+}
+.linb-poll-bari{
+    background:transparent url(Public/cmds.gif) no-repeat scroll -150px -225px;
 }
 
 /*linb.UI.Input*/
@@ -345,7 +361,15 @@ html, .ui-ctrl, .ui-content{
     border:solid 1px #aeaeae;
     border-top:0;
 }
-
+.linb-dialog-bar-focus .linb-dialog-bartdl{
+    background-position : right -66px;
+}
+.linb-dialog-bar-focus .linb-dialog-bartdm{
+    background-position : right -88px;
+}
+.linb-dialog-bar-focus .linb-dialog-bartdr{
+    background-position : right -110px;
+}
 /*linb.UI.PopMenu*/
 .linb-popmenu-items{
     background:transparent url(PopMenu/bg.gif) repeat-y scroll 0 0;
@@ -368,7 +392,7 @@ html, .ui-ctrl, .ui-content{
 }
 .linb-popmenu-checkbox-checked{
     background-position:-96px top;
-} 
+}
 .linb-popmenu-itemsplit{
     background:#D0D2D4 none repeat scroll 0;
     padding-top:1px;
@@ -407,7 +431,7 @@ html, .ui-ctrl, .ui-content{
 
 /*linb.UI.ToolBar and linb.UI.MenuBar*/
 .linb-toolbar, .linb-menubar{
-    background:transparent url(Public/barvbg2.gif) repeat scroll 0 50%;
+    background:transparent url(Public/barvbg2.gif) repeat scroll left top;
 }
 .linb-toolbar-handler, .linb-menubar-handler{
     background:transparent url(Public/handler.gif) repeat left top;
@@ -449,13 +473,14 @@ html, .ui-ctrl, .ui-content{
 }
 .linb-treegrid-collist {
     background: #FDFDFD url(TreeGrid/collist.gif) no-repeat center bottom;
-    border:solid 1px #D9E8FB;
+    border-right:solid 1px #d4d4d4;
+    border-bottom:solid 1px #d4d4d4;
 }
 .linb-treegrid-sort{
-    background: #f5f5f5 url(Public/cmds.gif) no-repeat -191px top;
+    background: url(Public/cmds.gif) no-repeat -191px top;
 }
 .linb-treegrid-sort-checked{
-    background: #f5f5f5 url(Public/cmds.gif) no-repeat -206px top;
+    background: url(Public/cmds.gif) no-repeat -206px top;
 }
 .linb-treegrid-sub {
     border-left:solid 1px #f1f1f1;

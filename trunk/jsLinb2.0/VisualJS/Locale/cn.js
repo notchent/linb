@@ -29,7 +29,7 @@
         forum: '到论坛...',
         download:'下载源代码...',
         license:'授权许可',
-        gpllicense:'GPL 开源许可',
+        gpllicense:'LGPL 开源许可',
         clicense: '商业许可',
         purchase:'购买商业许可',
         about: '关于...'

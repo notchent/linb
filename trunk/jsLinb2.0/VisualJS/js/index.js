@@ -62,9 +62,9 @@ Class('VisualJS', 'linb.Com',{
                             {id:'purchase', caption:'$VisualJS.menu.purchase'}
                         ]},
                         {type:'split'},
-                        {id:'flash', image:CONF.img_app, imagePos:'-128px -17px', caption:'$VisualJS.tool.flash'},
-                        {id:'demo', image:CONF.img_app, imagePos:'-48px -64px ', caption:'$VisualJS.tool.demo'},
-                        {type:'split'},
+//                        {id:'flash', image:CONF.img_app, imagePos:'-128px -17px', caption:'$VisualJS.tool.flash'},
+//                        {id:'demo', image:CONF.img_app, imagePos:'-48px -64px ', caption:'$VisualJS.tool.demo'},
+//                        {type:'split'},
                         {id:'about', caption:'$VisualJS.menu.about'}
                     ]}
                 ]);
@@ -676,12 +676,12 @@ Class('VisualJS', 'linb.Com',{
                         self.menubar.clearPopCache();
                     });
                     break;
-                case 'flash':
-                    linb.Dom.submit(CONF.path_video);
-                    break;
-                case 'demo':
-                    linb.Dom.submit('demo.html');
-                    break;
+//                case 'flash':
+//                    linb.Dom.submit(CONF.path_video);
+//                    break;
+//                case 'demo':
+//                    linb.Dom.submit('demo.html');
+//                    break;
                 case 'info':
                     if(!this.Message.length)
                         return;

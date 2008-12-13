@@ -1,4 +1,11 @@
-(linb.Locale.en||(linb.Locale.en={})).date={
+(linb.Locale.en||(linb.Locale.en={})).inline={
+    ok:'O K',
+    cancel:'Cancel',
+    today:'Today',
+    yes:'Yes',
+    no:'No'
+};
+linb.Locale.en.date={
     WEEKS:{
         '0':'Su',
         '1':'Mo',
@@ -70,7 +77,6 @@
     YMDHNS:function(n,a,b,c,d,e,f){return b+'/'+c+'/'+a + ' ' +d+":"+e+":"+f},
     ALL:function(n,a,b,c,d,e,f,g){return b+'/'+c+'/'+a + ' ' +d+":"+e+":"+f +" " +g}
 };
-
 linb.Locale.en.color={
   LIST:{
     "FFFFFF":"White",

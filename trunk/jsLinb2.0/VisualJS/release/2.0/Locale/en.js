@@ -28,7 +28,7 @@
         help: 'Help',
         forum: 'Go to Forum...',
         license:'License',
-        gpllicense:'GPL License',
+        gpllicense:'LGPL License',
         clicense: 'Commercial License',
         purchase:'Purchase License',
         download:'Download Source Code...',
@@ -147,7 +147,7 @@
     },
     addfile:{
         caption:'Add file to Project...',
-        sel:'Select the target file(dir)',
+        sel:'Select the target Folder',
         filename:'File Name',
         filenameformat:'2 - 9 characters only',
         add:'Add',
@@ -162,9 +162,9 @@
     },
     delfile:{
         caption:'Delete Files From Project...',
-        sel:'Select Target File or Directory',
-        notarget:'File or Directory to be deleted does NOT exist',
+        sel:'Select target files or folders',
+        notarget:'Target files or folders does NOT exist',
         confirmdel:'Delete?',
-        confirmdel2:"Are You Sure to Delete the $0 Selected  Files or Directories?"
+        confirmdel2:"Are You Sure to Delete the $0 Selected  Files or Folders?"
     }
 }

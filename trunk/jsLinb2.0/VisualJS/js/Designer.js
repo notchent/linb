@@ -1499,7 +1499,7 @@ Class('VisualJS.Designer', 'linb.Com',{
             if(row.tipk=='class')
                 linb.Dom.submit('../API/#'+key);
             else
-                linb.Dom.submit('../API/#'+key + (key='linb.Com'?'.':'.prototype.') + name);
+                linb.Dom.submit('../API/#'+key + (key=='linb.Com'?'.':'.prototype.') + name);
         },
         $tg_tips:function(profile,node,pos){
             var page=this,
