@@ -35,14 +35,15 @@ Class('VisualJS.ClassEditor', 'linb.Com',{
                 data=self.$data;
             txt=(txt||'').replace(/\r\n/g,'\n');
 
-            self.$bakValue=data.text = txt;
+            self.$bakValue=data.text=txt;
 
             var view = self.buttonview.getUIValue();
             if(false==self._adjustData(txt,false))
                 view='normal';
 
             if(self.views[view])
-                self.views[view].refreshView();
+                if(self.getValue()!=txt)
+                    self.views[view].refreshView();
         },
         _beforeValueUpdated:function(profile, ov, nv){
             var self=this,
