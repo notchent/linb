@@ -27643,8 +27643,11 @@ caption
 
                 if(arr[i].constructor==Array)
                     arr[i]={cells:arr[i]};
-                if(!arr[i].id)
-                    arr[i].id=ider.next();
+                //make sure the row id
+                if(!arr[i].id || a[arr[i].id]){
+                    while(a[t=ider.next()]);
+                    arr[i].id=t;
+                }
 
                 row = arr[i];
                 //#
