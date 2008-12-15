@@ -3822,7 +3822,7 @@ _.set(linb.Locale,["en","doc","linb","Com"], {
             "    beforeCreated:function(){order.push('beforeCreated'); linb.log('beforeCreated');},"+
             "    onCreated:function(){order.push('onCreated'); linb.log('onCreated');},"+
             "    onLoadBaseClass:function(c,t,key){order.push('onLoadBaseClass: '+key); linb.log('onLoadBaseClass: '+key); },"+
-            "    onLoadResource:function(){order.push('onLoadResource'); linb.log('onLoadResource');},"+
+            "    onIniResource:function(){order.push('onIniResource'); linb.log('onIniResource');},"+
             "    beforeIniComponents:function(){order.push('beforeIniComponents'); linb.log('beforeIniComponents');},"+
             "    afterIniComponents:function(){order.push('afterIniComponents'); linb.log('afterIniComponents');},"+
             "    onLoadReqiredClass:function(c,t,key){order.push('onLoadReqiredClass: '+key); linb.log('onLoadReqiredClass: '+key);},"+
@@ -3832,7 +3832,7 @@ _.set(linb.Locale,["en","doc","linb","Com"], {
             "com.base=['linb.UI','linb.Date'];"+
             "com.required=['linb.UI.Dialog','linb.UI.Button'];"+
             "com.iniComponents=function(){order.push('iniComponents'); return (new linb.UI.Dialog()).host(this, 'dialog2').setWidth(150).setHeight(150).get() };"+
-            "com.iniResources=function(){order.push('iniResources'); };"+
+            "com.iniResource=function(){order.push('iniResource'); };"+
             "com.iniExComs=function(){order.push('iniExComs'); };"+
 
             "var abox=com.getComponents();"+
@@ -3861,9 +3861,9 @@ _.set(linb.Locale,["en","doc","linb","Com"], {
             "                com._info.push('onLoadBaseClass: ' + key);" +
             "                linb.log('onLoadBaseClass: ' + key);" +
             "            }," +
-            "            onLoadResource : function(com){" +
-            "                com._info.push('onLoadResource');" +
-            "                linb.log('onLoadResource');" +
+            "            onIniResource : function(com){" +
+            "                com._info.push('onIniResource');" +
+            "                linb.log('onIniResource');" +
             "            }," +
             "            beforeIniComponents : function(com){" +
             "                com._info.push('beforeIniComponents');" +
@@ -3902,8 +3902,8 @@ _.set(linb.Locale,["en","doc","linb","Com"], {
             "            return children;\n" +
             "            // ]]code created by jsLinb UI Builder\n" +
             "        }," +
-            "        iniResources : function(){" +
-            "            this._info.push('iniResources');" +
+            "        iniResource : function(){" +
+            "            this._info.push('iniResource');" +
             "        }," +
             "        iniExComs : function(){" +
             "            this._info.push('iniExComs');" +
@@ -3921,7 +3921,7 @@ _.set(linb.Locale,["en","doc","linb","Com"], {
             "            beforeCreated : '_trace'," +
             "            onCreated : '_trace'," +
             "            onLoadBaseClass : '_trace'," +
-            "            onLoadResource : '_trace'," +
+            "            onIniResource : '_trace'," +
             "            beforeIniComponents : '_trace'," +
             "            afterIniComponents : '_trace'," +
             "            onLoadReqiredClass : '_trace'," +
@@ -3943,8 +3943,8 @@ _.set(linb.Locale,["en","doc","linb","Com"], {
             "            return children;\n" +
             "            // ]]code created by jsLinb UI Builder\n" +
             "        }," +
-            "        iniResources : function(){" +
-            "            this._info.push('iniResources');" +
+            "        iniResource : function(){" +
+            "            this._info.push('iniResource');" +
             "        }," +
             "        iniExComs : function(){" +
             "            this._info.push('iniExComs');" +
@@ -4206,7 +4206,7 @@ _.set(linb.Locale,["en","doc","linb","Com"], {
             ],
             $memo:'See constructor.'
         },
-        onLoadResource:{
+        onIniResource:{
             $desc:'Fired when com loads resources.',
             $paras:[
                 'com : linb.Com object.',
@@ -5632,6 +5632,7 @@ _.set(linb.Locale,["en","doc","linb","UI"], {
         },
         setRenderer:{
             $desc:"Sets the renderer function to all the UIProfiles.",
+            $rtn:"[self]",
             $paras:[
                 "value [Required] : Function",
                 "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
@@ -6458,8 +6459,6 @@ _.set(linb.Locale,["en","doc","linb","UI"], {
                 "}"
             ]
         },
-
-
         beforeDestroy:{
             $desc:"Fired before the UIProfile is destroyed. If returns false, destroy function will be ignored.",
             $paras:[
@@ -6473,7 +6472,6 @@ _.set(linb.Locale,["en","doc","linb","UI"], {
                 "}"
             ]
         },
-
         onDestroy:{
             $desc:"Fired when the UIProfile is destroyed.",
             $paras:[
@@ -6531,7 +6529,6 @@ _.set(linb.Locale,["en","doc","linb","UI"], {
         }
     }
 });
-
 _.set(linb.Locale,["en","doc","linb","UI","Widget"], {
     constructor:{
         $desc:"Creates a linb.UI.Widget object."
@@ -13322,17 +13319,3 @@ _.set(linb.Locale,["en","doc","linb","UI","TimeLine"], {
         }
     }
 });
-
-/*
-    "":{
-        $desc:"",
-        $rtn:"",
-        $paras:[
-        [Required] [Optional]
-        ],
-        $snippet:[
-        ]
-    }
-*/
-//            "var id='linb.temp.1'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
-//            "}"

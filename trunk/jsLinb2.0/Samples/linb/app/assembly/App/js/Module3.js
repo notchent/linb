@@ -4,7 +4,7 @@ Class('App.Module3', 'linb.Com',{
         customAppend:function(){
             this.dialog.show();
         }, 
-        iniResources:function(com, threadid){
+        iniResource:function(com, threadid){
             var ns=this;
             linb.absIO.groupCall({data:linb.Ajax('App/js/data.js','',function(txt){
                 ns.$cap=txt;

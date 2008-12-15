@@ -6390,8 +6390,8 @@ type:4
 beforeCreated
 onCreated
 onLoadBaseClass
-onLoadResource
-    iniResources (asy)
+onIniResource
+    iniResource (asy)
 beforeIniComponents
     iniComponents (asy)
 afterIniComponents
@@ -6506,10 +6506,10 @@ Class('linb.Com',null,{
                     },null,threadid);
                 });
             //load resource here
-            if(self.iniResources)
+            if(self.iniResource)
                 funs.push(function(){
-                    self._fireEvent('onLoadResource');
-                    self._innerCall('iniResources');
+                    self._fireEvent('onIniResource');
+                    self._innerCall('iniResource');
                 });
             //load required class
             if((t=self.required) && t.length)
@@ -6646,7 +6646,7 @@ Class('linb.Com',null,{
         $EventHandlers:{
             beforeCreated:function(com, threadid){},
             onLoadBaseClass:function(com, threadid, key){},
-            onLoadResource:function(com, threadid){},
+            onIniResource:function(com, threadid){},
             beforeIniComponents:function(com, threadid){},
             afterIniComponents:function(com, threadid){},
             onLoadRequiredClass:function(com, threadid, key){},

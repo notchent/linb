@@ -68,6 +68,6 @@ Class('App.tech_UI_event', 'linb.Com',{
         },
         _button3_onclick:function (profile, e, value) {
              this.panelbar2.getSubNode('PANEL').empty();
-        }, events:{"beforeCreated":"_traceEvent","onCreated":"_traceEvent", "onLoadBaseClass":"_traceEvent", "onLoadResource":"_traceEvent", "beforeIniComponents":"_traceEvent", "afterIniComponents":"_traceEvent", "onLoadReqiredClass":"_traceEvent", "onReady":"_traceEvent"}
+        }, events:{"beforeCreated":"_traceEvent","onCreated":"_traceEvent", "onLoadBaseClass":"_traceEvent", "onIniResource":"_traceEvent", "beforeIniComponents":"_traceEvent", "afterIniComponents":"_traceEvent", "onLoadReqiredClass":"_traceEvent", "onReady":"_traceEvent"}
     }
 });

@@ -32,7 +32,7 @@ Class('VisualJS', 'linb.Com',{
             onLoadBaseClass:function(com,threadid,key){
                 linb.Dom.setCover('<img src="'+linb.getPath('img/','loading.gif') + '" border="0"/><div>'+'Load Base Class: '+ key+'</div>');
             },
-            onLoadResource:function(){
+            onIniResource:function(){
                 linb.Dom.setCover('<img src="'+linb.getPath('img/','loading.gif') + '" border="0"/><div>Load Resource</div>');
             },
             onLoadReqiredClass:function(com,threadid,key){

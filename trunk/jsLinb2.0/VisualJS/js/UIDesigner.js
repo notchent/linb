@@ -158,7 +158,7 @@ Class('UIDesigner', 'linb.Com',{
                 linb('body').append(self.$btnTheme);
             }
         },
-        iniResources:function(com, threadid){
+        iniResource:function(com, threadid){
             //Load default code(insert to the current thread)
             var com=this,
                 url=_.urlDecode(location.href.split('#')[1],'url'),
