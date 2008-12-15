@@ -5,7 +5,7 @@ $rtn string
 $snippet array
 $memo string
 */
-_.set(linb.Locale,["cn","doc"], {
+_.set(linb.Locale,["en","doc"], {
     Namespace:{
         $desc:"申明一个名字空间.",
         $paras:[
@@ -18,7 +18,7 @@ _.set(linb.Locale,["cn","doc"], {
         $paras:[
             "key [必需参数]: String. 类名字+名字空间.",
             "pkey [必需参数]: String/Array, 父类名+名字空间。数组表示该类为多继承，有多个父类.",
-            "obj [可选参数]: Object, class object. 默认为 {}."
+            "obj [可选参数]: Object, class object. Default is {}."
         ],
         $snippet:["// Equals to declare a Namespae 'Test.NS' and declare a Class 'Test.NS.Cls'; \n  Class('Test.NS.Cls'); Class('Test.NS.Cls.Subcls', 'Test.NS.Cls', {}); alert(typeof Test.NS); alert(typeof Test.NS.Cls); alert(typeof Test.NS.Cls.Subcls);"],
         $links:[
@@ -36,7 +36,7 @@ _.set(linb.Locale,["cn","doc"], {
                 $paras: [
                     "arr [必需参数]: Array, 目标数组.",
                     "fun [必需参数]: Function, 参数: [array element, array index]. 要应用的函数.",
-                    "scope [可选参数]: Object, [fun]的this指针(哪个对象的函数). 默认为 [arr].",
+                    "scope [可选参数]: Object, [fun]的this指针(哪个对象的函数). Default is [arr].",
                     "order [可选参数]: Bool, 按从头到尾还是从尾到头应用函数. 默认是从头到尾."
                 ],
                 $snippet:[
@@ -606,7 +606,7 @@ _.set(linb.Locale,["cn","doc"], {
      }
 });
 
-_.set(linb.Locale,["cn","doc","linb"], {
+_.set(linb.Locale,["en","doc","linb"], {
     $desc:"将一系列的DOM元素包装成linb.Dom对象的快捷函数.",
     $rtn:"linb.Dom object",
     $paras:[
@@ -800,7 +800,7 @@ _.set(linb.Locale,["cn","doc","linb"], {
     }
 });
 
-_.set(linb.Locale,["cn","doc","linb","Thread"], {
+_.set(linb.Locale,["en","doc","linb","Thread"], {
     $desc:"获取或生成一个linb.Thread对象. <br /> linb.Thread 模式: <strong>[onStart function]--delay 1-->[task function 1][回调函数 1]--delay 2-->[task function 2][回调函数 2]--delay 3-->[task function ...n][回调函数 ...n][onEnd function]</strong>",
     $rtn:"linb.tread object",
     $paras:[
@@ -989,7 +989,7 @@ _.set(linb.Locale,["cn","doc","linb","Thread"], {
     }
 });
 
-_.set(linb.Locale,["cn","doc","linb","Dom"], {
+_.set(linb.Locale,["en","doc","linb","Dom"], {
     constructor:{
         $desc:"一般情况下, 不要使用[new linb.Dom()]创造一个新实例, 而是使用[linb(nodes, flag)]一个新linb.Dom实例对象."
     },
@@ -2116,7 +2116,7 @@ _.set(linb.Locale,["cn","doc","linb","Dom"], {
         onUnload:{}
     }
 });
-_.set(linb.Locale,["cn","doc","linb","absIO"], {
+_.set(linb.Locale,["en","doc","linb","absIO"], {
     /*buildQS:{
         $desc:"To build query string.",
         $rtn:"String",
@@ -2173,7 +2173,7 @@ _.set(linb.Locale,["cn","doc","linb","absIO"], {
     }
 });
 
-_.set(linb.Locale,["cn","doc","linb","Ajax"], {
+_.set(linb.Locale,["en","doc","linb","Ajax"], {
     $desc:"生成一个linb.Ajax对象. <strong>linb.Ajax对象可以处理当前域的GET/POST请求; linb.Ajax 也是唯一一个能够处理同步请求的Ajax类.</strong>",
     $rtn:"linb.Ajax object",
     $paras:[
@@ -2188,8 +2188,8 @@ _.set(linb.Locale,["cn","doc","linb","Ajax"], {
             "<br>&nbsp;&nbsp;uri: String, The URL of the request target."+
             "<br>&nbsp;&nbsp;query: Object[Key/value pairs], request data."+
             "<br>&nbsp;&nbsp;threadid: String, a thread id to be bound to the current request."+
-            "<br>&nbsp;&nbsp;asy: Bool, to Determines whether or not  the request is asynchronous. 默认为 [false]."+
-            "<br>&nbsp;&nbsp;<strong>method: 'GET' or 'POST', the request method. 默认为 'GET'.</strong>"+
+            "<br>&nbsp;&nbsp;asy: Bool, to Determines whether or not  the request is asynchronous. Default is [false]."+
+            "<br>&nbsp;&nbsp;<strong>method: 'GET' or 'POST', the request method. Default is 'GET'.</strong>"+
             "<br>&nbsp;&nbsp;retry: Number, how many times it is tried when the request is timeout."+
             "<br>&nbsp;&nbsp;timeout: Number, the timeout time(ms) for this request."+
             "<br>&nbsp;&nbsp;resType: String 'text' or 'xml', Response type of the request."+
@@ -2266,7 +2266,7 @@ _.set(linb.Locale,["cn","doc","linb","Ajax"], {
     }
 });
 
-_.set(linb.Locale,["cn","doc","linb","SAjax"], {
+_.set(linb.Locale,["en","doc","linb","SAjax"], {
     $desc:"To Create a linb.SAjax object. <strong>linb.SAjax can handle GET request cross domain, but cant POST data.</strong>.",
     $rtn:"linb.SAjax object",
     $paras:[
@@ -2358,7 +2358,7 @@ _.set(linb.Locale,["cn","doc","linb","SAjax"], {
     }
 });
 
-_.set(linb.Locale,["cn","doc","linb","IAjax"], {
+_.set(linb.Locale,["en","doc","linb","IAjax"], {
     $desc:"生成一个linb.IAjax对象. <strong>linb.IAjax 可以处理跨域的GET/POST请求, 而且可以向服务器提交文件(上传内容).</strong>",
     $rtn:"linb.IAjax object",
     $paras:[
@@ -2373,7 +2373,7 @@ _.set(linb.Locale,["cn","doc","linb","IAjax"], {
             "<br>&nbsp;&nbsp;uri: String, The URL of the request target."+
             "<br>&nbsp;&nbsp;query: Object[Key/value pairs], request data."+
             "<br>&nbsp;&nbsp;threadid: String, a thread id to be bound to the current request."+
-            "<br>&nbsp;&nbsp;<strong>method: 'GET' or 'POST', the request method. 默认为 'POST'.</strong>"+
+            "<br>&nbsp;&nbsp;<strong>method: 'GET' or 'POST', the request method. Default is 'POST'.</strong>"+
             "<br>&nbsp;&nbsp;retry: Number, how many times it is tried when the request is timeout."+
             "<br>&nbsp;&nbsp;timeout: Number, the timeout time(ms) for this request."+
             "<br><em>//functions</em>"+
@@ -2459,13 +2459,13 @@ _.set(linb.Locale,["cn","doc","linb","IAjax"], {
     }
 });
 
-_.set(linb.Locale,["cn","doc","linb","SC"], {
+_.set(linb.Locale,["en","doc","linb","SC"], {
     $desc:"直接调用. Uses path name to call a specified class/object. If the target class/object exists, returns it directly, but if the target class/object does not exist, loads it from code(in memory or in the remote file[linb.Ajax/linb.SAjax]) first, returns it, and executes the 回调函数(if it exists).",
     $rtn:"class/object[in synchronous mode], undefined[in asynchronous mode]",
     $paras:[
         "path [必需参数]: String, path name of a class/object(e.g. 'linb.UI.Button').",
         "callback [可选参数]: Function, arguments:[path, code, threadid]. A function to be executed whenever the straight call returns. If returns successfully, [path] will be the [path name], and [this] pointer will be the result class/object; if fails, [path] will be [null], and [this] pointer will be the inner linb.Ajax/iajax object.",
-        "isAsy [可选参数]: Bool, to Determines whether or not  the current SC is in asynchronous Mode. If the target class exists, this parameter is invalide. 默认为 [false].",
+        "isAsy [可选参数]: Bool, to Determines whether or not  the current SC is in asynchronous Mode. If the target class exists, this parameter is invalide. Default is [false].",
         "options [可选参数]: Object, a set of key/value pairs that configure the inner linb.Ajax(asynchronous mode) or linb.SAjax(synchronous mode)."
     ],
     $snippet:[
@@ -2477,7 +2477,7 @@ _.set(linb.Locale,["cn","doc","linb","SC"], {
         $rtn:"Any",
         $paras:[
             "path [必需参数]: String, path name (e.g. 'linb.SC.get', '_.isArr', 'linb.ini.path').",
-            "obj [可选参数]: Object, target object. 默认为 [window]."
+            "obj [可选参数]: Object, target object. Default is [window]."
         ],
         $snippet:[
             "alert(linb.SC.get('linb.ini.path')); alert(_.get(window,'linb.ini.path'.split('.'))); "
@@ -2541,7 +2541,7 @@ _.set(linb.Locale,["cn","doc","linb","SC"], {
     }
 });
 
-_.set(linb.Locale,["cn","doc","linb","Event"], {
+_.set(linb.Locale,["en","doc","linb","Event"], {
     getBtn :{
         $desc:"获取鼠标的哪个键被按下了.",
         $rtn:"String",
@@ -2668,7 +2668,7 @@ _.set(linb.Locale,["cn","doc","linb","Event"], {
     }
 });
 
-_.set(linb.Locale,["cn","doc","linb","absBox"],{
+_.set(linb.Locale,["en","doc","linb","absBox"],{
     pack:{
         $desc: "To create a [linb.absBox] object, and pack a set of value to this object. ",
         $rtn: "linb.absBox",
@@ -2743,7 +2743,7 @@ _.set(linb.Locale,["cn","doc","linb","absBox"],{
     }
 });
 
-_.set(linb.Locale,["cn","doc","linb","DragDrop"], {
+_.set(linb.Locale,["en","doc","linb","DragDrop"], {
     abort:{
         $desc:"取消当前的D&D(Drag & Drop)操作.",
         $snippet:[
@@ -2808,10 +2808,10 @@ _.set(linb.Locale,["cn","doc","linb","DragDrop"], {
             "profile [可选参数] : 键值对, for linb.DragDrop profile. Profile struct:" +
             "<div>{<ul>" +
             "<li><strong>dragType</strong>: 'move','copy','deep_copy','shape','icon', 'blank' or 'none', 默认为 'shape';</li>"+
-            "<li><strong>shadowFrom</strong>: DOM 元素或 linb.Dom 对象. 只有当 dragType 为 'icon' 时有效;</li>"+
+            "<li><strong>shadowFrom</strong>: DOM element or linb.Dom object. It's valid when dragType=='icon';</li>"+
             "<li><strong>targetReposition</strong>: Bool, does dd reset the target position, 默认为 [true];</li>"+
 
-            "<li><strong>dragIcon</strong>: String, 拖拽时显示图标的路径, 默认为 [linb.ini.path+'ondrag.gif'].</li>"+
+            "<li><strong>dragIcon</strong>: String, the drag icon image path, 默认为 [linb.ini.path+'ondrag.gif'].</li>"+
             "<li><strong>magneticDistance</strong>: Number, the magnetic distance, 默认为 0;</li>"+
             "<li><strong>xMagneticLines</strong>: Array of Number, the magnetic line vlaues in horizontal dir, 默认为 [];</li>"+
             "<li><strong>yMagneticLines</strong>: Array of Number, the magnetic line vlaues in vertical dir, 默认为 [];</li>"+
@@ -2862,7 +2862,7 @@ _.set(linb.Locale,["cn","doc","linb","DragDrop"], {
     }
 });
 
-_.set(linb.Locale,["cn","doc","linb","CSS"], {
+_.set(linb.Locale,["en","doc","linb","CSS"], {
     addStyleSheet:{
         $desc:"添加一个&lt;style>元素到&lt;head>区域中.",
         $rtn:"style DOM element",
@@ -2937,7 +2937,7 @@ _.set(linb.Locale,["cn","doc","linb","CSS"], {
     }
 });
 
-_.set(linb.Locale,["cn","doc","linb","History"], {
+_.set(linb.Locale,["en","doc","linb","History"], {
     setCallback:{
         $desc:"设置回调函数。 该函数会在片段标志符(Fragement Identifier)改变时被调用.",
         $rtn:"[self]",
@@ -2971,7 +2971,7 @@ _.set(linb.Locale,["cn","doc","linb","History"], {
     }
 });
 
-_.set(linb.Locale,["cn","doc","linb","Cookies"], {
+_.set(linb.Locale,["en","doc","linb","Cookies"], {
     get:{
         $desc:"获取指定名字的cookie值.",
         $rtn:"String",
@@ -3008,7 +3008,7 @@ _.set(linb.Locale,["cn","doc","linb","Cookies"], {
         ]
     }
 });
-_.set(linb.Locale,["cn","doc","linb","Debugger"], {
+_.set(linb.Locale,["en","doc","linb","Debugger"], {
     'log':{
         $desc:"在Debugger窗口中打印日志信息.",
         $snippet:[
@@ -3033,7 +3033,7 @@ _.set(linb.Locale,["cn","doc","linb","Debugger"], {
     }
 });
 
-_.set(linb.Locale,["cn","doc","linb","Date"], {
+_.set(linb.Locale,["en","doc","linb","Date"], {
     add:{
         $desc:"在基准时间戳加上一个时间段.",
         $rtn:"the result Date object.",
@@ -3233,7 +3233,7 @@ _.set(linb.Locale,["cn","doc","linb","Date"], {
         ]
     }
 });
-_.set(linb.Locale,["cn","doc","linb","absObj"], {
+_.set(linb.Locale,["en","doc","linb","absObj"], {
     getAll:{
         $desc:"获取该类的所有对象实例.",
         $rtn:"the current Class object",
@@ -3295,7 +3295,7 @@ _.set(linb.Locale,["cn","doc","linb","absObj"], {
     }
 });
 
-_.set(linb.Locale,["cn","doc","linb","absProfile"], {
+_.set(linb.Locale,["en","doc","linb","absProfile"], {
     prototype:{
         getId:{
             $desc:"获取唯一的标志符.",
@@ -3310,7 +3310,7 @@ _.set(linb.Locale,["cn","doc","linb","absProfile"], {
             $paras:[
                 "obj [必需参数] : Object or Array. ",
                 "id [必需参数] : String, link id.",
-                "target [可选参数] : Any, 默认为 [self]."
+                "target [可选参数] : Any, default is [self]."
             ],
             $snippet:[
                 "var profile=new linb.Profile(), a1=[],a2=[],a3=[]; profile.link(a1,'a').link(a2,'b').link(a3,'c'); alert(a1+':'+a2+':'+a3); profile.unLink('a'); alert(a1+':'+a2+':'+a3); profile.unLinkAll(); alert(a1+':'+a2+':'+a3); "
@@ -3340,7 +3340,7 @@ _.set(linb.Locale,["cn","doc","linb","absProfile"], {
     }
 });
 
-_.set(linb.Locale,["cn","doc","linb","Profile"], {
+_.set(linb.Locale,["en","doc","linb","Profile"], {
     constructor:{
         $desc:"生成一个profile对象",
         $memo:"一般情况下，程序员无需直接调用该函数."
@@ -3385,7 +3385,7 @@ _.set(linb.Locale,["cn","doc","linb","Profile"], {
     }
 });
 
-_.set(linb.Locale,["cn","doc","linb","UIProfile"], {
+_.set(linb.Locale,["en","doc","linb","UIProfile"], {
     constructor:{
         $desc:"生成一个UI profile对象",
         $memo:"一般情况下，程序员无需直接调用该函数."
@@ -3640,7 +3640,7 @@ _.set(linb.Locale,["cn","doc","linb","UIProfile"], {
     }
 });
 
-_.set(linb.Locale,["cn","doc","linb","Template"], {
+_.set(linb.Locale,["en","doc","linb","Template"], {
     getFromDomId:{
         $desc:"从一个DOM元素中获取一个模板(template)对象.",
         $rtn:"linb.Template",
@@ -3800,7 +3800,7 @@ _.set(linb.Locale,["cn","doc","linb","Template"], {
 });
 
 
-_.set(linb.Locale,["cn","doc","linb","Com"], {
+_.set(linb.Locale,["en","doc","linb","Com"], {
     constructor:{
         $desc:"linb.Com的构造函数",
         $paras:[
@@ -4167,7 +4167,7 @@ _.set(linb.Locale,["cn","doc","linb","Com"], {
 });
 
 
-_.set(linb.Locale,["cn","doc","linb","ComFactory"], {
+_.set(linb.Locale,["en","doc","linb","ComFactory"], {
     setProfile:{
         $desc:"设置应用模块工厂(ComFatory)的profile.",
         $rtn:'[self]',
@@ -4291,10 +4291,10 @@ _.set(linb.Locale,["cn","doc","linb","ComFactory"], {
             "linb.ComFactory.getCom('test1',function(){ this.showDlg(); _.asyRun(function(){linb.ComFactory.storeCom('test1')},1000); });"
         ]
     }
-});_.set(linb.Locale,["cn","doc","linb","DomProfile"], {
+});_.set(linb.Locale,["en","doc","linb","DomProfile"], {
 });
 
-_.set(linb.Locale,["cn","doc","linb","DataBinder"], {
+_.set(linb.Locale,["en","doc","linb","DataBinder"], {
     constructor:{
         $desc:"生成一个databinder对象."
     },
@@ -4377,7 +4377,7 @@ _.set(linb.Locale,["cn","doc","linb","DataBinder"], {
     }
 });
 
-_.set(linb.Locale,["cn","doc","linb","Tips"], {
+_.set(linb.Locale,["en","doc","linb","Tips"], {
     AUTOHIDETIME:{
         $desc:"指示多少毫秒后tip自动隐藏. 该参数在MOABLE设置为[true]时有效.",
         $snippet:["alert(linb.Tips.AUTOHIDETIME)"]
@@ -4418,7 +4418,7 @@ _.set(linb.Locale,["cn","doc","linb","Tips"], {
         $paras:[
             "pos [必需参数] : {left:Number,top:Number}, the position of the tooltips.",
             "item [必需参数] : String or Object, to provide the tooltips content.",
-            "key [可选参数] : String, the tips key. 默认为 'tips'."
+            "key [可选参数] : String, the tips key. Default is 'tips'."
         ],
         $snippet:[
             "linb.Tips.show({left:100,top:100}, 'a string'); _.asyRun(function(){linb.Tips.hide()},1000); _.asyRun(function(){linb.Tips.show({left:100,top:100}, {tips:'an object with a \\\'tips\\\' key'})},2000); _.asyRun(function(){linb.Tips.hide()},3000); _.asyRun(function(){linb.Tips.show({left:100,top:100}, {any:'an object with a customizable key'},'any')},4000);_.asyRun(function(){linb.Tips.hide()},5000);"
@@ -4426,7 +4426,7 @@ _.set(linb.Locale,["cn","doc","linb","Tips"], {
     }
 });
 
-_.set(linb.Locale,["cn","doc","linb","Coder"], {
+_.set(linb.Locale,["en","doc","linb","Coder"], {
     formatText:{
         $desc:"将js/css/php/html代码片段格式化为更加可读的格式.",
         $rtn:"String",
@@ -4507,7 +4507,7 @@ _.set(linb.Locale,["cn","doc","linb","Coder"], {
 });
 
 
-_.set(linb.Locale,["cn","doc","linb","absList"], {
+_.set(linb.Locale,["en","doc","linb","absList"], {
     prototype:{
         fireItemClickEvent:{
             $desc:"当list中的某一项被选择时调用.",
@@ -4661,7 +4661,7 @@ _.set(linb.Locale,["cn","doc","linb","absList"], {
     }
 });
 
-_.set(linb.Locale,["cn","doc","linb","absValue"], {
+_.set(linb.Locale,["en","doc","linb","absValue"], {
     prototype:{
         getDataBinder:{
             $desc:"获取绑定的数据绑定器名称",
@@ -4899,7 +4899,7 @@ _.set(linb.Locale,["cn","doc","linb","absValue"], {
     }
 });
 
-_.set(linb.Locale,["cn","doc","linb","absPlus"], {
+_.set(linb.Locale,["en","doc","linb","absPlus"], {
     prototype:{
         getDragKey:{
             $desc:"获取拖动时的标志键",
@@ -5291,7 +5291,7 @@ _.set(linb.Locale,["cn","doc","linb","absPlus"], {
         }
     }
 });
-_.set(linb.Locale,["cn","doc","linb","UI"], {
+_.set(linb.Locale,["en","doc","linb","UI"], {
     buildCSSText:{
         $desc:"由指定的键/值对生成CSS样式.",
         $rtn:"String. CSS样式",
@@ -6383,7 +6383,7 @@ _.set(linb.Locale,["cn","doc","linb","UI"], {
         }
     }
 });
-_.set(linb.Locale,["cn","doc","linb","UI","Widget"], {
+_.set(linb.Locale,["en","doc","linb","UI","Widget"], {
     constructor:{
         $desc:"生成一个linb.UI.Widget对象."
     },
@@ -6463,7 +6463,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","Widget"], {
     }
 });
 
-_.set(linb.Locale,["cn","doc","linb","UI","Div"], {
+_.set(linb.Locale,["en","doc","linb","UI","Div"], {
     constructor:{
         $desc:"生成一个linb.UI.Div对象."
     },
@@ -6495,13 +6495,13 @@ _.set(linb.Locale,["cn","doc","linb","UI","Div"], {
     }
 });
 
-_.set(linb.Locale,["cn","doc","linb","UI","Pane"], {
+_.set(linb.Locale,["en","doc","linb","UI","Pane"], {
     constructor:{
         $desc:"生成一个linb.UI.Pane对象."
     }
 });
 
-_.set(linb.Locale,["cn","doc","linb","UI","Tag"], {
+_.set(linb.Locale,["en","doc","linb","UI","Tag"], {
     constructor:{
         $desc:"生成一个linb.UI.Tag对象. linb.UI.Tag is a proxy UI class for 'Inversion of Control' in jsLinb.",
         $memo:"linb.UI.Tag is for embedding a target UI object(from linb.Com object) into an existing UI dynamically.",
@@ -6535,7 +6535,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","Tag"], {
     }
 });
 
-_.set(linb.Locale,["cn","doc","linb","UI","Link"], {
+_.set(linb.Locale,["en","doc","linb","UI","Link"], {
     constructor:{
         $desc:"生成一个linb.UI.Link对象."
     },
@@ -6629,13 +6629,13 @@ _.set(linb.Locale,["cn","doc","linb","UI","Link"], {
     }
 });
 
-_.set(linb.Locale,["cn","doc","linb","UI","Border"], {});
+_.set(linb.Locale,["en","doc","linb","UI","Border"], {});
 
-_.set(linb.Locale,["cn","doc","linb","UI","Shadow"], {});
+_.set(linb.Locale,["en","doc","linb","UI","Shadow"], {});
 
-_.set(linb.Locale,["cn","doc","linb","UI","Resizer"], {});
+_.set(linb.Locale,["en","doc","linb","UI","Resizer"], {});
 
-_.set(linb.Locale,["cn","doc","linb","UI","Block"], {
+_.set(linb.Locale,["en","doc","linb","UI","Block"], {
     constructor:{
         $desc:"生成一个linb.UI.Block 对象."
     },
@@ -6667,7 +6667,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","Block"], {
     }
 });
 
-_.set(linb.Locale,["cn","doc","linb","UI","Label"], {
+_.set(linb.Locale,["en","doc","linb","UI","Label"], {
     constructor:{
         $desc:"生成一个linb.UI.Label对象."
     },
@@ -6866,7 +6866,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","Label"], {
         }
     }
 });
-_.set(linb.Locale,["cn","doc","linb","UI","ProgressBar"], {
+_.set(linb.Locale,["en","doc","linb","UI","ProgressBar"], {
     constructor:{
         $desc:"Creates a linb.UI.ProgressBar object."
     },
@@ -6900,7 +6900,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","ProgressBar"], {
     }
 });
 
-_.set(linb.Locale,["cn","doc","linb","UI","Button"], {
+_.set(linb.Locale,["en","doc","linb","UI","Button"], {
     constructor:{
         $desc:"生成一个linb.UI.Button对象."
     },
@@ -7138,13 +7138,13 @@ _.set(linb.Locale,["cn","doc","linb","UI","Button"], {
     }
 });
 
-_.set(linb.Locale,["cn","doc","linb","UI","CheckBox"], {
+_.set(linb.Locale,["en","doc","linb","UI","CheckBox"], {
     constructor:{
         $desc:"生成一个linb.UI.CheckBox对象."
     }
 });
 
-_.set(linb.Locale,["cn","doc","linb","UI","Input"], {
+_.set(linb.Locale,["en","doc","linb","UI","Input"], {
     constructor:{
         $desc:"生成一个linb.UI.Input对象."
     },
@@ -7440,7 +7440,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","Input"], {
         }
     }
 });
-_.set(linb.Locale,["cn","doc","linb","UI","TextEditor"], {
+_.set(linb.Locale,["en","doc","linb","UI","TextEditor"], {
     constructor:{
         $desc:"生成一个linb.UI.TextEditor对象."
     },
@@ -7497,7 +7497,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","TextEditor"], {
         }
     }
 });
-_.set(linb.Locale,["cn","doc","linb","UI","Group"], {
+_.set(linb.Locale,["en","doc","linb","UI","Group"], {
     constructor:{
         $desc:"生成一个linb.UI.Group对象."
     },
@@ -7676,7 +7676,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","Group"], {
     }
 });
 
-_.set(linb.Locale,["cn","doc","linb","UI","ComboInput"], {
+_.set(linb.Locale,["en","doc","linb","UI","ComboInput"], {
     constructor:{
         $desc:"生成一个linb.UI.ComboInput对象."
     },
@@ -7832,13 +7832,13 @@ _.set(linb.Locale,["cn","doc","linb","UI","ComboInput"], {
 });
 
 
-_.set(linb.Locale,["cn","doc","linb","UI","Stacks"], {
+_.set(linb.Locale,["en","doc","linb","UI","Stacks"], {
     constructor:{
         $desc:"生成一个linb.UI.Stacks对象."
     }
 });
 
-_.set(linb.Locale,["cn","doc","linb","UI","ButtonViews"], {
+_.set(linb.Locale,["en","doc","linb","UI","ButtonViews"], {
     constructor:{
         $desc:"生成一个linb.UI.ButtonViews对象."
     },
@@ -7944,14 +7944,14 @@ _.set(linb.Locale,["cn","doc","linb","UI","ButtonViews"], {
     }
 });
 
-_.set(linb.Locale,["cn","doc","linb","UI","RadioBox"], {
+_.set(linb.Locale,["en","doc","linb","UI","RadioBox"], {
     constructor:{
         $desc:"生成linb.UI.RadioBox对象."
     }
 });
 
 
-_.set(linb.Locale,["cn","doc","linb","UI","ColorPicker"], {
+_.set(linb.Locale,["en","doc","linb","UI","ColorPicker"], {
     constructor:{
         $desc:"生成一个linb.UI.ColorPicker对象."
     },
@@ -8135,7 +8135,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","ColorPicker"], {
     }
 });
 
-_.set(linb.Locale,["cn","doc","linb","UI","DatePicker"], {
+_.set(linb.Locale,["en","doc","linb","UI","DatePicker"], {
     constructor:{
         $desc:"生成一个linb.UI.DatePicker对象."
     },
@@ -8186,7 +8186,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","DatePicker"], {
     }
 });
 
-_.set(linb.Locale,["cn","doc","linb","UI","TimePicker"], {
+_.set(linb.Locale,["en","doc","linb","UI","TimePicker"], {
     constructor:{
         $desc:"生成一个linb.UI.TimePicker对象."
     },
@@ -8226,7 +8226,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","TimePicker"], {
     }
 });
 
-_.set(linb.Locale,["cn","doc","linb","UI","Range"], {
+_.set(linb.Locale,["en","doc","linb","UI","Range"], {
     constructor:{
         $desc:"生成一个linb.UI.Range对象."
     },
@@ -8378,7 +8378,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","Range"], {
     }
 });
 
-_.set(linb.Locale,["cn","doc","linb","UI","List"], {
+_.set(linb.Locale,["en","doc","linb","UI","List"], {
     constructor:{
         $desc:"生成一个linb.UI.List对象."
     },
@@ -8467,7 +8467,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","List"], {
             ]
         }
     }
-});_.set(linb.Locale,["cn","doc","linb","UI","LinkList"], {
+});_.set(linb.Locale,["en","doc","linb","UI","LinkList"], {
     constructor:{
         $desc:"生成一个linb.UI.LinkList对象."
     },
@@ -8487,7 +8487,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","List"], {
             $rtn:"[self]",
             $paras:[
                 "value [必需参数] : String. 'none', 'multi' or 'single'.",
-                "flag [可选参数] : Bool, force to set the property value even if the same property value already exists. 默认为 [false]."
+                "flag [可选参数] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.llist2'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -8514,7 +8514,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","List"], {
     }
 });
 
-_.set(linb.Locale,["cn","doc","linb","UI","Gallery"], {
+_.set(linb.Locale,["en","doc","linb","UI","Gallery"], {
     constructor:{
         $desc:"生成一个linb.UI.Gallery (画廊)对象."
     },
@@ -8548,7 +8548,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","Gallery"], {
             $rtn:"[self]",
             $paras:[
                 "value [必需参数] : Number.",
-                "flag [可选参数] : Bool, force to set the property value even if the same property value already exists. 默认为 [false]."
+                "flag [可选参数] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.ga2'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -8572,7 +8572,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","Gallery"], {
             $rtn:"[self]",
             $paras:[
                 "value [必需参数] : Number.",
-                "flag [可选参数] : Bool, force to set the property value even if the same property value already exists. 默认为 [false]."
+                "flag [可选参数] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.da4'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -8680,7 +8680,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","Gallery"], {
     }
 });
 
-_.set(linb.Locale,["cn","doc","linb","UI","IconList"], {
+_.set(linb.Locale,["en","doc","linb","UI","IconList"], {
     constructor:{
         $desc:"生成linb.UI.IconList 对象."
     },
@@ -8798,7 +8798,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","IconList"], {
     }
 });
 
-_.set(linb.Locale,["cn","doc","linb","UI","Panel"], {
+_.set(linb.Locale,["en","doc","linb","UI","Panel"], {
     constructor:{
         $desc:"生辰一个linb.UI.Panel对象."
     },
@@ -9127,7 +9127,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","Panel"], {
     }
 });
 
-_.set(linb.Locale,["cn","doc","linb","UI","PageBar"], {
+_.set(linb.Locale,["en","doc","linb","UI","PageBar"], {
     constructor:{
         $desc:"Creates a linb.UI.PageBar object."
     },
@@ -9282,7 +9282,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","PageBar"], {
     }
 });
 
-_.set(linb.Locale,["cn","doc","linb","UI","Layout"], {
+_.set(linb.Locale,["en","doc","linb","UI","Layout"], {
     constructor:{
         $desc:"生成一个linb.UI.Layout对象."
     },
@@ -9355,7 +9355,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","Layout"], {
     }
 });
 
-_.set(linb.Locale,["cn","doc","linb","UI","Tabs"], {
+_.set(linb.Locale,["en","doc","linb","UI","Tabs"], {
     constructor:{
         $desc:"生成一个linb.UI.Tabs对象."
     },
@@ -9656,13 +9656,13 @@ _.set(linb.Locale,["cn","doc","linb","UI","Tabs"], {
     }
 });
 
-_.set(linb.Locale,["cn","doc","linb","UI","Calendar"], {
+_.set(linb.Locale,["en","doc","linb","UI","Calendar"], {
     constructor:{
         $desc:"生成一个linb.UI.Calendar对象."
     }
 });
 
-_.set(linb.Locale,["cn","doc","linb","UI","ToolBar"], {
+_.set(linb.Locale,["en","doc","linb","UI","ToolBar"], {
     constructor:{
         $desc:"生成一个linb.UI.ToolBar对象."
     },
@@ -9779,7 +9779,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","ToolBar"], {
 });
 
 
-_.set(linb.Locale,["cn","doc","linb","UI","PopMenu"], {
+_.set(linb.Locale,["en","doc","linb","UI","PopMenu"], {
     constructor:{
         $desc:"生成一个linb.UI.PopMenu对象."
     },
@@ -9935,7 +9935,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","PopMenu"], {
 });
 
 
-_.set(linb.Locale,["cn","doc","linb","UI","MenuBar"], {
+_.set(linb.Locale,["en","doc","linb","UI","MenuBar"], {
     constructor:{
         $desc:"生成一个linb.UI.MenuBar对象."
     },
@@ -10058,7 +10058,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","MenuBar"], {
 });
 
 
-_.set(linb.Locale,["cn","doc","linb","UI","Dialog"], {
+_.set(linb.Locale,["en","doc","linb","UI","Dialog"], {
     constructor:{
         $desc:"生成一个linb.UI.Dialog对象."
     },
@@ -10473,7 +10473,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","Dialog"], {
     }
 });
 
-_.set(linb.Locale,["cn","doc","linb","UI","Image"], {
+_.set(linb.Locale,["en","doc","linb","UI","Image"], {
     constructor:{
         $desc:"生成一个linb.UI.Image对象."
     },
@@ -10608,7 +10608,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","Image"], {
     }
 });
 
-_.set(linb.Locale,["cn","doc","linb","UI","FoldingList"], {
+_.set(linb.Locale,["en","doc","linb","UI","FoldingList"], {
     constructor:{
         $desc:"生成一个linb.UI.FoldingList对象."
     },
@@ -10777,7 +10777,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","FoldingList"], {
         }
     }
 });
-_.set(linb.Locale,["cn","doc","linb","UI","Poll"], {
+_.set(linb.Locale,["en","doc","linb","UI","Poll"], {
     constructor:{
         $desc:"生成一个投票对象."
     },
@@ -10799,7 +10799,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","Poll"], {
             $rtn:"[self]",
             $paras:[
                 "value [必需参数] : Array.",
-                "flag [可选参数] : Bool, force to set the property value even if the same property value already exists. 默认为 [false]."
+                "flag [可选参数] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.pool2'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -10854,7 +10854,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","Poll"], {
             $rtn:"[self]",
             $paras:[
                 "value [必需参数] : String.",
-                "flag [可选参数] : Bool, force to set the property value even if the same property value already exists. 默认为 [false]."
+                "flag [可选参数] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.pool6'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -10880,8 +10880,8 @@ _.set(linb.Locale,["cn","doc","linb","UI","Poll"], {
             $desc:"Sets the editorType property value on the each UIProfile, and reflects the value to UI.",
             $rtn:"[self]",
             $paras:[
-                "value [必需参数] : 'none','combobox','listbox','upload','getter','helpinput','cmdbox','popbox','timepicker','datepicker' or 'colorpicker'. 默认为 'none'.",
-                "flag [可选参数] : Bool, force to set the property value even if the same property value already exists. 默认为 [false]."
+                "value [必需参数] : 'none','combobox','listbox','upload','getter','helpinput','cmdbox','popbox','timepicker','datepicker' or 'colorpicker'. Default is 'none'.",
+                "flag [可选参数] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.pool8'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -10910,7 +10910,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","Poll"], {
             $rtn:"[self]",
             $paras:[
                 "value [必需参数] : Bool.",
-                "flag [可选参数] : Bool, force to set the property value even if the same property value already exists. 默认为 [false]."
+                "flag [可选参数] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.pool10'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -10938,7 +10938,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","Poll"], {
             $rtn:"[self]",
             $paras:[
                 "value [必需参数] : String.",
-                "flag [可选参数] : Bool, force to set the property value even if the same property value already exists. 默认为 [false]."
+                "flag [可选参数] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.pool12'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -10966,7 +10966,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","Poll"], {
             $rtn:"[self]",
             $paras:[
                 "value [必需参数] : Bool.",
-                "flag [可选参数] : Bool, force to set the property value even if the same property value already exists. 默认为 [false]."
+                "flag [可选参数] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.pool14'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -10994,7 +10994,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","Poll"], {
             $rtn:"[self]",
             $paras:[
                 "value [必需参数] : String.",
-                "flag [可选参数] : Bool, force to set the property value even if the same property value already exists. 默认为 [false]."
+                "flag [可选参数] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.pool16'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -11022,7 +11022,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","Poll"], {
             $rtn:"[self]",
             $paras:[
                 "value [必需参数] : Bool.",
-                "flag [可选参数] : Bool, force to set the property value even if the same property value already exists. 默认为 [false]."
+                "flag [可选参数] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.pool20'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -11161,7 +11161,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","Poll"], {
     }
 });
 
-_.set(linb.Locale,["cn","doc","linb","UI","TreeBar"], {
+_.set(linb.Locale,["en","doc","linb","UI","TreeBar"], {
     constructor:{
         $desc:"生成一个linb.UI.TreeBar对象."
     },
@@ -11451,7 +11451,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","TreeBar"], {
 
 
 
-_.set(linb.Locale,["cn","doc","linb","UI","TimeLine"], {
+_.set(linb.Locale,["en","doc","linb","UI","TimeLine"], {
     constructor:{
         $desc:"生成一个linb.UI.TimeLine对象."
     },
@@ -12094,7 +12094,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","TimeLine"], {
         }
     }
 });
-_.set(linb.Locale,["cn","doc","linb","UI","TreeGrid"], {
+_.set(linb.Locale,["en","doc","linb","UI","TreeGrid"], {
     constructor:{
         $desc:"生成linb.UI.TreeGrid对象."
     },
@@ -12122,4 +12122,945 @@ _.set(linb.Locale,["cn","doc","linb","UI","TreeGrid"], {
             $snippet:[
                 "var id='linb.temp.grid1'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var o=new linb.UI.TreeGrid({editable:false, position:'relative'});"+
-                "linb.Ajax('App/js/g爀椀搀⸀樀猀✀Ⰰ✀✀Ⰰ昀甀渀挀琀椀漀渀⠀猀⤀笀瘀愀爀 栀愀猀栀㴀开⸀甀渀猀攀爀椀愀氀椀稀攀⠀猀⤀㬀漀⸀猀攀琀䠀攀愀搀攀爀⠀栀愀猀栀⸀栀攀愀搀攀爀⤀⸀猀攀琀刀漀眀猀⠀栀愀猀栀⸀爀漀眀猀⤀㬀紀Ⰰ渀甀氀氀Ⰰ渀甀氀氀Ⰰ笀愀猀礀㨀昀愀氀猀攀紀⤀⸀猀琀愀爀琀⠀⤀㬀∀⬀ഀ਀                ∀漀⸀猀攀琀䄀挀琀椀瘀攀䴀漀搀攀⠀✀挀攀氀氀✀⤀㬀 愀氀攀爀琀⠀漀⸀最攀琀䄀挀琀椀瘀攀䴀漀搀攀⠀⤀⤀㬀∀⬀ഀ਀                ∀氀椀渀戀⠀椀搀⤀⸀瀀爀攀瀀攀渀搀⠀漀⤀㬀∀⬀ഀ਀                ∀紀∀ഀ਀            崀ഀ਀        紀Ⰰഀ਀        猀攀琀䄀挀琀椀瘀攀䴀漀搀攀 㨀笀ഀ਀            ␀搀攀猀挀㨀∀븀溋桿㲈葨ॶ횐⅓ཪⱟ 瘀㝞끒䱥扵⺗∀Ⰰഀ਀            ␀爀琀渀㨀∀嬀猀攀氀昀崀∀Ⰰഀ਀            ␀瀀愀爀愀猀㨀嬀ഀ਀                ∀瘀愀氀甀攀 嬀씀_슗灓嵥 㨀 匀琀爀椀渀最⸀ ⽎❦挀攀氀氀✀ᘀ❢爀漀眀✀⸀ ���꒞㪋❎爀漀眀✀⸀∀Ⰰഀ਀                ∀昀氀愀最 嬀॓슐灓嵥 㨀 䈀漀漀氀Ⰰ 㨀㙟빒溋庋❜㱠౐珿罓幏❜콝빾溋㩿㲋⹐ ���꒞㪋⁎嬀昀愀氀猀攀崀⸀∀ഀ਀            崀Ⰰഀ਀            ␀猀渀椀瀀瀀攀琀㨀嬀ഀ਀                ∀瘀愀爀 椀搀㴀✀氀椀渀戀⸀琀攀洀瀀⸀最爀椀搀㈀✀㬀 椀昀⠀℀氀椀渀戀⸀䐀漀洀⸀戀礀䤀搀⠀椀搀⤀⤀笀琀栀椀猀⸀瀀爀攀瀀攀渀搀⠀氀椀渀戀⸀挀爀攀愀琀攀⠀✀㰀搀椀瘀 椀搀㴀✀⬀椀搀⬀✀ 猀琀礀氀攀㴀尀∀戀漀爀搀攀爀㨀猀漀氀椀搀 ㄀瀀砀㬀瀀愀搀搀椀渀最㨀㈀　瀀砀㬀瀀漀猀椀琀椀漀渀㨀爀攀氀愀琀椀瘀攀㬀眀椀搀琀栀㨀㌀　　瀀砀㬀栀攀椀最栀琀㨀㈀　　瀀砀㬀尀∀㸀✀ ⬀ ✀㰀戀甀琀琀漀渀 猀琀礀氀攀㴀尀∀瀀漀猀椀琀椀漀渀㨀愀戀猀漀氀甀琀攀㬀 戀漀琀琀漀洀㨀　瀀砀㬀 稀ⴀ椀渀搀攀砀㨀㈀㬀尀∀ 漀渀挀氀椀挀欀㴀尀∀氀椀渀戀⠀琀栀椀猀⤀⸀瀀愀爀攀渀琀⠀⤀⸀爀攀洀漀瘀攀⠀⤀尀∀㸀爀攀洀漀瘀攀 琀栀椀猀 攀砀愀洀瀀氀攀㰀⼀戀甀琀琀漀渀㸀✀ ⬀ ✀㰀⼀搀椀瘀㸀✀⤀⤀㬀∀⬀ഀ਀                ∀瘀愀爀 漀㴀渀攀眀 氀椀渀戀⸀唀䤀⸀吀爀攀攀䜀爀椀搀⠀笀攀搀椀琀愀戀氀攀㨀昀愀氀猀攀Ⰰ愀氀琀刀漀眀猀䈀最㨀昀愀氀猀攀Ⰰ瀀漀猀椀琀椀漀渀㨀✀爀攀氀愀琀椀瘀攀✀紀⤀㬀∀⬀ഀ਀                ∀氀椀渀戀⸀䄀樀愀砀⠀✀䄀瀀瀀⼀樀猀⼀最爀椀搀⸀樀猀✀Ⰰ✀✀Ⰰ昀甀渀挀琀椀漀渀⠀猀⤀笀瘀愀爀 栀愀猀栀㴀开⸀甀渀猀攀爀椀愀氀椀稀攀⠀猀⤀㬀漀⸀猀攀琀䠀攀愀搀攀爀⠀栀愀猀栀⸀栀攀愀搀攀爀⤀⸀猀攀琀刀漀眀猀⠀栀愀猀栀⸀爀漀眀猀⤀㬀紀Ⰰ渀甀氀氀Ⰰ渀甀氀氀Ⰰ笀愀猀礀㨀昀愀氀猀攀紀⤀⸀猀琀愀爀琀⠀⤀㬀∀⬀ഀ਀                ∀漀⸀猀攀琀䄀挀琀椀瘀攀䴀漀搀攀⠀✀爀漀眀✀⤀㬀 愀氀攀爀琀⠀漀⸀最攀琀䄀挀琀椀瘀攀䴀漀搀攀⠀⤀⤀㬀∀⬀ഀ਀                ∀氀椀渀戀⠀椀搀⤀⸀瀀爀攀瀀攀渀搀⠀漀⤀㬀∀⬀ഀ਀                ∀紀∀ഀ਀            崀ഀ਀        紀Ⰰഀ਀        攀搀椀琀䌀攀氀氀戀礀刀漀眀䌀漀氀㨀笀ഀ਀            ␀搀攀猀挀㨀∀؀啜䍓㱑텨驾せݒ驣葛ᙶ酿梏੖⹎∀Ⰰഀ਀            ␀瀀愀爀愀猀㨀嬀ഀ਀                ∀爀漀眀䤀搀 嬀씀_슗灓嵥 㨀 匀琀爀椀渀最Ⰰ 唀䍓㱑䱨榈搀⸀∀Ⰰഀ਀                ∀挀漀氀䤀搀 嬀씀_슗灓嵥 㨀 匀琀爀椀渀最Ⰰ 唀䍓㱑ᝨ楒搀⸀∀ഀ਀            崀Ⰰഀ਀            ␀猀渀椀瀀瀀攀琀㨀嬀ഀ਀                ∀瘀愀爀 椀搀㴀✀氀椀渀戀⸀琀攀洀瀀⸀最爀椀搀㌀✀㬀 椀昀⠀℀氀椀渀戀⸀䐀漀洀⸀戀礀䤀搀⠀椀搀⤀⤀笀琀栀椀猀⸀瀀爀攀瀀攀渀搀⠀氀椀渀戀⸀挀爀攀愀琀攀⠀✀㰀搀椀瘀 椀搀㴀✀⬀椀搀⬀✀ 猀琀礀氀攀㴀尀∀戀漀爀搀攀爀㨀猀漀氀椀搀 ㄀瀀砀㬀瀀愀搀搀椀渀最㨀㈀　瀀砀㬀瀀漀猀椀琀椀漀渀㨀爀攀氀愀琀椀瘀攀㬀眀椀搀琀栀㨀㌀　　瀀砀㬀栀攀椀最栀琀㨀㈀　　瀀砀㬀尀∀㸀✀ ⬀ ✀㰀戀甀琀琀漀渀 猀琀礀氀攀㴀尀∀瀀漀猀椀琀椀漀渀㨀愀戀猀漀氀甀琀攀㬀 戀漀琀琀漀洀㨀　瀀砀㬀 稀ⴀ椀渀搀攀砀㨀㈀㬀尀∀ 漀渀挀氀椀挀欀㴀尀∀氀椀渀戀⠀琀栀椀猀⤀⸀瀀愀爀攀渀琀⠀⤀⸀爀攀洀漀瘀攀⠀⤀尀∀㸀爀攀洀漀瘀攀 琀栀椀猀 攀砀愀洀瀀氀攀㰀⼀戀甀琀琀漀渀㸀✀ ⬀ ✀㰀⼀搀椀瘀㸀✀⤀⤀㬀∀⬀ഀ਀                ∀瘀愀爀 漀㴀渀攀眀 氀椀渀戀⸀唀䤀⸀吀爀攀攀䜀爀椀搀⠀笀瀀漀猀椀琀椀漀渀㨀✀爀攀氀愀琀椀瘀攀✀紀⤀㬀∀⬀ഀ਀                ∀氀椀渀戀⸀䄀樀愀砀⠀✀䄀瀀瀀⼀樀猀⼀最爀椀搀⸀樀猀✀Ⰰ✀✀Ⰰ昀甀渀挀琀椀漀渀⠀猀⤀笀瘀愀爀 栀愀猀栀㴀开⸀甀渀猀攀爀椀愀氀椀稀攀⠀猀⤀㬀漀⸀猀攀琀䠀攀愀搀攀爀⠀栀愀猀栀⸀栀攀愀搀攀爀⤀⸀猀攀琀刀漀眀猀⠀栀愀猀栀⸀爀漀眀猀⤀㬀紀Ⰰ渀甀氀氀Ⰰ渀甀氀氀Ⰰ笀愀猀礀㨀昀愀氀猀攀紀⤀⸀猀琀愀爀琀⠀⤀㬀∀⬀ഀ਀                ∀氀椀渀戀⠀椀搀⤀⸀瀀爀攀瀀攀渀搀⠀漀⤀㬀∀⬀ഀ਀                ∀开⸀愀猀礀刀甀渀⠀昀甀渀挀琀椀漀渀⠀⤀笀漀⸀攀搀椀琀䌀攀氀氀戀礀刀漀眀䌀漀氀⠀✀爀漀眀㈀✀Ⰰ✀挀漀氀㈀✀⤀紀Ⰰ㄀　　　⤀㬀∀⬀ഀ਀                ∀紀∀ഀ਀            崀ഀ਀        紀Ⰰഀ਀        最攀琀䄀氀琀刀漀眀猀䈀最 㨀笀ഀ਀            ␀搀攀猀挀㨀∀␀굒⽥♦罔⡏൵౎葔챶澀牦㪂ٓ뭶蒐⑶䱎⊈Ⰰഀ਀            ␀爀琀渀㨀∀䈀漀漀氀∀Ⰰഀ਀            ␀猀渀椀瀀瀀攀琀㨀嬀ഀ਀                ∀瘀愀爀 椀搀㴀✀氀椀渀戀⸀琀攀洀瀀⸀最爀椀搀㐀✀㬀 椀昀⠀℀氀椀渀戀⸀䐀漀洀⸀戀礀䤀搀⠀椀搀⤀⤀笀琀栀椀猀⸀瀀爀攀瀀攀渀搀⠀氀椀渀戀⸀挀爀攀愀琀攀⠀✀㰀搀椀瘀 椀搀㴀✀⬀椀搀⬀✀ 猀琀礀氀攀㴀尀∀戀漀爀搀攀爀㨀猀漀氀椀搀 ㄀瀀砀㬀瀀愀搀搀椀渀最㨀㈀　瀀砀㬀瀀漀猀椀琀椀漀渀㨀爀攀氀愀琀椀瘀攀㬀眀椀搀琀栀㨀㌀　　瀀砀㬀栀攀椀最栀琀㨀㈀　　瀀砀㬀尀∀㸀✀ ⬀ ✀㰀戀甀琀琀漀渀 猀琀礀氀攀㴀尀∀瀀漀猀椀琀椀漀渀㨀愀戀猀漀氀甀琀攀㬀 戀漀琀琀漀洀㨀　瀀砀㬀 稀ⴀ椀渀搀攀砀㨀㈀㬀尀∀ 漀渀挀氀椀挀欀㴀尀∀氀椀渀戀⠀琀栀椀猀⤀⸀瀀愀爀攀渀琀⠀⤀⸀爀攀洀漀瘀攀⠀⤀尀∀㸀爀攀洀漀瘀攀 琀栀椀猀 攀砀愀洀瀀氀攀㰀⼀戀甀琀琀漀渀㸀✀ ⬀ ✀㰀⼀搀椀瘀㸀✀⤀⤀㬀∀⬀ഀ਀                ∀瘀愀爀 漀㴀渀攀眀 氀椀渀戀⸀唀䤀⸀吀爀攀攀䜀爀椀搀⠀笀攀搀椀琀愀戀氀攀㨀昀愀氀猀攀Ⰰ 瀀漀猀椀琀椀漀渀㨀✀爀攀氀愀琀椀瘀攀✀紀⤀㬀∀⬀ഀ਀                ∀氀椀渀戀⸀䄀樀愀砀⠀✀䄀瀀瀀⼀樀猀⼀最爀椀搀⸀樀猀✀Ⰰ✀✀Ⰰ昀甀渀挀琀椀漀渀⠀猀⤀笀瘀愀爀 栀愀猀栀㴀开⸀甀渀猀攀爀椀愀氀椀稀攀⠀猀⤀㬀漀⸀猀攀琀䠀攀愀搀攀爀⠀栀愀猀栀⸀栀攀愀搀攀爀⤀⸀猀攀琀刀漀眀猀⠀栀愀猀栀⸀爀漀眀猀⤀㬀紀Ⰰ渀甀氀氀Ⰰ渀甀氀氀Ⰰ笀愀猀礀㨀昀愀氀猀攀紀⤀⸀猀琀愀爀琀⠀⤀㬀∀⬀ഀ਀                ∀漀⸀猀攀琀䄀氀琀刀漀眀猀䈀最⠀琀爀甀攀⤀㬀 愀氀攀爀琀⠀漀⸀最攀琀䄀氀琀刀漀眀猀䈀最⠀⤀⤀㬀∀⬀ഀ਀                ∀氀椀渀戀⠀椀搀⤀⸀瀀爀攀瀀攀渀搀⠀漀⤀㬀∀⬀ഀ਀                ∀紀∀ഀ਀            崀ഀ਀        紀Ⰰഀ਀        猀攀琀䄀氀琀刀漀眀猀䈀最 㨀笀ഀ਀            ␀搀攀猀挀㨀∀븀溋⽿♦罔⡏൵౎葔챶澀牦㪂ٓ뭶蒐⑶䱎⺈∀Ⰰഀ਀            ␀爀琀渀㨀∀嬀猀攀氀昀崀∀Ⰰഀ਀            ␀瀀愀爀愀猀㨀嬀ഀ਀                ∀瘀愀氀甀攀 嬀씀_슗灓嵥 㨀 䈀漀漀氀⸀∀Ⰰഀ਀                ∀昀氀愀最 嬀॓슐灓嵥 㨀 䈀漀漀氀Ⰰ 㨀㙟빒溋庋❜㱠౐珿罓幏❜콝빾溋㩿㲋⹐ ���꒞㪋⁎嬀昀愀氀猀攀崀⸀∀ഀ਀            崀Ⰰഀ਀            ␀猀渀椀瀀瀀攀琀㨀嬀ഀ਀                ∀瘀愀爀 椀搀㴀✀氀椀渀戀⸀琀攀洀瀀⸀最爀椀搀㔀✀㬀 椀昀⠀℀氀椀渀戀⸀䐀漀洀⸀戀礀䤀搀⠀椀搀⤀⤀笀琀栀椀猀⸀瀀爀攀瀀攀渀搀⠀氀椀渀戀⸀挀爀攀愀琀攀⠀✀㰀搀椀瘀 椀搀㴀✀⬀椀搀⬀✀ 猀琀礀氀攀㴀尀∀戀漀爀搀攀爀㨀猀漀氀椀搀 ㄀瀀砀㬀瀀愀搀搀椀渀最㨀㈀　瀀砀㬀瀀漀猀椀琀椀漀渀㨀爀攀氀愀琀椀瘀攀㬀眀椀搀琀栀㨀㌀　　瀀砀㬀栀攀椀最栀琀㨀㈀　　瀀砀㬀尀∀㸀✀ ⬀ ✀㰀戀甀琀琀漀渀 猀琀礀氀攀㴀尀∀瀀漀猀椀琀椀漀渀㨀愀戀猀漀氀甀琀攀㬀 戀漀琀琀漀洀㨀　瀀砀㬀 稀ⴀ椀渀搀攀砀㨀㈀㬀尀∀ 漀渀挀氀椀挀欀㴀尀∀氀椀渀戀⠀琀栀椀猀⤀⸀瀀愀爀攀渀琀⠀⤀⸀爀攀洀漀瘀攀⠀⤀尀∀㸀爀攀洀漀瘀攀 琀栀椀猀 攀砀愀洀瀀氀攀㰀⼀戀甀琀琀漀渀㸀✀ ⬀ ✀㰀⼀搀椀瘀㸀✀⤀⤀㬀∀⬀ഀ਀                ∀瘀愀爀 漀㴀渀攀眀 氀椀渀戀⸀唀䤀⸀吀爀攀攀䜀爀椀搀⠀笀攀搀椀琀愀戀氀攀㨀昀愀氀猀攀Ⰰ 瀀漀猀椀琀椀漀渀㨀✀爀攀氀愀琀椀瘀攀✀紀⤀㬀∀⬀ഀ਀                ∀氀椀渀戀⸀䄀樀愀砀⠀✀䄀瀀瀀⼀樀猀⼀最爀椀搀⸀樀猀✀Ⰰ✀✀Ⰰ昀甀渀挀琀椀漀渀⠀猀⤀笀瘀愀爀 栀愀猀栀㴀开⸀甀渀猀攀爀椀愀氀椀稀攀⠀猀⤀㬀漀⸀猀攀琀䠀攀愀搀攀爀⠀栀愀猀栀⸀栀攀愀搀攀爀⤀⸀猀攀琀刀漀眀猀⠀栀愀猀栀⸀爀漀眀猀⤀㬀紀Ⰰ渀甀氀氀Ⰰ渀甀氀氀Ⰰ笀愀猀礀㨀昀愀氀猀攀紀⤀⸀猀琀愀爀琀⠀⤀㬀∀⬀ഀ਀                ∀漀⸀猀攀琀䄀氀琀刀漀眀猀䈀最⠀琀爀甀攀⤀㬀 愀氀攀爀琀⠀漀⸀最攀琀䄀氀琀刀漀眀猀䈀最⠀⤀⤀㬀∀⬀ഀ਀                ∀氀椀渀戀⠀椀搀⤀⸀瀀爀攀瀀攀渀搀⠀漀⤀㬀∀⬀ഀ਀                ∀紀∀ഀ਀            崀ഀ਀        紀Ⰰഀ਀        最攀琀䄀渀椀洀䌀漀氀氀愀瀀猀攀 㨀笀ഀ਀            ␀搀攀猀挀㨀∀䜀攀琀猀 琀栀攀 䄀渀椀洀愀琀攀 瀀爀漀瀀攀爀琀礀 瘀愀氀甀攀 漀渀 琀栀攀 昀椀爀猀琀 唀䤀倀爀漀昀椀氀攀∀Ⰰഀ਀            ␀爀琀渀㨀∀䈀漀漀氀∀Ⰰഀ਀            ␀猀渀椀瀀瀀攀琀㨀嬀ഀ਀                ∀瘀愀爀 椀搀㴀✀氀椀渀戀⸀琀攀洀瀀⸀最爀椀搀㘀✀㬀 椀昀⠀℀氀椀渀戀⸀䐀漀洀⸀戀礀䤀搀⠀椀搀⤀⤀笀琀栀椀猀⸀瀀爀攀瀀攀渀搀⠀氀椀渀戀⸀挀爀攀愀琀攀⠀✀㰀搀椀瘀 椀搀㴀✀⬀椀搀⬀✀ 猀琀礀氀攀㴀尀∀戀漀爀搀攀爀㨀猀漀氀椀搀 ㄀瀀砀㬀瀀愀搀搀椀渀最㨀㈀　瀀砀㬀瀀漀猀椀琀椀漀渀㨀爀攀氀愀琀椀瘀攀㬀眀椀搀琀栀㨀㌀　　瀀砀㬀栀攀椀最栀琀㨀㈀　　瀀砀㬀尀∀㸀✀ ⬀ ✀㰀戀甀琀琀漀渀 猀琀礀氀攀㴀尀∀瀀漀猀椀琀椀漀渀㨀愀戀猀漀氀甀琀攀㬀 戀漀琀琀漀洀㨀　瀀砀㬀 稀ⴀ椀渀搀攀砀㨀㈀㬀尀∀ 漀渀挀氀椀挀欀㴀尀∀氀椀渀戀⠀琀栀椀猀⤀⸀瀀愀爀攀渀琀⠀⤀⸀爀攀洀漀瘀攀⠀⤀尀∀㸀爀攀洀漀瘀攀 琀栀椀猀 攀砀愀洀瀀氀攀㰀⼀戀甀琀琀漀渀㸀✀ ⬀ ✀㰀⼀搀椀瘀㸀✀⤀⤀㬀∀⬀ഀ਀                ∀瘀愀爀 漀㴀渀攀眀 氀椀渀戀⸀唀䤀⸀吀爀攀攀䜀爀椀搀⠀笀攀搀椀琀愀戀氀攀㨀昀愀氀猀攀Ⰰ 瀀漀猀椀琀椀漀渀㨀✀爀攀氀愀琀椀瘀攀✀紀⤀㬀∀⬀ഀ਀                ∀氀椀渀戀⸀䄀樀愀砀⠀✀䄀瀀瀀⼀樀猀⼀最爀椀搀⸀樀猀✀Ⰰ✀✀Ⰰ昀甀渀挀琀椀漀渀⠀猀⤀笀瘀愀爀 栀愀猀栀㴀开⸀甀渀猀攀爀椀愀氀椀稀攀⠀猀⤀㬀漀⸀猀攀琀䠀攀愀搀攀爀⠀栀愀猀栀⸀栀攀愀搀攀爀⤀⸀猀攀琀刀漀眀猀⠀栀愀猀栀⸀爀漀眀猀⤀㬀紀Ⰰ渀甀氀氀Ⰰ渀甀氀氀Ⰰ笀愀猀礀㨀昀愀氀猀攀紀⤀⸀猀琀愀爀琀⠀⤀㬀∀⬀ഀ਀                ∀漀⸀猀攀琀䄀渀椀洀䌀漀氀氀愀瀀猀攀⠀琀爀甀攀⤀㬀 愀氀攀爀琀⠀漀⸀最攀琀䄀渀椀洀䌀漀氀氀愀瀀猀攀⠀⤀⤀㬀∀⬀ഀ਀                ∀氀椀渀戀⠀椀搀⤀⸀瀀爀攀瀀攀渀搀⠀漀⤀㬀∀⬀ഀ਀                ∀紀∀ഀ਀            崀ഀ਀        紀Ⰰഀ਀        猀攀琀䄀渀椀洀䌀漀氀氀愀瀀猀攀 㨀笀ഀ਀            ␀搀攀猀挀㨀∀匀攀琀猀 琀栀攀 䄀渀椀洀愀琀攀 瀀爀漀瀀攀爀琀礀 瘀愀氀甀攀 漀渀 琀栀攀 攀愀挀栀 唀䤀倀爀漀昀椀氀攀Ⰰ 愀渀搀 爀攀昀氀攀挀琀猀 琀栀攀 瘀愀氀甀攀 琀漀 唀䤀⸀∀Ⰰഀ਀            ␀爀琀渀㨀∀嬀猀攀氀昀崀∀Ⰰഀ਀            ␀瀀愀爀愀猀㨀嬀ഀ਀                ∀瘀愀氀甀攀 嬀씀_슗灓嵥 㨀 䈀漀漀氀⸀∀Ⰰഀ਀                ∀昀氀愀最 嬀॓슐灓嵥 㨀 䈀漀漀氀Ⰰ 㨀㙟빒溋庋❜㱠౐珿罓幏❜콝빾溋㩿㲋⹐ ���꒞㪋⁎嬀昀愀氀猀攀崀⸀∀ഀ਀            崀Ⰰഀ਀            ␀猀渀椀瀀瀀攀琀㨀嬀ഀ਀                ∀瘀愀爀 椀搀㴀✀氀椀渀戀⸀琀攀洀瀀⸀最爀椀搀㜀✀㬀 椀昀⠀℀氀椀渀戀⸀䐀漀洀⸀戀礀䤀搀⠀椀搀⤀⤀笀琀栀椀猀⸀瀀爀攀瀀攀渀搀⠀氀椀渀戀⸀挀爀攀愀琀攀⠀✀㰀搀椀瘀 椀搀㴀✀⬀椀搀⬀✀ 猀琀礀氀攀㴀尀∀戀漀爀搀攀爀㨀猀漀氀椀搀 ㄀瀀砀㬀瀀愀搀搀椀渀最㨀㈀　瀀砀㬀瀀漀猀椀琀椀漀渀㨀爀攀氀愀琀椀瘀攀㬀眀椀搀琀栀㨀㌀　　瀀砀㬀栀攀椀最栀琀㨀㈀　　瀀砀㬀尀∀㸀✀ ⬀ ✀㰀戀甀琀琀漀渀 猀琀礀氀攀㴀尀∀瀀漀猀椀琀椀漀渀㨀愀戀猀漀氀甀琀攀㬀 戀漀琀琀漀洀㨀　瀀砀㬀 稀ⴀ椀渀搀攀砀㨀㈀㬀尀∀ 漀渀挀氀椀挀欀㴀尀∀氀椀渀戀⠀琀栀椀猀⤀⸀瀀愀爀攀渀琀⠀⤀⸀爀攀洀漀瘀攀⠀⤀尀∀㸀爀攀洀漀瘀攀 琀栀椀猀 攀砀愀洀瀀氀攀㰀⼀戀甀琀琀漀渀㸀✀ ⬀ ✀㰀⼀搀椀瘀㸀✀⤀⤀㬀∀⬀ഀ਀                ∀瘀愀爀 漀㴀渀攀眀 氀椀渀戀⸀唀䤀⸀吀爀攀攀䜀爀椀搀⠀笀攀搀椀琀愀戀氀攀㨀昀愀氀猀攀Ⰰ瀀漀猀椀琀椀漀渀㨀✀爀攀氀愀琀椀瘀攀✀紀⤀㬀∀⬀ഀ਀                ∀氀椀渀戀⸀䄀樀愀砀⠀✀䄀瀀瀀⼀樀猀⼀最爀椀搀⸀樀猀✀Ⰰ✀✀Ⰰ昀甀渀挀琀椀漀渀⠀猀⤀笀瘀愀爀 栀愀猀栀㴀开⸀甀渀猀攀爀椀愀氀椀稀攀⠀猀⤀㬀漀⸀猀攀琀䠀攀愀搀攀爀⠀栀愀猀栀⸀栀攀愀搀攀爀⤀⸀猀攀琀刀漀眀猀⠀栀愀猀栀⸀爀漀眀猀⤀㬀紀Ⰰ渀甀氀氀Ⰰ渀甀氀氀Ⰰ笀愀猀礀㨀昀愀氀猀攀紀⤀⸀猀琀愀爀琀⠀⤀㬀∀⬀ഀ਀                ∀漀⸀猀攀琀䄀渀椀洀䌀漀氀氀愀瀀猀攀⠀琀爀甀攀⤀㬀 愀氀攀爀琀⠀漀⸀最攀琀䄀渀椀洀䌀漀氀氀愀瀀猀攀⠀⤀⤀㬀∀⬀ഀ਀                ∀氀椀渀戀⠀椀搀⤀⸀瀀爀攀瀀攀渀搀⠀漀⤀㬀∀⬀ഀ਀                ∀紀∀ഀ਀            崀ഀ਀        紀Ⰰഀ਀        最攀琀䌀攀氀氀戀礀刀漀眀䌀漀氀㨀笀ഀ਀            ␀搀攀猀挀㨀∀뜀횃啓䍓㱑泌慛ʌ‰䰀榈搀谀᝔楒搀㄀쉵灓ݥ驣ɛ∰Ⰰഀ਀            ␀爀琀渀㨀∀伀樀戀攀挀琀∀Ⰰഀ਀            ␀猀渀椀瀀瀀攀琀㨀嬀ഀ਀                ∀瘀愀爀 椀搀㴀✀氀椀渀戀⸀琀攀洀瀀⸀最爀椀搀㜀⸀㄀✀㬀 椀昀⠀℀氀椀渀戀⸀䐀漀洀⸀戀礀䤀搀⠀椀搀⤀⤀笀琀栀椀猀⸀瀀爀攀瀀攀渀搀⠀氀椀渀戀⸀挀爀攀愀琀攀⠀✀㰀搀椀瘀 椀搀㴀✀⬀椀搀⬀✀ 猀琀礀氀攀㴀尀∀戀漀爀搀攀爀㨀猀漀氀椀搀 ㄀瀀砀㬀瀀愀搀搀椀渀最㨀㈀　瀀砀㬀瀀漀猀椀琀椀漀渀㨀爀攀氀愀琀椀瘀攀㬀眀椀搀琀栀㨀㌀　　瀀砀㬀栀攀椀最栀琀㨀㈀　　瀀砀㬀尀∀㸀✀ ⬀ ✀㰀戀甀琀琀漀渀 猀琀礀氀攀㴀尀∀瀀漀猀椀琀椀漀渀㨀愀戀猀漀氀甀琀攀㬀 戀漀琀琀漀洀㨀　瀀砀㬀 稀ⴀ椀渀搀攀砀㨀㈀㬀尀∀ 漀渀挀氀椀挀欀㴀尀∀氀椀渀戀⠀琀栀椀猀⤀⸀瀀愀爀攀渀琀⠀⤀⸀爀攀洀漀瘀攀⠀⤀尀∀㸀爀攀洀漀瘀攀 琀栀椀猀 攀砀愀洀瀀氀攀㰀⼀戀甀琀琀漀渀㸀✀ ⬀ ✀㰀⼀搀椀瘀㸀✀⤀⤀㬀∀⬀ഀ਀                ∀瘀愀爀 漀㴀渀攀眀 氀椀渀戀⸀唀䤀⸀吀爀攀攀䜀爀椀搀⠀笀攀搀椀琀愀戀氀攀㨀昀愀氀猀攀Ⰰ 瀀漀猀椀琀椀漀渀㨀✀爀攀氀愀琀椀瘀攀✀紀⤀㬀∀⬀ഀ਀                ∀氀椀渀戀⸀䄀樀愀砀⠀✀䄀瀀瀀⼀樀猀⼀最爀椀搀⸀樀猀✀Ⰰ✀✀Ⰰ昀甀渀挀琀椀漀渀⠀猀⤀笀瘀愀爀 栀愀猀栀㴀开⸀甀渀猀攀爀椀愀氀椀稀攀⠀猀⤀㬀漀⸀猀攀琀䠀攀愀搀攀爀⠀栀愀猀栀⸀栀攀愀搀攀爀⤀⸀猀攀琀刀漀眀猀⠀栀愀猀栀⸀爀漀眀猀⤀㬀紀Ⰰ渀甀氀氀Ⰰ渀甀氀氀Ⰰ笀愀猀礀㨀昀愀氀猀攀紀⤀⸀猀琀愀爀琀⠀⤀㬀∀⬀ഀ਀                ∀氀椀渀戀⠀椀搀⤀⸀瀀爀攀瀀攀渀搀⠀漀⤀㬀∀⬀ഀ਀                ∀愀氀攀爀琀⠀漀⸀最攀琀䌀攀氀氀戀礀刀漀眀䌀漀氀⠀✀爀漀眀㈀✀Ⰰ✀挀漀氀㈀✀⤀⸀瘀愀氀甀攀⤀㬀∀⬀ഀ਀                ∀紀∀ഀ਀            崀ഀ਀        紀Ⰰഀ਀        最攀琀䌀漀氀䠀椀搀愀戀氀攀㨀笀ഀ਀            ␀搀攀猀挀㨀∀␀굒졥⡺㝵⽢♦䭓遝쾖ច⹒∀Ⰰഀ਀            ␀爀琀渀㨀∀䈀漀漀氀∀Ⰰഀ਀            ␀猀渀椀瀀瀀攀琀㨀嬀ഀ਀                ∀瘀愀爀 椀搀㴀✀氀椀渀戀⸀琀攀洀瀀⸀最爀椀搀㠀⸀㈀✀㬀 椀昀⠀℀氀椀渀戀⸀䐀漀洀⸀戀礀䤀搀⠀椀搀⤀⤀笀琀栀椀猀⸀瀀爀攀瀀攀渀搀⠀氀椀渀戀⸀挀爀攀愀琀攀⠀✀㰀搀椀瘀 椀搀㴀✀⬀椀搀⬀✀ 猀琀礀氀攀㴀尀∀戀漀爀搀攀爀㨀猀漀氀椀搀 ㄀瀀砀㬀瀀愀搀搀椀渀最㨀㈀　瀀砀㬀瀀漀猀椀琀椀漀渀㨀爀攀氀愀琀椀瘀攀㬀眀椀搀琀栀㨀㌀　　瀀砀㬀栀攀椀最栀琀㨀㈀　　瀀砀㬀尀∀㸀✀ ⬀ ✀㰀戀甀琀琀漀渀 猀琀礀氀攀㴀尀∀瀀漀猀椀琀椀漀渀㨀愀戀猀漀氀甀琀攀㬀 戀漀琀琀漀洀㨀　瀀砀㬀 稀ⴀ椀渀搀攀砀㨀㈀㬀尀∀ 漀渀挀氀椀挀欀㴀尀∀氀椀渀戀⠀琀栀椀猀⤀⸀瀀愀爀攀渀琀⠀⤀⸀爀攀洀漀瘀攀⠀⤀尀∀㸀爀攀洀漀瘀攀 琀栀椀猀 攀砀愀洀瀀氀攀㰀⼀戀甀琀琀漀渀㸀✀ ⬀ ✀㰀⼀搀椀瘀㸀✀⤀⤀㬀∀⬀ഀ਀                ∀瘀愀爀 漀㴀渀攀眀 氀椀渀戀⸀唀䤀⸀吀爀攀攀䜀爀椀搀⠀笀攀搀椀琀愀戀氀攀㨀昀愀氀猀攀Ⰰ 瀀漀猀椀琀椀漀渀㨀✀爀攀氀愀琀椀瘀攀✀紀⤀㬀∀⬀ഀ਀                ∀氀椀渀戀⸀䄀樀愀砀⠀✀䄀瀀瀀⼀樀猀⼀最爀椀搀⸀樀猀✀Ⰰ✀✀Ⰰ昀甀渀挀琀椀漀渀⠀猀⤀笀瘀愀爀 栀愀猀栀㴀开⸀甀渀猀攀爀椀愀氀椀稀攀⠀猀⤀㬀漀⸀猀攀琀䠀攀愀搀攀爀⠀栀愀猀栀⸀栀攀愀搀攀爀⤀⸀猀攀琀刀漀眀猀⠀栀愀猀栀⸀爀漀眀猀⤀㬀紀Ⰰ渀甀氀氀Ⰰ渀甀氀氀Ⰰ笀愀猀礀㨀昀愀氀猀攀紀⤀⸀猀琀愀爀琀⠀⤀㬀∀⬀ഀ਀                ∀漀⸀猀攀琀䌀漀氀䠀椀搀愀戀氀攀⠀琀爀甀攀⤀㬀 愀氀攀爀琀⠀漀⸀最攀琀䌀漀氀䠀椀搀愀戀氀攀⠀⤀⤀㬀∀⬀ഀ਀                ∀氀椀渀戀⠀椀搀⤀⸀瀀爀攀瀀攀渀搀⠀漀⤀㬀∀⬀ഀ਀                ∀紀∀ഀ਀            崀ഀ਀        紀Ⰰഀ਀        猀攀琀䌀漀氀䠀椀搀愀戀氀攀 㨀笀ഀ਀            ␀搀攀猀挀㨀∀븀溋졿⡺㝵⽢♦䭓遝쾖ចⱒ 瘀㝞끒䱥扵⺗∀Ⰰഀ਀            ␀爀琀渀㨀∀嬀猀攀氀昀崀∀Ⰰഀ਀            ␀瀀愀爀愀猀㨀嬀ഀ਀                ∀瘀愀氀甀攀 嬀씀_슗灓嵥 㨀 䈀漀漀氀⸀∀Ⰰഀ਀                ∀昀氀愀最 嬀॓슐灓嵥 㨀 䈀漀漀氀Ⰰ 㨀㙟빒溋庋❜㱠౐珿罓幏❜콝빾溋㩿㲋⹐ ���꒞㪋⁎嬀昀愀氀猀攀崀⸀∀ഀ਀            崀Ⰰഀ਀            ␀猀渀椀瀀瀀攀琀㨀嬀ഀ਀                ∀瘀愀爀 椀搀㴀✀氀椀渀戀⸀琀攀洀瀀⸀最爀椀搀㤀⸀㈀✀㬀 椀昀⠀℀氀椀渀戀⸀䐀漀洀⸀戀礀䤀搀⠀椀搀⤀⤀笀琀栀椀猀⸀瀀爀攀瀀攀渀搀⠀氀椀渀戀⸀挀爀攀愀琀攀⠀✀㰀搀椀瘀 椀搀㴀✀⬀椀搀⬀✀ 猀琀礀氀攀㴀尀∀戀漀爀搀攀爀㨀猀漀氀椀搀 ㄀瀀砀㬀瀀愀搀搀椀渀最㨀㈀　瀀砀㬀瀀漀猀椀琀椀漀渀㨀爀攀氀愀琀椀瘀攀㬀眀椀搀琀栀㨀㌀　　瀀砀㬀栀攀椀最栀琀㨀㈀　　瀀砀㬀尀∀㸀✀ ⬀ ✀㰀戀甀琀琀漀渀 猀琀礀氀攀㴀尀∀瀀漀猀椀琀椀漀渀㨀愀戀猀漀氀甀琀攀㬀 戀漀琀琀漀洀㨀　瀀砀㬀 稀ⴀ椀渀搀攀砀㨀㈀㬀尀∀ 漀渀挀氀椀挀欀㴀尀∀氀椀渀戀⠀琀栀椀猀⤀⸀瀀愀爀攀渀琀⠀⤀⸀爀攀洀漀瘀攀⠀⤀尀∀㸀爀攀洀漀瘀攀 琀栀椀猀 攀砀愀洀瀀氀攀㰀⼀戀甀琀琀漀渀㸀✀ ⬀ ✀㰀⼀搀椀瘀㸀✀⤀⤀㬀∀⬀ഀ਀                ∀瘀愀爀 漀㴀渀攀眀 氀椀渀戀⸀唀䤀⸀吀爀攀攀䜀爀椀搀⠀笀攀搀椀琀愀戀氀攀㨀昀愀氀猀攀Ⰰ瀀漀猀椀琀椀漀渀㨀✀爀攀氀愀琀椀瘀攀✀紀⤀㬀∀⬀ഀ਀                ∀氀椀渀戀⸀䄀樀愀砀⠀✀䄀瀀瀀⼀樀猀⼀最爀椀搀⸀樀猀✀Ⰰ✀✀Ⰰ昀甀渀挀琀椀漀渀⠀猀⤀笀瘀愀爀 栀愀猀栀㴀开⸀甀渀猀攀爀椀愀氀椀稀攀⠀猀⤀㬀漀⸀猀攀琀䠀攀愀搀攀爀⠀栀愀猀栀⸀栀攀愀搀攀爀⤀⸀猀攀琀刀漀眀猀⠀栀愀猀栀⸀爀漀眀猀⤀㬀紀Ⰰ渀甀氀氀Ⰰ渀甀氀氀Ⰰ笀愀猀礀㨀昀愀氀猀攀紀⤀⸀猀琀愀爀琀⠀⤀㬀∀⬀ഀ਀                ∀漀⸀猀攀琀䌀漀氀䠀椀搀愀戀氀攀⠀琀爀甀攀⤀㬀 愀氀攀爀琀⠀漀⸀最攀琀䌀漀氀䠀椀搀愀戀氀攀⠀⤀⤀㬀∀⬀ഀ਀                ∀氀椀渀戀⠀椀搀⤀⸀瀀爀攀瀀攀渀搀⠀漀⤀㬀∀⬀ഀ਀                ∀紀∀ഀ਀            崀ഀ਀        紀Ⰰഀ਀        最攀琀䌀漀氀䴀漀瘀愀戀氀攀 㨀笀ഀ਀            ␀搀攀猀挀㨀∀␀굒졥⡺㝵⽢♦䭓ﭝ꡹ᝒ葒略䵛湏⹿∀Ⰰഀ਀            ␀爀琀渀㨀∀䈀漀漀氀∀Ⰰഀ਀            ␀猀渀椀瀀瀀攀琀㨀嬀ഀ਀                ∀瘀愀爀 椀搀㴀✀氀椀渀戀⸀琀攀洀瀀⸀最爀椀搀㠀✀㬀 椀昀⠀℀氀椀渀戀⸀䐀漀洀⸀戀礀䤀搀⠀椀搀⤀⤀笀琀栀椀猀⸀瀀爀攀瀀攀渀搀⠀氀椀渀戀⸀挀爀攀愀琀攀⠀✀㰀搀椀瘀 椀搀㴀✀⬀椀搀⬀✀ 猀琀礀氀攀㴀尀∀戀漀爀搀攀爀㨀猀漀氀椀搀 ㄀瀀砀㬀瀀愀搀搀椀渀最㨀㈀　瀀砀㬀瀀漀猀椀琀椀漀渀㨀爀攀氀愀琀椀瘀攀㬀眀椀搀琀栀㨀㌀　　瀀砀㬀栀攀椀最栀琀㨀㈀　　瀀砀㬀尀∀㸀✀ ⬀ ✀㰀戀甀琀琀漀渀 猀琀礀氀攀㴀尀∀瀀漀猀椀琀椀漀渀㨀愀戀猀漀氀甀琀攀㬀 戀漀琀琀漀洀㨀　瀀砀㬀 稀ⴀ椀渀搀攀砀㨀㈀㬀尀∀ 漀渀挀氀椀挀欀㴀尀∀氀椀渀戀⠀琀栀椀猀⤀⸀瀀愀爀攀渀琀⠀⤀⸀爀攀洀漀瘀攀⠀⤀尀∀㸀爀攀洀漀瘀攀 琀栀椀猀 攀砀愀洀瀀氀攀㰀⼀戀甀琀琀漀渀㸀✀ ⬀ ✀㰀⼀搀椀瘀㸀✀⤀⤀㬀∀⬀ഀ਀                ∀瘀愀爀 漀㴀渀攀眀 氀椀渀戀⸀唀䤀⸀吀爀攀攀䜀爀椀搀⠀笀攀搀椀琀愀戀氀攀㨀昀愀氀猀攀Ⰰ 瀀漀猀椀琀椀漀渀㨀✀爀攀氀愀琀椀瘀攀✀紀⤀㬀∀⬀ഀ਀                ∀氀椀渀戀⸀䄀樀愀砀⠀✀䄀瀀瀀⼀樀猀⼀最爀椀搀⸀樀猀✀Ⰰ✀✀Ⰰ昀甀渀挀琀椀漀渀⠀猀⤀笀瘀愀爀 栀愀猀栀㴀开⸀甀渀猀攀爀椀愀氀椀稀攀⠀猀⤀㬀漀⸀猀攀琀䠀攀愀搀攀爀⠀栀愀猀栀⸀栀攀愀搀攀爀⤀⸀猀攀琀刀漀眀猀⠀栀愀猀栀⸀爀漀眀猀⤀㬀紀Ⰰ渀甀氀氀Ⰰ渀甀氀氀Ⰰ笀愀猀礀㨀昀愀氀猀攀紀⤀⸀猀琀愀爀琀⠀⤀㬀∀⬀ഀ਀                ∀漀⸀猀攀琀䌀漀氀䴀漀瘀愀戀氀攀⠀昀愀氀猀攀⤀㬀 愀氀攀爀琀⠀漀⸀最攀琀䌀漀氀䴀漀瘀愀戀氀攀⠀⤀⤀㬀∀⬀ഀ਀                ∀氀椀渀戀⠀椀搀⤀⸀瀀爀攀瀀攀渀搀⠀漀⤀㬀∀⬀ഀ਀                ∀紀∀ഀ਀            崀ഀ਀        紀Ⰰഀ਀        猀攀琀䌀漀氀䴀漀瘀愀戀氀攀 㨀笀ഀ਀            ␀搀攀猀挀㨀∀븀溋졿⡺㝵⽢♦䭓ﭝ꡹ᝒ葒略䵛湏Ɀ 瘀㝞끒䱥扵⺗∀Ⰰഀ਀            ␀爀琀渀㨀∀嬀猀攀氀昀崀∀Ⰰഀ਀            ␀瀀愀爀愀猀㨀嬀ഀ਀                ∀瘀愀氀甀攀 嬀씀_슗灓嵥 㨀 䈀漀漀氀⸀∀Ⰰഀ਀                ∀昀氀愀最 嬀॓슐灓嵥 㨀 䈀漀漀氀Ⰰ 㨀㙟빒溋庋❜㱠౐珿罓幏❜콝빾溋㩿㲋⹐ ���꒞㪋⁎嬀昀愀氀猀攀崀⸀∀ഀ਀            崀Ⰰഀ਀            ␀猀渀椀瀀瀀攀琀㨀嬀ഀ਀                ∀瘀愀爀 椀搀㴀✀氀椀渀戀⸀琀攀洀瀀⸀最爀椀搀㤀✀㬀 椀昀⠀℀氀椀渀戀⸀䐀漀洀⸀戀礀䤀搀⠀椀搀⤀⤀笀琀栀椀猀⸀瀀爀攀瀀攀渀搀⠀氀椀渀戀⸀挀爀攀愀琀攀⠀✀㰀搀椀瘀 椀搀㴀✀⬀椀搀⬀✀ 猀琀礀氀攀㴀尀∀戀漀爀搀攀爀㨀猀漀氀椀搀 ㄀瀀砀㬀瀀愀搀搀椀渀最㨀㈀　瀀砀㬀瀀漀猀椀琀椀漀渀㨀爀攀氀愀琀椀瘀攀㬀眀椀搀琀栀㨀㌀　　瀀砀㬀栀攀椀最栀琀㨀㈀　　瀀砀㬀尀∀㸀✀ ⬀ ✀㰀戀甀琀琀漀渀 猀琀礀氀攀㴀尀∀瀀漀猀椀琀椀漀渀㨀愀戀猀漀氀甀琀攀㬀 戀漀琀琀漀洀㨀　瀀砀㬀 稀ⴀ椀渀搀攀砀㨀㈀㬀尀∀ 漀渀挀氀椀挀欀㴀尀∀氀椀渀戀⠀琀栀椀猀⤀⸀瀀愀爀攀渀琀⠀⤀⸀爀攀洀漀瘀攀⠀⤀尀∀㸀爀攀洀漀瘀攀 琀栀椀猀 攀砀愀洀瀀氀攀㰀⼀戀甀琀琀漀渀㸀✀ ⬀ ✀㰀⼀搀椀瘀㸀✀⤀⤀㬀∀⬀ഀ਀                ∀瘀愀爀 漀㴀渀攀眀 氀椀渀戀⸀唀䤀⸀吀爀攀攀䜀爀椀搀⠀笀攀搀椀琀愀戀氀攀㨀昀愀氀猀攀Ⰰ瀀漀猀椀琀椀漀渀㨀✀爀攀氀愀琀椀瘀攀✀紀⤀㬀∀⬀ഀ਀                ∀氀椀渀戀⸀䄀樀愀砀⠀✀䄀瀀瀀⼀樀猀⼀最爀椀搀⸀樀猀✀Ⰰ✀✀Ⰰ昀甀渀挀琀椀漀渀⠀猀⤀笀瘀愀爀 栀愀猀栀㴀开⸀甀渀猀攀爀椀愀氀椀稀攀⠀猀⤀㬀漀⸀猀攀琀䠀攀愀搀攀爀⠀栀愀猀栀⸀栀攀愀搀攀爀⤀⸀猀攀琀刀漀眀猀⠀栀愀猀栀⸀爀漀眀猀⤀㬀紀Ⰰ渀甀氀氀Ⰰ渀甀氀氀Ⰰ笀愀猀礀㨀昀愀氀猀攀紀⤀⸀猀琀愀爀琀⠀⤀㬀∀⬀ഀ਀                ∀漀⸀猀攀琀䌀漀氀䴀漀瘀愀戀氀攀⠀琀爀甀攀⤀㬀 愀氀攀爀琀⠀漀⸀最攀琀䌀漀氀䴀漀瘀愀戀氀攀⠀⤀⤀㬀∀⬀ഀ਀                ∀氀椀渀戀⠀椀搀⤀⸀瀀爀攀瀀攀渀搀⠀漀⤀㬀∀⬀ഀ਀                ∀紀∀ഀ਀            崀ഀ਀        紀Ⰰഀ਀        最攀琀䌀漀氀刀攀猀椀稀攀爀 㨀笀ഀ਀            ␀搀攀猀挀㨀∀␀굒졥⡺㝵⽢♦䭓홝ꡢᝒ葒뵶ꙛ⹞∀Ⰰഀ਀            ␀爀琀渀㨀∀䈀漀漀氀∀Ⰰഀ਀            ␀猀渀椀瀀瀀攀琀㨀嬀ഀ਀                ∀瘀愀爀 椀搀㴀✀氀椀渀戀⸀琀攀洀瀀⸀最爀椀搀㄀　✀㬀 椀昀⠀℀氀椀渀戀⸀䐀漀洀⸀戀礀䤀搀⠀椀搀⤀⤀笀琀栀椀猀⸀瀀爀攀瀀攀渀搀⠀氀椀渀戀⸀挀爀攀愀琀攀⠀✀㰀搀椀瘀 椀搀㴀✀⬀椀搀⬀✀ 猀琀礀氀攀㴀尀∀戀漀爀搀攀爀㨀猀漀氀椀搀 ㄀瀀砀㬀瀀愀搀搀椀渀最㨀㈀　瀀砀㬀瀀漀猀椀琀椀漀渀㨀爀攀氀愀琀椀瘀攀㬀眀椀搀琀栀㨀㌀　　瀀砀㬀栀攀椀最栀琀㨀㈀　　瀀砀㬀尀∀㸀✀ ⬀ ✀㰀戀甀琀琀漀渀 猀琀礀氀攀㴀尀∀瀀漀猀椀琀椀漀渀㨀愀戀猀漀氀甀琀攀㬀 戀漀琀琀漀洀㨀　瀀砀㬀 稀ⴀ椀渀搀攀砀㨀㈀㬀尀∀ 漀渀挀氀椀挀欀㴀尀∀氀椀渀戀⠀琀栀椀猀⤀⸀瀀愀爀攀渀琀⠀⤀⸀爀攀洀漀瘀攀⠀⤀尀∀㸀爀攀洀漀瘀攀 琀栀椀猀 攀砀愀洀瀀氀攀㰀⼀戀甀琀琀漀渀㸀✀ ⬀ ✀㰀⼀搀椀瘀㸀✀⤀⤀㬀∀⬀ഀ਀                ∀瘀愀爀 漀㴀渀攀眀 氀椀渀戀⸀唀䤀⸀吀爀攀攀䜀爀椀搀⠀笀攀搀椀琀愀戀氀攀㨀昀愀氀猀攀Ⰰ 瀀漀猀椀琀椀漀渀㨀✀爀攀氀愀琀椀瘀攀✀紀⤀㬀∀⬀ഀ਀                ∀氀椀渀戀⸀䄀樀愀砀⠀✀䄀瀀瀀⼀樀猀⼀最爀椀搀⸀樀猀✀Ⰰ✀✀Ⰰ昀甀渀挀琀椀漀渀⠀猀⤀笀瘀愀爀 栀愀猀栀㴀开⸀甀渀猀攀爀椀愀氀椀稀攀⠀猀⤀㬀漀⸀猀攀琀䠀攀愀搀攀爀⠀栀愀猀栀⸀栀攀愀搀攀爀⤀⸀猀攀琀刀漀眀猀⠀栀愀猀栀⸀爀漀眀猀⤀㬀紀Ⰰ渀甀氀氀Ⰰ渀甀氀氀Ⰰ笀愀猀礀㨀昀愀氀猀攀紀⤀⸀猀琀愀爀琀⠀⤀㬀∀⬀ഀ਀                ∀漀⸀猀攀琀䌀漀氀刀攀猀椀稀攀爀⠀昀愀氀猀攀⤀㬀 愀氀攀爀琀⠀漀⸀最攀琀䌀漀氀刀攀猀椀稀攀爀⠀⤀⤀㬀∀⬀ഀ਀                ∀氀椀渀戀⠀椀搀⤀⸀瀀爀攀瀀攀渀搀⠀漀⤀㬀∀⬀ഀ਀                ∀紀∀ഀ਀            崀ഀ਀        紀Ⰰഀ਀        猀攀琀䌀漀氀刀攀猀椀稀攀爀 㨀笀ഀ਀            ␀搀攀猀挀㨀∀븀溋⡺㝵⽢♦䭓홝ꡢᝒ葒뵶ꙛⱞ 瘀㝞끒䱥扵⺗∀Ⰰഀ਀            ␀爀琀渀㨀∀嬀猀攀氀昀崀∀Ⰰഀ਀            ␀瀀愀爀愀猀㨀嬀ഀ਀                ∀瘀愀氀甀攀 嬀씀_슗灓嵥 㨀 䈀漀漀氀⸀∀Ⰰഀ਀                ∀昀氀愀最 嬀॓슐灓嵥 㨀 䈀漀漀氀Ⰰ 㨀㙟빒溋庋❜㱠౐珿罓幏❜콝빾溋㩿㲋⹐ ���꒞㪋⁎嬀昀愀氀猀攀崀⸀∀ഀ਀            崀Ⰰഀ਀            ␀猀渀椀瀀瀀攀琀㨀嬀ഀ਀                ∀瘀愀爀 椀搀㴀✀氀椀渀戀⸀琀攀洀瀀⸀最爀椀搀㄀㄀✀㬀 椀昀⠀℀氀椀渀戀⸀䐀漀洀⸀戀礀䤀搀⠀椀搀⤀⤀笀琀栀椀猀⸀瀀爀攀瀀攀渀搀⠀氀椀渀戀⸀挀爀攀愀琀攀⠀✀㰀搀椀瘀 椀搀㴀✀⬀椀搀⬀✀ 猀琀礀氀攀㴀尀∀戀漀爀搀攀爀㨀猀漀氀椀搀 ㄀瀀砀㬀瀀愀搀搀椀渀最㨀㈀　瀀砀㬀瀀漀猀椀琀椀漀渀㨀爀攀氀愀琀椀瘀攀㬀眀椀搀琀栀㨀㌀　　瀀砀㬀栀攀椀最栀琀㨀㈀　　瀀砀㬀尀∀㸀✀ ⬀ ✀㰀戀甀琀琀漀渀 猀琀礀氀攀㴀尀∀瀀漀猀椀琀椀漀渀㨀愀戀猀漀氀甀琀攀㬀 戀漀琀琀漀洀㨀　瀀砀㬀 稀ⴀ椀渀搀攀砀㨀㈀㬀尀∀ 漀渀挀氀椀挀欀㴀尀∀氀椀渀戀⠀琀栀椀猀⤀⸀瀀愀爀攀渀琀⠀⤀⸀爀攀洀漀瘀攀⠀⤀尀∀㸀爀攀洀漀瘀攀 琀栀椀猀 攀砀愀洀瀀氀攀㰀⼀戀甀琀琀漀渀㸀✀ ⬀ ✀㰀⼀搀椀瘀㸀✀⤀⤀㬀∀⬀ഀ਀                ∀瘀愀爀 漀㴀渀攀眀 氀椀渀戀⸀唀䤀⸀吀爀攀攀䜀爀椀搀⠀笀攀搀椀琀愀戀氀攀㨀昀愀氀猀攀Ⰰ瀀漀猀椀琀椀漀渀㨀✀爀攀氀愀琀椀瘀攀✀紀⤀㬀∀⬀ഀ਀                ∀氀椀渀戀⸀䄀樀愀砀⠀✀䄀瀀瀀⼀樀猀⼀最爀椀搀⸀樀猀✀Ⰰ✀✀Ⰰ昀甀渀挀琀椀漀渀⠀猀⤀笀瘀愀爀 栀愀猀栀㴀开⸀甀渀猀攀爀椀愀氀椀稀攀⠀猀⤀㬀漀⸀猀攀琀䠀攀愀搀攀爀⠀栀愀猀栀⸀栀攀愀搀攀爀⤀⸀猀攀琀刀漀眀猀⠀栀愀猀栀⸀爀漀眀猀⤀㬀紀Ⰰ渀甀氀氀Ⰰ渀甀氀氀Ⰰ笀愀猀礀㨀昀愀氀猀攀紀⤀⸀猀琀愀爀琀⠀⤀㬀∀⬀ഀ਀                ∀漀⸀猀攀琀䌀漀氀刀攀猀椀稀攀爀⠀琀爀甀攀⤀㬀 愀氀攀爀琀⠀漀⸀最攀琀䌀漀氀刀攀猀椀稀攀爀⠀⤀⤀㬀∀⬀ഀ਀                ∀氀椀渀戀⠀椀搀⤀⸀瀀爀攀瀀攀渀搀⠀漀⤀㬀∀⬀ഀ਀                ∀紀∀ഀ਀            崀ഀ਀        紀Ⰰഀ਀        最攀琀䌀漀氀匀漀爀琀愀戀氀攀 㨀笀ഀ਀            ␀搀攀猀挀㨀∀␀굒졥⡺㝵⽢♦䭓諾᝛���䲏銈轣⹞∀Ⰰഀ਀            ␀爀琀渀㨀∀䈀漀漀氀∀Ⰰഀ਀            ␀猀渀椀瀀瀀攀琀㨀嬀ഀ਀                ∀瘀愀爀 椀搀㴀✀氀椀渀戀⸀琀攀洀瀀⸀最爀椀搀㄀㈀✀㬀 椀昀⠀℀氀椀渀戀⸀䐀漀洀⸀戀礀䤀搀⠀椀搀⤀⤀笀琀栀椀猀⸀瀀爀攀瀀攀渀搀⠀氀椀渀戀⸀挀爀攀愀琀攀⠀✀㰀搀椀瘀 椀搀㴀✀⬀椀搀⬀✀ 猀琀礀氀攀㴀尀∀戀漀爀搀攀爀㨀猀漀氀椀搀 ㄀瀀砀㬀瀀愀搀搀椀渀最㨀㈀　瀀砀㬀瀀漀猀椀琀椀漀渀㨀爀攀氀愀琀椀瘀攀㬀眀椀搀琀栀㨀㌀　　瀀砀㬀栀攀椀最栀琀㨀㈀　　瀀砀㬀尀∀㸀✀ ⬀ ✀㰀戀甀琀琀漀渀 猀琀礀氀攀㴀尀∀瀀漀猀椀琀椀漀渀㨀愀戀猀漀氀甀琀攀㬀 戀漀琀琀漀洀㨀　瀀砀㬀 稀ⴀ椀渀搀攀砀㨀㈀㬀尀∀ 漀渀挀氀椀挀欀㴀尀∀氀椀渀戀⠀琀栀椀猀⤀⸀瀀愀爀攀渀琀⠀⤀⸀爀攀洀漀瘀攀⠀⤀尀∀㸀爀攀洀漀瘀攀 琀栀椀猀 攀砀愀洀瀀氀攀㰀⼀戀甀琀琀漀渀㸀✀ ⬀ ✀㰀⼀搀椀瘀㸀✀⤀⤀㬀∀⬀ഀ਀                ∀瘀愀爀 漀㴀渀攀眀 氀椀渀戀⸀唀䤀⸀吀爀攀攀䜀爀椀搀⠀笀攀搀椀琀愀戀氀攀㨀昀愀氀猀攀Ⰰ 瀀漀猀椀琀椀漀渀㨀✀爀攀氀愀琀椀瘀攀✀紀⤀㬀∀⬀ഀ਀                ∀氀椀渀戀⸀䄀樀愀砀⠀✀䄀瀀瀀⼀樀猀⼀最爀椀搀⸀樀猀✀Ⰰ✀✀Ⰰ昀甀渀挀琀椀漀渀⠀猀⤀笀瘀愀爀 栀愀猀栀㴀开⸀甀渀猀攀爀椀愀氀椀稀攀⠀猀⤀㬀漀⸀猀攀琀䠀攀愀搀攀爀⠀栀愀猀栀⸀栀攀愀搀攀爀⤀⸀猀攀琀刀漀眀猀⠀栀愀猀栀⸀爀漀眀猀⤀㬀紀Ⰰ渀甀氀氀Ⰰ渀甀氀氀Ⰰ笀愀猀礀㨀昀愀氀猀攀紀⤀⸀猀琀愀爀琀⠀⤀㬀∀⬀ഀ਀                ∀漀⸀猀攀琀䌀漀氀匀漀爀琀愀戀氀攀⠀昀愀氀猀攀⤀㬀 愀氀攀爀琀⠀漀⸀最攀琀䌀漀氀匀漀爀琀愀戀氀攀⠀⤀⤀㬀∀⬀ഀ਀                ∀氀椀渀戀⠀椀搀⤀⸀瀀爀攀瀀攀渀搀⠀漀⤀㬀∀⬀ഀ਀                ∀紀∀ഀ਀            崀ഀ਀        紀Ⰰഀ਀        猀攀琀䌀漀氀匀漀爀琀愀戀氀攀 㨀笀ഀ਀            ␀搀攀猀挀㨀∀븀溋졿⡺㝵⽢♦䭓諾᝛���䲏銈轣ⱞ 瘀㝞끒䱥扵⺗∀Ⰰഀ਀            ␀爀琀渀㨀∀嬀猀攀氀昀崀∀Ⰰഀ਀            ␀瀀愀爀愀猀㨀嬀ഀ਀                ∀瘀愀氀甀攀 嬀씀_슗灓嵥 㨀 䈀漀漀氀⸀∀Ⰰഀ਀                ∀昀氀愀最 嬀॓슐灓嵥 㨀 䈀漀漀氀Ⰰ 㨀㙟빒溋庋❜㱠౐珿罓幏❜콝빾溋㩿㲋⹐ ���꒞㪋⁎嬀昀愀氀猀攀崀⸀∀ഀ਀            崀Ⰰഀ਀            ␀猀渀椀瀀瀀攀琀㨀嬀ഀ਀                ∀瘀愀爀 椀搀㴀✀氀椀渀戀⸀琀攀洀瀀⸀最爀椀搀㄀㌀✀㬀 椀昀⠀℀氀椀渀戀⸀䐀漀洀⸀戀礀䤀搀⠀椀搀⤀⤀笀琀栀椀猀⸀瀀爀攀瀀攀渀搀⠀氀椀渀戀⸀挀爀攀愀琀攀⠀✀㰀搀椀瘀 椀搀㴀✀⬀椀搀⬀✀ 猀琀礀氀攀㴀尀∀戀漀爀搀攀爀㨀猀漀氀椀搀 ㄀瀀砀㬀瀀愀搀搀椀渀最㨀㈀　瀀砀㬀瀀漀猀椀琀椀漀渀㨀爀攀氀愀琀椀瘀攀㬀眀椀搀琀栀㨀㌀　　瀀砀㬀栀攀椀最栀琀㨀㈀　　瀀砀㬀尀∀㸀✀ ⬀ ✀㰀戀甀琀琀漀渀 猀琀礀氀攀㴀尀∀瀀漀猀椀琀椀漀渀㨀愀戀猀漀氀甀琀攀㬀 戀漀琀琀漀洀㨀　瀀砀㬀 稀ⴀ椀渀搀攀砀㨀㈀㬀尀∀ 漀渀挀氀椀挀欀㴀尀∀氀椀渀戀⠀琀栀椀猀⤀⸀瀀愀爀攀渀琀⠀⤀⸀爀攀洀漀瘀攀⠀⤀尀∀㸀爀攀洀漀瘀攀 琀栀椀猀 攀砀愀洀瀀氀攀㰀⼀戀甀琀琀漀渀㸀✀ ⬀ ✀㰀⼀搀椀瘀㸀✀⤀⤀㬀∀⬀ഀ਀                ∀瘀愀爀 漀㴀渀攀眀 氀椀渀戀⸀唀䤀⸀吀爀攀攀䜀爀椀搀⠀笀攀搀椀琀愀戀氀攀㨀昀愀氀猀攀Ⰰ瀀漀猀椀琀椀漀渀㨀✀爀攀氀愀琀椀瘀攀✀紀⤀㬀∀⬀ഀ਀                ∀氀椀渀戀⸀䄀樀愀砀⠀✀䄀瀀瀀⼀樀猀⼀最爀椀搀⸀樀猀✀Ⰰ✀✀Ⰰ昀甀渀挀琀椀漀渀⠀猀⤀笀瘀愀爀 栀愀猀栀㴀开⸀甀渀猀攀爀椀愀氀椀稀攀⠀猀⤀㬀漀⸀猀攀琀䠀攀愀搀攀爀⠀栀愀猀栀⸀栀攀愀搀攀爀⤀⸀猀攀琀刀漀眀猀⠀栀愀猀栀⸀爀漀眀猀⤀㬀紀Ⰰ渀甀氀氀Ⰰ渀甀氀氀Ⰰ笀愀猀礀㨀昀愀氀猀攀紀⤀⸀猀琀愀爀琀⠀⤀㬀∀⬀ഀ਀                ∀漀⸀猀攀琀䌀漀氀匀漀爀琀愀戀氀攀⠀琀爀甀攀⤀㬀 愀氀攀爀琀⠀漀⸀最攀琀䌀漀氀匀漀爀琀愀戀氀攀⠀⤀⤀㬀∀⬀ഀ਀                ∀氀椀渀戀⠀椀搀⤀⸀瀀爀攀瀀攀渀搀⠀漀⤀㬀∀⬀ഀ਀                ∀紀∀ഀ਀            崀ഀ਀        紀Ⰰഀ਀        最攀琀䔀搀椀琀愀戀氀攀 㨀笀ഀ਀            ␀搀攀猀挀㨀∀␀굒桥㲈㩨ﭓᚋ饓⹑∀Ⰰഀ਀            ␀爀琀渀㨀∀䈀漀漀氀∀Ⰰഀ਀            ␀猀渀椀瀀瀀攀琀㨀嬀ഀ਀                ∀瘀愀爀 椀搀㴀✀氀椀渀戀⸀琀攀洀瀀⸀最爀椀搀㄀㐀✀㬀 椀昀⠀℀氀椀渀戀⸀䐀漀洀⸀戀礀䤀搀⠀椀搀⤀⤀笀琀栀椀猀⸀瀀爀攀瀀攀渀搀⠀氀椀渀戀⸀挀爀攀愀琀攀⠀✀㰀搀椀瘀 椀搀㴀✀⬀椀搀⬀✀ 猀琀礀氀攀㴀尀∀戀漀爀搀攀爀㨀猀漀氀椀搀 ㄀瀀砀㬀瀀愀搀搀椀渀最㨀㈀　瀀砀㬀瀀漀猀椀琀椀漀渀㨀爀攀氀愀琀椀瘀攀㬀眀椀搀琀栀㨀㌀　　瀀砀㬀栀攀椀最栀琀㨀㈀　　瀀砀㬀尀∀㸀✀ ⬀ ✀㰀戀甀琀琀漀渀 猀琀礀氀攀㴀尀∀瀀漀猀椀琀椀漀渀㨀愀戀猀漀氀甀琀攀㬀 戀漀琀琀漀洀㨀　瀀砀㬀 稀ⴀ椀渀搀攀砀㨀㈀㬀尀∀ 漀渀挀氀椀挀欀㴀尀∀氀椀渀戀⠀琀栀椀猀⤀⸀瀀愀爀攀渀琀⠀⤀⸀爀攀洀漀瘀攀⠀⤀尀∀㸀爀攀洀漀瘀攀 琀栀椀猀 攀砀愀洀瀀氀攀㰀⼀戀甀琀琀漀渀㸀✀ ⬀ ✀㰀⼀搀椀瘀㸀✀⤀⤀㬀∀⬀ഀ਀                ∀瘀愀爀 漀㴀渀攀眀 氀椀渀戀⸀唀䤀⸀吀爀攀攀䜀爀椀搀⠀笀瀀漀猀椀琀椀漀渀㨀✀爀攀氀愀琀椀瘀攀✀紀⤀㬀∀⬀ഀ਀                ∀氀椀渀戀⸀䄀樀愀砀⠀✀䄀瀀瀀⼀樀猀⼀最爀椀搀⸀樀猀✀Ⰰ✀✀Ⰰ昀甀渀挀琀椀漀渀⠀猀⤀笀瘀愀爀 栀愀猀栀㴀开⸀甀渀猀攀爀椀愀氀椀稀攀⠀猀⤀㬀漀⸀猀攀琀䠀攀愀搀攀爀⠀栀愀猀栀⸀栀攀愀搀攀爀⤀⸀猀攀琀刀漀眀猀⠀栀愀猀栀⸀爀漀眀猀⤀㬀紀Ⰰ渀甀氀氀Ⰰ渀甀氀氀Ⰰ笀愀猀礀㨀昀愀氀猀攀紀⤀⸀猀琀愀爀琀⠀⤀㬀∀⬀ഀ਀                ∀漀⸀猀攀琀䔀搀椀琀愀戀氀攀⠀昀愀氀猀攀⤀㬀 愀氀攀爀琀⠀漀⸀最攀琀䔀搀椀琀愀戀氀攀⠀⤀⤀㬀∀⬀ഀ਀                ∀氀椀渀戀⠀椀搀⤀⸀瀀爀攀瀀攀渀搀⠀漀⤀㬀∀⬀ഀ਀                ∀紀∀ഀ਀            崀ഀ਀        紀Ⰰഀ਀        猀攀琀䔀搀椀琀愀戀氀攀 㨀笀ഀ਀            ␀搀攀猀挀㨀∀栀㲈㩨ﭓᚋ饓ⱑ 瘀㝞끒䱥扵⺗∀Ⰰഀ਀            ␀爀琀渀㨀∀嬀猀攀氀昀崀∀Ⰰഀ਀            ␀瀀愀爀愀猀㨀嬀ഀ਀                ∀瘀愀氀甀攀 嬀씀_슗灓嵥 㨀 䈀漀漀氀⸀∀Ⰰഀ਀                ∀昀氀愀最 嬀॓슐灓嵥 㨀 䈀漀漀氀Ⰰ 㨀㙟빒溋庋❜㱠౐珿罓幏❜콝빾溋㩿㲋⹐ ���꒞㪋⁎嬀昀愀氀猀攀崀⸀∀ഀ਀            崀Ⰰഀ਀            ␀猀渀椀瀀瀀攀琀㨀嬀ഀ਀                ∀瘀愀爀 椀搀㴀✀氀椀渀戀⸀琀攀洀瀀⸀最爀椀搀㄀㔀✀㬀 椀昀⠀℀氀椀渀戀⸀䐀漀洀⸀戀礀䤀搀⠀椀搀⤀⤀笀琀栀椀猀⸀瀀爀攀瀀攀渀搀⠀氀椀渀戀⸀挀爀攀愀琀攀⠀✀㰀搀椀瘀 椀搀㴀✀⬀椀搀⬀✀ 猀琀礀氀攀㴀尀∀戀漀爀搀攀爀㨀猀漀氀椀搀 ㄀瀀砀㬀瀀愀搀搀椀渀最㨀㈀　瀀砀㬀瀀漀猀椀琀椀漀渀㨀爀攀氀愀琀椀瘀攀㬀眀椀搀琀栀㨀㌀　　瀀砀㬀栀攀椀最栀琀㨀㈀　　瀀砀㬀尀∀㸀✀ ⬀ ✀㰀戀甀琀琀漀渀 猀琀礀氀攀㴀尀∀瀀漀猀椀琀椀漀渀㨀愀戀猀漀氀甀琀攀㬀 戀漀琀琀漀洀㨀　瀀砀㬀 稀ⴀ椀渀搀攀砀㨀㈀㬀尀∀ 漀渀挀氀椀挀欀㴀尀∀氀椀渀戀⠀琀栀椀猀⤀⸀瀀愀爀攀渀琀⠀⤀⸀爀攀洀漀瘀攀⠀⤀尀∀㸀爀攀洀漀瘀攀 琀栀椀猀 攀砀愀洀瀀氀攀㰀⼀戀甀琀琀漀渀㸀✀ ⬀ ✀㰀⼀搀椀瘀㸀✀⤀⤀㬀∀⬀ഀ਀                ∀瘀愀爀 漀㴀渀攀眀 氀椀渀戀⸀唀䤀⸀吀爀攀攀䜀爀椀搀⠀笀瀀漀猀椀琀椀漀渀㨀✀爀攀氀愀琀椀瘀攀✀紀⤀㬀∀⬀ഀ਀                ∀氀椀渀戀⸀䄀樀愀砀⠀✀䄀瀀瀀⼀樀猀⼀最爀椀搀⸀樀猀✀Ⰰ✀✀Ⰰ昀甀渀挀琀椀漀渀⠀猀⤀笀瘀愀爀 栀愀猀栀㴀开⸀甀渀猀攀爀椀愀氀椀稀攀⠀猀⤀㬀漀⸀猀攀琀䠀攀愀搀攀爀⠀栀愀猀栀⸀栀攀愀搀攀爀⤀⸀猀攀琀刀漀眀猀⠀栀愀猀栀⸀爀漀眀猀⤀㬀紀Ⰰ渀甀氀氀Ⰰ渀甀氀氀Ⰰ笀愀猀礀㨀昀愀氀猀攀紀⤀⸀猀琀愀爀琀⠀⤀㬀∀⬀ഀ਀                ∀漀⸀猀攀琀䔀搀椀琀愀戀氀攀⠀琀爀甀攀⤀㬀 愀氀攀爀琀⠀漀⸀最攀琀䔀搀椀琀愀戀氀攀⠀⤀⤀㬀∀⬀ഀ਀                ∀氀椀渀戀⠀椀搀⤀⸀瀀爀攀瀀攀渀搀⠀漀⤀㬀∀⬀ഀ਀                ∀紀∀ഀ਀            崀ഀ਀        紀Ⰰഀ਀        最攀琀䠀攀愀搀攀爀䠀攀椀最栀琀 㨀笀ഀ਀            ␀搀攀猀挀㨀∀뜀횃桓㒈���Ꚛ⹞∀Ⰰഀ਀            ␀爀琀渀㨀∀一甀洀戀攀爀∀Ⰰഀ਀            ␀猀渀椀瀀瀀攀琀㨀嬀ഀ਀                ∀瘀愀爀 椀搀㴀✀氀椀渀戀⸀琀攀洀瀀⸀最爀椀搀㄀㘀✀㬀 椀昀⠀℀氀椀渀戀⸀䐀漀洀⸀戀礀䤀搀⠀椀搀⤀⤀笀琀栀椀猀⸀瀀爀攀瀀攀渀搀⠀氀椀渀戀⸀挀爀攀愀琀攀⠀✀㰀搀椀瘀 椀搀㴀✀⬀椀搀⬀✀ 猀琀礀氀攀㴀尀∀戀漀爀搀攀爀㨀猀漀氀椀搀 ㄀瀀砀㬀瀀愀搀搀椀渀最㨀㈀　瀀砀㬀瀀漀猀椀琀椀漀渀㨀爀攀氀愀琀椀瘀攀㬀眀椀搀琀栀㨀㌀　　瀀砀㬀栀攀椀最栀琀㨀㈀　　瀀砀㬀尀∀㸀✀ ⬀ ✀㰀戀甀琀琀漀渀 猀琀礀氀攀㴀尀∀瀀漀猀椀琀椀漀渀㨀愀戀猀漀氀甀琀攀㬀 戀漀琀琀漀洀㨀　瀀砀㬀 稀ⴀ椀渀搀攀砀㨀㈀㬀尀∀ 漀渀挀氀椀挀欀㴀尀∀氀椀渀戀⠀琀栀椀猀⤀⸀瀀愀爀攀渀琀⠀⤀⸀爀攀洀漀瘀攀⠀⤀尀∀㸀爀攀洀漀瘀攀 琀栀椀猀 攀砀愀洀瀀氀攀㰀⼀戀甀琀琀漀渀㸀✀ ⬀ ✀㰀⼀搀椀瘀㸀✀⤀⤀㬀∀⬀ഀ਀                ∀瘀愀爀 漀㴀渀攀眀 氀椀渀戀⸀唀䤀⸀吀爀攀攀䜀爀椀搀⠀笀攀搀椀琀愀戀氀攀㨀昀愀氀猀攀Ⰰ 瀀漀猀椀琀椀漀渀㨀✀爀攀氀愀琀椀瘀攀✀紀⤀㬀∀⬀ഀ਀                ∀氀椀渀戀⸀䄀樀愀砀⠀✀䄀瀀瀀⼀樀猀⼀最爀椀搀⸀樀猀✀Ⰰ✀✀Ⰰ昀甀渀挀琀椀漀渀⠀猀⤀笀瘀愀爀 栀愀猀栀㴀开⸀甀渀猀攀爀椀愀氀椀稀攀⠀猀⤀㬀漀⸀猀攀琀䠀攀愀搀攀爀⠀栀愀猀栀⸀栀攀愀搀攀爀⤀⸀猀攀琀刀漀眀猀⠀栀愀猀栀⸀爀漀眀猀⤀㬀紀Ⰰ渀甀氀氀Ⰰ渀甀氀氀Ⰰ笀愀猀礀㨀昀愀氀猀攀紀⤀⸀猀琀愀爀琀⠀⤀㬀∀⬀ഀ਀                ∀漀⸀猀攀琀䠀攀愀搀攀爀䠀攀椀最栀琀⠀㐀　⤀㬀 愀氀攀爀琀⠀漀⸀最攀琀䠀攀愀搀攀爀䠀攀椀最栀琀⠀⤀⤀㬀∀⬀ഀ਀                ∀氀椀渀戀⠀椀搀⤀⸀瀀爀攀瀀攀渀搀⠀漀⤀㬀∀⬀ഀ਀                ∀紀∀ഀ਀            崀ഀ਀        紀Ⰰഀ਀        猀攀琀䠀攀愀搀攀爀䠀攀椀最栀琀 㨀笀ഀ਀            ␀搀攀猀挀㨀∀븀溋桿㒈���Ꚛⱞ 瘀㝞끒䱥扵⺗∀Ⰰഀ਀            ␀爀琀渀㨀∀嬀猀攀氀昀崀∀Ⰰഀ਀            ␀瀀愀爀愀猀㨀嬀ഀ਀                ∀瘀愀氀甀攀 嬀씀_슗灓嵥 㨀 一甀洀戀攀爀⸀∀Ⰰഀ਀                ∀昀氀愀最 嬀॓슐灓嵥 㨀 䈀漀漀氀Ⰰ 㨀㙟빒溋庋❜㱠౐珿罓幏❜콝빾溋㩿㲋⹐ ���꒞㪋⁎嬀昀愀氀猀攀崀⸀∀ഀ਀            崀Ⰰഀ਀            ␀猀渀椀瀀瀀攀琀㨀嬀ഀ਀                ∀瘀愀爀 椀搀㴀✀氀椀渀戀⸀琀攀洀瀀⸀最爀椀搀㄀㜀✀㬀 椀昀⠀℀氀椀渀戀⸀䐀漀洀⸀戀礀䤀搀⠀椀搀⤀⤀笀琀栀椀猀⸀瀀爀攀瀀攀渀搀⠀氀椀渀戀⸀挀爀攀愀琀攀⠀✀㰀搀椀瘀 椀搀㴀✀⬀椀搀⬀✀ 猀琀礀氀攀㴀尀∀戀漀爀搀攀爀㨀猀漀氀椀搀 ㄀瀀砀㬀瀀愀搀搀椀渀最㨀㈀　瀀砀㬀瀀漀猀椀琀椀漀渀㨀爀攀氀愀琀椀瘀攀㬀眀椀搀琀栀㨀㌀　　瀀砀㬀栀攀椀最栀琀㨀㈀　　瀀砀㬀尀∀㸀✀ ⬀ ✀㰀戀甀琀琀漀渀 猀琀礀氀攀㴀尀∀瀀漀猀椀琀椀漀渀㨀愀戀猀漀氀甀琀攀㬀 戀漀琀琀漀洀㨀　瀀砀㬀 稀ⴀ椀渀搀攀砀㨀㈀㬀尀∀ 漀渀挀氀椀挀欀㴀尀∀氀椀渀戀⠀琀栀椀猀⤀⸀瀀愀爀攀渀琀⠀⤀⸀爀攀洀漀瘀攀⠀⤀尀∀㸀爀攀洀漀瘀攀 琀栀椀猀 攀砀愀洀瀀氀攀㰀⼀戀甀琀琀漀渀㸀✀ ⬀ ✀㰀⼀搀椀瘀㸀✀⤀⤀㬀∀⬀ഀ਀                ∀瘀愀爀 漀㴀渀攀眀 氀椀渀戀⸀唀䤀⸀吀爀攀攀䜀爀椀搀⠀笀攀搀椀琀愀戀氀攀㨀昀愀氀猀攀Ⰰ瀀漀猀椀琀椀漀渀㨀✀爀攀氀愀琀椀瘀攀✀紀⤀㬀∀⬀ഀ਀                ∀氀椀渀戀⸀䄀樀愀砀⠀✀䄀瀀瀀⼀樀猀⼀最爀椀搀⸀樀猀✀Ⰰ✀✀Ⰰ昀甀渀挀琀椀漀渀⠀猀⤀笀瘀愀爀 栀愀猀栀㴀开⸀甀渀猀攀爀椀愀氀椀稀攀⠀猀⤀㬀漀⸀猀攀琀䠀攀愀搀攀爀⠀栀愀猀栀⸀栀攀愀搀攀爀⤀⸀猀攀琀刀漀眀猀⠀栀愀猀栀⸀爀漀眀猀⤀㬀紀Ⰰ渀甀氀氀Ⰰ渀甀氀氀Ⰰ笀愀猀礀㨀昀愀氀猀攀紀⤀⸀猀琀愀爀琀⠀⤀㬀∀⬀ഀ਀                ∀漀⸀猀攀琀䠀攀愀搀攀爀䠀攀椀最栀琀⠀㐀　⤀㬀 愀氀攀爀琀⠀漀⸀最攀琀䠀攀愀搀攀爀䠀攀椀最栀琀⠀⤀⤀㬀∀⬀ഀ਀                ∀氀椀渀戀⠀椀搀⤀⸀瀀爀攀瀀攀渀搀⠀漀⤀㬀∀⬀ഀ਀                ∀紀∀ഀ਀            崀ഀ਀        紀Ⰰഀ਀        最攀琀刀漀眀䠀攀椀最栀琀 㨀笀ഀ਀            ␀搀攀猀挀㨀∀뜀횃䱓���Ꚛ⹞∀Ⰰഀ਀            ␀爀琀渀㨀∀一甀洀戀攀爀∀Ⰰഀ਀            ␀猀渀椀瀀瀀攀琀㨀嬀ഀ਀                ∀瘀愀爀 椀搀㴀✀氀椀渀戀⸀琀攀洀瀀⸀最爀椀搀㄀㠀✀㬀 椀昀⠀℀氀椀渀戀⸀䐀漀洀⸀戀礀䤀搀⠀椀搀⤀⤀笀琀栀椀猀⸀瀀爀攀瀀攀渀搀⠀氀椀渀戀⸀挀爀攀愀琀攀⠀✀㰀搀椀瘀 椀搀㴀✀⬀椀搀⬀✀ 猀琀礀氀攀㴀尀∀戀漀爀搀攀爀㨀猀漀氀椀搀 ㄀瀀砀㬀瀀愀搀搀椀渀最㨀㈀　瀀砀㬀瀀漀猀椀琀椀漀渀㨀爀攀氀愀琀椀瘀攀㬀眀椀搀琀栀㨀㌀　　瀀砀㬀栀攀椀最栀琀㨀㈀　　瀀砀㬀尀∀㸀✀ ⬀ ✀㰀戀甀琀琀漀渀 猀琀礀氀攀㴀尀∀瀀漀猀椀琀椀漀渀㨀愀戀猀漀氀甀琀攀㬀 戀漀琀琀漀洀㨀　瀀砀㬀 稀ⴀ椀渀搀攀砀㨀㈀㬀尀∀ 漀渀挀氀椀挀欀㴀尀∀氀椀渀戀⠀琀栀椀猀⤀⸀瀀愀爀攀渀琀⠀⤀⸀爀攀洀漀瘀攀⠀⤀尀∀㸀爀攀洀漀瘀攀 琀栀椀猀 攀砀愀洀瀀氀攀㰀⼀戀甀琀琀漀渀㸀✀ ⬀ ✀㰀⼀搀椀瘀㸀✀⤀⤀㬀∀⬀ഀ਀                ∀瘀愀爀 漀㴀渀攀眀 氀椀渀戀⸀唀䤀⸀吀爀攀攀䜀爀椀搀⠀笀攀搀椀琀愀戀氀攀㨀昀愀氀猀攀Ⰰ 瀀漀猀椀琀椀漀渀㨀✀爀攀氀愀琀椀瘀攀✀紀⤀㬀∀⬀ഀ਀                ∀氀椀渀戀⸀䄀樀愀砀⠀✀䄀瀀瀀⼀樀猀⼀最爀椀搀⸀樀猀✀Ⰰ✀✀Ⰰ昀甀渀挀琀椀漀渀⠀猀⤀笀瘀愀爀 栀愀猀栀㴀开⸀甀渀猀攀爀椀愀氀椀稀攀⠀猀⤀㬀漀⸀猀攀琀䠀攀愀搀攀爀⠀栀愀猀栀⸀栀攀愀搀攀爀⤀⸀猀攀琀刀漀眀猀⠀栀愀猀栀⸀爀漀眀猀⤀㬀紀Ⰰ渀甀氀氀Ⰰ渀甀氀氀Ⰰ笀愀猀礀㨀昀愀氀猀攀紀⤀⸀猀琀愀爀琀⠀⤀㬀∀⬀ഀ਀                ∀漀⸀猀攀琀刀漀眀䠀攀椀最栀琀⠀㐀　⤀㬀 愀氀攀爀琀⠀漀⸀最攀琀刀漀眀䠀攀椀最栀琀⠀⤀⤀㬀∀⬀ഀ਀                ∀氀椀渀戀⠀椀搀⤀⸀瀀爀攀瀀攀渀搀⠀漀⤀㬀∀⬀ഀ਀                ∀紀∀ഀ਀            崀ഀ਀        紀Ⰰഀ਀        猀攀琀刀漀眀䠀攀椀最栀琀 㨀笀ഀ਀            ␀搀攀猀挀㨀∀븀溋䱿���Ꚛⱞ 瘀㝞끒䱥扵⺗∀Ⰰഀ਀            ␀爀琀渀㨀∀嬀猀攀氀昀崀∀Ⰰഀ਀            ␀瀀愀爀愀猀㨀嬀ഀ਀                ∀瘀愀氀甀攀 嬀씀_슗灓嵥 㨀 一甀洀戀攀爀⸀∀Ⰰഀ਀                ∀昀氀愀最 嬀॓슐灓嵥 㨀 䈀漀漀氀Ⰰ 㨀㙟빒溋庋❜㱠౐珿罓幏❜콝빾溋㩿㲋⹐ ���꒞㪋⁎嬀昀愀氀猀攀崀⸀∀ഀ਀            崀Ⰰഀ਀            ␀猀渀椀瀀瀀攀琀㨀嬀ഀ਀                ∀瘀愀爀 椀搀㴀✀氀椀渀戀⸀琀攀洀瀀⸀最爀椀搀㄀㤀✀㬀 椀昀⠀℀氀椀渀戀⸀䐀漀洀⸀戀礀䤀搀⠀椀搀⤀⤀笀琀栀椀猀⸀瀀爀攀瀀攀渀搀⠀氀椀渀戀⸀挀爀攀愀琀攀⠀✀㰀搀椀瘀 椀搀㴀✀⬀椀搀⬀✀ 猀琀礀氀攀㴀尀∀戀漀爀搀攀爀㨀猀漀氀椀搀 ㄀瀀砀㬀瀀愀搀搀椀渀最㨀㈀　瀀砀㬀瀀漀猀椀琀椀漀渀㨀爀攀氀愀琀椀瘀攀㬀眀椀搀琀栀㨀㌀　　瀀砀㬀栀攀椀最栀琀㨀㈀　　瀀砀㬀尀∀㸀✀ ⬀ ✀㰀戀甀琀琀漀渀 猀琀礀氀攀㴀尀∀瀀漀猀椀琀椀漀渀㨀愀戀猀漀氀甀琀攀㬀 戀漀琀琀漀洀㨀　瀀砀㬀 稀ⴀ椀渀搀攀砀㨀㈀㬀尀∀ 漀渀挀氀椀挀欀㴀尀∀氀椀渀戀⠀琀栀椀猀⤀⸀瀀愀爀攀渀琀⠀⤀⸀爀攀洀漀瘀攀⠀⤀尀∀㸀爀攀洀漀瘀攀 琀栀椀猀 攀砀愀洀瀀氀攀㰀⼀戀甀琀琀漀渀㸀✀ ⬀ ✀㰀⼀搀椀瘀㸀✀⤀⤀㬀∀⬀ഀ਀                ∀瘀愀爀 漀㴀渀攀眀 氀椀渀戀⸀唀䤀⸀吀爀攀攀䜀爀椀搀⠀笀攀搀椀琀愀戀氀攀㨀昀愀氀猀攀Ⰰ瀀漀猀椀琀椀漀渀㨀✀爀攀氀愀琀椀瘀攀✀紀⤀㬀∀⬀ഀ਀                ∀氀椀渀戀⸀䄀樀愀砀⠀✀䄀瀀瀀⼀樀猀⼀最爀椀搀⸀樀猀✀Ⰰ✀✀Ⰰ昀甀渀挀琀椀漀渀⠀猀⤀笀瘀愀爀 栀愀猀栀㴀开⸀甀渀猀攀爀椀愀氀椀稀攀⠀猀⤀㬀漀⸀猀攀琀䠀攀愀搀攀爀⠀栀愀猀栀⸀栀攀愀搀攀爀⤀⸀猀攀琀刀漀眀猀⠀栀愀猀栀⸀爀漀眀猀⤀㬀紀Ⰰ渀甀氀氀Ⰰ渀甀氀氀Ⰰ笀愀猀礀㨀昀愀氀猀攀紀⤀⸀猀琀愀爀琀⠀⤀㬀∀⬀ഀ਀                ∀漀⸀猀攀琀刀漀眀䠀攀椀最栀琀⠀㐀　⤀㬀 愀氀攀爀琀⠀漀⸀最攀琀刀漀眀䠀攀椀最栀琀⠀⤀⤀㬀∀⬀ഀ਀                ∀氀椀渀戀⠀椀搀⤀⸀瀀爀攀瀀攀渀搀⠀漀⤀㬀∀⬀ഀ਀                ∀紀∀ഀ਀            崀ഀ਀        紀Ⰰഀ਀        最攀琀䤀渀椀䘀漀氀搀 㨀笀ഀ਀            ␀搀攀猀挀㨀∀␀굒桥㲈⡨ᵗ쭒ᙙ⽓卦bᙟ㙢⥥偿䱛࢈⣿蹵♎फ़偧䱛蒈ᅶ扨桟㲈२⋿Ⰰഀ਀            ␀爀琀渀㨀∀䈀漀漀氀∀Ⰰഀ਀            ␀猀渀椀瀀瀀攀琀㨀嬀ഀ਀                ∀瘀愀爀 椀搀㴀✀氀椀渀戀⸀琀攀洀瀀⸀最爀椀搀㈀　✀㬀 椀昀⠀℀氀椀渀戀⸀䐀漀洀⸀戀礀䤀搀⠀椀搀⤀⤀笀琀栀椀猀⸀瀀爀攀瀀攀渀搀⠀氀椀渀戀⸀挀爀攀愀琀攀⠀✀㰀搀椀瘀 椀搀㴀✀⬀椀搀⬀✀ 猀琀礀氀攀㴀尀∀戀漀爀搀攀爀㨀猀漀氀椀搀 ㄀瀀砀㬀瀀愀搀搀椀渀最㨀㈀　瀀砀㬀瀀漀猀椀琀椀漀渀㨀爀攀氀愀琀椀瘀攀㬀眀椀搀琀栀㨀㌀　　瀀砀㬀栀攀椀最栀琀㨀㈀　　瀀砀㬀尀∀㸀✀ ⬀ ✀㰀戀甀琀琀漀渀 猀琀礀氀攀㴀尀∀瀀漀猀椀琀椀漀渀㨀愀戀猀漀氀甀琀攀㬀 戀漀琀琀漀洀㨀　瀀砀㬀 稀ⴀ椀渀搀攀砀㨀㈀㬀尀∀ 漀渀挀氀椀挀欀㴀尀∀氀椀渀戀⠀琀栀椀猀⤀⸀瀀愀爀攀渀琀⠀⤀⸀爀攀洀漀瘀攀⠀⤀尀∀㸀爀攀洀漀瘀攀 琀栀椀猀 攀砀愀洀瀀氀攀㰀⼀戀甀琀琀漀渀㸀✀ ⬀ ✀㰀⼀搀椀瘀㸀✀⤀⤀㬀∀⬀ഀ਀                ∀瘀愀爀 漀㴀渀攀眀 氀椀渀戀⸀唀䤀⸀吀爀攀攀䜀爀椀搀⠀笀瀀漀猀椀琀椀漀渀㨀✀爀攀氀愀琀椀瘀攀✀紀⤀㬀∀⬀ഀ਀                ∀氀椀渀戀⸀䄀樀愀砀⠀✀䄀瀀瀀⼀樀猀⼀最爀椀搀⸀樀猀✀Ⰰ✀✀Ⰰ昀甀渀挀琀椀漀渀⠀猀⤀笀瘀愀爀 栀愀猀栀㴀开⸀甀渀猀攀爀椀愀氀椀稀攀⠀猀⤀㬀漀⸀猀攀琀䠀攀愀搀攀爀⠀栀愀猀栀⸀栀攀愀搀攀爀⤀⸀猀攀琀刀漀眀猀⠀栀愀猀栀⸀爀漀眀猀⤀㬀紀Ⰰ渀甀氀氀Ⰰ渀甀氀氀Ⰰ笀愀猀礀㨀昀愀氀猀攀紀⤀⸀猀琀愀爀琀⠀⤀㬀∀⬀ഀ਀                ∀漀⸀猀攀琀䤀渀椀䘀漀氀搀⠀昀愀氀猀攀⤀㬀 愀氀攀爀琀⠀漀⸀最攀琀䤀渀椀䘀漀氀搀⠀⤀⤀㬀∀⬀ഀ਀                ∀氀椀渀戀⠀椀搀⤀⸀瀀爀攀瀀攀渀搀⠀漀⤀㬀∀⬀ഀ਀                ∀紀∀ഀ਀            崀ഀ਀        紀Ⰰഀ਀        猀攀琀䤀渀椀䘀漀氀搀 㨀笀ഀ਀            ␀搀攀猀挀㨀∀븀溋桿㲈⡨ᵗ쭒ᙙ⽓卦bᙟ㙢⥥偿䱛࢈⣿蹵♎फ़偧䱛蒈ᅶ扨桟㲈२⳿ 瘀㝞끒䱥扵⺗∀Ⰰഀ਀            ␀爀琀渀㨀∀嬀猀攀氀昀崀∀Ⰰഀ਀            ␀瀀愀爀愀猀㨀嬀ഀ਀                ∀瘀愀氀甀攀 嬀씀_슗灓嵥 㨀 䈀漀漀氀⸀∀Ⰰഀ਀                ∀昀氀愀最 嬀॓슐灓嵥 㨀 䈀漀漀氀Ⰰ 㨀㙟빒溋庋❜㱠౐珿罓幏❜콝빾溋㩿㲋⹐ ���꒞㪋⁎嬀昀愀氀猀攀崀⸀∀ഀ਀            崀Ⰰഀ਀            ␀猀渀椀瀀瀀攀琀㨀嬀ഀ਀                ∀瘀愀爀 椀搀㴀✀氀椀渀戀⸀琀攀洀瀀⸀最爀椀搀㈀㄀✀㬀 椀昀⠀℀氀椀渀戀⸀䐀漀洀⸀戀礀䤀搀⠀椀搀⤀⤀笀琀栀椀猀⸀瀀爀攀瀀攀渀搀⠀氀椀渀戀⸀挀爀攀愀琀攀⠀✀㰀搀椀瘀 椀搀㴀✀⬀椀搀⬀✀ 猀琀礀氀攀㴀尀∀戀漀爀搀攀爀㨀猀漀氀椀搀 ㄀瀀砀㬀瀀愀搀搀椀渀最㨀㈀　瀀砀㬀瀀漀猀椀琀椀漀渀㨀爀攀氀愀琀椀瘀攀㬀眀椀搀琀栀㨀㌀　　瀀砀㬀栀攀椀最栀琀㨀㈀　　瀀砀㬀尀∀㸀✀ ⬀ ✀㰀戀甀琀琀漀渀 猀琀礀氀攀㴀尀∀瀀漀猀椀琀椀漀渀㨀愀戀猀漀氀甀琀攀㬀 戀漀琀琀漀洀㨀　瀀砀㬀 稀ⴀ椀渀搀攀砀㨀㈀㬀尀∀ 漀渀挀氀椀挀欀㴀尀∀氀椀渀戀⠀琀栀椀猀⤀⸀瀀愀爀攀渀琀⠀⤀⸀爀攀洀漀瘀攀⠀⤀尀∀㸀爀攀洀漀瘀攀 琀栀椀猀 攀砀愀洀瀀氀攀㰀⼀戀甀琀琀漀渀㸀✀ ⬀ ✀㰀⼀搀椀瘀㸀✀⤀⤀㬀∀⬀ഀ਀                ∀瘀愀爀 漀㴀渀攀眀 氀椀渀戀⸀唀䤀⸀吀爀攀攀䜀爀椀搀⠀笀瀀漀猀椀琀椀漀渀㨀✀爀攀氀愀琀椀瘀攀✀紀⤀㬀∀⬀ഀ਀                ∀氀椀渀戀⸀䄀樀愀砀⠀✀䄀瀀瀀⼀樀猀⼀最爀椀搀⸀樀猀✀Ⰰ✀✀Ⰰ昀甀渀挀琀椀漀渀⠀猀⤀笀瘀愀爀 栀愀猀栀㴀开⸀甀渀猀攀爀椀愀氀椀稀攀⠀猀⤀㬀漀⸀猀攀琀䠀攀愀搀攀爀⠀栀愀猀栀⸀栀攀愀搀攀爀⤀⸀猀攀琀刀漀眀猀⠀栀愀猀栀⸀爀漀眀猀⤀㬀紀Ⰰ渀甀氀氀Ⰰ渀甀氀氀Ⰰ笀愀猀礀㨀昀愀氀猀攀紀⤀⸀猀琀愀爀琀⠀⤀㬀∀⬀ഀ਀                ∀漀⸀猀攀琀䤀渀椀䘀漀氀搀⠀琀爀甀攀⤀㬀 愀氀攀爀琀⠀漀⸀最攀琀䤀渀椀䘀漀氀搀⠀⤀⤀㬀∀⬀ഀ਀                ∀氀椀渀戀⠀椀搀⤀⸀瀀爀攀瀀攀渀搀⠀漀⤀㬀∀⬀ഀ਀                ∀紀∀ഀ਀            崀ഀ਀        紀Ⰰഀ਀        最攀琀刀漀眀刀攀猀椀稀攀爀 㨀笀ഀ਀            ␀搀攀猀挀㨀∀␀굒졥⡺㝵⽢♦홎ꡢ㥒���䱓���⺚∀Ⰰഀ਀            ␀爀琀渀㨀∀䈀漀漀氀∀Ⰰഀ਀            ␀猀渀椀瀀瀀攀琀㨀嬀ഀ਀                ∀瘀愀爀 椀搀㴀✀氀椀渀戀⸀琀攀洀瀀⸀最爀椀搀㈀㈀✀㬀 椀昀⠀℀氀椀渀戀⸀䐀漀洀⸀戀礀䤀搀⠀椀搀⤀⤀笀琀栀椀猀⸀瀀爀攀瀀攀渀搀⠀氀椀渀戀⸀挀爀攀愀琀攀⠀✀㰀搀椀瘀 椀搀㴀✀⬀椀搀⬀✀ 猀琀礀氀攀㴀尀∀戀漀爀搀攀爀㨀猀漀氀椀搀 ㄀瀀砀㬀瀀愀搀搀椀渀最㨀㈀　瀀砀㬀瀀漀猀椀琀椀漀渀㨀爀攀氀愀琀椀瘀攀㬀眀椀搀琀栀㨀㌀　　瀀砀㬀栀攀椀最栀琀㨀㈀　　瀀砀㬀尀∀㸀✀ ⬀ ✀㰀戀甀琀琀漀渀 猀琀礀氀攀㴀尀∀瀀漀猀椀琀椀漀渀㨀愀戀猀漀氀甀琀攀㬀 戀漀琀琀漀洀㨀　瀀砀㬀 稀ⴀ椀渀搀攀砀㨀㈀㬀尀∀ 漀渀挀氀椀挀欀㴀尀∀氀椀渀戀⠀琀栀椀猀⤀⸀瀀愀爀攀渀琀⠀⤀⸀爀攀洀漀瘀攀⠀⤀尀∀㸀爀攀洀漀瘀攀 琀栀椀猀 攀砀愀洀瀀氀攀㰀⼀戀甀琀琀漀渀㸀✀ ⬀ ✀㰀⼀搀椀瘀㸀✀⤀⤀㬀∀⬀ഀ਀                ∀瘀愀爀 漀㴀渀攀眀 氀椀渀戀⸀唀䤀⸀吀爀攀攀䜀爀椀搀⠀笀攀搀椀琀愀戀氀攀㨀昀愀氀猀攀Ⰰ 瀀漀猀椀琀椀漀渀㨀✀爀攀氀愀琀椀瘀攀✀紀⤀㬀∀⬀ഀ਀                ∀氀椀渀戀⸀䄀樀愀砀⠀✀䄀瀀瀀⼀樀猀⼀最爀椀搀⸀樀猀✀Ⰰ✀✀Ⰰ昀甀渀挀琀椀漀渀⠀猀⤀笀瘀愀爀 栀愀猀栀㴀开⸀甀渀猀攀爀椀愀氀椀稀攀⠀猀⤀㬀漀⸀猀攀琀䠀攀愀搀攀爀⠀栀愀猀栀⸀栀攀愀搀攀爀⤀⸀猀攀琀刀漀眀猀⠀栀愀猀栀⸀爀漀眀猀⤀㬀紀Ⰰ渀甀氀氀Ⰰ渀甀氀氀Ⰰ笀愀猀礀㨀昀愀氀猀攀紀⤀⸀猀琀愀爀琀⠀⤀㬀∀⬀ഀ਀                ∀漀⸀猀攀琀刀漀眀刀攀猀椀稀攀爀⠀昀愀氀猀攀⤀㬀 愀氀攀爀琀⠀漀⸀最攀琀刀漀眀刀攀猀椀稀攀爀⠀⤀⤀㬀∀⬀ഀ਀                ∀氀椀渀戀⠀椀搀⤀⸀瀀爀攀瀀攀渀搀⠀漀⤀㬀∀⬀ഀ਀                ∀紀∀ഀ਀            崀ഀ਀        紀Ⰰഀ਀        猀攀琀刀漀眀刀攀猀椀稀攀爀 㨀笀ഀ਀            ␀搀攀猀挀㨀∀븀溋졿⡺㝵⽢♦홎ꡢ㥒���䱓���Ⲛ 瘀㝞끒䱥扵⺗∀Ⰰഀ਀            ␀爀琀渀㨀∀嬀猀攀氀昀崀∀Ⰰഀ਀            ␀瀀愀爀愀猀㨀嬀ഀ਀                ∀瘀愀氀甀攀 嬀씀_슗灓嵥 㨀 䈀漀漀氀⸀∀Ⰰഀ਀                ∀昀氀愀最 嬀॓슐灓嵥 㨀 䈀漀漀氀Ⰰ 㨀㙟빒溋庋❜㱠౐珿罓幏❜콝빾溋㩿㲋⹐ ���꒞㪋⁎嬀昀愀氀猀攀崀⸀∀ഀ਀            崀Ⰰഀ਀            ␀猀渀椀瀀瀀攀琀㨀嬀ഀ਀                ∀瘀愀爀 椀搀㴀✀氀椀渀戀⸀琀攀洀瀀⸀最爀椀搀㈀㌀✀㬀 椀昀⠀℀氀椀渀戀⸀䐀漀洀⸀戀礀䤀搀⠀椀搀⤀⤀笀琀栀椀猀⸀瀀爀攀瀀攀渀搀⠀氀椀渀戀⸀挀爀攀愀琀攀⠀✀㰀搀椀瘀 椀搀㴀✀⬀椀搀⬀✀ 猀琀礀氀攀㴀尀∀戀漀爀搀攀爀㨀猀漀氀椀搀 ㄀瀀砀㬀瀀愀搀搀椀渀最㨀㈀　瀀砀㬀瀀漀猀椀琀椀漀渀㨀爀攀氀愀琀椀瘀攀㬀眀椀搀琀栀㨀㌀　　瀀砀㬀栀攀椀最栀琀㨀㈀　　瀀砀㬀尀∀㸀✀ ⬀ ✀㰀戀甀琀琀漀渀 猀琀礀氀攀㴀尀∀瀀漀猀椀琀椀漀渀㨀愀戀猀漀氀甀琀攀㬀 戀漀琀琀漀洀㨀　瀀砀㬀 稀ⴀ椀渀搀攀砀㨀㈀㬀尀∀ 漀渀挀氀椀挀欀㴀尀∀氀椀渀戀⠀琀栀椀猀⤀⸀瀀愀爀攀渀琀⠀⤀⸀爀攀洀漀瘀攀⠀⤀尀∀㸀爀攀洀漀瘀攀 琀栀椀猀 攀砀愀洀瀀氀攀㰀⼀戀甀琀琀漀渀㸀✀ ⬀ ✀㰀⼀搀椀瘀㸀✀⤀⤀㬀∀⬀ഀ਀                ∀瘀愀爀 漀㴀渀攀眀 氀椀渀戀⸀唀䤀⸀吀爀攀攀䜀爀椀搀⠀笀攀搀椀琀愀戀氀攀㨀昀愀氀猀攀Ⰰ瀀漀猀椀琀椀漀渀㨀✀爀攀氀愀琀椀瘀攀✀紀⤀㬀∀⬀ഀ਀                ∀氀椀渀戀⸀䄀樀愀砀⠀✀䄀瀀瀀⼀樀猀⼀最爀椀搀⸀樀猀✀Ⰰ✀✀Ⰰ昀甀渀挀琀椀漀渀⠀猀⤀笀瘀愀爀 栀愀猀栀㴀开⸀甀渀猀攀爀椀愀氀椀稀攀⠀猀⤀㬀漀⸀猀攀琀䠀攀愀搀攀爀⠀栀愀猀栀⸀栀攀愀搀攀爀⤀⸀猀攀琀刀漀眀猀⠀栀愀猀栀⸀爀漀眀猀⤀㬀紀Ⰰ渀甀氀氀Ⰰ渀甀氀氀Ⰰ笀愀猀礀㨀昀愀氀猀攀紀⤀⸀猀琀愀爀琀⠀⤀㬀∀⬀ഀ਀                ∀漀⸀猀攀琀刀漀眀刀攀猀椀稀攀爀⠀琀爀甀攀⤀㬀 愀氀攀爀琀⠀漀⸀最攀琀刀漀眀刀攀猀椀稀攀爀⠀⤀⤀㬀∀⬀ഀ਀                ∀氀椀渀戀⠀椀搀⤀⸀瀀爀攀瀀攀渀搀⠀漀⤀㬀∀⬀ഀ਀                ∀紀∀ഀ਀            崀ഀ਀        紀Ⰰഀ਀        最攀琀刀漀眀䠀愀渀搀氀攀爀 㨀笀ഀ਀            ␀搀攀猀挀㨀∀␀굒䱥䶈⽒♦♔फ़⡧홎ꡢ葒䱶㒈⹙∀Ⰰഀ਀            ␀爀琀渀㨀∀䈀漀漀氀∀Ⰰഀ਀            ␀猀渀椀瀀瀀攀琀㨀嬀ഀ਀                ∀瘀愀爀 椀搀㴀✀氀椀渀戀⸀琀攀洀瀀⸀最爀椀搀㄀㈀㐀✀㬀 椀昀⠀℀氀椀渀戀⸀䐀漀洀⸀戀礀䤀搀⠀椀搀⤀⤀笀琀栀椀猀⸀瀀爀攀瀀攀渀搀⠀氀椀渀戀⸀挀爀攀愀琀攀⠀✀㰀搀椀瘀 椀搀㴀✀⬀椀搀⬀✀ 猀琀礀氀攀㴀尀∀戀漀爀搀攀爀㨀猀漀氀椀搀 ㄀瀀砀㬀瀀愀搀搀椀渀最㨀㈀　瀀砀㬀瀀漀猀椀琀椀漀渀㨀爀攀氀愀琀椀瘀攀㬀眀椀搀琀栀㨀㌀　　瀀砀㬀栀攀椀最栀琀㨀㈀　　瀀砀㬀尀∀㸀✀ ⬀ ✀㰀戀甀琀琀漀渀 猀琀礀氀攀㴀尀∀瀀漀猀椀琀椀漀渀㨀愀戀猀漀氀甀琀攀㬀 戀漀琀琀漀洀㨀　瀀砀㬀 稀ⴀ椀渀搀攀砀㨀㈀㬀尀∀ 漀渀挀氀椀挀欀㴀尀∀氀椀渀戀⠀琀栀椀猀⤀⸀瀀愀爀攀渀琀⠀⤀⸀爀攀洀漀瘀攀⠀⤀尀∀㸀爀攀洀漀瘀攀 琀栀椀猀 攀砀愀洀瀀氀攀㰀⼀戀甀琀琀漀渀㸀✀ ⬀ ✀㰀⼀搀椀瘀㸀✀⤀⤀㬀∀⬀ഀ਀                ∀瘀愀爀 漀㴀渀攀眀 氀椀渀戀⸀唀䤀⸀吀爀攀攀䜀爀椀搀⠀笀攀搀椀琀愀戀氀攀㨀昀愀氀猀攀Ⰰ 瀀漀猀椀琀椀漀渀㨀✀爀攀氀愀琀椀瘀攀✀紀⤀㬀∀⬀ഀ਀                ∀氀椀渀戀⸀䄀樀愀砀⠀✀䄀瀀瀀⼀樀猀⼀最爀椀搀⸀樀猀✀Ⰰ✀✀Ⰰ昀甀渀挀琀椀漀渀⠀猀⤀笀瘀愀爀 栀愀猀栀㴀开⸀甀渀猀攀爀椀愀氀椀稀攀⠀猀⤀㬀漀⸀猀攀琀䠀攀愀搀攀爀⠀栀愀猀栀⸀栀攀愀搀攀爀⤀⸀猀攀琀刀漀眀猀⠀栀愀猀栀⸀爀漀眀猀⤀㬀紀Ⰰ渀甀氀氀Ⰰ渀甀氀氀Ⰰ笀愀猀礀㨀昀愀氀猀攀紀⤀⸀猀琀愀爀琀⠀⤀㬀∀⬀ഀ਀                ∀漀⸀猀攀琀刀漀眀䠀愀渀搀氀攀爀⠀昀愀氀猀攀⤀㬀 愀氀攀爀琀⠀漀⸀最攀琀刀漀眀䠀愀渀搀氀攀爀⠀⤀⤀㬀∀⬀ഀ਀                ∀氀椀渀戀⠀椀搀⤀⸀瀀爀攀瀀攀渀搀⠀漀⤀㬀∀⬀ഀ਀                ∀紀∀ഀ਀            崀ഀ਀        紀Ⰰഀ਀        猀攀琀刀漀眀䠀愀渀搀氀攀爀 㨀笀ഀ਀            ␀搀攀猀挀㨀∀븀溋䱿䶈⽒♦♔फ़⡧홎ꡢ葒䱶㒈ⱙ 瘀㝞끒䱥扵⺗∀Ⰰഀ਀            ␀爀琀渀㨀∀嬀猀攀氀昀崀∀Ⰰഀ਀            ␀瀀愀爀愀猀㨀嬀ഀ਀                ∀瘀愀氀甀攀 嬀씀_슗灓嵥 㨀 䈀漀漀氀⸀∀Ⰰഀ਀                ∀昀氀愀最 嬀॓슐灓嵥 㨀 䈀漀漀氀Ⰰ 㨀㙟빒溋庋❜㱠౐珿罓幏❜콝빾溋㩿㲋⹐ ���꒞㪋⁎嬀昀愀氀猀攀崀⸀∀ഀ਀            崀Ⰰഀ਀            ␀猀渀椀瀀瀀攀琀㨀嬀ഀ਀                ∀瘀愀爀 椀搀㴀✀氀椀渀戀⸀琀攀洀瀀⸀最爀椀搀㄀㈀㔀✀㬀 椀昀⠀℀氀椀渀戀⸀䐀漀洀⸀戀礀䤀搀⠀椀搀⤀⤀笀琀栀椀猀⸀瀀爀攀瀀攀渀搀⠀氀椀渀戀⸀挀爀攀愀琀攀⠀✀㰀搀椀瘀 椀搀㴀✀⬀椀搀⬀✀ 猀琀礀氀攀㴀尀∀戀漀爀搀攀爀㨀猀漀氀椀搀 ㄀瀀砀㬀瀀愀搀搀椀渀最㨀㈀　瀀砀㬀瀀漀猀椀琀椀漀渀㨀爀攀氀愀琀椀瘀攀㬀眀椀搀琀栀㨀㌀　　瀀砀㬀栀攀椀最栀琀㨀㈀　　瀀砀㬀尀∀㸀✀ ⬀ ✀㰀戀甀琀琀漀渀 猀琀礀氀攀㴀尀∀瀀漀猀椀琀椀漀渀㨀愀戀猀漀氀甀琀攀㬀 戀漀琀琀漀洀㨀　瀀砀㬀 稀ⴀ椀渀搀攀砀㨀㈀㬀尀∀ 漀渀挀氀椀挀欀㴀尀∀氀椀渀戀⠀琀栀椀猀⤀⸀瀀愀爀攀渀琀⠀⤀⸀爀攀洀漀瘀攀⠀⤀尀∀㸀爀攀洀漀瘀攀 琀栀椀猀 攀砀愀洀瀀氀攀㰀⼀戀甀琀琀漀渀㸀✀ ⬀ ✀㰀⼀搀椀瘀㸀✀⤀⤀㬀∀⬀ഀ਀                ∀瘀愀爀 漀㴀渀攀眀 氀椀渀戀⸀唀䤀⸀吀爀攀攀䜀爀椀搀⠀笀攀搀椀琀愀戀氀攀㨀昀愀氀猀攀Ⰰ瀀漀猀椀琀椀漀渀㨀✀爀攀氀愀琀椀瘀攀✀紀⤀㬀∀⬀ഀ਀                ∀氀椀渀戀⸀䄀樀愀砀⠀✀䄀瀀瀀⼀樀猀⼀最爀椀搀⸀樀猀✀Ⰰ✀✀Ⰰ昀甀渀挀琀椀漀渀⠀猀⤀笀瘀愀爀 栀愀猀栀㴀开⸀甀渀猀攀爀椀愀氀椀稀攀⠀猀⤀㬀漀⸀猀攀琀䠀攀愀搀攀爀⠀栀愀猀栀⸀栀攀愀搀攀爀⤀⸀猀攀琀刀漀眀猀⠀栀愀猀栀⸀爀漀眀猀⤀㬀紀Ⰰ渀甀氀氀Ⰰ渀甀氀氀Ⰰ笀愀猀礀㨀昀愀氀猀攀紀⤀⸀猀琀愀爀琀⠀⤀㬀∀⬀ഀ਀                ∀漀⸀猀攀琀刀漀眀䠀愀渀搀氀攀爀⠀琀爀甀攀⤀㬀 愀氀攀爀琀⠀漀⸀最攀琀刀漀眀䠀愀渀搀氀攀爀⠀⤀⤀㬀∀⬀ഀ਀                ∀氀椀渀戀⠀椀搀⤀⸀瀀爀攀瀀攀渀搀⠀漀⤀㬀∀⬀ഀ਀                ∀紀∀ഀ਀            崀ഀ਀        紀Ⰰഀ਀        最攀琀匀攀氀䴀漀搀攀 㨀笀ഀ਀            ␀搀攀猀挀㨀∀뜀횃桓㲈葨ॶⅢཪ⹟∀Ⰰഀ਀            ␀爀琀渀㨀∀匀琀爀椀渀最∀Ⰰഀ਀            ␀猀渀椀瀀瀀攀琀㨀嬀ഀ਀                ∀瘀愀爀 椀搀㴀✀氀椀渀戀⸀琀攀洀瀀⸀最爀椀搀㄀㈀㘀✀㬀 椀昀⠀℀氀椀渀戀⸀䐀漀洀⸀戀礀䤀搀⠀椀搀⤀⤀笀琀栀椀猀⸀瀀爀攀瀀攀渀搀⠀氀椀渀戀⸀挀爀攀愀琀攀⠀✀㰀搀椀瘀 椀搀㴀✀⬀椀搀⬀✀ 猀琀礀氀攀㴀尀∀戀漀爀搀攀爀㨀猀漀氀椀搀 ㄀瀀砀㬀瀀愀搀搀椀渀最㨀㈀　瀀砀㬀瀀漀猀椀琀椀漀渀㨀爀攀氀愀琀椀瘀攀㬀眀椀搀琀栀㨀㌀　　瀀砀㬀栀攀椀最栀琀㨀㈀　　瀀砀㬀尀∀㸀✀ ⬀ ✀㰀戀甀琀琀漀渀 猀琀礀氀攀㴀尀∀瀀漀猀椀琀椀漀渀㨀愀戀猀漀氀甀琀攀㬀 戀漀琀琀漀洀㨀　瀀砀㬀 稀ⴀ椀渀搀攀砀㨀㈀㬀尀∀ 漀渀挀氀椀挀欀㴀尀∀氀椀渀戀⠀琀栀椀猀⤀⸀瀀愀爀攀渀琀⠀⤀⸀爀攀洀漀瘀攀⠀⤀尀∀㸀爀攀洀漀瘀攀 琀栀椀猀 攀砀愀洀瀀氀攀㰀⼀戀甀琀琀漀渀㸀✀ ⬀ ✀㰀⼀搀椀瘀㸀✀⤀⤀㬀∀⬀ഀ਀                ∀瘀愀爀 漀㴀渀攀眀 氀椀渀戀⸀唀䤀⸀吀爀攀攀䜀爀椀搀⠀笀攀搀椀琀愀戀氀攀㨀昀愀氀猀攀Ⰰ 瀀漀猀椀琀椀漀渀㨀✀爀攀氀愀琀椀瘀攀✀紀⤀㬀∀⬀ഀ਀                ∀氀椀渀戀⸀䄀樀愀砀⠀✀䄀瀀瀀⼀樀猀⼀最爀椀搀⸀樀猀✀Ⰰ✀✀Ⰰ昀甀渀挀琀椀漀渀⠀猀⤀笀瘀愀爀 栀愀猀栀㴀开⸀甀渀猀攀爀椀愀氀椀稀攀⠀猀⤀㬀漀⸀猀攀琀䠀攀愀搀攀爀⠀栀愀猀栀⸀栀攀愀搀攀爀⤀⸀猀攀琀刀漀眀猀⠀栀愀猀栀⸀爀漀眀猀⤀㬀紀Ⰰ渀甀氀氀Ⰰ渀甀氀氀Ⰰ笀愀猀礀㨀昀愀氀猀攀紀⤀⸀猀琀愀爀琀⠀⤀㬀∀⬀ഀ਀                ∀漀⸀猀攀琀匀攀氀䴀漀搀攀⠀✀渀漀渀攀✀⤀㬀 愀氀攀爀琀⠀漀⸀最攀琀匀攀氀䴀漀搀攀⠀⤀⤀㬀∀⬀ഀ਀                ∀氀椀渀戀⠀椀搀⤀⸀瀀爀攀瀀攀渀搀⠀漀⤀㬀∀⬀ഀ਀                ∀紀∀ഀ਀            崀ഀ਀        紀Ⰰഀ਀        猀攀琀匀攀氀䴀漀搀攀 㨀笀ഀ਀            ␀搀攀猀挀㨀∀븀溋桿㲈葨ॶⅢཪ 瘀㝞끒䱥扵⺗∀Ⰰഀ਀            ␀爀琀渀㨀∀嬀猀攀氀昀崀∀Ⰰഀ਀            ␀瀀愀爀愀猀㨀嬀ഀ਀                ∀瘀愀氀甀攀 嬀씀_슗灓嵥 㨀 匀琀爀椀渀最⸀ ✀渀漀渀攀✀Ⰰ ✀猀椀渀最氀攀✀ 漀爀 ✀洀甀氀琀椀✀⸀ ���꒞㪋⁎✀猀椀渀最氀攀✀⸀∀Ⰰഀ਀                ∀昀氀愀最 嬀॓슐灓嵥 㨀 䈀漀漀氀Ⰰ 㨀㙟빒溋庋❜㱠౐珿罓幏❜콝빾溋㩿㲋⹐ ���꒞㪋⁎嬀昀愀氀猀攀崀⸀∀ഀ਀            崀Ⰰഀ਀            ␀猀渀椀瀀瀀攀琀㨀嬀ഀ਀                ∀瘀愀爀 椀搀㴀✀氀椀渀戀⸀琀攀洀瀀⸀最爀椀搀㄀㈀㜀✀㬀 椀昀⠀℀氀椀渀戀⸀䐀漀洀⸀戀礀䤀搀⠀椀搀⤀⤀笀琀栀椀猀⸀瀀爀攀瀀攀渀搀⠀氀椀渀戀⸀挀爀攀愀琀攀⠀✀㰀搀椀瘀 椀搀㴀✀⬀椀搀⬀✀ 猀琀礀氀攀㴀尀∀戀漀爀搀攀爀㨀猀漀氀椀搀 ㄀瀀砀㬀瀀愀搀搀椀渀最㨀㈀　瀀砀㬀瀀漀猀椀琀椀漀渀㨀爀攀氀愀琀椀瘀攀㬀眀椀搀琀栀㨀㌀　　瀀砀㬀栀攀椀最栀琀㨀㈀　　瀀砀㬀尀∀㸀✀ ⬀ ✀㰀戀甀琀琀漀渀 猀琀礀氀攀㴀尀∀瀀漀猀椀琀椀漀渀㨀愀戀猀漀氀甀琀攀㬀 戀漀琀琀漀洀㨀　瀀砀㬀 稀ⴀ椀渀搀攀砀㨀㈀㬀尀∀ 漀渀挀氀椀挀欀㴀尀∀氀椀渀戀⠀琀栀椀猀⤀⸀瀀愀爀攀渀琀⠀⤀⸀爀攀洀漀瘀攀⠀⤀尀∀㸀爀攀洀漀瘀攀 琀栀椀猀 攀砀愀洀瀀氀攀㰀⼀戀甀琀琀漀渀㸀✀ ⬀ ✀㰀⼀搀椀瘀㸀✀⤀⤀㬀∀⬀ഀ਀                ∀瘀愀爀 漀㴀渀攀眀 氀椀渀戀⸀唀䤀⸀吀爀攀攀䜀爀椀搀⠀笀攀搀椀琀愀戀氀攀㨀昀愀氀猀攀Ⰰ瀀漀猀椀琀椀漀渀㨀✀爀攀氀愀琀椀瘀攀✀紀⤀㬀∀⬀ഀ਀                ∀氀椀渀戀⸀䄀樀愀砀⠀✀䄀瀀瀀⼀樀猀⼀最爀椀搀⸀樀猀✀Ⰰ✀✀Ⰰ昀甀渀挀琀椀漀渀⠀猀⤀笀瘀愀爀 栀愀猀栀㴀开⸀甀渀猀攀爀椀愀氀椀稀攀⠀猀⤀㬀漀⸀猀攀琀䠀攀愀搀攀爀⠀栀愀猀栀⸀栀攀愀搀攀爀⤀⸀猀攀琀刀漀眀猀⠀栀愀猀栀⸀爀漀眀猀⤀㬀紀Ⰰ渀甀氀氀Ⰰ渀甀氀氀Ⰰ笀愀猀礀㨀昀愀氀猀攀紀⤀⸀猀琀愀爀琀⠀⤀㬀∀⬀ഀ਀                ∀漀⸀猀攀琀匀攀氀䴀漀搀攀⠀✀洀甀氀琀椀✀⤀㬀 愀氀攀爀琀⠀漀⸀最攀琀匀攀氀䴀漀搀攀⠀⤀⤀㬀∀⬀ഀ਀                ∀氀椀渀戀⠀椀搀⤀⸀瀀爀攀瀀攀渀搀⠀漀⤀㬀∀⬀ഀ਀                ∀紀∀ഀ਀            崀ഀ਀        紀Ⰰഀ਀        椀渀猀攀爀琀刀漀眀猀㨀笀ഀ਀             ␀搀攀猀挀㨀∀ﬀꁭR쑎䱾⺈∀Ⰰഀ਀             ␀爀琀渀㨀∀嬀猀攀氀昀崀∀Ⰰഀ਀             ␀瀀愀爀愀猀㨀嬀ഀ਀                ∀愀爀爀 嬀씀_슗灓嵥 㨀 䄀爀爀愀礀⸀ 䰀禈灶쑥⹾∀Ⰰഀ਀                ∀瀀椀搀 嬀॓슐灓嵥 㨀 匀琀爀椀渀最Ⰰ 㘀䱲榈搀⸀∀Ⰰഀ਀                ∀戀愀猀攀 嬀॓슐灓嵥 㨀 匀琀爀椀渀最⸀ 切왗䱑榈搀⸀∀Ⰰഀ਀                ∀戀攀昀漀爀攀 嬀॓슐灓嵥 㨀 䈀漀漀氀⸀ 툀散䱑⢈練왗䱑䮈䵎ᙒ䭢๎⹔ ���꒞㪋⁎昀愀氀猀攀㬀∀ഀ਀             崀Ⰰഀ਀            ␀猀渀椀瀀瀀攀琀㨀嬀ഀ਀                ∀瘀愀爀 椀搀㴀✀氀椀渀戀⸀琀攀洀瀀⸀最爀椀搀㄀㈀㠀✀㬀 椀昀⠀℀氀椀渀戀⸀䐀漀洀⸀戀礀䤀搀⠀椀搀⤀⤀笀琀栀椀猀⸀瀀爀攀瀀攀渀搀⠀氀椀渀戀⸀挀爀攀愀琀攀⠀✀㰀搀椀瘀 椀搀㴀✀⬀椀搀⬀✀ 猀琀礀氀攀㴀尀∀戀漀爀搀攀爀㨀猀漀氀椀搀 ㄀瀀砀㬀瀀愀搀搀椀渀最㨀㈀　瀀砀㬀瀀漀猀椀琀椀漀渀㨀爀攀氀愀琀椀瘀攀㬀眀椀搀琀栀㨀㌀　　瀀砀㬀栀攀椀最栀琀㨀㈀　　瀀砀㬀尀∀㸀✀ ⬀ ✀㰀戀甀琀琀漀渀 猀琀礀氀攀㴀尀∀瀀漀猀椀琀椀漀渀㨀愀戀猀漀氀甀琀攀㬀 戀漀琀琀漀洀㨀　瀀砀㬀 稀ⴀ椀渀搀攀砀㨀㈀㬀尀∀ 漀渀挀氀椀挀欀㴀尀∀氀椀渀戀⠀琀栀椀猀⤀⸀瀀愀爀攀渀琀⠀⤀⸀爀攀洀漀瘀攀⠀⤀尀∀㸀爀攀洀漀瘀攀 琀栀椀猀 攀砀愀洀瀀氀攀㰀⼀戀甀琀琀漀渀㸀✀ ⬀ ✀㰀⼀搀椀瘀㸀✀⤀⤀㬀∀⬀ഀ਀                ∀瘀愀爀 漀㴀渀攀眀 氀椀渀戀⸀唀䤀⸀吀爀攀攀䜀爀椀搀⠀笀攀搀椀琀愀戀氀攀㨀昀愀氀猀攀Ⰰ椀渀椀䘀漀氀搀㨀昀愀氀猀攀Ⰰ瀀漀猀椀琀椀漀渀㨀✀爀攀氀愀琀椀瘀攀✀紀⤀㬀∀⬀ഀ਀                ∀氀椀渀戀⸀䄀樀愀砀⠀✀䄀瀀瀀⼀樀猀⼀最爀椀搀⸀樀猀✀Ⰰ✀✀Ⰰ昀甀渀挀琀椀漀渀⠀猀⤀笀瘀愀爀 栀愀猀栀㴀开⸀甀渀猀攀爀椀愀氀椀稀攀⠀猀⤀㬀漀⸀猀攀琀䠀攀愀搀攀爀⠀栀愀猀栀⸀栀攀愀搀攀爀⤀⸀猀攀琀刀漀眀猀⠀栀愀猀栀⸀爀漀眀猀⤀㬀紀Ⰰ渀甀氀氀Ⰰ渀甀氀氀Ⰰ笀愀猀礀㨀昀愀氀猀攀紀⤀⸀猀琀愀爀琀⠀⤀㬀∀⬀ഀ਀                ∀氀椀渀戀⠀椀搀⤀⸀瀀爀攀瀀攀渀搀⠀漀⤀㬀∀⬀ഀ਀                ∀开⸀愀猀礀刀甀渀⠀昀甀渀挀琀椀漀渀⠀⤀笀漀⸀椀渀猀攀爀琀刀漀眀猀⠀嬀笀椀搀 㨀 ✀爀漀眀开㄀✀Ⰰ挀攀氀氀猀㨀嬀✀挀攀氀氀开㄀✀Ⰰ㄀Ⰰ琀爀甀攀Ⰰ✀氀愀戀攀氀㄀✀崀紀Ⰰ笀椀搀 㨀 ✀爀漀眀开㄀㄀✀Ⰰ挀攀氀氀猀㨀嬀✀挀攀氀氀开㄀㄀✀Ⰰ㄀Ⰰ琀爀甀攀Ⰰ✀氀愀戀攀氀㄀✀崀紀崀Ⰰ✀爀漀眀㐀✀Ⰰ渀甀氀氀Ⰰ琀爀甀攀⤀紀Ⰰ㄀　　　⤀㬀∀⬀ഀ਀                ∀开⸀愀猀礀刀甀渀⠀昀甀渀挀琀椀漀渀⠀⤀笀漀⸀椀渀猀攀爀琀刀漀眀猀⠀嬀笀椀搀 㨀 ✀爀漀眀开㈀✀Ⰰ挀攀氀氀猀㨀嬀✀挀攀氀氀开㈀✀Ⰰ㄀Ⰰ琀爀甀攀Ⰰ✀氀愀戀攀氀㄀✀崀紀崀Ⰰ✀爀漀眀㐀✀Ⰰ渀甀氀氀Ⰰ昀愀氀猀攀⤀紀Ⰰ㈀　　　⤀㬀∀⬀ഀ਀                ∀开⸀愀猀礀刀甀渀⠀昀甀渀挀琀椀漀渀⠀⤀笀漀⸀椀渀猀攀爀琀刀漀眀猀⠀嬀笀椀搀 㨀 ✀爀漀眀开㌀✀Ⰰ挀攀氀氀猀㨀嬀✀挀攀氀氀开㌀✀Ⰰ㄀Ⰰ琀爀甀攀Ⰰ✀氀愀戀攀氀㄀✀崀紀崀Ⰰ渀甀氀氀Ⰰ✀爀漀眀㈀✀Ⰰ昀愀氀猀攀⤀紀Ⰰ㌀　　　⤀㬀∀⬀ഀ਀                ∀开⸀愀猀礀刀甀渀⠀昀甀渀挀琀椀漀渀⠀⤀笀漀⸀椀渀猀攀爀琀刀漀眀猀⠀嬀笀椀搀 㨀 ✀爀漀眀开㐀✀Ⰰ挀攀氀氀猀㨀嬀✀挀攀氀氀开㐀✀Ⰰ㄀Ⰰ琀爀甀攀Ⰰ✀氀愀戀攀氀㄀✀崀紀崀Ⰰ渀甀氀氀Ⰰ✀爀漀眀㈀✀Ⰰ琀爀甀攀⤀紀Ⰰ㐀　　　⤀㬀∀⬀ഀ਀                ∀紀∀ഀ਀            崀ഀ਀        紀Ⰰഀ਀        琀漀最最氀攀刀漀眀㨀笀ഀ਀            ␀搀攀猀挀㨀∀匀bᙟ顢ݓ驣葛䱶⺈ ﶋ灑肋♛फ़偧䱛蒈䱶ঈ䡧⹥∀Ⰰഀ਀            ␀爀琀渀㨀∀匀琀爀椀渀最∀Ⰰഀ਀            ␀瀀愀爀愀猀㨀嬀ഀ਀                ∀椀搀 嬀씀_슗灓嵥 㨀 匀琀爀椀渀最⸀ 舀릂楰搀⸀∀Ⰰഀ਀                ∀攀砀瀀攀渀搀 嬀॓슐灓嵥 㨀 䈀漀漀氀⸀ 琀爀甀攀㨀华b౟替愀氀猀攀㨀顎⹓∀ഀ਀            崀Ⰰഀ਀            ␀猀渀椀瀀瀀攀琀㨀嬀ഀ਀                ∀瘀愀爀 椀搀㴀✀氀椀渀戀⸀琀攀洀瀀⸀最爀椀搀㄀㈀㤀✀㬀 椀昀⠀℀氀椀渀戀⸀䐀漀洀⸀戀礀䤀搀⠀椀搀⤀⤀笀琀栀椀猀⸀瀀爀攀瀀攀渀搀⠀氀椀渀戀⸀挀爀攀愀琀攀⠀✀㰀搀椀瘀 椀搀㴀✀⬀椀搀⬀✀ 猀琀礀氀攀㴀尀∀戀漀爀搀攀爀㨀猀漀氀椀搀 ㄀瀀砀㬀瀀愀搀搀椀渀最㨀㈀　瀀砀㬀瀀漀猀椀琀椀漀渀㨀爀攀氀愀琀椀瘀攀㬀眀椀搀琀栀㨀㌀　　瀀砀㬀栀攀椀最栀琀㨀㈀　　瀀砀㬀尀∀㸀✀ ⬀ ✀㰀戀甀琀琀漀渀 猀琀礀氀攀㴀尀∀瀀漀猀椀琀椀漀渀㨀愀戀猀漀氀甀琀攀㬀 戀漀琀琀漀洀㨀　瀀砀㬀 稀ⴀ椀渀搀攀砀㨀㈀㬀尀∀ 漀渀挀氀椀挀欀㴀尀∀氀椀渀戀⠀琀栀椀猀⤀⸀瀀愀爀攀渀琀⠀⤀⸀爀攀洀漀瘀攀⠀⤀尀∀㸀爀攀洀漀瘀攀 琀栀椀猀 攀砀愀洀瀀氀攀㰀⼀戀甀琀琀漀渀㸀✀ ⬀ ✀㰀⼀搀椀瘀㸀✀⤀⤀㬀∀⬀ഀ਀                ∀瘀愀爀 漀㴀渀攀眀 氀椀渀戀⸀唀䤀⸀吀爀攀攀䜀爀椀搀⠀笀攀搀椀琀愀戀氀攀㨀昀愀氀猀攀Ⰰ瀀漀猀椀琀椀漀渀㨀✀爀攀氀愀琀椀瘀攀✀紀⤀㬀∀⬀ഀ਀                ∀氀椀渀戀⸀䄀樀愀砀⠀✀䄀瀀瀀⼀樀猀⼀最爀椀搀⸀樀猀✀Ⰰ✀✀Ⰰ昀甀渀挀琀椀漀渀⠀猀⤀笀瘀愀爀 栀愀猀栀㴀开⸀甀渀猀攀爀椀愀氀椀稀攀⠀猀⤀㬀漀⸀猀攀琀䠀攀愀搀攀爀⠀栀愀猀栀⸀栀攀愀搀攀爀⤀⸀猀攀琀刀漀眀猀⠀栀愀猀栀⸀爀漀眀猀⤀㬀紀Ⰰ渀甀氀氀Ⰰ渀甀氀氀Ⰰ笀愀猀礀㨀昀愀氀猀攀紀⤀⸀猀琀愀爀琀⠀⤀㬀∀⬀ഀ਀                ∀氀椀渀戀⠀椀搀⤀⸀瀀爀攀瀀攀渀搀⠀漀⤀㬀∀⬀ഀ਀                ∀开⸀愀猀礀刀甀渀⠀昀甀渀挀琀椀漀渀⠀⤀笀漀⸀琀漀最最氀攀刀漀眀⠀✀爀漀眀㐀✀Ⰰ琀爀甀攀⤀紀Ⰰ㄀　　　⤀㬀∀⬀ഀ਀                ∀紀∀ഀ਀            崀ഀ਀        紀Ⰰഀ਀        甀瀀搀愀琀攀䌀攀氀氀㨀笀ഀ਀            ␀搀攀猀挀㨀∀끦ݥ驣啛䍓⩑葎㱶⹐∀Ⰰഀ਀            ␀爀琀渀㨀∀嬀猀攀氀昀崀∀Ⰰഀ਀            ␀瀀愀爀愀猀㨀嬀ഀ਀                ∀挀攀氀氀䤀搀 嬀씀_슗灓嵥 㨀 匀琀爀椀渀最Ⰰ 唀䍓㱑楨搀⸀∀Ⰰഀ਀                ∀栀愀猀栀 嬀씀_슗灓嵥 㨀 欀攀礀⼀瘀愀氀甀攀 漀戀樀攀挀琀Ⰰ  膗끦葥⹶㲕縷⹛∀ഀ਀            崀Ⰰഀ਀            ␀猀渀椀瀀瀀攀琀㨀嬀ഀ਀                ∀瘀愀爀 椀搀㴀✀氀椀渀戀⸀琀攀洀瀀⸀最爀椀搀㄀㌀　✀㬀 椀昀⠀℀氀椀渀戀⸀䐀漀洀⸀戀礀䤀搀⠀椀搀⤀⤀笀琀栀椀猀⸀瀀爀攀瀀攀渀搀⠀氀椀渀戀⸀挀爀攀愀琀攀⠀✀㰀搀椀瘀 椀搀㴀✀⬀椀搀⬀✀ 猀琀礀氀攀㴀尀∀戀漀爀搀攀爀㨀猀漀氀椀搀 ㄀瀀砀㬀瀀愀搀搀椀渀最㨀㈀　瀀砀㬀瀀漀猀椀琀椀漀渀㨀爀攀氀愀琀椀瘀攀㬀眀椀搀琀栀㨀㌀　　瀀砀㬀栀攀椀最栀琀㨀㈀　　瀀砀㬀尀∀㸀✀ ⬀ ✀㰀戀甀琀琀漀渀 猀琀礀氀攀㴀尀∀瀀漀猀椀琀椀漀渀㨀愀戀猀漀氀甀琀攀㬀 戀漀琀琀漀洀㨀　瀀砀㬀 稀ⴀ椀渀搀攀砀㨀㈀㬀尀∀ 漀渀挀氀椀挀欀㴀尀∀氀椀渀戀⠀琀栀椀猀⤀⸀瀀愀爀攀渀琀⠀⤀⸀爀攀洀漀瘀攀⠀⤀尀∀㸀爀攀洀漀瘀攀 琀栀椀猀 攀砀愀洀瀀氀攀㰀⼀戀甀琀琀漀渀㸀✀ ⬀ ✀㰀⼀搀椀瘀㸀✀⤀⤀㬀∀⬀ഀ਀                ∀瘀愀爀 漀㴀渀攀眀 氀椀渀戀⸀唀䤀⸀吀爀攀攀䜀爀椀搀⠀笀攀搀椀琀愀戀氀攀㨀昀愀氀猀攀Ⰰ瀀漀猀椀琀椀漀渀㨀✀爀攀氀愀琀椀瘀攀✀紀⤀㬀∀⬀ഀ਀                ∀氀椀渀戀⸀䄀樀愀砀⠀✀䄀瀀瀀⼀樀猀⼀最爀椀搀⸀樀猀✀Ⰰ✀✀Ⰰ昀甀渀挀琀椀漀渀⠀猀⤀笀瘀愀爀 栀愀猀栀㴀开⸀甀渀猀攀爀椀愀氀椀稀攀⠀猀⤀㬀漀⸀猀攀琀䠀攀愀搀攀爀⠀栀愀猀栀⸀栀攀愀搀攀爀⤀⸀猀攀琀刀漀眀猀⠀栀愀猀栀⸀爀漀眀猀⤀㬀紀Ⰰ渀甀氀氀Ⰰ渀甀氀氀Ⰰ笀愀猀礀㨀昀愀氀猀攀紀⤀⸀猀琀愀爀琀⠀⤀㬀∀⬀ഀ਀                ∀氀椀渀戀⠀椀搀⤀⸀瀀爀攀瀀攀渀搀⠀漀⤀㬀∀⬀ഀ਀                ∀开⸀愀猀礀刀甀渀⠀昀甀渀挀琀椀漀渀⠀⤀笀漀⸀甀瀀搀愀琀攀䌀攀氀氀⠀✀挀开愀✀Ⰰ笀瘀愀氀甀攀㨀✀愀 愀 愀 愀✀紀⤀紀Ⰰ㄀　　　⤀㬀∀⬀ഀ਀                ∀紀∀ഀ਀            崀ഀ਀        紀Ⰰഀ਀        甀瀀搀愀琀攀䌀攀氀氀䈀礀刀漀眀䌀漀氀㨀笀ഀ਀            ␀搀攀猀挀㨀∀끦䱥榈搀谀᝔楒搀萀啶䍓㱑⹨∀Ⰰഀ਀            ␀爀琀渀㨀∀嬀猀攀氀昀崀∀Ⰰഀ਀            ␀瀀愀爀愀猀㨀嬀ഀ਀                ∀爀漀眀䤀搀 嬀씀_슗灓嵥 㨀 匀琀爀椀渀最Ⰰ 唀䍓㱑⡨著䱶榈搀⸀∀Ⰰഀ਀                ∀挀漀氀䤀搀 嬀씀_슗灓嵥 㨀 匀琀爀椀渀最Ⰰ 唀䍓㱑⡨著᝶楒搀⸀∀Ⰰഀ਀                ∀栀愀猀栀 嬀씀_슗灓嵥 㨀 欀攀礀⼀瘀愀氀甀攀 漀戀樀攀挀琀Ⰰ  膗끦葥⹶㲕縷⹛∀ഀ਀            崀Ⰰഀ਀            ␀猀渀椀瀀瀀攀琀㨀嬀ഀ਀                ∀瘀愀爀 椀搀㴀✀氀椀渀戀⸀琀攀洀瀀⸀最爀椀搀㄀㌀㄀✀㬀 椀昀⠀℀氀椀渀戀⸀䐀漀洀⸀戀礀䤀搀⠀椀搀⤀⤀笀琀栀椀猀⸀瀀爀攀瀀攀渀搀⠀氀椀渀戀⸀挀爀攀愀琀攀⠀✀㰀搀椀瘀 椀搀㴀✀⬀椀搀⬀✀ 猀琀礀氀攀㴀尀∀戀漀爀搀攀爀㨀猀漀氀椀搀 ㄀瀀砀㬀瀀愀搀搀椀渀最㨀㈀　瀀砀㬀瀀漀猀椀琀椀漀渀㨀爀攀氀愀琀椀瘀攀㬀眀椀搀琀栀㨀㌀　　瀀砀㬀栀攀椀最栀琀㨀㈀　　瀀砀㬀尀∀㸀✀ ⬀ ✀㰀戀甀琀琀漀渀 猀琀礀氀攀㴀尀∀瀀漀猀椀琀椀漀渀㨀愀戀猀漀氀甀琀攀㬀 戀漀琀琀漀洀㨀　瀀砀㬀 稀ⴀ椀渀搀攀砀㨀㈀㬀尀∀ 漀渀挀氀椀挀欀㴀尀∀氀椀渀戀⠀琀栀椀猀⤀⸀瀀愀爀攀渀琀⠀⤀⸀爀攀洀漀瘀攀⠀⤀尀∀㸀爀攀洀漀瘀攀 琀栀椀猀 攀砀愀洀瀀氀攀㰀⼀戀甀琀琀漀渀㸀✀ ⬀ ✀㰀⼀搀椀瘀㸀✀⤀⤀㬀∀⬀ഀ਀                ∀瘀愀爀 漀㴀渀攀眀 氀椀渀戀⸀唀䤀⸀吀爀攀攀䜀爀椀搀⠀笀攀搀椀琀愀戀氀攀㨀昀愀氀猀攀Ⰰ瀀漀猀椀琀椀漀渀㨀✀爀攀氀愀琀椀瘀攀✀紀⤀㬀∀⬀ഀ਀                ∀氀椀渀戀⸀䄀樀愀砀⠀✀䄀瀀瀀⼀樀猀⼀最爀椀搀⸀樀猀✀Ⰰ✀✀Ⰰ昀甀渀挀琀椀漀渀⠀猀⤀笀瘀愀爀 栀愀猀栀㴀开⸀甀渀猀攀爀椀愀氀椀稀攀⠀猀⤀㬀漀⸀猀攀琀䠀攀愀搀攀爀⠀栀愀猀栀⸀栀攀愀搀攀爀⤀⸀猀攀琀刀漀眀猀⠀栀愀猀栀⸀爀漀眀猀⤀㬀紀Ⰰ渀甀氀氀Ⰰ渀甀氀氀Ⰰ笀愀猀礀㨀昀愀氀猀攀紀⤀⸀猀琀愀爀琀⠀⤀㬀∀⬀ഀ਀                ∀氀椀渀戀⠀椀搀⤀⸀瀀爀攀瀀攀渀搀⠀漀⤀㬀∀⬀ഀ਀                ∀开⸀愀猀礀刀甀渀⠀昀甀渀挀琀椀漀渀⠀⤀笀漀⸀甀瀀搀愀琀攀䌀攀氀氀䈀礀刀漀眀䌀漀氀⠀✀爀漀眀㄀✀Ⰰ✀挀漀氀㄀✀Ⰰ笀瘀愀氀甀攀㨀✀戀 戀 戀 戀✀紀⤀紀Ⰰ㄀　　　⤀㬀∀⬀ഀ਀                ∀紀∀ഀ਀            崀ഀ਀        紀Ⰰഀ਀        最攀琀刀漀眀䐀爀愀最愀戀氀攀 㨀笀ഀ਀            ␀搀攀猀挀㨀∀␀굒졥⡺㝵⽢♦홎ꡢ䱒㥎���䱓銈轣ᙞ㙢偲獛ﭑ≼Ⰰഀ਀            ␀爀琀渀㨀∀䈀漀漀氀∀Ⰰഀ਀            ␀猀渀椀瀀瀀攀琀㨀嬀ഀ਀                ∀瘀愀爀 椀搀㴀✀氀椀渀戀⸀琀攀洀瀀⸀最爀椀搀㌀㈀✀㬀 椀昀⠀℀氀椀渀戀⸀䐀漀洀⸀戀礀䤀搀⠀椀搀⤀⤀笀琀栀椀猀⸀瀀爀攀瀀攀渀搀⠀氀椀渀戀⸀挀爀攀愀琀攀⠀✀㰀搀椀瘀 椀搀㴀✀⬀椀搀⬀✀ 猀琀礀氀攀㴀尀∀戀漀爀搀攀爀㨀猀漀氀椀搀 ㄀瀀砀㬀瀀愀搀搀椀渀最㨀㈀　瀀砀㬀瀀漀猀椀琀椀漀渀㨀爀攀氀愀琀椀瘀攀㬀眀椀搀琀栀㨀㌀　　瀀砀㬀栀攀椀最栀琀㨀㈀　　瀀砀㬀尀∀㸀✀ ⬀ ✀㰀戀甀琀琀漀渀 猀琀礀氀攀㴀尀∀瀀漀猀椀琀椀漀渀㨀愀戀猀漀氀甀琀攀㬀 戀漀琀琀漀洀㨀　瀀砀㬀 稀ⴀ椀渀搀攀砀㨀㈀㬀尀∀ 漀渀挀氀椀挀欀㴀尀∀氀椀渀戀⠀琀栀椀猀⤀⸀瀀愀爀攀渀琀⠀⤀⸀爀攀洀漀瘀攀⠀⤀尀∀㸀爀攀洀漀瘀攀 琀栀椀猀 攀砀愀洀瀀氀攀㰀⼀戀甀琀琀漀渀㸀✀ ⬀ ✀㰀⼀搀椀瘀㸀✀⤀⤀㬀∀⬀ഀ਀                ∀瘀愀爀 漀㴀渀攀眀 氀椀渀戀⸀唀䤀⸀吀爀攀攀䜀爀椀搀⠀笀攀搀椀琀愀戀氀攀㨀昀愀氀猀攀Ⰰ 瀀漀猀椀琀椀漀渀㨀✀爀攀氀愀琀椀瘀攀✀紀⤀㬀∀⬀ഀ਀                ∀氀椀渀戀⸀䄀樀愀砀⠀✀䄀瀀瀀⼀樀猀⼀最爀椀搀⸀樀猀✀Ⰰ✀✀Ⰰ昀甀渀挀琀椀漀渀⠀猀⤀笀瘀愀爀 栀愀猀栀㴀开⸀甀渀猀攀爀椀愀氀椀稀攀⠀猀⤀㬀漀⸀猀攀琀䠀攀愀搀攀爀⠀栀愀猀栀⸀栀攀愀搀攀爀⤀⸀猀攀琀刀漀眀猀⠀栀愀猀栀⸀爀漀眀猀⤀㬀紀Ⰰ渀甀氀氀Ⰰ渀甀氀氀Ⰰ笀愀猀礀㨀昀愀氀猀攀紀⤀⸀猀琀愀爀琀⠀⤀㬀∀⬀ഀ਀                ∀漀⸀猀攀琀刀漀眀䐀爀愀最愀戀氀攀⠀昀愀氀猀攀⤀㬀 愀氀攀爀琀⠀漀⸀最攀琀刀漀眀䐀爀愀最愀戀氀攀⠀⤀⤀㬀∀⬀ഀ਀                ∀氀椀渀戀⠀椀搀⤀⸀瀀爀攀瀀攀渀搀⠀漀⤀㬀∀⬀ഀ਀                ∀紀∀ഀ਀            崀ഀ਀        紀Ⰰഀ਀        猀攀琀刀漀眀䐀爀愀最愀戀氀攀 㨀笀ഀ਀            ␀搀攀猀挀㨀∀븀溋졿⡺㝵⽢♦홎ꡢ䱒㥎���䱓銈轣ᙞ㙢偲獛ﭑⱼ 瘀㝞끒䱥扵⺗∀Ⰰഀ਀            ␀爀琀渀㨀∀嬀猀攀氀昀崀∀Ⰰഀ਀            ␀瀀愀爀愀猀㨀嬀ഀ਀                ∀瘀愀氀甀攀 嬀씀_슗灓嵥 㨀 䈀漀漀氀⸀∀Ⰰഀ਀                ∀昀氀愀最 嬀॓슐灓嵥 㨀 䈀漀漀氀Ⰰ 㨀㙟빒溋庋❜㱠౐珿罓幏❜콝빾溋㩿㲋⹐ ���꒞㪋⁎嬀昀愀氀猀攀崀⸀∀ഀ਀            崀Ⰰഀ਀            ␀猀渀椀瀀瀀攀琀㨀嬀ഀ਀                ∀瘀愀爀 椀搀㴀✀氀椀渀戀⸀琀攀洀瀀⸀最爀椀搀㌀㌀✀㬀 椀昀⠀℀氀椀渀戀⸀䐀漀洀⸀戀礀䤀搀⠀椀搀⤀⤀笀琀栀椀猀⸀瀀爀攀瀀攀渀搀⠀氀椀渀戀⸀挀爀攀愀琀攀⠀✀㰀搀椀瘀 椀搀㴀✀⬀椀搀⬀✀ 猀琀礀氀攀㴀尀∀戀漀爀搀攀爀㨀猀漀氀椀搀 ㄀瀀砀㬀瀀愀搀搀椀渀最㨀㈀　瀀砀㬀瀀漀猀椀琀椀漀渀㨀爀攀氀愀琀椀瘀攀㬀眀椀搀琀栀㨀㌀　　瀀砀㬀栀攀椀最栀琀㨀㈀　　瀀砀㬀尀∀㸀✀ ⬀ ✀㰀戀甀琀琀漀渀 猀琀礀氀攀㴀尀∀瀀漀猀椀琀椀漀渀㨀愀戀猀漀氀甀琀攀㬀 戀漀琀琀漀洀㨀　瀀砀㬀 稀ⴀ椀渀搀攀砀㨀㈀㬀尀∀ 漀渀挀氀椀挀欀㴀尀∀氀椀渀戀⠀琀栀椀猀⤀⸀瀀愀爀攀渀琀⠀⤀⸀爀攀洀漀瘀攀⠀⤀尀∀㸀爀攀洀漀瘀攀 琀栀椀猀 攀砀愀洀瀀氀攀㰀⼀戀甀琀琀漀渀㸀✀ ⬀ ✀㰀⼀搀椀瘀㸀✀⤀⤀㬀∀⬀ഀ਀                ∀瘀愀爀 漀㴀渀攀眀 氀椀渀戀⸀唀䤀⸀吀爀攀攀䜀爀椀搀⠀笀攀搀椀琀愀戀氀攀㨀昀愀氀猀攀Ⰰ瀀漀猀椀琀椀漀渀㨀✀爀攀氀愀琀椀瘀攀✀紀⤀㬀∀⬀ഀ਀                ∀氀椀渀戀⸀䄀樀愀砀⠀✀䄀瀀瀀⼀樀猀⼀最爀椀搀⸀樀猀✀Ⰰ✀✀Ⰰ昀甀渀挀琀椀漀渀⠀猀⤀笀瘀愀爀 栀愀猀栀㴀开⸀甀渀猀攀爀椀愀氀椀稀攀⠀猀⤀㬀漀⸀猀攀琀䠀攀愀搀攀爀⠀栀愀猀栀⸀栀攀愀搀攀爀⤀⸀猀攀琀刀漀眀猀⠀栀愀猀栀⸀爀漀眀猀⤀㬀紀Ⰰ渀甀氀氀Ⰰ渀甀氀氀Ⰰ笀愀猀礀㨀昀愀氀猀攀紀⤀⸀猀琀愀爀琀⠀⤀㬀∀⬀ഀ਀                ∀漀⸀猀攀琀刀漀眀䐀爀愀最愀戀氀攀⠀琀爀甀攀⤀㬀 愀氀攀爀琀⠀漀⸀最攀琀刀漀眀䐀爀愀最愀戀氀攀⠀⤀⤀㬀∀⬀ഀ਀                ∀氀椀渀戀⠀椀搀⤀⸀瀀爀攀瀀攀渀搀⠀漀⤀㬀∀⬀ഀ਀                ∀紀∀ഀ਀            崀ഀ਀        紀Ⰰഀ਀        最攀琀刀漀眀猀 㨀笀ഀ਀            ␀搀攀猀挀㨀∀뜀횃桓㲈葨䁶ॢ䱧⊈Ⰰഀ਀            ␀爀琀渀㨀∀漀戀樀攀挀琀∀Ⰰഀ਀            ␀猀渀椀瀀瀀攀琀㨀嬀ഀ਀                ∀瘀愀爀 椀搀㴀✀氀椀渀戀⸀琀攀洀瀀⸀最爀椀搀㌀㈀✀㬀 椀昀⠀℀氀椀渀戀⸀䐀漀洀⸀戀礀䤀搀⠀椀搀⤀⤀笀琀栀椀猀⸀瀀爀攀瀀攀渀搀⠀氀椀渀戀⸀挀爀攀愀琀攀⠀✀㰀搀椀瘀 椀搀㴀✀⬀椀搀⬀✀ 猀琀礀氀攀㴀尀∀戀漀爀搀攀爀㨀猀漀氀椀搀 ㄀瀀砀㬀瀀愀搀搀椀渀最㨀㈀　瀀砀㬀瀀漀猀椀琀椀漀渀㨀爀攀氀愀琀椀瘀攀㬀眀椀搀琀栀㨀㌀　　瀀砀㬀栀攀椀最栀琀㨀㈀　　瀀砀㬀尀∀㸀✀ ⬀ ✀㰀戀甀琀琀漀渀 猀琀礀氀攀㴀尀∀瀀漀猀椀琀椀漀渀㨀愀戀猀漀氀甀琀攀㬀 戀漀琀琀漀洀㨀　瀀砀㬀 稀ⴀ椀渀搀攀砀㨀㈀㬀尀∀ 漀渀挀氀椀挀欀㴀尀∀氀椀渀戀⠀琀栀椀猀⤀⸀瀀愀爀攀渀琀⠀⤀⸀爀攀洀漀瘀攀⠀⤀尀∀㸀爀攀洀漀瘀攀 琀栀椀猀 攀砀愀洀瀀氀攀㰀⼀戀甀琀琀漀渀㸀✀ ⬀ ✀㰀⼀搀椀瘀㸀✀⤀⤀㬀∀⬀ഀ਀                ∀瘀愀爀 漀㴀渀攀眀 氀椀渀戀⸀唀䤀⸀吀爀攀攀䜀爀椀搀⠀笀攀搀椀琀愀戀氀攀㨀昀愀氀猀攀Ⰰ 瀀漀猀椀琀椀漀渀㨀✀爀攀氀愀琀椀瘀攀✀紀⤀㬀∀⬀ഀ਀                ∀氀椀渀戀⸀䄀樀愀砀⠀✀䄀瀀瀀⼀樀猀⼀最爀椀搀⸀樀猀✀Ⰰ✀✀Ⰰ昀甀渀挀琀椀漀渀⠀猀⤀笀瘀愀爀 栀愀猀栀㴀开⸀甀渀猀攀爀椀愀氀椀稀攀⠀猀⤀㬀漀⸀猀攀琀䠀攀愀搀攀爀⠀栀愀猀栀⸀栀攀愀搀攀爀⤀⸀猀攀琀刀漀眀猀⠀栀愀猀栀⸀爀漀眀猀⤀㬀紀Ⰰ渀甀氀氀Ⰰ渀甀氀氀Ⰰ笀愀猀礀㨀昀愀氀猀攀紀⤀⸀猀琀愀爀琀⠀⤀㬀∀⬀ഀ਀                ∀开⸀愀猀礀刀甀渀⠀昀甀渀挀琀椀漀渀⠀⤀笀漀⸀猀攀琀刀漀眀猀⠀嬀笀椀搀 㨀 ✀爀漀眀开㄀✀Ⰰ挀攀氀氀猀㨀嬀✀挀攀氀氀开㄀✀Ⰰ㄀Ⰰ琀爀甀攀Ⰰ✀氀愀戀攀氀㄀✀崀紀Ⰰ笀椀搀 㨀 ✀爀漀眀开㄀㄀✀Ⰰ挀攀氀氀猀㨀嬀✀挀攀氀氀开㄀㄀✀Ⰰ㄀Ⰰ琀爀甀攀Ⰰ✀氀愀戀攀氀㄀✀崀紀崀⤀㬀 愀氀攀爀琀⠀漀⸀最攀琀刀漀眀猀⠀⤀⸀氀攀渀最琀栀⤀紀⤀㬀∀⬀ഀ਀                ∀氀椀渀戀⠀椀搀⤀⸀瀀爀攀瀀攀渀搀⠀漀⤀㬀∀⬀ഀ਀                ∀紀∀ഀ਀            崀ഀ਀        紀Ⰰഀ਀        猀攀琀刀漀眀猀 㨀笀ഀ਀            ␀搀攀猀挀㨀∀븀溋桿㲈葨䁶ॢ䱧Ⲉ 瘀㝞끒䱥扵⺗∀Ⰰഀ਀            ␀爀琀渀㨀∀嬀猀攀氀昀崀∀Ⰰഀ਀            ␀瀀愀爀愀猀㨀嬀ഀ਀                ∀瘀愀氀甀攀 嬀씀_슗灓嵥 㨀 漀戀樀攀挀琀⸀∀Ⰰഀ਀                ∀昀氀愀最 嬀॓슐灓嵥 㨀 䈀漀漀氀Ⰰ 㨀㙟빒溋庋❜㱠౐珿罓幏❜콝빾溋㩿㲋⹐ ���꒞㪋⁎嬀昀愀氀猀攀崀⸀∀ഀ਀            崀Ⰰഀ਀            ␀猀渀椀瀀瀀攀琀㨀嬀ഀ਀                ∀瘀愀爀 椀搀㴀✀氀椀渀戀⸀琀攀洀瀀⸀最爀椀搀㌀㌀✀㬀 椀昀⠀℀氀椀渀戀⸀䐀漀洀⸀戀礀䤀搀⠀椀搀⤀⤀笀琀栀椀猀⸀瀀爀攀瀀攀渀搀⠀氀椀渀戀⸀挀爀攀愀琀攀⠀✀㰀搀椀瘀 椀搀㴀✀⬀椀搀⬀✀ 猀琀礀氀攀㴀尀∀戀漀爀搀攀爀㨀猀漀氀椀搀 ㄀瀀砀㬀瀀愀搀搀椀渀最㨀㈀　瀀砀㬀瀀漀猀椀琀椀漀渀㨀爀攀氀愀琀椀瘀攀㬀眀椀搀琀栀㨀㌀　　瀀砀㬀栀攀椀最栀琀㨀㈀　　瀀砀㬀尀∀㸀✀ ⬀ ✀㰀戀甀琀琀漀渀 猀琀礀氀攀㴀尀∀瀀漀猀椀琀椀漀渀㨀愀戀猀漀氀甀琀攀㬀 戀漀琀琀漀洀㨀　瀀砀㬀 稀ⴀ椀渀搀攀砀㨀㈀㬀尀∀ 漀渀挀氀椀挀欀㴀尀∀氀椀渀戀⠀琀栀椀猀⤀⸀瀀愀爀攀渀琀⠀⤀⸀爀攀洀漀瘀攀⠀⤀尀∀㸀爀攀洀漀瘀攀 琀栀椀猀 攀砀愀洀瀀氀攀㰀⼀戀甀琀琀漀渀㸀✀ ⬀ ✀㰀⼀搀椀瘀㸀✀⤀⤀㬀∀⬀ഀ਀                ∀瘀愀爀 漀㴀渀攀眀 氀椀渀戀⸀唀䤀⸀吀爀攀攀䜀爀椀搀⠀笀攀搀椀琀愀戀氀攀㨀昀愀氀猀攀Ⰰ瀀漀猀椀琀椀漀渀㨀✀爀攀氀愀琀椀瘀攀✀紀⤀㬀∀⬀ഀ਀                ∀氀椀渀戀⸀䄀樀愀砀⠀✀䄀瀀瀀⼀樀猀⼀最爀椀搀⸀樀猀✀Ⰰ✀✀Ⰰ昀甀渀挀琀椀漀渀⠀猀⤀笀瘀愀爀 栀愀猀栀㴀开⸀甀渀猀攀爀椀愀氀椀稀攀⠀猀⤀㬀漀⸀猀攀琀䠀攀愀搀攀爀⠀栀愀猀栀⸀栀攀愀搀攀爀⤀⸀猀攀琀刀漀眀猀⠀栀愀猀栀⸀爀漀眀猀⤀㬀紀Ⰰ渀甀氀氀Ⰰ渀甀氀氀Ⰰ笀愀猀礀㨀昀愀氀猀攀紀⤀⸀猀琀愀爀琀⠀⤀㬀∀⬀ഀ਀                ∀开⸀愀猀礀刀甀渀⠀昀甀渀挀琀椀漀渀⠀⤀笀漀⸀猀攀琀刀漀眀猀⠀嬀笀椀搀 㨀 ✀爀漀眀开㄀✀Ⰰ挀攀氀氀猀㨀嬀✀挀攀氀氀开㄀✀Ⰰ㄀Ⰰ琀爀甀攀Ⰰ✀氀愀戀攀氀㄀✀崀紀Ⰰ笀椀搀 㨀 ✀爀漀眀开㄀㄀✀Ⰰ挀攀氀氀猀㨀嬀✀挀攀氀氀开㄀㄀✀Ⰰ㄀Ⰰ琀爀甀攀Ⰰ✀氀愀戀攀氀㄀✀崀紀崀⤀㬀 愀氀攀爀琀⠀漀⸀最攀琀刀漀眀猀⠀⤀⸀氀攀渀最琀栀⤀紀⤀㬀∀⬀ഀ਀                ∀氀椀渀戀⠀椀搀⤀⸀瀀爀攀瀀攀渀搀⠀漀⤀㬀∀⬀ഀ਀                ∀紀∀ഀ਀            崀ഀ਀        紀Ⰰഀ਀        最攀琀䠀攀愀搀攀爀 㨀笀ഀ਀            ␀搀攀猀挀㨀∀뜀횃桓㒈陵慛⊌Ⰰഀ਀            ␀爀琀渀㨀∀漀戀樀攀挀琀∀Ⰰഀ਀            ␀猀渀椀瀀瀀攀琀㨀嬀ഀ਀                ∀瘀愀爀 椀搀㴀✀氀椀渀戀⸀琀攀洀瀀⸀最爀椀搀㌀㐀✀㬀 椀昀⠀℀氀椀渀戀⸀䐀漀洀⸀戀礀䤀搀⠀椀搀⤀⤀笀琀栀椀猀⸀瀀爀攀瀀攀渀搀⠀氀椀渀戀⸀挀爀攀愀琀攀⠀✀㰀搀椀瘀 椀搀㴀✀⬀椀搀⬀✀ 猀琀礀氀攀㴀尀∀戀漀爀搀攀爀㨀猀漀氀椀搀 ㄀瀀砀㬀瀀愀搀搀椀渀最㨀㈀　瀀砀㬀瀀漀猀椀琀椀漀渀㨀爀攀氀愀琀椀瘀攀㬀眀椀搀琀栀㨀㌀　　瀀砀㬀栀攀椀最栀琀㨀㈀　　瀀砀㬀尀∀㸀✀ ⬀ ✀㰀戀甀琀琀漀渀 猀琀礀氀攀㴀尀∀瀀漀猀椀琀椀漀渀㨀愀戀猀漀氀甀琀攀㬀 戀漀琀琀漀洀㨀　瀀砀㬀 稀ⴀ椀渀搀攀砀㨀㈀㬀尀∀ 漀渀挀氀椀挀欀㴀尀∀氀椀渀戀⠀琀栀椀猀⤀⸀瀀愀爀攀渀琀⠀⤀⸀爀攀洀漀瘀攀⠀⤀尀∀㸀爀攀洀漀瘀攀 琀栀椀猀 攀砀愀洀瀀氀攀㰀⼀戀甀琀琀漀渀㸀✀ ⬀ ✀㰀⼀搀椀瘀㸀✀⤀⤀㬀∀⬀ഀ਀                ∀瘀愀爀 漀㴀渀攀眀 氀椀渀戀⸀唀䤀⸀吀爀攀攀䜀爀椀搀⠀笀攀搀椀琀愀戀氀攀㨀昀愀氀猀攀Ⰰ 瀀漀猀椀琀椀漀渀㨀✀爀攀氀愀琀椀瘀攀✀紀⤀㬀∀⬀ഀ਀                ∀氀椀渀戀⸀䄀樀愀砀⠀✀䄀瀀瀀⼀樀猀⼀最爀椀搀⸀樀猀✀Ⰰ✀✀Ⰰ昀甀渀挀琀椀漀渀⠀猀⤀笀瘀愀爀 栀愀猀栀㴀开⸀甀渀猀攀爀椀愀氀椀稀攀⠀猀⤀㬀漀⸀猀攀琀䠀攀愀搀攀爀⠀栀愀猀栀⸀栀攀愀搀攀爀⤀⸀猀攀琀刀漀眀猀⠀栀愀猀栀⸀爀漀眀猀⤀㬀紀Ⰰ渀甀氀氀Ⰰ渀甀氀氀Ⰰ笀愀猀礀㨀昀愀氀猀攀紀⤀⸀猀琀愀爀琀⠀⤀㬀∀⬀ഀ਀                ∀开⸀愀猀礀刀甀渀⠀昀甀渀挀琀椀漀渀⠀⤀笀愀氀攀爀琀⠀漀⸀最攀琀䠀攀愀搀攀爀⠀⤀⸀氀攀渀最琀栀⤀紀⤀㬀∀⬀ഀ਀                ∀氀椀渀戀⠀椀搀⤀⸀瀀爀攀瀀攀渀搀⠀漀⤀㬀∀⬀ഀ਀                ∀紀∀ഀ਀            崀ഀ਀        紀Ⰰഀ਀        猀攀琀䠀攀愀搀攀爀 㨀笀ഀ਀            ␀搀攀猀挀㨀∀븀溋桿㒈陵慛Ⲍ 瘀㝞끒䱥扵⺗∀Ⰰഀ਀            ␀爀琀渀㨀∀嬀猀攀氀昀崀∀Ⰰഀ਀            ␀瀀愀爀愀猀㨀嬀ഀ਀                ∀瘀愀氀甀攀 嬀씀_슗灓嵥 㨀 漀戀樀攀挀琀⸀∀Ⰰഀ਀                ∀昀氀愀最 嬀॓슐灓嵥 㨀 䈀漀漀氀Ⰰ 㨀㙟빒溋庋❜㱠౐珿罓幏❜콝빾溋㩿㲋⹐ ���꒞㪋⁎嬀昀愀氀猀攀崀⸀∀ഀ਀            崀Ⰰഀ਀            ␀猀渀椀瀀瀀攀琀㨀嬀ഀ਀                ∀瘀愀爀 椀搀㴀✀氀椀渀戀⸀琀攀洀瀀⸀最爀椀搀㌀㔀✀㬀 椀昀⠀℀氀椀渀戀⸀䐀漀洀⸀戀礀䤀搀⠀椀搀⤀⤀笀琀栀椀猀⸀瀀爀攀瀀攀渀搀⠀氀椀渀戀⸀挀爀攀愀琀攀⠀✀㰀搀椀瘀 椀搀㴀✀⬀椀搀⬀✀ 猀琀礀氀攀㴀尀∀戀漀爀搀攀爀㨀猀漀氀椀搀 ㄀瀀砀㬀瀀愀搀搀椀渀最㨀㈀　瀀砀㬀瀀漀猀椀琀椀漀渀㨀爀攀氀愀琀椀瘀攀㬀眀椀搀琀栀㨀㌀　　瀀砀㬀栀攀椀最栀琀㨀㈀　　瀀砀㬀尀∀㸀✀ ⬀ ✀㰀戀甀琀琀漀渀 猀琀礀氀攀㴀尀∀瀀漀猀椀琀椀漀渀㨀愀戀猀漀氀甀琀攀㬀 戀漀琀琀漀洀㨀　瀀砀㬀 稀ⴀ椀渀搀攀砀㨀㈀㬀尀∀ 漀渀挀氀椀挀欀㴀尀∀氀椀渀戀⠀琀栀椀猀⤀⸀瀀愀爀攀渀琀⠀⤀⸀爀攀洀漀瘀攀⠀⤀尀∀㸀爀攀洀漀瘀攀 琀栀椀猀 攀砀愀洀瀀氀攀㰀⼀戀甀琀琀漀渀㸀✀ ⬀ ✀㰀⼀搀椀瘀㸀✀⤀⤀㬀∀⬀ഀ਀                ∀瘀愀爀 漀㴀渀攀眀 氀椀渀戀⸀唀䤀⸀吀爀攀攀䜀爀椀搀⠀笀攀搀椀琀愀戀氀攀㨀昀愀氀猀攀Ⰰ瀀漀猀椀琀椀漀渀㨀✀爀攀氀愀琀椀瘀攀✀紀⤀㬀∀⬀ഀ਀                ∀氀椀渀戀⸀䄀樀愀砀⠀✀䄀瀀瀀⼀樀猀⼀最爀椀搀⸀樀猀✀Ⰰ✀✀Ⰰ昀甀渀挀琀椀漀渀⠀猀⤀笀瘀愀爀 栀愀猀栀㴀开⸀甀渀猀攀爀椀愀氀椀稀攀⠀猀⤀㬀漀⸀猀攀琀䠀攀愀搀攀爀⠀栀愀猀栀⸀栀攀愀搀攀爀⤀⸀猀攀琀刀漀眀猀⠀栀愀猀栀⸀爀漀眀猀⤀㬀紀Ⰰ渀甀氀氀Ⰰ渀甀氀氀Ⰰ笀愀猀礀㨀昀愀氀猀攀紀⤀⸀猀琀愀爀琀⠀⤀㬀∀⬀ഀ਀                ∀开⸀愀猀礀刀甀渀⠀昀甀渀挀琀椀漀渀⠀⤀笀愀氀攀爀琀⠀漀⸀最攀琀䠀攀愀搀攀爀⠀⤀⸀氀攀渀最琀栀⤀紀⤀㬀∀⬀ഀ਀                ∀氀椀渀戀⠀椀搀⤀⸀瀀爀攀瀀攀渀搀⠀漀⤀㬀∀⬀ഀ਀                ∀紀∀ഀ਀            崀ഀ਀        紀Ⰰഀ਀        最攀琀刀漀眀戀礀刀漀眀䤀搀  㨀笀ഀ਀            ␀搀攀猀挀㨀∀끦䱥榈搀㨀ݎ驣㱛葐䱶⺈∀Ⰰഀ਀            ␀爀琀渀㨀∀伀戀樀攀挀琀∀Ⰰഀ਀            ␀瀀愀爀愀猀㨀嬀ഀ਀                ∀爀漀眀䤀搀 嬀씀_슗灓嵥 㨀 匀琀爀椀渀最⸀∀ഀ਀            崀Ⰰഀ਀            ␀猀渀椀瀀瀀攀琀㨀嬀ഀ਀                ∀瘀愀爀 椀搀㴀✀氀椀渀戀⸀琀攀洀瀀⸀最爀椀搀㌀㘀✀㬀 椀昀⠀℀氀椀渀戀⸀䐀漀洀⸀戀礀䤀搀⠀椀搀⤀⤀笀琀栀椀猀⸀瀀爀攀瀀攀渀搀⠀氀椀渀戀⸀挀爀攀愀琀攀⠀✀㰀搀椀瘀 椀搀㴀✀⬀椀搀⬀✀ 猀琀礀氀攀㴀尀∀戀漀爀搀攀爀㨀猀漀氀椀搀 ㄀瀀砀㬀瀀愀搀搀椀渀最㨀㈀　瀀砀㬀瀀漀猀椀琀椀漀渀㨀爀攀氀愀琀椀瘀攀㬀眀椀搀琀栀㨀㌀　　瀀砀㬀栀攀椀最栀琀㨀㈀　　瀀砀㬀尀∀㸀✀ ⬀ ✀㰀戀甀琀琀漀渀 猀琀礀氀攀㴀尀∀瀀漀猀椀琀椀漀渀㨀愀戀猀漀氀甀琀攀㬀 戀漀琀琀漀洀㨀　瀀砀㬀 稀ⴀ椀渀搀攀砀㨀㈀㬀尀∀ 漀渀挀氀椀挀欀㴀尀∀氀椀渀戀⠀琀栀椀猀⤀⸀瀀愀爀攀渀琀⠀⤀⸀爀攀洀漀瘀攀⠀⤀尀∀㸀爀攀洀漀瘀攀 琀栀椀猀 攀砀愀洀瀀氀攀㰀⼀戀甀琀琀漀渀㸀✀ ⬀ ✀㰀⼀搀椀瘀㸀✀⤀⤀㬀∀⬀ഀ਀                ∀瘀愀爀 漀㴀渀攀眀 氀椀渀戀⸀唀䤀⸀吀爀攀攀䜀爀椀搀⠀笀攀搀椀琀愀戀氀攀㨀昀愀氀猀攀Ⰰ瀀漀猀椀琀椀漀渀㨀✀爀攀氀愀琀椀瘀攀✀紀⤀㬀∀⬀ഀ਀                ∀氀椀渀戀⸀䄀樀愀砀⠀✀䄀瀀瀀⼀樀猀⼀最爀椀搀⸀樀猀✀Ⰰ✀✀Ⰰ昀甀渀挀琀椀漀渀⠀猀⤀笀瘀愀爀 栀愀猀栀㴀开⸀甀渀猀攀爀椀愀氀椀稀攀⠀猀⤀㬀漀⸀猀攀琀䠀攀愀搀攀爀⠀栀愀猀栀⸀栀攀愀搀攀爀⤀⸀猀攀琀刀漀眀猀⠀栀愀猀栀⸀爀漀眀猀⤀㬀紀Ⰰ渀甀氀氀Ⰰ渀甀氀氀Ⰰ笀愀猀礀㨀昀愀氀猀攀紀⤀⸀猀琀愀爀琀⠀⤀㬀∀⬀ഀ਀                ∀氀椀渀戀⠀椀搀⤀⸀瀀爀攀瀀攀渀搀⠀漀⤀㬀∀⬀ഀ਀                ∀开⸀愀猀礀刀甀渀⠀昀甀渀挀琀椀漀渀⠀⤀笀愀氀攀爀琀⠀漀⸀最攀琀刀漀眀戀礀刀漀眀䤀搀⠀✀爀漀眀㈀✀⤀⤀紀⤀㬀∀⬀ഀ਀                ∀紀∀ഀ਀            崀ഀ਀        紀Ⰰഀ਀        最攀琀刀漀眀一甀洀戀攀爀攀搀 㨀笀ഀ਀            ␀搀攀猀挀㨀∀␀굒⽥♦⡔䱗䶈㹒㩦䱹≓Ⰰഀ਀            ␀爀琀渀㨀∀䈀漀漀氀∀Ⰰഀ਀            ␀猀渀椀瀀瀀攀琀㨀嬀ഀ਀                ∀瘀愀爀 椀搀㴀✀氀椀渀戀⸀琀攀洀瀀⸀最爀椀搀㌀㜀✀㬀 椀昀⠀℀氀椀渀戀⸀䐀漀洀⸀戀礀䤀搀⠀椀搀⤀⤀笀琀栀椀猀⸀瀀爀攀瀀攀渀搀⠀氀椀渀戀⸀挀爀攀愀琀攀⠀✀㰀搀椀瘀 椀搀㴀✀⬀椀搀⬀✀ 猀琀礀氀攀㴀尀∀戀漀爀搀攀爀㨀猀漀氀椀搀 ㄀瀀砀㬀瀀愀搀搀椀渀最㨀㈀　瀀砀㬀瀀漀猀椀琀椀漀渀㨀爀攀氀愀琀椀瘀攀㬀眀椀搀琀栀㨀㌀　　瀀砀㬀栀攀椀最栀琀㨀㈀　　瀀砀㬀尀∀㸀✀ ⬀ ✀㰀戀甀琀琀漀渀 猀琀礀氀攀㴀尀∀瀀漀猀椀琀椀漀渀㨀愀戀猀漀氀甀琀攀㬀 戀漀琀琀漀洀㨀　瀀砀㬀 稀ⴀ椀渀搀攀砀㨀㈀㬀尀∀ 漀渀挀氀椀挀欀㴀尀∀氀椀渀戀⠀琀栀椀猀⤀⸀瀀愀爀攀渀琀⠀⤀⸀爀攀洀漀瘀攀⠀⤀尀∀㸀爀攀洀漀瘀攀 琀栀椀猀 攀砀愀洀瀀氀攀㰀⼀戀甀琀琀漀渀㸀✀ ⬀ ✀㰀⼀搀椀瘀㸀✀⤀⤀㬀∀⬀ഀ਀                ∀瘀愀爀 漀㴀渀攀眀 氀椀渀戀⸀唀䤀⸀吀爀攀攀䜀爀椀搀⠀笀攀搀椀琀愀戀氀攀㨀昀愀氀猀攀Ⰰ 瀀漀猀椀琀椀漀渀㨀✀爀攀氀愀琀椀瘀攀✀紀⤀㬀∀⬀ഀ਀                ∀氀椀渀戀⸀䄀樀愀砀⠀✀䄀瀀瀀⼀樀猀⼀最爀椀搀⸀樀猀✀Ⰰ✀✀Ⰰ昀甀渀挀琀椀漀渀⠀猀⤀笀瘀愀爀 栀愀猀栀㴀开⸀甀渀猀攀爀椀愀氀椀稀攀⠀猀⤀㬀漀⸀猀攀琀䠀攀愀搀攀爀⠀栀愀猀栀⸀栀攀愀搀攀爀⤀⸀猀攀琀刀漀眀猀⠀栀愀猀栀⸀爀漀眀猀⤀㬀紀Ⰰ渀甀氀氀Ⰰ渀甀氀氀Ⰰ笀愀猀礀㨀昀愀氀猀攀紀⤀⸀猀琀愀爀琀⠀⤀㬀∀⬀ഀ਀                ∀漀⸀猀攀琀刀漀眀一甀洀戀攀爀攀搀⠀琀爀甀攀⤀㬀 愀氀攀爀琀⠀漀⸀最攀琀刀漀眀一甀洀戀攀爀攀搀⠀⤀⤀㬀∀⬀ഀ਀                ∀氀椀渀戀⠀椀搀⤀⸀瀀爀攀瀀攀渀搀⠀漀⤀㬀∀⬀ഀ਀                ∀紀∀ഀ਀            崀ഀ਀        紀Ⰰഀ਀        猀攀琀刀漀眀一甀洀戀攀爀攀搀 㨀笀ഀ਀            ␀搀攀猀挀㨀∀븀溋⽿♦⡔䱗䶈㹒㩦䱹ⱓ 瘀㝞끒䱥扵⺗∀Ⰰഀ਀            ␀爀琀渀㨀∀嬀猀攀氀昀崀∀Ⰰഀ਀            ␀瀀愀爀愀猀㨀嬀ഀ਀                ∀瘀愀氀甀攀 嬀씀_슗灓嵥 㨀 䈀漀漀氀⸀∀Ⰰഀ਀                ∀昀氀愀最 嬀॓슐灓嵥 㨀 䈀漀漀氀Ⰰ 㨀㙟빒溋庋❜㱠౐珿罓幏❜콝빾溋㩿㲋⹐ ���꒞㪋⁎嬀昀愀氀猀攀崀⸀∀ഀ਀            崀Ⰰഀ਀            ␀猀渀椀瀀瀀攀琀㨀嬀ഀ਀                ∀瘀愀爀 椀搀㴀✀氀椀渀戀⸀琀攀洀瀀⸀最爀椀搀㌀㠀✀㬀 椀昀⠀℀氀椀渀戀⸀䐀漀洀⸀戀礀䤀搀⠀椀搀⤀⤀笀琀栀椀猀⸀瀀爀攀瀀攀渀搀⠀氀椀渀戀⸀挀爀攀愀琀攀⠀✀㰀搀椀瘀 椀搀㴀✀⬀椀搀⬀✀ 猀琀礀氀攀㴀尀∀戀漀爀搀攀爀㨀猀漀氀椀搀 ㄀瀀砀㬀瀀愀搀搀椀渀最㨀㈀　瀀砀㬀瀀漀猀椀琀椀漀渀㨀爀攀氀愀琀椀瘀攀㬀眀椀搀琀栀㨀㌀　　瀀砀㬀栀攀椀最栀琀㨀㈀　　瀀砀㬀尀∀㸀✀ ⬀ ✀㰀戀甀琀琀漀渀 猀琀礀氀攀㴀尀∀瀀漀猀椀琀椀漀渀㨀愀戀猀漀氀甀琀攀㬀 戀漀琀琀漀洀㨀　瀀砀㬀 稀ⴀ椀渀搀攀砀㨀㈀㬀尀∀ 漀渀挀氀椀挀欀㴀尀∀氀椀渀戀⠀琀栀椀猀⤀⸀瀀愀爀攀渀琀⠀⤀⸀爀攀洀漀瘀攀⠀⤀尀∀㸀爀攀洀漀瘀攀 琀栀椀猀 攀砀愀洀瀀氀攀㰀⼀戀甀琀琀漀渀㸀✀ ⬀ ✀㰀⼀搀椀瘀㸀✀⤀⤀㬀∀⬀ഀ਀                ∀瘀愀爀 漀㴀渀攀眀 氀椀渀戀⸀唀䤀⸀吀爀攀攀䜀爀椀搀⠀笀攀搀椀琀愀戀氀攀㨀昀愀氀猀攀Ⰰ瀀漀猀椀琀椀漀渀㨀✀爀攀氀愀琀椀瘀攀✀紀⤀㬀∀⬀ഀ਀                ∀氀椀渀戀⸀䄀樀愀砀⠀✀䄀瀀瀀⼀樀猀⼀最爀椀搀⸀樀猀✀Ⰰ✀✀Ⰰ昀甀渀挀琀椀漀渀⠀猀⤀笀瘀愀爀 栀愀猀栀㴀开⸀甀渀猀攀爀椀愀氀椀稀攀⠀猀⤀㬀漀⸀猀攀琀䠀攀愀搀攀爀⠀栀愀猀栀⸀栀攀愀搀攀爀⤀⸀猀攀琀刀漀眀猀⠀栀愀猀栀⸀爀漀眀猀⤀㬀紀Ⰰ渀甀氀氀Ⰰ渀甀氀氀Ⰰ笀愀猀礀㨀昀愀氀猀攀紀⤀⸀猀琀愀爀琀⠀⤀㬀∀⬀ഀ਀                ∀漀⸀猀攀琀刀漀眀一甀洀戀攀爀攀搀⠀琀爀甀攀⤀㬀 愀氀攀爀琀⠀漀⸀最攀琀刀漀眀一甀洀戀攀爀攀搀⠀⤀⤀㬀∀⬀ഀ਀                ∀氀椀渀戀⠀椀搀⤀⸀瀀爀攀瀀攀渀搀⠀漀⤀㬀∀⬀ഀ਀                ∀紀∀ഀ਀            崀ഀ਀        紀Ⰰഀ਀        最攀琀匀栀漀眀䠀攀愀搀攀爀 㨀笀ഀ਀            ␀搀攀猀挀㨀∀␀굒⽥♦㹔㩦桹㒈≙Ⰰഀ਀            ␀爀琀渀㨀∀䈀漀漀氀∀Ⰰഀ਀            ␀猀渀椀瀀瀀攀琀㨀嬀ഀ਀                ∀瘀愀爀 椀搀㴀✀氀椀渀戀⸀琀攀洀瀀⸀最爀椀搀㌀㤀✀㬀 椀昀⠀℀氀椀渀戀⸀䐀漀洀⸀戀礀䤀搀⠀椀搀⤀⤀笀琀栀椀猀⸀瀀爀攀瀀攀渀搀⠀氀椀渀戀⸀挀爀攀愀琀攀⠀✀㰀搀椀瘀 椀搀㴀✀⬀椀搀⬀✀ 猀琀礀氀攀㴀尀∀戀漀爀搀攀爀㨀猀漀氀椀搀 ㄀瀀砀㬀瀀愀搀搀椀渀最㨀㈀　瀀砀㬀瀀漀猀椀琀椀漀渀㨀爀攀氀愀琀椀瘀攀㬀眀椀搀琀栀㨀㌀　　瀀砀㬀栀攀椀最栀琀㨀㈀　　瀀砀㬀尀∀㸀✀ ⬀ ✀㰀戀甀琀琀漀渀 猀琀礀氀攀㴀尀∀瀀漀猀椀琀椀漀渀㨀愀戀猀漀氀甀琀攀㬀 戀漀琀琀漀洀㨀　瀀砀㬀 稀ⴀ椀渀搀攀砀㨀㈀㬀尀∀ 漀渀挀氀椀挀欀㴀尀∀氀椀渀戀⠀琀栀椀猀⤀⸀瀀愀爀攀渀琀⠀⤀⸀爀攀洀漀瘀攀⠀⤀尀∀㸀爀攀洀漀瘀攀 琀栀椀猀 攀砀愀洀瀀氀攀㰀⼀戀甀琀琀漀渀㸀✀ ⬀ ✀㰀⼀搀椀瘀㸀✀⤀⤀㬀∀⬀ഀ਀                ∀瘀愀爀 漀㴀渀攀眀 氀椀渀戀⸀唀䤀⸀吀爀攀攀䜀爀椀搀⠀笀攀搀椀琀愀戀氀攀㨀昀愀氀猀攀Ⰰ 瀀漀猀椀琀椀漀渀㨀✀爀攀氀愀琀椀瘀攀✀紀⤀㬀∀⬀ഀ਀                ∀氀椀渀戀⸀䄀樀愀砀⠀✀䄀瀀瀀⼀樀猀⼀最爀椀搀⸀樀猀✀Ⰰ✀✀Ⰰ昀甀渀挀琀椀漀渀⠀猀⤀笀瘀愀爀 栀愀猀栀㴀开⸀甀渀猀攀爀椀愀氀椀稀攀⠀猀⤀㬀漀⸀猀攀琀䠀攀愀搀攀爀⠀栀愀猀栀⸀栀攀愀搀攀爀⤀⸀猀攀琀刀漀眀猀⠀栀愀猀栀⸀爀漀眀猀⤀㬀紀Ⰰ渀甀氀氀Ⰰ渀甀氀氀Ⰰ笀愀猀礀㨀昀愀氀猀攀紀⤀⸀猀琀愀爀琀⠀⤀㬀∀⬀ഀ਀                ∀漀⸀猀攀琀匀栀漀眀䠀攀愀搀攀爀⠀昀愀氀猀攀⤀㬀 愀氀攀爀琀⠀漀⸀最攀琀匀栀漀眀䠀攀愀搀攀爀⠀⤀⤀㬀∀⬀ഀ਀                ∀氀椀渀戀⠀椀搀⤀⸀瀀爀攀瀀攀渀搀⠀漀⤀㬀∀⬀ഀ਀                ∀紀∀ഀ਀            崀ഀ਀        紀Ⰰഀ਀        猀攀琀匀栀漀眀䠀攀愀搀攀爀 㨀笀ഀ਀            ␀搀攀猀挀㨀∀븀溋⽿♦㹔㩦桹㒈ⱙ 瘀㝞끒䱥扵⺗∀Ⰰഀ਀            ␀爀琀渀㨀∀嬀猀攀氀昀崀∀Ⰰഀ਀            ␀瀀愀爀愀猀㨀嬀ഀ਀                ∀瘀愀氀甀攀 嬀씀_슗灓嵥 㨀 䈀漀漀氀⸀∀Ⰰഀ਀                ∀昀氀愀最 嬀॓슐灓嵥 㨀 䈀漀漀氀Ⰰ 㨀㙟빒溋庋❜㱠౐珿罓幏❜콝빾溋㩿㲋⹐ ���꒞㪋⁎嬀昀愀氀猀攀崀⸀∀ഀ਀            崀Ⰰഀ਀            ␀猀渀椀瀀瀀攀琀㨀嬀ഀ਀                ∀瘀愀爀 椀搀㴀✀氀椀渀戀⸀琀攀洀瀀⸀最爀椀搀㐀　✀㬀 椀昀⠀℀氀椀渀戀⸀䐀漀洀⸀戀礀䤀搀⠀椀搀⤀⤀笀琀栀椀猀⸀瀀爀攀瀀攀渀搀⠀氀椀渀戀⸀挀爀攀愀琀攀⠀✀㰀搀椀瘀 椀搀㴀✀⬀椀搀⬀✀ 猀琀礀氀攀㴀尀∀戀漀爀搀攀爀㨀猀漀氀椀搀 ㄀瀀砀㬀瀀愀搀搀椀渀最㨀㈀　瀀砀㬀瀀漀猀椀琀椀漀渀㨀爀攀氀愀琀椀瘀攀㬀眀椀搀琀栀㨀㌀　　瀀砀㬀栀攀椀最栀琀㨀㈀　　瀀砀㬀尀∀㸀✀ ⬀ ✀㰀戀甀琀琀漀渀 猀琀礀氀攀㴀尀∀瀀漀猀椀琀椀漀渀㨀愀戀猀漀氀甀琀攀㬀 戀漀琀琀漀洀㨀　瀀砀㬀 稀ⴀ椀渀搀攀砀㨀㈀㬀尀∀ 漀渀挀氀椀挀欀㴀尀∀氀椀渀戀⠀琀栀椀猀⤀⸀瀀愀爀攀渀琀⠀⤀⸀爀攀洀漀瘀攀⠀⤀尀∀㸀爀攀洀漀瘀攀 琀栀椀猀 攀砀愀洀瀀氀攀㰀⼀戀甀琀琀漀渀㸀✀ ⬀ ✀㰀⼀搀椀瘀㸀✀⤀⤀㬀∀⬀ഀ਀                ∀瘀愀爀 漀㴀渀攀眀 氀椀渀戀⸀唀䤀⸀吀爀攀攀䜀爀椀搀⠀笀攀搀椀琀愀戀氀攀㨀昀愀氀猀攀Ⰰ瀀漀猀椀琀椀漀渀㨀✀爀攀氀愀琀椀瘀攀✀紀⤀㬀∀⬀ഀ਀                ∀氀椀渀戀⸀䄀樀愀砀⠀✀䄀瀀瀀⼀樀猀⼀最爀椀搀⸀樀猀✀Ⰰ✀✀Ⰰ昀甀渀挀琀椀漀渀⠀猀⤀笀瘀愀爀 栀愀猀栀㴀开⸀甀渀猀攀爀椀愀氀椀稀攀⠀猀⤀㬀漀⸀猀攀琀䠀攀愀搀攀爀⠀栀愀猀栀⸀栀攀愀搀攀爀⤀⸀猀攀琀刀漀眀猀⠀栀愀猀栀⸀爀漀眀猀⤀㬀紀Ⰰ渀甀氀氀Ⰰ渀甀氀氀Ⰰ笀愀猀礀㨀昀愀氀猀攀紀⤀⸀猀琀愀爀琀⠀⤀㬀∀⬀ഀ਀                ∀漀⸀猀攀琀匀栀漀眀䠀攀愀搀攀爀⠀昀愀氀猀攀⤀㬀 愀氀攀爀琀⠀漀⸀最攀琀匀栀漀眀䠀攀愀搀攀爀⠀⤀⤀㬀∀⬀ഀ਀                ∀氀椀渀戀⠀椀搀⤀⸀瀀爀攀瀀攀渀搀⠀漀⤀㬀∀⬀ഀ਀                ∀紀∀ഀ਀            崀ഀ਀        紀Ⰰഀ਀        爀攀猀攀琀䜀爀椀搀嘀愀氀甀攀㨀笀ഀ਀            ␀搀攀猀挀㨀∀촀낑빥溋䁿ॢ啧䍓㱑葨㱶ⱐ 瘀՞摮ྖށ흨⹟∀Ⰰഀ਀            ␀爀琀渀㨀∀嬀猀攀氀昀崀∀Ⰰഀ਀            ␀猀渀椀瀀瀀攀琀㨀嬀ഀ਀                ∀瘀愀爀 椀搀㴀✀氀椀渀戀⸀琀攀洀瀀⸀最爀椀搀㐀㄀✀㬀 椀昀⠀℀氀椀渀戀⸀䐀漀洀⸀戀礀䤀搀⠀椀搀⤀⤀笀琀栀椀猀⸀瀀爀攀瀀攀渀搀⠀氀椀渀戀⸀挀爀攀愀琀攀⠀✀㰀搀椀瘀 椀搀㴀✀⬀椀搀⬀✀ 猀琀礀氀攀㴀尀∀戀漀爀搀攀爀㨀猀漀氀椀搀 ㄀瀀砀㬀瀀愀搀搀椀渀最㨀㈀　瀀砀㬀瀀漀猀椀琀椀漀渀㨀爀攀氀愀琀椀瘀攀㬀眀椀搀琀栀㨀㌀　　瀀砀㬀栀攀椀最栀琀㨀㈀　　瀀砀㬀尀∀㸀✀ ⬀ ✀㰀戀甀琀琀漀渀 猀琀礀氀攀㴀尀∀瀀漀猀椀琀椀漀渀㨀愀戀猀漀氀甀琀攀㬀 戀漀琀琀漀洀㨀　瀀砀㬀 稀ⴀ椀渀搀攀砀㨀㈀㬀尀∀ 漀渀挀氀椀挀欀㴀尀∀氀椀渀戀⠀琀栀椀猀⤀⸀瀀愀爀攀渀琀⠀⤀⸀爀攀洀漀瘀攀⠀⤀尀∀㸀爀攀洀漀瘀攀 琀栀椀猀 攀砀愀洀瀀氀攀㰀⼀戀甀琀琀漀渀㸀✀ ⬀ ✀㰀⼀搀椀瘀㸀✀⤀⤀㬀∀⬀ഀ਀                ∀瘀愀爀 漀㴀渀攀眀 氀椀渀戀⸀唀䤀⸀吀爀攀攀䜀爀椀搀⠀笀攀搀椀琀愀戀氀攀㨀昀愀氀猀攀Ⰰ瀀漀猀椀琀椀漀渀㨀✀爀攀氀愀琀椀瘀攀✀紀⤀㬀∀⬀ഀ਀                ∀氀椀渀戀⸀䄀樀愀砀⠀✀䄀瀀瀀⼀樀猀⼀最爀椀搀⸀樀猀✀Ⰰ✀✀Ⰰ昀甀渀挀琀椀漀渀⠀猀⤀笀瘀愀爀 栀愀猀栀㴀开⸀甀渀猀攀爀椀愀氀椀稀攀⠀猀⤀㬀漀⸀猀攀琀䠀攀愀搀攀爀⠀栀愀猀栀⸀栀攀愀搀攀爀⤀⸀猀攀琀刀漀眀猀⠀栀愀猀栀⸀爀漀眀猀⤀㬀紀Ⰰ渀甀氀氀Ⰰ渀甀氀氀Ⰰ笀愀猀礀㨀昀愀氀猀攀紀⤀⸀猀琀愀爀琀⠀⤀㬀∀⬀ഀ਀                ∀氀椀渀戀⠀椀搀⤀⸀瀀爀攀瀀攀渀搀⠀漀⤀㬀∀⬀ഀ਀                ∀漀⸀甀瀀搀愀琀攀䌀攀氀氀䈀礀刀漀眀䌀漀氀⠀✀爀漀眀㄀✀Ⰰ✀挀漀氀㄀✀Ⰰ笀瘀愀氀甀攀㨀✀愀✀紀⤀⸀甀瀀搀愀琀攀䌀攀氀氀䈀礀刀漀眀䌀漀氀⠀✀爀漀眀㄀✀Ⰰ✀挀漀氀㈀✀Ⰰ笀瘀愀氀甀攀㨀㔀紀⤀⸀甀瀀搀愀琀攀䌀攀氀氀䈀礀刀漀眀䌀漀氀⠀✀爀漀眀㈀✀Ⰰ✀挀漀氀㈀✀Ⰰ笀瘀愀氀甀攀㨀㠀紀⤀㬀∀⬀ഀ਀                ∀开⸀愀猀礀刀甀渀⠀昀甀渀挀琀椀漀渀⠀⤀笀漀⸀爀攀猀攀琀䜀爀椀搀嘀愀氀甀攀⠀⤀紀Ⰰ㄀　　　⤀㬀∀⬀ഀ਀                ∀紀∀ഀ਀            崀ഀ਀        紀Ⰰഀ਀        猀栀漀眀䌀漀氀甀洀渀 㨀笀ഀ਀            ␀搀攀猀挀㨀∀㸀㩦ᙹ遢쾖ޅ驣葛᝶⹒∀Ⰰഀ਀            ␀爀琀渀㨀∀嬀猀攀氀昀崀∀Ⰰഀ਀            ␀瀀愀爀愀猀㨀嬀ഀ਀                ∀挀漀氀䤀搀 嬀씀_슗灓嵥 㨀 匀琀爀椀渀最⸀ ᜀ楒搀⸀∀Ⰰഀ਀                ∀昀氀愀最 嬀॓슐灓嵥 㨀 䈀漀漀氀⸀ 吀爀甀攀㨀㹎㩦౹替愀氀猀攀㨀過쾖⺅ ���꒞㪋⁎琀爀甀攀⸀∀ഀ਀            崀Ⰰഀ਀            ␀猀渀椀瀀瀀攀琀㨀嬀ഀ਀                ∀瘀愀爀 椀搀㴀✀氀椀渀戀⸀琀攀洀瀀⸀最爀椀搀㐀㈀✀㬀 椀昀⠀℀氀椀渀戀⸀䐀漀洀⸀戀礀䤀搀⠀椀搀⤀⤀笀琀栀椀猀⸀瀀爀攀瀀攀渀搀⠀氀椀渀戀⸀挀爀攀愀琀攀⠀✀㰀搀椀瘀 椀搀㴀✀⬀椀搀⬀✀ 猀琀礀氀攀㴀尀∀戀漀爀搀攀爀㨀猀漀氀椀搀 ㄀瀀砀㬀瀀愀搀搀椀渀最㨀㈀　瀀砀㬀瀀漀猀椀琀椀漀渀㨀爀攀氀愀琀椀瘀攀㬀眀椀搀琀栀㨀㌀　　瀀砀㬀栀攀椀最栀琀㨀㈀　　瀀砀㬀尀∀㸀✀ ⬀ ✀㰀戀甀琀琀漀渀 猀琀礀氀攀㴀尀∀瀀漀猀椀琀椀漀渀㨀愀戀猀漀氀甀琀攀㬀 戀漀琀琀漀洀㨀　瀀砀㬀 稀ⴀ椀渀搀攀砀㨀㈀㬀尀∀ 漀渀挀氀椀挀欀㴀尀∀氀椀渀戀⠀琀栀椀猀⤀⸀瀀愀爀攀渀琀⠀⤀⸀爀攀洀漀瘀攀⠀⤀尀∀㸀爀攀洀漀瘀攀 琀栀椀猀 攀砀愀洀瀀氀攀㰀⼀戀甀琀琀漀渀㸀✀ ⬀ ✀㰀⼀搀椀瘀㸀✀⤀⤀㬀∀⬀ഀ਀                ∀瘀愀爀 漀㴀渀攀眀 氀椀渀戀⸀唀䤀⸀吀爀攀攀䜀爀椀搀⠀笀攀搀椀琀愀戀氀攀㨀昀愀氀猀攀Ⰰ瀀漀猀椀琀椀漀渀㨀✀爀攀氀愀琀椀瘀攀✀紀⤀㬀∀⬀ഀ਀                ∀氀椀渀戀⸀䄀樀愀砀⠀✀䄀瀀瀀⼀樀猀⼀最爀椀搀⸀樀猀✀Ⰰ✀✀Ⰰ昀甀渀挀琀椀漀渀⠀猀⤀笀瘀愀爀 栀愀猀栀㴀开⸀甀渀猀攀爀椀愀氀椀稀攀⠀猀⤀㬀漀⸀猀攀琀䠀攀愀搀攀爀⠀栀愀猀栀⸀栀攀愀搀攀爀⤀⸀猀攀琀刀漀眀猀⠀栀愀猀栀⸀爀漀眀猀⤀㬀紀Ⰰ渀甀氀氀Ⰰ渀甀氀氀Ⰰ笀愀猀礀㨀昀愀氀猀攀紀⤀⸀猀琀愀爀琀⠀⤀㬀∀⬀ഀ਀                ∀氀椀渀戀⠀椀搀⤀⸀瀀爀攀瀀攀渀搀⠀漀⤀㬀∀⬀ഀ਀                ∀开⸀愀猀礀刀甀渀⠀昀甀渀挀琀椀漀渀⠀⤀笀漀⸀猀栀漀眀䌀漀氀甀洀渀⠀✀挀漀氀㄀✀Ⰰ昀愀氀猀攀⤀紀Ⰰ㄀　　　⤀㬀∀⬀ഀ਀                ∀开⸀愀猀礀刀甀渀⠀昀甀渀挀琀椀漀渀⠀⤀笀漀⸀猀栀漀眀䌀漀氀甀洀渀⠀✀挀漀氀㄀✀⤀紀Ⰰ㈀　　　⤀㬀∀⬀ഀ਀                ∀紀∀ഀ਀            崀ഀ਀        紀Ⰰഀ਀        爀攀洀漀瘀攀䄀氀氀刀漀眀猀㨀笀ഀ਀            ␀搀攀猀挀㨀∀묀摓䂖ॢ䱧⺈∀Ⰰഀ਀            ␀爀琀渀㨀∀嬀猀攀氀昀崀∀Ⰰഀ਀            ␀猀渀椀瀀瀀攀琀㨀嬀ഀ਀                ∀瘀愀爀 椀搀㴀✀氀椀渀戀⸀琀攀洀瀀⸀最爀椀搀㐀㌀✀㬀 椀昀⠀℀氀椀渀戀⸀䐀漀洀⸀戀礀䤀搀⠀椀搀⤀⤀笀琀栀椀猀⸀瀀爀攀瀀攀渀搀⠀氀椀渀戀⸀挀爀攀愀琀攀⠀✀㰀搀椀瘀 椀搀㴀✀⬀椀搀⬀✀ 猀琀礀氀攀㴀尀∀戀漀爀搀攀爀㨀猀漀氀椀搀 ㄀瀀砀㬀瀀愀搀搀椀渀最㨀㈀　瀀砀㬀瀀漀猀椀琀椀漀渀㨀爀攀氀愀琀椀瘀攀㬀眀椀搀琀栀㨀㌀　　瀀砀㬀栀攀椀最栀琀㨀㈀　　瀀砀㬀尀∀㸀✀ ⬀ ✀㰀戀甀琀琀漀渀 猀琀礀氀攀㴀尀∀瀀漀猀椀琀椀漀渀㨀愀戀猀漀氀甀琀攀㬀 戀漀琀琀漀洀㨀　瀀砀㬀 稀ⴀ椀渀搀攀砀㨀㈀㬀尀∀ 漀渀挀氀椀挀欀㴀尀∀氀椀渀戀⠀琀栀椀猀⤀⸀瀀愀爀攀渀琀⠀⤀⸀爀攀洀漀瘀攀⠀⤀尀∀㸀爀攀洀漀瘀攀 琀栀椀猀 攀砀愀洀瀀氀攀㰀⼀戀甀琀琀漀渀㸀✀ ⬀ ✀㰀⼀搀椀瘀㸀✀⤀⤀㬀∀⬀ഀ਀                ∀瘀愀爀 漀㴀渀攀眀 氀椀渀戀⸀唀䤀⸀吀爀攀攀䜀爀椀搀⠀笀攀搀椀琀愀戀氀攀㨀昀愀氀猀攀Ⰰ瀀漀猀椀琀椀漀渀㨀✀爀攀氀愀琀椀瘀攀✀紀⤀㬀∀⬀ഀ਀                ∀氀椀渀戀⸀䄀樀愀砀⠀✀䄀瀀瀀⼀樀猀⼀最爀椀搀⸀樀猀✀Ⰰ✀✀Ⰰ昀甀渀挀琀椀漀渀⠀猀⤀笀瘀愀爀 栀愀猀栀㴀开⸀甀渀猀攀爀椀愀氀椀稀攀⠀猀⤀㬀漀⸀猀攀琀䠀攀愀搀攀爀⠀栀愀猀栀⸀栀攀愀搀攀爀⤀⸀猀攀琀刀漀眀猀⠀栀愀猀栀⸀爀漀眀猀⤀㬀紀Ⰰ渀甀氀氀Ⰰ渀甀氀氀Ⰰ笀愀猀礀㨀昀愀氀猀攀紀⤀⸀猀琀愀爀琀⠀⤀㬀∀⬀ഀ਀                ∀氀椀渀戀⠀椀搀⤀⸀瀀爀攀瀀攀渀搀⠀漀⤀㬀∀⬀ഀ਀                ∀开⸀愀猀礀刀甀渀⠀昀甀渀挀琀椀漀渀⠀⤀笀漀⸀爀攀洀漀瘀攀䄀氀氀刀漀眀猀⠀⤀紀Ⰰ㄀　　　⤀㬀∀⬀ഀ਀                ∀紀∀ഀ਀            崀ഀ਀        紀Ⰰഀ਀        爀攀洀漀瘀攀刀漀眀猀㨀笀ഀ਀            ␀搀攀猀挀㨀∀묀摓ޖ驣䱛⺈∀Ⰰഀ਀            ␀爀琀渀㨀∀嬀猀攀氀昀崀∀Ⰰഀ਀            ␀瀀愀爀愀猀㨀嬀ഀ਀                ∀椀搀猀 嬀씀_슗灓嵥 㨀 匀琀爀椀渀最Ⰰ 䰀榈搀瀀쑥⹾∀ഀ਀            崀Ⰰഀ਀            ␀猀渀椀瀀瀀攀琀㨀嬀ഀ਀                ∀瘀愀爀 椀搀㴀✀氀椀渀戀⸀琀攀洀瀀⸀最爀椀搀㐀㐀✀㬀 椀昀⠀℀氀椀渀戀⸀䐀漀洀⸀戀礀䤀搀⠀椀搀⤀⤀笀琀栀椀猀⸀瀀爀攀瀀攀渀搀⠀氀椀渀戀⸀挀爀攀愀琀攀⠀✀㰀搀椀瘀 椀搀㴀✀⬀椀搀⬀✀ 猀琀礀氀攀㴀尀∀戀漀爀搀攀爀㨀猀漀氀椀搀 ㄀瀀砀㬀瀀愀搀搀椀渀最㨀㈀　瀀砀㬀瀀漀猀椀琀椀漀渀㨀爀攀氀愀琀椀瘀攀㬀眀椀搀琀栀㨀㌀　　瀀砀㬀栀攀椀最栀琀㨀㈀　　瀀砀㬀尀∀㸀✀ ⬀ ✀㰀戀甀琀琀漀渀 猀琀礀氀攀㴀尀∀瀀漀猀椀琀椀漀渀㨀愀戀猀漀氀甀琀攀㬀 戀漀琀琀漀洀㨀　瀀砀㬀 稀ⴀ椀渀搀攀砀㨀㈀㬀尀∀ 漀渀挀氀椀挀欀㴀尀∀氀椀渀戀⠀琀栀椀猀⤀⸀瀀愀爀攀渀琀⠀⤀⸀爀攀洀漀瘀攀⠀⤀尀∀㸀爀攀洀漀瘀攀 琀栀椀猀 攀砀愀洀瀀氀攀㰀⼀戀甀琀琀漀渀㸀✀ ⬀ ✀㰀⼀搀椀瘀㸀✀⤀⤀㬀∀⬀ഀ਀                ∀瘀愀爀 漀㴀渀攀眀 氀椀渀戀⸀唀䤀⸀吀爀攀攀䜀爀椀搀⠀笀攀搀椀琀愀戀氀攀㨀昀愀氀猀攀Ⰰ瀀漀猀椀琀椀漀渀㨀✀爀攀氀愀琀椀瘀攀✀紀⤀㬀∀⬀ഀ਀                ∀氀椀渀戀⸀䄀樀愀砀⠀✀䄀瀀瀀⼀樀猀⼀最爀椀搀⸀樀猀✀Ⰰ✀✀Ⰰ昀甀渀挀琀椀漀渀⠀猀⤀笀瘀愀爀 栀愀猀栀㴀开⸀甀渀猀攀爀椀愀氀椀稀攀⠀猀⤀㬀漀⸀猀攀琀䠀攀愀搀攀爀⠀栀愀猀栀⸀栀攀愀搀攀爀⤀⸀猀攀琀刀漀眀猀⠀栀愀猀栀⸀爀漀眀猀⤀㬀紀Ⰰ渀甀氀氀Ⰰ渀甀氀氀Ⰰ笀愀猀礀㨀昀愀氀猀攀紀⤀⸀猀琀愀爀琀⠀⤀㬀∀⬀ഀ਀                ∀氀椀渀戀⠀椀搀⤀⸀瀀爀攀瀀攀渀搀⠀漀⤀㬀∀⬀ഀ਀                ∀开⸀愀猀礀刀甀渀⠀昀甀渀挀琀椀漀渀⠀⤀笀漀⸀爀攀洀漀瘀攀刀漀眀猀⠀嬀✀爀漀眀㄀✀Ⰰ✀爀漀眀㈀✀崀⤀紀Ⰰ㄀　　　⤀㬀∀ ⬀ഀ਀                ∀紀∀ഀ਀            崀ഀ਀        紀Ⰰഀ਀ഀ਀        戀攀昀漀爀攀䌀攀氀氀䄀挀琀椀瘀攀㨀笀ഀ਀            ␀搀攀猀挀㨀∀⠀啗䍓㱑쁨㭯䵭ꭒΈ⢌⹵ 퐀���晖愀氀猀攀؀㭜抖啫䍓㱑ꭨ삈㭯⹭∀Ⰰഀ਀            ␀瀀愀爀愀猀㨀嬀ഀ਀                ∀瀀爀漀昀椀氀攀 㨀 氀椀渀戀⸀唀䤀倀爀漀昀椀氀攀豈慛⺌∀Ⰰഀ਀                ∀挀攀氀氀 㨀 唀䍓㱑泌慛⺌∀ഀ਀            崀Ⰰഀ਀            ␀猀渀椀瀀瀀攀琀㨀嬀ഀ਀                ∀瘀愀爀 椀搀㴀✀氀椀渀戀⸀琀攀洀瀀⸀最爀椀搀㔀　✀㬀 椀昀⠀℀氀椀渀戀⸀䐀漀洀⸀戀礀䤀搀⠀椀搀⤀⤀笀琀栀椀猀⸀瀀爀攀瀀攀渀搀⠀氀椀渀戀⸀挀爀攀愀琀攀⠀✀㰀搀椀瘀 椀搀㴀✀⬀椀搀⬀✀ 猀琀礀氀攀㴀尀∀戀漀爀搀攀爀㨀猀漀氀椀搀 ㄀瀀砀㬀瀀愀搀搀椀渀最㨀㈀　瀀砀㬀瀀漀猀椀琀椀漀渀㨀爀攀氀愀琀椀瘀攀㬀眀椀搀琀栀㨀㌀　　瀀砀㬀栀攀椀最栀琀㨀㈀　　瀀砀㬀尀∀㸀✀ ⬀ ✀㰀戀甀琀琀漀渀 猀琀礀氀攀㴀尀∀瀀漀猀椀琀椀漀渀㨀愀戀猀漀氀甀琀攀㬀 戀漀琀琀漀洀㨀　瀀砀㬀 稀ⴀ椀渀搀攀砀㨀㈀㬀尀∀ 漀渀挀氀椀挀欀㴀尀∀氀椀渀戀⠀琀栀椀猀⤀⸀瀀愀爀攀渀琀⠀⤀⸀爀攀洀漀瘀攀⠀⤀尀∀㸀爀攀洀漀瘀攀 琀栀椀猀 攀砀愀洀瀀氀攀㰀⼀戀甀琀琀漀渀㸀✀ ⬀ ✀㰀⼀搀椀瘀㸀✀⤀⤀㬀∀⬀ഀ਀                ∀瘀愀爀 漀㴀渀攀眀 氀椀渀戀⸀唀䤀⸀吀爀攀攀䜀爀椀搀⠀笀攀搀椀琀愀戀氀攀㨀昀愀氀猀攀Ⰰ瀀漀猀椀琀椀漀渀㨀✀爀攀氀愀琀椀瘀攀✀紀⤀㬀∀⬀ഀ਀                ∀氀椀渀戀⸀䄀樀愀砀⠀✀䄀瀀瀀⼀樀猀⼀最爀椀搀⸀樀猀✀Ⰰ✀✀Ⰰ昀甀渀挀琀椀漀渀⠀猀⤀笀瘀愀爀 栀愀猀栀㴀开⸀甀渀猀攀爀椀愀氀椀稀攀⠀猀⤀㬀漀⸀猀攀琀䠀攀愀搀攀爀⠀栀愀猀栀⸀栀攀愀搀攀爀⤀⸀猀攀琀刀漀眀猀⠀栀愀猀栀⸀爀漀眀猀⤀㬀紀Ⰰ渀甀氀氀Ⰰ渀甀氀氀Ⰰ笀愀猀礀㨀昀愀氀猀攀紀⤀⸀猀琀愀爀琀⠀⤀㬀∀⬀ഀ਀                ∀漀⸀猀攀琀䄀挀琀椀瘀攀䴀漀搀攀⠀✀挀攀氀氀✀⤀㬀∀⬀ഀ਀                ∀氀椀渀戀⠀椀搀⤀⸀瀀爀攀瀀攀渀搀⠀漀⤀㬀∀⬀ഀ਀                ∀漀⸀戀攀昀漀爀攀䌀攀氀氀䄀挀琀椀瘀攀⠀昀甀渀挀琀椀漀渀⠀瀀Ⰰ挀⤀笀爀攀琀甀爀渀 昀愀氀猀攀㬀紀⤀㬀∀ ⬀ഀ਀                ∀紀∀ഀ਀            崀ഀ਀        紀Ⰰഀ਀        戀攀昀漀爀攀刀漀眀䄀挀琀椀瘀攀㨀笀ഀ਀            ␀搀攀猀挀㨀∀⠀䱗삈㭯䵭ꭒΈ⢌⹵ 퐀���晖愀氀猀攀؀㭜抖䱫ꮈ삈㭯⹭∀Ⰰഀ਀            ␀瀀愀爀愀猀㨀嬀ഀ਀                ∀瀀爀漀昀椀氀攀 㨀 氀椀渀戀⸀唀䤀倀爀漀昀椀氀攀 豈慛⺌∀Ⰰഀ਀                ∀爀漀眀 㨀 䰀麗慛⺌∀ഀ਀            崀Ⰰഀ਀            ␀猀渀椀瀀瀀攀琀㨀嬀ഀ਀                ∀瘀愀爀 椀搀㴀✀氀椀渀戀⸀琀攀洀瀀⸀最爀椀搀㔀㄀✀㬀 椀昀⠀℀氀椀渀戀⸀䐀漀洀⸀戀礀䤀搀⠀椀搀⤀⤀笀琀栀椀猀⸀瀀爀攀瀀攀渀搀⠀氀椀渀戀⸀挀爀攀愀琀攀⠀✀㰀搀椀瘀 椀搀㴀✀⬀椀搀⬀✀ 猀琀礀氀攀㴀尀∀戀漀爀搀攀爀㨀猀漀氀椀搀 ㄀瀀砀㬀瀀愀搀搀椀渀最㨀㈀　瀀砀㬀瀀漀猀椀琀椀漀渀㨀爀攀氀愀琀椀瘀攀㬀眀椀搀琀栀㨀㌀　　瀀砀㬀栀攀椀最栀琀㨀㈀　　瀀砀㬀尀∀㸀✀ ⬀ ✀㰀戀甀琀琀漀渀 猀琀礀氀攀㴀尀∀瀀漀猀椀琀椀漀渀㨀愀戀猀漀氀甀琀攀㬀 戀漀琀琀漀洀㨀　瀀砀㬀 稀ⴀ椀渀搀攀砀㨀㈀㬀尀∀ 漀渀挀氀椀挀欀㴀尀∀氀椀渀戀⠀琀栀椀猀⤀⸀瀀愀爀攀渀琀⠀⤀⸀爀攀洀漀瘀攀⠀⤀尀∀㸀爀攀洀漀瘀攀 琀栀椀猀 攀砀愀洀瀀氀攀㰀⼀戀甀琀琀漀渀㸀✀ ⬀ ✀㰀⼀搀椀瘀㸀✀⤀⤀㬀∀⬀ഀ਀                ∀瘀愀爀 漀㴀渀攀眀 氀椀渀戀⸀唀䤀⸀吀爀攀攀䜀爀椀搀⠀笀攀搀椀琀愀戀氀攀㨀昀愀氀猀攀Ⰰ瀀漀猀椀琀椀漀渀㨀✀爀攀氀愀琀椀瘀攀✀紀⤀㬀∀⬀ഀ਀                ∀氀椀渀戀⸀䄀樀愀砀⠀✀䄀瀀瀀⼀樀猀⼀最爀椀搀⸀樀猀✀Ⰰ✀✀Ⰰ昀甀渀挀琀椀漀渀⠀猀⤀笀瘀愀爀 栀愀猀栀㴀开⸀甀渀猀攀爀椀愀氀椀稀攀⠀猀⤀㬀漀⸀猀攀琀䠀攀愀搀攀爀⠀栀愀猀栀⸀栀攀愀搀攀爀⤀⸀猀攀琀刀漀眀猀⠀栀愀猀栀⸀爀漀眀猀⤀㬀紀Ⰰ渀甀氀氀Ⰰ渀甀氀氀Ⰰ笀愀猀礀㨀昀愀氀猀攀紀⤀⸀猀琀愀爀琀⠀⤀㬀∀⬀ഀ਀                ∀漀⸀猀攀琀䄀挀琀椀瘀攀䴀漀搀攀⠀✀爀漀眀✀⤀㬀∀⬀ഀ਀                ∀氀椀渀戀⠀椀搀⤀⸀瀀爀攀瀀攀渀搀⠀漀⤀㬀∀⬀ഀ਀                ∀漀⸀戀攀昀漀爀攀刀漀眀䄀挀琀椀瘀攀⠀昀甀渀挀琀椀漀渀⠀瀀Ⰰ挀⤀笀爀攀琀甀爀渀 昀愀氀猀攀㬀紀⤀㬀∀ ⬀ഀ਀                ∀紀∀ഀ਀            崀ഀ਀        紀Ⰰഀ਀        愀昀琀攀爀䌀攀氀氀䄀挀琀椀瘀攀㨀笀ഀ਀            ␀搀攀猀挀㨀∀⠀啗䍓㱑쁨㭯๭ꭔΈ⢌⹵∀Ⰰഀ਀            ␀瀀愀爀愀猀㨀嬀ഀ਀                ∀瀀爀漀昀椀氀攀 㨀 氀椀渀戀⸀唀䤀倀爀漀昀椀氀攀 漀戀樀攀挀琀⸀∀Ⰰഀ਀                ∀挀攀氀氀 㨀 唀䍓㱑泌慛⺌∀ഀ਀            崀Ⰰഀ਀            ␀猀渀椀瀀瀀攀琀㨀嬀ഀ਀                ∀瘀愀爀 椀搀㴀✀氀椀渀戀⸀琀攀洀瀀⸀最爀椀搀㔀㈀✀㬀 椀昀⠀℀氀椀渀戀⸀䐀漀洀⸀戀礀䤀搀⠀椀搀⤀⤀笀琀栀椀猀⸀瀀爀攀瀀攀渀搀⠀氀椀渀戀⸀挀爀攀愀琀攀⠀✀㰀搀椀瘀 椀搀㴀✀⬀椀搀⬀✀ 猀琀礀氀攀㴀尀∀戀漀爀搀攀爀㨀猀漀氀椀搀 ㄀瀀砀㬀瀀愀搀搀椀渀最㨀㈀　瀀砀㬀瀀漀猀椀琀椀漀渀㨀爀攀氀愀琀椀瘀攀㬀眀椀搀琀栀㨀㌀　　瀀砀㬀栀攀椀最栀琀㨀㈀　　瀀砀㬀尀∀㸀✀ ⬀ ✀㰀戀甀琀琀漀渀 猀琀礀氀攀㴀尀∀瀀漀猀椀琀椀漀渀㨀愀戀猀漀氀甀琀攀㬀 戀漀琀琀漀洀㨀　瀀砀㬀 稀ⴀ椀渀搀攀砀㨀㈀㬀尀∀ 漀渀挀氀椀挀欀㴀尀∀氀椀渀戀⠀琀栀椀猀⤀⸀瀀愀爀攀渀琀⠀⤀⸀爀攀洀漀瘀攀⠀⤀尀∀㸀爀攀洀漀瘀攀 琀栀椀猀 攀砀愀洀瀀氀攀㰀⼀戀甀琀琀漀渀㸀✀ ⬀ ✀㰀⼀搀椀瘀㸀✀⤀⤀㬀∀⬀ഀ਀                ∀瘀愀爀 漀㴀渀攀眀 氀椀渀戀⸀唀䤀⸀吀爀攀攀䜀爀椀搀⠀笀攀搀椀琀愀戀氀攀㨀昀愀氀猀攀Ⰰ瀀漀猀椀琀椀漀渀㨀✀爀攀氀愀琀椀瘀攀✀紀⤀㬀∀⬀ഀ਀                ∀氀椀渀戀⸀䄀樀愀砀⠀✀䄀瀀瀀⼀樀猀⼀最爀椀搀⸀樀猀✀Ⰰ✀✀Ⰰ昀甀渀挀琀椀漀渀⠀猀⤀笀瘀愀爀 栀愀猀栀㴀开⸀甀渀猀攀爀椀愀氀椀稀攀⠀猀⤀㬀漀⸀猀攀琀䠀攀愀搀攀爀⠀栀愀猀栀⸀栀攀愀搀攀爀⤀⸀猀攀琀刀漀眀猀⠀栀愀猀栀⸀爀漀眀猀⤀㬀紀Ⰰ渀甀氀氀Ⰰ渀甀氀氀Ⰰ笀愀猀礀㨀昀愀氀猀攀紀⤀⸀猀琀愀爀琀⠀⤀㬀∀⬀ഀ਀                ∀漀⸀猀攀琀䄀挀琀椀瘀攀䴀漀搀攀⠀✀挀攀氀氀✀⤀㬀∀⬀ഀ਀                ∀氀椀渀戀⠀椀搀⤀⸀瀀爀攀瀀攀渀搀⠀漀⤀㬀∀⬀ഀ਀                ∀漀⸀愀昀琀攀爀䌀攀氀氀䄀挀琀椀瘀攀⠀昀甀渀挀琀椀漀渀⠀瀀Ⰰ挀⤀笀氀椀渀戀⸀洀攀猀猀愀最攀⠀挀⸀瘀愀氀甀攀⤀㬀紀⤀㬀∀ ⬀ഀ਀                ∀紀∀ഀ਀            崀ഀ਀        紀Ⰰഀ਀        愀昀琀攀爀刀漀眀䄀挀琀椀瘀攀㨀笀ഀ਀            ␀搀攀猀挀㨀∀⠀䱗ꮈ삈㭯๭ꭔΈ⢌⹵∀Ⰰഀ਀            ␀瀀愀爀愀猀㨀嬀ഀ਀                ∀瀀爀漀昀椀氀攀 㨀 氀椀渀戀⸀唀䤀倀爀漀昀椀氀攀 豈慛⺌∀Ⰰഀ਀                ∀爀漀眀 㨀 䰀麗慛⺌∀ഀ਀            崀Ⰰഀ਀            ␀猀渀椀瀀瀀攀琀㨀嬀ഀ਀                ∀瘀愀爀 椀搀㴀✀氀椀渀戀⸀琀攀洀瀀⸀最爀椀搀㔀㌀✀㬀 椀昀⠀℀氀椀渀戀⸀䐀漀洀⸀戀礀䤀搀⠀椀搀⤀⤀笀琀栀椀猀⸀瀀爀攀瀀攀渀搀⠀氀椀渀戀⸀挀爀攀愀琀攀⠀✀㰀搀椀瘀 椀搀㴀✀⬀椀搀⬀✀ 猀琀礀氀攀㴀尀∀戀漀爀搀攀爀㨀猀漀氀椀搀 ㄀瀀砀㬀瀀愀搀搀椀渀最㨀㈀　瀀砀㬀瀀漀猀椀琀椀漀渀㨀爀攀氀愀琀椀瘀攀㬀眀椀搀琀栀㨀㌀　　瀀砀㬀栀攀椀最栀琀㨀㈀　　瀀砀㬀尀∀㸀✀ ⬀ ✀㰀戀甀琀琀漀渀 猀琀礀氀攀㴀尀∀瀀漀猀椀琀椀漀渀㨀愀戀猀漀氀甀琀攀㬀 戀漀琀琀漀洀㨀　瀀砀㬀 稀ⴀ椀渀搀攀砀㨀㈀㬀尀∀ 漀渀挀氀椀挀欀㴀尀∀氀椀渀戀⠀琀栀椀猀⤀⸀瀀愀爀攀渀琀⠀⤀⸀爀攀洀漀瘀攀⠀⤀尀∀㸀爀攀洀漀瘀攀 琀栀椀猀 攀砀愀洀瀀氀攀㰀⼀戀甀琀琀漀渀㸀✀ ⬀ ✀㰀⼀搀椀瘀㸀✀⤀⤀㬀∀⬀ഀ਀                ∀瘀愀爀 漀㴀渀攀眀 氀椀渀戀⸀唀䤀⸀吀爀攀攀䜀爀椀搀⠀笀攀搀椀琀愀戀氀攀㨀昀愀氀猀攀Ⰰ瀀漀猀椀琀椀漀渀㨀✀爀攀氀愀琀椀瘀攀✀紀⤀㬀∀⬀ഀ਀                ∀氀椀渀戀⸀䄀樀愀砀⠀✀䄀瀀瀀⼀樀猀⼀最爀椀搀⸀樀猀✀Ⰰ✀✀Ⰰ昀甀渀挀琀椀漀渀⠀猀⤀笀瘀愀爀 栀愀猀栀㴀开⸀甀渀猀攀爀椀愀氀椀稀攀⠀猀⤀㬀漀⸀猀攀琀䠀攀愀搀攀爀⠀栀愀猀栀⸀栀攀愀搀攀爀⤀⸀猀攀琀刀漀眀猀⠀栀愀猀栀⸀爀漀眀猀⤀㬀紀Ⰰ渀甀氀氀Ⰰ渀甀氀氀Ⰰ笀愀猀礀㨀昀愀氀猀攀紀⤀⸀猀琀愀爀琀⠀⤀㬀∀⬀ഀ਀                ∀漀⸀猀攀琀䄀挀琀椀瘀攀䴀漀搀攀⠀✀爀漀眀✀⤀㬀∀⬀ഀ਀                ∀氀椀渀戀⠀椀搀⤀⸀瀀爀攀瀀攀渀搀⠀漀⤀㬀∀⬀ഀ਀                ∀漀⸀愀昀琀攀爀刀漀眀䄀挀琀椀瘀攀⠀昀甀渀挀琀椀漀渀⠀瀀Ⰰ挀⤀笀氀椀渀戀⸀洀攀猀猀愀最攀⠀挀⸀椀搀⤀㬀紀⤀㬀∀ ⬀ഀ਀                ∀紀∀ഀ਀            崀ഀ਀        紀Ⰰഀ਀        戀攀昀漀爀攀䌀漀氀䴀漀瘀攀搀㨀笀ഀ਀            ␀搀攀猀挀㨀∀⠀졗⡺㝵㥢���ᝓ䵒湏䵿ꭒΈ⢌⹵ 퐀���晖愀氀猀攀؀㭜抖ᝫ䵒湏ꭿ㦈���⹓∀Ⰰഀ਀            ␀瀀愀爀愀猀㨀嬀ഀ਀                ∀瀀爀漀昀椀氀攀 㨀 氀椀渀戀⸀唀䤀倀爀漀昀椀氀攀 豈慛⺌∀Ⰰഀ਀                ∀挀漀氀䤀搀 㨀 ꬀ﮈ꡹葒᝶楒搀⸀∀Ⰰഀ਀                ∀琀漀䤀搀 㨀 切왗ᝑ楒搀ఀﯿ꡹葒᝶ْ㹜⡥ឋ䭒䵎⹒∀ഀ਀            崀Ⰰഀ਀            ␀猀渀椀瀀瀀攀琀㨀嬀ഀ਀                ∀瘀愀爀 椀搀㴀✀氀椀渀戀⸀琀攀洀瀀⸀最爀椀搀㔀㐀✀㬀 椀昀⠀℀氀椀渀戀⸀䐀漀洀⸀戀礀䤀搀⠀椀搀⤀⤀笀琀栀椀猀⸀瀀爀攀瀀攀渀搀⠀氀椀渀戀⸀挀爀攀愀琀攀⠀✀㰀搀椀瘀 椀搀㴀✀⬀椀搀⬀✀ 猀琀礀氀攀㴀尀∀戀漀爀搀攀爀㨀猀漀氀椀搀 ㄀瀀砀㬀瀀愀搀搀椀渀最㨀㈀　瀀砀㬀瀀漀猀椀琀椀漀渀㨀爀攀氀愀琀椀瘀攀㬀眀椀搀琀栀㨀㌀　　瀀砀㬀栀攀椀最栀琀㨀㈀　　瀀砀㬀尀∀㸀✀ ⬀ ✀㰀戀甀琀琀漀渀 猀琀礀氀攀㴀尀∀瀀漀猀椀琀椀漀渀㨀愀戀猀漀氀甀琀攀㬀 戀漀琀琀漀洀㨀　瀀砀㬀 稀ⴀ椀渀搀攀砀㨀㈀㬀尀∀ 漀渀挀氀椀挀欀㴀尀∀氀椀渀戀⠀琀栀椀猀⤀⸀瀀愀爀攀渀琀⠀⤀⸀爀攀洀漀瘀攀⠀⤀尀∀㸀爀攀洀漀瘀攀 琀栀椀猀 攀砀愀洀瀀氀攀㰀⼀戀甀琀琀漀渀㸀✀ ⬀ ✀㰀⼀搀椀瘀㸀✀⤀⤀㬀∀⬀ഀ਀                ∀瘀愀爀 漀㴀渀攀眀 氀椀渀戀⸀唀䤀⸀吀爀攀攀䜀爀椀搀⠀笀攀搀椀琀愀戀氀攀㨀昀愀氀猀攀Ⰰ瀀漀猀椀琀椀漀渀㨀✀爀攀氀愀琀椀瘀攀✀紀⤀㬀∀⬀ഀ਀                ∀氀椀渀戀⸀䄀樀愀砀⠀✀䄀瀀瀀⼀樀猀⼀最爀椀搀⸀樀猀✀Ⰰ✀✀Ⰰ昀甀渀挀琀椀漀渀⠀猀⤀笀瘀愀爀 栀愀猀栀㴀开⸀甀渀猀攀爀椀愀氀椀稀攀⠀猀⤀㬀漀⸀猀攀琀䠀攀愀搀攀爀⠀栀愀猀栀⸀栀攀愀搀攀爀⤀⸀猀攀琀刀漀眀猀⠀栀愀猀栀⸀爀漀眀猀⤀㬀紀Ⰰ渀甀氀氀Ⰰ渀甀氀氀Ⰰ笀愀猀礀㨀昀愀氀猀攀紀⤀⸀猀琀愀爀琀⠀⤀㬀∀⬀ഀ਀                ∀漀⸀猀攀琀䌀漀氀䴀漀瘀愀戀氀攀⠀琀爀甀攀⤀㬀∀⬀ഀ਀                ∀氀椀渀戀⠀椀搀⤀⸀瀀爀攀瀀攀渀搀⠀漀⤀㬀∀⬀ഀ਀                ∀漀⸀戀攀昀漀爀攀䌀漀氀䴀漀瘀攀搀⠀昀甀渀挀琀椀漀渀⠀瀀Ⰰ挀漀氀䤀搀⤀笀椀昀⠀挀漀氀䤀搀㴀㴀✀挀漀氀㄀✀⤀爀攀琀甀爀渀 昀愀氀猀攀㬀紀⤀㬀∀ ⬀ഀ਀                ∀漀⸀愀昀琀攀爀䌀漀氀䴀漀瘀攀搀⠀昀甀渀挀琀椀漀渀⠀瀀Ⰰ挀漀氀䤀搀Ⰰ琀漀䤀搀⤀笀氀椀渀戀⸀洀攀猀猀愀最攀⠀挀漀氀䤀搀 ⬀✀ 椀猀 洀漀瘀攀搀 琀漀 琀栀攀 琀栀攀 昀爀漀渀琀 漀昀 ✀⬀ 琀漀䤀搀⤀紀⤀㬀∀ ⬀ഀ਀                ∀紀∀ഀ਀            崀ഀ਀        紀Ⰰഀ਀        愀昀琀攀爀䌀漀氀䴀漀瘀攀搀㨀笀ഀ਀            ␀搀攀猀挀㨀∀⠀졗⡺㝵㥢���ᝓ䵒湏๿ꭔΈ⢌⹵∀Ⰰഀ਀            ␀瀀愀爀愀猀㨀嬀ഀ਀                ∀瀀爀漀昀椀氀攀 㨀 氀椀渀戀⸀唀䤀倀爀漀昀椀氀攀 豈慛⺌∀Ⰰഀ਀                ∀挀漀氀䤀搀 㨀 ꬀ﮈ꡹葒᝶楒搀⸀∀Ⰰഀ਀                ∀琀漀䤀搀 㨀 切왗ᝑ楒搀ఀﯿ꡹葒᝶ْ㹜⡥ឋ䭒䵎⹒∀ഀ਀            崀Ⰰഀ਀            ␀猀渀椀瀀瀀攀琀㨀嬀ഀ਀                ∀瘀愀爀 椀搀㴀✀氀椀渀戀⸀琀攀洀瀀⸀最爀椀搀㔀㔀✀㬀 椀昀⠀℀氀椀渀戀⸀䐀漀洀⸀戀礀䤀搀⠀椀搀⤀⤀笀琀栀椀猀⸀瀀爀攀瀀攀渀搀⠀氀椀渀戀⸀挀爀攀愀琀攀⠀✀㰀搀椀瘀 椀搀㴀✀⬀椀搀⬀✀ 猀琀礀氀攀㴀尀∀戀漀爀搀攀爀㨀猀漀氀椀搀 ㄀瀀砀㬀瀀愀搀搀椀渀最㨀㈀　瀀砀㬀瀀漀猀椀琀椀漀渀㨀爀攀氀愀琀椀瘀攀㬀眀椀搀琀栀㨀㌀　　瀀砀㬀栀攀椀最栀琀㨀㈀　　瀀砀㬀尀∀㸀✀ ⬀ ✀㰀戀甀琀琀漀渀 猀琀礀氀攀㴀尀∀瀀漀猀椀琀椀漀渀㨀愀戀猀漀氀甀琀攀㬀 戀漀琀琀漀洀㨀　瀀砀㬀 稀ⴀ椀渀搀攀砀㨀㈀㬀尀∀ 漀渀挀氀椀挀欀㴀尀∀氀椀渀戀⠀琀栀椀猀⤀⸀瀀愀爀攀渀琀⠀⤀⸀爀攀洀漀瘀攀⠀⤀尀∀㸀爀攀洀漀瘀攀 琀栀椀猀 攀砀愀洀瀀氀攀㰀⼀戀甀琀琀漀渀㸀✀ ⬀ ✀㰀⼀搀椀瘀㸀✀⤀⤀㬀∀⬀ഀ਀                ∀瘀愀爀 漀㴀渀攀眀 氀椀渀戀⸀唀䤀⸀吀爀攀攀䜀爀椀搀⠀笀攀搀椀琀愀戀氀攀㨀昀愀氀猀攀Ⰰ瀀漀猀椀琀椀漀渀㨀✀爀攀氀愀琀椀瘀攀✀紀⤀㬀∀⬀ഀ਀                ∀氀椀渀戀⸀䄀樀愀砀⠀✀䄀瀀瀀⼀樀猀⼀最爀椀搀⸀樀猀✀Ⰰ✀✀Ⰰ昀甀渀挀琀椀漀渀⠀猀⤀笀瘀愀爀 栀愀猀栀㴀开⸀甀渀猀攀爀椀愀氀椀稀攀⠀猀⤀㬀漀⸀猀攀琀䠀攀愀搀攀爀⠀栀愀猀栀⸀栀攀愀搀攀爀⤀⸀猀攀琀刀漀眀猀⠀栀愀猀栀⸀爀漀眀猀⤀㬀紀Ⰰ渀甀氀氀Ⰰ渀甀氀氀Ⰰ笀愀猀礀㨀昀愀氀猀攀紀⤀⸀猀琀愀爀琀⠀⤀㬀∀⬀ഀ਀                ∀漀⸀猀攀琀䌀漀氀䴀漀瘀愀戀氀攀⠀琀爀甀攀⤀㬀∀⬀ഀ਀                ∀氀椀渀戀⠀椀搀⤀⸀瀀爀攀瀀攀渀搀⠀漀⤀㬀∀⬀ഀ਀                ∀漀⸀戀攀昀漀爀攀䌀漀氀䴀漀瘀攀搀⠀昀甀渀挀琀椀漀渀⠀瀀Ⰰ挀漀氀䤀搀⤀笀椀昀⠀挀漀氀䤀搀㴀㴀✀挀漀氀㄀✀⤀爀攀琀甀爀渀 昀愀氀猀攀㬀紀⤀㬀∀ ⬀ഀ਀                ∀漀⸀愀昀琀攀爀䌀漀氀䴀漀瘀攀搀⠀昀甀渀挀琀椀漀渀⠀瀀Ⰰ挀漀氀䤀搀Ⰰ琀漀䤀搀⤀笀氀椀渀戀⸀洀攀猀猀愀最攀⠀挀漀氀䤀搀 ⬀✀ 椀猀 洀漀瘀攀搀 琀漀 琀栀攀 琀栀攀 昀爀漀渀琀 漀昀 ✀⬀ 琀漀䤀搀⤀紀⤀㬀∀ ⬀ഀ਀                ∀紀∀ഀ਀            崀ഀ਀        紀Ⰰഀ਀        戀攀昀漀爀攀䌀漀氀䐀爀愀最㨀笀ഀ਀            ␀搀攀猀挀㨀∀⠀졗⡺㝵홢ꡢᝒ䭒䵎ꭒΈ⢌⹵ 퐀���晖愀氀猀攀؀㭜抖ᝫ홒ꡢ⹒∀Ⰰഀ਀            ␀瀀愀爀愀猀㨀嬀ഀ਀                ∀瀀爀漀昀椀氀攀 㨀 氀椀渀戀⸀唀䤀倀爀漀昀椀氀攀 豈慛⺌∀Ⰰഀ਀                ∀挀漀氀䤀搀 㨀 ᜀ楒搀⸀∀ഀ਀            崀Ⰰഀ਀            ␀猀渀椀瀀瀀攀琀㨀嬀ഀ਀                ∀瘀愀爀 椀搀㴀✀氀椀渀戀⸀琀攀洀瀀⸀最爀椀搀㔀㘀✀㬀 椀昀⠀℀氀椀渀戀⸀䐀漀洀⸀戀礀䤀搀⠀椀搀⤀⤀笀琀栀椀猀⸀瀀爀攀瀀攀渀搀⠀氀椀渀戀⸀挀爀攀愀琀攀⠀✀㰀搀椀瘀 椀搀㴀✀⬀椀搀⬀✀ 猀琀礀氀攀㴀尀∀戀漀爀搀攀爀㨀猀漀氀椀搀 ㄀瀀砀㬀瀀愀搀搀椀渀最㨀㈀　瀀砀㬀瀀漀猀椀琀椀漀渀㨀爀攀氀愀琀椀瘀攀㬀眀椀搀琀栀㨀㌀　　瀀砀㬀栀攀椀最栀琀㨀㈀　　瀀砀㬀尀∀㸀✀ ⬀ ✀㰀戀甀琀琀漀渀 猀琀礀氀攀㴀尀∀瀀漀猀椀琀椀漀渀㨀愀戀猀漀氀甀琀攀㬀 戀漀琀琀漀洀㨀　瀀砀㬀 稀ⴀ椀渀搀攀砀㨀㈀㬀尀∀ 漀渀挀氀椀挀欀㴀尀∀氀椀渀戀⠀琀栀椀猀⤀⸀瀀愀爀攀渀琀⠀⤀⸀爀攀洀漀瘀攀⠀⤀尀∀㸀爀攀洀漀瘀攀 琀栀椀猀 攀砀愀洀瀀氀攀㰀⼀戀甀琀琀漀渀㸀✀ ⬀ ✀㰀⼀搀椀瘀㸀✀⤀⤀㬀∀⬀ഀ਀                ∀瘀愀爀 漀㴀渀攀眀 氀椀渀戀⸀唀䤀⸀吀爀攀攀䜀爀椀搀⠀笀攀搀椀琀愀戀氀攀㨀昀愀氀猀攀Ⰰ瀀漀猀椀琀椀漀渀㨀✀爀攀氀愀琀椀瘀攀✀紀⤀㬀∀⬀ഀ਀                ∀氀椀渀戀⸀䄀樀愀砀⠀✀䄀瀀瀀⼀樀猀⼀最爀椀搀⸀樀猀✀Ⰰ✀✀Ⰰ昀甀渀挀琀椀漀渀⠀猀⤀笀瘀愀爀 栀愀猀栀㴀开⸀甀渀猀攀爀椀愀氀椀稀攀⠀猀⤀㬀漀⸀猀攀琀䠀攀愀搀攀爀⠀栀愀猀栀⸀栀攀愀搀攀爀⤀⸀猀攀琀刀漀眀猀⠀栀愀猀栀⸀爀漀眀猀⤀㬀紀Ⰰ渀甀氀氀Ⰰ渀甀氀氀Ⰰ笀愀猀礀㨀昀愀氀猀攀紀⤀⸀猀琀愀爀琀⠀⤀㬀∀⬀ഀ਀                ∀漀⸀猀攀琀䌀漀氀䴀漀瘀愀戀氀攀⠀琀爀甀攀⤀㬀∀⬀ഀ਀                ∀氀椀渀戀⠀椀搀⤀⸀瀀爀攀瀀攀渀搀⠀漀⤀㬀∀⬀ഀ਀                ∀漀⸀戀攀昀漀爀攀䌀漀氀䐀爀愀最⠀昀甀渀挀琀椀漀渀⠀瀀Ⰰ挀漀氀䤀搀⤀笀椀昀⠀挀漀氀䤀搀㴀㴀✀挀漀氀㄀✀⤀爀攀琀甀爀渀 昀愀氀猀攀㬀紀⤀㬀∀ ⬀ഀ਀                ∀紀∀Ⰰഀ਀                ∀瘀愀爀 椀搀㴀✀氀椀渀戀⸀琀攀洀瀀⸀最爀椀搀㔀㜀✀㬀 椀昀⠀℀氀椀渀戀⸀䐀漀洀⸀戀礀䤀搀⠀椀搀⤀⤀笀琀栀椀猀⸀瀀爀攀瀀攀渀搀⠀氀椀渀戀⸀挀爀攀愀琀攀⠀✀㰀搀椀瘀 椀搀㴀✀⬀椀搀⬀✀ 猀琀礀氀攀㴀尀∀戀漀爀搀攀爀㨀猀漀氀椀搀 ㄀瀀砀㬀瀀愀搀搀椀渀最㨀㈀　瀀砀㬀瀀漀猀椀琀椀漀渀㨀爀攀氀愀琀椀瘀攀㬀眀椀搀琀栀㨀㌀　　瀀砀㬀栀攀椀最栀琀㨀㈀　　瀀砀㬀尀∀㸀✀ ⬀ ✀㰀戀甀琀琀漀渀 猀琀礀氀攀㴀尀∀瀀漀猀椀琀椀漀渀㨀愀戀猀漀氀甀琀攀㬀 戀漀琀琀漀洀㨀　瀀砀㬀 稀ⴀ椀渀搀攀砀㨀㈀㬀尀∀ 漀渀挀氀椀挀欀㴀尀∀氀椀渀戀⠀琀栀椀猀⤀⸀瀀愀爀攀渀琀⠀⤀⸀爀攀洀漀瘀攀⠀⤀尀∀㸀爀攀洀漀瘀攀 琀栀椀猀 攀砀愀洀瀀氀攀㰀⼀戀甀琀琀漀渀㸀✀ ⬀ ✀㰀⼀搀椀瘀㸀✀⤀⤀㬀∀⬀ഀ਀                ∀瘀愀爀 漀㴀渀攀眀 氀椀渀戀⸀唀䤀⸀吀爀攀攀䜀爀椀搀⠀笀攀搀椀琀愀戀氀攀㨀昀愀氀猀攀Ⰰ瀀漀猀椀琀椀漀渀㨀✀爀攀氀愀琀椀瘀攀✀紀⤀㬀∀⬀ഀ਀                ∀氀椀渀戀⸀䄀樀愀砀⠀✀䄀瀀瀀⼀樀猀⼀最爀椀搀⸀樀猀✀Ⰰ✀✀Ⰰ昀甀渀挀琀椀漀渀⠀猀⤀笀瘀愀爀 栀愀猀栀㴀开⸀甀渀猀攀爀椀愀氀椀稀攀⠀猀⤀㬀 栀愀猀栀⸀栀攀愀搀攀爀嬀　崀⸀挀漀氀䴀漀瘀愀戀氀攀㴀昀愀氀猀攀㬀 漀⸀猀攀琀䠀攀愀搀攀爀⠀栀愀猀栀⸀栀攀愀搀攀爀⤀⸀猀攀琀刀漀眀猀⠀栀愀猀栀⸀爀漀眀猀⤀㬀紀Ⰰ渀甀氀氀Ⰰ渀甀氀氀Ⰰ笀愀猀礀㨀昀愀氀猀攀紀⤀⸀猀琀愀爀琀⠀⤀㬀∀⬀ഀ਀                ∀漀⸀猀攀琀䌀漀氀䴀漀瘀愀戀氀攀⠀琀爀甀攀⤀㬀∀⬀ഀ਀                ∀氀椀渀戀⠀椀搀⤀⸀瀀爀攀瀀攀渀搀⠀漀⤀㬀∀⬀ഀ਀                ∀紀∀ഀ਀           崀Ⰰഀ਀            ␀洀攀洀漀㨀∀䔀焀甀愀氀猀 琀漀 猀攀琀 ✀挀漀氀䴀漀瘀愀戀氀攀✀ 琀漀 昀愀氀猀攀 椀渀 琀栀攀 猀瀀攀挀椀昀椀攀搀 挀漀氀甀洀渀 椀渀 栀攀愀搀攀爀 愀爀爀愀礀⸀∀ഀ਀        紀Ⰰഀ਀ഀ਀        漀渀䜀攀琀䌀漀渀琀攀渀琀㨀笀ഀ਀            ␀搀攀猀挀㨀∀⠀㙗䱲ꮈ喈\౟ÿ膗傉䱛炈湥⽣ꭦΈ⢌⹵∀Ⰰഀ਀            ␀瀀愀爀愀猀㨀嬀ഀ਀                ∀瀀爀漀昀椀氀攀 㨀 氀椀渀戀⸀唀䤀倀爀漀昀椀氀攀 豈慛⺌∀Ⰰഀ਀                ∀爀漀眀 㨀 㘀䱲麗慛⺌∀Ⰰഀ਀                ∀挀愀氀氀戀愀挀欀 㨀 䘀甀渀挀琀椀漀渀Ⰰ ���͖ﶌ灑⹥∀Ⰰഀ਀                ∀琀栀爀攀愀搀椀搀 㨀 匀琀爀椀渀最Ⰰ 뼀୾楺搀⸀∀ഀ਀            崀Ⰰഀ਀            ␀猀渀椀瀀瀀攀琀㨀嬀ഀ਀                ∀瘀愀爀 椀搀㴀✀氀椀渀戀⸀琀攀洀瀀⸀最爀椀搀㔀㜀✀㬀 椀昀⠀℀氀椀渀戀⸀䐀漀洀⸀戀礀䤀搀⠀椀搀⤀⤀笀琀栀椀猀⸀瀀爀攀瀀攀渀搀⠀氀椀渀戀⸀挀爀攀愀琀攀⠀✀㰀搀椀瘀 椀搀㴀✀⬀椀搀⬀✀ 猀琀礀氀攀㴀尀∀戀漀爀搀攀爀㨀猀漀氀椀搀 ㄀瀀砀㬀瀀愀搀搀椀渀最㨀㈀　瀀砀㬀瀀漀猀椀琀椀漀渀㨀爀攀氀愀琀椀瘀攀㬀眀椀搀琀栀㨀㌀　　瀀砀㬀栀攀椀最栀琀㨀㈀　　瀀砀㬀尀∀㸀✀ ⬀ ✀㰀戀甀琀琀漀渀 猀琀礀氀攀㴀尀∀瀀漀猀椀琀椀漀渀㨀愀戀猀漀氀甀琀攀㬀 戀漀琀琀漀洀㨀　瀀砀㬀 稀ⴀ椀渀搀攀砀㨀㈀㬀尀∀ 漀渀挀氀椀挀欀㴀尀∀氀椀渀戀⠀琀栀椀猀⤀⸀瀀愀爀攀渀琀⠀⤀⸀爀攀洀漀瘀攀⠀⤀尀∀㸀爀攀洀漀瘀攀 琀栀椀猀 攀砀愀洀瀀氀攀㰀⼀戀甀琀琀漀渀㸀✀ ⬀ ✀㰀⼀搀椀瘀㸀✀⤀⤀㬀∀⬀ഀ਀                ∀瘀愀爀 漀㴀渀攀眀 氀椀渀戀⸀唀䤀⸀吀爀攀攀䜀爀椀搀⠀笀攀搀椀琀愀戀氀攀㨀昀愀氀猀攀Ⰰ瀀漀猀椀琀椀漀渀㨀✀爀攀氀愀琀椀瘀攀✀紀⤀㬀∀⬀ഀ਀                ∀氀椀渀戀⸀䄀樀愀砀⠀✀䄀瀀瀀⼀樀猀⼀最爀椀搀⸀樀猀✀Ⰰ✀✀Ⰰ昀甀渀挀琀椀漀渀⠀猀⤀笀瘀愀爀 栀愀猀栀㴀开⸀甀渀猀攀爀椀愀氀椀稀攀⠀猀⤀㬀栀愀猀栀⸀爀漀眀猀嬀㌀崀⸀猀甀戀㴀栀愀猀栀⸀爀漀眀猀嬀㐀崀⸀猀甀戀㴀琀爀甀攀㬀漀⸀猀攀琀䠀攀愀搀攀爀⠀栀愀猀栀⸀栀攀愀搀攀爀⤀⸀猀攀琀刀漀眀猀⠀栀愀猀栀⸀爀漀眀猀⤀㬀紀Ⰰ渀甀氀氀Ⰰ渀甀氀氀Ⰰ笀愀猀礀㨀昀愀氀猀攀紀⤀⸀猀琀愀爀琀⠀⤀㬀∀⬀ഀ਀                ∀氀椀渀戀⠀椀搀⤀⸀瀀爀攀瀀攀渀搀⠀漀⤀㬀∀⬀ഀ਀                ∀漀⸀漀渀䜀攀琀䌀漀渀琀攀渀琀⠀昀甀渀挀琀椀漀渀⠀瀀Ⰰ爀漀眀⤀笀爀攀琀甀爀渀 爀漀眀⸀椀搀㴀㴀✀爀漀眀㐀✀㼀嬀嬀✀愀✀Ⰰ㄀Ⰰ琀爀甀攀Ⰰ笀琀礀瀀攀㨀✀挀栀攀挀欀戀漀砀✀Ⰰ瘀愀氀甀攀㨀琀爀甀攀紀崀崀㨀嬀嬀✀戀✀Ⰰ㌀Ⰰ昀愀氀猀攀Ⰰ✀⌀㔀㔀㔀㔀㔀㔀✀崀崀㬀紀⤀㬀∀ ⬀ഀ਀                ∀紀∀ഀ਀           崀ഀ਀        紀Ⰰഀ਀        漀渀刀漀眀匀攀氀攀挀琀攀搀㨀笀ഀ਀            ␀搀攀猀挀㨀∀⠀䱗ꮈঈꭥΈ⢌⹵∀Ⰰഀ਀            ␀瀀愀爀愀猀㨀嬀ഀ਀                ∀瀀爀漀昀椀氀攀 㨀 氀椀渀戀⸀唀䤀倀爀漀昀椀氀攀 豈慛⺌∀Ⰰഀ਀                ∀爀漀眀㨀 䰀麗慛⺌∀Ⰰഀ਀                ∀猀爀挀㨀 獶葑䑶伀䴀豈慛⺌∀ഀ਀            崀Ⰰഀ਀            ␀猀渀椀瀀瀀攀琀㨀嬀ഀ਀                ∀瘀愀爀 椀搀㴀✀氀椀渀戀⸀琀攀洀瀀⸀最爀椀搀㔀㠀✀㬀 椀昀⠀℀氀椀渀戀⸀䐀漀洀⸀戀礀䤀搀⠀椀搀⤀⤀笀琀栀椀猀⸀瀀爀攀瀀攀渀搀⠀氀椀渀戀⸀挀爀攀愀琀攀⠀✀㰀搀椀瘀 椀搀㴀✀⬀椀搀⬀✀ 猀琀礀氀攀㴀尀∀戀漀爀搀攀爀㨀猀漀氀椀搀 ㄀瀀砀㬀瀀愀搀搀椀渀最㨀㈀　瀀砀㬀瀀漀猀椀琀椀漀渀㨀爀攀氀愀琀椀瘀攀㬀眀椀搀琀栀㨀㌀　　瀀砀㬀栀攀椀最栀琀㨀㈀　　瀀砀㬀尀∀㸀✀ ⬀ ✀㰀戀甀琀琀漀渀 猀琀礀氀攀㴀尀∀瀀漀猀椀琀椀漀渀㨀愀戀猀漀氀甀琀攀㬀 戀漀琀琀漀洀㨀　瀀砀㬀 稀ⴀ椀渀搀攀砀㨀㈀㬀尀∀ 漀渀挀氀椀挀欀㴀尀∀氀椀渀戀⠀琀栀椀猀⤀⸀瀀愀爀攀渀琀⠀⤀⸀爀攀洀漀瘀攀⠀⤀尀∀㸀爀攀洀漀瘀攀 琀栀椀猀 攀砀愀洀瀀氀攀㰀⼀戀甀琀琀漀渀㸀✀ ⬀ ✀㰀⼀搀椀瘀㸀✀⤀⤀㬀∀⬀ഀ਀                ∀瘀愀爀 漀㴀渀攀眀 氀椀渀戀⸀唀䤀⸀吀爀攀攀䜀爀椀搀⠀笀攀搀椀琀愀戀氀攀㨀昀愀氀猀攀Ⰰ瀀漀猀椀琀椀漀渀㨀✀爀攀氀愀琀椀瘀攀✀紀⤀㬀∀⬀ഀ਀                ∀氀椀渀戀⸀䄀樀愀砀⠀✀䄀瀀瀀⼀樀猀⼀最爀椀搀⸀樀猀✀Ⰰ✀✀Ⰰ昀甀渀挀琀椀漀渀⠀猀⤀笀瘀愀爀 栀愀猀栀㴀开⸀甀渀猀攀爀椀愀氀椀稀攀⠀猀⤀㬀漀⸀猀攀琀䠀攀愀搀攀爀⠀栀愀猀栀⸀栀攀愀搀攀爀⤀⸀猀攀琀刀漀眀猀⠀栀愀猀栀⸀爀漀眀猀⤀㬀紀Ⰰ渀甀氀氀Ⰰ渀甀氀氀Ⰰ笀愀猀礀㨀昀愀氀猀攀紀⤀⸀猀琀愀爀琀⠀⤀㬀∀⬀ഀ਀                ∀氀椀渀戀⠀椀搀⤀⸀瀀爀攀瀀攀渀搀⠀漀⤀㬀∀⬀ഀ਀                ∀漀⸀漀渀刀漀眀匀攀氀攀挀琀攀搀⠀昀甀渀挀琀椀漀渀⠀瀀Ⰰ爀漀眀⤀笀氀椀渀戀⸀洀攀猀猀愀最攀⠀爀漀眀⸀椀搀⤀紀⤀㬀∀ ⬀ഀ਀                ∀紀∀ഀ਀           崀ഀ਀        紀Ⰰഀ਀        漀渀䐀戀氀䌀氀椀挀欀刀漀眀㨀笀ഀ਀            ␀搀攀猀挀㨀∀⠀䱗ꮈ첈ﭓͥ⢌⹵∀Ⰰഀ਀            ␀瀀愀爀愀猀㨀嬀ഀ਀                ∀瀀爀漀昀椀氀攀 㨀 氀椀渀戀⸀唀䤀倀爀漀昀椀氀攀 豈慛⺌∀Ⰰഀ਀                ∀爀漀眀㨀 䰀麗慛⺌∀Ⰰഀ਀                ∀攀㨀 䐀伀䴀謀漏慛⺌∀Ⰰഀ਀                ∀猀爀挀㨀 獶葑䑶伀䴀豈慛⺌∀ഀ਀            崀Ⰰഀ਀            ␀猀渀椀瀀瀀攀琀㨀嬀ഀ਀                ∀瘀愀爀 椀搀㴀✀氀椀渀戀⸀琀攀洀瀀⸀最爀椀搀㔀㤀✀㬀 椀昀⠀℀氀椀渀戀⸀䐀漀洀⸀戀礀䤀搀⠀椀搀⤀⤀笀琀栀椀猀⸀瀀爀攀瀀攀渀搀⠀氀椀渀戀⸀挀爀攀愀琀攀⠀✀㰀搀椀瘀 椀搀㴀✀⬀椀搀⬀✀ 猀琀礀氀攀㴀尀∀戀漀爀搀攀爀㨀猀漀氀椀搀 ㄀瀀砀㬀瀀愀搀搀椀渀最㨀㈀　瀀砀㬀瀀漀猀椀琀椀漀渀㨀爀攀氀愀琀椀瘀攀㬀眀椀搀琀栀㨀㌀　　瀀砀㬀栀攀椀最栀琀㨀㈀　　瀀砀㬀尀∀㸀✀ ⬀ ✀㰀戀甀琀琀漀渀 猀琀礀氀攀㴀尀∀瀀漀猀椀琀椀漀渀㨀愀戀猀漀氀甀琀攀㬀 戀漀琀琀漀洀㨀　瀀砀㬀 稀ⴀ椀渀搀攀砀㨀㈀㬀尀∀ 漀渀挀氀椀挀欀㴀尀∀氀椀渀戀⠀琀栀椀猀⤀⸀瀀愀爀攀渀琀⠀⤀⸀爀攀洀漀瘀攀⠀⤀尀∀㸀爀攀洀漀瘀攀 琀栀椀猀 攀砀愀洀瀀氀攀㰀⼀戀甀琀琀漀渀㸀✀ ⬀ ✀㰀⼀搀椀瘀㸀✀⤀⤀㬀∀⬀ഀ਀                ∀瘀愀爀 漀㴀渀攀眀 氀椀渀戀⸀唀䤀⸀吀爀攀攀䜀爀椀搀⠀笀攀搀椀琀愀戀氀攀㨀昀愀氀猀攀Ⰰ瀀漀猀椀琀椀漀渀㨀✀爀攀氀愀琀椀瘀攀✀紀⤀㬀∀⬀ഀ਀                ∀氀椀渀戀⸀䄀樀愀砀⠀✀䄀瀀瀀⼀樀猀⼀最爀椀搀⸀樀猀✀Ⰰ✀✀Ⰰ昀甀渀挀琀椀漀渀⠀猀⤀笀瘀愀爀 栀愀猀栀㴀开⸀甀渀猀攀爀椀愀氀椀稀攀⠀猀⤀㬀漀⸀猀攀琀䠀攀愀搀攀爀⠀栀愀猀栀⸀栀攀愀搀攀爀⤀⸀猀攀琀刀漀眀猀⠀栀愀猀栀⸀爀漀眀猀⤀㬀紀Ⰰ渀甀氀氀Ⰰ渀甀氀氀Ⰰ笀愀猀礀㨀昀愀氀猀攀紀⤀⸀猀琀愀爀琀⠀⤀㬀∀⬀ഀ਀                ∀氀椀渀戀⠀椀搀⤀⸀瀀爀攀瀀攀渀搀⠀漀⤀㬀∀⬀ഀ਀                ∀漀⸀漀渀䐀戀氀䌀氀椀挀欀刀漀眀⠀昀甀渀挀琀椀漀渀⠀瀀Ⰰ爀漀眀⤀笀氀椀渀戀⸀洀攀猀猀愀最攀⠀爀漀眀⸀椀搀⤀紀⤀㬀∀ ⬀ഀ਀                ∀紀∀ഀ਀           崀ഀ਀        紀Ⰰഀ਀        漀渀䌀氀椀挀欀䈀甀琀琀漀渀 㨀笀ഀ਀            ␀搀攀猀挀㨀∀匀啟䍓㱑२깣ꮔ喈ﭓͥ⢌౵肋啛䍓㱑㩨❎戀甀琀琀漀渀⼀最攀琀琀攀爀⼀瀀漀瀀戀漀砀⼀挀洀搀戀漀砀✀॥䡧⹥∀Ⰰഀ਀            ␀瀀愀爀愀猀㨀嬀ഀ਀                ∀瀀爀漀昀椀氀攀 㨀 氀椀渀戀⸀唀䤀倀爀漀昀椀氀攀 漀戀樀攀挀琀⸀∀Ⰰഀ਀                ∀挀攀氀氀㨀 琀栀攀 挀攀氀氀 漀戀樀攀挀琀⸀∀Ⰰഀ਀                ∀瀀爀漀䔀搀椀琀漀爀㨀 琀栀攀 攀搀椀琀漀爀 瀀爀漀昀椀氀攀 漀戀樀攀挀琀Ⰰ 椀昀 琀栀攀 攀搀椀琀漀爀 攀砀椀猀琀猀⸀∀Ⰰഀ਀                ∀瀀漀猀㨀 琀栀攀 挀氀椀挀欀 攀瘀攀渀琀 洀漀甀猀攀 瀀漀猀椀琀椀漀渀⸀∀Ⰰഀ਀                ∀攀㨀 琀栀攀 䐀伀䴀 攀瘀攀渀琀 漀戀樀攀挀琀⸀∀Ⰰഀ਀                ∀猀爀挀㨀 琀栀攀 爀攀氀愀琀攀搀 䐀伀䴀 攀氀攀洀攀渀琀⸀∀ഀ਀            崀Ⰰഀ਀            ␀猀渀椀瀀瀀攀琀㨀嬀ഀ਀                ∀瘀愀爀 椀搀㴀✀氀椀渀戀⸀琀攀洀瀀⸀最爀椀搀㘀　✀㬀 椀昀⠀℀氀椀渀戀⸀䐀漀洀⸀戀礀䤀搀⠀椀搀⤀⤀笀琀栀椀猀⸀瀀爀攀瀀攀渀搀⠀氀椀渀戀⸀挀爀攀愀琀攀⠀✀㰀搀椀瘀 椀搀㴀✀⬀椀搀⬀✀ 猀琀礀氀攀㴀尀∀戀漀爀搀攀爀㨀猀漀氀椀搀 ㄀瀀砀㬀瀀愀搀搀椀渀最㨀㈀　瀀砀㬀瀀漀猀椀琀椀漀渀㨀爀攀氀愀琀椀瘀攀㬀眀椀搀琀栀㨀㌀　　瀀砀㬀栀攀椀最栀琀㨀㈀　　瀀砀㬀尀∀㸀✀ ⬀ ✀㰀戀甀琀琀漀渀 猀琀礀氀攀㴀尀∀瀀漀猀椀琀椀漀渀㨀愀戀猀漀氀甀琀攀㬀 戀漀琀琀漀洀㨀　瀀砀㬀 稀ⴀ椀渀搀攀砀㨀㈀㬀尀∀ 漀渀挀氀椀挀欀㴀尀∀氀椀渀戀⠀琀栀椀猀⤀⸀瀀愀爀攀渀琀⠀⤀⸀爀攀洀漀瘀攀⠀⤀尀∀㸀爀攀洀漀瘀攀 琀栀椀猀 攀砀愀洀瀀氀攀㰀⼀戀甀琀琀漀渀㸀✀ ⬀ ✀㰀⼀搀椀瘀㸀✀⤀⤀㬀∀⬀ഀ਀                ∀瘀愀爀 漀㴀渀攀眀 氀椀渀戀⸀唀䤀⸀吀爀攀攀䜀爀椀搀⠀笀攀搀椀琀愀戀氀攀㨀昀愀氀猀攀Ⰰ瀀漀猀椀琀椀漀渀㨀✀爀攀氀愀琀椀瘀攀✀紀⤀㬀∀⬀ഀ਀                ∀氀椀渀戀⸀䄀樀愀砀⠀✀䄀瀀瀀⼀樀猀⼀最爀椀搀⸀樀猀✀Ⰰ✀✀Ⰰ昀甀渀挀琀椀漀渀⠀猀⤀笀瘀愀爀 栀愀猀栀㴀开⸀甀渀猀攀爀椀愀氀椀稀攀⠀猀⤀㬀栀愀猀栀⸀栀攀愀搀攀爀嬀　崀⸀琀礀瀀攀㴀✀戀甀琀琀漀渀✀㬀栀愀猀栀⸀栀攀愀搀攀爀嬀㄀崀⸀琀礀瀀攀㴀✀挀洀搀戀漀砀✀㬀栀愀猀栀⸀栀攀愀搀攀爀嬀㈀崀⸀琀礀瀀攀㴀✀瀀漀瀀戀漀砀✀㬀漀⸀猀攀琀䠀攀愀搀攀爀⠀栀愀猀栀⸀栀攀愀搀攀爀⤀⸀猀攀琀刀漀眀猀⠀栀愀猀栀⸀爀漀眀猀⤀㬀紀Ⰰ渀甀氀氀Ⰰ渀甀氀氀Ⰰ笀愀猀礀㨀昀愀氀猀攀紀⤀⸀猀琀愀爀琀⠀⤀㬀∀⬀ഀ਀                ∀漀⸀猀攀琀䔀搀椀琀愀戀氀攀⠀琀爀甀攀⤀㬀∀⬀ഀ਀                ∀氀椀渀戀⠀椀搀⤀⸀瀀爀攀瀀攀渀搀⠀漀⤀㬀∀⬀ഀ਀                ∀漀⸀漀渀䌀氀椀挀欀䈀甀琀琀漀渀⠀昀甀渀挀琀椀漀渀⠀瀀Ⰰ挀攀氀氀⤀笀氀椀渀戀⸀洀攀猀猀愀最攀⠀挀攀氀氀⸀瘀愀氀甀攀⤀紀⤀㬀∀ ⬀ഀ਀                ∀紀∀ഀ਀           崀ഀ਀        紀Ⰰഀ਀        戀攀昀漀爀攀䤀渀椀䔀搀椀琀漀爀㨀 笀ഀ਀            ␀搀攀猀挀㨀∀⠀啗䍓㱑ㅨ啵㩜뙹Ų���㩓ᙎ酿뚏Ųͥ⢌⡵؀ᙜ酿梏䑖䂖⡷啗䍓㱑੨⥎⸀ 퐀���晖愀氀猀攀؀㭜抖啫䍓㱑ꭨᚈ酿⺏∀Ⰰഀ਀            ␀瀀愀爀愀猀㨀嬀ഀ਀                ∀瀀爀漀昀椀氀攀 㨀 氀椀渀戀⸀唀䤀倀爀漀昀椀氀攀 豈慛⺌∀Ⰰഀ਀                ∀挀攀氀氀 㨀 唀䍓㱑泌慛⺌∀ഀ਀            崀Ⰰഀ਀            ␀猀渀椀瀀瀀攀琀㨀嬀ഀ਀                ∀瘀愀爀 椀搀㴀✀氀椀渀戀⸀琀攀洀瀀⸀最爀椀搀㘀㄀ⴀ㄀✀㬀 椀昀⠀℀氀椀渀戀⸀䐀漀洀⸀戀礀䤀搀⠀椀搀⤀⤀笀琀栀椀猀⸀瀀爀攀瀀攀渀搀⠀氀椀渀戀⸀挀爀攀愀琀攀⠀✀㰀搀椀瘀 椀搀㴀✀⬀椀搀⬀✀ 猀琀礀氀攀㴀尀∀戀漀爀搀攀爀㨀猀漀氀椀搀 ㄀瀀砀㬀瀀愀搀搀椀渀最㨀㈀　瀀砀㬀瀀漀猀椀琀椀漀渀㨀爀攀氀愀琀椀瘀攀㬀眀椀搀琀栀㨀㌀　　瀀砀㬀栀攀椀最栀琀㨀㈀　　瀀砀㬀尀∀㸀✀ ⬀ ✀㰀戀甀琀琀漀渀 猀琀礀氀攀㴀尀∀瀀漀猀椀琀椀漀渀㨀愀戀猀漀氀甀琀攀㬀 戀漀琀琀漀洀㨀　瀀砀㬀 稀ⴀ椀渀搀攀砀㨀㈀㬀尀∀ 漀渀挀氀椀挀欀㴀尀∀氀椀渀戀⠀琀栀椀猀⤀⸀瀀愀爀攀渀琀⠀⤀⸀爀攀洀漀瘀攀⠀⤀尀∀㸀爀攀洀漀瘀攀 琀栀椀猀 攀砀愀洀瀀氀攀㰀⼀戀甀琀琀漀渀㸀✀ ⬀ ✀㰀⼀搀椀瘀㸀✀⤀⤀㬀∀⬀ഀ਀                ∀瘀愀爀 漀㴀渀攀眀 氀椀渀戀⸀唀䤀⸀吀爀攀攀䜀爀椀搀⠀笀攀搀椀琀愀戀氀攀㨀琀爀甀攀Ⰰ瀀漀猀椀琀椀漀渀㨀✀爀攀氀愀琀椀瘀攀✀紀⤀㬀∀⬀ഀ਀                ∀氀椀渀戀⸀䄀樀愀砀⠀✀䄀瀀瀀⼀樀猀⼀最爀椀搀⸀樀猀✀Ⰰ✀✀Ⰰ昀甀渀挀琀椀漀渀⠀猀⤀笀瘀愀爀 栀愀猀栀㴀开⸀甀渀猀攀爀椀愀氀椀稀攀⠀猀⤀㬀漀⸀猀攀琀䠀攀愀搀攀爀⠀栀愀猀栀⸀栀攀愀搀攀爀⤀⸀猀攀琀刀漀眀猀⠀栀愀猀栀⸀爀漀眀猀⤀㬀紀Ⰰ渀甀氀氀Ⰰ渀甀氀氀Ⰰ笀愀猀礀㨀昀愀氀猀攀紀⤀⸀猀琀愀爀琀⠀⤀㬀∀⬀ഀ਀                ∀氀椀渀戀⠀椀搀⤀⸀瀀爀攀瀀攀渀搀⠀漀⤀㬀∀⬀ഀ਀                ∀漀⸀戀攀昀漀爀攀䤀渀椀䔀搀椀琀漀爀⠀昀甀渀挀琀椀漀渀⠀瀀Ⰰ挀攀氀氀⤀笀椀昀⠀挀攀氀氀⸀开挀漀氀⸀椀搀℀㴀✀挀漀氀㈀✀⤀爀攀琀甀爀渀 昀愀氀猀攀㬀紀⤀㬀∀ ⬀ഀ਀                ∀紀∀ഀ਀           崀ഀ਀        紀Ⰰഀ਀        戀攀昀漀爀攀䌀攀氀氀唀瀀搀愀琀攀搀㨀 笀ഀ਀            ␀搀攀猀挀㨀∀⠀啗䍓㱑葨㱶ꭐ좈⡺㝵끦䵥͒⢌⹵ 퐀���晖愀氀猀攀؀㭜抖啫䍓㱑㱨ꭐ끦⹥∀Ⰰഀ਀            ␀瀀愀爀愀猀㨀嬀ഀ਀                ∀瀀爀漀昀椀氀攀 㨀 氀椀渀戀⸀唀䤀倀爀漀昀椀氀攀 漀戀樀攀挀琀⸀∀Ⰰഀ਀                ∀挀攀氀氀 㨀 琀栀攀 挀攀氀氀 漀戀樀攀挀琀⸀∀Ⰰഀ਀                ∀栀愀猀栀 嬀씀_슗灓嵥 㨀 欀攀礀⼀瘀愀氀甀攀 漀戀樀攀挀琀Ⰰ ؀腜끦葥⹶㲕縷⹛∀ഀ਀            崀Ⰰഀ਀            ␀猀渀椀瀀瀀攀琀㨀嬀ഀ਀                ∀瘀愀爀 椀搀㴀✀氀椀渀戀⸀琀攀洀瀀⸀最爀椀搀㘀㄀✀㬀 椀昀⠀℀氀椀渀戀⸀䐀漀洀⸀戀礀䤀搀⠀椀搀⤀⤀笀琀栀椀猀⸀瀀爀攀瀀攀渀搀⠀氀椀渀戀⸀挀爀攀愀琀攀⠀✀㰀搀椀瘀 椀搀㴀✀⬀椀搀⬀✀ 猀琀礀氀攀㴀尀∀戀漀爀搀攀爀㨀猀漀氀椀搀 ㄀瀀砀㬀瀀愀搀搀椀渀最㨀㈀　瀀砀㬀瀀漀猀椀琀椀漀渀㨀爀攀氀愀琀椀瘀攀㬀眀椀搀琀栀㨀㌀　　瀀砀㬀栀攀椀最栀琀㨀㈀　　瀀砀㬀尀∀㸀✀ ⬀ ✀㰀戀甀琀琀漀渀 猀琀礀氀攀㴀尀∀瀀漀猀椀琀椀漀渀㨀愀戀猀漀氀甀琀攀㬀 戀漀琀琀漀洀㨀　瀀砀㬀 稀ⴀ椀渀搀攀砀㨀㈀㬀尀∀ 漀渀挀氀椀挀欀㴀尀∀氀椀渀戀⠀琀栀椀猀⤀⸀瀀愀爀攀渀琀⠀⤀⸀爀攀洀漀瘀攀⠀⤀尀∀㸀爀攀洀漀瘀攀 琀栀椀猀 攀砀愀洀瀀氀攀㰀⼀戀甀琀琀漀渀㸀✀ ⬀ ✀㰀⼀搀椀瘀㸀✀⤀⤀㬀∀⬀ഀ਀                ∀瘀愀爀 漀㴀渀攀眀 氀椀渀戀⸀唀䤀⸀吀爀攀攀䜀爀椀搀⠀笀攀搀椀琀愀戀氀攀㨀昀愀氀猀攀Ⰰ瀀漀猀椀琀椀漀渀㨀✀爀攀氀愀琀椀瘀攀✀紀⤀㬀∀⬀ഀ਀                ∀氀椀渀戀⸀䄀樀愀砀⠀✀䄀瀀瀀⼀樀猀⼀最爀椀搀⸀樀猀✀Ⰰ✀✀Ⰰ昀甀渀挀琀椀漀渀⠀猀⤀笀瘀愀爀 栀愀猀栀㴀开⸀甀渀猀攀爀椀愀氀椀稀攀⠀猀⤀㬀漀⸀猀攀琀䠀攀愀搀攀爀⠀栀愀猀栀⸀栀攀愀搀攀爀⤀⸀猀攀琀刀漀眀猀⠀栀愀猀栀⸀爀漀眀猀⤀㬀紀Ⰰ渀甀氀氀Ⰰ渀甀氀氀Ⰰ笀愀猀礀㨀昀愀氀猀攀紀⤀⸀猀琀愀爀琀⠀⤀㬀∀⬀ഀ਀                ∀氀椀渀戀⠀椀搀⤀⸀瀀爀攀瀀攀渀搀⠀漀⤀㬀∀⬀ഀ਀                ∀漀⸀戀攀昀漀爀攀䌀攀氀氀唀瀀搀愀琀攀搀⠀昀甀渀挀琀椀漀渀⠀⤀笀氀椀渀戀⸀洀攀猀猀愀最攀⠀✀䌀愀渀琀 甀瀀搀愀琀攀 挀攀氀氀℀✀⤀㬀爀攀琀甀爀渀 昀愀氀猀攀㬀紀⤀㬀∀ ⬀ഀ਀                ∀开⸀愀猀礀刀甀渀⠀昀甀渀挀琀椀漀渀⠀⤀笀漀⸀甀瀀搀愀琀攀䌀攀氀氀䈀礀刀漀眀䌀漀氀⠀✀爀漀眀㄀✀Ⰰ✀挀漀氀㄀✀Ⰰ✀愀戀挀✀⤀紀Ⰰ㄀　　　⤀㬀∀⬀ഀ਀                ∀紀∀ഀ਀           崀ഀ਀        紀Ⰰഀ਀        愀昀琀攀爀䌀攀氀氀唀瀀搀愀琀攀搀㨀 笀ഀ਀            ␀搀攀猀挀㨀∀⠀啗䍓㱑葨㱶ꭐ좈⡺㝵끦๥͔⢌≵Ⰰഀ਀            ␀瀀愀爀愀猀㨀嬀ഀ਀                ∀瀀爀漀昀椀氀攀 㨀 氀椀渀戀⸀唀䤀倀爀漀昀椀氀攀 豈慛⺌∀Ⰰഀ਀                ∀挀攀氀氀 㨀 唀䍓㱑泌慛⺌∀Ⰰഀ਀                ∀栀愀猀栀 嬀씀_슗灓嵥 㨀 欀攀礀⼀瘀愀氀甀攀 漀戀樀攀挀琀Ⰰ 끦葥⹶㲕縷⹛∀ഀ਀            崀Ⰰഀ਀            ␀猀渀椀瀀瀀攀琀㨀嬀ഀ਀                ∀瘀愀爀 椀搀㴀✀氀椀渀戀⸀琀攀洀瀀⸀最爀椀搀㘀㈀✀㬀 椀昀⠀℀氀椀渀戀⸀䐀漀洀⸀戀礀䤀搀⠀椀搀⤀⤀笀琀栀椀猀⸀瀀爀攀瀀攀渀搀⠀氀椀渀戀⸀挀爀攀愀琀攀⠀✀㰀搀椀瘀 椀搀㴀✀⬀椀搀⬀✀ 猀琀礀氀攀㴀尀∀戀漀爀搀攀爀㨀猀漀氀椀搀 ㄀瀀砀㬀瀀愀搀搀椀渀最㨀㈀　瀀砀㬀瀀漀猀椀琀椀漀渀㨀爀攀氀愀琀椀瘀攀㬀眀椀搀琀栀㨀㌀　　瀀砀㬀栀攀椀最栀琀㨀㈀　　瀀砀㬀尀∀㸀✀ ⬀ ✀㰀戀甀琀琀漀渀 猀琀礀氀攀㴀尀∀瀀漀猀椀琀椀漀渀㨀愀戀猀漀氀甀琀攀㬀 戀漀琀琀漀洀㨀　瀀砀㬀 稀ⴀ椀渀搀攀砀㨀㈀㬀尀∀ 漀渀挀氀椀挀欀㴀尀∀氀椀渀戀⠀琀栀椀猀⤀⸀瀀愀爀攀渀琀⠀⤀⸀爀攀洀漀瘀攀⠀⤀尀∀㸀爀攀洀漀瘀攀 琀栀椀猀 攀砀愀洀瀀氀攀㰀⼀戀甀琀琀漀渀㸀✀ ⬀ ✀㰀⼀搀椀瘀㸀✀⤀⤀㬀∀⬀ഀ਀                ∀瘀愀爀 漀㴀渀攀眀 氀椀渀戀⸀唀䤀⸀吀爀攀攀䜀爀椀搀⠀笀攀搀椀琀愀戀氀攀㨀昀愀氀猀攀Ⰰ瀀漀猀椀琀椀漀渀㨀✀爀攀氀愀琀椀瘀攀✀紀⤀㬀∀⬀ഀ਀                ∀氀椀渀戀⸀䄀樀愀砀⠀✀䄀瀀瀀⼀樀猀⼀最爀椀搀⸀樀猀✀Ⰰ✀✀Ⰰ昀甀渀挀琀椀漀渀⠀猀⤀笀瘀愀爀 栀愀猀栀㴀开⸀甀渀猀攀爀椀愀氀椀稀攀⠀猀⤀㬀漀⸀猀攀琀䠀攀愀搀攀爀⠀栀愀猀栀⸀栀攀愀搀攀爀⤀⸀猀攀琀刀漀眀猀⠀栀愀猀栀⸀爀漀眀猀⤀㬀紀Ⰰ渀甀氀氀Ⰰ渀甀氀氀Ⰰ笀愀猀礀㨀昀愀氀猀攀紀⤀⸀猀琀愀爀琀⠀⤀㬀∀⬀ഀ਀                ∀氀椀渀戀⠀椀搀⤀⸀瀀爀攀瀀攀渀搀⠀漀⤀㬀∀⬀ഀ਀                ∀漀⸀愀昀琀攀爀䌀攀氀氀唀瀀搀愀琀攀搀⠀昀甀渀挀琀椀漀渀⠀瀀Ⰰ挀攀氀氀Ⰰ栀愀猀栀⤀笀氀椀渀戀⸀洀攀猀猀愀最攀⠀✀挀攀氀氀 甀瀀搀愀琀攀搀℀✀⤀㬀紀⤀㬀∀ ⬀ഀ਀                ∀开⸀愀猀礀刀甀渀⠀昀甀渀挀琀椀漀渀⠀⤀笀漀⸀甀瀀搀愀琀攀䌀攀氀氀䈀礀刀漀眀䌀漀氀⠀✀爀漀眀㄀✀Ⰰ✀挀漀氀㄀✀Ⰰ✀愀戀挀✀⤀紀Ⰰ㄀　　　⤀㬀∀⬀ഀ਀                ∀开⸀愀猀礀刀甀渀⠀昀甀渀挀琀椀漀渀⠀⤀笀漀⸀甀瀀搀愀琀攀䌀攀氀氀䈀礀刀漀眀䌀漀氀⠀✀爀漀眀㄀✀Ⰰ✀挀漀氀㈀✀Ⰰ笀琀礀瀀攀㨀✀挀栀攀挀欀戀漀砀✀Ⰰ瘀愀氀甀攀㨀昀愀氀猀攀紀⤀紀Ⰰ㈀　　　⤀㬀∀⬀ഀ਀                ∀紀∀ഀ਀           崀ഀ਀        紀ഀ਀    紀ഀ਀紀⤀㬀ഀ਀ഀ਀⼀⨀ഀ਀    ∀∀㨀笀ഀ਀        ␀搀攀猀挀㨀∀∀Ⰰഀ਀        ␀爀琀渀㨀∀∀Ⰰഀ਀        ␀瀀愀爀愀猀㨀嬀ഀ਀        嬀씀_슗灓嵥 嬀॓슐灓嵥ഀ਀        崀Ⰰഀ਀        ␀猀渀椀瀀瀀攀琀㨀嬀ഀ਀        崀ഀ਀    紀ഀ਀⨀⼀ഀ਀⼀⼀            ∀瘀愀爀 椀搀㴀✀氀椀渀戀⸀琀攀洀瀀⸀㄀✀㬀 椀昀⠀℀氀椀渀戀⸀䐀漀洀⸀戀礀䤀搀⠀椀搀⤀⤀笀琀栀椀猀⸀瀀爀攀瀀攀渀搀⠀氀椀渀戀⸀挀爀攀愀琀攀⠀✀㰀搀椀瘀 椀搀㴀✀⬀椀搀⬀✀ 猀琀礀氀攀㴀尀∀戀漀爀搀攀爀㨀猀漀氀椀搀 ㄀瀀砀㬀瀀愀搀搀椀渀最㨀㄀　瀀砀㬀尀∀㸀✀ ⬀ ✀㰀戀爀 ⼀㸀㰀戀甀琀琀漀渀 漀渀挀氀椀挀欀㴀尀∀氀椀渀戀⠀琀栀椀猀⤀⸀瀀愀爀攀渀琀⠀⤀⸀爀攀洀漀瘀攀⠀⤀尀∀㸀爀攀洀漀瘀攀 琀栀椀猀 攀砀愀洀瀀氀攀㰀⼀戀甀琀琀漀渀㸀✀ ⬀ ✀㰀⼀搀椀瘀㸀✀⤀⤀㬀∀⬀ഀ਀⼀⼀            ∀紀∀尀
+                "linb.Ajax('App/js/grid.js','',function(s){var hash=_.unserialize(s);o.setHeader(hash.header).setRows(hash.rows);},null,null,{asy:false}).start();"+
+                "o.setActiveMode('cell'); alert(o.getActiveMode());"+
+                "linb(id).prepend(o);"+
+                "}"
+            ]
+        },
+        setActiveMode :{
+            $desc:"设置表格的选取模式, 并刷新界面.",
+            $rtn:"[self]",
+            $paras:[
+                "value [必需参数] : String. 可以是'cell'或'row'. 默认为'row'.",
+                "flag [可选参数] : Bool, 强制设置该属性值，即使属性已经设置为该值. 默认为 [false]."
+            ],
+            $snippet:[
+                "var id='linb.temp.grid2'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var o=new linb.UI.TreeGrid({editable:false,altRowsBg:false,position:'relative'});"+
+                "linb.Ajax('App/js/grid.js','',function(s){var hash=_.unserialize(s);o.setHeader(hash.header).setRows(hash.rows);},null,null,{asy:false}).start();"+
+                "o.setActiveMode('row'); alert(o.getActiveMode());"+
+                "linb(id).prepend(o);"+
+                "}"
+            ]
+        },
+        editCellbyRowCol:{
+            $desc:"将单元格绑定到指定的编辑器上.",
+            $paras:[
+                "rowId [必需参数] : String, 单元格行id.",
+                "colId [必需参数] : String, 单元格列id."
+            ],
+            $snippet:[
+                "var id='linb.temp.grid3'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var o=new linb.UI.TreeGrid({position:'relative'});"+
+                "linb.Ajax('App/js/grid.js','',function(s){var hash=_.unserialize(s);o.setHeader(hash.header).setRows(hash.rows);},null,null,{asy:false}).start();"+
+                "linb(id).prepend(o);"+
+                "_.asyRun(function(){o.editCellbyRowCol('row2','col2')},1000);"+
+                "}"
+            ]
+        },
+        getAltRowsBg :{
+            $desc:"判断是否使用不同的背景色区分相邻的两行",
+            $rtn:"Bool",
+            $snippet:[
+                "var id='linb.temp.grid4'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var o=new linb.UI.TreeGrid({editable:false, position:'relative'});"+
+                "linb.Ajax('App/js/grid.js','',function(s){var hash=_.unserialize(s);o.setHeader(hash.header).setRows(hash.rows);},null,null,{asy:false}).start();"+
+                "o.setAltRowsBg(true); alert(o.getAltRowsBg());"+
+                "linb(id).prepend(o);"+
+                "}"
+            ]
+        },
+        setAltRowsBg :{
+            $desc:"设置是否使用不同的背景色区分相邻的两行.",
+            $rtn:"[self]",
+            $paras:[
+                "value [必需参数] : Bool.",
+                "flag [可选参数] : Bool, 强制设置该属性值，即使属性已经设置为该值. 默认为 [false]."
+            ],
+            $snippet:[
+                "var id='linb.temp.grid5'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var o=new linb.UI.TreeGrid({editable:false, position:'relative'});"+
+                "linb.Ajax('App/js/grid.js','',function(s){var hash=_.unserialize(s);o.setHeader(hash.header).setRows(hash.rows);},null,null,{asy:false}).start();"+
+                "o.setAltRowsBg(true); alert(o.getAltRowsBg());"+
+                "linb(id).prepend(o);"+
+                "}"
+            ]
+        },
+        getAnimCollapse :{
+            $desc:"Gets the Animate property value on the first UIProfile",
+            $rtn:"Bool",
+            $snippet:[
+                "var id='linb.temp.grid6'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var o=new linb.UI.TreeGrid({editable:false, position:'relative'});"+
+                "linb.Ajax('App/js/grid.js','',function(s){var hash=_.unserialize(s);o.setHeader(hash.header).setRows(hash.rows);},null,null,{asy:false}).start();"+
+                "o.setAnimCollapse(true); alert(o.getAnimCollapse());"+
+                "linb(id).prepend(o);"+
+                "}"
+            ]
+        },
+        setAnimCollapse :{
+            $desc:"Sets the Animate property value on the each UIProfile, and reflects the value to UI.",
+            $rtn:"[self]",
+            $paras:[
+                "value [必需参数] : Bool.",
+                "flag [可选参数] : Bool, 强制设置该属性值，即使属性已经设置为该值. 默认为 [false]."
+            ],
+            $snippet:[
+                "var id='linb.temp.grid7'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var o=new linb.UI.TreeGrid({editable:false,position:'relative'});"+
+                "linb.Ajax('App/js/grid.js','',function(s){var hash=_.unserialize(s);o.setHeader(hash.header).setRows(hash.rows);},null,null,{asy:false}).start();"+
+                "o.setAnimCollapse(true); alert(o.getAnimCollapse());"+
+                "linb(id).prepend(o);"+
+                "}"
+            ]
+        },
+        getCellbyRowCol:{
+            $desc:"获取单元格对象。 行id和列id由参数指定。",
+            $rtn:"Ojbect",
+            $snippet:[
+                "var id='linb.temp.grid7.1'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var o=new linb.UI.TreeGrid({editable:false, position:'relative'});"+
+                "linb.Ajax('App/js/grid.js','',function(s){var hash=_.unserialize(s);o.setHeader(hash.header).setRows(hash.rows);},null,null,{asy:false}).start();"+
+                "linb(id).prepend(o);"+
+                "alert(o.getCellbyRowCol('row2','col2').value);"+
+                "}"
+            ]
+        },
+        getColHidable:{
+            $desc:"判断终端用户是否可手工隐藏列.",
+            $rtn:"Bool",
+            $snippet:[
+                "var id='linb.temp.grid8.2'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var o=new linb.UI.TreeGrid({editable:false, position:'relative'});"+
+                "linb.Ajax('App/js/grid.js','',function(s){var hash=_.unserialize(s);o.setHeader(hash.header).setRows(hash.rows);},null,null,{asy:false}).start();"+
+                "o.setColHidable(true); alert(o.getColHidable());"+
+                "linb(id).prepend(o);"+
+                "}"
+            ]
+        },
+        setColHidable :{
+            $desc:"设置终端用户是否可手工隐藏列, 并刷新界面.",
+            $rtn:"[self]",
+            $paras:[
+                "value [必需参数] : Bool.",
+                "flag [可选参数] : Bool, 强制设置该属性值，即使属性已经设置为该值. 默认为 [false]."
+            ],
+            $snippet:[
+                "var id='linb.temp.grid9.2'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var o=new linb.UI.TreeGrid({editable:false,position:'relative'});"+
+                "linb.Ajax('App/js/grid.js','',function(s){var hash=_.unserialize(s);o.setHeader(hash.header).setRows(hash.rows);},null,null,{asy:false}).start();"+
+                "o.setColHidable(true); alert(o.getColHidable());"+
+                "linb(id).prepend(o);"+
+                "}"
+            ]
+        },
+        getColMovable :{
+            $desc:"判断终端用户是否可手工移动列的相对位置.",
+            $rtn:"Bool",
+            $snippet:[
+                "var id='linb.temp.grid8'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var o=new linb.UI.TreeGrid({editable:false, position:'relative'});"+
+                "linb.Ajax('App/js/grid.js','',function(s){var hash=_.unserialize(s);o.setHeader(hash.header).setRows(hash.rows);},null,null,{asy:false}).start();"+
+                "o.setColMovable(false); alert(o.getColMovable());"+
+                "linb(id).prepend(o);"+
+                "}"
+            ]
+        },
+        setColMovable :{
+            $desc:"设置终端用户是否可手工移动列的相对位置, 并刷新界面.",
+            $rtn:"[self]",
+            $paras:[
+                "value [必需参数] : Bool.",
+                "flag [可选参数] : Bool, 强制设置该属性值，即使属性已经设置为该值. 默认为 [false]."
+            ],
+            $snippet:[
+                "var id='linb.temp.grid9'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var o=new linb.UI.TreeGrid({editable:false,position:'relative'});"+
+                "linb.Ajax('App/js/grid.js','',function(s){var hash=_.unserialize(s);o.setHeader(hash.header).setRows(hash.rows);},null,null,{asy:false}).start();"+
+                "o.setColMovable(true); alert(o.getColMovable());"+
+                "linb(id).prepend(o);"+
+                "}"
+            ]
+        },
+        getColResizer :{
+            $desc:"判断终端用户是否可手工拖动列的宽度.",
+            $rtn:"Bool",
+            $snippet:[
+                "var id='linb.temp.grid10'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var o=new linb.UI.TreeGrid({editable:false, position:'relative'});"+
+                "linb.Ajax('App/js/grid.js','',function(s){var hash=_.unserialize(s);o.setHeader(hash.header).setRows(hash.rows);},null,null,{asy:false}).start();"+
+                "o.setColResizer(false); alert(o.getColResizer());"+
+                "linb(id).prepend(o);"+
+                "}"
+            ]
+        },
+        setColResizer :{
+            $desc:"设置端用户是否可手工拖动列的宽度, 并刷新界面.",
+            $rtn:"[self]",
+            $paras:[
+                "value [必需参数] : Bool.",
+                "flag [可选参数] : Bool, 强制设置该属性值，即使属性已经设置为该值. 默认为 [false]."
+            ],
+            $snippet:[
+                "var id='linb.temp.grid11'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var o=new linb.UI.TreeGrid({editable:false,position:'relative'});"+
+                "linb.Ajax('App/js/grid.js','',function(s){var hash=_.unserialize(s);o.setHeader(hash.header).setRows(hash.rows);},null,null,{asy:false}).start();"+
+                "o.setColResizer(true); alert(o.getColResizer());"+
+                "linb(id).prepend(o);"+
+                "}"
+            ]
+        },
+        getColSortable :{
+            $desc:"判断终端用户是否可手工对列进行排序.",
+            $rtn:"Bool",
+            $snippet:[
+                "var id='linb.temp.grid12'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var o=new linb.UI.TreeGrid({editable:false, position:'relative'});"+
+                "linb.Ajax('App/js/grid.js','',function(s){var hash=_.unserialize(s);o.setHeader(hash.header).setRows(hash.rows);},null,null,{asy:false}).start();"+
+                "o.setColSortable(false); alert(o.getColSortable());"+
+                "linb(id).prepend(o);"+
+                "}"
+            ]
+        },
+        setColSortable :{
+            $desc:"设置终端用户是否可手工对列进行排序, 并刷新界面.",
+            $rtn:"[self]",
+            $paras:[
+                "value [必需参数] : Bool.",
+                "flag [可选参数] : Bool, 强制设置该属性值，即使属性已经设置为该值. 默认为 [false]."
+            ],
+            $snippet:[
+                "var id='linb.temp.grid13'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var o=new linb.UI.TreeGrid({editable:false,position:'relative'});"+
+                "linb.Ajax('App/js/grid.js','',function(s){var hash=_.unserialize(s);o.setHeader(hash.header).setRows(hash.rows);},null,null,{asy:false}).start();"+
+                "o.setColSortable(true); alert(o.getColSortable());"+
+                "linb(id).prepend(o);"+
+                "}"
+            ]
+        },
+        getEditable :{
+            $desc:"判断表格为只读或可写.",
+            $rtn:"Bool",
+            $snippet:[
+                "var id='linb.temp.grid14'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var o=new linb.UI.TreeGrid({position:'relative'});"+
+                "linb.Ajax('App/js/grid.js','',function(s){var hash=_.unserialize(s);o.setHeader(hash.header).setRows(hash.rows);},null,null,{asy:false}).start();"+
+                "o.setEditable(false); alert(o.getEditable());"+
+                "linb(id).prepend(o);"+
+                "}"
+            ]
+        },
+        setEditable :{
+            $desc:"表格为只读或可写, 并刷新界面.",
+            $rtn:"[self]",
+            $paras:[
+                "value [必需参数] : Bool.",
+                "flag [可选参数] : Bool, 强制设置该属性值，即使属性已经设置为该值. 默认为 [false]."
+            ],
+            $snippet:[
+                "var id='linb.temp.grid15'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var o=new linb.UI.TreeGrid({position:'relative'});"+
+                "linb.Ajax('App/js/grid.js','',function(s){var hash=_.unserialize(s);o.setHeader(hash.header).setRows(hash.rows);},null,null,{asy:false}).start();"+
+                "o.setEditable(true); alert(o.getEditable());"+
+                "linb(id).prepend(o);"+
+                "}"
+            ]
+        },
+        getHeaderHeight :{
+            $desc:"获取表头高度.",
+            $rtn:"Number",
+            $snippet:[
+                "var id='linb.temp.grid16'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var o=new linb.UI.TreeGrid({editable:false, position:'relative'});"+
+                "linb.Ajax('App/js/grid.js','',function(s){var hash=_.unserialize(s);o.setHeader(hash.header).setRows(hash.rows);},null,null,{asy:false}).start();"+
+                "o.setHeaderHeight(40); alert(o.getHeaderHeight());"+
+                "linb(id).prepend(o);"+
+                "}"
+            ]
+        },
+        setHeaderHeight :{
+            $desc:"设置表头高度, 并刷新界面.",
+            $rtn:"[self]",
+            $paras:[
+                "value [必需参数] : Number.",
+                "flag [可选参数] : Bool, 强制设置该属性值，即使属性已经设置为该值. 默认为 [false]."
+            ],
+            $snippet:[
+                "var id='linb.temp.grid17'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var o=new linb.UI.TreeGrid({editable:false,position:'relative'});"+
+                "linb.Ajax('App/js/grid.js','',function(s){var hash=_.unserialize(s);o.setHeader(hash.header).setRows(hash.rows);},null,null,{asy:false}).start();"+
+                "o.setHeaderHeight(40); alert(o.getHeaderHeight());"+
+                "linb(id).prepend(o);"+
+                "}"
+            ]
+        },
+        getRowHeight :{
+            $desc:"获取行高度.",
+            $rtn:"Number",
+            $snippet:[
+                "var id='linb.temp.grid18'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var o=new linb.UI.TreeGrid({editable:false, position:'relative'});"+
+                "linb.Ajax('App/js/grid.js','',function(s){var hash=_.unserialize(s);o.setHeader(hash.header).setRows(hash.rows);},null,null,{asy:false}).start();"+
+                "o.setRowHeight(40); alert(o.getRowHeight());"+
+                "linb(id).prepend(o);"+
+                "}"
+            ]
+        },
+        setRowHeight :{
+            $desc:"设置行高度, 并刷新界面.",
+            $rtn:"[self]",
+            $paras:[
+                "value [必需参数] : Number.",
+                "flag [可选参数] : Bool, 强制设置该属性值，即使属性已经设置为该值. 默认为 [false]."
+            ],
+            $snippet:[
+                "var id='linb.temp.grid19'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var o=new linb.UI.TreeGrid({editable:false,position:'relative'});"+
+                "linb.Ajax('App/js/grid.js','',function(s){var hash=_.unserialize(s);o.setHeader(hash.header).setRows(hash.rows);},null,null,{asy:false}).start();"+
+                "o.setRowHeight(40); alert(o.getRowHeight());"+
+                "linb(id).prepend(o);"+
+                "}"
+            ]
+        },
+        getIniFold :{
+            $desc:"判断表格在初始化是打开或收缩子行（用于带有子行的树形表格）",
+            $rtn:"Bool",
+            $snippet:[
+                "var id='linb.temp.grid20'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var o=new linb.UI.TreeGrid({position:'relative'});"+
+                "linb.Ajax('App/js/grid.js','',function(s){var hash=_.unserialize(s);o.setHeader(hash.header).setRows(hash.rows);},null,null,{asy:false}).start();"+
+                "o.setIniFold(false); alert(o.getIniFold());"+
+                "linb(id).prepend(o);"+
+                "}"
+            ]
+        },
+        setIniFold :{
+            $desc:"设置表格在初始化是打开或收缩子行（用于带有子行的树形表格）, 并刷新界面.",
+            $rtn:"[self]",
+            $paras:[
+                "value [必需参数] : Bool.",
+                "flag [可选参数] : Bool, 强制设置该属性值，即使属性已经设置为该值. 默认为 [false]."
+            ],
+            $snippet:[
+                "var id='linb.temp.grid21'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var o=new linb.UI.TreeGrid({position:'relative'});"+
+                "linb.Ajax('App/js/grid.js','',function(s){var hash=_.unserialize(s);o.setHeader(hash.header).setRows(hash.rows);},null,null,{asy:false}).start();"+
+                "o.setIniFold(true); alert(o.getIniFold());"+
+                "linb(id).prepend(o);"+
+                "}"
+            ]
+        },
+        getRowResizer :{
+            $desc:"判断终端用户是否可以拖动改变行高.",
+            $rtn:"Bool",
+            $snippet:[
+                "var id='linb.temp.grid22'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var o=new linb.UI.TreeGrid({editable:false, position:'relative'});"+
+                "linb.Ajax('App/js/grid.js','',function(s){var hash=_.unserialize(s);o.setHeader(hash.header).setRows(hash.rows);},null,null,{asy:false}).start();"+
+                "o.setRowResizer(false); alert(o.getRowResizer());"+
+                "linb(id).prepend(o);"+
+                "}"
+            ]
+        },
+        setRowResizer :{
+            $desc:"设置终端用户是否可以拖动改变行高, 并刷新界面.",
+            $rtn:"[self]",
+            $paras:[
+                "value [必需参数] : Bool.",
+                "flag [可选参数] : Bool, 强制设置该属性值，即使属性已经设置为该值. 默认为 [false]."
+            ],
+            $snippet:[
+                "var id='linb.temp.grid23'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var o=new linb.UI.TreeGrid({editable:false,position:'relative'});"+
+                "linb.Ajax('App/js/grid.js','',function(s){var hash=_.unserialize(s);o.setHeader(hash.header).setRows(hash.rows);},null,null,{asy:false}).start();"+
+                "o.setRowResizer(true); alert(o.getRowResizer());"+
+                "linb(id).prepend(o);"+
+                "}"
+            ]
+        },
+        getRowHandler :{
+            $desc:"判断行前是否带有用以拖动的行头.",
+            $rtn:"Bool",
+            $snippet:[
+                "var id='linb.temp.grid124'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var o=new linb.UI.TreeGrid({editable:false, position:'relative'});"+
+                "linb.Ajax('App/js/grid.js','',function(s){var hash=_.unserialize(s);o.setHeader(hash.header).setRows(hash.rows);},null,null,{asy:false}).start();"+
+                "o.setRowHandler(false); alert(o.getRowHandler());"+
+                "linb(id).prepend(o);"+
+                "}"
+            ]
+        },
+        setRowHandler :{
+            $desc:"设置行前是否带有用以拖动的行头, 并刷新界面.",
+            $rtn:"[self]",
+            $paras:[
+                "value [必需参数] : Bool.",
+                "flag [可选参数] : Bool, 强制设置该属性值，即使属性已经设置为该值. 默认为 [false]."
+            ],
+            $snippet:[
+                "var id='linb.temp.grid125'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var o=new linb.UI.TreeGrid({editable:false,position:'relative'});"+
+                "linb.Ajax('App/js/grid.js','',function(s){var hash=_.unserialize(s);o.setHeader(hash.header).setRows(hash.rows);},null,null,{asy:false}).start();"+
+                "o.setRowHandler(true); alert(o.getRowHandler());"+
+                "linb(id).prepend(o);"+
+                "}"
+            ]
+        },
+        getSelMode :{
+            $desc:"获取表格的选择模式.",
+            $rtn:"String",
+            $snippet:[
+                "var id='linb.temp.grid126'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var o=new linb.UI.TreeGrid({editable:false, position:'relative'});"+
+                "linb.Ajax('App/js/grid.js','',function(s){var hash=_.unserialize(s);o.setHeader(hash.header).setRows(hash.rows);},null,null,{asy:false}).start();"+
+                "o.setSelMode('none'); alert(o.getSelMode());"+
+                "linb(id).prepend(o);"+
+                "}"
+            ]
+        },
+        setSelMode :{
+            $desc:"设置表格的选择模式 并刷新界面.",
+            $rtn:"[self]",
+            $paras:[
+                "value [必需参数] : String. 'none', 'single' or 'multi'. 默认为 'single'.",
+                "flag [可选参数] : Bool, 强制设置该属性值，即使属性已经设置为该值. 默认为 [false]."
+            ],
+            $snippet:[
+                "var id='linb.temp.grid127'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var o=new linb.UI.TreeGrid({editable:false,position:'relative'});"+
+                "linb.Ajax('App/js/grid.js','',function(s){var hash=_.unserialize(s);o.setHeader(hash.header).setRows(hash.rows);},null,null,{asy:false}).start();"+
+                "o.setSelMode('multi'); alert(o.getSelMode());"+
+                "linb(id).prepend(o);"+
+                "}"
+            ]
+        },
+        insertRows:{
+             $desc:"添加一组行.",
+             $rtn:"[self]",
+             $paras:[
+                "arr [必需参数] : Array. 行项目数组.",
+                "pid [可选参数] : String, 父行id.",
+                "base [可选参数] : String. 基准行id.",
+                "before [可选参数] : Bool. 插入行在基准行之前或之后. 默认为 false;"
+             ],
+            $snippet:[
+                "var id='linb.temp.grid128'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var o=new linb.UI.TreeGrid({editable:false,iniFold:false,position:'relative'});"+
+                "linb.Ajax('App/js/grid.js','',function(s){var hash=_.unserialize(s);o.setHeader(hash.header).setRows(hash.rows);},null,null,{asy:false}).start();"+
+                "linb(id).prepend(o);"+
+                "_.asyRun(function(){o.insertRows([{id : 'row_1',cells:['cell_1',1,true,'label1']},{id : 'row_11',cells:['cell_11',1,true,'label1']}],'row4',null,true)},1000);"+
+                "_.asyRun(function(){o.insertRows([{id : 'row_2',cells:['cell_2',1,true,'label1']}],'row4',null,false)},2000);"+
+                "_.asyRun(function(){o.insertRows([{id : 'row_3',cells:['cell_3',1,true,'label1']}],null,'row2',false)},3000);"+
+                "_.asyRun(function(){o.insertRows([{id : 'row_4',cells:['cell_4',1,true,'label1']}],null,'row2',true)},4000);"+
+                "}"
+            ]
+        },
+        toggleRow:{
+            $desc:"打开或折叠指定的行. 该函数只对带有子行的行有效.",
+            $rtn:"String",
+            $paras:[
+                "id [必需参数] : String. 节点id.",
+                "expend [可选参数] : Bool. true为打开，false为折叠."
+            ],
+            $snippet:[
+                "var id='linb.temp.grid129'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var o=new linb.UI.TreeGrid({editable:false,position:'relative'});"+
+                "linb.Ajax('App/js/grid.js','',function(s){var hash=_.unserialize(s);o.setHeader(hash.header).setRows(hash.rows);},null,null,{asy:false}).start();"+
+                "linb(id).prepend(o);"+
+                "_.asyRun(function(){o.toggleRow('row4',true)},1000);"+
+                "}"
+            ]
+        },
+        updateCell:{
+            $desc:"更新指定单元个的值.",
+            $rtn:"[self]",
+            $paras:[
+                "cellId [必需参数] : String, 单元格id.",
+                "hash [必需参数] : key/value object, 需要更新的键值对."
+            ],
+            $snippet:[
+                "var id='linb.temp.grid130'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var o=new linb.UI.TreeGrid({editable:false,position:'relative'});"+
+                "linb.Ajax('App/js/grid.js','',function(s){var hash=_.unserialize(s);o.setHeader(hash.header).setRows(hash.rows);},null,null,{asy:false}).start();"+
+                "linb(id).prepend(o);"+
+                "_.asyRun(function(){o.updateCell('c_a',{value:'a a a a'})},1000);"+
+                "}"
+            ]
+        },
+        updateCellByRowCol:{
+            $desc:"更新行id和列id的单元格.",
+            $rtn:"[self]",
+            $paras:[
+                "rowId [必需参数] : String, 单元格在的行id.",
+                "colId [必需参数] : String, 单元格在的列id.",
+                "hash [必需参数] : key/value object, 需要更新的键值对."
+            ],
+            $snippet:[
+                "var id='linb.temp.grid131'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var o=new linb.UI.TreeGrid({editable:false,position:'relative'});"+
+                "linb.Ajax('App/js/grid.js','',function(s){var hash=_.unserialize(s);o.setHeader(hash.header).setRows(hash.rows);},null,null,{asy:false}).start();"+
+                "linb(id).prepend(o);"+
+                "_.asyRun(function(){o.updateCellByRowCol('row1','col1',{value:'b b b b'})},1000);"+
+                "}"
+            ]
+        },
+        getRowDragable :{
+            $desc:"判断终端用户是否可以拖动行以改变行排序或父子关系",
+            $rtn:"Bool",
+            $snippet:[
+                "var id='linb.temp.grid32'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var o=new linb.UI.TreeGrid({editable:false, position:'relative'});"+
+                "linb.Ajax('App/js/grid.js','',function(s){var hash=_.unserialize(s);o.setHeader(hash.header).setRows(hash.rows);},null,null,{asy:false}).start();"+
+                "o.setRowDragable(false); alert(o.getRowDragable());"+
+                "linb(id).prepend(o);"+
+                "}"
+            ]
+        },
+        setRowDragable :{
+            $desc:"设置终端用户是否可以拖动行以改变行排序或父子关系, 并刷新界面.",
+            $rtn:"[self]",
+            $paras:[
+                "value [必需参数] : Bool.",
+                "flag [可选参数] : Bool, 强制设置该属性值，即使属性已经设置为该值. 默认为 [false]."
+            ],
+            $snippet:[
+                "var id='linb.temp.grid33'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var o=new linb.UI.TreeGrid({editable:false,position:'relative'});"+
+                "linb.Ajax('App/js/grid.js','',function(s){var hash=_.unserialize(s);o.setHeader(hash.header).setRows(hash.rows);},null,null,{asy:false}).start();"+
+                "o.setRowDragable(true); alert(o.getRowDragable());"+
+                "linb(id).prepend(o);"+
+                "}"
+            ]
+        },
+        getRows :{
+            $desc:"获取表格的所有行",
+            $rtn:"object",
+            $snippet:[
+                "var id='linb.temp.grid32'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var o=new linb.UI.TreeGrid({editable:false, position:'relative'});"+
+                "linb.Ajax('App/js/grid.js','',function(s){var hash=_.unserialize(s);o.setHeader(hash.header).setRows(hash.rows);},null,null,{asy:false}).start();"+
+                "_.asyRun(function(){o.setRows([{id : 'row_1',cells:['cell_1',1,true,'label1']},{id : 'row_11',cells:['cell_11',1,true,'label1']}]); alert(o.getRows().length)});"+
+                "linb(id).prepend(o);"+
+                "}"
+            ]
+        },
+        setRows :{
+            $desc:"设置表格的所有行, 并刷新界面.",
+            $rtn:"[self]",
+            $paras:[
+                "value [必需参数] : object.",
+                "flag [可选参数] : Bool, 强制设置该属性值，即使属性已经设置为该值. 默认为 [false]."
+            ],
+            $snippet:[
+                "var id='linb.temp.grid33'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var o=new linb.UI.TreeGrid({editable:false,position:'relative'});"+
+                "linb.Ajax('App/js/grid.js','',function(s){var hash=_.unserialize(s);o.setHeader(hash.header).setRows(hash.rows);},null,null,{asy:false}).start();"+
+                "_.asyRun(function(){o.setRows([{id : 'row_1',cells:['cell_1',1,true,'label1']},{id : 'row_11',cells:['cell_11',1,true,'label1']}]); alert(o.getRows().length)});"+
+                "linb(id).prepend(o);"+
+                "}"
+            ]
+        },
+        getHeader :{
+            $desc:"获取表头对象",
+            $rtn:"object",
+            $snippet:[
+                "var id='linb.temp.grid34'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var o=new linb.UI.TreeGrid({editable:false, position:'relative'});"+
+                "linb.Ajax('App/js/grid.js','',function(s){var hash=_.unserialize(s);o.setHeader(hash.header).setRows(hash.rows);},null,null,{asy:false}).start();"+
+                "_.asyRun(function(){alert(o.getHeader().length)});"+
+                "linb(id).prepend(o);"+
+                "}"
+            ]
+        },
+        setHeader :{
+            $desc:"设置表头对象, 并刷新界面.",
+            $rtn:"[self]",
+            $paras:[
+                "value [必需参数] : object.",
+                "flag [可选参数] : Bool, 强制设置该属性值，即使属性已经设置为该值. 默认为 [false]."
+            ],
+            $snippet:[
+                "var id='linb.temp.grid35'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var o=new linb.UI.TreeGrid({editable:false,position:'relative'});"+
+                "linb.Ajax('App/js/grid.js','',function(s){var hash=_.unserialize(s);o.setHeader(hash.header).setRows(hash.rows);},null,null,{asy:false}).start();"+
+                "_.asyRun(function(){alert(o.getHeader().length)});"+
+                "linb(id).prepend(o);"+
+                "}"
+            ]
+        },
+        getRowbyRowId  :{
+            $desc:"更新行id为指定值的行.",
+            $rtn:"Object",
+            $paras:[
+                "rowId [必需参数] : String."
+            ],
+            $snippet:[
+                "var id='linb.temp.grid36'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var o=new linb.UI.TreeGrid({editable:false,position:'relative'});"+
+                "linb.Ajax('App/js/grid.js','',function(s){var hash=_.unserialize(s);o.setHeader(hash.header).setRows(hash.rows);},null,null,{asy:false}).start();"+
+                "linb(id).prepend(o);"+
+                "_.asyRun(function(){alert(o.getRowbyRowId('row2'))});"+
+                "}"
+            ]
+        },
+        getRowNumbered :{
+            $desc:"判断是否在行前显示行号",
+            $rtn:"Bool",
+            $snippet:[
+                "var id='linb.temp.grid37'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var o=new linb.UI.TreeGrid({editable:false, position:'relative'});"+
+                "linb.Ajax('App/js/grid.js','',function(s){var hash=_.unserialize(s);o.setHeader(hash.header).setRows(hash.rows);},null,null,{asy:false}).start();"+
+                "o.setRowNumbered(true); alert(o.getRowNumbered());"+
+                "linb(id).prepend(o);"+
+                "}"
+            ]
+        },
+        setRowNumbered :{
+            $desc:"设置是否在行前显示行号, 并刷新界面.",
+            $rtn:"[self]",
+            $paras:[
+                "value [必需参数] : Bool.",
+                "flag [可选参数] : Bool, 强制设置该属性值，即使属性已经设置为该值. 默认为 [false]."
+            ],
+            $snippet:[
+                "var id='linb.temp.grid38'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var o=new linb.UI.TreeGrid({editable:false,position:'relative'});"+
+                "linb.Ajax('App/js/grid.js','',function(s){var hash=_.unserialize(s);o.setHeader(hash.header).setRows(hash.rows);},null,null,{asy:false}).start();"+
+                "o.setRowNumbered(true); alert(o.getRowNumbered());"+
+                "linb(id).prepend(o);"+
+                "}"
+            ]
+        },
+        getShowHeader :{
+            $desc:"判断是否显示表头",
+            $rtn:"Bool",
+            $snippet:[
+                "var id='linb.temp.grid39'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var o=new linb.UI.TreeGrid({editable:false, position:'relative'});"+
+                "linb.Ajax('App/js/grid.js','',function(s){var hash=_.unserialize(s);o.setHeader(hash.header).setRows(hash.rows);},null,null,{asy:false}).start();"+
+                "o.setShowHeader(false); alert(o.getShowHeader());"+
+                "linb(id).prepend(o);"+
+                "}"
+            ]
+        },
+        setShowHeader :{
+            $desc:"设置是否显示表头, 并刷新界面.",
+            $rtn:"[self]",
+            $paras:[
+                "value [必需参数] : Bool.",
+                "flag [可选参数] : Bool, 强制设置该属性值，即使属性已经设置为该值. 默认为 [false]."
+            ],
+            $snippet:[
+                "var id='linb.temp.grid40'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var o=new linb.UI.TreeGrid({editable:false,position:'relative'});"+
+                "linb.Ajax('App/js/grid.js','',function(s){var hash=_.unserialize(s);o.setHeader(hash.header).setRows(hash.rows);},null,null,{asy:false}).start();"+
+                "o.setShowHeader(false); alert(o.getShowHeader());"+
+                "linb(id).prepend(o);"+
+                "}"
+            ]
+        },
+        resetGridValue:{
+            $desc:"重新设置所有单元格的值, 并清除脏标志.",
+            $rtn:"[self]",
+            $snippet:[
+                "var id='linb.temp.grid41'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var o=new linb.UI.TreeGrid({editable:false,position:'relative'});"+
+                "linb.Ajax('App/js/grid.js','',function(s){var hash=_.unserialize(s);o.setHeader(hash.header).setRows(hash.rows);},null,null,{asy:false}).start();"+
+                "linb(id).prepend(o);"+
+                "o.updateCellByRowCol('row1','col1',{value:'a'}).updateCellByRowCol('row1','col2',{value:5}).updateCellByRowCol('row2','col2',{value:8});"+
+                "_.asyRun(function(){o.resetGridValue()},1000);"+
+                "}"
+            ]
+        },
+        showColumn :{
+            $desc:"显示或隐藏指定的列.",
+            $rtn:"[self]",
+            $paras:[
+                "colId [必需参数] : String. 列id.",
+                "flag [可选参数] : Bool. True为显示，false为隐藏. 默认为 true."
+            ],
+            $snippet:[
+                "var id='linb.temp.grid42'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var o=new linb.UI.TreeGrid({editable:false,position:'relative'});"+
+                "linb.Ajax('App/js/grid.js','',function(s){var hash=_.unserialize(s);o.setHeader(hash.header).setRows(hash.rows);},null,null,{asy:false}).start();"+
+                "linb(id).prepend(o);"+
+                "_.asyRun(function(){o.showColumn('col1',false)},1000);"+
+                "_.asyRun(function(){o.showColumn('col1')},2000);"+
+                "}"
+            ]
+        },
+        removeAllRows:{
+            $desc:"去除所有行.",
+            $rtn:"[self]",
+            $snippet:[
+                "var id='linb.temp.grid43'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var o=new linb.UI.TreeGrid({editable:false,position:'relative'});"+
+                "linb.Ajax('App/js/grid.js','',function(s){var hash=_.unserialize(s);o.setHeader(hash.header).setRows(hash.rows);},null,null,{asy:false}).start();"+
+                "linb(id).prepend(o);"+
+                "_.asyRun(function(){o.removeAllRows()},1000);"+
+                "}"
+            ]
+        },
+        removeRows:{
+            $desc:"去除指定行.",
+            $rtn:"[self]",
+            $paras:[
+                "ids [必需参数] : String, 行id数组."
+            ],
+            $snippet:[
+                "var id='linb.temp.grid44'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var o=new linb.UI.TreeGrid({editable:false,position:'relative'});"+
+                "linb.Ajax('App/js/grid.js','',function(s){var hash=_.unserialize(s);o.setHeader(hash.header).setRows(hash.rows);},null,null,{asy:false}).start();"+
+                "linb(id).prepend(o);"+
+                "_.asyRun(function(){o.removeRows(['row1','row2'])},1000);" +
+                "}"
+            ]
+        },
+
+        beforeCellActive:{
+            $desc:"在单元格激活前被调用. 返回false将阻止单元格被激活.",
+            $paras:[
+                "profile : linb.UIProfile对象.",
+                "cell : 单元格对象."
+            ],
+            $snippet:[
+                "var id='linb.temp.grid50'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var o=new linb.UI.TreeGrid({editable:false,position:'relative'});"+
+                "linb.Ajax('App/js/grid.js','',function(s){var hash=_.unserialize(s);o.setHeader(hash.header).setRows(hash.rows);},null,null,{asy:false}).start();"+
+                "o.setActiveMode('cell');"+
+                "linb(id).prepend(o);"+
+                "o.beforeCellActive(function(p,c){return false;});" +
+                "}"
+            ]
+        },
+        beforeRowActive:{
+            $desc:"在行激活前被调用. 返回false将阻止行被激活.",
+            $paras:[
+                "profile : linb.UIProfile 对象.",
+                "row : 行对象."
+            ],
+            $snippet:[
+                "var id='linb.temp.grid51'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var o=new linb.UI.TreeGrid({editable:false,position:'relative'});"+
+                "linb.Ajax('App/js/grid.js','',function(s){var hash=_.unserialize(s);o.setHeader(hash.header).setRows(hash.rows);},null,null,{asy:false}).start();"+
+                "o.setActiveMode('row');"+
+                "linb(id).prepend(o);"+
+                "o.beforeRowActive(function(p,c){return false;});" +
+                "}"
+            ]
+        },
+        afterCellActive:{
+            $desc:"在单元格激活后被调用.",
+            $paras:[
+                "profile : linb.UIProfile object.",
+                "cell : 单元格对象."
+            ],
+            $snippet:[
+                "var id='linb.temp.grid52'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var o=new linb.UI.TreeGrid({editable:false,position:'relative'});"+
+                "linb.Ajax('App/js/grid.js','',function(s){var hash=_.unserialize(s);o.setHeader(hash.header).setRows(hash.rows);},null,null,{asy:false}).start();"+
+                "o.setActiveMode('cell');"+
+                "linb(id).prepend(o);"+
+                "o.afterCellActive(function(p,c){linb.message(c.value);});" +
+                "}"
+            ]
+        },
+        afterRowActive:{
+            $desc:"在行被激活后被调用.",
+            $paras:[
+                "profile : linb.UIProfile 对象.",
+                "row : 行对象."
+            ],
+            $snippet:[
+                "var id='linb.temp.grid53'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var o=new linb.UI.TreeGrid({editable:false,position:'relative'});"+
+                "linb.Ajax('App/js/grid.js','',function(s){var hash=_.unserialize(s);o.setHeader(hash.header).setRows(hash.rows);},null,null,{asy:false}).start();"+
+                "o.setActiveMode('row');"+
+                "linb(id).prepend(o);"+
+                "o.afterRowActive(function(p,c){linb.message(c.id);});" +
+                "}"
+            ]
+        },
+        beforeColMoved:{
+            $desc:"在终端用户改变列位置前被调用. 返回false将阻止列位置被改变.",
+            $paras:[
+                "profile : linb.UIProfile 对象.",
+                "colId : 被移动的列id.",
+                "toId : 基准列id，移动的列将放在该列之前."
+            ],
+            $snippet:[
+                "var id='linb.temp.grid54'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var o=new linb.UI.TreeGrid({editable:false,position:'relative'});"+
+                "linb.Ajax('App/js/grid.js','',function(s){var hash=_.unserialize(s);o.setHeader(hash.header).setRows(hash.rows);},null,null,{asy:false}).start();"+
+                "o.setColMovable(true);"+
+                "linb(id).prepend(o);"+
+                "o.beforeColMoved(function(p,colId){if(colId=='col1')return false;});" +
+                "o.afterColMoved(function(p,colId,toId){linb.message(colId +' is moved to the the front of '+ toId)});" +
+                "}"
+            ]
+        },
+        afterColMoved:{
+            $desc:"在终端用户改变列位置后被调用.",
+            $paras:[
+                "profile : linb.UIProfile 对象.",
+                "colId : 被移动的列id.",
+                "toId : 基准列id，移动的列将放在该列之前."
+            ],
+            $snippet:[
+                "var id='linb.temp.grid55'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var o=new linb.UI.TreeGrid({editable:false,position:'relative'});"+
+                "linb.Ajax('App/js/grid.js','',function(s){var hash=_.unserialize(s);o.setHeader(hash.header).setRows(hash.rows);},null,null,{asy:false}).start();"+
+                "o.setColMovable(true);"+
+                "linb(id).prepend(o);"+
+                "o.beforeColMoved(function(p,colId){if(colId=='col1')return false;});" +
+                "o.afterColMoved(function(p,colId,toId){linb.message(colId +' is moved to the the front of '+ toId)});" +
+                "}"
+            ]
+        },
+        beforeColDrag:{
+            $desc:"在终端用户拖动列之前被调用. 返回false将阻止列拖动.",
+            $paras:[
+                "profile : linb.UIProfile 对象.",
+                "colId : 列id."
+            ],
+            $snippet:[
+                "var id='linb.temp.grid56'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var o=new linb.UI.TreeGrid({editable:false,position:'relative'});"+
+                "linb.Ajax('App/js/grid.js','',function(s){var hash=_.unserialize(s);o.setHeader(hash.header).setRows(hash.rows);},null,null,{asy:false}).start();"+
+                "o.setColMovable(true);"+
+                "linb(id).prepend(o);"+
+                "o.beforeColDrag(function(p,colId){if(colId=='col1')return false;});" +
+                "}",
+                "var id='linb.temp.grid57'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var o=new linb.UI.TreeGrid({editable:false,position:'relative'});"+
+                "linb.Ajax('App/js/grid.js','',function(s){var hash=_.unserialize(s); hash.header[0].colMovable=false; o.setHeader(hash.header).setRows(hash.rows);},null,null,{asy:false}).start();"+
+                "o.setColMovable(true);"+
+                "linb(id).prepend(o);"+
+                "}"
+           ],
+            $memo:"Equals to set 'colMovable' to false in the specified column in header array."
+        },
+
+        onGetContent:{
+            $desc:"在父行被展开，需要子行数据是被调用.",
+            $paras:[
+                "profile : linb.UIProfile 对象.",
+                "row : 父行对象.",
+                "callback : Function, 回调函数.",
+                "threadid : String, 线程id."
+            ],
+            $snippet:[
+                "var id='linb.temp.grid57'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var o=new linb.UI.TreeGrid({editable:false,position:'relative'});"+
+                "linb.Ajax('App/js/grid.js','',function(s){var hash=_.unserialize(s);hash.rows[3].sub=hash.rows[4].sub=true;o.setHeader(hash.header).setRows(hash.rows);},null,null,{asy:false}).start();"+
+                "linb(id).prepend(o);"+
+                "o.onGetContent(function(p,row){return row.id=='row4'?[['a',1,true,{type:'checkbox',value:true}]]:[['b',3,false,'#555555']];});" +
+                "}"
+           ]
+        },
+        onRowSelected:{
+            $desc:"在行被选择时被调用.",
+            $paras:[
+                "profile : linb.UIProfile 对象.",
+                "row: 行对象.",
+                "src: 相关的DOM对象."
+            ],
+            $snippet:[
+                "var id='linb.temp.grid58'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var o=new linb.UI.TreeGrid({editable:false,position:'relative'});"+
+                "linb.Ajax('App/js/grid.js','',function(s){var hash=_.unserialize(s);o.setHeader(hash.header).setRows(hash.rows);},null,null,{asy:false}).start();"+
+                "linb(id).prepend(o);"+
+                "o.onRowSelected(function(p,row){linb.message(row.id)});" +
+                "}"
+           ]
+        },
+        onDblClickRow:{
+            $desc:"在行被双击时调用.",
+            $paras:[
+                "profile : linb.UIProfile 对象.",
+                "row: 行对象.",
+                "e: DOM事件对象.",
+                "src: 相关的DOM对象."
+            ],
+            $snippet:[
+                "var id='linb.temp.grid59'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var o=new linb.UI.TreeGrid({editable:false,position:'relative'});"+
+                "linb.Ajax('App/js/grid.js','',function(s){var hash=_.unserialize(s);o.setHeader(hash.header).setRows(hash.rows);},null,null,{asy:false}).start();"+
+                "linb(id).prepend(o);"+
+                "o.onDblClickRow(function(p,row){linb.message(row.id)});" +
+                "}"
+           ]
+        },
+        onClickButton :{
+            $desc:"当单元格按钮被单击时调用，只对单元格为'button/getter/popbox/cmdbox'时有效.",
+            $paras:[
+                "profile : linb.UIProfile object.",
+                "cell: the cell object.",
+                "proEditor: the editor profile object, if the editor exists.",
+                "pos: the click event mouse position.",
+                "e: the DOM event object.",
+                "src: the related DOM element."
+            ],
+            $snippet:[
+                "var id='linb.temp.grid60'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var o=new linb.UI.TreeGrid({editable:false,position:'relative'});"+
+                "linb.Ajax('App/js/grid.js','',function(s){var hash=_.unserialize(s);hash.header[0].type='button';hash.header[1].type='cmdbox';hash.header[2].type='popbox';o.setHeader(hash.header).setRows(hash.rows);},null,null,{asy:false}).start();"+
+                "o.setEditable(true);"+
+                "linb(id).prepend(o);"+
+                "o.onClickButton(function(p,cell){linb.message(cell.value)});" +
+                "}"
+           ]
+        },
+        beforeIniEditor: {
+            $desc:"在单元格由展示状态变为编辑状态时调用(将编辑器附着在单元格上). 返回false将阻止单元格被编辑.",
+            $paras:[
+                "profile : linb.UIProfile 对象.",
+                "cell : 单元格对象."
+            ],
+            $snippet:[
+                "var id='linb.temp.grid61-1'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var o=new linb.UI.TreeGrid({editable:true,position:'relative'});"+
+                "linb.Ajax('App/js/grid.js','',function(s){var hash=_.unserialize(s);o.setHeader(hash.header).setRows(hash.rows);},null,null,{asy:false}).start();"+
+                "linb(id).prepend(o);"+
+                "o.beforeIniEditor(function(p,cell){if(cell._col.id!='col2')return false;});" +
+                "}"
+           ]
+        },
+        beforeCellUpdated: {
+            $desc:"在单元格的值被终端用户更新前调用. 返回false将阻止单元格值被更新.",
+            $paras:[
+                "profile : linb.UIProfile object.",
+                "cell : the cell object.",
+                "hash [必需参数] : key/value object, 将要更新的键值对."
+            ],
+            $snippet:[
+                "var id='linb.temp.grid61'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var o=new linb.UI.TreeGrid({editable:false,position:'relative'});"+
+                "linb.Ajax('App/js/grid.js','',function(s){var hash=_.unserialize(s);o.setHeader(hash.header).setRows(hash.rows);},null,null,{asy:false}).start();"+
+                "linb(id).prepend(o);"+
+                "o.beforeCellUpdated(function(){linb.message('Cant update cell!');return false;});" +
+                "_.asyRun(function(){o.updateCellByRowCol('row1','col1','abc')},1000);"+
+                "}"
+           ]
+        },
+        afterCellUpdated: {
+            $desc:"在单元格的值被终端用户更新后调用",
+            $paras:[
+                "profile : linb.UIProfile 对象.",
+                "cell : 单元格对象.",
+                "hash [必需参数] : key/value object, 更新的键值对."
+            ],
+            $snippet:[
+                "var id='linb.temp.grid62'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var o=new linb.UI.TreeGrid({editable:false,position:'relative'});"+
+                "linb.Ajax('App/js/grid.js','',function(s){var hash=_.unserialize(s);o.setHeader(hash.header).setRows(hash.rows);},null,null,{asy:false}).start();"+
+                "linb(id).prepend(o);"+
+                "o.afterCellUpdated(function(p,cell,hash){linb.message('cell updated!');});" +
+                "_.asyRun(function(){o.updateCellByRowCol('row1','col1','abc')},1000);"+
+                "_.asyRun(function(){o.updateCellByRowCol('row1','col2',{type:'checkbox',value:false})},2000);"+
+                "}"
+           ]
+        }
+    }
+});
