@@ -8278,7 +8278,7 @@ Class('linb.Profile','linb.absProfile',{
         self.properties=properties||self.properties||{};
         self.events=events||self.events||{};
         self.host=host||self.host||self;
-        self.box=box||self.box||null;
+        self.box=box||self.box||self.constructor;
         if(self.events){
             self.setEvents(self.events);
             delete self.events;
@@ -25469,8 +25469,10 @@ Class("linb.UI.Range", ["linb.UI","linb.absValue"],{
                 }else{
                     if(o.pos=='before')
                         before.push(o);
-                    else
+                    else{
+                        o.pos='after';
                         after.push(o);
+                    }
                 }
             });
 

@@ -488,8 +488,10 @@ Class("linb.UI.Layout",["linb.UI", "linb.absList"],{
                 }else{
                     if(o.pos=='before')
                         before.push(o);
-                    else
+                    else{
+                        o.pos='after';
                         after.push(o);
+                    }
                 }
             });
 

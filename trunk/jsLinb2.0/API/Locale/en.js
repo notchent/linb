@@ -941,7 +941,7 @@ _.set(linb.Locale,["en","doc","linb","Thread"], {
                 "time [Optional]: undefined/Number/Bool.<br> "+
                     "Number: Resumes to execute the next task after [time]ms. <br> "+
                     "true: Resumes to execute the next task after [default delay]ms. <br> "+
-                    "true: Resumes to execute the next task after 0ms. <br> "+
+                    "false: Resumes to execute the next task after 0ms. <br> "+
                     "undefined: Resumes to execute the next task after [the remaining time]. <br> "
             ],
             $snippet:[
@@ -2905,7 +2905,7 @@ _.set(linb.Locale,["en","doc","linb","CSS"], {
         ]
     },
     setStyleRules:{
-        $desc:"to set a specified style rules.",
+        $desc:"Sets a specified style rules.",
         $rtn:"[self]",
         $paras:[
             "selector [Required] : String, css expression without ',' in it.",
@@ -2918,7 +2918,7 @@ _.set(linb.Locale,["en","doc","linb","CSS"], {
         ]
     },
     replaceLink:{
-        $desc:"Replace2 the specified &lt;style> or &lt;link> element(the one that has the [property] with [oValue]) with a new &lt;link> (sets href to [href]), and sets the specified [property] to [nValue].",
+        $desc:"Replaces the specified &lt;style> or &lt;link> element(the one that has the [property] with [oValue]) with a new &lt;link> (sets href to [href]), and sets the specified [property] to [nValue].",
         $paras:[
             "href [Required] : String, the styleSheet file path.",
             "property [Required] : String, the specified property name.",
@@ -3034,7 +3034,7 @@ _.set(linb.Locale,["en","doc","linb","Debugger"], {
     err:{
         $desc:"Shows an Error info to the Debugger window. The most common usage : 'window.onerror=linb.Debugger.err;'",
         $snippet:[
-            "throw new Error('a error!');"
+            "var old=window.onerror; \n window.onerror=linb.Debugger.err; \n throw new Error('a error!'); window.onerror=old;"
         ]
     }
 });
@@ -3960,7 +3960,7 @@ _.set(linb.Locale,["en","doc","linb","Com"], {
         ]
     },
     'load':{
-        $desc:"Creates a linb.Com object if it exists, or loads its code from remote file first, creates it, and returns it.",
+        $desc:"Loads a linb.Com object code from remote file first, creates it, and returns it.",
         $paras:[
             "cls [Required] : String, the full class path name(e.g. 'linb.App').",
             "onEnd [Optional]: Function, arguments : [the current linb.Com object]. This function will be called after the process is end.",
@@ -4052,7 +4052,7 @@ _.set(linb.Locale,["en","doc","linb","Com"], {
             ]
         },
         setEvents:{
-            $desc:"Sets a set of event functions(or an specified event function with a key) to the Com object.",
+            $desc:"Sets a set of event functions(or a specified event function with a key) to the Com object.",
             $rtn:"[self]",
             $paras:[
                 "key [Required] : key/value(Function) pairs or String. A set of event functions or key.",
@@ -4073,7 +4073,7 @@ _.set(linb.Locale,["en","doc","linb","Com"], {
             ]
         },
         show:{
-            $desc:"shows the Com object.",
+            $desc:"Shows the Com object.",
             $paras:[
                 "onEnd [Optiona] : Function, the callback function, it will be executed once when the Com is created successfully.",
                 "parent [Optional] : the parent DOM node or linb.UI object.",
@@ -4112,7 +4112,7 @@ _.set(linb.Locale,["en","doc","linb","Com"], {
             $memo:"For sub class overwriting."
         },
         destroy:{
-            $desc:"To destroy the current object.",
+            $desc:"Destroys the current object.",
             $memo:"Usually, we do not need to call this function manually."
         },
         iniComponents:{
@@ -5621,10 +5621,6 @@ _.set(linb.Locale,["en","doc","linb","UI"], {
         getRenderer:{
             $desc:"Gets the renderer function from the first UIProfile.",
             $rtn:"Function",
-            $paras:[
-                "value [Required] : Function",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
-            ],
             $snippet:[
                 "var id='linb.temp.ui-1'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var link=new linb.UI.Link({position:'relative'});"+
@@ -5636,7 +5632,10 @@ _.set(linb.Locale,["en","doc","linb","UI"], {
         },
         setRenderer:{
             $desc:"Sets the renderer function to all the UIProfiles.",
-            $rtn:"[self]",
+            $paras:[
+                "value [Required] : Function",
+                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+            ],
             $snippet:[
                 "var id='linb.temp.ui-2'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var link=new linb.UI.Link({position:'relative'});"+
@@ -6105,7 +6104,7 @@ _.set(linb.Locale,["en","doc","linb","UI"], {
             ],
             $snippet:[
                 "var id='linb.temp.ui51'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
-                "var btn;linb(id).prepend(btn=new linb.UI.Button);"+
+                "var btn;linb(id).prepend(btn=new linb.UI.Button({type:'custom',border:true}));"+
                 "var arr=['none','top','bottom','left','right','center','middle','origin','width','height','fill','cover'];"+
                 "linb.Thread(null,[function(id){if(!arr.length)return linb.Thread.abort(id); var type=arr.shift();btn.setDock(type).setCaption(type);}],1000,null,null,null,true).start();"+
                 "}"
@@ -6130,13 +6129,13 @@ _.set(linb.Locale,["en","doc","linb","UI"], {
             ],
             $snippet:[
                 "var id='linb.temp.ui53'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
-                "var div1,btn2;linb(id).prepend(div1=new linb.UI.Div({dock:'top',height:20})).prepend(btn2=new linb.UI.Button({zIndex:10}));"+
+                "var div1,btn2;linb(id).prepend(div1=new linb.UI.Div({dock:'top',height:20})).prepend(btn2=new linb.UI.Button({zIndex:10,type:'custom',border:true}));"+
                 "div1.setDockFloat(true).setCustomStyle({KEY:'background:#00ff00'});"+
                 "var arr=['none','top','bottom','left','right','center','middle','origin','width','height','fill','cover'];"+
                 "linb.Thread(null,[function(id){if(!arr.length)return linb.Thread.abort(id); var type=arr.shift();btn2.setDock(type).setCaption(type);}],1000,null,null,null,true).start();"+
                 "}",
                 "var id='linb.temp.ui54'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
-                "var div1,btn2;linb(id).prepend(div1=new linb.UI.Div({dock:'top',height:20})).prepend(btn2=new linb.UI.Button({zIndex:10}));"+
+                "var div1,btn2;linb(id).prepend(div1=new linb.UI.Div({dock:'top',height:20})).prepend(btn2=new linb.UI.Button({zIndex:10,type:'custom',border:true}));"+
                 "div1.setDockFloat(false).setCustomStyle({KEY:'background:#00ff00'});"+
                 "var arr=['none','top','bottom','left','right','center','middle','origin','width','height','fill','cover'];"+
                 "linb.Thread(null,[function(id){if(!arr.length)return linb.Thread.abort(id); var type=arr.shift();btn2.setDock(type).setCaption(type);}],1000,null,null,null,true).start();"+
@@ -6162,12 +6161,12 @@ _.set(linb.Locale,["en","doc","linb","UI"], {
             ],
             $snippet:[
                 "var id='linb.temp.ui61'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
-                "var btn;linb(id).prepend(btn=new linb.UI.Button);"+
+                "var btn;linb(id).prepend(btn=new linb.UI.Button({type:'custom',border:true}));"+
                 "btn.setDockMargin({left:20,top:20,right:10,bottom:10});"+
                 "var arr=['none','top','bottom','left','right','center','middle','origin','width','height','fill','cover'];"+
                 "linb.Thread(null,[function(id){if(!arr.length)return linb.Thread.abort(id); var type=arr.shift();btn.setDock(type).setCaption(type);}],1000,null,null,null,true).start();"+
                 "}",
-                "var id='linb.temp.ui54'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var id='linb.temp.ui61-2'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var div1,btn2;linb(id).prepend(div1=new linb.UI.Div({dock:'top',height:20})).prepend(btn2=new linb.UI.Button({zIndex:10}));"+
                 "div1.setDockMargin({left:20,top:20,right:10,bottom:10}).setCustomStyle({KEY:'background:#00ff00'});"+
                 "var arr=['none','top','bottom','left','right','center','middle','origin','width','height','fill','cover'];"+
@@ -6206,7 +6205,7 @@ _.set(linb.Locale,["en","doc","linb","UI"], {
             $rtn:"Bool",
             $snippet:[
                 "var id='linb.temp.ui75'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
-                "var btn;linb(id).prepend(btn=new linb.UI.Button({dock:'fill'}));"+
+                "var btn;linb(id).prepend(btn=new linb.UI.Button({dock:'fill',type:'custom',border:true}));"+
                 "alert(btn.getDockIgnore())"+
                 "}"
             ]
@@ -6220,7 +6219,7 @@ _.set(linb.Locale,["en","doc","linb","UI"], {
             ],
             $snippet:[
                 "var id='linb.temp.ui76'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
-                "var btn;linb(id).prepend(btn=new linb.UI.Button({dock:'fill'}));"+
+                "var btn;linb(id).prepend(btn=new linb.UI.Button({dock:'fill',type:'custom',border:true}));"+
                 "_.asyRun(function(){linb(id).width(200);},1000);"+
                 "_.asyRun(function(){btn.setDockIgnore(true);linb(id).width(300);},2000);"+
                 "_.asyRun(function(){btn.setDockIgnore(false);linb(id).width(400);},3000);"+
@@ -6232,7 +6231,7 @@ _.set(linb.Locale,["en","doc","linb","UI"], {
             $rtn:"Number",
             $snippet:[
                 "var id='linb.temp.ui77'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
-                "var btn;linb(id).prepend(btn=new linb.UI.Button({dock:'fill'}));"+
+                "var btn;linb(id).prepend(btn=new linb.UI.Button({dock:'fill',type:'custom',border:true}));"+
                 "alert(btn.getDockMinH())"+
                 "}"
             ]
@@ -6242,7 +6241,7 @@ _.set(linb.Locale,["en","doc","linb","UI"], {
             $rtn:"Number",
             $snippet:[
                 "var id='linb.temp.ui79'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
-                "var btn;linb(id).prepend(btn=new linb.UI.Button({dock:'fill'}));"+
+                "var btn;linb(id).prepend(btn=new linb.UI.Button({dock:'fill',type:'custom',border:true}));"+
                 "alert(btn.getDockMinW())"+
                 "}"
             ]
@@ -6256,7 +6255,7 @@ _.set(linb.Locale,["en","doc","linb","UI"], {
             ],
             $snippet:[
                 "var id='linb.temp.ui81'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"overflow:visible;border:solid 1px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
-                "var btn;linb(id).prepend(btn=new linb.UI.Button({dock:'height'}));"+
+                "var btn;linb(id).prepend(btn=new linb.UI.Button({dock:'height',type:'custom',border:true}));"+
                 "_.asyRun(function(){btn.setDockMinH(100);linb(id).height(80);},1000);"+
                 "_.asyRun(function(){btn.setDockMinH(50);linb(id).height(50);},2000);"+
                 "}"
@@ -7217,7 +7216,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Button"], {
             $rtn:"String",
             $snippet:[
                 "var id='linb.temp.btn13'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
-                "var btn;linb(id).prepend(btn=new linb.UI.Button({height:50}));"+
+                "var btn;linb(id).prepend(btn=new linb.UI.Button());"+
                 "_.asyRun(function(){btn.setImage('img/img.gif'); alert(btn.getImage())},1000)"+
                 "}"
             ]
@@ -7231,7 +7230,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Button"], {
             ],
             $snippet:[
                 "var id='linb.temp.btn14'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
-                "var btn;linb(id).prepend(btn=new linb.UI.Button({height:50}));"+
+                "var btn;linb(id).prepend(btn=new linb.UI.Button());"+
                 "_.asyRun(function(){btn.setImage('img/img.gif'); alert(btn.getImage())},1000)"+
                 "}"
             ]
@@ -7241,7 +7240,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Button"], {
             $rtn:"String",
             $snippet:[
                 "var id='linb.temp.btn15'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
-                "var btn;linb(id).prepend(btn=new linb.UI.Button({height:50}));"+
+                "var btn;linb(id).prepend(btn=new linb.UI.Button());"+
                 "_.asyRun(function(){btn.setImage('img/img.gif').setImagePos('left -16px'); alert(btn.getImagePos())},1000)"+
                 "}"
             ]
@@ -7255,7 +7254,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Button"], {
             ],
             $snippet:[
                 "var id='linb.temp.btn16'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
-                "var btn;linb(id).prepend(btn=new linb.UI.Button({height:50}));"+
+                "var btn;linb(id).prepend(btn=new linb.UI.Button());"+
                 "_.asyRun(function(){btn.setImage('img/img.gif').setImagePos('left -16px'); alert(btn.getImagePos())},1000)"+
                 "}"
             ]
@@ -7781,7 +7780,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Group"], {
             $snippet:[
                 "var id='linb.temp.fs3-1'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var btn;linb(id).prepend(btn=new linb.UI.Group);"+
-                "_.asyRun(function(){btn.setToggleBtn(false); alert(btn.getToggleBtn ())},1000)"+
+                "_.asyRun(function(){btn.setToggleBtn(false); alert(btn.getToggleBtn())},1000)"+
                 "}"
             ]
         },
@@ -7795,7 +7794,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Group"], {
             $snippet:[
                 "var id='linb.temp.fs4-2'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var btn;linb(id).prepend(btn=new linb.UI.Group);"+
-                "_.asyRun(function(){btn.setToggleBtn(false); alert(btn.getToggle ())},1000)"+
+                "_.asyRun(function(){btn.setToggleBtn(false); alert(btn.getToggleBtn())},1000)"+
                 "}"
             ]
         },
@@ -7871,7 +7870,7 @@ _.set(linb.Locale,["en","doc","linb","UI","ComboInput"], {
             $snippet:[
                 "var id='linb.temp.ci2'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var o;linb(id).prepend(o=new linb.UI.ComboInput({type:'upload'}));"+
-                "o.afterUIValueSet(function(){alert(o.getUploadObj().get(0).value)});"+
+                "o.afterUIValueSet(function(){alert(o.getUploadObj().value)});"+
                 "}"
             ]
         },
@@ -8062,7 +8061,19 @@ _.set(linb.Locale,["en","doc","linb","UI","ComboInput"], {
                 "}"
             ]
         },
-
+        onFileDlgOpen:{
+            $desc:"Fired when the file upload dialog is open.",
+            $paras:[
+                "profile : linb.UIProfile object.",
+                "node : the input DOM element."
+            ],
+            $snippet:[
+                "var id='linb.temp.ci99'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var o;linb(id).prepend(o=new linb.UI.ComboInput({type:'upload'}));"+
+                "o.onFileDlgOpen(function(){alert('File upload dialog is open.')});"+
+                "}"
+            ]
+        },
         onClickButton:{
             $desc:"Fired when the command button is clicked.",
             $paras:[
@@ -8426,7 +8437,7 @@ _.set(linb.Locale,["en","doc","linb","UI","DatePicker"], {
             $snippet:[
                 "var id='linb.temp.dp3'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var o;linb(id).prepend(o=new linb.UI.DatePicker({position:'relative'}));"+
-                "o.beforeClose(function(){return false;});"+
+                "o.beforeClose(function(){alert('I stop you from closing it');return false;});"+
                 "}"
             ]
         }
@@ -8737,7 +8748,7 @@ _.set(linb.Locale,["en","doc","linb","UI","LinkList"], {
     prototype:{
         getItemMargin:{
             $desc:"Gets the item margin property value on the first UIProfile",
-            $rtn:"String",
+            $rtn:"Number",
             $snippet:[
                 "var id='linb.temp.llist1'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var o;linb(id).prepend(o=new linb.UI.LinkList({height:'auto',items:[{id:'a',caption:'a a'},{id:'b',caption:'b b'},{id:'c',caption:'c c'}]}));"+
@@ -8749,7 +8760,7 @@ _.set(linb.Locale,["en","doc","linb","UI","LinkList"], {
             $desc:"Sets the ItemMargin property value on the each UIProfile, and reflects the value to UI.",
             $rtn:"[self]",
             $paras:[
-                "value [Required] : String. 'none', 'multi' or 'single'.",
+                "value [Required] : Number.",
                 "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
@@ -8822,7 +8833,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Gallery"], {
         },
         getImgWidth:{
             $desc:"Gets item image width",
-            $rtn:"String",
+            $rtn:"Number",
             $snippet:[
                 "var id='linb.temp.ga3'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var o;linb(id).prepend(o=new linb.UI.Gallery({height:'auto',items:[{id:'a',caption:'a a'},{id:'b',caption:'b b'},{id:'c',caption:'c c'}]}));"+
@@ -8846,7 +8857,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Gallery"], {
         },
         getItemWidth:{
             $desc:"Gets item width.",
-            $rtn:"String",
+            $rtn:"Number",
             $snippet:[
                 "var id='linb.temp.ga5'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var o;linb(id).prepend(o=new linb.UI.Gallery({height:'auto',items:[{id:'a',caption:'a a'},{id:'b',caption:'b b'},{id:'c',caption:'c c'}]}));"+
@@ -8870,7 +8881,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Gallery"], {
         },
         getItemHeight:{
             $desc:"Gets item height",
-            $rtn:"String",
+            $rtn:"Number",
             $snippet:[
                 "var id='linb.temp.ga7'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var o;linb(id).prepend(o=new linb.UI.Gallery({height:'auto',items:[{id:'a',caption:'a a'},{id:'b',caption:'b b'},{id:'c',caption:'c c'}]}));"+
@@ -8894,7 +8905,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Gallery"], {
         },
         getItemMargin:{
             $desc:"Gets item margin.",
-            $rtn:"String",
+            $rtn:"Number",
             $snippet:[
                 "var id='linb.temp.ga9'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var o;linb(id).prepend(o=new linb.UI.Gallery({height:'auto',items:[{id:'a',caption:'a a'},{id:'b',caption:'b b'},{id:'c',caption:'c c'}]}));"+
@@ -8918,7 +8929,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Gallery"], {
         },
         getItemPadding:{
             $desc:"Gets item padding",
-            $rtn:"String",
+            $rtn:"Number",
             $snippet:[
                 "var id='linb.temp.ga11'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var o;linb(id).prepend(o=new linb.UI.Gallery({height:'auto',items:[{id:'a',caption:'a a'},{id:'b',caption:'b b'},{id:'c',caption:'c c'}]}));"+
@@ -8956,7 +8967,7 @@ _.set(linb.Locale,["en","doc","linb","UI","IconList"], {
             $rtn:"String. 'ini', 'error' or 'loaded'.",
             $snippet:[
                 "var id='linb.temp.ga001'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
-                "var o;linb(id).prepend(o=new linb.UI.IconList({height:'auto',items:[{id:'a',caption:'a a'},{id:'b',caption:'b b'},{id:'c',caption:'c c'}]}));"+
+                "var o;linb(id).prepend(o=new linb.UI.IconList({height:'auto',items:[{id:'a',image:'img/logo.gif',caption:'a a'},{id:'b',image:'img/logo.gif',caption:'b b'},{id:'c',image:'img/logo.gif',caption:'c c'}]}));"+
                 "_.asyRun(function(){alert(o.getStatus('c'));});"+
                 "_.asyRun(function(){alert(o.getStatus('c'));},3000);"+
                 "}"
@@ -8964,10 +8975,10 @@ _.set(linb.Locale,["en","doc","linb","UI","IconList"], {
         },
         getItemWidth:{
             $desc:"Gets the ItemWidth property value on the first UIProfile",
-            $rtn:"String",
+            $rtn:"Number",
             $snippet:[
                 "var id='linb.temp.ga5'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
-                "var o;linb(id).prepend(o=new linb.UI.IconList({height:'auto',items:[{id:'a',caption:'a a'},{id:'b',caption:'b b'},{id:'c',caption:'c c'}]}));"+
+                "var o;linb(id).prepend(o=new linb.UI.IconList({height:'auto',items:[{id:'a',image:'img/logo.gif',caption:'a a'},{id:'b',image:'img/logo.gif',caption:'b b'},{id:'c',image:'img/logo.gif',caption:'c c'}]}));"+
                 "_.asyRun(function(){alert(o.setItemWidth(40).getItemWidth());},1000)"+
                 "}"
             ]
@@ -8981,17 +8992,17 @@ _.set(linb.Locale,["en","doc","linb","UI","IconList"], {
             ],
             $snippet:[
                 "var id='linb.temp.ga6'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
-                "var o;linb(id).prepend(o=new linb.UI.IconList({height:'auto',items:[{id:'a',caption:'a a'},{id:'b',caption:'b b'},{id:'c',caption:'c c'}]}));"+
-                "_.asyRun(function(){alert(o.setItemWidth(40).getItemMargin());},1000)"+
+                "var o;linb(id).prepend(o=new linb.UI.IconList({height:'auto',items:[{id:'a',image:'img/logo.gif',caption:'a a'},{id:'b',image:'img/logo.gif',caption:'b b'},{id:'c',image:'img/logo.gif',caption:'c c'}]}));"+
+                "_.asyRun(function(){alert(o.setItemWidth(40).getItemWidth());},1000)"+
                 "}"
             ]
         },
         getItemHeight:{
             $desc:"Gets the ItemHeight property value on the first UIProfile",
-            $rtn:"String",
+            $rtn:"Number",
             $snippet:[
                 "var id='linb.temp.ga7'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
-                "var o;linb(id).prepend(o=new linb.UI.IconList({height:'auto',items:[{id:'a',caption:'a a'},{id:'b',caption:'b b'},{id:'c',caption:'c c'}]}));"+
+                "var o;linb(id).prepend(o=new linb.UI.IconList({height:'auto',items:[{id:'a',image:'img/logo.gif',caption:'a a'},{id:'b',image:'img/logo.gif',caption:'b b'},{id:'c',image:'img/logo.gif',caption:'c c'}]}));"+
                 "_.asyRun(function(){alert(o.setItemHeight(40).getItemHeight());},1000)"+
                 "}"
             ]
@@ -9005,17 +9016,17 @@ _.set(linb.Locale,["en","doc","linb","UI","IconList"], {
             ],
             $snippet:[
                 "var id='linb.temp.ga8'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
-                "var o;linb(id).prepend(o=new linb.UI.IconList({height:'auto',items:[{id:'a',caption:'a a'},{id:'b',caption:'b b'},{id:'c',caption:'c c'}]}));"+
-                "_.asyRun(function(){alert(o.setItemHeight(40).getItemMargin());},1000)"+
+                "var o;linb(id).prepend(o=new linb.UI.IconList({height:'auto',items:[{id:'a',image:'img/logo.gif',caption:'a a'},{id:'b',image:'img/logo.gif',caption:'b b'},{id:'c',image:'img/logo.gif',caption:'c c'}]}));"+
+                "_.asyRun(function(){alert(o.setItemHeight(40).getItemHeight());},1000)"+
                 "}"
             ]
         },
         getItemMargin:{
             $desc:"Gets the ItemMargin property value on the first UIProfile",
-            $rtn:"String",
+            $rtn:"Number",
             $snippet:[
                 "var id='linb.temp.ga9'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
-                "var o;linb(id).prepend(o=new linb.UI.IconList({height:'auto',items:[{id:'a',caption:'a a'},{id:'b',caption:'b b'},{id:'c',caption:'c c'}]}));"+
+                "var o;linb(id).prepend(o=new linb.UI.IconList({height:'auto',items:[{id:'a',image:'img/logo.gif',caption:'a a'},{id:'b',image:'img/logo.gif',caption:'b b'},{id:'c',image:'img/logo.gif',caption:'c c'}]}));"+
                 "_.asyRun(function(){alert(o.setItemMargin(10).getItemMargin());},1000)"+
                 "}"
             ]
@@ -9029,17 +9040,17 @@ _.set(linb.Locale,["en","doc","linb","UI","IconList"], {
             ],
             $snippet:[
                 "var id='linb.temp.ga10'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
-                "var o;linb(id).prepend(o=new linb.UI.IconList({height:'auto',items:[{id:'a',caption:'a a'},{id:'b',caption:'b b'},{id:'c',caption:'c c'}]}));"+
+                "var o;linb(id).prepend(o=new linb.UI.IconList({height:'auto',items:[{id:'a',image:'img/logo.gif',caption:'a a'},{id:'b',image:'img/logo.gif',caption:'b b'},{id:'c',image:'img/logo.gif',caption:'c c'}]}));"+
                 "_.asyRun(function(){alert(o.setItemMargin(10).getItemMargin());},1000)"+
                 "}"
             ]
         },
         getItemPadding:{
             $desc:"Gets the ItemPadding property value on the first UIProfile",
-            $rtn:"String",
+            $rtn:"Number",
             $snippet:[
                 "var id='linb.temp.ga11'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
-                "var o;linb(id).prepend(o=new linb.UI.IconList({height:'auto',items:[{id:'a',caption:'a a'},{id:'b',caption:'b b'},{id:'c',caption:'c c'}]}));"+
+                "var o;linb(id).prepend(o=new linb.UI.IconList({height:'auto',items:[{id:'a',image:'img/logo.gif',caption:'a a'},{id:'b',image:'img/logo.gif',caption:'b b'},{id:'c',image:'img/logo.gif',caption:'c c'}]}));"+
                 "_.asyRun(function(){alert(o.setItemPadding(10).getItemPadding());},1000)"+
                 "}"
             ]
@@ -9053,7 +9064,7 @@ _.set(linb.Locale,["en","doc","linb","UI","IconList"], {
             ],
             $snippet:[
                 "var id='linb.temp.ga12'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
-                "var o;linb(id).prepend(o=new linb.UI.IconList({height:'auto',items:[{id:'a',caption:'a a'},{id:'b',caption:'b b'},{id:'c',caption:'c c'}]}));"+
+                "var o;linb(id).prepend(o=new linb.UI.IconList({height:'auto',items:[{id:'a',image:'img/logo.gif',caption:'a a'},{id:'b',image:'img/logo.gif',caption:'b b'},{id:'c',image:'img/logo.gif',caption:'c c'}]}));"+
                 "_.asyRun(function(){alert(o.setItemPadding(10).getItemPadding());},1000)"+
                 "}"
             ]
@@ -9366,7 +9377,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Panel"], {
                 "src: the related DOM element."
             ],
             $snippet:[
-                "var id='linb.temp.panel13'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var id='linb.temp.panel13'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var o;linb(id).prepend(o=new linb.UI.Panel({position:'relative',closeBtn:true,html:'content'}));"+
                 "o.beforeClose(function(){return false;});"+
                 "}"
@@ -9559,7 +9570,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Layout"], {
             ],
             $snippet:[
                 "var id='linb.temp.lo0'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:200px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
-                "var o;linb(id).prepend(o=(new linb.UI.Layout()));"+
+                "var o;linb(id).prepend(o=(new linb.UI.Layout({items:[{id:'main'},{id:'after',size:50}]})));"+
                 "_.asyRun(function(){o.append(new linb.UI.Button,'after');},1000);"+
                 "}"
             ]
@@ -9572,7 +9583,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Layout"], {
             ],
             $snippet:[
                 "var id='linb.temp.lo1'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:200px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
-                "var o;linb(id).prepend(o=(new linb.UI.Layout()));"+
+                "var o;linb(id).prepend(o=(new linb.UI.Layout({items:[{id:'main'},{id:'after',size:50}]})));"+
                 "_.asyRun(function(){o.getPanel('after').append(linb.create('afgter',true));},1000);"+
                 "}"
             ]
@@ -9582,7 +9593,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Layout"], {
             $rtn:"String",
             $snippet:[
                 "var id='linb.temp.lo2'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:200px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
-                "var o;linb(id).prepend(o=(new linb.UI.Layout()));"+
+                "var o;linb(id).prepend(o=(new linb.UI.Layout({items:[{id:'main'},{id:'after',size:50}]})));"+
                 "_.asyRun(function(){o.append(new linb.UI.Button).setType('horizontal'); alert(o.getType())},1000);"+
                 "}"
             ]
@@ -9596,7 +9607,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Layout"], {
             ],
             $snippet:[
                 "var id='linb.temp.lo3'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:200px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
-                "var o;linb(id).prepend(o=(new linb.UI.Layout()));"+
+                "var o;linb(id).prepend(o=(new linb.UI.Layout({items:[{id:'main'},{id:'after',size:50}]})));"+
                 "_.asyRun(function(){o.append(new linb.UI.Button).setType('horizontal'); alert(o.getType())},1000);"+
                 "}"
             ]
@@ -9641,7 +9652,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Tabs"], {
             ],
             $snippet:[
                 "var id='linb.temp.tabs0'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:200px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
-                "var o;linb(id).prepend(o=(new linb.UI.Tabs({height:'auto',items:[{id:'a',caption:'a a'},{id:'b',caption:'b b'},{id:'c',caption:'c c'}]})));"+
+                "var o;linb(id).prepend(o=(new linb.UI.Tabs({height:'auto',items:[{id:'a',caption:'a a'},{id:'b',caption:'b b'},{id:'c',caption:'c c'}],value:'a'})));"+
                 "_.asyRun(function(){o.append(new linb.UI.Button,'a');},1000);"+
                 "}"
             ]
@@ -9720,7 +9731,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Tabs"], {
         },
         getHasPanel :{
             $desc:"Gets the hasPanel property value on the first UIProfile",
-            $rtn:"String",
+            $rtn:"Bool",
             $snippet:[
                 "var id='linb.temp.tabs9'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:200px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var o;linb(id).prepend(o=(new linb.UI.Tabs({height:'auto',dock:'none',items:[{id:'a',caption:'a a'},{id:'b',caption:'b b'},{id:'c',caption:'c c'}]})));"+
@@ -9732,7 +9743,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Tabs"], {
             $desc:"Sets the hasPanel property value on the each UIProfile, and reflects the value to UI.",
             $rtn:"[self]",
             $paras:[
-                "value [Required] : 'left', 'center' or 'right'.",
+                "value [Required] : Bool.",
                 "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
@@ -9748,7 +9759,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Tabs"], {
             $snippet:[
                 "var id='linb.temp.tabs11'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:200px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var o;linb(id).prepend(o=(new linb.UI.Tabs({height:'auto',dock:'none',items:[{id:'a',caption:'a a'},{id:'b',caption:'b b'},{id:'c',caption:'c c'}]})));"+
-                "_.asyRun(function(){o.setDropKeysPanel(false);alert(o.getDropKeysPanel());},1000);"+
+                "_.asyRun(function(){o.setDropKeysPanel('drap key for panel');alert(o.getDropKeysPanel());},1000);"+
                 "}"
             ]
         },
@@ -9756,13 +9767,13 @@ _.set(linb.Locale,["en","doc","linb","UI","Tabs"], {
             $desc:"Sets the DropKeysPanel property value on the each UIProfile, and reflects the value to UI.",
             $rtn:"[self]",
             $paras:[
-                "value [Required] : 'left', 'center' or 'right'.",
+                "value [Required] : String.",
                 "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.tabs12'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:200px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var o;linb(id).prepend(o=(new linb.UI.Tabs({height:'auto',dock:'none',items:[{id:'a',caption:'a a'},{id:'b',caption:'b b'},{id:'c',caption:'c c'}]})));"+
-                "_.asyRun(function(){o.setDropKeysPanel('kk');alert(o.getDropKeysPanel());},1000);"+
+                "_.asyRun(function(){o.setDropKeysPanel('drap key for panel');alert(o.getDropKeysPanel());},1000);"+
                 "}"
             ]
         },
@@ -9771,7 +9782,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Tabs"], {
             $rtn:"linb.Dom object",
             $snippet:[
                 "var id='linb.temp.tabs13'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:200px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
-                "var o;linb(id).prepend(o=(new linb.UI.Tabs({height:'auto',dock:'none',items:[{id:'a',caption:'a a'},{id:'b',caption:'b b'},{id:'c',caption:'c c'}]})));"+
+                "var o;linb(id).prepend(o=(new linb.UI.Tabs({height:'auto',dock:'none',items:[{id:'a',caption:'a a'},{id:'b',caption:'b b'},{id:'c',caption:'c c'}],value:'a'})));"+
                 "_.asyRun(function(){alert(o.getCurPanel().id())},1000);"+
                 "}"
             ]
@@ -9970,7 +9981,7 @@ _.set(linb.Locale,["en","doc","linb","UI","ToolBar"], {
         },
         getHandler:{
             $desc:"Determines whether this tool bar has a handler",
-            $rtn:"String",
+            $rtn:"Bool",
             $snippet:[
                 "var id='linb.temp.tool3'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:200px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var o;linb(id).prepend(o=(new linb.UI.ToolBar({items:[{id:'ga', sub:[{id:'ga1',caption:'ga1'},{id:'ga2',caption:'ga2'}]},{id:'gb',sub:[{id:'gb1',caption:'gb1'},{id:'gb2',object:new linb.UI.ComboInput({type:'timepicker'})}]}]})));"+
@@ -9982,7 +9993,7 @@ _.set(linb.Locale,["en","doc","linb","UI","ToolBar"], {
             $desc:"Specifys whether this tool bar has a handler, and reflects the value to UI.",
             $rtn:"[self]",
             $paras:[
-                "value [Required] : 'left', 'center' or 'right'.",
+                "value [Required] : Bool.",
                 "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
@@ -10056,7 +10067,7 @@ _.set(linb.Locale,["en","doc","linb","UI","PopMenu"], {
                 "parent [Optional} : DOM element or linb.Dom object. The popmenu's parent element."
             ],
             $snippet:[
-                "var id='linb.temp.pm0'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:200px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var id='linb.temp.pm0'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:200px;width:300px;\">Click blank to pop up menu.' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var o=(new linb.UI.PopMenu({items:[{id:'a',caption:'item a',tips:'item a'},{id:'b',image:'img/img.gif',caption:'itemb',tips:'item b',sub:[{id:'ba',caption:'item ba',tips:'item ba'},{id:'bb',caption:'item bb',tips:'item bb',sub:[{id:'bba',caption:'item bba',tips:'item bba'}]}]},{id:'c',caption:'item c',type:'checkbox',value:false},{id:'d',caption:'item d',type:'checkbox',value:true,add:'[Esc]'}]}));"+
                 "linb(id).onClick(function(p,e,s){var p1=linb.Event.getPos(e), p2=linb([s]).offset(), pos={left:p1.left-p2.left,top:p1.top-p2.top}o.pop(pos,null,s); })"+
                 "}"
@@ -10069,7 +10080,7 @@ _.set(linb.Locale,["en","doc","linb","UI","PopMenu"], {
                 "triggerEvent [Optional] : triggers onHide event or not."
             ],
             $snippet:[
-                "var id='linb.temp.pm1'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:200px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var id='linb.temp.pm1'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:200px;width:300px;\">Click blank to pop up menu.' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var o=(new linb.UI.PopMenu({items:[{id:'a',caption:'item a',tips:'item a'},{id:'b',image:'img/img.gif',caption:'itemb',tips:'item b',sub:[{id:'ba',caption:'item ba',tips:'item ba'},{id:'bb',caption:'item bb',tips:'item bb',sub:[{id:'bba',caption:'item bba',tips:'item bba'}]}]},{id:'c',caption:'item c',type:'checkbox',value:false},{id:'d',caption:'item d',type:'checkbox',value:true,add:'[Esc]'}]}));"+
                 "linb(id).onClick(function(p,e,s){var p1=linb.Event.getPos(e), p2=linb([s]).offset(), pos={left:p1.left-p2.left,top:p1.top-p2.top}o.pop(pos,null,s); _.asyRun(function(){o.hide()},3000);})"+
                 "}"
@@ -10079,7 +10090,7 @@ _.set(linb.Locale,["en","doc","linb","UI","PopMenu"], {
             $desc:"Determines whether this popup menu hides automatically after showing up for several seconds.",
             $rtn:"Bool",
             $snippet:[
-                "var id='linb.temp.pm2'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:200px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var id='linb.temp.pm2'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:200px;width:300px;\">Click blank to pop up menu.' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var o=(new linb.UI.PopMenu({items:[{id:'a',caption:'item a',tips:'item a'},{id:'b',image:'img/img.gif',caption:'itemb',tips:'item b',sub:[{id:'ba',caption:'item ba',tips:'item ba'},{id:'bb',caption:'item bb',tips:'item bb',sub:[{id:'bba',caption:'item bba',tips:'item bba'}]}]},{id:'c',caption:'item c',type:'checkbox',value:false},{id:'d',caption:'item d',type:'checkbox',value:true}]}));"+
                 "o.setAutoHide(true);"+
                 "alert(o.getAutoHide());"+
@@ -10095,7 +10106,7 @@ _.set(linb.Locale,["en","doc","linb","UI","PopMenu"], {
                 "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
-                "var id='linb.temp.pm3'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:200px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var id='linb.temp.pm3'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:200px;width:300px;\">Click blank to pop up menu.' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var o=(new linb.UI.PopMenu({items:[{id:'a',caption:'item a',tips:'item a'},{id:'b',caption:'itemb',tips:'item b',sub:[{id:'ba',caption:'item ba',tips:'item ba'},{id:'bb',caption:'item bb',tips:'item bb',sub:[{id:'bba',caption:'item bba',tips:'item bba'}]}]},{id:'c',caption:'item c',tips:'item c'},{id:'d',object:new linb.UI.CheckBox}]}));"+
                 "o.setAutoHide(true);"+
                 "alert(o.getAutoHide());"+
@@ -10107,7 +10118,7 @@ _.set(linb.Locale,["en","doc","linb","UI","PopMenu"], {
             $desc:"Determines whether this popup menu hides automatically after being clicked.",
             $rtn:"Bool",
             $snippet:[
-                "var id='linb.temp.pm4'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:200px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var id='linb.temp.pm4'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:200px;width:300px;\">Click blank to pop up menu.' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var o=(new linb.UI.PopMenu({items:[{id:'a',caption:'item a',tips:'item a'},{id:'b',image:'img/img.gif',caption:'itemb',tips:'item b',sub:[{id:'ba',caption:'item ba',tips:'item ba'},{id:'bb',caption:'item bb',tips:'item bb',sub:[{id:'bba',caption:'item bba',tips:'item bba'}]}]},{id:'c',caption:'item c',type:'checkbox',value:false},{id:'d',caption:'item d',type:'checkbox',value:true}]}));"+
                 "o.setHideAfterClick(false);"+
                 "alert(o.getHideAfterClick());"+
@@ -10123,7 +10134,7 @@ _.set(linb.Locale,["en","doc","linb","UI","PopMenu"], {
                 "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
-                "var id='linb.temp.pm5'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:200px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var id='linb.temp.pm5'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:200px;width:300px;\">Click blank to pop up menu.' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var o=(new linb.UI.PopMenu({items:[{id:'a',caption:'item a',tips:'item a'},{id:'b',caption:'itemb',tips:'item b',sub:[{id:'ba',caption:'item ba',tips:'item ba'},{id:'bb',caption:'item bb',tips:'item bb',sub:[{id:'bba',caption:'item bba',tips:'item bba'}]}]},{id:'c',caption:'item c',tips:'item c'},{id:'d',object:new linb.UI.CheckBox}]}));"+
                 "o.setHideAfterClick(false);"+
                 "alert(o.getHideAfterClick());"+
@@ -10138,7 +10149,7 @@ _.set(linb.Locale,["en","doc","linb","UI","PopMenu"], {
                 "profile : linb.UIProfile"
             ],
             $snippet:[
-                "var id='linb.temp.pm31'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:200px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var id='linb.temp.pm31'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:200px;width:300px;\">Click blank to pop up menu.' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var o=(new linb.UI.PopMenu({items:[{id:'a',caption:'item a',tips:'item a'},{id:'b',image:'img/img.gif',caption:'itemb',tips:'item b',sub:[{id:'ba',caption:'item ba',tips:'item ba'},{id:'bb',caption:'item bb',tips:'item bb',sub:[{id:'bba',caption:'item bba',tips:'item bba'}]}]},{id:'c',caption:'item c',type:'checkbox',value:false},{id:'d',caption:'item d',type:'checkbox',value:true,add:'[Esc]'}]}));"+
                 "o.beforeHide(function(){alert('before hide')});"+
                 "linb(id).onClick(function(p,e,s){var p1=linb.Event.getPos(e), p2=linb([s]).offset(), pos={left:p1.left-p2.left,top:p1.top-p2.top}o.pop(pos,null,s);})"+
@@ -10151,7 +10162,7 @@ _.set(linb.Locale,["en","doc","linb","UI","PopMenu"], {
                 "profile : linb.UIProfile"
             ],
             $snippet:[
-                "var id='linb.temp.pm11'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:200px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var id='linb.temp.pm11'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:200px;width:300px;\">Click blank to pop up menu.' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var o=(new linb.UI.PopMenu({items:[{id:'a',caption:'item a',tips:'item a'},{id:'b',image:'img/img.gif',caption:'itemb',tips:'item b',sub:[{id:'ba',caption:'item ba',tips:'item ba'},{id:'bb',caption:'item bb',tips:'item bb',sub:[{id:'bba',caption:'item bba',tips:'item bba'}]}]},{id:'c',caption:'item c',type:'checkbox',value:false},{id:'d',caption:'item d',type:'checkbox',value:true,add:'[Esc]'}]}));"+
                 "o.onHide(function(){alert('hidden')});"+
                 "linb(id).onClick(function(p,e,s){var p1=linb.Event.getPos(e), p2=linb([s]).offset(), pos={left:p1.left-p2.left,top:p1.top-p2.top}o.pop(pos,null,s);})"+
@@ -10166,7 +10177,7 @@ _.set(linb.Locale,["en","doc","linb","UI","PopMenu"], {
                 "src : DOM element."
             ],
             $snippet:[
-                "var id='linb.temp.pm12'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:200px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var id='linb.temp.pm12'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:200px;width:300px;\">Click blank to pop up menu.' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var o=(new linb.UI.PopMenu({items:[{id:'a',caption:'item a',tips:'item a'},{id:'b',image:'img/img.gif',caption:'itemb',tips:'item b',sub:[{id:'ba',caption:'item ba',tips:'item ba'},{id:'bb',caption:'item bb',tips:'item bb',sub:[{id:'bba',caption:'item bba',tips:'item bba'}]}]},{id:'c',caption:'item c',type:'checkbox',value:false},{id:'d',caption:'item d',type:'checkbox',value:true,add:'[Esc]'}]}));"+
                 "o.onMenuSelected(function(p,item){if(item.type=='checkbox')alert(item.value); else alert(item.id); });"+
                 "linb(id).onClick(function(p,e,s){var p1=linb.Event.getPos(e), p2=linb([s]).offset(), pos={left:p1.left-p2.left,top:p1.top-p2.top}o.pop(pos,null,s);})"+
@@ -10181,7 +10192,7 @@ _.set(linb.Locale,["en","doc","linb","UI","PopMenu"], {
                 "src : DOM element."
             ],
             $snippet:[
-                "var id='linb.temp.pm13'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:200px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var id='linb.temp.pm13'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:200px;width:300px;\">Click blank to pop up menu.' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var o=(new linb.UI.PopMenu({autoHide:true, items:[{id:'a',caption:'item a',tips:'item a'},{id:'b',image:'img/img.gif',caption:'itemb',tips:'item b',sub:true},{id:'c',caption:'item c',type:'checkbox',value:false},{id:'d',caption:'item d',type:'checkbox',value:true,add:'[Esc]'}]}));"+
                 "var cp=(new linb.UI.ColorPicker).render(true);"+
                 "cp.beforeClose(function(){cp.hide();return false;})"+
@@ -10210,12 +10221,15 @@ _.set(linb.Locale,["en","doc","linb","UI","MenuBar"], {
             $desc:"Hides the the first UIProfile"
         },
         getParentID:{
-            $desc:"Gets the parent id.",
+            $desc:"Gets the parent DOM element's id for pop menus.",
             $rtn:"String"
         },
         setParentID:{
-            $desc:"Sets the parent id.",
-            $rtn:"[self]",
+            $desc:"Sets the parent DOM element id for pop menus.",
+            $paras:[
+                "value [Required] : String.",
+                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+            ],
             $paras:[
                 "value [Required] : Number.",
                 "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
@@ -10412,14 +10426,14 @@ _.set(linb.Locale,["en","doc","linb","UI","Dialog"], {
             ]
         },
         getCaption:{
-            $desc:"Gets the caption property value on the first UIProfile",
+            $desc:"Gets the Caption property value on the first UIProfile",
             $rtn:"String",
             $snippet:[
                 "var dlg=(new linb.UI.Dialog).show(null,false, 100,100); alert(dlg.getCaption());_.asyRun(function(){dlg.setCaption('c cc c');},1000);"
             ]
         },
         setCaption:{
-            $desc:"Sets the caption property value on the each UIProfile, and reflects the value to UI.",
+            $desc:"Sets the Caption property value on the each UIProfile, and reflects the value to UI.",
             $rtn:"[self]",
             $paras:[
                 "value [Required] : String.",
@@ -10791,7 +10805,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Image"], {
         },
         getSrc:{
             $desc:"Gets image src",
-            $rtn:"Number",
+            $rtn:"String",
             $snippet:[
                 "var id='linb.temp.img5'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var o;linb(id).prepend(o=new linb.UI.Image({position:'relative',src:'img/logo.gif'}));"+
@@ -10804,7 +10818,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Image"], {
             $desc:"Sets image src, and reflects the value to UI.",
             $rtn:"[self]",
             $paras:[
-                "value [Required] : Number.",
+                "value [Required] : String.",
                 "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
@@ -11696,7 +11710,7 @@ _.set(linb.Locale,["en","doc","linb","UI","TreeGrid"], {
     prototype:{
         getActiveMode :{
             $desc:"Determines grid active mode.",
-            $rtn:"String",
+            $rtn:"String. 'cell' or 'row'. ",
             $snippet:[
                 "var id='linb.temp.grid1'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var o=new linb.UI.TreeGrid({editable:false, position:'relative'});"+
@@ -11796,6 +11810,10 @@ _.set(linb.Locale,["en","doc","linb","UI","TreeGrid"], {
         getCellbyRowCol:{
             $desc:"Gets the cell object according to its row id and col id.",
             $rtn:"Ojbect",
+            $paras:[
+                "rowId [Required] : String, row id.",
+                "colId [Requried] : String, column id."
+            ],
             $snippet:[
                 "var id='linb.temp.grid7.1'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var o=new linb.UI.TreeGrid({editable:false, position:'relative'});"+
@@ -12339,7 +12357,7 @@ _.set(linb.Locale,["en","doc","linb","UI","TreeGrid"], {
             ]
         },
         resetGridValue:{
-            $desc:"Resets the all cells' value, and clear the dirty mark.",
+            $desc:"Resets all cells' value in the grid, and clears all dirty marks.",
             $rtn:"[self]",
             $snippet:[
                 "var id='linb.temp.grid41'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -12348,6 +12366,22 @@ _.set(linb.Locale,["en","doc","linb","UI","TreeGrid"], {
                 "linb(id).prepend(o);"+
                 "o.updateCellByRowCol('row1','col1',{value:'a'}).updateCellByRowCol('row1','col2',{value:5}).updateCellByRowCol('row2','col2',{value:8});"+
                 "_.asyRun(function(){o.resetGridValue()},1000);"+
+                "}"
+            ]
+        },
+        resetRowValue:{
+            $desc:"Resets all cells' value in a row, and clears those dirty marks.",
+            $rtn:"[self]",
+            $paras:[
+                "rowId [Required] : String, the row id string."
+            ],
+            $snippet:[
+                "var id='linb.temp.grid41-1'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var o=new linb.UI.TreeGrid({editable:false,position:'relative'});"+
+                "linb.Ajax('App/js/grid.js','',function(s){var hash=_.unserialize(s);o.setHeader(hash.header).setRows(hash.rows);},null,null,{asy:false}).start();"+
+                "linb(id).prepend(o);"+
+                "o.updateCellByRowCol('row1','col1',{value:'a'}).updateCellByRowCol('row1','col2',{value:5}).updateCellByRowCol('row2','col2',{value:8});"+
+                "_.asyRun(function(){o.resetRowValue('row1')},1000);"+
                 "}"
             ]
         },
@@ -12384,7 +12418,7 @@ _.set(linb.Locale,["en","doc","linb","UI","TreeGrid"], {
             $desc:"Removes the specified rows.",
             $rtn:"[self]",
             $paras:[
-                "ids [Required] : String, the array of row id."
+                "ids [Required] : Array or String, row id string, or a set of row id strings."
             ],
             $snippet:[
                 "var id='linb.temp.grid44'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
