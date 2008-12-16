@@ -1,3 +1,26 @@
+_.set(linb.Locale,["en","app"], {
+    en:'English',
+    cn:'Chinese',
+    apititle:"jsLINB 2.0 - API Documentation",
+    staticMethods:"Static Methods",
+    staticProperties:"Static Properties",
+    gFun:'Global Function',
+    constructor:"Constructor",
+    noCons:'No Constructor, Dont use "new" operation',
+    supCls:'Direct Super Classes',
+    subCls:'Direct Sub Classes',
+    inhFrom:"Inherite from ",
+    insProperties:"Instance Properties",
+    insMethods:"Instance Methods",
+    events:'Events',
+    retV:'Return Value',
+    param:'Parameters',
+    codesnip:'Code snippet',
+    memo:'Memo',
+    seealso:'See Also',
+    oCode:'Original Code',
+    oCodeDesc:'/*\n * Original code in jsLinb \n * With it, maybe you can understand the function easily \n*/'
+});
 /*
 $desc string
 $paras array

@@ -1,3 +1,26 @@
+_.set(linb.Locale,["cn","app"], {
+    en:'英文',
+    cn:'中文',
+    apititle:"jsLINB 2.0 - API 文档",
+    staticMethods:"静态方法",
+    staticProperties:"静态属性",
+    gFun:'全局函数',
+    constructor:"构造函数",
+    noCons:'没有构造函数，不要用 "new" 来构造',
+    supCls:'父类',
+    subCls:'子类',
+    inhFrom:"继承自 ",
+    insProperties:"实例属性",
+    insMethods:"实例方法",
+    events:'事件',
+    retV:'返回值',
+    param:'参数',
+    codesnip:'示例',
+    memo:'说明',
+    seealso:'请参考',
+    oCode:'函数源代码',
+    oCodeDesc:'/*\n * 为了帮助您更好地理解这个函数，下面是 jsLinb 的函数源代码：\n*/'
+});
 /*
 $desc string
 $paras array
@@ -19,7 +42,7 @@ _.set(linb.Locale,["cn","doc"], {
         $paras:[
             "key [必需参数]: String. 类名字+名字空间.",
             "pkey [必需参数]: String/Array, 父类名+名字空间。数组表示该类为多继承，有多个父类.",
-            "obj [可选参数]: Object, class object. Default is {}."
+            "obj [可选参数]: Object,  类对象. 默认为 {}."
         ],
         $snippet:["// Equals to declare a Namespae 'Test.NS' and declare a Class 'Test.NS.Cls'; \n  Class('Test.NS.Cls'); Class('Test.NS.Cls.Subcls', 'Test.NS.Cls', {}); alert(typeof Test.NS); alert(typeof Test.NS.Cls); alert(typeof Test.NS.Cls.Subcls);"],
         $links:[
@@ -37,7 +60,7 @@ _.set(linb.Locale,["cn","doc"], {
                 $paras: [
                     "arr [必需参数]: Array, 目标数组.",
                     "fun [必需参数]: Function, 参数: [array element, array index]. 要应用的函数.",
-                    "scope [可选参数]: Object, [fun]的this指针(哪个对象的函数). Default is [arr].",
+                    "scope [可选参数]: Object, [fun]的this指针(哪个对象的函数). 默认为 [arr].",
                     "order [可选参数]: Bool, 按从头到尾还是从尾到头应用函数. 默认是从头到尾."
                 ],
                 $snippet:[
@@ -1066,8 +1089,8 @@ _.set(linb.Locale,["cn","doc","linb","Ajax"], {
             "<br>&nbsp;&nbsp;uri: String, The URL of the request target."+
             "<br>&nbsp;&nbsp;query: Object[Key/value pairs], request data."+
             "<br>&nbsp;&nbsp;threadid: String, a thread id to be bound to the current request."+
-            "<br>&nbsp;&nbsp;asy: Bool, to Determines whether or not  the request is asynchronous. Default is [false]."+
-            "<br>&nbsp;&nbsp;<strong>method: 'GET' or 'POST', the request method. Default is 'GET'.</strong>"+
+            "<br>&nbsp;&nbsp;asy: Bool, to Determines whether or not  the request is asynchronous. 默认为 [false]."+
+            "<br>&nbsp;&nbsp;<strong>method: 'GET' or 'POST', the request method. 默认为 'GET'.</strong>"+
             "<br>&nbsp;&nbsp;retry: Number, how many times it is tried when the request is timeout."+
             "<br>&nbsp;&nbsp;timeout: Number, the timeout time(ms) for this request."+
             "<strong><br>&nbsp;&nbsp;resType: String 'text' or 'xml', Response type of the request.</strong>"+
@@ -1251,7 +1274,7 @@ _.set(linb.Locale,["cn","doc","linb","IAjax"], {
             "<br>&nbsp;&nbsp;uri: String, The URL of the request target."+
             "<br>&nbsp;&nbsp;query: Object[Key/value pairs], request data."+
             "<br>&nbsp;&nbsp;threadid: String, a thread id to be bound to the current request."+
-            "<br>&nbsp;&nbsp;<strong>method: 'GET' or 'POST', the request method. Default is 'POST'.</strong>"+
+            "<br>&nbsp;&nbsp;<strong>method: 'GET' or 'POST', the request method. 默认为 'POST'.</strong>"+
             "<br>&nbsp;&nbsp;retry: Number, how many times it is tried when the request is timeout."+
             "<br>&nbsp;&nbsp;timeout: Number, the timeout time(ms) for this request."+
             "<br><em>//functions</em>"+
@@ -1343,7 +1366,7 @@ _.set(linb.Locale,["cn","doc","linb","SC"], {
     $paras:[
         "path [必需参数]: String, path name of a class/object(e.g. 'linb.UI.Button').",
         "callback [可选参数]: Function, arguments:[path, code, threadid]. A function to be executed whenever the straight call returns. If returns successfully, [path] will be the [path name], and [this] pointer will be the result class/object; if fails, [path] will be [null], and [this] pointer will be the inner linb.Ajax/iajax object.",
-        "isAsy [可选参数]: Bool, to Determines whether or not  the current SC is in asynchronous Mode. If the target class exists, this parameter is invalide. Default is [false].",
+        "isAsy [可选参数]: Bool, to Determines whether or not  the current SC is in asynchronous Mode. If the target class exists, this parameter is invalide. 默认为 [false].",
         "options [可选参数]: Object, a set of key/value pairs that configure the inner linb.Ajax(asynchronous mode) or linb.SAjax(synchronous mode)."
     ],
     $snippet:[
@@ -1355,7 +1378,7 @@ _.set(linb.Locale,["cn","doc","linb","SC"], {
         $rtn:"Any",
         $paras:[
             "path [必需参数]: String, path name (e.g. 'linb.SC.get', '_.isArr', 'linb.ini.path').",
-            "obj [可选参数]: Object, target object. Default is [window]."
+            "obj [可选参数]: Object, target object. 默认为 [window]."
         ],
         $snippet:[
             "alert(linb.SC.get('linb.ini.path')); alert(_.get(window,'linb.ini.path'.split('.'))); "
@@ -3018,7 +3041,7 @@ _.set(linb.Locale,["cn","doc","linb","Debugger"], {
     'log':{
         $desc:"在Debugger窗口中打印日志信息.",
         $snippet:[
-            "//You can input multi parameters:\n"+
+            "//可以输入多个参数:\n"+
             "linb.Debugger.log(9,'a',[1,2],{a:1,b:2})"
         ]
     },
@@ -3317,7 +3340,7 @@ _.set(linb.Locale,["cn","doc","linb","absProfile"], {
             $paras:[
                 "obj [必需参数] : Object or Array. ",
                 "id [必需参数] : String, link id.",
-                "target [可选参数] : Any, default is [self]."
+                "target [可选参数] : Any, 默认为 [self]."
             ],
             $snippet:[
                 "var profile=new linb.Profile(), a1=[],a2=[],a3=[]; profile.link(a1,'a').link(a2,'b').link(a3,'c'); alert(a1+':'+a2+':'+a3); profile.unLink('a'); alert(a1+':'+a2+':'+a3); profile.unLinkAll(); alert(a1+':'+a2+':'+a3); "
@@ -4328,7 +4351,7 @@ _.set(linb.Locale,["cn","doc","linb","ComFactory"], {
             "id [必需参数] : String, 应用模块对象id.",
             "onEnd [可选参数] : Function, the 回调函数, 生成应用模块对象(Com object)成功后被调用.",
             "threadid [可选参数] : String, 内部线程id",
-            "singleton[Optional] : Bool, default is true. If singleton is false, that indicates ComFactory won't get it from the cache, and won't cache the result."
+            "singleton[Optional] : Bool, 默认为 true. If singleton is false, that indicates ComFactory won't get it from the cache, and won't cache the result."
         ],
         $snippet:[
             "linb.ComFactory.destroyAll();"+
@@ -4514,7 +4537,7 @@ _.set(linb.Locale,["cn","doc","linb","Tips"], {
         $paras:[
             "pos [必需参数] : {left:Number,top:Number}, the position of the tooltips.",
             "item [必需参数] : String or Object, to provide the tooltips content.",
-            "key [可选参数] : String, the tips key. Default is 'tips'."
+            "key [可选参数] : String, the tips key. 默认为 'tips'."
         ],
         $snippet:[
             "linb.Tips.show({left:100,top:100}, 'a string'); _.asyRun(function(){linb.Tips.hide()},1000); _.asyRun(function(){linb.Tips.show({left:100,top:100}, {tips:'an object with a \\\'tips\\\' key'})},2000); _.asyRun(function(){linb.Tips.hide()},3000); _.asyRun(function(){linb.Tips.show({left:100,top:100}, {any:'an object with a customizable key'},'any')},4000);_.asyRun(function(){linb.Tips.hide()},5000);"
@@ -7034,7 +7057,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","ProgressBar"], {
             $rtn:"[self]",
             $paras:[
                 "value [Required] : String.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. 默认为 [false]."
             ],
             $snippet:[
                 "var id='linb.temp.pb1-2'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -7151,7 +7174,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","Button"], {
             $rtn:"[self]",
             $paras:[
                 "value [Required] : 'normal', 'drop', 'status' or 'custom'.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. 默认为 [false]."
             ],
             $snippet:[
                 "var id='linb.temp.btn6'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -7977,7 +8000,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","ComboInput"], {
             $rtn:"[self]",
             $paras:[
                 "value [Required] : Number.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. 默认为 [false]."
             ],
             $snippet:[
                 "var id='linb.temp.ci12'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -8001,7 +8024,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","ComboInput"], {
             $rtn:"[self]",
             $paras:[
                 "value [Required] : Number.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. 默认为 [false]."
             ],
             $snippet:[
                 "var id='linb.temp.ci14'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -8025,7 +8048,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","ComboInput"], {
             $rtn:"[self]",
             $paras:[
                 "value [Required] : Number.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. 默认为 [false]."
             ],
             $snippet:[
                 "var id='linb.temp.ci16'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -8049,7 +8072,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","ComboInput"], {
             $rtn:"[self]",
             $paras:[
                 "value [Required] : Number.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. 默认为 [false]."
             ],
             $snippet:[
                 "var id='linb.temp.ci18'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -8758,7 +8781,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","LinkList"], {
             $rtn:"[self]",
             $paras:[
                 "value [必需参数] : Number.",
-                "flag [可选参数] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "flag [可选参数] : Bool, force to set the property value even if the same property value already exists. 默认为 [false]."
             ],
             $snippet:[
                 "var id='linb.temp.llist2'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -8819,7 +8842,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","Gallery"], {
             $rtn:"[self]",
             $paras:[
                 "value [必需参数] : Number.",
-                "flag [可选参数] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "flag [可选参数] : Bool, force to set the property value even if the same property value already exists. 默认为 [false]."
             ],
             $snippet:[
                 "var id='linb.temp.ga2'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -8843,7 +8866,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","Gallery"], {
             $rtn:"[self]",
             $paras:[
                 "value [必需参数] : Number.",
-                "flag [可选参数] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "flag [可选参数] : Bool, force to set the property value even if the same property value already exists. 默认为 [false]."
             ],
             $snippet:[
                 "var id='linb.temp.da4'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -10225,7 +10248,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","MenuBar"], {
             $desc:"通过设置DOM元素的id来设置父对象.",
             $paras:[
                 "value [Required] : String.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. 默认为 [false]."
             ],
             $paras:[
                 "value [必需参数] : Number. 父对象id",
@@ -11051,7 +11074,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","Poll"], {
             $rtn:"[self]",
             $paras:[
                 "value [必需参数] : Array.",
-                "flag [可选参数] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "flag [可选参数] : Bool, force to set the property value even if the same property value already exists. 默认为 [false]."
             ],
             $snippet:[
                 "var id='linb.temp.pool2'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -11106,7 +11129,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","Poll"], {
             $rtn:"[self]",
             $paras:[
                 "value [必需参数] : String.",
-                "flag [可选参数] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "flag [可选参数] : Bool, force to set the property value even if the same property value already exists. 默认为 [false]."
             ],
             $snippet:[
                 "var id='linb.temp.pool6'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -11132,8 +11155,8 @@ _.set(linb.Locale,["cn","doc","linb","UI","Poll"], {
             $desc:"Sets the editorType property value on the each UIProfile, and reflects the value to UI.",
             $rtn:"[self]",
             $paras:[
-                "value [必需参数] : 'none','combobox','listbox','upload','getter','helpinput','cmdbox','popbox','timepicker','datepicker' or 'colorpicker'. Default is 'none'.",
-                "flag [可选参数] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "value [必需参数] : 'none','combobox','listbox','upload','getter','helpinput','cmdbox','popbox','timepicker','datepicker' or 'colorpicker'. 默认为 'none'.",
+                "flag [可选参数] : Bool, force to set the property value even if the same property value already exists. 默认为 [false]."
             ],
             $snippet:[
                 "var id='linb.temp.pool8'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -11162,7 +11185,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","Poll"], {
             $rtn:"[self]",
             $paras:[
                 "value [必需参数] : Bool.",
-                "flag [可选参数] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "flag [可选参数] : Bool, force to set the property value even if the same property value already exists. 默认为 [false]."
             ],
             $snippet:[
                 "var id='linb.temp.pool10'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -11190,7 +11213,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","Poll"], {
             $rtn:"[self]",
             $paras:[
                 "value [必需参数] : String.",
-                "flag [可选参数] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "flag [可选参数] : Bool, force to set the property value even if the same property value already exists. 默认为 [false]."
             ],
             $snippet:[
                 "var id='linb.temp.pool12'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -11218,7 +11241,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","Poll"], {
             $rtn:"[self]",
             $paras:[
                 "value [必需参数] : Bool.",
-                "flag [可选参数] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "flag [可选参数] : Bool, force to set the property value even if the same property value already exists. 默认为 [false]."
             ],
             $snippet:[
                 "var id='linb.temp.pool14'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -11246,7 +11269,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","Poll"], {
             $rtn:"[self]",
             $paras:[
                 "value [必需参数] : String.",
-                "flag [可选参数] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "flag [可选参数] : Bool, force to set the property value even if the same property value already exists. 默认为 [false]."
             ],
             $snippet:[
                 "var id='linb.temp.pool16'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -11274,7 +11297,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","Poll"], {
             $rtn:"[self]",
             $paras:[
                 "value [必需参数] : Bool.",
-                "flag [可选参数] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "flag [可选参数] : Bool, force to set the property value even if the same property value already exists. 默认为 [false]."
             ],
             $snippet:[
                 "var id='linb.temp.pool20'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+

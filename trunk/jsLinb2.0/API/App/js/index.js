@@ -55,6 +55,13 @@ Class('App', 'linb.Com',{
                     str=t.join('.');
                     obj=linb.SC.get(str);
                 }
+                //if same
+                if(SPA.__vid==str)return;
+                //if return to list
+                if(SPA.__vid && _.str.endWith(SPA.__vid, '._list'))
+                    return;
+
+                SPA.__vid=str;
 
                 if(str.indexOf('.prototype.')!=-1){
                     id1=str.split('.prototype.')[0];
@@ -119,7 +126,7 @@ Class('App', 'linb.Com',{
             });            
         },
         showCode:function(e, key){
-            var txt = '/*\n * Original code in jsLinb \n * With it, maybe you can understand the function easily \n*/' + 
+            var txt = linb.getRes('app.oCodeDesc') + 
                       key + ' = ' + 
                       linb.SC(key).toString();
             txt = linb.Coder.formatAll(txt, 'js', ['plain']);
@@ -139,55 +146,80 @@ Class('App', 'linb.Com',{
         },
         iniComponents:function(){
             // [[code created by jsLinb UI Builder
-            var t=this, n=[], u=linb.UI, f=function(c){n.push(c.get(0))};
+            var host=this, children=[], append=function(child){children.push(child.get(0))};
 
-            f(
-            (new u.Layout)
-            .host(t,"mainLayout")
-            .setLeft(null)
-            .setTop(null)
-            .setItems([{"id":"before","pos":"before","locked":false,"size":240,"min":100,"max":400,"hide":false,"cmd":true},{"id":"main","min":10}])
-            .setType("horizontal")
+            append((new linb.UI.PopMenu)
+                .host(host,"popLang")
+                .setItems([{"id":"en", "caption":"$app.en"}, {"id":"cn", "caption":"$app.cn"}])
+                .onMenuSelected("_pop_onmenuselected")
             );
 
-            t.mainLayout.append(
-            (new u.Panel)
-            .host(t,"panelbar1")
-            .setLeft(null)
-            .setTop(null)
-            .setZIndex(1)
-            .setCaption("jsLINB API")
-            .setCloseBtn(false)
-            .setLandBtn(false)
-            , 'before');
 
-            t.panelbar1.append(
-            (new u.TreeBar)
-            .host(t,"objTree")
-            .setLeft(0)
-            .setTop(0)
-            .setItems([])
-            .onRender("_objtree_aftercreated")
+            append((new linb.UI.Pane)
+                .host(host,"paneTop")
+                .setDock("top")
+                .setHeight("38")
+                .setCustomStyle({"KEY":"border:solid 1px;border-color:#fff #ccc #ccc #fff;background-color:#EBEADB;"})
+            );
+            
+            host.paneTop.append((new linb.UI.Label)
+                .host(host,"labelName")
+                .setLeft(10)
+                .setTop(10)
+                .setWidth(270)
+                .setCaption("$app.apititle")
+                .setFontSize("16px")
+                .setFontWeight("bold")
+                .setHAlign('left')
+            );
+            
+            host.paneTop.append((new linb.UI.Button)
+                .host(host,"btnLang")
+                .setTop(10)
+                .setWidth("80")
+                .setRight("10")
+                .setCaption("English")
+                .setType("drop")
+                .onClickDrop("_butlang_onclickdrop")
+                .onClick("_butlang_onclickdrop")
             );
 
-            t.mainLayout.append(
-            (new u.Div)
-            .host(t,"divHead")
-            .setLeft(80)
-            .setTop(30)
-            .setDock("fill")
-            .setCustomStyle({KEY:"overflow:auto;"})
+            append((new linb.UI.Layout)
+                .host(host,"mainLayout")
+                .setItems([{"id":"before", "pos":"before", "locked":false, "size":240, "min":100, "max":400, "hide":false, "cmd":true, "caption":"before"}, {"id":"main", "min":10, "caption":"main"}])
+                .setType("horizontal")
+            );
+            
+            host.mainLayout.append((new linb.UI.TreeBar)
+                .host(host,"objTree")
+                .onRender("_objtree_aftercreated")
+            ,'before');
+            
+            host.mainLayout.append((new linb.UI.Div)
+                .host(host,"divHead")
+                .setDock("fill")
+                .setCustomStyle({"KEY":"overflow:auto;"})
             , 'main');
 
-            f(
-            (new u.Div)
-            .host(t,"div21")
-            .setDomId('logo')
-            .setCustomStyle({"KEY":"background-image:url(img/logo.gif);position:absolute;left:auto;bottom:auto;top:0px;right:14px;width:120px;height:60px;z-index:100;"})
-            );
-
-            return n;
+            return children;
             // ]]code created by jsLinb UI Builder
+        },
+        _pop_onmenuselected:function (profile, item, src) {
+            if(linb.$lang==item.id)return;
+
+            linb.reLang(item.id,function(){
+                SPA.popLang.refresh();
+                SPA.btnLang.setCaption(linb.getRes('app.'+item.id));
+                if(SPA.__vid){
+                    var s=SPA.__vid;
+                    delete SPA.__vid;
+                    delete SPA._curId;
+                    linb.History._callback(s);
+                }
+            });
+        },
+        _butlang_onclickdrop:function(profile, e, src) {
+            SPA.popLang.pop(src);
         },
         _objtree_aftercreated:function (profile) {
             var items=[
@@ -242,7 +274,7 @@ Class('App', 'linb.Com',{
             return '<a name="'+okey+'" ></a> <div class="p"> <h4 id="'+okey+'">' + 
                     (con?'<span class="linb-custom-icon" style="background-position:' +pos+';"></span>':'') + 
                     head +
-                    (flag !==false?((t=linb.SC(key)).$linb$||t.$auto$ ?"":'<a href="javascript:;" onclick="return SPA.showCode(event,\''+key+'\');">&nbsp;&nbsp;&nbsp;&nbsp;[Original Code]</a>'):"") + 
+                    (flag !==false?((t=linb.SC(key)).$linb$||t.$auto$ ?"":'<a href="javascript:;" onclick="return SPA.showCode(event,\''+key+'\');">&nbsp;&nbsp;&nbsp;&nbsp;['+linb.getRes('app.oCode')+']</a>'):"") + 
                     '</h4>' + 
                     (con?'<div class="con">'+con+'</div>':"") + 
                     (flag!==false?'<a class="totop" href="#'+okey+'._list"> ^ </a>':'')+
@@ -256,11 +288,11 @@ Class('App', 'linb.Com',{
                 ipm=this._iconPosMap;
             var ns=this,arr=[],getItem=function(){return ns._getItem.apply(ns,arguments);}
 
-            arr.push('<h1><img src="img/work.jpg" style="vertical-align: bottom;margin-right:4px;">'+obj.key+'</h1>');
+            arr.push('<h1><img src="img/work.gif" style="vertical-align: bottom;margin-right:4px;">'+obj.key+'</h1>');
             arr.push('<div>')
             if(obj.parent){
                 obj.parent.sort();
-                arr.push('<h2 id="'+key+'._parent'+'" class="inherite"><span class="linb-custom-cmd"></span>Direct Super Classes</h2>');
+                arr.push('<h2 id="'+key+'._parent'+'" class="inherite"><span class="linb-custom-cmd"></span>'+linb.getRes('app.supCls')+'</h2>');
                 arr.push('<div class="linb-custom-block">')
                 _.arr.each(obj.parent,function(o){
                     arr.push('<div class="p"><a href="#'+o+'"><div><span class="linb-custom-icon" style="background-position:' +ipm.cls+';"></span>'+ o +'</div></a></div>');
@@ -269,7 +301,7 @@ Class('App', 'linb.Com',{
             }
             if(obj.children){
                 obj.children.sort();
-                arr.push('<h2 id="'+key+'._children'+'" class="inherite"><span class="linb-custom-cmd"></span>Direct Sub Classes</h2>');
+                arr.push('<h2 id="'+key+'._children'+'" class="inherite"><span class="linb-custom-cmd"></span>'+linb.getRes('app.subCls')+'</h2>');
                 arr.push('<div class="linb-custom-block">')
                 _.arr.each(obj.children,function(o){
                     arr.push('<div class="p"><a href="#'+o+'"><div><span class="linb-custom-icon" style="background-position:' +ipm.cls+';"></span>'+ o +'</div></a></div>');
@@ -277,26 +309,26 @@ Class('App', 'linb.Com',{
                 arr.push('</div>')
             }
             if(this.$CLS_FUN[key]){
-                arr.push('<h2 id="'+key+'._global'+'" class="notice"><span class="linb-custom-cmd"></span>Global Function</h2>');
+                arr.push('<h2 id="'+key+'._global'+'" class="notice"><span class="linb-custom-cmd"></span>'+linb.getRes('app.gFun')+'</h2>');
                 arr.push('<div class="linb-custom-block">');
                 arr.push(getItem(ipm.fun, obj.key + ' ' + this._getFunArgs(linb.SC(obj.key)), obj.key));
                 arr.push('</div>')
             }
 
             if(this.$CLS_STATIC[key]){
-                arr.push('<h2 id="'+_.id()+'" class="notice">&nbsp;&nbsp;&nbsp;&nbsp;No Constructor, Dont use "new" operation</h2>');
+                arr.push('<h2 id="'+_.id()+'" class="notice">&nbsp;&nbsp;&nbsp;&nbsp;'+linb.getRes('app.noCons')+'</h2>');
                 arr.push('<div class="linb-custom-block"></div>');
             }
 
             if(obj.con && !this.$CLS_FUN[key] && !this.$CLS_STATIC[key]){
-                arr.push('<h2 id="'+key+'.construcotr'+'" ><span class="linb-custom-cmd"></span>Constructor</h2>');
+                arr.push('<h2 id="'+key+'.construcotr'+'" ><span class="linb-custom-cmd"></span>'+linb.getRes('app.constructor')+'</h2>');
                 arr.push('<div class="linb-custom-block">');
                 arr.push(getItem(ipm.con,obj.key + obj.con, obj.key+'.constructor', null, false));
                 arr.push('</div>')
             }
             if(obj.vars){
                 obj.vars.sort();
-                arr.push('<h2 id="'+key+'._staticP'+'" ><span class="linb-custom-cmd"></span>Static Properties</h2>');
+                arr.push('<h2 id="'+key+'._staticP'+'" ><span class="linb-custom-cmd"></span>'+linb.getRes('app.staticProperties')+'</h2>');
                 var a1=[],a2=[],tt;
                 _.arr.each(obj.vars,function(o){
                     tt=key + dot + o;
@@ -306,7 +338,7 @@ Class('App', 'linb.Com',{
                 arr.push('<div class="linb-custom-block">'+'<div class="linb-custom-list">'+a2.join('')+'</div>'+a1.join('')+'</div>')
             }
             if(obj.funs){
-                arr.push('<h2 id="'+key+'._staticM'+'" ><span class="linb-custom-cmd"></span>Static Methods</h2>');
+                arr.push('<h2 id="'+key+'._staticM'+'" ><span class="linb-custom-cmd"></span>'+linb.getRes('app.staticMethods')+'</h2>');
                 arr.push('<div class="linb-custom-block">');
                 if(obj.funs.self){
                     obj.funs.self.sort();
@@ -320,7 +352,7 @@ Class('App', 'linb.Com',{
                 }
                 for(var i in obj.funs){
                     if(i!='self'){
-                        arr.push('<h3 id="'+key+'._staticM.'+i.replace(/\./g,'_')+'"><span class="linb-custom-cmd"></span>Inherite from '+i+'</h3>');
+                        arr.push('<h3 id="'+key+'._staticM.'+i.replace(/\./g,'_')+'"><span class="linb-custom-cmd"></span>'+linb.getRes('app.inhFrom')+' '+i+'</h3>');
                         obj.funs[i].sort();
                         var a1=[],a2=[],tt;
                         _.arr.each(obj.funs[i],function(o){
@@ -336,7 +368,7 @@ Class('App', 'linb.Com',{
             }
             if(obj.provars){
                 obj.provars.sort();
-                arr.push('<h2 id="'+key+'._prototypeP'+'" ><span class="linb-custom-cmd"></span>Instance Properties</h2>');
+                arr.push('<h2 id="'+key+'._prototypeP'+'" ><span class="linb-custom-cmd"></span>'+linb.getRes('app.insProperties')+'</h2>');
                 var a1=[],a2=[],tt;
                 _.arr.each(obj.provars,function(o){
                     tt=key + pdot + o;
@@ -346,7 +378,7 @@ Class('App', 'linb.Com',{
                 arr.push('<div class="linb-custom-block">'+'<div class="linb-custom-list">'+a2.join('')+'</div>'+a1.join('')+'</div>')
             }
             if(obj.profuns){
-                arr.push('<h2 id="'+key+'._prototype'+'" ><span class="linb-custom-cmd"></span>Instance Methods</h2>');
+                arr.push('<h2 id="'+key+'._prototype'+'" ><span class="linb-custom-cmd"></span>'+linb.getRes('app.insMethods')+'</h2>');
                 arr.push('<div class="linb-custom-block">');
                 if(obj.profuns.self){
                     obj.profuns.self.sort();
@@ -360,7 +392,7 @@ Class('App', 'linb.Com',{
                 }
                 for(var i in obj.profuns){
                     if(i!='self'){
-                        arr.push('<h3 id="'+key+'._prototype.'+i.replace(/\./g,'_')+'" ><span class="linb-custom-cmd"></span>Inherite from '+i+'</h3>');
+                        arr.push('<h3 id="'+key+'._prototype.'+i.replace(/\./g,'_')+'" ><span class="linb-custom-cmd"></span>'+linb.getRes('app.inhFrom')+' ' +i+'</h3>');
                         obj.profuns[i].sort();
                         var a1=[],a2=[],tt;
                         _.arr.each(obj.profuns[i],function(o){
@@ -375,7 +407,7 @@ Class('App', 'linb.Com',{
                 arr.push('</div>')
             }
             if(obj.events){
-                arr.push('<h2 id="'+key+'._event'+'" ><span class="linb-custom-cmd"></span>Events</h2>');
+                arr.push('<h2 id="'+key+'._event'+'" ><span class="linb-custom-cmd"></span>'+linb.getRes('app.events')+'</h2>');
                 arr.push('<div class="linb-custom-block">');
                 arr.push('<div>'+SPA.getDoc(obj.key=='linb.Dom'?'linb.Dom.Events':'linb.UI.Events')+'</div>');
 
@@ -393,7 +425,7 @@ Class('App', 'linb.Com',{
                     if(i!='self'){
                         obj.events[i].sort();
                         var a1=[],a2=[],tt;
-                        arr.push('<h3 id="'+key+'._event.'+i.replace(/\./g,'_')+'" ><span class="linb-custom-cmd"></span>Inherite from '+i+'</h3>');
+                        arr.push('<h3 id="'+key+'._event.'+i.replace(/\./g,'_')+'" ><span class="linb-custom-cmd"></span>'+linb.getRes('app.inhFrom')+' ' +i+'</h3>');
                         _.arr.each(obj.events[i],function(o){
                             tt=i + pdot + o[0];
                             a1.push(getItem(ipm.event,o[1], tt,key+pdot+o[0],false));
@@ -582,9 +614,9 @@ Class('App', 'linb.Com',{
                 if(o.$desc)
                     arr.push('<div class="inndiv">' + o.$desc + '</div>');
                 if(o.$rtn)
-                    arr.push('<div class="inndiv">' + '<strong>Return Value: </strong>' + o.$rtn + '</div>');
+                    arr.push('<div class="inndiv">' + '<strong>'+linb.getRes('app.retV')+': </strong>' + o.$rtn + '</div>');
                 if(o.$paras){
-                    arr.push('<div class="inndiv">' + '<div><strong>Parameters: </strong></div><ul>');
+                    arr.push('<div class="inndiv">' + '<div><strong>'+linb.getRes('app.param')+': </strong></div><ul>');
                     _.arr.each(o.$paras,function(v){
                         v=v.replace(/^([^:\[]*)([^:]*):(.*)$/,"<strong>$1</strong> $2 : $3");
                         arr.push('<li> ' + v + ' </li>');
@@ -593,24 +625,24 @@ Class('App', 'linb.Com',{
                 }
 
                 if(o.$snippet){
-                    arr.push('<div class="inndiv">' + '<div><strong>Code snippet: </strong></div>');
+                    arr.push('<div class="inndiv">' + '<div><strong>'+linb.getRes('app.codesnip')+': </strong></div>');
                     _.arr.each(o.$snippet,function(v){
                         arr.push('<textarea id="code" class="js plain-run">' + v + '</textarea><p>&nbsp;</p>');
                     })
                     arr.push("</div>");
                 }
                 if(o.$memo)
-                    arr.push('<div class="inndiv">' + '<strong>Memo: </strong>' + o.$memo + '</div>');
+                    arr.push('<div class="inndiv">' + '<strong>'+linb.getRes('app.memo')+': </strong>' + o.$memo + '</div>');
 
                 if(o.$links){
-                    arr.push('<div class="inndiv">' + '<div><strong>See Also: </strong></div><ul>');
+                    arr.push('<div class="inndiv">' + '<div><strong>'+linb.getRes('app.seealso')+': </strong></div><ul>');
                     _.arr.each(o.$links,function(v){
                         arr.push('<li><a target="'+(v[2]||'')+'" href="' +v[1]+ '">' + v[0] + '</a></li>');
                     })
                     arr.push("</ul></div>");
                 }
             }
-            return arr.join('').replace(/\[Required\]/g,"[<span class='required'>Required</span>]");
+            return arr.join('');
         }
     }
 });
