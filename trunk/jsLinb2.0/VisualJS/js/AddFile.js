@@ -48,7 +48,7 @@ Class('VisualJS.AddFile', 'linb.Com',{
             .setMaxBtn(false)
             .setPinBtn(false)
             .setCaption("$VisualJS.tool2.new")
-            .setImage('CONF.img_app')
+            .setImage('@CONF.img_app')
             .setImagePos('-0px -16px')
             .onHotKeydown("_dialog_onhotkey")
             .beforeClose("_dialog_beforeclose")
@@ -175,6 +175,7 @@ Class('VisualJS.AddFile', 'linb.Com',{
             ;
             if(s1&&s2&&s3)
                 self.inputTarget.setValue(s1+'/'+s2+s3, true);
+            return false;
         },
         _btnok_onclick:function (profile, e, value) {
             var self=this,

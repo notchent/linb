@@ -62,9 +62,13 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
         },
         _cache:function(){
             var profile=this.get(0),drop=profile.$drop;
-            if(drop)
-                //drop.root.css('display','none') for opera bug
-                profile.getSubNode('POOL').append(drop.root.css('display','none'));
+            if(drop){
+                if(linb.browser.opr)
+                    drop.root.css('display','none');
+                _.asyRun(function(){
+                    profile.getSubNode('POOL').append(drop.root)
+                });
+            }
             delete profile.$poplink;
         },
         clearPopCache:function(){
