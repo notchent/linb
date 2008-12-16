@@ -42,6 +42,7 @@ Class('App', 'linb.Com',{
         events:{onRender:'_onrender'},
         _onrender:function(){
             SPA=this;
+            SPA.btnLang.setCaption(linb.getRes('app.'+linb.$lang));
             linb.UI.Border.$abstract=linb.UI.Shadow.$abstract=linb.UI.Resizer.$abstract=true;
             linb.History.setCallback(function(str){
                 str=str.replace('#','');
@@ -178,7 +179,6 @@ Class('App', 'linb.Com',{
                 .setTop(10)
                 .setWidth("80")
                 .setRight("10")
-                .setCaption("English")
                 .setType("drop")
                 .onClickDrop("_butlang_onclickdrop")
                 .onClick("_butlang_onclickdrop")
@@ -208,8 +208,7 @@ Class('App', 'linb.Com',{
             if(linb.$lang==item.id)return;
 
             linb.reLang(item.id,function(){
-                SPA.popLang.refresh();
-                SPA.btnLang.setCaption(linb.getRes('app.'+item.id));
+                SPA.btnLang.setCaption(linb.getRes('app.'+linb.$lang));
                 if(SPA.__vid){
                     var s=SPA.__vid;
                     delete SPA.__vid;
@@ -219,6 +218,7 @@ Class('App', 'linb.Com',{
             });
         },
         _butlang_onclickdrop:function(profile, e, src) {
+            SPA.popLang.refresh();
             SPA.popLang.pop(src);
         },
         _objtree_aftercreated:function (profile) {
