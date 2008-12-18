@@ -91,7 +91,14 @@ Class('App', 'linb.Com',{
         },
         _afterinicomponents:function () {
             var cf=linb.ComFactory;
-            cf.setProfile(CONF.comsProfile);
+            cf.setProfile({
+                codeview:{
+                    cls:'App.CodeView'
+                },
+                treeview:{
+                    cls:'App.TreeView'
+                }
+            });
             cf.getCom('codeview',function(){
                 if(!SPA.$cv){
                     SPA.$cvhost=this;
