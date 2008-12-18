@@ -200,7 +200,7 @@ Class('UIDesigner', 'linb.Com',{
             
             append((new linb.UI.PopMenu)
                 .host(host,"popSave")
-                .setItems([{"id":"savetoserver", "caption":"Save original file (in server)"}, {"id":"savetolocal", "caption":"Save jsLinb Class ile(.js) to locale disk"}, {"id":"saveashtml", "caption":"Save jsLinb HTML file to locale disk"}])
+                .setItems([{"id":"savetoserver", "caption":"Save original file (in server)"}, {"id":"savetolocal", "caption":"Save jsLinb Class file(.js) to locale disk"}, {"id":"saveashtml", "caption":"Save jsLinb HTML file to locale disk"}])
                 .onMenuSelected("_popsave_onmenusel")
             );
                         
