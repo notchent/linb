@@ -1581,6 +1581,9 @@ Class("linb.UI",  "linb.absObj", {
             '.ui-dirty':{
                 background: linb.UI.$bg('dirty.gif', ' no-repeat left top', true)
             },
+            '.ui-disabled, .ui-disabled *':{
+                color: '#808080'
+            },
             '.ui-invalid, .ui-invalid *':{
                 'background-color': '#FFEBCD'
             },
@@ -2506,6 +2509,9 @@ Class("linb.UI",  "linb.absObj", {
             }
             if((typeof (o=hashOut.renderer)=='function') || (typeof (o=hashIn.renderer)=='function'))
                 hashOut.caption=o(hashIn,hashOut,profile);
+
+            if('disabled' in hashIn)
+                hashOut.disabled=hashIn.disabled?'ui-disabled':'';
 
             //todo: change it
             hashOut.iconDisplay = hashIn.image?'':'display:none';

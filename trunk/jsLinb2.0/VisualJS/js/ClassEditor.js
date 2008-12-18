@@ -35,14 +35,20 @@ Class('VisualJS.ClassEditor', 'linb.Com',{
                 data=self.$data;
             txt=(txt||'').replace(/\r\n/g,'\n');
 
-            self.$bakValue=data.text=txt;
-
+            //get view
             var view = self.buttonview.getUIValue();
+            //get current value
+            if(self.views[view])
+                $ov=self.getValue();            
+
+            //set value
+            self.$bakValue=data.text=txt;
             if(false==self._adjustData(txt,false))
                 view='normal';
 
+            //need to refresh?
             if(self.views[view])
-                if(self.getValue()!=txt)
+                if($ov!=txt)
                     self.views[view].refreshView();
         },
         _beforeValueUpdated:function(profile, ov, nv){
@@ -57,7 +63,7 @@ Class('VisualJS.ClassEditor', 'linb.Com',{
                 if(r!==data.text){
                     if(ov=='normal'){
                         //not a class
-                        if(!VisualJS.ClassTool.isClassText(r)){
+                        if(!VisualJS.ClassTool.getClassName(r)){
                             linb.message(linb.getRes('VisualJS.classtool.noClass'));
                             return false;
                         }
@@ -82,7 +88,7 @@ Class('VisualJS.ClassEditor', 'linb.Com',{
                 data=self.$data;
             showErr=showErr!==false;
             try{
-                if(!VisualJS.ClassTool.isClassText(str))
+                if(!VisualJS.ClassTool.getClassName(str))
                     throw Error(linb.getRes('VisualJS.classtool.noClass'));
                 data.clsStruct = VisualJS.ClassTool.getClassStruct(str);
                 data.clsObject = VisualJS.ClassTool.getClassObject(str);

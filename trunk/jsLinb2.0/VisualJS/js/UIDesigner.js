@@ -71,70 +71,33 @@ Class('UIDesigner', 'linb.Com',{
                     }})
                 )
                 .append( new linb.UI.Button(
-                    {caption:'Download', 
-                        tips:'Download file and save it to locale disk.',
-                        zIndex:100, left:'auto', top:4, right:90,  width:75, height:58, type:'custom', border:true, renderer:function(item){return '<img src=img/download.gif /><br />' + item.caption;}},
-                    {onClick:function(){
-                        var id='ifr_for_download',
-                            content=self.getValue();
-                        if(false===content)return;
-                        if(!linb.Dom.byId(id))
-                            linb('body').append(linb.create('<iframe id="'+id+'" name="'+id+'" style="display:none;"/>'));
-            
-                        var hash={
-                            key:CONF.requestKey,
-                            para:{
-                                action:'downloadjs',
-                                content:content
-                            }
-                        };
-                        linb.Dom.submit(CONF.phpPath, hash, 'post', id);
-                    }})
-                )
-                .append( self.$save2server = new linb.UI.Button(
                     {caption:'Save', 
-                        tips:'Save original file (in server).',
-                        display:'none',
-                        zIndex:100, left:'auto', top:4, right:170, width:75, height:58, type:'custom', border:true, renderer:function(item){return '<img src=img/save.gif /><br />' + item.caption;}},
+                        tips:'Save or download file.',
+                        zIndex:100, left:'auto', top:4, right:90,  width:75, height:58, type:'custom', border:true, renderer:function(item){return '<img src=img/save.gif /><br />' + item.caption;}},
+                    {onClick:function(p,e,src){
+                        self.popSave.updateItem('savetoserver',{disabled:!self.$url || linb.absIO.isCrossDomain(self.$url)})
+                        self.popSave.pop(src);
+                    }
+                    })
+                )
+                .append( self.$btnRun = new linb.UI.Button(
+                    {caption:'Execute', 
+                        tips:'Execute jsLinb Calss in a test page.',
+                        zIndex:100, left:'auto', top:4, right:170, width:75, height:58, type:'custom', border:true, renderer:function(item){return '<img src=img/run.gif /><br />' + item.caption;}},
                     {onClick:function(){
-                        var content=self.getValue();
+                        var content=self.getValue(),
+                            clsName=VisualJS.ClassTool.getClassName(content);
                         if(false===content)return;
-                        var path=self.$url;
-                        if(/^(http|https)\:\/\//.test(self.$url)){
-                            //change the url to relative path format
-                            var s1=self.$url.replace(/^.+\:\/\/[^/]+\//,''),
-                                s2=linb.ini.appPath.replace(/^.+\:\/\/[^/]+\//,'').replace(/\/$/,''),
-                                a1=s1.split('/'),
-                                a2=s2.split('/'),
-                                count=0,
-                                as='';
-                            _.arr.each(a2,function(o,i){
-                                if(a1[i]!=o)
-                                    return false;
-                                else count++;
-                            });
-                            as +=_.str.repeat('../',(a2.length-count));
-                            path = as + a1.slice(count,a1.length).join('/');
+                        if(!clsName){
+                            linb.message(linb.getRes('VisualJS.classtool.noClass'));
+                            return false;
                         }
-
-                        linb.IAjax(CONF.phpPath, {
-                            key:CONF.requestKey, para:{
-                                action:'savetoserver',
-                                hashCode:_(),
-                                path: path,
-                                content:content
-                            }}, function(txt){
-                                var obj = typeof txt=='string'?_.unserialize(txt):txt;
-                                if(obj && !obj.error && obj.data && obj.data.OK){
-                                    linb.message('Saved to server!');
-                                    self.imgEdit.setDisplay('none');
-                                    self.$dirty=false;
-                                }else
-                                    linb.message(obj.error.message);
-                            },function(txt){
-                                linb.message(txt);
-                            }).start();
-                    }})
+                        linb.Dom.submit(CONF.testphpPath,{
+                            clsName:clsName,
+                            content:content
+                        },'post');
+                    }
+                    })
                 );
 
                 self.$btnTheme=new linb.UI.Button({
@@ -222,8 +185,9 @@ Class('UIDesigner', 'linb.Com',{
             if(url)
                 self.$url=url;
             var dis=self.$url?!linb.absIO.isCrossDomain(self.$url)?'':'none':'none';
-            self.$save2server.setDisplay(dis);
-            self.paneTop.setDisplay(dis);
+            
+            self.urlLink.setDisplay(dis);
+            self.divFileInfo.setDisplay(dis);
 
             if(self.$url)
                 self.urlLink.setHref(self.$url).setCaption(self.$url);
@@ -234,6 +198,12 @@ Class('UIDesigner', 'linb.Com',{
             // [[code created by jsLinb UI Builder
             var host=this, children=[], append=function(child){children.push(child.get(0))};
             
+            append((new linb.UI.PopMenu)
+                .host(host,"popSave")
+                .setItems([{"id":"savetoserver", "caption":"Save original file (in server)"}, {"id":"savetolocal", "caption":"Save jsLinb Class ile(.js) to locale disk"}, {"id":"saveashtml", "caption":"Save jsLinb HTML file to locale disk"}])
+                .onMenuSelected("_popsave_onmenusel")
+            );
+                        
             append((new linb.UI.PopMenu)
                 .host(host,"popMenu")
                 .setItems([{"id":"default", "caption":"Default Theme"}, {"id":"aqua", "caption":"Aqua Theme"}, {"id":"vista", "caption":"Vista Theme"}])
@@ -258,7 +228,6 @@ Class('UIDesigner', 'linb.Com',{
                 .setTop(10)
                 .setWidth("auto")
                 .setHeight(20)
-                .setDisplay('none')
                 .setPosition("relative")
             );
             
@@ -270,7 +239,7 @@ Class('UIDesigner', 'linb.Com',{
                 .setDisplay('none')
             );
             host.paneTop.append((new linb.UI.Div)
-                .host(host,"div18")
+                .host(host,"divFileInfo")
                 .setLeft(40)
                 .setTop(0)
                 .setWidth(90)
@@ -295,6 +264,82 @@ Class('UIDesigner', 'linb.Com',{
             if((SPA.$curTheme||'default')==id)return;
             linb.UI.setTheme(SPA.$curTheme=id);
             SPA.$btnTheme.setCaption(item.caption);
+        },
+        _popsave_onmenusel:function(profile,item){
+            var self=this,
+                id=item.id;
+                ifrid='ifr_for_download',
+                content=self.getValue(),
+                clsName=VisualJS.ClassTool.getClassName(content);
+            if(false===content)return;
+            if(!clsName){
+                linb.message(linb.getRes('VisualJS.classtool.noClass'));
+                return false;
+            }
+
+            if(id=='savetolocal'){
+                if(!linb.Dom.byId(ifrid))
+                    linb('body').append(linb.create('<iframe id="'+ifrid+'" name="'+ifrid+'" style="display:none;"/>'));    
+                var hash={
+                    key:CONF.requestKey,
+                    para:{
+                        action:'downloadjs',
+                        content:content
+                    }
+                };
+                linb.Dom.submit(CONF.phpPath, hash, 'post', ifrid);
+            }else if(id=='saveashtml'){
+                if(!linb.Dom.byId(ifrid))
+                    linb('body').append(linb.create('<iframe id="'+ifrid+'" name="'+ifrid+'" style="display:none;"/>'));    
+                var hash={
+                    key:CONF.requestKey,
+                    para:{
+                        action:'downloadhtml',
+                        content:content,
+                        clsName:clsName
+                    }
+                };
+                linb.Dom.submit(CONF.phpPath, hash, 'post', ifrid);
+            }else if(id=='savetoserver'){
+                var path=self.$url;
+                if(!path)return;
+
+                if(/^(http|https)\:\/\//.test(self.$url)){
+                    //change the url to relative path format
+                    var s1=self.$url.replace(/^.+\:\/\/[^/]+\//,''),
+                        s2=linb.ini.appPath.replace(/^.+\:\/\/[^/]+\//,'').replace(/\/$/,''),
+                        a1=s1.split('/'),
+                        a2=s2.split('/'),
+                        count=0,
+                        as='';
+                    _.arr.each(a2,function(o,i){
+                        if(a1[i]!=o)
+                            return false;
+                        else count++;
+                    });
+                    as +=_.str.repeat('../',(a2.length-count));
+                    path = as + a1.slice(count,a1.length).join('/');
+                }
+
+                linb.IAjax(CONF.phpPath, {
+                    key:CONF.requestKey, para:{
+                        action:'savetoserver',
+                        hashCode:_(),
+                        path: path,
+                        content:content
+                    }}, function(txt){
+                        var obj = typeof txt=='string'?_.unserialize(txt):txt;
+                        if(obj && !obj.error && obj.data && obj.data.OK){
+                            linb.message('Saved to server!');
+                            self.imgEdit.setDisplay('none');
+                            self.$dirty=false;
+                        }else
+                            linb.message(obj.error.message);
+                    },function(txt){
+                        linb.message(txt);
+                    }).start();
+
+            }
         }
     }
 });

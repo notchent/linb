@@ -1,10 +1,11 @@
 Class('VisualJS.ClassTool',null,{
     Static:{
-        isClassText:function(str){
+        getClassName:function(str){
             var reg = new RegExp("^(\\s*\\/\\*[^*@]*\\*+([^\\/][^*]*\\*+)*\\/\\s*)|^(\\s*\\/\\/[^\\n]*\\s*)");
             while(reg.test(str))
                 str = str.replace(reg,'');
-            return /^\s*Class\(/.test(str);
+            var match=/^\s*Class\s*\(\s*[\'\"]([^\'\"]+)[\'\"]\s*\,/.exec(str);
+            return (match && match[1]);
         },
         //get class object from a Class declare, include comments words
         getClassObject : function(str){

@@ -8,6 +8,8 @@ new function(){
         img_widgets:_img_widgets,
 
         phpPath:linb.ini.appPath + 'request.php',
+        testphpPath:linb.ini.appPath + 'test.php',
+
         prjPath:'projects/',
         requestKey:'VisualJS',
 

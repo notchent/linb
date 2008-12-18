@@ -13,6 +13,7 @@ class VisualJS extends Unit
     const LOCATE_PATH = "Locale";
     const EN_PATH = "en.js";
 
+    const TEMPLATE_SINHTML = "template/single.html";
     const TEMPLATE_HTML = "template/index.html";
     const TEMPLATE_DEBUG = "template/debug.html";
     const TEMPLATE_JS = "template/index.js";
@@ -50,6 +51,24 @@ class VisualJS extends Unit
     		header("Pragma: public");
     		header("Expires: 0");
             echo $hash->content;
+            
+            return;
+            break;
+        case 'downloadhtml':
+            $template = $io->getString(self::TEMPLATE_SINHTML);
+            $template = LINB::parseTemplate($template, array("clsName" => $hash->clsName, "content"=>$hash->content));
+
+    		header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
+    		header("Cache-Control: private",false);
+            header("Content-Description: File Transfer");
+    		header("Content-Type: application/force-download");
+            header("Accept-Ranges: bytes");
+            header("Content-Disposition: attachment; filename=\"linbApp.html\";");
+    		header("Content-Transfer-Encoding: binary");
+    		header("Content-Length: ".strlen($template));
+    		header("Pragma: public");
+    		header("Expires: 0");
+            echo $template;
             
             return;
             break;
