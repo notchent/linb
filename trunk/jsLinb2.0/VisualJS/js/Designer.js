@@ -36,11 +36,14 @@ Class('VisualJS.Designer', 'linb.Com',{
             }else if(key=='linb.UI.Layout'){
                 pro.items=[{id:'before',pos:'before'},{id:'main'},{id:'after',pos:'after'}];
             }else if(key=='linb.UI.ComboInput'){
-                if(pro.type=='combobox'||pro.type=='listbox'||pro.type=='helpinput')
-                    pro.items=['item a', 'item b', 'item c', 'item d'];
+                if(pro.type=='combobox'||pro.type=='listbox'||pro.type=='helpinput'){
+                pro.items=[{id:'a',caption:'item a',image:'img/demo.gif'}, {id:'b',caption:'item b',image:'img/demo.gif'}, {id:'c',caption:'item c',image:'img/demo.gif'}, {id:'d',caption:'item d',image:'img/demo.gif'}];
+                pro.value='a';
+                }
             }else{
                 if(!items)return;
-                pro.items=['item a', 'item b', 'item c', 'item d'];
+                pro.items=[{id:'a',caption:'item a',image:'img/demo.gif'}, {id:'b',caption:'item b',image:'img/demo.gif'}, {id:'c',caption:'item c',image:'img/demo.gif'}, {id:'d',caption:'item d',image:'img/demo.gif'}];
+                pro.value='a';
             }
         },
         events:{
