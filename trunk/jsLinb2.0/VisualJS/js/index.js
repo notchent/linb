@@ -49,12 +49,11 @@ Class('VisualJS', 'linb.Com',{
                         {id:'saveall', caption:'$VisualJS.menu.saveall', add:'Ctrl+Alt+S', image:CONF.img_app, imagePos:'-96px top'}
                     ]},
                     {id:'build',caption:'$VisualJS.menu.build', sub:[
-                        {id:'debug', caption:'$VisualJS.menu.debug', image:CONF.img_app, imagePos:'top left',add:'F9'},
-                        {id:'release', caption:'$VisualJS.menu.release', image:CONF.img_app, imagePos:'-64px top',add:'Ctrl+F9'}
+                        {id:'debug', caption:'$VisualJS.menu.debug', image:CONF.img_app, imagePos:'-239px -64px',add:'F9'},
+                        {id:'release', caption:'$VisualJS.menu.release', image:CONF.img_app, imagePos:'-144px top',add:'Ctrl+F9'}
                     ]},
                     {id:'help',caption:'$VisualJS.menu.help', sub:[
                         {id:'forum', caption:'$VisualJS.menu.forum'},
-                        {id:'download', caption:'$VisualJS.menu.download', image:CONF.img_app, imagePos:'-144px 0px'},
                         {type:'split'},
                         {id:'license', caption:'$VisualJS.menu.license', sub:[
                             {id:'gpllicense', caption:'$VisualJS.menu.gpllicense'},
@@ -74,12 +73,12 @@ Class('VisualJS', 'linb.Com',{
                     {split:true},
                     {id:'saveall', image:CONF.img_app, imagePos:'-96px top', tips:'$VisualJS.tool.saveall'},
                     {split:true},
-                    {id:'debug', image:CONF.img_app, imagePos:'top left', tips:'$VisualJS.tool.debug'},
-                    {id:'release', image:CONF.img_app, imagePos:'-64px top', tips:'$VisualJS.tool.release'},
-                    {split:true},
-                    {id:'download', tips:'$VisualJS.menu.download', image:CONF.img_app, imagePos:'-144px 0px'},
+                    {id:'debug', image:CONF.img_app, imagePos:'-239px -64px', tips:'$VisualJS.tool.debug'},
+                    {id:'release', image:CONF.img_app, imagePos:'-144px top', tips:'$VisualJS.tool.release'},
+/*                    {split:true},
                     {id:'flash', image:CONF.img_app, imagePos:'-128px -17px', tips:'$VisualJS.tool.flash'},
                     {id:'demo', image:CONF.img_app, imagePos:'-48px -64px ', tips:'$VisualJS.tool.demo'},
+*/
                     {split:true},
                     {id:'ec', image:CONF.img_app, imagePos:'-98px -16px', tips:'$VisualJS.tool.ec'},
                     {split:true},
