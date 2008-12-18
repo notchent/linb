@@ -21,8 +21,8 @@
         spy:'Components Spy',
 
         build: 'Build',
-        debug: 'Debug',
-        release: 'Release',
+        debug: 'Run Application',
+        release: 'Download package',
         setting: 'Build Setting',
 
         help: 'Help',
@@ -31,7 +31,6 @@
         gpllicense:'LGPL License',
         clicense: 'Commercial License',
         purchase:'Purchase License',
-        download:'Download Source Code...',
         about: 'About...'
     },
     tool:{
@@ -41,8 +40,8 @@
         saveall:'Save All Changed Files',
         command:'Open Command Window',
         spy:'Open Widget Spy Window',
-        debug:'Debug Current Project',
-        release:'Release Current Project',
+        debug:'Run the Current Project',
+        release:'Package and download the Current Project',
         ec:'Translate Language to Chinese',
         manual:'Visual Builder Manual...',
         api:'Components API Reference...',              
