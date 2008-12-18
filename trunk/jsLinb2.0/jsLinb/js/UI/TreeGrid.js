@@ -1181,11 +1181,12 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                     //cell position rowMap
                     var allitems = profile.queryItems(p.rows, true, true);
                     _.arr.each(allitems,function(o){
-                        if(o.cells){
-                            temp=o.cells[fromIndex];
-                            _.arr.removeFrom(o.cells,fromIndex);
-                            _.arr.insertAny(o.cells,temp,toIndex);
-                        }
+                        //for those non-prepared data
+                        o=o.cells?o.cells:o;
+                        if(!o || o.constructor!=Array)return;
+                        temp=o[fromIndex];
+                        _.arr.removeFrom(o,fromIndex);
+                        _.arr.insertAny(o,temp,toIndex);
                     });
 
                     //fire after event

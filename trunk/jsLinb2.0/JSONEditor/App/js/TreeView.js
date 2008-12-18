@@ -1,11 +1,5 @@
-
 Class('App.TreeView', 'linb.Com',{
     Instance:{
-        //base Class for linb.Com
-        base:["linb.UI"],
-        //requried class for the App
-        required:["linb.UI.Layout", "linb.UI.TextEditor", "linb.UI.Button", "linb.UI.TreeGrid"],
-        //Com events
         events:{"onReady":"_onready"},
         iniComponents:function(){
             // [[code created by jsLinb UI Builder
@@ -21,7 +15,7 @@ Class('App.TreeView', 'linb.Com',{
                 .host(host,"tg")
                 .setEditable(true)
                 .setColSortable(false)
-                .setColMovable(true)
+                .setColMovable(false)
                 .setHeader([{"id":"key", "width":100, "type":"input", "caption":"key"}, {"id":"value", "width":400, "type":"textarea", "caption":"value"}, {"id":"action", "width":90, "type":"label", "cellRenderer":
                     function (o) {
                         o.tips = "";
@@ -193,7 +187,7 @@ Class('App.TreeView', 'linb.Com',{
                 var type=row._type,
                     va=this.getCellValue(options.value);
                 if(!va){
-                    alert('Not a valid format!');
+                    alert('Text format is not valid!');
                     return false;
                 }else{
                     if(map[type]){
@@ -220,7 +214,7 @@ Class('App.TreeView', 'linb.Com',{
                 }
             }else{
                 if(!/^"(\\.|[^"\\])*"$/.test('"'+options.value+'"')){
-                    alert('Not a valid format!');
+                    alert('Text format is not valid!');
                     return false;
                 }
             }

@@ -1,4 +1,3 @@
-
 Class('App.CodeView', 'linb.Com',{
     Instance:{
         events:{onReady:'_onready'},
