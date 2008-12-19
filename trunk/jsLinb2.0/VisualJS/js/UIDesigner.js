@@ -244,7 +244,7 @@ Class('UIDesigner', 'linb.Com',{
                 .setTop(0)
                 .setWidth(90)
                 .setHeight(20)
-                .setHtml("Target File: ")
+                .setHtml("Original file: ")
             );
             
             host.paneTop.append((new linb.UI.Link)
