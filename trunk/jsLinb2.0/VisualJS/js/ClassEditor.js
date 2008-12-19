@@ -32,14 +32,15 @@ Class('VisualJS.ClassEditor', 'linb.Com',{
         },
         setValue:function(txt){
             var self=this,
-                data=self.$data;
+                data=self.$data,
+                $ov;
             txt=(txt||'').replace(/\r\n/g,'\n');
 
             //get view
             var view = self.buttonview.getUIValue();
             //get current value
             if(self.views[view])
-                $ov=self.getValue();            
+                $ov=self.getValue();
 
             //set value
             self.$bakValue=data.text=txt;

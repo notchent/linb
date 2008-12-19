@@ -8,6 +8,37 @@
     notsave2:'You are about to close a file without saving it.<p>Click [Yes] to discard and continue or [No] to go back for saving.',
     notsave3:'You have NOT saved your modifications before debugging.<p>Click [Yes] to continue anyway or [No] to go back for saving.',
     checkOK:'Congratulations! No syntax error yet!',
+    en:'English',
+    cn:'Chinese',
+    langTips:'Switch Locale',
+    
+    builder:{
+
+        open:'Open',
+        openTips:'Save or download file.',
+        save:'Save',
+        saveTips:'Save or download file.',
+        run:'Run',
+        runTips:'Run jsLinb Class in debug page.',
+        dftTheme:'Default Theme',
+        dftThemeTips:'To switch theme',
+        originalFile:"Original file: ",
+        issave2server:"Do you mean to overwrite the original server file?",
+        save2serverOK:'Saved to server successfully',
+        nosavefirst:'You are about to close a file without saving it. Do you want to continue?',
+        
+        savetoserver:'Save original file (in server)',
+        savetolocal:"Save jsLinb Class file(.js) to locale disk",
+        saveashtml:"Save a runnable file(.html) to locale disk",
+        saveaszip:"Save release package(.zip) to locale disk",
+        
+        themeDft:'Default Theme',
+        themeAqua:'Aqua Theme',
+        themeVista:'Vista Theme',
+        
+        noexist:"$0 doesn't exist!"
+    },
+    
     menu:{
         file:'Project',
         newproject:'New Project',
@@ -107,6 +138,9 @@
         noClass:'Not a UI Class File!'
     },
     designer:{
+        toolsbox:'Tools Box',
+        configwnd:'Component config',
+        
         emptyContent:'Empty Content First...',
         prepare:'Prepare Classes...',
         createContent:'Refresh design content...',
@@ -124,7 +158,9 @@
         colneOK:'$0 Widgets Cloned',
         openwidgets:'Expend/Fold the widgtes list',
         dragwidget:'You can drag this widget to the design window!',
+        openapi:'Click to open API window',
         tool:{
+            viewsize:"View Size",
             tocode:"Serialize selection to JS code",
             tojson:"Serialize selection to JSON code",
             left: 'Align to left',

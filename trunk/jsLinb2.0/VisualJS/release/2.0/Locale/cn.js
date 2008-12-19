@@ -8,6 +8,36 @@
     notsave2:'您即将关闭的窗口尚未保存，是否放弃修改并继续关闭操作?',
     notsave3:'当前工程中还有未保存的文件，是否要继续操作?',
     checkOK:'代码没有语法错误!',
+    en:'英文',
+    cn:'中文',
+    langTips:'改变语言',
+    
+    builder:{
+        open:'打开',
+        openTips:'打开一个jsLinb类文件',
+        save:'保存',
+        saveTips:'保存或下载',
+        run:'运行',
+        runTips:'在debug页面中运行当前jsLinb类',
+        dftTheme:'默认界面主题',
+        dftThemeTips:'切换界面主题',
+        originalFile:"文件来自：",
+        issave2server:'这会覆盖服务器上的原始文件，请确认是否继续？',
+        save2serverOK:'服务器上的原始文件已经被覆盖！',
+        nosavefirst:'打开新的文件意味着放弃当前文件的所有更改（您是否已经保存当前文件？），请确认是否继续？',
+
+        savetoserver:'保存文件到服务器上的原始文件',
+        savetolocal:"保存 jsLinb 类文件(.js)到本地",
+        saveashtml:"保存一个可以运行的网页文件(.html)到本地",
+        saveaszip:"保存可以发布的文件包(.zip)到本地",
+        
+        themeDft:'默认界面主题',
+        themeAqua:'Aqua 界面主题',
+        themeVista:'Vista 界面主题',
+        
+        noexist:"$0 不存在!"
+    },
+    
     menu:{
         file:'文件',
         newproject:'新建工程',
@@ -110,6 +140,9 @@
         noClass:'该文件不是一个 jsLinb 类文件！'
     },
     designer:{
+        toolsbox:'组件窗口',
+        configwnd:'组件配置窗口',
+        
         emptyContent:'正在清空内容...',
         prepare:'准备类...',
         createContent:'刷新设计界面...',
@@ -127,7 +160,9 @@
         colneOK:'$0 个控件克隆成功!',
         openwidgets:'打开/折叠控件列表',
         dragwidget:'可以拖拽这个控件到设计窗口中!',
+        openapi:'点击鼠标查看 API 文档',
         tool:{
+            viewsize:"视图大小",
             tocode:"序列化到 javascript 代码",
             tojson:"序列化到 JSON 代码",
             left: '左对齐',

@@ -488,6 +488,13 @@ html, .ui-content{
 .linb-treegrid-checkbox-checked{
     background: url(Public/cmds.gif) no-repeat scroll -96px top;
 }
+.linb-treegrid-body{
+    border-bottom:1px solid #F1F1F1;
+}
+.linb-treegrid-cells-group{
+    border-right:1px solid #F1F1F1;
+}
+
 
 
 /*linb.UI.TimeLine*/

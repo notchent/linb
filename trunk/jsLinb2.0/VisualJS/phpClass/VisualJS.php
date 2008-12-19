@@ -18,6 +18,8 @@ class VisualJS extends Unit
     const TEMPLATE_DEBUG = "template/debug.html";
     const TEMPLATE_JS = "template/index.js";
     
+    const BASE_PATH = "../";
+    
 
     public function stimulate(&$hash){
         LINB::checkArgs($hash, array(
@@ -56,7 +58,7 @@ class VisualJS extends Unit
             break;
         case 'downloadhtml':
             $template = $io->getString(self::TEMPLATE_SINHTML);
-            $template = LINB::parseTemplate($template, array("clsName" => $hash->clsName, "content"=>$hash->content));
+            $template = LINB::parseTemplate($template, array("libpath"=>"http://www.linb.net/","clsName" => $hash->clsName, "content"=>$hash->content));
 
     		header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
     		header("Cache-Control: private",false);
@@ -70,6 +72,40 @@ class VisualJS extends Unit
     		header("Expires: 0");
             echo $template;
             
+            return;
+            break;
+        case 'downloadzip2':
+            $zip = new zip;
+            $fileName='jsLinbApp.zip';
+            $rootName='runtime';
+            
+            $path=self::BASE_PATH;
+
+            $path2='index.html';
+            $template = $io->getString(self::TEMPLATE_SINHTML);
+            $template = LINB::parseTemplate($template, array("libpath"=>"","clsName" => $hash->clsName, "content"=>$hash->content));
+            $zip->addFile($template, $path2);
+
+            $path2=$rootName.DIRECTORY_SEPARATOR.'loading.gif';
+            $f = file_get_contents($path.DIRECTORY_SEPARATOR.$path2);
+            $zip->addFile($f, $path2);
+
+            $path2=$rootName.DIRECTORY_SEPARATOR.'addBuilderLink.js';
+            $f = file_get_contents($path.DIRECTORY_SEPARATOR.$path2);
+            $zip->addFile($f, $path2);
+            
+            $io->_zip($path, $rootName.DIRECTORY_SEPARATOR.'jsLinb'.DIRECTORY_SEPARATOR.'Locale',$zip);
+            $io->_zip($path, $rootName.DIRECTORY_SEPARATOR.'jsLinb'.DIRECTORY_SEPARATOR.'appearance'.DIRECTORY_SEPARATOR.'default',$zip);
+
+            $path2=$rootName.DIRECTORY_SEPARATOR.'jsLinb'.DIRECTORY_SEPARATOR.'js'.DIRECTORY_SEPARATOR.'linb-all.js';
+            $f = file_get_contents($path.DIRECTORY_SEPARATOR.$path2);
+            $zip->addFile($f, $path2);
+
+            $fd = fopen ($fileName, "wb");
+            $out = fwrite ($fd, $zip -> getZippedfile());
+            fclose ($fd);    
+            $zip -> forceDownload($fileName);
+            @unlink($fileName);
             return;
             break;
         case 'savetoserver':

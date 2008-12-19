@@ -1151,7 +1151,7 @@ Class('VisualJS.Designer', 'linb.Com',{
                     };
 
                     var rows=[
-                            {id:'key', tipk:'class', cells:[{value:'class', type:'label', tips:'Click to open API window.'},{value:'<strong>'+pro.key+'</strong>',type:'label', tips:'Click to open API window.'}] },
+                            {id:'key', tipk:'class', cells:[{value:'class', type:'label', tips:linb.getRes('VisualJS.designer.openapi')},{value:'<strong>'+pro.key+'</strong>',type:'label', tips:linb.getRes('VisualJS.designer.openapi')}] },
                             {id:'alias',tipk:'fun', tipv:'alias',cells:[{value:'alias', type:'label'},{value:pro.alias,type:uis._nodes.length===1?'input':'label'}] },
                             {id:'domId',tipk:'fun', tipv:'setDomId',cells:[{value:'setDomId',caption:'domId', type:'label'},{value:pro.domId,type:uis._nodes.length===1?'input':'label'}] },
                             {id:'properties',  group:true, caption:'properties', sub:true},
@@ -1537,7 +1537,7 @@ Class('VisualJS.Designer', 'linb.Com',{
                         str+= '<div>'+key+' [event] : <b>'+row.tipv+ '</b> </div>';
                     }
                     if(row.tipk=='class' || cell.value==row.tipv)
-                        str +='<div><em style="background-color:#EBEADB;">Click to open API window.</em></div>';
+                        str +='<div><em style="background-color:#EBEADB;">'+linb.getRes('VisualJS.designer.openapi')+'</em></div>';
 
                     linb.Tips.show(pos, str);
                 }else if(cell.tips)
@@ -2316,7 +2316,7 @@ Class('VisualJS.Designer', 'linb.Com',{
             t.layoutBase.append(
             (new u.Panel)
             .host(t,"panelRigth")
-            .setCaption("Component config")
+            .setCaption("$VisualJS.designer.configwnd")
             .setCustomStyle({PANEL:'overflow:hidden'})
             , 'after');
 
@@ -2349,7 +2349,7 @@ Class('VisualJS.Designer', 'linb.Com',{
             t.layoutBase.append(
             (new u.Panel)
             .host(t,"panelLeft")
-            .setCaption("Tools Box")
+            .setCaption("$VisualJS.designer.toolsbox")
             .setCustomStyle({PANEL:'overflow:hidden'})
             , 'before');
 
@@ -2426,7 +2426,8 @@ Class('VisualJS.Designer', 'linb.Com',{
         linb.CSS.addStyleSheet(linb.UI.buildCSSText({
             '.linbdesign .panel':{
                 'background-image' : 'url(img/designer/bg.gif)',
-                'background-position' : 'left top'
+                'background-position' : 'left top',
+                'background-repeat': 'repeat'
             }
         }),'linb.UI.design');
 

@@ -678,12 +678,14 @@ Class('linb.UIProfile','linb.Profile', {
                 return fun.call(this, value, ovalue);
         },
         getKey:function(id){
-            if(id.indexOf(':')==-1)id=linb.cache.dom[id].$domId;
-            return id.split(":")[0];
+            var t;
+            if(id.indexOf(':')==-1)id=(t=linb.cache.dom[id])&&(t.$domId);
+            return id?id.split(":")[0]:"";
         },
         getSubId:function(id){
-            if(id.indexOf(':')==-1)id=linb.cache.dom[id].$domId;
-            return id.split(":")[2];
+            var t;
+            if(id.indexOf(':')==-1)id=(t=linb.cache.dom[id])&&(t.$domId);
+            return id?id.split(":")[2]:"";
         },
         pickSubId:function(key){
             var self=this, r,o = self.cache_subid || (self.cache_subid={});

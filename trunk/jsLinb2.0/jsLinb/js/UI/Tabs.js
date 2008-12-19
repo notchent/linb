@@ -680,8 +680,10 @@ Class("linb.UI.Tabs", ["linb.UI", "linb.absList","linb.absValue"],{
                 height=null;
 
             var wc=null,hc=null;
-            if(width && item._w!=width)
+            if(width && item._w!=width){
+                height=profile.domNode.offsetHeight || profile.getRoot().offsetHeight();
                 forceH=1;
+            }
             if((height && item._h!=height) || forceH){
                 item._h=height;
                 listH = l.get(0).offsetHeight ||
@@ -692,7 +694,8 @@ Class("linb.UI.Tabs", ["linb.UI", "linb.absList","linb.absValue"],{
                 if(height>0)hc=height;
             }
             if(listH)o.top(listH);
-            if(hc)o.height(hc);
+            //force to trigger onSze event, whatever width or height was changed.
+            if(hc)o.height(hc).onSize();
         }
     }
 });

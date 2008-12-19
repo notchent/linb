@@ -8946,12 +8946,14 @@ Class('linb.UIProfile','linb.Profile', {
                 return fun.call(this, value, ovalue);
         },
         getKey:function(id){
-            if(id.indexOf(':')==-1)id=linb.cache.dom[id].$domId;
-            return id.split(":")[0];
+            var t;
+            if(id.indexOf(':')==-1)id=(t=linb.cache.dom[id])&&(t.$domId);
+            return id?id.split(":")[0]:"";
         },
         getSubId:function(id){
-            if(id.indexOf(':')==-1)id=linb.cache.dom[id].$domId;
-            return id.split(":")[2];
+            var t;
+            if(id.indexOf(':')==-1)id=(t=linb.cache.dom[id])&&(t.$domId);
+            return id?id.split(":")[2]:"";
         },
         pickSubId:function(key){
             var self=this, r,o = self.cache_subid || (self.cache_subid={});
@@ -21806,8 +21808,10 @@ Class("linb.UI.Tabs", ["linb.UI", "linb.absList","linb.absValue"],{
                 height=null;
 
             var wc=null,hc=null;
-            if(width && item._w!=width)
+            if(width && item._w!=width){
+                height=profile.domNode.offsetHeight || profile.getRoot().offsetHeight();
                 forceH=1;
+            }
             if((height && item._h!=height) || forceH){
                 item._h=height;
                 listH = l.get(0).offsetHeight ||
@@ -21818,7 +21822,8 @@ Class("linb.UI.Tabs", ["linb.UI", "linb.absList","linb.absValue"],{
                 if(height>0)hc=height;
             }
             if(listH)o.top(listH);
-            if(hc)o.height(hc);
+            //force to trigger onSze event, whatever width or height was changed.
+            if(hc)o.height(hc).onSize();
         }
     }
 });Class("linb.UI.Stacks", "linb.UI.Tabs",{
