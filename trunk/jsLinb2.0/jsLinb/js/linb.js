@@ -785,7 +785,7 @@ new function(){
     _.merge(ini,{
         appPath:location.href.split('?')[0].replace(/[^\\\/]+$/,''),
         appLangKey:'app',
-        file_bg:'bg.gif',
+        file_bg:ini.path+'bg.gif',
         dummy_tag:'$_dummy_$'
     });
     if(!ini.path)
@@ -1571,7 +1571,7 @@ Class('linb.IAjax','linb.absIO',{
                 if(!d.getElementById('linb:img:bg')){
                     o=d.createElement('img');
                     o.id='linb:img:bg';
-                    o.src=ini.path + ini.file_bg;
+                    o.src=ini.file_bg;
                     o.style.display='none';
                     d.body.appendChild(o);
                 }

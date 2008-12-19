@@ -1464,7 +1464,7 @@ type:4
                         n.style.height = n.height;
                         n.style.width = n.width;
                         n.style.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='" + n.src + "',sizingMethod='"+type+"')";
-                        n.src = linb.ini.path+linb.ini.file_bg;
+                        n.src = linb.ini.file_bg;
                     }
                 });
         }
@@ -1647,7 +1647,7 @@ type:4
                 o1,o2;
 
             if((o1=linb(id)).isEmpty()){
-                linb('body').prepend(o1=linb.create('<div id="'+ id +'" style="position:absolute;display:none;left:0;top:0;background-image:url('+linb.ini.path+linb.ini.file_bg+')"><div id="'+id2+'" style="position:absolute;font-size:12px"></div></div>'));
+                linb('body').prepend(o1=linb.create('<div id="'+ id +'" style="position:absolute;display:none;left:0;top:0;background-image:url('+linb.ini.file_bg+')"><div id="'+id2+'" style="position:absolute;font-size:12px"></div></div>'));
                 o1.get(0).zIndexIgnore=1;
             }
             o2=linb(id2);
