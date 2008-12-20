@@ -38,7 +38,8 @@ Class("linb.UI.IconList", "linb.UI.List",{
                 overflow:'auto',
                 'overflow-x': (linb.browser.ie || linb.browser.gek)?'hidden':'',
                 position:'relative',
-                'line-height':'12px',
+                'line-height':'14px',
+                zoom:linb.browser.ie6?1:null,
                 background: 'url('+linb.ini.file_bg+') no-repeat left top'
             },
             ITEM:{

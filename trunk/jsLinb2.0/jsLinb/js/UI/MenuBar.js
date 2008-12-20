@@ -162,7 +162,7 @@ Class("linb.UI.MenuBar",["linb.UI","linb.absList" ],{
                 height:'16px',
                 'margin-left':'1px',
                 'font-size':'12px',
-                'line-height':'12px',
+                'line-height':'14px',
                 'vertical-align':'middle'
             }
         },

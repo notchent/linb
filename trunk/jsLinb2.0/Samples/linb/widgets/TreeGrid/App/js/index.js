@@ -58,7 +58,7 @@ Class('App', 'linb.Com',{
                 .setHeader([])
                 .setRows([])
                 .afterRowActive("_tg2_afterRowActive")
-                .setCustomStyle({'CELL':'border-right:none;padding-right:1px;'})
+                .setCustomStyle({'CELL':'border-right:none;padding-right:1px;','CELL-GROUP':'border-right:none;padding-right:1px;','PREVIEW':'border-right:none;padding-right:1px;','SUMMARY':'border-right:none;padding-right:1px;'})
             , 'before');
 
             host.layout4.append((new linb.UI.Panel)
@@ -253,9 +253,11 @@ Class('App', 'linb.Com',{
                     .setRows([{cells:['11','12','13','14'],sub:new linb.UI.Button({position:'relative'})},{id:'row2',cells:['21','22','23','24'],sub:true},['31','32','33','34'],['41','42','43','44']]);
 
                     SPA.tg5.setHeader(['col1','col2','col3','col4'])
-                .setRows([{cells:['11','12','13','14'],preview:'<h5>preview 1</h5><p>the preview message1 will displayed here</p>'},{cells:['21','22','23','24'],preview:'<h5>preview 2</h5><p>the preview message2 will displayed here</p>'},{id:'grp1',group:true,
+                .setRows([{cells:['11','12','13','14'],summary:'summary',preview:'<h5>preview 1</h5><p>the preview message1 will displayed here</p>'},{cells:['21','22','23','24'],summary:'summary',preview:'<h5>preview 2</h5><p>the preview message2 will displayed here</p>'},{id:'grp1',group:true,
                     caption:'group layer 1',
-                    render : function(profile,row){return "<span style='width:16px;height:16px;background:url(img/img.gif) left -32px'></span>"+row.caption},
+                    summary:'summary',
+                    preview:'preview',
+                    renderer : function(profile,row){return "<span style='width:16px;height:16px;background:url(img/img.gif) left -32px'></span>"+row.caption},
                     sub:[['11-11','12-11','13-11','14-11'],{id:'grp2',group:true,caption:'group layer2',sub:[['21-11','22-11','23-11','24-11'],['21-21','22-21','23-21','24-21']]},['11-21','12-21','13-21','14-21']]},{cells:['31','32','33','34'],sub:[['a','b','c','d'],['aa','bb','cc','dd']]},['41','42','43','44']]);
                     SPA.tg6.setHeader(['col1','col2','col3','col4'])
                     .setRows([{cells:['11','12','13','14'],sub:[

@@ -52,7 +52,9 @@ Class("linb.UI.Gallery", "linb.UI.List",{
             },
             ITEMS:{
                 position:'relative',
-                overflow:'visible'
+                overflow:'visible',
+                zoom:linb.browser.ie6?1:null,
+                background: 'url('+linb.ini.file_bg+') no-repeat left top'
             },
             ITEM:{
                 display:linb.$inlineBlock,

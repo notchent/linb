@@ -464,11 +464,20 @@ html, .ui-content{
 .linb-treegrid-hcell0-mouseover, .linb-treegrid-hcell-mouseover{
     background: #bbd2ec url(TreeGrid/head-over.gif) repeat-x left bottom;
 }
-.linb-treegrid-cell{
-    border-right:solid 1px #f1f1f1;
+.linb-treegrid-cell, .linb-treegrid-cells-group, .linb-treegrid-preview, .linb-treegrid-summary{
+    border-right:solid 1px #ececec;
 }
-.linb-treegrid-cells {
+.linb-treegrid-row{
     border-top:1px solid #ececec;
+}
+.linb-treegrid-body{
+    border-bottom:1px solid #ececec;
+}
+.linb-treegrid-preview{
+    border-bottom:1px dashed #ececec;
+}
+.linb-treegrid-summary{
+    border-top:1px dashed #ececec;
 }
 .linb-treegrid-cell-mouseover{
     background: #D9E8FB url(TreeGrid/row-over.gif) repeat-x left top;
@@ -487,12 +496,6 @@ html, .ui-content{
 }
 .linb-treegrid-checkbox-checked{
     background: url(Public/cmds.gif) no-repeat scroll -96px top;
-}
-.linb-treegrid-body{
-    border-bottom:1px solid #F1F1F1;
-}
-.linb-treegrid-cells-group{
-    border-right:1px solid #F1F1F1;
 }
 
 

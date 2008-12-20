@@ -132,6 +132,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
             profile.getSubNode('HCELL', true).remove(false);
             profile.getSubNode('HCELLS').append(nodes);
             this.insertRows(rows);
+            profile.box._ajdustBody(profile);
         },
         //pid,base are id
         insertRows:function(arr, pid, base ,before){
@@ -419,7 +420,14 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                 rows:{
                     ROW:{
                         tagName:'div',
+                        PREVIEW:{
+                            $order:1,
+                            tagName:'div',
+                            style:'{previewDisplay}',
+                            text:'{preview}'
+                        },
                         CELLS:{
+                            $order:2,
                             tagName:'div',
                             className:'{rowCls} {rowClass}',
                             style:'height:{rowHeight}px;{rowStyle}',
@@ -446,14 +454,15 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                                 text:'{caption}{cells}'
                             }
                         },
-                        PREVIEW:{
-                            tagName:'div',
-                            style:'{previewDisplay}',
-                            text:'{preview}'
-                        },
                         SUB:{
-                            $order:1,
+                            $order:3,
                             tagName:'div'
+                        },
+                        SUMMARY:{
+                            $order:4,
+                            tagName:'div',
+                            style:'{summaryDisplay}',
+                            text:'{summary}'
                         }
                     }
                 },
@@ -557,11 +566,11 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                 overflow:'visible',
                 position:'absolute',
                 'background-color':' #fff',
-                'border-bottom':'1px solid #ACA899',
                 left:0,
                 top:'0',
                 'font-size':0,
-                'line-height':0
+                'line-height':0,
+                'border-bottom': '1px solid #ACA899'
             },
             'SORT, SORT-checked':{
                 width:'15px',
@@ -617,21 +626,23 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
             HCELLS:{
                 'padding-bottom':'2px'
             },
-            CELLS:{
-                'border-top': '1px solid #ACA899'
-            },
             'CELLS-group':{
                 $order:1,
                 'font-weight':'bold',
                 color:'#3764A0',
                 'border-right': '1px solid #ACA899'
             },
-            PREVIEW:{
+            'PREVIEW,SUMMARY':{
                 position:'relative',
                 display:'none',
                 'padding-left':'16px',
-                'border-top': '1px dashed #ACA899',
                 'border-right': '1px solid #ACA899'
+            },
+            PREVIEW:{
+                'border-bottom': '1px dashed #ACA899'
+            },
+            SUMMARY:{
+                'border-top': '1px dashed #ACA899'
             },
            'CELLS-mouseover':{
                 $order:4,
@@ -692,11 +703,12 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
             },
             'HCELL0, HCELL':{
                height:'100%',
-               border:'1px solid',
-               'border-color':  '#fff #ACA899 #ACA899 #fff',
+               'border-left':'1px solid #fff',
+               'border-right':'1px solid #ACA899',
                padding:0,
+               'vertical-align':'top',
                 'font-size':'12px',
-                'line-height':'20px'
+                'line-height':'14px'
             },
             'HCELL-mouseover':{
                 background:  linb.UI.$bg('head-over.gif', ' #FAF9F4 repeat-x left bottom')
@@ -704,6 +716,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
             ROW:{
                 '_position':'relative',
                 zoom:linb.browser.ie?1:null,
+                'border-top': '1px solid #ACA899',
                 'font-size':0,
                 'line-height':0
             },
@@ -1989,6 +2002,8 @@ caption
                 if(row.group)
                     t.rowCls = profile.getClass('CELLS','-group');
 
+                if(row.summary)
+                    t.summaryDisplay='display:block;';
                 if(row.preview)
                     t.previewDisplay='display:block;';
 
@@ -2472,11 +2487,11 @@ caption
             });
         },
         _ajdustBody:function(profile){
-            if(linb.browser.ie6)
+            if(linb.browser.ie6||linb.browser.ie7)
                 _.resetRun(profile.$id+'4',function(){
                     var body=profile.getSubNode('BODY'),
                     lastcol=profile.getSubNode('HCELLS').last().get(0);
-                    body.width(lastcol.offsetWidth+lastcol.offsetLeft);
+                    body.width(body.get(0).offsetHeight?0:lastcol.offsetWidth+lastcol.offsetLeft);
                 });
         },
         _showTips:function(profile, node, pos){
