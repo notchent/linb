@@ -507,6 +507,7 @@ Class('VisualJS', 'linb.Com',{
             .beforePageClose("_tabsmain_beforepageclose")
             .afterPageClose("_tabsmain_afterpageclose")
             .onItemSelected("_tabmain_onitemselected")
+            .setCustomStyle({PANEL:'overflow:hidden;'})
             , 'main');
 
             t.layout.append(

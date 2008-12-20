@@ -810,7 +810,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
             },
             SUB:{
                 //for ie bug: relative , height='auto' will disppear
-                '_zoom':'1',
+                '*zoom':'1',
                 '_position':'relative',
                 'border-left': '1px solid #ACA899',
                 'margin-left':'15px',
@@ -1254,8 +1254,18 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                         });
                         pop=profile.$col_pop=new linb.UI.PopMenu({hideAfterClick:false,items:items}).render(true);
                         pop.onMenuSelected(function(p,i,s){
-                            profile.boxing().showColumn(i.id, i.value);
-                            profile.box._ajdustBody(profile);
+                            var b=1;
+                            _.arr.each(p.properties.items, function(o){
+                                if(o.value!==false)
+                                    return b=false;
+                            });
+                            if(!b){
+                                profile.boxing().showColumn(i.id, i.value);
+                                profile.box._ajdustBody(profile);
+                            }else{
+                                p.getSubNodeByItemId('CHECKBOX',i.id).tagClass('-checked');
+                                i.value=true;
+                            }
                         })
                     }
                     profile.$col_pop.pop(src);
@@ -2491,7 +2501,7 @@ caption
                 _.resetRun(profile.$id+'4',function(){
                     var body=profile.getSubNode('BODY'),
                     lastcol=profile.getSubNode('HCELLS').last().get(0);
-                    body.width(body.get(0).offsetHeight?0:lastcol.offsetWidth+lastcol.offsetLeft);
+                    body.width(body.get(0).offsetHeight?lastcol.offsetWidth+lastcol.offsetLeft:0);
                 });
         },
         _showTips:function(profile, node, pos){

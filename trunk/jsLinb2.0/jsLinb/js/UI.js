@@ -814,8 +814,13 @@ Class("linb.UI",  "linb.absObj", {
                 b=t[e][v];
                 for(i in b){
                     if(typeof b[i]=='object'){
-                        u=k[i]||(k[i]={});
-                        _.merge(u,b[i]);
+                        if(b[i].constructor==Array){
+                            u=k[i]||(k[i]=[]);
+                            u.push.apply(u,b[i]);
+                        }else{
+                            u=k[i]||(k[i]={});
+                            _.merge(u,b[i]);
+                        }
                     }else
                         k[i]=b[i];
                }

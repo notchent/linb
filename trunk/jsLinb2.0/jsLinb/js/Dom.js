@@ -913,7 +913,7 @@ Class('linb.Dom','linb.absBox',{
                 }
                 if(!(c = linb.DomProfile.get(id)))
                     c =new linb.DomProfile(id,o);
-                (c.nodeVars||(c.nodeVars={}))[type]=1;
+                (c.nodeVars||(c.nodeVars={}))[type]=fs;
             });
         },
         $removeEventHandler:function(name){

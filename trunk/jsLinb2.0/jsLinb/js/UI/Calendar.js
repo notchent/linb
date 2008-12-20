@@ -99,7 +99,7 @@ Class('linb.UI.Calendar', 'linb.UI.DatePicker', {
                 off=2*p.$borderW,
                 t;
             //for border, view and items
-            if(height && height!=p.height){
+            if(height){
                 f('BORDER').height(t=height-off);
                 f('BODY').height(t);
                 t=(t-16)/6-1;
