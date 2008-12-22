@@ -11289,7 +11289,7 @@ Class("linb.UI",  "linb.absObj", {
                 dm = this.$DataModel,
                 me = arguments.callee,
                 map = me.map || (me.map=_.toArr('left,top,bottom,right,width,height')),
-                a=[''],
+                a=[],
                 ajd=linb.UI.adjustData,
                 t
                 ;
@@ -11319,8 +11319,8 @@ Class("linb.UI",  "linb.absObj", {
             if(prop.visibility)a[a.length]= 'visibility:'+prop.visibility;
             if(prop.zIndex)a[a.length]= 'z-index:'+prop.zIndex;
             if(prop.display)a[a.length]= 'display:'+ (prop.display=='inline-block'? linb.browser.gek?'-moz-inline-block;display:-moz-inline-box;display:inline-block;':'inline-block' :prop.display)
-            a[a.length]= '';
-            data._style = a.join(';');
+
+            data._style = ';'+a.join(';')+';';
 
             if('href' in dm)data.href = prop.href || linb.$href;
             if('tabindex' in dm)data.tabindex = prop.tabindex || '-1';
@@ -15667,13 +15667,13 @@ Class("linb.UI.Group", "linb.UI.Div",{
                                 tagName:'a',
                                 href:linb.$href,
                                 className:'ui-btn',
-                                style:'display:{submitDispay};',
+                                style:'{submitDispay}',
                                 text:linb.wrapRes('inline.ok')
                             },
                             CANCEL:{
                                 $order:1,
                                 className:'ui-btn',
-                                style:'display:{submitDispay};',
+                                style:'{submitDispay}',
                                 tagName:'a',
                                 href:linb.$href,
                                 text:linb.wrapRes('inline.cancel')
@@ -15689,7 +15689,7 @@ Class("linb.UI.Group", "linb.UI.Div",{
                     },
                     ADV:{
                         $order:2,
-                        style:'display:{advDispay};',
+                        style:'{advDispay}',
                         tagName:'div',
                         ADVWHEEL:{
                             $order:0,
@@ -16093,8 +16093,8 @@ Class("linb.UI.Group", "linb.UI.Div",{
             data.displayBar= data.displayBar?'':nodisplay;
             data.closeDisplay = data.closeBtn?'':nodisplay;
             data._width = data.advance?'400':'200';
-            data.advDispay = data.advance?'':'none';
-            data.submitDispay = data.cmdBtns?'':'none';
+            data.advDispay = data.advance?'':'display:none;';
+            data.submitDispay = data.cmdBtns?'':'display:none;';
             return data;
         },
         EventHandlers:{

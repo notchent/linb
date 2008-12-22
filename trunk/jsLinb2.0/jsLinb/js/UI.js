@@ -3021,7 +3021,7 @@ Class("linb.UI",  "linb.absObj", {
                 dm = this.$DataModel,
                 me = arguments.callee,
                 map = me.map || (me.map=_.toArr('left,top,bottom,right,width,height')),
-                a=[''],
+                a=[],
                 ajd=linb.UI.adjustData,
                 t
                 ;
@@ -3051,8 +3051,8 @@ Class("linb.UI",  "linb.absObj", {
             if(prop.visibility)a[a.length]= 'visibility:'+prop.visibility;
             if(prop.zIndex)a[a.length]= 'z-index:'+prop.zIndex;
             if(prop.display)a[a.length]= 'display:'+ (prop.display=='inline-block'? linb.browser.gek?'-moz-inline-block;display:-moz-inline-box;display:inline-block;':'inline-block' :prop.display)
-            a[a.length]= '';
-            data._style = a.join(';');
+
+            data._style = ';'+a.join(';')+';';
 
             if('href' in dm)data.href = prop.href || linb.$href;
             if('tabindex' in dm)data.tabindex = prop.tabindex || '-1';

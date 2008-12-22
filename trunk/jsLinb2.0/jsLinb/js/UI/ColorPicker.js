@@ -146,13 +146,13 @@ Class('linb.UI.ColorPicker', ['linb.UI',"linb.absValue"], {
                                 tagName:'a',
                                 href:linb.$href,
                                 className:'ui-btn',
-                                style:'display:{submitDispay};',
+                                style:'{submitDispay}',
                                 text:linb.wrapRes('inline.ok')
                             },
                             CANCEL:{
                                 $order:1,
                                 className:'ui-btn',
-                                style:'display:{submitDispay};',
+                                style:'{submitDispay}',
                                 tagName:'a',
                                 href:linb.$href,
                                 text:linb.wrapRes('inline.cancel')
@@ -168,7 +168,7 @@ Class('linb.UI.ColorPicker', ['linb.UI',"linb.absValue"], {
                     },
                     ADV:{
                         $order:2,
-                        style:'display:{advDispay};',
+                        style:'{advDispay}',
                         tagName:'div',
                         ADVWHEEL:{
                             $order:0,
@@ -572,8 +572,8 @@ Class('linb.UI.ColorPicker', ['linb.UI',"linb.absValue"], {
             data.displayBar= data.displayBar?'':nodisplay;
             data.closeDisplay = data.closeBtn?'':nodisplay;
             data._width = data.advance?'400':'200';
-            data.advDispay = data.advance?'':'none';
-            data.submitDispay = data.cmdBtns?'':'none';
+            data.advDispay = data.advance?'':'display:none;';
+            data.submitDispay = data.cmdBtns?'':'display:none;';
             return data;
         },
         EventHandlers:{
