@@ -349,7 +349,8 @@ Class('VisualJS.Designer', 'linb.Com',{
                             }
                         }
                     }
-                });
+                })
+                .toggleNode('linb.UI.absForm',true)
 
                 //focus
                 page.focusBtn = linb.create('<a href="javascript;" style="position:absolute;left:-10000px;top:-10000px;width:1px;height:1px;">o</a>');
