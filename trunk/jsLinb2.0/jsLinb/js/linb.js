@@ -237,6 +237,15 @@ _.merge(_,{
         }
         return arr;
     },
+    toUTF8:function(str){
+        return str.replace(/[^\x00-\xff]/g, function(a,b) {
+            b=a.charCodeAt();
+            return '\\u' + Math.floor(b/16).toString(16)+(b%16).toString(16);
+        })
+    },
+    fromUTF8:function(str){
+        return str.replace(/\\u([0-9a-f]{3})([0-9a-f])/g,function(a,b,c){return String.fromCharCode((parseInt(b,16)*16+parseInt(c,16)))})
+    },
     urlEncode:function(hash){
         var a=[],i,o;
         for(i in hash){
@@ -1777,7 +1786,6 @@ new function(){
     },
     H={'@window':'window','@this':'this'},
     A=/[\x00-\x1f\x7f-\x9f\\\"]/g,
-    B=/[^\x00-\xff]/g,
     C=/^\s*\x7b/, // /^\s*\{/,
     D=/^(-\d+|\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})(?:\.(\d{1,3}))?((?:[+-](\d{2}):(\d{2}))|Z)?$/,
     E=function(t,i,a,v,m,n){
@@ -1817,14 +1825,6 @@ new function(){
                 if(b=M[a])return b;
                 b=a.charCodeAt();
                 return '\\u00' + S16(b)
-            })
-            :
-            B.test(x)
-            ?
-            x.replace(B, function(a,b) {
-                if(b=M[a])return b;
-                b=a.charCodeAt();
-                return '\\u' + S16(b)
             })
             :
             x

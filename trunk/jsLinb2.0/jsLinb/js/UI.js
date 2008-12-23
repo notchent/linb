@@ -1064,9 +1064,17 @@ Class("linb.UI",  "linb.absObj", {
             });
         },
         clone:function(){
-            var arr=[];
+            var arr=[],f=function(p){
+                //remove those
+                delete p.alias;delete p.domId;
+                if(p.children)
+                    for(var i=0,c;c=children[i];i++)
+                        f(c);
+            };
             this.each(function(o){
-                arr.push(o.serialize(false,true));
+                o=o.serialize(false,true);
+                f(o);
+                arr.push(o);
             });
             return this.constructor.unserialize(arr);
         },

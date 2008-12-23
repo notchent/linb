@@ -474,6 +474,28 @@ _.set(linb.Locale,["en","doc"], {
                 "var o={}; _.set(o,['a','b','c'], 1); alert(_.serialize(o)); _.set(o,['a','b','c']); alert(_.serialize(o));"
             ]
         },
+        toUTF8:{
+            $desc:"Converts a string to UTF8 string.",
+            $rtn:"String",
+            $paras:[
+                "str [Required] : String."
+            ],
+            $snippet:[
+                "alert(_.toUTF8('\u6c49\u5b57'));",
+                "alert(_.fromUTF8(_.toUTF8('\u6c49\u5b57')));"
+            ]
+        },
+        fromUTF8:{
+            $desc:"Converts a UTF8 string back.",
+            $rtn:"String",
+            $paras:[
+                "str [Required] : String."
+            ],
+            $snippet:[
+                "alert(_.toUTF8('\u6c49\u5b57'));",
+                "alert(_.fromUTF8(_.toUTF8('\u6c49\u5b57')));"
+            ]
+        },
         urlEncode:{
             $desc:"Converts a key/value pairs object to URL query string.",
             $rtn:"String",

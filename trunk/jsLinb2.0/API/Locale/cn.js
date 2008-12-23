@@ -474,6 +474,28 @@ _.set(linb.Locale,["cn","doc"], {
                 "var o={}; _.set(o,['a','b','c'], 1); alert(_.serialize(o)); _.set(o,['a','b','c']); alert(_.serialize(o));"
             ]
         },
+        toUTF8:{
+            $desc:"把一个字符串专程 UTF8 格式.",
+            $rtn:"String",
+            $paras:[
+                "str [必须参数] : String."
+            ],
+            $snippet:[
+                "alert(_.toUTF8('汉字'));",
+                "alert(_.fromUTF8(_.toUTF8('汉字')));"
+            ]
+        },
+        fromUTF8:{
+            $desc:"吧一个字符串从 UTF8 格式转回来.",
+            $rtn:"String",
+            $paras:[
+                "str [必须参数] : String."
+            ],
+            $snippet:[
+                "alert(_.toUTF8('汉字'));",
+                "alert(_.fromUTF8(_.toUTF8('汉字')));"
+            ]
+        },
         urlEncode:{
             $desc:"将键值对转化为URL请求字符串.",
             $rtn:"String",
