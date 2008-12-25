@@ -12667,7 +12667,7 @@ _.set(linb.Locale,["en","doc","linb","UI","TreeGrid"], {
            ]
         },
         onClickCell:{
-            $desc:"Fired when a cell which type is 'label/button' is clicked.",
+            $desc:"Fired when a cell(type is 'label/button' or not editable) is clicked.",
             $paras:[
                 "profile : linb.UIProfile object.",
                 "cell: the cell object.",
@@ -12677,10 +12677,26 @@ _.set(linb.Locale,["en","doc","linb","UI","TreeGrid"], {
             $snippet:[
                 "var id='linb.temp.grid60-1'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var o=new linb.UI.TreeGrid({editable:false,position:'relative'});"+
-                "linb.Ajax('App/js/grid.js','',function(s){var hash=_.unserialize(s);hash.header[0].type='button';hash.header[1].type='cmdbox';hash.header[2].type='popbox';o.setHeader(hash.header).setRows(hash.rows);},null,null,{asy:false}).start();"+
-                "o.setEditable(true);"+
+                "linb.Ajax('App/js/grid.js','',function(s){var hash=_.unserialize(s);hash.header[0].type='button';o.setHeader(hash.header).setRows(hash.rows);},null,null,{asy:false}).start();"+
                 "linb(id).prepend(o);"+
                 "o.onClickButton(function(p,cell){linb.message(cell.value)});" +
+                "}"
+           ]
+        },
+        onDblClickCell:{
+            $desc:"Fired when a cell(type is 'label/button' or not editable) is double clicked.",
+            $paras:[
+                "profile : linb.UIProfile object.",
+                "cell: the cell object.",
+                "e: the DOM event object.",
+                "src: the related DOM element."
+            ],
+            $snippet:[
+                "var id='linb.temp.grid60-2'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var o=new linb.UI.TreeGrid({editable:false,position:'relative'});"+
+                "linb.Ajax('App/js/grid.js','',function(s){var hash=_.unserialize(s);hash.header[0].type='button';o.setHeader(hash.header).setRows(hash.rows);},null,null,{asy:false}).start();"+
+                "linb(id).prepend(o);"+
+                "o.onDblClickCell(function(p,cell){linb.message(cell.value)});" +
                 "}"
            ]
         },

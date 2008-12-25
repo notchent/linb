@@ -158,7 +158,7 @@
         colneOK:'$0 Widgets Cloned',
         openwidgets:'Expend/Fold the widgtes list',
         dragwidget:'You can drag this widget to the design window!',
-        openapi:'Click to open API window',
+        openapi:'DblClick to open API window',
         tool:{
             viewsize:"View Size",
             tocode:"Serialize selection to JS code",

@@ -2334,7 +2334,7 @@ Class('VisualJS.Designer', 'linb.Com',{
             (new u.TreeGrid)
             .host(t,"profileGrid")
             .setHeader([
-            {"id":"name","caption":"$VisualJS.designer.gridcol1","width":70,"type":"label"},
+            {"id":"name","caption":"$VisualJS.designer.gridcol1","width":70,"type":"label",cellClass:'linbdesign-help'},
             {"id":"value","caption":"$VisualJS.designer.gridcol2","width":120,"type":"input"}
             ])
             .setAltRowsBg(false)
@@ -2344,7 +2344,7 @@ Class('VisualJS.Designer', 'linb.Com',{
             .onGetContent("$profilegrid_onrequestdata")
             .afterRowActive("$profilegrid_afterrowactive")
             .onShowTips("$tg_tips")
-            .onClickCell('$tg_click')
+            .onDblClickCell('$tg_click')
             );
 
             t.layoutBase.append(
@@ -2455,5 +2455,7 @@ Class('VisualJS.Designer', 'linb.Com',{
             else
                 return ' ';
         };
+        
+        linb.CSS.addStyleSheet('.linbdesign-help .linb-treegrid-cella{cursor:help;}');
     }
 });

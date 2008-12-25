@@ -160,7 +160,7 @@
         colneOK:'$0 个控件克隆成功!',
         openwidgets:'打开/折叠控件列表',
         dragwidget:'可以拖拽这个控件到设计窗口中!',
-        openapi:'点击鼠标查看 API 文档',
+        openapi:'可双击鼠标查看 API 文档',
         tool:{
             viewsize:"视图大小",
             tocode:"序列化到 javascript 代码",

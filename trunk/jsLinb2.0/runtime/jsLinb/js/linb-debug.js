@@ -27014,6 +27014,18 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                 }
             },
             CELLA:{
+                onDblclick:function(profile, e, src){
+                    var cell = profile.cellMap[profile.getSubId(src.id)];
+                    if(!cell)return;
+                    var box=profile.box,
+                        getPro=box.getCellPro,
+                        type=getPro(profile, cell, 'type'),
+                        disabled=getPro(profile, cell, 'disabled'),
+                        editable=getPro(profile, cell, 'editable');
+
+                    if(!disabled && (!editable || (type=='button'||type=='label')))
+                        profile.boxing().onDblClickCell(profile, cell, e, src);
+                },
                 onClick:function(profile, e, src){
                     var cell = profile.cellMap[profile.getSubId(src.id)];
                     if(!cell)return;
@@ -27023,9 +27035,11 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                         type=getPro(profile, cell, 'type'),
                         disabled=getPro(profile, cell, 'disabled'),
                         event=getPro(profile, cell, 'event'),
-                        mode = p.activeMode, id, type,event;
+                        mode = p.activeMode, 
+                        editable=getPro(profile, cell, 'editable'),
+                        id;
 
-                    if(!disabled && (type=='button'||type=='label')){
+                    if(!disabled && (!editable || (type=='button'||type=='label'))){
                         if(typeof event == 'function' && false===event.call(profile._host||profile, profile, cell, null,null,e,src)){}
                         else
                             profile.boxing().onClickCell(profile, cell, e, src);
@@ -27033,7 +27047,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                             return false;
                     }
                     if(!disabled &&type=='checkbox')
-                        if(getPro(profile, cell, 'editable'))
+                        if(editable)
                             box._updCell(profile, cell, !cell.value);
                     if(!p.editable){
                         if(mode=='cell'){
@@ -27370,7 +27384,8 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
 
             onDblClickRow:function(profile, row, e, src){},
             onClickButton:function(profile, cell, proEditor, pos, e, src){},
-            onClickCell:function(profile, cell, e, src){}
+            onClickCell:function(profile, cell, e, src){},
+            onDblClickCell:function(profile, cell, e, src){}
         },
         RenderTrigger:function(){
             var ns=this, pro=ns.properties,ins=ns.boxing();
