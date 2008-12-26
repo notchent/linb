@@ -4,7 +4,6 @@ Class('VisualJS.ProjectSelector', 'linb.Com',{
             var self=this,
                 dlg=self.dialog,
                 prop = self.properties;
-            dlg.setCaption(prop.caption).setImage(prop.image).setImagePos(prop.imagePos);
             self.listName.setItems([]).setUIValue('',true);
             if(prop.fromRegion)
                 dlg.setFromRegion(prop.fromRegion);
