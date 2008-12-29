@@ -1510,6 +1510,7 @@ Class('VisualJS.Designer', 'linb.Com',{
                 ks=profile.keys, 
                 cell, sid,id,pid,
                 o, widget,key,
+                row,
                 str='';
             if(profile.properties.disabled)return;
             if(!(widget=profile.$widget))return;

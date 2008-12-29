@@ -768,7 +768,7 @@ new function(){
     else if(b.opr)
         b[v('opr','opera/')]=true;
     else if(b.kde)
-        b[v('kde','safari/')]=true;
+        b[v('kde','webkit/')]=true;
 
     b.contentBox = function(n){
         return (b.ie||b.opr) ?
@@ -4760,9 +4760,17 @@ Class('linb.Dom','linb.absBox',{
                         txt=r.text,
                         l=txt.length,
                         e,m;
-                    r.moveStart('character', -input.value.length);
-                    e=r.text.length;
-                    return[e-l,e];
+                    if(tn.toLowerCase()=='input'){
+                        r.moveStart('character', -input.value.length);
+                        e=r.text.length;
+                        return [e-l,e];
+                    }else{
+                    	var rb=r.duplicate();
+                    	rb.moveToElementText(input);
+                    	rb.setEndPoint('EndToEnd',r);
+                    	e=rb.text.length;
+                    	return [e-l, e];
+                    }
                 //firefox opera safari
                 }else
                     return [input.selectionStart, input.selectionEnd];
@@ -24031,6 +24039,9 @@ Class("linb.UI.MenuBar",["linb.UI","linb.absList" ],{
             profile.$curPop=id;
             profile.$curElem=src;
         },
+        _afterInsertItems:function(){
+            this.clearPopCache();
+        },
         hide:function(){
             var profile=this.get(0),menu,
             id = profile.$curPop,
@@ -29623,9 +29634,11 @@ Class("linb.UI.TextEditor", ["linb.UI.Widget","linb.absValue"] ,{
         [3] text before caret
         */
         getParas:function(profile){
-            var o = profile.getSubNode('INPUT'), me=arguments.callee, reg = me.reg ||(me.reg=/\r\n/g);
-            v = o.get(0).value;
-            loc = o.caret();
+            var o = profile.getSubNode('INPUT'), 
+                me=arguments.callee, 
+                reg = me.reg ||(me.reg=/\r\n/g),
+                v = o.get(0).value,
+                loc = o.caret();
 
             if(loc[0]<0)loc[0]=0;
 

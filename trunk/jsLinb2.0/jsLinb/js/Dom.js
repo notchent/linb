@@ -655,9 +655,17 @@ Class('linb.Dom','linb.absBox',{
                         txt=r.text,
                         l=txt.length,
                         e,m;
-                    r.moveStart('character', -input.value.length);
-                    e=r.text.length;
-                    return[e-l,e];
+                    if(tn.toLowerCase()=='input'){
+                        r.moveStart('character', -input.value.length);
+                        e=r.text.length;
+                        return [e-l,e];
+                    }else{
+                    	var rb=r.duplicate();
+                    	rb.moveToElementText(input);
+                    	rb.setEndPoint('EndToEnd',r);
+                    	e=rb.text.length;
+                    	return [e-l, e];
+                    }
                 //firefox opera safari
                 }else
                     return [input.selectionStart, input.selectionEnd];

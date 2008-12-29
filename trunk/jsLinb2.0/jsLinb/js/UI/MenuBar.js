@@ -38,6 +38,9 @@ Class("linb.UI.MenuBar",["linb.UI","linb.absList" ],{
             profile.$curPop=id;
             profile.$curElem=src;
         },
+        _afterInsertItems:function(){
+            this.clearPopCache();
+        },
         hide:function(){
             var profile=this.get(0),menu,
             id = profile.$curPop,

@@ -768,7 +768,7 @@ new function(){
     else if(b.opr)
         b[v('opr','opera/')]=true;
     else if(b.kde)
-        b[v('kde','safari/')]=true;
+        b[v('kde','webkit/')]=true;
 
     b.contentBox = function(n){
         return (b.ie||b.opr) ?

@@ -352,9 +352,11 @@ Class("linb.UI.TextEditor", ["linb.UI.Widget","linb.absValue"] ,{
         [3] text before caret
         */
         getParas:function(profile){
-            var o = profile.getSubNode('INPUT'), me=arguments.callee, reg = me.reg ||(me.reg=/\r\n/g);
-            v = o.get(0).value;
-            loc = o.caret();
+            var o = profile.getSubNode('INPUT'), 
+                me=arguments.callee, 
+                reg = me.reg ||(me.reg=/\r\n/g),
+                v = o.get(0).value,
+                loc = o.caret();
 
             if(loc[0]<0)loc[0]=0;
 
