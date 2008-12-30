@@ -5,8 +5,7 @@ XCOPY .\API .\sigmawidgets\API\ /s/e
 MKDIR .\sigmawidgets\CodeSnip 
 XCOPY .\CodeSnip .\sigmawidgets\CodeSnip\ /s/e
 
-MKDIR .\sigmawidgets\img 
-XCOPY .\img .\sigmawidgets\img\ /s/e
+
 
 MKDIR .\sigmawidgets\jsLinb 
 XCOPY .\jsLinb .\sigmawidgets\jsLinb\ /s/e
@@ -30,34 +29,21 @@ REN .\sigmawidgets\VisualJS\debug.html ProjMan.debug.html
 REN .\sigmawidgets\VisualJS\UIBuilder.html index.html
 REN .\sigmawidgets\VisualJS\UIBuilder.debug.html index.debug.html
 
-
-COPY .\readme.txt .\sigmawidgets\
+COPY .\readme_en.txt .\sigmawidgets\readme.txt
 COPY .\index.html .\sigmawidgets\index.html
+COPY .\license.html .\sigmawidgets\license.html
+COPY .\change-log.txt .\sigmawidgets\change-log.txt
 
-REN .\sigmawidgets\VisualJS\index.html index2.html
-REN .\sigmawidgets\VisualJS\UIBuilder.html index.html
-
-COPY .\sigmawidgets\img\logo3.gif .\sigmawidgets\VisualJS\img\logo.gif
-COPY .\sigmawidgets\img\logo3.gif .\sigmawidgets\VisualJS\img\builder.gif
-MOVE /Y .\sigmawidgets\img\logo3.gif .\sigmawidgets\img\logo.gif
-MOVE /Y .\sigmawidgets\img\sign2.gif .\sigmawidgets\img\sign.gif
+COPY .\img\logo3.gif .\sigmawidgets\VisualJS\img\logo.gif
+COPY .\img\logo3.gif .\sigmawidgets\VisualJS\img\builder.gif
 
 
-replace.exe -srcdir .\sigmawidgets -find "code.google.com/p/linb/downloads/list" -replace "www.sigmawidgets.com/download.html" -fname *.html
-
-replace.exe -srcdir .\sigmawidgets -find "<a href='http://linb.googlecode.com/svn/trunk/jsLinb2.0/'>SVN</a>" -replace " " -fname *.html
-replace.exe -srcdir .\sigmawidgets -find "http://linb.googlecode.com/svn/trunk/jsLinb2.0/" -replace " " -fname *.html
-
-
-replace.exe -srcdir .\sigmawidgets -find "groups.google.com/group/linb" -replace "www.sigmawidgets.com/forum" -fname *.html
-replace.exe -srcdir .\sigmawidgets -find "www.linb.net/API" -replace "www.sigmawidgets.com/products/sigma_visual/API" -fname *.html
-replace.exe -srcdir .\sigmawidgets -find "www.linb.net/CodeSnip" -replace "www.sigmawidgets.com/products/sigma_visual/CodeSnip" -fname *.html
-replace.exe -srcdir .\sigmawidgets -find "www.linb.net/Samples" -replace "www.sigmawidgets.com/products/sigma_visual/Samples" -fname *.html
-replace.exe -srcdir .\sigmawidgets -find "www.linb.net/VisualJS/UIBuilder.html" -replace "www.sigmawidgets.com/products/sigma_visual/VisualJS/index.html" -fname *.html
-
-replace.exe -srcdir .\sigmawidgets -find "<a href='http://www.sigmawidgets.com/'>Commercial Support</a>" -replace " " -fname *.html
-replace.exe -srcdir .\sigmawidgets -find "Commercial Support" -replace " " -fname *.html
-
+@echo off
+echo ************************************************************
+echo     please use text crawler
+echo ************************************************************
+pause
+echo on
 
 replace.exe -srcdir .\sigmawidgets -find "linb.net" -replace "sigmawidgets.com" -fname *.html
 replace.exe -srcdir .\sigmawidgets -find "linb.net" -replace "sigmawidgets.com" -fname *.htm
@@ -68,17 +54,31 @@ COPY /Y D:\wamp\www\www\www\products\sigma_visual\*.swf .\sigmawidgets\
 COPY /Y D:\wamp\www\www\www\products\sigma_visual\*.html .\sigmawidgets\
 COPY /Y .\sigmawidgets\index.html .\sigmawidgets\sigmavisual.html
 COPY /Y D:\wamp\www\www\www\products\sigma_visual\Samples\*.html .\sigmawidgets\Samples\
-XCOPY D:\wamp\www\www\www\products\sigma_visual\css .\sigmawidgets\
-XCOPY D:\wamp\www\www\www\products\sigma_visual\manual ..\sigmawidgets\
+DEL /Q .\sigmawidgets\Samples\index_cn.html
+
+
+MKDIR .\sigmawidgets\css  
+XCOPY D:\wamp\www\www\www\products\sigma_visual\css .\sigmawidgets\css\ /s
+COPY  .\img\builder.png .\sigmawidgets\css\
+COPY  D:\wamp\www\www\www\js\menu.js .\sigmawidgets\css\
+MKDIR .\sigmawidgets\manual
+XCOPY D:\wamp\www\www\www\products\sigma_visual\manual .\sigmawidgets\manual\ /s/e
+REN   .\sigmawidgets\manual\manual.htm index.html
+
 
 @echo off
-echo "***********************************\n"
-echo "please use text crawler\n"
-echo "***********************************\n"
+echo ************************************************************
+echo     No Package will be made because of NO difference
+echo ************************************************************
 pause
+exit
 
 echo on
 
 
-XCOPY .\sigmawidgets .\sigma_pack /s/e
+IF EXIST .\sigma_pack DEL /S/Q .\sigma_pack
+MKDIR .\sigma_pack
+XCOPY .\sigmawidgets .\sigma_pack\ /s/e
+
+pause
 
