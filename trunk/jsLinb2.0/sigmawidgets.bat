@@ -1,3 +1,13 @@
+Copyright	(copyright +(﹟\(c\)|? +\d{4})( *[-,] *\d{4})*	
+HTML Tags	<([A-Z][A-Z0-9]*)\b[^>]*>(.*?)</\1>	
+IP Address	\b\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\b	
+Date xx/xx/yyyy	\d{1,2}\/\d{1,2}\/\d{4}	
+Email Address	[a-z0-9\._-]+@+[a-z0-9\._-]+\.+[a-z]{2,4}	
+remove-linb-bar	<style>\s?#linbar(.*?)</a>\s?</div>\s?$	
+remove-google2	<script\b(.*?)UA-414967-1(.*?)</script>	
+remove-google1	<script\b(.*?)google-analytics(.*?)</script>	
+
+
 IF EXIST .\sigmawidgets DEL /S/Q .\sigmawidgets
 MKDIR .\sigmawidgets\API 
 XCOPY .\API .\sigmawidgets\API\ /s/e
