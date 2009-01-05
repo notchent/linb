@@ -26023,7 +26023,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
         resetGridValue:function(){
             return this.each(function(profile){
                 _.each(profile.cellMap,function(v){
-                    v.$value=v.value;
+                    v._$value=v.value;
                 });
                 profile.getSubNode('CELLA',true).removeClass('ui-dirty');
             })
@@ -26031,8 +26031,8 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
         resetRowValue:function(rowId){
             var profile=this.get(0),row=this.getRowbyRowId(rowId),arr=[];
             _.each(row.cells,function(o){
-                if(o.$value!==o.value){
-                    o.$value=o.value;
+                if(o._$value!==o.value){
+                    o._$value=o.value;
                     arr.push(profile.getSubNode('CELLA',o._serialId).get(0));
                 }
             });
@@ -27675,7 +27675,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                     if(dom)node.html(caption||cell.value,false);
             }
 
-            cell.$tips=caption;
+            cell._$tips=caption;
 
             var t2=getPro(profile, cell, 'disabled');
             if(!dom){
@@ -27817,7 +27817,7 @@ caption
             //first
             linb.UI.adjustData(profile, cell, uicell);
             //next
-            cell.$value=cell.value;
+            cell._$value=cell.value;
 
             if(!uicell.width)uicell.width=col.width;
             uicell._tabindex=pro.tabindex;
@@ -27955,7 +27955,7 @@ caption
             //if update value
             if('value' in hash){
                 cell.$dirty=true;
-                if(cell.value===cell.$value)
+                if(cell.value===cell._$value)
                     node.removeClass('ui-dirty');
                 else
                     node.addClass('ui-dirty');
@@ -28256,7 +28256,7 @@ caption
                 item = profile.cellMap[sid];
 
             if(item){
-                linb.Tips.show(pos, {tips:('tips' in item)?item.tips:(item.$tips||item.caption)});
+                linb.Tips.show(pos, {tips:('tips' in item)?item.tips:(item._$tips||item.caption)});
             }else
                 linb.Tips.hide();
             return true;
