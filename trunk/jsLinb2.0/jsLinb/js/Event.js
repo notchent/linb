@@ -238,8 +238,8 @@ Class('linb.Event',null,{
             if(typeof event.pageX == 'number')
                 return {left:event.pageX, top:event.pageY};
             else{
-                var m = linb.browser.contentBox?document.documentElement:document.body;
-                return {left:event.clientX + m.scrollLeft, top:event.clientY + m.scrollTop};
+                var de = document.documentElement,b = document.body;
+                return {left:event.clientX+(de.scrollLeft||b.scrollLeft)-(de.clientLeft||0), top:event.clientY+(de.scrollTop||b.scrollTop)-(de.clientTop||0)};
             }
         },
         /*return array(key, control, shift, alt)
