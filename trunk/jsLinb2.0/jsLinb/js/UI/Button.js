@@ -272,10 +272,9 @@ Class("linb.UI.Button", ["linb.UI.Widget","linb.absValue"],{
                         tdr.removeClass(drop);
                     if(value=='custom')
                         root.addClass(custom);
-                    else{
+                    else
                         root.removeClass(custom);
-                        self.box._onresize(self);
-                    }
+                    self.box._onresize(self);
                 }
             },
             width:120,
@@ -293,10 +292,6 @@ Class("linb.UI.Button", ["linb.UI.Widget","linb.absValue"],{
         },
         RenderTrigger:function(){
             var self=this,p = self.properties, o=self.boxing();
-
-            if(p.type!='custom' && p.height!=22)
-                self.box._onresize(self);
-
             //set value later
             if(p.type=='status' && p.value)
                 o.setValue(true, true);
@@ -308,7 +303,7 @@ Class("linb.UI.Button", ["linb.UI.Widget","linb.absValue"],{
         },
         _onresize:function(profile,width,height){
             if(profile.properties.type!='custom')
-                height=22;
+               profile.domNode.style.height=(profile.properties.height=height=22)+'px';
             arguments.callee.upper.apply(this,[profile,width,height]);
         }
     }
