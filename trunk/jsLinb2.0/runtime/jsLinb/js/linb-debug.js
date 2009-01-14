@@ -1361,8 +1361,11 @@ Class('linb.SAjax','linb.absIO',{
                 self._onEnd();
                 return;
             }
-            if (!self._retryNo)
+            if(!self._retryNo)
                 self._onStart();
+            //dont retry for loading script 
+            if(self.rspType=='script')
+                self.retry=0;
 
             //first
             id=self.id;

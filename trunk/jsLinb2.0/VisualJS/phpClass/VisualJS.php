@@ -27,7 +27,9 @@ class VisualJS extends Unit
                 'action' => 'open',
                 'path' => 'linbApp',
                 'className' => 'App',
-                'content' => ''
+                'content' => '',
+                'theme'=>'default',
+                'lang'=>'en'
             )
         ));
         $io = LINB::SC('IO');
@@ -58,7 +60,7 @@ class VisualJS extends Unit
             break;
         case 'downloadhtml':
             $template = $io->getString(self::TEMPLATE_SINHTML);
-            $template = LINB::parseTemplate($template, array("libpath"=>"http://www.linb.net/","clsName" => $hash->clsName, "content"=>$hash->content));
+            $template = LINB::parseTemplate($template, array("libpath"=>"http://www.linb.net/","clsName" => $hash->clsName, "content"=>$hash->content, "theme"=>$hash->theme, "lang"=>$hash->lang));
 
     		header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
     		header("Cache-Control: private",false);
@@ -83,7 +85,7 @@ class VisualJS extends Unit
 
             $path2='index.html';
             $template = $io->getString(self::TEMPLATE_SINHTML);
-            $template = LINB::parseTemplate($template, array("libpath"=>"","clsName" => $hash->clsName, "content"=>$hash->content));
+            $template = LINB::parseTemplate($template, array("libpath"=>"","clsName" => $hash->clsName, "content"=>$hash->content, "theme"=>$hash->theme, "lang"=>$hash->lang));
             $zip->addFile($template, $path2);
 
             $path2=$rootName.DIRECTORY_SEPARATOR.'loading.gif';
@@ -95,7 +97,7 @@ class VisualJS extends Unit
             $zip->addFile($f, $path2);
             
             $io->_zip($path, $rootName.DIRECTORY_SEPARATOR.'jsLinb'.DIRECTORY_SEPARATOR.'Locale',$zip);
-            $io->_zip($path, $rootName.DIRECTORY_SEPARATOR.'jsLinb'.DIRECTORY_SEPARATOR.'appearance'.DIRECTORY_SEPARATOR.'default',$zip);
+            $io->_zip($path, $rootName.DIRECTORY_SEPARATOR.'jsLinb'.DIRECTORY_SEPARATOR.'appearance',$zip);
 
             $path2=$rootName.DIRECTORY_SEPARATOR.'jsLinb'.DIRECTORY_SEPARATOR.'js'.DIRECTORY_SEPARATOR.'linb-all.js';
             $f = file_get_contents($path.DIRECTORY_SEPARATOR.$path2);

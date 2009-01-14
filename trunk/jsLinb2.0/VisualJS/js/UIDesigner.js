@@ -105,7 +105,9 @@ Class('UIDesigner', 'linb.Com',{
                         }
                         linb.Dom.submit(CONF.testphpPath,{
                             clsName:clsName,
-                            content:content
+                            content:content,
+                            theme:linb.UI.getTheme(),
+                            lang:linb.$lang
                         },'post');
                     }
                     })
@@ -362,7 +364,9 @@ Class('UIDesigner', 'linb.Com',{
                     para:{
                         action:'downloadhtml',
                         content:content,
-                        clsName:clsName
+                        clsName:clsName,
+                        theme:linb.UI.getTheme(),
+                        lang:linb.$lang
                     }
                 };
                 linb.Dom.submit(CONF.phpPath, hash, 'post', ifrid);
@@ -374,7 +378,9 @@ Class('UIDesigner', 'linb.Com',{
                     para:{
                         action:'downloadzip2',
                         content:content,
-                        clsName:clsName
+                        clsName:clsName,
+                        theme:linb.UI.getTheme(),
+                        lang:linb.$lang
                     }
                 };
                 linb.Dom.submit(CONF.phpPath, hash, 'post', ifrid);
