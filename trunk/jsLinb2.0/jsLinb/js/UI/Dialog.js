@@ -24,6 +24,9 @@ Class("linb.UI.Dialog","linb.UI.Widget",{
 
                         if(profile.onShow)profile.boxing().onShow(profile);
                         box._refreshRegion(profile);
+                        
+                        //set default focus, the min tabzindex
+                        _.asyRun(function(){root.nextFocus()});
                     };
 
                 if(t=pro.fromRegion)

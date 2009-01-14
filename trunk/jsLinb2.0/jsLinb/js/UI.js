@@ -1068,7 +1068,7 @@ Class("linb.UI",  "linb.absObj", {
                 //remove those
                 delete p.alias;delete p.domId;
                 if(p.children)
-                    for(var i=0,c;c=children[i];i++)
+                    for(var i=0,c;c=p.children[i];i++)
                         f(c);
             };
             this.each(function(o){

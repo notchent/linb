@@ -12215,7 +12215,8 @@ _.set(linb.Locale,["cn","doc","linb","UI","TreeGrid"], {
             $rtn:"[self]",
             $paras:[
                 "cellId [必需参数] : String, 单元格id.",
-                "hash [必需参数] : key/value object, 需要更新的键值对."
+                "hash [必需参数] : key/value object, 需要更新的键值对.",
+                "dirtyMark [可选参数] : Bool. 是否启用脏标识。默认值是 [true]."
             ],
             $snippet:[
                 "var id='linb.temp.grid130'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -12232,7 +12233,8 @@ _.set(linb.Locale,["cn","doc","linb","UI","TreeGrid"], {
             $paras:[
                 "rowId [必需参数] : String, 单元格在的行id.",
                 "colId [必需参数] : String, 单元格在的列id.",
-                "hash [必需参数] : key/value object, 需要更新的键值对."
+                "hash [必需参数] : key/value object, 需要更新的键值对.",
+                "dirtyMark [可选参数] : Bool. 是否启用脏标识。默认值是 [true]."
             ],
             $snippet:[
                 "var id='linb.temp.grid131'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -12240,6 +12242,65 @@ _.set(linb.Locale,["cn","doc","linb","UI","TreeGrid"], {
                 "linb.Ajax('App/js/grid.js','',function(s){var hash=_.unserialize(s);o.setHeader(hash.header).setRows(hash.rows);},null,null,{asy:false}).start();"+
                 "linb(id).prepend(o);"+
                 "_.asyRun(function(){o.updateCellByRowCol('row1','col1',{value:'b b b b'})},1000);"+
+                "}"
+            ]
+        },
+        getActiveRow:{
+            $desc:"得到当前的活动行.",
+            $rtn:"行变量",
+            $snippet:[
+                "var id='linb.temp.grid1311'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var o=new linb.UI.TreeGrid({editable:false,position:'relative'});"+
+                "linb.Ajax('App/js/grid.js','',function(s){var hash=_.unserialize(s);o.setHeader(hash.header).setRows(hash.rows);},null,null,{asy:false}).start();"+
+                "linb(id).prepend(o);"+
+                "_.asyRun(function(){o.setActiveRow('row1')},1000);"+
+                "_.asyRun(function(){alert(o.getActiveRow().id)},1500);"+
+                "}"
+            ]
+        },
+        setActiveRow:{
+            $desc:"设置当前的活动行.",
+            $rtn:"[self]",
+            $paras:[
+                "rowId [必须参数] : String, 行id."
+            ],
+            $snippet:[
+                "var id='linb.temp.grid1312'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var o=new linb.UI.TreeGrid({editable:false,position:'relative'});"+
+                "linb.Ajax('App/js/grid.js','',function(s){var hash=_.unserialize(s);o.setHeader(hash.header).setRows(hash.rows);},null,null,{asy:false}).start();"+
+                "linb(id).prepend(o);"+
+                "_.asyRun(function(){o.setActiveRow('row1')},1000);"+
+                "_.asyRun(function(){alert(o.getActiveRow().id)},1500);"+
+                "}"
+            ]
+        },
+        getActiveCell:{
+            $desc:"得到当前的活动单元格.",
+            $rtn:"单元格变量",
+            $snippet:[
+                "var id='linb.temp.grid1313'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var o=new linb.UI.TreeGrid({editable:false,position:'relative',activeMode:'cell'});"+
+                "linb.Ajax('App/js/grid.js','',function(s){var hash=_.unserialize(s);o.setHeader(hash.header).setRows(hash.rows);},null,null,{asy:false}).start();"+
+                "linb(id).prepend(o);"+
+                "_.asyRun(function(){o.setActiveCell('row1','col1')},1000);"+
+                "_.asyRun(function(){alert(o.getActiveCell().value)},1500);"+
+                "}"
+            ]
+        },
+        setActiveCell:{
+            $desc:"设置当前的活动单元格.",
+            $rtn:"[self]",
+            $paras:[
+                "rowId [必须参数] : String, 行id.",
+                "colId [必须参数] : String, 列id."
+            ],
+            $snippet:[
+                "var id='linb.temp.grid1314'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var o=new linb.UI.TreeGrid({editable:false,position:'relative',activeMode:'cell'});"+
+                "linb.Ajax('App/js/grid.js','',function(s){var hash=_.unserialize(s);o.setHeader(hash.header).setRows(hash.rows);},null,null,{asy:false}).start();"+
+                "linb(id).prepend(o);"+
+                "_.asyRun(function(){o.setActiveCell('row1','col1')},1000);"+
+                "_.asyRun(function(){alert(o.getActiveCell().value)},1500);"+
                 "}"
             ]
         },

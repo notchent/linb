@@ -1963,10 +1963,16 @@ Class('VisualJS.Designer', 'linb.Com',{
         },
         getJSONCode:function(nodes){
             //sort by tabindex
-            nodes.sort(function(x,y){
-                x=parseInt(x.properties.tabindex)||0;y=parseInt(y.properties.tabindex)||0;
+            var f=function(x,y){
+                x=parseInt((x[0]||x).properties.tabindex)||0;y=parseInt((y[0]||y).properties.tabindex)||0;
                 return x>y?1:x==y?0:-1;
-            });
+            },fun=function(arr){
+                arr.sort(f);
+                for(var i=0;i<arr.length;i++)
+                    if((arr[i][0]||arr[i]).children.length)
+                        (arr[i][0]||arr[i]).children.sort(f);
+            };
+            fun(nodes);
 
             return 'return linb.create(' + _.serialize(nodes) + ').get();'
         },

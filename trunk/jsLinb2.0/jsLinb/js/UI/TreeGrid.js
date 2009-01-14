@@ -255,22 +255,22 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
             profile.rowMap2={};
 
             profile.properties.rows.length=0;
-
-            profile.getSubNode('BODY').empty();
-            profile.getSubNode('SCROLL').scrollTop(0).scrollLeft(0);
-
+            if(profile.domNode){
+                profile.getSubNode('BODY').empty();
+                profile.getSubNode('SCROLL').scrollTop(0).scrollLeft(0);
+            }
             return this;
         },
 
-        updateCellByRowCol:function(rowId, colId, hash){
+        updateCellByRowCol:function(rowId, colId, hash, dirtyMark){
             var t,self=this,con=self.constructor;
             if(t=con._getCellId(self.get(0), rowId, colId))
-                con._updCell(self.get(0), t, hash);
+                con._updCell(self.get(0), t, hash, dirtyMark);
             return self;
         },
-        updateCell:function(cellId, hash){
+        updateCell:function(cellId, hash, dirtyMark){
             var self=this;
-            self.constructor._updCell(self.get(0),cellId,hash);
+            self.constructor._updCell(self.get(0),cellId,hash, dirtyMark);
             return self;
         },
         _toggleRows:function(rows, expend){
@@ -334,6 +334,34 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                     linb(n).css('display',(col.visibility=(flag===false?false:true))?'':'none');
                 }
             });
+        },
+        getActiveRow:function(){
+            var ar,profile=this.get(0);
+            if(profile.properties.activeMode!='row')return;
+            if(!(ar=profile.$activeRow))return;
+            return profile.rowMap[profile.getSubId(ar)];
+        },
+        setActiveRow:function(rowId){
+            var dr, row, profile=this.get(0);
+            if(profile.properties.activeMode!='row')return;
+            if(!(row=this.getRowbyRowId(rowId)))return;
+            if(!(dr=profile.getSubNode('CELLS',row._serialId)).isEmpty())
+                profile.box._activeRow(profile, dr.get(0).id);
+            return this;
+        },
+        getActiveCell:function(){
+            var ar,profile=this.get(0);
+            if(profile.properties.activeMode!='cell')return;
+            if(!(ar=profile.$activeCell))return;
+            return profile.cellMap[profile.getSubId(ar)];
+        },
+        setActiveCell:function(rowId, colId){
+            var dr, cell, profile=this.get(0);
+            if(profile.properties.activeMode!='cell')return;
+            if(!(cell=this.getCellbyRowCol(rowId, colId)))return;
+            if(!(dr=profile.getSubNode('CELL',cell._serialId)).isEmpty())
+                profile.box._activeCell(profile, dr.get(0).id);
+            return this;
         }
     },
     Initialize:function(){
@@ -704,6 +732,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
             'HCELL0, HCELL':{
                height:'100%',
                'border-left':'1px solid #fff',
+               'border-top':'1px solid #fff',
                'border-right':'1px solid #ACA899',
                padding:0,
                'vertical-align':'top',
@@ -2194,7 +2223,7 @@ caption
         _getCellId:function(profile, rowId, colId){
             return _.get(profile.rowMap,[profile.rowMap2[rowId], '_cells',colId]);
         },
-        _updCell:function(profile, cellId, hash){
+        _updCell:function(profile, cellId, hash, dirtyMark){
             var box=profile.box,
                 sc=linb.absObj.$specialChars,
                 cell,node;
@@ -2234,11 +2263,14 @@ caption
 
             //if update value
             if('value' in hash){
-                cell.$dirty=true;
-                if(cell.value===cell._$value)
-                    node.removeClass('ui-dirty');
-                else
-                    node.addClass('ui-dirty');
+                if(dirtyMark===false)
+                    cell._$value=cell.value;
+                else{
+                    if(cell.value===cell._$value)
+                        node.removeClass('ui-dirty');
+                    else
+                        node.addClass('ui-dirty');
+                }
             }
         },
         _ensureValue:function(profile,value){

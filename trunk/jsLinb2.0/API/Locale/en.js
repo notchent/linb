@@ -12215,7 +12215,8 @@ _.set(linb.Locale,["en","doc","linb","UI","TreeGrid"], {
             $rtn:"[self]",
             $paras:[
                 "cellId [Required] : String, the cell id.",
-                "hash [Required] : key/value object, the keys/values to be updated."
+                "hash [Required] : key/value object, the keys/values to be updated.",
+                "dirtyMark [Optional] : Bool. Make dirty mark not not. Default is [true]."
             ],
             $snippet:[
                 "var id='linb.temp.grid130'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -12232,7 +12233,8 @@ _.set(linb.Locale,["en","doc","linb","UI","TreeGrid"], {
             $paras:[
                 "rowId [Required] : String, the corresponding row id.",
                 "colId [Required] : String, the corresponding col id.",
-                "hash [Required] : key/value object, the keys/values to be updated."
+                "hash [Required] : key/value object, the keys/values to be updated.",
+                "dirtyMark [Optional] : Bool. Make dirty mark not not. Default is [true]."
             ],
             $snippet:[
                 "var id='linb.temp.grid131'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -12240,6 +12242,65 @@ _.set(linb.Locale,["en","doc","linb","UI","TreeGrid"], {
                 "linb.Ajax('App/js/grid.js','',function(s){var hash=_.unserialize(s);o.setHeader(hash.header).setRows(hash.rows);},null,null,{asy:false}).start();"+
                 "linb(id).prepend(o);"+
                 "_.asyRun(function(){o.updateCellByRowCol('row1','col1',{value:'b b b b'})},1000);"+
+                "}"
+            ]
+        },
+        getActiveRow:{
+            $desc:"Gets the current active row.",
+            $rtn:"row Object",
+            $snippet:[
+                "var id='linb.temp.grid1311'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var o=new linb.UI.TreeGrid({editable:false,position:'relative'});"+
+                "linb.Ajax('App/js/grid.js','',function(s){var hash=_.unserialize(s);o.setHeader(hash.header).setRows(hash.rows);},null,null,{asy:false}).start();"+
+                "linb(id).prepend(o);"+
+                "_.asyRun(function(){o.setActiveRow('row1')},1000);"+
+                "_.asyRun(function(){alert(o.getActiveRow().id)},1500);"+
+                "}"
+            ]
+        },
+        setActiveRow:{
+            $desc:"Sets the current active row.",
+            $rtn:"[self]",
+            $paras:[
+                "rowId [Required] : String, row id."
+            ],
+            $snippet:[
+                "var id='linb.temp.grid1312'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var o=new linb.UI.TreeGrid({editable:false,position:'relative'});"+
+                "linb.Ajax('App/js/grid.js','',function(s){var hash=_.unserialize(s);o.setHeader(hash.header).setRows(hash.rows);},null,null,{asy:false}).start();"+
+                "linb(id).prepend(o);"+
+                "_.asyRun(function(){o.setActiveRow('row1')},1000);"+
+                "_.asyRun(function(){alert(o.getActiveRow().id)},1500);"+
+                "}"
+            ]
+        },
+        getActiveCell:{
+            $desc:"Gets the current active cell.",
+            $rtn:"cell Object",
+            $snippet:[
+                "var id='linb.temp.grid1313'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var o=new linb.UI.TreeGrid({editable:false,position:'relative',activeMode:'cell'});"+
+                "linb.Ajax('App/js/grid.js','',function(s){var hash=_.unserialize(s);o.setHeader(hash.header).setRows(hash.rows);},null,null,{asy:false}).start();"+
+                "linb(id).prepend(o);"+
+                "_.asyRun(function(){o.setActiveCell('row1','col1')},1000);"+
+                "_.asyRun(function(){alert(o.getActiveCell().value)},1500);"+
+                "}"
+            ]
+        },
+        setActiveCell:{
+            $desc:"Sets the current active cell.",
+            $rtn:"[self]",
+            $paras:[
+                "rowId [Required] : String, row id.",
+                "colId [Required] : String, column id."
+            ],
+            $snippet:[
+                "var id='linb.temp.grid1314'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var o=new linb.UI.TreeGrid({editable:false,position:'relative',activeMode:'cell'});"+
+                "linb.Ajax('App/js/grid.js','',function(s){var hash=_.unserialize(s);o.setHeader(hash.header).setRows(hash.rows);},null,null,{asy:false}).start();"+
+                "linb(id).prepend(o);"+
+                "_.asyRun(function(){o.setActiveCell('row1','col1')},1000);"+
+                "_.asyRun(function(){alert(o.getActiveCell().value)},1500);"+
                 "}"
             ]
         },

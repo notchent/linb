@@ -267,15 +267,15 @@ _.merge(_,{
 
     // type detection
     exists:function(target)  {return target!==undefined},
-    isNull:function(target)  {return (typeof target == 'object') && !target },
+    isNull:function(target)  {return target===null},
     isObj:function(target)   {return !!target  && (typeof target == 'object' || typeof target == 'function')},
     isBool:function(target)  {return typeof target == 'boolean'},
     isNumb:function(target)  {return typeof target == 'number' && isFinite(target)},
-    isDate:function(target)  {return !!target && target.constructor == Date},
-    isFun:function(target)   {return typeof target == "function" && target.constructor != RegExp},
-    isArr:function(target)   {return !!target && target.constructor == Array},
-    isHash:function(target)  {return !!target && typeof target == 'object' && target.constructor == Object},
-    isReg:function(target)   {return !!target && target.constructor == RegExp},
+    isDate:function(target)  {return Object.prototype.toString.call(target)==='[object Date]'},
+    isFun:function(target)   {return Object.prototype.toString.call(target)==='[object Function]'},
+    isArr:function(target)   {return Object.prototype.toString.call(target)==='[object Array]'},
+    isHash:function(target)  {return !!target && typeof target == 'object' && Object.prototype.toString.call(target)==='[object Object]'},
+    isReg:function(target)   {return Object.prototype.toString.call(target)==='[object RegExp]'},
     isStr:function(target)   {return typeof target == "string"},
     isArguments:function(target)   {return !!(target && target.callee && target.callee.arguments===target)},
     //for handling String
