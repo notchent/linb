@@ -26,6 +26,8 @@ Class('UIDesigner', 'linb.Com',{
             },
             afterIniComponents:function(){
                 var self=this;
+                self.popLang.setItems(CONF.localeItems);
+                
                 self.appRoot
                 .append( new linb.UI.Button(
                     {
@@ -251,7 +253,6 @@ Class('UIDesigner', 'linb.Com',{
             
             append((new linb.UI.PopMenu)
                 .host(host,"popLang")
-                .setItems([{"id":"en", "caption":"$VisualJS.en"}, {"id":"cn", "caption":"$VisualJS.cn"}])
                 .onMenuSelected("_pop_onmenuselected")
             );
 

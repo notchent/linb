@@ -10,6 +10,7 @@
     checkOK:'Congratulations! No syntax error yet!',
     en:'English',
     cn:'Chinese',
+    ja:"Japanese",
     langTips:'Switch Locale',
     
     builder:{

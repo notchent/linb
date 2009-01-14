@@ -10,6 +10,7 @@
     checkOK:'代码没有语法错误!',
     en:'英文',
     cn:'中文',
+    ja:'日语',
     langTips:'改变语言',
     
     builder:{

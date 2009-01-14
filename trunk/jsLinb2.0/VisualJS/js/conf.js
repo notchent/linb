@@ -3,6 +3,7 @@ new function(){
     var _img_widgets=linb.getPath('img/','widgets.gif');
     window.CONF={
         dftLang:'en',
+        localeItems:[{"id":"en", "caption":"$VisualJS.en"}, {"id":"cn", "caption":"$VisualJS.cn"}, {"id":"ja", "caption":"$VisualJS.ja"}],
 
         img_app:_img_app,
         img_widgets:_img_widgets,
