@@ -1179,15 +1179,40 @@ Class('linb.Dom','linb.absBox',{
         animate: function(args, onStart, onEnd, time, step, type, threadid){
             var me=arguments.callee,
             hash = me.lib ||  (me.lib = {
-                line:function(x){return x},
-                inexp:function(x){return (x==0)?0:Math.pow(2,10*(x-1))},
-                outexp:function(x){return (x==1)?1:-Math.pow(2,-10*x)+1},
-                insine:function(x){return -1*Math.cos(x*(Math.PI/2))+1},
-                outsine:function(x){return Math.sin(x*(Math.PI/2))},
-                inoutsine:function(x){return -1/2*(Math.cos(Math.PI*x)-1)}
+                line:function(x,s){return x/s},
+                expoIn:function(x,s){return (x/s==0)?0:Math.pow(2,10*(x/s-1))},
+                expoOut:function(x,s){return (x/s==1)?1:-Math.pow(2,-10*x/s)+1},
+                expoInOut:function(x,s){
+                    if(x==0)return 0;
+			        else if(x==s)return 1;
+			        else if((x/=s/2) < 1) return 1/2 * Math.pow(2, 10 * (x - 1));
+			        return 1/2 * (-Math.pow(2, -10 * --x) + 2);
+			    },
+                sineIn:function(x,s){return -1*Math.cos(x/s*(Math.PI/2))+1},
+                sineOut:function(x,s){return Math.sin(x/s*(Math.PI/2))},
+                sineInOut:function(x,s){return -1/2*(Math.cos(Math.PI*x/s)-1)},
+                backIn:function(x,s){
+        			var n=1.70158;
+        			return (x/=s)*x*((n+1)*x - n);
+        		},
+        		backOut:function(x,s){
+        			var n=1.70158;
+        			return ((x=x/s-1)*x*((n+1)*x + n) + 1);
+        		},
+        		backInOut:function(x,s){
+        			var n=1.70158; 
+        			if ((x/=s/2) < 1) return 1/2*(x*x*(((n*=(1.525))+1)*x - n));
+        			return 1/2*((x-=2)*x*(((n*=(1.525))+1)*x + n) + 2);
+        		},
+        		bounceOut:function(x,s){
+        			if((x/=s) < (1/2.75))return 7.5625*x*x;
+        			else if(x < (2/2.75))return 7.5625*(x-=(1.5/2.75))*x + .75;
+        			else if(x < (2.5/2.75))return 7.5625*(x-=(2.25/2.75))*x + .9375;
+        			else return 7.5625*(x-=(2.625/2.75))*x + .984375;
+			    }
             }),
             color = me.color || (me.color = function(type, args, step, j){
-                var f,fun,value = 0 + (100-0)*hash[type](j/step), from = args[0], to = args[1];
+                var f,fun,value = 0 + (100-0)*hash[type](j,step), from = args[0], to = args[1];
 
                 if(typeof from !='string' || typeof to != 'string')return '#fff';
                 if(value<0)
@@ -1217,7 +1242,7 @@ Class('linb.Dom','linb.absBox',{
 
             time = time||100;
             step = step||5;
-            type = hash[type]!==undefined?type:'inexp';
+            type = hash[type]!==undefined?type:'expoIn';
 
             var self=this, count=0,
                 funs=[function(threadid){
@@ -1228,9 +1253,9 @@ Class('linb.Dom','linb.absBox',{
                             return false;
                         }
                         _.each(args,function(o,i){
-                            if(typeof o == 'function') o(hash[type](count/step));
+                            if(typeof o == 'function') o(hash[type](count,step));
                             else{
-                                var value = String( _.str.endWith(i.toLowerCase(),'color') ? color(type, o, step, count) : (o[0] + (o[1]-o[0])*hash[type](count/step)));
+                                var value = String( _.str.endWith(i.toLowerCase(),'color') ? color(type, o, step, count) : (o[0] + (o[1]-o[0])*hash[type](count,step)));
                                 (self[i]) ? (self[i](value)) :(self.css(i, value));
                             }
                         });

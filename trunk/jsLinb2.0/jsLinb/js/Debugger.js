@@ -154,7 +154,7 @@ Class('linb.Debugger', null, {
 
             if(linb.browser.ie6)div.cssSize({ height :h, width :width+2});
 
-            div.animate({top:[st-h-20,st+20]},null,null,100,5,'outexp').start();
+            div.animate({top:[st-h-20,st+20]},null,null,100,5,'expoOut').start();
             _.asyRun(function(){
                 div.animate({top:[st+20, height+20]},null,function(){stack.push(div); div.hide()},100,10).start();
             }, time||5000);

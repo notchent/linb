@@ -359,7 +359,7 @@ Class('VisualJS', 'linb.Com',{
                 tb.fireItemClickEvent(value);
             }else{
                 //animate
-                linb.Dom.animate({border:'dashed 1px #ff0000'},{left:[t.left,pro.left],top:[t.top,pro.top],width:[t.width,pro.width],height:[t.height,pro.height]},null,function(){},240,8,'inexp').start();
+                linb.Dom.animate({border:'dashed 1px #ff0000'},{left:[t.left,pro.left],top:[t.top,pro.top],width:[t.width,pro.width],height:[t.height,pro.height]},null,function(){},240,8,'expoIn').start();
 
                 var filecon;
                 _.observableRun([

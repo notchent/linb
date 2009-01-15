@@ -5291,15 +5291,40 @@ Class('linb.Dom','linb.absBox',{
         animate: function(args, onStart, onEnd, time, step, type, threadid){
             var me=arguments.callee,
             hash = me.lib ||  (me.lib = {
-                line:function(x){return x},
-                inexp:function(x){return (x==0)?0:Math.pow(2,10*(x-1))},
-                outexp:function(x){return (x==1)?1:-Math.pow(2,-10*x)+1},
-                insine:function(x){return -1*Math.cos(x*(Math.PI/2))+1},
-                outsine:function(x){return Math.sin(x*(Math.PI/2))},
-                inoutsine:function(x){return -1/2*(Math.cos(Math.PI*x)-1)}
+                line:function(x,s){return x/s},
+                expoIn:function(x,s){return (x/s==0)?0:Math.pow(2,10*(x/s-1))},
+                expoOut:function(x,s){return (x/s==1)?1:-Math.pow(2,-10*x/s)+1},
+                expoInOut:function(x,s){
+                    if(x==0)return 0;
+			        else if(x==s)return 1;
+			        else if((x/=s/2) < 1) return 1/2 * Math.pow(2, 10 * (x - 1));
+			        return 1/2 * (-Math.pow(2, -10 * --x) + 2);
+			    },
+                sineIn:function(x,s){return -1*Math.cos(x/s*(Math.PI/2))+1},
+                sineOut:function(x,s){return Math.sin(x/s*(Math.PI/2))},
+                sineInOut:function(x,s){return -1/2*(Math.cos(Math.PI*x/s)-1)},
+                backIn:function(x,s){
+        			var n=1.70158;
+        			return (x/=s)*x*((n+1)*x - n);
+        		},
+        		backOut:function(x,s){
+        			var n=1.70158;
+        			return ((x=x/s-1)*x*((n+1)*x + n) + 1);
+        		},
+        		backInOut:function(x,s){
+        			var n=1.70158; 
+        			if ((x/=s/2) < 1) return 1/2*(x*x*(((n*=(1.525))+1)*x - n));
+        			return 1/2*((x-=2)*x*(((n*=(1.525))+1)*x + n) + 2);
+        		},
+        		bounceOut:function(x,s){
+        			if((x/=s) < (1/2.75))return 7.5625*x*x;
+        			else if(x < (2/2.75))return 7.5625*(x-=(1.5/2.75))*x + .75;
+        			else if(x < (2.5/2.75))return 7.5625*(x-=(2.25/2.75))*x + .9375;
+        			else return 7.5625*(x-=(2.625/2.75))*x + .984375;
+			    }
             }),
             color = me.color || (me.color = function(type, args, step, j){
-                var f,fun,value = 0 + (100-0)*hash[type](j/step), from = args[0], to = args[1];
+                var f,fun,value = 0 + (100-0)*hash[type](j,step), from = args[0], to = args[1];
 
                 if(typeof from !='string' || typeof to != 'string')return '#fff';
                 if(value<0)
@@ -5329,7 +5354,7 @@ Class('linb.Dom','linb.absBox',{
 
             time = time||100;
             step = step||5;
-            type = hash[type]!==undefined?type:'inexp';
+            type = hash[type]!==undefined?type:'expoIn';
 
             var self=this, count=0,
                 funs=[function(threadid){
@@ -5340,9 +5365,9 @@ Class('linb.Dom','linb.absBox',{
                             return false;
                         }
                         _.each(args,function(o,i){
-                            if(typeof o == 'function') o(hash[type](count/step));
+                            if(typeof o == 'function') o(hash[type](count,step));
                             else{
-                                var value = String( _.str.endWith(i.toLowerCase(),'color') ? color(type, o, step, count) : (o[0] + (o[1]-o[0])*hash[type](count/step)));
+                                var value = String( _.str.endWith(i.toLowerCase(),'color') ? color(type, o, step, count) : (o[0] + (o[1]-o[0])*hash[type](count,step)));
                                 (self[i]) ? (self[i](value)) :(self.css(i, value));
                             }
                         });
@@ -7674,7 +7699,7 @@ Class("linb.Tips", null,{
                     s = s.charAt(0)=='$'?linb.wrapRes(s.slice(1)):s;
                     this.node.html(s).css('zIndex',linb.Dom.TOP_ZINDEX).cssPos(pos);
                     var w=this.node.width(),h=this.node.height();
-                    this.node.cssSize({ width :0, height :0}).css('display','block').animate({width:[0,w],height:[0,h]},0,0,240,8,'outexp',this.threadid).start();
+                    this.node.cssSize({ width :0, height :0}).css('display','block').animate({width:[0,w],height:[0,h]},0,0,240,8,'expoOut',this.threadid).start();
                 };
                 this.hide = function(){
                     linb.Thread.abort(this.threadid);
@@ -8275,7 +8300,7 @@ Class("linb.Tips", null,{
 
             if(linb.browser.ie6)div.cssSize({ height :h, width :width+2});
 
-            div.animate({top:[st-h-20,st+20]},null,null,100,5,'outexp').start();
+            div.animate({top:[st-h-20,st+20]},null,null,100,5,'expoOut').start();
             _.asyRun(function(){
                 div.animate({top:[st+20, height+20]},null,function(){stack.push(div); div.hide()},100,10).start();
             }, time||5000);
@@ -17828,7 +17853,7 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
                     o.animate({left:[x1,x2]}, null, function(){
                         profile.box._rePosition(profile);
                         profile.pause=false;
-                    },200,Math.max(5,(x2-x1)/100),'inoutsine').start();
+                    },200,Math.max(5,(x2-x1)/100),'sineInOut').start();
                 }
             },
             NEXT:{
@@ -17849,7 +17874,7 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
                         o.animate({left:[x1,x2]}, null, function(){
                             profile.box._rePosition(profile);
                             profile.pause=false;
-                        },200,Math.max(5,(x1-x2)/100),'inoutsine').start();
+                        },200,Math.max(5,(x1-x2)/100),'sineInOut').start();
                     }
                 }
             },
@@ -17869,7 +17894,7 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
                         o.animate( {opacity:[1,0.2]}, null, function(){
                             profile.box._refresh(profile)._focus(profile);
                             profile.pause=false;
-                        },200,5,'insine').start();
+                        },200,5,'sineIn').start();
                     }
                 }
             },
@@ -17890,7 +17915,7 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
                             //if multiTasks, setUIValue will be ignored
                             profile.box._refresh(profile)._focus(profile);
                             profile.pause=false;
-                        },200,5,'insine').start();
+                        },200,5,'sineIn').start();
                     }
                 }
             },
@@ -17921,7 +17946,7 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
                                 //if multiTasks, setUIValue will be ignored
                                 profile.box._refresh(profile)._focus(profile);
                             //    profile.pause=false;
-                            //},200,5,'insine').start()
+                            //},200,5,'sineIn').start()
                             box._cache();
                         });
                     }
@@ -23203,7 +23228,7 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
                         subNs.css('display','none').height('auto');
                     };
                     if(properties.animCollapse)
-                        subNs.animate({'height':[h,0]},function(){subNs.height(h)},function(){fun()}, 100, 5, 'inexp', profile.key+profile.id).start();
+                        subNs.animate({'height':[h,0]},function(){subNs.height(h)},function(){fun()}, 100, 5, 'expoIn', profile.key+profile.id).start();
                     else
                         fun();
 
@@ -23256,7 +23281,7 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
                             if(!recursive){
                                 var h = subNs.height(true);
                                 if(p.animCollapse)
-                                    subNs.animate({'height':[0,h]},function(){subNs.height('0').css('display','block')},function(){subNs.height('auto')}, 100, 5, 'outexp', profile.key+profile.id).start();
+                                    subNs.animate({'height':[0,h]},function(){subNs.height('0').css('display','block')},function(){subNs.height('auto')}, 100, 5, 'expoOut', profile.key+profile.id).start();
                                 else
                                     subNs.css('display','block').height('auto');
                             }else
@@ -27887,7 +27912,7 @@ caption
                     };
 
                     if(pro.animCollapse)
-                        subNs.animate({'height':[h,0]},function(){subNs.css({height:h+'px',overflow:'hidden'})},function(){fun()}, 100, 5, 'inexp', profile.key+profile.id).start();
+                        subNs.animate({'height':[h,0]},function(){subNs.css({height:h+'px',overflow:'hidden'})},function(){fun()}, 100, 5, 'expoIn', profile.key+profile.id).start();
                     else
                         fun();
                     markNode.tagClass('-checked', false);
@@ -27922,7 +27947,7 @@ caption
                             subNs.css({height:'auto',overflow:'',display:'block'});
                         };
                         if(p.animCollapse)
-                            subNs.animate({'height':[0,h]},function(){subNs.css({height:'0',overflow:'hidden',display:'block'})},function(){fun()}, 100, 5, 'outexp', profile.key+profile.id).start();
+                            subNs.animate({'height':[0,h]},function(){subNs.css({height:'0',overflow:'hidden',display:'block'})},function(){fun()}, 100, 5, 'expoOut', profile.key+profile.id).start();
                         else
                             fun();
 
@@ -28352,7 +28377,7 @@ Class("linb.UI.Dialog","linb.UI.Widget",{
                     };
 
                 if(t=pro.fromRegion)
-                    linb.Dom.animate({border:'dashed 1px #ff0000'},{left:[t.left,pro.left],top:[t.top,pro.top],width:[t.width,pro.width],height:[t.height,pro.height]}, null,fun,360,12,'inexp').start();
+                    linb.Dom.animate({border:'dashed 1px #ff0000'},{left:[t.left,pro.left],top:[t.top,pro.top],width:[t.width,pro.width],height:[t.height,pro.height]}, null,fun,360,12,'expoIn').start();
                 else
                     fun();
             });
@@ -28372,7 +28397,7 @@ Class("linb.UI.Dialog","linb.UI.Widget",{
 
                 var t=pro.fromRegion;
                 if(t)
-                    linb.Dom.animate({border:'dashed 1px #ff0000'},{left:[pro.left,t.left],top:[pro.top,t.top],width:[pro.width,t.width],height:[pro.height,t.height]},  null, null,360,12,'outexp').start();
+                    linb.Dom.animate({border:'dashed 1px #ff0000'},{left:[pro.left,t.left],top:[pro.top,t.top],width:[pro.width,t.width],height:[pro.height,t.height]},  null, null,360,12,'expoOut').start();
             });
             return this;
         },
@@ -28385,7 +28410,7 @@ Class("linb.UI.Dialog","linb.UI.Widget",{
                 };
 
                 if(t)
-                    linb.Dom.animate({border:'dashed 1px #ff0000'},{left:[pro.left,t.left],top:[pro.top,t.top],width:[pro.width,t.width],height:[pro.height,t.height]}, null,fun,360,12,'outexp').start();
+                    linb.Dom.animate({border:'dashed 1px #ff0000'},{left:[pro.left,t.left],top:[pro.top,t.top],width:[pro.width,t.width],height:[pro.height,t.height]}, null,fun,360,12,'expoOut').start();
                 else
                     fun();
             });

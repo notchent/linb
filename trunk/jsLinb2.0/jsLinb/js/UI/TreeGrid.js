@@ -2153,7 +2153,7 @@ caption
                     };
 
                     if(pro.animCollapse)
-                        subNs.animate({'height':[h,0]},function(){subNs.css({height:h+'px',overflow:'hidden'})},function(){fun()}, 100, 5, 'inexp', profile.key+profile.id).start();
+                        subNs.animate({'height':[h,0]},function(){subNs.css({height:h+'px',overflow:'hidden'})},function(){fun()}, 100, 5, 'expoIn', profile.key+profile.id).start();
                     else
                         fun();
                     markNode.tagClass('-checked', false);
@@ -2188,7 +2188,7 @@ caption
                             subNs.css({height:'auto',overflow:'',display:'block'});
                         };
                         if(p.animCollapse)
-                            subNs.animate({'height':[0,h]},function(){subNs.css({height:'0',overflow:'hidden',display:'block'})},function(){fun()}, 100, 5, 'outexp', profile.key+profile.id).start();
+                            subNs.animate({'height':[0,h]},function(){subNs.css({height:'0',overflow:'hidden',display:'block'})},function(){fun()}, 100, 5, 'expoOut', profile.key+profile.id).start();
                         else
                             fun();
 

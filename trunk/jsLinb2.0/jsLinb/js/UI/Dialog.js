@@ -30,7 +30,7 @@ Class("linb.UI.Dialog","linb.UI.Widget",{
                     };
 
                 if(t=pro.fromRegion)
-                    linb.Dom.animate({border:'dashed 1px #ff0000'},{left:[t.left,pro.left],top:[t.top,pro.top],width:[t.width,pro.width],height:[t.height,pro.height]}, null,fun,360,12,'inexp').start();
+                    linb.Dom.animate({border:'dashed 1px #ff0000'},{left:[t.left,pro.left],top:[t.top,pro.top],width:[t.width,pro.width],height:[t.height,pro.height]}, null,fun,360,12,'expoIn').start();
                 else
                     fun();
             });
@@ -50,7 +50,7 @@ Class("linb.UI.Dialog","linb.UI.Widget",{
 
                 var t=pro.fromRegion;
                 if(t)
-                    linb.Dom.animate({border:'dashed 1px #ff0000'},{left:[pro.left,t.left],top:[pro.top,t.top],width:[pro.width,t.width],height:[pro.height,t.height]},  null, null,360,12,'outexp').start();
+                    linb.Dom.animate({border:'dashed 1px #ff0000'},{left:[pro.left,t.left],top:[pro.top,t.top],width:[pro.width,t.width],height:[pro.height,t.height]},  null, null,360,12,'expoOut').start();
             });
             return this;
         },
@@ -63,7 +63,7 @@ Class("linb.UI.Dialog","linb.UI.Widget",{
                 };
 
                 if(t)
-                    linb.Dom.animate({border:'dashed 1px #ff0000'},{left:[pro.left,t.left],top:[pro.top,t.top],width:[pro.width,t.width],height:[pro.height,t.height]}, null,fun,360,12,'outexp').start();
+                    linb.Dom.animate({border:'dashed 1px #ff0000'},{left:[pro.left,t.left],top:[pro.top,t.top],width:[pro.width,t.width],height:[pro.height,t.height]}, null,fun,360,12,'expoOut').start();
                 else
                     fun();
             });

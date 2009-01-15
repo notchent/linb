@@ -109,6 +109,7 @@ Class('VisualJS.ClassEditor', 'linb.Com',{
                 pageview = (new (linb.SC.get(self.$pageviewType)))
                     .host(self,"buttonview")
                     .setItems([{"id":"normal","caption":"$VisualJS.classEditor.nv","image":'@CONF.img_app',"imagePos":"-80px -48px","tips":"$VisualJS.classEditor.nvtips"},{"id":"struct","caption":"$VisualJS.classEditor.sv","image":'@CONF.img_app',"imagePos":"-32px -48px","tips":"$VisualJS.classEditor.svtips"},{"id":"design","caption":"$VisualJS.classEditor.dv","image":'@CONF.img_app',"imagePos":"-192px -48px","tips":"$VisualJS.classEditor.dvtips"}])
+                    .setCustomStyle({PANEL:'overflow:hidden;'})
                     .beforeUIValueSet("_beforeValueUpdated")
 
             if(self.$pageviewType=='linb.UI.ButtonViews')

@@ -49,7 +49,7 @@ Class('App', 'linb.Com',{
                 
                 SPA.$cvhost.setCode(linb.Coder.formatText(SPA.$tvhost.getCode()));
                 
-            },200,20,'outexp').start();
+            },200,20,'expoOut').start();
         },
         getType:function(o){
             return o===null?null:
@@ -86,7 +86,7 @@ Class('App', 'linb.Com',{
 
                 SPA.$tvhost.setCode(linb.Coder.formatText(str));
 
-            },200,20,'outexp').start();
+            },200,20,'expoOut').start();
 
         },
         _afterinicomponents:function () {

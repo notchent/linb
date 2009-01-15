@@ -209,7 +209,7 @@ Class("linb.Tips", null,{
                     s = s.charAt(0)=='$'?linb.wrapRes(s.slice(1)):s;
                     this.node.html(s).css('zIndex',linb.Dom.TOP_ZINDEX).cssPos(pos);
                     var w=this.node.width(),h=this.node.height();
-                    this.node.cssSize({ width :0, height :0}).css('display','block').animate({width:[0,w],height:[0,h]},0,0,240,8,'outexp',this.threadid).start();
+                    this.node.cssSize({ width :0, height :0}).css('display','block').animate({width:[0,w],height:[0,h]},0,0,240,8,'expoOut',this.threadid).start();
                 };
                 this.hide = function(){
                     linb.Thread.abort(this.threadid);

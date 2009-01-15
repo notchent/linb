@@ -495,7 +495,7 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
                     o.animate({left:[x1,x2]}, null, function(){
                         profile.box._rePosition(profile);
                         profile.pause=false;
-                    },200,Math.max(5,(x2-x1)/100),'inoutsine').start();
+                    },200,Math.max(5,(x2-x1)/100),'sineInOut').start();
                 }
             },
             NEXT:{
@@ -516,7 +516,7 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
                         o.animate({left:[x1,x2]}, null, function(){
                             profile.box._rePosition(profile);
                             profile.pause=false;
-                        },200,Math.max(5,(x1-x2)/100),'inoutsine').start();
+                        },200,Math.max(5,(x1-x2)/100),'sineInOut').start();
                     }
                 }
             },
@@ -536,7 +536,7 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
                         o.animate( {opacity:[1,0.2]}, null, function(){
                             profile.box._refresh(profile)._focus(profile);
                             profile.pause=false;
-                        },200,5,'insine').start();
+                        },200,5,'sineIn').start();
                     }
                 }
             },
@@ -557,7 +557,7 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
                             //if multiTasks, setUIValue will be ignored
                             profile.box._refresh(profile)._focus(profile);
                             profile.pause=false;
-                        },200,5,'insine').start();
+                        },200,5,'sineIn').start();
                     }
                 }
             },
@@ -588,7 +588,7 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
                                 //if multiTasks, setUIValue will be ignored
                                 profile.box._refresh(profile)._focus(profile);
                             //    profile.pause=false;
-                            //},200,5,'insine').start()
+                            //},200,5,'sineIn').start()
                             box._cache();
                         });
                     }

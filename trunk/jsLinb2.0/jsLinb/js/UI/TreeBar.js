@@ -596,7 +596,7 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
                         subNs.css('display','none').height('auto');
                     };
                     if(properties.animCollapse)
-                        subNs.animate({'height':[h,0]},function(){subNs.height(h)},function(){fun()}, 100, 5, 'inexp', profile.key+profile.id).start();
+                        subNs.animate({'height':[h,0]},function(){subNs.height(h)},function(){fun()}, 100, 5, 'expoIn', profile.key+profile.id).start();
                     else
                         fun();
 
@@ -649,7 +649,7 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
                             if(!recursive){
                                 var h = subNs.height(true);
                                 if(p.animCollapse)
-                                    subNs.animate({'height':[0,h]},function(){subNs.height('0').css('display','block')},function(){subNs.height('auto')}, 100, 5, 'outexp', profile.key+profile.id).start();
+                                    subNs.animate({'height':[0,h]},function(){subNs.height('0').css('display','block')},function(){subNs.height('auto')}, 100, 5, 'expoOut', profile.key+profile.id).start();
                                 else
                                     subNs.css('display','block').height('auto');
                             }else

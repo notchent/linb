@@ -190,7 +190,7 @@ Class('VisualJS.ClassStruct', 'linb.Com',{
                             p.setValue(self.$bakCurCode = comments+code).activate();
                             p.setReadonly(self.$readonly = value=='Class' || value=='Instance' || value=='Static')
 
-                        },240,8,'inexp').start();
+                        },240,8,'expoIn').start();
                     self.$curBlock=o;
                     linb.Thread.resume(threadid);
                 });

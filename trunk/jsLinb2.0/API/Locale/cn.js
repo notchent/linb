@@ -1758,7 +1758,7 @@ _.set(linb.Locale,["cn","doc","linb","Dom"], {
             "threadid [可选参数]: String, shell线程的全局识别id."
         ],
         $snippet:[
-            "linb.Dom.animate({backgroundColor:'#ff0000'},{left:[0,200],top:[0,300],width:[30,300],height:[30,300],opacity:[1,0]}, null, null, 500, 50, 'outsine').start()"
+            "linb.Dom.animate({backgroundColor:'#ff0000'},{left:[0,200],top:[0,300],width:[30,300],height:[30,300],opacity:[1,0]}, null, null, 500, 50, 'sineOut').start()"
         ]
     },
     getEmptyDiv:{
@@ -2034,8 +2034,8 @@ _.set(linb.Locale,["cn","doc","linb","Dom"], {
             $snippet:[
                 "var node=linb.create('div').css({opacity:0,zIndex:linb.Dom.TOP_ZINDEX, backgroundColor:'#0000ff', position:'absolute',left:'100px', top:'100px',width:'100px',height:'100px'});"+
                 "linb('body').append(node);"+
-                "var fx1 = node.animate({opacity:[0,1]},null,null,1000,10,'insine');"+
-                "var fx2 = node.animate({left:[100,300],top:[100,300]},null,null,500,20,'outsine');"+
+                "var fx1 = node.animate({opacity:[0,1]},null,null,1000,10,'sineIn');"+
+                "var fx2 = node.animate({left:[100,300],top:[100,300]},null,null,500,20,'sineOut');"+
                 "var fx3 = node.animate({left:[300,100],top:[300,100]});"+
                 "var fx4 = node.animate({opacity:[1,0]},null,function(){node.remove()});"+
                 "fx1.links(fx2.links(fx3.links(fx4))).start();"

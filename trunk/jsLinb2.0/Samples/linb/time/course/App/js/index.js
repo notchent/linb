@@ -147,7 +147,7 @@ Class('App', 'linb.Com',{
                 linb.Dom.animate({border:'dashed 1px #ff0000'},{left:[pos.left,tpos.left],top:[pos.top,tpos.top],width:[size.width,width],height:[size.height, 20]}, null,function(){
                     grid.insertRows([item]);
                     SPA.inSelectProcess=false;
-                },360,12,'outexp').start();
+                },360,12,'expoOut').start();
             }
 
         }, 
