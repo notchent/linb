@@ -33,7 +33,7 @@ Class('UIDesigner', 'linb.Com',{
                     {
                         caption:linb.wrapRes('VisualJS.builder.open'),
                         tips:linb.getRes('VisualJS.builder.openTips'),
-                        zIndex:100, left:'auto', top:4, right:120, width:75, height:58, type:'custom', border:true, renderer:function(item){return '<img src=img/open.gif /><br />' + item.caption;}},
+                        zIndex:100, left:'auto', top:8, right:130, width:68, height:50, type:'custom', border:true, renderer:function(item){return '<img src=img/open.gif /><br />' + item.caption;}},
                     {onClick:function(){
                         if(self.$dirty){
                             if(false===confirm(linb.getRes('VisualJS.builder.nosavefirst')))
@@ -77,7 +77,7 @@ Class('UIDesigner', 'linb.Com',{
                     {
                         caption:linb.wrapRes('VisualJS.builder.save'),
                         tips:linb.getRes('VisualJS.builder.saveTips'),
-                        zIndex:100, left:'auto', top:4, right:200,  width:75, height:58, type:'custom', border:true, renderer:function(item){return '<img src=img/save.gif /><br />' + item.caption;}},
+                        zIndex:100, left:'auto', top:8, right:210,  width:68, height:50, type:'custom', border:true, renderer:function(item){return '<img src=img/save.gif /><br />' + item.caption;}},
                     {onClick:function(p,e,src){
                         self.popSave.updateItem('savetoserver',{disabled:!self.$url || linb.absIO.isCrossDomain(self.$url)})
                         
@@ -94,7 +94,7 @@ Class('UIDesigner', 'linb.Com',{
                     { 
                         caption:linb.wrapRes('VisualJS.builder.run'),
                         tips:linb.getRes('VisualJS.builder.runTips'),
-                        zIndex:100, left:'auto', top:4, right:280, width:75, height:58, type:'custom', border:true, renderer:function(item){return '<img src=img/run.gif /><br />' + item.caption;}},
+                        zIndex:100, left:'auto', top:8, right:290, width:68, height:50, type:'custom', border:true, renderer:function(item){return '<img src=img/run.gif /><br />' + item.caption;}},
                     {onClick:function(){
                         var content=self.getValue(),
                             clsName=VisualJS.ClassTool.getClassName(content);

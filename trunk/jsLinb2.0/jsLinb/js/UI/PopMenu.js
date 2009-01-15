@@ -646,8 +646,6 @@ Class("linb.UI.PopMenu",["linb.UI.Widget","linb.absList"],{
             border:null,
             resizer:null,
 
-            $fix:true,
-
             shadow:true,
             _maxHeight:260,
             _maxWidth:300,

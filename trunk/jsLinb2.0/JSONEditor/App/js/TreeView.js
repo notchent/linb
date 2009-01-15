@@ -34,7 +34,6 @@ Class('App.TreeView', 'linb.Com',{
                 .setType('custom')
                 .setCaption("<")
                 .setVAlign("middle")
-                .setBorder(true)
                 .onClick("_button26_onclick")
                 .setCustomStyle({KEY:'background:#eee;'})
             , 'before');

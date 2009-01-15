@@ -15,7 +15,6 @@ Class('App.linb_UI_Block', 'linb.Com',{
                 .setBorder(true)
                 .setShadow(true)
                 .setHtml("shadow")
-                .setCustomStyle({"PANEL":"background:#ccc"})
             );
             
             append((new linb.UI.Block)
@@ -24,14 +23,12 @@ Class('App.linb_UI_Block', 'linb.Com',{
                 .setTop(60)
                 .setBorder(true)
                 .setHtml("border")
-                .setCustomStyle({"PANEL":"background:#ccc"})
             );
             
             append((new linb.UI.Block)
                 .host(host,"block1")
                 .setLeft(50)
                 .setTop(60)
-                .setCustomStyle({"PANEL":"background:#ccc"})
             );
             
             host.block1.append((new linb.UI.Button)
@@ -46,10 +43,8 @@ Class('App.linb_UI_Block', 'linb.Com',{
                 .host(host,"block4")
                 .setLeft(170)
                 .setTop(190)
-                .setBorder(true)
                 .setResizer(true)
                 .setHtml("resizer")
-                .setCustomStyle({"PANEL":"background:#ccc"})
             );
             
             return children;

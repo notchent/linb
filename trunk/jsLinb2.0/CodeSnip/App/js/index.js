@@ -13,7 +13,6 @@ Class('App', 'linb.Com',{
                 .host(host,"layout")
                 .setDomId("ce_layout")
                 .setItems([{"id":"before", "pos":"before", "locked":false, "size":200, "min":50, "max":400, "hide":false, "cmd":true, "caption":"before"}, {"id":"main", "min":10, "caption":"main"}])
-                .setDockMargin({"left":10, "top":10, "right":10, "bottom":10})
                 .setLeft(0)
                 .setTop(0)
                 .setType("horizontal")
@@ -33,11 +32,9 @@ Class('App', 'linb.Com',{
                 .host(host,"stage")
                 .setDomId("ce_stage")
                 .setDock("fill")
-                .setDockMargin({"left":4, "top":4, "right":0, "bottom":0})
                 .setLeft(30)
                 .setTop(50)
-                .setBorder(true)
-                .setShadow(true)
+                .setCustomStyle({PANEL:'background:#fff;',BORDER:'border:1px solid #99BBE8;'})
             , 'main');
             
             host.stage.append((new linb.UI.Div)
@@ -63,7 +60,6 @@ Class('App', 'linb.Com',{
                 .host(host,"blockCode")
                 .setDomId("ce_blockCode")
                 .setDock("fill")
-                .setDockMargin({"left":4, "top":4, "right":4, "bottom":4})
                 .setLeft(120)
                 .setTop(80)
                 .setCustomStyle({"PANEL":"background:#F4F4F4"})
@@ -73,11 +69,8 @@ Class('App', 'linb.Com',{
                 .host(host,"blockL")
                 .setDomId("ce_blockL")
                 .setDock("fill")
-                .setDockMargin({"left":4, "top":4, "right":0, "bottom":0})
                 .setLeft(20)
                 .setTop(100)
-                .setBorder(true)
-                .setShadow(true)
             , 'before');
             
             host.blockL.append((new linb.UI.Panel)

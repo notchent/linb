@@ -64,17 +64,7 @@ Class("linb.UI.Border","linb.UI",{
                     var target = o.getSubNode('BORDER');
                     if(target.$getBorder())return;
 
-                    var v = o.boxing(),
-                        d = o.properties,
-                        n = v.reBoxing(),
-                        w = n.width(),
-                        h = n.height(),
-                        bs=d._borderSize
-                        ;
-                    d.$paddingLeft+=bs;
-                    d.$paddingTop+=bs;
-                    d.$paddingBottom+=bs;
-                    d.$paddingRight+=bs;
+                    var bs=o.properties._borderSize;
                     args = args || {};
                     _.merge(args,{
                         _borderSize:bs,
@@ -83,17 +73,11 @@ Class("linb.UI.Border","linb.UI",{
 
                     o.$border = target.addBorder(args, o.domId);
 
-                    if(d.$fix){
-                        w=o.width=w+bs;
-                        h=o.height=h+bs;
-                    }
-                    linb.UI.$tryResize(o,w,h);
-
                     o.clearCache();
 
                     if(target.$getShadow){
-                        var o= target.$getShadow();
-                        if(o)o.setOffset(o.getOffset()+bs/2+1);
+                        var v= target.$getShadow();
+                        if(v)v.setShadowOffset(v.getShadowOffset()+bs);
                     }
                 });
             },
@@ -102,24 +86,12 @@ Class("linb.UI.Border","linb.UI",{
                     var target = o.getSubNode('BORDER');
                     if(!target.$getBorder())return;
 
-                    var v = o.boxing(),
-                        d = o.properties,
-                        n = v.reBoxing(),
-                        w = n.width(),
-                        h = n.height(),
-                        bs=d._borderSize
-                        ;
-                    d.$paddingLeft-=bs;
-                    d.$paddingTop-=bs;
-                    d.$paddingBottom-=bs;
-                    d.$paddingRight-=bs;
-                    target.removeBorder();
-                    linb.UI.$tryResize(o,w,h);
+                    target.removeBorder()
 
                     delete o.$border;
                     if(target.$getShadow){
-                        var o= target.$getShadow();
-                        if(o)o.setOffset(o.getOffset()-bs/2-1);
+                        var v= target.$getShadow();
+                        if(v)v.setShadowOffset(v.getShadowOffset()-o.properties._borderSize);
                     }
 
                 });
@@ -164,15 +136,15 @@ Class("linb.UI.Border","linb.UI",{
                 width:0,
                 height:0,
 
-                '_font-size':0,
-                '_line-height':0,
+                'font-size':0,
+                'line-height':0,
                 visibility: 'hidden',
                 /*for get top Index, when it's static*/
                 'z-index':'50'
             },
             TAG:{
-                '_font-size':0,
-                '_line-height':0
+                'font-size':0,
+                'line-height':0
             },
             'T, RT, R, RB, B, LB, L, LT':{
                 $order:1,
@@ -181,8 +153,8 @@ Class("linb.UI.Border","linb.UI",{
                 border:0,
                 'z-index':30,
                 visibility: 'visible',
-                '_font-size':0,
-                '_line-height':0
+                'font-size':0,
+                'line-height':0
             },
             'RT, RB, LB, LT':{
                 'z-index':40

@@ -44,7 +44,6 @@ Class('App', 'linb.Com',{
                 .host(host,"block3")
                 .setDock("left")
                 .setWidth(160)
-                .setBorder(true)
             );
             
             host.block3.append((new linb.UI.Stacks)
@@ -537,7 +536,6 @@ Class('App', 'linb.Com',{
                 .setTop(160)
                 .setWidth(280)
                 .setHeight(70)
-                .setBorder(true)
             , 'a');
             
             host.tabs2.append((new linb.UI.TextEditor)
@@ -545,7 +543,6 @@ Class('App', 'linb.Com',{
                 .setLeft(330)
                 .setTop(140)
                 .setWidth(280)
-                .setBorder(true)
             , 'a');
             
             host.tabs2.append((new linb.UI.TextEditor)
@@ -554,7 +551,6 @@ Class('App', 'linb.Com',{
                 .setTop(270)
                 .setWidth(280)
                 .setHeight(70)
-                .setBorder(true)
             , 'a');
             
             host.tabs2.append((new linb.UI.Input)

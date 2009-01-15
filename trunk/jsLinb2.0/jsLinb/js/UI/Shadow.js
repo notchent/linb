@@ -43,24 +43,9 @@ Class("linb.UI.Shadow","linb.UI",{
                     var target = o.getSubNode('BORDER');
                     if(target.$getShadow())return;
 
-                    var v = o.boxing(),
-                        d = o.properties,
-                        n = v.reBoxing(),
-                        w = n.width(),
-                        h = n.height()
-                        ;
-
-                    o.$shadow=target.addShadow({shadowSize:d._shadowSize, shadowOffset:d.$paddingBottom||d.$border});
-
-                    d.$paddingBottom +=d._shadowSize;
-                    d.$paddingRight +=d._shadowSize;
-
-                    if(d.$fix){
-                        w=d.width=w+d._shadowSize;
-                        h=d.height=h+d._shadowSize;
-                    }
-                    linb.UI.$tryResize(o,w,h);
-
+                    var d = o.properties,
+                        v= target.$getBorder();
+                    o.$shadow=target.addShadow({shadowSize:d._shadowSize, shadowOffset:v?d._borderSize:d.$border});
                 });
             },
             _unShadow:function(){
@@ -68,16 +53,6 @@ Class("linb.UI.Shadow","linb.UI",{
                     var target = o.getSubNode('BORDER');
                     if(!target.$getShadow())return;
                     target.removeShadow();
-
-                    var v = o.boxing(),
-                        d = o.properties,
-                        n = v.reBoxing(),
-                        w = n.width(),
-                        h = n.height()
-                        ;
-                    d.$paddingBottom -=d._shadowSize;
-                    d.$paddingRight -=d._shadowSize;
-                    linb.UI.$tryResize(o,w,h);
                     delete o.$shadow
                 });
             }

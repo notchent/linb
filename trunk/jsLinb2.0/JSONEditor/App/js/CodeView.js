@@ -31,7 +31,6 @@ Class('App.CodeView', 'linb.Com',{
                 .setType('custom')
                 .setCaption(">")
                 .setVAlign("middle")
-                .setBorder(true)
                 .onClick("_button25_onclick")
                 .setCustomStyle({KEY:'background:#eee;'})
             , 'after');

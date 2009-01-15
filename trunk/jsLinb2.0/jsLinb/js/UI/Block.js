@@ -4,9 +4,9 @@ Class("linb.UI.Block", "linb.UI.Widget",{
             t = self.getTemplate();
         //modify
         _.merge(t.FRAME.BORDER,{
+            className:'widget-block',
             PANEL:{
                 tagName:'div',
-                className:'ui-content',
                 text:'{html}'+linb.UI.$childTag
             }
         },'all');
@@ -40,9 +40,9 @@ Class("linb.UI.Block", "linb.UI.Widget",{
                     this.getSubNode('PANEL').html(v);
                 }
             },
-
             width:100,
-            height:100
+            height:100,
+            $border:1
         },
         _onresize:function(profile,width,height){
             var size = arguments.callee.upper.apply(this,arguments);

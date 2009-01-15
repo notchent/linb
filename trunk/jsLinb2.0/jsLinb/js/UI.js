@@ -1593,6 +1593,20 @@ Class("linb.UI",  "linb.absObj", {
                 width:'100%',
                 height:'100%'
             },
+            '.widget-block':{
+                $order:3,
+                display:'block',
+                position:'absolute',
+                border: 'solid 1px',
+                'background-color':'#EBEADB',
+                padding:0,
+                margin:0,
+                left:0,
+                top:0,
+                width:'100%',
+                height:'100%',
+                'border-color':'#fff #A7A6AA #A7A6AA #fff'
+            },
             '.ui-dirty':{
                 background: linb.UI.$bg('dirty.gif', ' no-repeat left top', true)
             },
@@ -3575,10 +3589,6 @@ new function(){
                 width:100,
                 height:100,
                 //hide props
-                $paddingTop:0,
-                $paddingLeft:0,
-                $paddingBottom:0,
-                $paddingRight:0,
                 $border:0
             },
             RenderTrigger:function(){
@@ -3595,24 +3605,22 @@ new function(){
                 var o = profile.getSubNode('BORDER'), t = profile.properties,
                     left=null,top=null,ww=null,hh=null;
                 if(null!==width){
-                    width -= (t.$border*2 + t.$paddingLeft + t.$paddingRight);
+                    width -= t.$border*2;
                     /*for ie6 bug*/
                     /*for example, if single number, 100% width will add 1*/
                     /*for example, if single number, attached shadow will overlap*/
                     if(linb.browser.ie6)width=(parseInt(width/2))*2;
-                    left=t.$paddingLeft;
                     ww=width;
                 }
                 if(null!==height){
-                    height -= (t.$border*2 + t.$paddingTop + t.$paddingBottom);
+                    height -= (t.$border*2);
                     if(linb.browser.ie6)height=(parseInt(height/2))*2;
-                    top = t.$paddingTop;
                     hh=height;
 
                     /*for ie6 bug*/
                     if(linb.browser.ie6&&null===width)o.ieRemedy();
                 }
-                o.cssRegion({left:left,top:top,width:ww,height:hh});
+                o.cssRegion({left:0,top:0,width:ww,height:hh});
                 profile.getSubNode('CON').height(profile.getSubNode('TR1TD2').height());
                 return { width :ww, height :hh};
             }

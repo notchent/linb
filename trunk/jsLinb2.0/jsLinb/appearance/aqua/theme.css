@@ -1,5 +1,5 @@
 /*background here*/
-html, .ui-content{
+html, .ui-content, .widget-block{
     background:transparent url(Public/bg1.png) repeat scroll 0 50%;
 }
 .widget-shell{

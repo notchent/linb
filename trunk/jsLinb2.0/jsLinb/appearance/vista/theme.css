@@ -1,5 +1,5 @@
 /*background here*/
-html, .ui-content{
+html, .ui-content, .widget-block{
     background:#f4f4f4;
 }
 .widget-shell{
