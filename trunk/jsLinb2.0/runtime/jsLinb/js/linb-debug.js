@@ -13635,8 +13635,7 @@ Class("linb.UI.Button", ["linb.UI.Widget","linb.absValue"],{
             },
             BORDER:{
                 'font-size':0,
-                'line-height':0,
-                background:'#fff'
+                'line-height':0
             },
             TDL:{
                 background: linb.UI.$bg('button.gif', ' no-repeat left top',true),
