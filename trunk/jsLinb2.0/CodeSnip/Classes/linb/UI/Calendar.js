@@ -38,7 +38,7 @@ Class('App.linb_UI_Calendar', 'linb.Com',{
                 .host(host,"button5")
                 .setLeft(150)
                 .setTop(410)
-                .setCaption("linb.reLang('cn')")
+                .setCaption("linb.setLang('cn')")
                 .onClick("_button5_onclick")
             );
 
@@ -53,7 +53,7 @@ Class('App.linb_UI_Calendar', 'linb.Com',{
             linb.message('drop key="'+key+'" date="'+data+'" at '+profile.getSubId(node.id))
         },
         _button5_onclick:function (profile, e, value) {
-            linb.reLang('cn');
+            linb.setLang('cn');
         }
     }
 });

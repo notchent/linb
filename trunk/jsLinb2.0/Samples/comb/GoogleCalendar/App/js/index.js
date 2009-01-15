@@ -213,7 +213,7 @@ Class('App', 'linb.Com',{
             this.timeline1.clearItems().refresh();
         }, 
         _comboinput7_beforevalueupdated:function (profile, oldValue, newValue) {
-            linb.reLang(newValue)
+            linb.setLang(newValue)
         }
     }
 });

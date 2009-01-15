@@ -81,8 +81,8 @@ Class('UIDesigner', 'linb.Com',{
                     {onClick:function(p,e,src){
                         self.popSave.updateItem('savetoserver',{disabled:!self.$url || linb.absIO.isCrossDomain(self.$url)})
                         
-                        if(self.popSave.$lang!=linb.$lang){
-                            self.popSave.$lang=linb.$lang;
+                        if(self.popSave.$lang!=linb.getLang()){
+                            self.popSave.$lang=linb.getLang();
                             self.popSave.refresh();
                         }
                         
@@ -107,7 +107,7 @@ Class('UIDesigner', 'linb.Com',{
                             clsName:clsName,
                             content:content,
                             theme:linb.UI.getTheme(),
-                            lang:linb.$lang
+                            lang:linb.getLang()
                         },'post');
                     }
                     })
@@ -125,15 +125,15 @@ Class('UIDesigner', 'linb.Com',{
                     zIndex:100
                 },{
                     onClick:function(profile,e,src){
-                        if(SPA.popMenu.$lang!=linb.$lang){
-                            SPA.popMenu.$lang=linb.$lang;
+                        if(SPA.popMenu.$lang!=linb.getLang()){
+                            SPA.popMenu.$lang=linb.getLang();
                             SPA.popMenu.refresh();
                         }
                         SPA.popMenu.pop(src);
                     },
                     onClickDrop:function(profile,e,src){
-                        if(SPA.popMenu.$lang!=linb.$lang){
-                            SPA.popMenu.$lang=linb.$lang;
+                        if(SPA.popMenu.$lang!=linb.getLang()){
+                            SPA.popMenu.$lang=linb.getLang();
                             SPA.popMenu.refresh();
                         }
                         SPA.popMenu.pop(src);
@@ -143,7 +143,7 @@ Class('UIDesigner', 'linb.Com',{
 
                 self.$btnLang=new linb.UI.Button({
                     type:'drop',
-                    caption:linb.wrapRes('VisualJS.'+linb.$lang),
+                    caption:linb.wrapRes('VisualJS.'+linb.getLang()),
                     tips:'$VisualJS.langTips',
                     position:'absolute',
                     top:6,
@@ -153,15 +153,15 @@ Class('UIDesigner', 'linb.Com',{
                     zIndex:100
                 },{
                     onClick:function(profile,e,src){
-                        if(SPA.popLang.$lang!=linb.$lang){
-                            SPA.popLang.$lang=linb.$lang;
+                        if(SPA.popLang.$lang!=linb.getLang()){
+                            SPA.popLang.$lang=linb.getLang();
                             SPA.popLang.refresh();
                         }
                         SPA.popLang.pop(src);
                     },
                     onClickDrop:function(profile,e,src){
-                        if(SPA.popLang.$lang!=linb.$lang){
-                            SPA.popLang.$lang=linb.$lang;
+                        if(SPA.popLang.$lang!=linb.getLang()){
+                            SPA.popLang.$lang=linb.getLang();
                             SPA.popLang.refresh();
                         }
                         SPA.popLang.pop(src);
@@ -244,9 +244,9 @@ Class('UIDesigner', 'linb.Com',{
             self.$dirty=false;
         },
         _pop_onmenuselected:function (profile, item, src) {
-            if(linb.$lang==item.id)return;
+            if(linb.getLang()==item.id)return;
             SPA.$btnLang.setCaption(linb.wrapRes('VisualJS.'+item.id));
-            linb.reLang(item.id);
+            linb.setLang(item.id);
         },
 
         iniComponents:function(){
@@ -366,7 +366,7 @@ Class('UIDesigner', 'linb.Com',{
                         content:content,
                         clsName:clsName,
                         theme:linb.UI.getTheme(),
-                        lang:linb.$lang
+                        lang:linb.getLang()
                     }
                 };
                 linb.Dom.submit(CONF.phpPath, hash, 'post', ifrid);
@@ -380,7 +380,7 @@ Class('UIDesigner', 'linb.Com',{
                         content:content,
                         clsName:clsName,
                         theme:linb.UI.getTheme(),
-                        lang:linb.$lang
+                        lang:linb.getLang()
                     }
                 };
                 linb.Dom.submit(CONF.phpPath, hash, 'post', ifrid);

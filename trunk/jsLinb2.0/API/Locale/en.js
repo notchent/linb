@@ -750,12 +750,12 @@ _.set(linb.Locale,["en","doc","linb"], {
             "id [Required]: String, resource id."
         ],
         $snippet:[
-            "alert(linb.getRes('doc.Namespace.$desc')); alert(linb.Locale[linb.$lang].doc.Namespace.$desc); ",
-            "alert(linb.getRes('color.LIST.E1FFFF')); alert(linb.Locale[linb.$lang].color.LIST.E1FFFF); ",
+            "alert(linb.getRes('doc.Namespace.$desc')); alert(linb.Locale[linb.getLang()].doc.Namespace.$desc); ",
+            "alert(linb.getRes('color.LIST.E1FFFF')); alert(linb.Locale[linb.getLang()].color.LIST.E1FFFF); ",
             "// if does't exist, return the last word \n alert(linb.getRes('doesnt.exist'))"
 
         ],
-        $memo:"All the resource string is in [linb.Locale] <br \> [<a href='#linb.reLang'>linb.reLang</a>], [<a href='#linb.getRes'>linb.getRes</a>/<a href='#linb.wrapRes'>linb.wrapRes</a>] often used together."
+        $memo:"All the resource string is in [linb.Locale] <br \> [<a href='#linb.setLang'>linb.setLang</a>], [<a href='#linb.getRes'>linb.getRes</a>/<a href='#linb.wrapRes'>linb.wrapRes</a>] often used together."
     },
     include:{
         $desc:"Includes the target class .js file to the current document.",
@@ -819,16 +819,28 @@ _.set(linb.Locale,["en","doc","linb"], {
         ],
         $memo:"You must include linb.Debugger.js to enable this function."
     },
-    reLang:{
-        $desc:"Resets the language for the whole page. System will find and load the jsLinb locale file (in [linb.ini.path]/Locale/), and the application location file (in [linb.ini.appPath]/Locale/).",
+    getAppLangKey:{
+        $desc:"Gets the current application language key.",
+        $snippet:["linb.setAppLangKey('app'); alert(linb.getAppLangKey());"]
+    },
+    setAppLangKey:{
+        $desc:"Sets the current application language key. If this key was specified, system will try to load the locale file (Locale/[linb.getLang()].js) when [linb.setLang()] is called.",
+        $snippet:["linb.setAppLangKey('app'); alert(linb.getAppLangKey())"]
+    },
+    getLang:{
+        $desc:"Gets the language.",
+        $snippet:["alert(linb.getLang());"]
+    },
+    setLang:{
+        $desc:"Sets the language for the whole page. System will find and load the jsLinb locale file (in [linb.ini.path]/Locale/), and the application location file (in [linb.ini.appPath]/Locale/).",
         $paras:[
             "key [Required]: String, lang key.",
             "callback [Optional]: Function, callback function."
         ],
         $snippet:[
-            "linb.reLang('cn',function(){linb.message('cn');linb.reLang('en',function(){linb.message('en')})});"
+            "linb.setLang('cn',function(){linb.message('cn');linb.setLang('en',function(){linb.message('en')})});"
         ],
-        $memo:"[<a href='#linb.reLang'>linb.reLang</a>], [<a href='#linb.getRes'>linb.getRes</a>/<a href='#linb.wrapRes'>linb.wrapRes</a>] often used together."
+        $memo:"[<a href='#linb.setLang'>linb.setLang</a>], [<a href='#linb.getRes'>linb.getRes</a>/<a href='#linb.wrapRes'>linb.wrapRes</a>] often used together."
     },
     //request ( uri, query, onSuccess, onFail, threadid, args ),
     wrapRes:{
@@ -838,12 +850,12 @@ _.set(linb.Locale,["en","doc","linb"], {
             "id [Required]: String, resource id."
         ],
         $snippet:[
-            "alert(linb.wrapRes('doc.Namespace.$desc')); alert(linb.Locale[linb.$lang].doc.Namespace.$desc); ",
-            "alert(linb.wrapRes('color.LIST.E1FFFF')); alert(linb.Locale[linb.$lang].color.LIST.E1FFFF); ",
+            "alert(linb.wrapRes('doc.Namespace.$desc')); alert(linb.Locale[linb.getLang()].doc.Namespace.$desc); ",
+            "alert(linb.wrapRes('color.LIST.E1FFFF')); alert(linb.Locale[linb.getLang()].color.LIST.E1FFFF); ",
             "// if does't exist, return the last word \n alert(linb.wrapRes('doesnt.exist'))"
 
         ],
-        $memo:"All the resource string is in [linb.Locale]. <br \> [<a href='#linb.reLang'>linb.reLang</a>], [<a href='#linb.getRes'>linb.getRes</a>/<a href='#linb.wrapRes'>linb.wrapRes</a>] often used together. <br \> [linb.reLang] works only with [linb.wrapRes] format HTML(id=[linb.$langId]) only."
+        $memo:"All the resource string is in [linb.Locale]. <br \> [<a href='#linb.setLang'>linb.setLang</a>], [<a href='#linb.getRes'>linb.getRes</a>/<a href='#linb.wrapRes'>linb.wrapRes</a>] often used together. <br \> [linb.setLang] works only with [linb.wrapRes] format HTML(id=[linb.$langId]) only."
     }
 });
 

@@ -244,7 +244,7 @@ Class('linb.Com',null,{
                             else _.tryF(onEnd,[o],o);
                         };
                         //get locale info
-                        if(lang) linb.reLang(lang, f);
+                        if(lang) linb.setLang(lang, f);
                         else f();
                     }else
                         throw new Error(cls+' doesnt exists!');

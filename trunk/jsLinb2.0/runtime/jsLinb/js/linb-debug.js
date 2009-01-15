@@ -609,7 +609,10 @@ _.merge(linb,{
     $lang:'en',
     $href:'javascript:;',
     $langId:'linblangkey',
-    reLang:function(key,callback){
+    setAppLangKey:function(key){linb.$appLangKey=key},
+    getAppLangKey:function(key){return linb.$appLangKey},
+    getLang:function(){return linb.$lang},
+    setLang:function(key,callback){
         var l=linb.Locale,g=linb.getRes,t,v,i,j,f,m,z,a=[];
         linb.$lang=key;
         v = linb.browser.ie ? document.all.tags('span') : document.getElementsByTagName('span');
@@ -627,7 +630,9 @@ _.merge(linb,{
         },
         z = 'linb.Locale.' + key,
         m=function(){
-            linb.include(z+'.'+linb.ini.appLangKey,linb.getPath('Locale.' + key, '.js'),f,f);
+            var k=linb.$appLangKey;
+            if(k)linb.include(z+'.'+k,linb.getPath('Locale.' + key, '.js'),f,f);
+            else f();
         };
         linb.include(z,linb.getPath(z, '.js'),m,m);
     },
@@ -793,7 +798,6 @@ new function(){
     }
     _.merge(ini,{
         appPath:location.href.split('?')[0].replace(/[^\\\/]+$/,''),
-        appLangKey:'app',
         file_bg:ini.path+'bg.gif',
         dummy_tag:'$_dummy_$'
     });
@@ -6643,7 +6647,7 @@ Class('linb.Com',null,{
                             else _.tryF(onEnd,[o],o);
                         };
                         //get locale info
-                        if(lang) linb.reLang(lang, f);
+                        if(lang) linb.setLang(lang, f);
                         else f();
                     }else
                         throw new Error(cls+' doesnt exists!');

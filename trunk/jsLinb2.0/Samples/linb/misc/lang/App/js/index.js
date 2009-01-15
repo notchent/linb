@@ -6,7 +6,7 @@ Class('App', 'linb.Com',{
         //requried class for the App
         required:["linb.UI.Button", "linb.UI.RadioBox", "linb.UI.List", "linb.UI.DatePicker", "linb.UI.TimePicker", "linb.UI.ColorPicker", "linb.UI.TimeLine"], 
         _radiobox1_onitemselected:function (profile, item, src) {
-            linb.reLang(item.id, function(){
+            linb.setLang(item.id, function(){
                 linb.message(linb.getRes('app.message'))
             });
         }, 

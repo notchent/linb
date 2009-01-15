@@ -15,12 +15,9 @@
         <script type="text/javascript">
 {content}
 
+//linb.setAppLangKey('app');
 linb.UI.setTheme('{theme}');
-
-linb.Com.load('{clsName}', function(){
-    linb('loading').remove();
-}/*, '{lang}'*/);
-//make sure that you have the 'Locale/{lang}.js' file before you remove the above comment
+linb.Com.load('{clsName}', function(){linb('loading').remove()}, '{lang}');
         </script>
 </body>
 </html>

@@ -672,7 +672,7 @@ Class('VisualJS', 'linb.Com',{
                         });
                     break;
                 case 'ec':
-                    linb.reLang(linb.$lang=='en'?'cn':'en',function(){
+                    linb.setLang(linb.getLang()=='en'?'cn':'en',function(){
                         self.menubar.clearPopCache();
                     });
                     break;

@@ -750,12 +750,12 @@ _.set(linb.Locale,["cn","doc","linb"], {
             "id [必需参数]: String, 资源id."
         ],
         $snippet:[
-            "alert(linb.getRes('doc.Namespace.$desc')); alert(linb.Locale[linb.$lang].doc.Namespace.$desc); ",
-            "alert(linb.getRes('color.LIST.E1FFFF')); alert(linb.Locale[linb.$lang].color.LIST.E1FFFF); ",
+            "alert(linb.getRes('doc.Namespace.$desc')); alert(linb.Locale[linb.getLang()].doc.Namespace.$desc); ",
+            "alert(linb.getRes('color.LIST.E1FFFF')); alert(linb.Locale[linb.getLang()].color.LIST.E1FFFF); ",
             "// if does't exist, return the last word \n alert(linb.getRes('doesnt.exist'))"
 
         ],
-        $memo:"所有的资源字符串都位于 [linb.Locale] <br \> [<a href='#linb.reLang'>linb.reLang</a>], [<a href='#linb.getRes'>linb.getRes</a>/<a href='#linb.wrapRes'>linb.wrapRes</a>] 通常一起使用."
+        $memo:"所有的资源字符串都位于 [linb.Locale] <br \> [<a href='#linb.setLang'>linb.setLang</a>], [<a href='#linb.getRes'>linb.getRes</a>/<a href='#linb.wrapRes'>linb.wrapRes</a>] 通常一起使用."
     },
     include:{
         $desc:"将某个类的.js 包含到当前文档中.",
@@ -819,16 +819,28 @@ _.set(linb.Locale,["cn","doc","linb"], {
         ],
         $memo:"要使用该函数，需要包含文件linb.Debugger.js."
     },
-    reLang:{
+    getAppLangKey:{
+        $desc:"得到当前应用程序的语言包关键字.",
+        $snippet:["linb.setAppLangKey('app'); alert(linb.getAppLangKey());"]
+    },
+    setAppLangKey:{
+        $desc:"设置当前应用程序的语言包关键字. 如果此关键字被设置，当用 linb.setLang 设置界面语言的时候，系统会试图从 Locale/[linb.getLang()].js 文件加载当前应用程序的语言包。",
+        $snippet:["linb.setAppLangKey('app'); alert(linb.getAppLangKey());"]
+    },
+    getLang:{
+        $desc:"得到界面的语言.",
+        $snippet:["alert(linb.getLang());"]
+    },
+    setLang:{
         $desc:"重新设置整个页面的语言. 系统会重新查找(in [linb.ini.path]/Locale/)和(in [linb.ini.appPath]/Locale/)并装载语言包.",
         $paras:[
             "key [必需参数]: String, lang key.",
             "callback [可选参数]: Function, 回调函数."
         ],
         $snippet:[
-            "linb.reLang('cn',function(){linb.message('cn');linb.reLang('en',function(){linb.message('en')})});"
+            "linb.setLang('cn',function(){linb.message('cn');linb.setLang('en',function(){linb.message('en')})});"
         ],
-        $memo:"[<a href='#linb.reLang'>linb.reLang</a>], [<a href='#linb.getRes'>linb.getRes</a>/<a href='#linb.wrapRes'>linb.wrapRes</a>] 通常在一起使用."
+        $memo:"[<a href='#linb.setLang'>linb.setLang</a>], [<a href='#linb.getRes'>linb.getRes</a>/<a href='#linb.wrapRes'>linb.wrapRes</a>] 通常在一起使用."
     },
     //request ( uri, query, onSuccess, onFail, threadid, args ),
     wrapRes:{
@@ -838,12 +850,12 @@ _.set(linb.Locale,["cn","doc","linb"], {
             "id [必需参数]: String, resource id."
         ],
         $snippet:[
-            "alert(linb.wrapRes('doc.Namespace.$desc')); alert(linb.Locale[linb.$lang].doc.Namespace.$desc); ",
-            "alert(linb.wrapRes('color.LIST.E1FFFF')); alert(linb.Locale[linb.$lang].color.LIST.E1FFFF); ",
+            "alert(linb.wrapRes('doc.Namespace.$desc')); alert(linb.Locale[linb.getLang()].doc.Namespace.$desc); ",
+            "alert(linb.wrapRes('color.LIST.E1FFFF')); alert(linb.Locale[linb.getLang()].color.LIST.E1FFFF); ",
             "// if does't exist, return the last word \n alert(linb.wrapRes('doesnt.exist'))"
 
         ],
-        $memo:"所有的资源字符串都位于 [linb.Locale]. <br \> [<a href='#linb.reLang'>linb.reLang</a>], [<a href='#linb.getRes'>linb.getRes</a>/<a href='#linb.wrapRes'>linb.wrapRes</a>] 通常一起使用. <br \> [linb.reLang] works only with [linb.wrapRes] format HTML(id=[linb.$langId]) only."
+        $memo:"所有的资源字符串都位于 [linb.Locale]. <br \> [<a href='#linb.setLang'>linb.setLang</a>], [<a href='#linb.getRes'>linb.getRes</a>/<a href='#linb.wrapRes'>linb.wrapRes</a>] 通常一起使用. <br \> [linb.setLang] works only with [linb.wrapRes] format HTML(id=[linb.$langId]) only."
     }
 });
 

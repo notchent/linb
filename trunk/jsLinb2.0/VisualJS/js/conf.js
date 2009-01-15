@@ -125,5 +125,5 @@ new function(){
     };
     CONF.mapWidgets = {};
     fun(CONF.widgets, CONF.mapWidgets);
-    linb.ini.appLangKey="VisualJS";
+    linb.setAppLangKey("VisualJS");
 };

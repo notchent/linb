@@ -43,7 +43,7 @@ Class('App.linb_UI_TimeLine', 'linb.Com',{
                 .host(host,"button5")
                 .setLeft(140)
                 .setTop(420)
-                .setCaption("linb.reLang('cn')")
+                .setCaption("linb.setLang('cn')")
                 .onClick("_button5_onclick")
             );
 
@@ -56,7 +56,7 @@ Class('App.linb_UI_TimeLine', 'linb.Com',{
         },
 
         _button5_onclick:function (profile, e, value) {
-            linb.reLang('cn');
+            linb.setLang('cn');
         }
     }
 });

@@ -42,7 +42,7 @@ Class('App', 'linb.Com',{
         events:{onRender:'_onrender'},
         _onrender:function(){
             SPA=this;
-            SPA.btnLang.setCaption(linb.getRes('app.'+linb.$lang));
+            SPA.btnLang.setCaption(linb.getRes('app.'+linb.getLang()));
             linb.UI.Border.$abstract=linb.UI.Shadow.$abstract=linb.UI.Resizer.$abstract=true;
             linb.History.setCallback(function(str){
                 str=str.replace('#','');
@@ -205,10 +205,10 @@ Class('App', 'linb.Com',{
             // ]]code created by jsLinb UI Builder
         },
         _pop_onmenuselected:function (profile, item, src) {
-            if(linb.$lang==item.id)return;
+            if(linb.getLang()==item.id)return;
 
-            linb.reLang(item.id,function(){
-                SPA.btnLang.setCaption(linb.getRes('app.'+linb.$lang));
+            linb.setLang(item.id,function(){
+                SPA.btnLang.setCaption(linb.getRes('app.'+linb.getLang()));
                 if(SPA.__vid){
                     var s=SPA.__vid;
                     delete SPA.__vid;

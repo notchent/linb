@@ -543,11 +543,11 @@ Class('App', 'linb.Com',{
             }
         },
         _linklangen_onclick:function (profile, e) {
-            linb.reLang('en');
+            linb.setLang('en');
             linb.Cookies.set('lang','en');
         },
         _linklangcn_onclick:function (profile, e) {
-            linb.reLang('cn');
+            linb.setLang('cn');
             linb.Cookies.set('lang','cn');
         },
         _onready:function () {
