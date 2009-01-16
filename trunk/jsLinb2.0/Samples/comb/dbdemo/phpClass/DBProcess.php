@@ -11,7 +11,7 @@ class DBProcess extends Unit
         $db->connect(self::DB_HOST, self::DB_USER, self::DB_PASS, self::DB_DBNAME);
         @mysql_query("SET NAMES 'UTF8'");
 
-        //check action here
+        //must have a string parameter 'action'
         LINB::checkArgs($hash, array(
             'string' => array(
                 'action' => NULL
@@ -23,6 +23,7 @@ class DBProcess extends Unit
             case 'getlist':
                 return $db->query("select `key`,`value` from `tbl_test`");
             case 'update':
+                //must have string parameters 'key' and 'value'
                 LINB::checkArgs($hash, array(
                     'string' => array(
                         'key' => NULL,
@@ -32,6 +33,7 @@ class DBProcess extends Unit
                 $db->update("tbl_test",array("key"=>$hash->key, "value"=>$hash->value), "`key`='".$hash->key."'");
                 return 'ok';            
             case 'delete':
+                //must have a string parameter 'key'
                 LINB::checkArgs($hash, array(
                     'string' => array(
                         'key' => NULL
@@ -40,6 +42,7 @@ class DBProcess extends Unit
                 $db->delete("tbl_test", "`key`='".$hash->key."'");
                 return 'ok';            
             case 'create':
+                //must have string parameters 'key' and 'value'
                 LINB::checkArgs($hash, array(
                     'string' => array(
                         'key' => NULL,
