@@ -6867,6 +6867,54 @@ _.set(linb.Locale,["en","doc","linb","UI","Block"], {
                 "_.asyRun(function(){o.setHtml('<span>b</span>')},1000);"+
                 "}"
             ]
+        },
+        getBackground:{
+            $desc:"Gets background from the current UI object.",
+            $rtn:"String",
+            $snippet:[
+                "var id='linb.temp.blk3'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var o;linb(id).prepend(o=(new linb.UI.Block).setBackground('red'));"+
+                "_.asyRun(function(){alert(o.getBackground())},1000);"+
+                "}"
+            ]
+        },
+        setBackground:{
+            $desc:"Sets background to the current UI object.",
+            $rtn:"[self]",
+            $paras:[
+                "value [Required] : String, the background string.",
+                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+            ],
+            $snippet:[
+                "var id='linb.temp.blk4'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var o;linb(id).prepend(o=(new linb.UI.Block).setBackground('red'));"+
+                "_.asyRun(function(){alert(o.getBackground())},1000);"+
+                "}"
+            ]
+        },
+        getBorderType:{
+            $desc:"Gets border type from the current UI object.",
+            $rtn:"String",
+            $snippet:[
+                "var id='linb.temp.blk5'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var o;linb(id).prepend(o=(new linb.UI.Block).setBorderType('inset'));"+
+                "_.asyRun(function(){alert(o.getBorderType())},1000);"+
+                "}"
+            ]
+        },
+        setBorderType:{
+            $desc:"Sets border type to the current UI object.",
+            $rtn:"[self]",
+            $paras:[
+                "value [Required] : String, 'none','inset','outset','groove'or 'ridge'.",
+                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+            ],
+            $snippet:[
+                "var id='linb.temp.blk6'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var o;linb(id).prepend(o=(new linb.UI.Block).setBorderType('groove'));"+
+                "_.asyRun(function(){alert(o.getBorderType())},1000);"+
+                "}"
+            ]
         }
     }
 });

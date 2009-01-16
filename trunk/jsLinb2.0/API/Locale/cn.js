@@ -6867,6 +6867,54 @@ _.set(linb.Locale,["cn","doc","linb","UI","Block"], {
                 "_.asyRun(function(){o.setHtml('<span>b</span>')},1000);"+
                 "}"
             ]
+        },
+        getBackground:{
+            $desc:"获取块控件的背景.",
+            $rtn:"String",
+            $snippet:[
+                "var id='linb.temp.blk3'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var o;linb(id).prepend(o=(new linb.UI.Block).setBackground('red'));"+
+                "_.asyRun(function(){alert(o.getBackground())},1000);"+
+                "}"
+            ]
+        },
+        setBackground:{
+            $desc:"设置获取块控件的背景.",
+            $rtn:"[self]",
+            $paras:[
+                "value [必需参数] : String, 背景的CSS字符串.",
+                "flag [可选参数] : 强制设置该属性值，即使属性已经设置为该值 默认为 [false]."
+            ],
+            $snippet:[
+                "var id='linb.temp.blk4'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var o;linb(id).prepend(o=(new linb.UI.Block).setBackground('red'));"+
+                "_.asyRun(function(){alert(o.getBackground())},1000);"+
+                "}"
+            ]
+        },
+        getBorderType:{
+            $desc:"获取块控件的边框种类.",
+            $rtn:"String",
+            $snippet:[
+                "var id='linb.temp.blk5'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var o;linb(id).prepend(o=(new linb.UI.Block).setBorderType('inset'));"+
+                "_.asyRun(function(){alert(o.getBorderType())},1000);"+
+                "}"
+            ]
+        },
+        setBorderType:{
+            $desc:"设置块控件的边框种类.",
+            $rtn:"[self]",
+            $paras:[
+                "value [必需参数] : String, 'none','inset','outset','groove' 或 'ridge'.",
+                "flag [可选参数] : 强制设置该属性值，即使属性已经设置为该值 默认为 [false]."
+            ],
+            $snippet:[
+                "var id='linb.temp.blk6'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var o;linb(id).prepend(o=(new linb.UI.Block).setBorderType('groove'));"+
+                "_.asyRun(function(){alert(o.getBorderType())},1000);"+
+                "}"
+            ]
         }
     }
 });
