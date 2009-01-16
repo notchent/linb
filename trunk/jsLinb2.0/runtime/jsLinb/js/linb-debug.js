@@ -9661,7 +9661,7 @@ Class("linb.UI",  "linb.absObj", {
         });
 
         var self=this, hash={};
-        _.arr.each(_.toArr('left,top,width,height,right,bottom'),function(o){
+        _.each(linb.UI.$ps,function(i,o){
             hash[o] = {
                 ini:'auto',
                 action:function(value){
@@ -9944,6 +9944,7 @@ Class("linb.UI",  "linb.absObj", {
         $childTag:"<!--{id}-->",
 
         $theme:'default',
+        $ps:{left:1,top:1,width:1,height:1,right:1,bottom:1},
         _getChildren:function(profile){
             return profile.children;
         },
@@ -11318,6 +11319,8 @@ Class("linb.UI",  "linb.absObj", {
                     delete p.width;delete p.height;delete p.left;delete p.top;delete p.right;delete p.bottom;
                     break;
             }
+            for(var i in linb.UI.$ps)
+                if((i in p) && !_.isNumb(p[i]))p[i]=parseFloat(p[i]);
 
             if(p.items && p.items.length){
                 t=linb.absObj.$specialChars;
