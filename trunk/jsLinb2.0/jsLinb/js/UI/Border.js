@@ -129,35 +129,18 @@ Class("linb.UI.Border","linb.UI",{
         },
         Appearances:{
             KEY:{
-                position:'static',
-                display:'inline',
-
                 //don't use width/height to trigger hasLayout in IE6
                 width:0,
                 height:0,
-
-                'font-size':0,
-                'line-height':0,
-                visibility: 'hidden',
-                /*for get top Index, when it's static*/
-                'z-index':'50'
-            },
-            TAG:{
+                _display:'inline',
                 'font-size':0,
                 'line-height':0
             },
-            'T, RT, R, RB, B, LB, L, LT':{
-                $order:1,
+            'TAG,T, RT, R, RB, B, LB, L, LT':{
                 position:'absolute',
                 display:'block',
-                border:0,
-                'z-index':30,
-                visibility: 'visible',
                 'font-size':0,
                 'line-height':0
-            },
-            'RT, RB, LB, LT':{
-                'z-index':40
             },
             T:{
                 background: linb.UI.$bg('v.gif', ' repeat-x left top')

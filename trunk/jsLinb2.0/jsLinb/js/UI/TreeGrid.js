@@ -107,7 +107,6 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                 if(before)
                     obj.addPrev(nodes);
                 else{
-                    nodes.get().reverse();
                     obj.addNext(nodes);
                 }
             }
@@ -124,14 +123,15 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
             var profile=this.get(0),
                 pro=profile.properties,
                 rows = _.copy(pro.rows),
-                arr = profile.box._prepareHeader(profile, header),
-                nodes = _.str.toDom(profile.buildItems('header', arr));
+                arr = profile.box._prepareHeader(profile, header);
 
             pro.header = header;
             this.removeAllRows();
             profile.getSubNode('HCELL', true).remove(false);
-            profile.getSubNode('HCELLS').append(nodes);
-            this.insertRows(rows);
+            if(arr.length)
+                profile.getSubNode('HCELLS').append(_.str.toDom(profile.buildItems('header', arr)));
+            if(rows.length)
+                this.insertRows(rows);
             profile.box._ajdustBody(profile);
         },
         //pid,base are id
@@ -160,7 +160,8 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
             }
 
             //insert
-            this._insertRowsToDom(profile, rows, pid, base, before);
+            if(rows.length)
+                this._insertRowsToDom(profile, rows, pid, base, before);
 
             if(!pro.iniFold)
                 profile.boxing()._toggleRows(rows, true);

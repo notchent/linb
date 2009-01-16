@@ -974,7 +974,7 @@ Class("linb.UI",  "linb.absObj", {
                         linb([node.get(0)]).css({opacity:0.5});
                         linb(parentNode).append(node);
                     }
-                    node.css({display:'',width:size.width+'px',height:size.height+'px',lineHeight:size.height+'px'});
+                    node.css({display:'',width:size.width+'px',height:size.height+'px',paddingTop:size.height/2+'px'});
                     linb([node.get(1)]).html(html,false);
                 },50);
             });

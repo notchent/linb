@@ -4443,62 +4443,51 @@ Class('linb.Dom','linb.absBox',{
         */
         $add:function(fun,target){
             target=linb(target);
-            var v=this.get(0),dom=linb.Dom,cache=linb.cache.dom,uiObj,p;//,s,b,k;
-            target.each(function(target){
-                //two &&p.LayoutTrigger for performance
-                uiObj=(p=target.id)&&(p=cache[p])&&p.LayoutTrigger&&dom.getStyle(v,'display')!='none'&&p.LayoutTrigger;
-                //if(uiObj){
-                    //s=target.style;
-                    //if(s.visibility!='hidden'){
-                     //   b=1;
-                       // k=s.visibility;
-                        //s.visibility='hidden';
-                    //}else b=0;
-                //}
-                //add dom node
-                fun.call(v,target);
-                if(uiObj){
-                    for(var i=0,l=uiObj.length;i<l;i++)
-                        uiObj[i].call(p);
-                    //if(b)s.visibility=k;
+            if(target._nodes.length){
+                var one=this.get(0),
+                    ns=target._nodes,
+                    dom=linb.Dom,
+                    cache=linb.cache.dom,
+                    fragment,uiObj,p,i,o,j,v,uiObj,arr=[];
+                target.each(function(o){
+                    uiObj=(p=o.id)&&(p=cache[p])&&p.LayoutTrigger&&dom.getStyle(one,'display')!='none'&&p.LayoutTrigger;
+                    if(uiObj)arr.push([uiObj,p]);
+                });
+                if(ns.length==1)
+                    fragment=ns[0];
+                else{
+                    fragment=document.createDocumentFragment();
+                    for(i=0;o=ns[i];i++)
+                        fragment.appendChild(o);
                 }
-            });
+                fun.call(one,fragment);
+                for(i=0;o=arr[i];i++)
+                    for(j=0;v=o[0][j];j++)
+                        v.call(o[1]);
+                arr.length=0;
+            }
             return this;
         },
         prepend:function(target){
-            var temp;
-            return this.$add(function(target){
-                var self=this;
-                if(self.firstChild!=target){
-                    if(self.firstChild)
-                        self.insertBefore(target, temp||(temp=self.firstChild));
-                    else
-                        self.appendChild(target);
-                }
+            return this.$add(function(node){
+                if(this.firstChild) this.insertBefore(node, this.firstChild);
+                else this.appendChild(node);
             },target);
         },
         append:function(target){
-            return this.$add(function(target){
-                if(this.lastChild!=target)
-                    this.appendChild(target);
+            return this.$add(function(node){
+                this.appendChild(node);
             },target);
         },
         addPrev:function(target){
-            return this.$add(function(target){
-                if(this.previousSibling!=target)
-                    this.parentNode.insertBefore(target,this);
+            return this.$add(function(node){
+                this.parentNode.insertBefore(node,this);
             },target);
         },
         addNext:function(target){
-            var t;
-            return this.$add(function(target){
-                var self=this;
-                if((t=self.nextSibling)!=target){
-                    if(t)
-                        self.parentNode.insertBefore(target, t);
-                    else
-                        self.parentNode.appendChild(target);
-                }
+            return this.$add(function(node){
+                if(this.nextSibling) this.parentNode.insertBefore(node,this.nextSibling);
+                else this.parentNode.appendChild(node);
             },target);
         },
 
@@ -9282,7 +9271,7 @@ Class("linb.UI",  "linb.absObj", {
                         linb([node.get(0)]).css({opacity:0.5});
                         linb(parentNode).append(node);
                     }
-                    node.css({display:'',width:size.width+'px',height:size.height+'px',lineHeight:size.height+'px'});
+                    node.css({display:'',width:size.width+'px',height:size.height+'px',paddingTop:size.height/2+'px'});
                     linb([node.get(1)]).html(html,false);
                 },50);
             });
@@ -12302,35 +12291,18 @@ Class("linb.UI.Border","linb.UI",{
         },
         Appearances:{
             KEY:{
-                position:'static',
-                display:'inline',
-
                 //don't use width/height to trigger hasLayout in IE6
                 width:0,
                 height:0,
-
-                'font-size':0,
-                'line-height':0,
-                visibility: 'hidden',
-                /*for get top Index, when it's static*/
-                'z-index':'50'
-            },
-            TAG:{
+                _display:'inline',
                 'font-size':0,
                 'line-height':0
             },
-            'T, RT, R, RB, B, LB, L, LT':{
-                $order:1,
+            'TAG,T, RT, R, RB, B, LB, L, LT':{
                 position:'absolute',
                 display:'block',
-                border:0,
-                'z-index':30,
-                visibility: 'visible',
                 'font-size':0,
                 'line-height':0
-            },
-            'RT, RB, LB, LT':{
-                'z-index':40
             },
             T:{
                 background: linb.UI.$bg('v.gif', ' repeat-x left top')
@@ -25879,7 +25851,6 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                 if(before)
                     obj.addPrev(nodes);
                 else{
-                    nodes.get().reverse();
                     obj.addNext(nodes);
                 }
             }
@@ -25896,14 +25867,15 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
             var profile=this.get(0),
                 pro=profile.properties,
                 rows = _.copy(pro.rows),
-                arr = profile.box._prepareHeader(profile, header),
-                nodes = _.str.toDom(profile.buildItems('header', arr));
+                arr = profile.box._prepareHeader(profile, header);
 
             pro.header = header;
             this.removeAllRows();
             profile.getSubNode('HCELL', true).remove(false);
-            profile.getSubNode('HCELLS').append(nodes);
-            this.insertRows(rows);
+            if(arr.length)
+                profile.getSubNode('HCELLS').append(_.str.toDom(profile.buildItems('header', arr)));
+            if(rows.length)
+                this.insertRows(rows);
             profile.box._ajdustBody(profile);
         },
         //pid,base are id
@@ -25932,7 +25904,8 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
             }
 
             //insert
-            this._insertRowsToDom(profile, rows, pid, base, before);
+            if(rows.length)
+                this._insertRowsToDom(profile, rows, pid, base, before);
 
             if(!pro.iniFold)
                 profile.boxing()._toggleRows(rows, true);

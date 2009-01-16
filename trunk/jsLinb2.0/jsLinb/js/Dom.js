@@ -331,62 +331,51 @@ Class('linb.Dom','linb.absBox',{
         */
         $add:function(fun,target){
             target=linb(target);
-            var v=this.get(0),dom=linb.Dom,cache=linb.cache.dom,uiObj,p;//,s,b,k;
-            target.each(function(target){
-                //two &&p.LayoutTrigger for performance
-                uiObj=(p=target.id)&&(p=cache[p])&&p.LayoutTrigger&&dom.getStyle(v,'display')!='none'&&p.LayoutTrigger;
-                //if(uiObj){
-                    //s=target.style;
-                    //if(s.visibility!='hidden'){
-                     //   b=1;
-                       // k=s.visibility;
-                        //s.visibility='hidden';
-                    //}else b=0;
-                //}
-                //add dom node
-                fun.call(v,target);
-                if(uiObj){
-                    for(var i=0,l=uiObj.length;i<l;i++)
-                        uiObj[i].call(p);
-                    //if(b)s.visibility=k;
+            if(target._nodes.length){
+                var one=this.get(0),
+                    ns=target._nodes,
+                    dom=linb.Dom,
+                    cache=linb.cache.dom,
+                    fragment,uiObj,p,i,o,j,v,uiObj,arr=[];
+                target.each(function(o){
+                    uiObj=(p=o.id)&&(p=cache[p])&&p.LayoutTrigger&&dom.getStyle(one,'display')!='none'&&p.LayoutTrigger;
+                    if(uiObj)arr.push([uiObj,p]);
+                });
+                if(ns.length==1)
+                    fragment=ns[0];
+                else{
+                    fragment=document.createDocumentFragment();
+                    for(i=0;o=ns[i];i++)
+                        fragment.appendChild(o);
                 }
-            });
+                fun.call(one,fragment);
+                for(i=0;o=arr[i];i++)
+                    for(j=0;v=o[0][j];j++)
+                        v.call(o[1]);
+                arr.length=0;
+            }
             return this;
         },
         prepend:function(target){
-            var temp;
-            return this.$add(function(target){
-                var self=this;
-                if(self.firstChild!=target){
-                    if(self.firstChild)
-                        self.insertBefore(target, temp||(temp=self.firstChild));
-                    else
-                        self.appendChild(target);
-                }
+            return this.$add(function(node){
+                if(this.firstChild) this.insertBefore(node, this.firstChild);
+                else this.appendChild(node);
             },target);
         },
         append:function(target){
-            return this.$add(function(target){
-                if(this.lastChild!=target)
-                    this.appendChild(target);
+            return this.$add(function(node){
+                this.appendChild(node);
             },target);
         },
         addPrev:function(target){
-            return this.$add(function(target){
-                if(this.previousSibling!=target)
-                    this.parentNode.insertBefore(target,this);
+            return this.$add(function(node){
+                this.parentNode.insertBefore(node,this);
             },target);
         },
         addNext:function(target){
-            var t;
-            return this.$add(function(target){
-                var self=this;
-                if((t=self.nextSibling)!=target){
-                    if(t)
-                        self.parentNode.insertBefore(target, t);
-                    else
-                        self.parentNode.appendChild(target);
-                }
+            return this.$add(function(node){
+                if(this.nextSibling) this.parentNode.insertBefore(node,this.nextSibling);
+                else this.parentNode.appendChild(node);
             },target);
         },
 
