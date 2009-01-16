@@ -116,7 +116,7 @@ Class('linb.UI.DatePicker', ['linb.UI',"linb.absValue"], {
                 CON:{
                     $order:2,
                     tagName:'div',
-                    className:'ui-content',
+                    className:'uibg-base',
                     BODY:{
                         $order:1,
                         tagName:'table',

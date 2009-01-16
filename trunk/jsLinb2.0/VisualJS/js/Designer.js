@@ -1868,6 +1868,8 @@ Class('VisualJS.Designer', 'linb.Com',{
                     page.objlistBlock=new linb.UI.Block({
                         width:200,
                         height:200,
+                        borderType:'ridge',
+                        background:'#fff',
                         shadow:true
                     });
                     page.frame=linb.create('<div style="z-index:2000;background-color:red;position:absolute;font-size:0;line-height:0;display:none;">').css('opacity',0.3);
@@ -1903,7 +1905,7 @@ Class('VisualJS.Designer', 'linb.Com',{
                                 },100);
                         }
                     },page);
-                    page.objlistBlock.append(page.treebarObj).render();
+                    page.objlistBlock.append(page.treebarObj).render(true);
                 }
                 //get items
                 var items=[];

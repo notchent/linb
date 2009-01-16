@@ -25,6 +25,7 @@ Class("linb.UI.ToolBar",["linb.UI","linb.absList"],{
         Templates:{
             tagName:'div',
             ITEMS:{
+                className:'uibg-bar uiborder-outset',
                 tagName:'div',
                 style:'{mode}',
                 text:'{items}'
@@ -90,16 +91,13 @@ Class("linb.UI.ToolBar",["linb.UI","linb.absList"],{
                 'font-size':0,
                 'line-height':0,
                 position:'absolute',
-                'background-color':'#EBEADB',
                 left:0,
                 top:0
             },
             ICON:{margin:0},
             ITEMS:{
                 display:'block',
-                border: 'solid 1px',
                 'padding-bottom':'1px',
-                'border-color':'#fff #A7A6AA #A7A6AA #fff',
                 'font-size':0,
                 'line-height':0
             },

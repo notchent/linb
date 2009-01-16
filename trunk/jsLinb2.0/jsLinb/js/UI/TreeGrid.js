@@ -412,7 +412,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                     SCROLL:{
                         $order:1,
                         tagName:'div',
-                        className:'ui-content ',
+                        className:'uibg-base ',
                         BODY:{
                             tagName:'div',
                             text:'{rows}'

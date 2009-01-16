@@ -19,7 +19,7 @@ Class('App.linb_UI_ButtonViews', 'linb.Com',{
                 .setTop(0)
                 .setItems([{"id":"view1","caption":"view1"},{"id":"view2","caption":"view2"},{"id":"view3","caption":"view3"},{"id":"view4","caption":"view4","closeBtn":"true"}])
                 .setBarHAlign("right")
-                .setBarSize("26")
+                .setBarSize(26)
                 .setValue("view1")
             );
             
@@ -30,7 +30,7 @@ Class('App.linb_UI_ButtonViews', 'linb.Com',{
                 .setItems([{"id":"view1","caption":"view1"},{"id":"view2","caption":"view2"},{"id":"view3","caption":"view3","closeBtn":"true"},{"id":"view4","caption":"view4","closeBtn":"true"}])
                 .setBarLocation("left")
                 .setValue("view1")
-                .setBarSize("60")
+                .setBarSize(60)
             , 'view1');
             
             host.ButtonViews2.append((new linb.UI.ButtonViews)
@@ -48,7 +48,7 @@ Class('App.linb_UI_ButtonViews', 'linb.Com',{
                 .setTop(0)
                 .setItems([{"id":"view1","caption":"view1"},{"id":"view2","caption":"view2"},{"id":"view3","caption":"view3"},{"id":"view4","caption":"view4"}])
                 .setBarLocation("bottom")
-                .setBarSize("26")
+                .setBarSize(26)
                 .setValue("view1")
             , 'view1');
             

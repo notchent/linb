@@ -117,7 +117,7 @@ Class('linb.UI.ColorPicker', ['linb.UI',"linb.absValue"], {
                 CON:{
                     $order:1,
                     tagName:'div',
-                    className:'ui-content',
+                    className:'uibg-base',
                     SIMPLE:{
                         tagName:'div',
                         TOP:{

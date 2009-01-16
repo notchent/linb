@@ -1754,7 +1754,7 @@ _.set(linb.Locale,["en","doc","linb","Dom"], {
             "onEnd [Optional]: Function, arguments: [threadid]. this function will be called after the shell thread finishes the last task.",
             "time [Optional]: Number(ms), the duration of this animation. Default is 200.",
             "step [Optional]: Number, the step number of this animation. Default is 5.",
-            "type [Optional]: String, the animate type. Default is 'line'.",
+            "type [Optional]: String, the animate type. 'line','expoIn','expoOut','expoInOut','sineIn','sineOut','sineInOut','backIn','backOut','backInOut' or 'bounceOut'. Default is 'line'.",
             "threadid [Optional]: String, Assigns an unique id to the shell thread object."
         ],
         $snippet:[
@@ -2028,7 +2028,7 @@ _.set(linb.Locale,["en","doc","linb","Dom"], {
                 "onEnd [Optional]: Function, arguments: [threadid]. this function will be called after the shell thread finishes the last task.",
                 "time [Optional]: Number(ms), the duration of this animation. Default is 200.",
                 "step [Optional]: Number, the step number of this animation. Default is 5.",
-                "type [Optional]: String, the type. Default is 'line'.",
+                "type [Optional]: String, the type. 'line','expoIn','expoOut','expoInOut','sineIn','sineOut','sineInOut','backIn','backOut','backInOut' or 'bounceOut'. Default is 'line'.",
                 "threadid [Optional]: String, Assigns an unique id to the shell thread object."
             ],
             $snippet:[

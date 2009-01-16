@@ -1444,11 +1444,7 @@ Class("linb.UI",  "linb.absObj", {
         self.setDataModel(hash);
 
         linb.UI.$cache_css += linb.UI.buildCSSText({
-            '.ui-ctrl':{
-            },
-            '.ui-content':{
-                'background-color':'#fff'
-            },
+            '.ui-ctrl':{},
             '.ui-btn':{
                 background:linb.UI.$bg('button.gif', ' repeat-x left -26px',true),
                 border:'solid 1px #616161',
@@ -1557,7 +1553,7 @@ Class("linb.UI",  "linb.absObj", {
             }
         })
         + linb.UI.buildCSSText({
-            '.widget-shell':{
+            '.uiw-shell':{
                 background:'transparent',
                 display:linb.$inlineBlock,
                 zoom:linb.browser.ie6?1:null,
@@ -1568,7 +1564,7 @@ Class("linb.UI",  "linb.absObj", {
                 margin:0
             },
             /*span*/
-            '.widget-frame':{
+            '.uiw-frame':{
                 $order:1,
                 display:'block',
                 position:'relative',
@@ -1581,7 +1577,7 @@ Class("linb.UI",  "linb.absObj", {
                 '-moz-box-flex':'1'
             },
             /*span*/
-            '.widget-border':{
+            '.uiw-border':{
                 $order:2,
                 display:'block',
                 position:'absolute',
@@ -1592,20 +1588,6 @@ Class("linb.UI",  "linb.absObj", {
                 top:0,
                 width:'100%',
                 height:'100%'
-            },
-            '.widget-block':{
-                $order:3,
-                display:'block',
-                position:'absolute',
-                border: 'solid 1px',
-                'background-color':'#EBEADB',
-                padding:0,
-                margin:0,
-                left:0,
-                top:0,
-                width:'100%',
-                height:'100%',
-                'border-color':'#fff #A7A6AA #A7A6AA #fff'
             },
             '.ui-dirty':{
                 background: linb.UI.$bg('dirty.gif', ' no-repeat left top', true)
@@ -1618,6 +1600,22 @@ Class("linb.UI",  "linb.absObj", {
             },
             '#linblangkey':{
                 'vertical-align':'baseline'
+            }
+        })
+        + linb.UI.buildCSSText({
+            '.uibg-base':{
+                'background-color':'#FFF'
+            },
+            '.uibg-bar':{
+                'background-color':'#EBEADB'
+            },
+            '.uiborder-inset':{
+                border:'solid 1px',
+                'border-color':'#A7A6AA #fff #fff #A7A6AA'
+            },
+            '.uiborder-outset':{
+                border:'solid 1px',
+                'border-color':'#fff #A7A6AA #A7A6AA #fff'
             }
         });
     },
@@ -3563,13 +3561,13 @@ new function(){
                 }
             },
             Templates:{
-                className:'widget-shell ',
+                className:'uiw-shell ',
                 style:'{_style}',
                 FRAME:{
-                    className:'widget-frame ',
+                    className:'uiw-frame ',
                     BORDER:{
                         style:'width:{bWidth}px;height:{bHeight}px;',
-                        className:'widget-border'
+                        className:'uiw-border'
                     }
                 }
             },
@@ -3602,8 +3600,10 @@ new function(){
                 });
             },
             _onresize:function(profile,width,height){
-                var o = profile.getSubNode('BORDER'), t = profile.properties,
-                    left=null,top=null,ww=null,hh=null;
+                var o = profile.getSubNode('BORDER'), 
+                    t = profile.properties,
+                    size,
+                    ww=null,hh=null;
                 if(null!==width){
                     width -= t.$border*2;
                     /*for ie6 bug*/
@@ -3620,9 +3620,9 @@ new function(){
                     /*for ie6 bug*/
                     if(linb.browser.ie6&&null===width)o.ieRemedy();
                 }
-                o.cssRegion({left:0,top:0,width:ww,height:hh});
-                profile.getSubNode('CON').height(profile.getSubNode('TR1TD2').height());
-                return { width :ww, height :hh};
+                size={width:ww,height:hh};
+                o.cssSize(size);
+                return size;
             }
         }
     });

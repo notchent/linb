@@ -22,7 +22,7 @@ Class("linb.UI.Layout",["linb.UI", "linb.absList"],{
                         MOVE:{
                             $order:0,
                             tagName:'div',
-                            className:'{cls2} ',
+                            className:'uibg-bar  uiborder-outset {cls2} ',
                             style:'{display}'
                         },
                         CMD:{
@@ -33,7 +33,7 @@ Class("linb.UI.Layout",["linb.UI", "linb.absList"],{
                         },
                         PANEL:{
                             tagName:'div',
-                            className:'ui-content',
+                            className:'uibg-base',
                             style:'position:absolute;left:0;top:0;',
                             text:linb.UI.$childTag
                         }
@@ -53,7 +53,6 @@ Class("linb.UI.Layout",["linb.UI", "linb.absList"],{
             MOVE:{
                 $order:0,
                 position:'absolute',
-                'background-color':'#EBEADB',
                 'z-index':'10',
                 'font-size':linb.browser.ie?0:null,
                 'line-height':linb.browser.ie?0:null
@@ -64,7 +63,6 @@ Class("linb.UI.Layout",["linb.UI", "linb.absList"],{
             },
             CMD:{
                 position:'absolute',
-                border:'solid 1px #cdcdcd',
                 cursor:'pointer',
                 'z-index':'20',
                 'font-size':linb.browser.ie?0:null,
@@ -100,46 +98,38 @@ Class("linb.UI.Layout",["linb.UI", "linb.absList"],{
                 bottom:0
             },
             'MOVE-TOP':{
-                'border-top':'solid 1px #fff',
-                'border-bottom':'solid 1px #cdcdcd',
                 width:'100%',
                 bottom:0,
                 height:'4px',
                 cursor:'n-resize'
             },
             'MOVE-BOTTOM':{
-                'border-top':'solid 1px #fff',
-                'border-bottom':'solid 1px #cdcdcd',
                 width:'100%',
                 top:0,
                 height:'4px',
                 cursor:'n-resize'
             },
             'MOVE-LEFT':{
-                'border-left':'solid 1px #fff',
-                'border-right':'solid 1px #cdcdcd',
                 height:'100%',
                 right:0,
                 width:'4px',
                 cursor:'w-resize'
             },
             'MOVE-RIGHT':{
-                'border-left':'solid 1px #fff',
-                'border-right':'solid 1px #cdcdcd',
                 height:'100%',
                 left:0,
                 width:'4px',
                 cursor:'w-resize'
             },
-            'MOVE-TOP-checked, MOVE-BOTTOM-checked, MOVE-LEFT-checked, MOVE-RIGHT-checked':{
-                $order:1,
-                'background-color':'#cdcdcd'
-            },
+            //'MOVE-TOP-checked, MOVE-BOTTOM-checked, MOVE-LEFT-checked, MOVE-RIGHT-checked':{
+                //$order:1,
+                //'background-color':'#cdcdcd'
+            //},
             'CMD-TOP':{
                 $order:0,
                 left:'50%',
                 'margin-left':'-15px',
-                bottom:0,
+                bottom:'1px',
                 width:'30px',
                 height:'4px',
                 background: linb.UI.$bg('icon.gif', ' no-repeat left -52px', true)
@@ -156,7 +146,7 @@ Class("linb.UI.Layout",["linb.UI", "linb.absList"],{
                 $order:0,
                 left:'50%',
                 'margin-left':'-15px',
-                top:0,
+                top:'1px',
                 width:'30px',
                 height:'4px',
                 background: linb.UI.$bg('icon.gif', ' no-repeat left -60px', true)
@@ -165,17 +155,16 @@ Class("linb.UI.Layout",["linb.UI", "linb.absList"],{
                 $order:0,
                 top:'50%',
                 'margin-top':'-15px',
-                right:0,
+                right:'1px',
                 height:'30px',
                 width:'4px',
                 background: linb.UI.$bg('icon.gif', ' no-repeat -84px 0px', true)
-
             },
             'CMD-RIGHT':{
                 $order:0,
                 top:'50%',
                 'margin-top':'-15px',
-                left:0,
+                left:'1px',
                 height:'30px',
                 width:'4px',
                 background: linb.UI.$bg('icon.gif', ' no-repeat -92px -0px', true)

@@ -1754,7 +1754,7 @@ _.set(linb.Locale,["cn","doc","linb","Dom"], {
             "onEnd [可选参数]: Function, 参数: [threadid]. 整个shell线程结束后的回调函数.",
             "time [可选参数]: Number(ms), 动画的持续时间. 默认为200.",
             "step [可选参数]: Number, 动画步长, 越短越消耗资源. 默认为5.",
-            "type [可选参数]: String, the animate type. 默认为'line'.",
+            "type [可选参数]: String, 动画的特效形式. 'line','expoIn','expoOut','expoInOut','sineIn','sineOut','sineInOut','backIn','backOut','backInOut' 或 'bounceOut'.  默认为'line'.",
             "threadid [可选参数]: String, shell线程的全局识别id."
         ],
         $snippet:[
@@ -2028,7 +2028,7 @@ _.set(linb.Locale,["cn","doc","linb","Dom"], {
                 "onEnd [可选参数]: Function, 参数: [threadid]. 整个shell线程结束后的回调函数.",
                 "time [可选参数]: Number(ms), 动画的持续时间. 默认为200.",
                 "step [可选参数]: Number, 动画步长, 越短越消耗资源. 默认为5.",
-                "type [可选参数]: String, the animate type. 默认为'line'.",
+                "type [可选参数]: String, 动画的特效形式. 'line','expoIn','expoOut','expoInOut','sineIn','sineOut','sineInOut','backIn','backOut','backInOut' 或 'bounceOut'. 默认为'line'.",
                 "threadid [可选参数]: String, shell线程的全局识别id."
             ],
             $snippet:[

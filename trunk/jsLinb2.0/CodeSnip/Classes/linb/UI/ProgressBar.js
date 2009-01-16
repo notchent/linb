@@ -14,15 +14,14 @@ Class('App.linb_UI_ProgressBar', 'linb.Com',{
                 .host(host,"progressbar1")
                 .setLeft(50)
                 .setTop(70)
-                .setCaptionTpl('{value}% finished')
+                .setCaptionTpl("{value}% finished")
             );
             
             append((new linb.UI.ProgressBar)
                 .host(host,"progressbar2")
                 .setLeft(50)
                 .setTop(110)
-                .setHeight(31)
-                .setShadow(true)
+                .setHeight("24")
                 .setValue(60)
             );
             
@@ -30,9 +29,11 @@ Class('App.linb_UI_ProgressBar', 'linb.Com',{
                 .host(host,"progressbar3")
                 .setLeft(50)
                 .setTop(160)
+                .setHeight(140)
                 .setBorder(true)
+                .setShadow(true)
                 .setResizer(true)
-                .setFillBG("red")
+                .setFillBG("blue")
                 .setValue(30)
             );
             

@@ -113,7 +113,7 @@ Class("linb.UI.FoldingList", ["linb.UI.List"],{
                     BODY:{
                         $order:1,
                         tagName : 'div',
-                        className:'ui-content',
+                        className:'uibg-base',
                         BODYI:{
                             $order:0,
                             tagName : 'div',

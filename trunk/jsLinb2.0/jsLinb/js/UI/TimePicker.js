@@ -99,14 +99,14 @@ Class('linb.UI.TimePicker', ['linb.UI',"linb.absValue"], {
                 },
                 M:{
                     $order:1,
-                    className:'ui-content',
+                    className:'uibg-base',
                     tagName:'div',
                     text:m
                 },
                 TAIL:{
                     $order:2,
                     tagName:'div',
-                    className:'ui-content',
+                    className:'uibg-base',
                     CAPTION:{
                         text : '{caption}'
                     },

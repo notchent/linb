@@ -25,7 +25,7 @@ Class("linb.UI.Button", ["linb.UI.Widget","linb.absValue"],{
         }
     },
     Initialize:function(){
-        this.addTemplateKeys(['DROP']);
+        this.addTemplateKeys(['DROP','CUSTOM']);
         //modify default template for shell
         var t = this.getTemplate();
         _.merge(t.FRAME.BORDER,{
@@ -83,7 +83,7 @@ Class("linb.UI.Button", ["linb.UI.Widget","linb.absValue"],{
                 'font-size':'12px',
                 'line-height':'12px'
             },
-            'CUSTOM':{
+            CUSTOM:{
                 background:'transparent'
             },
             'CUSTOM BOX':{
@@ -92,6 +92,9 @@ Class("linb.UI.Button", ["linb.UI.Widget","linb.absValue"],{
             'CUSTOM td':{
                 $order:20,
                 background:'none'
+            },
+            'CUSTOM BORDER':{
+                'background-color':'#FBFBFB'
             },
             BORDER:{
                 'font-size':0,

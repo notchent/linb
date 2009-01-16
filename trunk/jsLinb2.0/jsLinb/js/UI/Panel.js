@@ -82,7 +82,7 @@ Class("linb.UI.Panel", "linb.UI.Div",{
                 PANEL:{
                     $order:1,
                     tagName : 'div',
-                    className:'ui-content',
+                    className:'uibg-base',
                     style:'{panelDisplay}',
                     text:'{html}'+linb.UI.$childTag
                 }

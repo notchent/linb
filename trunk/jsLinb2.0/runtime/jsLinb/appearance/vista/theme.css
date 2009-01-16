@@ -1,8 +1,12 @@
 /*background here*/
-html, .ui-content, .widget-block{
+html, .uibg-base{
     background:#f4f4f4;
 }
-.widget-shell{
+.uibg-bar{
+    background:#DCDEFC;
+}
+
+.uiw-shell{
     background:transparent;
 }
 .ui-btn{
@@ -316,9 +320,6 @@ html, .ui-content, .widget-block{
 }
 
 /*linb.UI.ButtonViews*/
-.linb-buttonviews-list{
-    background:#ececec;
-}
 /*linb.UI.Stacks*/
 
 
@@ -401,9 +402,6 @@ html, .ui-content, .widget-block{
 }
 
 /*linb.UI.Layout*/
-.linb-layout-move{
-    background:#f8f9fa;
-}
 .linb-layout-cmd-top{
     background:transparent url(Public/icon.gif) no-repeat scroll left -52px;
 }
@@ -430,9 +428,6 @@ html, .ui-content, .widget-block{
 }
 
 /*linb.UI.ToolBar and linb.UI.MenuBar*/
-.linb-toolbar, .linb-menubar{
-    background:transparent url(Public/barvbg2.gif) repeat scroll left top;
-}
 .linb-toolbar-handler, .linb-menubar-handler{
     background:transparent url(Public/handler.gif) repeat left top;
 }

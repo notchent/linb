@@ -69,7 +69,7 @@ Class("linb.UI.PageBar",["linb.UI","linb.absValue"] ,{
                 style:'position:absolute;display:none;',
                 POP:{
                     tagName:'div',
-                    className:'ui-content'
+                    className:'uibg-base'
                 }
             },
             LABEL:{

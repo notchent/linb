@@ -265,7 +265,7 @@ Class("linb.UI.Tabs", ["linb.UI", "linb.absList","linb.absValue"],{
                 panels:{
                     PANEL:{
                         tagName : 'div',
-                        className:'ui-content',
+                        className:'uibg-base',
                         text:linb.UI.$childTag
                     }
                 }

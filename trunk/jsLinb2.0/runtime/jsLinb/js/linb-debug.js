@@ -9752,11 +9752,7 @@ Class("linb.UI",  "linb.absObj", {
         self.setDataModel(hash);
 
         linb.UI.$cache_css += linb.UI.buildCSSText({
-            '.ui-ctrl':{
-            },
-            '.ui-content':{
-                'background-color':'#fff'
-            },
+            '.ui-ctrl':{},
             '.ui-btn':{
                 background:linb.UI.$bg('button.gif', ' repeat-x left -26px',true),
                 border:'solid 1px #616161',
@@ -9865,7 +9861,7 @@ Class("linb.UI",  "linb.absObj", {
             }
         })
         + linb.UI.buildCSSText({
-            '.widget-shell':{
+            '.uiw-shell':{
                 background:'transparent',
                 display:linb.$inlineBlock,
                 zoom:linb.browser.ie6?1:null,
@@ -9876,7 +9872,7 @@ Class("linb.UI",  "linb.absObj", {
                 margin:0
             },
             /*span*/
-            '.widget-frame':{
+            '.uiw-frame':{
                 $order:1,
                 display:'block',
                 position:'relative',
@@ -9889,7 +9885,7 @@ Class("linb.UI",  "linb.absObj", {
                 '-moz-box-flex':'1'
             },
             /*span*/
-            '.widget-border':{
+            '.uiw-border':{
                 $order:2,
                 display:'block',
                 position:'absolute',
@@ -9900,20 +9896,6 @@ Class("linb.UI",  "linb.absObj", {
                 top:0,
                 width:'100%',
                 height:'100%'
-            },
-            '.widget-block':{
-                $order:3,
-                display:'block',
-                position:'absolute',
-                border: 'solid 1px',
-                'background-color':'#EBEADB',
-                padding:0,
-                margin:0,
-                left:0,
-                top:0,
-                width:'100%',
-                height:'100%',
-                'border-color':'#fff #A7A6AA #A7A6AA #fff'
             },
             '.ui-dirty':{
                 background: linb.UI.$bg('dirty.gif', ' no-repeat left top', true)
@@ -9926,6 +9908,22 @@ Class("linb.UI",  "linb.absObj", {
             },
             '#linblangkey':{
                 'vertical-align':'baseline'
+            }
+        })
+        + linb.UI.buildCSSText({
+            '.uibg-base':{
+                'background-color':'#FFF'
+            },
+            '.uibg-bar':{
+                'background-color':'#EBEADB'
+            },
+            '.uiborder-inset':{
+                border:'solid 1px',
+                'border-color':'#A7A6AA #fff #fff #A7A6AA'
+            },
+            '.uiborder-outset':{
+                border:'solid 1px',
+                'border-color':'#fff #A7A6AA #A7A6AA #fff'
             }
         });
     },
@@ -11871,13 +11869,13 @@ new function(){
                 }
             },
             Templates:{
-                className:'widget-shell ',
+                className:'uiw-shell ',
                 style:'{_style}',
                 FRAME:{
-                    className:'widget-frame ',
+                    className:'uiw-frame ',
                     BORDER:{
                         style:'width:{bWidth}px;height:{bHeight}px;',
-                        className:'widget-border'
+                        className:'uiw-border'
                     }
                 }
             },
@@ -11910,8 +11908,10 @@ new function(){
                 });
             },
             _onresize:function(profile,width,height){
-                var o = profile.getSubNode('BORDER'), t = profile.properties,
-                    left=null,top=null,ww=null,hh=null;
+                var o = profile.getSubNode('BORDER'), 
+                    t = profile.properties,
+                    size,
+                    ww=null,hh=null;
                 if(null!==width){
                     width -= t.$border*2;
                     /*for ie6 bug*/
@@ -11928,9 +11928,9 @@ new function(){
                     /*for ie6 bug*/
                     if(linb.browser.ie6&&null===width)o.ieRemedy();
                 }
-                o.cssRegion({left:0,top:0,width:ww,height:hh});
-                profile.getSubNode('CON').height(profile.getSubNode('TR1TD2').height());
-                return { width :ww, height :hh};
+                size={width:ww,height:hh};
+                o.cssSize(size);
+                return size;
             }
         }
     });
@@ -13215,9 +13215,11 @@ Class("linb.UI.Resizer","linb.UI",{
             t = self.getTemplate();
         //modify
         _.merge(t.FRAME.BORDER,{
-            className:'widget-block',
+            className:'uiw-border uibg-bar {clsBorderType1}',
             PANEL:{
                 tagName:'div',
+                className:'{clsBorderType2}',
+                style:'{background}',
                 text:'{html}'+linb.UI.$childTag
             }
         },'all');
@@ -13229,9 +13231,7 @@ Class("linb.UI.Resizer","linb.UI",{
         //modify
         _.merge(t,{
             PANEL:{
-                position:'absolute',
-                left:0,
-                top:0,
+                position:'relative',
                 overflow:'auto'
             }
         });
@@ -13251,12 +13251,71 @@ Class("linb.UI.Resizer","linb.UI",{
                     this.getSubNode('PANEL').html(v);
                 }
             },
+            borderType:{
+                ini:'outset',
+                listbox:['none','inset','outset','groove','ridge'],
+                action:function(v){
+                    var me=this,
+                        p=me.properties,
+                        n1=me.getSubNode('BORDER'), n2=me.getSubNode('PANEL'),
+                        reg=/^uiborder-/,
+                        ins='uiborder-inset',
+                        outs='uiborder-outset',
+                        root=me.root;
+                    n1.removeClass(reg);
+                    n2.removeClass(reg);
+                    switch(v){
+                        case 'inset':
+                        n1.addClass(ins);
+                        break;
+                        case 'outset':
+                        n1.addClass(outs);
+                        break;
+                        case 'groove':
+                        n1.addClass(ins);
+                        n2.addClass(outs);
+                        break;
+                        case 'ridge':
+                        n1.addClass(outs);
+                        n2.addClass(ins);
+                        break;
+                    }
+
+                    //force to resize
+                    me.box._setB(me);
+                    linb.UI.$tryResize(me,root.width(),root.height());
+                }
+            },
+            background:{
+                ini:'',
+                action:function(v){
+                    this.getSubNode('PANEL').css('background',v);
+                }
+            },
             width:100,
-            height:100,
-            $border:1
+            height:100
         },
+        _setB:function(profile){
+            var p=profile.properties,type=p.borderType;
+            p.$border=p.$iborder=0;
+            if(type=='inset'||type=='outset'){p.$border=1;p.$iborder=0;}
+            else if(type=='groove'||type=='ridge'){p.$border=p.$iborder=1;}
+        },
+        LayoutTrigger:function(){
+            var v=this.properties.borderType;
+            if(v!='none')this.boxing().setBorderType(v,true);
+        },
+        _prepareData:function(profile){
+            var data=arguments.callee.upper.call(this, profile);
+            data.background= data.background?'background:'+data.background:'';
+            return data;
+        },        
         _onresize:function(profile,width,height){
-            var size = arguments.callee.upper.apply(this,arguments);
+            var size = arguments.callee.upper.apply(this,arguments),
+                p=profile.properties,
+                b=(p.$iborder||0)*2;
+            if(size.width)size.width-=b;
+            if(size.height)size.height-=b;
             profile.getSubNode('PANEL').cssSize(size,true);
         }
     }
@@ -13455,7 +13514,7 @@ Class("linb.UI.Label", "linb.UI.Widget",{
         _.merge(t.FRAME.BORDER,{
             FILL:{
                 tagName:'div',
-                style:'width:{value}%;',
+                style:'width:{value}%;{fillBG}',
                 text:'{html}'+linb.UI.$childTag
             },
             INN:{
@@ -13476,9 +13535,7 @@ Class("linb.UI.Label", "linb.UI.Widget",{
             BORDER:{
                 border:'1px solid #91A7B4',
                 'font-size':0,
-                'line-height':0,
-                //in ie6, if no overflow:hidden, children with height:100% will not work.
-                overflow:'hidden'
+                'line-height':0
             },
             INN:{
                 display:'table',
@@ -13489,9 +13546,7 @@ Class("linb.UI.Label", "linb.UI.Widget",{
                 height:'100%'
             },
             CAP:{
-                display:'table-cell',
-                'text-align':'center',
-                'vertical-align':'middle'
+                'text-align':'center'
             },
             FILL:{
                 position:'absolute',
@@ -13509,7 +13564,6 @@ Class("linb.UI.Label", "linb.UI.Widget",{
     },
     Static:{
         DataModel:{
-            //delete those properties
             value:0,
             width:300,
             height:22,
@@ -13534,6 +13588,13 @@ Class("linb.UI.Label", "linb.UI.Widget",{
         },
         _ensureValue:function(profile,value){
             return parseInt(value)||0;
+        },
+        _onresize:function(profile,width,height){
+            var size = arguments.callee.upper.apply(this,arguments),h;
+            if(size.height){
+                h=size.height+'px';
+                profile.getSubNodes(['INN','CAP','FILL']).css({height:h,'line-height':h});
+            }
         }
     }
 });
@@ -13565,7 +13626,7 @@ Class("linb.UI.Button", ["linb.UI.Widget","linb.absValue"],{
         }
     },
     Initialize:function(){
-        this.addTemplateKeys(['DROP']);
+        this.addTemplateKeys(['DROP','CUSTOM']);
         //modify default template for shell
         var t = this.getTemplate();
         _.merge(t.FRAME.BORDER,{
@@ -13623,7 +13684,7 @@ Class("linb.UI.Button", ["linb.UI.Widget","linb.absValue"],{
                 'font-size':'12px',
                 'line-height':'12px'
             },
-            'CUSTOM':{
+            CUSTOM:{
                 background:'transparent'
             },
             'CUSTOM BOX':{
@@ -13632,6 +13693,9 @@ Class("linb.UI.Button", ["linb.UI.Widget","linb.absValue"],{
             'CUSTOM td':{
                 $order:20,
                 background:'none'
+            },
+            'CUSTOM BORDER':{
+                'background-color':'#FBFBFB'
             },
             BORDER:{
                 'font-size':0,
@@ -15647,7 +15711,7 @@ Class("linb.UI.Group", "linb.UI.Div",{
                 CON:{
                     $order:1,
                     tagName:'div',
-                    className:'ui-content',
+                    className:'uibg-base',
                     SIMPLE:{
                         tagName:'div',
                         TOP:{
@@ -16520,7 +16584,7 @@ Class("linb.UI.Group", "linb.UI.Div",{
                 CON:{
                     $order:2,
                     tagName:'div',
-                    className:'ui-content',
+                    className:'uibg-base',
                     BODY:{
                         $order:1,
                         tagName:'table',
@@ -17020,14 +17084,14 @@ Class("linb.UI.Group", "linb.UI.Div",{
                 },
                 M:{
                     $order:1,
-                    className:'ui-content',
+                    className:'uibg-base',
                     tagName:'div',
                     text:m
                 },
                 TAIL:{
                     $order:2,
                     tagName:'div',
-                    className:'ui-content',
+                    className:'uibg-base',
                     CAPTION:{
                         text : '{caption}'
                     },
@@ -19241,7 +19305,7 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
             ITEMS:{
                $order:10,
                tagName:'div',
-               className:'ui-content',
+               className:'uibg-base',
                text:"{items}"
             },
             $dynamic:{
@@ -20603,7 +20667,7 @@ Class("linb.UI.Panel", "linb.UI.Div",{
                 PANEL:{
                     $order:1,
                     tagName : 'div',
-                    className:'ui-content',
+                    className:'uibg-base',
                     style:'{panelDisplay}',
                     text:'{html}'+linb.UI.$childTag
                 }
@@ -20917,7 +20981,7 @@ Class("linb.UI.PageBar",["linb.UI","linb.absValue"] ,{
                 style:'position:absolute;display:none;',
                 POP:{
                     tagName:'div',
-                    className:'ui-content'
+                    className:'uibg-base'
                 }
             },
             LABEL:{
@@ -21410,7 +21474,7 @@ Class("linb.UI.Tabs", ["linb.UI", "linb.absList","linb.absValue"],{
                 panels:{
                     PANEL:{
                         tagName : 'div',
-                        className:'ui-content',
+                        className:'uibg-base',
                         text:linb.UI.$childTag
                     }
                 }
@@ -21944,12 +22008,16 @@ Class("linb.UI.Tabs", ["linb.UI", "linb.absList","linb.absValue"],{
     }
 });
 Class("linb.UI.ButtonViews", "linb.UI.Tabs",{
+    Initialize:function(){
+        var t = this.getTemplate();
+        t.LIST.className='uibg-bar uiborder-outset';
+        this.setTemplate(t);
+    },
     Static:{
         Appearances:{
             LIST:{
                 'z-index':'2',
-                position:'absolute',
-                'background-color': '#EBEADB'
+                position:'absolute'
             },
             ITEMS:{
                 'z-index':'2',
@@ -22010,12 +22078,16 @@ Class("linb.UI.ButtonViews", "linb.UI.Tabs",{
                         b = self.getSubNode('BOX',true);
                     switch(v){
                         case 'left':
+                            hs.cssRegion({left:0,top:0,right:'auto',bottom:0});
+                        break;
                         case 'top':
-                            hs.cssRegion({left:0,top:0,right:'auto',bottom:'auto'});
+                            hs.cssRegion({left:0,top:0,right:0,bottom:'auto'});
                         break;
                         case 'right':
+                            hs.cssRegion({left:'auto',top:0,right:0,bottom:0});
+                        break;
                         case 'bottom':
-                            hs.cssRegion({left:'auto',top:'auto',right:0,bottom:0});
+                            hs.cssRegion({left:0,top:'auto',right:0,bottom:0});
                        break;
                     }
                     switch(v){
@@ -22089,8 +22161,8 @@ Class("linb.UI.ButtonViews", "linb.UI.Tabs",{
                     left = 0;
                     wc=width;
                 }
-                if(height-t.barSize>0)hc=height-t.barSize;
-                top = t.barLocation=='top'?t.barSize:0;
+                if(height-t.barSize>0)hc=height-t.barSize-2;
+                top = t.barLocation=='top'?2- -t.barSize:0;
             }else{
                 if(height){
                     hs.height(height);
@@ -22098,8 +22170,8 @@ Class("linb.UI.ButtonViews", "linb.UI.Tabs",{
                     hc=height;
                 }
                 if(width){
-                    left = t.barLocation=='left'?t.barSize:0;
-                    wc=width-t.barSize;
+                    left = t.barLocation=='left'?2- -t.barSize:0;
+                    wc=width-t.barSize-2;
                 }
             }
             if(o && !o.isEmpty())o.cssRegion({width:wc?wc:null,height:hc?hc:null,left:left,top:top},true);
@@ -22306,7 +22378,7 @@ Class("linb.UI.FoldingList", ["linb.UI.List"],{
                     BODY:{
                         $order:1,
                         tagName : 'div',
-                        className:'ui-content',
+                        className:'uibg-base',
                         BODYI:{
                             $order:0,
                             tagName : 'div',
@@ -24064,6 +24136,7 @@ Class("linb.UI.MenuBar",["linb.UI","linb.absList" ],{
                 tagName:'div'
             },
             BORDER:{
+                className:'uibg-bar uiborder-outset',
                 tagName:'div',
                 LIST:{
                     tagName:'div',
@@ -24102,7 +24175,6 @@ Class("linb.UI.MenuBar",["linb.UI","linb.absList" ],{
                 'font-size':0,
                 'line-height':0,
                 position:'absolute',
-                'background-color':'#EBEADB',
                 left:0,
                 top:0
             },
@@ -24116,8 +24188,6 @@ Class("linb.UI.MenuBar",["linb.UI","linb.absList" ],{
             BORDER:{
                 left:0,
                 top:0,
-                border: 'solid 1px',
-                'border-color':'#fff #A7A6AA #A7A6AA #fff',
                 'font-size':0,
                 'line-height':0
             },
@@ -24342,6 +24412,7 @@ Class("linb.UI.ToolBar",["linb.UI","linb.absList"],{
         Templates:{
             tagName:'div',
             ITEMS:{
+                className:'uibg-bar uiborder-outset',
                 tagName:'div',
                 style:'{mode}',
                 text:'{items}'
@@ -24407,16 +24478,13 @@ Class("linb.UI.ToolBar",["linb.UI","linb.absList"],{
                 'font-size':0,
                 'line-height':0,
                 position:'absolute',
-                'background-color':'#EBEADB',
                 left:0,
                 top:0
             },
             ICON:{margin:0},
             ITEMS:{
                 display:'block',
-                border: 'solid 1px',
                 'padding-bottom':'1px',
-                'border-color':'#fff #A7A6AA #A7A6AA #fff',
                 'font-size':0,
                 'line-height':0
             },
@@ -25037,7 +25105,7 @@ Class("linb.UI.Range", ["linb.UI","linb.absValue"],{
                         MOVE:{
                             $order:0,
                             tagName:'div',
-                            className:'{cls2} ',
+                            className:'uibg-bar  uiborder-outset {cls2} ',
                             style:'{display}'
                         },
                         CMD:{
@@ -25048,7 +25116,7 @@ Class("linb.UI.Range", ["linb.UI","linb.absValue"],{
                         },
                         PANEL:{
                             tagName:'div',
-                            className:'ui-content',
+                            className:'uibg-base',
                             style:'position:absolute;left:0;top:0;',
                             text:linb.UI.$childTag
                         }
@@ -25068,7 +25136,6 @@ Class("linb.UI.Range", ["linb.UI","linb.absValue"],{
             MOVE:{
                 $order:0,
                 position:'absolute',
-                'background-color':'#EBEADB',
                 'z-index':'10',
                 'font-size':linb.browser.ie?0:null,
                 'line-height':linb.browser.ie?0:null
@@ -25079,7 +25146,6 @@ Class("linb.UI.Range", ["linb.UI","linb.absValue"],{
             },
             CMD:{
                 position:'absolute',
-                border:'solid 1px #cdcdcd',
                 cursor:'pointer',
                 'z-index':'20',
                 'font-size':linb.browser.ie?0:null,
@@ -25115,46 +25181,38 @@ Class("linb.UI.Range", ["linb.UI","linb.absValue"],{
                 bottom:0
             },
             'MOVE-TOP':{
-                'border-top':'solid 1px #fff',
-                'border-bottom':'solid 1px #cdcdcd',
                 width:'100%',
                 bottom:0,
                 height:'4px',
                 cursor:'n-resize'
             },
             'MOVE-BOTTOM':{
-                'border-top':'solid 1px #fff',
-                'border-bottom':'solid 1px #cdcdcd',
                 width:'100%',
                 top:0,
                 height:'4px',
                 cursor:'n-resize'
             },
             'MOVE-LEFT':{
-                'border-left':'solid 1px #fff',
-                'border-right':'solid 1px #cdcdcd',
                 height:'100%',
                 right:0,
                 width:'4px',
                 cursor:'w-resize'
             },
             'MOVE-RIGHT':{
-                'border-left':'solid 1px #fff',
-                'border-right':'solid 1px #cdcdcd',
                 height:'100%',
                 left:0,
                 width:'4px',
                 cursor:'w-resize'
             },
-            'MOVE-TOP-checked, MOVE-BOTTOM-checked, MOVE-LEFT-checked, MOVE-RIGHT-checked':{
-                $order:1,
-                'background-color':'#cdcdcd'
-            },
+            //'MOVE-TOP-checked, MOVE-BOTTOM-checked, MOVE-LEFT-checked, MOVE-RIGHT-checked':{
+                //$order:1,
+                //'background-color':'#cdcdcd'
+            //},
             'CMD-TOP':{
                 $order:0,
                 left:'50%',
                 'margin-left':'-15px',
-                bottom:0,
+                bottom:'1px',
                 width:'30px',
                 height:'4px',
                 background: linb.UI.$bg('icon.gif', ' no-repeat left -52px', true)
@@ -25171,7 +25229,7 @@ Class("linb.UI.Range", ["linb.UI","linb.absValue"],{
                 $order:0,
                 left:'50%',
                 'margin-left':'-15px',
-                top:0,
+                top:'1px',
                 width:'30px',
                 height:'4px',
                 background: linb.UI.$bg('icon.gif', ' no-repeat left -60px', true)
@@ -25180,17 +25238,16 @@ Class("linb.UI.Range", ["linb.UI","linb.absValue"],{
                 $order:0,
                 top:'50%',
                 'margin-top':'-15px',
-                right:0,
+                right:'1px',
                 height:'30px',
                 width:'4px',
                 background: linb.UI.$bg('icon.gif', ' no-repeat -84px 0px', true)
-
             },
             'CMD-RIGHT':{
                 $order:0,
                 top:'50%',
                 'margin-top':'-15px',
-                left:0,
+                left:'1px',
                 height:'30px',
                 width:'4px',
                 background: linb.UI.$bg('icon.gif', ' no-repeat -92px -0px', true)
@@ -26124,7 +26181,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                     SCROLL:{
                         $order:1,
                         tagName:'div',
-                        className:'ui-content ',
+                        className:'uibg-base ',
                         BODY:{
                             tagName:'div',
                             text:'{rows}'
@@ -28462,7 +28519,7 @@ Class("linb.UI.Dialog","linb.UI.Widget",{
             PANEL:{
                 tagName:'div',
                 $order:2,
-                className:'ui-content',
+                className:'uibg-base',
                 text:'{html}'+linb.UI.$childTag
             },
             STATUS:{
@@ -29355,9 +29412,6 @@ Class("linb.UI.TextEditor", ["linb.UI.Widget","linb.absValue"] ,{
     },
     Static:{
         Appearances:{
-            KEY:{
-                overflow:'hidden'
-            },
             BOX:{
                 width:'100%',
                 height:'100%',
@@ -29373,7 +29427,7 @@ Class("linb.UI.TextEditor", ["linb.UI.Widget","linb.absValue"] ,{
                 'font-family': 'Courier New, Courier, monospace',
                 'font-size':'12px',
                 'line-height':'14px',
-                position:'relative',
+                position:'absolute',
                 left:0,
                 top:0,
                 border:0,
@@ -29617,7 +29671,6 @@ Class("linb.UI.TextEditor", ["linb.UI.Widget","linb.absValue"] ,{
         _onresize:function(profile,width,height){
             var size = arguments.callee.upper.apply(this,arguments);
             profile.getSubNode('BOX').cssSize(size);
-//            size.width-=2;size.height-=2;
             profile.getSubNode('INPUT').cssSize(size);
         },
         //for

@@ -72,6 +72,7 @@ Class("linb.UI.MenuBar",["linb.UI","linb.absList" ],{
                 tagName:'div'
             },
             BORDER:{
+                className:'uibg-bar uiborder-outset',
                 tagName:'div',
                 LIST:{
                     tagName:'div',
@@ -110,7 +111,6 @@ Class("linb.UI.MenuBar",["linb.UI","linb.absList" ],{
                 'font-size':0,
                 'line-height':0,
                 position:'absolute',
-                'background-color':'#EBEADB',
                 left:0,
                 top:0
             },
@@ -124,8 +124,6 @@ Class("linb.UI.MenuBar",["linb.UI","linb.absList" ],{
             BORDER:{
                 left:0,
                 top:0,
-                border: 'solid 1px',
-                'border-color':'#fff #A7A6AA #A7A6AA #fff',
                 'font-size':0,
                 'line-height':0
             },

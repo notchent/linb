@@ -46,9 +46,6 @@ Class("linb.UI.TextEditor", ["linb.UI.Widget","linb.absValue"] ,{
     },
     Static:{
         Appearances:{
-            KEY:{
-                overflow:'hidden'
-            },
             BOX:{
                 width:'100%',
                 height:'100%',
@@ -64,7 +61,7 @@ Class("linb.UI.TextEditor", ["linb.UI.Widget","linb.absValue"] ,{
                 'font-family': 'Courier New, Courier, monospace',
                 'font-size':'12px',
                 'line-height':'14px',
-                position:'relative',
+                position:'absolute',
                 left:0,
                 top:0,
                 border:0,
@@ -308,7 +305,6 @@ Class("linb.UI.TextEditor", ["linb.UI.Widget","linb.absValue"] ,{
         _onresize:function(profile,width,height){
             var size = arguments.callee.upper.apply(this,arguments);
             profile.getSubNode('BOX').cssSize(size);
-//            size.width-=2;size.height-=2;
             profile.getSubNode('INPUT').cssSize(size);
         },
         //for

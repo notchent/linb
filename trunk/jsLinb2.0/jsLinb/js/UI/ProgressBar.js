@@ -14,7 +14,7 @@ Class("linb.UI.ProgressBar", ["linb.UI.Widget","linb.absValue"] ,{
         _.merge(t.FRAME.BORDER,{
             FILL:{
                 tagName:'div',
-                style:'width:{value}%;',
+                style:'width:{value}%;{fillBG}',
                 text:'{html}'+linb.UI.$childTag
             },
             INN:{
@@ -35,9 +35,7 @@ Class("linb.UI.ProgressBar", ["linb.UI.Widget","linb.absValue"] ,{
             BORDER:{
                 border:'1px solid #91A7B4',
                 'font-size':0,
-                'line-height':0,
-                //in ie6, if no overflow:hidden, children with height:100% will not work.
-                overflow:'hidden'
+                'line-height':0
             },
             INN:{
                 display:'table',
@@ -48,9 +46,7 @@ Class("linb.UI.ProgressBar", ["linb.UI.Widget","linb.absValue"] ,{
                 height:'100%'
             },
             CAP:{
-                display:'table-cell',
-                'text-align':'center',
-                'vertical-align':'middle'
+                'text-align':'center'
             },
             FILL:{
                 position:'absolute',
@@ -68,7 +64,6 @@ Class("linb.UI.ProgressBar", ["linb.UI.Widget","linb.absValue"] ,{
     },
     Static:{
         DataModel:{
-            //delete those properties
             value:0,
             width:300,
             height:22,
@@ -93,6 +88,13 @@ Class("linb.UI.ProgressBar", ["linb.UI.Widget","linb.absValue"] ,{
         },
         _ensureValue:function(profile,value){
             return parseInt(value)||0;
+        },
+        _onresize:function(profile,width,height){
+            var size = arguments.callee.upper.apply(this,arguments),h;
+            if(size.height){
+                h=size.height+'px';
+                profile.getSubNodes(['INN','CAP','FILL']).css({height:h,'line-height':h});
+            }
         }
     }
 });

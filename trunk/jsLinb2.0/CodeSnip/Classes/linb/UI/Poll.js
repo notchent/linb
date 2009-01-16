@@ -14,6 +14,7 @@ Class('App.linb_UI_Poll', 'linb.Com',{
                 .setHeight(600)
                 .setBorder(true)
                 .setResizer(true)
+                .setBackground("#fff")
             );
             
             host.block1.append((new linb.UI.Poll)

@@ -1,10 +1,14 @@
 Class("linb.UI.ButtonViews", "linb.UI.Tabs",{
+    Initialize:function(){
+        var t = this.getTemplate();
+        t.LIST.className='uibg-bar uiborder-outset';
+        this.setTemplate(t);
+    },
     Static:{
         Appearances:{
             LIST:{
                 'z-index':'2',
-                position:'absolute',
-                'background-color': '#EBEADB'
+                position:'absolute'
             },
             ITEMS:{
                 'z-index':'2',
@@ -65,12 +69,16 @@ Class("linb.UI.ButtonViews", "linb.UI.Tabs",{
                         b = self.getSubNode('BOX',true);
                     switch(v){
                         case 'left':
+                            hs.cssRegion({left:0,top:0,right:'auto',bottom:0});
+                        break;
                         case 'top':
-                            hs.cssRegion({left:0,top:0,right:'auto',bottom:'auto'});
+                            hs.cssRegion({left:0,top:0,right:0,bottom:'auto'});
                         break;
                         case 'right':
+                            hs.cssRegion({left:'auto',top:0,right:0,bottom:0});
+                        break;
                         case 'bottom':
-                            hs.cssRegion({left:'auto',top:'auto',right:0,bottom:0});
+                            hs.cssRegion({left:0,top:'auto',right:0,bottom:0});
                        break;
                     }
                     switch(v){
@@ -144,8 +152,8 @@ Class("linb.UI.ButtonViews", "linb.UI.Tabs",{
                     left = 0;
                     wc=width;
                 }
-                if(height-t.barSize>0)hc=height-t.barSize;
-                top = t.barLocation=='top'?t.barSize:0;
+                if(height-t.barSize>0)hc=height-t.barSize-2;
+                top = t.barLocation=='top'?2- -t.barSize:0;
             }else{
                 if(height){
                     hs.height(height);
@@ -153,8 +161,8 @@ Class("linb.UI.ButtonViews", "linb.UI.Tabs",{
                     hc=height;
                 }
                 if(width){
-                    left = t.barLocation=='left'?t.barSize:0;
-                    wc=width-t.barSize;
+                    left = t.barLocation=='left'?2- -t.barSize:0;
+                    wc=width-t.barSize-2;
                 }
             }
             if(o && !o.isEmpty())o.cssRegion({width:wc?wc:null,height:hc?hc:null,left:left,top:top},true);

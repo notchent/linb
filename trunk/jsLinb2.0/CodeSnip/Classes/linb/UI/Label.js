@@ -1,23 +1,19 @@
 Class('App.linb_UI_Label', 'linb.Com',{
     Instance:{
-        base:["linb.UI"],
-        required:["linb.UI.Label"],
+        base:["linb.UI"], 
+        required:["linb.UI.Label"], 
         iniComponents:function(){
             // [[code created by jsLinb UI Builder
-            var host = this,
-                children = [],
-                append = function(child){
-                    children.push(child.get(0))
-                };
+            var host=this, children=[], append=function(child){children.push(child.get(0))};
             
             append((new linb.UI.Label)
                 .host(host,"label6")
                 .setLeft(64)
-                .setTop(232)
+                .setTop(250)
                 .setWidth(232)
                 .setHeight(64)
-                .setCaption("<strong>label</strong> (left/bottom)")
                 .setBorder(true)
+                .setCaption("<strong>label</strong> (left/bottom)")
                 .setHAlign("left")
                 .setVAlign("bottom")
             );
@@ -38,10 +34,10 @@ Class('App.linb_UI_Label', 'linb.Com',{
                 .setTop(128)
                 .setWidth(136)
                 .setHeight(80)
-                .setCaption("resizable label")
                 .setBorder(true)
-                .setHAlign("center")
                 .setResizer(true)
+                .setCaption("resizable label")
+                .setHAlign("center")
             );
             
             append((new linb.UI.Label)
@@ -58,7 +54,7 @@ Class('App.linb_UI_Label', 'linb.Com',{
             append((new linb.UI.Label)
                 .host(host,"label10")
                 .setLeft(336)
-                .setTop(96)
+                .setTop(110)
                 .setWidth(224)
                 .setHeight(32)
                 .setBorder(true)
@@ -69,12 +65,12 @@ Class('App.linb_UI_Label', 'linb.Com',{
             append((new linb.UI.Label)
                 .host(host,"label11")
                 .setLeft(280)
-                .setTop(184)
+                .setTop(198)
                 .setWidth(280)
                 .setHeight(72)
+                .setZIndex("2")
                 .setBorder(true)
                 .setCaption("label (zIndex:2)")
-                .setZIndex("2")
             );
             
             append((new linb.UI.Label)
@@ -89,7 +85,7 @@ Class('App.linb_UI_Label', 'linb.Com',{
             append((new linb.UI.Label)
                 .host(host,"label3")
                 .setLeft(64)
-                .setTop(144)
+                .setTop(158)
                 .setWidth(224)
                 .setHeight(32)
                 .setCaption("label with shadow text")
@@ -101,40 +97,40 @@ Class('App.linb_UI_Label', 'linb.Com',{
             append((new linb.UI.Label)
                 .host(host,"label4")
                 .setLeft(64)
-                .setTop(192)
+                .setTop(206)
                 .setWidth(232)
                 .setHeight(32)
-                .setCaption("<strong>label</strong> (center/middle)")
                 .setBorder(true)
+                .setCaption("<strong>label</strong> (center/middle)")
                 .setHAlign("center")
             );
             
             append((new linb.UI.Label)
                 .host(host,"label5")
                 .setLeft(64)
-                .setTop(96)
+                .setTop(110)
                 .setWidth(224)
                 .setHeight(32)
-                .setShadow(true)
                 .setBorder(true)
+                .setShadow(true)
                 .setCaption("label with border&shadow")
             );
             
             append((new linb.UI.Label)
                 .host(host,"label12")
                 .setLeft(280)
-                .setTop(280)
+                .setTop(298)
                 .setWidth(280)
                 .setHeight(64)
+                .setZIndex("2")
                 .setBorder(true)
                 .setCaption("label (set background in onRender event)")
-                .setZIndex("2")
                 .onRender("_label12_aftercreated")
             );
             
             return children;
             // ]]code created by jsLinb UI Builder
-        },
+        }, 
         _label12_aftercreated:function (profile) {
              profile.getSubNode('BORDER').css('background','#fff');
         }
