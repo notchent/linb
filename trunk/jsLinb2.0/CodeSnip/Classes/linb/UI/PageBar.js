@@ -74,13 +74,8 @@ Class('App.linb_UI_PageBar', 'linb.Com',{
             return children;
             // ]]code created by jsLinb UI Builder
         },
-        _pagebar1_onclick:function (profile, src) {
-            var self = profile.boxing();
-            var value = self.getValue();
-            var a = value.split(':');
-            a[1] = src.href.split('#')[1];
-
-            self.setValue(a.join(':'));
+        _pagebar1_onclick:function (profile, page) {
+            profile.boxing().setPage(page);
         }
     }
 });

@@ -57,7 +57,7 @@ Class("linb.UI.PageBar",["linb.UI","linb.absValue"] ,{
             return this.each(function(o){
                 var v=o.properties.value,
                     a=v.split(':');
-                a[1]=value;
+                a[1]=parseInt(value)||a[0];
                 o.boxing().setValue(a.join(':'));
             });
         }
@@ -223,7 +223,7 @@ Class("linb.UI.PageBar",["linb.UI","linb.absValue"] ,{
             }
         },
         EventHandlers:{
-            onClick:function(profile, src){}
+            onClick:function(profile, page){}
         },
         _ensureValue:function(profile,value){
             var a = value.split(':'),
@@ -245,7 +245,10 @@ Class("linb.UI.PageBar",["linb.UI","linb.absValue"] ,{
             return v;
         },
         _click:function(profile, src){
-            var r = profile.boxing().onClick(profile, src);
+            var b=profile.boxing(),
+                v=b.getValue(),
+                a=v.split(':');
+            var r = b.onClick(profile, parseInt(src.href.split('#')[1])||a[0]);
             return typeof r=="boolean"?r:false;
         },
         _show:function(profile, e, src, flag){

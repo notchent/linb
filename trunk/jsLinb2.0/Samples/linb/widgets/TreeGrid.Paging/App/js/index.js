@@ -78,10 +78,9 @@ Class('App', 'linb.Com',{
             var rows=SPA._rows.slice((index-1)*SPA.count,index*SPA.count);
             SPA.tg.removeAllRows().insertRows(rows);
         }, 
-        _pagebar2_onclick:function (profile, src) {
-            var value=parseInt(src.href.split('#')[1])||0;
-            profile.boxing().setPage(value);
-            SPA.setTg(value);
+        _pagebar2_onclick:function (profile, page) {
+            profile.boxing().setPage(page);
+            SPA.setTg(page);
         }, 
         _comboinput19_afteruivalueset:function (profile, oldValue, newValue) {
             if(parseInt(newValue)==SPA.count)return;

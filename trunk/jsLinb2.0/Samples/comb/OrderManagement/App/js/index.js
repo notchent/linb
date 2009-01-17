@@ -638,13 +638,9 @@ Class('App', 'linb.Com',{
                 linb.Ajax('Data/Orders.js','rnd=' + Math.random(),ns._ajax1_onrequestok,null,threadid).start();
             });
         },  
-        _pagebar1_onclick:function (profile, src) {
-            var pb = profile.boxing(),
-                value = pb.getValue(),
-                a = value.split(':');
-            a[1] = src.href.split('#')[1];
-            pb.setValue(a.join(':'));
-            this._load1(a[1]);
+        _pagebar1_onclick:function (profile, page) {
+            profile.boxing().setPage(page);
+            this._load1(page);
         }, 
         _onReady:function(page, threadid){
             SPA = page;
@@ -717,16 +713,9 @@ Class('App', 'linb.Com',{
                 });
             }
         },
-        _pagebar11_onclick:function (profile, src) {
-            var self = profile.boxing(),
-                value = self.getValue(),
-                a = value.split(':');
-            a[1] = src.href.split('#')[1];
-            self.setValue(a.join(':'));
-            
-            this._load2(a[1]);
-
-            return false;
+        _pagebar11_onclick:function (profile, page) {
+            profile.boxing().setPage(page);
+            this._load2(page);
         }, 
         _treegrid14_ondblclickrow:function (profile, row, e, src) {
             for(var i = 0; i < SPA.global_data_order.length;i++){

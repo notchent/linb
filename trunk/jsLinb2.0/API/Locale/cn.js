@@ -9647,11 +9647,11 @@ _.set(linb.Locale,["cn","doc","linb","UI","PageBar"], {
             $desc:"onClick event handler.",
             $paras:[
                 "profile : linb.UIProfile object.",
-                "src : DOM element."
+                "page : Numer, the target page."
             ],
             $snippet:[
                 "var id='linb.temp.pb11'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
-                "linb(id).prepend((new linb.UI.PageBar({value:'1:3:300'})).onClick(function(profile,src){profile.boxing().setPage(src.href.split('#')[1]||1)}));"+
+                "linb(id).prepend((new linb.UI.PageBar({value:'1:3:300'})).onClick(function(profile,page){profile.boxing().setPage(page);}))"+
                 "}"
             ]
         }

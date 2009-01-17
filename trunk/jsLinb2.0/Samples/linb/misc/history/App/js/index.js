@@ -118,18 +118,9 @@ Class('App', 'linb.Com',{
             SPA.fakeHreflick(item.href);
             return false;
         }, 
-        _pagebar1_onclick:function (profile, src) {
-            //change pagebar value
-            var self = profile.boxing(),
-                value = self.getValue(),
-                a = value.split(':');
-            a[1] = src.href.split('#')[1];
-            self.setValue(a.join(':'));
-
-            //set history
-            if(a[1] == '#')return false;
-            SPA.fakeHreflick(a[1]);
-            return false;
+        _pagebar1_onclick:function (profile, page) {
+            profile.boxing().setPage(page);
+            SPA.fakeHreflick(page);
         }, 
         _link1_onclick:function(){
             return true;

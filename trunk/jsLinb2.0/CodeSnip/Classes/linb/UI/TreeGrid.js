@@ -387,15 +387,11 @@ Class('App.linb_UI_TreeGrid', 'linb.Com',{
             linb.UI.cacheData('demo',[{id:'a',caption:'cap a',image:'img/img.gif'},{id:'b',caption:'cap b',image:'img/img.gif',imagePos:'left -16px'},{id:'c',caption:'cap c',image:'img/img.gif',imagePos:'left -32px'}]);
             linb.CSS.setStyleRules('.linb-demo1',{'background-color':'#AEDEAE'});
         },
-        _pagebar3_onclick:function (profile, src) {
+        _pagebar3_onclick:function (profile, src, page, newValue) {
+            var self = profile.boxing();
+            self.setValue(newValue);
 
-            var self = profile.boxing(),
-                value = self.getValue(),
-                a = value.split(':');
-            a[1] = src.href.split('#')[1];
-            self.setValue(a.join(':'));
-
-            SPA.tg2page=(parseInt(a[1])-1)||0;
+            SPA.tg2page=(page-1)||0;
 
             SPA.tg2.setRows(SPA.tg2data.slice(SPA.tg2page*5, (SPA.tg2page+1)*5));
 
