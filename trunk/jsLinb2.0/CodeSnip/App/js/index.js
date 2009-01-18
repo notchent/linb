@@ -13,28 +13,21 @@ Class('App', 'linb.Com',{
                 .host(host,"layout")
                 .setDomId("ce_layout")
                 .setItems([{"id":"before", "pos":"before", "locked":false, "size":200, "min":50, "max":400, "hide":false, "cmd":true, "caption":"before"}, {"id":"main", "min":10, "caption":"main"}])
-                .setLeft(0)
-                .setTop(0)
                 .setType("horizontal")
-                .setCustomStyle({"ITEM":"background:#fff;", "MOVE":"background:#fff;border:0"})
             );
             
             host.layout.append((new linb.UI.Layout)
                 .host(host,"layout_r")
                 .setDomId("ce_layout_r")
                 .setItems([{"id":"main", "min":10, "caption":"main"}, {"id":"after", "pos":"after", "locked":false, "size":300, "min":50, "max":600, "hide":false, "cmd":true, "caption":"after"}])
-                .setLeft(0)
-                .setTop(0)
-                .setCustomStyle({"ITEM":"background:#fff", "MOVE":"background:#fff;border:0"})
             , 'main');
             
             host.layout_r.append((new linb.UI.Block)
                 .host(host,"stage")
                 .setDomId("ce_stage")
                 .setDock("fill")
-                .setLeft(30)
-                .setTop(50)
-                .setCustomStyle({PANEL:'background:#fff;',BORDER:'border:1px solid #99BBE8;'})
+                .setBorderType("none")
+                .setCustomStyle({"PANEL":"background:#fff;"})
             , 'main');
             
             host.stage.append((new linb.UI.Div)
@@ -49,9 +42,9 @@ Class('App', 'linb.Com',{
                 .host(host,"openinbuild")
                 .setTop(10)
                 .setRight(50)
-                .setVisibility('hidden')
-                .setTarget('_blank')
+                .setVisibility("hidden")
                 .setCaption("Open it in UI builder")
+                .setTarget("_blank")
                 .onClick("_openinbuild_onclick")
                 .setCustomStyle({"KEY":"font-weight:bold;text-decoration:underline;"})
             , 'main');
@@ -60,35 +53,21 @@ Class('App', 'linb.Com',{
                 .host(host,"blockCode")
                 .setDomId("ce_blockCode")
                 .setDock("fill")
-                .setLeft(120)
-                .setTop(80)
                 .setCustomStyle({"PANEL":"background:#F4F4F4"})
             , 'after');
             
-            host.layout.append((new linb.UI.Block)
-                .host(host,"blockL")
-                .setDomId("ce_blockL")
-                .setDock("fill")
-                .setLeft(20)
-                .setTop(100)
-            , 'before');
-            
-            host.blockL.append((new linb.UI.Panel)
-                .host(host,"comtreebar")
-                .setDomId("ce_comtreebar")
-                .setLeft(0)
-                .setTop(0)
-                .setZIndex(1)
-                .setCaption("jsLinb Code Snippets")
-            );
-            
-            host.comtreebar.append((new linb.UI.TreeBar)
+            host.layout.append((new linb.UI.TreeBar)
                 .host(host,"treebar")
                 .setDomId("ce_treebar")
-                .setLeft(0)
-                .setTop(0)
                 .setAnimCollapse(true)
                 .onItemSelected("_treebar_onitemselected")
+            , 'before');
+            
+            append((new linb.UI.Block)
+                .host(host,"blockTop")
+                .setDock("top")
+                .setHeight("30")
+                .setHtml('<div style="text-align:center;font-size:20px;">jsLinb Code Snippets</div>')
             );
             
             return children;

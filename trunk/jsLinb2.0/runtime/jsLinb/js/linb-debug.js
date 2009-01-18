@@ -25131,6 +25131,7 @@ Class("linb.UI.Range", ["linb.UI","linb.absValue"],{
             },
             ITEM:{
                 position:'absolute',
+                "z-index":1,
                 overflow:'hidden',
                 'border-width':linb.browser.opr?'0px':null,
                 'font-size':linb.browser.ie?0:null,
@@ -25736,11 +25737,9 @@ Class("linb.UI.Range", ["linb.UI","linb.absValue"],{
                 }
             }
             //collect width/height in size
-            _.each(obj, function(o, id){
-                profile.getSubNode('PANEL', id).cssRegion(o, true);
-            });
             _.each(obj2, function(o, id){
-                profile.getSubNode('ITEM', id).cssRegion(o);
+                profile.getSubNode('ITEM', id).cssRegion(obj2[id]);
+                profile.getSubNode('PANEL', id).cssRegion(obj[id], true);
             });
         }
     }
