@@ -1999,8 +1999,8 @@ Class("linb.UI",  "linb.absObj", {
                     return fun;
                 }),
                 hls={},t;
-            if(!linb.SC.get('linb.absDD'))
-                Class('linb.absDD','linb.absObj',{
+            if(!linb.SC.get('linb.absComposed'))
+                Class('linb.absComposed','linb.absObj',{
                     Instance:{
                         addPanel:function(para, children, item){
                             var pro = _.copy(linb.UI.Panel.$DataStruct);
@@ -2042,7 +2042,7 @@ Class("linb.UI",  "linb.absObj", {
                         $abstract:true
                     }
                 });
-            var src=linb.absDD.prototype;
+            var src=linb.absComposed.prototype;
 
             if(hash.HoverEffected){
                 _.each(hash.HoverEffected,function(o,i){

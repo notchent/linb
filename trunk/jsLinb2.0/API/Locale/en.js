@@ -5068,7 +5068,7 @@ _.set(linb.Locale,["en","doc","linb","absValue"], {
     }
 });
 
-_.set(linb.Locale,["en","doc","linb","absDD"], {
+_.set(linb.Locale,["en","doc","linb","absComposed"], {
     prototype:{
         getDragKey:{
             $desc:"Gets the dragKey property value on the first UIProfile",

@@ -5068,7 +5068,7 @@ _.set(linb.Locale,["cn","doc","linb","absValue"], {
     }
 });
 
-_.set(linb.Locale,["cn","doc","linb","absDD"], {
+_.set(linb.Locale,["cn","doc","linb","absComposed"], {
     prototype:{
         getDragKey:{
             $desc:"获取拖动时的标志键",
