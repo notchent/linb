@@ -2036,6 +2036,32 @@ type:4
             delete linb.Event.$keyboard;
         },"document");
 
+        //hook link(<a ...>xxx</a>) click action
+        if(linb.browser.ie || linb.browser.kde)
+            linb.doc.onClick(function(p,e,src){
+                if(!linb.History)return;
+
+                var s = location.href.split('#')[0],
+                    t=linb.Event,
+                    o = t.getSrc(e),b,i=0,
+                    b
+                ;
+                do{
+                    if(o.tagName == 'A'){
+                        b=true;
+                        break;
+                    }
+                    if(++i>8)break;
+                }while(o=o.parentNode)
+                if(b){
+                    if(o.href.indexOf('javascript:')==0)return false;
+                    if(!t.getKey(e)[2] && t.getBtn(e)=='left' && (o.href.indexOf(s+'#')==0||o.href.indexOf('#')==0)){
+                        linb.History.setFI(o.href.replace(s,''));
+                        return false;
+                    }
+                }
+            },'hookA',0);
+
         //free memory
         linb.win.afterUnload(function(){
             //unlink link 'App'

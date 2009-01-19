@@ -99,7 +99,7 @@ Class("linb.History",null,{
     	setFI:function(fi,triggerCallback){
     	    var self=this;
     	    if(!self._callback)return;
-    	    if(fi)fi=fi.replace(/^#+/,'');
+    	    if(fi)fi=(''+fi).replace(/^#+/,'');
             if(self._lastFI == '#' + fi)return false;
 
     		if(linb.browser.ie) {
@@ -119,30 +119,5 @@ Class("linb.History",null,{
             if(triggerCallback!==false)
 		        _.tryF(self._callback,[fi]);
     	}
-    },
-	Initialize:function(){
-        //hook link(<a ...>xxx</a>) click action
-        if(linb.browser.ie || linb.browser.kde)
-            linb.doc.onClick(function(p,e,src){
-                var s = location.href.split('#')[0],
-                    t=linb.Event,
-                    o = t.getSrc(e),b,i=0,
-                    b
-                ;
-                do{
-                    if(o.tagName == 'A'){
-                        b=true;
-                        break;
-                    }
-                    if(++i>8)break;
-                }while(o=o.parentNode)
-                if(b){
-                    if(o.href.indexOf('javascript:')==0)return false;
-                    if(!t.getKey(e)[2] && t.getBtn(e)=='left' && (o.href.indexOf(s+'#')==0||o.href.indexOf('#')==0)){
-                        linb.History.setFI(o.href.replace(s,''));
-                        return false;
-                    }
-                }
-            },'hookA',0);
-	}
+    }
 });
