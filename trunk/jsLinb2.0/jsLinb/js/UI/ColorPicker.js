@@ -384,7 +384,7 @@ Class('linb.UI.ColorPicker', ['linb.UI',"linb.absValue"], {
             },
             OK:{
                 onClick:function(p,e,src){
-                    p.boxing().setUIValue(p.$tempValue);
+                    p.boxing().setUIValue(p.$tempValue,true);
                 }
             },
             CANCEL:{

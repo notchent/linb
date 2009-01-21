@@ -15960,7 +15960,7 @@ Class("linb.UI.Group", "linb.UI.Div",{
             },
             OK:{
                 onClick:function(p,e,src){
-                    p.boxing().setUIValue(p.$tempValue);
+                    p.boxing().setUIValue(p.$tempValue,true);
                 }
             },
             CANCEL:{
@@ -17248,9 +17248,6 @@ Class("linb.UI.Group", "linb.UI.Div",{
                         a=v.split(':');
                     a[0]=profile.$hour;
                     profile.boxing().setUIValue(a.join(':'),true);
-
-                    if(pro.closeBtn)
-                        profile.getSubNode('CLOSE').onClick();
                 }
             },
             MI:{

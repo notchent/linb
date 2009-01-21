@@ -281,9 +281,6 @@ Class('linb.UI.TimePicker', ['linb.UI',"linb.absValue"], {
                         a=v.split(':');
                     a[0]=profile.$hour;
                     profile.boxing().setUIValue(a.join(':'),true);
-
-                    if(pro.closeBtn)
-                        profile.getSubNode('CLOSE').onClick();
                 }
             },
             MI:{
