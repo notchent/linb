@@ -1292,7 +1292,9 @@ Class('linb.Ajax','linb.absIO',{
                    if(asy)
                        x.onreadystatechange = function(){
                            if(self && x && x.readyState==4) {
-                               self._complete.apply(self);
+                               //Checking responseXML for Terminated unexpectedly in firfox
+                               if(!linb.browser.gek || x.responseXML)
+                                   self._complete.apply(self);
                                //must clear here, else memory leak
                                self._clear();
                            }

@@ -273,7 +273,7 @@ Class('VisualJS', 'linb.Com',{
                     } ,function(txt){
                         var obj = typeof txt=='string'?_.unserialize(txt):txt;
                         if(!obj || obj.error)
-                            linb.message(obj.error.message);
+                            linb.message(_.get(obj,['error','message'])||'on response!');
                         else{
                             _.tryF(self._openproject, [self.curProject, obj.data], self);
                             linb.message(linb.getRes('VisualJS.tool2.refreshOK'));

@@ -118,7 +118,7 @@ Class('VisualJS.ProjectSelector', 'linb.Com',{
             }),function(txt){
                 var obj = typeof txt=='string'?_.unserialize(txt):txt;
                 if(!obj || obj.error)
-                    linb.message(obj.error.message);
+                    linb.message(_.get(obj,['error','message'])||'on response!');
                 else
                     _.tryF(self.properties.onOK, [pm, obj.data], self.host);
                 self.dialog.close();

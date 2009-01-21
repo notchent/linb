@@ -1292,7 +1292,9 @@ Class('linb.Ajax','linb.absIO',{
                    if(asy)
                        x.onreadystatechange = function(){
                            if(self && x && x.readyState==4) {
-                               self._complete.apply(self);
+                               //Checking responseXML for Terminated unexpectedly in firfox
+                               if(!linb.browser.gek || x.responseXML)
+                                   self._complete.apply(self);
                                //must clear here, else memory leak
                                self._clear();
                            }
@@ -4782,6 +4784,7 @@ Class('linb.Dom','linb.absBox',{
                 if( t = (left || (style.left==v && (o._left || auto))))style.left = t;
                 if(t=o._position)if(style.position!=t)style.position=t;
                 if(style.visibility!='visible')style.visibility='visible';
+                o._hide=0;
                 //ie6 bug
               /*  if(linb.browser.ie6){
                     t=style.wordWrap=='normal';
@@ -4796,6 +4799,7 @@ Class('linb.Dom','linb.absBox',{
             return this.each(function(o){
                 if(o.nodeType != 1)return;
                 style=o.style;t=linb([o]);
+                o._hide=1;
                 o._position = style.position;
                 o._top = style.top;
                 o._left = style.left;
@@ -28363,8 +28367,13 @@ Class("linb.UI.Dialog","linb.UI.Widget",{
                         
                         //set default focus, the min tabzindex
                         _.asyRun(function(){root.nextFocus()});
-                    };
-
+                        
+                        delete profile.inShowing;
+                    },
+                    root=profile.root;
+                if(root.get(0)._hide===0)return;
+                if(profile.inShowing)return;
+                profile.inShowing=1;
                 if(t=pro.fromRegion)
                     linb.Dom.animate({border:'dashed 1px #ff0000'},{left:[t.left,pro.left],top:[t.top,pro.top],width:[t.width,pro.width],height:[t.height,pro.height]}, null,fun,360,12,'expoIn').start();
                 else
@@ -28374,7 +28383,11 @@ Class("linb.UI.Dialog","linb.UI.Widget",{
         hide:function(){
             this.each(function(profile){
                 var pro=profile.properties,
-                    box=profile.box;
+                    box=profile.box,
+                    root=profile.root;
+                if(root.get(0)._hide==1)return;
+                if(profile.inHiding)return;
+                profile.inHiding=1;
 
                 if(profile.$inModal)
                     box._unModal(profile);
@@ -28382,11 +28395,15 @@ Class("linb.UI.Dialog","linb.UI.Widget",{
                 if(pro.status=='max' || pro.status=='min')
                     box._restore(profile);
 
-                profile.root.hide();
+                root.hide();
 
-                var t=pro.fromRegion;
+                var t=pro.fromRegion, fun=function(){
+                    delete profile.inHiding;
+                };
                 if(t)
-                    linb.Dom.animate({border:'dashed 1px #ff0000'},{left:[pro.left,t.left],top:[pro.top,t.top],width:[pro.width,t.width],height:[pro.height,t.height]},  null, null,360,12,'expoOut').start();
+                    linb.Dom.animate({border:'dashed 1px #ff0000'},{left:[pro.left,t.left],top:[pro.top,t.top],width:[pro.width,t.width],height:[pro.height,t.height]},  null, fun,360,12,'expoOut').start();
+                else
+                    fun();
             });
             return this;
         },
@@ -28394,8 +28411,11 @@ Class("linb.UI.Dialog","linb.UI.Widget",{
             return this.each(function(profile){
                 if(profile.beforeClose && false === profile.boxing().beforeClose(profile))
                     return;
+                if(profile.inClosing)return;
+                profile.inClosing=1;
                 var pro=profile.properties, t=pro.fromRegion, fun=function(){
                     profile.boxing().destroy();
+                    delete profile.inClosing;
                 };
 
                 if(t)
