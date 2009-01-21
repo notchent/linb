@@ -7,7 +7,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                 var o=profile.getSubNode('INPUT'), type=profile.properties.type;
                 value=flag?value:profile.boxing()._getShowValue(value);
                 if(type!=='none'&& !profile.properties.multiLines && typeof value=='string' && r1.test(value))value=value.replace(r2,'');
-                o.attr('value',value);
+                o.attr('value',value||'');
                 if(type=='colorpicker'){
                     profile.getSubNode('BORDER').css('backgroundColor',value);
                     o.css('color',linb.UI.ColorPicker.getTextColor(value));
@@ -773,7 +773,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                     value=Math.ceil((value-0.0000000000003)*n)/n;
                     return String(value>prop.max?prop.max:value<prop.min?prop.min:value);
                 default:
-                    return String(value);
+                    return typeof value!=='string'?value:(value||value===0)?String(value):'';
             }
         },
         _onresize:function(profile,width,height){

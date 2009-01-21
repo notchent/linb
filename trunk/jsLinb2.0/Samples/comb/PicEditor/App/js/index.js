@@ -411,10 +411,10 @@ Class('App', 'linb.Com',{
 
             append((new linb.UI.Button)
                 .host(host,"btnUpload")
-                .setLeft(3)
-                .setTop(66)
-                .setWidth(93)
-                .setHeight(36)
+                .setLeft(7)
+                .setTop(70)
+                .setWidth(85)
+                .setHeight(28)
                 .setType('custom')
                 .setBorder(true)
                 .setCaption("$app.caption.upload")
@@ -425,10 +425,10 @@ Class('App', 'linb.Com',{
             append((new linb.UI.Button)
                 .host(host,"btnSave")
                 .setDomId("btnSave")
-                .setLeft(3)
-                .setTop(112)
-                .setWidth(93)
-                .setHeight(36)
+                .setLeft(7)
+                .setTop(116)
+                .setWidth(85)
+                .setHeight(28)
                 .setType('custom')
                 .setBorder(true)
                 .setCaption("$app.caption.save")
@@ -843,6 +843,7 @@ Class('App', 'linb.Com',{
                     linb('body').append(o);
                 }
                 var callback=function(rsp){
+                    SPA.stack.setValue('files',true);
                     SPA.ilPhoto.insertItems([rsp.data],null,false);
                     SPA.ilPhoto.fireItemClickEvent(rsp.data.id);
                     SPA.ilHistory.clearItems().setTag(rsp.data.filename);

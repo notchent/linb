@@ -136,8 +136,11 @@ class Uploader
         // make sure the image is a valid file type and that they type matches the extention
         if(!array_key_exists($ext,$this->mime_types))
             throw new Exception('Mime type invalid!');
-        elseif($this->mime_types[$ext] != $file['type'])
-            throw new Exception('file type does not match file extention!');
+        elseif($this->mime_types[$ext] != $file['type']){
+            if($file['type']=='image/pjpeg' && $this->mime_types[$ext]=='image/jpeg')
+                return;
+            throw new Exception("file type '".$file['type']."' does not match file extention '".$this->mime_types[$ext]."'!");
+        }
     }
 
     /**

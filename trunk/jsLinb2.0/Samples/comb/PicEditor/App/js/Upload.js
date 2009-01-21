@@ -13,11 +13,11 @@ Class('App.Upload', 'linb.Com',{
             
             append((new linb.UI.Block)
                 .host(host,"block1")
-                .setWidth(530)
-                .setHeight(90)
+                .setWidth(520)
+                .setHeight(80)
                 .setBorder(true)
                 .setShadow(true)
-                .setCustomStyle({"PANEL":"overflow:hidden;"})
+                .setCustomStyle({"PANEL":"overflow:hidden;background:#fff;"})
             );
             
             host.block1.append((new linb.UI.Div)

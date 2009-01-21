@@ -1086,7 +1086,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                             parent = profile.getSubNode('BODY').get(0);
                         }
                         //sor sub first
-                        var a1=[], a2=[], a3=[] ,a4=[], t,ff;
+                        var a1=[], a2=[], a3=[], t,ff;
                         _.arr.each(rows,function(row){
                             if(row.sub && row.sub.length>1)
                                 self(profile, row, index, type, order);
@@ -1118,14 +1118,11 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                             if(b)a3[i]=a1[o];
                         });
                         if(b){
-                            _.arr.each(a3,function(o,i){
-                                parent.appendChild(o);
-                                if(i%2)
-                                    a4[a4.length]=o;
-                            });
-
+                            var fragment=document.createDocumentFragment();
+                            for(var i=0;t=a3[i];i++)
+                                fragment.appendChild(t);                            
+                            parent.appendChild(fragment);
                         }
-
                     });
 
                     fun(profile, '', index, type, order);

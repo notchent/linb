@@ -14570,7 +14570,7 @@ Class("linb.UI.Input", ["linb.UI.Widget","linb.absValue"] ,{
                 var o=profile.getSubNode('INPUT'), type=profile.properties.type;
                 value=flag?value:profile.boxing()._getShowValue(value);
                 if(type!=='none'&& !profile.properties.multiLines && typeof value=='string' && r1.test(value))value=value.replace(r2,'');
-                o.attr('value',value);
+                o.attr('value',value||'');
                 if(type=='colorpicker'){
                     profile.getSubNode('BORDER').css('backgroundColor',value);
                     o.css('color',linb.UI.ColorPicker.getTextColor(value));
@@ -15336,7 +15336,7 @@ Class("linb.UI.Input", ["linb.UI.Widget","linb.absValue"] ,{
                     value=Math.ceil((value-0.0000000000003)*n)/n;
                     return String(value>prop.max?prop.max:value<prop.min?prop.min:value);
                 default:
-                    return String(value);
+                    return typeof value!=='string'?value:(value||value===0)?String(value):'';
             }
         },
         _onresize:function(profile,width,height){
@@ -26839,7 +26839,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                             parent = profile.getSubNode('BODY').get(0);
                         }
                         //sor sub first
-                        var a1=[], a2=[], a3=[] ,a4=[], t,ff;
+                        var a1=[], a2=[], a3=[], t,ff;
                         _.arr.each(rows,function(row){
                             if(row.sub && row.sub.length>1)
                                 self(profile, row, index, type, order);
@@ -26871,14 +26871,11 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                             if(b)a3[i]=a1[o];
                         });
                         if(b){
-                            _.arr.each(a3,function(o,i){
-                                parent.appendChild(o);
-                                if(i%2)
-                                    a4[a4.length]=o;
-                            });
-
+                            var fragment=document.createDocumentFragment();
+                            for(var i=0;t=a3[i];i++)
+                                fragment.appendChild(t);                            
+                            parent.appendChild(fragment);
                         }
-
                     });
 
                     fun(profile, '', index, type, order);

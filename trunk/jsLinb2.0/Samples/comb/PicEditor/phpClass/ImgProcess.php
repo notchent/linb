@@ -36,7 +36,7 @@ class ImgProcess extends Unit
                 $urlpath = IMAGEBASEURL . "/" . self::UPLOAD_PATH. "/" .$hash->sessionname . "/";
 
                 $up = new Uploader;
-                $up->set_type(array('gif'=>'image/gif','png'=>'image/png','jpeg'=>'image/jpeg','jpg'=>'image/pjpeg'));
+                $up->set_type(array('gif'=>'image/gif','png'=>'image/png','jpeg'=>'image/jpeg','jpg'=>'image/jpeg'));
                 $up->set_maxsize(self::MAX_SIZE);
                 
                 $io=new IO;
@@ -57,7 +57,7 @@ class ImgProcess extends Unit
             	$fn2=$rfn.'.s.'.$ext;
             	$objPhoto->savefile($relpath.$fn2);
 
-                return array('id'=>$rfn, 'ext'=>$ext, 'big'=>$urlpath . $filename, 'icon'=>$urlpath . $fn2);
+                return array('id'=>$rfn, 'ext'=>$ext, 'big'=>$urlpath . $filename, 'image'=>$urlpath . $fn2);
             case 'openweb':
                 LINB::checkArgs($hash, array(
                     'string' => array(
@@ -103,7 +103,7 @@ class ImgProcess extends Unit
             	$fn2=$rfn.'.s'.$ext;
             	$objPhoto->savefile($relpath.$fn2);
 
-                return array('id'=>$rfn, 'ext'=>substr($ext,1), 'big'=>$urlpath . $filename, 'icon'=>$urlpath . $fn2);
+                return array('id'=>$rfn, 'ext'=>substr($ext,1), 'big'=>$urlpath . $filename, 'image'=>$urlpath . $fn2);
             case 'listphotos':
                 LINB::checkArgs($hash, array(
                     'string' => array(
@@ -117,7 +117,7 @@ class ImgProcess extends Unit
                     $list= $io->search("[-a-zA-Z0-9]+\.s\.(gif|jpg|png|jepg)", $save_path);
                     foreach($list as $v){
                         $a=explode('.', $v['name']);
-                        array_push($ret, array('id'=>$a[0],'ext'=>$a[2], 'icon'=>IMAGEBASEURL . "/" . self::UPLOAD_PATH. "/" . $hash->sessionname . "/" . $v['name'], 'big'=>IMAGEBASEURL . "/" . self::UPLOAD_PATH. "/" . $hash->sessionname . "/" . str_replace('.s.','.',$v['name'])) );
+                        array_push($ret, array('id'=>$a[0],'ext'=>$a[2], 'image'=>IMAGEBASEURL . "/" . self::UPLOAD_PATH. "/" . $hash->sessionname . "/" . $v['name'], 'big'=>IMAGEBASEURL . "/" . self::UPLOAD_PATH. "/" . $hash->sessionname . "/" . str_replace('.s.','.',$v['name'])) );
                     }
                 }
                 return $ret;
