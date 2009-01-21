@@ -9,38 +9,38 @@ Class('VisualJS.ProjectSelector', 'linb.Com',{
                 dlg.setFromRegion(prop.fromRegion);
             dlg.show(self.parent, true);
 
-            linb.Dom.setCover(linb.getRes('VisualJS.ps.getting'));
-            linb.request(CONF.phpPath, ({
-                    key:CONF.requestKey,
-                    para:{
-                        action:'open',
-                        hashCode:_.id(),
-                        path:'projects',
-                        deep:'0'
-                    }
-                }),
-                function(txt){
-                    var arr = typeof txt=='string'?_.unserialize(txt):txt;
-                    if(arr.error)
-                        linb.message(arr.error.message);
-                    else{
-                        arr=arr.data;
-                        self.properties.projectList=[];
-                        if(arr && arr.length){
-                            _.arr.each(arr,function(i){
-                                if(i.type===0){
-                                    self.properties.projectList.push({id:i.location,caption:i.name})
-                                }
-                            });
+            _.observableRun(function(threadid){
+                linb.request(CONF.phpPath, ({
+                        key:CONF.requestKey,
+                        para:{
+                            action:'open',
+                            hashCode:_.id(),
+                            path:'projects',
+                            deep:'0'
                         }
-                        self.listName.setItems(prop.projectList);
-                        linb.Dom.setCover(false);
+                    }),
+                    function(txt){
+                        var obj = typeof txt=='string'?_.unserialize(txt):txt;
+                        if(!obj || obj.error)
+                            linb.message(_.get(obj,['error','message'])||'on response!');
+                        else{
+                            obj=obj.data;
+                            self.properties.projectList=[];
+                            if(obj && obj.length){
+                                _.arr.each(obj,function(i){
+                                    if(i.type===0){
+                                        self.properties.projectList.push({id:i.location,caption:i.name})
+                                    }
+                                });
+                            }
+                            self.listName.setItems(prop.projectList);
+                        }
+                    },
+                    function(msg){
+                        linb.message(msg);
                     }
-                },
-                function(){
-                    linb.Dom.setCover(false);
-                }
-            );
+                ,threadid);
+            });
         }, 
         iniComponents:function(){
             // [[code created by jsLinb UI Builder
