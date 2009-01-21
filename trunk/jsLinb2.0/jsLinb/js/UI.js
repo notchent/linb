@@ -3012,7 +3012,7 @@ Class("linb.UI",  "linb.absObj", {
                     break;
             }
             for(var i in linb.UI.$ps)
-                if((i in p) && !_.isNumb(p[i]))p[i]=parseFloat(p[i]);
+                if((i in p) && typeof p[i]!='number' && p[i]!='' && p[i]!='auto')p[i]=isNaN(p[i]=parseFloat(p[i]))?'auto':p[i];
 
             if(p.items && p.items.length){
                 t=linb.absObj.$specialChars;
