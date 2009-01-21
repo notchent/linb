@@ -1,6 +1,7 @@
 (linb.Locale.cn||(linb.Locale.cn={})).inline={
     ok:'确定',
     cancel:'取消',
+    set:'设置',
     today:'今天',
     yes:'是的',
     no:'不是'

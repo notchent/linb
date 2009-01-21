@@ -1962,6 +1962,7 @@ _.id.prototype = {
 };(linb.Locale.en||(linb.Locale.en={})).inline={
     ok:'O K',
     cancel:'Cancel',
+    set:'SET',
     today:'Today',
     yes:'Yes',
     no:'No'
@@ -15576,7 +15577,7 @@ Class("linb.UI.Group", "linb.UI.Div",{
     }
 });Class('linb.UI.ColorPicker', ['linb.UI',"linb.absValue"], {
     Instance:{
-        _setCtrlValue:function(value){
+        _setCtrlValue:function(value,inner){
             return this.each(function(profile){
                 if(!profile.domNode)return;
                 var cls = profile.box,
@@ -15609,6 +15610,9 @@ Class("linb.UI.Group", "linb.UI.Div",{
                     cls._updateMarks(profile, value, true, hsv[0]);
                     delete profile.$hexinadv;
                 }
+                //from setUIValue/setValue
+                if(inner!=false)
+                    profile.getSubNode('CAPTION').html('#'+value,false);
            });
         },
         getColorName:function(){
@@ -15715,26 +15719,19 @@ Class("linb.UI.Group", "linb.UI.Div",{
                            tagName:'div',
                            text: arr.join('')
                         },
-                        SUBMIT:{
+                        TAIL:{
                             $order:3,
                             tagName:'div',
-                            OK:{
-                                tagName:'a',
-                                href:linb.$href,
-                                className:'ui-btn',
-                                style:'{submitDispay}',
-                                text:linb.wrapRes('inline.ok')
+                            className:'uibg-base',
+                            CAPTION:{
+                                text : '{caption}'
                             },
-                            CANCEL:{
-                                $order:1,
+                            SET:{
+                                tagName:'button',
                                 className:'ui-btn',
-                                style:'{submitDispay}',
-                                tagName:'a',
-                                href:linb.$href,
-                                text:linb.wrapRes('inline.cancel')
+                                text:linb.wrapRes('inline.set')
                             },
                             TOGGLE:{
-                                $order:2,
                                 tagName:'a',
                                 href:linb.$href,
                                 className:'ui-btn',
@@ -15795,14 +15792,6 @@ Class("linb.UI.Group", "linb.UI.Div",{
                     ns.root.width(v?400:200);
                     if(v)
                         ns.box._updateMarks(ns,ns.properties.$UIvalue,true, ns.$hsv[0])
-                }
-            },
-            cmdBtns:{
-                ini:true,
-                action:function(v){
-                    var n=v?'':'none',ns=this;
-                    ns.getSubNode('OK').css('display',n);
-                    ns.getSubNode('CANCEL').css('display',n);
                 }
             },
             $borderW:1
@@ -15928,13 +15917,24 @@ Class("linb.UI.Group", "linb.UI.Div",{
             'LIST a:hover':{
                 border: '1px solid black'
             },
-            SUBMIT:{
+            TAIL:{
                 'margin-top':'1px',
-                'text-align':'right',
+                position:'relative',
+                'white-space':'nowrap',
+                'text-align':'center',
                 padding:'4px'
             },
-            'OK, CANCEL':{
-                'margin-right':'5px'
+            SET:{
+                position:'absolute',
+                display:'none',
+                color:'#ff0000',
+                top:'2px',
+                left:'2px'
+            },
+            TOGGLE:{
+                position:'absolute',
+                right:'6px',
+                top:'2px'
             }
         },
         Behaviors:{
@@ -15947,9 +15947,10 @@ Class("linb.UI.Group", "linb.UI.Div",{
                 },
                 onClick:function(p,e,s){
                     var sid=p.getSubId(s.id);
-                    p.boxing()._setCtrlValue(p.$tempValue=sid);
+                    p.boxing()._setCtrlValue(p.$tempValue=sid,false);
                     if(!p.properties.advance)
                         p.boxing().setUIValue(sid);
+                    p.box._vC(p);
                     return false;
                 }
             },
@@ -15958,9 +15959,10 @@ Class("linb.UI.Group", "linb.UI.Div",{
                     p.box._updateDftTip(p);
                 }
             },
-            OK:{
+            SET:{
                 onClick:function(p,e,src){
                     p.boxing().setUIValue(p.$tempValue,true);
+                    p.box._vC(p);
                 }
             },
             CANCEL:{
@@ -16142,6 +16144,13 @@ Class("linb.UI.Group", "linb.UI.Div",{
                 }
             }
         },
+        _vC:function(profile){
+            var pro=profile.properties,
+                v=pro.$UIvalue,
+                d=v==profile.$tempValue;
+            profile.getSubNode('SET').css('display',d?'none':'block');
+            profile.getSubNode('CAPTION').css('color',d?'':'#ff0000');
+        },
         _prepareData:function(profile){
             var data=arguments.callee.upper.call(this, profile);
             var nodisplay='display:none';
@@ -16149,7 +16158,6 @@ Class("linb.UI.Group", "linb.UI.Div",{
             data.closeDisplay = data.closeBtn?'':nodisplay;
             data._width = data.advance?'400':'200';
             data.advDispay = data.advance?'':'display:none;';
-            data.submitDispay = data.cmdBtns?'':'display:none;';
             return data;
         },
         EventHandlers:{
@@ -16221,8 +16229,9 @@ Class("linb.UI.Group", "linb.UI.Div",{
 
                 //set the cur hex value of hsv for preventing update adv UI again
                 if(hsv)profile.$hexinhsv=v;
-                profile.boxing()._setCtrlValue(profile.$tempValue=v);
+                profile.boxing()._setCtrlValue(profile.$tempValue=v,false);
                 delete profile.$hexinhsv;
+                profile.box._vC(profile);
             }
             linb([src]).css('background','');
             profile.$temp=profile.$start=0;
@@ -16335,8 +16344,9 @@ Class("linb.UI.Group", "linb.UI.Div",{
         _updateValueByPos:function(profile, e, flag){
             //set the cur hex value of adv for preventing update adv UI again
             profile.$hexinadv=profile.$t_hex;
-            profile.boxing()._setCtrlValue(profile.$tempValue=profile.$t_hex);
+            profile.boxing()._setCtrlValue(profile.$tempValue=profile.$t_hex,false);
             delete profile.$hexinadv;
+            profile.box._vC(profile);
         },
         _prepareAdv:function(profile,e){
             var cls=this,
@@ -17077,10 +17087,10 @@ Class("linb.UI.Group", "linb.UI.Div",{
                     CAPTION:{
                         text : '{caption}'
                     },
-                    OK:{
+                    SET:{
                         tagName:'button',
                         className:'ui-btn',
-                        text:linb.wrapRes('inline.ok')
+                        text:linb.wrapRes('inline.set')
                     }
                 }
             }
@@ -17177,10 +17187,12 @@ Class("linb.UI.Group", "linb.UI.Div",{
                 width:'220px',
                 'margin-top':'-1px'
             },
-            OK:{
+            SET:{
                 position:'absolute',
+                display:'none',
+                color:'#ff0000',
                 top:'2px',
-                right:'2px'
+                left:'2px'
             },
             TAIL:{
                 height:'20px',
@@ -17239,15 +17251,17 @@ Class("linb.UI.Group", "linb.UI.Div",{
                     if(profile.$temp2)
                         profile.$hour=profile.$temp2;
                     profile.$temp2=0;
+                    profile.box._hourC(profile);
                 }
             },
-            OK:{
+            SET:{
                 onClick:function(profile){
                     var pro=profile.properties,
                         v=pro.$UIvalue,
                         a=v.split(':');
                     a[0]=profile.$hour;
                     profile.boxing().setUIValue(a.join(':'),true);
+                    profile.box._hourC(profile);
                 }
             },
             MI:{
@@ -17262,6 +17276,7 @@ Class("linb.UI.Group", "linb.UI.Div",{
                     a[0]=profile.$hour;
                     a[1]=profile.getSubId(src.id);
                     profile.boxing().setUIValue(a.join(':'),true);
+                    profile.box._hourC(profile);
                 }
             },
             PRE:{
@@ -17273,6 +17288,7 @@ Class("linb.UI.Group", "linb.UI.Div",{
                     v=(v%24+24)%24;
                     profile.$hour=v=(v<=9?'0':'')+v;
                     profile.getSubNode('HOUR').html(v,false);
+                    profile.box._hourC(profile);
                 }
             },
             NEXT:{
@@ -17284,6 +17300,7 @@ Class("linb.UI.Group", "linb.UI.Div",{
                     v=(v%24+24)%24;
                     profile.$hour=v=(v<=9?'0':'')+v;
                     profile.getSubNode('HOUR').html(v,false);
+                    profile.box._hourC(profile);
                 }
             },
             CLOSE:{
@@ -17310,6 +17327,14 @@ Class("linb.UI.Group", "linb.UI.Div",{
         },
         EventHandlers:{
             beforeClose:function(profile, src){}
+        },
+        _hourC:function(profile){
+            var pro=profile.properties,
+                v=pro.$UIvalue,
+                a=v.split(':'),
+                d=a[0]==profile.$hour;
+            profile.getSubNode('SET').css('display',d?'none':'block');
+            profile.getSubNode('CAPTION').css('color',d?'':'#ff0000');
         },
         _prepareData:function(profile){
             var data=arguments.callee.upper.call(this, profile);

@@ -8458,27 +8458,6 @@ _.set(linb.Locale,["en","doc","linb","UI","ColorPicker"], {
                 "}"
             ]
         },
-        getCmdBtns:{
-            $desc:"Determines whether display bar shows up or not.",
-            $rtn:"Bool",
-            $snippet:[
-                "var id='linb.temp.clr7'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
-                "var o;linb(id).prepend(o=new linb.UI.ColorPicker({position:'relative'}));"+
-                "_.asyRun(function(){o.setCmdBtns(false);alert(o.getCmdBtns())},1000);"+
-                "}"
-            ]
-        },
-        setCmdBtns:{
-            $desc:"Specifys whether display bar shows up or not, and reflects it to DOM UI.",
-            $rtn:"Bool",
-            $snippet:[
-                "var id='linb.temp.clr8'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
-                "var o;linb(id).prepend(o=new linb.UI.ColorPicker({position:'relative'}));"+
-                "_.asyRun(function(){o.setCmdBtns(false);alert(o.getCmdBtns())},1000);"+
-                "}"
-            ]
-        },
-
 
         beforeClose:{
             $desc:"Fired before user click close button or cancel button. If returns false, close function will be ignored.",

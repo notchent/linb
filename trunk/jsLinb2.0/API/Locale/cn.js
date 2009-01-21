@@ -8458,27 +8458,6 @@ _.set(linb.Locale,["cn","doc","linb","UI","ColorPicker"], {
                 "}"
             ]
         },
-        getCmdBtns:{
-            $desc:"判断是否带有确认/取消按钮.",
-            $rtn:"Bool",
-            $snippet:[
-                "var id='linb.temp.clr7'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
-                "var o;linb(id).prepend(o=new linb.UI.ColorPicker({position:'relative'}));"+
-                "_.asyRun(function(){o.setCmdBtns(false);alert(o.getCmdBtns())},1000);"+
-                "}"
-            ]
-        },
-        setCmdBtns:{
-            $desc:"设置是否带有确认/取消按钮, 并刷新界面.",
-            $rtn:"Bool",
-            $snippet:[
-                "var id='linb.temp.clr8'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
-                "var o;linb(id).prepend(o=new linb.UI.ColorPicker({position:'relative'}));"+
-                "_.asyRun(function(){o.setCmdBtns(false);alert(o.getCmdBtns())},1000);"+
-                "}"
-            ]
-        },
-
 
         beforeClose:{
             $desc:"在颜色框关闭前调用. 返回false可以阻止颜色框关闭.",

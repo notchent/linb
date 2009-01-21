@@ -1,6 +1,7 @@
 (linb.Locale.en||(linb.Locale.en={})).inline={
     ok:'O K',
     cancel:'Cancel',
+    set:'SET',
     today:'Today',
     yes:'Yes',
     no:'No'

@@ -1,6 +1,6 @@
 Class('linb.UI.ColorPicker', ['linb.UI',"linb.absValue"], {
     Instance:{
-        _setCtrlValue:function(value){
+        _setCtrlValue:function(value,inner){
             return this.each(function(profile){
                 if(!profile.domNode)return;
                 var cls = profile.box,
@@ -33,6 +33,9 @@ Class('linb.UI.ColorPicker', ['linb.UI',"linb.absValue"], {
                     cls._updateMarks(profile, value, true, hsv[0]);
                     delete profile.$hexinadv;
                 }
+                //from setUIValue/setValue
+                if(inner!=false)
+                    profile.getSubNode('CAPTION').html('#'+value,false);
            });
         },
         getColorName:function(){
@@ -139,26 +142,19 @@ Class('linb.UI.ColorPicker', ['linb.UI',"linb.absValue"], {
                            tagName:'div',
                            text: arr.join('')
                         },
-                        SUBMIT:{
+                        TAIL:{
                             $order:3,
                             tagName:'div',
-                            OK:{
-                                tagName:'a',
-                                href:linb.$href,
-                                className:'ui-btn',
-                                style:'{submitDispay}',
-                                text:linb.wrapRes('inline.ok')
+                            className:'uibg-base',
+                            CAPTION:{
+                                text : '{caption}'
                             },
-                            CANCEL:{
-                                $order:1,
+                            SET:{
+                                tagName:'button',
                                 className:'ui-btn',
-                                style:'{submitDispay}',
-                                tagName:'a',
-                                href:linb.$href,
-                                text:linb.wrapRes('inline.cancel')
+                                text:linb.wrapRes('inline.set')
                             },
                             TOGGLE:{
-                                $order:2,
                                 tagName:'a',
                                 href:linb.$href,
                                 className:'ui-btn',
@@ -219,14 +215,6 @@ Class('linb.UI.ColorPicker', ['linb.UI',"linb.absValue"], {
                     ns.root.width(v?400:200);
                     if(v)
                         ns.box._updateMarks(ns,ns.properties.$UIvalue,true, ns.$hsv[0])
-                }
-            },
-            cmdBtns:{
-                ini:true,
-                action:function(v){
-                    var n=v?'':'none',ns=this;
-                    ns.getSubNode('OK').css('display',n);
-                    ns.getSubNode('CANCEL').css('display',n);
                 }
             },
             $borderW:1
@@ -352,13 +340,24 @@ Class('linb.UI.ColorPicker', ['linb.UI',"linb.absValue"], {
             'LIST a:hover':{
                 border: '1px solid black'
             },
-            SUBMIT:{
+            TAIL:{
                 'margin-top':'1px',
-                'text-align':'right',
+                position:'relative',
+                'white-space':'nowrap',
+                'text-align':'center',
                 padding:'4px'
             },
-            'OK, CANCEL':{
-                'margin-right':'5px'
+            SET:{
+                position:'absolute',
+                display:'none',
+                color:'#ff0000',
+                top:'2px',
+                left:'2px'
+            },
+            TOGGLE:{
+                position:'absolute',
+                right:'6px',
+                top:'2px'
             }
         },
         Behaviors:{
@@ -371,9 +370,10 @@ Class('linb.UI.ColorPicker', ['linb.UI',"linb.absValue"], {
                 },
                 onClick:function(p,e,s){
                     var sid=p.getSubId(s.id);
-                    p.boxing()._setCtrlValue(p.$tempValue=sid);
+                    p.boxing()._setCtrlValue(p.$tempValue=sid,false);
                     if(!p.properties.advance)
                         p.boxing().setUIValue(sid);
+                    p.box._vC(p);
                     return false;
                 }
             },
@@ -382,9 +382,10 @@ Class('linb.UI.ColorPicker', ['linb.UI',"linb.absValue"], {
                     p.box._updateDftTip(p);
                 }
             },
-            OK:{
+            SET:{
                 onClick:function(p,e,src){
                     p.boxing().setUIValue(p.$tempValue,true);
+                    p.box._vC(p);
                 }
             },
             CANCEL:{
@@ -566,6 +567,13 @@ Class('linb.UI.ColorPicker', ['linb.UI',"linb.absValue"], {
                 }
             }
         },
+        _vC:function(profile){
+            var pro=profile.properties,
+                v=pro.$UIvalue,
+                d=v==profile.$tempValue;
+            profile.getSubNode('SET').css('display',d?'none':'block');
+            profile.getSubNode('CAPTION').css('color',d?'':'#ff0000');
+        },
         _prepareData:function(profile){
             var data=arguments.callee.upper.call(this, profile);
             var nodisplay='display:none';
@@ -573,7 +581,6 @@ Class('linb.UI.ColorPicker', ['linb.UI',"linb.absValue"], {
             data.closeDisplay = data.closeBtn?'':nodisplay;
             data._width = data.advance?'400':'200';
             data.advDispay = data.advance?'':'display:none;';
-            data.submitDispay = data.cmdBtns?'':'display:none;';
             return data;
         },
         EventHandlers:{
@@ -645,8 +652,9 @@ Class('linb.UI.ColorPicker', ['linb.UI',"linb.absValue"], {
 
                 //set the cur hex value of hsv for preventing update adv UI again
                 if(hsv)profile.$hexinhsv=v;
-                profile.boxing()._setCtrlValue(profile.$tempValue=v);
+                profile.boxing()._setCtrlValue(profile.$tempValue=v,false);
                 delete profile.$hexinhsv;
+                profile.box._vC(profile);
             }
             linb([src]).css('background','');
             profile.$temp=profile.$start=0;
@@ -759,8 +767,9 @@ Class('linb.UI.ColorPicker', ['linb.UI',"linb.absValue"], {
         _updateValueByPos:function(profile, e, flag){
             //set the cur hex value of adv for preventing update adv UI again
             profile.$hexinadv=profile.$t_hex;
-            profile.boxing()._setCtrlValue(profile.$tempValue=profile.$t_hex);
+            profile.boxing()._setCtrlValue(profile.$tempValue=profile.$t_hex,false);
             delete profile.$hexinadv;
+            profile.box._vC(profile);
         },
         _prepareAdv:function(profile,e){
             var cls=this,
