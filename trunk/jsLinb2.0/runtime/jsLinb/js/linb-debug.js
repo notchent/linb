@@ -28392,7 +28392,7 @@ Class("linb.UI.Dialog","linb.UI.Widget",{
                         delete profile.inShowing;
                     },
                     root=profile.root;
-                if(root.get(0)._hide===0)return;
+                if(root && root.get(0)._hide===0)return;
                 if(profile.inShowing)return;
                 profile.inShowing=1;
                 if(t=pro.fromRegion)
@@ -28406,7 +28406,7 @@ Class("linb.UI.Dialog","linb.UI.Widget",{
                 var pro=profile.properties,
                     box=profile.box,
                     root=profile.root;
-                if(root.get(0)._hide==1)return;
+                if(root&&root.get(0)._hide==1)return;
                 if(profile.inHiding)return;
                 profile.inHiding=1;
 

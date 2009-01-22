@@ -26,7 +26,7 @@ Class('VisualJS.PageEditor', 'linb.Com',{
                 "parent.sandbox=MSIE?this:{eval:function(s){return eval(s)}}"+
                 "<\/script>"
             );
-            txt=_.str.trim(txt);
+            txt=txt.replace(/^\s*/,'').replace(/\s*$/,'');
             if((txt.charAt(0)=='{' || txt.slice(0,8)=='function') && txt.charAt(txt.length-1)=='}')
                 txt='('+txt+')';
             try{
