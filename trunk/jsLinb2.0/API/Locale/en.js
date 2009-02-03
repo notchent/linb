@@ -6552,6 +6552,20 @@ _.set(linb.Locale,["en","doc","linb","UI"], {
                 "}"
             ]
         },
+        onContextmenu:{
+            $desc:"Fired when the root element's contextmenu event was fired. If returns false, the default contextmenu will be blocked(not in opera).",
+            $paras:[
+                "profile : linb.UIProfile object.",
+                "e: DOM event object.",
+                "node: the related DOM element."
+            ],
+            $snippet:[
+                "var id='linb.temp.b2-1'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var btn=new linb.UI.Input;linb(id).prepend(btn);"+
+                "btn.onContextmenu(function(profile){return false});" +
+                "}"
+            ]
+        },
         onRender:{
             $desc:"Fired when the UIProfile renders.",
             $paras:[

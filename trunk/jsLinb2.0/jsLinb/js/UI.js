@@ -2556,7 +2556,11 @@ Class("linb.UI",  "linb.absObj", {
             return _.clone(r);
         },
 
-
+        Behaviors:{
+            onContextmenu:function(profile, e, src){
+                return profile.boxing().onContextmenu(profile, e, src)!==false;
+            }
+        },
         DataModel:{
             tag:'',
             tagVar:{
@@ -2618,7 +2622,8 @@ Class("linb.UI",  "linb.absObj", {
             onLayout:function(profile){},
             onDestroy:function(profile){},
             beforeDestroy:function(profile){},
-            onShowTips:function(profile, node, pos){}
+            onShowTips:function(profile, node, pos){},
+            onContextmenu:function(profile, e, node){}
         },
         RenderTrigger:function(){
             var self=this, b=self.boxing(),p=self.properties;

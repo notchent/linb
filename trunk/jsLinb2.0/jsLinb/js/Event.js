@@ -133,7 +133,7 @@ Class('linb.Event',null,{
         $eventhandler2:function(){return linb.Event(arguments[0],this,1)},
         _eventtag:'before,on,after'.split(','),
         //collection
-        _events : ("mouseover,mouseout,mousedown,mouseup,mousemove,click,dblclick," +
+        _events : ("mouseover,mouseout,mousedown,mouseup,mousemove,click,dblclick,contextmenu," +
                 "keydown,keypress,keyup,scroll,"+
                 "blur,focus,"+
                 "load,unload,"+

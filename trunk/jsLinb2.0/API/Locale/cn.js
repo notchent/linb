@@ -6552,6 +6552,20 @@ _.set(linb.Locale,["cn","doc","linb","UI"], {
                 "}"
             ]
         },
+        onContextmenu:{
+            $desc:"当根dom元素的 contextmenu 激活时会激活本事件. 如果返回 false, 系统默认的 contextmenu 会被屏蔽(opera下无效).",
+            $paras:[
+                "profile : linb.UIProfile object.",
+                "e: DOM event object.",
+                "node: the related DOM element."
+            ],
+            $snippet:[
+                "var id='linb.temp.b2-1'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var btn=new linb.UI.Input;linb(id).prepend(btn);"+
+                "btn.onContextmenu(function(profile){return false});" +
+                "}"
+            ]
+        },
         onRender:{
             $desc:"当UIProfile被渲染时调用.",
             $paras:[

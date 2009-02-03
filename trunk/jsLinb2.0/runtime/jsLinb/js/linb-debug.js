@@ -2313,7 +2313,7 @@ Class('linb.Event',null,{
         $eventhandler2:function(){return linb.Event(arguments[0],this,1)},
         _eventtag:'before,on,after'.split(','),
         //collection
-        _events : ("mouseover,mouseout,mousedown,mouseup,mousemove,click,dblclick," +
+        _events : ("mouseover,mouseout,mousedown,mouseup,mousemove,click,dblclick,contextmenu," +
                 "keydown,keypress,keyup,scroll,"+
                 "blur,focus,"+
                 "load,unload,"+
@@ -10861,7 +10861,11 @@ Class("linb.UI",  "linb.absObj", {
             return _.clone(r);
         },
 
-
+        Behaviors:{
+            onContextmenu:function(profile, e, src){
+                return profile.boxing().onContextmenu(profile, e, src)!==false;
+            }
+        },
         DataModel:{
             tag:'',
             tagVar:{
@@ -10923,7 +10927,8 @@ Class("linb.UI",  "linb.absObj", {
             onLayout:function(profile){},
             onDestroy:function(profile){},
             beforeDestroy:function(profile){},
-            onShowTips:function(profile, node, pos){}
+            onShowTips:function(profile, node, pos){},
+            onContextmenu:function(profile, e, node){}
         },
         RenderTrigger:function(){
             var self=this, b=self.boxing(),p=self.properties;
