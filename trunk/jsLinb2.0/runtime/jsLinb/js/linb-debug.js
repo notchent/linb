@@ -6156,7 +6156,7 @@ type:4
         },"document");
 
         //hook link(<a ...>xxx</a>) click action
-        if(linb.browser.ie || linb.browser.kde)
+        //if(linb.browser.ie || linb.browser.kde)
             linb.doc.onClick(function(p,e,src){
                 if(!linb.History)return;
 
@@ -9264,8 +9264,8 @@ Class("linb.UI",  "linb.absObj", {
             return self;
         },
         busy:function(message,html,key){
-            message=message||'Loading...';
-            html=html||'<span style="background:'+ linb.UI.$bg('busy.gif',' no-repeat left center')('linb.UI.Public') +';padding-left:16px;">'+message+'</span>';
+            message=typeof message=='string'?message:'Loading...';
+            html=typeof html=='string'?html:'<span style="background:'+ linb.UI.$bg('busy.gif',' no-repeat left center')('linb.UI.Public') +';padding-left:16px;">'+message+'</span>';
             return this.each(function(profile){
                 _.resetRun(profile.$id+':busy',function(){
                     var keys=profile.keys;
@@ -9275,12 +9275,12 @@ Class("linb.UI",  "linb.absObj", {
                         size=parentNode.cssSize(),
                         node;
                     if(!(node=profile.$busy)){
-                        node=profile.$busy=linb.create('<div style="left:0;top:0;z-index:10;position:absolute;background-color:#DDD;"></div><div style="left:0;top:0;z-index:20;text-align:center;position:absolute;">'+html+'</div>');
+                        node=profile.$busy=linb.create('<div style="left:0;top:0;z-index:10;position:absolute;background-color:#DDD;"></div><div style="left:0;top:0;z-index:20;text-align:center;position:absolute;"><div>'+html+'</div></div>');
                         linb([node.get(0)]).css({opacity:0.5});
                         linb(parentNode).append(node);
                     }
-                    node.css({display:'',width:size.width+'px',height:size.height+'px',paddingTop:size.height/2+'px'});
-                    linb([node.get(1)]).html(html,false);
+                    node.css({display:'',width:size.width+'px',height:size.height+'px'});
+                    linb([node.get(1).firstChild]).html(html,false).css('paddingTop',size.height/2+'px');
                 },50);
             });
         },
@@ -11415,6 +11415,7 @@ Class("linb.UI",  "linb.absObj", {
                 id=dataItem[SubID]=typeof serialId=='string'?serialId:profile.pickSubId('items');
 
                 if(false!==mapCache){
+                    if(profile.ItemIdMapSubSerialId[item.id])continue;
                     profile.ItemIdMapSubSerialId[item.id] = id;
                     profile.SubSerialIdMapItem[id] = item;
                 }
@@ -11825,7 +11826,8 @@ Class("linb.absValue", "linb.absObj",{
                     });
                     return this;
                 }
-            }
+            },
+            dirtyMark:true
         },
         EventHandlers:{
            //$onValueSet
@@ -13904,6 +13906,7 @@ Class("linb.UI.Button", ["linb.UI.Widget","linb.absValue"],{
         //update UI face
         _setDirtyMark:function(){
             return this.each(function(profile){
+                if(!profile.properties.dirtyMark)return;
                 if(!profile.domNode)return;
                 var properties = profile.properties,
                     o=profile.getSubNode('CAPTION'),
@@ -14075,6 +14078,7 @@ Class("linb.UI.Input", ["linb.UI.Widget","linb.absValue"] ,{
         },
         _setDirtyMark:function(){
             return this.each(function(profile){
+                if(!profile.properties.dirtyMark)return;
                 var properties = profile.properties,
                     o=profile.getSubNode('INPUT'),
                     cls=profile.box,
@@ -14443,6 +14447,8 @@ Class("linb.UI.Input", ["linb.UI.Widget","linb.absValue"] ,{
                 ns.boxing()._setTB(1);
             });
             ns.getSubNode('BOX').$firfox2();
+            if(p.readonly)
+                ns.boxing().setReadonly(true,true);
         },
         LayoutTrigger:function(){
             var p = this.properties;
@@ -19285,6 +19291,7 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
         },
         _setDirtyMark:function(){
             return this.each(function(profile){
+                if(!profile.properties.dirtyMark)return;
                 var id=profile.domId,
                     p=profile.properties,
                     flag=p.value !== p.$UIvalue,
@@ -24727,6 +24734,7 @@ Class("linb.UI.Range", ["linb.UI","linb.absValue"],{
         },
         _setDirtyMark:function(){
             return this.each(function(profile){
+                if(!profile.properties.dirtyMark)return;
                 if(!profile.domNode)return;
                 var properties = profile.properties,
                     o=profile.getSubNode('BOX'),

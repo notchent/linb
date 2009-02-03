@@ -44,9 +44,9 @@ class MYSQL{
    * query any string
    * return array [{},{},...]
    */
-   public function query($any) {
+   public function query($any, $assoc=false) {
         $i = $this->_query($any);
-        $r = $this->_fetch_all($i);
+        $r = $this->_fetch_all($i, $assoc);
         $this->_release($i);
         return $r;
    }
@@ -55,13 +55,13 @@ class MYSQL{
    * select
    * return array [{},{},...]
    */
-   public function select($table, $fields, $where='', $all=false) {
+   public function select($table, $fields, $where='', $all=false, $assoc=false) {
         $q="SELECT ".$fields.' FROM '.$table.' WHERE '.$where;
         $i = $this->_query($q);
         if($all)
-            $r = $this->_fetch_all($i);
+            $r = $this->_fetch_all($i, $assoc);
         else
-            $r = $this->_fetch_first($i);
+            $r = $this->_fetch_first($i, $assoc);
         $this->_release($i);
         return $r;
    }
@@ -175,10 +175,13 @@ class MYSQL{
    /**
    * fetch one line result from the current query
    */
-    function _fetch($query_id) {
+    function _fetch($query_id, $assoc=false) {
         if (!isset($query_id) )
             throw new LINB_E("Invalid query_id $query_id.");
-        $record = @mysql_fetch_row($query_id);
+        if($assoc)
+            $record = @mysql_fetch_assoc($query_id);
+        else
+            $record = @mysql_fetch_row($query_id);
         if($record)
             foreach($record as $key=>$val)
                 $record[$key]=stripslashes($val);
@@ -188,17 +191,17 @@ class MYSQL{
    /**
    * query the first line only
    */
-    function _fetch_first($query_id) {
-        $arr = $this->_fetch($query_id);
+    function _fetch_first($query_id, $assoc=false) {
+        $arr = $this->_fetch($query_id, $assoc);
         return $arr;
     }
 
     /**
    * fetch all results as array from the current query
    */
-    function _fetch_all($query_id) {
+    function _fetch_all($query_id, $assoc=false) {
         $arr = array();
-        while ($row = $this->_fetch($query_id))
+        while ($row = $this->_fetch($query_id, $assoc))
             $arr[] = $row;
         return $arr;
     }

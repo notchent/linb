@@ -959,8 +959,8 @@ Class("linb.UI",  "linb.absObj", {
             return self;
         },
         busy:function(message,html,key){
-            message=message||'Loading...';
-            html=html||'<span style="background:'+ linb.UI.$bg('busy.gif',' no-repeat left center')('linb.UI.Public') +';padding-left:16px;">'+message+'</span>';
+            message=typeof message=='string'?message:'Loading...';
+            html=typeof html=='string'?html:'<span style="background:'+ linb.UI.$bg('busy.gif',' no-repeat left center')('linb.UI.Public') +';padding-left:16px;">'+message+'</span>';
             return this.each(function(profile){
                 _.resetRun(profile.$id+':busy',function(){
                     var keys=profile.keys;
@@ -970,12 +970,12 @@ Class("linb.UI",  "linb.absObj", {
                         size=parentNode.cssSize(),
                         node;
                     if(!(node=profile.$busy)){
-                        node=profile.$busy=linb.create('<div style="left:0;top:0;z-index:10;position:absolute;background-color:#DDD;"></div><div style="left:0;top:0;z-index:20;text-align:center;position:absolute;">'+html+'</div>');
+                        node=profile.$busy=linb.create('<div style="left:0;top:0;z-index:10;position:absolute;background-color:#DDD;"></div><div style="left:0;top:0;z-index:20;text-align:center;position:absolute;"><div>'+html+'</div></div>');
                         linb([node.get(0)]).css({opacity:0.5});
                         linb(parentNode).append(node);
                     }
-                    node.css({display:'',width:size.width+'px',height:size.height+'px',paddingTop:size.height/2+'px'});
-                    linb([node.get(1)]).html(html,false);
+                    node.css({display:'',width:size.width+'px',height:size.height+'px'});
+                    linb([node.get(1).firstChild]).html(html,false).css('paddingTop',size.height/2+'px');
                 },50);
             });
         },
@@ -3110,6 +3110,7 @@ Class("linb.UI",  "linb.absObj", {
                 id=dataItem[SubID]=typeof serialId=='string'?serialId:profile.pickSubId('items');
 
                 if(false!==mapCache){
+                    if(profile.ItemIdMapSubSerialId[item.id])continue;
                     profile.ItemIdMapSubSerialId[item.id] = id;
                     profile.SubSerialIdMapItem[id] = item;
                 }
@@ -3520,7 +3521,8 @@ Class("linb.absValue", "linb.absObj",{
                     });
                     return this;
                 }
-            }
+            },
+            dirtyMark:true
         },
         EventHandlers:{
            //$onValueSet

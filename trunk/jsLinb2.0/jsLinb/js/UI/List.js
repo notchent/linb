@@ -66,6 +66,7 @@ Class("linb.UI.List", ["linb.UI", "linb.absList","linb.absValue" ],{
         },
         _setDirtyMark:function(){
             return this.each(function(profile){
+                if(!profile.properties.dirtyMark)return;
                 var id=profile.domId,
                     p=profile.properties,
                     flag=p.value !== p.$UIvalue,

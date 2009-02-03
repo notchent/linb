@@ -33,6 +33,7 @@ Class("linb.UI.Input", ["linb.UI.Widget","linb.absValue"] ,{
         },
         _setDirtyMark:function(){
             return this.each(function(profile){
+                if(!profile.properties.dirtyMark)return;
                 var properties = profile.properties,
                     o=profile.getSubNode('INPUT'),
                     cls=profile.box,
@@ -401,6 +402,8 @@ Class("linb.UI.Input", ["linb.UI.Widget","linb.absValue"] ,{
                 ns.boxing()._setTB(1);
             });
             ns.getSubNode('BOX').$firfox2();
+            if(p.readonly)
+                ns.boxing().setReadonly(true,true);
         },
         LayoutTrigger:function(){
             var p = this.properties;

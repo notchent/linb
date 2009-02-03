@@ -4832,6 +4832,16 @@ _.set(linb.Locale,["en","doc","linb","absList"], {
 
 _.set(linb.Locale,["en","doc","linb","absValue"], {
     prototype:{
+        getDirtyMark:{
+            $desc:"Gets the dirtyMark property value on the first UIProfile",
+            $rtn:"Boolean",
+            $memo:"If dirtyMark is [true], the component maybe show the dirty mark in UI when its value was changed."
+        },
+        setDirtyMark:{
+            $desc:"Sets the dirtyMark property value on the first UIProfile",
+            $rtn:"[self]",
+            $memo:"If dirtyMark is [true], the component maybe show the dirty mark in UI when its value was changed."
+        },
         getDataBinder:{
             $desc:"Gets the DataBinder property value on the first UIProfile",
             $rtn:"String",

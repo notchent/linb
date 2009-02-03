@@ -2039,7 +2039,7 @@ type:4
         },"document");
 
         //hook link(<a ...>xxx</a>) click action
-        if(linb.browser.ie || linb.browser.kde)
+        //if(linb.browser.ie || linb.browser.kde)
             linb.doc.onClick(function(p,e,src){
                 if(!linb.History)return;
 

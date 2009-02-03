@@ -8,6 +8,7 @@ Class("linb.UI.CheckBox", "linb.UI.Button",{
         //update UI face
         _setDirtyMark:function(){
             return this.each(function(profile){
+                if(!profile.properties.dirtyMark)return;
                 if(!profile.domNode)return;
                 var properties = profile.properties,
                     o=profile.getSubNode('CAPTION'),

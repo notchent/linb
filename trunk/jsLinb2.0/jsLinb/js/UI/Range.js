@@ -40,6 +40,7 @@ Class("linb.UI.Range", ["linb.UI","linb.absValue"],{
         },
         _setDirtyMark:function(){
             return this.each(function(profile){
+                if(!profile.properties.dirtyMark)return;
                 if(!profile.domNode)return;
                 var properties = profile.properties,
                     o=profile.getSubNode('BOX'),
