@@ -1586,8 +1586,6 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
             iniFold:true,
             animCollapse:false,
 
-            left:0,
-            top:0,
             position:'absolute',
             width:300,
             height:200,

@@ -463,6 +463,8 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
         },
         DataModel:{
             listKey:null,
+            width:200,
+            height:200,
             tabindex:{
                 action:function(value){
                     if(this.domNode)

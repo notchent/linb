@@ -10311,8 +10311,6 @@ Class("linb.UI",  "linb.absObj", {
                             var pro = _.copy(linb.UI.Panel.$DataStruct);
                             _.merge(pro, para, 'with');
                             _.merge(pro,{
-                                left:0,
-                                top:0,
                                 dock:'fill',
                                 tag:para.tag||para.id
                             },'all');
@@ -23145,6 +23143,8 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
         },
         DataModel:{
             listKey:null,
+            width:200,
+            height:200,
             tabindex:{
                 action:function(value){
                     if(this.domNode)
@@ -27378,8 +27378,6 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
             iniFold:true,
             animCollapse:false,
 
-            left:0,
-            top:0,
             position:'absolute',
             width:300,
             height:200,

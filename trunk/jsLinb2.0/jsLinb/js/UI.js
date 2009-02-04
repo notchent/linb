@@ -2006,8 +2006,6 @@ Class("linb.UI",  "linb.absObj", {
                             var pro = _.copy(linb.UI.Panel.$DataStruct);
                             _.merge(pro, para, 'with');
                             _.merge(pro,{
-                                left:0,
-                                top:0,
                                 dock:'fill',
                                 tag:para.tag||para.id
                             },'all');
