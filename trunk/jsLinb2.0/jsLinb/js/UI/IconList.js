@@ -20,7 +20,8 @@ Class("linb.UI.IconList", "linb.UI.List",{
                             tagName:'img',
                             src:'{image}',
                             width:'{itemWidth}',
-                            height:'{itemHeight}'
+                            height:'{itemHeight}',
+                            style:'{imgStyle}'
                         }
                     }
                 }

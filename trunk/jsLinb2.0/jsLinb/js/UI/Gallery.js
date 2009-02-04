@@ -28,7 +28,10 @@ Class("linb.UI.Gallery", "linb.UI.List",{
                                     tagName : 'div',
                                     IMAGE:{
                                         tagName : 'img',
-                                        src:'{image}'
+                                        src:'{image}',
+                                        width:'{imgWidth}',
+                                        height:'{imgHeight}',
+                                        style:'{imgStyle}'
                                     }
                                 }
                         },

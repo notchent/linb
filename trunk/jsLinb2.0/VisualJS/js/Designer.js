@@ -729,8 +729,11 @@ Class('VisualJS.Designer', 'linb.Com',{
                             if(!(t['linb.UI'] && !t.$noDomRoot)){
                                 //give design mark
                                 var o = linb.create(type).get(0);
-                                page.iconlist.insertItems([{id:o.$id, image:'img/widgets.gif', imagePos:imagePos}],null,false);
+                                page.iconlist.insertItems([{id:o.$id, image:linb.ini.file_bg, tips:o.key, imgStyle:'background:url(img/widgets.gif) '+ imagePos}],null,false);
                                 page.iconlist.setUIValue(o.$id);
+                                
+                                if(t['linb.UI'])
+                                    page._setItems(o.boxing());
                                 //
                             }else{
                                 //before drop check

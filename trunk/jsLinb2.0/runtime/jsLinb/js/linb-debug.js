@@ -19696,7 +19696,10 @@ Class("linb.UI.Gallery", "linb.UI.List",{
                                     tagName : 'div',
                                     IMAGE:{
                                         tagName : 'img',
-                                        src:'{image}'
+                                        src:'{image}',
+                                        width:'{imgWidth}',
+                                        height:'{imgHeight}',
+                                        style:'{imgStyle}'
                                     }
                                 }
                         },
@@ -19880,7 +19883,8 @@ Class("linb.UI.IconList", "linb.UI.List",{
                             tagName:'img',
                             src:'{image}',
                             width:'{itemWidth}',
-                            height:'{itemHeight}'
+                            height:'{itemHeight}',
+                            style:'{imgStyle}'
                         }
                     }
                 }
