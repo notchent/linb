@@ -219,7 +219,7 @@ Class("linb.UI.Tabs", ["linb.UI", "linb.absList","linb.absValue"],{
             $dynamic:{
                 items:{
                     ITEM:{
-                        className:'{itemClass}',
+                        className:'{itemClass} {disabled}',
                         style:'{itemStyle}',
                         BOX:{
                             HANDLE:{

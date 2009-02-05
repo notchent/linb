@@ -227,7 +227,7 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
                 items:{
                     ITEM:{
                         tagName:'div',
-                        className:'{itemClass}',
+                        className:'{itemClass} {disabled}',
                         style:'left:{_left}px;width:{_width}px;{_top};{_height};{itemStyle}',
                         MIN:{
                             $order:0,

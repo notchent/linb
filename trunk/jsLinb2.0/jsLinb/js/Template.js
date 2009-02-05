@@ -101,7 +101,7 @@ Class('linb.Template','linb.absProfile',{
                     var i,o,j,v;
                     for(j in data){
                         o=data[j];
-                        if(o  && o.constructor==Array && (evkey==j||evkey.indexOf((data._evkey||j)+'.')===0))
+                        if(_.isArr(o) && (evkey==j||evkey.indexOf((data._evkey||j)+'.')===0))
                             for(i=0;v=o[i];i++){
                                 if(v._evkey==evkey&&v.id==id)return v;
                                 else if(v=f(v,evkey,id)) return v;

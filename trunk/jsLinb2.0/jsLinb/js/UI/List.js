@@ -97,7 +97,7 @@ Class("linb.UI.List", ["linb.UI", "linb.absList","linb.absValue" ],{
             $dynamic:{
                 items:{
                     ITEM:{
-                        className:'{itemClass}',
+                        className:'{itemClass} {disabled}',
                         style:'{itemStyle}',
                         tagName : 'a',
                         href :linb.$href,

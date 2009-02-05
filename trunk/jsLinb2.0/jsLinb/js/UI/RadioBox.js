@@ -5,7 +5,7 @@ Class("linb.UI.RadioBox", "linb.UI.List",{
         t.$dynamic={
             items:{
                 ITEM:{
-                    className:'{itemClass}',
+                    className:'{itemClass}  {disabled}',
                     style:'{itemStyle}',
                     tagName: 'a',
                     href :linb.$href,

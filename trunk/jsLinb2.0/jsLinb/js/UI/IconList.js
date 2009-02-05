@@ -11,7 +11,7 @@ Class("linb.UI.IconList", "linb.UI.List",{
         t.$dynamic={
             items:{
                 ITEM:{
-                    className:'{itemClass}',
+                    className:'{itemClass} {disabled}',
                     style:'padding:{itemPadding}px;margin:{itemMargin}px;{itemStyle}',
                     //for firefox2 image in -moz-inline-box cant change height bug
                     IBWRAP:{

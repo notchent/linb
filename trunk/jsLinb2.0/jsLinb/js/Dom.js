@@ -195,7 +195,7 @@ Class('linb.Dom','linb.absBox',{
             this.each(function(o){
                 r=fun.apply(o, args||[]);
                 if(r){
-                    if(r.constructor==Array)
+                    if(_.isArr(r))
                         for(i=0;o=r[i];i++)
                             arr[arr.length]=o;
                     else

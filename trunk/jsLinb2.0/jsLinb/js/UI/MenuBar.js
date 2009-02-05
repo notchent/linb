@@ -1,5 +1,36 @@
 Class("linb.UI.MenuBar",["linb.UI","linb.absList" ],{
     Instance:{
+        updateItem:function(subId,options){
+            var self=this,
+                profile=self.get(0),
+                box=profile.box,
+                items=profile.properties.items,
+                rst=profile.queryItems(items,function(o){return typeof o=='object'?o.id===subId:o==subId},true,true,true),
+                item;
+            if(typeof options=='string')options={caption:options};
+            if(rst.length){
+                rst=rst[0];
+                if(typeof rst[0]!='object')
+                    item=rst[2][rst[1]]={id:rst[0]};
+                else
+                    item=rst[0];
+
+                //merge options
+                _.merge(item, options, 'all');
+                //ensure the original id.
+                item.id=subId;
+
+                //the root
+                if(items.indexOf(item)!=-1)
+                    arguments.callee.upper.apply(this,arguments);
+                //try each sub popmenu
+                else{
+                    _.each(profile.$allPops,function(o){
+                        o.updateItem(subId,options);
+                    });
+                }
+            }
+        },
         _pop:function(id,src){
             var menu, 
                 self=this,
@@ -91,7 +122,7 @@ Class("linb.UI.MenuBar",["linb.UI","linb.absList" ],{
                         tagName:'a',
                         href :linb.$href,
                         tabindex: '{_tabindex}',
-                        className:' {typeCls} ',
+                        className:' {typeCls} {disabled}',
                         ICON:{
                             $order:1,
                             className:'ui-icon',
@@ -174,6 +205,7 @@ Class("linb.UI.MenuBar",["linb.UI","linb.absList" ],{
                     if(p.disabled)return;
                     var item = profile.getItemByDom(src),
                         itemId = item.id;
+                    if(item.disabled)return;
                     if(profile.$menuPop){
                         if(profile.$menuPop != itemId){
                             linb([ns]).tagClass('-mousedown');
@@ -193,6 +225,9 @@ Class("linb.UI.MenuBar",["linb.UI","linb.absList" ],{
                 onMouseout:function(profile, e, src){
                     var p = profile.properties;
                     if(p.disabled)return;
+                    var item = profile.getItemByDom(src);
+                    if(item.disabled)return;
+
                     linb([this]).tagClass('-mouseover',false);
 
                     if(p.autoShowTime){
@@ -215,7 +250,8 @@ Class("linb.UI.MenuBar",["linb.UI","linb.absList" ],{
                     if(p.disabled)return;
                     var item = profile.getItemByDom(src),
                         itemId = item.id;
-                     if(profile.$menuPop){
+                    if(item.disabled)return;
+                    if(profile.$menuPop){
                         profile.$menuPop=null;
                         profile.boxing().hide(itemId);
                      }else{

@@ -761,13 +761,13 @@ Class('linb.UIProfile','linb.Profile', {
             var t;
             return (t=this.ItemIdMapSubSerialId) && t[itemId];
         },
-        queryItems:function(items, fun, deep, single){
+        queryItems:function(items, fun, deep, single, flag){
             var r=[],
                 me=arguments.callee,
                 f = me.f || (me.f = function(items, fun, deep, single, r){
-                    _.arr.each(items,function(o){
-                        if(fun===true || fun.call(null, o)){
-                            r.push(o);
+                    _.arr.each(items,function(o,i){
+                        if(fun===true || fun.call(null, o, i, items)){
+                            r.push(flag?[o,i,items]:o);
                             if(single)
                                 return false;
                         }
@@ -814,7 +814,7 @@ Class("linb.UI",  "linb.absObj", {
                 b=t[e][v];
                 for(i in b){
                     if(typeof b[i]=='object'){
-                        if(b[i].constructor==Array){
+                        if(_.isArr(b[i])){
                             u=k[i]||(k[i]=[]);
                             u.push.apply(u,b[i]);
                         }else{
@@ -1082,7 +1082,7 @@ Class("linb.UI",  "linb.absObj", {
             (function(arr){
                 var me=arguments.callee;
                 _.arr.each(arr,function(o){
-                    if(o.constructor==Array)o=o[0];
+                    if(_.isArr(o))o=o[0];
                     o.clearCache();
                     if(o.children&&o.children.length)
                         me(o.children);
@@ -1643,7 +1643,7 @@ Class("linb.UI",  "linb.absObj", {
         unserialize:function(target,keepSerialId){
             if(typeof target=='string')target=_.unserialize(str);
             var f=function(o){
-                if(o && o.constructor==Array)o=o[0];
+                if(_.isArr(o))o=o[0];
                 delete o.serialId;
                 if(o.children)_.arr.each(o.children,f);
             }, a=[];
@@ -3113,7 +3113,6 @@ Class("linb.UI",  "linb.absObj", {
                 id=dataItem[SubID]=typeof serialId=='string'?serialId:profile.pickSubId('items');
 
                 if(false!==mapCache){
-                    if(profile.ItemIdMapSubSerialId[item.id])continue;
                     profile.ItemIdMapSubSerialId[item.id] = id;
                     profile.SubSerialIdMapItem[id] = item;
                 }
@@ -3172,10 +3171,6 @@ Class("linb.absList", "linb.absObj",{
                 box=profile.box;
                 items = profile.properties.items;
                 index = _.arr.subIndexOf(items,'id',base);
-                if(index==-1){
-                    items.push.apply(items,arr);
-                }else
-                    _.arr.insertAny(items,arr, before?index:index+1);
 
                 //if in dom, create it now
                 if(profile.domNode){
@@ -3190,7 +3185,7 @@ Class("linb.absList", "linb.absObj",{
                         if(typeof before=="boolean"){
                             r=_.str.toDom(ss);
                             //items.length==1 for that one have fake item(for example: editable poll)
-                            if(before||items.length==1)
+                            if(before)
                                 node.prepend(r);
                             else
                                 node.append(r);
@@ -3206,6 +3201,13 @@ Class("linb.absList", "linb.absObj",{
                     }
                     if(b)profile.boxing()._afterInsertItems(profile, data, base, before);
                 }
+
+                //must be here
+                if(index==-1){
+                    items.push.apply(items,arr);
+                }else
+                    _.arr.insertAny(items,arr, before?index:index+1);
+
             });
         },
         removeItems:function(arr, key){
@@ -3250,15 +3252,15 @@ Class("linb.absList", "linb.absObj",{
                 // clear properties
                 remove(profile, p.items, arr);
                 // clear value
-                if(v=p.value){
+                if(v=p.$UIvalue){
                     if((v=v.split(';')).length>1){
                         _.filter(v,function(o){
                             return _.arr.indexOf(arr,o)==-1;
                         });
-                        p.value=v.join(';');
+                        p.$UIvalue=v.join(';');
                     }else{
-                        if(_.arr.indexOf(arr,p.value)!=-1)
-                            p.value=null;
+                        if(_.arr.indexOf(arr,p.$UIvalue)!=-1)
+                            p.$UIvalue=null;
                     }
                 }
                 if(b && profile.domNode)
@@ -3289,11 +3291,19 @@ Class("linb.absList", "linb.absObj",{
                 profile=self.get(0),
                 box=profile.box,
                 items=profile.properties.items,
-                item=profile.queryItems(items,function(o){return o.id==subId},true,true),
-                serialId,node;
-            if(item.length){
-                item=item[0];
+                rst=profile.queryItems(items,function(o){return typeof o=='object'?o.id===subId:o==subId},true,true,true),
+                item,serialId,node,sub,t;
+            if(typeof options=='string')options={caption:options};
+            if(rst.length){
+                rst=rst[0];
+                if(typeof rst[0]!='object')
+                    item=rst[2][rst[1]]={id:rst[0]};
+                else
+                    item=rst[0];
+
+                //merge options
                 _.merge(item, options, 'all');
+                //ensure the original id.
                 item.id=subId;
 
                 //prepared already?
@@ -3304,24 +3314,27 @@ Class("linb.absList", "linb.absObj",{
                 node=profile.getSubNodeByItemId('ITEM',subId);
                 if(!node.isEmpty()){
                     //for the sub node
-                    if(items.sub){
+                    if(options.sub){
                         delete item._created;
                         delete item._checked;
+                    }else if(item.sub){
+                        sub=profile.getSubNodeByItemId('SUB',subId);
                     }
                     node.outerHTML(profile.buildItems(arguments[2]||'items',arr));
+                    //keep sub
+                    if(sub && !sub.isEmpty()){
+                        if(!(t=profile.getSubNodeByItemId('SUB',subId)).isEmpty())
+                            t.replace(sub);
+                    }
                 }
             }
             return self;
         },
         fireItemClickEvent:function(subId){
-            var profile = this.get(0),
-                node =profile.getSubNodeByItemId('ITEM', subId);
-            if(node.isEmpty()){
-                profile.boxing().setUIValue(null);
-            }else
-                node.onClick();
+            this.getSubNodeByItemId('ITEM', subId).onClick();
             return this;
         }
+
     },
     Initialize:function(){
         var o=this.prototype;

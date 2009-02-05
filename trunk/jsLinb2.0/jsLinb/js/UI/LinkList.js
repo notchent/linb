@@ -5,7 +5,7 @@ Class("linb.UI.LinkList", ["linb.UI.List"],{
         t.$dynamic={
             items:{
                 ITEM:{
-                    className:'{itemClass}',
+                    className:'{itemClass} {disabled}',
                     style:'margin:{itemMargin}px;{itemStyle}',
                     LINK:{
                         $order:1,

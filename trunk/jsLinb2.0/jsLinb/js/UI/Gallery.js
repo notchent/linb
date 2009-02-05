@@ -11,7 +11,7 @@ Class("linb.UI.Gallery", "linb.UI.List",{
         t.$dynamic={
             items:{
                 ITEM:{
-                    className:'{itemClass}',
+                    className:'{itemClass} {disabled}',
                     style:'padding:{itemPadding}px;margin:{itemMargin}px;{itemStyle}',
                     ITEMFRAME:{
                         style:'width:{itemWidth}px;height:{itemHeight}px;',

@@ -3548,7 +3548,8 @@ _.set(linb.Locale,["cn","doc","linb","UIProfile"], {
                 "items [必需参数] : 多重数组.",
                 "fun [必需参数] : Function, 查询过滤函数.",
                 "deep [可选参数] : Bool, 指示是否查询子项. 默认为 [false].",
-                "single [可选参数] : Bool, 指示是否返回一个值. 默认为 [false]."
+                "single [可选参数] : Bool, 指示是否返回一个值. 默认为 [false].",
+                "flag [可选参数] : Bool, 指示是否返回包括链接信息的复杂值. 默认为 [false]."
             ],
             $snippet:[
                 "var profile=linb.UIProfile.getFromDomId('linb.UI.TreeBar:a:'), items=[{id:'a'},{id:'.b',sub:[{id:'aa'},{id:'.bb'}]}], filter=function(o,i){return o.id.indexOf('.')!=-1},results= profile.queryItems(items,filter);alert(results.length);results= profile.queryItems(items,filter,true);alert(results.length);results= profile.queryItems(items,filter,true,true);alert(results.length);results= profile.queryItems(items,filter,false,true);alert(results.length);",
@@ -4663,7 +4664,7 @@ _.set(linb.Locale,["cn","doc","linb","Coder"], {
 _.set(linb.Locale,["cn","doc","linb","absList"], {
     prototype:{
         fireItemClickEvent:{
-            $desc:"当list中的某一项被选择时调用.",
+            $desc:"模拟鼠标点击，以选中list中的某一项.",
             $paras:[
                 "subId [必需参数] : String, 项的id."
             ],
@@ -4679,7 +4680,7 @@ _.set(linb.Locale,["cn","doc","linb","absList"], {
             $rtn:"String",
             $paras:[
                 "id [Required] : String. The node id.",
-                "options [Required] : object. a key/value pairs."
+                "options [Required] : a key/value pairs Object or a String."
             ],
             $snippet:[
                 "var id='linb.temp.absl0-1'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -11719,20 +11720,6 @@ _.set(linb.Locale,["cn","doc","linb","UI","TreeBar"], {
                 "var o=new linb.UI.TreeBar({width:'auto',iniFold:true,height:'auto',dock:'none',position:'relative',items:[{id:'a',caption:'a'},{id:'b',caption:'b',sub:[{id:'bb',caption:'bb',sub:[{id: 'bba',caption:'bba'},{id:'bbb',caption:'bbb',sub:[{id:'bbba',caption:'bbba'}]}]}]},{id:'c',caption:'c',sub:[{id:'cz',caption:'cz'}]}]});"+
                 "linb(id).prepend(o);"+
                 "_.asyRun(function(){o.openToNode('bbba')},1000);"+
-                "}"
-            ]
-        },
-        selectItem:{
-            $desc:"选择指定的节点, 并调用[onItemSelected]事件.",
-            $rtn:"String",
-            $paras:[
-                "id [必需参数] : String. 要选择的节点id."
-            ],
-            $snippet:[
-                "var id='linb.temp.tb15'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
-                "var o=new linb.UI.TreeBar({width:'auto',iniFold:true,height:'auto',dock:'none',position:'relative',items:[{id:'a',caption:'a'},{id:'b',caption:'b'},{id:'c',caption:'c',sub:[{id:'cz',caption:'cz'}]}]});"+
-                "linb(id).prepend(o);"+
-                "_.asyRun(function(){o.selectItem('b')},1000);"+
                 "}"
             ]
         },

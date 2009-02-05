@@ -124,7 +124,7 @@ Class('linb.ComFactory',null,{
                             if(path)
                                 f(0,0,threadid);
                             else
-                                throw new Error(cls+' doesnt exists!');
+                                throw new Error(clsPath+' doesnt exists!');
                         }, true,threadid);
 
                     },null,threadid

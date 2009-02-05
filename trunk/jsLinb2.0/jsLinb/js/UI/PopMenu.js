@@ -185,8 +185,6 @@ Class("linb.UI.PopMenu",["linb.UI.Widget","linb.absList"],{
                 tagName:'div',
                  ITEMS:{
                     tagName:'div',
-                    className:'{itemClass}',
-                    style:'{itemStyle}',
                     text:"{items}"
                  }
              },
@@ -218,7 +216,8 @@ Class("linb.UI.PopMenu",["linb.UI.Widget","linb.absList"],{
                     tagName : 'a',
                     href :linb.$href,
                     tabindex: 1,
-                    className: '{cls} {disabled}',
+                    className: '{itemClass} {disabled}',
+                    style:'{itemStyle}',
                     ICON:{
                         style:'background:url({image}) transparent  no-repeat {imagePos};',
                         className:'ui-icon',
@@ -246,7 +245,8 @@ Class("linb.UI.PopMenu",["linb.UI.Widget","linb.absList"],{
                     tagName : 'a',
                     href :linb.$href,
                     tabindex: 1,
-                    className: '{cls}',
+                    className: '{itemClass} {disabled}',
+                    style:'{itemStyle}',
                     CHECKBOX:{
                         $order:0,
                          className:'ui-icon {checkboxCls}'
@@ -430,7 +430,7 @@ Class("linb.UI.PopMenu",["linb.UI.Widget","linb.absList"],{
                     }
 
                     if(!Cancel && item.sub){
-                        if(item.sub.constructor==Array && item.sub.length){
+                        if(_.isArr(item.sub) && item.sub.length){
                             profile[all] = profile[all] || {};
 
                             //no create

@@ -38,7 +38,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                 }else
                     v = profile.$showValue;
             }
-            v=v||value||'';
+            v = v || (value||value===0)?String(value):''
 
             if(v!==value)profile.$caption=v;
             else delete profile.$caption;

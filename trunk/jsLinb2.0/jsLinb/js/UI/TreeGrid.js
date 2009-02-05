@@ -2029,7 +2029,7 @@ caption
             for(var i=0,l=arr.length;i<l;i++){
                 temp='r_'+profile.pickSubId('row');
 
-                if(arr[i].constructor==Array)
+                if(_.isArr(arr[i]))
                     arr[i]={cells:arr[i]};
                 //make sure the row id
                 if(!arr[i].id || a[arr[i].id]){
@@ -2171,7 +2171,7 @@ caption
 
                             if(typeof sub=='string')
                                 subNs.html(item.sub=sub,false);
-                            else if(sub.constructor==Array)
+                            else if(_.isArr(sub))
                                 b.insertRows(sub, item.id);
                             else if(sub['linb.Template']||sub['linb.UI'])
                                 subNs.append(item.sub=sub.render(true));
@@ -2509,6 +2509,7 @@ caption
             //editor change value, update cell value
             editor
             .afterUIValueSet(function(pro,oV,nV){
+                if(getPro(profile, cell, 'type')=='number')nV=parseFloat(nV);
                 grid._updCell(profile, cellId, {value:nV, $caption:pro.$caption});
             })
             .beforeNextFocus(function(pro, key, shift, e){

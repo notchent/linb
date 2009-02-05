@@ -3548,7 +3548,8 @@ _.set(linb.Locale,["en","doc","linb","UIProfile"], {
                 "items [Required] : A deep array.",
                 "fun [Required] : Function, query filter function.",
                 "deep [Optional] : Bool, indicates whether or not it queries the sub items. Default is [false].",
-                "single [Optional] : Bool, indicates whether or not it returns a single result. Default is [false]."
+                "single [Optional] : Bool, indicates whether or not it returns a single result. Default is [false].",
+                "flag [Optional] : Bool, indicates whether or not it returns mixed items. Default is [false]."
             ],
             $snippet:[
                 "var profile=linb.UIProfile.getFromDomId('linb.UI.TreeBar:a:'), items=[{id:'a'},{id:'.b',sub:[{id:'aa'},{id:'.bb'}]}], filter=function(o,i){return o.id.indexOf('.')!=-1},results= profile.queryItems(items,filter);alert(results.length);results= profile.queryItems(items,filter,true);alert(results.length);results= profile.queryItems(items,filter,true,true);alert(results.length);results= profile.queryItems(items,filter,false,true);alert(results.length);",
@@ -4663,7 +4664,7 @@ _.set(linb.Locale,["en","doc","linb","Coder"], {
 _.set(linb.Locale,["en","doc","linb","absList"], {
     prototype:{
         fireItemClickEvent:{
-            $desc:"Fires click event on the specified item.",
+            $desc:"To fires the click event on the specified item.",
             $paras:[
                 "subId [Required] : String, the id value of target item."
             ],
@@ -4679,7 +4680,7 @@ _.set(linb.Locale,["en","doc","linb","absList"], {
             $rtn:"String",
             $paras:[
                 "id [Required] : String. The node id.",
-                "options [Required] : object. a key/value pairs."
+                "options [Required] : a key/value pairs Object or String."
             ],
             $snippet:[
                 "var id='linb.temp.absl0-1'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -11719,20 +11720,6 @@ _.set(linb.Locale,["en","doc","linb","UI","TreeBar"], {
                 "var o=new linb.UI.TreeBar({width:'auto',iniFold:true,height:'auto',dock:'none',position:'relative',items:[{id:'a',caption:'a'},{id:'b',caption:'b',sub:[{id:'bb',caption:'bb',sub:[{id: 'bba',caption:'bba'},{id:'bbb',caption:'bbb',sub:[{id:'bbba',caption:'bbba'}]}]}]},{id:'c',caption:'c',sub:[{id:'cz',caption:'cz'}]}]});"+
                 "linb(id).prepend(o);"+
                 "_.asyRun(function(){o.openToNode('bbba')},1000);"+
-                "}"
-            ]
-        },
-        selectItem:{
-            $desc:"Selects the specified node, and fire the [onItemSelected] event.",
-            $rtn:"String",
-            $paras:[
-                "id [Required] : String. The node id."
-            ],
-            $snippet:[
-                "var id='linb.temp.tb15'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
-                "var o=new linb.UI.TreeBar({width:'auto',iniFold:true,height:'auto',dock:'none',position:'relative',items:[{id:'a',caption:'a'},{id:'b',caption:'b'},{id:'c',caption:'c',sub:[{id:'cz',caption:'cz'}]}]});"+
-                "linb(id).prepend(o);"+
-                "_.asyRun(function(){o.selectItem('b')},1000);"+
                 "}"
             ]
         },

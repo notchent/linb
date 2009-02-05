@@ -1,7 +1,7 @@
 Class("linb.UI.ToolBar",["linb.UI","linb.absList"],{
     Instance:{
         updateItem:function(subId,options){
-            return arguments.callee.upper.apply(this,[subId,options,'items.sub',]);
+            return arguments.callee.upper.apply(this,[subId,options,'items.sub']);
         },
         showItem:function(itemId, value){
             return this.each(function(profile){

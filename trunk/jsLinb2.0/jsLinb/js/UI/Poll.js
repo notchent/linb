@@ -73,7 +73,7 @@ Class("linb.UI.Poll", "linb.UI.List",{
                         tagName: 'a',
                         href :linb.$href,
                         tabindex: '{_tabindex}',
-                        className:'{itemClass}',
+                        className:'{itemClass} {disabled}',
                         style:'{itemStyle}',
                         OPTION:{
                             $order:0,

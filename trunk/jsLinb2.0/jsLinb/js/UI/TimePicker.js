@@ -372,7 +372,7 @@ Class('linb.UI.TimePicker', ['linb.UI',"linb.absValue"], {
             var a,b=[];
             if(value&& typeof value == 'string')
                 a=value.split(':')
-            else if(value && typeof value=='object' && value.constructor==Array)
+            else if(value && typeof value=='object' && _.isArr(value))
                 a=value;
             else a=[];
 

@@ -1413,7 +1413,7 @@ Class('VisualJS.Designer', 'linb.Com',{
                             }
 
                             target.each(function(o){
-                                if(value!==o.properties.property)
+                                if(value!==o.properties[property])
                                     o.boxing()[funName](value);
                             });
                             if(page._map2[property])

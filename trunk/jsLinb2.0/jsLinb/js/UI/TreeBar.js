@@ -59,12 +59,6 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
                     k=profile.getItemByItemId(pid);
                     tar = k.sub || (k.sub= []);
                 }
-                if(!base)
-                    _.arr.insertAny(tar,arr, before?0:-1);
-                else{
-                    var index = _.arr.subIndexOf(tar, 'id', base);
-                    _.arr.insertAny(tar,arr, before?index:(index+1));
-                }
                 if(profile.domNode){
                     if(!base){
                         if(!pid)
@@ -89,6 +83,14 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
                         }
                     }
                 }
+                //must be here
+                if(!base)
+                    _.arr.insertAny(tar,arr, before?0:-1);
+                else{
+                    var index = _.arr.subIndexOf(tar, 'id', base);
+                    _.arr.insertAny(tar,arr, before?index:(index+1));
+                }
+                
                 var obj;
                 if(pid)
                     if((obj=profile.getSubNodeByItemId('TOGGLE', pid)).css('display')=='none')
@@ -152,20 +154,14 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
                             if(!o._checked)
                                 profile.box._setSub(profile, o, true);
                         }else
-                            profile.boxing().selectItem(o.id);
+                            profile.boxing().fireItemClickEvent(o.id);
                     });
                 }
             });
         },
-        selectItem:function(id){
-            var profile = this.get(0);
-            //fire dom event
-            var node =profile.getSubNodeByItemId('BAR', id);
-            //no this one, set to null
-            if(!node.isEmpty()){
-                node.onClick();
-                return this;
-            }else return false;
+        fireItemClickEvent:function(subId){
+            this.getSubNodeByItemId('BAR', subId).onClick();
+            return this;
         }
     },
     Initialize:function(){
@@ -191,7 +187,7 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
             $dynamic:{
                 items:{
                     ITEM:{
-                        className:'{itemClass}',
+                        className:'{itemClass} {disabled}',
                         style:'{itemStyle}',
                         tagName : 'div',
                         onselectstart:'return false',
@@ -636,7 +632,7 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
                                 subNs.css('display','none');
                                 if(typeof sub=='string')
                                     subNs.html(item.sub=sub,false);
-                                else if(sub.constructor==Array)
+                                else if(_.isArr(sub))
                                     b.insertItems(sub, item.id);
                                 else if(sub['linb.Template']||sub['linb.UI'])
                                     subNs.append(item.sub=sub.render(true));
