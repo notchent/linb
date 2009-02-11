@@ -41,6 +41,7 @@ Class('VisualJS.Designer', 'linb.Com',{
                 pro.value='a';
                 }
             }else{
+                if(key=='linb.UI.TimeLine')return;
                 if(!items)return;
                 pro.items=[{id:'a',caption:'item a',image:'img/demo.gif'}, {id:'b',caption:'item b',image:'img/demo.gif'}, {id:'c',caption:'item c',image:'img/demo.gif'}, {id:'d',caption:'item d',image:'img/demo.gif'}];
                 pro.value='a';
@@ -1155,7 +1156,7 @@ Class('VisualJS.Designer', 'linb.Com',{
                     };
 
                     var rows=[
-                            {id:'key', tipk:'class', cells:[{value:'class', type:'label', tips:linb.getRes('VisualJS.designer.openapi')},{value:'<strong>'+pro.key+'</strong>',type:'label', tips:linb.getRes('VisualJS.designer.openapi')}] },
+                            {id:'key', tipk:'class', cells:[{value:'class', type:'label', tips:linb.getRes('VisualJS.designer.openapi')},{disabled:true, value:'<strong>'+pro.key+'</strong>',type:'label', tips:linb.getRes('VisualJS.designer.openapi')}] },
                             {id:'alias',tipk:'fun', tipv:'alias',cells:[{value:'alias', type:'label'},{value:pro.alias,type:uis._nodes.length===1?'input':'label'}] },
                             {id:'domId',tipk:'fun', tipv:'setDomId',cells:[{value:'setDomId',caption:'domId', type:'label'},{value:pro.domId,type:uis._nodes.length===1?'input':'label'}] },
                             {id:'properties',  group:true, caption:'properties', sub:true},
@@ -1188,7 +1189,14 @@ Class('VisualJS.Designer', 'linb.Com',{
                     //if selected more than one
                     if(uis._nodes.length>1)
                         rows=rows.slice(0,4);
-
+                    else{
+                        //get the important properties:
+                        var arr=page.__buildSubRows(uis,'special',true);
+                        _.arr.each(arr,function(o){
+                            o.cells[0].caption='<strong>'+o.cells[0].value+'</strong>';
+                        });
+                        _.arr.insertAny(rows, arr, 3);
+                    }
                     this.profileGrid.insertRows(rows);
 
                     //set target
@@ -1197,7 +1205,6 @@ Class('VisualJS.Designer', 'linb.Com',{
                 }else{
                     pro= linb.getObject(ids[0]);
                     uis = pro.boxing();
-
                     var rows=[
                             {id:'key',  cells:[{value:'class',type:'label'},{value: pro.key, type:'label'}] },
                             {id:'alias',tipk:'fun',tipv:'alias', cells:[{value:'alias', type:'label'},{value:pro.alias, type:'label'}] },
@@ -1551,20 +1558,28 @@ Class('VisualJS.Designer', 'linb.Com',{
                 linb.Tips.hide();
             return true;
         },
-        $profilegrid_onrequestdata: function(profile, item, callback, threadId){
+        $profilegrid_onrequestdata: function(profile, item, callback){
+            return this.__buildSubRows(profile.$widget, item.id);
+        },
+        __buildSubRows:function(uis, id, specailFlag){
             var cv,arr=[],t,page=this,
-                id=item.id,
                 deeppage=this,
                 type,
-                uis = profile.$widget, len=uis._nodes.length;
+                len=uis._nodes.length;
 
             //get the last one first
             var target = uis.get(len-1), dm=target.box.$DataModel, format, listKey, list, $tag,$fun,$tagVar, value,editorReadonly;
+            var specailItems = len===1?CONF.widgets_xprops[target.key]:null;
             //for properties
-            if(id=='properties'){
+            if(id=='properties' || id=='special'){
                 _.each(target.box.$DataStruct,function(o,i){
                      if(i.charAt(0)=='_'||i.charAt(0)=='$') return;
                     if(dm[i].hidden) return;
+                    
+                    if(specailItems){
+                        var inSpecial=specailItems.indexOf(i)!=-1;
+                        if(specailFlag===true?!inSpecial:inSpecial)return;
+                    }
 
                     list=null;
                     editorReadonly=false;
@@ -1762,7 +1777,7 @@ Class('VisualJS.Designer', 'linb.Com',{
                 return x>y?1:x==y?0:-1;
             });
             //for events
-            if(id=='UIE'){
+            if(id=='UIE' || id=='special'){
                 var getCode=function(o){
                     var code;
                     //get from profile:o.profile[o.funName]
@@ -1830,6 +1845,12 @@ Class('VisualJS.Designer', 'linb.Com',{
                 };
 
                 _.each(target.box.$EventHandlers,function(o,i){
+
+                    if(specailItems){
+                        var inSpecial=specailItems.indexOf(i)!=-1;
+                        if(specailFlag===true?!inSpecial:inSpecial)return;
+                    }
+
                     $tagVar = {
                          profile: target,
                          clsStruct: page.$data.clsStruct,

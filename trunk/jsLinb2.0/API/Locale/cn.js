@@ -11122,8 +11122,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","FoldingList"], {
             $paras:[
                 "profile : linb.UIProfile对象.",
                 "item: list item object.",
-                "callback : Function, 填充完成后的回调函数.",
-                "threadid : String, 线程id."
+                "callback : Function, 填充完成后的回调函数."
             ],
             $snippet:[
                 "var id='linb.temp.fl11'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -11400,8 +11399,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","Poll"], {
             $paras:[
                 "profile : linb.UIProfile object.",
                 "item: list item object.",
-                "callback : Function, 回调函数.",
-                "threadid : String, the shell thread id."
+                "callback : Function, 回调函数."
             ],
             $snippet:[
                 "var id='linb.temp.pool30'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -11748,8 +11746,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","TreeBar"], {
             $paras:[
                 "profile : linb.UIProfile 对象.",
                 "item: list item object.",
-                "callback : Function, 回调函数.",
-                "threadid : String, 线程id."
+                "callback : Function, 回调函数."
             ],
             $snippet:[
                 "var id='linb.temp.tb18'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -12249,7 +12246,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","TreeGrid"], {
             $rtn:"String",
             $paras:[
                 "id [必需参数] : String. 节点id.",
-                "expend [可选参数] : Bool. true为打开，false为折叠."
+                "expend [可选参数] : Bool. true为打开，false为折叠. 如果不制定本参数，展开的会折叠，折叠的会展开。"
             ],
             $snippet:[
                 "var id='linb.temp.grid129'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -12712,8 +12709,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","TreeGrid"], {
             $paras:[
                 "profile : linb.UIProfile 对象.",
                 "row : 父行对象.",
-                "callback : Function, 回调函数.",
-                "threadid : String, 线程id."
+                "callback : Function, 回调函数."
             ],
             $snippet:[
                 "var id='linb.temp.grid57'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -13455,8 +13451,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","TimeLine"], {
                 "to : Date, the 'to' time.",
                 "minMs : Number, the min ms count.",
                 "type : String, 'left', 'right' or 'inner'.",
-                "callback : Function, 回调函数.",
-                "threadid : String, the shell thread id."
+                "callback : Function, 回调函数."
             ],
             $snippet:[
                 "var id='linb.temp.tl53'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+

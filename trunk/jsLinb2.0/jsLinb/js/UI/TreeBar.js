@@ -117,8 +117,8 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
         toggleNode:function(id, expend, recursive){
             var profile=this.get(0),
                 o=profile.getItemByItemId(id);
-            if(o.sub && o.sub.length && ((expend&&!o._checked)||(!expend&&o._checked)))
-                profile.box._setSub(profile, o, expend, recursive);
+            if(o && o.sub)
+                profile.box._setSub(profile, o, typeof expend=="boolean"?expend:!o._checked, recursive);
             return self;
         },
         /*
@@ -454,7 +454,7 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
             }
         },
         EventHandlers:{
-            onGetContent:function(profile, item, callback, threadid){},
+            onGetContent:function(profile, item, callback){},
             onItemSelected:function(profile, item, src){}
         },
         DataModel:{
@@ -667,17 +667,8 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
                     if((t=typeof sub)=='string'||t=='object')
                         callback(sub);
                     else if(profile.onGetContent){
-                        linb.Thread(null,[
-                            function(threadId){
-                                var r = profile.boxing().onGetContent(profile, item, callback, threadId);
-                                if(r) callback(r);
-                            }
-                        ],null,null,
-                        //set busy status to UI
-                        function(threadId){markNode.tagClass('-busy')},
-                        //set free status to UI
-                        function(){markNode.tagClass('-busy',false)}
-                        ).start();
+                        var r=profile.boxing().onGetContent(profile, item, callback);
+                        if(r) callback(r);
                     }
                 }
                 if(recursive && item.sub){

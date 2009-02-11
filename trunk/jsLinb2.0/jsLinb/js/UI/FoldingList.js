@@ -46,14 +46,10 @@ Class("linb.UI.FoldingList", ["linb.UI.List"],{
                         var callback=function(o){
                             profile.boxing().fillContent(item.id, item._body=o);
                         };
-                        if(profile.onGetContent)
-                            linb.Thread.observableRun(
-                                function(threadId){
-                                    var r = profile.boxing().onGetContent(profile, item, callback, threadId);
-                                    if(r) callback(r);
-                                }
-                            );
-                        else
+                        if(profile.onGetContent){
+                            var r = profile.boxing().onGetContent(profile, item, callback);
+                            if(r) callback(r);
+                        }else
                             callback(profile.box._buildBody(profile, item));
                     }
                 }

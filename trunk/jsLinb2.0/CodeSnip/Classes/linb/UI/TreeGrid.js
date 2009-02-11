@@ -476,7 +476,7 @@ Class('App.linb_UI_TreeGrid', 'linb.Com',{
                     linb.message('please correct input first!');
             }
         },
-        _tg4_ongetcontent:function (profile, item, callback, threadid) {
+        _tg4_ongetcontent:function (profile, item, callback) {
             return new linb.UI.TreeGrid({position:'relative',width:300,height:200, dock:'none',
                 header:['c1','c2','c3','c4'],
                 rows:[{cells:['11','12','13','14'],sub:[

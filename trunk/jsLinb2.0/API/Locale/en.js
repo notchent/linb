@@ -11122,8 +11122,7 @@ _.set(linb.Locale,["en","doc","linb","UI","FoldingList"], {
             $paras:[
                 "profile : linb.UIProfile object.",
                 "item: list item object.",
-                "callback : Function, callback function.",
-                "threadid : String, the shell thread id."
+                "callback : Function, callback function."
             ],
             $snippet:[
                 "var id='linb.temp.fl11'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -11400,8 +11399,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Poll"], {
             $paras:[
                 "profile : linb.UIProfile object.",
                 "item: list item object.",
-                "callback : Function, callback function.",
-                "threadid : String, the shell thread id."
+                "callback : Function, callback function."
             ],
             $snippet:[
                 "var id='linb.temp.pool30'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -11748,8 +11746,7 @@ _.set(linb.Locale,["en","doc","linb","UI","TreeBar"], {
             $paras:[
                 "profile : linb.UIProfile object.",
                 "item: list item object.",
-                "callback : Function, callback function.",
-                "threadid : String, the shell thread id."
+                "callback : Function, callback function."
             ],
             $snippet:[
                 "var id='linb.temp.tb18'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -12712,8 +12709,7 @@ _.set(linb.Locale,["en","doc","linb","UI","TreeGrid"], {
             $paras:[
                 "profile : linb.UIProfile object.",
                 "row : the parent row.",
-                "callback : Function, callback function.",
-                "threadid : String, the shell thread id."
+                "callback : Function, callback function."
             ],
             $snippet:[
                 "var id='linb.temp.grid57'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -13455,8 +13451,7 @@ _.set(linb.Locale,["en","doc","linb","UI","TimeLine"], {
                 "to : Date, the 'to' time.",
                 "minMs : Number, the min ms count.",
                 "type : String, 'left', 'right' or 'inner'.",
-                "callback : Function, callback function.",
-                "threadid : String, the shell thread id."
+                "callback : Function, callback function."
             ],
             $snippet:[
                 "var id='linb.temp.tl53'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+

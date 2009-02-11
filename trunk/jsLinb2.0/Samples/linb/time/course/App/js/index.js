@@ -204,7 +204,7 @@ Class('App', 'linb.Com',{
                 profile.boxing().removeRows([cell._row.id]);
             });
         }, 
-        _timeline1_ongetcontent:function (profile, from, to, minMs, type, callback, threadid) {
+        _timeline1_ongetcontent:function (profile, from, to, minMs, type, callback) {
             var datasource=SPA.courses;
  
             from=from.getTime();

@@ -164,7 +164,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                 this._insertRowsToDom(profile, rows, pid, base, before);
 
             if(!pro.iniFold)
-                profile.boxing()._toggleRows(rows, true);
+                profile.boxing()._expendRows(rows);
 
             profile.box._asy(profile,false);
             return this;
@@ -274,19 +274,19 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
             self.constructor._updCell(self.get(0),cellId,hash, dirtyMark);
             return self;
         },
-        _toggleRows:function(rows, expend){
+        _expendRows:function(rows){
             var self=this;
             if(rows && rows.length)
                 _.arr.each(rows,function(o){
                     if(o.sub && o.sub.length && !o.iniFold && !o._checked)
-                        self.toggleRow(o.id, expend);
+                        self.toggleRow(o.id, true);
                 });
         },
         toggleRow:function(id, expend){
             var profile = this.get(0),
             row = profile.rowMap[profile.rowMap2[id]];
-            if(row && !row._checked)
-                profile.box._setSub(profile, row, expend);
+            if(row && row.sub)
+                profile.box._setSub(profile, row, typeof expend=="boolean"?expend:!row._checked);
         },
         editCellbyRowCol:function(rowId, colId){
             var profile=this.get(0),con=profile.box;
@@ -1682,7 +1682,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
             }
         },
         EventHandlers:{
-            onGetContent:function(profile, row, callback, threadid){},
+            onGetContent:function(profile, row, callback){},
             onRowSelected:function(profile, row, src){},
 
             beforeColDrag:function(profile, colId){},
@@ -1707,7 +1707,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
             var ns=this, pro=ns.properties,ins=ns.boxing();
             ns.$cache_editor={};
             if(!pro.iniFold)
-                ins._toggleRows(pro.rows, true);
+                ins._expendRows(pro.rows);
             ns.box._asy(ns);
         },
         _asy:function(profile, flag){
@@ -2199,17 +2199,8 @@ caption
                     if((t=typeof sub)=='string'||t=='object')
                         callback(sub);
                     else if(profile.onGetContent){
-                        linb.Thread(null,[
-                            function(threadId){
-                                var r = profile.boxing().onGetContent(profile, item, callback,threadId);
-                                if(r) callback(r);
-                            }
-                        ],null,null,
-                        //set busy status to UI
-                        function(threadId){markNode.tagClass('-busy')},
-                        //set free status to UI
-                        function(){markNode.tagClass('-busy',false)}
-                        ).start();
+                        var r=profile.boxing().onGetContent(profile, item, callback);
+                        if(r) callback(r);
                     }
                 }
             }

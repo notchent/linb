@@ -72,20 +72,12 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
         _getContent:function(from,to,rate,type){
             return this.each(function(profile){
                 if(profile.onGetContent){
-                    var p=profile.properties,
-                        ins=profile.boxing(),
-                        callback=function(arr){
-                            profile.boxing().addTasks(arr);
-                        };
-                    linb.Thread(null,[
-                        function(threadId){
-                            var r = ins.onGetContent(profile, from, to, rate, type, callback, threadId);
-                            if(r) callback(r);
-                        }
-                        ],null,null,
-                        function(threadId){ins.busy()},
-                        function(){ins.free()}
-                    ).start();
+                    var ins=profile.boxing(),
+                        callback=function(arr){ins.addTasks(arr)};
+                    if(profile.onGetContent){
+                        var r = ins.onGetContent(profile, from, to, rate, type, callback);
+                        if(r)callback(r);
+                    }
                 }
             });
         } 
@@ -886,7 +878,7 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
         EventHandlers:{
             beforeClose:function(profile, src){},
             onShowOptions:function(profile, e, src){},
-            onGetContent:function(profile, from, to, minMs, type, callback, threadid){},
+            onGetContent:function(profile, from, to, minMs, type, callback){},
             beforeTaskUpdated:function(profile, task, from, to){},
             beforeNewTasks:function(profile, tasks){},
             beforeDelTasks:function(profile, arr){},

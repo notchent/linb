@@ -17475,20 +17475,12 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
         _getContent:function(from,to,rate,type){
             return this.each(function(profile){
                 if(profile.onGetContent){
-                    var p=profile.properties,
-                        ins=profile.boxing(),
-                        callback=function(arr){
-                            profile.boxing().addTasks(arr);
-                        };
-                    linb.Thread(null,[
-                        function(threadId){
-                            var r = ins.onGetContent(profile, from, to, rate, type, callback, threadId);
-                            if(r) callback(r);
-                        }
-                        ],null,null,
-                        function(threadId){ins.busy()},
-                        function(){ins.free()}
-                    ).start();
+                    var ins=profile.boxing(),
+                        callback=function(arr){ins.addTasks(arr)};
+                    if(profile.onGetContent){
+                        var r = ins.onGetContent(profile, from, to, rate, type, callback);
+                        if(r)callback(r);
+                    }
                 }
             });
         } 
@@ -18289,7 +18281,7 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
         EventHandlers:{
             beforeClose:function(profile, src){},
             onShowOptions:function(profile, e, src){},
-            onGetContent:function(profile, from, to, minMs, type, callback, threadid){},
+            onGetContent:function(profile, from, to, minMs, type, callback){},
             beforeTaskUpdated:function(profile, task, from, to){},
             beforeNewTasks:function(profile, tasks){},
             beforeDelTasks:function(profile, arr){},
@@ -20265,13 +20257,10 @@ Class("linb.UI.Poll", "linb.UI.List",{
                         var callback=function(o){
                             profile.boxing().fillContent(item.id, item._body=o);
                         };
-                        if(profile.onGetContent)
-                            linb.Thread.observableRun(
-                                function(threadId){
-                                    var r = profile.boxing().onGetContent(profile, item, callback, threadId);
-                                    if(r) callback(r);
-                                });
-                        else
+                        if(profile.onGetContent){
+                            var r = profile.boxing().onGetContent(profile, item, callback);
+                            if(r) callback(r);
+                        }else
                             callback(profile.box._buildBody(profile, item));
                     }
                 }
@@ -22345,14 +22334,10 @@ Class("linb.UI.FoldingList", ["linb.UI.List"],{
                         var callback=function(o){
                             profile.boxing().fillContent(item.id, item._body=o);
                         };
-                        if(profile.onGetContent)
-                            linb.Thread.observableRun(
-                                function(threadId){
-                                    var r = profile.boxing().onGetContent(profile, item, callback, threadId);
-                                    if(r) callback(r);
-                                }
-                            );
-                        else
+                        if(profile.onGetContent){
+                            var r = profile.boxing().onGetContent(profile, item, callback);
+                            if(r) callback(r);
+                        }else
                             callback(profile.box._buildBody(profile, item));
                     }
                 }
@@ -22810,8 +22795,8 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
         toggleNode:function(id, expend, recursive){
             var profile=this.get(0),
                 o=profile.getItemByItemId(id);
-            if(o.sub && o.sub.length && ((expend&&!o._checked)||(!expend&&o._checked)))
-                profile.box._setSub(profile, o, expend, recursive);
+            if(o && o.sub)
+                profile.box._setSub(profile, o, typeof expend=="boolean"?expend:!o._checked, recursive);
             return self;
         },
         /*
@@ -23147,7 +23132,7 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
             }
         },
         EventHandlers:{
-            onGetContent:function(profile, item, callback, threadid){},
+            onGetContent:function(profile, item, callback){},
             onItemSelected:function(profile, item, src){}
         },
         DataModel:{
@@ -23360,17 +23345,8 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
                     if((t=typeof sub)=='string'||t=='object')
                         callback(sub);
                     else if(profile.onGetContent){
-                        linb.Thread(null,[
-                            function(threadId){
-                                var r = profile.boxing().onGetContent(profile, item, callback, threadId);
-                                if(r) callback(r);
-                            }
-                        ],null,null,
-                        //set busy status to UI
-                        function(threadId){markNode.tagClass('-busy')},
-                        //set free status to UI
-                        function(){markNode.tagClass('-busy',false)}
-                        ).start();
+                        var r=profile.boxing().onGetContent(profile, item, callback);
+                        if(r) callback(r);
                     }
                 }
                 if(recursive && item.sub){
@@ -26001,7 +25977,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                 this._insertRowsToDom(profile, rows, pid, base, before);
 
             if(!pro.iniFold)
-                profile.boxing()._toggleRows(rows, true);
+                profile.boxing()._expendRows(rows);
 
             profile.box._asy(profile,false);
             return this;
@@ -26111,19 +26087,19 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
             self.constructor._updCell(self.get(0),cellId,hash, dirtyMark);
             return self;
         },
-        _toggleRows:function(rows, expend){
+        _expendRows:function(rows){
             var self=this;
             if(rows && rows.length)
                 _.arr.each(rows,function(o){
                     if(o.sub && o.sub.length && !o.iniFold && !o._checked)
-                        self.toggleRow(o.id, expend);
+                        self.toggleRow(o.id, true);
                 });
         },
         toggleRow:function(id, expend){
             var profile = this.get(0),
             row = profile.rowMap[profile.rowMap2[id]];
-            if(row && !row._checked)
-                profile.box._setSub(profile, row, expend);
+            if(row && row.sub)
+                profile.box._setSub(profile, row, typeof expend=="boolean"?expend:!row._checked);
         },
         editCellbyRowCol:function(rowId, colId){
             var profile=this.get(0),con=profile.box;
@@ -27519,7 +27495,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
             }
         },
         EventHandlers:{
-            onGetContent:function(profile, row, callback, threadid){},
+            onGetContent:function(profile, row, callback){},
             onRowSelected:function(profile, row, src){},
 
             beforeColDrag:function(profile, colId){},
@@ -27544,7 +27520,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
             var ns=this, pro=ns.properties,ins=ns.boxing();
             ns.$cache_editor={};
             if(!pro.iniFold)
-                ins._toggleRows(pro.rows, true);
+                ins._expendRows(pro.rows);
             ns.box._asy(ns);
         },
         _asy:function(profile, flag){
@@ -28036,17 +28012,8 @@ caption
                     if((t=typeof sub)=='string'||t=='object')
                         callback(sub);
                     else if(profile.onGetContent){
-                        linb.Thread(null,[
-                            function(threadId){
-                                var r = profile.boxing().onGetContent(profile, item, callback,threadId);
-                                if(r) callback(r);
-                            }
-                        ],null,null,
-                        //set busy status to UI
-                        function(threadId){markNode.tagClass('-busy')},
-                        //set free status to UI
-                        function(){markNode.tagClass('-busy',false)}
-                        ).start();
+                        var r=profile.boxing().onGetContent(profile, item, callback);
+                        if(r) callback(r);
                     }
                 }
             }
@@ -29921,6 +29888,10 @@ Class('linb.UI.Calendar', 'linb.UI.DatePicker', {
             handleHeight : null,
             tipsHeight :null,
             closeBtn:null,
+            value:null,
+            dataBinder:null,
+            dateField:null,
+
             dock:'fill',
             $borderW:1
         },

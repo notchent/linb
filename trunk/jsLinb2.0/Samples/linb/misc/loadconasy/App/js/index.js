@@ -49,7 +49,7 @@ Class('App', 'linb.Com',{
             return children;
             // ]]code created by jsLinb UI Builder
         }, 
-        _treebar3_ongetcontent:function (profile, item, callback, threadid) {
+        _treebar3_ongetcontent:function (profile, item, callback) {
             switch(item.id){
             case 'string':
                 return '<strong>HTML String was loaded!</strong>';
@@ -66,7 +66,7 @@ Class('App', 'linb.Com',{
                     this.create(function(com, threadid){
                         callback(com.getUIComponents());
                     },threadid)
-                },threadid);
+                });
             }
         }
     }

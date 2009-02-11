@@ -72,6 +72,10 @@ Class('linb.UI.Calendar', 'linb.UI.DatePicker', {
             handleHeight : null,
             tipsHeight :null,
             closeBtn:null,
+            value:null,
+            dataBinder:null,
+            dateField:null,
+
             dock:'fill',
             $borderW:1
         },

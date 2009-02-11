@@ -90,6 +90,40 @@ new function(){
 */
             ]}
         ],
+        widgets_xprops:{
+            'linb.UI.Div':['html'],
+            'linb.UI.Label':['caption'],
+            'linb.UI.Link':['caption','onClick'],
+            'linb.UI.Button':['caption','onClick'],
+            'linb.UI.CheckBox':['caption','onChecked'],
+            'linb.UI.Input':['value'],
+            'linb.UI.TextEditor':['value'],
+            'linb.UI.List':['items','value','onItemSelected'],
+            'linb.UI.ComboInput':['type','value'],
+            'linb.UI.ProgressBar':['value'],
+            'linb.UI.Range':['value'],
+            'linb.UI.RadioBox':['items','value','onItemSelected'],
+            'linb.UI.Poll':['Items','onGetContent'],
+            'linb.UI.Group':['caption'],
+            'linb.UI.Panel':['caption'],
+            'linb.UI.Layout':['items'],
+            'linb.UI.Tabs':['items','value','onItemSelected'],
+            'linb.UI.Stacks':['items','value','onItemSelected'],
+            'linb.UI.ButtonViews':['items','value','onItemSelected'],
+            'linb.UI.LinkList':['items','value','onItemClick'],
+            'linb.UI.FoldingList':['items','value','onGetContent'],
+            'linb.UI.IconList':['items','value','onItemSelected'],
+            'linb.UI.Dialog':['caption'],
+            'linb.UI.Gallery':['items','value','onItemSelected'],
+            'linb.UI.PageBar':['value','onClick'],
+            'linb.UI.PopMenu':['items','onMenuSelected'],
+            'linb.UI.MenuBar':['items','onMenuSelected'],
+            'linb.UI.ToolBar':['items','onClick'],
+            'linb.UI.TreeBar':['items','value','onItemSelected','onGetContent'],
+            'linb.UI.TreeGrid':['header','rows','value','onClickCell','onClickButton','onRowSelected','onGetContent'],
+            'linb.UI.Image':['src'],
+            'linb.UI.TimeLine':['onGetContent']
+        },
         ComFactoryProfile:{
             about:{
                 cls:'VisualJS.About'
