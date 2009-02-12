@@ -1569,17 +1569,15 @@ Class('VisualJS.Designer', 'linb.Com',{
 
             //get the last one first
             var target = uis.get(len-1), dm=target.box.$DataModel, format, listKey, list, $tag,$fun,$tagVar, value,editorReadonly;
-            var specailItems = len===1?CONF.widgets_xprops[target.key]:null;
+            var specailItems = len===1?(CONF.widgets_xprops[target.key]||[]):[];
             //for properties
             if(id=='properties' || id=='special'){
                 _.each(target.box.$DataStruct,function(o,i){
                      if(i.charAt(0)=='_'||i.charAt(0)=='$') return;
                     if(dm[i].hidden) return;
                     
-                    if(specailItems){
-                        var inSpecial=specailItems.indexOf(i)!=-1;
-                        if(specailFlag===true?!inSpecial:inSpecial)return;
-                    }
+                    var inSpecial=specailItems.indexOf(i)!=-1;
+                    if(specailFlag===true?!inSpecial:inSpecial)return;
 
                     list=null;
                     editorReadonly=false;

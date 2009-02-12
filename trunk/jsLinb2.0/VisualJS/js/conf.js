@@ -92,6 +92,9 @@ new function(){
         ],
         widgets_xprops:{
             'linb.UI.Div':['html'],
+            'linb.UI.Pane':['html'],
+            'linb.UI.Block':['html'],
+            'linb.UI.Tag':['tagKey'],
             'linb.UI.Label':['caption'],
             'linb.UI.Link':['caption','onClick'],
             'linb.UI.Button':['caption','onClick'],

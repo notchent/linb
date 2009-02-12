@@ -21344,15 +21344,7 @@ Class("linb.UI.Tabs", ["linb.UI", "linb.absList","linb.absValue"],{
 
         ////
         fireItemClickEvent:function(subId){
-            var profile = this.get(0),
-            //fire dom event
-                node =profile.getSubNodeByItemId('ITEM', subId);
-
-            //no this one, set to null
-            if(node.isEmpty()){
-                profile.boxing().setUIValue(null);
-            }else
-                node.onMousedown();
+            this.getSubNodeByItemId('ITEM', subId).onMousedown();
             return this;
         },
         /* insert some views to pageView widgets
@@ -21393,14 +21385,13 @@ Class("linb.UI.Tabs", ["linb.UI", "linb.absList","linb.absValue"],{
             });
             arguments.callee.upper.apply(self,arguments);
 
-            self.each(function(profile){
-                if(profile.properties.hasPanel){
-                    if(_.arr.indexOf(arr,profile.boxing().getUIValue())!=-1){
-                        var i;
-                        profile.boxing().fireItemClickEvent((i=profile.properties.items[0]) && i.id);
-                    }
-                    linb.UI.$tryResize(profile, profile.root.width(), profile.root.height(), profile.boxing().getUIValue());
+            self.each(function(profile){                
+                if(!profile.boxing().getUIValue()){
+                    var i;
+                    profile.boxing().fireItemClickEvent((i=profile.properties.items[0]) && i.id);
                 }
+                if(profile.properties.hasPanel)
+                    linb.UI.$tryResize(profile, profile.root.width(), profile.root.height(), profile.boxing().getUIValue());
             });
 
             return self;
