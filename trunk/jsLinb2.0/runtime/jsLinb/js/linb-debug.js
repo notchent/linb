@@ -726,7 +726,6 @@ _.merge(linb,{
                     arr[i-1]=arguments[i];
                 o =new (linb.SC(t))(false);
                 if(o._ini)o._ini.apply(o, arr);
-                if(o.render)o.render();
             //from HTML string
             }else if(r1.test(tag))
                 o = _.str.toDom(tag);
@@ -738,7 +737,7 @@ _.merge(linb,{
             }
         //Any class inherited from linb.absBox
         }else
-            o =new (linb.SC(tag.key))(tag).render();
+            o =new (linb.SC(tag.key))(tag);
         return o;
     }
 });
@@ -4787,7 +4786,7 @@ Class('linb.Dom','linb.absBox',{
                 if( t = (left || (style.left==v && (o._left || auto))))style.left = t;
                 if(t=o._position)if(style.position!=t)style.position=t;
                 if(style.visibility!='visible')style.visibility='visible';
-                o._hide=0;
+                o._linbhide=0;
                 //ie6 bug
               /*  if(linb.browser.ie6){
                     t=style.wordWrap=='normal';
@@ -4802,7 +4801,7 @@ Class('linb.Dom','linb.absBox',{
             return this.each(function(o){
                 if(o.nodeType != 1)return;
                 style=o.style;t=linb([o]);
-                o._hide=1;
+                o._linbhide=1;
                 o._position = style.position;
                 o._top = style.top;
                 o._left = style.left;
@@ -9356,15 +9355,31 @@ Class("linb.UI",  "linb.absObj", {
                 }
             });
         },
-        show:function(left,top){
+        show:function(parent,subId,left,top){
             return this.each(function(o){
-                if(o.domNode){
-                    var t=o.properties;
+                var t=o.properties,b;
+                left=(left||left===0)?(parseInt(left)||0):null;
+                top=(top||top===0)?(parseInt(top)||0):null;
+                if(left!==null)t.left=left;
+                if(top!==null)t.top=top;
+                if(o.domNode && o.domNode._linbhide){
+                    b=1;
                     t.dockIgnore=false;
-                    o.root.show(left,top);
-                    
+                    o.root.show(left&&(left+'px'), top&&(top+'px'));
                     if(t.dock && t.dock!='none')
                         linb.UI.$dock(o,true);
+                //first call show
+                }else if(!parent && (!o.domNode || (o.domNode.id||"").indexOf(linb.Dom._matrixid)===0))
+                    parent=linb('body');
+                var p=parent,n;
+                if(p){
+                    if(p['linb.UIProfile']){n=p.domNode;p=p.boxing()}
+                    else if(p['linb.UI'])n=(n=p._nodes[0])&&n.domNode;
+                    else n=(p=linb(p))&&p._nodes[0];
+                    if(n){
+                        p.append(o.boxing(),subId);
+                        if(!b)o.root.show(left&&(left+'px'), top&&(top+'px'));
+                    }
                 }
             });
         },
@@ -20172,7 +20187,6 @@ Class("linb.UI.Poll", "linb.UI.List",{
 
                 o.setValue(value||'',true)
                 .setWidth(r.width + (parseInt(node.css('paddingLeft'))||0)+ (parseInt(node.css('paddingRight'))||0))
-                .show(r.left+'px',r.top+'px')
                 .onSave(function(p){
                     var pro=p.properties,v=pro.$UIvalue, ov=pro.value;
                     if(v!=ov)
@@ -20181,9 +20195,12 @@ Class("linb.UI.Poll", "linb.UI.List",{
                         o.hide();
                     });
                 })
-                .reBoxing().setBlurTrigger(o.KEY+":"+o.$id, function(){
+                .reBoxing()
+                .setBlurTrigger(o.KEY+":"+o.$id, function(){
                     o.hide();
-                });
+                })
+                .show(r.left+'px',r.top+'px');
+
                 _.asyRun(function(){
                     o.activate()
                 });

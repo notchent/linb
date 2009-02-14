@@ -726,7 +726,6 @@ _.merge(linb,{
                     arr[i-1]=arguments[i];
                 o =new (linb.SC(t))(false);
                 if(o._ini)o._ini.apply(o, arr);
-                if(o.render)o.render();
             //from HTML string
             }else if(r1.test(tag))
                 o = _.str.toDom(tag);
@@ -738,7 +737,7 @@ _.merge(linb,{
             }
         //Any class inherited from linb.absBox
         }else
-            o =new (linb.SC(tag.key))(tag).render();
+            o =new (linb.SC(tag.key))(tag);
         return o;
     }
 });

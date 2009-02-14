@@ -6387,6 +6387,8 @@ _.set(linb.Locale,["en","doc","linb","UI"], {
             $desc:"To show the set of UIProfile.",
             $rtn:"[self]",
             $paras:[
+                "parent [Required] : linb.UIProfile, linb.UI ojbect, Dom element or linb.Dom object.",
+                "subId [Optional] : String, the sub id that Determines the set of UIProfiles will be added to.",
                 "left [Optional] : Number, the css left value.",
                 "top [Optional] : Number, the css top value."
             ],

@@ -1051,15 +1051,31 @@ Class("linb.UI",  "linb.absObj", {
                 }
             });
         },
-        show:function(left,top){
+        show:function(parent,subId,left,top){
             return this.each(function(o){
-                if(o.domNode){
-                    var t=o.properties;
+                var t=o.properties,b;
+                left=(left||left===0)?(parseInt(left)||0):null;
+                top=(top||top===0)?(parseInt(top)||0):null;
+                if(left!==null)t.left=left;
+                if(top!==null)t.top=top;
+                if(o.domNode && o.domNode._linbhide){
+                    b=1;
                     t.dockIgnore=false;
-                    o.root.show(left,top);
-                    
+                    o.root.show(left&&(left+'px'), top&&(top+'px'));
                     if(t.dock && t.dock!='none')
                         linb.UI.$dock(o,true);
+                //first call show
+                }else if(!parent && (!o.domNode || (o.domNode.id||"").indexOf(linb.Dom._matrixid)===0))
+                    parent=linb('body');
+                var p=parent,n;
+                if(p){
+                    if(p['linb.UIProfile']){n=p.domNode;p=p.boxing()}
+                    else if(p['linb.UI'])n=(n=p._nodes[0])&&n.domNode;
+                    else n=(p=linb(p))&&p._nodes[0];
+                    if(n){
+                        p.append(o.boxing(),subId);
+                        if(!b)o.root.show(left&&(left+'px'), top&&(top+'px'));
+                    }
                 }
             });
         },

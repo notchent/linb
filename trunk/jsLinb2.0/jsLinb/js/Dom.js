@@ -670,7 +670,7 @@ Class('linb.Dom','linb.absBox',{
                 if( t = (left || (style.left==v && (o._left || auto))))style.left = t;
                 if(t=o._position)if(style.position!=t)style.position=t;
                 if(style.visibility!='visible')style.visibility='visible';
-                o._hide=0;
+                o._linbhide=0;
                 //ie6 bug
               /*  if(linb.browser.ie6){
                     t=style.wordWrap=='normal';
@@ -685,7 +685,7 @@ Class('linb.Dom','linb.absBox',{
             return this.each(function(o){
                 if(o.nodeType != 1)return;
                 style=o.style;t=linb([o]);
-                o._hide=1;
+                o._linbhide=1;
                 o._position = style.position;
                 o._top = style.top;
                 o._left = style.left;

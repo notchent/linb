@@ -19,7 +19,7 @@ Class('App.tech_UI_showUI', 'linb.Com',{
                 .setHeight(120)
                 .setType("helpinput")
                 .setMultiLines(true)
-                .setItems([{"id":"item a", "caption":"item a"}, {"id":"item b", "caption":"item b"}, {"id":"item c", "caption":"item c"}, {"id":"item d", "caption":"item d"}])
+                .setItems([])
             );
             
             append((new linb.UI.Div)
@@ -70,6 +70,10 @@ Class('App.tech_UI_showUI', 'linb.Com',{
                 {
                     id:' var btn=new linb.UI.Button({caption:"btn3"}),\n       str=btn.toHtml(); \n SPA.pane.getRoot().html(str); \n btn.render(true);',
                     caption:'4. Using html string'
+                },
+                {
+                    id:'(new linb.UI.Button({caption:"btn4"})).show(SPA.pane); \n linb.create("Button",{caption:"btn5"}).show(SPA.pane,null,100,10);',
+                    caption:'5. Using show function'
                 }
             ])
             .setValue(code1);

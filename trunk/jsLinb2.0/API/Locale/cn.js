@@ -6387,6 +6387,8 @@ _.set(linb.Locale,["cn","doc","linb","UI"], {
             $desc:"显示该UIProfile对象.",
             $rtn:"[self]",
             $paras:[
+                "parent [必需参数] : linb.UIProfile, linb.UI ojbect, Dom element or linb.Dom object.",
+                "subId [可选参数] : String, the sub id that Determines the set of UIProfiles will be added to.",
                 "left [可选参数] : Number, 显示的左边坐标.",
                 "top [可选参数] : Number, 显示的上边坐标."
             ],

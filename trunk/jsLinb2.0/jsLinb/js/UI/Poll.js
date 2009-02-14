@@ -187,7 +187,6 @@ Class("linb.UI.Poll", "linb.UI.List",{
 
                 o.setValue(value||'',true)
                 .setWidth(r.width + (parseInt(node.css('paddingLeft'))||0)+ (parseInt(node.css('paddingRight'))||0))
-                .show(r.left+'px',r.top+'px')
                 .onSave(function(p){
                     var pro=p.properties,v=pro.$UIvalue, ov=pro.value;
                     if(v!=ov)
@@ -196,9 +195,12 @@ Class("linb.UI.Poll", "linb.UI.List",{
                         o.hide();
                     });
                 })
-                .reBoxing().setBlurTrigger(o.KEY+":"+o.$id, function(){
+                .reBoxing()
+                .setBlurTrigger(o.KEY+":"+o.$id, function(){
                     o.hide();
-                });
+                })
+                .show(r.left+'px',r.top+'px');
+
                 _.asyRun(function(){
                     o.activate()
                 });
