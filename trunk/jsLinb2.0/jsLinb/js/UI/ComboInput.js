@@ -160,7 +160,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                         case 'listbox':
                         case 'helpinput':
                             linb.SC('linb.UI.List');
-                            o = linb.create('List');
+                            o = linb.create('List').render();
                             o.host(profile).setItems(_.copy(pro.items)).setListKey(pro.listKey||'').adjustSize();
                             o.beforeUIValueSet(function(pro, ovalue, value){
                                 var b2=this.boxing();
@@ -175,7 +175,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                             break;
                         case 'timepicker':
                             linb.SC('linb.UI.TimePicker');
-                            o = linb.create('TimePicker');
+                            o = linb.create('TimePicker').render();
                             o.host(profile);
                             o.beforeClose(function(){this.boxing()._cache();return false});
                             o.beforeUIValueSet(function(p, o, v){
@@ -185,7 +185,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                             break;
                         case 'datepicker':
                             linb.SC('linb.UI.DatePicker');
-                            o = linb.create('DatePicker');
+                            o = linb.create('DatePicker').render();
                             o.host(profile);
                             o.beforeClose(function(){this.boxing()._cache();return false});
                             o.beforeUIValueSet(function(p, o, v){
@@ -197,7 +197,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
 
                         case 'colorpicker':
                             linb.SC('linb.UI.ColorPicker');
-                            o = linb.create('ColorPicker');
+                            o = linb.create('ColorPicker').render();
                             o.host(profile);
                             o.beforeClose(function(){this.boxing()._cache();return false});
                             o.beforeUIValueSet(function(p, o, v){
