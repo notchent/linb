@@ -101,6 +101,7 @@ Class('VisualJS.AddFile', 'linb.Com',{
             (new u.TreeBar)
             .host(t,"treebar")
             .setDock("none")
+            .setWidth('auto')
             .setPosition("relative")
             .setItems([])
             .setIniFold(false)

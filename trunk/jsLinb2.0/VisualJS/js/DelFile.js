@@ -93,6 +93,7 @@
             .host(t,"treebar")
             .setDock('none')
             .setPosition('relative')
+            .setWidth('auto')
             .setItems([])
             .setIniFold(false)
             .setSelMode("multi")
