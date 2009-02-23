@@ -15232,7 +15232,7 @@ Class("linb.UI.Input", ["linb.UI.Widget","linb.absValue"] ,{
                     //for memory map
                     self.box._prepareItems(self, v);
 
-                    if(v.domNode)
+                    if(self.domNode)
                         self.boxing().clearPopCache();
                 }
             },
