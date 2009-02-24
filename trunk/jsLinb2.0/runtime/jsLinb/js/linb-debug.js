@@ -1162,7 +1162,7 @@ Class('linb.absIO',null,{
         self.query = self.customQS(self.query);
 
         if(!self._useForm && typeof self.query!='string')
-            self.query = con._buildQS(self.query, self._single);
+            self.query = con._buildQS(self.query, self._single,self.method=='POST');
 
         return self;
     },
@@ -1230,8 +1230,8 @@ Class('linb.absIO',null,{
         randkey:'id',
         callback:'callback',
 
-        _buildQS:function(hash, flag){
-            return flag?_.serialize(hash):_.urlEncode(hash);
+        _buildQS:function(hash, flag, post){
+            return flag?((flag=_.serialize(hash))&&(post?flag:encodeURIComponent(flag))):_.urlEncode(hash);
         },
         customQS:function(obj){
             return obj;
