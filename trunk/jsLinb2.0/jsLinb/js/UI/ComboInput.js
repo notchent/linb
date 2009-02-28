@@ -38,7 +38,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                 }else
                     v = profile.$showValue;
             }
-            v = v || (value||value===0)?String(value):''
+            v = v || ((value||value===0)?String(value):'');
 
             if(v!==value)profile.$caption=v;
             else delete profile.$caption;
@@ -563,7 +563,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                             linb.Thread.abort(profile.$id+':spin');
                             return false;
                         }
-                    }                    
+                    }
                 },
                 onClick : function(profile, e, src){
                     if(src.readOnly)
