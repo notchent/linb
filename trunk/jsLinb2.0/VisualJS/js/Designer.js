@@ -1576,7 +1576,7 @@ Class('VisualJS.Designer', 'linb.Com',{
                      if(i.charAt(0)=='_'||i.charAt(0)=='$') return;
                     if(dm[i].hidden) return;
                     
-                    var inSpecial=specailItems.indexOf(i)!=-1;
+                    var inSpecial=_.arr.indexOf(specailItems,i)!=-1;
                     if(specailFlag===true?!inSpecial:inSpecial)return;
 
                     list=null;
@@ -1845,7 +1845,7 @@ Class('VisualJS.Designer', 'linb.Com',{
                 _.each(target.box.$EventHandlers,function(o,i){
 
                     if(specailItems){
-                        var inSpecial=specailItems.indexOf(i)!=-1;
+                        var inSpecial=_.arr.indexOf(specailItems,i)!=-1;
                         if(specailFlag===true?!inSpecial:inSpecial)return;
                     }
 
