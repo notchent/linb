@@ -85,6 +85,7 @@ Class('App', 'linb.Com',{
                     }else if(typeof obj=='function'){
                         id1=str.slice(0,str.lastIndexOf('.'));
                         id2=id1+'._staticM';
+
                         if(obj && obj.$original$)
                             id3=obj.$original$==linb.SC.get(id1).KEY?null:id2+'.'+obj.$original$.replace(/\./g,'_');
                         id4=str;
@@ -113,10 +114,15 @@ Class('App', 'linb.Com',{
                         node.query('h2').css('cursor','pointer').onClick(f).first().css('backgroundPosition',ics.close);
                         node.query('h3').css('cursor','pointer').onClick(f).first().css('backgroundPosition',ics.close);
                     }
+                    //for IE :  getElementById, name property has priority over id property.
+                    if(id4)id4+='_';
                     //open
                     _.arr.each([id2,id3,id4],function(id){
                         var t;
-                        if(id && (t=linb.Dom.byId(id)) && _.get(t,['nextSibling', 'style', 'display'])!='block')linb(id).onClick();
+                        if(id && (t=linb.Dom.byId(id)) && _.get(t,['nextSibling', 'style', 'display'])!='block'){
+                            t=linb(id);
+                            t.onClick();
+                        }
                     });
                     //focus
                     if(id4 && (t=linb.Dom.byId(id4)))
@@ -271,7 +277,8 @@ Class('App', 'linb.Com',{
         _getItem:function(pos, head, key, okey, flag){
             var con = this.getDoc(key),t;
             okey=okey||key;
-            return '<a name="'+okey+'" ></a> <div class="p"> <h4 id="'+okey+'">' + 
+            //for IE :  getElementById, name property has priority over id property.
+            return '<a name="'+okey+'"></a> <div class="p"> <h4 id="'+okey+'_">' + 
                     (con?'<span class="linb-custom-icon" style="background-position:' +pos+';"></span>':'') + 
                     head +
                     (flag !==false?((t=linb.SC(key)).$linb$||t.$auto$ ?"":'<a href="javascript:;" onclick="return SPA.showCode(event,\''+key+'\');">&nbsp;&nbsp;&nbsp;&nbsp;['+linb.getRes('app.oCode')+']</a>'):"") + 

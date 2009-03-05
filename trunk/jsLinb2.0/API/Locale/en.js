@@ -766,12 +766,12 @@ _.set(linb.Locale,["en","doc","linb"], {
             "onFail [Optional]: Function, if doesn't include the file, call this function."
         ],
         $snippet:[
-            "////This will include .js file to document \n"+
-            "//linb.include('App.clsname', '../js/clsname.js') \n" +
-            "////The class have been included already, jsLinb will ignore this line. \n"+
-            "linb.include('linb.Thread', '../js/clsname.js',function(){alert(1)},function(){alert(1)});",
+            "//If the class have been included already, it'll trigger onSuccess callback function. \n"+
+            "linb.include('linb.Thread', '../js/clsname.js',function(){alert('success');},function(){alert('fail')});",
+            "//This will include .js file to document \n"+
+            "App.Test1=undefined; linb.include('App.Test1', 'App/js/Test1.js',function(){alert('success');},function(){alert('fail')});",
             "////This path doesn't exist \n " +
-            "linb.include('App.doesntexist', '../js/doesntexist.js', null, function(txt){alert('File doesnt exist!');});"
+            "linb.include('App.doesntexist', 'App/js/doesntexist.js', function(){alert('success');},function(){alert('fail')});"
         ],
         $memo:"All the resource string is in [linb.Locale]"
     },
@@ -786,7 +786,7 @@ _.set(linb.Locale,["en","doc","linb"], {
             "threadid [Optional]: String, a thread id to be bound to the current request. [suspend the thread -> execute request -> resume thread]",
             "options [Optional]: Object, a set of key/value pairs that configure the request. All options are optional. <strong>Values in Parameters has high priority</strong>."
         ],
-        $memo:"Sees <a href='#a=linb.Ajax'>linb.Ajax</a>, <a href='#a=linb.SAjax'>linb.SAjax</a> and <a href='#a=linb.IAjax'>linb.IAjax</a> please!"
+        $memo:"Sees <a href='#linb.Ajax'>linb.Ajax</a>, <a href='#linb.SAjax'>linb.SAjax</a> and <a href='#linb.IAjax'>linb.IAjax</a> please!"
     },
     log:{
         $desc:"Logs information into firebug(if you are in firefox and the firebug is active).",
@@ -6736,7 +6736,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Tag"], {
         $desc:"Creates a linb.UI.Tag object. linb.UI.Tag is a proxy UI class for 'Inversion of Control' in jsLinb.",
         $memo:"linb.UI.Tag is for embedding a target UI object(from linb.Com object) into an existing UI dynamically.",
         $links:[
-            ["linb.ComFactory.getCom","#a=linb.ComFactory"]
+            ["linb.ComFactory.getCom","#linb.ComFactory"]
         ]
     },
     replace:{

@@ -1081,7 +1081,7 @@ Class('linb.Dom','linb.absBox',{
 
 //functions
         $canFocus:function(){
-            var me=arguments.callee, getStyle=linb.Dom.getStyle, map = me.map || (me.map={a:1,input:1,select:1,textarea:1,button:1}),t,node;
+            var me=arguments.callee, getStyle=linb.Dom.getStyle, map = me.map || (me.map={a:1,input:1,select:1,textarea:1,button:1,object:1}),t,node;
             return !!(
                 (node = this._nodes[0]) &&
                 node.focus &&

@@ -660,7 +660,7 @@ _.merge(linb,{
             query=''+_();
             return ((options&&options.method.toLowerCase()=='post')?linb.IAjax:linb.absIO.isCrossDomain(uri)?linb.SAjax:linb.Ajax).apply(null, arguments).start()
     },
-    include:function(id,path,onSuccess,onFail){if(id&&linb.SC.get(id))_.tryF(onSuccess); else linb.SAjax(path,'',onSuccess,onFail,0,{rspType:'script'}).start()},
+    include:function(id,path,onSuccess,onFail){if(id&&linb.SC.get(id))_.tryF(onSuccess); else linb.SAjax(path,'',onSuccess,onFail,0,{rspType:'script',checkKey:id}).start()},
     /*
     set application main function
     example:
@@ -1391,9 +1391,17 @@ Class('linb.SAjax','linb.absIO',{
                 var t=this.readyState;
                 if(!ok && (!t || t == "loaded" || t == "complete") ) {
                     ok=true;
-                    if(self.rspType=='script')
-                        self._onResponse();
-                    else self._loaded();
+                    if(self.rspType=='script'){
+                        if(typeof self.checkKey=='string')
+                            _.asyRun(function(){
+                                _.exec("var a=linb.SAjax._pool['"+id+"'][0];"+
+                                    "if(linb.SC.get('"+self.checkKey+"'))a._onResponse();" +
+                                    "else a._loaded();");
+                            });
+                        else
+                            self._onResponse();
+                    }else
+                        self._loaded();
                 }
             };
             //firefox only
