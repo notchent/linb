@@ -1625,6 +1625,7 @@ Class('VisualJS.Designer', 'linb.Com',{
                         cv='[<strong> Function </strong>]';
                     }else if(dm[i].readonly){
                         type='label';
+                        editorReadonly=true;
                     }else if(dm[i].listbox){
                         type='listbox';
                         list=[];
