@@ -1556,7 +1556,7 @@ Class("linb.UI",  "linb.absObj", {
                 position:'absolute',
                 left:0,
                 top:'3px',
-                width:'60%',
+                width:'92%',
                 'padding-left':'3px',
                 'white-space': 'nowrap'
             },
@@ -3637,7 +3637,7 @@ new function(){
                 });
             },
             _onresize:function(profile,width,height){
-                var o = profile.getSubNode('BORDER'), 
+                var o = profile.getSubNode('BORDER'),
                     t = profile.properties,
                     size,
                     ww=null,hh=null;

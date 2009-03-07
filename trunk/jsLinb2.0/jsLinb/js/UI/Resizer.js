@@ -93,7 +93,7 @@ Class("linb.UI.Resizer","linb.UI",{
                                 node.heightBy(t);
                                 prop.height = h = node.height();
                             }
-                            linb.UI.$tryResize(profile,w,h);
+                            linb.UI.$tryResize(profile,w,h,null,true);
                         }
                         if(cssPos){
                             if((t=cssPos.left) && !(prop.left=='auto'&&parseInt(prop.right)>=0)){
@@ -118,7 +118,7 @@ Class("linb.UI.Resizer","linb.UI",{
                     target.removeResizer();
                     delete o.$resizer;
                 });
-            } 
+            }
         },function(o,i){
             linb.UI.Widget.plugIn(i,o);
         });
@@ -540,10 +540,10 @@ Class("linb.UI.Resizer","linb.UI",{
             var pos=linb.Event.getPos(e);
             linb([src]).startDrag(e,{
                 dragDefer:1,
-                targetReposition:false, 
+                targetReposition:false,
                 dragType:'blank',
                 dragCursor:true,
-                targetLeft:pos.left, 
+                targetLeft:pos.left,
                 targetTop:pos.top
             });
         },
