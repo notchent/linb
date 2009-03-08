@@ -196,10 +196,10 @@ Class("linb.UI.AdvResizer","linb.UI.Resizer",{
                 var pos=linb.Event.getPos(e);
 
                 var hash = {
-                    dragDefer:1, 
-                    dragType:'icon', 
+                    dragDefer:1,
+                    dragType:'icon',
                     targetLeft:pos.left+12,
-                    targetTop:pos.top+12, 
+                    targetTop:pos.top+12,
                     dragCursor:'pointer'
                 };
                 // set other args for drag
@@ -214,10 +214,10 @@ Class("linb.UI.AdvResizer","linb.UI.Resizer",{
                     pos=linb.Event.getPos(e);
                     linb([src]).startDrag(e,{
                         dragDefer:1,
-                        targetReposition:false, 
+                        targetReposition:false,
                         dragType:'blank',
                         dragCursor:true,
-                        targetLeft:pos.left, 
+                        targetLeft:pos.left,
                         targetTop:pos.top
                     });
                 }else{
@@ -284,10 +284,10 @@ Class("linb.UI.AdvResizer","linb.UI.Resizer",{
 
                     var hash = {
                         dragDefer:1,
-                        targetReposition:false, 
-                        dragType:'blank', 
-                        dragCursor:true, 
-                        targetLeft:pos.left, 
+                        targetReposition:false,
+                        dragType:'blank',
+                        dragCursor:true,
+                        targetLeft:pos.left,
                         targetTop:pos.top
                     };
                     _.merge(hash,profile.properties.dragArgs,'all');

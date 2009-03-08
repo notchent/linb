@@ -204,6 +204,7 @@ Class('VisualJS.Designer', 'linb.Com',{
                                 }
 
                                 self._sizeUpdated(target, { width :w, height :h});
+                                linb.UI.$tryResize(profile,w,h,null,true);
                             }
                             if(cssPos){
                                 var x=null,y=null;
@@ -732,7 +733,7 @@ Class('VisualJS.Designer', 'linb.Com',{
                                 var o = linb.create(type).get(0);
                                 page.iconlist.insertItems([{id:o.$id, image:linb.ini.file_bg, tips:o.key, imgStyle:'background:url(img/widgets.gif) '+ imagePos}],null,false);
                                 page.iconlist.setUIValue(o.$id);
-                                
+
                                 if(t['linb.UI'])
                                     page._setItems(o.boxing());
                                 //
@@ -1517,14 +1518,14 @@ Class('VisualJS.Designer', 'linb.Com',{
         },
         $tg_tips:function(profile,node,pos){
             var page=this,
-                ks=profile.keys, 
+                ks=profile.keys,
                 cell, sid,id,pid,
                 o, widget,key,
                 row,
                 str='';
             if(profile.properties.disabled)return;
             if(!(widget=profile.$widget))return;
-            
+
             if(widget==page.canvas)
                 key='linb.Com';
             else if(!(key=widget.get(0)&&widget.get(0).key))return;
@@ -1535,14 +1536,14 @@ Class('VisualJS.Designer', 'linb.Com',{
 
             if(id.indexOf(ks.CELL+':')==0 || pid.indexOf(ks.CELL+':')==0 || pid.indexOf(ks.CELLA+':')==0)
                 cell = profile.cellMap[sid];
- 
+
             if(cell){
                 row=cell._row;
                 if(row.tipk){
                     if(row.tipk=='class'){
-                        str+= '<div>'+key+' [Class]</div>'; 
+                        str+= '<div>'+key+' [Class]</div>';
                     }else if(row.tipk=='fun'){
-                        str+= '<div>'+key+' [function] : <b>'+row.tipv + '</b></div> ';                        
+                        str+= '<div>'+key+' [function] : <b>'+row.tipv + '</b></div> ';
                     }else if(row.tipk=='property'){
                         str+= '<div>'+key+' [property] : <b>'+row.tipv+ '</b></div> ';
                     }else if(row.tipk=='event'){
@@ -1575,7 +1576,7 @@ Class('VisualJS.Designer', 'linb.Com',{
                 _.each(target.box.$DataStruct,function(o,i){
                      if(i.charAt(0)=='_'||i.charAt(0)=='$') return;
                     if(dm[i].hidden) return;
-                    
+
                     var inSpecial=_.arr.indexOf(specailItems,i)!=-1;
                     if(specailFlag===true?!inSpecial:inSpecial)return;
 
@@ -1764,7 +1765,7 @@ Class('VisualJS.Designer', 'linb.Com',{
                         //for serialized string
                         //cv = cv.replace(/^\"/,'').replace(/\"$/,'');
                     }
-                    
+
                     arr.push({id:'properties:'+i, tipk:'property', tipv:i, cells:[
                         {value:i},
                         {value:cv, type:type , editorReadonly:editorReadonly, $tag:$tag, event:$fun , $tagVar:$tagVar,  editorListKey:listKey}
@@ -2487,7 +2488,7 @@ Class('VisualJS.Designer', 'linb.Com',{
             else
                 return ' ';
         };
-        
+
         linb.CSS.addStyleSheet('.linbdesign-help .linb-treegrid-cella{cursor:help;}');
     }
 });
