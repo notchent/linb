@@ -1,0 +1,61 @@
+html{
+    background:#E3E5DA;
+}
+ 
+.btn-lang {
+    padding:5px ;
+}
+.val-size{
+    color:#00ff00;
+    font-weight:bold;
+}
+ 
+#vLogo{
+    background:url(../img/logo.gif) left top;
+}
+#panelTopLeft{
+    font-size:14px;
+    font-weight:bold;
+}
+#tabsCmds .linb-tabs-list{
+    white-space:nowrap;
+}
+#paneInfo{
+    overflow:hidden;
+}
+#panePic{
+    height:auto!important;
+    height:460px;
+    min-height:460px;
+}
+#panelDemo{
+    border:solid 1px #91A7B4;
+    overflow:hidden;
+}
+
+#panePic{
+    text-align:left;
+}
+#paneImageBorder{
+}
+#paneTopRight{
+    overflow:visible;
+} 
+#paneBottom{
+    border-top:solid 1px #91A7B4;
+    text-align:center;
+}
+#vInfo{
+    font-weight:bold;
+    text-align:center;
+    color:#8B4513;
+    padding:4px;
+}
+
+.app-label{
+    text-align:right;
+}
+.app-block{
+    border:solid 1px #91A7B4;
+    background-color: #F4F4F4;
+}

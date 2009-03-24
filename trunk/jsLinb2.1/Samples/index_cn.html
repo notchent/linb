@@ -1,0 +1,1108 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <meta name="keywords" content="javascript framework, RIA, SPA, client SOA, linb, jsLinb, RAD, IDE, Web IDE, widgets, javascript OOP, opensource, open-source, Ajax, cross-browser, prototype, web2.0, platform-independent, language-independent" />
+    <meta name="description" content="龙博Ajax框架" />
+    <meta name="copyright" content="copyright@www.longboo.com" />
+    <meta http-equiv="imagetoolbar" content="no" />
+    <title>龙博AJAX - 做国内最好的开源AJAX框架</title>
+
+    <style type="text/css">
+a, a *{
+    text-decoration:none;
+}
+a:hover, a:hover *{
+    text-decoration:underline;
+}
+#layout{
+    margin:0 auto;
+    text-align:left;
+    width:1080px;
+}
+#head{
+    position:relative;
+    text-align:center;
+}
+#body{
+    font-family:verdana,geneva,lucida,'lucida grande',arial,helvetica,sans-serif;
+    font-size:12px;
+    line-height:18px;
+    color:#333;
+}
+#tail{
+    text-align:center;
+}
+#list1 div{
+    border-bottom:solid 1px #eee;
+}
+#list td{
+    padding:2px;
+    margin:0;
+}
+#list td h4{
+    padding:0;
+    margin:0;
+    color:#D80808;
+    padding-bottom:2px;
+}
+#list td p{
+    padding:0;
+    margin:0;
+    color:#5C5C5C;
+    font-size:12px;
+}
+#list img{
+    padding:3px;
+    border:solid 1px #666;
+}
+.title{
+    text-align:center;
+    color:#716F64;
+    font-family:'Trebuchet MS',Arial,Helvetica,sans-serif;
+    font-size:1.2em;
+
+    font-weight:bold;
+    font-size:15px;
+}
+.title a{
+    padding:2px;
+    margin-right:3px;
+}
+.content {
+    padding:10px;
+}
+.linklist{
+    margin:5px;
+    font-weight:bold;
+}
+.block{
+    text-align:left;
+    padding-left:10px;
+    font-size:15px;
+    font-weight:bold;
+}
+.block .b2, .block .b3, .block .bi{
+    background-color:#F0F0F0;
+}
+.b1, .b2, .b3{
+    font-size:1px;
+    height:1px;
+    line-height:1px;
+    overflow:hidden;
+    display:block;
+}
+.b1{
+    background-color:#D8D8D8;
+    margin:0 4px;
+}
+.b2{
+    margin:0 2px;
+    border-left:2px solid #D8D8D8;
+    border-right:2px solid #D8D8D8;
+}
+.b3{
+    margin:0 1px;
+    border-left:1px solid #D8D8D8;
+    border-right:1px solid #D8D8D8;
+}
+.bi{
+    border-left:1px solid #D8D8D8;
+    border-right:1px solid #D8D8D8;
+    padding:2px 4px;
+    display:block;
+}
+    </style>
+</head>
+<body>
+    <div id="layout">
+        <div id="head">
+            <h2>龙博AJAX框架实例</h2>
+        </div>
+        <div id="body">
+
+            <div class="block">
+<div><div class="b1"></div><div class="b2"></div><div class="b3"></div></div><div class="bi">
+                    工具集锦(这些工具也是龙博AJAX框架写成的)
+</div><div><div class="b3"></div><div class="b2"></div><div class="b1"></div></div>
+            </div>
+            <table id="list" cellpadding="0" cellspacing="6" width="100%">
+                <tr>
+                    <td width="33%" valign="top">
+<div><div class="b1"></div><div class="b2"></div><div class="b3"></div></div><div class="bi">                        
+                        <table height="110"><tr><td>
+                            <a target="_blank" href="../VisualJS/UIBuilder.html">
+                                <img src="img/hl.uibuilder.jpg"/>
+                            </a>
+                        </td><td valign="top">
+                            <a target="_blank" href="../VisualJS/UIBuilder.html">
+                                <h4>可视化界面编辑器</h4>
+                                <p>基于Web的可视化界面快速生成工具. 程序员可以像在VB或是Delphi里面那样通过拖拽生成应用程序.</p>
+                            </a>
+                        </td></tr></table>
+</div><div><div class="b3"></div><div class="b2"></div><div class="b1"></div></div>
+                    </td>
+                    <td width="33%" valign="top">
+<div><div class="b1"></div><div class="b2"></div><div class="b3"></div></div><div class="bi">
+                        <table height="110"><tr><td>
+                            <a target="_blank" href="../API/index.html">
+                                <img src="img/hl.api.jpg"/>
+                            </a>
+                        </td><td valign="top">
+                            <a target="_blank" href="../API/index.html">
+                                <h4>龙博AJAX API</h4>
+                                <p>龙博AJAX API文档. 几乎所有的API都有示例代码.</p>
+                            </a>
+                        </td></tr></table>
+</div><div><div class="b3"></div><div class="b2"></div><div class="b1"></div></div>
+                    </td>
+                    <td valign="top">
+<div><div class="b1"></div><div class="b2"></div><div class="b3"></div></div><div class="bi">
+                        <table height="110"><tr><td>
+                            <a target="_blank" href="../CodeSnip/index.html">
+                                <img src="img/hl.codesnip.jpg"/>
+                            </a>
+                        </td><td valign="top">
+                            <a target="_blank" href="../CodeSnip/index.html">
+                                <h4>龙博AJAX 代码片段</h4>
+                                <p>龙博AJAX代码片段，将一些常用代码集放到一起，供程序员参考.</p>
+                            </a>
+                        </td></tr></table>
+</div><div><div class="b3"></div><div class="b2"></div><div class="b1"></div></div>
+                    </td>
+                </tr>
+            </table>
+            
+
+            <div class="block">
+<div><div class="b1"></div><div class="b2"></div><div class="b3"></div></div><div class="bi">
+                    集成示例
+</div><div><div class="b3"></div><div class="b2"></div><div class="b1"></div></div>
+            </div>
+            <table id="list" cellpadding="0" cellspacing="6" width="100%">
+                <tr>
+                    <td width="33%" valign="top">
+<div><div class="b1"></div><div class="b2"></div><div class="b3"></div></div><div class="bi">                        
+                        <table height="110"><tr><td>
+                            <a target="_blank" href="http://www.stockfreephoto.com">
+                                <img src="img/combo.piceditor.jpg"/>
+                            </a>
+                        </td><td valign="top">
+                            <a target="_blank" href="http://www.stockfreephoto.com">
+                                <h4>在线图片编辑器</h4>
+                                <p>在线图片编辑器, 让你不用安装任何软件就可以编辑图片.</p>
+                            </a>
+                        </td></tr></table>
+</div><div><div class="b3"></div><div class="b2"></div><div class="b1"></div></div>
+                    </td>
+                    <td width="33%" valign="top">
+<div><div class="b1"></div><div class="b2"></div><div class="b3"></div></div><div class="bi">
+                        <table height="110"><tr><td>
+                            <a target="_blank" href="../JSONEditor/index.html">
+                                <img src="img/comb.jsoneditor.jpg"/>
+                            </a>
+                        </td><td valign="top">
+                            <a target="_blank" href="../JSONEditor/index.html">
+                                <h4>JSON编辑器</h4>
+                                <p>最好用的在线JSON编辑器。使用表格树展示JSON字符串</p>
+                            </a>
+                        </td></tr></table>
+</div><div><div class="b3"></div><div class="b2"></div><div class="b1"></div></div>
+                    </td>
+                    <td valign="top">
+<div><div class="b1"></div><div class="b2"></div><div class="b3"></div></div><div class="bi">
+                        <table height="110"><tr><td>
+                            <a target="_blank" href="comb/GoogleCalendar/index.html">
+                                <img src="img/combo.googlecalendar.jpg"/>
+                            </a>
+                        </td><td valign="top">
+                            <a target="_blank" href="comb/GoogleCalendar/index.html">
+                                <h4>Google 日历</h4>
+                                <p>使用时间线(linb.UI.TimeLine) 来访问google日历界面. (你需要一个Google账号来测试它)</p>
+                            </a>
+                        </td></tr></table>
+</div><div><div class="b3"></div><div class="b2"></div><div class="b1"></div></div>
+                    </td>
+                </tr>
+            </table>
+            <table id="list" cellpadding="0" cellspacing="6" width="100%">
+                <tr>
+                    <td width="33%" valign="top">
+<div><div class="b1"></div><div class="b2"></div><div class="b3"></div></div><div class="bi">                        
+                        <table height="110"><tr><td>
+                            <a target="_blank" href="comb/Themes/index.html">
+                                <img src="img/comb.themes.jpg"/>
+                            </a>
+                        </td><td valign="top">
+                            <a target="_blank" href="comb/Themes/index.html">
+                                <h4>强大的换肤功能</h4>
+                                <p>动态的切换控件和界面的皮肤.</p>
+                            </a>
+                        </td></tr></table>
+</div><div><div class="b3"></div><div class="b2"></div><div class="b1"></div></div>
+                    </td>
+                    <td width="33%" valign="top">
+<div><div class="b1"></div><div class="b2"></div><div class="b3"></div></div><div class="bi">
+                        <table height="110"><tr><td>
+                            <a target="_blank" href="comb/OutLook/index.html">
+                                <img src="img/comb.outlook.jpg"/>
+                            </a>
+                        </td><td valign="top">
+                            <a target="_blank" href="comb/OutLook/index.html">
+                                <h4>仿Outlook界面</h4>
+                                <p></p>
+                            </a>
+                        </td></tr></table>
+</div><div><div class="b3"></div><div class="b2"></div><div class="b1"></div></div>
+                    </td>
+                    <td valign="top">
+<div><div class="b1"></div><div class="b2"></div><div class="b3"></div></div><div class="bi">
+                        <table height="110"><tr><td>
+                            <a target="_blank" href="comb/OrderManagement/index.html">
+                                <img src="img/comb.ordermanagement.jpg"/>
+                            </a>
+                        </td><td valign="top">
+                            <a target="_blank" href="comb/OrderManagement/index.html">
+                                <h4>订单管理系统</h4>
+                                <p></p>
+                            </a>
+                        </td></tr></table>
+</div><div><div class="b3"></div><div class="b2"></div><div class="b1"></div></div>
+                    </td>
+                </tr>
+            </table>
+            <table id="list" cellpadding="0" cellspacing="6" width="100%">
+                <tr>
+                    <td width="33%" valign="top">
+<div><div class="b1"></div><div class="b2"></div><div class="b3"></div></div><div class="bi">                        
+                        <table height="110"><tr><td>
+                            <a target="_blank" href="comb/Eclipse/index.html">
+                                <img src="img/comb.eclipse.jpg"/>
+                            </a>
+                        </td><td valign="top">
+                            <a target="_blank" href="comb/Eclipse/index.html">
+                                <h4>仿Eclipse的窗口拖动</h4>
+                                <p></p>
+                            </a>
+                        </td></tr></table>
+</div><div><div class="b3"></div><div class="b2"></div><div class="b1"></div></div>
+                    </td>
+                    <td width="33%" valign="top">
+<div><div class="b1"></div><div class="b2"></div><div class="b3"></div></div><div class="bi">
+                        <table height="110"><tr><td>
+                            <a target="_blank" href="comb/survey/index.html">
+                                <img src="img/combo.survey.jpg"/>
+                            </a>
+                        </td><td valign="top">
+                            <a target="_blank" href="comb/survey/index.html">
+                                <h4>调查问卷</h4>
+                                <p></p>
+                            </a>
+                        </td></tr></table>
+</div><div><div class="b3"></div><div class="b2"></div><div class="b1"></div></div>
+                    </td>
+                    <td valign="top">
+<div><div class="b1"></div><div class="b2"></div><div class="b3"></div></div><div class="bi">
+                        <table height="110"><tr><td>
+                            <a target="_blank" href="comb/GridEditor/index.html">
+                                <img src="img/combo.grideditor.jpg"/>
+                            </a>
+                        </td><td valign="top">
+                            <a target="_blank" href="comb/GridEditor/index.html">
+                                <h4>表格编辑器示例</h4>
+                                <p></p>
+                            </a>
+                        </td></tr></table>
+</div><div><div class="b3"></div><div class="b2"></div><div class="b1"></div></div>
+                    </td>
+                </tr>
+            </table>
+
+
+            <div class="block">
+<div><div class="b1"></div><div class="b2"></div><div class="b3"></div></div><div class="bi">
+                    与数据库的交互
+</div><div><div class="b3"></div><div class="b2"></div><div class="b1"></div></div>
+            </div>
+            <table id="list" cellpadding="0" cellspacing="6" width="100%">
+                <tr>
+                    <td width="33%" valign="top">
+<div><div class="b1"></div><div class="b2"></div><div class="b3"></div></div><div class="bi">                        
+                        <table height="110"><tr><td>
+                            <a target="_blank" href="comb/dbdemo/index.html">
+                                <img src="img/combo.dbdemo.jpg"/>
+                            </a>
+                        </td><td valign="top">
+                            <a target="_blank" href="comb/dbdemo/index.html">
+                                <h4>与 MYSQL 数据库的 CRUD</h4>
+                                <p>与 MYSQL 的数据库基本操作 (select, insert, update, delete).</p>
+                            </a>
+                        </td></tr></table>
+</div><div><div class="b3"></div><div class="b2"></div><div class="b1"></div></div>
+                    </td>
+                    <td width="33%" valign="top">
+<!--div><div class="b1"></div><div class="b2"></div><div class="b3"></div></div><div class="bi">
+                        <table height="110"><tr><td>
+                            <a target="_blank" href="">
+                                <img src=""/>
+                            </a>
+                        </td><td valign="top">
+                            <a target="_blank" href="">
+                                <h4></h4>
+                                <p></p>
+                            </a>
+                        </td></tr></table>
+</div><div><div class="b3"></div><div class="b2"></div><div class="b1"></div></div-->
+                    </td>
+                    <td valign="top">
+<!--div><div class="b1"></div><div class="b2"></div><div class="b3"></div></div><div class="bi">
+                        <table height="110"><tr><td>
+                            <a target="_blank" href="">
+                                <img src=""/>
+                            </a>
+                        </td><td valign="top">
+                            <a target="_blank" href="">
+                                <h4></h4>
+                                <p></p>
+                            </a>
+                        </td></tr></table>
+</div><div><div class="b3"></div><div class="b2"></div><div class="b1"></div></div-->
+                    </td>
+                </tr>
+            </table>
+
+
+            <div class="block">
+<div><div class="b1"></div><div class="b2"></div><div class="b3"></div></div><div class="bi">
+                    应用程序相关
+</div><div><div class="b3"></div><div class="b2"></div><div class="b1"></div></div>
+            </div>
+            <table id="list" cellpadding="0" cellspacing="6" width="100%">
+                <tr>
+                    <td width="33%" valign="top">
+<div><div class="b1"></div><div class="b2"></div><div class="b3"></div></div><div class="bi">                        
+                        <table height="110"><tr><td>
+                            <a target="_blank" href="linb/app/distributed/index.html">
+                                <img src="img/linb.app.distributed.jpg"/>
+                            </a>
+                        </td><td valign="top">
+                            <a target="_blank" href="linb/app/distributed/index.html">
+                                <h4>多界面集成</h4>
+                                <p>动态的，智能的加载不同的界面, 并无刷新的显示在一个页面上.</p>
+                            </a>
+                        </td></tr></table>
+</div><div><div class="b3"></div><div class="b2"></div><div class="b1"></div></div>
+                    </td>
+                    <td width="33%" valign="top">
+<div><div class="b1"></div><div class="b2"></div><div class="b3"></div></div><div class="bi">
+                        <table height="110"><tr><td>
+                            <a target="_blank" href="linb/misc/lang/index.html">
+                                <img src="img/linb.misc.lang.jpg"/>
+                            </a>
+                        </td><td valign="top">
+                            <a target="_blank" href="linb/misc/lang/index.html">
+                                <h4>本地化界面</h4>
+                                <p>应用不同的语言显示, 无刷新，不需重新加载页面. </p>
+                            </a>
+                        </td></tr></table>
+</div><div><div class="b3"></div><div class="b2"></div><div class="b1"></div></div>
+                    </td>
+                    <td valign="top">
+<div><div class="b1"></div><div class="b2"></div><div class="b3"></div></div><div class="bi">
+                        <table height="110"><tr><td>
+                            <a target="_blank" href="linb/appearance/Skin/index.html">
+                                <img src="img/linb.CSS.skin.jpg"/>
+                            </a>
+                        </td><td valign="top">
+                            <a target="_blank" href="linb/appearance/Skin/index.html">
+                                <h4>自定义的控件样式</h4>
+                                <p>在某个龙博AJAX主题样式上自定义你自己的样式.</p>
+                            </a>
+                        </td></tr></table>
+</div><div><div class="b3"></div><div class="b2"></div><div class="b1"></div></div>
+                    </td>
+                </tr>
+            </table>
+            <table id="list" cellpadding="0" cellspacing="6" width="100%">
+                <tr>
+                    <td width="33%" valign="top">
+<div><div class="b1"></div><div class="b2"></div><div class="b3"></div></div><div class="bi">                        
+                        <table height="110"><tr><td>
+                        </td><td valign="top">
+                            <a target="_blank" href="linb/app/tooltips/index.html">
+                                <h4>工具提示</h4>
+                                <p>在你的应用程序中使用工具提示条</p>
+                            </a>
+                        </td></tr></table>
+</div><div><div class="b3"></div><div class="b2"></div><div class="b1"></div></div>
+                    </td>
+                    <td width="33%" valign="top">
+<div><div class="b1"></div><div class="b2"></div><div class="b3"></div></div><div class="bi">
+                        <table height="110"><tr><td>
+                        </td><td valign="top">
+                            <a target="_blank" href="linb/misc/history/index.html">
+                                <h4>浏览历史</h4>
+                                <p>展示如何使浏览器记忆用户操作的每一步.</p>
+                            </a>
+                        </td></tr></table>
+</div><div><div class="b3"></div><div class="b2"></div><div class="b1"></div></div>
+                    </td>
+                    <td valign="top">
+<div><div class="b1"></div><div class="b2"></div><div class="b3"></div></div><div class="bi">
+                        <table height="110"><tr><td>
+                        </td><td valign="top">
+                            <a target="_blank" href="linb/app/assembly/index.html">
+                                <h4>控件加载流程</h4>
+                                <p>监视控件的加载流程(使用linb.ComFactory和linb.UI.Tag) 在<b>"缓慢运动"中处理</b>.</p>
+                            </a>
+                        </td></tr></table>
+</div><div><div class="b3"></div><div class="b2"></div><div class="b1"></div></div>
+                    </td>
+                </tr>
+            </table>
+
+
+            <div class="block">
+<div><div class="b1"></div><div class="b2"></div><div class="b3"></div></div><div class="bi">
+                    模板
+</div><div><div class="b3"></div><div class="b2"></div><div class="b1"></div></div>
+            </div>
+            <table id="list" cellpadding="0" cellspacing="6" width="100%">
+                <tr>
+                    <td width="33%" valign="top">
+<div><div class="b1"></div><div class="b2"></div><div class="b3"></div></div><div class="bi">                        
+                        <table height="110"><tr><td>
+                            <a target="_blank" href="linb/Template/basic.html">
+                                <img src="img/linb.Template.basic.jpg"/>
+                            </a>
+                        </td><td valign="top">
+                            <a target="_blank" href="linb/Template/basic.html">
+                                <h4>多重嵌套模板</h4>
+                                <p>使用 linb.Template生成多重嵌套的html，同时支持事件</p>
+                            </a>
+                        </td></tr></table>
+</div><div><div class="b3"></div><div class="b2"></div><div class="b1"></div></div>
+                    </td>
+                    <td width="33%" valign="top">
+<div><div class="b1"></div><div class="b2"></div><div class="b3"></div></div><div class="bi">
+                        <table height="110"><tr><td>
+                            <a target="_blank" href="linb/Template/gallery1.html">
+                                <img src="img/linb.Template.gallery1.jpg"/>
+                            </a>
+                        </td><td valign="top">
+                            <a target="_blank" href="linb/Template/gallery1.html">
+                                <h4>网上商店</h4>
+                                <p>使用linb.Template来制作一个网上商店程序.</p>
+                            </a>
+                        </td></tr></table>
+</div><div><div class="b3"></div><div class="b2"></div><div class="b1"></div></div>
+                    </td>
+                    <td valign="top">
+<div><div class="b1"></div><div class="b2"></div><div class="b3"></div></div><div class="bi">
+                        <table height="110"><tr><td>
+                            <a target="_blank" href="linb/Template/gallery2.html">
+                                <img src="img/linb.Template.gallery2.jpg"/>
+                            </a>
+                        </td><td valign="top">
+                            <a target="_blank" href="linb/Template/gallery2.html">
+                                <h4>网上商店(包装版)</h4>
+                                <p>将"网上商店"包装成一个类,使用Ajax获取模板的数据</p>
+                            </a>
+                        </td></tr></table>
+</div><div><div class="b3"></div><div class="b2"></div><div class="b1"></div></div>
+                    </td>
+                </tr>
+            </table>
+            
+
+            <div class="block">
+<div><div class="b1"></div><div class="b2"></div><div class="b3"></div></div><div class="bi">
+                    输入输出
+</div><div><div class="b3"></div><div class="b2"></div><div class="b1"></div></div>
+            </div>
+            <table id="list" cellpadding="0" cellspacing="6" width="100%">
+                <tr>
+                    <td width="33%" valign="top">
+<div><div class="b1"></div><div class="b2"></div><div class="b3"></div></div><div class="bi">                        
+                        <table height="110"><tr><td>
+                            <a target="_blank" href="linb/IO/basic/index.html">
+                                <img src="img/linb.IO.basic.jpg"/>
+                            </a>
+                        </td><td valign="top">
+                            <a target="_blank" href="linb/IO/basic/index.html">
+                                <h4>不同的Ajax类的比较</h4>
+                                <p>使用 linb.Ajax/Sajax/Iajax和服务器打交道</p>
+                            </a>
+                        </td></tr></table>
+</div><div><div class="b3"></div><div class="b2"></div><div class="b1"></div></div>
+                    </td>
+                    <td width="33%" valign="top">
+<div><div class="b1"></div><div class="b2"></div><div class="b3"></div></div><div class="bi">
+                        <table height="110"><tr><td>
+                            <a target="_blank" href="linb/IO/monitor/index.html">
+                                <img src="img/linb.IO.basic.jpg"/>
+                            </a>
+                        </td><td valign="top">
+                            <a target="_blank" href="linb/IO/monitor/index.html">
+                               <h4>监视流程</h4>
+                                <p>监视输入输出的请求.</p>
+                            </a>
+                        </td></tr></table>
+</div><div><div class="b3"></div><div class="b2"></div><div class="b1"></div></div>
+                    </td>
+                    <td valign="top">
+<div><div class="b1"></div><div class="b2"></div><div class="b3"></div></div><div class="bi">
+                        <table height="110"><tr><td>
+                            <a target="_blank" href="linb/IO/complicated/index.html">
+                                <img src="img/linb.IO.complicated.jpg"/>
+                            </a>
+                        </td><td valign="top">
+                            <a target="_blank" href="linb/IO/complicated/index.html">
+                                <h4>复杂的应用</h4>
+                                <p>将多个Ajax 绑定到一个线程中执行.</p>
+                            </a>
+                        </td></tr></table>
+</div><div><div class="b3"></div><div class="b2"></div><div class="b1"></div></div>
+                    </td>
+                </tr>
+            </table>
+
+
+            <div class="block">
+<div><div class="b1"></div><div class="b2"></div><div class="b3"></div></div><div class="bi">
+                    外观和样式
+</div><div><div class="b3"></div><div class="b2"></div><div class="b1"></div></div>
+            </div>
+            <table id="list" cellpadding="0" cellspacing="6" width="100%">
+                <tr>
+                    <td width="33%" valign="top">
+<div><div class="b1"></div><div class="b2"></div><div class="b3"></div></div><div class="bi">                        
+                        <table height="80"><tr><td>
+                        </td><td valign="top">
+                            <a target="_blank" href="linb/appearance/way1.html">
+                                <h4>将CSS class应用于所有控件</h4>
+                                <p>使用像'linb-list-item'这样的类来改变所有控件的外观.</p>
+                            </a>
+                        </td></tr></table>
+</div><div><div class="b3"></div><div class="b2"></div><div class="b1"></div></div>
+                    </td>
+                    <td width="33%" valign="top">
+<div><div class="b1"></div><div class="b2"></div><div class="b3"></div></div><div class="bi">
+                        <table height="80"><tr><td>
+                        </td><td valign="top">
+                            <a target="_blank" href="linb/appearance/way2.html">
+                                <h4>改变某个控件的外观</h4>
+                                <p>使用DOM id CSS 来改变指定控件的外观.</p>
+                            </a>
+                        </td></tr></table>
+</div><div><div class="b3"></div><div class="b2"></div><div class="b1"></div></div>
+                    </td>
+                    <td valign="top">
+<div><div class="b1"></div><div class="b2"></div><div class="b3"></div></div><div class="bi">
+                        <table height="80"><tr><td>
+                        </td><td valign="top">
+                            <a target="_blank" href="linb/appearance/way4.html">
+                                <h4>使用setCustom[xxx]</h4>
+                                <p>使用setCustomClass/setCustomStyle等改变单独控件的外观.</p>
+                            </a>
+                        </td></tr></table>
+</div><div><div class="b3"></div><div class="b2"></div><div class="b1"></div></div>
+                    </td>
+                </tr>
+            </table>
+            <table id="list" cellpadding="0" cellspacing="6" width="100%">
+                <tr>
+                    <td width="33%" valign="top">
+<div><div class="b1"></div><div class="b2"></div><div class="b3"></div></div><div class="bi">                        
+                        <table height="80"><tr><td>
+                        </td><td valign="top">
+                            <a target="_blank" href="linb/appearance/way5.html">
+                                <h4>使用getSubNode </h4>
+                                <p>使用getSubNode函数等改变单独控件的外观.</p>
+                            </a>
+                        </td></tr></table>
+</div><div><div class="b3"></div><div class="b2"></div><div class="b1"></div></div>
+                    </td>
+                    <td width="33%" valign="top">
+<div><div class="b1"></div><div class="b2"></div><div class="b3"></div></div><div class="bi">
+                        <table height="80"><tr><td>
+                        </td><td valign="top">
+                            <a target="_blank" href="linb/appearance/way6.html">
+                                <h4>使用itemClass和itemStyle</h4>
+                                <p>使用itemClass和itemStyle来改变列表的某个数据项的外观.</p>
+                            </a>
+                        </td></tr></table>
+</div><div><div class="b3"></div><div class="b2"></div><div class="b1"></div></div>
+                    </td>
+                    <td valign="top">
+<div><div class="b1"></div><div class="b2"></div><div class="b3"></div></div><div class="bi">
+                        <table height="80"><tr><td>
+                        </td><td valign="top">
+                        </td></tr></table>
+</div><div><div class="b3"></div><div class="b2"></div><div class="b1"></div></div>
+                    </td>
+                </tr>
+            </table>
+
+
+            <div class="block">
+<div><div class="b1"></div><div class="b2"></div><div class="b3"></div></div><div class="bi">
+                    拖拽
+</div><div><div class="b3"></div><div class="b2"></div><div class="b1"></div></div>
+            </div>
+            <table id="list" cellpadding="0" cellspacing="6" width="100%">
+                <tr>
+                    <td width="33%" valign="top">
+<div><div class="b1"></div><div class="b2"></div><div class="b3"></div></div><div class="bi">                        
+                        <table height="110"><tr><td>
+                            <a target="_blank" href="linb/dd/ddpanel/index.html">
+                                <img src="img/linb.dd.ddpanel.jpg"/>
+                            </a>
+                        </td><td valign="top">
+                            <a target="_blank" href="linb/dd/ddpanel/index.html">
+                                <h4>拖动一个控件</h4>
+                                <p>拖动一个控件，放入另外一个容器中.</p>
+                            </a>
+                        </td></tr></table>
+</div><div><div class="b3"></div><div class="b2"></div><div class="b1"></div></div>
+                    </td>
+                    <td width="33%" valign="top">
+<div><div class="b1"></div><div class="b2"></div><div class="b3"></div></div><div class="bi">
+                        <table height="110"><tr><td>
+                            <a target="_blank" href="linb/dd/ddpage/index.html">
+                                <img src="img/linb.dd.ddpage.jpg"/>
+                            </a>
+                        </td><td valign="top">
+                            <a target="_blank" href="linb/dd/ddpage/index.html">
+                               <h4>在不同的控件间拖动面板</h4>
+                                <p>拖动一个面板，放入另外一个容器中.</p>
+                            </a>
+                        </td></tr></table>
+</div><div><div class="b3"></div><div class="b2"></div><div class="b1"></div></div>
+                    </td>
+                    <td valign="top">
+<div><div class="b1"></div><div class="b2"></div><div class="b3"></div></div><div class="bi">
+                        <table height="110"><tr><td>
+                            <a target="_blank" href="linb/dd/ddinlist/index.html">
+                                <img src="img/linb.dd.ddinlist.jpg"/>
+                            </a>
+                        </td><td valign="top">
+                            <a target="_blank" href="linb/dd/ddinlist/index.html">
+                                <h4>在不同的控件间拖动数据项</h4>
+                                <p>在List, RadioBox, TreeBar等中拖动数据</p>
+                            </a>
+                        </td></tr></table>
+</div><div><div class="b3"></div><div class="b2"></div><div class="b1"></div></div>
+                    </td>
+                </tr>
+            </table>
+
+
+            <div class="block">
+<div><div class="b1"></div><div class="b2"></div><div class="b3"></div></div><div class="bi">
+                    序列化/反序列化
+</div><div><div class="b3"></div><div class="b2"></div><div class="b1"></div></div>
+            </div>
+            <table id="list" cellpadding="0" cellspacing="6" width="100%">
+                <tr>
+                    <td width="33%" valign="top">
+<div><div class="b1"></div><div class="b2"></div><div class="b3"></div></div><div class="bi">                        
+                        <table height="110"><tr><td>
+                            <a target="_blank" href="linb/serialize/linbui/index.html">
+                                <img src="img/linb.serialize.linbui.jpg"/>
+                            </a>
+                        </td><td valign="top">
+                            <a target="_blank" href="linb/serialize/linbui/index.html">
+                                <h4>序列化控件</h4>
+                                <p>序列化/反序列化控件对象</p>
+                            </a>
+                        </td></tr></table>
+</div><div><div class="b3"></div><div class="b2"></div><div class="b1"></div></div>
+                    </td>
+                    <td width="33%" valign="top">
+<div><div class="b1"></div><div class="b2"></div><div class="b3"></div></div><div class="bi">
+                        <table height="110"><tr><td>
+                            <a target="_blank" href="linb/serialize/Form/index.html">
+                                <img src="img/linb.serialize.form.jpg"/>
+                            </a>
+                        </td><td valign="top">
+                            <a target="_blank" href="linb/serialize/Form/index.html">
+                               <h4>窗口构建器</h4>
+                                <p>将JSON字符串构建为窗口.</p>
+                            </a>
+                        </td></tr></table>
+</div><div><div class="b3"></div><div class="b2"></div><div class="b1"></div></div>
+                    </td>
+                    <td valign="top">
+<div><div class="b1"></div><div class="b2"></div><div class="b3"></div></div><div class="bi">
+                        <table height="110"><tr><td>
+                        </td><td valign="top">
+                        </td></tr></table>
+</div><div><div class="b3"></div><div class="b2"></div><div class="b1"></div></div>
+                    </td>
+                </tr>
+            </table>
+ 
+ 
+            <div class="block">
+<div><div class="b1"></div><div class="b2"></div><div class="b3"></div></div><div class="bi">
+                    Forms
+</div><div><div class="b3"></div><div class="b2"></div><div class="b1"></div></div>
+            </div>
+            <table id="list" cellpadding="0" cellspacing="6" width="100%">
+                <tr>
+                    <td width="33%" valign="top">
+<div><div class="b1"></div><div class="b2"></div><div class="b3"></div></div><div class="bi">                        
+                        <table height="110"><tr><td>
+                            <a target="_blank" href="linb/forms/DataBinder/index.html">
+                                <img src="img/linb.forms.databinder.jpg"/>
+                            </a>
+                        </td><td valign="top">
+                            <a target="_blank" href="linb/forms/DataBinder/index.html">
+                                <h4>数据绑定</h4>
+                                <p></p>
+                            </a>
+                        </td></tr></table>
+</div><div><div class="b3"></div><div class="b2"></div><div class="b1"></div></div>
+                    </td>
+                    <td width="33%" valign="top">
+<div><div class="b1"></div><div class="b2"></div><div class="b3"></div></div><div class="bi">
+                        <table height="110"><tr><td>
+                        </td><td valign="top">
+                        </td></tr></table>
+</div><div><div class="b3"></div><div class="b2"></div><div class="b1"></div></div>
+                    </td>
+                    <td valign="top">
+<div><div class="b1"></div><div class="b2"></div><div class="b3"></div></div><div class="bi">
+                        <table height="110"><tr><td>
+                        </td><td valign="top">
+                        </td></tr></table>
+</div><div><div class="b3"></div><div class="b2"></div><div class="b1"></div></div>
+                    </td>
+                </tr>
+            </table> 
+
+
+            <div class="block">
+<div><div class="b1"></div><div class="b2"></div><div class="b3"></div></div><div class="bi">
+                    时间管理
+</div><div><div class="b3"></div><div class="b2"></div><div class="b1"></div></div>
+            </div>
+            <table id="list" cellpadding="0" cellspacing="6" width="100%">
+                <tr>
+                    <td width="33%" valign="top">
+<div><div class="b1"></div><div class="b2"></div><div class="b3"></div></div><div class="bi">                        
+                        <table height="110"><tr><td>
+                            <a target="_blank" href="linb/time/timeline/index.html">
+                                <img src="img/linb.time.timeline.jpg"/>
+                            </a>
+                        </td><td valign="top">
+                            <a target="_blank" href="linb/time/timeline/index.html">
+                                <h4>事件线和日历</h4>
+                                <p></p>
+                            </a>
+                        </td></tr></table>
+</div><div><div class="b3"></div><div class="b2"></div><div class="b1"></div></div>
+                    </td>
+                    <td width="33%" valign="top">
+<div><div class="b1"></div><div class="b2"></div><div class="b3"></div></div><div class="bi">
+                        <table height="110"><tr><td>
+                            <a target="_blank" href="linb/time/course/index.html">
+                                <img src="img/linb.time.course.jpg"/>
+                            </a>
+                        </td><td valign="top">
+                            <a target="_blank" href="linb/time/course/index.html">
+                               <h4>在线选课系统</h4>
+                                <p></p>
+                            </a>
+                        </td></tr></table>
+</div><div><div class="b3"></div><div class="b2"></div><div class="b1"></div></div>
+                    </td>
+                    <td valign="top">
+<div><div class="b1"></div><div class="b2"></div><div class="b3"></div></div><div class="bi">
+                        <table height="110"><tr><td>
+                            <a target="_blank" href="linb/time/TimeRange.html">
+                                <img src="img/linb.time.timerange.jpg"/>
+                            </a>
+                        </td><td valign="top">
+                            <a target="_blank" href="linb/time/TimeRange.html">
+                                <h4>时间范围选择</h4>
+                                <p></p>
+                            </a>
+                        </td></tr></table>
+</div><div><div class="b3"></div><div class="b2"></div><div class="b1"></div></div>
+                    </td>
+                </tr>
+            </table>
+
+ 
+            <div class="block">
+<div><div class="b1"></div><div class="b2"></div><div class="b3"></div></div><div class="bi">
+                    Toolbars and Menus
+</div><div><div class="b3"></div><div class="b2"></div><div class="b1"></div></div>
+            </div>
+            <table id="list" cellpadding="0" cellspacing="6" width="100%">
+                <tr>
+                    <td width="33%" valign="top">
+<div><div class="b1"></div><div class="b2"></div><div class="b3"></div></div><div class="bi">                        
+                        <table height="110"><tr><td>
+                            <a target="_blank" href="linb/widgets/ToolBar/index.html">
+                                <img src="img/linb.widgets.toolbar.jpg"/>
+                            </a>
+                        </td><td valign="top">
+                            <a target="_blank" href="linb/widgets/ToolBar/index.html">
+                                <h4>高级工具条</h4>
+                                <p>带有DatePicker, ColorPikcer, ProgressBar等的工具条</p>
+                            </a>
+                        </td></tr></table>
+</div><div><div class="b3"></div><div class="b2"></div><div class="b1"></div></div>
+                    </td>
+                    <td width="33%" valign="top">
+<div><div class="b1"></div><div class="b2"></div><div class="b3"></div></div><div class="bi">
+                        <table height="110"><tr><td>
+                            <a target="_blank" href="linb/widgets/MenuBar/index.html">
+                                <img src="img/linb.widgets.menubar.jpg"/>
+                            </a>
+                        </td><td valign="top">
+                            <a target="_blank" href="linb/widgets/MenuBar/index.html">
+                                <h4>高级的菜单</h4>
+                                <p>带有DatePicker, TimePicker, ColorPikcer等的菜单</p>
+                            </a>
+                        </td></tr></table>
+</div><div><div class="b3"></div><div class="b2"></div><div class="b1"></div></div>
+                    </td>
+                    <td valign="top">
+<div><div class="b1"></div><div class="b2"></div><div class="b3"></div></div><div class="bi">
+                        <table height="110"><tr><td>
+                        </td><td valign="top">
+                        </td></tr></table>
+</div><div><div class="b3"></div><div class="b2"></div><div class="b1"></div></div>
+                    </td>
+                </tr>
+            </table>
+
+ 
+            <div class="block">
+<div><div class="b1"></div><div class="b2"></div><div class="b3"></div></div><div class="bi">
+                    Multi Pages
+</div><div><div class="b3"></div><div class="b2"></div><div class="b1"></div></div>
+            </div>
+            <table id="list" cellpadding="0" cellspacing="6" width="100%">
+                <tr>
+                    <td width="33%" valign="top">
+<div><div class="b1"></div><div class="b2"></div><div class="b3"></div></div><div class="bi">                        
+                        <table height="110"><tr><td>
+                            <a target="_blank" href="linb/widgets/ButtonViews/index.html">
+                                <img src="img/linb.widgets.buttonviews.jpg"/>
+                            </a>
+                        </td><td valign="top">
+                            <a target="_blank" href="linb/widgets/ButtonViews/index.html">
+                                <h4>linb.UI.ButtonViews</h4>
+                                <p>linb.UI.ButtonViews的示例.</p>
+                            </a>
+                        </td></tr></table>
+</div><div><div class="b3"></div><div class="b2"></div><div class="b1"></div></div>
+                    </td>
+                    <td width="33%" valign="top">
+<div><div class="b1"></div><div class="b2"></div><div class="b3"></div></div><div class="bi">
+                        <table height="110"><tr><td>
+                        </td><td valign="top">
+                        </td></tr></table>
+</div><div><div class="b3"></div><div class="b2"></div><div class="b1"></div></div>
+                    </td>
+                    <td valign="top">
+<div><div class="b1"></div><div class="b2"></div><div class="b3"></div></div><div class="bi">
+                        <table height="110"><tr><td>
+                        </td><td valign="top">
+                        </td></tr></table>
+</div><div><div class="b3"></div><div class="b2"></div><div class="b1"></div></div>
+                    </td>
+                </tr>
+            </table> 
+
+
+            <div class="block">
+<div><div class="b1"></div><div class="b2"></div><div class="b3"></div></div><div class="bi">
+                    TreeGrid
+</div><div><div class="b3"></div><div class="b2"></div><div class="b1"></div></div>
+            </div>
+            <table id="list" cellpadding="0" cellspacing="6" width="100%">
+                <tr>
+                    <td width="33%" valign="top">
+<div><div class="b1"></div><div class="b2"></div><div class="b3"></div></div><div class="bi">                        
+                        <table height="110"><tr><td>
+                            <a target="_blank" href="linb/widgets/TreeGrid/index.html">
+                                <img src="img/linb.widgets.treegrid.jpg"/>
+                            </a>
+                        </td><td valign="top">
+                            <a target="_blank" href="linb/widgets/TreeGrid/index.html">
+                                <h4>TreeGrid示例</h4>
+                                <p>linb.UI.TreeGrid的所有示例.</p>
+                            </a>
+                        </td></tr></table>
+</div><div><div class="b3"></div><div class="b2"></div><div class="b1"></div></div>
+                    </td>
+                    <td width="33%" valign="top">
+<div><div class="b1"></div><div class="b2"></div><div class="b3"></div></div><div class="bi">
+                        <table height="110"><tr><td>
+                            <a target="_blank" href="linb/widgets/TreeGrid.Paging/index.html">
+                                <img src="img/linb.treegrid.paging.jpg"/>
+                            </a>
+                        </td><td valign="top">
+                            <a target="_blank" href="linb/widgets/TreeGrid.Paging/index.html">
+                                <h4>分页</h4>
+                                <p> </p>
+                            </a>
+                        </td></tr></table>
+</div><div><div class="b3"></div><div class="b2"></div><div class="b1"></div></div>
+                    </td>
+                    <td valign="top">
+<div><div class="b1"></div><div class="b2"></div><div class="b3"></div></div><div class="bi">
+                        <table height="110"><tr><td>
+                        </td><td valign="top">
+                        </td></tr></table>
+</div><div><div class="b3"></div><div class="b2"></div><div class="b1"></div></div>
+                    </td>
+                </tr>
+            </table>
+
+
+            <div class="block">
+<div><div class="b1"></div><div class="b2"></div><div class="b3"></div></div><div class="bi">
+                    杂项
+</div><div><div class="b3"></div><div class="b2"></div><div class="b1"></div></div>
+            </div>
+            <table id="list" cellpadding="0" cellspacing="6" width="100%">
+                <tr>
+                    <td width="33%" valign="top">
+<div><div class="b1"></div><div class="b2"></div><div class="b3"></div></div><div class="bi">                        
+                        <table height="110"><tr><td>
+                            <a target="_blank" href="linb/misc/loadconasy/index.html">
+                                <img src="img/linb.list.loadconasy.jpg"/>
+                            </a>
+                        </td><td valign="top">
+                            <a target="_blank" href="linb/misc/loadconasy/index.html">
+                                <h4>动态内容加载</h4>
+                                <p>将HTML string, Template, linb.UI或linb.Com动态加载到TreeBar中间.</p>
+                            </a>
+                        </td></tr></table>
+</div><div><div class="b3"></div><div class="b2"></div><div class="b1"></div></div>
+                    </td>
+                    <td width="33%" valign="top">
+<div><div class="b1"></div><div class="b2"></div><div class="b3"></div></div><div class="bi">
+                        <table height="110"><tr><td>
+                            <a target="_blank" href="linb/misc/renderer/index.html">
+                                <img src="img/linb.misc.renderer.jpg"/>
+                            </a>
+                        </td><td valign="top">
+                            <a target="_blank" href="linb/misc/renderer/index.html">
+                                <h4>渲染器</h4>
+                                <p></p>
+                            </a>
+                        </td></tr></table>
+</div><div><div class="b3"></div><div class="b2"></div><div class="b1"></div></div>
+                    </td>
+                    <td valign="top">
+<div><div class="b1"></div><div class="b2"></div><div class="b3"></div></div><div class="bi">
+                        <table height="110"><tr><td>
+                            <a target="_blank" href="linb/misc/uiintpl.html">
+                                <img src="img/linb.misc.uiintpl.jpg"/>
+                            </a>
+                        </td><td valign="top">
+                            <a target="_blank" href="linb/misc/uiintpl.html">
+                                <h4>控件在模板中的应用</h4>
+                                <p></p>
+                            </a>
+                        </td></tr></table>
+</div><div><div class="b3"></div><div class="b2"></div><div class="b1"></div></div>
+                    </td>
+                </tr>
+            </table>
+            <table id="list" cellpadding="0" cellspacing="6" width="100%">
+                <tr>
+                    <td width="33%" valign="top">
+<div><div class="b1"></div><div class="b2"></div><div class="b3"></div></div><div class="bi">                        
+                        <table height="80"><tr><td>
+                        </td><td valign="top">
+                            <a target="_blank" href="linb/misc/Behavior/index.html">
+                                <h4>控件行为</h4>
+                                <p>控件的事件, setCustomBehavior 和DOM上附着的事件.</p>
+                            </a>
+                        </td></tr></table>
+</div><div><div class="b3"></div><div class="b2"></div><div class="b1"></div></div>
+                    </td>
+                    <td width="33%" valign="top">
+<div><div class="b1"></div><div class="b2"></div><div class="b3"></div></div><div class="bi">
+                        <table height="80"><tr><td>
+                        </td><td valign="top">
+                            <a target="_blank" href="linb/misc/Debugger.html">
+                                <h4>Debugger窗口</h4>
+                                <p>龙博AJAX的debug窗口.</p>
+                            </a>
+                        </td></tr></table>
+</div><div><div class="b3"></div><div class="b2"></div><div class="b1"></div></div>
+                    </td>
+                    <td valign="top">
+<div><div class="b1"></div><div class="b2"></div><div class="b3"></div></div><div class="bi">
+                        <table height="80"><tr><td>
+                        </td><td valign="top">
+                            <a target="_blank" href="linb/misc/hotkey.html">
+                                <h4>热键</h4>
+                                <p>如何使用全局的热键</p>
+                            </a>
+                        </td></tr></table>
+</div><div><div class="b3"></div><div class="b2"></div><div class="b1"></div></div>
+                    </td>
+                </tr>
+            </table>
+            <table id="list" cellpadding="0" cellspacing="6" width="100%">
+                <tr>
+                    <td width="33%" valign="top">
+<div><div class="b1"></div><div class="b2"></div><div class="b3"></div></div><div class="bi">                        
+                        <table height="80"><tr><td>
+                        </td><td valign="top">
+                            <a target="_blank" href="linb/misc/keyHook/index.html">
+                                <h4>键盘监视器</h4>
+                                <p>linb.UI.Input的键盘监视器示例.</p>
+                            </a>
+                        </td></tr></table>
+</div><div><div class="b3"></div><div class="b2"></div><div class="b1"></div></div>
+                    </td>
+                    <td width="33%" valign="top">
+<div><div class="b1"></div><div class="b2"></div><div class="b3"></div></div><div class="bi">
+                        <table height="80"><tr><td>
+                        </td><td valign="top">
+                            <a target="_blank" href="linb/misc/renderto/index.html">
+                                <h4>渲染到</h4>
+                                <p>将linb.UI控件渲染到已经存在的DOM元素上.</p>
+                            </a>
+                        </td></tr></table>
+</div><div><div class="b3"></div><div class="b2"></div><div class="b1"></div></div>
+                    </td>
+                    <td valign="top">
+<div><div class="b1"></div><div class="b2"></div><div class="b3"></div></div><div class="bi">
+                        <table height="80"><tr><td>
+                        </td><td valign="top">
+                            <a target="_blank" href="linb/misc/dock/index.html">
+                               <h4>停靠</h4>
+                                <p>控件的停靠示例.</p>
+                            </a>
+                        </td></tr></table>
+</div><div><div class="b3"></div><div class="b2"></div><div class="b1"></div></div>
+                    </td>
+                </tr>
+            </table>
+
+
+        </div>
+        <div id="tail">
+            <img border=0 src="../img/sign.gif" />
+        </div>
+    </div>
+
+<style>#linbar a{text-decoration:underline;font-size:12px;margin-right:2px;padding:2px;}#linbar_more a{text-decoration:none;padding:3px;font-size:12px;text-decoration:none;display:block;}#linbar a:hover, #linbar_more a:hover{text-decoration:none;color:#fff!important;background:#598EDD;}#linbar small{font-size:9px;}#linbar_more{position:absolute;display:none;top:19px;width:80px;z-index:6000;border:solid 1px;border-color:#E4F1FD #598EDD #598EDD #598EDD; background:#E4F1FD;}</style><script>var linbar={byId:function(id){return document.getElementById(id).style},get1:function(){return this.byId('linbar')},get2:function(){return this.byId('linbar_more')},get3:function(){return this.byId('linbar_l')},show:function(){var n=this;if(n._t1){clearTimeout(n._t1);delete n._t1;}var s=n.get1();s.height='19px';s.backgroundColor='#E4F1FD';n.get3().display='block';},hide:function(){var n=this;if(n._t1){clearTimeout(n._t1);delete n._t1;}n._t1=setTimeout(function(){var s=n.get1();s.height='3px';s.backgroundColor='#598EDD';n.get3().display='none';n.get2().display='none';},600);},showPop:function(ele){var n=this;if(n._t1){clearTimeout(n._t1);delete n._t1;}if(n._t2){clearTimeout(n._t2);delete n._t2;}if(ele){var s=n.get2();s.left=(ele.offsetLeft-4)+'px';s.display='block';}},hidePop:function(){var n=this;if(n._t2){clearTimeout(n._t2);delete n._t2;}n._t2=setTimeout(function(){n.get2().display='none';},100);n.hide();}};</script><div id='linbar' onmouseout="linbar.hide()"  onmouseover="linbar.show()" style='position:absolute;width:100%;left:0;top:0;height:3px;z-index:5000;background:#598EDD;line-height:19px;overflow:hidden;'><nobr><a href='http://www.linb.net'><strong> Home</strong></a><a href='http://code.google.com/p/linb/downloads/list'>Download</a><a href='http://linb.googlecode.com/svn/trunk/龙博AJAX2.0/'>SVN</a><a href='http://groups.google.com/group/linb'>forum</a><a href='http://www.linb.net/API'>API</a><a href='http://www.linb.net/CodeSnip'>CodeSnip</a><a href='http://www.linb.net/VisualJS/UIBuilder.html'>UI Builder</a><a href='http://www.linb.net/Samples' onmouseout="linbar.hidePop()"  onmouseover="linbar.showPop(this)">Samples</a><small style="margin-left:-3px;">&#9660;</small><a href='http://www.sigmawidgets.com/'>Commercial Support</a></nobr></div><div id='linbar_l' style="left:0;position:absolute;top:19px;display:none;border-top:1px solid #598EDD;font-size:0;line-height:0;width:100%;z-index:5500;"></div><div id='linbar_more' onmouseout="linbar.hidePop()"  onmouseover="linbar.showPop()"><a href='http://www.linb.net/JSONEditor'>JSONEditor</a><a href='http://www.linb.net/Samples/comb/Themes'>Themes</a><a href='http://www.stockfreephoto.com' target=_blank>PicEditor</a><a href='http://www.linb.net/Samples'>more ...</a></div>
+<script type="text/javascript">var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));</script><script type="text/javascript">var pageTracker = _gat._getTracker("UA-414967-1");pageTracker._initData();pageTracker._trackPageview();</script>
+
+</body>
+</html>
