@@ -1489,15 +1489,19 @@ Class("linb.UI",  "linb.absObj", {
                 'vertical-align':'top'
             },
             '.ui-btn-mouseover, .ui-btn-focus':{
+                $order:2,
                 'background-position':'right -44px'
             },
             '.ui-btn-mouseover .ui-btni, .ui-btn-focus .ui-btni':{
+                $order:2,
                 'background-position':'left -66px'
             },
             '.ui-btn-mousedown, .ui-btn-checked':{
+                $order:3,
                 'background-position':'right -88px'
             },
             '.ui-btn-mousedown .ui-btni, .ui-btn-checked .ui-btni':{
+                $order:3,
                 'background-position':'left -110px'
             },
             '.ui-icon':{

@@ -68,20 +68,23 @@ Class("linb.UI.ToolBar",["linb.UI","linb.absList"],{
                                         tagName:'a',
                                         href:linb.$href,
                                         tabindex: '{_tabindex}',
-                                        ICON:{
-                                            $order:1,
-                                            className:'ui-icon',
-                                            style:'background:url({image}) transparent no-repeat  {imagePos}; {iconDisplay}'
-                                        },
-                                        CAPTION:{
-                                            $order:2,
-                                            text : '{caption}',
-                                            className:" {disabled}",
-                                            style:'{captionDisplay}'
-                                        },
-                                        DROP:{
-                                            $order:3,
-                                            style:'{dropDisplay}'
+                                        BOXWRAP:{
+                                            tagName:'div',
+                                            ICON:{
+                                                $order:1,
+                                                className:'ui-icon',
+                                                style:'background:url({image}) transparent no-repeat  {imagePos}; {iconDisplay}'
+                                            },
+                                            CAPTION:{
+                                                $order:2,
+                                                text : '{caption}',
+                                                className:" {disabled}",
+                                                style:'{captionDisplay}'
+                                            },
+                                            DROP:{
+                                                $order:3,
+                                                style:'{dropDisplay}'
+                                            }
                                         }
                                     }
                                 }
@@ -99,7 +102,10 @@ Class("linb.UI.ToolBar",["linb.UI","linb.absList"],{
                 left:0,
                 top:0
             },
-            ICON:{margin:0},
+            ICON:{
+                margin:0,
+                'vertical-align':'top'
+            },
             ITEMS:{
                 display:'block',
                 'padding-bottom':'1px',
@@ -140,7 +146,7 @@ Class("linb.UI.ToolBar",["linb.UI","linb.absList"],{
             DROP:{
                 width:'11px',
                 height:'16px',
-                'vertical-align':'middle',
+                'vertical-align':'top',
                 background: linb.UI.$bg('drop.gif', ' no-repeat left center', 'Button')
             },
             'BTN-mouseover DROP':{
