@@ -133,7 +133,7 @@ Class("linb.UI.Layout",["linb.UI", "linb.absList"],{
                 bottom:0,
                 width:'40px',
                 height:'9px',
-                background: linb.UI.$bg('icons.gif', ' no-repeat -260px -252px', true)
+                background: linb.UI.$bg('icons.gif', ' no-repeat -240px -252px', true)
             },
             'CMD-BOTTOM':{
                 $order:0,
@@ -142,7 +142,7 @@ Class("linb.UI.Layout",["linb.UI", "linb.absList"],{
                 top:0,
                 width:'40px',
                 height:'9px',
-                background: linb.UI.$bg('icons.gif', ' no-repeat -260px -278px', true)
+                background: linb.UI.$bg('icons.gif', ' no-repeat -240px -278px', true)
             },
             'CMD-LEFT':{
                 $order:0,
@@ -151,7 +151,7 @@ Class("linb.UI.Layout",["linb.UI", "linb.absList"],{
                 right:0,
                 height:'40px',
                 width:'9px',
-                background: linb.UI.$bg('icons.gif', ' no-repeat -210px -260px', true)
+                background: linb.UI.$bg('icons.gif', ' no-repeat -190px -260px', true)
             },
             'CMD-RIGHT':{
                 $order:0,
@@ -160,23 +160,23 @@ Class("linb.UI.Layout",["linb.UI", "linb.absList"],{
                 left:0,
                 height:'40px',
                 width:'9px',
-                background: linb.UI.$bg('icons.gif', ' no-repeat -236px -260px', true)
+                background: linb.UI.$bg('icons.gif', ' no-repeat -216px -260px', true)
             },
             'CMD-TOP-mouseover':{
                 $order:1,
-                'background-position':'-260px -265px'
+                'background-position':'-240px -265px'
             },
             'CMD-BOTTOM-mouseover':{
                 $order:1,
-                'background-position':'-260px -291px'
+                'background-position':'-240px -291px'
             },
             'CMD-LEFT-mouseover':{
                 $order:1,
-                'background-position':'-223px -260px'
+                'background-position':'-203px -260px'
             },
             'CMD-RIGHT-mouseover':{
                 $order:1,
-                'background-position':'-249px -260px'
+                'background-position':'-229px -260px'
             },
 
             'MOVE-MAIN':{

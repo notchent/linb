@@ -9972,7 +9972,7 @@ Class("linb.UI",  "linb.absObj", {
                 'line-height':0,
                 'z-index':1,
                 overflow:'visible',       
-                background: linb.UI.$bg('container_left.gif', ' repeat-y left top', true)
+                background: linb.UI.$bg('bar_horizontal.gif', ' repeat-y -595px top', true)
             },
             '.uicon-maini':{
                 'padding-right':'5px',
@@ -10080,7 +10080,7 @@ Class("linb.UI",  "linb.absObj", {
                 height:'100%'
             },
             '.ui-dirty':{
-                background: linb.UI.$bg('dirty.gif', ' no-repeat left top', true)
+                background: linb.UI.$bg('icons.gif', ' no-repeat -290px -290px', true)
             },
             '.ui-disabled, .ui-disabled *':{
                 color: '#808080'
@@ -20528,20 +20528,20 @@ Class("linb.UI.Tabs", ["linb.UI", "linb.absList","linb.absValue"],{
                 cursor:'pointer',
                 'padding-right':'6px',
                 'vertical-align':'top',
-                background: linb.UI.$bg('top.gif', ' no-repeat right top')
+                background: linb.UI.$bg('button.gif', ' no-repeat right -300px', true)
             },
             'ITEM-mouseover':{
                 $order:1,
-                'background-position' : 'right -100px'
+                'background-position' : 'right -400px'
             },
             'ITEM-mousedown':{
                 $order:2,
-                'background-position' : 'right -200px',
+                'background-position' : 'right -500px',
                 'border-bottom':'solid 1px #FAD600;'
             },
             'ITEM-checked':{
                 $order:3,
-                'background-position' : 'right -200px',
+                'background-position' : 'right -500px',
                 'border-bottom':'solid 1px #FAD600;'
             },
             ITEMI:{
@@ -20551,19 +20551,19 @@ Class("linb.UI.Tabs", ["linb.UI", "linb.absList","linb.absValue"],{
                 //keep this same with ITEM
                 'vertical-align':'top',
                 'text-align': 'center',
-                background: linb.UI.$bg('top.gif', ' no-repeat left -50px')
+                background: linb.UI.$bg('button.gif', ' no-repeat left -350px',true)
             },
             'ITEM-mouseover ITEMI':{
                 $order:1,
-                'background-position' : 'left -150px'
+                'background-position' : 'left -450px'
             },
             'ITEM-mousedown ITEMI':{
                 $order:2,
-                'background-position' : 'left -250px'
+                'background-position' : 'left -550px'
             },
             'ITEM-checked ITEMI':{
                 $order:3,
-                'background-position' : 'left -250px'
+                'background-position' : 'left -550px'
             },
             HANDLE:{
                 display:linb.$inlineBlock,
@@ -23517,7 +23517,7 @@ Class("linb.UI.Layout",["linb.UI", "linb.absList"],{
                 bottom:0,
                 width:'40px',
                 height:'9px',
-                background: linb.UI.$bg('icons.gif', ' no-repeat -260px -252px', true)
+                background: linb.UI.$bg('icons.gif', ' no-repeat -240px -252px', true)
             },
             'CMD-BOTTOM':{
                 $order:0,
@@ -23526,7 +23526,7 @@ Class("linb.UI.Layout",["linb.UI", "linb.absList"],{
                 top:0,
                 width:'40px',
                 height:'9px',
-                background: linb.UI.$bg('icons.gif', ' no-repeat -260px -278px', true)
+                background: linb.UI.$bg('icons.gif', ' no-repeat -240px -278px', true)
             },
             'CMD-LEFT':{
                 $order:0,
@@ -23535,7 +23535,7 @@ Class("linb.UI.Layout",["linb.UI", "linb.absList"],{
                 right:0,
                 height:'40px',
                 width:'9px',
-                background: linb.UI.$bg('icons.gif', ' no-repeat -210px -260px', true)
+                background: linb.UI.$bg('icons.gif', ' no-repeat -190px -260px', true)
             },
             'CMD-RIGHT':{
                 $order:0,
@@ -23544,23 +23544,23 @@ Class("linb.UI.Layout",["linb.UI", "linb.absList"],{
                 left:0,
                 height:'40px',
                 width:'9px',
-                background: linb.UI.$bg('icons.gif', ' no-repeat -236px -260px', true)
+                background: linb.UI.$bg('icons.gif', ' no-repeat -216px -260px', true)
             },
             'CMD-TOP-mouseover':{
                 $order:1,
-                'background-position':'-260px -265px'
+                'background-position':'-240px -265px'
             },
             'CMD-BOTTOM-mouseover':{
                 $order:1,
-                'background-position':'-260px -291px'
+                'background-position':'-240px -291px'
             },
             'CMD-LEFT-mouseover':{
                 $order:1,
-                'background-position':'-223px -260px'
+                'background-position':'-203px -260px'
             },
             'CMD-RIGHT-mouseover':{
                 $order:1,
-                'background-position':'-249px -260px'
+                'background-position':'-229px -260px'
             },
 
             'MOVE-MAIN':{

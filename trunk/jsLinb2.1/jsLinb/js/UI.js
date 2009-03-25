@@ -1658,7 +1658,7 @@ Class("linb.UI",  "linb.absObj", {
                 'line-height':0,
                 'z-index':1,
                 overflow:'visible',       
-                background: linb.UI.$bg('container_left.gif', ' repeat-y left top', true)
+                background: linb.UI.$bg('bar_horizontal.gif', ' repeat-y -595px top', true)
             },
             '.uicon-maini':{
                 'padding-right':'5px',
@@ -1766,7 +1766,7 @@ Class("linb.UI",  "linb.absObj", {
                 height:'100%'
             },
             '.ui-dirty':{
-                background: linb.UI.$bg('dirty.gif', ' no-repeat left top', true)
+                background: linb.UI.$bg('icons.gif', ' no-repeat -290px -290px', true)
             },
             '.ui-disabled, .ui-disabled *':{
                 color: '#808080'

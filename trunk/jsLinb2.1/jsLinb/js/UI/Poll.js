@@ -390,10 +390,10 @@ Class("linb.UI.Poll", "linb.UI.List",{
             },
             PROGRESS:{
                 'margin-left':'2px',
-                background: linb.UI.$bg('icons.gif', ' no-repeat -130px -206px', true)
+                background: linb.UI.$bg('icons.gif', ' no-repeat -130px -196px', true)
             },
             PROGRESSI:{
-                background: linb.UI.$bg('icons.gif', ' no-repeat -150px -224px ', true)
+                background: linb.UI.$bg('icons.gif', ' no-repeat -150px -214px ', true)
             },
             'MARK, MARK2, MARK3' : {
                cursor:'pointer',

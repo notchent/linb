@@ -281,20 +281,20 @@ Class("linb.UI.Tabs", ["linb.UI", "linb.absList","linb.absValue"],{
                 cursor:'pointer',
                 'padding-right':'6px',
                 'vertical-align':'top',
-                background: linb.UI.$bg('top.gif', ' no-repeat right top')
+                background: linb.UI.$bg('button.gif', ' no-repeat right -300px', true)
             },
             'ITEM-mouseover':{
                 $order:1,
-                'background-position' : 'right -100px'
+                'background-position' : 'right -400px'
             },
             'ITEM-mousedown':{
                 $order:2,
-                'background-position' : 'right -200px',
+                'background-position' : 'right -500px',
                 'border-bottom':'solid 1px #FAD600;'
             },
             'ITEM-checked':{
                 $order:3,
-                'background-position' : 'right -200px',
+                'background-position' : 'right -500px',
                 'border-bottom':'solid 1px #FAD600;'
             },
             ITEMI:{
@@ -304,19 +304,19 @@ Class("linb.UI.Tabs", ["linb.UI", "linb.absList","linb.absValue"],{
                 //keep this same with ITEM
                 'vertical-align':'top',
                 'text-align': 'center',
-                background: linb.UI.$bg('top.gif', ' no-repeat left -50px')
+                background: linb.UI.$bg('button.gif', ' no-repeat left -350px',true)
             },
             'ITEM-mouseover ITEMI':{
                 $order:1,
-                'background-position' : 'left -150px'
+                'background-position' : 'left -450px'
             },
             'ITEM-mousedown ITEMI':{
                 $order:2,
-                'background-position' : 'left -250px'
+                'background-position' : 'left -550px'
             },
             'ITEM-checked ITEMI':{
                 $order:3,
-                'background-position' : 'left -250px'
+                'background-position' : 'left -550px'
             },
             HANDLE:{
                 display:linb.$inlineBlock,
