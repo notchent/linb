@@ -6,7 +6,7 @@ _.set(linb.Locale,["cn","app"], {
     staticProperties:"静态属性",
     gFun:'全局函数',
     constructor:"构造函数",
-    noCons:'没有构造函数，不要用 "new" 来构造',
+    noCons:'静态类',
     supCls:'父类',
     subCls:'子类',
     inhFrom:"继承自 ",
@@ -1105,6 +1105,33 @@ _.set(linb.Locale,["cn","doc","linb","absIO"], {
                 "//var a=linb.Ajax('uri').start(); \n //a.abort();"
             ]
         }
+    }
+});
+
+_.set(linb.Locale,["cn","doc","linb","XML"], {
+    json2xml:{
+        $desc:"实现 XML 向 JSON 的转换。输入json object,输出转换后的 xml 文本。",
+        $rtn:"String",
+        $paras:[
+            "jsonObj [必需参数] : Object, JOSON 变量"
+        ],
+        $snippet:["alert(linb.XML.json2xml({root:{a:1,b:'b','@attr':'r','#text':'text','#cdata':'data'}}))"]
+    },
+    xml2json:{
+        $desc:"实现 JSON 向 XML 的转换。输入 xml object,输出转换后的 json object。",
+        $rtn:"Object",
+        $paras:[
+            "xmlObj [必需参数] : Object, XML 变量"
+        ],
+        $snippet:["alert(_.serialize(linb.XML.xml2json(linb.XML.parseXML('<a attr=\"1\"><b>v</b></a>'))))"]
+    },
+    parseXML:{
+        $desc:"从文本解析到一个XML变量",
+        $rtn:"Object",
+        $paras:[
+            "xmlText [必需参数] : String, XML 文本"
+        ],
+        $snippet:["alert(_.serialize(linb.XML.xml2json(linb.XML.parseXML('<a attr=\"1\"><b>v</b></a>'))))"]
     }
 });
 
@@ -7282,11 +7309,11 @@ _.set(linb.Locale,["cn","doc","linb","UI","Button"], {
                 "}"
             ]
         },
-        setType  :{
+        setType:{
             $desc:"Sets button type.",
             $rtn:"[self]",
             $paras:[
-                "value [Required] : 'normal', 'drop', 'status' or 'custom'.",
+                "value [Required] : 'normal', 'drop', 'status'.",
                 "flag [Optional] : Bool, force to set the property value even if the same property value already exists. 默认为 [false]."
             ],
             $snippet:[
@@ -8590,6 +8617,134 @@ _.set(linb.Locale,["cn","doc","linb","UI","TimePicker"], {
                 "var id='linb.temp.tp3'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var o;linb(id).prepend(o=new linb.UI.TimePicker({position:'relative'}));"+
                 "o.beforeClose(function(){return false;});"+
+                "}"
+            ]
+        }
+    }
+});
+
+_.set(linb.Locale,["cn","doc","linb","UI","Slider"], {
+    constructor:{
+        $desc:"生成一个linb.UI.Slider对象."
+    },
+    prototype:{
+        getType:{
+            $desc:"获取Slider的显示类型. 可以是'vertical'(垂直) 或 'horizontal'(水平) ",
+            $rtn:"String",
+            $snippet:[
+                "var id='linb.temp.sl2'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:200px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var o;linb(id).prepend(o=(new linb.UI.Slider()));"+
+                "_.asyRun(function(){o.setType('horizontal'); alert(o.getType())},1000);"+
+                "}"
+            ]
+        },
+        setType:{
+            $desc:"设置Slider的显示类型, 并刷新界面.",
+            $rtn:"[self]",
+            $paras:[
+                "value [必需参数] : 可以是'vertical'(垂直) 或 'horizontal'(水平).",
+                "flag [可选参数] : Bool, 强制设置该属性值，即使属性已经设置为该值. 默认为 [false]."
+            ],
+            $snippet:[
+                "var id='linb.temp.sl3'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:200px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var o;linb(id).prepend(o=(new linb.UI.Slider({width:50,height:150})));"+
+                "_.asyRun(function(){o.setType('vertical'); alert(o.getType())},1000);"+
+                "}"
+            ]
+        },
+        getSteps:{
+            $desc:"获取Slider的步长。",
+            $rtn:"Number",
+            $snippet:[
+                "var id='linb.temp.sl4'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:200px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var o;linb(id).prepend(o=(new linb.UI.Slider()));"+
+                "_.asyRun(function(){o.setSteps(10).setUIValue('2:5'); alert(o.getSteps()); },1000);"+
+                "}"
+            ]
+        },
+        setSteps:{
+            $desc:"设置Slider的步长。",
+            $rtn:"[self]",
+            $paras:[
+                "value [必需参数] : Number, 步长整数值",
+                "flag [可选参数] : Bool, 强制设置该属性值，即使属性已经设置为该值. 默认为 [false]."
+            ],
+            $snippet:[
+                "var id='linb.temp.sl5'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:200px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var o;linb(id).prepend(o=(new linb.UI.Slider()));"+
+                "_.asyRun(function(){o.setSteps(10).setUIValue('2:5'); alert(o.getSteps()); },1000);"+
+                "}"
+            ]
+        },
+        getShowIncreaseHandle:{
+            $desc:"获取是否显示增加按钮属性。",
+            $rtn:"Bool",
+            $snippet:[
+                "var id='linb.temp.sl6'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:200px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var o;linb(id).prepend(o=(new linb.UI.Slider()));"+
+                "_.asyRun(function(){o.setShowIncreaseHandle(false); alert(o.getShowIncreaseHandle()); },1000);"+
+                "}"
+            ]
+        },
+        setShowIncreaseHandle:{
+            $desc:"设置是否显示增加按钮属性。",
+            $rtn:"[self]",
+            $paras:[
+                "value [必需参数] : Bool.",
+                "flag [可选参数] : Bool, 强制设置该属性值，即使属性已经设置为该值. 默认为 [false]."
+            ],
+            $snippet:[
+                "var id='linb.temp.sl7'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:200px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var o;linb(id).prepend(o=(new linb.UI.Slider()));"+
+                "_.asyRun(function(){o.setShowIncreaseHandle(false); alert(o.getShowIncreaseHandle()); },1000);"+
+                "}"
+            ]
+        },        
+        getShowDecreaseHandle:{
+            $desc:"获取是否显示减小按钮属性。",
+            $rtn:"Bool",
+            $snippet:[
+                "var id='linb.temp.sl8'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:200px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var o;linb(id).prepend(o=(new linb.UI.Slider()));"+
+                "_.asyRun(function(){o.setShowDecreaseHandle(false); alert(o.getShowDecreaseHandle()); },1000);"+
+                "}"
+            ]
+        },
+        setShowDecreaseHandle:{
+            $desc:"设置是否显示减小按钮属性。",
+            $rtn:"[self]",
+            $paras:[
+                "value [必需参数] : Bool.",
+                "flag [可选参数] : Bool, 强制设置该属性值，即使属性已经设置为该值. 默认为 [false]."
+            ],
+            $snippet:[
+                "var id='linb.temp.sl9'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:200px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var o;linb(id).prepend(o=(new linb.UI.Slider()));"+
+                "_.asyRun(function(){o.setShowDecreaseHandle(false); alert(o.getShowDecreaseHandle()); },1000);"+
+                "}"
+            ]
+        },        
+        getIsRange:{
+            $desc:"获取是否为Range类型（显示两个拖拽点）的Slider。",
+            $rtn:"Bool",
+            $snippet:[
+                "var id='linb.temp.sl10'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:200px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var o;linb(id).prepend(o=(new linb.UI.Slider()));"+
+                "_.asyRun(function(){o.setIsRange(false); alert(o.getIsRange()); },1000);"+
+                "}"
+            ]
+        },
+        setIsRange:{
+            $desc:"设置是否为Range类型（显示两个拖拽点）的Slider。",
+            $rtn:"[self]",
+            $paras:[
+                "value [必需参数] : Bool.",
+                "flag [可选参数] : Bool, 强制设置该属性值，即使属性已经设置为该值. 默认为 [false]."
+            ],
+            $snippet:[
+                "var id='linb.temp.sl11'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:200px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var o;linb(id).prepend(o=(new linb.UI.Slider()));"+
+                "_.asyRun(function(){o.setIsRange(false); alert(o.getIsRange()); },1000);"+
                 "}"
             ]
         }

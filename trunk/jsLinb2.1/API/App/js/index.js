@@ -38,7 +38,7 @@ Class('App', 'linb.Com',{
         Instance:{
         $S_CLS:{'Namespace':1,'Class':1,'_':1,'_.fun':1,'_.arr':1,'_.str':1,'linb':1},
         $CLS_FUN:{'Namespace':1,'Class':1,'_':1,'_.fun':1,'linb':1,'linb.Thread':1,'linb.Ajax':1,'linb.SAjax':1,'linb.IAjax':1,'linb.SC':1},
-        $CLS_STATIC:{'_.fun':1,'linb':1,'linb.Thread':1,'linb.Ajax':1,'linb.SAjax':1,'linb.IAjax':1,'linb.SC':1,'linb.Event':1,'linb.DragDrop':1,'linb.CSS':1,'linb.History':1,'linb.Cookies':1,'linb.ComFactory':1,'linb.Debugger':1,'linb.Date':1,'linb.Tips':1,'linb.Coder':1},
+        $CLS_STATIC:{'_.fun':1,'linb':1,'linb.Thread':1,'linb.Ajax':1,'linb.SAjax':1,'linb.IAjax':1,'linb.SC':1,'linb.Event':1,'linb.DragDrop':1,'linb.CSS':1,'linb.History':1,'linb.Cookies':1,'linb.ComFactory':1,'linb.Debugger':1,'linb.Date':1,'linb.Tips':1,'linb.Coder':1,'linb.XML':1},
         events:{onRender:'_onrender'},
         _onrender:function(){
             SPA=this;

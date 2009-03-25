@@ -84,7 +84,7 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
                 position:'absolute'
             },
             BOX:{
-                position:'absolute',
+                position:'relative',
                 left:0,
                 top:0,
                 width:'100%',
@@ -264,7 +264,7 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
                         k1=type?'top':'left',
                         k2=type?'offsetTop':'offsetLeft',
                         k3=type?'offsetHeight':'offsetWidth',
-                        cur=p2[k1]-p[k1],
+                        cur=p2[k1]-p1[k1],
                         v=(cur/src[k3])*100;
                     if(!p.isRange)
                         arr[0]=v;
@@ -448,7 +448,7 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
                     this.boxing().refresh();
                 }
             },
-            showDecreseHandle:{
+            showDecreaseHandle:{
                 ini:true,
                 action:function(v){
                     this.boxing().refresh();
@@ -458,7 +458,7 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
         _prepareData:function(profile){
             var d=arguments.callee.upper.call(this, profile),
                 N='display:none';
-            d._showDes=d.showDecreseHandle?'':N,
+            d._showDes=d.showDecreaseHandle?'':N,
             d._showIns=d.showIncreaseHandle?'':N,
             d._showD2=d.isRange?'':N;
             d._cls=profile.getClass('BOX',d.type=='vertical'?'-v':'-h');
@@ -541,7 +541,7 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
             ru1=f('RULERLEFT');
             if(type=='vertical'){
                 var w=ru1.height(),
-                w1=p.showDecreseHandle?f('DECREASE').height():0,
+                w1=p.showDecreaseHandle?f('DECREASE').height():0,
                 w2=p.showIncreaseHandle?f('INCREASE').height():0,
                 w3=f('IND1').height();
     
@@ -551,7 +551,7 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
                 }
             }else{
                 var w=ru1.width(),
-                w1=p.showDecreseHandle?f('DECREASE').width():0,
+                w1=p.showDecreaseHandle?f('DECREASE').width():0,
                 w2=p.showIncreaseHandle?f('INCREASE').width():0,
                 w3=f('IND1').width();
     

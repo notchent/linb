@@ -6,7 +6,7 @@ _.set(linb.Locale,["en","app"], {
     staticProperties:"Static Properties",
     gFun:'Global Function',
     constructor:"Constructor",
-    noCons:'No Constructor, Dont use "new" operation',
+    noCons:'Static Class',
     supCls:'Direct Super Classes',
     subCls:'Direct Sub Classes',
     inhFrom:"Inherite from ",
@@ -1105,6 +1105,33 @@ _.set(linb.Locale,["en","doc","linb","absIO"], {
                 "//var a=linb.Ajax('uri').start(); \n //a.abort();"
             ]
         }
+    }
+});
+
+_.set(linb.Locale,["en","doc","linb","XML"], {
+    json2xml:{
+        $desc:"Converts JSON Objec to XML text.",
+        $rtn:"String",
+        $paras:[
+            "jsonObj [Required] : Object, JOSON Object"
+        ],
+        $snippet:["alert(linb.XML.json2xml({root:{a:1,b:'b','@attr':'r','#text':'text','#cdata':'data'}}))"]
+    },
+    xml2json:{
+        $desc:"Converts XML Object to JSON Objec.",
+        $rtn:"Object",
+        $paras:[
+            "xmlObj [Required] : Object, XML Object"
+        ],
+        $snippet:["alert(_.serialize(linb.XML.xml2json(linb.XML.parseXML('<a attr=\"1\"><b>v</b></a>'))))"]
+    },
+    parseXML:{
+        $desc:"Parses XML text to XML Object",
+        $rtn:"Object",
+        $paras:[
+            "xmlText [Required] : String, XML text"
+        ],
+        $snippet:["alert(_.serialize(linb.XML.xml2json(linb.XML.parseXML('<a attr=\"1\"><b>v</b></a>'))))"]
     }
 });
 
@@ -8590,6 +8617,134 @@ _.set(linb.Locale,["en","doc","linb","UI","TimePicker"], {
                 "var id='linb.temp.tp3'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var o;linb(id).prepend(o=new linb.UI.TimePicker({position:'relative'}));"+
                 "o.beforeClose(function(){return false;});"+
+                "}"
+            ]
+        }
+    }
+});
+
+_.set(linb.Locale,["cn","doc","linb","UI","Slider"], {
+    constructor:{
+        $desc:"Creates a linb.UI.Slider Object."
+    },
+    prototype:{
+        getType:{
+            $desc:"Gets Slider type. 'vertical' or 'horizontal'.",
+            $rtn:"String",
+            $snippet:[
+                "var id='linb.temp.sl2'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:200px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var o;linb(id).prepend(o=(new linb.UI.Slider()));"+
+                "_.asyRun(function(){o.setType('horizontal'); alert(o.getType())},1000);"+
+                "}"
+            ]
+        },
+        setType:{
+            $desc:"Sets Slider type, and reflects the value to UI.",
+            $rtn:"[self]",
+            $paras:[
+                "value [Required] : 'vertical' or 'horizontal'.",
+                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+            ],
+            $snippet:[
+                "var id='linb.temp.sl3'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:200px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var o;linb(id).prepend(o=(new linb.UI.Slider({width:50,height:150})));"+
+                "_.asyRun(function(){o.setType('vertical'); alert(o.getType())},1000);"+
+                "}"
+            ]
+        },
+        getSteps:{
+            $desc:"Gets Slider steps property.",
+            $rtn:"Number",
+            $snippet:[
+                "var id='linb.temp.sl4'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:200px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var o;linb(id).prepend(o=(new linb.UI.Slider()));"+
+                "_.asyRun(function(){o.setSteps(10).setUIValue('2:5'); alert(o.getSteps()); },1000);"+
+                "}"
+            ]
+        },
+        setSteps:{
+            $desc:"Sets Slider steps property.",
+            $rtn:"[self]",
+            $paras:[
+                "value [Required] : Number, steps value(integer)",
+                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+            ],
+            $snippet:[
+                "var id='linb.temp.sl5'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:200px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var o;linb(id).prepend(o=(new linb.UI.Slider()));"+
+                "_.asyRun(function(){o.setSteps(10).setUIValue('2:5'); alert(o.getSteps()); },1000);"+
+                "}"
+            ]
+        },
+        getShowIncreaseHandle:{
+            $desc:"Gets showIncreaseHandle property.",
+            $rtn:"Bool",
+            $snippet:[
+                "var id='linb.temp.sl6'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:200px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var o;linb(id).prepend(o=(new linb.UI.Slider()));"+
+                "_.asyRun(function(){o.setShowIncreaseHandle(false); alert(o.getShowIncreaseHandle()); },1000);"+
+                "}"
+            ]
+        },
+        setShowIncreaseHandle:{
+            $desc:"Sets showIncreaseHandle property.",
+            $rtn:"[self]",
+            $paras:[
+                "value [Required] : Bool",
+                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+            ],
+            $snippet:[
+                "var id='linb.temp.sl7'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:200px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var o;linb(id).prepend(o=(new linb.UI.Slider()));"+
+                "_.asyRun(function(){o.setShowIncreaseHandle(false); alert(o.getShowIncreaseHandle()); },1000);"+
+                "}"
+            ]
+        },        
+        getShowDecreaseHandle:{
+            $desc:"Gets showDecreaseHandle property.",
+            $rtn:"Bool",
+            $snippet:[
+                "var id='linb.temp.sl8'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:200px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var o;linb(id).prepend(o=(new linb.UI.Slider()));"+
+                "_.asyRun(function(){o.setShowDecreaseHandle(false); alert(o.getShowDecreaseHandle()); },1000);"+
+                "}"
+            ]
+        },
+        setShowDecreaseHandle:{
+            $desc:"Sets showDecreaseHandle property.",
+            $rtn:"[self]",
+            $paras:[
+                "value [Required] : Bool.",
+                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+            ],
+            $snippet:[
+                "var id='linb.temp.sl9'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:200px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var o;linb(id).prepend(o=(new linb.UI.Slider()));"+
+                "_.asyRun(function(){o.setShowDecreaseHandle(false); alert(o.getShowDecreaseHandle()); },1000);"+
+                "}"
+            ]
+        },        
+        getIsRange:{
+            $desc:"Gets isRange property.",
+            $rtn:"Bool",
+            $snippet:[
+                "var id='linb.temp.sl10'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:200px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var o;linb(id).prepend(o=(new linb.UI.Slider()));"+
+                "_.asyRun(function(){o.setIsRange(false); alert(o.getIsRange()); },1000);"+
+                "}"
+            ]
+        },
+        setIsRange:{
+            $desc:"Sets isRange property.",
+            $rtn:"[self]",
+            $paras:[
+                "value [Required] : Bool.",
+                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+            ],
+            $snippet:[
+                "var id='linb.temp.sl11'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:200px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var o;linb(id).prepend(o=(new linb.UI.Slider()));"+
+                "_.asyRun(function(){o.setIsRange(false); alert(o.getIsRange()); },1000);"+
                 "}"
             ]
         }
