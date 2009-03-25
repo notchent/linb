@@ -9924,6 +9924,7 @@ Class("linb.UI",  "linb.absObj", {
             },
             '.uibar-top .uibar-tdl':{
                 'padding-left':'4px',
+                height:'100%',
                 background: linb.UI.$bg('bar_vertical.gif', ' no-repeat left top', true)
             },
             '.uibar-top .uibar-tdm':{
@@ -9936,6 +9937,7 @@ Class("linb.UI",  "linb.absObj", {
             '.uibar-top-focus .uibar-tdl':{
                 $order:2,
                 'padding-left':'4px',
+                height:'100%',
                 background: linb.UI.$bg('bar_vertical.gif', ' no-repeat left -90px', true)
             },
             '.uibar-top-focus .uibar-tdm':{
@@ -9986,6 +9988,7 @@ Class("linb.UI",  "linb.absObj", {
             },
             '.uibar-bottom .uibar-tdl':{
                 'padding-left':'5px',
+                height:'100%',
                 background: linb.UI.$bg('bar_vertical.gif', ' no-repeat left -189px', true)
             },
             '.uibar-bottom .uibar-tdm':{
@@ -10002,6 +10005,7 @@ Class("linb.UI",  "linb.absObj", {
             },
             '.uibar-top-s .uibar-tdl':{
                 $order:3,
+                height:'100%',
                 'padding-left':'5px',
                 background: linb.UI.$bg('bar_vertical.gif', ' no-repeat left -261px', true)
             },
@@ -10029,6 +10033,7 @@ Class("linb.UI",  "linb.absObj", {
             },
             '.uibar-bottom-s .uibar-tdl':{
                 $order:3,
+                height:'100%',
                 'padding-left':'5px',
                 background: linb.UI.$bg('bar_vertical.gif', ' no-repeat left -327px', true)
             },
@@ -14343,11 +14348,13 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
                     tagName:'div'
                 },
                 RULER:{
+                    $order:1,
                     tagName:'div',
                     RULERLEFT:{},
                     RULERRIGHT:{}
                 },
                 IND:{
+                    $order:2,
                     IND1:{
                         tagName:'a',
                         style:'{_showD}',
@@ -23517,7 +23524,7 @@ Class("linb.UI.Layout",["linb.UI", "linb.absList"],{
                 bottom:0,
                 width:'40px',
                 height:'9px',
-                background: linb.UI.$bg('icons.gif', ' no-repeat -240px -252px', true)
+                background: linb.UI.$bg('icons.gif', ' no-repeat -260px -232px', true)
             },
             'CMD-BOTTOM':{
                 $order:0,
@@ -23526,7 +23533,7 @@ Class("linb.UI.Layout",["linb.UI", "linb.absList"],{
                 top:0,
                 width:'40px',
                 height:'9px',
-                background: linb.UI.$bg('icons.gif', ' no-repeat -240px -278px', true)
+                background: linb.UI.$bg('icons.gif', ' no-repeat -260px -258px', true)
             },
             'CMD-LEFT':{
                 $order:0,
@@ -23535,7 +23542,7 @@ Class("linb.UI.Layout",["linb.UI", "linb.absList"],{
                 right:0,
                 height:'40px',
                 width:'9px',
-                background: linb.UI.$bg('icons.gif', ' no-repeat -190px -260px', true)
+                background: linb.UI.$bg('icons.gif', ' no-repeat -210px -240px', true)
             },
             'CMD-RIGHT':{
                 $order:0,
@@ -23544,23 +23551,23 @@ Class("linb.UI.Layout",["linb.UI", "linb.absList"],{
                 left:0,
                 height:'40px',
                 width:'9px',
-                background: linb.UI.$bg('icons.gif', ' no-repeat -216px -260px', true)
+                background: linb.UI.$bg('icons.gif', ' no-repeat -236px -240px', true)
             },
             'CMD-TOP-mouseover':{
                 $order:1,
-                'background-position':'-240px -265px'
+                'background-position':'-260px -245px'
             },
             'CMD-BOTTOM-mouseover':{
                 $order:1,
-                'background-position':'-240px -291px'
+                'background-position':'-260px -271px'
             },
             'CMD-LEFT-mouseover':{
                 $order:1,
-                'background-position':'-203px -260px'
+                'background-position':'-223px -240px'
             },
             'CMD-RIGHT-mouseover':{
                 $order:1,
-                'background-position':'-229px -260px'
+                'background-position':'-249px -240px'
             },
 
             'MOVE-MAIN':{
@@ -26707,11 +26714,13 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
                     tagName:'div'
                 },
                 RULER:{
+                    $order:1,
                     tagName:'div',
                     RULERLEFT:{},
                     RULERRIGHT:{}
                 },
                 IND:{
+                    $order:2,
                     IND1:{
                         tagName:'a',
                         style:'{_showD}',

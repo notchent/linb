@@ -43,11 +43,13 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
                     tagName:'div'
                 },
                 RULER:{
+                    $order:1,
                     tagName:'div',
                     RULERLEFT:{},
                     RULERRIGHT:{}
                 },
                 IND:{
+                    $order:2,
                     IND1:{
                         tagName:'a',
                         style:'{_showD}',

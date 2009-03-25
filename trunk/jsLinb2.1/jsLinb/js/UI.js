@@ -1610,6 +1610,7 @@ Class("linb.UI",  "linb.absObj", {
             },
             '.uibar-top .uibar-tdl':{
                 'padding-left':'4px',
+                height:'100%',
                 background: linb.UI.$bg('bar_vertical.gif', ' no-repeat left top', true)
             },
             '.uibar-top .uibar-tdm':{
@@ -1622,6 +1623,7 @@ Class("linb.UI",  "linb.absObj", {
             '.uibar-top-focus .uibar-tdl':{
                 $order:2,
                 'padding-left':'4px',
+                height:'100%',
                 background: linb.UI.$bg('bar_vertical.gif', ' no-repeat left -90px', true)
             },
             '.uibar-top-focus .uibar-tdm':{
@@ -1672,6 +1674,7 @@ Class("linb.UI",  "linb.absObj", {
             },
             '.uibar-bottom .uibar-tdl':{
                 'padding-left':'5px',
+                height:'100%',
                 background: linb.UI.$bg('bar_vertical.gif', ' no-repeat left -189px', true)
             },
             '.uibar-bottom .uibar-tdm':{
@@ -1688,6 +1691,7 @@ Class("linb.UI",  "linb.absObj", {
             },
             '.uibar-top-s .uibar-tdl':{
                 $order:3,
+                height:'100%',
                 'padding-left':'5px',
                 background: linb.UI.$bg('bar_vertical.gif', ' no-repeat left -261px', true)
             },
@@ -1715,6 +1719,7 @@ Class("linb.UI",  "linb.absObj", {
             },
             '.uibar-bottom-s .uibar-tdl':{
                 $order:3,
+                height:'100%',
                 'padding-left':'5px',
                 background: linb.UI.$bg('bar_vertical.gif', ' no-repeat left -327px', true)
             },

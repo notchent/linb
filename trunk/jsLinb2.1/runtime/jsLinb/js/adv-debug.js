@@ -2058,7 +2058,7 @@ Class("linb.UI.Poll", "linb.UI.List",{
                             },
                             PROGRESS:{
                                 $order:1,
-                                style:'background-position: -{_per}px -206px;',
+                                style:'background-position: -{_per}px -200px;',
                                 PROGRESSI:{}
                             },
                             DEL:{
@@ -2351,10 +2351,10 @@ Class("linb.UI.Poll", "linb.UI.List",{
             },
             PROGRESS:{
                 'margin-left':'2px',
-                background: linb.UI.$bg('icons.gif', ' no-repeat -130px -196px', true)
+                background: linb.UI.$bg('icons.gif', ' no-repeat -130px -200px', true)
             },
             PROGRESSI:{
-                background: linb.UI.$bg('icons.gif', ' no-repeat -150px -214px ', true)
+                background: linb.UI.$bg('icons.gif', ' no-repeat -150px -216px ', true)
             },
             'MARK, MARK2, MARK3' : {
                cursor:'pointer',
