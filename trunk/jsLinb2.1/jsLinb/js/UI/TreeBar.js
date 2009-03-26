@@ -241,9 +241,7 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
                 position:'relative'
             },
             ITEMS:{
-                overflow: 'hidden',
-                'border-bottom': '1px solid #e5e5e5',
-                'border-right': '1px solid #e5e5e5'
+                overflow: 'hidden'
             },
             ITEM:{
                 'white-space': 'nowrap',

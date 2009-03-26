@@ -131,57 +131,57 @@ Class("linb.UI.Border","linb.UI",{
             T:{
                 width:'100%',
                 left:0,
-                top:'-1px',
-                height:'4px',
+                top:'0px',
+                height:'3px',
                 background: linb.UI.$bg('vertical.gif', ' repeat-x left top')
             },
             B:{
                 width:'100%',
                 left:0,
-                bottom:'-1px',
-                height:'4px',
+                bottom:'0px',
+                height:'3px',
                 background: linb.UI.$bg('vertical.gif', ' repeat-x left bottom')
             },
             L:{
                 height:'100%',
                 top:0,
-                left:'-1px',
-                width:'4px',
+                left:'0px',
+                width:'3px',
                 background: linb.UI.$bg('horizontal.gif', ' repeat-y left top')
             },
             R:{
                height:'100%',
                top:0,
-               right:'-1px',
-               width:'4px',
+               right:'0px',
+               width:'3px',
                background: linb.UI.$bg('horizontal.gif', ' repeat-y right top')
             },
             LT:{
-                top:'-1px',
-                left:'-1px',
-                width:'4px',
-                height:'4px',
+                top:'0px',
+                left:'0px',
+                width:'3px',
+                height:'3px',
                 background: linb.UI.$bg('corner.gif', ' no-repeat left top')
             },
             RT:{
-               top:'-1px',
-               right:'-1px',
-               width:'4px',
-               height:'4px',
+               top:'0px',
+               right:'0px',
+               width:'3px',
+               height:'3px',
                background: linb.UI.$bg('corner.gif', ' no-repeat right top')
             },
             RB:{
-                right:'-1px',
-                bottom:'-1px',
-                width:'4px',
-                height:'4px',
+                right:'0px',
+                bottom:'0px',
+                width:'3px',
+                height:'3px',
                 background: linb.UI.$bg('corner.gif', ' no-repeat right bottom')
             },
             LB:{
-                left:'-1px',
-                bottom:'-1px',
-                width:'4px',
-                height:'4px',
+                left:'0px',
+                bottom:'0px',
+                width:'3px',
+                height:'3px',
                 background: linb.UI.$bg('corner.gif', ' no-repeat left bottom')
             }/*,
             'KEY-mouseover T, KEY-mouseover B':{

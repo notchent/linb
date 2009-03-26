@@ -105,7 +105,7 @@ Class('App.linb_UI_Slider', 'linb.Com',{
                 .setTop(80)
                 .setSteps(10)
                 .setIsRange(false)
-                .setShowDecreseHandle(false)
+                .setShowDecreaseHandle(false)
                 .afterUIValueSet("_slider3_afteruivalueset")
             );
             

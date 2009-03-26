@@ -12670,57 +12670,57 @@ Class("linb.UI.Border","linb.UI",{
             T:{
                 width:'100%',
                 left:0,
-                top:'-1px',
-                height:'4px',
+                top:'0px',
+                height:'3px',
                 background: linb.UI.$bg('vertical.gif', ' repeat-x left top')
             },
             B:{
                 width:'100%',
                 left:0,
-                bottom:'-1px',
-                height:'4px',
+                bottom:'0px',
+                height:'3px',
                 background: linb.UI.$bg('vertical.gif', ' repeat-x left bottom')
             },
             L:{
                 height:'100%',
                 top:0,
-                left:'-1px',
-                width:'4px',
+                left:'0px',
+                width:'3px',
                 background: linb.UI.$bg('horizontal.gif', ' repeat-y left top')
             },
             R:{
                height:'100%',
                top:0,
-               right:'-1px',
-               width:'4px',
+               right:'0px',
+               width:'3px',
                background: linb.UI.$bg('horizontal.gif', ' repeat-y right top')
             },
             LT:{
-                top:'-1px',
-                left:'-1px',
-                width:'4px',
-                height:'4px',
+                top:'0px',
+                left:'0px',
+                width:'3px',
+                height:'3px',
                 background: linb.UI.$bg('corner.gif', ' no-repeat left top')
             },
             RT:{
-               top:'-1px',
-               right:'-1px',
-               width:'4px',
-               height:'4px',
+               top:'0px',
+               right:'0px',
+               width:'3px',
+               height:'3px',
                background: linb.UI.$bg('corner.gif', ' no-repeat right top')
             },
             RB:{
-                right:'-1px',
-                bottom:'-1px',
-                width:'4px',
-                height:'4px',
+                right:'0px',
+                bottom:'0px',
+                width:'3px',
+                height:'3px',
                 background: linb.UI.$bg('corner.gif', ' no-repeat right bottom')
             },
             LB:{
-                left:'-1px',
-                bottom:'-1px',
-                width:'4px',
-                height:'4px',
+                left:'0px',
+                bottom:'0px',
+                width:'3px',
+                height:'3px',
                 background: linb.UI.$bg('corner.gif', ' no-repeat left bottom')
             }/*,
             'KEY-mouseover T, KEY-mouseover B':{
@@ -21722,9 +21722,7 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
                 position:'relative'
             },
             ITEMS:{
-                overflow: 'hidden',
-                'border-bottom': '1px solid #e5e5e5',
-                'border-right': '1px solid #e5e5e5'
+                overflow: 'hidden'
             },
             ITEM:{
                 'white-space': 'nowrap',
@@ -24861,18 +24859,18 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                 height:'15px'
             },
             SORT:{
-                background: linb.UI.$bg('icons.gif', ' no-repeat -191px top', true),
+                background: linb.UI.$bg('icons.gif', ' no-repeat -192px top', true),
                 position:'absolute',
                 right:'2px',
                 bottom:'2px'
             },
             'HCELL-mouseover SORT':{
                 $order:1,
-                'background-position': '-191px -15px'
+                'background-position': '-192px -15px'
             },
             'HCELL-mousedown SORT':{
                 $order:2,
-                'background-position': '-191px -30px'
+                'background-position': '-192px -30px'
             },
             'SORT-checked':{
                 $order:3,

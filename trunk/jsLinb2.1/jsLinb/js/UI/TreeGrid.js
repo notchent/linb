@@ -606,18 +606,18 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                 height:'15px'
             },
             SORT:{
-                background: linb.UI.$bg('icons.gif', ' no-repeat -191px top', true),
+                background: linb.UI.$bg('icons.gif', ' no-repeat -192px top', true),
                 position:'absolute',
                 right:'2px',
                 bottom:'2px'
             },
             'HCELL-mouseover SORT':{
                 $order:1,
-                'background-position': '-191px -15px'
+                'background-position': '-192px -15px'
             },
             'HCELL-mousedown SORT':{
                 $order:2,
-                'background-position': '-191px -30px'
+                'background-position': '-192px -30px'
             },
             'SORT-checked':{
                 $order:3,

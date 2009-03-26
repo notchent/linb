@@ -1732,7 +1732,7 @@ Class('VisualJS.Designer', 'linb.Com',{
                                                 tagVar=page.properties.tagVar,
                                                 b=tagVar.profile.boxing(),
                                                 fn='set'+_.str.initial(o.name);
-                                            if(!_.isFun(b[fn]))
+                                            if(!_.isFun(b[fn]))return;
 
                                             this._change();
                                             b[fn](page.properties.object);
