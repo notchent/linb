@@ -290,6 +290,8 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
             SUB:{
                 display:'none',
                 overflow:'hidden',
+                '*zoom':1,
+                position:'relative',
                 'margin-left':'12px'
             },
 

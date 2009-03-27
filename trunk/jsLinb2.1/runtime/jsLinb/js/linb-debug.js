@@ -21778,6 +21778,8 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
             SUB:{
                 display:'none',
                 overflow:'hidden',
+                '*zoom':1,
+                position:'relative',
                 'margin-left':'12px'
             },
 
@@ -25099,8 +25101,8 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
             },
             SUB:{
                 //for ie bug: relative , height='auto' will disppear
-                '*zoom':'1',
-                '_position':'relative',
+                '*zoom':1,
+                position:'relative',
                 'border-left': '1px solid #A2BBD9',
                 'margin-left':'15px',
                 display:'none'
