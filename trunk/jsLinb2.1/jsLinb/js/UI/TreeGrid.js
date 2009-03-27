@@ -743,7 +743,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                 background:  linb.UI.$bg('head-mouseover.gif', ' #FFF1A0 repeat-x left top')
             },
             ROW:{
-                '_position':'relative',
+                position:'relative',
                 zoom:linb.browser.ie?1:null,
                 'border-top': '1px solid #A2BBD9',
                 'font-size':0,
@@ -840,10 +840,11 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
             SUB:{
                 //for ie bug: relative , height='auto' will disppear
                 '*zoom':1,
+                height:0,
                 position:'relative',
+                overflow:'hidden',
                 'border-left': '1px solid #A2BBD9',
-                'margin-left':'15px',
-                display:'none'
+                'margin-left':'15px'
             },
             FIRSTCELLNO:{
                 'font-weight':'normal'
@@ -1561,7 +1562,6 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                     if(ns.domNode){
                         var nodes = ns.getSubNode('FIRSTCELLNO',true),i=0,map=ns.rowMap,row,ol=0,l=0,a1=[],a2=[],tag='',temp;
                         nodes.each(function(o){
-                                o.innerHTML='';
                                 if(o.parentNode.offsetHeight){
                                     row=map[ns.getSubId(o.id)];
                                     l=row._layer;
@@ -1578,7 +1578,11 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                                     }
                                     i++;
                                     ol=l;
-                                    o.appendChild(document.createTextNode(tag+i));
+                                    //o.innerHTML=''+tag+i;
+                                    if(o.firstChild)
+                                        o.firstChild.nodeValue=tag+i;
+                                    else
+                                        o.appendChild(document.createTextNode(tag+i));
                                 }
                         });
                     }
@@ -2149,14 +2153,13 @@ caption
             //close
             if(item._checked){
                 if(!flag){
-                    var h = subNs.height(),fun=function(){
-                        subNs.css({display:'none',height:'auto',overflow:''});
-                    };
+                    var h = subNs.height();
 
                     if(pro.animCollapse)
-                        subNs.animate({'height':[h,0]},function(){subNs.css({height:h+'px',overflow:'hidden'})},function(){fun()}, 100, 5, 'expoIn', profile.key+profile.id).start();
+                        subNs.animate({'height':[h,0]},null,null, 100, 5, 'expoIn', profile.key+profile.id).start();
                     else
-                        fun();
+                        subNs.height(0);
+
                     markNode.tagClass('-checked', false);
                     item._checked = false;
                     profile.box._asy(profile);
@@ -2172,7 +2175,7 @@ caption
                             delete item.sub;
                             //before insertRows
                             item._created=true;
-                            subNs.css('display','none');
+                            //subNs.css('display','none');
 
                             if(typeof sub=='string')
                                 subNs.html(item.sub=sub,false);
@@ -2185,13 +2188,11 @@ caption
                             b._setCtrlValue(b.getUIValue(), true);
                         }
 
-                        var h = subNs.height(true),fun=function(){
-                            subNs.css({height:'auto',overflow:'',display:'block'});
-                        };
+                        var h = subNs.height(true);
                         if(p.animCollapse)
-                            subNs.animate({'height':[0,h]},function(){subNs.css({height:'0',overflow:'hidden',display:'block'})},function(){fun()}, 100, 5, 'expoOut', profile.key+profile.id).start();
+                            subNs.animate({'height':[0,h]},null,function(){subNs.css({height:'auto'})}, 100, 5, 'expoOut', profile.key+profile.id).start();
                         else
-                            fun();
+                            subNs.css({height:'auto'});
 
                         markNode.tagClass('-checked');
                         item._checked = true;

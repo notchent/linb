@@ -503,7 +503,7 @@ Class('linb.Dom','linb.absBox',{
             if(content!==undefined){
                 var self=this, arr=[];
                 self.each(function(o){
-                    var t=o.childNodes[0];
+                    var t=o.firstChild;
                      if(t&&t.nodeType!=1)
                         t.nodeValue = content;
                      else

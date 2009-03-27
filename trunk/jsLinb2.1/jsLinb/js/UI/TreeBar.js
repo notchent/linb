@@ -288,9 +288,9 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
                 'background-position': 'left -440px'
             },
             SUB:{
-                display:'none',
                 overflow:'hidden',
                 '*zoom':1,
+                height:0,
                 position:'relative',
                 'margin-left':'12px'
             },
@@ -596,13 +596,12 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
             //close
             if(item._checked){
                 if(!flag){
-                    var h=subNs.height(),fun=function(){
-                        subNs.css('display','none').height('auto');
-                    };
+                    var h=subNs.height()
+
                     if(properties.animCollapse)
-                        subNs.animate({'height':[h,0]},function(){subNs.height(h)},function(){fun()}, 100, 5, 'expoIn', profile.key+profile.id).start();
+                        subNs.animate({'height':[h,0]},null,null, 100, 5, 'expoIn', profile.key+profile.id).start();
                     else
-                        fun();
+                        subNs.height(0);
 
                     markNode.tagClass('-checked', false);
                     item._checked = false;
@@ -635,7 +634,7 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
                                 delete item.sub;
                                 //before insertRows
                                 item._created=true;
-                                subNs.css('display','none');
+                                //subNs.css('display','none');
                                 if(typeof sub=='string')
                                     subNs.html(item.sub=sub,false);
                                 else if(_.isArr(sub))
@@ -653,11 +652,11 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
                             if(!recursive){
                                 var h = subNs.height(true);
                                 if(p.animCollapse)
-                                    subNs.animate({'height':[0,h]},function(){subNs.height('0').css('display','block')},function(){subNs.height('auto')}, 100, 5, 'expoOut', profile.key+profile.id).start();
+                                    subNs.animate({'height':[0,h]},null,function(){subNs.height('auto')}, 100, 5, 'expoOut', profile.key+profile.id).start();
                                 else
-                                    subNs.css('display','block').height('auto');
+                                    subNs.height('auto');
                             }else
-                                subNs.css('display','block');
+                                subNs.height('auto');
 
                             markNode.tagClass('-checked');
                             if(item.group || properties.group)
