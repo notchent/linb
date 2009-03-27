@@ -76,13 +76,12 @@ Class('linb.DomProfile', 'linb.absProfile', {
             delete linb.cache.dom[self.domId];
             _.breakO(self);
         },
-        _getEV:function(id, name){
-            var funs=[],t=linb.cache.dom[id];
+        _getEV:function(funs, id, name){
+            var t=linb.cache.dom[id];
             if(t&&(t=t.events)&&(t=t[name]))
                 for(var i=0,l=t.length;i<l;i++)
                     if(typeof t[t[i]]=='function')
                         funs[funs.length]=t[t[i]];
-            return funs;
         }
     },
     Static:{
@@ -2083,5 +2082,13 @@ type:4
             _.breakO([linb,Class,_],3);
             window.Class=window.Namespace=window.linb=window._=undefined;
         },"window",-1);
+        
+        //for event pos in IE
+        if(linb.browser.ie)
+            linb.win.onScroll(function(){
+                var de=document.documentElement,b=document.body;
+                linb.Event._L=(de.scrollLeft||b.scrollLeft)-(de.clientLeft||0);
+                linb.Event._T=(de.scrollTop||b.scrollTop)-(de.clientTop||0);
+            },'forEventPos',0);
     }
 });

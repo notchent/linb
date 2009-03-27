@@ -645,8 +645,8 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                 'line-height':0
             },
             'HCELLS, CELLS':{
-                //for ie6 height change trigger
-                'overflow-y': linb.browser.ie6 ?'hidden':'',
+                //for ie height change trigger
+                'overflow-y': linb.browser.ie ?'hidden':'',
                 position:'relative',
                 'white-space': 'nowrap',
                 'font-size':'12px',
@@ -2547,7 +2547,8 @@ caption
         _showTips:function(profile, node, pos){
             if(profile.onShowTips)
                 return profile.boxing().onShowTips(profile, node, pos);
-
+            if(!linb.Tips)return;
+            
             var ks=profile.keys,item,hcell=ks.HCELL+':',sid,id,pid;
             if(profile.properties.disabled)return;
 

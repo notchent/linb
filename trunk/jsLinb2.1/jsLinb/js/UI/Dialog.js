@@ -640,7 +640,7 @@ Class("linb.UI.Dialog","linb.UI.Widget",{
             ins.setDock('none');
             
             // resize
-            linb.UI.$tryResize(profile, t.width, t.height);
+            linb.UI.$tryResize(profile, t.width, t.height,true);
         },
         _unMin:function(profile){
             var t=profile.properties;
@@ -655,7 +655,7 @@ Class("linb.UI.Dialog","linb.UI.Widget",{
 
             profile.root.cssSize({width:t.width, height:t.height});
             // resize
-            linb.UI.$tryResize(profile, t.width, t.height);
+            linb.UI.$tryResize(profile, t.width, t.height,true);
         },
         _active:function(profile){
             var self=this;

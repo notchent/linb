@@ -125,7 +125,7 @@ Class("linb.UI.Input", ["linb.UI.Widget","linb.absValue"] ,{
 
                 //for firefox bug: cursor not show
                 position:'absolute',
-                overflow:linb.browser.gek?'auto':''
+                overflow:linb.browser.gek?'auto':'hidden'
             },
             INPUT:{
                border:0,
@@ -134,7 +134,7 @@ Class("linb.UI.Input", ["linb.UI.Widget","linb.absValue"] ,{
                'font-size':'12px',
                position:'relative',
                overflow:'auto',
-               'background-color':'transparent',
+               'background-color':'#fff',
                'overflow-y':(linb.browser.gek||linb.browser.ie)?'auto':'',
                'overflow-x':(linb.browser.gek||linb.browser.ie)?'hidden':''
             },
@@ -152,12 +152,12 @@ Class("linb.UI.Input", ["linb.UI.Widget","linb.absValue"] ,{
 //border<<<
             'KEY-b-t':{
                 height:'2px',
-                //top:0,
+                top:'-1px',
                 background: linb.UI.$bg('vertical.gif', ' repeat-x left top','Input')
             },
             'KEY-b-b':{
                 height:'2px',
-                //bottom:0,
+                bottom:'-1px',
                 background: linb.UI.$bg('vertical.gif', ' repeat-x left bottom','Input')
             },
             'BORDER-focus KEY-b-t, BORDER-focus KEY-b-b, BORDER-mouseover KEY-b-t, BORDER-mouseover KEY-b-b':{
@@ -166,12 +166,12 @@ Class("linb.UI.Input", ["linb.UI.Widget","linb.absValue"] ,{
             },
             'KEY-b-l':{
                 width:'2px',
-                //left:0,
+                left:'-1px',
                 background: linb.UI.$bg('horizontal.gif', ' repeat-y left top','Input')
             },
             'KEY-b-r':{
                width:'2px',
-              // right:0,
+               right:'-1px',
                background: linb.UI.$bg('horizontal.gif', ' repeat-y right top','Input')
             },
             'BORDER-focus KEY-b-l, BORDER-focus KEY-b-r, BORDER-mouseover KEY-b-l, BORDER-mouseover KEY-b-r':{
@@ -181,29 +181,29 @@ Class("linb.UI.Input", ["linb.UI.Widget","linb.absValue"] ,{
             'KEY-b-lt':{
                 width:'2px',
                 height:'2px',
-               // left:0,
-               // top:0,
+               left:'-1px',
+               top:'-1px',
                 background: linb.UI.$bg('corner.gif', ' no-repeat left top','Input')
             },
             'KEY-b-rt':{
                width:'2px',
                height:'2px',
-              // right:0,
-              // top:0,
+               right:'-1px',
+               top:'-1px',
                background: linb.UI.$bg('corner.gif', ' no-repeat right top','Input')
             },
             'KEY-b-rb':{
                 width:'2px',
                 height:'2px',
-               // right:0,
-               // bottom:0,
+                right:'-1px',
+                bottom:'-1px',
                 background: linb.UI.$bg('corner.gif', ' no-repeat right bottom','Input')
             },
             'KEY-b-lb':{
                 width:'2px',
                 height:'2px',
-                //left:0,
-                //bottom:0,
+                left:'-1px',
+                bottom:'-1px',
                 background: linb.UI.$bg('corner.gif', ' no-repeat left bottom','Input')
             },
             'BORDER-focus KEY-b-lt, BORDER-focus KEY-b-rt, BORDER-focus KEY-b-rb, BORDER-focus KEY-b-lb, BORDER-mouseover KEY-b-lt, BORDER-mouseover KEY-b-rt, BORDER-mouseover KEY-b-rb, BORDER-mouseover KEY-b-lb':{
@@ -576,15 +576,12 @@ Class("linb.UI.Input", ["linb.UI.Widget","linb.absValue"] ,{
         _onresize:function(profile,width,height){
             var size = arguments.callee.upper.apply(this,arguments),
                 v1=profile.getSubNode('INPUT'),
-                v2=profile.getSubNode('BOX'),
                 b=linb.browser;
 
             if(null!==width){
-                v2.width(size.width);
                 v1.width(size.width);
             }
             if(null!==height){
-                v2.height(size.height);
                 v1.height(size.height-v1._paddingH())
             }
 

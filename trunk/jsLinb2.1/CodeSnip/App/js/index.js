@@ -67,6 +67,8 @@ Class('App', 'linb.Com',{
                 .host(host,"blockTop")
                 .setDock("top")
                 .setHeight("30")
+                .setBorderType('none')
+                .setBorder(true)
                 .setHtml('<div style="text-align:center;font-size:20px;">jsLinb Code Snippets</div>')
             );
             

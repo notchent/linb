@@ -69,21 +69,19 @@ Class('linb.Event',null,{
                 event.$all : fire all events of the type: before/on/after
                 event.$name : fire one group of event of the type.
                 */
-                if(!event.$e || event.$all || (name==event.$name))Array.prototype.push.apply(funs, obj._getEV(id, name, src));
+                if(!event.$e || event.$all || (name==event.$name))obj._getEV(funs, id, name, src);
             }
 
             /*call function by order
              widget before -> dom before -> widget on -> dom on -> widget after -> dom after
             */
             f=function(a){
-                var i, v, k = arguments.callee.funs;
-                for(i=0;v=k[i++];)
+                for(var i=0,v;v=funs[i++];)
                     //if any fun return false, stop event bubble
                     if(false === v.call(src, obj, a||event, src))
                         return false;
                 return true;
             };
-            f.funs=funs;
             r = f();
 
             if(dragdrop){
@@ -128,10 +126,12 @@ Class('linb.Event',null,{
         $FALSE:linb.browser.opr?undefined:false,
         _type:{},
         _kb:{keydown:1,keypress:1,keyup:1},
-        _reg:/([\.\w]+)(-[\.\w]+)?(:[\.\w]+:)([\.\w]*)/,
+        _reg:/(-[\w]+)|([\w]+$)/g,
         $eventhandler:function(){return linb.Event(arguments[0],this)},
         $eventhandler2:function(){return linb.Event(arguments[0],this,1)},
         _eventtag:'before,on,after'.split(','),
+        _L:(document.documentElement.scrollLeft||document.body.scrollLeft)-(document.documentElement.clientLeft||0),
+        _T:(document.documentElement.scrollTop||document.body.scrollTop)-(document.documentElement.clientTop||0),
         //collection
         _events : ("mouseover,mouseout,mousedown,mouseup,mousemove,click,dblclick,contextmenu," +
                 "keydown,keypress,keyup,scroll,"+
@@ -164,7 +164,7 @@ Class('linb.Event',null,{
         },
 
         _getProfile:function(id){
-            return id && linb.cache.dom[id.replace(this._reg,'$1$3')];
+            return id && (linb.cache.dom[id] || linb.cache.dom[id.replace(this._reg,'')]);
         },
         _handleTabHook:function(src, target){
             if(src===document)return true;
@@ -235,12 +235,10 @@ Class('linb.Event',null,{
         },
         getPos:function(event){
             event = event || window.event;
-            if(typeof event.pageX == 'number')
+            if('pageX' in event)
                 return {left:event.pageX, top:event.pageY};
-            else{
-                var de = document.documentElement,b = document.body;
-                return {left:event.clientX+(de.scrollLeft||b.scrollLeft)-(de.clientLeft||0), top:event.clientY+(de.scrollTop||b.scrollTop)-(de.clientTop||0)};
-            }
+            else
+                return {left:event.clientX+this._L, top:event.clientY+this._T};
         },
         /*return array(key, control, shift, alt)
         ['k','1','',''] : 'k' pressed, 'control' pressed, 'shift' and 'alt' not pressed
@@ -321,10 +319,10 @@ Class('linb.Event',null,{
 
             return res;
         },
-        getEventPara:function(event){
-            var pos=this.getPos(event), keys = this.getKey(event), h={
-                pageX:pos.left,
-                pageY:pos.top,
+        getEventPara:function(event, mousePos){
+            var keys = this.getKey(event), h={
+                pageX:mousePos&&mousePos.left,
+                pageY:mousePos&&mousePos.top,
                 keyCode:keys[0],
                 ctrlKey:keys[1],
                 shiftKey:keys[2],

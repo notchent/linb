@@ -367,22 +367,22 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
                     profile.$itemspos = linb([src]).offset();
                 },
                 onMousemove:function(profile,e){
-                    if(linb.DragDrop.getProfile().isWorking){
+                    var ddd=linb.DragDrop.getProfile();
+                    if(ddd.isWorking){
                         //ondrag add here, for performance of 'dont-use-dropable situation'.
-                        if(profile.$$ondrag){
-                            var d=linb.DragDrop.getProfile();
-                            profile.box._moveActive(profile, profile.$active, d.x-profile.$dd_ox, profile.properties._unitPixs);
-                        }
+                        if(profile.$$ondrag)
+                            profile.box._moveActive(profile, profile.$active, ddd.x-profile.$dd_ox, profile.properties._unitPixs);
                     }else{
                         var t=profile.properties,
                             date=linb.Date,
                             s=t._smallLabelStart,
                             r=t._rate,
                             u=t._timeFormat,
-                            p1=linb.Event.getPos(e),
                             p2=profile.$itemspos;
-                        if(p2 && t.showTips)
+                        if(p2 && t.showTips){
+                            var p1=linb.Event.getPos(e);
                             profile.box._setTips(profile, date.getText(date.add(s, 'ms', (p1.left-p2.left)*r),u));
+                        }
                     }
                 },
                 onMouseout:function(profile,e,src){
@@ -1806,6 +1806,8 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
             if(profile.onShowTips)
                 return profile.boxing().onShowTips(profile, node, pos);
              
+            if(!linb.Tips)return;
+
              var t=profile.properties,
                 id=node.id,
                 format=t._timeFormat,

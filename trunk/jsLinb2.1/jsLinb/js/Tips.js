@@ -26,7 +26,7 @@ Class("linb.Tips", null,{
                 p,n;
 
             //if ready to show in settimeout(resetRun)
-            if((p=_.resetRun.$cache) && p['$Tips'])
+            if((p=_.resetRun.$cache) && p['$Tips3'])
                 tips._pos=event.getPos(e);
 
             //it's first show

@@ -783,22 +783,20 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                 px='px',
                 f=function(k){return k?profile.getSubNode(k)._nodes[0]:null},
                 type=prop.type,
-                input=f('INPUT'),
+                v1=profile.getSubNode('INPUT'),
                 save=f(prop.saveBtn?'SBTN':null),
                 btn=f(type=='spin'?'RBTN':type=='none'?null:'BTN')
                 ;
 
             if(!_.isNull(width))
-                input.style.width = (size.width-(save?save.offsetWidth:0)-(btn?btn.offsetWidth:0))+px;
+                v1.width(size.width-(save?save.offsetWidth:0)-(btn?btn.offsetWidth:0));
 
             if(!_.isNull(height)){
-                height=size.height+px;
-                /*-(linb.browser.ie6?2:linb.browser.ie?1:linb.browser.kde?1:0)*/
-                input.style.height=height;
-                if(save)save.style.height=height;
-                if(btn)
-                    btn.style.height=height;
+                v1.height(size.height - v1._paddingH());
 
+                height=size.height+px;
+                if(save)save.style.height=height;
+                if(btn)btn.style.height=height;
                 if(prop.type=='spin'){
                     height=size.height/2+px;
                     f('R1').style.height=height;

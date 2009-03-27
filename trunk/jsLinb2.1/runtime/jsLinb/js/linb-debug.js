@@ -2250,21 +2250,19 @@ Class('linb.Event',null,{
                 event.$all : fire all events of the type: before/on/after
                 event.$name : fire one group of event of the type.
                 */
-                if(!event.$e || event.$all || (name==event.$name))Array.prototype.push.apply(funs, obj._getEV(id, name, src));
+                if(!event.$e || event.$all || (name==event.$name))obj._getEV(funs, id, name, src);
             }
 
             /*call function by order
              widget before -> dom before -> widget on -> dom on -> widget after -> dom after
             */
             f=function(a){
-                var i, v, k = arguments.callee.funs;
-                for(i=0;v=k[i++];)
+                for(var i=0,v;v=funs[i++];)
                     //if any fun return false, stop event bubble
                     if(false === v.call(src, obj, a||event, src))
                         return false;
                 return true;
             };
-            f.funs=funs;
             r = f();
 
             if(dragdrop){
@@ -2309,10 +2307,12 @@ Class('linb.Event',null,{
         $FALSE:linb.browser.opr?undefined:false,
         _type:{},
         _kb:{keydown:1,keypress:1,keyup:1},
-        _reg:/([\.\w]+)(-[\.\w]+)?(:[\.\w]+:)([\.\w]*)/,
+        _reg:/(-[\w]+)|([\w]+$)/g,
         $eventhandler:function(){return linb.Event(arguments[0],this)},
         $eventhandler2:function(){return linb.Event(arguments[0],this,1)},
         _eventtag:'before,on,after'.split(','),
+        _L:(document.documentElement.scrollLeft||document.body.scrollLeft)-(document.documentElement.clientLeft||0),
+        _T:(document.documentElement.scrollTop||document.body.scrollTop)-(document.documentElement.clientTop||0),
         //collection
         _events : ("mouseover,mouseout,mousedown,mouseup,mousemove,click,dblclick,contextmenu," +
                 "keydown,keypress,keyup,scroll,"+
@@ -2345,7 +2345,7 @@ Class('linb.Event',null,{
         },
 
         _getProfile:function(id){
-            return id && linb.cache.dom[id.replace(this._reg,'$1$3')];
+            return id && (linb.cache.dom[id] || linb.cache.dom[id.replace(this._reg,'')]);
         },
         _handleTabHook:function(src, target){
             if(src===document)return true;
@@ -2416,12 +2416,10 @@ Class('linb.Event',null,{
         },
         getPos:function(event){
             event = event || window.event;
-            if(typeof event.pageX == 'number')
+            if('pageX' in event)
                 return {left:event.pageX, top:event.pageY};
-            else{
-                var de = document.documentElement,b = document.body;
-                return {left:event.clientX+(de.scrollLeft||b.scrollLeft)-(de.clientLeft||0), top:event.clientY+(de.scrollTop||b.scrollTop)-(de.clientTop||0)};
-            }
+            else
+                return {left:event.clientX+this._L, top:event.clientY+this._T};
         },
         /*return array(key, control, shift, alt)
         ['k','1','',''] : 'k' pressed, 'control' pressed, 'shift' and 'alt' not pressed
@@ -2502,10 +2500,10 @@ Class('linb.Event',null,{
 
             return res;
         },
-        getEventPara:function(event){
-            var pos=this.getPos(event), keys = this.getKey(event), h={
-                pageX:pos.left,
-                pageY:pos.top,
+        getEventPara:function(event, mousePos){
+            var keys = this.getKey(event), h={
+                pageX:mousePos&&mousePos.left,
+                pageY:mousePos&&mousePos.top,
                 keyCode:keys[0],
                 ctrlKey:keys[1],
                 shiftKey:keys[2],
@@ -4194,13 +4192,12 @@ Class('linb.DomProfile', 'linb.absProfile', {
             delete linb.cache.dom[self.domId];
             _.breakO(self);
         },
-        _getEV:function(id, name){
-            var funs=[],t=linb.cache.dom[id];
+        _getEV:function(funs, id, name){
+            var t=linb.cache.dom[id];
             if(t&&(t=t.events)&&(t=t[name]))
                 for(var i=0,l=t.length;i<l;i++)
                     if(typeof t[t[i]]=='function')
                         funs[funs.length]=t[t[i]];
-            return funs;
         }
     },
     Static:{
@@ -6201,6 +6198,14 @@ type:4
             _.breakO([linb,Class,_],3);
             window.Class=window.Namespace=window.linb=window._=undefined;
         },"window",-1);
+        
+        //for event pos in IE
+        if(linb.browser.ie)
+            linb.win.onScroll(function(){
+                var de=document.documentElement,b=document.body;
+                linb.Event._L=(de.scrollLeft||b.scrollLeft)-(de.clientLeft||0);
+                linb.Event._T=(de.scrollTop||b.scrollTop)-(de.clientTop||0);
+            },'forEventPos',0);
     }
 });Class('linb.Template','linb.absProfile',{
     Constructor:function(template,properties,events,domId){
@@ -7296,7 +7301,7 @@ Class('linb.DragDrop',null,{
 
             //fire document onmousedown event
             if(profile.targetNode.get(0)!==doc)
-                linb(doc).onMousedown(true, linb.Event.getEventPara(e));
+                linb(doc).onMousedown(true, linb.Event.getEventPara(e, _pos));
 
             if(profile.dragDefer<1){
                 _.tryF(d._start,[e],d);
@@ -7376,7 +7381,7 @@ Class('linb.DragDrop',null,{
                         //ensure to run once only
                         d._onDrag=1;
                         //if any ondrag event exists, this function will set _onDrag
-                        d._source.onDrag(true,linb.Event.getEventPara(e));
+                        d._source.onDrag(true,linb.Event.getEventPara(e, _pos));
                     }
                 }
             //}catch(e){linb.DragDrop._end()._reset();}finally{
@@ -7702,7 +7707,7 @@ Class("linb.Tips", null,{
                 p,n;
 
             //if ready to show in settimeout(resetRun)
-            if((p=_.resetRun.$cache) && p['$Tips'])
+            if((p=_.resetRun.$cache) && p['$Tips3'])
                 tips._pos=event.getPos(e);
 
             //it's first show
@@ -9017,21 +9022,24 @@ Class('linb.UIProfile','linb.Profile', {
             ns[a]=ns[b]=null;
         },
         //get events function from profile
-        _getEV:function(id, name){
+        _getEV:function(funs,id, name){
             var self=this,
                 $k = id+"+"+name,
-                g = self.$_egetter ||(self.$_egetter={});
-            if(g[$k])return g[$k];
+                g = self.$_egetter ||(self.$_egetter={}),
+                cache;
+            if(g[$k]){
+                Array.prototype.push.apply(funs,g[$k]);
+                return;
+            }else cache=g[$k]=[];
 
             var dom=linb.cache.dom,
-                funs=[],
                 t,key
                 ;
             //for event attached on dom node
             if( (t=dom[id]) && (t=t.events) && (t=t[name]) )
                 for(var i=0,l=t.length;i<l;i++)
                     if(typeof t[t[i]]=='function')
-                        funs[funs.length]=t[t[i]];
+                        cache.push(funs[funs.length]=t[t[i]]);
 
 
             //for event attached on linb widgets
@@ -9040,18 +9048,17 @@ Class('linb.UIProfile','linb.Profile', {
 
             //for priority intercept
             if(typeof (((t=self._CB) && (key?(t=t[key]):1)) && (t=t[name]))=='function')
-                funs[funs.length]=t;
+                cache.push(funs[funs.length]=t);
             else{
                 //get event function from customBehavior first
                 if(typeof (((t=self.CB) && (key?(t=t[key]):1)) && (t=t[name]))=='function')
-                    funs[funs.length]=t;
+                    cache.push(funs[funs.length]=t);
                 else{
                     //get event function from public behavior
                     if(typeof (((t=self.behavior) && (key?(t=t[key]):1)) && (t=t[name]))=='function')
-                        funs[funs.length]=t;
+                        cache.push(funs[funs.length]=t);
                 }
             }
-            return g[$k] = funs;
         },
         toHtml:function(){
             var self=this,
@@ -12032,6 +12039,7 @@ Class("linb.absList", "linb.absObj",{
         _showTips:function(profile, node, pos){
             if(profile.onShowTips)
                 return profile.boxing().onShowTips(profile, node, pos);
+            if(!linb.Tips)return;
 
             var t=profile.properties,
                 id=node.id,
@@ -14483,8 +14491,12 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
                 if(!profile.properties.dirtyMark)return;
                 if(!profile.domNode)return;
                 var properties = profile.properties,
-                    o=profile.getSubNode('BOX'),
-                    flag=properties.value !== properties.$UIvalue,
+                    flag=properties.value !== properties.$UIvalue;
+
+                if(profile._dirtyFlag==flag)return;
+                profile._dirtyFlag=flag;
+                    
+                var o=profile.getSubNode('BOX'),
                     cls=linb.UI.$css_tag_dirty;
 
                 if(profile.beforeDirtyMark && false===profile.boxing().beforeDirtyMark(profile,flag))
@@ -15153,7 +15165,7 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
 
                 //for firefox bug: cursor not show
                 position:'absolute',
-                overflow:linb.browser.gek?'auto':''
+                overflow:linb.browser.gek?'auto':'hidden'
             },
             INPUT:{
                border:0,
@@ -15162,7 +15174,7 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
                'font-size':'12px',
                position:'relative',
                overflow:'auto',
-               'background-color':'transparent',
+               'background-color':'#fff',
                'overflow-y':(linb.browser.gek||linb.browser.ie)?'auto':'',
                'overflow-x':(linb.browser.gek||linb.browser.ie)?'hidden':''
             },
@@ -15180,12 +15192,12 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
 //border<<<
             'KEY-b-t':{
                 height:'2px',
-                //top:0,
+                top:'-1px',
                 background: linb.UI.$bg('vertical.gif', ' repeat-x left top','Input')
             },
             'KEY-b-b':{
                 height:'2px',
-                //bottom:0,
+                bottom:'-1px',
                 background: linb.UI.$bg('vertical.gif', ' repeat-x left bottom','Input')
             },
             'BORDER-focus KEY-b-t, BORDER-focus KEY-b-b, BORDER-mouseover KEY-b-t, BORDER-mouseover KEY-b-b':{
@@ -15194,12 +15206,12 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
             },
             'KEY-b-l':{
                 width:'2px',
-                //left:0,
+                left:'-1px',
                 background: linb.UI.$bg('horizontal.gif', ' repeat-y left top','Input')
             },
             'KEY-b-r':{
                width:'2px',
-              // right:0,
+               right:'-1px',
                background: linb.UI.$bg('horizontal.gif', ' repeat-y right top','Input')
             },
             'BORDER-focus KEY-b-l, BORDER-focus KEY-b-r, BORDER-mouseover KEY-b-l, BORDER-mouseover KEY-b-r':{
@@ -15209,29 +15221,29 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
             'KEY-b-lt':{
                 width:'2px',
                 height:'2px',
-               // left:0,
-               // top:0,
+               left:'-1px',
+               top:'-1px',
                 background: linb.UI.$bg('corner.gif', ' no-repeat left top','Input')
             },
             'KEY-b-rt':{
                width:'2px',
                height:'2px',
-              // right:0,
-              // top:0,
+               right:'-1px',
+               top:'-1px',
                background: linb.UI.$bg('corner.gif', ' no-repeat right top','Input')
             },
             'KEY-b-rb':{
                 width:'2px',
                 height:'2px',
-               // right:0,
-               // bottom:0,
+                right:'-1px',
+                bottom:'-1px',
                 background: linb.UI.$bg('corner.gif', ' no-repeat right bottom','Input')
             },
             'KEY-b-lb':{
                 width:'2px',
                 height:'2px',
-                //left:0,
-                //bottom:0,
+                left:'-1px',
+                bottom:'-1px',
                 background: linb.UI.$bg('corner.gif', ' no-repeat left bottom','Input')
             },
             'BORDER-focus KEY-b-lt, BORDER-focus KEY-b-rt, BORDER-focus KEY-b-rb, BORDER-focus KEY-b-lb, BORDER-mouseover KEY-b-lt, BORDER-mouseover KEY-b-rt, BORDER-mouseover KEY-b-rb, BORDER-mouseover KEY-b-lb':{
@@ -15604,15 +15616,12 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
         _onresize:function(profile,width,height){
             var size = arguments.callee.upper.apply(this,arguments),
                 v1=profile.getSubNode('INPUT'),
-                v2=profile.getSubNode('BOX'),
                 b=linb.browser;
 
             if(null!==width){
-                v2.width(size.width);
                 v1.width(size.width);
             }
             if(null!==height){
-                v2.height(size.height);
                 v1.height(size.height-v1._paddingH())
             }
 
@@ -16806,22 +16815,20 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                 px='px',
                 f=function(k){return k?profile.getSubNode(k)._nodes[0]:null},
                 type=prop.type,
-                input=f('INPUT'),
+                v1=profile.getSubNode('INPUT'),
                 save=f(prop.saveBtn?'SBTN':null),
                 btn=f(type=='spin'?'RBTN':type=='none'?null:'BTN')
                 ;
 
             if(!_.isNull(width))
-                input.style.width = (size.width-(save?save.offsetWidth:0)-(btn?btn.offsetWidth:0))+px;
+                v1.width(size.width-(save?save.offsetWidth:0)-(btn?btn.offsetWidth:0));
 
             if(!_.isNull(height)){
-                height=size.height+px;
-                /*-(linb.browser.ie6?2:linb.browser.ie?1:linb.browser.kde?1:0)*/
-                input.style.height=height;
-                if(save)save.style.height=height;
-                if(btn)
-                    btn.style.height=height;
+                v1.height(size.height - v1._paddingH());
 
+                height=size.height+px;
+                if(save)save.style.height=height;
+                if(btn)btn.style.height=height;
                 if(prop.type=='spin'){
                     height=size.height/2+px;
                     f('R1').style.height=height;
@@ -24898,8 +24905,8 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                 'line-height':0
             },
             'HCELLS, CELLS':{
-                //for ie6 height change trigger
-                'overflow-y': linb.browser.ie6 ?'hidden':'',
+                //for ie height change trigger
+                'overflow-y': linb.browser.ie ?'hidden':'',
                 position:'relative',
                 'white-space': 'nowrap',
                 'font-size':'12px',
@@ -26800,7 +26807,8 @@ caption
         _showTips:function(profile, node, pos){
             if(profile.onShowTips)
                 return profile.boxing().onShowTips(profile, node, pos);
-
+            if(!linb.Tips)return;
+            
             var ks=profile.keys,item,hcell=ks.HCELL+':',sid,id,pid;
             if(profile.properties.disabled)return;
 
@@ -26853,8 +26861,12 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
                 if(!profile.properties.dirtyMark)return;
                 if(!profile.domNode)return;
                 var properties = profile.properties,
-                    o=profile.getSubNode('BOX'),
-                    flag=properties.value !== properties.$UIvalue,
+                    flag=properties.value !== properties.$UIvalue;
+
+                if(profile._dirtyFlag==flag)return;
+                profile._dirtyFlag=flag;
+                    
+                var o=profile.getSubNode('BOX'),
                     cls=linb.UI.$css_tag_dirty;
 
                 if(profile.beforeDirtyMark && false===profile.boxing().beforeDirtyMark(profile,flag))
@@ -28038,7 +28050,7 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
             ins.setDock('none');
             
             // resize
-            linb.UI.$tryResize(profile, t.width, t.height);
+            linb.UI.$tryResize(profile, t.width, t.height,true);
         },
         _unMin:function(profile){
             var t=profile.properties;
@@ -28053,7 +28065,7 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
 
             profile.root.cssSize({width:t.width, height:t.height});
             // resize
-            linb.UI.$tryResize(profile, t.width, t.height);
+            linb.UI.$tryResize(profile, t.width, t.height,true);
         },
         _active:function(profile){
             var self=this;

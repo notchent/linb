@@ -388,7 +388,7 @@ Class('linb.DragDrop',null,{
 
             //fire document onmousedown event
             if(profile.targetNode.get(0)!==doc)
-                linb(doc).onMousedown(true, linb.Event.getEventPara(e));
+                linb(doc).onMousedown(true, linb.Event.getEventPara(e, _pos));
 
             if(profile.dragDefer<1){
                 _.tryF(d._start,[e],d);
@@ -468,7 +468,7 @@ Class('linb.DragDrop',null,{
                         //ensure to run once only
                         d._onDrag=1;
                         //if any ondrag event exists, this function will set _onDrag
-                        d._source.onDrag(true,linb.Event.getEventPara(e));
+                        d._source.onDrag(true,linb.Event.getEventPara(e, _pos));
                     }
                 }
             //}catch(e){linb.DragDrop._end()._reset();}finally{

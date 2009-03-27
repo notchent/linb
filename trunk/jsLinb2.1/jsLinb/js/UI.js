@@ -548,21 +548,24 @@ Class('linb.UIProfile','linb.Profile', {
             ns[a]=ns[b]=null;
         },
         //get events function from profile
-        _getEV:function(id, name){
+        _getEV:function(funs,id, name){
             var self=this,
                 $k = id+"+"+name,
-                g = self.$_egetter ||(self.$_egetter={});
-            if(g[$k])return g[$k];
+                g = self.$_egetter ||(self.$_egetter={}),
+                cache;
+            if(g[$k]){
+                Array.prototype.push.apply(funs,g[$k]);
+                return;
+            }else cache=g[$k]=[];
 
             var dom=linb.cache.dom,
-                funs=[],
                 t,key
                 ;
             //for event attached on dom node
             if( (t=dom[id]) && (t=t.events) && (t=t[name]) )
                 for(var i=0,l=t.length;i<l;i++)
                     if(typeof t[t[i]]=='function')
-                        funs[funs.length]=t[t[i]];
+                        cache.push(funs[funs.length]=t[t[i]]);
 
 
             //for event attached on linb widgets
@@ -571,18 +574,17 @@ Class('linb.UIProfile','linb.Profile', {
 
             //for priority intercept
             if(typeof (((t=self._CB) && (key?(t=t[key]):1)) && (t=t[name]))=='function')
-                funs[funs.length]=t;
+                cache.push(funs[funs.length]=t);
             else{
                 //get event function from customBehavior first
                 if(typeof (((t=self.CB) && (key?(t=t[key]):1)) && (t=t[name]))=='function')
-                    funs[funs.length]=t;
+                    cache.push(funs[funs.length]=t);
                 else{
                     //get event function from public behavior
                     if(typeof (((t=self.behavior) && (key?(t=t[key]):1)) && (t=t[name]))=='function')
-                        funs[funs.length]=t;
+                        cache.push(funs[funs.length]=t);
                 }
             }
-            return g[$k] = funs;
         },
         toHtml:function(){
             var self=this,
@@ -3563,6 +3565,7 @@ Class("linb.absList", "linb.absObj",{
         _showTips:function(profile, node, pos){
             if(profile.onShowTips)
                 return profile.boxing().onShowTips(profile, node, pos);
+            if(!linb.Tips)return;
 
             var t=profile.properties,
                 id=node.id,

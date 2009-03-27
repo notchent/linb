@@ -53,7 +53,6 @@ Class('App.linb_UI_Panel', 'linb.Com',{
                 .setZIndex(1)
                 .setPosition("relative")
                 .setCaption("relative auto-adjust height 1")
-                .setTitleBar(false)
             );
             
             host.panel7.append((new linb.UI.Button)
