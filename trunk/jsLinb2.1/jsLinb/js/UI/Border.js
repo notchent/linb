@@ -2,7 +2,7 @@
 Class("linb.UI.Border","linb.UI",{
     Instance:{
         _attachTo:function(target, eventTrigger){
-            var self=this, v=self.get(0);
+            var self=this, v=self.get(0), t;
             //add to dom
             target.append(self);
             //save id
@@ -10,27 +10,28 @@ Class("linb.UI.Border","linb.UI",{
             v.$tieId = eventTrigger;
             v.$attached=true;
             //add event
-            if(v.properties.borderActive){
-                var t = v.behavior.TAG, tag='tag',n=v.domNode;
-                if(linb.Dom.byId(eventTrigger))
-                    linb(eventTrigger).afterMouseover(function(p,e){
-                        if(p.properties.disabled)return;
-                        _.tryF(t.afterMouseover,[v,e,n],this)
-                    },tag).afterMouseout(function(p,e){
-                        if(p.properties.disabled)return;
-                        _.tryF(t.afterMouseout,[v,e,n],this)
-                    },tag).afterMousedown(function(p,e){
-                        if(p.properties.disabled)return;
-                        _.tryF(t.afterMousedown,[v,e,n],this)
-                    },tag).afterMouseup(function(p,e){
-                        if(p.properties.disabled)return;
-                        _.tryF(t.afterMouseup,[v,e,n],this)
-                    },tag);
-            }
+            if(t=v.properties)
+                if(v.properties.borderActive){
+                    var t = v.behavior.TAG, tag='tag',n=v.domNode;
+                    if(linb.Dom.byId(eventTrigger))
+                        linb(eventTrigger).afterMouseover(function(p,e){
+                            if(p.properties.disabled)return;
+                            _.tryF(t.afterMouseover,[v,e,n],this)
+                        },tag).afterMouseout(function(p,e){
+                            if(p.properties.disabled)return;
+                            _.tryF(t.afterMouseout,[v,e,n],this)
+                        },tag).afterMousedown(function(p,e){
+                            if(p.properties.disabled)return;
+                            _.tryF(t.afterMousedown,[v,e,n],this)
+                        },tag).afterMouseup(function(p,e){
+                            if(p.properties.disabled)return;
+                            _.tryF(t.afterMouseup,[v,e,n],this)
+                        },tag);
+                }
             return target;
         },
         _detach:function(){
-            var self=this, v=self.get(0),n,nl=null,tag='tag';
+            var self=this, v=self.get(0),n,t,nl=null,tag='tag';
             delete v.$attached;
             if(n=v.$tieId)
                 if(n=linb.Dom.byId(n))
@@ -39,6 +40,7 @@ Class("linb.UI.Border","linb.UI",{
         }
     },
     Initialize:function(){
+
         //for linb.Dom
         _.each({
             addBorder :function(properties){
@@ -65,23 +67,50 @@ Class("linb.UI.Border","linb.UI",{
         });
         //for linb.UI.Widget
         _.each({
-            _border:function(properties){
+            _border:function(properties,flag){
                 return this.each(function(o){
-                    var target = o.getSubNode('BORDER');
-                    if(target.$getBorder())return;
+                    var t=o.properties,target = o.getSubNode(t._customBorder||'BORDER'),k;
+
                     if(!properties)properties={};
-                    if(o.properties._customBorder)
-                        properties._bkey=o.getClass('KEY');
-                    o.$border=target.addBorder(properties);
-                    o.clearCache();
+
+                    if(t._customBorder)
+                        k=(properties._bkey=o.getClass('KEY'));
+                    else k='linb-border';
+                        
+                    var css=linb.CSS,key='.setting-'+k, cache=linb.UI.$CSSCACHE,sk,ck;
+                    sk='borderLeftWidth';
+                    ck=key+':'+sk;
+                    t.$b_lw=cache[ck]||(cache[ck]=parseInt(css.$getCSSValue(key,sk))||0);
+                    sk='borderRightWidth';
+                    ck=key+':'+sk;
+                    t.$b_rw=cache[ck]||(cache[ck]=parseInt(css.$getCSSValue(key,sk))||0);
+                    sk='borderTopWidth';
+                    ck=key+':'+sk;
+                    t.$b_tw=cache[ck]||(cache[ck]=parseInt(css.$getCSSValue(key,sk))||0);
+                    sk='borderBottomWidth';
+                    ck=key+':'+sk;
+                    t.$b_bw=cache[ck]||(cache[ck]=parseInt(css.$getCSSValue(key,sk))||0);
+
+                    if(flag!==false){
+                        if(target.$getBorder())return;
+                        o.$border=target.addBorder(properties);
+                        o.clearCache().boxing().reLayout();
+                    }
                 });
             },
             _unBorder:function(){
                 return this.each(function(o){
-                    var target = o.getSubNode('BORDER');
+                    var target = o.getSubNode('BORDER'),t=o.properties;
                     if(!target.$getBorder())return;
                     target.removeBorder()
+
                     delete o.$border;
+
+                    delete t.$b_lw;
+                    delete t.$b_rw;
+                    delete t.$b_tw;
+                    delete t.$b_bw;
+                    o.clearCache().boxing().reLayout();
                 });
             }
         },function(o,i){
@@ -128,61 +157,67 @@ Class("linb.UI.Border","linb.UI",{
                 'font-size':0,
                 'line-height':0
             },
+            '.setting-linb-border':{
+                'border-top-width':'1px',
+                'border-bottom-width':'1px',
+                'border-left-width':'1px',
+                'border-right-width':'1px'
+            },
             T:{
                 width:'100%',
                 left:0,
-                top:'0px',
+                top:'-1px',
                 height:'3px',
-                background: linb.UI.$bg('vertical.gif', ' repeat-x left top')
+                background: linb.UI.$bg('vertical.gif', 'repeat-x left top')
             },
             B:{
                 width:'100%',
                 left:0,
-                bottom:'0px',
+                bottom:'-1px',
                 height:'3px',
-                background: linb.UI.$bg('vertical.gif', ' repeat-x left bottom')
+                background: linb.UI.$bg('vertical.gif', 'repeat-x left bottom')
             },
             L:{
                 height:'100%',
                 top:0,
-                left:'0px',
+                left:'-1px',
                 width:'3px',
-                background: linb.UI.$bg('horizontal.gif', ' repeat-y left top')
+                background: linb.UI.$bg('horizontal.gif', 'repeat-y left top')
             },
             R:{
                height:'100%',
                top:0,
-               right:'0px',
+               right:'-1px',
                width:'3px',
-               background: linb.UI.$bg('horizontal.gif', ' repeat-y right top')
+               background: linb.UI.$bg('horizontal.gif', 'repeat-y right top')
             },
             LT:{
-                top:'0px',
-                left:'0px',
+                top:'-1px',
+                left:'-1px',
                 width:'3px',
                 height:'3px',
-                background: linb.UI.$bg('corner.gif', ' no-repeat left top')
+                background: linb.UI.$bg('corner.gif', 'no-repeat left top')
             },
             RT:{
-               top:'0px',
-               right:'0px',
+               top:'-1px',
+               right:'-1px',
                width:'3px',
                height:'3px',
-               background: linb.UI.$bg('corner.gif', ' no-repeat right top')
+               background: linb.UI.$bg('corner.gif', 'no-repeat right top')
             },
             RB:{
-                right:'0px',
-                bottom:'0px',
+                right:'-1px',
+                bottom:'-1px',
                 width:'3px',
                 height:'3px',
-                background: linb.UI.$bg('corner.gif', ' no-repeat right bottom')
+                background: linb.UI.$bg('corner.gif', 'no-repeat right bottom')
             },
             LB:{
-                left:'0px',
-                bottom:'0px',
+                left:'-1px',
+                bottom:'-1px',
                 width:'3px',
                 height:'3px',
-                background: linb.UI.$bg('corner.gif', ' no-repeat left bottom')
+                background: linb.UI.$bg('corner.gif', 'no-repeat left bottom')
             }/*,
             'KEY-mouseover T, KEY-mouseover B':{
                 $order:1,
@@ -206,7 +241,7 @@ Class("linb.UI.Border","linb.UI",{
             },
             'KEY-checked LT, KEY-checked RT, KEY-checked RB, KEY-checked LB, KEY-mousedown LT, KEY-mousedown RT, KEY-mousedown RB, KEY-mousedown LB':{
                 $order:2,
-                'background-image' : linb.UI.$bg('corner_mousedown.gif')
+                'background-image': linb.UI.$bg('corner_mousedown.gif')
             }*/
         },
         Behaviors:{

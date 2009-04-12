@@ -27,6 +27,11 @@ new function(){
             {id:'linb.Data',caption:'Data', group:true, image:'img/App.gif', imagePos:'-48px -48px', sub:[
                 {id:'linb.DataBinder', caption:'DataBinder', image:'img/widgets.gif', imagePos:'-640px top', dragable:true}
             ]},
+            {id:'linb.UI.absForm1',caption:'Simple Elements',group:true, image:_img_app, imagePos:'-48px -48px',sub:[
+                {id:'linb.UI.SLabel', caption:'Simple Label', image:_img_widgets, imagePos:'-16px top', dragable:true},
+                {id:'linb.UI.SButton', caption:'Simple Button', image:_img_widgets, imagePos:'-48px top', dragable:true/*, Appearances:['default','link','block']*/},
+                {id:'linb.UI.SCheckBox', caption:'Simple CheckBox', image:_img_widgets, imagePos:'-96px top', dragable:true}
+            ]},
             {id:'linb.UI.absForm',caption:'Form Elements',group:true, image:_img_app, imagePos:'-48px -48px',sub:[
                 {id:'linb.UI.Tag', caption:'Tag Element', image:_img_widgets, imagePos:'left top', dragable:true},
                 {id:'linb.UI.Div', caption:'Div Element', image:_img_widgets, imagePos:'-624px top', dragable:true},
@@ -96,9 +101,12 @@ new function(){
             'linb.UI.Pane':['html'],
             'linb.UI.Block':['html'],
             'linb.UI.Tag':['tagKey'],
+            'linb.UI.SLabel':['caption'],
             'linb.UI.Label':['caption'],
             'linb.UI.Link':['caption','onClick'],
+            'linb.UI.SButton':['caption','onClick'],
             'linb.UI.Button':['caption','onClick'],
+            'linb.UI.SCheckBox':['caption','onChecked'],
             'linb.UI.CheckBox':['caption','onChecked'],
             'linb.UI.Input':['value'],
             'linb.UI.TextEditor':['value'],
@@ -110,12 +118,12 @@ new function(){
             'linb.UI.Poll':['Items','onGetContent'],
             'linb.UI.Group':['caption'],
             'linb.UI.Panel':['caption'],
-            'linb.UI.Layout':['items'],
+            'linb.UI.Layout':['type','items'],
             'linb.UI.Tabs':['items','value','onItemSelected'],
             'linb.UI.Stacks':['items','value','onItemSelected'],
             'linb.UI.ButtonViews':['items','value','onItemSelected'],
             'linb.UI.LinkList':['items','value','onItemClick'],
-            'linb.UI.FoldingList':['items','value','onGetContent'],
+            'linb.UI.FoldingList':['items','onGetContent'],
             'linb.UI.IconList':['items','value','onItemSelected'],
             'linb.UI.Dialog':['caption'],
             'linb.UI.Gallery':['items','value','onItemSelected'],

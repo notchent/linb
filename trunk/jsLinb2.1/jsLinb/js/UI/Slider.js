@@ -100,25 +100,34 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
                 height:'17px',
                 'margin-top':'-8px'
             },            
+            'BOX-v DECREASE, BOX-v INCREASE, BOX-h DECREASE, BOX-h INCREASE, BOX-h IND1,BOX-h IND2, BOX-v IND1,BOX-v IND2':{
+                background: linb.UI.$bg('icons.gif', 'no-repeat',true)
+            },
             'BOX-h DECREASE':{
+                $order:1,
                 left:0,
-                background: linb.UI.$bg('icons.gif', ' no-repeat -95px -66px',true)
+                'background-position': '-80px -70px'
             },
             'BOX-h INCREASE':{
+                $order:1,
                 right:0,
-                background: linb.UI.$bg('icons.gif', ' no-repeat -111px -66px',true)
+                'background-position': '-100px -70px'
             },
             'BOX-h DECREASE-mouseover':{
-                'background-position':'-95px -82px'
+                $order:2,
+                'background-position':'-80px -90px'
             },
             'BOX-h DECREASE-mousedown':{
-                'background-position':'-95px -98px'
+                $order:3,
+                'background-position':'-80px -110px'
             },
             'BOX-h INCREASE-mouseover':{
-                'background-position':'-111px -82px'
+                $order:2,
+                'background-position':'-100px -90px'
             },
             'BOX-h INCREASE-mousedown':{
-                'background-position':'-111px -98px'
+                $order:3,
+                'background-position':'-100px -110px'
             },
             'BOX-h BG':{
                 top:'50%'                
@@ -129,8 +138,12 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
                 height:'6px',
                 'margin-top':'-3px'
             },
+            'BOX-h RULER, BOX-h RULERLEFT, BOX-h RULERRIGHT':{
+                background: linb.UI.$bg('bar_vertical.gif', 'repeat-x',true)
+            },
             'BOX-h RULER':{
-                background: linb.UI.$bg('bar_vertical.gif', ' repeat-x left -482px',true)
+                $order:2,
+                'background-position':'left -482px'
             },
             'BOX-h RULERLEFT, BOX-h RULERRIGHT':{
                 'z-index':1,
@@ -139,19 +152,20 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
             },
             'BOX-h RULERLEFT':{
                 $order:2,
-                background: linb.UI.$bg('bar_vertical.gif', ' no-repeat left -474px',true),
+                'background-position':'left -474px',
                 left:'-4px',
                 top:0
             },
             'BOX-h RULERRIGHT':{
                 $order:2,
-                background: linb.UI.$bg('bar_vertical.gif', ' no-repeat left -490px',true),
+                'background-position':'left -490px',
                 right:'-4px',
                 top:0
             },
             'BOX-h IND1,BOX-h IND2':{
+                $order:1,
                 'z-index':2,
-                background: linb.UI.$bg('icons.gif', ' no-repeat -21px -282px',true),
+                'background-position': '-21px -282px',
                 height:'18px',
                 width:'8px',
                 left:0,
@@ -159,9 +173,11 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
                 'margin-top':'-6px'
             },
             'BOX-h IND1-mouseover,BOX-h IND2-mouseover':{
+                $order:2,
                 'background-position':'-31px -282px'
             },
             'BOX-h IND1-mousedown,BOX-h IND2-mousedown':{
+                $order:3,
                 'background-position':'-41px -282px'
             },
 
@@ -175,28 +191,28 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
             'BOX-v DECREASE':{
                 $order:10,
                 top:0,
-                background: linb.UI.$bg('icons.gif', ' no-repeat -128px -68px',true)
+                'background-position': '-120px -70px'
             },
             'BOX-v INCREASE':{
                 $order:10,
                 bottom:0,
-                background: linb.UI.$bg('icons.gif', ' no-repeat -145px -68px',true)
+                'background-position': '-140px -70px'
             },
             'BOX-v DECREASE-mouseover':{
-                $order:10,
-                'background-position':'-128px -84px'
+                $order:11,
+                'background-position':'-120px -90px'
             },
             'BOX-v DECREASE-mousedown':{
-                $order:10,
-                'background-position':'-128px -100px'
+                $order:12,
+                'background-position':'-120px -110px'
             },
             'BOX-v INCREASE-mouseover':{
-                $order:10,
-                'background-position':'-145px -84px'
+                $order:11,
+                'background-position':'-140px -90px'
             },
             'BOX-v INCREASE-mousedown':{
-                $order:10,
-                'background-position':'-145px -100px'
+                $order:12,
+                'background-position':'-140px -110px'
             },
             'BOX-v BG':{
                 $order:10,
@@ -209,9 +225,12 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
                 width:'6px',
                 'margin-left':'-3px'
             },
+            'BOX-v RULER, BOX-v RULERLEFT, BOX-v RULERRIGHT':{
+                background: linb.UI.$bg('bar_horizontal.gif', 'repeat-y',true)
+            },
             'BOX-v RULER':{
                 $order:10,
-                background: linb.UI.$bg('bar_horizontal.gif', ' repeat-y -482px top',true)
+                'background-position':'-482px top'
             },
             'BOX-v RULERLEFT, BOX-v RULERRIGHT':{
                 $order:10,
@@ -221,20 +240,20 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
             },
             'BOX-v RULERLEFT':{
                 $order:12,
-                background: linb.UI.$bg('bar_horizontal.gif', ' no-repeat -490px top',true),
+                'background-position':'-490px top',
                 top:'-4px',
                 left:0
             },
             'BOX-v RULERRIGHT':{
                 $order:12,
-                background: linb.UI.$bg('bar_horizontal.gif', ' no-repeat -474px top',true),
+                'background-position':'-474px top',
                 bottom:'-4px',
                 left:0
             },
             'BOX-v IND1,BOX-v IND2':{
                 $order:10,
                 'z-index':2,
-                background: linb.UI.$bg('icons.gif', ' no-repeat left -272px',true),
+                'background-position': 'left -272px',
                 width:'18px',
                 height:'8px',
                 left:0,
@@ -242,11 +261,11 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
                 'margin-left':'-6px'
             },
             'BOX-v IND1-mouseover,BOX-v IND2-mouseover':{
-                $order:10,
+                $order:11,
                 'background-position':'left -282px'
             },
             'BOX-v IND1-mousedown,BOX-v IND2-mousedown':{
-                $order:10,
+                $order:12,
                 'background-position':'left -292px'
             }
         },

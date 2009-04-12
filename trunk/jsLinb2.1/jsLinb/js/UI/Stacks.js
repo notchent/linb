@@ -1,10 +1,18 @@
 Class("linb.UI.Stacks", "linb.UI.Tabs",{
+    Initialize:function(){
+        var t=this.getTemplate();
+        t.BORDER={tagName:'div',LIST:t.LIST, PNAELS:t.PNAELS};
+        delete t.LIST;
+        delete t.PNAELS;
+        this.setTemplate(t);
+    },
     Static:{
         Appearances:{
-            KEY:{
-                overflow:'visible',
+            BORDER:{
                 border:'solid 1px #648CB4',
-                'border-top':'none'
+                position:'absolute',
+                left:0,
+                top:0
             },
             LIST:{
                 position:'static'
@@ -17,24 +25,23 @@ Class("linb.UI.Stacks", "linb.UI.Tabs",{
                 display:'block',
                 position:'absolute',
                 cursor:'pointer',
-                background: linb.UI.$bg('bar_vertical.gif', ' repeat-x left -30px', true),
+                background: linb.UI.$bg('bar_vertical.gif', 'repeat-x left -380px', true),
                 width:'100%',
                 left:0
+            },
+            ITEMC:{
+                display:'block'
             },
             ITEMI:{
                 display:'block'
             },
             'ITEM-mouseover':{
                 $order:1,
-                'background-position' : 'right -120px'
+                'background-position' : 'right -410px'
             },
-            'ITEM-mousedown':{
-                $order:1,
-                'background-position' : 'right -120px'
-            },
-            'ITEM-checked':{
-                $order:1,
-                'background-position' : 'right -120px'
+            'ITEM-mousedown, ITEM-checked':{
+                $order:2,
+                'background-position' : 'right -440px'
             },
             HANDLE:{
                 cursor:'pointer',
@@ -55,19 +62,30 @@ Class("linb.UI.Stacks", "linb.UI.Tabs",{
             CMDS:{
                 position:'absolute',
                 top:'6px',
-                right:'2px',
+                right:'8px',
                 'text-align':'right',
                 'vertical-align': 'middle'
             }
         },
-        _onresize:function(profile,width,height,key){
-            var t=profile.properties, temp,t1,t2,obj,top,
+        DataModel:{
+            $border:1
+        },
+        _onresize:function(profile,width,height,force,key){
+            var t=profile.properties,
+                item = profile.getItemByItemId(key),
+                bw=t.$border*2;
+            if(!item)
+                key=t.$UIvalue;
+
+            var temp,t1,t2,obj,top,
                 wc=null,hc=null,
+                bx=profile.getSubNode('BORDER'),
                 o = profile.boxing().getPanel(key);
             if(!o || o.isEmpty())return;
 
             // change value
             if(height){
+                height-=bw;
                 t2=t1=0;
                 _.arr.each(t.items,function(o){
                     obj = profile.getSubNodeByItemId('ITEM', o.id);
@@ -89,8 +107,14 @@ Class("linb.UI.Stacks", "linb.UI.Tabs",{
                     top=t1;
                     hc=temp;
                 }
+
+                bx.height(height);
             }
-            if(width)wc=width;
+            if(width){
+                width-=bw;
+                wc=width;
+                bx.width(width);
+            }
 
             o.cssRegion({width:wc?wc:null,height:hc?hc:null,top:top,left:0},true);
             if(wc)profile.getSubNode('LIST').width(wc);

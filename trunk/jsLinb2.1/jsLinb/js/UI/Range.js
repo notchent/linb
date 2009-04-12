@@ -147,12 +147,12 @@ Class("linb.UI.Range", ["linb.UI","linb.absValue"],{
                 position:'absolute'
             },
             IND1:{
-                background: linb.UI.$bg('icons.gif', ' no-repeat left -225px', true),
+                background: linb.UI.$bg('icons.gif', 'no-repeat left -225px', true),
                 left:'0px',
                 top:'11px'
             },
             IND2:{
-                background: linb.UI.$bg('icons.gif', ' no-repeat -15px -225px', true),
+                background: linb.UI.$bg('icons.gif', 'no-repeat -15px -225px', true),
                 left:'300px',
                 top:'1px'
             },

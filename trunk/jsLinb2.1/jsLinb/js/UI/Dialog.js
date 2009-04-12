@@ -35,7 +35,8 @@ Class("linb.UI.Dialog","linb.UI.Widget",{
                         box._active(profile);
 
                         if(profile.onShow)profile.boxing().onShow(profile);
-                        box._refreshRegion(profile);
+                        if(profile.properties.status=='normal')
+                            box._refreshRegion(profile);
                         
                         //set default focus, the min tabzindex
                         _.asyRun(function(){root.nextFocus()});
@@ -100,29 +101,29 @@ Class("linb.UI.Dialog","linb.UI.Widget",{
     Initialize:function(){
         var t = this.getTemplate();
         _.merge(t.FRAME.BORDER,{
-            BAR:{
+            TBAR:{
                 tagName:'div',
                 className:'uibar-top',
-                BART:{
+                TBART:{
                     cellpadding:"0",
                     cellspacing:"0",
                     width:'100%',
                     border:'0',
                     tagName:'table',
                     className:'uibar-t',
-                    BARTR:{
+                    TBARTR:{
                         tagName:'tr',
-                        BARTDL:{
+                        TBARTDL:{
                             tagName:'td',
                             className:'uibar-tdl'
                         },
-                        BARTDM:{
+                        TBARTDM:{
                             $order:1,
                             width:'100%',
                             tagName:'td',
                             className:'uibar-tdm'
                         },
-                        BARTDR:{
+                        TBARTDR:{
                             $order:2,
                             tagName:'td',
                             className:'uibar-tdr'
@@ -247,55 +248,6 @@ Class("linb.UI.Dialog","linb.UI.Widget",{
                 'font-size':'12px',
                 display:'inline',
                 'vertical-align':'middle'
-            },
-            MIN:{
-                background: linb.UI.$bg('icons.gif', ' -16px 0', true),
-                $order:0
-            },
-            'MIN-mouseover':{
-                $order:1,
-               'background-position': ' -16px -16px'
-            },
-            'MIN-mousedown':{
-                $order:2,
-               'background-position':  '-16px -32px'
-            },
-            RESTORE:{
-                background: linb.UI.$bg('icons.gif', ' -32px 0', true)
-            },
-            'RESTORE-mouseover':{
-                $order:1,
-               'background-position':  '-32px -16px'
-            },
-            'RESTORE-mousedown':{
-                $order:2,
-               'background-position':  '-32px -32px'
-            },
-            MAX:{
-                background: linb.UI.$bg('icons.gif', ' -48px 0', true)
-            },
-            'MAX-mouseover':{
-                $order:1,
-               'background-position':  '-48px -16px'
-            },
-            'MAX-mousedown':{
-                $order:2,
-               'background-position':  '-48px -32px'
-            },
-            PIN:{
-                background: linb.UI.$bg('icons.gif', ' 0 0', true)
-            },
-            'PIN-mouseover':{
-                $order:1,
-                'background-position': '0 -16px'
-            },
-            'PIN-mousedown':{
-                $order:2,
-                'background-position': ' 0 -32px'
-            },
-            'PIN-checked, PIN-checked-mouseover':{
-                $order:2,
-                'background-position':  '0 -32px'
             }
         },
         Behaviors:{
@@ -312,7 +264,7 @@ Class("linb.UI.Dialog","linb.UI.Widget",{
                 p.left = pos.left;
                 p.top = pos.top;
             },
-            BAR:{
+            TBAR:{
                 onMousedown:function(profile, e, src){
                     if(profile.getKey(linb.Event.getSrc(e).parentNode.id)==profile.keys.BARCMDR)return;
 
@@ -510,9 +462,12 @@ Class("linb.UI.Dialog","linb.UI.Widget",{
         },
         LayoutTrigger:function(){
             var self=this, t=self.properties, b=self.box;
-            if(t.status=='min') b._min(self);
-            else if(t.status=='max') b._max(self);
-            else linb.UI.$tryResize(self, t.width, t.height);
+            if(t.status=='min')
+                b._min(self);
+            else if(t.status=='max')
+                b._max(self);
+            else
+                linb.UI.$tryResize(self, t.width, t.height);
         },
         _prepareData:function(profile){
             var data = arguments.callee.upper.call(this, profile),
@@ -567,7 +522,7 @@ Class("linb.UI.Dialog","linb.UI.Widget",{
 
             var h1=o.height(),
                 h2=profile.getSubNode('BORDER').height(),
-                h=profile.getSubNode('BAR').height();
+                h=profile.getSubNode('TBAR').height();
             // resize
             o.cssSize({ width :t.minWidth, height :h+h1-h2},true);
         },
@@ -634,8 +589,12 @@ Class("linb.UI.Dialog","linb.UI.Widget",{
             if(t.shadow)
                 ins._shadow();
 
-            if(t.resizer && !t.pinned && profile.$resizer)
-                profile.$resizer.show();
+            if(t.resizer && !t.pinned){
+                if(profile.$resizer)
+                    profile.$resizer.show();
+                else
+                    ins._resizer();
+            }
 
             ins.setDock('none');
             
@@ -643,15 +602,20 @@ Class("linb.UI.Dialog","linb.UI.Widget",{
             linb.UI.$tryResize(profile, t.width, t.height,true);
         },
         _unMin:function(profile){
-            var t=profile.properties;
+            var t=profile.properties,
+            ins=profile.boxing();
             profile.getSubNodes(['PANEL','STATUS']).css('display','block');
             profile.getSubNode('MIN').setInlineBlock();
 
             if(t.shadow)
-                profile.boxing()._shadow();
+                ins._shadow();
 
-            if(t.resizer && !t.pinned &&profile.$resizer)
+            if(t.resizer && !t.pinned){
+                if(profile.$resizer)
                     profile.$resizer.show();
+                else
+                    ins._resizer();
+            }
 
             profile.root.cssSize({width:t.width, height:t.height});
             // resize
@@ -669,13 +633,13 @@ Class("linb.UI.Dialog","linb.UI.Widget",{
                 t2=o.css('zIndex');
             o.css('zIndex',t1>t2?t1:t2);
 
-            profile.getSubNode('BAR').tagClass('-focus');
+            profile.getSubNode('TBAR').tagClass('-focus');
             self.activeWndId = profile.$id;
         },
         _deActive:function(){
             var profile;
             if(profile=linb.UI._cache['$'+this.activeWndId])
-                profile.getSubNode('BAR').tagClass('-focus',false);
+                profile.getSubNode('TBAR').tagClass('-focus',false);
             delete this.activeWndId;
         },
         _modal:function(profile){
@@ -778,7 +742,7 @@ Class("linb.UI.Dialog","linb.UI.Widget",{
 
             node.cssSize(size).css('overflow','auto').show();
 
-            dialog.setCaption(caption).setWidth(size.width + 30).setHeight(size.height+80);
+            dialog.setCaption(caption).setWidth(size.width + 30).setHeight(size.height+90);
             dialog.$cmd.reBoxing().left((size.width + 30 - dialog.$cmd.reBoxing().width())/2);
         },
         alert:function(title, content, onOK){
@@ -806,7 +770,7 @@ Class("linb.UI.Dialog","linb.UI.Widget",{
                     height:24
                 }),
 
-                btn = dialog.$btn = new linb.UI.Button({
+                btn = dialog.$btn = new linb.UI.SButton({
                     caption:'$inline.ok',
                     width: 60,
                     tabindex:1
@@ -857,7 +821,7 @@ Class("linb.UI.Dialog","linb.UI.Widget",{
                     width:140,
                     height:24
                 }),
-                btn = new linb.UI.Button({
+                btn = new linb.UI.SButton({
                     caption:'$inline.yes',
                     width: 60,
                     tabindex:1,
@@ -872,7 +836,7 @@ Class("linb.UI.Dialog","linb.UI.Widget",{
                 });
                 cmd.append(btn);
 
-                btn = dialog.$btn=new linb.UI.Button({
+                btn = dialog.$btn=new linb.UI.SButton({
                     caption:'$inline.no',
                     tabindex:1,
                     width: 60,
@@ -916,7 +880,7 @@ Class("linb.UI.Dialog","linb.UI.Widget",{
                 width:60,
                 height:24
             })
-            .append( dialog.$btn = new linb.UI.Button({
+            .append( dialog.$btn = new linb.UI.SButton({
                 caption: cmdStr || '$inline.ok',
                 tabindex:1,
                 width: 60
@@ -981,7 +945,7 @@ Class("linb.UI.Dialog","linb.UI.Widget",{
                     height:24
                 })
                 .setCustomStyle('KEY',"text-align:center;")
-                .append(new linb.UI.Button({
+                .append(new linb.UI.SButton({
                     caption:'$inline.yes',
                     width: 60,
                     left:70,
@@ -994,7 +958,7 @@ Class("linb.UI.Dialog","linb.UI.Widget",{
                     }
                 }));
 
-                cmd.append(new linb.UI.Button({
+                cmd.append(new linb.UI.SButton({
                     caption:'$inline.no',
                     tabindex:1,
                     left:140,
@@ -1027,10 +991,10 @@ Class("linb.UI.Dialog","linb.UI.Widget",{
             });
         },
         //
-        _onresize:function(profile,width,height){
+        _onresize:function(profile,width,height,force){
             var size = arguments.callee.upper.apply(this,arguments),
                 isize={},
-                v1=profile.getSubNode('BAR'),
+                v1=profile.getSubNode('TBAR'),
                 v2=profile.getSubNode('PANEL'),
                 v4=profile.getSubNode('BBAR'),
                 v5=profile.getSubNode('MAIN'),

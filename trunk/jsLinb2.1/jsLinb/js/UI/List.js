@@ -4,13 +4,13 @@ Class("linb.UI.List", ["linb.UI", "linb.absList","linb.absValue" ],{
             return this.each(function(profile){
                 if(!profile.domNode)return;
 
-                var box = profile.boxing(),
-                    uiv = box.getUIValue(),
-                    p = profile.properties,
-                    k = 'ITEM',
-                    getN = function(k,i){return profile.getSubNode(k,i)},
-                    getI = function(i){return profile.getSubIdByItemId(i)}
-                    ;
+                var box=profile.box,
+                    uiv=profile.boxing().getUIValue(),
+                    p=profile.properties,
+                    item=box.ITEMKEY || 'ITEM',
+                    k=box.DIRTYKEY || 'ITEM',
+                    getN=function(k,i){return profile.getSubNode(k,i)},
+                    getI=function(i){return profile.getSubIdByItemId(i)};
                 if(p.selMode=='single'){
                     var itemId = getI(uiv);
                     if(uiv!==null && itemId)
@@ -22,7 +22,7 @@ Class("linb.UI.List", ["linb.UI", "linb.absList","linb.absValue" ],{
 
                     //scroll
                     if(itemId){
-                        var o = getN(k,itemId);
+                        var o = getN(item,itemId);
                         if(o){
                             var top = o.offsetTop(),
                             items = getN('ITEMS'),
@@ -85,13 +85,14 @@ Class("linb.UI.List", ["linb.UI", "linb.absList","linb.absValue" ],{
         }
     },
     Static:{
+        DIRTYKEY:'ITEM',
         Templates:{
             tagName : 'div',
             style:'{_style}',
+            className:'uibg-base',
             ITEMS:{
                $order:10,
                tagName:'div',
-               className:'uibg-base',
                text:"{items}"
             },
             $dynamic:{
@@ -136,17 +137,23 @@ Class("linb.UI.List", ["linb.UI", "linb.absList","linb.absValue" ],{
                 padding:'4px 2px',
                 position:'relative'
             },
+            'ITEM-mouseover, ITEM-mousedown, ITEM-checked':{
+                background: linb.UI.$bg('item.gif', 'repeat-x')
+            },
             'ITEM-mouseover':{
                 $order:1,
-                background: linb.UI.$bg('item.gif', '#FAD200 repeat-x left -51px')
+                'background-color':'#FAD200',
+                'background-position': 'left -51px'
             },
             'ITEM-mousedown':{
-                $order:1,
-                background: linb.UI.$bg('item.gif', '#F5D22D repeat-x left -101px')
+                $order:2,
+                'background-color':'#F5D22D',
+                'background-position': 'left -101px'
             },
             'ITEM-checked':{
                 $order:2,
-                background: linb.UI.$bg('item.gif', '#AAD2FA repeat-x left top')
+                'background-color':'#AAD2FA',
+                'background-position': 'left top'
             }
         },
         Behaviors:{
@@ -310,7 +317,7 @@ Class("linb.UI.List", ["linb.UI", "linb.absList","linb.absValue" ],{
                 dragCursor:'pointer',
                 dragDefer:1,
                 dragKey: profile.box.getDragKey(profile, src),
-                dragData: profile.box.getDragData(profile, src)
+                dragData: profile.box.getDragData(profile, e, src)
             });
             return false;
         },

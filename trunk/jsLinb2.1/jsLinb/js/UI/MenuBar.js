@@ -120,20 +120,22 @@ Class("linb.UI.MenuBar",["linb.UI","linb.absList" ],{
                 items:{
                     ITEM:{
                         ITEMI:{
-                            ITEMA:{
-                                tagName:'a',
-                                href :linb.$href,
-                                tabindex: '{_tabindex}',
-                                className:' {typeCls} {disabled}',
-                                ICON:{
-                                    $order:1,
-                                    className:'ui-icon',
-                                    style:'background:url({image}) transparent no-repeat  {imagePos}; {iconDisplay}'
-                                },
-                                CAPTION:{
-                                    $order:2,
-                                    text : '{caption}',
-                                    style:'{captionDisplay}'
+                            ITEMC:{
+                                ITEMA:{
+                                    tagName:'a',
+                                    href :linb.$href,
+                                    tabindex: '{_tabindex}',
+                                    className:' {typeCls} {disabled}',
+                                    ICON:{
+                                        $order:1,
+                                        className:'ui-icon',
+                                        style:'background:url({image}) transparent no-repeat  {imagePos}; {iconDisplay}'
+                                    },
+                                    CAPTION:{
+                                        $order:2,
+                                        text : '{caption}',
+                                        style:'{captionDisplay}'
+                                    }
                                 }
                             }
                         }
@@ -170,13 +172,16 @@ Class("linb.UI.MenuBar",["linb.UI","linb.absList" ],{
                 'vertical-align':'middle'
             },
             LIST:{
-                padding:'2px 0 1px 2px'
+                padding:'2px 0 0 2px'
             },
             ITEMS:{
                 'vertical-align':'middle'
             },
             'LIST-disabled':{
                 'background-color':'#E4E4E4'
+            },
+            'ITEM-mouseover, ITEM-mouseover ITEMI, ITEM-mouseover ITEMC, ITEM-mousedown, ITEM-mousedown ITEMI, ITEM-mousedown ITEMC':{
+                background:linb.UI.$bg('button.gif', 'no-repeat',true)
             },
             ITEM:{
                 'white-space': 'nowrap',
@@ -190,21 +195,41 @@ Class("linb.UI.MenuBar",["linb.UI","linb.absList" ],{
             'ITEM *':{
                 cursor:'pointer'
             },
-            'ITEMI':{
-                height:'18px',
-                padding:'2px 2px 2px 6px'
+            ITEMI:{
+                'padding-left':'6px'
+            },
+            ITEMC:{
+                height:'22px',
+                padding:'3px 2px 0 0'
+            },
+            ITEMA:{
+                display:linb.$inlineBlock
             },
             'ITEM-mouseover':{
-                background:linb.UI.$bg('button.gif', ' no-repeat right -44px',true)
-            },
-            'ITEM-mouseover ITEMI':{
-                background:linb.UI.$bg('button.gif', ' no-repeat left -66px',true)
+                $order:2,
+                'background-position':'right -90px'
             },
             'ITEM-mousedown':{
-                background:linb.UI.$bg('button.gif', ' no-repeat right -88px',true)
+                $order:3,
+                'background-position':'right -180px'
+            },
+            'ITEM-mouseover ITEMI':{
+               $order:2,
+                'background-position':'left -150px'
             },
             'ITEM-mousedown ITEMI':{
-                background:linb.UI.$bg('button.gif', ' no-repeat left -110px',true)
+                $order:3,
+                'background-position':'left -240px'
+            },            
+            'ITEM-mouseover ITEMC':{
+                $order:2,
+                'background-position':'left -120px',
+                'background-repeat': 'repeat-x'
+            },
+            'ITEM-mousedown ITEMC':{
+                $order:3,
+                'background-position':'left -210px',
+                'background-repeat': 'repeat-x'
             },            
             CAPTION:{
                 'font-size':'12px',
@@ -330,7 +355,13 @@ Class("linb.UI.MenuBar",["linb.UI","linb.absList" ],{
             listKey:null,
 
             //can't change height
-            height:null,
+            height:{
+                ini:'auto',
+                readonly:true
+            },
+                
+            width:'auto',
+
             tabindex:{
                 action:function(value){
                     if(this.domNode)

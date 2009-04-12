@@ -196,7 +196,7 @@ Class('App.linb_UI_Dialog', 'linb.Com',{
             new linb.UI.Dialog({caption:'Modal',left:rnd, top:rnd, width:200, height:300}).show(linb('body'),true)
         }, 
         _button4_onclick:function (profile, e, value) {
-            new linb.UI.Dialog({status:'min'}).show(this.layout1.getPanel('main'))
+            new linb.UI.Dialog({status:'min',resizer:false}).show(this.layout1.getPanel('main'))
         }, 
         _button5_onclick:function (profile, e, value) {
             new linb.UI.Dialog({status:'max'}).show(this.layout1.getPanel('main'))

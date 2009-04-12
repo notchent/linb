@@ -146,9 +146,14 @@ Class('linb.UI.DatePicker', ['linb.UI',"linb.absValue"], {
                             className:'ui-btn',
                             TODAYI:{
                                 className:'ui-btni',
-                                TODAYA:{
-                                    tagName:'button',
-                                    text:linb.wrapRes('inline.today')
+                                TODAYC:{
+                                    className:'ui-btnc',
+                                    TODAYA:{
+                                        tagName:'a',
+                                        href:linb.$href,
+                                        tabindex: '{tabindex}',
+                                        text:linb.wrapRes('inline.today')
+                                    }
                                 }
                             }
                         }
@@ -207,12 +212,12 @@ Class('linb.UI.DatePicker', ['linb.UI',"linb.absValue"], {
             TAILI:{
                 position:'relative',
                 'padding-top':'4px',
-                height:'20px',
+                height:'22px',
                 'text-align':'center'
             },
             TODAY:{
                 position:'absolute',
-                top:'1px',
+                top:'0',
                 right:'5px'
             },
             'PRE,PRE2,NEXT,NEXT2':{
@@ -222,51 +227,56 @@ Class('linb.UI.DatePicker', ['linb.UI',"linb.absValue"], {
                 width:'15px',
                 height:'15px',
                 'vertical-align': 'middle',
-                cursor:'default'
+                cursor:'default',
+                background: linb.UI.$bg('icons.gif', 'no-repeat', true)
             },
             PRE:{
-                background: linb.UI.$bg('icons.gif', ' no-repeat  0 -65px', true)
+                $order:1,
+                'background-position': '-260px -70px'
             },
             'PRE-mouseover':{
                 $order:2,
-                'background-position': '0 -80px'
+                'background-position': '-260px -90px'
             },
             'PRE-mousedown':{
                 $order:3,
-                'background-position': '0 -95px'
+                'background-position': '-260px -110px'
             },
             PRE2:{
-                background: linb.UI.$bg('icons.gif', ' no-repeat  -61px -65px', true)
+                $order:1,
+                'background-position': '-240px -70px'
             },
             'PRE2-mouseover':{
                 $order:2,
-                'background-position': '-61px -80px'
+                'background-position': '-240px -90px'
             },
             'PRE2-mousedown':{
                 $order:3,
-                'background-position': '-61px -95px'
+                'background-position': '-240px -110px'
             },
             NEXT:{
-                background: linb.UI.$bg('icons.gif', ' no-repeat  -16px -65px', true)
+                $order:1,
+                'background-position': '-280px -70px'
             },
             'NEXT-mouseover':{
                 $order:2,
-                'background-position': '-16px -80px'
+                'background-position': '-280px -90px'
             },
             'NEXT-mousedown':{
                 $order:3,
-                'background-position': '-16px -95px'
+                'background-position': '-280px -110px'
             },
             NEXT2:{
-                background: linb.UI.$bg('icons.gif', ' no-repeat  -76px -65px', true)
+                $order:1,
+                'background-position': '-300px -70px'
             },
             'NEXT2-mouseover':{
                 $order:2,
-                'background-position': '-76px -80px'
+                'background-position': '-300px -90px'
             },
             'NEXT2-mousedown':{
                 $order:3,
-                'background-position': '-76px -95px'
+                'background-position': '-300px -110px'
             },
             'YEAR,MONTH':{
                 $order:4,
@@ -288,9 +298,13 @@ Class('linb.UI.DatePicker', ['linb.UI',"linb.absValue"], {
                 'font-size':'12px',
                 'vertical-align':'middle'
             },
+            MAINI:{
+                'padding-top':'4px',
+                'padding-bottom':'4px'
+            },
             CON:{
-                padding:'3px',
-                border:'solid 1px #648CB4'
+                'border-left':'solid 1px #648CB4',
+                'border-top':'solid 1px #648CB4'
             },
             BODY:{
                 overflow: 'visible'
@@ -298,8 +312,8 @@ Class('linb.UI.DatePicker', ['linb.UI',"linb.absValue"], {
             'BODY td,BODY th':{
                 $order:1,
                 border:0,
-                'border-right':'solid 1px #A7BFD7',
-                'border-bottom':'solid 1px #A7BFD7'
+                'border-right':'solid 1px #648CB4',
+                'border-bottom':'solid 1px #648CB4'
             },
             'TD .exday':{
                 color:'#C1C1C1'

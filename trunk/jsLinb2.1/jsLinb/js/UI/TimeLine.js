@@ -94,30 +94,30 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
                     tagName:'div',
                     style:'position:absolute;left:0;top:0;width:0;height:0;display:none;'
                 },
-                BAR:{
+                TBAR:{
                     tagName:'div',
                     className:'uibar-top',
-                    style:'{_bardisplay};height:{_barHeight}px;',
-                    BART:{
+                    style:'{_bardisplay};',
+                    TBART:{
                         cellpadding:"0",
                         cellspacing:"0",
                         width:'100%',
                         border:'0',
                         tagName:'table',
                         className:'uibar-t',
-                        BARTR:{
+                        TBARTR:{
                             tagName:'tr',
-                            BARTDL:{
+                            TBARTDL:{
                                 tagName:'td',
                                 className:'uibar-tdl'
                             },
-                            BARTDM:{
+                            TBARTDM:{
                                 $order:1,
                                 width:'100%',
                                 tagName:'td',
                                 className:'uibar-tdm'
                             },
-                            BARTDR:{
+                            TBARTDR:{
                                 $order:2,
                                 tagName:'td',
                                 className:'uibar-tdr'
@@ -150,41 +150,52 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
                         }
                     }
                 },
-                BAND:{
+                MAIN:{
                     $order:2,
                     tagName:'div',
-                    style:'left:{_band_left}px;width:{_band_width}px;',
-                    BIGLABEL:{
+                    className:'uicon-main',
+                    MAINI:{
                         tagName:'div',
-                        style:'height:{_bigLabelHeight}px;z-index:3;{_showBigLabel}',
-                        text:"{_bigMarks}"
-                    },
-                    SMALLLABEL:{
-                        $order:1,
-                        tagName:'div',
-                        style:'height:{_smallLabelHeight}px;z-index:4;',
-                        text:"{_smallMarks}"
-                    }
-                },
-                VIEW:{
-                    $order:3,
-                        tagName:'div',
-                        style:'height:{_viewHeight}px;',
-                        ITEMS:{
+                        className:'uicon-maini',
+                        MAINC:{
                             tagName:'div',
-                            style:'left:{_band_left}px;width:{_band_width}px;',
-                            text:'{items}',
-                            ACTIVE:{
+                            BAND:{
+                                $order:2,
+                                tagName:'div',
+                                style:'left:{_band_left}px;width:{_band_width}px;',
+                                BIGLABEL:{
+                                    tagName:'div',
+                                    style:'{_showBigLabel}',
+                                    text:"{_bigMarks}"
+                                },
+                                SMALLLABEL:{
+                                    $order:1,
+                                    tagName:'div',
+                                    text:"{_smallMarks}"
+                                }
+                            },
+                            VIEW:{
                                 $order:3,
-                                tagName:'div'
-                            }
-                        },
-                        SCROLL:{
-                            tagName:'div',
-                            SCROLLI:{
-                                tagName:'div'
+                                    tagName:'div',
+                                    style:'height:{_viewHeight}px;',
+                                    ITEMS:{
+                                        tagName:'div',
+                                        style:'left:{_band_left}px;width:{_band_width}px;',
+                                        text:'{items}',
+                                        ACTIVE:{
+                                            $order:3,
+                                            tagName:'div'
+                                        }
+                                    },
+                                    SCROLL:{
+                                        tagName:'div',
+                                        SCROLLI:{
+                                            tagName:'div'
+                                        }
+                                    }
                             }
                         }
+                    }
                 },
                 TAIL:{
                     $order:4,
@@ -199,6 +210,7 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
                 BBAR:{
                     $order:5,
                     tagName:'div',
+                    style:'{_bardisplay};',
                     className:'uibar-bottom-s',
                     BBART:{
                         cellpadding:"0",
@@ -450,13 +462,13 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
             },
             FOCUS:{
                 onFocus:function(profile, e, src){
-                    _.resetRun(profile.KEY+':focus',function(){
-                        profile.getSubNode('BAR').tagClass('-focus');
-                    });
+//                    _.resetRun(profile.KEY+':focus',function(){
+//                        profile.getSubNode('TBAR').tagClass('-focus');
+//                    });
                 },
                 onBlur:function(profile, e, src){
                     _.resetRun(profile.KEY+':focus',function(){
-                        profile.getSubNode('BAR').tagClass('-focus',false);
+                        profile.getSubNode('TBAR').tagClass('-focus',false);
                     });
                 },
                 onKeydown:function(profile, e, src){
@@ -556,14 +568,14 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
                         index = _.arr.indexOf(z,p._unitParas),
                         o;
                     if(index > 0){
-                        profile.pause=true;
+                        //profile.pause=true;
                         p.timeSpanKey =  z[index- 1][0];
 
                         o = profile.getSubNodes(['VIEW','BAND']);
-                        o.animate( {opacity:[1,0.2]}, null, function(){
+                        //o.animate( {opacity:[1,0.2]}, null, function(){
                             profile.box._refresh(profile)._focus(profile);
-                            profile.pause=false;
-                        },200,5,'sineIn').start();
+                        //    profile.pause=false;
+                        //},200,5,'sineIn').start();
                     }
                 }
             },
@@ -576,15 +588,15 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
                         index = _.arr.indexOf(z,p._unitParas),
                         o;
                     if(index < z.length -1){
-                        profile.pause=true;
+                        //profile.pause=true;
                         p.timeSpanKey = z[index + 1][0];
 
                         o = profile.getSubNodes(['VIEW','BAND']);
-                        o.animate( {opacity:[1,0.2]}, null, function(){
+                       // o.animate( {opacity:[1,0.2]}, null, function(){
                             //if multiTasks, setUIValue will be ignored
                             profile.box._refresh(profile)._focus(profile);
-                            profile.pause=false;
-                        },200,5,'sineIn').start();
+                        //    profile.pause=false;
+                        //},200,5,'sineIn').start();
                     }
                 }
             },
@@ -736,7 +748,7 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
             }
         },
         DataModel:{
-            $borderW : 1,
+            $borderW : 0,
             readonly:false,
             // control width and height
             width : 400,
@@ -824,7 +836,7 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
             showBar:{
                 ini:true,
                 action:function(v){
-                    this.getSubNode('BAR').css('display',v?'':'none');
+                    this.getSubNode('TBAR').css('display',v?'':'none');
                     var p=this.properties,w=p.width,h=p.height;
                     p.width=p.height=0;
                     linb.UI.$tryResize(this,w,h);
@@ -854,10 +866,6 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
                 }
             },
 
-            _barHeight : 29,
-            _tipsHeight : 32,
-            _bigLabelHeight : 16,
-            _smallLabelHeight : 14,
             _scrollRate:5,
 
             multiTasks: {
@@ -921,16 +929,17 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
             onClickTask:function(profile, task, e, src){}
         },
         Appearances:{
-            BORDER:{
+            '.setting-timeline':{
+                height:'6px'
+            },
+            MAINI:{
+                'padding-top':'4px'
+            },
+            MAINC:{
                 overflow: 'hidden',
-                position: 'relative'
-            },
-            'BAR-focus BART':{
-                $order:2,
-                'background-position' : 'right -22px'
-            },
-            'BART':{
-                border:0
+                position: 'relative',
+                border:'solid 1px #648CB4',
+                background:'#fff'
             },
             'BARCMDL span':{
                 $order:0,
@@ -974,19 +983,26 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
                 height:'1000px',
                 width:'1px'
             },
-            'BIGLABEL, SMALLLABEL':{
-                'background-color':'#ECE9D8',
-                cursor:'move'
+            BIGLABEL:{
+                'z-index':3,
+                height:'16px',
+                'background-color':'#C8E2FC',
+                cursor:'move',
+                'border-bottom':'solid 1px #7BA3CB'
             },
-            'BIGLABEL,SMALLLABEL':{
-                'border-bottom':'solid 1px #505050'
+            SMALLLABEL:{
+                'z-index':4,
+                height:'14px',
+                'background-color':'#C8E2FC',
+                cursor:'move',
+                'border-bottom':'solid 1px #648CB4'
             },
             ITEMS:{
                 position:'relative',
                 background: linb.UI.$bg('bars.gif',' left top')
             },
             'BIGLABEL div, SMALLLABEL div':{
-                'border-left':'solid 1px #505050',
+                'border-left':'solid 1px #7BA3CB',
                 'text-align':'center',
                 position:'absolute',
                 cursor:'move',
@@ -1002,7 +1018,7 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
             },
             TIPS:{
                 position:'relative',
-                height:'16px',
+                height:'14px',
                 'font-size':'12px',
                 'line-height':'14px',
                 'text-align':'center'
@@ -1017,67 +1033,71 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
                 background:0,
                 height:'100%'
             },
-
+            'ZOOMIN, ZOOMOUT, DATE, PRE, NEXT, MIN':{
+                background: linb.UI.$bg('icons.gif', 'no-repeat', true)
+            },
             ZOOMIN:{
-                background: linb.UI.$bg('icons.gif', ' no-repeat  -271px top', true)
+                $order:1,
+                'background-position':'-360px -70px'
             },
             'ZOOMIN-mouseover':{
                 $order:2,
-                'background-position': '-271px -16px'
+                'background-position': '-360px -90px'
             },
             'ZOOMIN-mousedown':{
                 $order:3,
-                'background-position': '-271px -31px'
+                'background-position': '-360px -110px'
             },
             ZOOMOUT:{
-                background: linb.UI.$bg('icons.gif', ' no-repeat  -256px top', true)
+                $order:1,
+                'background-position':'-380px -70px'
             },
             'ZOOMOUT-mouseover':{
                 $order:2,
-                'background-position': '-256px -16px'
+                'background-position': '-380px -90px'
             },
             'ZOOMOUT-mousedown':{
                 $order:3,
-                'background-position': '-256px -31px'
+                'background-position': '-380px -110px'
             },
             DATE:{
-                background: linb.UI.$bg('icons.gif', ' no-repeat  -46px -65px', true)
+                $order:1,
+                'background-position':'-340px -70px'
             },
             'DATE-mouseover':{
                 $order:2,
-                'background-position':' -46px -80px'
+                'background-position':' -340px -90px'
             },
             'DATE-mousedown':{
                 $order:3,
-                'background-position':' -46px -95px'
-            },
-            MIN:{
-                background: linb.UI.$bg('icons.gif', ' no-repeat  -31px -65px', true)
+                'background-position':' -340px -110px'
             },
             PRE:{
-                background: linb.UI.$bg('icons.gif', ' no-repeat  0 -65px', true),
+                $order:1,
+                'background-position':'-260px -70px',
                 top:'0'
             },
             'PRE-mouseover':{
                 $order:2,
-                'background-position': '0 -80px'
+                'background-position': '-260px -90px'
             },
             'PRE-mousedown':{
                 $order:3,
-                'background-position': '0 -95px'
+                'background-position': '-260px -110px'
             },
             NEXT:{
+                $order:1,
                 position:'absolute',
-                background: linb.UI.$bg('icons.gif', ' no-repeat  -16px -65px', true),
+                'background-position':'-280px -70px',
                 top:'0'
             },
             'NEXT-mouseover':{
                 $order:2,
-                'background-position': '-16px -80px'
+                'background-position': '-280px -90px'
             },
             'NEXT-mousedown':{
                 $order:3,
-                'background-position': '-16px -95px'
+                'background-position': '-280px -110px'
             },
             ITEM:{
                 position:'absolute',
@@ -1092,21 +1112,21 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
                 overflow:'hidden',
                 'z-index':'1'
             },
-            'MIN':{
+            MIN:{
                 width:'16px',
-                background: linb.UI.$bg('icons.gif', ' no-repeat -30px -65px', true),
+                'background-position':'-320px -70px',
                 cursor:'pointer'
             },
             'MIN-mouseover':{
-                'background-position': '-30px -80px'
+                'background-position': '-320px -90px'
             },
             'MIN-mousedown':{
-                'background-position': '-30px -95px'
+                'background-position': '-320px -110px'
             },
             NORMAL:{
                 cursor:'pointer',
-                'background-color': '#C6D6F7',
-                border:'solid 1px #203A83'
+                'background-color': '#B3D7FB',
+                border:'solid 1px #648CB4'
             },
             'NORMAL-mouseover':{
                 $order:2,
@@ -1212,7 +1232,7 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
             d._bWidth = p.width - 2*p.$borderW;
             d._bHeight = p.height - 2*p.$borderW;
             //view
-            p._viewHeight = d._bHeight - (p.showTips&&p._tipsHeight) - (p.showBigLabel?p._bigLabelHeight:0) - p._smallLabelHeight - (p.showBar&&p._barHeight);
+            p._viewHeight = d._bHeight;
             d._tipsdisplay=p.showTips?'':nodisplay;
             d._bardisplay = p.showBar?'':nodisplay;
 
@@ -1440,9 +1460,9 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
                 m,n,increment;
 
             if(increment=t.increment){
-                m=x;
+                m=Math.floor((w+increment-1)/increment);
                 x=Math.floor(x/increment)*increment;
-                w=Math.floor((w-x+m+increment-1)/increment)*increment;
+                w=m*increment;
             }
 
             m = (p(x)||0);
@@ -1834,20 +1854,26 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
         _onresize:function(profile,width,height){
             var p=profile.properties,
                 f=function(k){return profile.getSubNode(k)},
+                _tbarH=f('TBAR').height(),
+                _bbarH=f('BBAR').height(),
+                _tipsH=f('TAIL').height(),
+                _bigLabelH=f('BIGLABEL').height(),
+                _smallLabelH=f('SMALLLABEL').height(),
                 off1=2*p.$borderW,
                 off2=3,
                 t;
+            var cache=linb.UI.$CSSCACHE,
+                ck='.setting-timeline:height',
+                toff=cache[ck]||(cache[ck]=parseInt(linb.CSS.$getCSSValue('.setting-timeline','height'))||0);
+ 
             //for border, view and items
-            if(height && height!=p.height && parseInt(profile.domNode.style.height)){
+            if(height){
                 f('BORDER').height(t=height-off1);
-                f('VIEW').height(t=t - (p.showTips&&p._tipsHeight) -off2 - (p.showBigLabel?p._bigLabelHeight:0) - p._smallLabelHeight - (p.showBar&&p._barHeight));
+                f('VIEW').height(t=t - (p.showTips?_tipsH:0) -off2 - (p.showBigLabel?_bigLabelH:0) - _smallLabelH - (p.showBar?(_tbarH+_bbarH):0)-toff);
                 this._ajustHeight(profile);
-
-                if(p.height!=height)p.height=height;
             }
             if(width && width!=p.width){
                 f('BORDER').width(width-off1);
-                p.width=width;
 
                 //if width changed, refresh the timeline
                 if(!p.fixWidth){

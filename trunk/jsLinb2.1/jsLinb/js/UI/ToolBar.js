@@ -64,26 +64,29 @@ Class("linb.UI.ToolBar",["linb.UI","linb.absList"],{
                                 style:'{itemStyle} {boxDisplay}',
                                 BTNI:{
                                     className:'ui-btni',
-                                    BOX:{ 
-                                        tagName:'a',
-                                        href:linb.$href,
-                                        tabindex: '{_tabindex}',
-                                        BOXWRAP:{
-                                            tagName:'div',
-                                            ICON:{
-                                                $order:1,
-                                                className:'ui-icon',
-                                                style:'background:url({image}) transparent no-repeat  {imagePos}; {iconDisplay}'
-                                            },
-                                            CAPTION:{
-                                                $order:2,
-                                                text : '{caption}',
-                                                className:" {disabled}",
-                                                style:'{captionDisplay}'
-                                            },
-                                            DROP:{
-                                                $order:3,
-                                                style:'{dropDisplay}'
+                                    BTNC:{
+                                        className:'ui-btnc',
+                                        BOX:{ 
+                                            tagName:'a',
+                                            href:linb.$href,
+                                            tabindex: '{_tabindex}',
+                                            BOXWRAP:{
+                                                tagName:'div',
+                                                ICON:{
+                                                    $order:1,
+                                                    className:'ui-icon',
+                                                    style:'background:url({image}) transparent no-repeat  {imagePos}; {iconDisplay}'
+                                                },
+                                                CAPTION:{
+                                                    $order:2,
+                                                    text : '{caption}',
+                                                    className:" {disabled}",
+                                                    style:'{captionDisplay}'
+                                                },
+                                                DROP:{
+                                                    $order:3,
+                                                    style:'{dropDisplay}'
+                                                }
                                             }
                                         }
                                     }
@@ -130,12 +133,15 @@ Class("linb.UI.ToolBar",["linb.UI","linb.absList"],{
                 'vertical-align':'middle',
                 padding:'1px'
             },
+            'BTNC a':{
+                padding:0
+            },
             'SPLIT':{
                 $order:1,
                 width:'6px',
                 height:'19px',
                 'vertical-align':'middle',
-                background: linb.UI.$bg('split_vertical.gif', ' repeat-y left top', true)
+                background: linb.UI.$bg('split_vertical.gif', 'repeat-y left top', true)
             },
             BTN:{
                 'padding-right':'3px'
@@ -147,7 +153,7 @@ Class("linb.UI.ToolBar",["linb.UI","linb.absList"],{
                 width:'11px',
                 height:'16px',
                 'vertical-align':'top',
-                background: linb.UI.$bg('drop.gif', ' no-repeat left center', 'Button')
+                background: linb.UI.$bg('drop.gif', 'no-repeat left center', 'Button')
             },
             'BTN-mouseover DROP':{
                 $order:2,
@@ -201,7 +207,11 @@ Class("linb.UI.ToolBar",["linb.UI","linb.absList"],{
                 }
             },
 
-            height:null,
+            height:{
+                ini:'auto',
+                readonly:true
+            },
+            width:'auto',
 
             left:0,
             top:0,

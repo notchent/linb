@@ -50,7 +50,7 @@ Class('App.TreeView', 'linb.Com',{
         },
         onCmdClick:function(btn){
             var id=btn.parentNode.id,
-                profile=linb.UIProfile.getFromDomId(id),
+                profile=linb.UIProfile.getFromDom(id),
                 cell=profile.cellMap[profile.getSubId(id)],
                 cls=btn.className,
                 row=cell._row,

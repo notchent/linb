@@ -19,7 +19,7 @@ Class("linb.UI.PopMenu",["linb.UI.Widget","linb.absList"],{
                 root.cssSize({width:w,height:h});
 
                 //avoid blazing(shadow elements) when resize the border
-                linb.UI.$tryResize(profile,w,h,null,true);
+                linb.UI.$tryResize(profile,w,h,true);
                 if(pro.shadow){
                     profile.$noS=true;
                     var ins=profile.boxing();
@@ -295,7 +295,7 @@ Class("linb.UI.PopMenu",["linb.UI.Widget","linb.absList"],{
                 top:0,
                 left:0,
                 overflow:'visible',
-                background: linb.UI.$bg('bg.gif', ' repeat-y left top')
+                background: linb.UI.$bg('bg.gif', 'repeat-y left top')
             },
             ITEM:{
                 display:'block',
@@ -316,7 +316,7 @@ Class("linb.UI.PopMenu",["linb.UI.Widget","linb.absList"],{
                 'line-height':'1px',
                 padding:'1px',
                 margin:'2px 2px 2px 26px',
-                background: linb.UI.$bg('split_horizontal.gif', ' repeat-x left top', true)
+                background: linb.UI.$bg('split_horizontal.gif', 'repeat-x left top', true)
             },
             'ITEM-mouseover':{
                 $order:1,
@@ -331,7 +331,7 @@ Class("linb.UI.PopMenu",["linb.UI.Widget","linb.absList"],{
                 padding:'1px 19px 1px 1px'
             },
             CHECKBOX:{
-               background: linb.UI.$bg('icons.gif', ' no-repeat -112px 1px', true),
+               background: linb.UI.$bg('icons.gif', 'no-repeat -20px -70px', true),
                margin:0
             },
             ICON:{
@@ -339,7 +339,7 @@ Class("linb.UI.PopMenu",["linb.UI.Widget","linb.absList"],{
             },
             'CHECKBOX-checked':{
                $order:1,
-               background: linb.UI.$bg('icons.gif', ' no-repeat -96px 1px', true)
+               background: linb.UI.$bg('icons.gif', 'no-repeat -0px -70px', true)
             },
             TOP:{
                 cursor:'pointer',
@@ -351,7 +351,7 @@ Class("linb.UI.PopMenu",["linb.UI.Widget","linb.absList"],{
                 width:'16px',
                 'z-index':'10',
                 top:0,
-                background: linb.UI.$bg('icons.gif', ' no-repeat -48px -244px', true)
+                background: linb.UI.$bg('icons.gif', 'no-repeat -48px -244px', true)
             },
             BOTTOM:{
                 cursor:'pointer',
@@ -363,7 +363,7 @@ Class("linb.UI.PopMenu",["linb.UI.Widget","linb.absList"],{
                 width:'16px',
                 'z-index':'10',
                 bottom:0,
-                background: linb.UI.$bg('icons.gif', ' no-repeat -66px -244px', true)
+                background: linb.UI.$bg('icons.gif', 'no-repeat -66px -244px', true)
             },
             'CHECKBOX, CHECKBOX-checked':{
                 cursor:'pointer',
@@ -395,7 +395,7 @@ Class("linb.UI.PopMenu",["linb.UI.Widget","linb.absList"],{
                 right:0,
                 width:'8px',
                 height:'16px',
-                background: linb.UI.$bg('icons.gif', ' no-repeat -168px -66px', true)
+                background: linb.UI.$bg('icons.gif', 'no-repeat -200px -70px', true)
             }
         },
         Behaviors:{

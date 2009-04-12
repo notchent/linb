@@ -3,32 +3,35 @@ Class('App', 'linb.Com',{
         iniComponents:function(){
             // [[code created by jsLinb UI Builder
             var host=this, children=[], append=function(child){children.push(child.get(0))};
-
+            
             append((new linb.UI.Block)
                 .host(host,"Block13")
                 .setDock("right")
                 .setWidth(80)
                 .setBorder(true)
                 .setHtml("dock : right")
+                .setBorderType("none")
             );
-
+            
             append((new linb.UI.Block)
                 .host(host,"Block11")
                 .setDock("top")
                 .setDockOrder("2")
-                .setDockMargin({"left":20, "top":20, "right":20, "bottom":20})
+                .setDockMargin({"left":20, "right":20, "top":20, "bottom":0})
                 .setBorder(true)
-                .setHtml("dock : top ; dockOder : 2 ; dockMaring : {left:20,top:20,bottom:20,right:20}")
+                .setHtml("dock : top ; dockOder : 2 ; dockMaring : {left:20,top:20,bottom:0,right:20}")
+                .setBorderType("none")
             );
-
+            
             append((new linb.UI.Block)
                 .host(host,"Block14")
                 .setDock("bottom")
                 .setHeight(60)
                 .setBorder(true)
                 .setHtml("dock : bottom")
+                .setBorderType("none")
             );
-
+            
             append((new linb.UI.Block)
                 .host(host,"Block15")
                 .setDock("middle")
@@ -38,8 +41,9 @@ Class('App', 'linb.Com',{
                 .setHeight(78)
                 .setBorder(true)
                 .setHtml("dock : middle")
+                .setBorderType("none")
             );
-
+            
             append((new linb.UI.Block)
                 .host(host,"Block18")
                 .setDock("origin")
@@ -49,8 +53,9 @@ Class('App', 'linb.Com',{
                 .setHeight(88)
                 .setBorder(true)
                 .setHtml("dock : origin(both center and middle)")
+                .setBorderType("none")
             );
-
+            
             append((new linb.UI.Block)
                 .host(host,"Block20")
                 .setDock("center")
@@ -61,8 +66,9 @@ Class('App', 'linb.Com',{
                 .setZIndex("20")
                 .setBorder(true)
                 .setHtml("dock : center")
+                .setBorderType("none")
             );
-
+            
             append((new linb.UI.Block)
                 .host(host,"Block22")
                 .setLeft(110)
@@ -71,8 +77,9 @@ Class('App', 'linb.Com',{
                 .setHeight(70)
                 .setBorder(true)
                 .setHtml("dock : none")
+                .setBorderType("none")
             );
-
+            
             append((new linb.UI.Block)
                 .host(host,"Block29")
                 .setLeft(100)
@@ -80,50 +87,53 @@ Class('App', 'linb.Com',{
                 .setWidth(190)
                 .setHeight(30)
                 .setBorder(true)
+                .setBorderType("none")
             );
-
+            
             append((new linb.UI.Block)
                 .host(host,"Block10")
                 .setDock("top")
                 .setHeight(30)
                 .setBorder(true)
                 .setHtml("dock : top")
+                .setBorderType("none")
             );
-
+            
             append((new linb.UI.Block)
                 .host(host,"Block30")
                 .setDock("width")
-                .setLeft(530)
-                .setTop(100)
+                .setTop(180)
                 .setHeight(80)
                 .setBorder(true)
                 .setHtml("dock : width")
+                .setBorderType("none")
             );
-
+            
             append((new linb.UI.Block)
                 .host(host,"Block3")
                 .setDock("height")
                 .setDockMinH("500")
                 .setLeft(530)
-                .setTop(160)
                 .setWidth(180)
                 .setZIndex("30")
                 .setBorder(true)
                 .setHtml("dock : height ; dockMinH : 500")
+                .setBorderType("none")
             );
-
+            
             append((new linb.UI.Block)
                 .host(host,"Block12")
                 .setDock("left")
                 .setWidth(70)
                 .setBorder(true)
                 .setHtml("dock : left")
+                .setBorderType("none")
             );
-
+            
             return children;
             // ]]code created by jsLinb UI Builder
-        },
-        base:[],
+        }, 
+        base:[], 
         required:["linb.UI.Block"]
     }
 });

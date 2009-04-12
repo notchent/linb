@@ -29,21 +29,26 @@ Class("linb.UI.LinkList", ["linb.UI.List"],{
             ITEM:{
                 'vertical-align':'middle',
                 position:'relative',
-                background: linb.UI.$bg('icons.gif', ' no-repeat left -130px', true),
+                background: linb.UI.$bg('icons.gif', 'no-repeat left -130px', true),
                 'border-right':'solid 1px #7C9CBC',
                 height:'16px',
                 padding:'3px',
                 'white-space':'nowrap'
+            },
+            'ITEM-mouseover, ITEM-mousedown, ITEM-checked':{
             },
             'ITEM-mouseover':{
                 $order:1,
                 'background-position': 'left -153px'
             },
             'ITEM-mousedown':{
-                $order:1,
+                $order:2,
                 'background-position': 'left -176px'
             },
-            'ITEM-checked':{},
+            'ITEM-checked':{
+                $order:2,
+                'background-position': 'left -176px'
+            },
             LINK:{
                 display:linb.$inlineBlock,
                 zoom:linb.browser.ie6?1:null,

@@ -181,6 +181,7 @@ Class('App', 'linb.Com',{
             
             host.paneTop.append((new linb.UI.Button)
                 .host(host,"btnLang")
+                .setDomId("btnLang")
                 .setTop(10)
                 .setWidth("80")
                 .setRight("10")

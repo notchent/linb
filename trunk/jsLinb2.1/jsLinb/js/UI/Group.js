@@ -87,7 +87,9 @@ Class("linb.UI.Group", "linb.UI.Div",{
                 'margin-left':'3px'
             },
             HANDLE:{
-                cursor:'default'
+                cursor:'default',
+                'padding-right':'3px',
+                display:linb.$inlineBlock
             },
             PANEL:{
                 position:'relative',

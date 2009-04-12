@@ -19,7 +19,7 @@ Class('App.linb_UI_Poll', 'linb.Com',{
             
             host.block1.append((new linb.UI.Poll)
                 .host(host,"poll05")
-                .setItems([{"id":"a", "caption":"option 1", "message":"1", "percent":"0.1"}, {"id":"b", "caption":"option 2", "message":"9", "percent":"0.9"}])
+                .setItems([{"id":"a", "caption":"option 1", "message":"1", "percent":"0.1"}, {"id":"b", "caption":"option 2", "message":"90%", "percent":"0.9"}])
                 .setDisabled(true)
                 .setLeft(null)
                 .setTop(null)
@@ -32,7 +32,7 @@ Class('App.linb_UI_Poll', 'linb.Com',{
             
             host.block1.append((new linb.UI.Poll)
                 .host(host,"poll02")
-                .setItems([{"id":"a", "caption":"option 1", "message":"2", "percent":"0.2"}, {"id":"b", "caption":"option 2", "message":"8", "percent":"0.8"}])
+                .setItems([{"id":"a", "caption":"option 1", "message":"2", "percent":"0.2"}, {"id":"b", "caption":"option 2", "message":"80%", "percent":"0.8"}])
                 .setLeft(null)
                 .setTop(null)
                 .setWidth("auto")
@@ -45,7 +45,7 @@ Class('App.linb_UI_Poll', 'linb.Com',{
             
             host.block1.append((new linb.UI.Poll)
                 .host(host,"poll06")
-                .setItems([{"id":"a", "caption":"option 1", "message":"4", "percent":"0.4"}, {"id":"b", "caption":"option 2", "message":"6", "percent":"0.6"}])
+                .setItems([{"id":"a", "caption":"option 1", "message":"4", "percent":"0.4"}, {"id":"b", "caption":"option 2", "message":"60%", "percent":"0.6"}])
                 .setLeft(null)
                 .setTop(null)
                 .setWidth("auto")
@@ -58,7 +58,7 @@ Class('App.linb_UI_Poll', 'linb.Com',{
             
             host.block1.append((new linb.UI.Poll)
                 .host(host,"poll03")
-                .setItems([{"id":"a", "caption":"option 1", "message":"1", "percent":"0.1"}, {"id":"b", "caption":"option 2", "message":"9", "percent":"0.9"}])
+                .setItems([{"id":"a", "caption":"option 1", "message":"1", "percent":"0.1"}, {"id":"b", "caption":"option 2", "message":"90%", "percent":"0.9"}])
                 .setLeft(null)
                 .setTop(null)
                 .setWidth("auto")
@@ -71,7 +71,7 @@ Class('App.linb_UI_Poll', 'linb.Com',{
             
             host.block1.append((new linb.UI.Poll)
                 .host(host,"poll01")
-                .setItems([{"id":"a", "caption":"option 1", "message":"1", "percent":"0.1"}, {"id":"b", "caption":"option 2", "message":"9", "percent":"0.9"}])
+                .setItems([{"id":"a", "caption":"option 1", "message":"1", "percent":"0.1"}, {"id":"b", "caption":"option 2", "message":"90%", "percent":"0.9"}])
                 .setLeft(null)
                 .setTop(null)
                 .setWidth("auto")
@@ -87,7 +87,7 @@ Class('App.linb_UI_Poll', 'linb.Com',{
             
             host.block1.append((new linb.UI.Poll)
                 .host(host,"poll04")
-                .setItems([{"id":"a", "caption":"option 1", "message":"2", "percent":"0"}, {"id":"b", "caption":"option 2", "message":"8", "percent":"1"}])
+                .setItems([{"id":"a", "caption":"option 1", "message":"2", "percent":"0"}, {"id":"b", "caption":"option 2", "message":"100%", "percent":"1"}])
                 .setLeft(null)
                 .setTop(null)
                 .setWidth("auto")

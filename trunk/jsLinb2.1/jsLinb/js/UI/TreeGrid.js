@@ -386,7 +386,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                             style:'width:10000px;',
                             HCELLS:{
                                 tagName:'div',
-                                style:'height:{headerHeight}px;',
+                                style:'{headerHeight};',
                                 /*the first col (row handler) in table header*/
                                 HCELL0:{
                                     $order:0,
@@ -569,7 +569,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
             },
 
             HEADER:{
-                background:  linb.UI.$bg('head.gif', ' #CAE3FF repeat-x left top'),
+                background:  linb.UI.$bg('head.gif', '#CAE3FF repeat-x left top'),
                 position:'relative',
                 overflow:'hidden'
             },
@@ -587,14 +587,14 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                 top:0,
                 cursor:'pointer',
                 visibility:'hidden',
-                background:  linb.UI.$bg('collist.gif', ' #FFF1A0 no-repeat center bottom'),
+                background:  linb.UI.$bg('collist.gif', '#FFF1A0 no-repeat center bottom'),
                 border:'1px solid',
                 'border-color':  '#fff #ACA899 #ACA899 #fff'
             },
             BODY:{
                 overflow:'visible',
                 position:'absolute',
-                'background-color':' #fff',
+                'background-color':'#fff',
                 left:0,
                 top:'0',
                 'font-size':0,
@@ -602,34 +602,34 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                 'border-bottom': '1px solid #ACA899'
             },
             'SORT, SORT-checked':{
-                width:'15px',
-                height:'15px'
+                width:'16px',
+                height:'16px'
             },
             SORT:{
-                background: linb.UI.$bg('icons.gif', ' no-repeat -192px top', true),
+                background: linb.UI.$bg('icons.gif', 'no-repeat -110px -220px', true),
                 position:'absolute',
                 right:'2px',
                 bottom:'2px'
             },
             'HCELL-mouseover SORT':{
                 $order:1,
-                'background-position': '-192px -15px'
+                'background-position': '-110px -240px'
             },
             'HCELL-mousedown SORT':{
                 $order:2,
-                'background-position': '-192px -30px'
+                'background-position': '-110px -260px'
             },
             'SORT-checked':{
                 $order:3,
-                'background-position': '-206px top'
+                'background-position': '-130px -220px'
             },
             'HCELL-mouseover SORT-checked':{
                 $order:4,
-                'background-position': '-206px -15px'
+                'background-position': '-130px -240px'
             },
             'HCELL-mousedown SORT-checked':{
                 $order:5,
-                'background-position': '-206px -30px'
+                'background-position': '-130px -260px'
             },
             HHANDLER:{
                 position:'absolute',
@@ -686,11 +686,12 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                  color:'#999'
             },
             'CELLS-active, CELL-active':{
-                 $order:5
+                 $order:5,
+                 'background-color':'#F6D009'
             },
             'CELLS-checked, CELL-checked':{
                  $order:6,
-                'background-color':'#F6D009'
+                'background-color':'#C87800'
             },
             'HCELL0, FIRSTCELL, GROUPCAP':{
                height:'100%',
@@ -740,7 +741,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                 'line-height':'14px'
             },
             'HCELL-mouseover':{
-                background:  linb.UI.$bg('head-mouseover.gif', ' #FFF1A0 repeat-x left top')
+                background:  linb.UI.$bg('head-mouseover.gif', '#FFF1A0 repeat-x left top')
             },
             ROW:{
                 position:'relative',
@@ -803,12 +804,6 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                 'text-align': 'center',
                 'font-weight': 'bold'
             },
-            CHECKBOX:{
-               cursor:'pointer',
-               width:'16px',
-               height:'16px',
-               background: linb.UI.$bg('icons.gif', ' no-repeat -112px top', true)
-            },
             PROGRESS:{
                 height:'100%',
                 'background-color':'#00ffff',
@@ -817,25 +812,31 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                 opacity:0.7,
                 '*filter':'alpha(opacity=70)'
             },
+            CHECKBOX:{
+               cursor:'pointer',
+               width:'16px',
+               height:'16px',
+               background: linb.UI.$bg('icons.gif', 'no-repeat -20px -70px', true)
+            },
             'CELL-mouseover CHECKBOX':{
                 $order:1,
-                'background-position': '-112px -17px'
+                'background-position': '-20px -90px'
             },
             'CELL-mousedown CHECKBOX':{
                 $order:2,
-                'background-position': '-112px -34px'
+                'background-position': '-20px -110px'
             },
             'CHECKBOX-checked':{
                 $order:3,
-                'background-position': '-96px top'
+                'background-position': '0 -70px'
             },
             'CELL-mouseover CHECKBOX-checked':{
                 $order:4,
-                'background-position': '-96px -17px'
+                'background-position': '0 -90px'
             },
             'CELL-mousedown CHECKBOX-checked':{
                 $order:5,
-                'background-position': '-96px -34px'
+                'background-position': '0 -110px'
             },
             SUB:{
                 //for ie bug: relative , height='auto' will disppear
@@ -1047,6 +1048,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                     }else{
                         cells=profile.getSubNode('HCELLS');
                         cells.height(profile.properties.headerHeight=cells.height('auto').height());
+                        linb.UI.$tryResize(profile,null,profile.root.height());
                     }
                     return false;
                 },
@@ -1610,7 +1612,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                 }
             },
             headerHeight:{
-                ini:20,
+                ini:18,
                 action:function(v){
                     this.getSubNode('HCELLS').height(v);
                     linb.UI.$tryResize(this, this.root.width(), this.root.height());
@@ -1784,7 +1786,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                 dragCursor:'pointer',
                 dragDefer:2,
                 dragKey: profile.box.getDragKey(profile, src),
-                dragData: profile.box.getDragData(profile, src)
+                dragData: profile.box.getDragData(profile, e, src)
             });
             return false;
         },
@@ -1864,6 +1866,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
             data.colDDDisplay=pro.colResizer?'':NONE;
             data.rowDDDisplay=pro.rowResizer?'':NONE;
             data.rowHandlerDisplay=pro.rowHandler?'':NONE;
+            data.headerHeight=data.headerHeight?('height:'+data.headerHeight+'px;'):'';
 
             if(pro.header && pro.header.constructor != Array)
                 pro.header = [];
@@ -2526,11 +2529,11 @@ caption
             //show editor
             if(type=='textarea'){
                 editor.setWidth(Math.max(200,size.width+3)).setHeight(Math.max(100,size.height+2))
-                .resize()
+                .reLayout(true,true)
                 .reBoxing()
                 .popToTop(cellNode, 4, baseNode);
             }else{
-                editor.setWidth(size.width+3).setHeight(size.height+2).resize();
+                editor.setWidth(size.width+3).setHeight(size.height+2).reLayout(true,true);
                 editor.reBoxing().show((absPos.left-1) + 'px',(absPos.top-1) + 'px');
             }
             _.asyRun(function(){
@@ -2577,6 +2580,7 @@ caption
             if(width)t1.width(width);
             if(height)rh=t1.offsetHeight();
             t2.cssSize({width:width, height: height?(height-rh):null});
+
             _.asyRun(function(){t2.onScroll()});
         }
    }

@@ -11,7 +11,8 @@ Class("linb.UI.RadioBox", "linb.UI.List",{
                     href :linb.$href,
                     tabindex: '{_tabindex}',
                     MARK:{
-                        $order:0
+                        $order:0,
+                        className:'uicmd-radio'
                     },
                     ICON:{
                         style:'background:url({image}) transparent  no-repeat {imagePos};{iconDisplay}',
@@ -28,6 +29,7 @@ Class("linb.UI.RadioBox", "linb.UI.List",{
         this.setTemplate(t);
     },
     Static:{
+        DIRTYKEY:'MARK',
         Appearances:{
             ITEM:{
                display:linb.$inlineBlock,
@@ -42,37 +44,6 @@ Class("linb.UI.RadioBox", "linb.UI.List",{
                'vertical-align':'middle',
                'font-size':'12px'
             },
-            'ITEM-checked':{},
-            'ITEM-mouseover':{},
-            'ITEM-mousedown':{},
-            MARK:{
-               cursor:'pointer',
-               width:'16px',
-               height:'16px',
-               margin:'0 4px 0 2px',
-               'vertical-align':'middle',
-               background: linb.UI.$bg('icons.gif', ' no-repeat -145px top', true)
-           },
-           'ITEM-mouseover MARK':{
-                $order:1,
-                'background-position':' -145px -17px'
-           },
-           'ITEM-mousedown MARK':{
-                $order:2,
-                'background-position':' -145px -34px'
-           },
-           'ITEM-checked MARK':{
-                $order:3,
-                'background-position':' -128px top'
-           },
-           'ITEM-checked-mouseover MARK':{
-                $order:4,
-                'background-position':' -128px -17px'
-           },
-           'ITEM-checked-mousedown MARK':{
-                $order:5,
-                'background-position':' -128px -34px'
-            },
             CAPTION:{
                 'vertical-align':'middle'
             },
@@ -80,9 +51,11 @@ Class("linb.UI.RadioBox", "linb.UI.List",{
                 overflow:'auto',
                 'overflow-x': (linb.browser.ie || linb.browser.gek)?'hidden':'',
                 position:'relative',
-                'line-height':'14px',
-                background: 'url('+linb.ini.file_bg+') no-repeat left top'
+                'line-height':'14px'
             }
+        },Behaviors:{
+            HoverEffected:{ITEM:'MARK'},
+            ClickEffected:{ITEM:'MARK'}
         }
     }
 });

@@ -9,14 +9,14 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                 if(type!=='none'&& !profile.properties.multiLines && typeof value=='string' && r1.test(value))value=value.replace(r2,'');
                 o.attr('value',value||'');
                 if(type=='colorpicker'){
-                    profile.getSubNode('BORDER').css('backgroundColor',value);
+                    profile.getSubNode('BOX').css('backgroundColor',value);
                     o.css('color',linb.UI.ColorPicker.getTextColor(value));
                 }
             })
         },
         _compareValue:function(v1,v2){
             var profile=this.get(0),t;
-            if(t= profile.$compareValue|| profile.CF.compareValue)
+            if(t= profile.CF.compareValue||profile.$compareValue)
                 return t(profile, v1, v2);
 
             return v1===v2;
@@ -25,7 +25,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
             var profile=this.get(0),
                 pro=profile.properties,v,t;
 
-            if(t= profile.$getShowValue|| profile.CF.getShowValue)
+            if(t= profile.CF.getShowValue||profile.$getShowValue)
                 v = t(profile, value);
             else{
                 //get from items
@@ -48,7 +48,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
             var profile=this.get(0),
                 pro=profile.properties,t;
 
-                if(t= profile.$getEditValue|| profile.CF.getEditValue)
+                if(t= profile.CF.getEditValue||profile.$getEditValue)
                     return t(profile, value);
             return value;
         },
@@ -56,7 +56,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
             var profile=this.get(0),
                 pro=profile.properties,t;
 
-                if(t= profile.$fromEditValue|| profile.CF.fromEditValue)
+                if(t= profile.CF.fromEditValue||profile.$fromEditValue)
                     return t(profile, value);
             return value;
         },
@@ -368,10 +368,18 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                 position:'relative',
                 'float':'right'
             },
+            'SBTN,BTN,R1,R2':{
+                'margin-top':'2px'
+            },
+            'R1, R2, BTN, SBTN, STOP, TOP, R1T, R2T, R1B, R2B, SMID,MID':{
+                background: linb.UI.$bg('bg.gif')
+            },
             'SBTN,BTN':{
-                background: linb.UI.$bg('bg.gif', ' left bottom no-repeat')
+                $order:1,
+                'background-position':'left bottom'
             },
             'R1,R2':{
+                $order:1,
                 display:'block',
                 'font-size':0,
                 'line-height':0,
@@ -379,40 +387,42 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                 width:'16px',
                 position:'absolute',
                 height:'50%',
-                background: linb.UI.$bg('bg.gif', ' left bottom no-repeat')
+                'background-position':'left bottom',
+                'margin-top':'2px'
             },
             R1:{
                 top:0
             },
             R2:{
-                bottom:0
+                bottom:'-2px'
             },
 
             'BTN-mouseover, SBTN-mouseover, R1-mouseover, R2-mouseover':{
-                $order:1,
+                $order:2,
                 'background-position': '-16px bottom'
             },
             'BTN-mousedown, SBTN-mousedown, R1-mousedown, R2-mousedown':{
-                $order:2,
+                $order:3,
                 'background-position': '-32px bottom'
             },
             'STOP, TOP, R1T, R2T':{
+                $order:1,
                 cursor:'pointer',
                 width:'16px',
                 'font-size':0,
                 'line-height':0,
                 position:'absolute',
-                top:0,
+                top:'-2px',
                 left:0,
                 height:'4px',
-                background: linb.UI.$bg('bg.gif', ' left -104px no-repeat')
+                'background-position':'left -104px'
             },
             'BTN-mouseover TOP,SBTN-mouseover STOP, R1-mouseover R1T, R2-mouseover R2T':{
-                $order:1,
+                $order:2,
                 'background-position': '-16px -104px'
             },
             'BTN-mousedown TOP,SBTN-mousedown STOP, R1-mousedown R1T, R2-mousedown R2T':{
-                $order:2,
+                $order:3,
                 'background-position': '-32px -104px'
             },
             'R1B,R2B':{
@@ -423,16 +433,20 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                 position:'absolute',
                 left:0,
                 top:'50%',
-                'margin-top':'-3px',
-                height:'6px'
+                'margin-top':'-4px',
+                height:'6px',
+                'z-index':2
             },
             R1B:{
-                background: linb.UI.$bg('bg.gif', ' -14px -36px no-repeat')
+                $order:1,
+                'background-position':'-14px -36px'
             },
             R2B:{
-                background: linb.UI.$bg('bg.gif', ' left -5px no-repeat')
+                $order:1,
+                'background-position':'left -5px'
             },
             'SMID,MID':{
+                $order:2,
                 cursor:'pointer',
                 width:'16px',
                 'font-size':0,
@@ -441,15 +455,21 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                 bottom:'0',
                 left:0,
                 height:'16px',
-                background: linb.UI.$bg('bg.gif', ' left top no-repeat')
+                'background-position':'0 0'
             },
             SMID:{
                 $order:3,
                 'background-position': '-14px -16px'
+            },
+            '.setting-linb-comboinput':{
+                'border-top-width':'1px',
+                'border-bottom-width':'1px',
+                'border-left-width':'1px',
+                'border-right-width':'1px'
             }
         },
         Behaviors:{
-            HoverEffected:{KEY:'BORDER',BTN:'BTN',SBTN:'SBTN',R1:'R1',R2:'R2'},
+            HoverEffected:{BOX:'BOX',BTN:'BTN',SBTN:'SBTN',R1:'R1',R2:'R2'},
             ClickEffected:{BTN:'BTN',SBTN:'SBTN',R1:'R1',R2:'R2'},
             UPLOAD:{
                 onClick : function(profile, e, src){
@@ -665,9 +685,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                 action:function(v){
                     this.boxing().refresh();
                 }
-            },
-            $hborder:1,
-            $vborder:1
+            }
         },
         RenderTrigger:function(){
             var self=this,
@@ -705,8 +723,8 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                 var t=template.FRAME.BORDER;
 
                 if(properties.multiLines){
-                    t.BOX.INPUT.tagName='textarea';
-                    delete t.BOX.INPUT.type;
+                    t.BOX.WRAP.INPUT.tagName='textarea';
+                    delete t.BOX.WRAP.INPUT.type;
                 }
 
                 switch(properties.type){
@@ -778,31 +796,62 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
             }
         },
         _onresize:function(profile,width,height){
-            var size=linb.UI.Widget._onresize.apply(this,arguments),
-                prop=profile.properties,
+            var $hborder=1, $vborder=1,
+                cache=linb.UI.$CSSCACHE,
+                ck='.linb-input-wrap:top',
+                toff=cache[ck]||(cache[ck]=parseInt(linb.CSS.$getCSSValue('.linb-input-wrap','top'))||0);
+
+            var t = profile.properties,
+                o = profile.getSubNode('BOX'),
+                o2 = profile.getSubNode('BORDER'),
                 px='px',
                 f=function(k){return k?profile.getSubNode(k)._nodes[0]:null},
-                type=prop.type,
-                v1=profile.getSubNode('INPUT'),
-                save=f(prop.saveBtn?'SBTN':null),
-                btn=f(type=='spin'?'RBTN':type=='none'?null:'BTN')
-                ;
-
-            if(!_.isNull(width))
-                v1.width(size.width-(save?save.offsetWidth:0)-(btn?btn.offsetWidth:0));
-
-            if(!_.isNull(height)){
-                v1.height(size.height - v1._paddingH());
-
-                height=size.height+px;
-                if(save)save.style.height=height;
-                if(btn)btn.style.height=height;
-                if(prop.type=='spin'){
-                    height=size.height/2+px;
-                    f('R1').style.height=height;
-                    f('R2').style.height=height;
-                }
+                v1=f('INPUT'),
+                save=f(t.saveBtn?'SBTN':null),
+                btn=f(t.type=='spin'?'RBTN':t.type=='none'?null:'BTN'),
+                ww=width,
+                hh=height,
+                left=Math.max(0, (t.$b_lw||0)-$hborder),
+                top=Math.max(0, (t.$b_tw||0)-$vborder);
+            if(null!==ww){
+                ww -= Math.max($hborder*2, (t.$b_lw||0)+(t.$b_rw||0));
+                ww -= ((save?save.offsetWidth:0)+(btn?btn.offsetWidth:0));
+                /*for ie6 bug*/
+                /*for example, if single number, 100% width will add 1*/
+                /*for example, if single number, attached shadow will overlap*/
+                if(linb.browser.ie6)ww=(parseInt(ww/2))*2;
             }
+            if(null!==hh){
+                hh -=Math.max($vborder*2, (t.$b_lw||0) + (t.$b_rw||0));
+
+                if(linb.browser.ie6)hh=(parseInt(hh/2))*2;
+                /*for ie6 bug*/
+                if(linb.browser.ie6&&null===width)o.ieRemedy();
+            }   
+
+            if(null!==ww)
+                v1.style.width=ww+px;
+
+            if(null!==hh)
+                v1.style.height=(hh-toff)+px;
+
+            if(save)save.style.height=(height-2)+px;
+            if(btn)btn.style.height=(height-2)+px;
+            if(t.type=='spin'){
+                height=(height/2-2)+px;
+                f('R1').style.height=height;
+                f('R2').style.height=height;
+            }
+
+            o.cssRegion({left:left,top:top,width:ww,height:hh});
+            o2.cssRegion({width:width,height:height});
+
+            /*for ie6 bug*/
+            if((profile.$border||profile.$shadow||profile.$resizer) && linb.browser.ie){
+                o.ieRemedy();
+                o2.ieRemedy();
+            }
+
         }
     }
 });

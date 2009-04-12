@@ -7,6 +7,14 @@ Class("linb.CSS", null,{
         _baseid:'linb:css:base',
         _firstid:'linb:css:first',
         _lastid:'linb:css:last',
+        _rep:function(str){
+            return str.replace(/\.(\w+)\[CLASS~="\1"\]/g,'.$1')
+                     .replace(/\[ID"([^"]+)"\]/g,'#$1')
+                     .replace(/\*([.#])/g,'$1')
+                     .replace(/\s+/g,' ')
+                     .replace(/\*\|/g,'')
+                     .replace(/(\s*,\s*)/g,',').toLowerCase();
+        },
         _createCss:function(id, last){
             var ns=this,
                 head=this._getHead(),
@@ -150,12 +158,8 @@ Class("linb.CSS", null,{
                     try{o[ns._r]}catch(e){return}
                     _.arr.each(_.toArr(o[ns._r]),function(v,i){
                         if(!v.selectorText)return;
-                        selectorText =  v.selectorText.replace(/\.(\w+)\[CLASS~="\1"\]/g,'.$1')
-                                         .replace(/\[ID"([^"]+)"\]/g,'#$1')
-                                         .replace(/\*([.#])/g,'$1')
-                                         .replace(/\s+/g,' ')
-                                         .replace(/\*\|/g,'')
-                                         .replace(/(\s*,\s*)/g,',').toLowerCase();
+                        if(v.disabled)return;
+                        selectorText = ns._rep(v.selectorText);
                         /*Notice: in IE, no ',' in any selectorTExt*/
                         _t=_.toArr(selectorText);
                         //null=>remove
@@ -215,6 +219,25 @@ Class("linb.CSS", null,{
             if(force || add)
                 ns._addRules(selector,value);
             return ns;
+        },
+        $getCSSValue:function(selector, cssKey){
+            var ns=this,
+                ds=document.styleSheets,
+                r,b,
+                selectorText;
+            selector=_.str.trim(selector.replace(/\s+/g,' '));
+            _.arr.each(_.toArr(ds),function(o){
+                try{o[ns._r]}catch(e){return}
+                _.arr.each(_.toArr(o[ns._r]),function(v,i){
+                    if(!v.selectorText)return;
+                    if(v.disabled)return;
+                    selectorText =  ns._rep(v.selectorText);
+                    if(_.arr.indexOf(_.toArr(selectorText),selector)!=-1 &&(r=v.style[cssKey]))
+                        return b=false;
+                },null,true);
+                return b;
+            },null,true);
+            return r;
         },
         _addRules:function(selector,value){
             var ns=this,

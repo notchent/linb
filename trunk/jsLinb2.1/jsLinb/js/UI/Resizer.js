@@ -34,7 +34,7 @@ Class("linb.UI.Resizer","linb.UI",{
         }
     },
     Initialize:function(){
-        this.addTemplateKeys(['HANDLER','HIDDEN','MOVE','L','R','T','B','LT','RB','LB','RB']);
+        this.addTemplateKeys(['HANDLER','HIDDEN','MOVE','L','R','T','B','LT','RT','LB','RB']);
         _.each({
             // add resizer to linb.Dom plugin
             addResizer:function(properties, onUpdate){
@@ -71,7 +71,7 @@ Class("linb.UI.Resizer","linb.UI",{
 
         //for linb.UI.Widget
         _.each({
-            _resize:function(key, args){
+            _resizer:function(key, args){
                 return this.each(function(o){
                     var target = o.getSubNode('BORDER'),
                         d = o.properties;
@@ -93,7 +93,7 @@ Class("linb.UI.Resizer","linb.UI",{
                                 node.heightBy(t);
                                 prop.height = h = node.height();
                             }
-                            linb.UI.$tryResize(profile,w,h,null,true);
+                            linb.UI.$tryResize(profile,w,h,true);
                         }
                         if(cssPos){
                             if((t=cssPos.left) && !(prop.left=='auto'&&parseInt(prop.right)>=0)){
@@ -111,7 +111,7 @@ Class("linb.UI.Resizer","linb.UI",{
                     o.$resizer = target.addResizer(args, update);
                 });
             },
-            _unResize:function(){
+            _unResizer:function(){
                 return this.each(function(o){
                     var target = o.getSubNode('BORDER');
                     if(!target.$getResizer())return;
@@ -133,9 +133,9 @@ Class("linb.UI.Resizer","linb.UI",{
                         _.each('minHeight,minWidth,maxHeight,maxWidth'.split(','),function(i){
                             if(i in t)arg[i]=t[i];
                         });
-                        b._resize(v,arg);
+                        b._resizer(v,arg);
                     }else
-                        b._unResize();
+                        b._unResizer();
                 }
             }
         });
@@ -165,7 +165,7 @@ Class("linb.UI.Resizer","linb.UI",{
                 display:'block',
                 'z-index':100,
                 visibility: 'visible',
-                background: linb.UI.$bg('icons.gif', ' no-repeat -17px -244px', true),
+                background: linb.UI.$bg('icons.gif', 'no-repeat -17px -244px', true),
                 '_font-size':0,
                 '_line-height':0
             },
@@ -552,8 +552,8 @@ Class("linb.UI.Resizer","linb.UI",{
             //set target to specific target
             //or, set target to resizer
             o = profile.properties._attached?profile._target:linb([profile.domNode]),
-            w = o.offsetWidth(),
-            h = o.offsetHeight();
+            w = o.width(),
+            h = o.height();
             if(profile.properties._attached){
                 var pos =o.offset();
                 //custom proxy
@@ -562,8 +562,8 @@ Class("linb.UI.Resizer","linb.UI",{
                 .html(' ',false)
                 .css({border:'1px dashed',visibility:'visible'})
                 .offset(pos)
-                .offsetWidth(w)
-                .offsetHeight(h)
+                .width(w)
+                .height(h)
                 .css('zIndex',linb.Dom.TOP_ZINDEX+20);
             }else
                 //set proxy to itself
@@ -651,7 +651,7 @@ Class("linb.UI.Resizer","linb.UI",{
             var cssPos,size,pos,o=profile.proxy;
 
             if(!args.move)
-                size = { width :o.offsetWidth()-profile.o_w, height :o.offsetHeight()-profile.o_h};
+                size = { width :o.width()-profile.o_w, height :o.height()-profile.o_h};
 
             if(args.left || args.top || args.move){
                 cssPos = o.cssPos();

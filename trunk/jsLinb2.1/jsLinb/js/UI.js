@@ -442,10 +442,16 @@ Class('linb.UIProfile','linb.Profile', {
                 for(var i=0,l=t.length;i<l;i++)
                     t[i].call(self);
                 delete self.RenderTrigger;
+                self.rendered=true;
+                if(self.onRender)
+                    self.boxing().onRender(self);
             }
-            if(arguments[0]===true && (t=self.LayoutTrigger))
+            if(arguments[0]===true && (t=self.LayoutTrigger)){
                 for(var i=0,l=t.length;i<l;i++)
                     t[i].call(self);
+                if(self.onLayout)
+                    self.boxing().onLayout(self);
+            }
             if(self.children)
                 for(var i=0,v;v=self.children[i++];)
                     v[0]._render(true);
@@ -469,7 +475,7 @@ Class('linb.UIProfile','linb.Profile', {
 
             //for dock case
             if(t=self.$dockParent)
-                if(t=self.constructor.getFromDomId(t))
+                if(t=self.constructor.getFromDom(t))
                     _.tryF(t.clearCache,[],t);
 
             //clear dom link
@@ -546,6 +552,7 @@ Class('linb.UIProfile','linb.Profile', {
             for(var i in t)
                 t[i]=null;
             ns[a]=ns[b]=null;
+            return ns;
         },
         //get events function from profile
         _getEV:function(funs,id, name){
@@ -784,8 +791,9 @@ Class('linb.UIProfile','linb.Profile', {
         }
     },
     Static:{
-        getFromDomId:function(id){
-            return linb.cache.dom[id.replace(linb.Event._reg,'$1$3')];
+        getFromDom:function(id){
+            if((id=typeof id=='string'?id:(id && id.id)) && (id=linb.Event._getProfile(id)) && id['linb.UIProfile'])
+                return id;
         }
     }
 });
@@ -964,7 +972,7 @@ Class("linb.UI",  "linb.absObj", {
         },
         busy:function(message,html,key){
             message=typeof message=='string'?message:'Loading...';
-            html=typeof html=='string'?html:'<span style="background:'+ linb.UI.$bg('busy.gif',' no-repeat left center')('linb.UI.Public') +';padding-left:16px;">'+message+'</span>';
+            html=typeof html=='string'?html:'<span style="background:'+ linb.UI.$bg('busy.gif','no-repeat left center')('linb.UI.Public') +';padding-left:16px;">'+message+'</span>';
             return this.each(function(profile){
                 _.resetRun(profile.$id+':busy',function(){
                     var keys=profile.keys;
@@ -989,8 +997,22 @@ Class("linb.UI",  "linb.absObj", {
                 if(profile.$busy)profile.$busy.css('display','none');
             });
         },
-        resize:function(){
-            return this.each(function(o){_.tryF(o.$resizeFun)});
+        reLayout:function(syn, force){
+            return this.each(function(o){
+                if(!o.domNode)return;
+                var p=o.properties;
+                
+                if((!o.$noB) && p.border && o.boxing()._border)
+                    o.boxing()._border(null,false);
+
+                if(p.dock && p.dock!='none'){
+                    //set 0 to force resize
+                    var stl=o.domNode.style;
+                    stl.width=stl.height=0;
+                    linb.UI.$dock(o,true,true);
+                }else
+                    linb.UI.$tryResize(o,p.width,p.height,syn,force);
+            });
         },
         toHtml:function(){
             var a=[];
@@ -1067,7 +1089,7 @@ Class("linb.UI",  "linb.absObj", {
                     t.dockIgnore=false;
                     o.root.show(left&&(left+'px'), top&&(top+'px'));
                     if(t.dock && t.dock!='none')
-                        linb.UI.$dock(o,true);
+                        linb.UI.$dock(o,false,true);
                 //first call show
                 }else if(!parent && (!o.domNode || (o.domNode.id||"").indexOf(linb.Dom._matrixid)===0))
                     parent=linb('body');
@@ -1112,7 +1134,7 @@ Class("linb.UI",  "linb.absObj", {
                 if(o.domNode){
                     var root=o.getRoot(),size=root.cssSize();
                     root.outerHTML(o.toHtml());
-                    linb.UI.$tryResize(o,size.width,size.height,o.properties.$UIvalue,true);
+                    linb.UI.$tryResize(o,size.width,size.height,true,true);
                 }
             });
         },
@@ -1465,46 +1487,70 @@ Class("linb.UI",  "linb.absObj", {
 
         linb.UI.$cache_css += linb.UI.buildCSSText({
             '.ui-ctr':{},
+            '.ui-dragable':{},
+            '.ui-btn, .ui-btni, .ui-btnc':{
+                height:'22px',
+                background:linb.UI.$bg('button.gif', 'no-repeat', true)
+            },
             '.ui-btn':{
+                $order:1,
                 'white-space': 'nowrap',
                 'vertical-align':'top',
                 overflow:'hidden',
-                background:linb.UI.$bg('button.gif', ' no-repeat right top',true),
+                'background-position':'right top',
                 'padding-right':'4px',
                 'font-size':'12px'
             },
             '.ui-btn *':{
                 cursor:'pointer'
             },
-            '.ui-btn button, .ui-btn a':{
+            '.ui-btnc button, .ui-btnc a':{
                 display:linb.$inlineBlock,
                 zoom:linb.browser.ie?1:null,
-                border:0,
                 background:'transparent',
+                border:0,
                 margin:0,
-                padding:'3px 0 0 0'
+                padding:0
+            },
+            '.ui-btnc a':{
+                padding:'0 4px 1px 4px'
             },
             '.ui-btni':{
-                background:linb.UI.$bg('button.gif', ' no-repeat left -22px',true),
-                height:'22px',
+                $order:1,
+                'background-position':'left -60px',
                 'padding-left':'4px',
                 'vertical-align':'top'
             },
+            '.ui-btnc':{
+                $order:1,
+                'background-position':'left -30px',
+                'background-repeat': 'repeat-x',
+                'padding-top':'3px',
+                'vertical-align':'top'                
+            },
             '.ui-btn-mouseover, .ui-btn-focus':{
                 $order:2,
-                'background-position':'right -44px'
+                'background-position':'right -90px'
             },
             '.ui-btn-mouseover .ui-btni, .ui-btn-focus .ui-btni':{
                 $order:2,
-                'background-position':'left -66px'
+                'background-position':'left -150px'
+            },
+            '.ui-btn-mouseover .ui-btnc, .ui-btn-focus .ui-btnc':{
+                $order:2,
+                'background-position':'left -120px'
             },
             '.ui-btn-mousedown, .ui-btn-checked':{
                 $order:3,
-                'background-position':'right -88px'
+                'background-position':'right -180px'
             },
             '.ui-btn-mousedown .ui-btni, .ui-btn-checked .ui-btni':{
                 $order:3,
-                'background-position':'left -110px'
+                'background-position':'left -240px'
+            },
+            '.ui-btn-mousedown .ui-btnc, .ui-btn-checked .ui-btnc':{
+                $order:3,
+                'background-position':'left -210px'
             },
             '.ui-icon':{
                 'vertical-align':'middle',
@@ -1512,95 +1558,219 @@ Class("linb.UI",  "linb.absObj", {
                 height:'16px',
                 margin:'0 4px 0 2px'
             },
-            '.uicmd-close, .uicmd-opt, .uicmd-land, .uicmd-toggle, .uicmd-toggle2, .uicmd-min, .uicmd-max,.uicmd-restore,.uicmd-pin':{
+            '.uicmd-close, .uicmd-opt, .uicmd-land, .uicmd-toggle, .uicmd-toggle2, .uicmd-min, .uicmd-max,.uicmd-restore,.uicmd-pin, .uicmd-check, .uicmd-radio, .uicmd-add':{
+                background: linb.UI.$bg('icons.gif', 'no-repeat 0 0', true),
                 width:'16px',
                 height:'16px',
                 'margin-right':'2px',
                 cursor:'default',
                 'vertical-align':'middle'
             },
-            '.uicmd-close':{
-                background: linb.UI.$bg('icons.gif', ' no-repeat -64px 0', true)
-            },
-            '.uicmd-close-mouseover':{
-                $order:1,
-                'background-position' : '-64px -16px'
-            },
-            '.uicmd-close-mousedown':{
-                $order:2,
-                'background-position' : '-64px -32px'
-            },
             '.uicmd-opt':{
-                background: linb.UI.$bg('icons.gif', ' no-repeat -240px 0', true)
+                $order:1,
+                'background-position' : '0 0'
             },
             '.uicmd-opt-mouseover':{
-                $order:1,
-                'background-position' : '-240px -16px'
+                $order:2,
+                'background-position' : '0 -20px'
             },
             '.uicmd-opt-mousedown':{
-                $order:2,
-                'background-position' : '-240px -32px'
+                $order:3,
+                'background-position' : '0 -40px'
             },
             '.uicmd-land':{
-                background: linb.UI.$bg('icons.gif', ' no-repeat -220px 0', true)
+                $order:1,
+                'background-position' : '-40px 0'
             },
             '.uicmd-land-mouseover':{
-                $order:1,
-                'background-position' : '-220px -16px'
+                $order:2,
+                'background-position' : '-40px -20px'
             },
             '.uicmd-land-mousedown':{
-                $order:2,
-                'background-position' : '-220px -32px'
+                $order:3,
+                'background-position' : '-40px -40px'
             },
+            '.uicmd-pin':{
+                $order:1,
+                'background-position' : '-80px 0'
+            },
+            '.uicmd-pin-mouseover':{
+                $order:2,
+                'background-position': '-80px -20px'
+            },
+            '.uicmd-pin-mousedown':{
+                $order:3,
+                'background-position': '-80px -40px'
+            },
+            '.uicmd-pin-checked, .uicmd-pin-checked-mouseover, .uicmd-pin-checked-mousedown':{
+                $order:4,
+                'background-position':  '-80px -40px'
+            },
+            '.uicmd-min':{
+                $order:1,
+                'background-position' : '-120px 0'
+            },
+            '.uicmd-min-mouseover':{
+                $order:2,
+               'background-position': ' -120px -20px'
+            },
+            '.uicmd-min-mousedown':{
+                $order:3,
+               'background-position':  '-120px -40px'
+            },
+            '.uicmd-restore':{
+                $order:1,
+                'background-position' : '-160px 0'
+            },
+            '.uicmd-restore-mouseover':{
+                $order:2,
+               'background-position':  '-160px -20px'
+            },
+            '.uicmd-restore-mousedown':{
+                $order:3,
+               'background-position':  '-160px -40px'
+            },
+            '.uicmd-max':{
+                $order:1,
+                'background-position' : '-200px 0'
+            },
+            '.uicmd-max-mouseover':{
+                $order:2,
+               'background-position':  '-200px -20px'
+            },
+            '.uicmd-max-mousedown':{
+                $order:3,
+               'background-position':  '-200px -40px'
+            },
+            '.uicmd-close':{
+                $order:1,
+                'background-position' : '-240px 0'
+            },
+            '.uicmd-close-mouseover':{
+                $order:2,
+                'background-position' : '-240px -20px'
+            },
+            '.uicmd-close-mousedown':{
+                $order:3,
+                'background-position' : '-240px -40px'
+            },
+            '.uicmd-check':{
+                $order:1,
+                margin:'0 4px 0 2px',
+                'background-position' : '-20px -70px'
+            },
+            '.uicmd-check-mouseover':{
+                $order:2,
+                'background-position' : '-20px -90px'
+            },
+            '.uicmd-check-mousedown':{
+                $order:3,
+                'background-position' : '-20px -110px'
+            },
+            '.uicmd-check-checked':{
+                $order:4,
+                'background-position' : '0 -70px'
+            },
+            '.uicmd-check-checked-mouseover':{
+                $order:5,
+                'background-position' : '0 -90px'
+            },
+            '.uicmd-check-checked-mousedown':{
+                $order:6,
+                'background-position' : '0 -110px'
+            },            
+            '.uicmd-radio':{
+                $order:1,
+                margin:'0 4px 0 2px',
+                'background-position' : '-60px -70px'
+            },
+            '.uicmd-radio-mouseover':{
+                $order:2,
+                'background-position' : '-60px -90px'
+            },
+            '.uicmd-radio-mousedown':{
+                $order:3,
+                'background-position' : '-60px -110px'
+            },
+            '.uicmd-radio-checked':{
+                $order:4,
+                'background-position' : '-40px -70px'
+            },
+            '.uicmd-radio-checked-mouseover':{
+                $order:5,
+                'background-position' : '-40px -90px'
+            },
+            '.uicmd-radio-checked-mousedown':{
+                $order:6,
+                'background-position' : '-40px -110px'
+            },
+            '.uicmd-add':{
+                $order:1,
+               'background-position':'-56px -222px'
+            },
+           '.uicmd-add-mouseover':{
+                $order:2,
+                'background-position':'-56px -222px'
+           },
+           '.uicmd-add-mousedown':{
+                $order:3,
+                'background-position':'-56px -222px'
+           },
+
+
             '.uicmd-toggle':{
-                background: linb.UI.$bg('icons.gif', ' no-repeat -161px 0', true)
+                $order:1,
+                'margin-left':'3px',
+                'background-position': '-160px -70px'
             },
             '.uicmd-toggle-mouseover':{
                 $order:2,
-                'background-position': '-161px -16px'
+                'background-position': '-160px -90px'
             },
             '.uicmd-toggle-mousedown':{
                 $order:3,
-                'background-position': '-161px -32px'
+                'background-position': '-160px -110px'
             },
             '.uicmd-toggle-checked':{
                 $order:4,
-                'background-position': '-176px top'
+                'background-position': '-180px -70px'
             },
             '.uicmd-toggle-checked-mouseover':{
                 $order:5,
-                'background-position': '-176px -16px'
+                'background-position': '-180px -90px'
             },
             '.uicmd-toggle-checked-mousedown':{
                 $order:6,
-                'background-position': '-176px -32px'
+                'background-position': '-180px -110px'
             },
             '.uicmd-toggle-busy':{
                 $order:7,
-                background: linb.UI.$bg('busy.gif', ' no-repeat center center', true)
+                background: linb.UI.$bg('busy.gif', 'no-repeat center center', true)
             },
             '.uicmd-toggle2':{
-                background: linb.UI.$bg('icons.gif', ' no-repeat -161px -66px', true)
+                $order:1,
+                'margin-left':'6px',
+                'background-position': '-200px -70px'
             },
             '.uicmd-toggle2-mouseover':{
                 $order:2,
-                'background-position': '-161px -82px'
+                'background-position': '-200px -90px'
             },
             '.uicmd-toggle2-mousedown':{
                 $order:3,
-                'background-position': '-161px -98px'
+                'background-position': '-200px -110px'
             },
             '.uicmd-toggle2-checked':{
                 $order:4,
-                'background-position': '-176px -66px'
+                'background-position': '-220px -70px'
             },
             '.uicmd-toggle2-checked-mouseover':{
                 $order:5,
-                'background-position': '-176px -82px'
+                'background-position': '-220px -90px'
             },
             '.uicmd-toggle2-checked-mousedown':{
                 $order:6,
-                'background-position': '-176px -98px'
+                'background-position': '-220px -110px'
             },
 
 
@@ -1611,35 +1781,46 @@ Class("linb.UI",  "linb.absObj", {
                 'font-size':0,
                 'line-height':0
             },
-            '.uibar-top .uibar-t':{
-                height:'29px'
+            '.uibar-top td, .uibar-top-s td, .uibar-bottom td, .uibar-bottom-s td':{
+                $order:1,
+                background: linb.UI.$bg('bar_vertical.gif', 'no-repeat 0 0', true)
             },
+//uibar-top
+            /*set table height for ff2, set uibar height for performance*/
+            '.uibar-top, .uibar-top .uibar-t':{
+                height:'29px'
+            },            
             '.uibar-top .uibar-tdl':{
+                $order:1,
                 'padding-left':'4px',
                 height:'100%',
-                background: linb.UI.$bg('bar_vertical.gif', ' no-repeat left top', true)
+                'background-position': '0 0'
             },
             '.uibar-top .uibar-tdm':{
-                background: linb.UI.$bg('bar_vertical.gif', ' repeat-x left -30px', true)
+                $order:1,
+                'background-position': '0 -30px',
+                'background-repeat': 'repeat-x'
             },
             '.uibar-top .uibar-tdr':{
+                $order:1,
                 'padding-left':'4px',
-                background: linb.UI.$bg('bar_vertical.gif', ' no-repeat right -60px', true)
+                'background-position': 'right -60px'
             },
             '.uibar-top-focus .uibar-tdl':{
                 $order:2,
                 'padding-left':'4px',
                 height:'100%',
-                background: linb.UI.$bg('bar_vertical.gif', ' no-repeat left -90px', true)
+                'background-position': 'left -90px'
             },
             '.uibar-top-focus .uibar-tdm':{
                 $order:2,
-                background: linb.UI.$bg('bar_vertical.gif', ' repeat-x left -120px', true)
+                'background-position': 'left -120px',
+                'background-repeat': 'repeat-x'
             },
             '.uibar-top-focus .uibar-tdr':{
                 $order:2,
                 'padding-left':'4px',
-                background: linb.UI.$bg('bar_vertical.gif', ' no-repeat right -150px', true)
+                'background-position': 'right -150px'
             },
             '.uibar-top .uibar-cmdl':{
                 '-moz-user-select':'none',
@@ -1656,7 +1837,7 @@ Class("linb.UI",  "linb.absObj", {
                 '-moz-user-select':'none',
                 position:'absolute',
                 top:'6px',
-                right:'4px',
+                right:'8px',
                 'text-align':'right'
             },
             '.uicon-main':{
@@ -1666,7 +1847,7 @@ Class("linb.UI",  "linb.absObj", {
                 'line-height':0,
                 'z-index':1,
                 overflow:'visible',       
-                background: linb.UI.$bg('bar_horizontal.gif', ' repeat-y -595px top', true)
+                background: linb.UI.$bg('bar_horizontal.gif', 'repeat-y -595px top', true)
             },
             '.uicon-maini':{
                 'padding-right':'5px',
@@ -1674,24 +1855,28 @@ Class("linb.UI",  "linb.absObj", {
                 'line-height':0,                
                 background: linb.UI.$bg('container_right.gif', '#AAD2FA repeat-y right top', true)
             },
-
-            '.uibar-bottom .uibar-t':{
+//uibar-bottom
+            '.uibar-bottom, .uibar-bottom .uibar-t':{
                 height:'12px'
             },
             '.uibar-bottom .uibar-tdl':{
+                $order:1,
                 'padding-left':'5px',
                 height:'100%',
-                background: linb.UI.$bg('bar_vertical.gif', ' no-repeat left -189px', true)
+                'background-position': 'left -189px'
             },
             '.uibar-bottom .uibar-tdm':{
-                background: linb.UI.$bg('bar_vertical.gif', ' repeat-x left -211px', true)
+                $order:1,
+                'background-position': 'left -211px',
+                'background-repeat': 'repeat-x'
             },
             '.uibar-bottom .uibar-tdr':{
+                $order:1,
                 'padding-left':'5px',
-                background: linb.UI.$bg('bar_vertical.gif', ' no-repeat right -233px', true)
+                'background-position': 'right -233px'
             },
-
-            '.uibar-top-s .uibar-t':{
+//uibar-top-s
+            '.uibar-top-s, .uibar-top-s .uibar-t':{
                 $order:3,
                 height:'7px'
             },
@@ -1699,16 +1884,17 @@ Class("linb.UI",  "linb.absObj", {
                 $order:3,
                 height:'100%',
                 'padding-left':'5px',
-                background: linb.UI.$bg('bar_vertical.gif', ' no-repeat left -261px', true)
+                'background-position': 'left -261px'
             },
             '.uibar-top-s .uibar-tdm':{
                 $order:3,
-                background: linb.UI.$bg('bar_vertical.gif', ' repeat-x left -283px', true)
+                'background-position': 'left -283px',
+                'background-repeat': 'repeat-x'
             },
             '.uibar-top-s .uibar-tdr':{
                 $order:3,
                 'padding-left':'5px',
-                background: linb.UI.$bg('bar_vertical.gif', ' no-repeat right -305px', true)
+                'background-position': 'right -305px'
             },
             '.uibar-top-s .uibar-cmdl':{
                 $order:3,
@@ -1718,8 +1904,8 @@ Class("linb.UI",  "linb.absObj", {
                 $order:3,
                 display:'none'
             },
-
-            '.uibar-bottom-s .uibar-t':{
+//uibar-bottom-s
+            '.uibar-bottom-s, .uibar-bottom-s .uibar-t':{
                 $order:3,
                 height:'6px'
             },
@@ -1727,16 +1913,17 @@ Class("linb.UI",  "linb.absObj", {
                 $order:3,
                 height:'100%',
                 'padding-left':'5px',
-                background: linb.UI.$bg('bar_vertical.gif', ' no-repeat left -327px', true)
+                'background-position': 'left -327px'
             },
             '.uibar-bottom-s .uibar-tdm':{
                 $order:3,
-                background: linb.UI.$bg('bar_vertical.gif', ' repeat-x left -349px', true)
+                'background-position': 'left -349px',
+                'background-repeat': 'repeat-x'
             },
             '.uibar-bottom-s .uibar-tdr':{
                 $order:3,
                 'padding-left':'5px',
-                background: linb.UI.$bg('bar_vertical.gif', ' no-repeat right -371px', true)
+                'background-position': 'right -371px'
             }
         })
         + linb.UI.buildCSSText({
@@ -1777,7 +1964,9 @@ Class("linb.UI",  "linb.absObj", {
                 height:'100%'
             },
             '.ui-dirty':{
-                background: linb.UI.$bg('icons.gif', ' no-repeat -290px -290px', true)
+                $order:1,
+                background: linb.UI.$bg('icons.gif', 'no-repeat', true),
+                'background-position':'-390px -290px'
             },
             '.ui-disabled, .ui-disabled *':{
                 color: '#808080'
@@ -1826,6 +2015,10 @@ Class("linb.UI",  "linb.absObj", {
         $ps:{left:1,top:1,width:1,height:1,right:1,bottom:1},
         _getChildren:function(profile){
             return profile.children;
+        },
+        getFromDom:function(id){
+            if(id=linb.UIProfile.getFromDom(id))
+                return id.boxing();
         },
         unserialize:function(target,keepSerialId){
             if(typeof target=='string')target=_.unserialize(str);
@@ -2354,7 +2547,7 @@ Class("linb.UI",  "linb.absObj", {
                     if(!t[o])t[o]=src[o];
                 });
                 self.$DataModel.dragKey=self.$DataStruct.dragKey='';
-                hls.onStartDrag=hls.onDragStop=src.e5;
+                hls.onGetDragData=hls.onStartDrag=hls.onDragStop=src.e5;
             }
             self.setEventHandlers(hls);
         },
@@ -2366,20 +2559,35 @@ Class("linb.UI",  "linb.absObj", {
             });
             return self;
         },
+        $CSSCACHE:{},
         getTheme:function(){
             return this.$theme;
         },
         setTheme:function(key){
             key=key||'default';
-            if(key!=this.$theme){
+            var ns=this;
+            if(key!=ns.$theme){
                 if(key!='default')
                     linb.CSS.includeLink(linb.getPath('linb.appearance.'+key,'/theme.css'),'theme:'+key);
-                var o=linb.CSS.get('id','theme:'+this.$theme);
+                var o=linb.CSS.get('id','theme:'+ns.$theme);
                 if(o){
                     o.disabled=true;
                     linb(o).remove(false);
                 }
-                this.$theme=key;
+                ns.$theme=key;
+                ns.$CSSCACHE={};
+                var count=0;
+                _.asyRun(function(){
+                    if(count>10)
+                        throw new Error('errLoadTheme:'+key);
+                    count++;
+                    var s=linb.CSS.$getCSSValue('.setting-uikey','fontFamily');
+                    if(s==key || key=='default'){
+                        linb.UI.getAll().reLayout(false,true);
+                        count=null;
+                    }else
+                        _.asyRun(arguments.callee,200);
+                },100);
             }
             return this;
         },
@@ -2677,14 +2885,15 @@ Class("linb.UI",  "linb.absObj", {
                     if(profile.onStartDrag && (false===box.onStartDrag.apply(box,args))){}
                     else if((t=profile.box._onStartDrag) && (false===t.apply(profile.host||profile, args))){}
                     else{
+                        var con=profile.box;
                         linb([src]).startDrag(e, {
                             dragType:'icon',
                             targetLeft:pos.left+12,
                             targetTop:pos.top+12,
                             dragCursor:'pointer',
                             dragDefer:1,
-                            dragKey: profile.box.getDragKey(profile, this),
-                            dragData: profile.box.getDragData(profile, this)
+                            dragKey: con.getDragKey(profile, this),
+                            dragData: con.getDragData(profile, e, this)
                         });
                     }
                 },
@@ -2763,7 +2972,7 @@ Class("linb.UI",  "linb.absObj", {
                 action:function(v){
                     var self=this;
                     if(self.domNode)
-                        linb.UI.$dock(self,true);
+                        linb.UI.$dock(self,true,true);
                 }
             },
             dockIgnore:{
@@ -2826,11 +3035,8 @@ Class("linb.UI",  "linb.absObj", {
                 b.setDisabled(true,true);
 
             self.inValid=1;
-            self.rendered=true;
-            if(self.onRender)
-                b.onRender(self);
         },
-        $tryResize:function(profile,w,h,key,force){
+        $tryResize:function(profile,w,h,syn,force,key){
             var s=profile.box,t=s._onresize,args=profile.$rs_args;
             if(t&&(w||h)){
                 if(!args){
@@ -2853,9 +3059,10 @@ Class("linb.UI",  "linb.absObj", {
                 //keep the last one
                 if(w)args[1]=w;
                 if(h)args[2]=h;
-                args[3]=key;
+                args[3]=force;
+                args[4]=key;
             }
-            if(force)_.tryF(profile.$resizeFun);
+            if(syn)_.tryF(profile.$resizeFun);
         },
         LayoutTrigger:function(){
             var self=this, b=self.boxing(),p=self.properties;
@@ -2879,12 +3086,12 @@ Class("linb.UI",  "linb.absObj", {
                             stl.width=stl.height=0;
                     }
                 }
-                linb.UI.$dock(this,true);
+                linb.UI.$dock(this,false,true);
             }
-            if(self.onLayout)
-                b.onLayout(self);
         },
-        $dock:function(profile, flag, force){
+        $dock_args:['top','bottom','left','right','center','middle','width','height'],
+        $dock_map:{middle:1,center:1},
+        $dock:function(profile, force, trigger){
             var prop = profile.properties,
                 margin=prop.dockMargin,
                 node = profile.root,
@@ -2973,11 +3180,11 @@ Class("linb.UI",  "linb.absObj", {
 
                     f = p.$getEvent('onSize','dock');
                     if(!f){
-                        f=function(p,arg){
+                        f=function(arg){
                             //get self vars
                             var me=arguments.callee,
-                                map=me.map ||(me.map={middle:1,center:1}),
-                                arr = me.arr,
+                                map=linb.UI.$dock_map, 
+                                arr=linb.UI.$dock_args,
                                 rePos=me.rePos,
                                 node=me.node,
                                 style=node.get(0).style,
@@ -3022,8 +3229,7 @@ Class("linb.UI",  "linb.absObj", {
                         };
                         //self refrence
                         f.node=p;
-                        f.arr=['top','bottom','left','right','center','middle','width','height'];
-                        _.arr.each(f.arr,function(key){
+                        _.arr.each(linb.UI.$dock_args,function(key){
                             f[key]=[];
                         });
                         //is window resizer
@@ -3059,7 +3265,9 @@ Class("linb.UI",  "linb.absObj", {
                                         if(parseFloat(style.top)!=top)region.top=top;
                                         temp=obj.width - left - right - x;
                                         if(parseFloat(style.width)!=temp)region.width=_adjust(temp);
-                                        if(!_.isEmpty(region))node.cssRegion(region,true);
+                                        if(!_.isEmpty(region)){
+                                            node.cssRegion(region,true);
+                                        }
                                     }
 
                                     if(!flt)
@@ -3166,15 +3374,15 @@ Class("linb.UI",  "linb.absObj", {
                     linb.cache._resizeTime=1;
 
                     //set shortuct
-                    profile.$dock=f;
+                    profile.$dockFun=f;
                 }//else{
                     //delete overflow form style
 //                        if(!win)p.css('overflow', '');
                 //}
             }
             //run once now
-            if(value != 'none' && flag)
-                profile.$dock(profile, {width:1, height:1, $dockid:_.arr.indexOf(['width','height','fill','cover'],value)!=-1?profile.$id:null, $type: value});
+            if(value != 'none' && trigger)
+                profile.$dockFun({width:1, height:1, $dockid:_.arr.indexOf(['width','height','fill','cover'],value)!=-1?profile.$id:null, $type: value});
         },
 
         _beforeSerialized:function(profile){
@@ -3223,10 +3431,11 @@ Class("linb.UI",  "linb.absObj", {
         getDragKey:function(profile,node){
             return profile.properties.dragKey;
         },
-        getDragData:function(profile,node){
+        getDragData:function(profile,event,node){
             return {
                 profile:profile,
-                domId:node.id
+                domId:node.id,
+                data: profile.onGetDragData ? profile.boxing().onGetDragData(profile,event,node) : null
             };
         },
         _prepareData:function(profile, data){
@@ -3786,10 +3995,12 @@ new function(){
                 onSize:function(profile,e){
                     //if fire onresize ,w/h must be set to style
                     var style = profile.domNode.style ,w=null,h=null;
+
                     if(e.width)
                         w=parseInt(style.width)||w;
                     if(e.height)
                         h=parseInt(style.height)||h;
+
                     linb.UI.$tryResize(profile,w,h);
                 }
             },
@@ -3802,38 +4013,46 @@ new function(){
             },
             RenderTrigger:function(){
                 var self=this, p=self.properties, o=self.boxing();
+
+                if(linb.Dom.byId(self.domId))
+                    if((!self.$noB) && p.border && o._border)o._border();
+
                 //for performance
                 _.asyRun(function(){
                     if(!linb.Dom.byId(self.domId))return;
-                    if((!self.$noB) && p.border && o._border)o._border();
                     if((!self.$noR) && p.resizer && o.setResizer)o.setResizer(p.resizer,true);
                     if((!self.$noS) && p.shadow && o._shadow)o._shadow();
                 });
             },
             _onresize:function(profile,width,height){
-                var o = profile.getSubNode('BORDER'),
-                    t = profile.properties,
-                    size,
-                    ww=null,hh=null;
-                if(null!==width){
-                    width -= (t.$hborder||0)*2;
+                var t = profile.properties,
+                    o = profile.getSubNode('BORDER'),
+                    region,
+                    ww=width,
+                    hh=height,
+                    left=Math.max(0, (t.$b_lw||0)-(t.$hborder||0)),
+                    top=Math.max(0, (t.$b_tw||0)-(t.$vborder||0));
+                if(null!==ww){
+                    ww -= Math.max((t.$hborder||0)*2, (t.$b_lw||0)+(t.$b_rw||0));
                     /*for ie6 bug*/
                     /*for example, if single number, 100% width will add 1*/
                     /*for example, if single number, attached shadow will overlap*/
-                    if(linb.browser.ie6)width=(parseInt(width/2))*2;
-                    ww=width;
+                    if(linb.browser.ie6)ww=(parseInt(ww/2))*2;
                 }
-                if(null!==height){
-                    height -= (t.$vborder||0)*2;
-                    if(linb.browser.ie6)height=(parseInt(height/2))*2;
-                    hh=height;
+                if(null!==hh){
+                    hh -=Math.max((t.$vborder||0)*2, (t.$b_lw||0) + (t.$b_rw||0));
 
+                    if(linb.browser.ie6)hh=(parseInt(hh/2))*2;
                     /*for ie6 bug*/
                     if(linb.browser.ie6&&null===width)o.ieRemedy();
                 }
-                size={width:ww,height:hh};
-                o.cssSize(size);
-                return size;
+                region={left:left,top:top,width:ww,height:hh};
+                o.cssRegion(region);
+
+                /*for ie6 bug*/
+                if((profile.$border||profile.$shadow||profile.$resizer) && linb.browser.ie)o.ieRemedy();
+
+                return region;
             }
         }
     });
@@ -3886,6 +4105,248 @@ new function(){
             },
             EventHandlers:{
                 onClick:function(profile, e){}
+            }
+        }
+    });
+    Class(u+".SLabel", u,{
+        Static:{
+            Templates:{
+                style:'{_style}text-align:{hAlign}',
+                text:'{caption}'
+            },
+            DataModel:{
+                tabindex:null,
+                caption:{
+                    ini:undefined,
+                    action: function(value){
+                        this.domNode.innerHTML = value;
+                    }
+                },
+                hAlign:{
+                    ini:'right',
+                    listbox:['left','center','right'],
+                    action: function(v){
+                        this.root.css('textAlign',v);
+                    }
+                }
+            }
+        }
+    });
+    Class(u+".SButton", u,{
+        Instance:{
+            activate:function(){
+                this.getSubNode('FOCUS').focus();
+                return this;
+            }
+        },
+        Static:{
+            Templates:{
+                className:'{_clsName} ui-btn',
+                style:'{_style}',
+                BTNI:{
+                    className:'ui-btni',
+                    BTNC:{
+                        className:'ui-btnc',
+                        FOCUS:{
+                            tagName:'a',
+                            tabindex: '{tabindex}',
+                            href:linb.$href,
+                            style:"{_align}",
+                            CAPTION:{
+                                $order:2,
+                                text:'{caption}'
+                            }
+                        }
+                    }
+                }
+            },
+            Appearances:{
+                KEY:{
+                    overflow:'hidden'
+                },
+                'KEY-auto BTNI, KEY-auto BTNC, KEY-auto FOCUS':{
+                    $order:1,
+                    display:linb.$inlineBlock
+                },
+                'BTNI,BTNC':{
+                    display:'block'
+                },
+                'KEY FOCUS':{
+                    cursor:'default',
+                    'font-size':'12px',
+                    'line-height':'14px',
+                    'text-align':'center',
+                    'vertical-align': 'middle',
+                    display:'block'
+                }
+            },
+            Behaviors:{
+                HoverEffected:{KEY:['KEY']},
+                ClickEffected:{KEY:['KEY']},
+                NavKeys:{FOCUS:1},
+                onClick:function(profile, e, src){
+                    var p=profile.properties;
+                    if(p.disabled)return false;
+                    profile.getSubNode('FOCUS').focus();
+                    if(profile.onClick)
+                        profile.boxing().onClick(profile, e, src);
+                }
+            },
+            DataModel:{
+/*custom property test for UIDesigner
+                test:{
+                    ini:1,
+                    custom:function(p,k,v,submit){
+                        console.log(p,k,v);
+                        _.asyRun(function(){
+                            submit(++v);
+                        });
+                    }
+                },
+*/
+                caption:{
+                    ini:undefined,
+                    action: function(value){
+                        this.getSubNode('CAPTION').get(0).innerHTML = value;
+                    }
+                },
+                hAlign:{
+                    ini:'center',
+                    listbox:['left','center','right'],
+                    action: function(v){
+                        this.getSubNode('FOCUS').css('textAlign',v);
+                    }
+                },
+                tabindex:{
+                    action:function(value){
+                        this.getSubNode('FOCUS').attr('tabIndex',value);
+                    }
+                },
+                width:{
+                    ini:'auto',
+                    action:function(value){
+                        if(value=='auto'){
+                            this.root.width('auto').tagClass('-auto');
+                        }else
+                            this.root.width(value).tagClass('-auto',false);
+                    }
+                },
+                height:{
+                    readonly:true
+                }
+            },
+            EventHandlers:{
+                onClick:function(profile, e, src, value){}
+            },
+            _prepareData:function(profile){
+                var data=arguments.callee.upper.call(this, profile);
+                data._align = 'text-align:'+data.hAlign+';';
+                data._clsName=parseInt(data.width)?'':profile.getClass('KEY','-auto');
+                return data;
+            }
+        }
+    });
+    Class(u+".SCheckBox", [u,"linb.absValue"],{
+        Instance:{
+            activate:function(){
+                this.getSubNode('FOCUS').focus();
+                return this;
+            },
+            _setCtrlValue:function(value){
+                return this.each(function(profile){
+                   profile.getSubNode('MARK').tagClass('-checked', !!value);
+                });
+            },
+            //update UI face
+            _setDirtyMark:function(){
+                return this.each(function(profile){
+                    if(!profile.properties.dirtyMark)return;
+                    if(!profile.domNode)return;
+                    var properties = profile.properties,
+                        o=profile.getSubNode('CAPTION'),
+                        flag=properties.value !== properties.$UIvalue,
+                        d = linb.UI.$css_tag_dirty;
+    
+                    if(o.beforeDirtyMark && false===o.boxing().beforeDirtyMark(profile,flag))
+                        return;
+    
+                    if(flag)
+                        o.addClass(d);
+                    else
+                        o.removeClass(d);
+                });
+            }
+        },
+        Static:{
+            Templates:{
+                className:'{_clsName}',
+                style:'{_style}',
+                FOCUS:{
+                    tagName:'a',
+                    tabindex: '{tabindex}',
+                    href:linb.$href,
+                    MARK:{
+                        className:'uicmd-check'
+                    },
+                    CAPTION:{
+                        $order:1,
+                        text:'{caption}'
+                    }
+                }
+            },
+            Appearances:{
+                KEY:{
+                    overflow:'visible'
+                },
+                FOCUS:{
+                    cursor:'default',
+                    'vertical-align':'middle',
+                    padding:'2px 0',
+                    'font-size':'12px',
+                    'line-height':'14px',
+                    'vertical-align': 'middle'
+                }
+            },
+            Behaviors:{
+                HoverEffected:{KEY:'MARK'},
+                ClickEffected:{KEY:'MARK'},
+                NavKeys:{FOCUS:1},
+                onClick:function(profile, e, src){
+                    var p=profile.properties,b=profile.boxing();
+                    if(p.disabled)return false;
+                    b.setUIValue(!p.$UIvalue);
+                    if(profile.onChecked)b.onChecked(profile, e, p.$UIvalue);
+                    profile.getSubNode('FOCUS').focus();
+                },
+                FOCUS:{
+                    onKeydown:function(profile, e, src){
+                        var key = linb.Event.getKey(e)[0];
+                        if(key ==' ' || key=='enter'){
+                            profile.root.onClick(true);
+                            return false;
+                        }
+                    }
+                }
+            },
+            DataModel:{
+                value:false,
+                caption:{
+                    ini:undefined,
+                    action: function(value){
+                        this.getSubNode('CAPTION').get(0).innerHTML = value;
+                    }
+                },
+                tabindex:{
+                    action:function(value){
+                        this.getSubNode('FOCUS').attr('tabIndex',value);
+                    }
+                }
+            },
+            EventHandlers:{
+                onChecked:function(profile, e, value){}
+            },
+            _ensureValue:function(profile, value){
+                return !!value;
             }
         }
     });

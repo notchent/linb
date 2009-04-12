@@ -189,9 +189,13 @@ Class('linb.UI.ColorPicker', ['linb.UI',"linb.absValue"], {
                             className:'ui-btn',
                             SETI:{
                                 className:'ui-btni',
-                                SETA:{
-                                    tagName:'button',
-                                    text:linb.wrapRes('inline.set')
+                                SETC:{
+                                    className:'ui-btnc',
+                                    SETA:{
+                                        tagName:'a',
+                                        href:linb.$href,
+                                        text:linb.wrapRes('inline.set')
+                                    }
                                 }
                             }
                         },
@@ -199,9 +203,14 @@ Class('linb.UI.ColorPicker', ['linb.UI',"linb.absValue"], {
                             className:'ui-btn',
                             TOGGLEI:{
                                 className:'ui-btni',
-                                TOGGLEA:{
-                                    tagName:'button',
-                                    text:'>>'
+                                TOGGLEC:{
+                                    className:'ui-btnc',
+                                    TOGGLEA:{
+                                        tagName:'a',
+                                        href:linb.$href,
+                                        tabindex: '{tabindex}',
+                                        text:'>>'
+                                    }
                                 }
                             }
                         }
@@ -284,10 +293,14 @@ Class('linb.UI.ColorPicker', ['linb.UI',"linb.absValue"], {
             KEY:{
                 '-moz-user-select': 'none'
             },
+            MAINI:{
+                padding:'4px 5px 4px 0'
+            },
             CON:{
-                height:'195px',
+                height:'196px',
                 padding:'3px',
-                position:'relative'
+                position:'relative',
+                border:'solid 1px #648CB4'
             },
             DATA:{
                 'float':'left',
@@ -347,17 +360,17 @@ Class('linb.UI.ColorPicker', ['linb.UI',"linb.absValue"], {
                 position:'relative'
             },
             LIST :{
-                height:'92px',
+                height:'106px',
                 position:'relative',
                 overflow:'hidden',
-                margin:'4px 0 0 4px',
+                margin:'0 2px',
                 'line-height':linb.browser.ie6?'0':null,
                 'clear':'both'
             },
             TAILI:{
                 position:'relative',
                 'padding-top':'4px',
-                height:'20px',
+                height:'22px',
                 'text-align':'center'
             },
             SIMPLE:{
@@ -384,13 +397,13 @@ Class('linb.UI.ColorPicker', ['linb.UI',"linb.absValue"], {
                 width:'101px'
             },
             ADVWHEEL:{
-                background: linb.browser.ie6?null:linb.UI.$bg('clr.png', ' no-repeat left top'),
+                background: linb.browser.ie6?null:linb.UI.$bg('clr.png', 'no-repeat left top'),
                 _filter: linb.UI.$ieBg('clr.png'),
                 height:'195px',
                 width:'195px'
             },
             'ADVMARK1, ADVMARK2':{
-                background:linb.browser.ie6?null:linb.UI.$bg('picker.png', ' no-repeat left top'),
+                background:linb.browser.ie6?null:linb.UI.$bg('picker.png', 'no-repeat left top'),
                 _filter: linb.UI.$ieBg('picker.png'),
                 height:'17px',
                 margin:'-8px 0pt 0pt -8px',
@@ -398,7 +411,7 @@ Class('linb.UI.ColorPicker', ['linb.UI',"linb.absValue"], {
                 width:'17px'
             },
             'LIST a':{
-                height: '10px',
+                height: '12px',
                 width: '10px',
                 'font-size':linb.browser.ie6?'0':null,
                 'float': 'left',
@@ -416,13 +429,13 @@ Class('linb.UI.ColorPicker', ['linb.UI',"linb.absValue"], {
             SET:{
                 position:'absolute',
                 display:'none',
-                top:0,
+                top:'0',
                 right:'38px'
             },
             TOGGLE:{
                 position:'absolute',
                 right:'5px',
-                top:0
+                top:'0'
             }
         },
         Behaviors:{

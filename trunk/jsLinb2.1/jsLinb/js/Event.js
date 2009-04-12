@@ -1,7 +1,5 @@
 /* event
 *  dependency: base _ ; Class ; linb ;
-*
-*
 */
 Class('linb.Event',null,{
     Constructor:function(event,node,fordrag,tid){
@@ -27,10 +25,8 @@ Class('linb.Event',null,{
                 return self.$FALSE;
             if(dd==1)
                 pre=dragdrop&&dragdrop._dropElement;
-        }
-
         //for tab focusHook
-        if((obj=self._tabHookStack).length &&
+        }else if((obj=self._tabHookStack).length &&
             self._kb[type] &&
             (event.$key || event.keyCode || event.charCode)==9 &&
             false === self._handleTabHook(self.getSrc(event), obj=obj[obj.length-1]))
@@ -40,10 +36,10 @@ Class('linb.Event',null,{
         //get profile from dom cache
         if(obj = self._getProfile(id)){
             //for setBlurTrigger
-            if(type=='mousedown')
+            if(type=='mousedown'){
                 _.tryF(linb.Dom._blurTrigger,[obj,event,src],src);
             //for resize
-            if(type=="resize"){
+            }else if(type=="resize"){
                 type='size';
                 //for IE, always fire window onresize event after any innerHTML action
                 if(linb.browser.ie && window===src){
@@ -105,7 +101,7 @@ Class('linb.Event',null,{
                         },pre);
                     dragdrop.setDropElement(src);
                 }
-                
+
                 //Out of dropable node, 'dragdrop._dropElement' will be set to null in beforeMouseover
                 //set _preDropable flag, for parent node is dropable too
                 if('mouseout'==type && !dragdrop._dropElement && pre && pre==src){
@@ -130,8 +126,6 @@ Class('linb.Event',null,{
         $eventhandler:function(){return linb.Event(arguments[0],this)},
         $eventhandler2:function(){return linb.Event(arguments[0],this,1)},
         _eventtag:'before,on,after'.split(','),
-        _L:(document.documentElement.scrollLeft||document.body.scrollLeft)-(document.documentElement.clientLeft||0),
-        _T:(document.documentElement.scrollTop||document.body.scrollTop)-(document.documentElement.clientTop||0),
         //collection
         _events : ("mouseover,mouseout,mousedown,mouseup,mousemove,click,dblclick,contextmenu," +
                 "keydown,keypress,keyup,scroll,"+
@@ -163,8 +157,20 @@ Class('linb.Event',null,{
             return map[name] || (map[name] = name.replace(/^(on|before|after)/,'').toLowerCase())
         },
 
-        _getProfile:function(id){
-            return id && (linb.cache.dom[id] || linb.cache.dom[id.replace(this._reg,'')]);
+        _getProfile:function(id,a,b){
+            return id && (a=(b=linb.cache.dom)[id])
+                            ?
+                            a['linb.UIProfile']
+                                ?
+                                a
+                                :
+                                (b=b[id.replace(this._reg,'')])
+                                    ?
+                                    b
+                                    :
+                                    a
+                            :
+                            b[id.replace(this._reg,'')];
         },
         _handleTabHook:function(src, target){
             if(src===document)return true;
@@ -221,17 +227,17 @@ Class('linb.Event',null,{
         // only for mousedown and mouseup
         // return 1 : left button, else not left button
         getBtn:function(event){
-	        return linb.browser.ie ?
-	                event.button==4 ?
-	                    'middle' :
-	                        event.button==2 ?
-	                            'right' :
-	                                'left' :
-	                event.which==2 ?
-	                    'middle':
-	                        event.which==3 ?
-	                            'right':
-	                                'left';
+            return linb.browser.ie ?
+                    event.button==4 ?
+                        'middle' :
+                            event.button==2 ?
+                                'right' :
+                                    'left' :
+                    event.which==2 ?
+                        'middle':
+                            event.which==3 ?
+                                'right':
+                                    'left';
         },
         getPos:function(event){
             event = event || window.event;
@@ -350,6 +356,16 @@ Class('linb.Event',null,{
                 else p[k]=[fun,args,scope];
              }
             return this;
+        }
+    },
+    Initialize:function(){
+        if(linb.browser.ie){
+            this._IE = function(){
+    			var d=document, doc = d.documentElement, body = d.body;
+    			this._L = (doc && doc.scrollLeft || body && body.scrollLeft || 0) - (doc.clientLeft || 0);
+    			this._T = (doc && doc.scrollTop || body && body.scrollTop || 0) - (doc.clientTop || 0);
+            };
+            this._IE();
         }
     }
 });

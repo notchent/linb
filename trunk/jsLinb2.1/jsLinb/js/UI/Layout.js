@@ -22,7 +22,7 @@ Class("linb.UI.Layout",["linb.UI", "linb.absList"],{
                         MOVE:{
                             $order:0,
                             tagName:'div',
-                            className:'uibg-bar  uiborder-outset {cls2} ',
+                            className:'uibg-bar {cls2} ',
                             style:'{display}'
                         },
                         CMD:{
@@ -98,85 +98,86 @@ Class("linb.UI.Layout",["linb.UI", "linb.absList"],{
                 top:0,
                 bottom:0
             },
-            'MOVE-TOP':{
+            'MOVE-TOP, MOVE-BOTTOM':{
                 width:'100%',
-                bottom:0,
                 height:'7px',
-                cursor:'n-resize'
+                cursor:'n-resize',
+                'border-top':'solid 1px #c8e1fa',
+                'border-bottom':'solid 1px #648cb4'
+            },
+            'MOVE-LEFT, MOVE-RIGHT':{
+                height:'100%',
+                width:'7px',
+                cursor:'w-resize',
+                'border-left':'solid 1px #c8e1fa',
+                'border-right':'solid 1px #648cb4'
+            },
+            'MOVE-TOP':{
+                bottom:0
             },
             'MOVE-BOTTOM':{
-                width:'100%',
-                top:0,
-                height:'7px',
-                cursor:'n-resize'
+                top:0
             },
             'MOVE-LEFT':{
-                height:'100%',
-                right:0,
-                width:'7px',
-                cursor:'w-resize'
+                right:0
             },
             'MOVE-RIGHT':{
-                height:'100%',
-                left:0,
-                width:'7px',
-                cursor:'w-resize'
+                left:0
             },
-            //'MOVE-TOP-checked, MOVE-BOTTOM-checked, MOVE-LEFT-checked, MOVE-RIGHT-checked':{
-                //$order:1,
-                //'background-color':'#cdcdcd'
-            //},
+            'CMD-TOP, CMD-BOTTOM, CMD-LEFT, CMD-RIGHT':{
+                background: linb.UI.$bg('icons.gif', 'no-repeat', true)
+            },
             'CMD-TOP':{
-                $order:0,
+                $order:1,
                 left:'50%',
                 'margin-left':'-20px',
                 bottom:0,
                 width:'40px',
                 height:'9px',
-                background: linb.UI.$bg('icons.gif', ' no-repeat -260px -232px', true)
+                'background-position':'-360px -232px'
             },
             'CMD-BOTTOM':{
-                $order:0,
+                $order:1,
                 left:'50%',
                 'margin-left':'-20px',
                 top:0,
                 width:'40px',
                 height:'9px',
-                background: linb.UI.$bg('icons.gif', ' no-repeat -260px -258px', true)
+                'background-position':'-360px -258px'
             },
             'CMD-LEFT':{
-                $order:0,
+                $order:1,
                 top:'50%',
                 'margin-top':'-20px',
                 right:0,
                 height:'40px',
                 width:'9px',
-                background: linb.UI.$bg('icons.gif', ' no-repeat -210px -240px', true)
+                'background-position':'-310px -240px'
             },
             'CMD-RIGHT':{
-                $order:0,
+                $order:1,
                 top:'50%',
                 'margin-top':'-20px',
                 left:0,
                 height:'40px',
                 width:'9px',
-                background: linb.UI.$bg('icons.gif', ' no-repeat -236px -240px', true)
+                'background-position':'-336px -240px'
             },
             'CMD-TOP-mouseover':{
-                $order:1,
-                'background-position':'-260px -245px'
+                $order:2,
+                'background-position':'-360px -245px'
             },
             'CMD-BOTTOM-mouseover':{
-                $order:1,
-                'background-position':'-260px -271px'
+                $order:2,
+                'background-position':'-360px -271px'
             },
             'CMD-LEFT-mouseover':{
-                $order:1,
-                'background-position':'-223px -240px'
+                $order:2,
+                'background-position':'-323px -240px'
             },
             'CMD-RIGHT-mouseover':{
-                $order:1,
-                'background-position':'-249px -240px'
+                $order:2,
+                'background-position':'-349px -240px'
             },
 
             'MOVE-MAIN':{
@@ -577,7 +578,7 @@ Class("linb.UI.Layout",["linb.UI", "linb.absList"],{
             var _t,t=profile.properties, m,n, itemId, temp1,temp2,temp, key=profile.keys.ITEM, panel=profile.keys.PANEL,
             move=profile.getSubNode('MOVE',true),
             _handlerSize;
-            
+
             var obj={}, obj2={};
             _.arr.each(t.items,function(o){
                 itemId = profile.getSubIdByItemId(o.id);
@@ -594,7 +595,11 @@ Class("linb.UI.Layout",["linb.UI", "linb.absList"],{
                         itemId = profile.getSubIdByItemId(o.id);
                         if(o.pos=='before'){
                             n=profile.getSubNode('ITEM', itemId);
-                            m= n.width();//offsetWidth();
+
+                            if(o.hide){
+                                m=obj2[itemId].width=_handlerSize;
+                            }else
+                                m= n.width();
 
                             obj2[itemId].left=temp1;
                             temp1 +=m;
@@ -609,7 +614,11 @@ Class("linb.UI.Layout",["linb.UI", "linb.absList"],{
                         itemId = profile.getSubIdByItemId(o.id);
                         if(o.pos=='after'){
                             n =profile.getSubNode('ITEM', itemId);
-                            m= n.width();//offsetWidth();
+
+                            if(o.hide){
+                                m=obj2[itemId].width=_handlerSize;
+                            }else
+                                m= n.width();
 
                             obj2[itemId].right=temp2;
                             temp2 +=m;
@@ -646,8 +655,11 @@ Class("linb.UI.Layout",["linb.UI", "linb.absList"],{
                         itemId=profile.getSubIdByItemId(o.id);
                         if(o.pos=='before'){
                             n=profile.getSubNode('ITEM', itemId);
-                            m = n.height();//offsetHeight();
 
+                            if(o.hide){
+                                m=obj2[itemId].height=_handlerSize;
+                            }else
+                                m= n.height();
                             obj2[itemId].top=temp1;
                             temp1 += m;
                             obj2[itemId].bottom='auto';
@@ -663,6 +675,11 @@ Class("linb.UI.Layout",["linb.UI", "linb.absList"],{
                             n=profile.getSubNode('ITEM', itemId);
                             m=n.height();//offsetHeight();
 
+                            if(o.hide){
+                                m=obj2[itemId].height=_handlerSize;
+                            }else
+                                m= n.height();
+
                             obj2[itemId].bottom=temp2;
                             temp2 += m;
                             obj2[itemId].top='auto';
@@ -676,7 +693,6 @@ Class("linb.UI.Layout",["linb.UI", "linb.absList"],{
                     //set main
                     if(height-temp>=0){
                         _t=profile.getSubIdByItemId('main');
-
                         obj[_t].height=height-temp;
                         obj2[_t].height=height-temp;
                         obj2[_t].top=temp1;
@@ -689,6 +705,7 @@ Class("linb.UI.Layout",["linb.UI", "linb.absList"],{
                     });
                 }
             }
+
             //collect width/height in size
             _.each(obj2, function(o, id){
                 profile.getSubNode('ITEM', id).cssRegion(obj2[id]);

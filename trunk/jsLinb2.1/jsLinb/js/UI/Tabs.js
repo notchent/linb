@@ -24,7 +24,7 @@ Class("linb.UI.Tabs", ["linb.UI", "linb.absList","linb.absValue"],{
                             box.getPanel(value).show('auto',profile.getSubNode('LIST').offsetHeight()+'px');
                             t=profile.root.cssSize();
                             //reset width and height
-                            linb.UI.$tryResize(profile, parseInt(t.width)||null, parseInt(t.height)||null, value);
+                            linb.UI.$tryResize(profile, parseInt(t.width)||null, parseInt(t.height)||null, false, value);
 
                             //dynamic render
                             if(properties.dynRender){
@@ -121,7 +121,7 @@ Class("linb.UI.Tabs", ["linb.UI", "linb.absList","linb.absValue"],{
         */
         _afterInsertItems:function(profile, data, base, before){
             var box=profile.box,obj,v,pp=profile.properties;
-            if(pp.hasPanel && (obj=profile.root)){
+            if(pp.hasPanel && (obj=profile.getSubNode(profile.keys.BOX||profile.keys.KEY))){
                 obj.append(_.str.toDom(profile.buildItems('panels', data)));
 
                 if(!(v=this.getUIValue()))
@@ -129,7 +129,7 @@ Class("linb.UI.Tabs", ["linb.UI", "linb.absList","linb.absValue"],{
 
                 var t=profile.domNode.style;
 
-                linb.UI.$tryResize(profile, parseInt(t.width)||null, parseInt(t.height)||null, v);
+                linb.UI.$tryResize(profile, parseInt(t.width)||null, parseInt(t.height)||null, false,v);
             }
         },
         /*  remove some views from pageView
@@ -159,7 +159,7 @@ Class("linb.UI.Tabs", ["linb.UI", "linb.absList","linb.absValue"],{
                     profile.boxing().fireItemClickEvent((i=profile.properties.items[0]) && i.id);
                 }
                 if(profile.properties.hasPanel)
-                    linb.UI.$tryResize(profile, profile.root.width(), profile.root.height(), profile.boxing().getUIValue());
+                    linb.UI.$tryResize(profile, profile.root.width(), profile.root.height(), false, profile.boxing().getUIValue());
             });
 
             return self;
@@ -213,39 +213,41 @@ Class("linb.UI.Tabs", ["linb.UI", "linb.absList","linb.absValue"],{
                         className:'{itemClass} {disabled}',
                         style:'{itemStyle}',
                         ITEMI:{
-                            HANDLE:{
-                                tagName: 'a',
-                                href :"{href}",
-                                tabindex: '{_tabindex}',
-                                IBWRAP:{
-                                    tagName:'div',
-                                    style:"white-space:nowrap;",
-                                    RULER:{},
-                                    ICON:{
-                                        style:'background:url({image}) transparent  no-repeat {imagePos};{iconDisplay}',
-                                        className:'ui-icon',
-                                        $order:0
-                                    },
-                                    CAPTION:{
-                                        text: '{caption}',
-                                        $order:1
-                                    },
-                                    CMDS:{
-                                        $order:2,
-                                        OPT:{
-                                            $order:1,
-                                            className:'uicmd-opt',
-                                            style:'{_opt}'
+                            ITEMC:{
+                                HANDLE:{
+                                    tagName: 'a',
+                                    href :"{href}",
+                                    tabindex: '{_tabindex}',
+                                    IBWRAP:{
+                                        tagName:'div',
+                                        style:"white-space:nowrap;",
+                                        RULER:{},
+                                        ICON:{
+                                            style:'background:url({image}) transparent  no-repeat {imagePos};{iconDisplay}',
+                                            className:'ui-icon',
+                                            $order:0
                                         },
-                                        LAND:{
-                                            className:'uicmd-land',
-                                            style:'{landDisplay}',
+                                        CAPTION:{
+                                            text: '{caption}',
                                             $order:1
                                         },
-                                        CLOSE:{
-                                            className:'uicmd-close ',
-                                            style:'{closeDisplay}',
-                                            $order:2
+                                        CMDS:{
+                                            $order:2,
+                                            OPT:{
+                                                $order:1,
+                                                className:'uicmd-opt',
+                                                style:'{_opt}'
+                                            },
+                                            LAND:{
+                                                className:'uicmd-land',
+                                                style:'{landDisplay}',
+                                                $order:1
+                                            },
+                                            CLOSE:{
+                                                className:'uicmd-close ',
+                                                style:'{closeDisplay}',
+                                                $order:2
+                                            }
                                         }
                                     }
                                 }
@@ -273,7 +275,7 @@ Class("linb.UI.Tabs", ["linb.UI", "linb.absList","linb.absValue"],{
             ITEMS:{
                 padding:'0 4px 2px 0',
                 position:'relative',
-                background: linb.UI.$bg('line.gif', ' repeat-x center bottom')
+                background: linb.UI.$bg('line.gif', 'repeat-x center bottom')
             },
             ITEM:{
                 $order:0,
@@ -281,42 +283,47 @@ Class("linb.UI.Tabs", ["linb.UI", "linb.absList","linb.absValue"],{
                 cursor:'pointer',
                 'padding-right':'6px',
                 'vertical-align':'top',
-                background: linb.UI.$bg('button.gif', ' no-repeat right -300px', true)
+                background: linb.UI.$bg('button.gif', 'no-repeat right -540px', true)
             },
             'ITEM-mouseover':{
                 $order:1,
-                'background-position' : 'right -400px'
+                'background-position' : 'right -690px'
             },
-            'ITEM-mousedown':{
+            'ITEM-mousedown, ITEM-checked':{
                 $order:2,
-                'background-position' : 'right -500px',
-                'border-bottom':'solid 1px #FAD600;'
-            },
-            'ITEM-checked':{
-                $order:3,
-                'background-position' : 'right -500px',
+                'background-position' : 'right -840px',
                 'border-bottom':'solid 1px #FAD600;'
             },
             ITEMI:{
                 $order:0,
-                padding:'6px 0 2px 6px',
-                border:0,
+                'padding-left':'6px',
                 //keep this same with ITEM
                 'vertical-align':'top',
-                'text-align': 'center',
-                background: linb.UI.$bg('button.gif', ' no-repeat left -350px',true)
+                background: linb.UI.$bg('button.gif', 'no-repeat left -640px',true)
             },
             'ITEM-mouseover ITEMI':{
                 $order:1,
-                'background-position' : 'left -450px'
+                'background-position' : 'left -790px'
             },
-            'ITEM-mousedown ITEMI':{
+            'ITEM-mousedown ITEMI, ITEM-checked ITEMI':{
                 $order:2,
-                'background-position' : 'left -550px'
+                'background-position' : 'left -940px'
             },
-            'ITEM-checked ITEMI':{
-                $order:3,
-                'background-position' : 'left -550px'
+            ITEMC:{
+                $order:0,
+                padding:'5px 0 3px 0',
+                //keep this same with ITEM
+                'vertical-align':'top',
+                'text-align': 'center',
+                background: linb.UI.$bg('button.gif', 'repeat-x left -590px',true)
+            },
+            'ITEM-mouseover ITEMC':{
+                $order:1,
+                'background-position' : 'left -740px'
+            },
+            'ITEM-mousedown ITEMC, ITEM-checked ITEMC':{
+                $order:2,
+                'background-position' : 'left -890px'
             },
             HANDLE:{
                 display:linb.$inlineBlock,
@@ -342,7 +349,7 @@ Class("linb.UI.Tabs", ["linb.UI", "linb.absList","linb.absValue"],{
                 'vertical-align':'middle'
             },
             CMDS:{
-                'vertical-align':'top',
+                'vertical-align':'middle',
                 'margin-left':'4px'
             }
         },
@@ -355,7 +362,7 @@ Class("linb.UI.Tabs", ["linb.UI", "linb.absList","linb.absValue"],{
                 var o = profile.domNode.style,w=null,h=null;
                 if(e.height)h = parseInt(o.height)||null;
                 if(e.width)w = parseInt(o.width)||null;
-                linb.UI.$tryResize(profile, w, h, profile.properties.$UIvalue);
+                linb.UI.$tryResize(profile, w, h);
             },
             OPT:{
                 onMousedown:function(){
@@ -478,7 +485,7 @@ Class("linb.UI.Tabs", ["linb.UI", "linb.absList","linb.absValue"],{
 
                     instance.afterPageClose(profile, bak);
 
-                    linb.UI.$tryResize(profile, profile.root.width(), profile.root.height(), properties.$UIvalue);
+                    linb.UI.$tryResize(profile, profile.root.width(), profile.root.height());
                     //for design mode in firefox
                     return false;
                 }
@@ -596,7 +603,7 @@ Class("linb.UI.Tabs", ["linb.UI", "linb.absList","linb.absValue"],{
 
                             //resize
                             var size = o.root.cssSize();
-                            linb.UI.$tryResize(o, size.width, size.height, o.properties.$UIvalue);
+                            linb.UI.$tryResize(o, size.width, size.height);
                         }else
                             o.properties.items = value;
                     });
@@ -652,10 +659,13 @@ Class("linb.UI.Tabs", ["linb.UI", "linb.absList","linb.absValue"],{
                 return arguments.callee.upper.apply(this,arguments);
         },
         //for tabs only
-        _onresize:function(profile,width,height,key){
+        _onresize:function(profile,width,height,force,key){
             var t=profile.properties,
-                o = profile.boxing().getPanel(key),
-                item = profile.getItemByItemId(key),
+                item = profile.getItemByItemId(key);
+            if(!item)
+                key=t.$UIvalue;
+            item = profile.getItemByItemId(key);
+            var o = profile.boxing().getPanel(key),
                 l=profile.getSubNode('LIST'),
                 forceH=0,
                 listH;
@@ -667,6 +677,7 @@ Class("linb.UI.Tabs", ["linb.UI", "linb.absList","linb.absValue"],{
                 height=null;
 
             var wc=null,hc=null;
+            if(force)item._w=item._h=null;
             if(width && item._w!=width){
                 height=profile.domNode.offsetHeight || profile.getRoot().offsetHeight();
                 forceH=1;

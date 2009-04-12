@@ -456,10 +456,10 @@ _.set(linb.Locale,["cn","doc"], {
                 "alert(_.serialize({d:new Date}));"+
                 "alert(_.serialize({d:new Date},'utc'))",
                 "alert(_.serialize({d:new Date},'gmt'))",
-                "alert(_.serialize(linb('logo')))",
-                "alert(_.serialize(linb.Dom.byId('logo')))",
-                "alert(_.serialize(linb.UIProfile.getFromDomId('logo')))",
-                "alert(_.serialize(linb.UIProfile.getFromDomId('logo').boxing()))"
+                "alert(_.serialize(linb('btnLang')))",
+                "alert(_.serialize(linb.Dom.byId('btnLang')))",
+                "alert(_.serialize(linb.UIProfile.getFromDom('btnLang')))",
+                "alert(_.serialize(linb.UIProfile.getFromDom('btnLang').boxing()))"
             ]
         },
         set:{
@@ -644,10 +644,10 @@ _.set(linb.Locale,["cn","doc"], {
             $snippet:[
                 "var o={a:[1,{k:1}],s:'s',d:new Date},str; alert(str=_.serialize(o)); var o2=_.unserialize(str); alert(o2.d)",
                 "var o={a:[1,,{k:1}],s:'s',d:new Date},str; alert(str=_.serialize(o)); var o2=_.unserialize(str, true); alert(o2.d)",
-                "alert(typeof _.unserialize(_.serialize(linb('logo'))))",
-                "alert(typeof _.unserialize(_.serialize(linb.Dom.byId('logo'))))",
-                "alert(typeof _.unserialize(_.serialize(linb.UIProfile.getFromDomId('logo'))))",
-                "alert(typeof _.unserialize(_.serialize(linb.UIProfile.getFromDomId('logo').boxing())))"
+                "alert(typeof _.unserialize(_.serialize(linb('btnLang'))))",
+                "alert(typeof _.unserialize(_.serialize(linb.Dom.byId('btnLang'))))",
+                "alert(typeof _.unserialize(_.serialize(linb.UIProfile.getFromDom('btnLang'))))",
+                "alert(typeof _.unserialize(_.serialize(linb.UIProfile.getFromDom('btnLang').boxing())))"
             ]
         }
      }
@@ -661,13 +661,13 @@ _.set(linb.Locale,["cn","doc","linb"], {
         "flag [可选参数]: Bool, 指示是否忽略清理函数(以获取更好的性能). 默认为 false."
     ],
     $snippet:[
-        "//Input DOM element id \n var n=linb('logo'); alert(n.get(0).id);",
-        "//Input DOM element \n var n=linb(document.getElementById('logo')); alert(n.get(0).id);",
-        "//Input DOM element id array\n var n=linb(['logo']); alert(n.get(0).id);",
-        "//Input DOM element array\n var n=linb([document.getElementById('logo')]); alert(n.get(0).id);",
-        "//Input linb.Dom object \n var n=linb(linb('logo')); alert(n.get(0).id);",
+        "//Input DOM element id \n var n=linb('btnLang'); alert(n.get(0).id);",
+        "//Input DOM element \n var n=linb(document.getElementById('btnLang')); alert(n.get(0).id);",
+        "//Input DOM element id array\n var n=linb(['btnLang']); alert(n.get(0).id);",
+        "//Input DOM element array\n var n=linb([document.getElementById('btnLang')]); alert(n.get(0).id);",
+        "//Input linb.Dom object \n var n=linb(linb('btnLang')); alert(n.get(0).id);",
         "//Input linb.UI object \n var n=linb(linb.UI.Div.getAll()); alert(n.get(0).id);",
-        "//Input a function that can return DOM elements array\n var n=linb(function(){return [document.getElementById('logo')]}); alert(n.get(0).id);",
+        "//Input a function that can return DOM elements array\n var n=linb(function(){return [document.getElementById('btnLang')]}); alert(n.get(0).id);",
         "//Input '{linb.UI key}' \n var n=linb('{linb.UI.Div}'); alert(n.get(0).id);"
     ],
     isDomReady:{
@@ -1512,7 +1512,7 @@ _.set(linb.Locale,["cn","doc","linb","Event"], {
         ],
         $snippet:[
             "var id='linb.temp.e1'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">click here ' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
-            "linb(id).onClick(function(p,e){linb('logo').onClick(null); alert(linb.Event.getBtn(e));});"+
+            "linb(id).onClick(function(p,e){linb('btnLang').onClick(null); alert(linb.Event.getBtn(e));});"+
             "}"
         ]
     },
@@ -1523,7 +1523,7 @@ _.set(linb.Locale,["cn","doc","linb","Event"], {
         ],
         $snippet:[
             "var id='linb.temp.e2'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">click here ' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
-            "linb(id).onClick(function(p,e){linb('logo').onClick(null); alert(_.serialize(linb.Event.getEventPara(e)));});"+
+            "linb(id).onClick(function(p,e){linb('btnLang').onClick(null); alert(_.serialize(linb.Event.getEventPara(e)));});"+
             "}"
         ]
     },
@@ -1533,7 +1533,7 @@ _.set(linb.Locale,["cn","doc","linb","Event"], {
             "node [必需参数] : DOM element, window or document object."
         ],
         $snippet:[
-            "alert(linb.Event.getId(document.getElementById('logo')));alert(linb.Event.getId(document));alert(linb.Event.getId(window));"
+            "alert(linb.Event.getId(document.getElementById('btnLang')));alert(linb.Event.getId(document));alert(linb.Event.getId(window));"
         ]
     },
     getKey:{
@@ -1555,7 +1555,7 @@ _.set(linb.Locale,["cn","doc","linb","Event"], {
         ],
         $snippet:[
             "var id='linb.temp.e4'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">click here ' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
-            "linb(id).onClick(function(p,e){linb('logo').onClick(null); alert(_.serialize(linb.Event.getPos(e)));});"+
+            "linb(id).onClick(function(p,e){linb('btnLang').onClick(null); alert(_.serialize(linb.Event.getPos(e)));});"+
             "}"
         ]
     },
@@ -1567,7 +1567,7 @@ _.set(linb.Locale,["cn","doc","linb","Event"], {
         ],
         $snippet:[
             "var id='linb.temp.e5'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">click here ' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
-            "linb(id).onClick(function(p,e){linb('logo').onClick(null); alert(linb.Event.getSrc(e).id);});"+
+            "linb(id).onClick(function(p,e){linb('btnLang').onClick(null); alert(linb.Event.getSrc(e).id);});"+
             "}"
         ]
     },
@@ -1639,7 +1639,7 @@ _.set(linb.Locale,["cn","doc","linb","absBox"],{
             "ensureValue [可选参数] : Bool, force to ensure value. 默认为 true. "
         ],
         $snippet:[
-            "var nodes = linb.Dom.pack(['logo',document.getElementById('logo')]); alert(nodes.get(0).id)"
+            "var nodes = linb.Dom.pack(['btnLang',document.getElementById('btnLang')]); alert(nodes.get(0).id)"
         ]
     },
     plugIn:{
@@ -1650,7 +1650,7 @@ _.set(linb.Locale,["cn","doc","linb","absBox"],{
             "fun [必需参数] : Function, plug-in function."
         ],
         $snippet:[
-            "var n=linb('logo'); alert(n.getBackgroundImg); linb.Dom.plugIn('getBackgroundImg',function(){return this.css('backgroundImage')}); alert(n.getBackgroundImg());"
+            "var n=linb('btnLang'); alert(n.getBackgroundImg); linb.Dom.plugIn('getBackgroundImg',function(){return this.css('backgroundImage')}); alert(n.getBackgroundImg());"
         ]
     },
     prototype:{
@@ -1661,7 +1661,7 @@ _.set(linb.Locale,["cn","doc","linb","absBox"],{
                 "fun [必需参数]: Function, [this] pointer is the linb.absBox object, arguments: [element, array index]. The function to apply to inner array item."
             ],
             $snippet:[
-                "linb(['linb.UI.Layout:a:','logo']).each(function(o,i){alert(i+' -> #'+o.id)})"
+                "linb(['linb.UI.Layout:a:','btnLang']).each(function(o,i){alert(i+' -> #'+o.id)})"
             ]
         },
         get:{
@@ -1671,14 +1671,14 @@ _.set(linb.Locale,["cn","doc","linb","absBox"],{
                 "index [可选参数] : Number."
             ],
             $snippet:[
-                "var n=linb(['linb.UI.Layout:a:','logo']); alert(n.get(1).id); alert(n.get()[0].id+' , '+n.get()[1].id);"
+                "var n=linb(['linb.UI.Layout:a:','btnLang']); alert(n.get(1).id); alert(n.get()[0].id+' , '+n.get()[1].id);"
             ]
         },
         isEmpty:{
             $desc:"To Determines if the current linb.absBox object includes any element.",
             $rtn:"Bool.",
             $snippet:[
-                "var n=linb(['linb.UI.Layout:a:','logo']); alert(n.isEmpty()); alert(linb().isEmpty())"
+                "var n=linb(['linb.UI.Layout:a:','btnLang']); alert(n.isEmpty()); alert(linb().isEmpty())"
             ]
         },
         merge:{
@@ -1688,7 +1688,7 @@ _.set(linb.Locale,["cn","doc","linb","absBox"],{
                 "obj [必需参数] : linb.absBox objcet, the target object"
             ],
             $snippet:[
-                "alert(linb('linb.UI.Layout:a:').merge(linb('logo')).get().length)"
+                "alert(linb('linb.UI.Layout:a:').merge(linb('btnLang')).get().length)"
             ]
         },
         reBoxing:{
@@ -1768,7 +1768,7 @@ _.set(linb.Locale,["cn","doc","linb","Dom"], {
             "id [必需参数] : String, DOM id"
         ],
         $snippet:[
-            "alert( linb.Dom.byId('logo') === document.getElementById ('logo') )"
+            "alert( linb.Dom.byId('btnLang') === document.getElementById ('btnLang') )"
         ]
     },
     animate:{
@@ -1808,7 +1808,7 @@ _.set(linb.Locale,["cn","doc","linb","Dom"], {
             "name [必需参数] : String, CSS样式项名称,如height,width等等."
         ],
         $snippet:[
-            "var n=linb.Dom.byId('logo'); alert(linb.Dom.getStyle(n,'width')); alert(linb.Dom.getStyle(n,'overflow'))"
+            "var n=linb.Dom.byId('btnLang'); alert(linb.Dom.getStyle(n,'width')); alert(linb.Dom.getStyle(n,'overflow'))"
         ]
     },
     setStyle:{
@@ -1819,7 +1819,7 @@ _.set(linb.Locale,["cn","doc","linb","Dom"], {
             "value [必需参数] : String, CSS样式项值，如25px."
         ],
         $snippet:[
-            "var n=linb.Dom.byId('logo'); linb.Dom.setStyle(n,'top', '100px'); _.asyRun(function(){linb.Dom.setStyle(n,'top', '0px')}, 2000)"
+            "var n=linb.Dom.byId('btnLang'); linb.Dom.setStyle(n,'top', '100px'); _.asyRun(function(){linb.Dom.setStyle(n,'top', '0px')}, 2000)"
         ]
     },
     setCover:{
@@ -1920,7 +1920,7 @@ _.set(linb.Locale,["cn","doc","linb","Dom"], {
                 "name [必需参数] : String, CSS类名."
             ],
             $snippet:[
-                "var n=linb('logo');alert(n.attr('className'));n.addClass('cls');alert(n.attr('className'));n.removeClass('cls');alert(n.attr('className'));"
+                "var n=linb('btnLang');alert(n.attr('className'));n.addClass('cls');alert(n.attr('className'));n.removeClass('cls');alert(n.attr('className'));"
             ]
         },
         removeClass:{
@@ -1930,7 +1930,7 @@ _.set(linb.Locale,["cn","doc","linb","Dom"], {
                 "name [必需参数] : String, CSS类名."
             ],
             $snippet:[
-                "var n=linb('logo');alert(n.attr('className'));n.addClass('cls');alert(n.attr('className'));n.removeClass('cls');alert(n.attr('className'));"
+                "var n=linb('btnLang');alert(n.attr('className'));n.addClass('cls');alert(n.attr('className'));n.removeClass('cls');alert(n.attr('className'));"
             ]
         },
         hasClass:{
@@ -1940,7 +1940,7 @@ _.set(linb.Locale,["cn","doc","linb","Dom"], {
                 "name [必需参数] : String, CSS类名."
             ],
             $snippet:[
-                "var n=linb('logo');alert(n.attr('className'));alert(n.hasClass('linb-div'));alert(n.hasClass('cls'));"
+                "var n=linb('btnLang');alert(n.attr('className'));alert(n.hasClass('linb-div'));alert(n.hasClass('cls'));"
             ]
         },
         replaceClass:{
@@ -1951,7 +1951,7 @@ _.set(linb.Locale,["cn","doc","linb","Dom"], {
                 "replace [必需参数] : String."
             ],
             $snippet:[
-                "var n=linb('logo');alert(n.attr('className'));n.replaceClass(/ui/,'cls');alert(n.attr('className'));n.replaceClass(/cls/,'ui');"
+                "var n=linb('btnLang');alert(n.attr('className'));n.replaceClass(/ui/,'cls');alert(n.attr('className'));n.replaceClass(/cls/,'ui');"
             ]
         },
         tagClass:{
@@ -1962,7 +1962,7 @@ _.set(linb.Locale,["cn","doc","linb","Dom"], {
                 "isAdd [可选参数] : Bool, adds or removes. 默认为[true]."
             ],
             $snippet:[
-                "var n=linb('logo');n.tagClass('-checked').tagClass('-mouseover');alert(n.attr('className')); n.tagClass('-checked',false).tagClass('-mouseover',false);alert(n.attr('className'));"
+                "var n=linb('btnLang');n.tagClass('-checked').tagClass('-mouseover');alert(n.attr('className')); n.tagClass('-checked',false).tagClass('-mouseover',false);alert(n.attr('className'));"
             ]
         },
         append:{
@@ -2080,10 +2080,10 @@ _.set(linb.Locale,["cn","doc","linb","Dom"], {
                 "value [可选参数] : 属性值, [null]表示移除，不传入任何参数表示获取."
             ],
             $snippet:[
-                "var n=linb('logo'); alert(n.attr('style')); alert(n.attr('tagName')); alert(n.attr('className'));",
-                "var n=linb('logo'); n.attr('abc','abc'); alert(n.attr('abc')); n.attr('abc',null);  n.attr('tagName',null); alert(n.attr('abc'));",
-                "var n=linb('logo'); n.attr('onclick',function(){alert('hi')}); _.asyRun(function(){n.attr('onclick',null)},5000); ",
-                "var n=linb('logo'); n.attr({a:'a',b:'b'}); alert(n.attr('a')); n.attr({a:null,b:null}); alert(n.attr('a'));"
+                "var n=linb('btnLang'); alert(n.attr('style')); alert(n.attr('tagName')); alert(n.attr('className'));",
+                "var n=linb('btnLang'); n.attr('abc','abc'); alert(n.attr('abc')); n.attr('abc',null);  n.attr('tagName',null); alert(n.attr('abc'));",
+                "var n=linb('btnLang'); n.attr('onclick',function(){alert('hi')}); _.asyRun(function(){n.attr('onclick',null)},5000); ",
+                "var n=linb('btnLang'); n.attr({a:'a',b:'b'}); alert(n.attr('a')); n.attr({a:null,b:null}); alert(n.attr('a'));"
             ]
         },
         caret:{
@@ -2243,9 +2243,9 @@ _.set(linb.Locale,["cn","doc","linb","Dom"], {
                 "value [可选参数] : CSS属性值."
             ],
             $snippet:[
-                "var n=linb('logo'); alert(n.css('background')); alert(n.css('overflow')); alert(n.css('top'));",
-                "var n=linb('logo'); n.css('right','30px'); _.asyRun(function(){n.css('right','0')},1000)",
-                "var n=linb('logo'); n.css({top:'30px',right:'30px'}); _.asyRun(function(){n.css({top:0,right:0})},1000)"
+                "var n=linb('btnLang'); alert(n.css('background')); alert(n.css('overflow')); alert(n.css('top'));",
+                "var n=linb('btnLang'); n.css('right','30px'); _.asyRun(function(){n.css('right','0')},1000)",
+                "var n=linb('btnLang'); n.css({top:'30px',right:'30px'}); _.asyRun(function(){n.css({top:0,right:0})},1000)"
             ]
         },
         cssPos:{
@@ -2257,7 +2257,7 @@ _.set(linb.Locale,["cn","doc","linb","Dom"], {
 
             ],
             $snippet:[
-                "var n=linb('logo'); n.cssPos({left:100,top:100}); alert(_.serialize(n.cssPos())); n.cssPos({left:'auto',top:'auto'})"
+                "var n=linb('btnLang'); n.cssPos({left:100,top:100}); alert(_.serialize(n.cssPos())); n.cssPos({left:'auto',top:'auto'})"
             ]
         },
         cssSize:{
@@ -2268,7 +2268,7 @@ _.set(linb.Locale,["cn","doc","linb","Dom"], {
                 "triggerEvent [可选参数] : Bool, 指示是否触发事件."
             ],
             $snippet:[
-                "var n=linb('logo'), bak=n.cssSize(); n.cssSize({width:50,height:50}); alert(_.serialize(n.cssSize())); n.cssSize(bak)"
+                "var n=linb('btnLang'), bak=n.cssSize(); n.cssSize({width:50,height:50}); alert(_.serialize(n.cssSize())); n.cssSize(bak)"
             ]
         },
         cssRegion:{
@@ -2279,7 +2279,7 @@ _.set(linb.Locale,["cn","doc","linb","Dom"], {
                 "triggerEvent [可选参数] : Bool, 指示是否触发事件."
             ],
             $snippet:[
-                "var n=linb('logo'),bak=n.cssRegion(); n.cssRegion({left:100,top:100,width:50,height:50}); alert(_.serialize(n.cssRegion())); bak.left=bak.top='auto'; n.cssRegion(bak);"
+                "var n=linb('btnLang'),bak=n.cssRegion(); n.cssRegion({left:100,top:100,width:50,height:50}); alert(_.serialize(n.cssRegion())); bak.left=bak.top='auto'; n.cssRegion(bak);"
             ]
         },
         query:{
@@ -2547,7 +2547,7 @@ _.set(linb.Locale,["cn","doc","linb","Dom"], {
             $desc:"隐藏所有的元素.",
             $rtn:"[self]",
             $snippet:[
-                "linb('logo').hide(); _.asyRun(function(){linb('logo').show()},1000);"
+                "linb('btnLang').hide(); _.asyRun(function(){linb('btnLang').show()},1000);"
             ]
         },
         show:{
@@ -2558,7 +2558,7 @@ _.set(linb.Locale,["cn","doc","linb","Dom"], {
                 "top [可选参数] : Number, top值."
             ],
             $snippet:[
-                "linb('logo').hide(); _.asyRun(function(){linb('logo').show()},1000);"
+                "linb('btnLang').hide(); _.asyRun(function(){linb('btnLang').show()},1000);"
             ]
         },
         text:{
@@ -2607,7 +2607,7 @@ _.set(linb.Locale,["cn","doc","linb","Dom"], {
                 "ignoreCache [可选参数] : Bool, indicates if ignore to reset cache. 默认为[false]"
             ],
             $snippet:[
-                "var n=linb('logo'); n.id('logo2'); alert(n.id()); n.id('logo');"
+                "var n=linb('btnLang'); n.id('logo2'); alert(n.id()); n.id('btnLang');"
             ]
         },
         fixPng:{
@@ -3372,7 +3372,7 @@ _.set(linb.Locale,["cn","doc","linb","absObj"], {
                 "alias [Optional : String, 别名字符串."
             ],
             $snippet:[
-                "var o=linb.UIProfile.getFromDomId('logo'); alert(o.host===SPA);",
+                "var o=linb.UIProfile.getFromDom('btnLang'); alert(o.host===SPA);",
                 "var host={},o=new linb.UI.Button; o.host(host, 'aBtn'); alert(host.aBtn.KEY);"
             ]
         },
@@ -3383,7 +3383,7 @@ _.set(linb.Locale,["cn","doc","linb","absObj"], {
                 "str [可选参数] : String, 别名字符串."
             ],
             $snippet:[
-                "var o=linb.UIProfile.getFromDomId('logo'); alert(o.alias); alert(o.host[o.alias].get(0)===o)",
+                "var o=linb.UIProfile.getFromDom('btnLang'); alert(o.alias); alert(o.host[o.alias].get(0)===o)",
                 "var host={},o=new linb.UI.Button; o.host(host, 'aBtn'); alert(host.aBtn.KEY); o.alias('bBtn'); alert(host.aBtn);  alert(host.bBtn.KEY); "
             ]
         }
@@ -3396,7 +3396,7 @@ _.set(linb.Locale,["cn","doc","linb","absProfile"], {
             $desc:"获取唯一的标志符.",
             $rtn:"String",
             $snippet:[
-                "alert(linb.UIProfile.getFromDomId('logo').getId())"
+                "alert(linb.UIProfile.getFromDom('btnLang').getId())"
             ]
         },
         link:{
@@ -3449,15 +3449,15 @@ _.set(linb.Locale,["cn","doc","linb","Profile"], {
                 "keepHost [可选参数] : Bool. 指示是否保持和宿主的联系. 默认为 false."
             ],
             $snippet:[
-                "alert(linb.UIProfile.getFromDomId('logo').serialize());" +
-                "alert(linb.UIProfile.getFromDomId('logo').serialize(false))"
+                "alert(linb.UIProfile.getFromDom('btnLang').serialize());" +
+                "alert(linb.UIProfile.getFromDom('btnLang').serialize(false))"
             ]
         },
         getEvents:{
             $desc:"获取该对象的所有事件.",
             $rtn:"Array. 事件数组",
             $snippet:[
-                "var p=linb.UIProfile.getFromDomId('logo'); p.setEvents({onA:_.fun(), onShowTips:function(){return false}}); alert(_.serialize(p.getEvents()))"
+                "var p=linb.UIProfile.getFromDom('btnLang'); p.setEvents({onA:_.fun(), onShowTips:function(){return false}}); alert(_.serialize(p.getEvents()))"
             ]
         },
         setEvents:{
@@ -3467,14 +3467,14 @@ _.set(linb.Locale,["cn","doc","linb","Profile"], {
                 "events [必需参数] : key/value(Function) pairs. A set of event functions."
             ],
             $snippet:[
-                "var p=linb.UIProfile.getFromDomId('logo'); p.setEvents({onA:_.fun(), onShowTips:function(){return false}}); alert(_.serialize(p.getEvents()))"
+                "var p=linb.UIProfile.getFromDom('btnLang'); p.setEvents({onA:_.fun(), onShowTips:function(){return false}}); alert(_.serialize(p.getEvents()))"
             ]
         },
         boxing:{
             $desc:"将当前的轮廓(profile)对象打包为一个linb.absBox对象，并返回打包后的对象.",
             $rtn:'linb.absBox object',
             $snippet:[
-                "alert(linb.UIProfile.getFromDomId('logo').boxing().KEY)"
+                "alert(linb.UIProfile.getFromDom('btnLang').boxing().KEY)"
             ]
         }
     }
@@ -3485,15 +3485,15 @@ _.set(linb.Locale,["cn","doc","linb","UIProfile"], {
         $desc:"生成一个UI profile对象",
         $memo:"一般情况下，程序员无需直接调用该函数."
     },
-    getFromDomId:{
+    getFromDom:{
         $desc:"从一个指定的DOM元素的id上获取一个UI profile.",
         $rtn:"linb.UIProfile",
         $paras:[
-            "id [必需参数] : String, DOM元素的id."
+            "id [必需参数] : String, DOM元素或id."
         ],
         $snippet:[
-            "alert(linb.UIProfile.getFromDomId('logo').serialize());",
-            "alert(linb.UIProfile.getFromDomId('linb.UI.TreeBar-CMD:a:l').serialize());"
+            "alert(linb.UIProfile.getFromDom('btnLang').serialize());",
+            "alert(linb.UIProfile.getFromDom('linb.UI.TreeBar-CMD:a:l').serialize());"
         ]
     },
     prototype:{
@@ -3504,14 +3504,14 @@ _.set(linb.Locale,["cn","doc","linb","UIProfile"], {
             $desc:"获取根linb.Dom对象.",
             $rtn:"linb.Dom 对象",
             $snippet:[
-            "alert(linb.UIProfile.getFromDomId('logo').getRoot());"
+            "alert(linb.UIProfile.getFromDom('btnLang').getRoot());"
             ]
         },
         getRootNode:{
             $desc:"获取根DOM元素.",
             $rtn:"DOM 元素",
             $snippet:[
-            "alert(linb.UIProfile.getFromDomId('logo').getRootNode());"
+            "alert(linb.UIProfile.getFromDom('btnLang').getRootNode());"
             ]
         },
         serialize:{
@@ -3522,15 +3522,15 @@ _.set(linb.Locale,["cn","doc","linb","UIProfile"], {
                 "keepHost [可选参数] : Bool. 指示是否保持和宿主的联系. 默认为 false."
             ],
             $snippet:[
-                "alert(linb.UIProfile.getFromDomId('logo').serialize());" +
-                "alert(linb.UIProfile.getFromDomId('logo').serialize(false))"
+                "alert(linb.UIProfile.getFromDom('btnLang').serialize());" +
+                "alert(linb.UIProfile.getFromDom('btnLang').serialize(false))"
             ]
         },
         toHtml:{
             $desc:"将当前的轮廓(profile)对象构造为一个html字符串, 并返回.",
             $rtn:"String",
             $snippet:[
-                "alert(linb.UIProfile.getFromDomId('logo').toHtml())"
+                "alert(linb.UIProfile.getFromDom('btnLang').toHtml())"
             ]
         },
         buildItems:{
@@ -3552,14 +3552,14 @@ _.set(linb.Locale,["cn","doc","linb","UIProfile"], {
                 "tag [可选参数] : String, tag string."
             ],
             $snippet:[
-                "alert(linb.UIProfile.getFromDomId('linb.UI.Panel:a:').getClass('HANDLE','-mouseover'))"
+                "alert(linb.UIProfile.getFromDom('linb.UI.Panel:a:').getClass('HANDLE','-mouseover'))"
             ]
         },
         getDomId:{
             $desc:"获取UIProfile对应的DOM的id.",
             $rtn:"String",
             $snippet:[
-                "alert(linb.UIProfile.getFromDomId('logo').getDomId())"
+                "alert(linb.UIProfile.getFromDom('btnLang').getDomId())"
             ]
         },
         setDomId:{
@@ -3569,7 +3569,7 @@ _.set(linb.Locale,["cn","doc","linb","UIProfile"], {
                 "id [必需参数] : String, id string"
             ],
             $snippet:[
-                "var profile=linb.UIProfile.getFromDomId('logo'); alert(profile.getDomId()); profile.setDomId('logo1'); alert(profile.getDomId());profile.setDomId('logo'); alert(profile.getDomId());"
+                "var profile=linb.UIProfile.getFromDom('btnLang'); alert(profile.getDomId()); profile.setDomId('logo1'); alert(profile.getDomId());profile.setDomId('btnLang'); alert(profile.getDomId());"
             ]
         },
         queryItems:{
@@ -3583,8 +3583,8 @@ _.set(linb.Locale,["cn","doc","linb","UIProfile"], {
                 "flag [可选参数] : Bool, 指示是否返回包括链接信息的复杂值. 默认为 [false]."
             ],
             $snippet:[
-                "var profile=linb.UIProfile.getFromDomId('linb.UI.TreeBar:a:'), items=[{id:'a'},{id:'.b',sub:[{id:'aa'},{id:'.bb'}]}], filter=function(o,i){return o.id.indexOf('.')!=-1},results= profile.queryItems(items,filter);alert(results.length);results= profile.queryItems(items,filter,true);alert(results.length);results= profile.queryItems(items,filter,true,true);alert(results.length);results= profile.queryItems(items,filter,false,true);alert(results.length);",
-                "var profile=linb.UIProfile.getFromDomId('linb.UI.TreeBar:a:'), items=profile.properties.items, filter=function(o,i){return o.id.indexOf('.')!=-1},results= profile.queryItems(items,filter);alert(results.length);results= profile.queryItems(items,filter,true);alert(results.length);results= profile.queryItems(items,filter,true,true);alert(results.length);results= profile.queryItems(items,filter,false,true);alert(results.length);"
+                "var profile=linb.UIProfile.getFromDom('linb.UI.TreeBar:a:'), items=[{id:'a'},{id:'.b',sub:[{id:'aa'},{id:'.bb'}]}], filter=function(o,i){return o.id.indexOf('.')!=-1},results= profile.queryItems(items,filter);alert(results.length);results= profile.queryItems(items,filter,true);alert(results.length);results= profile.queryItems(items,filter,true,true);alert(results.length);results= profile.queryItems(items,filter,false,true);alert(results.length);",
+                "var profile=linb.UIProfile.getFromDom('linb.UI.TreeBar:a:'), items=profile.properties.items, filter=function(o,i){return o.id.indexOf('.')!=-1},results= profile.queryItems(items,filter);alert(results.length);results= profile.queryItems(items,filter,true);alert(results.length);results= profile.queryItems(items,filter,true,true);alert(results.length);results= profile.queryItems(items,filter,false,true);alert(results.length);"
 
             ]
         },
@@ -3595,7 +3595,7 @@ _.set(linb.Locale,["cn","doc","linb","UIProfile"], {
                 "src [必需参数] : DOM(或DOM的id)."
             ],
             $snippet:[
-                "var pro=linb.UIProfile.getFromDomId('linb.UI.TreeBar:a:');alert(_.serialize( pro.getItemByDom('linb.UI.TreeBar-ITEM:a:a') ))"
+                "var pro=linb.UIProfile.getFromDom('linb.UI.TreeBar:a:');alert(_.serialize( pro.getItemByDom('linb.UI.TreeBar-ITEM:a:a') ))"
             ],
             $memo:"该函数只对[linb.absList]及其派生类有效. 一般情况下, 我们在事件回调函数使用该函数."
         },
@@ -3606,7 +3606,7 @@ _.set(linb.Locale,["cn","doc","linb","UIProfile"], {
                 "src [必需参数] : DOM(或DOM的id)."
             ],
             $snippet:[
-                "var pro=linb.UIProfile.getFromDomId('linb.UI.TreeBar:a:');alert(_.serialize( pro.getItemIdByDom('linb.UI.TreeBar-ITEM:a:a') ))"
+                "var pro=linb.UIProfile.getFromDom('linb.UI.TreeBar:a:');alert(_.serialize( pro.getItemIdByDom('linb.UI.TreeBar-ITEM:a:a') ))"
             ],
             $memo:"该函数只对[linb.absList]及其派生类有效. 一般情况下, 我们在事件回调函数使用该函数."
         },
@@ -3617,7 +3617,7 @@ _.set(linb.Locale,["cn","doc","linb","UIProfile"], {
                 "itemId [必需参数] :String, item id."
             ],
             $snippet:[
-                "var pro=linb.UIProfile.getFromDomId('linb.UI.TreeBar:a:');alert(_.serialize( pro.getItemByItemId('Namespace') ))"
+                "var pro=linb.UIProfile.getFromDom('linb.UI.TreeBar:a:');alert(_.serialize( pro.getItemByItemId('Namespace') ))"
             ],
             $memo:"该函数只对[linb.absList]及其派生类有效. "
         },
@@ -3628,7 +3628,7 @@ _.set(linb.Locale,["cn","doc","linb","UIProfile"], {
                 "itemId [必需参数] :String, 项id."
             ],
             $snippet:[
-                "var pro=linb.UIProfile.getFromDomId('linb.UI.TreeBar:a:');alert(pro.getSubIdByItemId('Namespace') )"
+                "var pro=linb.UIProfile.getFromDom('linb.UI.TreeBar:a:');alert(pro.getSubIdByItemId('Namespace') )"
             ],
             $memo:"该函数只对[linb.absList]及其派生类有效"
         },
@@ -3640,9 +3640,9 @@ _.set(linb.Locale,["cn","doc","linb","UIProfile"], {
                 "subId [可选参数] : String or [true]. 如果为[true], 则获取[key]对应的所有的子节点."
             ],
             $snippet:[
-                "alert(linb.UIProfile.getFromDomId('logo').getSubNode('KEY').id());"+
-                "alert(linb.UIProfile.getFromDomId('linb.UI.TreeBar:a:').getSubNode('ITEM','a').id());"+
-                "alert(linb.UIProfile.getFromDomId('linb.UI.TreeBar:a:').getSubNode('ITEM',true).get().length);"
+                "alert(linb.UIProfile.getFromDom('btnLang').getSubNode('KEY').id());"+
+                "alert(linb.UIProfile.getFromDom('linb.UI.TreeBar:a:').getSubNode('ITEM','a').id());"+
+                "alert(linb.UIProfile.getFromDom('linb.UI.TreeBar:a:').getSubNode('ITEM',true).get().length);"
             ],
             $memo:"参数[subId]只对[linb.absList]及其派生类有效"
         },
@@ -3654,7 +3654,7 @@ _.set(linb.Locale,["cn","doc","linb","UIProfile"], {
                 "subId [可选参数] : String or [true]. [true] for getting all the sub nodes with the specified [key]."
             ],
             $snippet:[
-                "var profile=linb.UIProfile.getFromDomId('linb.UI.TreeBar:a:'); alert(profile.getSubNodes(['KEY','BORDER']).get().length);"+
+                "var profile=linb.UIProfile.getFromDom('linb.UI.TreeBar:a:'); alert(profile.getSubNodes(['KEY','BORDER']).get().length);"+
                 "alert(profile.getSubNodes(['ITEM','BAR'],'a').get().length);"+
                 "alert(profile.getSubNodes(['ITEM','BAR'],true).get().length);"
             ],
@@ -3669,7 +3669,7 @@ _.set(linb.Locale,["cn","doc","linb","UIProfile"], {
                 "itemId [可选参数] : String, the item id."
             ],
             $snippet:[
-                "alert(linb.UIProfile.getFromDomId('linb.UI.TreeBar:a:').getSubNodeByItemId('ITEM','Class').id())"
+                "alert(linb.UIProfile.getFromDom('linb.UI.TreeBar:a:').getSubNodeByItemId('ITEM','Class').id())"
             ],
             $memo:"For those [linb.absList] profiles only"
         },
@@ -3680,7 +3680,7 @@ _.set(linb.Locale,["cn","doc","linb","UIProfile"], {
                 "id [必需参数] :String, DOM id."
             ],
             $snippet:[
-                "var pro=linb.UIProfile.getFromDomId('linb.UI.TreeBar:a:');alert(pro.getKey('linb.UI.TreeBar:a:') )"
+                "var pro=linb.UIProfile.getFromDom('linb.UI.TreeBar:a:');alert(pro.getKey('linb.UI.TreeBar:a:') )"
             ]
         },
         getSubId:{
@@ -3690,7 +3690,7 @@ _.set(linb.Locale,["cn","doc","linb","UIProfile"], {
                 "id [必需参数] :String, item id."
             ],
             $snippet:[
-                "var pro=linb.UIProfile.getFromDomId('linb.UI.TreeBar:a:');alert(pro.getSubId('linb.UI.TreeBar:a:ab') )"
+                "var pro=linb.UIProfile.getFromDom('linb.UI.TreeBar:a:');alert(pro.getSubId('linb.UI.TreeBar:a:ab') )"
             ]
         },
         clearCache:{
@@ -3704,7 +3704,7 @@ _.set(linb.Locale,["cn","doc","linb","UIProfile"], {
                 "key [必需参数] : String, key string."
             ],
             $snippet:[
-                "var profile=linb.UIProfile.getFromDomId('linb.UI.TreeBar:a:'), id1=profile.pickSubId('items'), id2=profile.pickSubId('items');profile.reclaimSubId(id1,'items');var id3=profile.pickSubId('items');alert(id1+':'+id2+':'+id3);"
+                "var profile=linb.UIProfile.getFromDom('linb.UI.TreeBar:a:'), id1=profile.pickSubId('items'), id2=profile.pickSubId('items');profile.reclaimSubId(id1,'items');var id3=profile.pickSubId('items');alert(id1+':'+id2+':'+id3);"
             ],
             $memo:"一般情况下，程序员不需要手动调用该函数."
         },
@@ -3715,7 +3715,7 @@ _.set(linb.Locale,["cn","doc","linb","UIProfile"], {
                 "key [必需参数] : String, key string."
             ],
             $snippet:[
-                "var profile=linb.UIProfile.getFromDomId('linb.UI.TreeBar:a:'), id1=profile.pickSubId('items'), id2=profile.pickSubId('items');profile.reclaimSubId(id1,'items');var id3=profile.pickSubId('items');alert(id1+':'+id2+':'+id3);"
+                "var profile=linb.UIProfile.getFromDom('linb.UI.TreeBar:a:'), id1=profile.pickSubId('items'), id2=profile.pickSubId('items');profile.reclaimSubId(id1,'items');var id3=profile.pickSubId('items');alert(id1+':'+id2+':'+id3);"
             ],
             $memo:"一般情况下，程序员不需要手动调用该函数."
         },
@@ -3737,15 +3737,15 @@ _.set(linb.Locale,["cn","doc","linb","UIProfile"], {
 });
 
 _.set(linb.Locale,["cn","doc","linb","Template"], {
-    getFromDomId:{
+    getFromDom:{
         $desc:"从一个DOM元素中获取一个模板(template)对象.",
         $rtn:"linb.Template",
         $paras:[
-            "id [必需参数] : String, DOM元素id."
+            "id [必需参数] : String, DOM元素或id."
         ],
         $snippet:[
             "var id='linb.temp.2'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
-                "var t=new linb.Template({'':'<div>{caption}</div>'},{id:'1',caption:'cap'}); t.setDomId('abc'); linb(id).append(t); alert(linb.Template.getFromDomId('abc').serialize());"+
+                "var t=new linb.Template({'':'<div>{caption}</div>'},{id:'1',caption:'cap'}); t.setDomId('abc'); linb(id).append(t); alert(linb.Template.getFromDom('abc').serialize());"+
             "}"
         ]
     },
@@ -4826,7 +4826,7 @@ _.set(linb.Locale,["cn","doc","linb","absList"], {
                 "itemId [必需参数] :String, 项id."
             ],
             $snippet:[
-                "var pro=linb.UIProfile.getFromDomId('linb.UI.TreeBar:a:').boxing();alert(_.serialize( pro.getItemByItemId('Namespace') ))"
+                "var pro=linb.UIProfile.getFromDom('linb.UI.TreeBar:a:').boxing();alert(_.serialize( pro.getItemByItemId('Namespace') ))"
             ]
         },
         getItemByDom:{
@@ -4836,7 +4836,7 @@ _.set(linb.Locale,["cn","doc","linb","absList"], {
                 "src [必需参数] : DOM节点或DOM id."
             ],
             $snippet:[
-                "var pro=linb.UIProfile.getFromDomId('linb.UI.TreeBar:a:').boxing();alert(_.serialize( pro.getItemByDom('linb.UI.TreeBar-ITEM:a:a') ))"
+                "var pro=linb.UIProfile.getFromDom('linb.UI.TreeBar:a:').boxing();alert(_.serialize( pro.getItemByDom('linb.UI.TreeBar-ITEM:a:a') ))"
             ]
         },
         getSubIdByItemId:{
@@ -4846,7 +4846,7 @@ _.set(linb.Locale,["cn","doc","linb","absList"], {
                 "itemId [必需参数] :String, 项id."
             ],
             $snippet:[
-                "var pro=linb.UIProfile.getFromDomId('linb.UI.TreeBar:a:').boxing();alert(pro.getSubIdByItemId('Namespace') )"
+                "var pro=linb.UIProfile.getFromDom('linb.UI.TreeBar:a:').boxing();alert(pro.getSubIdByItemId('Namespace') )"
             ]
         },
         getSubNodeByItemId:{
@@ -4856,7 +4856,7 @@ _.set(linb.Locale,["cn","doc","linb","absList"], {
                 "itemId [必需参数] :String, 项id."
             ],
             $snippet:[
-                "var pro=linb.UIProfile.getFromDomId('linb.UI.TreeBar:a:').boxing();alert(pro.getSubNodeByItemId('Namespace') )"
+                "var pro=linb.UIProfile.getFromDom('linb.UI.TreeBar:a:').boxing();alert(pro.getSubNodeByItemId('Namespace') )"
             ]
         }
     }
@@ -5422,7 +5422,7 @@ _.set(linb.Locale,["cn","doc","linb","absComposed"], {
             ]
         },
         onStartDrag:{
-            $desc:"当用户开始拖动该对象时调用.",
+            $desc:"当用户开始拖动该对象时被触发.",
             $paras:[
                 "profile : linb.UIProfile.",
                 "e : DOM事件元素.",
@@ -5434,6 +5434,21 @@ _.set(linb.Locale,["cn","doc","linb","absComposed"], {
                 "list2.onStartDrag(function(p,e,n){return false;});"+
                 "list1.onStartDrag(function(p,e,n){linb.message('onStartDrag');});"+
                 "list1.onDragStop(function(p,e,n){linb.message('onDragStop');});"+
+                "}"
+            ]
+        },
+        onGetDragData:{
+            $desc:"当用户开始拖动该对象时(这时候会取得拖拽的数据)调用.",
+            $paras:[
+                "profile : linb.UIProfile.",
+                "e : DOM事件元素.",
+                "src : 事件发生的DOM元素."
+            ],
+            $snippet:[
+                "var id='linb.temp.ab661-1'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var list1,list2;linb(id).append(list1=new linb.UI.List({position:'relative',width:'200',height:50,border:true,dragKey:'test',items:['drag me and drop to the below list']})).append(list2=new linb.UI.List({position:'relative',width:'200',height:50,border:true,dropKeys:'test',items:['drop here']}));"+
+                "list1.onGetDragData(function(p,e,n){return {key:'value'};});"+
+                "list2.onDrop(function(p, e, node, key, data){linb.log(data.data);});"+
                 "}"
             ]
         },
@@ -5504,6 +5519,16 @@ _.set(linb.Locale,["cn","doc","linb","absComposed"], {
 });
 
 _.set(linb.Locale,["cn","doc","linb","UI"], {
+    getFromDom:{
+        $desc:"从一个指定的DOM元素的id上获取一个UI object.",
+        $rtn:"linb.UIProfile",
+        $paras:[
+            "id [必需参数] : String, DOM元素或id."
+        ],
+        $snippet:[
+            "alert(linb.UI.getFromDom('linb.UI.TreeBar-CMD:a:1').alias());"
+        ]
+    },
     buildCSSText:{
         $desc:"由指定的键/值对生成CSS样式.",
         $rtn:"String. CSS样式",
@@ -5630,6 +5655,7 @@ _.set(linb.Locale,["cn","doc","linb","UI"], {
         $rtn:"Object",
         $paras:[
             "profile [必需参数] : 目标profile对象",
+            "event: DOM 事件对象.",
             "node [必需参数] : 相关的DOM元素."
         ],
         $memo:"一般情况下，程序员无需直接调用该函数. 该函数会被部分子类覆盖."
@@ -5660,7 +5686,7 @@ _.set(linb.Locale,["cn","doc","linb","UI"], {
             "keepSerialId [可选参数] : Bool. 指示是否保留序列号. 默认为 [false]."
         ],
         $snippet:[
-            "var s=linb.UIProfile.getFromDomId('logo').boxing().serialize(false); alert(_.serialize(s)); alert(linb.UI.unserialize(s))"
+            "var s=linb.UIProfile.getFromDom('btnLang').boxing().serialize(false); alert(_.serialize(s)); alert(linb.UI.unserialize(s))"
         ]
     },
     prototype:{
@@ -5693,9 +5719,13 @@ _.set(linb.Locale,["cn","doc","linb","UI"], {
                 "}"
             ]
         },
-        resize:{
-            $desc:"触发onresize事件.",
-            $rtn:"[self]"
+        reLayout:{
+            $desc:"重新layout本控件",
+            $rtn:"[self]",
+            $paras:[
+                "syn [可选参数] : Bool, 是否同步运行。",
+                "force [可选参数] : Bool, 是否强制。"
+            ]
         },
         getChildren:{
             $desc:"Gets the current widget's children.",
@@ -5714,7 +5744,7 @@ _.set(linb.Locale,["cn","doc","linb","UI"], {
             $desc:"To build HTML string from the current object, and returns it.",
             $rtn:"String",
             $snippet:[
-                "alert(linb.UIProfile.getFromDomId('logo').boxing().toHtml())"
+                "alert(linb.UIProfile.getFromDom('btnLang').boxing().toHtml())"
             ]
         },
         getRenderer:{
@@ -5749,14 +5779,14 @@ _.set(linb.Locale,["cn","doc","linb","UI"], {
             $desc:"获取根(linb.Dom)对象.",
             $rtn:"linb.Dom element",
             $snippet:[
-            "alert(linb.UIProfile.getFromDomId('logo').boxing().getRoot());"
+            "alert(linb.UIProfile.getFromDom('btnLang').boxing().getRoot());"
             ]
         },
         getRootNode:{
             $desc:"获取根DOM元素.",
             $rtn:"DOM element",
             $snippet:[
-            "alert(linb.UIProfile.getFromDomId('logo').boxing().getRootNode());"
+            "alert(linb.UIProfile.getFromDom('btnLang').boxing().getRootNode());"
             ]
         },
         append:{
@@ -5820,7 +5850,7 @@ _.set(linb.Locale,["cn","doc","linb","UI"], {
             $snippet:[
                 "var id='linb.temp.ui5'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var block,btn;linb(id).prepend(block=new linb.UI.Block({position:'relative',border:true,dropKeys:['test']})).prepend(btn=new linb.UI.Button({position:'relative'}));"+
-                "block.onDrop(function(profile, e, node, key, data){var btn=linb.UIProfile.getFromDomId(data).boxing();profile.boxing().append(btn); btn.dragable(false)});"+
+                "block.onDrop(function(profile, e, node, key, data){var btn=linb.UIProfile.getFromDom(data).boxing();profile.boxing().append(btn); btn.dragable(false)});"+
                 "btn.dragable('test',btn.getDomId());"+
                 "}"
             ]
@@ -6380,7 +6410,7 @@ _.set(linb.Locale,["cn","doc","linb","UI"], {
             $desc:"获取dom元素的id.",
             $rtn:"String",
             $snippet:[
-                "alert(linb.UIProfile.getFromDomId('logo').boxing().getDomId())"
+                "alert(linb.UIProfile.getFromDom('btnLang').boxing().getDomId())"
             ]
         },
         getSubNode:{
@@ -6391,9 +6421,9 @@ _.set(linb.Locale,["cn","doc","linb","UI"], {
                 "subId [可选参数] : String or [true]. [true] for getting all the sub nodes with the specified [key]."
             ],
             $snippet:[
-                "alert(linb.UIProfile.getFromDomId('logo').boxing().getSubNode('KEY').id());"+
-                "alert(linb.UIProfile.getFromDomId('linb.UI.TreeBar:a:').boxing().getSubNode('ITEM','a').id());"+
-                "alert(linb.UIProfile.getFromDomId('linb.UI.TreeBar:a:').boxing().getSubNode('ITEM',true).get().length);"
+                "alert(linb.UIProfile.getFromDom('btnLang').boxing().getSubNode('KEY').id());"+
+                "alert(linb.UIProfile.getFromDom('linb.UI.TreeBar:a:').boxing().getSubNode('ITEM','a').id());"+
+                "alert(linb.UIProfile.getFromDom('linb.UI.TreeBar:a:').boxing().getSubNode('ITEM',true).get().length);"
             ],
             $memo:"The [subId] parameter is for those [linb.absList] profiles only."
         },
@@ -6404,14 +6434,14 @@ _.set(linb.Locale,["cn","doc","linb","UI"], {
                 "id [必需参数] : String, id string"
             ],
             $snippet:[
-                "var logo=linb.UIProfile.getFromDomId('logo').boxing(); alert(logo.getDomId()); logo.setDomId('logo1'); alert(logo.getDomId());logo.setDomId('logo'); alert(logo.getDomId());"
+                "var logo=linb.UIProfile.getFromDom('btnLang').boxing(); alert(logo.getDomId()); logo.setDomId('logo1'); alert(logo.getDomId());logo.setDomId('btnLang'); alert(logo.getDomId());"
             ]
         },
         hide:{
             $desc:"隐藏该UIProfile对象.",
             $rtn:"[self]",
             $snippet:[
-                "var logo=linb.UIProfile.getFromDomId('logo').boxing(); logo.hide(); _.asyRun(function(){logo.show()},1000);"
+                "var logo=linb.UIProfile.getFromDom('btnLang').boxing(); logo.hide(); _.asyRun(function(){logo.show()},1000);"
             ]
         },
         show:{
@@ -6424,7 +6454,7 @@ _.set(linb.Locale,["cn","doc","linb","UI"], {
                 "top [可选参数] : Number, 显示的上边坐标."
             ],
             $snippet:[
-                "var logo=linb.UIProfile.getFromDomId('logo').boxing(); logo.hide(); _.asyRun(function(){logo.show()},1000);"
+                "var logo=linb.UIProfile.getFromDom('btnLang').boxing(); logo.hide(); _.asyRun(function(){logo.show()},1000);"
             ]
         },
         serialize:{
@@ -6435,8 +6465,8 @@ _.set(linb.Locale,["cn","doc","linb","UI"], {
                 "keepHost [可选参数] : Bool. to keep host object link or not. 默认为 false."
             ],
             $snippet:[
-                "alert(linb.UIProfile.getFromDomId('logo').boxing().serialize());" +
-                "alert(linb.UIProfile.getFromDomId('logo').boxing().serialize(false))"
+                "alert(linb.UIProfile.getFromDom('btnLang').boxing().serialize());" +
+                "alert(linb.UIProfile.getFromDom('btnLang').boxing().serialize(false))"
             ]
         },
         refreshDom:{
@@ -7236,6 +7266,200 @@ _.set(linb.Locale,["cn","doc","linb","UI","ProgressBar"], {
     }
 });
 
+_.set(linb.Locale,["cn","doc","linb","UI","SLabel"], {
+    constructor:{
+        $desc:"生成一个linb.UI.SLabel."
+    },
+    prototype:{
+        getCaption :{
+            $desc:"获取文字.",
+            $rtn:"String",
+            $snippet:[
+                "var id='linb.temp.SLabel1'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var btn;linb(id).prepend(btn=new linb.UI.SLabel);"+
+                "_.asyRun(function(){btn.setCaption ('tag'); alert(btn.getCaption ())},1000)"+
+                "}"
+            ]
+        },
+        setCaption :{
+            $desc:"设置文字, 并刷新界面.",
+            $rtn:"[self]",
+            $paras:[
+                "value [必需参数] : String.",
+                "flag [可选参数] : Bool, 强制设置该属性值，即使属性已经设置为该值 默认为 [false]."
+            ],
+            $snippet:[
+                "var id='linb.temp.SLabel2'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var btn;linb(id).prepend(btn=new linb.UI.SLabel);"+
+                "_.asyRun(function(){btn.setCaption ('tag'); alert(btn.getCaption ())},1000)"+
+                "}"
+            ]
+        },
+        getHAlign :{
+            $desc:"获取水平对齐方式.",
+            $rtn:"String",
+            $snippet:[
+                "var id='linb.temp.SLabel7'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var btn;linb(id).prepend(btn=new linb.UI.SLabel({border:true,width:'100'}));"+
+                "_.asyRun(function(){btn.setHAlign('center'); alert(btn.getHAlign())},1000)"+
+                "}"
+            ]
+        },
+        setHAlign :{
+            $desc:"设置水平对齐方式, 并刷新界面.",
+            $rtn:"[self]",
+            $paras:[
+                "value [必需参数] : 'left', 'center' or 'right'.",
+                "flag [可选参数] : Bool, 强制设置该属性值，即使属性已经设置为该值 默认为 [false]."
+            ],
+            $snippet:[
+                "var id='linb.temp.SLabel8'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var btn;linb(id).prepend(btn=new linb.UI.SLabel({border:true,width:'100'}));"+
+                "_.asyRun(function(){btn.setHAlign('center'); alert(btn.getHAlign())},1000)"+
+                "}"
+            ]
+        }
+    }
+});
+
+
+_.set(linb.Locale,["cn","doc","linb","UI","SButton"], {
+    constructor:{
+        $desc:"生成一个linb.UI.SButton对象."
+    },
+    prototype:{
+        activate:{
+            $desc:"激活按钮(获取焦点状态).",
+            $rtn:"[self]",
+            $snippet:[
+                "var id='linb.temp.sbtn0'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var btn;linb(id).prepend(btn=new linb.UI.SButton);"+
+                "_.asyRun(function(){btn.activate()},1000);"+
+                "}"
+            ]
+        },
+        getCaption :{
+            $desc:"获取按钮标题文字.",
+            $rtn:"String",
+            $snippet:[
+                "var id='linb.temp.sbtn1'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var btn;linb(id).prepend(btn=new linb.UI.SButton);"+
+                "_.asyRun(function(){btn.setCaption ('tag'); alert(btn.getCaption ())},1000)"+
+                "}"
+            ]
+        },
+        setCaption :{
+            $desc:"设置按钮标题文字, 并刷新界面.",
+            $rtn:"[self]",
+            $paras:[
+                "value [必需参数] : String.",
+                "flag [可选参数] : Bool, 强制设置该属性值，即使属性已经设置为该值 默认为 [false]."
+            ],
+            $snippet:[
+                "var id='linb.temp.sbtn2'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var btn;linb(id).prepend(btn=new linb.UI.SButton);"+
+                "_.asyRun(function(){btn.setCaption ('tag'); alert(btn.getCaption ())},1000)"+
+                "}"
+            ]
+        },
+        getHAlign :{
+            $desc:"获取水平对齐方式.",
+            $rtn:"String",
+            $snippet:[
+                "var id='linb.temp.sbtn7'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var btn;linb(id).prepend(btn=new linb.UI.SButton({border:true,width:'100'}));"+
+                "_.asyRun(function(){btn.setHAlign('center'); alert(btn.getHAlign())},1000)"+
+                "}"
+            ]
+        },
+        setHAlign :{
+            $desc:"设置水平对齐方式, 并刷新界面.",
+            $rtn:"[self]",
+            $paras:[
+                "value [必需参数] : 'left', 'center' or 'right'.",
+                "flag [可选参数] : Bool, 强制设置该属性值，即使属性已经设置为该值 默认为 [false]."
+            ],
+            $snippet:[
+                "var id='linb.temp.sbtn8'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var btn;linb(id).prepend(btn=new linb.UI.SButton({border:true,width:'100'}));"+
+                "_.asyRun(function(){btn.setHAlign('center'); alert(btn.getHAlign())},1000)"+
+                "}"
+            ]
+        },
+        onClick:{
+            $desc:"当终端用户单击按钮时调用.",
+            $paras:[
+                "profile : linb.UIProfile 对象.",
+                "e : DOM 事件对象.",
+                "src : DOM 元素.",
+                "value : 值."
+            ],
+            $snippet:[
+                "var id='linb.temp.sbtn17'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "linb(id).prepend((new linb.UI.SButton()).onClick(function(profile){alert(profile.properties.caption)}));"+
+                "}"
+            ]
+        }
+    }
+});
+
+_.set(linb.Locale,["cn","doc","linb","UI","SCheckBox"], {
+    constructor:{
+        $desc:"生成一个linb.UI.Button对象."
+    },
+    prototype:{
+        activate:{
+            $desc:"激活(获取焦点状态).",
+            $rtn:"[self]",
+            $snippet:[
+                "var id='linb.temp.SCbtn0'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var btn;linb(id).prepend(btn=new linb.UI.SCheckBox);"+
+                "_.asyRun(function(){btn.activate()},1000);"+
+                "}"
+            ]
+        },
+        getCaption :{
+            $desc:"获取按题文字.",
+            $rtn:"String",
+            $snippet:[
+                "var id='linb.temp.scbtn1'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var btn;linb(id).prepend(btn=new linb.UI.SCheckBox);"+
+                "_.asyRun(function(){btn.setCaption ('tag'); alert(btn.getCaption ())},1000)"+
+                "}"
+            ]
+        },
+        setCaption :{
+            $desc:"设置按题文字, 并刷新界面.",
+            $rtn:"[self]",
+            $paras:[
+                "value [必需参数] : String.",
+                "flag [可选参数] : Bool, 强制设置该属性值，即使属性已经设置为该值 默认为 [false]."
+            ],
+            $snippet:[
+                "var id='linb.temp.scbtn2'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var btn;linb(id).prepend(btn=new linb.UI.SCheckBox);"+
+                "_.asyRun(function(){btn.setCaption ('tag'); alert(btn.getCaption ())},1000)"+
+                "}"
+            ]
+        },
+
+        onChecked:{
+            $desc:"Fired when SCheckBox is checked.",
+            $paras:[
+                "profile : linb.UIProfile 对象.",
+                "e : DOM 事件对象.",
+                "value : String, 按下或弹起."
+            ],
+            $snippet:[
+                "var id='linb.temp.Scbtn18'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "linb(id).prepend((new linb.UI.SCheckBox()).onChecked(function(profile,e,value){alert(value)}));"+
+                "}"
+            ]
+        }
+    }
+});
+
+
 _.set(linb.Locale,["cn","doc","linb","UI","Button"], {
     constructor:{
         $desc:"生成一个linb.UI.Button对象."
@@ -7467,6 +7691,21 @@ _.set(linb.Locale,["cn","doc","linb","UI","Button"], {
 _.set(linb.Locale,["cn","doc","linb","UI","CheckBox"], {
     constructor:{
         $desc:"生成一个linb.UI.CheckBox对象."
+    },
+    prototype:{
+        onChecked:{
+            $desc:"Fired when CheckBox is checked.",
+            $paras:[
+                "profile : linb.UIProfile 对象.",
+                "e : DOM 事件对象.",
+                "value : String, 按下或弹起."
+            ],
+            $snippet:[
+                "var id='linb.temp.cbtn18'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "linb(id).prepend((new linb.UI.CheckBox().onChecked(function(profile,e,value){alert(value)}));"+
+                "}"
+            ]
+        }
     }
 });
 
@@ -11564,7 +11803,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","Poll"], {
             ]
         },
 
-        beforeItemAdded:{
+        beforeOptionAdded:{
             $desc:"Fired wbefore a new item will be added.",
             $paras:[
                 "profile : linb.UIProfile object.",
@@ -11573,15 +11812,15 @@ _.set(linb.Locale,["cn","doc","linb","UI","Poll"], {
             $snippet:[
                 "var id='linb.temp.pool41'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var o=new linb.UI.Poll({width:'auto',height:'auto',editable:true,title:'a survey',newOption:'new', toggle:true, position:'relative',items:[{id:'a',caption:'option 1',percent:0.5,message:'50%'},{id:'b',caption:'option 2',percent:0.8,message:'80%'}]});"+
-                "o.beforeItemAdded(function(p,s){linb.message('beforeItemAdded'+':'+s)});"+
-                "o.beforeItemChanged(function(p,i,s){linb.message('beforeItemChanged'+':'+s)});"+
-                "o.beforeItemRemoved(function(p){linb.message('beforeItemRemoved')});"+
+                "o.beforeOptionAdded(function(p,s){linb.message('beforeOptionAdded'+':'+s)});"+
+                "o.beforeOptionChanged(function(p,i,s){linb.message('beforeOptionChanged'+':'+s)});"+
+                "o.beforeOptionRemoved(function(p){linb.message('beforeOptionRemoved')});"+
                 "o.beforeTitleChanged(function(p,s){linb.message('beforeTitleChanged'+':'+s)});"+
                 "linb(id).prepend(o);"+
                 "}"
             ]
         },
-        beforeItemChanged:{
+        beforeOptionChanged:{
             $desc:"Fired a specified item will be changed",
             $paras:[
                 "profile : linb.UIProfile object.",
@@ -11591,16 +11830,16 @@ _.set(linb.Locale,["cn","doc","linb","UI","Poll"], {
             $snippet:[
                 "var id='linb.temp.pool42'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var o=new linb.UI.Poll({width:'auto',height:'auto',editable:true,title:'a survey',newOption:'new', toggle:true, position:'relative',items:[{id:'a',caption:'option 1',percent:0.5,message:'50%'},{id:'b',caption:'option 2',percent:0.8,message:'80%'}]});"+
-                "o.beforeItemAdded(function(p,s){linb.message('beforeItemAdded'+':'+s)});"+
-                "o.beforeItemChanged(function(p,i,s){linb.message('beforeItemChanged'+':'+s)});"+
-                "o.beforeItemRemoved(function(p){linb.message('beforeItemRemoved')});"+
+                "o.beforeOptionAdded(function(p,s){linb.message('beforeOptionAdded'+':'+s)});"+
+                "o.beforeOptionChanged(function(p,i,s){linb.message('beforeOptionChanged'+':'+s)});"+
+                "o.beforeOptionRemoved(function(p){linb.message('beforeOptionRemoved')});"+
                 "o.beforeTitleChanged(function(p,s){linb.message('beforeTitleChanged'+':'+s)});"+
 
                 "linb(id).prepend(o);"+
                 "}"
             ]
         },
-        beforeItemRemoved:{
+        beforeOptionRemoved:{
             $desc:"Fired before a specified item will be removed.",
             $paras:[
                 "profile : linb.UIProfile object."
@@ -11608,9 +11847,9 @@ _.set(linb.Locale,["cn","doc","linb","UI","Poll"], {
             $snippet:[
                 "var id='linb.temp.pool43'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var o=new linb.UI.Poll({width:'auto',height:'auto',editable:true,title:'a survey',newOption:'new', toggle:true, position:'relative',items:[{id:'a',caption:'option 1',percent:0.5,message:'50%'},{id:'b',caption:'option 2',percent:0.8,message:'80%'}]});"+
-                "o.beforeItemAdded(function(p,s){linb.message('beforeItemAdded'+':'+s)});"+
-                "o.beforeItemChanged(function(p,i,s){linb.message('beforeItemChanged'+':'+s)});"+
-                "o.beforeItemRemoved(function(p){linb.message('beforeItemRemoved')});"+
+                "o.beforeOptionAdded(function(p,s){linb.message('beforeOptionAdded'+':'+s)});"+
+                "o.beforeOptionChanged(function(p,i,s){linb.message('beforeOptionChanged'+':'+s)});"+
+                "o.beforeOptionRemoved(function(p){linb.message('beforeOptionRemoved')});"+
                 "o.beforeTitleChanged(function(p,s){linb.message('beforeTitleChanged'+':'+s)});"+
 
                 "linb(id).prepend(o);"+
@@ -11626,9 +11865,9 @@ _.set(linb.Locale,["cn","doc","linb","UI","Poll"], {
             $snippet:[
                 "var id='linb.temp.pool44'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var o=new linb.UI.Poll({width:'auto',height:'auto',editable:true,title:'a survey',newOption:'new', toggle:true, position:'relative',items:[{id:'a',caption:'option 1',percent:0.5,message:'50%'},{id:'b',caption:'option 2',percent:0.8,message:'80%'}]});"+
-                "o.beforeItemAdded(function(p,s){linb.message('beforeItemAdded'+':'+s)});"+
-                "o.beforeItemChanged(function(p,i,s){linb.message('beforeItemChanged'+':'+s)});"+
-                "o.beforeItemRemoved(function(p){linb.message('beforeItemRemoved')});"+
+                "o.beforeOptionAdded(function(p,s){linb.message('beforeOptionAdded'+':'+s)});"+
+                "o.beforeOptionChanged(function(p,i,s){linb.message('beforeOptionChanged'+':'+s)});"+
+                "o.beforeOptionRemoved(function(p){linb.message('beforeOptionRemoved')});"+
                 "o.beforeTitleChanged(function(p,s){linb.message('beforeTitleChanged'+':'+s)});"+
 
                 "linb(id).prepend(o);"+

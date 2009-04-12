@@ -20,7 +20,7 @@ Class("linb.UI.PageBar",["linb.UI","linb.absValue"] ,{
                     nexthide = fun(profile, 'NEXTM'),
                     last = fun(profile, 'LAST'),
 
-                    change = function(n,i,j){if(i)n.first(2).attr('href',prop.uriTpl.replace('*',i));if(j)n.first(2).text(prop.textTpl.replace('*',j))},
+                    change = function(n,i,j){if(i)n.first(3).attr('href',prop.uriTpl.replace('*',i));if(j)n.first(3).text(prop.textTpl.replace('*',j))},
                     display = function(n,f){n.css('display',f?'':'none')}
                     ;
                 //change href and text
@@ -80,10 +80,13 @@ Class("linb.UI.PageBar",["linb.UI","linb.absValue"] ,{
                 className:'ui-btn',
                 FIRSTI:{
                     className:'ui-btni',
-                    FIRSTA:{
-                        tagName:'a',
-                        href:'#',
-                        tabindex: '{tabindex}'
+                    FIRSTC:{
+                        className:'ui-btnc',
+                        FIRSTA:{
+                            tagName:'a',
+                            href:'#',
+                            tabindex: '{tabindex}'
+                        }
                     }
                 }
             },
@@ -92,10 +95,13 @@ Class("linb.UI.PageBar",["linb.UI","linb.absValue"] ,{
                 className:'ui-btn',
                 PREMI:{
                     className:'ui-btni',
-                    PREMA:{
-                        tagName:'a',
-                        href:'#',
-                        tabindex: '{tabindex}'
+                    PREMC:{
+                        className:'ui-btnc',
+                        PREMA:{
+                            tagName:'a',
+                            href:'#',
+                            tabindex: '{tabindex}'
+                        }
                     }
                 }
             },
@@ -104,11 +110,14 @@ Class("linb.UI.PageBar",["linb.UI","linb.absValue"] ,{
                 className:'ui-btn',
                 PREVI:{
                     className:'ui-btni',
-                    PREVA:{
-                        tagName:'a',
-                        href:'#',
-                        tabindex: '{tabindex}',
-                        text:'{prevMark}'
+                    PREVC:{
+                        className:'ui-btnc',
+                        PREVA:{
+                            tagName:'a',
+                            href:'#',
+                            tabindex: '{tabindex}',
+                            text:'{prevMark}'
+                        }
                     }
                 }
             },
@@ -116,11 +125,14 @@ Class("linb.UI.PageBar",["linb.UI","linb.absValue"] ,{
                 $order:4,
                 className:'ui-btn ui-btn-focus',
                 CURI:{
-                    className:'ui-btni ui-btni-focus',
-                    CURA:{
-                        tagName:'a',
-                        href:'#',
-                        tabindex: '{tabindex}'
+                    className:'ui-btni',
+                    CURC:{
+                        className:'ui-btnc',
+                        CURA:{
+                            tagName:'a',
+                            href:'#',
+                            tabindex: '{tabindex}'
+                        }
                     }
                 }
             },
@@ -129,11 +141,14 @@ Class("linb.UI.PageBar",["linb.UI","linb.absValue"] ,{
                 className:'ui-btn',
                 NEXTI:{
                     className:'ui-btni',
-                    NEXTA:{
-                        tagName:'a',
-                        href:'#',
-                        tabindex: '{tabindex}',
-                        text:'{nextMark}'
+                    NEXTC:{
+                        className:'ui-btnc',
+                        NEXTA:{
+                            tagName:'a',
+                            href:'#',
+                            tabindex: '{tabindex}',
+                            text:'{nextMark}'
+                        }
                     }
                 }
             },
@@ -142,10 +157,13 @@ Class("linb.UI.PageBar",["linb.UI","linb.absValue"] ,{
                 className:'ui-btn',
                 NEXTMI:{
                     className:'ui-btni',
-                    NEXTMA:{
-                        tagName:'a',
-                        href:'#',
-                        tabindex: '{tabindex}'
+                    NEXTMC:{
+                        className:'ui-btnc',
+                        NEXTMA:{
+                            tagName:'a',
+                            href:'#',
+                            tabindex: '{tabindex}'
+                        }
                     }
                 }
             },
@@ -154,10 +172,13 @@ Class("linb.UI.PageBar",["linb.UI","linb.absValue"] ,{
                 className:'ui-btn',
                 LASTI:{
                     className:'ui-btni',
-                    LASTA:{
-                        tagName:'a',
-                        href:'#',
-                        tabindex: '{tabindex}'
+                    LASTC:{
+                        className:'ui-btnc',
+                        LASTA:{
+                            tagName:'a',
+                            href:'#',
+                            tabindex: '{tabindex}'
+                        }
                     }
                 }
             }
@@ -177,10 +198,10 @@ Class("linb.UI.PageBar",["linb.UI","linb.absValue"] ,{
                 '-moz-outline-offset': ''
             },
             'KEY .ui-btn, POP .ui-btn':{
-                margin:'3px'
+                'margin-right':'3px'
             },
             'KEY .ui-btn a, POP .ui-btn a':{
-                padding:'3px 3px 0 3px'
+                padding:'0 3px 0 3px'
             },
             'PREV,CUR,NEXT':{
                 'font-weight' : 'bold'
@@ -190,7 +211,7 @@ Class("linb.UI.PageBar",["linb.UI","linb.absValue"] ,{
                 background:'#fff',
                 position:'absolute',
                 padding:'3px',
-                'line-height':'22px'
+                'line-height':'26px'
             }
         },
         Behaviors:{
@@ -203,8 +224,8 @@ Class("linb.UI.PageBar",["linb.UI","linb.absValue"] ,{
                         ;
                     o.setBlurTrigger(profile.key+":"+profile.$id, null);
                     profile.getSubNode('POOL').append(o);
-                    if(r.tagName.toLowerCase()=='a' || ((r=r.firstChild)&&(r.tagName.toLowerCase()=='a')) || ((r=r.firstChild)&&(r.tagName.toLowerCase()=='a')))
-                        return profile.box._click(profile,r.parentNode.parentNode);
+                    if(r.tagName.toLowerCase()=='a' || ((r=r.firstChild)&&(r.tagName.toLowerCase()=='a')) || ((r=r.firstChild)&&(r.tagName.toLowerCase()=='a')) || ((r=r.firstChild)&&(r.tagName.toLowerCase()=='a')))
+                        return profile.box._click(profile,r.parentNode.parentNode.parentNode);
                 }
             },
             FIRST:{
@@ -292,7 +313,8 @@ Class("linb.UI.PageBar",["linb.UI","linb.absValue"] ,{
             var b=profile.boxing(),
                 v=b.getValue(),
                 a=v.split(':');
-            var r = b.onClick(profile, parseInt(src.firstChild.firstChild.href.split('#')[1])||a[0]);
+
+            var r = b.onClick(profile, parseInt(linb(src).first(3).attr('href').split('#')[1])||a[0]);
             return typeof r=="boolean"?r:false;
         },
         _show:function(profile, e, src, flag){
@@ -331,7 +353,7 @@ Class("linb.UI.PageBar",["linb.UI","linb.absValue"] ,{
             var _id=profile.keys.POPI+':'+profile.serialId+':',
                 _h=linb.Event.$EVENTHANDLER;
             while(n<l){
-                a.push('<span id="'+_id+n+'" onmouseover="'+_h+'" onmouseout="'+_h+'" onmousedown="'+_h+'" class="ui-btn"><span class="ui-btni"><a href="'+prop.uriTpl.replace('*',n)+'">'+prop.textTpl.replace('*',n)+'</a></span></span>')
+                a.push('<span id="'+_id+n+'" onmouseover="'+_h+'" onmouseout="'+_h+'" onmousedown="'+_h+'" class="ui-btn"><span class="ui-btni"><span class="ui-btnc"><a href="'+prop.uriTpl.replace('*',n)+'">'+prop.textTpl.replace('*',n)+'</a></span></span></span>')
                 n=n+m;
             }
             pop.width('auto');

@@ -24,19 +24,15 @@ Class("linb.UI.ButtonViews", "linb.UI.Tabs",{
                 cursor:'pointer',
                 'padding-right':'4px',
                 'vertical-align':'top',
-                background: linb.UI.$bg('button.gif', ' no-repeat right -156px',true)
+                background: linb.UI.$bg('button.gif', 'no-repeat right -270px',true)
             },
             'ITEM-mouseover':{
                 $order:1,
-                'background-position' : 'right -204px'
+                'background-position' : 'right -360px'
             },
-            'ITEM-mousedown':{
+            'ITEM-mousedown, ITEM-checked':{
                 $order:2,
-                'background-position' : 'right -252px'
-            },
-            'ITEM-checked':{
-                $order:3,
-                'background-position' : 'right -252px'
+                'background-position' : 'right -450px'
             },
             ITEMI:{
                 $order:0,
@@ -44,23 +40,33 @@ Class("linb.UI.ButtonViews", "linb.UI.Tabs",{
                 //keep this same with ITEM
                 'vertical-align':'top',
                 'text-align': 'center',
-                height:'20px',
-                padding:'2px 4px 2px',
-                background: linb.UI.$bg('button.gif', ' no-repeat left -180px', true)
+                background: linb.UI.$bg('button.gif', 'no-repeat left -330px', true)
             },
             'ITEM-mouseover ITEMI':{
                 $order:1,
-                'background-position' : 'left -228px'
+                'background-position' : 'left -420px'
             },
-            'ITEM-mousedown ITEMI':{
+            'ITEM-mousedown ITEMI, ITEM-checked ITEMI':{
                 $order:2,
-                'background-position' : 'left -276px'
+                'background-position' : 'left -510px'
             },
-            'ITEM-checked ITEMI':{
-                $order:3,
-                'background-position' : 'left -276px'
+            ITEMC:{
+                $order:0,
+                //keep this same with ITEM
+                'vertical-align':'top',
+                'text-align': 'center',
+                height:'20px',
+                padding:'2px 4px 2px',
+                background: linb.UI.$bg('button.gif', 'repeat-x left -300px', true)
             },
-
+            'ITEM-mouseover ITEMC':{
+                $order:1,
+                'background-position' : 'left -390px'
+            },
+            'ITEM-mousedown ITEMC, ITEM-checked ITEMC':{
+                $order:2,
+                'background-position' : 'left -480px'
+            },
             LEFT:{
                 'border-right': '1px solid #A7A6AA'
             },
@@ -152,7 +158,7 @@ Class("linb.UI.ButtonViews", "linb.UI.Tabs",{
                     }else{
                         hs.height(v);
                     }
-                    linb.UI.$tryResize(self,self.root.width(), self.root.height(), self.properties.$UIvalue );
+                    linb.UI.$tryResize(self,self.root.width(), self.root.height());
                 }
             }
         },
@@ -162,9 +168,13 @@ Class("linb.UI.ButtonViews", "linb.UI.Tabs",{
             .setBarHAlign(pro.barHAlign,true)
             .setBarVAlign(pro.barVAlign,true);
         },
-        _onresize:function(profile,width,height,key){
+        _onresize:function(profile,width,height,force,key){
+            var t=profile.properties,
+                item = profile.getItemByItemId(key);
+            if(!item)
+                key=t.$UIvalue;
             var o = profile.boxing().getPanel(key),
-                t=profile.properties,  top, left,
+                top, left,
                 hs = profile.getSubNode('LIST'),
                 hl = profile.getSubNode('ITEMS'),
                 wc=null,hc=null;

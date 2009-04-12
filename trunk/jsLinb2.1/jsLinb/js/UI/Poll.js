@@ -45,7 +45,7 @@ Class("linb.UI.Poll", "linb.UI.List",{
     },
     Initialize:function(){
         var self=this;
-        self.addTemplateKeys(['MARK2','MARK3','EDIT']);
+        self.addTemplateKeys(['EDIT']);
         //modify default template fro shell
         var t = self.getTemplate();
         t.TITLE={
@@ -106,9 +106,12 @@ Class("linb.UI.Poll", "linb.UI.List",{
                                 style:'{_del}',
                                 DELI:{
                                     className:'ui-btni',
-                                    DELA:{
-                                        tagName:'button',
-                                        text:'{removeText}'
+                                    DELC:{
+                                        className:'ui-btnc',
+                                        DELA:{
+                                            tagName:'button',
+                                            text:'{removeText}'
+                                        }
                                     }
                                 }
                             }
@@ -130,10 +133,14 @@ Class("linb.UI.Poll", "linb.UI.List",{
                     className:'ui-btn',
                     CMDI:{
                         className:'ui-btni',
-                        CMDA:{
-                            tagName:'button',
-                            tabindex: '{_tabindex}',
-                            text:'{caption}'
+                        CMDC:{
+                            className:'ui-btnc',
+                            CMDA:{
+                                tagName:'a',
+                                href:linb.$href,
+                                tabindex: '{_tabindex}',
+                                text:'{caption}'
+                            }
                         }
                     }
                 }
@@ -149,7 +156,7 @@ Class("linb.UI.Poll", "linb.UI.List",{
                     switch(flag){
                         //edit option
                         case '1':
-                            if(b.beforeItemChanged(profile, item, v)!==false)
+                            if(b.beforeOptionChanged(profile, item, v)!==false)
                                 b._setOptCap(item,v);
                         break;
                         //new option
@@ -303,6 +310,7 @@ Class("linb.UI.Poll", "linb.UI.List",{
         self.setBehavior(t);
     },
     Static:{
+        DIRTYKEY:'MARK',
         ITEMKEY:'OUTER',
         Appearances:{
             KEY:{
@@ -350,9 +358,6 @@ Class("linb.UI.Poll", "linb.UI.List",{
                 zoom:linb.browser.ie?1:null,
                 padding:'4px 2px 4px 2px'
             },
-            'ITEM-checked':{},
-            'ITEM-mouseover':{},
-            'ITEM-mousedown':{},
             OPTION:{
                 position:'absolute',
                 left:'2px',
@@ -382,84 +387,22 @@ Class("linb.UI.Poll", "linb.UI.List",{
                 'text-align':'right'
             },
             'PROGRESS, PROGRESSI':{
-                width:'150px',
+                background: linb.UI.$bg('icons.gif', 'no-repeat', true),
+                width:'200px',
                 height:'14px',
                 border:0,
                 'line-height':0,
                 'font-size':0
             },
             PROGRESS:{
+                $order:1,
                 'margin-left':'2px',
-                background: linb.UI.$bg('icons.gif', ' no-repeat -130px -200px', true)
+                'background-position':'-180px -200px'
             },
             PROGRESSI:{
-                background: linb.UI.$bg('icons.gif', ' no-repeat -150px -216px ', true)
-            },
-            'MARK, MARK2, MARK3' : {
-               cursor:'pointer',
-               width:'16px',
-               height:'16px',
-                'vertical-align':'middle',
-               'margin-right':'6px'
-            },
-            MARK:{
-               background: linb.UI.$bg('icons.gif', ' no-repeat -145px top', true)
-            },
-           'ITEM-mouseover MARK':{
                 $order:1,
-                'background-position':' -145px -17px'
-           },
-           'ITEM-mousedown MARK':{
-                $order:2,
-                'background-position':' -145px -34px'
-           },
-           'ITEM-checked MARK':{
-                $order:3,
-                'background-position':' -128px top'
-           },
-           'ITEM-checked-mouseover MARK':{
-                $order:4,
-                'background-position':' -128px -17px'
-           },
-           'ITEM-checked-mousedown MARK':{
-                $order:5,
-                'background-position':' -128px -34px'
+                'background-position':'-200px -216px'
             },
-            MARK2:{
-               background: linb.UI.$bg('icons.gif', ' no-repeat -112px top', true)
-            },
-           'ITEM-mouseover MARK2':{
-                $order:1,
-                'background-position':' -112px -17px'
-           },
-           'ITEM-mousedown MARK2':{
-                $order:2,
-                'background-position':' -112px -34px'
-           },
-           'ITEM-checked MARK2':{
-                $order:3,
-                'background-position':' -96px top'
-           },
-           'ITEM-checked-mouseover MARK2':{
-                $order:4,
-                'background-position':' -96px -17px'
-           },
-           'ITEM-checked-mousedown MARK2':{
-                $order:5,
-                'background-position':' -96px -34px'
-            },
-            MARK3:{
-                $order:11,
-               background: linb.UI.$bg('icons.gif', ' no-repeat -56px -222px', true)
-            },
-           'ITEM-mouseover MARK3':{
-                $order:11,
-                'background-position':' -56px -222px'
-           },
-           'ITEM-mousedown MARK3':{
-                $order:11,
-                'background-position':' -56px -222px'
-           },
             DEL:{
                 margin:'0 0 0 4px'
             }
@@ -479,7 +422,7 @@ Class("linb.UI.Poll", "linb.UI.List",{
                 }
             },
             cmds:{
-                ini:null
+                ini:[]
             },
             noTitle:{
               ini:false,
@@ -540,8 +483,8 @@ Class("linb.UI.Poll", "linb.UI.List",{
             editorType:'none'
         },
         Behaviors:{
-            HoverEffected:{DEL:'DEL',CMD:'CMD'},
-            ClickEffected:{DEL:'DEL',CMD:'CMD'}
+            HoverEffected:{DEL:'DEL',CMD:'CMD',ITEM:'MARK'},
+            ClickEffected:{DEL:'DEL',CMD:'CMD',ITEM:'MARK'}
         },
         EventHandlers:{
             beforeTitleChanged:function(profile, value){},
@@ -557,25 +500,6 @@ Class("linb.UI.Poll", "linb.UI.List",{
             if(t)
                 self.boxing().setNewOption(t,true);
         },
-        _dynamicTemplate:function(profile){
-            var properties = profile.properties,
-                hash = profile._exhash = "$" + 'selMode:'+properties.selMode+';',
-                template = profile.box.getTemplate(hash);
-
-            properties.$UIvalue = properties.value;
-
-            // set template dynamic
-            if(!template){
-                template = _.clone(profile.box.getTemplate());
-                if(properties.selMode=='multi'){
-                    template.$dynamic.items.OUTER.ITEM.OPTION.MARK2={$order:1,className:'{_optclass}'};
-                    delete template.$dynamic.items.OUTER.ITEM.OPTION.MARK;
-                }
-                // set template
-                profile.box.setTemplate(template, hash);
-            }
-            profile.template = template;
-        },
         _prepareData:function(profile){
             var data=arguments.callee.upper.call(this, profile),
                 p=profile.properties
@@ -588,6 +512,10 @@ Class("linb.UI.Poll", "linb.UI.List",{
                 var sid=linb.UI.$tag_subId,a;
                 a=data.cmds=[];
                 for(var i=0,t=cmds,l=t.length;i<l;i++){
+                    if(typeof t[i]=='string')t[i]={id:t[i]};
+                    if(!t[i].caption)t[i].caption=t[i].id;
+                    t[i].id=t[i].id.replace(/[^\w]/g,'_');
+
                     o=linb.UI.adjustData(profile,t[i]);
                     a.push(o);
                     o._tabindex=p.tabindex;
@@ -606,14 +534,14 @@ Class("linb.UI.Poll", "linb.UI.List",{
             item._body= item._body || 'Loading...'
             if(item.id!='$custom'){
                 item._togdisplay=((p.toggle && item.toggle!==false) || item.toggle)?'':'display:none;';
-
+                item._optclass=p.selMode=='multi'?'uicmd-check':'uicmd-radio';
                 item._display='';
                 item.percent = parseFloat(item.percent)||0;
                 if(item.percent<0)item.percent=0;
                 if(item.percent>1)item.percent=1;
-                item._per = 150*(1-item.percent);
+                item._per = 200*(1-item.percent);
             }else{
-                item._optclass=profile.getClass('MARK3');
+                item._optclass='uicmd-add';
                 item._togdisplay=item._display='display:none;';
                 item._per = 0;
                 item._itemcls=profile.getClass('EDITS');
@@ -624,7 +552,6 @@ Class("linb.UI.Poll", "linb.UI.List",{
                 item._itemcls=profile.getClass('EDIT');
                 item._del = '';
             }
-
 
         },
         _buildBody:function(profile,item){

@@ -123,9 +123,14 @@ Class('linb.UI.TimePicker', ['linb.UI',"linb.absValue"], {
                             className:'ui-btn',
                             SETI:{
                                 className:'ui-btni',
-                                SETA:{
-                                    tagName:'button',
-                                    text:linb.wrapRes('inline.set')
+                                SETC:{
+                                    className:'ui-btnc',
+                                    SETA:{
+                                        tagName:'a',
+                                        href:linb.$href,
+                                        tabindex: '{tabindex}',
+                                        text:linb.wrapRes('inline.set')
+                                    }
                                 }
                             }
                         }
@@ -195,35 +200,49 @@ Class('linb.UI.TimePicker', ['linb.UI',"linb.absValue"], {
             KEY:{
                 '-moz-user-select': 'none'
             },
+            MAINI:{
+                'padding-top':'4px'
+            },
             CON:{
                 width:'220px',
-                padding:'3px',
-                border:'solid 1px #648CB4'
+                'border-left':'solid 1px #648CB4',
+                'border-top':'solid 1px #648CB4'
             },
             BARCMDL:{
                 top:'3px'
             },
+            'PRE,NEXT':{
+                position:'relative',
+                margin:'2px',
+                width:'15px',
+                height:'15px',
+                'vertical-align': 'middle',
+                cursor:'default',
+                background: linb.UI.$bg('icons.gif', 'no-repeat', true)
+            },
             PRE:{
-                background: linb.UI.$bg('icons.gif', ' no-repeat  0 -65px', true)
+                $order:1,
+                'background-position': '-260px -70px'
             },
             'PRE-mouseover':{
                 $order:2,
-                'background-position': '0 -80px'
+                'background-position': '-260px -90px'
             },
             'PRE-mousedown':{
                 $order:3,
-                'background-position': '0 -95px'
+                'background-position': '-260px -110px'
             },
             NEXT:{
-                background: linb.UI.$bg('icons.gif', ' no-repeat  -16px -65px', true)
+                $order:1,
+                'background-position': '-280px -70px'
             },
             'NEXT-mouseover':{
                 $order:2,
-                'background-position': '-16px -80px'
+                'background-position': '-280px -90px'
             },
             'NEXT-mousedown':{
                 $order:3,
-                'background-position': '-16px -95px'
+                'background-position': '-280px -110px'
             },
             HOUR:{
                 $order:3,
@@ -235,15 +254,6 @@ Class('linb.UI.TimePicker', ['linb.UI',"linb.absValue"], {
                 'background-color':'#F8FBFF',
                 cursor:'e-resize',
                 'padding-left':'2px'
-            },
-            'PRE, NEXT':{
-                $order:0,
-                position:'relative',
-                margin:'2px',
-                width:'15px',
-                height:'15px',
-                'vertical-align': 'middle',
-                cursor:'default'
             },
             SET:{
                 position:'absolute',
@@ -271,8 +281,8 @@ Class('linb.UI.TimePicker', ['linb.UI',"linb.absValue"], {
                 'padding-left':'3px',
                 width:'18px',
                 height:'16px',
-                'border-right':'1px solid #A7BFD7',
-                'border-bottom':'1px solid #A7BFD7',
+                'border-right':'1px solid #648CB4',
+                'border-bottom':'1px solid #648CB4',
                 'background-color': '#F9F9FB'
             },
             '.linbex-timepicker-mouseover':{
@@ -382,7 +392,7 @@ Class('linb.UI.TimePicker', ['linb.UI',"linb.absValue"], {
                 readonly:true
             },
             width:{
-                ini:238,
+                ini:231,
                 readonly:true
             },
             value:'00:00',

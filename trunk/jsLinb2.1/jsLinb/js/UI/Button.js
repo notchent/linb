@@ -1,12 +1,7 @@
 Class("linb.UI.Button", ["linb.UI.Widget","linb.absValue"],{
     Instance:{
-/*        _border:function(){
-            return arguments.callee.upper.call(this, {borderActive:true});
-        },
-*/
         activate:function(){
-            var profile = this.get(0);
-            profile.getSubNode('FOCUS').focus();
+            this.getSubNode('FOCUS').focus();
             return this;
         },
         _setCtrlValue:function(value){
@@ -27,8 +22,9 @@ Class("linb.UI.Button", ["linb.UI.Widget","linb.absValue"],{
         this.addTemplateKeys(['DROP']);
         //modify default template for shell
         var t = this.getTemplate();
-        _.merge(t.FRAME.BORDER,{
+        _.merge(t.FRAME,{
             FOCUS:{
+                $order:2,
                 tagName:'a',
                 href :"{href}",
                 tabindex: '{tabindex}',
@@ -79,8 +75,7 @@ Class("linb.UI.Button", ["linb.UI.Widget","linb.absValue"],{
         Appearances:{
             KEY:{
                 'font-size':'12px',
-                'line-height':'14px',
-                padding:'1px'
+                'line-height':'14px'
             },
             BORDER:{
                 'font-size':0,
@@ -97,14 +92,14 @@ Class("linb.UI.Button", ["linb.UI.Widget","linb.absValue"],{
             },
             'DROP':{
                 $order:10,
-                background: linb.UI.$bg('drop.gif', ' no-repeat left bottom','Button'),
+                background: linb.UI.$bg('drop.gif', 'no-repeat left bottom','Button'),
                 'padding-left':'16px'
             },
-            'BORDER-mouseover DROP':{
+            'DROP-mouseover':{
                 $order:11,
                 'background-position':'-16px bottom'
             },
-            'BORDER-mouseover DROP-mousedown':{
+            'DROP-mousedown':{
                 $order:12,
                 'background-position':'right bottom'
             },
@@ -112,13 +107,21 @@ Class("linb.UI.Button", ["linb.UI.Widget","linb.absValue"],{
                 'padding-left':'6px'
             },
 //border<<<
+            '.setting-linb-button':{
+                'border-top-width':'1px',
+                'border-bottom-width':'1px',
+                'border-left-width':'1px',
+                'border-right-width':'1px'
+            },
             'KEY-b-t':{
+                top:'-1px',
                 height:'10px',
-                background: linb.UI.$bg('vertical.gif', ' repeat-x left top','Button')
+                background: linb.UI.$bg('vertical.gif', 'repeat-x left top','Button')
             },
             'KEY-b-b':{
+                bottom:'-1px',
                 height:'10px',
-                background: linb.UI.$bg('vertical.gif', ' repeat-x left bottom','Button')
+                background: linb.UI.$bg('vertical.gif', 'repeat-x left bottom','Button')
             },
             'BORDER-mouseover KEY-b-t, BORDER-mouseover KEY-b-b':{
                 $order:1,
@@ -129,12 +132,14 @@ Class("linb.UI.Button", ["linb.UI.Widget","linb.absValue"],{
                 'background-image':linb.UI.$bg('vertical_mousedown.gif','','Button')
             },
             'KEY-b-l':{
+                left:'-1px',
                 width:'4px',
-                background: linb.UI.$bg('horizontal.gif', ' repeat-y left top','Button')
+                background: linb.UI.$bg('horizontal.gif', 'repeat-y left top','Button')
             },
             'KEY-b-r':{
+               right:'-1px',
                width:'4px',
-               background: linb.UI.$bg('horizontal.gif', ' repeat-y right top','Button')
+               background: linb.UI.$bg('horizontal.gif', 'repeat-y right top','Button')
             },
             'BORDER-mouseover KEY-b-l, BORDER-mouseover KEY-b-r':{
                 $order:1,
@@ -145,24 +150,32 @@ Class("linb.UI.Button", ["linb.UI.Widget","linb.absValue"],{
                 'background-image': linb.UI.$bg('horizontal_mousedown.gif','','Button')
             },
             'KEY-b-lt':{
+                top:'-1px',
+                left:'-1px',
                 width:'4px',
                 height:'10px',
-                background: linb.UI.$bg('corner.gif', ' no-repeat left top','Button')
+                background: linb.UI.$bg('corner.gif', 'no-repeat left top','Button')
             },
             'KEY-b-rt':{
+               top:'-1px',
+               right:'-1px',
                width:'4px',
                height:'10px',
-               background: linb.UI.$bg('corner.gif', ' no-repeat right top','Button')
+               background: linb.UI.$bg('corner.gif', 'no-repeat right top','Button')
             },
             'KEY-b-rb':{
+                right:'-1px',
+                bottom:'-1px',
                 width:'4px',
                 height:'10px',
-                background: linb.UI.$bg('corner.gif', ' no-repeat right bottom','Button')
+                background: linb.UI.$bg('corner.gif', 'no-repeat right bottom','Button')
             },
             'KEY-b-lb':{
+                left:'-1px',
+                bottom:'-1px',
                 width:'4px',
                 height:'10px',
-                background: linb.UI.$bg('corner.gif', ' no-repeat left bottom','Button')
+                background: linb.UI.$bg('corner.gif', 'no-repeat left bottom','Button')
             },
             'BORDER-mouseover KEY-b-lt, BORDER-mouseover KEY-b-rt, BORDER-mouseover KEY-b-rb, BORDER-mouseover KEY-b-lb':{
                 $order:1,
@@ -177,12 +190,12 @@ Class("linb.UI.Button", ["linb.UI.Widget","linb.absValue"],{
             FOCUS:{
                 overflow:'hidden',
                 display:'block',
-                position:'absolute',
                 left:0,
                 top:0,
                 'z-index':'20',
                 width:'100%',
                 height:'100%',
+                position:'absolute',
                 '-moz-outline-offset':'-1px !important'
             },
             /*span*/
@@ -233,9 +246,13 @@ Class("linb.UI.Button", ["linb.UI.Widget","linb.absValue"],{
                     linb([this]).removeClass(profile.getClass('DROP','-mousedown'));
                     return false;
                 },
+                onMouseover:function(profile){
+                    if(profile.properties.type!='drop')return;
+                    linb([this]).addClass(profile.getClass('DROP','-mouseover'));
+                },                
                 onMouseout:function(profile){
                     if(profile.properties.type!='drop')return;
-                    linb([this]).removeClass(profile.getClass('DROP','-mousedown'));
+                    linb([this]).removeClass(profile.getClass('DROP','-mouseover')).removeClass(profile.getClass('DROP','-mousedown'));
                 },
                 onClick:function(profile, e, src){
                     if(profile.properties.type!='drop')return;
@@ -269,16 +286,14 @@ Class("linb.UI.Button", ["linb.UI.Widget","linb.absValue"],{
                 ini:'center',
                 listbox:['left','center','right'],
                 action: function(v){
-                    var self=this, c=self.getSubNode('TD'), t=self.properties;
-                    c.attr('align',v);
+                    this.getSubNode('TD').attr('align',v);
                 }
             },
             vAlign:{
                 ini:'middle',
                 listbox:['top','middle','bottom'],
                 action: function(v){
-                    var self=this, c=self.getSubNode('TD'), t=self.properties;
-                    c.attr('valign',v);
+                    this.getSubNode('TD').attr('valign',v);
                 }
             },
             tabindex:{
@@ -305,7 +320,7 @@ Class("linb.UI.Button", ["linb.UI.Widget","linb.absValue"],{
             },
             width:120,
             height:22,
-            _customBorder:true,
+            _customBorder:'BORDER',
             border:true
         },
         _ensureValue:function(profile,value){

@@ -127,7 +127,8 @@ Class('VisualJS.Designer', 'linb.Com',{
                         t;
                     if(_.isFun(obj[fn])){
                         if(profile.domNode){
-                            obj.getRoot()[key+'By'](region[key],true);
+                            if(region && region[key])
+                                obj.getRoot()[key+'By'](region[key],true);
                             var t = parseInt(profile.root.css(key))||0;
                         }else
                             t=profile.properties[key];
@@ -162,7 +163,7 @@ Class('VisualJS.Designer', 'linb.Com',{
                         var b=false;
                         target.each(function(target){
                             target = linb([target],false);
-                            var profile = linb.UIProfile.getFromDomId(target.get(0).id), widget=profile.boxing(),p = profile.properties, m = profile.box.$DataModel;
+                            var profile = linb.UIProfile.getFromDom(target.get(0).id), widget=profile.boxing(),p = profile.properties, m = profile.box.$DataModel;
                             if(size){
                                 var w=null,h=null;
                                 if(size.width){
@@ -543,7 +544,7 @@ Class('VisualJS.Designer', 'linb.Com',{
         _sizeUpdated:function(pro, size){
             var t,self=this;
             if(!(t=self.profileGrid.get(0).$widget))return;
-            if(linb.UIProfile.getFromDomId(pro.get(0).id) == t.get(t._nodes.length-1)){
+            if(linb.UIProfile.getFromDom(pro.get(0).id) == t.get(t._nodes.length-1)){
                 if(size.width!==null)
                     self.profileGrid.updateCellByRowCol('properties:width','value',{value:size.width});
                 if(size.height!==null)
@@ -553,7 +554,7 @@ Class('VisualJS.Designer', 'linb.Com',{
         _posUpdated:function(pro, cssPos){
             var t,self=this;
             if(!(t=self.profileGrid.get(0).$widget))return;
-            if(linb.UIProfile.getFromDomId(pro.get(0).id) == t.get(t._nodes.length-1)){
+            if(linb.UIProfile.getFromDom(pro.get(0).id) == t.get(t._nodes.length-1)){
                 if(cssPos.left!==null)
                     self.profileGrid.updateCellByRowCol('properties:left','value',{value:cssPos.left});
                 if(cssPos.top!==null)
@@ -657,7 +658,7 @@ Class('VisualJS.Designer', 'linb.Com',{
                 id=esrc.id;
                 if(!id)return;
 
-                if(linb.UIProfile.getFromDomId(id) !== (profile=linb.UIProfile.getFromDomId(src.id)))return;
+                if(linb.UIProfile.getFromDom(id) !== (profile=linb.UIProfile.getFromDom(src.id)))return;
 
                 if(!profile)return;
 
@@ -1633,6 +1634,32 @@ Class('VisualJS.Designer', 'linb.Com',{
                     }else if(dm[i].readonly){
                         type='label';
                         editorDisabled=true;
+                    }else if(dm[i].custom){
+                        type='cmdbox';
+                        editorReadonly=true;
+                        //keep object
+                        $tag = null;
+
+                        //for object edit
+                        $fun = function(profile, cell){
+                            var tagVar=cell.$tagVar,
+                                node=profile.getSubNode('CELL', cell._serialId),
+                                submit=function(newValue){
+                                    var b=tagVar.profile.boxing(),
+                                        fn='set'+_.str.initial(tagVar.key);
+                                    if(!_.isFun(b[fn]))return;
+                                    page._change();
+                                    b[fn](newValue);
+                                    node.focus();
+                                 };
+                            dm[i].custom(tagVar.profile, tagVar.key, tagVar.profile.properties[tagVar.key], submit, page, profile/*grid*/, cell, node/*cell*/);
+                        };
+                        $tagVar = {
+                             profile: target,
+                             alias:target.alias,
+                             key:i
+                        };
+                        cv='[<strong> custom </strong>]';
                     }else if(dm[i].listbox){
                         type='listbox';
                         list=[];

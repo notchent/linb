@@ -277,7 +277,7 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
                 'border-bottom': 'none',
                 padding:'5px 0',
                 height:'18px',
-                background: linb.UI.$bg('bar_vertical.gif',' repeat-x left -380px', true)
+                background: linb.UI.$bg('bar_vertical.gif','repeat-x left -380px', true)
             },
             'BAR-GROUP-mouseover':{
                 $order:3,
@@ -291,6 +291,9 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
                 overflow:'hidden',
                 '*zoom':1,
                 height:0,
+                'font-size':'1px',
+                //1px for ie8
+                'line-height':'1px',
                 position:'relative',
                 'margin-left':'12px'
             },
@@ -304,7 +307,7 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
             },
             'MARK2-checked':{
                 $order:2,
-                background: linb.UI.$bg('icons.gif', ' no-repeat -84px -244px', true)
+                background: linb.UI.$bg('icons.gif', 'no-repeat -84px -244px', true)
             },
             ITEMCAPTION:{
                 'vertical-align':'middle',
@@ -524,7 +527,7 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
                 dragCursor:'pointer',
                 dragDefer:1,
                 dragKey: profile.box.getDragKey(profile, src),
-                dragData: profile.box.getDragData(profile, src)
+                dragData: profile.box.getDragData(profile, e, src)
             });
             return false;
         },

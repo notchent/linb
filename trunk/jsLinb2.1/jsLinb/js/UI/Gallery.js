@@ -56,8 +56,7 @@ Class("linb.UI.Gallery", "linb.UI.List",{
             ITEMS:{
                 position:'relative',
                 overflow:'visible',
-                zoom:linb.browser.ie6?1:null,
-                background: 'url('+linb.ini.file_bg+') no-repeat left top'
+                zoom:linb.browser.ie6?1:null
             },
             ITEM:{
                 display:linb.$inlineBlock,
@@ -96,13 +95,13 @@ Class("linb.UI.Gallery", "linb.UI.List",{
                 $order:2,
                 padding:0,
                 border:'solid 1px #dcdcdc',
-                'background-color':'#f0f0f0'
+                'background-color':'#bbcef1'
              },
             'ITEM-checked':{
                 $order:2,
                 padding:0,
-                border:'solid 1px #dcdcdc',
-                'background-color':'#f0f0f0'
+                border:'solid 1px #bbcef1',
+                'background-color':'#bbcef1'
             },
             IMAGE:{
                 display:linb.$inlineBlock,

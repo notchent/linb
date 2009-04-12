@@ -28,9 +28,10 @@ Class("linb.UI.CheckBox", "linb.UI.Button",{
     Initialize:function(){
         //modify default template for shell
         var t = this.getTemplate();
-        _.merge(t.FRAME.BORDER.FOCUS.TB.TR.TD.BOX,{
+        _.merge(t.FRAME.FOCUS.TB.TR.TD.BOX,{
             MARK:{
-                $order:0
+                $order:0,
+                className:'uicmd-check'
             }
         },'all');
         this.setTemplate(t);
@@ -74,34 +75,6 @@ Class("linb.UI.CheckBox", "linb.UI.Button",{
             },
             TDL:{
                 background:'transparent'
-            },
-            MARK:{
-               cursor:'pointer',
-               'vertical-align':'middle',
-               width:'16px',
-               height:'16px',
-               margin:'0 4px 0 2px',
-               background: linb.UI.$bg('icons.gif', ' no-repeat -112px top', true)
-            },
-            'MARK-mouseover':{
-                $order:1,
-                'background-position': '-112px -17px'
-            },
-            'MARK-mousedown':{
-                $order:2,
-                'background-position': '-112px -34px'
-            },
-            'MARK-checked':{
-                $order:3,
-                'background-position': '-96px top'
-            },
-            'MARK-checked-mouseover':{
-                $order:4,
-                'background-position': '-96px -17px'
-            },
-            'MARK-checked-mousedown':{
-                $order:5,
-                'background-position': '-96px -34px'
             },
             CAPTION:{
                 display:'inline',

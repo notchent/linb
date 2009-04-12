@@ -80,17 +80,20 @@ Class("linb.UI.Input", ["linb.UI.Widget","linb.absValue"] ,{
         }
     },
     Initialize:function(){
+
         //modify default template fro shell
         var t = this.getTemplate();
         _.merge(t.FRAME.BORDER,{
             BOX:{
-                tagName : 'div',
-                INPUT:{
-                    tagName : 'input',
-                    type : '{type}',
-                    tabindex:'{tabindex}',
-                    cursor:'{cursor}',
-                    style:'{_css}'
+                WRAP:{
+                    tagName : 'div',
+                    INPUT:{
+                        tagName : 'input',
+                        type : '{type}',
+                        tabindex:'{tabindex}',
+                        cursor:'{cursor}',
+                        style:'{_css}'
+                    }
                 }
             }
         },'all');
@@ -112,29 +115,35 @@ Class("linb.UI.Input", ["linb.UI.Widget","linb.absValue"] ,{
             },
             BORDER:{
                 'line-height':'0px',
-                'font-size':'0px',
-                'background-color':'#fff',
-                'border':'solid 1px #648CB4'
+                'font-size':'0px'
             },
-            'BORDER-focus, BORDER-mouseover':{
-                'border-color':'#FAE100'
-            },
-            BOX:{
+            WRAP:{
                 left:0,
-                top:0,
+                //don't change it 
+                top:'2px',
 
                 //for firefox bug: cursor not show
                 position:'absolute',
                 overflow:linb.browser.gek?'auto':'hidden'
             },
+            BOX:{
+                left:0,
+                top:0,
+                position:'absolute',
+                'background-color':'#fff',
+                'border':'solid 1px #648CB4'
+            },
+            'BOX-focus, BOX-mouseover':{
+                'border-color':'#FAE100'
+            },
             INPUT:{
+                'background-color':'transparent',
                border:0,
-               padding:'2px 0 0 0',
                margin:0,
+               'margin-top':linb.browser.ie?'-1px':null,
                'font-size':'12px',
                position:'relative',
                overflow:'auto',
-               'background-color':'#fff',
                'overflow-y':(linb.browser.gek||linb.browser.ie)?'auto':'',
                'overflow-x':(linb.browser.gek||linb.browser.ie)?'hidden':''
             },
@@ -146,35 +155,41 @@ Class("linb.UI.Input", ["linb.UI.Widget","linb.absValue"] ,{
                 top:'2px',
                 display:'none',
                 'font-size':0,
-                background: linb.UI.$bg('icons.gif', ' no-repeat left -244px', true),
+                background: linb.UI.$bg('icons.gif', 'no-repeat left -244px', true),
                 'z-index':'50'
             },
 //border<<<
+            '.setting-linb-input':{
+                'border-top-width':'1px',
+                'border-bottom-width':'1px',
+                'border-left-width':'1px',
+                'border-right-width':'1px'
+            },
             'KEY-b-t':{
                 height:'2px',
                 top:'-1px',
-                background: linb.UI.$bg('vertical.gif', ' repeat-x left top','Input')
+                background: linb.UI.$bg('vertical.gif', 'repeat-x left top','Input')
             },
             'KEY-b-b':{
                 height:'2px',
                 bottom:'-1px',
-                background: linb.UI.$bg('vertical.gif', ' repeat-x left bottom','Input')
+                background: linb.UI.$bg('vertical.gif', 'repeat-x left bottom','Input')
             },
-            'BORDER-focus KEY-b-t, BORDER-focus KEY-b-b, BORDER-mouseover KEY-b-t, BORDER-mouseover KEY-b-b':{
+            'BOX-focus KEY-b-t, BOX-focus KEY-b-b, BOX-mouseover KEY-b-t, BOX-mouseover KEY-b-b':{
                 $order:1,
                 'background-image':linb.UI.$bg('vertical_mouseover.gif','','Input')
             },
             'KEY-b-l':{
                 width:'2px',
                 left:'-1px',
-                background: linb.UI.$bg('horizontal.gif', ' repeat-y left top','Input')
+                background: linb.UI.$bg('horizontal.gif', 'repeat-y left top','Input')
             },
             'KEY-b-r':{
                width:'2px',
                right:'-1px',
-               background: linb.UI.$bg('horizontal.gif', ' repeat-y right top','Input')
+               background: linb.UI.$bg('horizontal.gif', 'repeat-y right top','Input')
             },
-            'BORDER-focus KEY-b-l, BORDER-focus KEY-b-r, BORDER-mouseover KEY-b-l, BORDER-mouseover KEY-b-r':{
+            'BOX-focus KEY-b-l, BOX-focus KEY-b-r, BOX-mouseover KEY-b-l, BOX-mouseover KEY-b-r':{
                 $order:1,
                 'background-image': linb.UI.$bg('horizontal_mouseover.gif','','Input')
             },
@@ -183,37 +198,37 @@ Class("linb.UI.Input", ["linb.UI.Widget","linb.absValue"] ,{
                 height:'2px',
                left:'-1px',
                top:'-1px',
-                background: linb.UI.$bg('corner.gif', ' no-repeat left top','Input')
+                background: linb.UI.$bg('corner.gif', 'no-repeat left top','Input')
             },
             'KEY-b-rt':{
                width:'2px',
                height:'2px',
                right:'-1px',
                top:'-1px',
-               background: linb.UI.$bg('corner.gif', ' no-repeat right top','Input')
+               background: linb.UI.$bg('corner.gif', 'no-repeat right top','Input')
             },
             'KEY-b-rb':{
                 width:'2px',
                 height:'2px',
                 right:'-1px',
                 bottom:'-1px',
-                background: linb.UI.$bg('corner.gif', ' no-repeat right bottom','Input')
+                background: linb.UI.$bg('corner.gif', 'no-repeat right bottom','Input')
             },
             'KEY-b-lb':{
                 width:'2px',
                 height:'2px',
                 left:'-1px',
                 bottom:'-1px',
-                background: linb.UI.$bg('corner.gif', ' no-repeat left bottom','Input')
+                background: linb.UI.$bg('corner.gif', 'no-repeat left bottom','Input')
             },
-            'BORDER-focus KEY-b-lt, BORDER-focus KEY-b-rt, BORDER-focus KEY-b-rb, BORDER-focus KEY-b-lb, BORDER-mouseover KEY-b-lt, BORDER-mouseover KEY-b-rt, BORDER-mouseover KEY-b-rb, BORDER-mouseover KEY-b-lb':{
+            'BOX-focus KEY-b-lt, BOX-focus KEY-b-rt, BOX-focus KEY-b-rb, BOX-focus KEY-b-lb, BOX-mouseover KEY-b-lt, BOX-mouseover KEY-b-rt, BOX-mouseover KEY-b-rb, BOX-mouseover KEY-b-lb':{
                 $order:1,
                 'background-image': linb.UI.$bg('corner_mouseover.gif','','Input')
             }
 //border>>>
         },
         Behaviors:{
-            HoverEffected:{KEY:['BORDER']},
+            HoverEffected:{BOX:['BOX']},
             NavKeys:{INPUT:1},
             INPUT:{
                 onChange:function(profile, e, src){
@@ -301,10 +316,9 @@ Class("linb.UI.Input", ["linb.UI.Widget","linb.absValue"] ,{
             }
         },
         DataModel:{
-
+            _customBorder:'BOX',
             tipsErr:'',
             tipsOK:'',
-            _customBorder:true,
             border:true,
 
             dynCheck:false,
@@ -420,10 +434,7 @@ Class("linb.UI.Input", ["linb.UI.Widget","linb.absValue"] ,{
                     this.boxing().setUIValue(v);
                 }
             },
-            tipsBinder:'',
-
-            $hborder:1,
-            $vborder:1
+            tipsBinder:''
         },
         EventHandlers:{
             onFocus:function(profile){},
@@ -440,7 +451,7 @@ Class("linb.UI.Input", ["linb.UI.Widget","linb.absValue"] ,{
             return d;
         },
         _dynamicTemplate:function(profile){
-            var properties = profile.properties,
+            var properties = profile.properties,t,
                 hash = profile._exhash = "$" +'multiLines:'+properties.multiLines,
                 template = profile.box.getTemplate(hash);
 
@@ -450,8 +461,9 @@ Class("linb.UI.Input", ["linb.UI.Widget","linb.absValue"] ,{
             if(!template){
                 template = _.clone(profile.box.getTemplate());
                 if(properties.multiLines){
-                    template.FRAME.BORDER.BOX.INPUT.tagName='textarea';
-                    delete template.FRAME.BORDER.BOX.INPUT.type;
+                    t=template.FRAME.BORDER.BOX.WRAP.INPUT;
+                    t.tagName='textarea';
+                    delete t.type;
                 }
 
                 // set template
@@ -464,7 +476,7 @@ Class("linb.UI.Input", ["linb.UI.Widget","linb.absValue"] ,{
             _.asyRun(function(){
                 ns.boxing()._setTB(1);
             });
-            ns.getSubNode('BOX').$firfox2();
+            ns.getSubNode('WRAP').$firfox2();
             if(p.readonly)
                 ns.boxing().setReadonly(true,true);
         },
@@ -574,18 +586,40 @@ Class("linb.UI.Input", ["linb.UI.Widget","linb.absValue"] ,{
             });
         },
         _onresize:function(profile,width,height){
-            var size = arguments.callee.upper.apply(this,arguments),
-                v1=profile.getSubNode('INPUT'),
-                b=linb.browser;
+                var $hborder=1, $vborder=1,
+                    cache=linb.UI.$CSSCACHE,
+                    ck='.linb-input-wrap:top',
+                    toff=cache[ck]||(cache[ck]=parseInt(linb.CSS.$getCSSValue('.linb-input-wrap','top'))||0);
+                    
+                var t = profile.properties,
+                    o = profile.getSubNode('BOX'),
+                    v1=profile.getSubNode('INPUT'),
+                    region,
+                    ww=width,
+                    hh=height,
+                    left=Math.max(0, (t.$b_lw||0)-$hborder),
+                    top=Math.max(0, (t.$b_tw||0)-$vborder);
+                if(null!==ww){
+                    ww -= Math.max($hborder*2, (t.$b_lw||0)+(t.$b_rw||0));
+                    /*for ie6 bug*/
+                    /*for example, if single number, 100% width will add 1*/
+                    /*for example, if single number, attached shadow will overlap*/
+                    if(linb.browser.ie6)ww=(parseInt(ww/2))*2;
+                }
+                if(null!==hh){
+                    hh -=Math.max($vborder*2, (t.$b_lw||0) + (t.$b_rw||0));
 
-            if(null!==width){
-                v1.width(size.width);
-            }
-            if(null!==height){
-                v1.height(size.height-v1._paddingH())
-            }
+                    if(linb.browser.ie6)hh=(parseInt(hh/2))*2;
+                    /*for ie6 bug*/
+                    if(linb.browser.ie6&&null===width)o.ieRemedy();
+                }
+                region={left:left,top:top,width:ww,height:hh};
+                o.cssRegion(region);   
+                if(ww||hh)
+                    v1.cssSize({width:ww,height:hh?(hh-toff):null});
 
-            return size;
+                /*for ie6 bug*/
+                if((profile.$border||profile.$shadow||profile.$resizer) && linb.browser.ie)o.ieRemedy();
         }
     }
 });

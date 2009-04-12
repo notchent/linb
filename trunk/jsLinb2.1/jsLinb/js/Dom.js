@@ -354,9 +354,12 @@ Class('linb.Dom','linb.absBox',{
                         fragment.appendChild(o);
                 }
                 fun.call(one,fragment);
-                for(i=0;o=arr[i];i++)
+                for(i=0;o=arr[i];i++){
                     for(j=0;v=o[0][j];j++)
                         v.call(o[1]);
+                    if(o[1].onLayout)
+                        o[1].boxing().onLayout(o[1]);
+                }
                 arr.length=0;
             }
             return this;
@@ -1481,9 +1484,19 @@ type:4
         //IE not trigger dimension change, when change height only in overflow=visible.
         ieRemedy:function(){
             if(linb.browser.ie){
-                var self=this;
-                _.asyRun(function(){self.css('wordWrap','break-word')});
-                _.asyRun(function(){self.css('wordWrap','normal');});
+                var dom=linb.Dom;
+                if(!dom.$_ie)dom.$_ie=linb();
+                dom.$_ie.merge(this);
+                _.asyRun(function(){
+                    if(!dom.$_ie.isEmpty())
+                        dom.$_ie.css('wordWrap','break-word')
+                });
+                _.asyRun(function(){
+                    if(!dom.$_ie.isEmpty()){
+                        dom.$_ie.css('wordWrap','normal');
+                        dom.$_ie._nodes.length=0;
+                    }
+                });
             }
             return this;
         },
@@ -2086,9 +2099,7 @@ type:4
         //for event pos in IE
         if(linb.browser.ie)
             linb.win.onScroll(function(){
-                var de=document.documentElement,b=document.body;
-                linb.Event._L=(de.scrollLeft||b.scrollLeft)-(de.clientLeft||0);
-                linb.Event._T=(de.scrollTop||b.scrollTop)-(de.clientTop||0);
+                linb.Event._IE();
             },'forEventPos',0);
     }
 });

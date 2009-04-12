@@ -246,9 +246,9 @@ Class('linb.Template','linb.absProfile',{
         }
     },
     Static : {
-        getFromDomId:function(id){
-            var o=linb.cache.dom[id];
-            if(o&&o.boxing)return o.boxing();
+        getFromDom:function(id){
+            if((id=typeof id=='string'?id:(id && id.id)) &&(id=linb.cache.dom[id]) && id['linb.Template'])
+                return id.boxing();
         },
         _cache:[],
         _ctrlId : new _.id()

@@ -132,9 +132,19 @@ Class("linb.UI.FoldingList", ["linb.UI.List"],{
             'items.cmds':{
                 $order:2,
                 CMD:{
-                    tagName:'a',
-                    href:linb.$href,
-                    text:'{caption}'
+                    className:'ui-btn',
+                    CMDI:{
+                        className:'ui-btni',
+                        CMDC:{
+                            className:'ui-btnc',
+                            CMDA:{
+                                tagName:'a',
+                                href:linb.$href,
+                                tabindex: '{_tabindex}',
+                                text:'{caption}'
+                            }
+                        }
+                    }
                 }
             }
         };
@@ -168,14 +178,12 @@ Class("linb.UI.FoldingList", ["linb.UI.List"],{
             },
 
             CMDS:{
-                padding:'2px 8px 4px 14px',
-                'font-weight':'bold',
+                padding:'4px 8px 2px 18px',
                 position:'relative',
                 background: linb.UI.$bg('border_left.gif', 'repeat-y left top #EEE')
             },
             CMD:{
-                margin:'2px 4px 2px 4px',
-                padding:'0 3px 0 3px'
+                margin:'2px 4px 2px 4px'
             },
             BODY:{
                 display:'none',
@@ -202,7 +210,8 @@ Class("linb.UI.FoldingList", ["linb.UI.List"],{
                 position:'absolute',
                 '_font-size':0,
                 '_line-height':0,
-                width:'8px'
+                width:'8px',
+                background: linb.UI.$bg('corner.gif', 'no-repeat')
             },
             'HL, HR':{
                 height:'30px'
@@ -219,22 +228,22 @@ Class("linb.UI.FoldingList", ["linb.UI.List"],{
             HL:{
                 top:0,
                 left:0,
-                background: linb.UI.$bg('corner.gif', ' no-repeat left -37px')
+                'background-position': 'left -37px'
             },
             HR:{
                 top:0,
                 right:0,
-                background: linb.UI.$bg('corner.gif', ' no-repeat right -37px')
+                'background-position': 'right -37px'
             },
             TL:{
                 bottom:0,
                 left:0,
-                background: linb.UI.$bg('corner.gif', ' no-repeat left bottom')
+                'background-position': 'left bottom'
             },
             TR:{
                 bottom:0,
                 right:0,
-                background: linb.UI.$bg('corner.gif', ' no-repeat right bottom')
+                'background-position': 'right bottom'
             },
             HEAD:{
                 position:'relative',
@@ -255,7 +264,7 @@ Class("linb.UI.FoldingList", ["linb.UI.List"],{
                 '_line-height':0,
                 position:'relative',
                 height:'5px',
-                background: linb.UI.$bg('border_bottom.gif', ' repeat-x left bottom #EEE')
+                background: linb.UI.$bg('border_bottom.gif', 'repeat-x left bottom #EEE')
             },
             'CAP1, CAP2':{
                 padding:'3px'
@@ -293,8 +302,8 @@ Class("linb.UI.FoldingList", ["linb.UI.List"],{
             }
         },
         Behaviors:{
-            HoverEffected:{ITEM:null,HEAD:'HEAD',OPT:'OPT'},
-            ClickEffected:{ITEM:null,HEAD:'HEAD'},
+            HoverEffected:{ITEM:null,HEAD:'HEAD',OPT:'OPT',CMD:'CMD'},
+            ClickEffected:{ITEM:null,HEAD:'HEAD',CMD:'CMD'},
             ITEM:{onClick:null,onKeydown:null},
             HEAD:{
                 onClick:function(profile, e, src){
@@ -320,6 +329,7 @@ Class("linb.UI.FoldingList", ["linb.UI.List"],{
             }
         },
         DataModel:({
+            value:null,
             tabindex:{
                 action:function(value){
                     if(this.domNode)
@@ -376,6 +386,10 @@ Class("linb.UI.FoldingList", ["linb.UI.List"],{
                 var sid=linb.UI.$tag_subId,a;
                 a=item.cmds=[];
                 for(var i=0,t=cmds,l=t.length;i<l;i++){
+                    if(typeof t[i]=='string')t[i]={id:t[i]};
+                    if(!t[i].caption)t[i].caption=t[i].id;
+                    t[i].id=t[i].id.replace(/[^\w]/g,'_');
+
                     o=linb.UI.adjustData(profile,t[i]);
                     a.push(o);
                     o[sid]=item[sid] + '_' + o.id;
