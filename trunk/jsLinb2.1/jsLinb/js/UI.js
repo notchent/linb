@@ -4156,10 +4156,7 @@ new function(){
                             tabindex: '{tabindex}',
                             href:linb.$href,
                             style:"{_align}",
-                            CAPTION:{
-                                $order:2,
-                                text:'{caption}'
-                            }
+                            text:'{caption}'
                         }
                     }
                 }
@@ -4180,7 +4177,6 @@ new function(){
                     'font-size':'12px',
                     'line-height':'14px',
                     'text-align':'center',
-                    'vertical-align': 'middle',
                     display:'block'
                 }
             },
@@ -4211,7 +4207,7 @@ new function(){
                 caption:{
                     ini:undefined,
                     action: function(value){
-                        this.getSubNode('CAPTION').get(0).innerHTML = value;
+                        this.getSubNode('FOCUS').get(0).innerHTML = value;
                     }
                 },
                 hAlign:{
