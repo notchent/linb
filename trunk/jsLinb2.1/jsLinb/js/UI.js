@@ -4145,31 +4145,34 @@ new function(){
         },
         Static:{
             Templates:{
-                className:'{_clsName} ui-btn',
+                className:'{_clsName}',
                 style:'{_style}',
-                BTNI:{
-                    className:'ui-btni',
-                    BTNC:{
-                        className:'ui-btnc',
-                        FOCUS:{
-                            tagName:'a',
-                            tabindex: '{tabindex}',
-                            href:linb.$href,
-                            style:"{_align}",
-                            text:'{caption}'
+                BTN:{
+                    className:'ui-btn',
+                    BTNI:{
+                        className:'ui-btni',
+                        BTNC:{
+                            className:'ui-btnc',
+                            FOCUS:{
+                                tagName:'a',
+                                tabindex: '{tabindex}',
+                                href:linb.$href,
+                                style:"{_align}",
+                                text:'{caption}'
+                            }
                         }
                     }
                 }
             },
             Appearances:{
-                KEY:{
+                BTN:{
                     overflow:'hidden'
                 },
-                'KEY-auto BTNI, KEY-auto BTNC, KEY-auto FOCUS':{
+                'KEY-auto BTN, KEY-auto BTNI, KEY-auto BTNC, KEY-auto FOCUS':{
                     $order:1,
                     display:linb.$inlineBlock
                 },
-                'BTNI,BTNC':{
+                'BTN,BTNI,BTNC':{
                     display:'block'
                 },
                 'KEY FOCUS':{
@@ -4181,8 +4184,8 @@ new function(){
                 }
             },
             Behaviors:{
-                HoverEffected:{KEY:['KEY']},
-                ClickEffected:{KEY:['KEY']},
+                HoverEffected:{BTN:['BTN']},
+                ClickEffected:{BTN:['BTN']},
                 NavKeys:{FOCUS:1},
                 onClick:function(profile, e, src){
                     var p=profile.properties;
