@@ -285,7 +285,6 @@ Class("linb.CSS", null,{
             (b.gek?"display:-moz-inline-block;display:-moz-inline-box;display:inline-block;":
                 b.ie6?"display:inline-box;display:inline;":"display:inline-block;")+
             (b.ie?"zoom:1;":"")+
-            (b.gek3?"":"vertical-align:middle;")+
             "}"+
             "h1{font-size:138.5%;}"+
             "h2{font-size:123.1%;}"+

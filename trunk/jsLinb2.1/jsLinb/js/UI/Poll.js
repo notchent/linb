@@ -391,6 +391,7 @@ Class("linb.UI.Poll", "linb.UI.List",{
                 width:'200px',
                 height:'14px',
                 border:0,
+                'vertical-align':'middle',
                 'line-height':0,
                 'font-size':0
             },

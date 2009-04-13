@@ -133,10 +133,10 @@ html, .uibg-base{
     background-image: url(Public/bar_vertical.gif);
 }
 .uibar-top .uibar-cmdl{
-    top:2px;
+    top:4px;
 }
 .uibar-top .uibar-cmdr{
-    top:5px;
+    top:4px;
 }
 
 /*set table height for ff2, set uibar height for performance*/

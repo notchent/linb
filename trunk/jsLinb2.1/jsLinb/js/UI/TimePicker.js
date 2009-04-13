@@ -213,7 +213,7 @@ Class('linb.UI.TimePicker', ['linb.UI',"linb.absValue"], {
             },
             'PRE,NEXT':{
                 position:'relative',
-                margin:'2px',
+                margin:'0 2px',
                 width:'15px',
                 height:'15px',
                 'vertical-align': 'middle',
@@ -246,10 +246,11 @@ Class('linb.UI.TimePicker', ['linb.UI',"linb.absValue"], {
             },
             HOUR:{
                 $order:3,
-                margin:'2px',
+                margin:'0 2px',
                 height:'15px',
                 width:'16px',
                 'font-weight':'bold',
+                'vertical-align': 'middle',
                 border:'1px solid #779EBF',
                 'background-color':'#F8FBFF',
                 cursor:'e-resize',

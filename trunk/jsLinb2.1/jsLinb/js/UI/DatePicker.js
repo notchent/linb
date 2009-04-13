@@ -223,7 +223,7 @@ Class('linb.UI.DatePicker', ['linb.UI',"linb.absValue"], {
             'PRE,PRE2,NEXT,NEXT2':{
                 $order:0,
                 position:'relative',
-                margin:'0 2px 0 2px',
+                margin:'0 2px',
                 width:'15px',
                 height:'15px',
                 'vertical-align': 'middle',
@@ -280,9 +280,10 @@ Class('linb.UI.DatePicker', ['linb.UI',"linb.absValue"], {
             },
             'YEAR,MONTH':{
                 $order:4,
-                margin:'2px',
+                margin:'0 2px',
                 height:'15px',
                 'font-weight':'bold',
+                'vertical-align': 'middle',
                 border:'1px solid #779EBF',
                 'background-color':'#F8FBFF',
                 'padding-left':'2px',

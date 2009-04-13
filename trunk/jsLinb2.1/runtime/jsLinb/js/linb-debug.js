@@ -4143,7 +4143,6 @@ Class("linb.CSS", null,{
             (b.gek?"display:-moz-inline-block;display:-moz-inline-box;display:inline-block;":
                 b.ie6?"display:inline-box;display:inline;":"display:inline-block;")+
             (b.ie?"zoom:1;":"")+
-            (b.gek3?"":"vertical-align:middle;")+
             "}"+
             "h1{font-size:138.5%;}"+
             "h2{font-size:123.1%;}"+
@@ -10351,7 +10350,7 @@ Class("linb.UI",  "linb.absObj", {
                 overflow:'hidden',
                 position:'absolute',
                 left:0,
-                top:'4px',
+                top:'6px',
                 width:'92%',
                 height:'22px',
                 'padding-left':'8px',
@@ -12832,6 +12831,9 @@ new function(){
                     padding:'2px 0',
                     'font-size':'12px',
                     'line-height':'14px',
+                    'vertical-align': 'middle'
+                },
+                CAPTION:{
                     'vertical-align': 'middle'
                 }
             },
@@ -15712,9 +15714,6 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
             },
             WRAP:{
                 left:0,
-                //don't change it 
-                top:'2px',
-
                 //for firefox bug: cursor not show
                 position:'absolute',
                 overflow:linb.browser.gek?'auto':'hidden'
@@ -15730,9 +15729,13 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
                 'border-color':'#FAE100'
             },
             INPUT:{
+               //don't change it in custom class or style
+               'padding-top':'2px',
+
                 'background-color':'transparent',
                border:0,
                margin:0,
+
                'margin-top':linb.browser.ie?'-1px':null,
                'font-size':'12px',
                position:'relative',
@@ -16180,7 +16183,7 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
         },
         _onresize:function(profile,width,height){
                 var $hborder=1, $vborder=1,
-                    toff=linb.UI.$getCSSValue('linb-input-wrap','top');
+                    toff=linb.UI.$getCSSValue('linb-input-input','paddingTop');
 
                 var t = profile.properties,
                     o = profile.getSubNode('BOX'),
@@ -18863,7 +18866,7 @@ Class("linb.UI.Group", "linb.UI.Div",{
             'PRE,PRE2,NEXT,NEXT2':{
                 $order:0,
                 position:'relative',
-                margin:'0 2px 0 2px',
+                margin:'0 2px',
                 width:'15px',
                 height:'15px',
                 'vertical-align': 'middle',
@@ -18920,9 +18923,10 @@ Class("linb.UI.Group", "linb.UI.Div",{
             },
             'YEAR,MONTH':{
                 $order:4,
-                margin:'2px',
+                margin:'0 2px',
                 height:'15px',
                 'font-weight':'bold',
+                'vertical-align': 'middle',
                 border:'1px solid #779EBF',
                 'background-color':'#F8FBFF',
                 'padding-left':'2px',
@@ -19436,7 +19440,7 @@ Class("linb.UI.Group", "linb.UI.Div",{
             },
             'PRE,NEXT':{
                 position:'relative',
-                margin:'2px',
+                margin:'0 2px',
                 width:'15px',
                 height:'15px',
                 'vertical-align': 'middle',
@@ -19469,10 +19473,11 @@ Class("linb.UI.Group", "linb.UI.Div",{
             },
             HOUR:{
                 $order:3,
-                margin:'2px',
+                margin:'0 2px',
                 height:'15px',
                 width:'16px',
                 'font-weight':'bold',
+                'vertical-align': 'middle',
                 border:'1px solid #779EBF',
                 'background-color':'#F8FBFF',
                 cursor:'e-resize',

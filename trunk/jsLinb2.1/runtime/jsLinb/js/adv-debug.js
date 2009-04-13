@@ -2388,6 +2388,7 @@ Class("linb.UI.Poll", "linb.UI.List",{
                 width:'200px',
                 height:'14px',
                 border:0,
+                'vertical-align':'middle',
                 'line-height':0,
                 'font-size':0
             },
@@ -2777,30 +2778,36 @@ Class("linb.UI.FoldingList", ["linb.UI.List"],{
                 height:'30px'
             },
             'ITEM-prechecked HL':{
+                $order:1,
                 'background-position': 'left top'
             },
             'ITEM-prechecked HR':{
+                $order:1,
                 'background-position': 'right top'
             },
             'TL, TR':{
                 height:'20px'
             },
             HL:{
+                $order:1,
                 top:0,
                 left:0,
                 'background-position': 'left -37px'
             },
             HR:{
+                $order:1,
                 top:0,
                 right:0,
                 'background-position': 'right -37px'
             },
             TL:{
+                $order:1,
                 bottom:0,
                 left:0,
                 'background-position': 'left bottom'
             },
             TR:{
+                $order:1,
                 bottom:0,
                 right:0,
                 'background-position': 'right bottom'
@@ -2827,7 +2834,8 @@ Class("linb.UI.FoldingList", ["linb.UI.List"],{
                 background: linb.UI.$bg('border_bottom.gif', 'repeat-x left bottom #EEE')
             },
             'CAP1, CAP2':{
-                padding:'3px'
+                padding:'3px',
+                'vertical-align':'middle'
             },
             CAP1:{
                 color:'#666',

@@ -119,9 +119,6 @@ Class("linb.UI.Input", ["linb.UI.Widget","linb.absValue"] ,{
             },
             WRAP:{
                 left:0,
-                //don't change it 
-                top:'2px',
-
                 //for firefox bug: cursor not show
                 position:'absolute',
                 overflow:linb.browser.gek?'auto':'hidden'
@@ -137,9 +134,13 @@ Class("linb.UI.Input", ["linb.UI.Widget","linb.absValue"] ,{
                 'border-color':'#FAE100'
             },
             INPUT:{
+               //don't change it in custom class or style
+               'padding-top':'2px',
+
                 'background-color':'transparent',
                border:0,
                margin:0,
+
                'margin-top':linb.browser.ie?'-1px':null,
                'font-size':'12px',
                position:'relative',
@@ -587,7 +588,7 @@ Class("linb.UI.Input", ["linb.UI.Widget","linb.absValue"] ,{
         },
         _onresize:function(profile,width,height){
                 var $hborder=1, $vborder=1,
-                    toff=linb.UI.$getCSSValue('linb-input-wrap','top');
+                    toff=linb.UI.$getCSSValue('linb-input-input','paddingTop');
 
                 var t = profile.properties,
                     o = profile.getSubNode('BOX'),

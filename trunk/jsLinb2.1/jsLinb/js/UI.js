@@ -1827,7 +1827,7 @@ Class("linb.UI",  "linb.absObj", {
                 overflow:'hidden',
                 position:'absolute',
                 left:0,
-                top:'4px',
+                top:'6px',
                 width:'92%',
                 height:'22px',
                 'padding-left':'8px',
@@ -4308,6 +4308,9 @@ new function(){
                     padding:'2px 0',
                     'font-size':'12px',
                     'line-height':'14px',
+                    'vertical-align': 'middle'
+                },
+                CAPTION:{
                     'vertical-align': 'middle'
                 }
             },
