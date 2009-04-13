@@ -21,7 +21,7 @@ Class('App.linb_UI_ButtonViews', 'linb.Com',{
                 .host(host,"ButtonViews2")
                 .setItems([{"id":"view1", "caption":"view1"}, {"id":"view2", "caption":"view2"}, {"id":"view3", "caption":"view3", "closeBtn":"true"}, {"id":"view4", "caption":"view4", "closeBtn":"true"}])
                 .setBarLocation("left")
-                .setBarSize(70)
+                .setBarSize(90)
                 .setValue("view1")
             , 'view1');
             

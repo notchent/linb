@@ -1,7 +1,36 @@
-/***setting***/
-.linb-setting{
+/***setting begin***/
+.setting-uikey{
     font-family: aqua;
 }
+.setting-linb-border{
+    border-top-width:3px;
+    border-bottom-width:3px;
+    border-left-width:3px;
+    border-right-width:3px;
+}
+.setting-linb-button{
+    border-top-width:11px;
+    border-bottom-width:11px;
+    border-left-width:11px;
+    border-right-width:11px;
+}
+.setting-linb-input{
+    border-top-width:1px;
+    border-bottom-width:1px;
+    border-left-width:1px;
+    border-right-width:1px;
+}
+.setting-linb-comboinput{
+    border-top-width:1px;
+    border-bottom-width:1px;
+    border-left-width:1px;
+    border-right-width:1px;
+}
+.setting-linb-layout{
+    width:12px;
+}
+
+/***setting end***/
 
 /*background here*/
 html, .uibg-base{
@@ -30,13 +59,6 @@ html, .uibg-base{
     background-image: url('Public/icons.gif')
 }
 /*linb-border*/
-/***setting***/
-.linb-border-bordersetting{
-    border-top-width:3px;
-    border-bottom-width:3px;
-    border-left-width:3px;
-    border-right-width:3px;
-}
 .linb-border-t{
     top:-3px;
     height:5px;
@@ -182,13 +204,6 @@ html, .uibg-base{
     background-image: url(Button/corner_mousedown.gif);
 }
 /*linb-border*/
-/***setting***/
-.linb-button-bordersetting{
-    border-top-width:11px;
-    border-bottom-width:11px;
-    border-left-width:11px;
-    border-right-width:11px;
-}
 .linb-button-b-t{
     top:-11px;
     height:11px;
@@ -283,13 +298,6 @@ html, .uibg-base{
 .linb-comboinput-r1, .linb-comboinput-r2, .linb-comboinput-btn, .linb-comboinput-sbtn, .linb-comboinput-stop, .linb-comboinput-top,.linb-comboinput-r1t, .linb-comboinput-r2t, .linb-comboinput-r1b, .linb-comboinput-r2b, .linb-comboinput-smin, .linb-comboinput-min
 {
     background-image: url(ComboInput/bg.gif);
-}
-/***setting***/
-.linb-input-bordersetting{
-    border-top-width:1px;
-    border-bottom-width:1px;
-    border-left-width:1px;
-    border-right-width:1px;
 }
 .linb-input-b-t, .linb-comboinput-b-t{
     top:-1px;
@@ -392,10 +400,11 @@ html, .uibg-base{
     color:#000;
 }
 .linb-treebar-bar-mouseover{
-    background-color:#C5E5F6;
+    background-color:#B6D2EE;
 }
-.linb-treebar-bar-checked{
-    background-color:#C5E5F6;
+.linb-treebar-bar-checked, .linb-treebar-bar-checked linb-treebar-itemcaption{
+    background-color:#4E8FDF;
+    color:#fff;
 }
 .linb-treebar-bar-group{
     background-image: url(Public/bar_vertical.gif);
@@ -425,6 +434,9 @@ html, .uibg-base{
 }
 
 /*linb.UI.Stacks*/
+.linb-stacks-cmds{
+    top:4px;
+}
 .linb-stacks-item{
     background-image: url(Public/bar_vertical.gif);
 }
@@ -563,56 +575,66 @@ html, .uibg-base{
 }
 
 /*linb.UI.TreeGrid*/
-.linb-treegrid-collist {
-    background: #ACCCED url(TreeGrid/collist.gif) no-repeat center bottom;
-    border-right:solid 1px #6CAEF3;
-    border-bottom:solid 1px #6CAEF3;
+.linb-treegrid-hcell0, .linb-treegrid-hcell {
+    border:none;
+    border-right:1px solid #929292;
 }
-.linb-treegrid-sort, .linb-treegrid-checkbox, .linb-treegrid-checkbox-checked{
-    background-image: url(Public/icons.gif);
+.linb-treegrid-hcells, .linb-treegrid-body{
+    border:1px solid #929292;
 }
-.linb-treegrid-sub{
-    border-left:solid 1px #f1f1f1;
+.linb-treegrid-hcells{
+    padding-left:2px;
+    padding-bottom:0;
+}
+.linb-treegrid-row{
+    border:none;
+}
+.linb-treegrid-sub {
+    border:none;
 }
 .linb-treegrid-hcell-mouseover{
     background: none;
 }
 
-.linb-treegrid-cell, .linb-treegrid-cells-group, .linb-treegrid-preview, .linb-treegrid-summary{
-    border-right:solid 1px #f1f1f1;
+.linb-treegrid-collist {
+    background: #ACCCED url(TreeGrid/collist.gif) no-repeat center bottom;
+    border:none;
+    border-right:solid 1px #6CAEF3;
 }
-.linb-treegrid-row{
-    border-top:1px solid #f1f1f1;
+.linb-treegrid-sort, .linb-treegrid-checkbox, .linb-treegrid-checkbox-checked{
+    background-image: url(Public/icons.gif);
 }
-.linb-treegrid-body{
-    border-bottom:1px solid #f1f1f1;
+
+.linb-treegrid-cell, .linb-treegrid-cells-group{
+     border:none;
+     padding-left:0;
+     padding-right:1px;
 }
+
 .linb-treegrid-preview{
-    border-bottom:1px dashed #f1f1f1;
+    border-bottom:1px dashed #929292;
 }
 .linb-treegrid-summary{
-    border-top:1px dashed #f1f1f1;
+    border-top:1px dashed #929292;
 }
 
 .linb-treegrid-cell-mouseover{
-    background: #D9E8FB;
+    background: #B6D2EE;
 }
 .linb-treegrid-cells-mouseover{
-    background: #D9E8FB;
+    background: #B6D2EE;
 }
-.linb-treegrid-cells-active, .linb-treegrid-cell-active{
-    background: #FDFDFD;
+.linb-treegrid-cells-active, .linb-treegrid-cells-active .linb-treegrid-cella, .linb-treegrid-cell-active, .linb-treegrid-cell-active .linb-treegrid-cella{
+    background: #4E8FDF;
 }
-.linb-treegrid-cells-cecked, .linb-treegrid-cell-cecked{
-    background: #A7F2FE;
+.linb-treegrid-cells-checked, .linb-treegrid-cells-checked .linb-treegrid-cella, .linb-treegrid-cell-checked, .linb-treegrid-cell-checked .linb-treegrid-cella{
+    background: #0D54AE;
+    color:#fff;
 }
 .linb-treegrid-header, .linb-treegrid-hcell0, .linb-treegrid-hcell{
     background: #fff url(TreeGrid/head.gif) repeat-x left bottom;
 }
-.linb-treegrid-hcell0, .linb-treegrid-hcell{
-    border-right:solid 1px #d4d4d4;
-    border-bottom:solid 1px #d4d4d4;
-}
+
 .linb-treegrid-hcell-mouseover {
     background: #F2F9FC url(TreeGrid/head-mouseover.gif) repeat-x left bottom;
 }
@@ -644,6 +666,7 @@ html, .uibg-base{
 }
 .linb-foldinglist-cmds, .linb-foldinglist-body, .linb-foldinglist-bodyi{
     background-image: url(FoldingList/border_left.gif);
+    background-repeat: repeat-y;
 }
 /*linb.UI.TimeLine*/
 .linb-timeline-items{
@@ -658,7 +681,24 @@ html, .uibg-base{
 .linb-timeline-zoomin, .linb-timeline-zoomout, .linb-timeline-date, .linb-timeline-pre, .linb-timeline-next, .linb-timeline-min{
     background-image: url(Public/icons.gif);
 }
-
+.linb-timeline-mainc{
+    border:solid 1px #474747;
+}
+.linb-timeline-biglabel{
+    background-color:#E2E2E2;
+    border-bottom:solid 1px #648CB4;
+}
+.linb-timeline-smalllabel{
+    background-color:#E2E2E2;
+    border-bottom:solid 1px #474747;
+}
+.linb-timeline-biglabel div, .linb-timeline-smalllabel div{
+    border-left:solid 1px #648CB4;
+}
+.linb-timeline-normal{
+    background-color:#EEEEEE;
+    border:1px solid #474747;
+}
 /*linb.UI.Range*/
 .linb-range-ruler{
     background-image: url(Range/bg.gif);

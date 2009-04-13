@@ -4,10 +4,10 @@ Class("linb.UI.Block", "linb.UI.Widget",{
             t = self.getTemplate();
         //modify
         _.merge(t.FRAME.BORDER,{
-            className:'uiw-border uibg-bar {clsBorderType1}',
+            className:'uiw-border {clsBorderType1}',
             PANEL:{
                 tagName:'div',
-                className:'{clsBorderType2}',
+                className:'{clsBorderType2} uibg-bar',
                 style:'{background}',
                 text:'{html}'+linb.UI.$childTag
             }

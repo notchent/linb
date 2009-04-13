@@ -33,6 +33,8 @@ Class("linb.UI.LinkList", ["linb.UI.List"],{
                 'border-right':'solid 1px #7C9CBC',
                 height:'16px',
                 padding:'3px',
+                'font-size':0,
+                'line-height':0,
                 'white-space':'nowrap'
             },
             'ITEM-mouseover, ITEM-mousedown, ITEM-checked':{
@@ -53,7 +55,9 @@ Class("linb.UI.LinkList", ["linb.UI.List"],{
                 display:linb.$inlineBlock,
                 zoom:linb.browser.ie6?1:null,
                 'vertical-align':'middle',
-                padding:'1pt 4px 1pt 12px'
+                padding:'1pt 4px 1pt 12px',
+                'font-size':'12px',
+                'line-height':'14px'
             }
         },
         DataModel:({

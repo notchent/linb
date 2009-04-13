@@ -42,6 +42,9 @@ Class("linb.UI.Layout",["linb.UI", "linb.absList"],{
             }
         },
         Appearances:{
+            '.setting-linb-layout':{
+                width:'9px'
+            },
             KEY:{
                 position:'absolute',
                 overflow:'hidden',
@@ -311,10 +314,9 @@ Class("linb.UI.Layout",["linb.UI", "linb.absList"],{
                         o = profile.getSubNode('ITEM',itemId),
                         panel = profile.getSubNode('PANEL',itemId),
                         move = profile.getSubNode('MOVE',itemId),
-                        _handlerSize;
+                        _handlerSize=linb.UI.$getCSSValue('setting-linb-layout','width');
 
                     if(t.type=='vertical'){
-                        _handlerSize=move.offsetHeight();
                         // restore resize mode
                         if(item.hide){
                             if(item.size <= m.height() - main.min + _handlerSize){
@@ -351,7 +353,6 @@ Class("linb.UI.Layout",["linb.UI", "linb.absList"],{
                         }
                         linb.UI.$tryResize(profile,null,r.height());
                     }else{
-                        _handlerSize=move.offsetWidth();
                         if(item.hide){
                             if(item.size <= m.width()-main.min + _handlerSize){
                                 o.width(item.size);
@@ -577,7 +578,7 @@ Class("linb.UI.Layout",["linb.UI", "linb.absList"],{
         _onresize:function(profile,width,height){
             var _t,t=profile.properties, m,n, itemId, temp1,temp2,temp, key=profile.keys.ITEM, panel=profile.keys.PANEL,
             move=profile.getSubNode('MOVE',true),
-            _handlerSize;
+            _handlerSize=linb.UI.$getCSSValue('setting-linb-layout','width');
 
             var obj={}, obj2={};
             _.arr.each(t.items,function(o){
@@ -586,7 +587,6 @@ Class("linb.UI.Layout",["linb.UI", "linb.absList"],{
                 obj2[itemId] = {};
             });
             if(t.type!='vertical'){
-                _handlerSize=move.offsetWidth();
                 if(!_.isNull(width)){
                     //get left
                     temp=temp1=temp2=0;
@@ -646,7 +646,6 @@ Class("linb.UI.Layout",["linb.UI", "linb.absList"],{
                     });
                 }
             }else{
-                _handlerSize=move.offsetHeight();
                 if(!_.isNull(height)){
                     //get top
                     temp=temp1=temp2=0;

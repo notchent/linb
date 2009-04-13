@@ -26,6 +26,9 @@
     border-left-width:1px;
     border-right-width:1px;
 }
+.setting-linb-layout{
+    width:12px;
+}
 
 /***setting end***/
 
@@ -431,6 +434,9 @@ html, .uibg-base{
 }
 
 /*linb.UI.Stacks*/
+.linb-stacks-cmds{
+    top:4px;
+}
 .linb-stacks-item{
     background-image: url(Public/bar_vertical.gif);
 }

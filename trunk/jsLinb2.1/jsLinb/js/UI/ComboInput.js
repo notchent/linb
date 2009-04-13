@@ -797,9 +797,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
         },
         _onresize:function(profile,width,height){
             var $hborder=1, $vborder=1,
-                cache=linb.UI.$CSSCACHE,
-                ck='.linb-input-wrap:top',
-                toff=cache[ck]||(cache[ck]=parseInt(linb.CSS.$getCSSValue('.linb-input-wrap','top'))||0);
+                toff=linb.UI.$getCSSValue('linb-input-wrap','top');
 
             var t = profile.properties,
                 o = profile.getSubNode('BOX'),

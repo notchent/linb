@@ -1,7 +1,35 @@
-/***setting***/
-.linb-setting{
+/***setting begin***/
+.setting-uikey{
     font-family: vista;
 }
+.setting-linb-border{
+    border-top-width:3px;
+    border-bottom-width:3px;
+    border-left-width:3px;
+    border-right-width:3px;
+}
+.setting-linb-button{
+    border-top-width:1px;
+    border-bottom-width:1px;
+    border-left-width:1px;
+    border-right-width:1px;
+}
+.setting-linb-input{
+    border-top-width:1px;
+    border-bottom-width:1px;
+    border-left-width:1px;
+    border-right-width:1px;
+}
+.setting-linb-comboinput{
+    border-top-width:1px;
+    border-bottom-width:1px;
+    border-left-width:1px;
+    border-right-width:1px;
+}
+.setting-linb-layout{
+    width:10px;
+}
+/***setting end***/
 
 /*background here*/
 html, .uibg-base{
@@ -30,13 +58,6 @@ html, .uibg-base{
     background-image: url('Public/icons.gif')
 }
 /*linb-border*/
-/***setting***/
-.linb-border-bordersetting{
-    border-top-width:3px;
-    border-bottom-width:3px;
-    border-left-width:3px;
-    border-right-width:3px;
-}
 .linb-border-t{
     top:-3px;
     height:5px;
@@ -173,13 +194,7 @@ html, .uibg-base{
 .linb-button-border-checked .linb-button-b-lt, .linb-button-border-checked .linb-button-b-rt, .linb-button-border-checked .linb-button-b-rb, .linb-button-border-checked .linb-button-b-lb, .linb-button-border-mousedown .linb-button-b-lt, .linb-button-border-mousedown .linb-button-b-rt, .linb-button-border-mousedown .linb-button-b-rb, .linb-button-border-mousedown .linb-button-b-lb{
     background-image: url(Button/corner_mousedown.gif);
 }
-/***setting***/
-.linb-button-bordersetting{
-    border-top-width:1px;
-    border-bottom-width:1px;
-    border-left-width:1px;
-    border-right-width:1px;
-}
+
 .linb-button-b-t{
     top:-1px;
 }
@@ -254,13 +269,7 @@ html, .uibg-base{
 {
     background-image: url(ComboInput/bg.gif);
 }
-/***setting***/
-.linb-input-bordersetting{
-    border-top-width:1px;
-    border-bottom-width:1px;
-    border-left-width:1px;
-    border-right-width:1px;
-}
+
 .linb-input-b-t, .linb-comboinput-b-t{
     top:-1px;
 }
@@ -360,6 +369,9 @@ html, .uibg-base{
 }
 
 /*linb.UI.Stacks*/
+.linb-stacks-cmds{
+    top:5px;
+}
 .linb-stacks-item{
     background-image: url(Public/bar_vertical.gif);
 }
@@ -495,7 +507,7 @@ html, .uibg-base{
 }
 .linb-timepicker-pre, .linb-timepicker-next{
     background-image: url(Public/icons.gif);
-    
+}
 
 /*linb.UI.TreeGrid*/
 .linb-treegrid-collist {
@@ -535,11 +547,12 @@ html, .uibg-base{
 .linb-treegrid-cells-mouseover{
     background: #D9E8FB;
 }
-.linb-treegrid-cells-active, .linb-treegrid-cell-active{
-    background: #FDFDFD;
+.linb-treegrid-cells-active, .linb-treegrid-cells-active .linb-treegrid-cella, .linb-treegrid-cell-active, .linb-treegrid-cell-active .linb-treegrid-cella{
+    background: #B0EAFA;
 }
-.linb-treegrid-cells-cecked, .linb-treegrid-cell-cecked{
-    background: #A7F2FE;
+.linb-treegrid-cells-checked, .linb-treegrid-cells-checked .linb-treegrid-cella, .linb-treegrid-cell-checked, .linb-treegrid-cell-checked .linb-treegrid-cella{
+    background: #3C7FB1;
+    color:#fff;
 }
 .linb-treegrid-header, .linb-treegrid-hcell0, .linb-treegrid-hcell{
     background: #fff url(TreeGrid/head.gif) repeat-x left bottom;
@@ -593,7 +606,24 @@ html, .uibg-base{
 .linb-timeline-zoomin, .linb-timeline-zoomout, .linb-timeline-date, .linb-timeline-pre, .linb-timeline-next, .linb-timeline-min{
     background-image: url(Public/icons.gif);
 }
-
+.linb-timeline-mainc{
+    border:solid 1px #3C5064;
+}
+.linb-timeline-biglabel{
+    background-color:#DCE9F0;
+    border-bottom:solid 1px #BECFD9;
+}
+.linb-timeline-smalllabel{
+    background-color:#DCE9F0;
+    border-bottom:solid 1px #3C5064;
+}
+.linb-timeline-biglabel div, .linb-timeline-smalllabel div{
+    border-left:solid 1px #BECFD9;
+}
+.linb-timeline-normal{
+    background-color:#B0D9EE;
+    border:1px solid #3C5064;
+}
 /*linb.UI.Range*/
 .linb-range-ruler{
     background-image: url(Range/bg.gif);

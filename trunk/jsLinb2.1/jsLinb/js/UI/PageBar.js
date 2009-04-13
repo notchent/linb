@@ -353,7 +353,8 @@ Class("linb.UI.PageBar",["linb.UI","linb.absValue"] ,{
             var _id=profile.keys.POPI+':'+profile.serialId+':',
                 _h=linb.Event.$EVENTHANDLER;
             while(n<l){
-                a.push('<span id="'+_id+n+'" onmouseover="'+_h+'" onmouseout="'+_h+'" onmousedown="'+_h+'" class="ui-btn"><span class="ui-btni"><span class="ui-btnc"><a href="'+prop.uriTpl.replace('*',n)+'">'+prop.textTpl.replace('*',n)+'</a></span></span></span>')
+                //margin-top for ie6
+                a.push('<span style="margin-top:3px;" id="'+_id+n+'" onmouseover="'+_h+'" onmouseout="'+_h+'" onmousedown="'+_h+'" class="ui-btn"><span class="ui-btni"><span class="ui-btnc"><a href="'+prop.uriTpl.replace('*',n)+'">'+prop.textTpl.replace('*',n)+'</a></span></span></span>')
                 n=n+m;
             }
             pop.width('auto');

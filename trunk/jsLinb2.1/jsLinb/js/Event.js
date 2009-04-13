@@ -158,7 +158,7 @@ Class('linb.Event',null,{
         },
 
         _getProfile:function(id,a,b){
-            return id && (a=(b=linb.cache.dom)[id])
+            return id && ((a=(b=linb.cache.dom)[id])
                             ?
                             a['linb.UIProfile']
                                 ?
@@ -170,7 +170,7 @@ Class('linb.Event',null,{
                                     :
                                     a
                             :
-                            b[id.replace(this._reg,'')];
+                            b[id.replace(this._reg,'')]);
         },
         _handleTabHook:function(src, target){
             if(src===document)return true;

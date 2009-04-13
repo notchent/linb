@@ -172,7 +172,7 @@ Class("linb.UI.MenuBar",["linb.UI","linb.absList" ],{
                 'vertical-align':'middle'
             },
             LIST:{
-                padding:'2px 0 0 2px'
+                padding:'2px'
             },
             ITEMS:{
                 'vertical-align':'middle'
@@ -184,23 +184,27 @@ Class("linb.UI.MenuBar",["linb.UI","linb.absList" ],{
                 background:linb.UI.$bg('button.gif', 'no-repeat',true)
             },
             ITEM:{
+                height:'22px',
                 'white-space': 'nowrap',
-                'vertical-align':'middle',
+                'vertical-align':'top',
+                overflow:'hidden',
                 margin:'0  3px 0 3px',
                 'padding-right':'6px',
                 'font-size':0,
-                'line-height':0,
-                overflow:'hidden'
+                'line-height':0
             },
             'ITEM *':{
                 cursor:'pointer'
             },
             ITEMI:{
-                'padding-left':'6px'
+                height:'22px',
+                'padding-left':'6px',
+                'vertical-align':'top'
             },
             ITEMC:{
                 height:'22px',
-                padding:'3px 2px 0 0'
+                'padding-top':'3px',
+                'vertical-align':'top'
             },
             ITEMA:{
                 display:linb.$inlineBlock

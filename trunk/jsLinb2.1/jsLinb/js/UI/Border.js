@@ -77,19 +77,15 @@ Class("linb.UI.Border","linb.UI",{
                         k=(properties._bkey=o.getClass('KEY'));
                     else k='linb-border';
                         
-                    var css=linb.CSS,key='.setting-'+k, cache=linb.UI.$CSSCACHE,sk,ck;
+                    var key='setting-'+k, sk;
                     sk='borderLeftWidth';
-                    ck=key+':'+sk;
-                    t.$b_lw=cache[ck]||(cache[ck]=parseInt(css.$getCSSValue(key,sk))||0);
+                    t.$b_lw=linb.UI.$getCSSValue(key,sk);
                     sk='borderRightWidth';
-                    ck=key+':'+sk;
-                    t.$b_rw=cache[ck]||(cache[ck]=parseInt(css.$getCSSValue(key,sk))||0);
+                    t.$b_rw=linb.UI.$getCSSValue(key,sk);
                     sk='borderTopWidth';
-                    ck=key+':'+sk;
-                    t.$b_tw=cache[ck]||(cache[ck]=parseInt(css.$getCSSValue(key,sk))||0);
+                    t.$b_tw=linb.UI.$getCSSValue(key,sk);
                     sk='borderBottomWidth';
-                    ck=key+':'+sk;
-                    t.$b_bw=cache[ck]||(cache[ck]=parseInt(css.$getCSSValue(key,sk))||0);
+                    t.$b_bw=linb.UI.$getCSSValue(key,sk);
 
                     if(flag!==false){
                         if(target.$getBorder())return;

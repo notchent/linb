@@ -180,7 +180,8 @@ Class("linb.UI.FoldingList", ["linb.UI.List"],{
             CMDS:{
                 padding:'4px 8px 2px 18px',
                 position:'relative',
-                background: linb.UI.$bg('border_left.gif', 'repeat-y left top #EEE')
+                background: linb.UI.$bg('border_left.gif', 'repeat-y left top #EEE'),
+                zoom:linb.browser.ie?1:null
             },
             CMD:{
                 margin:'2px 4px 2px 4px'
@@ -271,6 +272,7 @@ Class("linb.UI.FoldingList", ["linb.UI.List"],{
             },
             CAP1:{
                 color:'#666',
+                cursor:'pointer',
                 'white-space':'nowrap',
             	font: 'bold 12px arial,sans-serif',
             	color: '#00681C'

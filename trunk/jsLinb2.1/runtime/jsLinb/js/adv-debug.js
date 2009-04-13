@@ -161,40 +161,43 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
                         className:'uicon-maini',
                         MAINC:{
                             tagName:'div',
-                            BAND:{
-                                $order:2,
-                                tagName:'div',
-                                style:'left:{_band_left}px;width:{_band_width}px;',
-                                BIGLABEL:{
+                            MAINP:{
+                            tagName:'div',
+                                BAND:{
+                                    $order:2,
                                     tagName:'div',
-                                    style:'{_showBigLabel}',
-                                    text:"{_bigMarks}"
-                                },
-                                SMALLLABEL:{
-                                    $order:1,
-                                    tagName:'div',
-                                    text:"{_smallMarks}"
-                                }
-                            },
-                            VIEW:{
-                                $order:3,
-                                    tagName:'div',
-                                    style:'height:{_viewHeight}px;',
-                                    ITEMS:{
+                                    style:'left:{_band_left}px;width:{_band_width}px;',
+                                    BIGLABEL:{
                                         tagName:'div',
-                                        style:'left:{_band_left}px;width:{_band_width}px;',
-                                        text:'{items}',
-                                        ACTIVE:{
-                                            $order:3,
-                                            tagName:'div'
-                                        }
+                                        style:'{_showBigLabel}',
+                                        text:"{_bigMarks}"
                                     },
-                                    SCROLL:{
+                                    SMALLLABEL:{
+                                        $order:1,
                                         tagName:'div',
-                                        SCROLLI:{
-                                            tagName:'div'
-                                        }
+                                        text:"{_smallMarks}"
                                     }
+                                },
+                                VIEW:{
+                                    $order:3,
+                                        tagName:'div',
+                                        style:'height:{_viewHeight}px;',
+                                        ITEMS:{
+                                            tagName:'div',
+                                            style:'left:{_band_left}px;width:{_band_width}px;',
+                                            text:'{items}',
+                                            ACTIVE:{
+                                                $order:3,
+                                                tagName:'div'
+                                            }
+                                        },
+                                        SCROLL:{
+                                            tagName:'div',
+                                            SCROLLI:{
+                                                tagName:'div'
+                                            }
+                                        }
+                                }
                             }
                         }
                     }
@@ -938,8 +941,6 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
                 'padding-top':'4px'
             },
             MAINC:{
-                overflow: 'hidden',
-                position: 'relative',
                 border:'solid 1px #648CB4',
                 background:'#fff'
             },
@@ -962,10 +963,10 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
                 'line-height':'0',
                 border:'0'
             },
-            'BAND, VIEW, BIGLABEL, SMALLLABEL':{
+            'MAINP, BAND, VIEW, BIGLABEL, SMALLLABEL':{
                 position:'relative'
             },
-            VIEW:{
+            'VIEW, MAINP':{
                 width:linb.browser.ie6?'100%':null,
                 overflow:'hidden'
             },
@@ -1864,10 +1865,8 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
                 off1=2*p.$borderW,
                 off2=3,
                 t;
-            var cache=linb.UI.$CSSCACHE,
-                ck='.setting-timeline:height',
-                toff=cache[ck]||(cache[ck]=parseInt(linb.CSS.$getCSSValue('.setting-timeline','height'))||0);
- 
+            var toff=linb.UI.$getCSSValue('linb-timeline','height');
+
             //for border, view and items
             if(height){
                 f('BORDER').height(t=height-off1);
@@ -1927,6 +1926,8 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
                 'border-right':'solid 1px #7C9CBC',
                 height:'16px',
                 padding:'3px',
+                'font-size':0,
+                'line-height':0,
                 'white-space':'nowrap'
             },
             'ITEM-mouseover, ITEM-mousedown, ITEM-checked':{
@@ -1947,7 +1948,9 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
                 display:linb.$inlineBlock,
                 zoom:linb.browser.ie6?1:null,
                 'vertical-align':'middle',
-                padding:'1pt 4px 1pt 12px'
+                padding:'1pt 4px 1pt 12px',
+                'font-size':'12px',
+                'line-height':'14px'
             }
         },
         DataModel:({
@@ -2736,7 +2739,8 @@ Class("linb.UI.FoldingList", ["linb.UI.List"],{
             CMDS:{
                 padding:'4px 8px 2px 18px',
                 position:'relative',
-                background: linb.UI.$bg('border_left.gif', 'repeat-y left top #EEE')
+                background: linb.UI.$bg('border_left.gif', 'repeat-y left top #EEE'),
+                zoom:linb.browser.ie?1:null
             },
             CMD:{
                 margin:'2px 4px 2px 4px'
@@ -2827,6 +2831,7 @@ Class("linb.UI.FoldingList", ["linb.UI.List"],{
             },
             CAP1:{
                 color:'#666',
+                cursor:'pointer',
                 'white-space':'nowrap',
             	font: 'bold 12px arial,sans-serif',
             	color: '#00681C'

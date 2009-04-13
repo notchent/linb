@@ -2339,7 +2339,7 @@ Class('linb.Event',null,{
         },
 
         _getProfile:function(id,a,b){
-            return id && (a=(b=linb.cache.dom)[id])
+            return id && ((a=(b=linb.cache.dom)[id])
                             ?
                             a['linb.UIProfile']
                                 ?
@@ -2351,7 +2351,7 @@ Class('linb.Event',null,{
                                     :
                                     a
                             :
-                            b[id.replace(this._reg,'')];
+                            b[id.replace(this._reg,'')]);
         },
         _handleTabHook:function(src, target){
             if(src===document)return true;
@@ -9525,7 +9525,7 @@ Class("linb.UI",  "linb.absObj", {
             return this.each(function(o){
                 if(!o.domNode)return;
                 var p=o.properties;
-                
+
                 if((!o.$noB) && p.border && o.boxing()._border)
                     o.boxing()._border(null,false);
 
@@ -10050,7 +10050,7 @@ Class("linb.UI",  "linb.absObj", {
                 'background-position':'left -30px',
                 'background-repeat': 'repeat-x',
                 'padding-top':'3px',
-                'vertical-align':'top'                
+                'vertical-align':'top'
             },
             '.ui-btn-mouseover, .ui-btn-focus':{
                 $order:2,
@@ -10202,7 +10202,7 @@ Class("linb.UI",  "linb.absObj", {
             '.uicmd-check-checked-mousedown':{
                 $order:6,
                 'background-position' : '0 -110px'
-            },            
+            },
             '.uicmd-radio':{
                 $order:1,
                 margin:'0 4px 0 2px',
@@ -10313,7 +10313,7 @@ Class("linb.UI",  "linb.absObj", {
             /*set table height for ff2, set uibar height for performance*/
             '.uibar-top, .uibar-top .uibar-t':{
                 height:'29px'
-            },            
+            },
             '.uibar-top .uibar-tdl':{
                 $order:1,
                 'padding-left':'4px',
@@ -10370,13 +10370,13 @@ Class("linb.UI",  "linb.absObj", {
                 'font-size':0,
                 'line-height':0,
                 'z-index':1,
-                overflow:'visible',       
+                overflow:'visible',
                 background: linb.UI.$bg('bar_horizontal.gif', 'repeat-y -595px top', true)
             },
             '.uicon-maini':{
                 'padding-right':'5px',
                 'font-size':0,
-                'line-height':0,                
+                'line-height':0,
                 background: linb.UI.$bg('container_right.gif', '#AAD2FA repeat-y right top', true)
             },
 //uibar-bottom
@@ -11084,6 +11084,10 @@ Class("linb.UI",  "linb.absObj", {
             return self;
         },
         $CSSCACHE:{},
+        $getCSSValue:function(cls, key){
+            var cache=this.$CSSCACHE, ck='.'+cls+':'+key;
+            return cache[ck]||(cache[ck]=parseInt(linb.CSS.$getCSSValue('.'+cls,key))||0);
+        },
         getTheme:function(){
             return this.$theme;
         },
@@ -11707,7 +11711,7 @@ Class("linb.UI",  "linb.absObj", {
                         f=function(arg){
                             //get self vars
                             var me=arguments.callee,
-                                map=linb.UI.$dock_map, 
+                                map=linb.UI.$dock_map,
                                 arr=linb.UI.$dock_args,
                                 rePos=me.rePos,
                                 node=me.node,
@@ -12790,10 +12794,10 @@ new function(){
                         o=profile.getSubNode('CAPTION'),
                         flag=properties.value !== properties.$UIvalue,
                         d = linb.UI.$css_tag_dirty;
-    
+
                     if(o.beforeDirtyMark && false===o.boxing().beforeDirtyMark(profile,flag))
                         return;
-    
+
                     if(flag)
                         o.addClass(d);
                     else
@@ -13135,19 +13139,15 @@ Class("linb.UI.Border","linb.UI",{
                         k=(properties._bkey=o.getClass('KEY'));
                     else k='linb-border';
                         
-                    var css=linb.CSS,key='.setting-'+k, cache=linb.UI.$CSSCACHE,sk,ck;
+                    var key='setting-'+k, sk;
                     sk='borderLeftWidth';
-                    ck=key+':'+sk;
-                    t.$b_lw=cache[ck]||(cache[ck]=parseInt(css.$getCSSValue(key,sk))||0);
+                    t.$b_lw=linb.UI.$getCSSValue(key,sk);
                     sk='borderRightWidth';
-                    ck=key+':'+sk;
-                    t.$b_rw=cache[ck]||(cache[ck]=parseInt(css.$getCSSValue(key,sk))||0);
+                    t.$b_rw=linb.UI.$getCSSValue(key,sk);
                     sk='borderTopWidth';
-                    ck=key+':'+sk;
-                    t.$b_tw=cache[ck]||(cache[ck]=parseInt(css.$getCSSValue(key,sk))||0);
+                    t.$b_tw=linb.UI.$getCSSValue(key,sk);
                     sk='borderBottomWidth';
-                    ck=key+':'+sk;
-                    t.$b_bw=cache[ck]||(cache[ck]=parseInt(css.$getCSSValue(key,sk))||0);
+                    t.$b_bw=linb.UI.$getCSSValue(key,sk);
 
                     if(flag!==false){
                         if(target.$getBorder())return;
@@ -14151,10 +14151,10 @@ Class("linb.UI.Resizer","linb.UI",{
             t = self.getTemplate();
         //modify
         _.merge(t.FRAME.BORDER,{
-            className:'uiw-border uibg-bar {clsBorderType1}',
+            className:'uiw-border {clsBorderType1}',
             PANEL:{
                 tagName:'div',
-                className:'{clsBorderType2}',
+                className:'{clsBorderType2} uibg-bar',
                 style:'{background}',
                 text:'{html}'+linb.UI.$childTag
             }
@@ -16180,10 +16180,8 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
         },
         _onresize:function(profile,width,height){
                 var $hborder=1, $vborder=1,
-                    cache=linb.UI.$CSSCACHE,
-                    ck='.linb-input-wrap:top',
-                    toff=cache[ck]||(cache[ck]=parseInt(linb.CSS.$getCSSValue('.linb-input-wrap','top'))||0);
-                    
+                    toff=linb.UI.$getCSSValue('linb-input-wrap','top');
+
                 var t = profile.properties,
                     o = profile.getSubNode('BOX'),
                     v1=profile.getSubNode('INPUT'),
@@ -17416,9 +17414,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
         },
         _onresize:function(profile,width,height){
             var $hborder=1, $vborder=1,
-                cache=linb.UI.$CSSCACHE,
-                ck='.linb-input-wrap:top',
-                toff=cache[ck]||(cache[ck]=parseInt(linb.CSS.$getCSSValue('.linb-input-wrap','top'))||0);
+                toff=linb.UI.$getCSSValue('linb-input-wrap','top');
 
             var t = profile.properties,
                 o = profile.getSubNode('BOX'),
@@ -21103,7 +21099,8 @@ Class("linb.UI.PageBar",["linb.UI","linb.absValue"] ,{
             var _id=profile.keys.POPI+':'+profile.serialId+':',
                 _h=linb.Event.$EVENTHANDLER;
             while(n<l){
-                a.push('<span id="'+_id+n+'" onmouseover="'+_h+'" onmouseout="'+_h+'" onmousedown="'+_h+'" class="ui-btn"><span class="ui-btni"><span class="ui-btnc"><a href="'+prop.uriTpl.replace('*',n)+'">'+prop.textTpl.replace('*',n)+'</a></span></span></span>')
+                //margin-top for ie6
+                a.push('<span style="margin-top:3px;" id="'+_id+n+'" onmouseover="'+_h+'" onmouseout="'+_h+'" onmousedown="'+_h+'" class="ui-btn"><span class="ui-btni"><span class="ui-btnc"><a href="'+prop.uriTpl.replace('*',n)+'">'+prop.textTpl.replace('*',n)+'</a></span></span></span>')
                 n=n+m;
             }
             pop.width('auto');
@@ -21999,7 +21996,7 @@ Class("linb.UI.ButtonViews", "linb.UI.Tabs",{
                 'vertical-align':'top',
                 'text-align': 'center',
                 height:'20px',
-                padding:'2px 4px 2px',
+                padding:'2px 0',
                 background: linb.UI.$bg('button.gif', 'repeat-x left -300px', true)
             },
             'ITEM-mouseover ITEMC':{
@@ -22038,8 +22035,7 @@ Class("linb.UI.ButtonViews", "linb.UI.Tabs",{
                 action:function(v){
                     var self=this,
                         hs = self.getSubNode('LIST'),
-                        h = self.getSubNode('ITEM',true),
-                        b = self.getSubNode('ITEMI',true);
+                        h = self.getSubNodes(['ITEM','ITEMI','ITEMC'],true);
                     switch(v){
                         case 'left':
                             hs.cssRegion({left:0,top:0,right:'auto',bottom:0});
@@ -22058,12 +22054,10 @@ Class("linb.UI.ButtonViews", "linb.UI.Tabs",{
                         case 'left':
                         case 'right':
                             h.css('display','block');
-                            b.css('display','block');
                             break;
                         case 'top':
                         case 'bottom':
                             h.setInlineBlock();
-                            b.setInlineBlock();
                             hs.height('auto');
                             break;
                     }
@@ -23787,7 +23781,7 @@ Class("linb.UI.MenuBar",["linb.UI","linb.absList" ],{
                 'vertical-align':'middle'
             },
             LIST:{
-                padding:'2px 0 0 2px'
+                padding:'2px'
             },
             ITEMS:{
                 'vertical-align':'middle'
@@ -23799,23 +23793,27 @@ Class("linb.UI.MenuBar",["linb.UI","linb.absList" ],{
                 background:linb.UI.$bg('button.gif', 'no-repeat',true)
             },
             ITEM:{
+                height:'22px',
                 'white-space': 'nowrap',
-                'vertical-align':'middle',
+                'vertical-align':'top',
+                overflow:'hidden',
                 margin:'0  3px 0 3px',
                 'padding-right':'6px',
                 'font-size':0,
-                'line-height':0,
-                overflow:'hidden'
+                'line-height':0
             },
             'ITEM *':{
                 cursor:'pointer'
             },
             ITEMI:{
-                'padding-left':'6px'
+                height:'22px',
+                'padding-left':'6px',
+                'vertical-align':'top'
             },
             ITEMC:{
                 height:'22px',
-                padding:'3px 2px 0 0'
+                'padding-top':'3px',
+                'vertical-align':'top'
             },
             ITEMA:{
                 display:linb.$inlineBlock
@@ -24368,6 +24366,9 @@ Class("linb.UI.Layout",["linb.UI", "linb.absList"],{
             }
         },
         Appearances:{
+            '.setting-linb-layout':{
+                width:'9px'
+            },
             KEY:{
                 position:'absolute',
                 overflow:'hidden',
@@ -24637,10 +24638,9 @@ Class("linb.UI.Layout",["linb.UI", "linb.absList"],{
                         o = profile.getSubNode('ITEM',itemId),
                         panel = profile.getSubNode('PANEL',itemId),
                         move = profile.getSubNode('MOVE',itemId),
-                        _handlerSize;
+                        _handlerSize=linb.UI.$getCSSValue('setting-linb-layout','width');
 
                     if(t.type=='vertical'){
-                        _handlerSize=move.offsetHeight();
                         // restore resize mode
                         if(item.hide){
                             if(item.size <= m.height() - main.min + _handlerSize){
@@ -24677,7 +24677,6 @@ Class("linb.UI.Layout",["linb.UI", "linb.absList"],{
                         }
                         linb.UI.$tryResize(profile,null,r.height());
                     }else{
-                        _handlerSize=move.offsetWidth();
                         if(item.hide){
                             if(item.size <= m.width()-main.min + _handlerSize){
                                 o.width(item.size);
@@ -24903,7 +24902,7 @@ Class("linb.UI.Layout",["linb.UI", "linb.absList"],{
         _onresize:function(profile,width,height){
             var _t,t=profile.properties, m,n, itemId, temp1,temp2,temp, key=profile.keys.ITEM, panel=profile.keys.PANEL,
             move=profile.getSubNode('MOVE',true),
-            _handlerSize;
+            _handlerSize=linb.UI.$getCSSValue('setting-linb-layout','width');
 
             var obj={}, obj2={};
             _.arr.each(t.items,function(o){
@@ -24912,7 +24911,6 @@ Class("linb.UI.Layout",["linb.UI", "linb.absList"],{
                 obj2[itemId] = {};
             });
             if(t.type!='vertical'){
-                _handlerSize=move.offsetWidth();
                 if(!_.isNull(width)){
                     //get left
                     temp=temp1=temp2=0;
@@ -24972,7 +24970,6 @@ Class("linb.UI.Layout",["linb.UI", "linb.absList"],{
                     });
                 }
             }else{
-                _handlerSize=move.offsetHeight();
                 if(!_.isNull(height)){
                     //get top
                     temp=temp1=temp2=0;

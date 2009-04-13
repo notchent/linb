@@ -1001,7 +1001,7 @@ Class("linb.UI",  "linb.absObj", {
             return this.each(function(o){
                 if(!o.domNode)return;
                 var p=o.properties;
-                
+
                 if((!o.$noB) && p.border && o.boxing()._border)
                     o.boxing()._border(null,false);
 
@@ -1526,7 +1526,7 @@ Class("linb.UI",  "linb.absObj", {
                 'background-position':'left -30px',
                 'background-repeat': 'repeat-x',
                 'padding-top':'3px',
-                'vertical-align':'top'                
+                'vertical-align':'top'
             },
             '.ui-btn-mouseover, .ui-btn-focus':{
                 $order:2,
@@ -1678,7 +1678,7 @@ Class("linb.UI",  "linb.absObj", {
             '.uicmd-check-checked-mousedown':{
                 $order:6,
                 'background-position' : '0 -110px'
-            },            
+            },
             '.uicmd-radio':{
                 $order:1,
                 margin:'0 4px 0 2px',
@@ -1789,7 +1789,7 @@ Class("linb.UI",  "linb.absObj", {
             /*set table height for ff2, set uibar height for performance*/
             '.uibar-top, .uibar-top .uibar-t':{
                 height:'29px'
-            },            
+            },
             '.uibar-top .uibar-tdl':{
                 $order:1,
                 'padding-left':'4px',
@@ -1846,13 +1846,13 @@ Class("linb.UI",  "linb.absObj", {
                 'font-size':0,
                 'line-height':0,
                 'z-index':1,
-                overflow:'visible',       
+                overflow:'visible',
                 background: linb.UI.$bg('bar_horizontal.gif', 'repeat-y -595px top', true)
             },
             '.uicon-maini':{
                 'padding-right':'5px',
                 'font-size':0,
-                'line-height':0,                
+                'line-height':0,
                 background: linb.UI.$bg('container_right.gif', '#AAD2FA repeat-y right top', true)
             },
 //uibar-bottom
@@ -2560,6 +2560,10 @@ Class("linb.UI",  "linb.absObj", {
             return self;
         },
         $CSSCACHE:{},
+        $getCSSValue:function(cls, key){
+            var cache=this.$CSSCACHE, ck='.'+cls+':'+key;
+            return cache[ck]||(cache[ck]=parseInt(linb.CSS.$getCSSValue('.'+cls,key))||0);
+        },
         getTheme:function(){
             return this.$theme;
         },
@@ -3183,7 +3187,7 @@ Class("linb.UI",  "linb.absObj", {
                         f=function(arg){
                             //get self vars
                             var me=arguments.callee,
-                                map=linb.UI.$dock_map, 
+                                map=linb.UI.$dock_map,
                                 arr=linb.UI.$dock_args,
                                 rePos=me.rePos,
                                 node=me.node,
@@ -4266,10 +4270,10 @@ new function(){
                         o=profile.getSubNode('CAPTION'),
                         flag=properties.value !== properties.$UIvalue,
                         d = linb.UI.$css_tag_dirty;
-    
+
                     if(o.beforeDirtyMark && false===o.boxing().beforeDirtyMark(profile,flag))
                         return;
-    
+
                     if(flag)
                         o.addClass(d);
                     else

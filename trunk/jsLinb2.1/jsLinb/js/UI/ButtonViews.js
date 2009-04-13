@@ -56,7 +56,7 @@ Class("linb.UI.ButtonViews", "linb.UI.Tabs",{
                 'vertical-align':'top',
                 'text-align': 'center',
                 height:'20px',
-                padding:'2px 4px 2px',
+                padding:'2px 0',
                 background: linb.UI.$bg('button.gif', 'repeat-x left -300px', true)
             },
             'ITEM-mouseover ITEMC':{
@@ -95,8 +95,7 @@ Class("linb.UI.ButtonViews", "linb.UI.Tabs",{
                 action:function(v){
                     var self=this,
                         hs = self.getSubNode('LIST'),
-                        h = self.getSubNode('ITEM',true),
-                        b = self.getSubNode('ITEMI',true);
+                        h = self.getSubNodes(['ITEM','ITEMI','ITEMC'],true);
                     switch(v){
                         case 'left':
                             hs.cssRegion({left:0,top:0,right:'auto',bottom:0});
@@ -115,12 +114,10 @@ Class("linb.UI.ButtonViews", "linb.UI.Tabs",{
                         case 'left':
                         case 'right':
                             h.css('display','block');
-                            b.css('display','block');
                             break;
                         case 'top':
                         case 'bottom':
                             h.setInlineBlock();
-                            b.setInlineBlock();
                             hs.height('auto');
                             break;
                     }
