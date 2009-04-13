@@ -650,9 +650,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                     self.ItemIdMapSubSerialId={};
                     //for memory map
                     self.box._prepareItems(self, v);
-
-                    if(self.domNode)
-                        self.boxing().clearPopCache();
+                    self.boxing().clearPopCache();
                 }
             },
             readonly:{

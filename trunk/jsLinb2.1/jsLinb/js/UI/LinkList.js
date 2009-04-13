@@ -69,11 +69,7 @@ Class("linb.UI.LinkList", ["linb.UI.List"],{
             },
             tabindex:{
                 action:function(value){
-                    var self=this,
-                        keys = self.keys,
-                        fun = function(l,v){self.getSubNode(l,true).attr('tabIndex',v)}
-                    if(self.domNode)
-                        fun('LINK', value);
+                    this.getSubNode('LINK',true).attr('tabIndex',value);
                 }
             }
         }),

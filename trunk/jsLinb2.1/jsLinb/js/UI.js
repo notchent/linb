@@ -1402,41 +1402,40 @@ Class("linb.UI",  "linb.absObj", {
                     var self=this,
                         p=self.properties,b=false,
                         args={$type:p.dock};
-                    if(self.domNode){
-                        switch(p.dock){
-                            case 'top':
-                                if(o!='height'&&o!='top')return;
-                                args.width=args.height=1;
-                                break;
-                            case 'bottom':
-                                if(o!='height'&&o!='bottom')return;
-                                args.width=args.height=1;
-                                break;
-                            case 'left':
-                                if(o!='width'&&o!='left')return;
-                                args.width=args.height=1;
-                                break;
-                            case 'right':
-                                if(o!='width'&&o!='right')return;
-                                args.width=args.height=1;
-                                break;
-                            case 'width':
-                                if('width'==o)return;
-                                args.width=1;
-                                break;
-                            case 'height':
-                                if('height'==o)return;
-                                args.height=1;
-                                break;
-                            case 'fill':
-                            case 'cover':
-                                if(o=='width'&&o=='height')return;
-                                args.width=args.height=1;
-                                break;
-                        }
-                        self.root[o]?self.root[o](value):linb.Dom._setPxStyle(self.domNode,o,value);
-                        if(p.dock!='none')_.tryF(self.$dock,[self, args],self);
+
+                    switch(p.dock){
+                        case 'top':
+                            if(o!='height'&&o!='top')return;
+                            args.width=args.height=1;
+                            break;
+                        case 'bottom':
+                            if(o!='height'&&o!='bottom')return;
+                            args.width=args.height=1;
+                            break;
+                        case 'left':
+                            if(o!='width'&&o!='left')return;
+                            args.width=args.height=1;
+                            break;
+                        case 'right':
+                            if(o!='width'&&o!='right')return;
+                            args.width=args.height=1;
+                            break;
+                        case 'width':
+                            if('width'==o)return;
+                            args.width=1;
+                            break;
+                        case 'height':
+                            if('height'==o)return;
+                            args.height=1;
+                            break;
+                        case 'fill':
+                        case 'cover':
+                            if(o=='width'&&o=='height')return;
+                            args.width=args.height=1;
+                            break;
                     }
+                    self.root[o]?self.root[o](value):linb.Dom._setPxStyle(self.domNode,o,value);
+                    if(p.dock!='none')_.tryF(self.$dock,[self, args],self);
                 }
             }
         });
@@ -1448,8 +1447,7 @@ Class("linb.UI",  "linb.absObj", {
             zIndex:{
                 ini:1,
                 action:function(value){
-                    if(this.domNode)
-                        this.root.css('zIndex',value);
+                    this.root.css('zIndex',value);
                 }
             },
             tabindex:{
@@ -1459,26 +1457,22 @@ Class("linb.UI",  "linb.absObj", {
                 ini : 'absolute',
                 listbox:['','static','relative','absolute'],
                 action:function(value){
-                    if(this.domNode)
-                        this.root.css('position',value);
+                    this.root.css('position',value);
                 }
             },
             visibility:{
                 listbox:['','visible','hidden'],
                 action:function(value){
-                    if(this.domNode)
-                        this.root.css('visibility',value);
+                    this.root.css('visibility',value);
                 }
             },
             display:{
                 listbox:['','none','block','inline','inline-block'],
                 action:function(value){
-                    if(this.domNode){
-                        if(value=='inline-block')
-                            this.root.setInlineBlock();
-                        else
-                            this.root.css('display',value);
-                    }
+                    if(value=='inline-block')
+                        this.root.setInlineBlock();
+                    else
+                        this.root.css('display',value);
                 }
             }
         });
@@ -2974,24 +2968,22 @@ Class("linb.UI",  "linb.absObj", {
                 ini:'none',
                 listbox:['none','top','bottom','left','right','center','middle','origin','width','height','fill','cover'],
                 action:function(v){
-                    var self=this;
-                    if(self.domNode)
-                        linb.UI.$dock(self,true,true);
+                    linb.UI.$dock(this,true,true);
                 }
             },
             dockIgnore:{
                 ini:false,
                 action:function(v){
                     var self=this;
-                    if(!v && self.domNode && self.properties.dock!='none')
-                            linb.UI.$dock(self,true,true);
+                    if(self.properties.dock!='none')
+                        linb.UI.$dock(self,true,true);
                 }
             },
             dockOrder:{
                 ini: 1,
                 action:function(v){
                     var self=this;
-                    if(self.domNode && self.properties.dock!='none')
+                    if(self.properties.dock!='none')
                         linb.UI.$dock(self,true,true);
                 }
             },
@@ -2999,7 +2991,7 @@ Class("linb.UI",  "linb.absObj", {
                 ini:{left:0,top:0,right:0,bottom:0},
                 action:function(v){
                     var self=this;
-                    if(self.domNode && self.properties.dock!='none')
+                    if(self.properties.dock!='none')
                         linb.UI.$dock(self,true,true);
                 }
             },
@@ -3007,7 +2999,7 @@ Class("linb.UI",  "linb.absObj", {
                 ini:false,
                 action:function(v){
                     var self=this;
-                    if(self.domNode && self.properties.dock!='none')
+                    if(self.properties.dock!='none')
                         linb.UI.$dock(self,true,true);
                 }
             },
@@ -4096,14 +4088,12 @@ new function(){
                 href:{
                     ini:linb.$href,
                     action:function(v){
-                        if(this.domNode)
-                            this.root.attr('href',v);
+                        this.root.attr('href',v);
                     }
                 },
                 target:{
                     action:function(v){
-                        if(this.domNode)
-                            this.root.attr('target',v);
+                        this.root.attr('target',v);
                     }
                 }
             },

@@ -283,8 +283,7 @@ Class("linb.UI.List", ["linb.UI", "linb.absList","linb.absValue" ],{
         DataModel:({
             tabindex:{
                 action:function(value){
-                    if(this.domNode)
-                        this.getSubNode('ITEM',true).attr('tabIndex',value);
+                    this.getSubNode('ITEM',true).attr('tabIndex',value);
                 }
             },
             selMode:{

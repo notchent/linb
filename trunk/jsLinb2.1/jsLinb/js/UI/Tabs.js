@@ -547,14 +547,12 @@ Class("linb.UI.Tabs", ["linb.UI", "linb.absList","linb.absValue"],{
                 ini:'left',
                 listbox:['left','center','right'],
                 action:function(value){
-                    if(this.domNode)
-                        this.getSubNode('ITEMS').css('textAlign',value);
+                    this.getSubNode('ITEMS').css('textAlign',value);
                 }
             },
             tabindex:{
                 action:function(value){
-                    if(this.domNode)
-                        this.getSubNode('HANDLE',true).attr('tabIndex',value);
+                    this.getSubNode('HANDLE',true).attr('tabIndex',value);
                 }
             },
             dynRender:true,

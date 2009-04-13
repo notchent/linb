@@ -202,8 +202,7 @@ Class("linb.UI.ToolBar",["linb.UI","linb.absList"],{
             listKey:null,
             tabindex:{
                 action:function(value){
-                    if(this.domNode)
-                        this.getSubNode('ITEM',false).attr('tabIndex',value);
+                    this.getSubNode('BOX',true).attr('tabIndex',value);
                 }
             },
 

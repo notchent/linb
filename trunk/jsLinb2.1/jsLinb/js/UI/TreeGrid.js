@@ -1535,25 +1535,23 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                 ini:false,
                 action:function(value){
                     var ns=this;
-                    if(ns.domNode){
-                        var altCls = ns.getClass('ALT'),
-                            nodes = ns.getSubNode('CELLS',true),alt,j;
-                        nodes.removeClass(altCls);
-                        if(value){
-                            alt=[];
-                            j=0;
-                            nodes.each(function(o,i){
-                                if(o.offsetHeight){
-                                    o=linb([o]);
-                                    if((j++)%2==1){
-                                        if(!o.hasClass(altCls))o.addClass(altCls);
-                                    }else{
-                                        if(o.hasClass(altCls))o.removeClass(altCls);
-                                    }
+                    var altCls = ns.getClass('ALT'),
+                        nodes = ns.getSubNode('CELLS',true),alt,j;
+                    nodes.removeClass(altCls);
+                    if(value){
+                        alt=[];
+                        j=0;
+                        nodes.each(function(o,i){
+                            if(o.offsetHeight){
+                                o=linb([o]);
+                                if((j++)%2==1){
+                                    if(!o.hasClass(altCls))o.addClass(altCls);
+                                }else{
+                                    if(o.hasClass(altCls))o.removeClass(altCls);
                                 }
-                            });
-                            linb(alt).addClass(altCls);
-                        }
+                            }
+                        });
+                        linb(alt).addClass(altCls);
                     }
                 }
             },
@@ -1561,33 +1559,31 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                 ini:false,
                 action:function(value){
                     var ns=this;
-                    if(ns.domNode){
-                        var nodes = ns.getSubNode('FIRSTCELLNO',true),i=0,map=ns.rowMap,row,ol=0,l=0,a1=[],a2=[],tag='',temp;
-                        nodes.each(function(o){
-                                if(o.parentNode.offsetHeight){
-                                    row=map[ns.getSubId(o.id)];
-                                    l=row._layer;
-                                    if(l>ol){
-                                        a1.push(i);
-                                        a2.push(tag);
-                                        tag=tag+i+'.';
-                                        i=0;
-                                    }else if(l<ol){
-                                        while(l<ol--){
-                                            i=a1.pop();
-                                            tag=a2.pop();
-                                        }
+                    var nodes = ns.getSubNode('FIRSTCELLNO',true),i=0,map=ns.rowMap,row,ol=0,l=0,a1=[],a2=[],tag='',temp;
+                    nodes.each(function(o){
+                            if(o.parentNode.offsetHeight){
+                                row=map[ns.getSubId(o.id)];
+                                l=row._layer;
+                                if(l>ol){
+                                    a1.push(i);
+                                    a2.push(tag);
+                                    tag=tag+i+'.';
+                                    i=0;
+                                }else if(l<ol){
+                                    while(l<ol--){
+                                        i=a1.pop();
+                                        tag=a2.pop();
                                     }
-                                    i++;
-                                    ol=l;
-                                    //o.innerHTML=''+tag+i;
-                                    if(o.firstChild)
-                                        o.firstChild.nodeValue=tag+i;
-                                    else
-                                        o.appendChild(document.createTextNode(tag+i));
                                 }
-                        });
-                    }
+                                i++;
+                                ol=l;
+                                //o.innerHTML=''+tag+i;
+                                if(o.firstChild)
+                                    o.firstChild.nodeValue=tag+i;
+                                else
+                                    o.appendChild(document.createTextNode(tag+i));
+                            }
+                    });
                 }
             },
             editable:false,
@@ -1682,13 +1678,11 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                 ini:'row',
                 listbox:['row','cell'],
                 action:function(value){
-                    if(this.domNode){
-                        var profile=this;
-                        if(profile.$activeCell)
-                            linb(profile.$activeCell).tagClass('-active',false);
-                        if(profile.$activeRow)
-                            linb(profile.$activeRow).tagClass('-active',false);
-                    }
+                    var profile=this;
+                    if(profile.$activeCell)
+                        linb(profile.$activeCell).tagClass('-active',false);
+                    if(profile.$activeRow)
+                        linb(profile.$activeRow).tagClass('-active',false);
                 }
             }
         },

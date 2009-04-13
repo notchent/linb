@@ -282,8 +282,7 @@ Class("linb.UI.PageBar",["linb.UI","linb.absValue"] ,{
 
             tabindex:{
                 action:function(value){
-                    if(this.domNode)
-                        this.root.query('a').attr('tabIndex',value);
+                    this.root.query('a').attr('tabIndex',value);
                 }
             }
         },

@@ -11,6 +11,9 @@ Class("linb.UI.Gallery", "linb.UI.List",{
         t.$dynamic={
             items:{
                 ITEM:{
+                    tagName : 'a',
+                    href :linb.$href,
+                    tabindex:'{_tabindex}',
                     className:'{itemClass} {disabled}',
                     style:'padding:{itemPadding}px;margin:{itemMargin}px;{itemStyle}',
                     ITEMFRAME:{
@@ -36,8 +39,6 @@ Class("linb.UI.Gallery", "linb.UI.List",{
                                 }
                         },
                         COMMENT:{
-                            tagName : 'a',
-                            href:'{href}',
                             text: '{comment}',
                             $order:2
                         }
@@ -175,12 +176,6 @@ Class("linb.UI.Gallery", "linb.UI.List",{
                 ini:16,
                 action:function(v){
                     this.getSubNode('IMAGE',true).height(v);
-                }
-            },
-            tabindex:{
-                action:function(value){
-                    if(this.domNode)
-                        this.getSubNode('ITEM',true).attr('tabIndex',value);
                 }
             },
             width:200,

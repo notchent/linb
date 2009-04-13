@@ -9925,41 +9925,40 @@ Class("linb.UI",  "linb.absObj", {
                     var self=this,
                         p=self.properties,b=false,
                         args={$type:p.dock};
-                    if(self.domNode){
-                        switch(p.dock){
-                            case 'top':
-                                if(o!='height'&&o!='top')return;
-                                args.width=args.height=1;
-                                break;
-                            case 'bottom':
-                                if(o!='height'&&o!='bottom')return;
-                                args.width=args.height=1;
-                                break;
-                            case 'left':
-                                if(o!='width'&&o!='left')return;
-                                args.width=args.height=1;
-                                break;
-                            case 'right':
-                                if(o!='width'&&o!='right')return;
-                                args.width=args.height=1;
-                                break;
-                            case 'width':
-                                if('width'==o)return;
-                                args.width=1;
-                                break;
-                            case 'height':
-                                if('height'==o)return;
-                                args.height=1;
-                                break;
-                            case 'fill':
-                            case 'cover':
-                                if(o=='width'&&o=='height')return;
-                                args.width=args.height=1;
-                                break;
-                        }
-                        self.root[o]?self.root[o](value):linb.Dom._setPxStyle(self.domNode,o,value);
-                        if(p.dock!='none')_.tryF(self.$dock,[self, args],self);
+
+                    switch(p.dock){
+                        case 'top':
+                            if(o!='height'&&o!='top')return;
+                            args.width=args.height=1;
+                            break;
+                        case 'bottom':
+                            if(o!='height'&&o!='bottom')return;
+                            args.width=args.height=1;
+                            break;
+                        case 'left':
+                            if(o!='width'&&o!='left')return;
+                            args.width=args.height=1;
+                            break;
+                        case 'right':
+                            if(o!='width'&&o!='right')return;
+                            args.width=args.height=1;
+                            break;
+                        case 'width':
+                            if('width'==o)return;
+                            args.width=1;
+                            break;
+                        case 'height':
+                            if('height'==o)return;
+                            args.height=1;
+                            break;
+                        case 'fill':
+                        case 'cover':
+                            if(o=='width'&&o=='height')return;
+                            args.width=args.height=1;
+                            break;
                     }
+                    self.root[o]?self.root[o](value):linb.Dom._setPxStyle(self.domNode,o,value);
+                    if(p.dock!='none')_.tryF(self.$dock,[self, args],self);
                 }
             }
         });
@@ -9971,8 +9970,7 @@ Class("linb.UI",  "linb.absObj", {
             zIndex:{
                 ini:1,
                 action:function(value){
-                    if(this.domNode)
-                        this.root.css('zIndex',value);
+                    this.root.css('zIndex',value);
                 }
             },
             tabindex:{
@@ -9982,26 +9980,22 @@ Class("linb.UI",  "linb.absObj", {
                 ini : 'absolute',
                 listbox:['','static','relative','absolute'],
                 action:function(value){
-                    if(this.domNode)
-                        this.root.css('position',value);
+                    this.root.css('position',value);
                 }
             },
             visibility:{
                 listbox:['','visible','hidden'],
                 action:function(value){
-                    if(this.domNode)
-                        this.root.css('visibility',value);
+                    this.root.css('visibility',value);
                 }
             },
             display:{
                 listbox:['','none','block','inline','inline-block'],
                 action:function(value){
-                    if(this.domNode){
-                        if(value=='inline-block')
-                            this.root.setInlineBlock();
-                        else
-                            this.root.css('display',value);
-                    }
+                    if(value=='inline-block')
+                        this.root.setInlineBlock();
+                    else
+                        this.root.css('display',value);
                 }
             }
         });
@@ -11497,24 +11491,22 @@ Class("linb.UI",  "linb.absObj", {
                 ini:'none',
                 listbox:['none','top','bottom','left','right','center','middle','origin','width','height','fill','cover'],
                 action:function(v){
-                    var self=this;
-                    if(self.domNode)
-                        linb.UI.$dock(self,true,true);
+                    linb.UI.$dock(this,true,true);
                 }
             },
             dockIgnore:{
                 ini:false,
                 action:function(v){
                     var self=this;
-                    if(!v && self.domNode && self.properties.dock!='none')
-                            linb.UI.$dock(self,true,true);
+                    if(self.properties.dock!='none')
+                        linb.UI.$dock(self,true,true);
                 }
             },
             dockOrder:{
                 ini: 1,
                 action:function(v){
                     var self=this;
-                    if(self.domNode && self.properties.dock!='none')
+                    if(self.properties.dock!='none')
                         linb.UI.$dock(self,true,true);
                 }
             },
@@ -11522,7 +11514,7 @@ Class("linb.UI",  "linb.absObj", {
                 ini:{left:0,top:0,right:0,bottom:0},
                 action:function(v){
                     var self=this;
-                    if(self.domNode && self.properties.dock!='none')
+                    if(self.properties.dock!='none')
                         linb.UI.$dock(self,true,true);
                 }
             },
@@ -11530,7 +11522,7 @@ Class("linb.UI",  "linb.absObj", {
                 ini:false,
                 action:function(v){
                     var self=this;
-                    if(self.domNode && self.properties.dock!='none')
+                    if(self.properties.dock!='none')
                         linb.UI.$dock(self,true,true);
                 }
             },
@@ -12619,14 +12611,12 @@ new function(){
                 href:{
                     ini:linb.$href,
                     action:function(v){
-                        if(this.domNode)
-                            this.root.attr('href',v);
+                        this.root.attr('href',v);
                     }
                 },
                 target:{
                     action:function(v){
-                        if(this.domNode)
-                            this.root.attr('target',v);
+                        this.root.attr('target',v);
                     }
                 }
             },
@@ -15994,8 +15984,7 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
             height:22,
             tabindex:{
                 action:function(value){
-                    if(this.domNode)
-                        this.getSubNode('INPUT').attr('tabIndex',value);
+                    this.getSubNode('INPUT').attr('tabIndex',value);
                 }
             },
             disabled:{
@@ -16442,8 +16431,7 @@ Class("linb.UI.TextEditor", ["linb.UI.Widget","linb.absValue"] ,{
         DataModel:{
             tabindex:{
                 action:function(value){
-                    if(this.domNode)
-                        this.getSubNode('INPUT').attr('tabIndex',value);
+                    this.getSubNode('INPUT').attr('tabIndex',value);
                 }
             },
 
@@ -17269,9 +17257,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                     self.ItemIdMapSubSerialId={};
                     //for memory map
                     self.box._prepareItems(self, v);
-
-                    if(self.domNode)
-                        self.boxing().clearPopCache();
+                    self.boxing().clearPopCache();
                 }
             },
             readonly:{
@@ -17592,8 +17578,7 @@ Class("linb.UI.Group", "linb.UI.Div",{
             },
             tabindex:{
                 action:function(value){
-                    if(this.domNode)
-                        this.getSubNode('HANDLE').attr('tabIndex',value);
+                    this.getSubNode('HANDLE').attr('tabIndex',value);
                 }
             },
             html:{
@@ -19970,8 +19955,7 @@ Class("linb.UI.Group", "linb.UI.Div",{
         DataModel:({
             tabindex:{
                 action:function(value){
-                    if(this.domNode)
-                        this.getSubNode('ITEM',true).attr('tabIndex',value);
+                    this.getSubNode('ITEM',true).attr('tabIndex',value);
                 }
             },
             selMode:{
@@ -20059,6 +20043,9 @@ Class("linb.UI.Gallery", "linb.UI.List",{
         t.$dynamic={
             items:{
                 ITEM:{
+                    tagName : 'a',
+                    href :linb.$href,
+                    tabindex:'{_tabindex}',
                     className:'{itemClass} {disabled}',
                     style:'padding:{itemPadding}px;margin:{itemMargin}px;{itemStyle}',
                     ITEMFRAME:{
@@ -20084,8 +20071,6 @@ Class("linb.UI.Gallery", "linb.UI.List",{
                                 }
                         },
                         COMMENT:{
-                            tagName : 'a',
-                            href:'{href}',
                             text: '{comment}',
                             $order:2
                         }
@@ -20225,12 +20210,6 @@ Class("linb.UI.Gallery", "linb.UI.List",{
                     this.getSubNode('IMAGE',true).height(v);
                 }
             },
-            tabindex:{
-                action:function(value){
-                    if(this.domNode)
-                        this.getSubNode('ITEM',true).attr('tabIndex',value);
-                }
-            },
             width:200,
             height:200
         }),
@@ -20261,6 +20240,9 @@ Class("linb.UI.IconList", "linb.UI.List",{
         t.$dynamic={
             items:{
                 ITEM:{
+                    tagName : 'a',
+                    href :linb.$href,
+                    tabindex:'{_tabindex}',
                     className:'{itemClass} {disabled}',
                     style:'padding:{itemPadding}px;margin:{itemMargin}px;{itemStyle}',
                     //for firefox2 image in -moz-inline-box cant change height bug
@@ -20365,12 +20347,6 @@ Class("linb.UI.IconList", "linb.UI.List",{
                 ini:16,
                 action:function(v){
                     this.getSubNode('IMAGE',true).height(v);
-                }
-            },
-            tabindex:{
-                action:function(value){
-                    if(this.domNode)
-                        this.getSubNode('ITEM',true).attr('tabIndex',value);
                 }
             },
             width:200,
@@ -21032,8 +21008,7 @@ Class("linb.UI.PageBar",["linb.UI","linb.absValue"] ,{
 
             tabindex:{
                 action:function(value){
-                    if(this.domNode)
-                        this.root.query('a').attr('tabIndex',value);
+                    this.root.query('a').attr('tabIndex',value);
                 }
             }
         },
@@ -21670,14 +21645,12 @@ Class("linb.UI.Tabs", ["linb.UI", "linb.absList","linb.absValue"],{
                 ini:'left',
                 listbox:['left','center','right'],
                 action:function(value){
-                    if(this.domNode)
-                        this.getSubNode('ITEMS').css('textAlign',value);
+                    this.getSubNode('ITEMS').css('textAlign',value);
                 }
             },
             tabindex:{
                 action:function(value){
-                    if(this.domNode)
-                        this.getSubNode('HANDLE',true).attr('tabIndex',value);
+                    this.getSubNode('HANDLE',true).attr('tabIndex',value);
                 }
             },
             dynRender:true,
@@ -22678,8 +22651,7 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
             height:200,
             tabindex:{
                 action:function(value){
-                    if(this.domNode)
-                        this.getSubNode('BAR', true).attr('tabIndex',value);
+                    this.getSubNode('BAR', true).attr('tabIndex',value);
                 }
             },
             iniFold:true,
@@ -23981,8 +23953,7 @@ Class("linb.UI.MenuBar",["linb.UI","linb.absList" ],{
 
             tabindex:{
                 action:function(value){
-                    if(this.domNode)
-                        this.getSubNode('ITEMA', true).attr('tabIndex',value);
+                    this.getSubNode('ITEMA', true).attr('tabIndex',value);
                 }
             },
             parentID:'',
@@ -24224,8 +24195,7 @@ Class("linb.UI.ToolBar",["linb.UI","linb.absList"],{
             listKey:null,
             tabindex:{
                 action:function(value){
-                    if(this.domNode)
-                        this.getSubNode('ITEM',false).attr('tabIndex',value);
+                    this.getSubNode('BOX',true).attr('tabIndex',value);
                 }
             },
 
@@ -26578,25 +26548,23 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                 ini:false,
                 action:function(value){
                     var ns=this;
-                    if(ns.domNode){
-                        var altCls = ns.getClass('ALT'),
-                            nodes = ns.getSubNode('CELLS',true),alt,j;
-                        nodes.removeClass(altCls);
-                        if(value){
-                            alt=[];
-                            j=0;
-                            nodes.each(function(o,i){
-                                if(o.offsetHeight){
-                                    o=linb([o]);
-                                    if((j++)%2==1){
-                                        if(!o.hasClass(altCls))o.addClass(altCls);
-                                    }else{
-                                        if(o.hasClass(altCls))o.removeClass(altCls);
-                                    }
+                    var altCls = ns.getClass('ALT'),
+                        nodes = ns.getSubNode('CELLS',true),alt,j;
+                    nodes.removeClass(altCls);
+                    if(value){
+                        alt=[];
+                        j=0;
+                        nodes.each(function(o,i){
+                            if(o.offsetHeight){
+                                o=linb([o]);
+                                if((j++)%2==1){
+                                    if(!o.hasClass(altCls))o.addClass(altCls);
+                                }else{
+                                    if(o.hasClass(altCls))o.removeClass(altCls);
                                 }
-                            });
-                            linb(alt).addClass(altCls);
-                        }
+                            }
+                        });
+                        linb(alt).addClass(altCls);
                     }
                 }
             },
@@ -26604,33 +26572,31 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                 ini:false,
                 action:function(value){
                     var ns=this;
-                    if(ns.domNode){
-                        var nodes = ns.getSubNode('FIRSTCELLNO',true),i=0,map=ns.rowMap,row,ol=0,l=0,a1=[],a2=[],tag='',temp;
-                        nodes.each(function(o){
-                                if(o.parentNode.offsetHeight){
-                                    row=map[ns.getSubId(o.id)];
-                                    l=row._layer;
-                                    if(l>ol){
-                                        a1.push(i);
-                                        a2.push(tag);
-                                        tag=tag+i+'.';
-                                        i=0;
-                                    }else if(l<ol){
-                                        while(l<ol--){
-                                            i=a1.pop();
-                                            tag=a2.pop();
-                                        }
+                    var nodes = ns.getSubNode('FIRSTCELLNO',true),i=0,map=ns.rowMap,row,ol=0,l=0,a1=[],a2=[],tag='',temp;
+                    nodes.each(function(o){
+                            if(o.parentNode.offsetHeight){
+                                row=map[ns.getSubId(o.id)];
+                                l=row._layer;
+                                if(l>ol){
+                                    a1.push(i);
+                                    a2.push(tag);
+                                    tag=tag+i+'.';
+                                    i=0;
+                                }else if(l<ol){
+                                    while(l<ol--){
+                                        i=a1.pop();
+                                        tag=a2.pop();
                                     }
-                                    i++;
-                                    ol=l;
-                                    //o.innerHTML=''+tag+i;
-                                    if(o.firstChild)
-                                        o.firstChild.nodeValue=tag+i;
-                                    else
-                                        o.appendChild(document.createTextNode(tag+i));
                                 }
-                        });
-                    }
+                                i++;
+                                ol=l;
+                                //o.innerHTML=''+tag+i;
+                                if(o.firstChild)
+                                    o.firstChild.nodeValue=tag+i;
+                                else
+                                    o.appendChild(document.createTextNode(tag+i));
+                            }
+                    });
                 }
             },
             editable:false,
@@ -26725,13 +26691,11 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                 ini:'row',
                 listbox:['row','cell'],
                 action:function(value){
-                    if(this.domNode){
-                        var profile=this;
-                        if(profile.$activeCell)
-                            linb(profile.$activeCell).tagClass('-active',false);
-                        if(profile.$activeRow)
-                            linb(profile.$activeRow).tagClass('-active',false);
-                    }
+                    var profile=this;
+                    if(profile.$activeCell)
+                        linb(profile.$activeCell).tagClass('-active',false);
+                    if(profile.$activeRow)
+                        linb(profile.$activeRow).tagClass('-active',false);
                 }
             }
         },

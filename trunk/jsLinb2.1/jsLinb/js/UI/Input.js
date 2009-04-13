@@ -400,8 +400,7 @@ Class("linb.UI.Input", ["linb.UI.Widget","linb.absValue"] ,{
             height:22,
             tabindex:{
                 action:function(value){
-                    if(this.domNode)
-                        this.getSubNode('INPUT').attr('tabIndex',value);
+                    this.getSubNode('INPUT').attr('tabIndex',value);
                 }
             },
             disabled:{

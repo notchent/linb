@@ -626,6 +626,9 @@ Class('VisualJS.Designer', 'linb.Com',{
                     ws.each(function(o){
                         if(!(o.box['linb.UI'] && !o.box.$noDomRoot))
                             page.iconlist.removeItems(o.$id);
+                        //refresh other docks
+                        else if(o.properties && o.properties.dock && o.properties.dock != 'none')
+                            o.boxing().setDockIgnore(true)
                     });
 
                     ws.destroy();

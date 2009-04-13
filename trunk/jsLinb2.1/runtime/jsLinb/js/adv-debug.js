@@ -1962,11 +1962,7 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
             },
             tabindex:{
                 action:function(value){
-                    var self=this,
-                        keys = self.keys,
-                        fun = function(l,v){self.getSubNode(l,true).attr('tabIndex',v)}
-                    if(self.domNode)
-                        fun('LINK', value);
+                    this.getSubNode('LINK',true).attr('tabIndex',value);
                 }
             }
         }),
@@ -2901,8 +2897,7 @@ Class("linb.UI.FoldingList", ["linb.UI.List"],{
             value:null,
             tabindex:{
                 action:function(value){
-                    if(this.domNode)
-                        this.getSubNode('HEAD',true).attr('tabIndex',value);
+                    this.getSubNode('HEAD',true).attr('tabIndex',value);
                 }
             },
             cmds:{

@@ -368,8 +368,7 @@ Class("linb.UI.MenuBar",["linb.UI","linb.absList" ],{
 
             tabindex:{
                 action:function(value){
-                    if(this.domNode)
-                        this.getSubNode('ITEMA', true).attr('tabIndex',value);
+                    this.getSubNode('ITEMA', true).attr('tabIndex',value);
                 }
             },
             parentID:'',

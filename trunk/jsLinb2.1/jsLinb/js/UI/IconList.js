@@ -11,6 +11,9 @@ Class("linb.UI.IconList", "linb.UI.List",{
         t.$dynamic={
             items:{
                 ITEM:{
+                    tagName : 'a',
+                    href :linb.$href,
+                    tabindex:'{_tabindex}',
                     className:'{itemClass} {disabled}',
                     style:'padding:{itemPadding}px;margin:{itemMargin}px;{itemStyle}',
                     //for firefox2 image in -moz-inline-box cant change height bug
@@ -115,12 +118,6 @@ Class("linb.UI.IconList", "linb.UI.List",{
                 ini:16,
                 action:function(v){
                     this.getSubNode('IMAGE',true).height(v);
-                }
-            },
-            tabindex:{
-                action:function(value){
-                    if(this.domNode)
-                        this.getSubNode('ITEM',true).attr('tabIndex',value);
                 }
             },
             width:200,

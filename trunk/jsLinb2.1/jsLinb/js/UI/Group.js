@@ -118,8 +118,7 @@ Class("linb.UI.Group", "linb.UI.Div",{
             },
             tabindex:{
                 action:function(value){
-                    if(this.domNode)
-                        this.getSubNode('HANDLE').attr('tabIndex',value);
+                    this.getSubNode('HANDLE').attr('tabIndex',value);
                 }
             },
             html:{
