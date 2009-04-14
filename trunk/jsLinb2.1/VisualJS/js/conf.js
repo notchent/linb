@@ -132,7 +132,7 @@ new function(){
             'linb.UI.MenuBar':['items','onMenuSelected'],
             'linb.UI.ToolBar':['items','onClick'],
             'linb.UI.TreeBar':['items','value','onItemSelected','onGetContent'],
-            'linb.UI.TreeGrid':['header','rows','value','onClickCell','onClickButton','onRowSelected','onGetContent'],
+            'linb.UI.TreeGrid':['header','rows','value','onClickCell','beoforeComboPop','onRowSelected','onGetContent'],
             'linb.UI.Image':['src'],
             'linb.UI.TimeLine':['onGetContent']
         },

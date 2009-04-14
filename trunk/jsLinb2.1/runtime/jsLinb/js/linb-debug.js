@@ -16723,15 +16723,10 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                 size.width += 2;
                 pos.top += main.offsetHeight();
 
-                //get list
-                //not normal pop
-                switch(pro.type){
-                    case 'getter':
-                    case 'cmdbox':
-                    case 'popbox':
-                        box.onClickButton(profile, pos, e, src);
-                        return;
-                }
+
+                //special cmd type: getter, 'cmdbox' and 'popbox'
+                if((profile.beoforeComboPop && false===box.beoforeComboPop(profile, pos, e, src))||pro.type=='getter'||pro.type=='cmdbox'||pro.type=='popbox')
+                    return;
 
                 //get cache key
                 var cachekey;
@@ -17223,7 +17218,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
         EventHandlers:{
             onFileDlgOpen:function(profile, node){},
             onSave:function(profile, node){},
-            onClickButton:function(profile, pos, e, src){}
+            beoforeComboPop:function(profile, pos, e, src){}
         },
         _posMap:{
             none:'',
@@ -26717,7 +26712,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
             afterCellUpdated:function(profile, cell, options){},
 
             onDblClickRow:function(profile, row, e, src){},
-            onClickButton:function(profile, cell, proEditor, pos, e, src){},
+            beoforeComboPop:function(profile, cell, proEditor, pos, e, src){},
             onClickCell:function(profile, cell, e, src){},
             onDblClickCell:function(profile, cell, e, src){}
         },
@@ -27451,19 +27446,17 @@ caption
                     case 'timepicker':
                     case 'datepicker':
                     case 'colorpicker':
-                        editor.setType(type);
-                        break;
                     case 'getter':
                     case 'popbox':
                     case 'cmdbox':
-                        editor.setType(type)
-                        .onClickButton(function(pro, pos, e, src){
+                        editor.setType(type).beoforeComboPop(function(pro, pos, e, src){
                             var cell=pro.$cell,event=getPro(profile, cell, 'event');
                             if(getPro(profile, cell, 'disabled'))
                                 return false;
-                            if(typeof event == 'function' && false===event.call(profile._host||profile, profile, cell, pro, pos,e,src)){}
+                            if(typeof event == 'function')
+                                return event.call(profile._host||profile, profile, cell, pro, pos,e,src);
                             else
-                                profile.boxing().onClickButton(profile, pro.$cell, pro, pos, e, src);
+                                return profile.boxing().beoforeComboPop(profile, cell, pro, pos, e, src);
                         });
                         break;
                 }

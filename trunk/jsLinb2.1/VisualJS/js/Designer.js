@@ -2401,7 +2401,7 @@ Class('VisualJS.Designer', 'linb.Com',{
             .setDock("top")
             .setType("popbox")
             .setReadonly(true)
-            .onClickButton("$listobject_onlistshow")
+            .beoforeComboPop("$listobject_onlistshow")
             );
 
             t.panelRigth.append(

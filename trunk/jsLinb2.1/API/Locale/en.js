@@ -8475,8 +8475,8 @@ _.set(linb.Locale,["en","doc","linb","UI","ComboInput"], {
                 "}"
             ]
         },
-        onClickButton:{
-            $desc:"Fired when the command button is clicked.",
+        beoforeComboPop:{
+            $desc:"Fired before the pop-up window shows. If returns false, the default pop action will be ignored.",
             $paras:[
                 "profile : linb.UIProfile object.",
                 "pos : the mouse position.",
@@ -8486,7 +8486,7 @@ _.set(linb.Locale,["en","doc","linb","UI","ComboInput"], {
             $snippet:[
                 "var id='linb.temp.ci100'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var o1,o2;linb(id).prepend(o1=new linb.UI.ComboInput({position:'relative',type:'cmdbox'}));"+
-                "o1.onClickButton(function(p){p.boxing().setUIValue( 'onClickButton' )});"+
+                "o1.beoforeComboPop(function(p){p.boxing().setUIValue( 'beoforeComboPop' )});"+
                 "}"
             ]
         },
@@ -13131,7 +13131,7 @@ _.set(linb.Locale,["en","doc","linb","UI","TreeGrid"], {
                 "}"
            ]
         },
-        onClickButton :{
+        beoforeComboPop :{
             $desc:"Fired when a cell which type is 'getter/popbox/cmdbox' is clicked.",
             $paras:[
                 "profile : linb.UIProfile object.",
@@ -13147,7 +13147,7 @@ _.set(linb.Locale,["en","doc","linb","UI","TreeGrid"], {
                 "linb.Ajax('App/js/grid.js','',function(s){var hash=_.unserialize(s);hash.header[0].type='button';hash.header[1].type='cmdbox';hash.header[2].type='popbox';o.setHeader(hash.header).setRows(hash.rows);},null,null,{asy:false}).start();"+
                 "o.setEditable(true);"+
                 "linb(id).prepend(o);"+
-                "o.onClickButton(function(p,cell){linb.message(cell.value)});" +
+                "o.beoforeComboPop(function(p,cell){linb.message(cell.value)});" +
                 "}"
            ]
         },
@@ -13164,7 +13164,7 @@ _.set(linb.Locale,["en","doc","linb","UI","TreeGrid"], {
                 "var o=new linb.UI.TreeGrid({editable:false,position:'relative'});"+
                 "linb.Ajax('App/js/grid.js','',function(s){var hash=_.unserialize(s);hash.header[0].type='button';o.setHeader(hash.header).setRows(hash.rows);},null,null,{asy:false}).start();"+
                 "linb(id).prepend(o);"+
-                "o.onClickButton(function(p,cell){linb.message(cell.value)});" +
+                "o.onClickCell(function(p,cell){linb.message(cell.value)});" +
                 "}"
            ]
         },

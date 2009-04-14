@@ -8473,8 +8473,8 @@ _.set(linb.Locale,["cn","doc","linb","UI","ComboInput"], {
                 "}"
             ]
         },
-        onClickButton:{
-            $desc:"当命令按钮按下时调用. 该事件只对命令框有效",
+        beoforeComboPop:{
+            $desc:"当命令按钮按下时（弹出窗口弹出前）调用.",
             $paras:[
                 "profile : linb.UIProfile object.",
                 "pos : the mouse position.",
@@ -8484,7 +8484,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","ComboInput"], {
             $snippet:[
                 "var id='linb.temp.ci10'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var o1,o2;linb(id).prepend(o1=new linb.UI.ComboInput({position:'relative',type:'cmdbox'}));"+
-                "o1.onClickButton(function(p){p.boxing().setUIValue( 'onClickButton' )});"+
+                "o1.beoforeComboPop(function(p){p.boxing().setUIValue( 'beoforeComboPop' )});"+
                 "}"
             ]
         },
@@ -11475,7 +11475,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","FoldingList"], {
             ]
         },
 
-        onCommand:{
+        onClickButton:{
             $desc:"当用户单击内部按钮的时候调用.",
             $paras:[
                 "profile : linb.UIProfile object.",
@@ -11488,7 +11488,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","FoldingList"], {
                 "var o=new linb.UI.FoldingList({width:'auto',height:'auto',position:'relative',items:[{id:'a',title:'title 1',caption:'cap a'},{id:'b',title:'title b', caption:'cap b'},{id:'c',caption:'c'}]});"+
                 "o.setCmds([{id:'a',caption:'a'},{id:'b',caption:'b'},{id:'c',caption:'c'}]);"+
                 "linb(id).prepend(o);"+
-                "o.onCommand(function(p,item,cmdKey){alert(item.id +':'+cmdKey)});"+
+                "o.onClickButton(function(p,item,cmdKey){alert(item.id +':'+cmdKey)});"+
                 "}"
             ]
         },
@@ -11786,7 +11786,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","Poll"], {
                 "}"
             ]
         },
-        onCommand:{
+        onClickButton:{
             $desc:"Fired when an inner command is clicked.",
             $paras:[
                 "profile : linb.UIProfile object.",
@@ -11798,7 +11798,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","Poll"], {
                 "var o=new linb.UI.Poll({width:'auto',height:'auto',title:'a survey', position:'relative',toggle:true,items:[{id:'Button',caption:'option 1',percent:0.5,message:'50%'},{id:'CheckBox',caption:'option 2',percent:0.8,message:'80%'}]});"+
                 "o.setCmds([{id:'a',caption:'a'},{id:'b',caption:'b'},{id:'c',caption:'c'}]);"+
                 "linb(id).prepend(o);"+
-                "o.onCommand(function(p,cmdKey){alert(cmdKey)});"+
+                "o.onClickButton(function(p,cmdKey){alert(cmdKey)});"+
                 "}"
             ]
         },
@@ -13129,7 +13129,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","TreeGrid"], {
                 "}"
            ]
         },
-        onClickButton :{
+        beoforeComboPop :{
             $desc:"当单元格按钮被单击时调用，只对单元格为'button/getter/popbox/cmdbox'时有效.",
             $paras:[
                 "profile : linb.UIProfile object.",
@@ -13145,7 +13145,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","TreeGrid"], {
                 "linb.Ajax('App/js/grid.js','',function(s){var hash=_.unserialize(s);hash.header[0].type='button';hash.header[1].type='cmdbox';hash.header[2].type='popbox';o.setHeader(hash.header).setRows(hash.rows);},null,null,{asy:false}).start();"+
                 "o.setEditable(true);"+
                 "linb(id).prepend(o);"+
-                "o.onClickButton(function(p,cell){linb.message(cell.value)});" +
+                "o.beoforeComboPop(function(p,cell){linb.message(cell.value)});" +
                 "}"
            ]
         },
@@ -13162,7 +13162,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","TreeGrid"], {
                 "var o=new linb.UI.TreeGrid({editable:false,position:'relative'});"+
                 "linb.Ajax('App/js/grid.js','',function(s){var hash=_.unserialize(s);hash.header[0].type='button';o.setHeader(hash.header).setRows(hash.rows);},null,null,{asy:false}).start();"+
                 "linb(id).prepend(o);"+
-                "o.onClickButton(function(p,cell){linb.message(cell.value)});" +
+                "o.onClickCell(function(p,cell){linb.message(cell.value)});" +
                 "}"
            ]
         },

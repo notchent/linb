@@ -97,7 +97,7 @@ Class('App', 'linb.Com',{
                 .setTop(30)
                 .setType("popbox")
                 .setItems([{"id":"a", "caption":"itema", "tips":"item a"}, {"id":"b", "caption":"itemb", "tips":"item b"}, {"id":"c", "caption":"itemc", "tips":"item c"}])
-                .onClickButton("_comboinput4_onclickbutton")
+                .beoforeComboPop("_comboinput4_beoforeComboPop")
             , 'c');
 
             host.tabs.append((new linb.UI.Dialog)
@@ -126,7 +126,7 @@ Class('App', 'linb.Com',{
                 .setTop(30)
                 .setType("popbox")
                 .setItems([{"id":"a", "caption":"itema", "tips":"item a"}, {"id":"b", "caption":"itemb", "tips":"item b"}, {"id":"c", "caption":"itemc", "tips":"item c"}])
-                .onClickButton("_comboinput8_onclickbutton")
+                .beoforeComboPop("_comboinput8_beoforeComboPop")
             , 'c');
 
             host.tabs.append((new linb.UI.ComboInput)
@@ -135,7 +135,7 @@ Class('App', 'linb.Com',{
                 .setTop(100)
                 .setType("popbox")
                 .setItems([{"id":"a", "caption":"itema", "tips":"item a"}, {"id":"b", "caption":"itemb", "tips":"item b"}, {"id":"c", "caption":"itemc", "tips":"item c"}])
-                .onClickButton("_comboinput9_onclickbutton")
+                .beoforeComboPop("_comboinput9_beoforeComboPop")
             , 'c');
 
             host.tabs.append((new linb.UI.Dialog)
@@ -171,7 +171,7 @@ Class('App', 'linb.Com',{
                 .setColHidable(true)
                 .setDropKeys("abc")
                 .setDragKey("abc")
-                .onClickButton("_tg1_onClickButton")
+                .beoforeComboPop("_tg1_beoforeComboPop")
                 .onClickCell("_tg1_onClickcell")
             , 'a');
 
@@ -202,7 +202,7 @@ Class('App', 'linb.Com',{
                 .setTop(100)
                 .setType("popbox")
                 .setItems([{"id":"a", "caption":"itema", "tips":"item a"}, {"id":"b", "caption":"itemb", "tips":"item b"}, {"id":"c", "caption":"itemc", "tips":"item c"}])
-                .onClickButton("_comboinput10_onclickbutton")
+                .beoforeComboPop("_comboinput10_beoforeComboPop")
             , 'c');
 
             return children;
@@ -277,7 +277,7 @@ Class('App', 'linb.Com',{
         _tg1_onClickcell:function(profile, cell){
             linb.message(cell._row.id+'/'+cell._col.id+' clicked!');
         },
-        _tg1_onClickButton:function(profile, cell, proEditor){
+        _tg1_beoforeComboPop:function(profile, cell, proEditor){
             switch(profile.box.getCellPro(profile, cell, 'type')){
                 case 'getter':
                     proEditor.boxing().setUIValue(_());
@@ -287,6 +287,7 @@ Class('App', 'linb.Com',{
                     linb.message(cell._row.id+'/'+cell._col.id+' button clicked!');
                 break;
             }
+            return false;
         },
         _tg2_afterRowActive:function(profile, row){
             if(!SPA.$dbBinder){
@@ -439,15 +440,16 @@ Class('App', 'linb.Com',{
                 linb.Event.keyboardHook('esc');
             });
         },
-        _comboinput4_onclickbutton:function (profile, pos, e, src) {
+        _comboinput4_beoforeComboPop:function (profile, pos, e, src) {
             this._poptg(profile,pos,'cell','single',function(p, oldValue, newValue) {
                 var a=(newValue||'').split('|');
                 newValue=p.boxing().getCellbyRowCol(a[0],a[1]);
                 profile.boxing().setUIValue(newValue.value);
                 SPA.popTg.hide();
              });
+             return false;
         },
-        _comboinput8_onclickbutton:function (profile, pos, e, src) {
+        _comboinput8_beoforeComboPop:function (profile, pos, e, src) {
             this._poptg(profile,pos,'cell','multi',function(p, oldValue, newValue) {
                 newValue=newValue||'';
                 var a=[];
@@ -458,17 +460,20 @@ Class('App', 'linb.Com',{
                 });
                 profile.boxing().setUIValue(a.join(';'));
              });
+             return false;
         },
-        _comboinput9_onclickbutton:function (profile, pos, e, src) {//
+        _comboinput9_beoforeComboPop:function (profile, pos, e, src) {//
             this._poptg(profile,pos,'row','single',function(p, oldValue, newValue) {
                 profile.boxing().setUIValue(newValue);
                 SPA.popTg.hide();
              });
+             return false;
         },
-        _comboinput10_onclickbutton:function (profile, pos, e, src) {
+        _comboinput10_beoforeComboPop:function (profile, pos, e, src) {
              this._poptg(profile,pos,'row','multi',function(p, oldValue, newValue) {
                 profile.boxing().setUIValue(newValue);
              });
+             return false;
         },
         _button19_onclick:function (profile, e, src, value) {
             if(SPA.$dbBinder && SPA.$curRow){

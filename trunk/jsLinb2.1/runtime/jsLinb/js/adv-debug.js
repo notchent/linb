@@ -2630,6 +2630,7 @@ Class("linb.UI.FoldingList", ["linb.UI.List"],{
                         TITLE:{
                             tagName : 'a',
                             href:linb.$href,
+                            tabindex: '{_tabindex}',
                             TLEFT:{
                                 $order:0,
                                 tagName:'div',
@@ -2897,7 +2898,8 @@ Class("linb.UI.FoldingList", ["linb.UI.List"],{
             value:null,
             tabindex:{
                 action:function(value){
-                    this.getSubNode('HEAD',true).attr('tabIndex',value);
+                    this.getSubNode('TITLE',true).attr('tabIndex',value);
+                    this.getSubNode('CMDA',true).attr('tabIndex',value);
                 }
             },
             cmds:{

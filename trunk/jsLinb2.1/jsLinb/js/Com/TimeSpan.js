@@ -201,7 +201,7 @@ Class('linb.Com.TimeSpan', 'linb.Com',{
                 .setLeft(60)
                 .setTop(30)
                 .setWidth(340)
-                .onClickButton("_clc")
+                .beoforeComboPop("_clc")
             );
             
             host.panel61.append((new linb.UI.ComboInput)
@@ -456,6 +456,7 @@ Class('linb.Com.TimeSpan', 'linb.Com',{
         },
         _clc:function(profile, pos){
             this.tzpop.pop(profile.getSubNode('BTN'));
+            return false;
         }
     }
 });

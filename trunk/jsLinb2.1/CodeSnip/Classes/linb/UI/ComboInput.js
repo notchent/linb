@@ -205,7 +205,7 @@ Class('App.linb_UI_ComboInput', 'linb.Com',{
                 .setTabindex("5")
                 .setBorder(false)
                 .setType("cmdbox")
-                .onClickButton("_comboinput14_onClickButton")
+                .beoforeComboPop("_comboinput14_beoforeComboPop")
             );
             
             append((new linb.UI.ComboInput)
@@ -272,7 +272,7 @@ Class('App.linb_UI_ComboInput', 'linb.Com',{
                 .setType("getter")
                 .setSaveBtn(true)
                 .onSave("_comboinput28_onsave")
-                .onClickButton("_comboinput13_onClickButton")
+                .beoforeComboPop("_comboinput13_beoforeComboPop")
             );
             
             append((new linb.UI.ComboInput)
@@ -283,7 +283,7 @@ Class('App.linb_UI_ComboInput', 'linb.Com',{
                 .setType("popbox")
                 .setSaveBtn(true)
                 .onSave("_comboinput28_onsave")
-                .onClickButton("_comboinput14_onClickButton")
+                .beoforeComboPop("_comboinput14_beoforeComboPop")
             );
             
             append((new linb.UI.ComboInput)
@@ -330,11 +330,13 @@ Class('App.linb_UI_ComboInput', 'linb.Com',{
             return children;
             // ]]code created by jsLinb UI Builder
         }, 
-        _comboinput13_onClickButton:function (profile, pos) {
-            profile.boxing().setUIValue(_())
+        _comboinput13_beoforeComboPop:function (profile, pos) {
+            profile.boxing().setUIValue(_());
+            return false;
         }, 
-        _comboinput14_onClickButton:function (profile, pos) {
+        _comboinput14_beoforeComboPop:function (profile, pos) {
             linb.message('clicked');
+            return false;
         }, 
         _comboinput28_onsave:function (profile, node) {
             linb.message('onSave event')

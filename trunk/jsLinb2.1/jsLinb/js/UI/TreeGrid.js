@@ -1704,7 +1704,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
             afterCellUpdated:function(profile, cell, options){},
 
             onDblClickRow:function(profile, row, e, src){},
-            onClickButton:function(profile, cell, proEditor, pos, e, src){},
+            beoforeComboPop:function(profile, cell, proEditor, pos, e, src){},
             onClickCell:function(profile, cell, e, src){},
             onDblClickCell:function(profile, cell, e, src){}
         },
@@ -2438,19 +2438,17 @@ caption
                     case 'timepicker':
                     case 'datepicker':
                     case 'colorpicker':
-                        editor.setType(type);
-                        break;
                     case 'getter':
                     case 'popbox':
                     case 'cmdbox':
-                        editor.setType(type)
-                        .onClickButton(function(pro, pos, e, src){
+                        editor.setType(type).beoforeComboPop(function(pro, pos, e, src){
                             var cell=pro.$cell,event=getPro(profile, cell, 'event');
                             if(getPro(profile, cell, 'disabled'))
                                 return false;
-                            if(typeof event == 'function' && false===event.call(profile._host||profile, profile, cell, pro, pos,e,src)){}
+                            if(typeof event == 'function')
+                                return event.call(profile._host||profile, profile, cell, pro, pos,e,src);
                             else
-                                profile.boxing().onClickButton(profile, pro.$cell, pro, pos, e, src);
+                                return profile.boxing().beoforeComboPop(profile, cell, pro, pos, e, src);
                         });
                         break;
                 }

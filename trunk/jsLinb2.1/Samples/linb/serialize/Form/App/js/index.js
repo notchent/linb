@@ -155,8 +155,8 @@ Class('App', 'linb.Com',{
                     case 'popbox':
                     case 'cmdbox':
                         widget.setType(type);
-                        if(o.onCickButton)
-                            widget.onClickButton(o.onCickButton);
+                        if(o.beoforeComboPop)
+                            widget.beoforeComboPop(o.beoforeComboPop);
                         break;
                 }
 
