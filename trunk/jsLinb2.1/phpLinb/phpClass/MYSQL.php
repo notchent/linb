@@ -17,18 +17,17 @@ class MYSQL{
    /**
    * connect and select database
    */
-   function connect($host, $user, $pass, $dbname) {
+   function connect($host, $user, $pass, $dbname="") {
         $this->link_id=@mysql_connect($host,$user,$pass);
         //open failed
         if (!$this->link_id)
-         throw new LINB_E("Cant connect to server: $host.");
-        //cant find the database
-        if(!@mysql_select_db($dbname, $this->link_id))
-            throw new LINB_E("Cant open database: $dbname'</b>");
-       $this->host = $host;
-       $this->user = $user;
-       $this->pass = $pass;
-       $this->dbname = $dbname;
+            throw new LINB_E("Cant connect to server: $host.");
+            
+        $this->host = $host;
+        $this->user = $user;
+        $this->pass = $pass;
+        if($dbname)
+            $this->selectdb($dbname);
    }
 
    /**
@@ -40,6 +39,32 @@ class MYSQL{
             throw new LINB_E("Connection close failed.");
     }
     
+    /**
+    * select database
+    **/
+    function selectdb($dbname) {
+        //cant find the database
+        if(!@mysql_select_db($dbname, $this->link_id))
+            throw new LINB_E("Cant open database: $dbname'</b>");
+       $this->dbname = $dbname;
+    }
+    
+    /**
+    * list all databases
+    **/
+    function listdbs($assoc=false) {
+        $i = @mysql_list_dbs($this->link_id);
+        $r = $this->_fetch_all($i, $assoc);
+        $this->_release($i);
+        return $r;
+    }
+    
+    /**
+    * list all tables
+    **/
+    function listtables($dbname, $assoc=false) {
+        return $this->query("SHOW TABLES FROM ".$dbname);
+    }
    /**
    * query any string
    * return array [{},{},...]

@@ -20912,7 +20912,6 @@ Class("linb.UI.PageBar",["linb.UI","linb.absValue"] ,{
                 'white-space':'nowrap'
             },
             KEY:{
-                padding: linb.browser.ie?'3px':'',
                 display:'inline'
             },
             'KEY a:focus, POP a:focus':{
