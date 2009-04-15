@@ -186,8 +186,8 @@ Class("linb.UI.PageBar",["linb.UI","linb.absValue"] ,{
         Appearances:{
             LABEL:{
                 'font-size':'12px',
-                'padding-top':'6px',
-                'vertical-align':'middle',                
+                padding:'3px 6px 0 6px',
+                'vertical-align':'top',                
                 'white-space':'nowrap'
             },
             KEY:{

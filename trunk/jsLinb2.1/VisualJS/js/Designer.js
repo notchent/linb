@@ -1066,8 +1066,9 @@ Class('VisualJS.Designer', 'linb.Com',{
                 };
                 _.each(eh,function(o,i){
                     var $fun = function(profile, cell){
-                        var o = cell.$tagVar,
-                            node = profile.getSubNode('CELL', cell._serialId);
+                        var o = cell.$tagVar;
+                        if(!o)return;
+                        var node = profile.getSubNode('CELL', cell._serialId);
                         linb.ComFactory.getCom('objEditor',function(){
                             this.host = page;
                             this.setProperties({
@@ -1136,8 +1137,9 @@ Class('VisualJS.Designer', 'linb.Com',{
                         cache =[0,0,0,0,0,0,0,0],
                         cache2=0,
                     $fun = function(profile, cell){
-                        var o = cell.$tagVar,
-                            node = profile.getSubNode('CELL', cell._serialId),
+                        var o = cell.$tagVar;
+                        if(!o)return;
+                        var node = profile.getSubNode('CELL', cell._serialId),
                             obj =o.profile[o.name];
                         linb.ComFactory.getCom('objEditor',function(){
                             this.host = page;
@@ -1583,7 +1585,8 @@ Class('VisualJS.Designer', 'linb.Com',{
             //for properties
             if(id=='properties' || id=='special'){
                 _.each(target.box.$DataStruct,function(o,i){
-                     if(i.charAt(0)=='_'||i.charAt(0)=='$') return;
+                    $tagVar=null;
+                    if(i.charAt(0)=='_'||i.charAt(0)=='$') return;
                     if(dm[i].hidden) return;
 
                     var inSpecial=_.arr.indexOf(specailItems,i)!=-1;
@@ -1605,6 +1608,7 @@ Class('VisualJS.Designer', 'linb.Com',{
 
                         $fun = function(profile, cell){
                             var o = cell.$tagVar;
+                            if(!o)return;
                             var node = profile.getSubNode('CELL', cell._serialId);
 
                             linb.ComFactory.getCom('objEditor',function(){
@@ -1645,8 +1649,9 @@ Class('VisualJS.Designer', 'linb.Com',{
 
                         //for object edit
                         $fun = function(profile, cell){
-                            var tagVar=cell.$tagVar,
-                                node=profile.getSubNode('CELL', cell._serialId),
+                            var tagVar=cell.$tagVar;
+                                if(!tagVar)return;
+                                var node=profile.getSubNode('CELL', cell._serialId),
                                 submit=function(newValue){
                                     var b=tagVar.profile.boxing(),
                                         fn='set'+_.str.initial(tagVar.key);
@@ -1715,6 +1720,7 @@ Class('VisualJS.Designer', 'linb.Com',{
                         value=i;
                         $fun = function(profile, cell, pro){
                             var o = cell.$tagVar;
+                            if(!o)return;
                             var f = o.profile.boxing()['trigger'+_.str.initial(o.name)];
                             _.tryF(f,null,o.profile.boxing());
 
@@ -1742,6 +1748,7 @@ Class('VisualJS.Designer', 'linb.Com',{
                         //for object edit
                         $fun = function(profile, cell){
                             var o = cell.$tagVar;
+                            if(!o)return;
                             var node = profile.getSubNode('CELL', cell._serialId);
                             var obj =o.profile.boxing()['get'+_.str.initial(o.name)]();
                             linb.ComFactory.getCom('objEditor',function(){
@@ -1851,6 +1858,7 @@ Class('VisualJS.Designer', 'linb.Com',{
                 //for object edit
                 $fun = function(profile, cell){
                     var o = cell.$tagVar;
+                    if(!o)return;
                     var node = profile.getSubNode('CELL', cell._serialId);
 
                     linb.ComFactory.getCom('objEditor',function(){

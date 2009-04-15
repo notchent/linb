@@ -20907,8 +20907,8 @@ Class("linb.UI.PageBar",["linb.UI","linb.absValue"] ,{
         Appearances:{
             LABEL:{
                 'font-size':'12px',
-                'padding-top':'6px',
-                'vertical-align':'middle',                
+                padding:'3px 6px 0 6px',
+                'vertical-align':'top',                
                 'white-space':'nowrap'
             },
             KEY:{
@@ -25132,13 +25132,13 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                 pro=profile.properties,
                 rows = _.copy(pro.rows),
                 arr = profile.box._prepareHeader(profile, header);
-
+            var ol=pro.header.length;
             pro.header = header;
             this.removeAllRows();
             profile.getSubNode('HCELL', true).remove(false);
             if(arr.length)
                 profile.getSubNode('HCELLS').append(_.str.toDom(profile.buildItems('header', arr)));
-            if(rows.length)
+            if(ol==header.length && rows.length)
                 this.insertRows(rows);
             profile.box._ajdustBody(profile);
         },

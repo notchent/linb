@@ -124,13 +124,13 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                 pro=profile.properties,
                 rows = _.copy(pro.rows),
                 arr = profile.box._prepareHeader(profile, header);
-
+            var ol=pro.header.length;
             pro.header = header;
             this.removeAllRows();
             profile.getSubNode('HCELL', true).remove(false);
             if(arr.length)
                 profile.getSubNode('HCELLS').append(_.str.toDom(profile.buildItems('header', arr)));
-            if(rows.length)
+            if(ol==header.length && rows.length)
                 this.insertRows(rows);
             profile.box._ajdustBody(profile);
         },
