@@ -281,13 +281,12 @@ Class('App', 'linb.Com',{
             switch(profile.box.getCellPro(profile, cell, 'type')){
                 case 'getter':
                     proEditor.boxing().setUIValue(_());
-                break;
+                return false;
                 case 'cmdbox':
                 case 'popbox':
                     linb.message(cell._row.id+'/'+cell._col.id+' button clicked!');
-                break;
+                return false;
             }
-            return false;
         },
         _tg2_afterRowActive:function(profile, row){
             if(!SPA.$dbBinder){

@@ -342,7 +342,6 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
             UPLOAD:{
                 opacity:0,
                 '*filter':'alpha(opacity=0)',
-
                 'z-index':'3',
                 border:0,
                 height:'100%',

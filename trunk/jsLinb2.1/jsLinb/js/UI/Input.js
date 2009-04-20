@@ -128,7 +128,8 @@ Class("linb.UI.Input", ["linb.UI.Widget","linb.absValue"] ,{
                 top:0,
                 position:'absolute',
                 'background-color':'#fff',
-                'border':'solid 1px #648CB4'
+                'border':'solid 1px #648CB4',
+                'z-index':10
             },
             'BOX-focus, BOX-mouseover':{
                 'border-color':'#FAE100'

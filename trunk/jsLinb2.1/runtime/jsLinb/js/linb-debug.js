@@ -15712,7 +15712,8 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
                 top:0,
                 position:'absolute',
                 'background-color':'#fff',
-                'border':'solid 1px #648CB4'
+                'border':'solid 1px #648CB4',
+                'z-index':10
             },
             'BOX-focus, BOX-mouseover':{
                 'border-color':'#FAE100'
@@ -16949,7 +16950,6 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
             UPLOAD:{
                 opacity:0,
                 '*filter':'alpha(opacity=0)',
-
                 'z-index':'3',
                 border:0,
                 height:'100%',
