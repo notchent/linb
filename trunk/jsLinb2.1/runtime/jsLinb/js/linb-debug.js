@@ -1843,7 +1843,7 @@ new function(){
             )
             + '"'
     };
-    T[O]=function(x,dateformat,deep){
+    T[O]=function(x,dateformat,filter,deep){
         var me=arguments.callee, map = me.map || (me.map={prototype:1,constructor:1,toString:1,valueOf:1});
         deep=deep||1;
         if(deep>99)return '"too much recursion!"';
@@ -1859,7 +1859,7 @@ new function(){
                 l = x.length;
                 for(i=0;i<l;++i)
                     if(f=T[typeof (v=x[i])])
-                        if(typeof (v=f(v,dateformat,deep+1))==S)
+                        if(typeof (v=f(v,dateformat,filter,deep+1))==S)
                             b[b.length]=v;
 
                 a[2]=']';
@@ -1894,11 +1894,14 @@ new function(){
                         return "document.getElementById('"+x.id+"')";
                     }else{
                         a[0] = '{';
-                        for(i in x)
-                            if(!map[i])
-                                if (f=T[typeof (v=x[i])])
-                                    if (typeof (v=f(v,dateformat,deep+1))==S)
-                                        b[b.length] = T.string(i) + ':' + v;
+                        for(i in x){
+                            if(map[i] || 
+                                (filter?typeof filter=='function'?false===filter(i,x[i]):((v=i.charAt(0))=='$'||v=='_'):false))
+                                continue;
+                            if (f=T[typeof (v=x[i])])
+                                if (typeof (v=f(v,dateformat,filter,deep+1))==S)
+                                    b[b.length] = T.string(i) + ':' + v;
+                        }
                         a[2]='}';
                     }
                 }else return String(x);
@@ -1911,8 +1914,8 @@ new function(){
     T[F]=function(x){return x.$path?x.$path:String(x)};
 
     //serialize object to string (bool/string/number/array/hash/simple function)
-    _.serialize = function (obj,dateformat){
-        return T[typeof obj](obj,dateformat)||'';
+    _.serialize = function (obj,dateformat,filter){
+        return T[typeof obj](obj,dateformat,filter)||'';
     };
     //unserialize string to object
     _.unserialize = function(str, dateformat){
