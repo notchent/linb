@@ -1820,10 +1820,11 @@ Class('VisualJS.Designer', 'linb.Com',{
                     ]});
                 });
             }
-            arr.sort(function(x,y){
-                x=x.cells[0].value;y=y.cells[0].value;
-                return x>y?1:x==y?0:-1;
-            });
+            if(id!='special')
+                arr.sort(function(x,y){
+                    x=x.cells[0].value;y=y.cells[0].value;
+                    return x>y?1:x==y?0:-1;
+                });
             //for events
             if(id=='UIE' || id=='special'){
                 var getCode=function(o){
