@@ -23,6 +23,7 @@
         runTips:'Run jsLinb Class in debug page.',
         dftTheme:'Default Theme',
         dftThemeTips:'To switch theme',
+        advancedBuilder:'Advanced',
         originalFile:"Original file: ",
         issave2server:"Do you mean to overwrite the original server file?",
         save2serverOK:'Saved to server successfully',
@@ -58,6 +59,7 @@
         setting: 'Build Setting',
 
         help: 'Help',
+        simple: 'Simple Version',
         forum: 'Go to Forum...',
         license:'License',
         gpllicense:'LGPL License',

@@ -285,6 +285,17 @@ Class('UIDesigner', 'linb.Com',{
                 .setSrc("img/builder.gif")
             );
             
+            host.appRoot.append((new linb.UI.Link)
+                .host(host,"btnAdv")
+                .setCaption('$VisualJS.builder.advancedBuilder')
+                .setTop(6)
+                .setRight(370)
+                .setLeft('auto')
+                .setZIndex(100)
+                .setTarget('_blank')
+                .setHref('index.html')
+            );
+            
             host.appRoot.append((new linb.UI.Tag)
                 .host(host,"container")
                 .setDock("fill")

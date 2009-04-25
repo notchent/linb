@@ -22,6 +22,7 @@
         runTips:'在debug页面中运行当前jsLinb类',
         dftTheme:'默认界面主题',
         dftThemeTips:'切换界面主题',
+        advancedBuilder:'工程版',
         originalFile:"文件来自：",
         issave2server:'这会覆盖服务器上的原始文件，请确认是否继续？',
         save2serverOK:'服务器上的原始文件已经被覆盖！',
@@ -57,6 +58,7 @@
         setting: '编译设置',
 
         help: '帮助',
+        simple: '入门版',
         forum: '到论坛...',
         license:'授权许可',
         gpllicense:'LGPL 开源许可',

@@ -23,6 +23,7 @@
         runTips:'デバッグページでjsLinbを実行します。',
         dftTheme:'デフォルトテーマ',
         dftThemeTips:'テーマを変更します。',
+        advancedBuilder:'Advanced',
         originalFile:"オリジナルファイル: ",
         issave2server:"サーバ上のオリジナルファイルを上書きしますか?",
         save2serverOK:'サーバへの保存ができました。',
@@ -58,6 +59,7 @@
         setting: 'ビルドの設定',
 
         help: 'ヘルプ',
+        simple:'Simple Version',
         forum: 'フォーラムを開く',
         license:'ライセンス',
         gpllicense:'LGPLライセンス',

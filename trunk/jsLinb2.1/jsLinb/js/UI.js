@@ -4075,7 +4075,7 @@ new function(){
                         r = profile.boxing().onClick(profile, e, src);
                     //**** if dont return false, this click will break sajax in IE
                     //**** In IE, click a href(not return false) will break the current script downloading
-                    return r !==undefined?r:false;
+                    return (src.href.indexOf('javascript:')===0||src.href.indexOf('#')===0||r===undefined) ? r : false;
                 }
             },
             DataModel:{

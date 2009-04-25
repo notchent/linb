@@ -53,6 +53,8 @@ Class('VisualJS', 'linb.Com',{
                         {id:'release', caption:'$VisualJS.menu.release', image:CONF.img_app, imagePos:'-144px top',add:'Ctrl+F9'}
                     ]},
                     {id:'help',caption:'$VisualJS.menu.help', sub:[
+                        {id:'simple', caption:'$VisualJS.menu.simple'},
+                        {type:'split'},
                         {id:'forum', caption:'$VisualJS.menu.forum'},
                         {type:'split'},
                         {id:'license', caption:'$VisualJS.menu.license', sub:[
@@ -80,7 +82,7 @@ Class('VisualJS', 'linb.Com',{
                     {id:'demo', image:CONF.img_app, imagePos:'-48px -64px ', tips:'$VisualJS.tool.demo'},
 */
                     {split:true},
-                    {id:'ec', image:CONF.img_app, imagePos:'-98px -16px', tips:'$VisualJS.tool.ec'},
+                    {id:'ec', dropButton:true, image:CONF.img_app, imagePos:'-98px -16px', tips:'$VisualJS.tool.ec'},
                     {split:true},
                     {id:'info', label:'$VisualJS.noMessage', tips:'$VisualJS.message'}
                 ]}]);
@@ -121,6 +123,8 @@ Class('VisualJS', 'linb.Com',{
                 page.$infoList = new linb.UI.List({width:400}).setCustomStyle('ITEM', 'border-bottom:dashed 1px gray').render();
 
                 //linb.Dom.addHeadNode('js','','',{id:'linb:msg',src:'http://www.linb.net/message?ver='+_.version+'&rnd='+_()});
+                
+                page.toolbar.updateItem('ec',{'caption':linb.getRes('VisualJS.'+linb.getLang())});
             }
         },
 
@@ -674,9 +678,20 @@ Class('VisualJS', 'linb.Com',{
                         });
                     break;
                 case 'ec':
-                    linb.setLang(linb.getLang()=='en'?'cn':'en',function(){
-                        self.menubar.clearPopCache();
-                    });
+                    if(!this.$dropmenulang){
+                        this.$dropmenulang=new linb.UI.PopMenu({items:[{id:'en',caption:linb.getRes('VisualJS.en')},{id:'cn',caption:linb.getRes('VisualJS.cn')},{id:'ja',caption:linb.getRes('VisualJS.ja')}]},{
+                            onMenuSelected:function(p,item){
+                                if(linb.getLang()!=item.id)
+                                    linb.setLang(item.id,function(){
+                                        self.menubar.clearPopCache();
+                                        self.$dropmenulang.destroy();
+                                        delete self.$dropmenulang;
+                                        self.toolbar.updateItem('ec',{'caption':linb.getRes('VisualJS.'+item.id)});
+                                    });                                
+                            }
+                        });
+                    }
+                    this.$dropmenulang.pop(src);
                     break;
 //                case 'flash':
 //                    linb.Dom.submit(CONF.path_video);
@@ -719,6 +734,9 @@ Class('VisualJS', 'linb.Com',{
                         linb.IAjax(CONF.phpPath, {key:CONF.requestKey, para:{path: self.curProject, action:'release'}}, null, {method:'POST'}).start();
                     });
                     break;
+                case 'simple':
+                    linb.Dom.submit(CONF.path_simple);
+                    break;                    
                 case 'forum':
                     linb.Dom.submit(CONF.path_forum);
                     break;
