@@ -191,7 +191,8 @@ Class("linb.UI.PageBar",["linb.UI","linb.absValue"] ,{
                 'white-space':'nowrap'
             },
             KEY:{
-                display:'inline'
+                display:'inline',
+                overflow:'visible'
             },
             'KEY a:focus, POP a:focus':{
                 '-moz-outline-offset': ''
