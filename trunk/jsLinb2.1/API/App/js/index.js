@@ -743,19 +743,19 @@ Class('App', 'linb.Com',{
                         case 'b':
                             _.each(pool,function(o,i){
                                 if(_.str.endWith(i,v))
-                                    arr.push({id:i,caption:i +' : '+o})
+                                    arr.push({id:i,caption:i.replace(/\.prototype\./,' -> ').replace(/(\w*)$/,'<b>$1</b>') +' : '+o})
                             });
                         break;
                         case 'c':
                             _.each(pool,function(o,i){
                                 if(i.indexOf(v)!=-1)
-                                    arr.push({id:i,caption:i +' : '+o})
+                                    arr.push({id:i,caption:i.replace(/\.prototype\./,' -> ').replace(/(\w*)$/,'<b>$1</b>') +' : '+o})
                             });
                         break;
                         default:
                             _.each(pool,function(o,i){
                                 if(_.str.startWith(i,v))
-                                    arr.push({id:i,caption:i +' : '+o})
+                                    arr.push({id:i,caption:i.replace(/\.prototype\./,' -> ').replace(/(\w*)$/,'<b>$1</b>') +' : '+o})
                             });
                     }
                 }else{
@@ -764,7 +764,7 @@ Class('App', 'linb.Com',{
                     var r=new RegExp(v);
                     _.each(pool,function(o,i){
                         if(r.test(o)){
-                            arr.push({id:i,caption:i +' : '+o})
+                            arr.push({id:i,caption:i.replace(/\.prototype\./,' -> ').replace(/(\w*)$/,'<b>$1</b>') +' : '+o})
                         }
                     });
                 }
@@ -864,8 +864,11 @@ indexing:function(){
     });
     _.each(hash,function(o,i){
         hash[i]=_.get(doc,(i+'.$desc').split('.'));
-        if(hash[i]&&hash[i].indexOf('<')!=-1)
-            hash[i]=hash[i].split('<')[0] + '...';
+        if(hash[i]){
+            if(hash[i].indexOf('<')!=-1)
+                hash[i]=hash[i].split('<')[0] + '...';
+        }else
+            hash[i]='';
     });
 
 
