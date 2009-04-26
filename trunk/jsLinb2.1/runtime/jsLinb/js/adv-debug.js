@@ -2303,8 +2303,8 @@ Class("linb.UI.Poll", "linb.UI.List",{
         self.setBehavior(t);
     },
     Static:{
-        DIRTYKEY:'MARK',
-        ITEMKEY:'OUTER',
+        _DIRTYKEY:'MARK',
+        _ITEMKEY:'OUTER',
         Appearances:{
             KEY:{
                 'font-size':'12px',

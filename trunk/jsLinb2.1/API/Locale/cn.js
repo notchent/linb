@@ -2,6 +2,13 @@ _.set(linb.Locale,["cn","app"], {
     en:'英文',
     cn:'中文',
     apititle:"jsLINB 2.1 - API 文档",
+    
+    lQ1:'按API查询',
+    lQ2:'按功能描述查询',
+    ciQ1a:'开始于',
+    ciQ1b:'结尾于',
+    ciQ1c:'任意匹配',
+    
     staticMethods:"静态方法",
     staticProperties:"静态属性",
     gFun:'全局函数',
@@ -60,7 +67,6 @@ _.set(linb.Locale,["cn","doc"], {
                 $paras: [
                     "arr [必需参数]: Array, 目标数组.",
                     "fun [必需参数]: Function, 参数: [array element, array index]. 要应用的函数.",
-                    "scope [可选参数]: Object, [fun]的this指针(哪个对象的函数). 默认为 [arr].",
                     "order [可选参数]: Bool, 按从头到尾还是从尾到头应用函数. 默认是从头到尾."
                 ],
                 $snippet:[
@@ -158,12 +164,13 @@ _.set(linb.Locale,["cn","doc"], {
             $rtn:"Cloned object",
             $paras:[
                 "hash [必需参数]: Object, 要拷贝的对象.",
-                "fun [可选参数]: Function, 参数: [hash value, hash key]. 判断是否拷贝该项.",
+                "filter [可选参数]: Function, 参数: [hash value, hash key]. 判断是否拷贝该项. 也可以是 [true]，表示会忽略以'_'开头的项",
                 "deep [可选参数]: Number, 拷贝的深度，默认为 100."
             ],
             $snippet:[
                 "var a=1, b='s'; alert(_.clone(a)); alert(_.clone(b));",
                 "var o={a:1,b:{b:{c:2}}}; alert(_.serialize(_.clone(o))); alert(_.serialize(_.clone(o,function(o,i){return i!='c'}))); ",
+                "var o={a:1,_b:2,$c:3}; alert(_.serialize(_.clone(o,true)));",
                 "var o=['1','2','3']; alert(_.serialize(_.clone(o))); alert(_.serialize(_.clone(o,function(o){return o!='2'}))); "
             ]
         },
@@ -172,7 +179,7 @@ _.set(linb.Locale,["cn","doc"], {
             $rtn:"Copied object",
             $paras:[
                 "hash [必需参数]: Object, 要拷贝的对象.",
-                "fun [可选参数]: Function, 判断是否拷贝该项."
+                "filter [可选参数]: Function, 参数: [hash value, hash key]. 判断是否拷贝该项. 也可以是 [true]，表示会忽略以'_'开头的项",
             ],
             $memo:"Sees <a href='#_.clone'>_.clone</a>"
         },
@@ -213,8 +220,7 @@ _.set(linb.Locale,["cn","doc"], {
             $rtn:"the object",
             $paras:[
                 "obj [必需参数]: Object, 数组/hash对象.",
-                "fun [必需参数]: Function, 过滤函数.",
-                "scope [可选参数]: Object, [fun]的this指针(哪个对象的函数).",
+                "filter [可选参数]: Function, 参数: [hash value, hash key]. 判断是否保留该项. 也可以是 [true]，表示值过滤以'_'开头的项",
                 "force [可选参数]: Bool, 强行将[obj]做为一个{}执行. 默认为 false."
             ],
             $snippet:[
@@ -447,15 +453,17 @@ _.set(linb.Locale,["cn","doc"], {
             $rtn: "String",
             $paras:[
                 "obj [必需参数]: Object, 目标对象. ",
+                "filter [可选参数]: Function, 参数: [hash value, hash key]. 判断是否序列化该项. 也可以是 [true]，表示会忽略以'_'开头的项",
                 "dateformat  [可选参数]: String, 'utc' or 'gmt'. 强行将[Date]类型转化为ISO UTC字符串, ISO GMT 字符串, 或默认格式( new Date(yyyy,mm,dd,hh,nn,ss,ms) )."
             ],
             $snippet:[
                 "alert(_.serialize('a'));"+
                 "alert(_.serialize({a:1}));"+
                 "alert(_.serialize([1,2,{a:1}]));"+
+                "alert(_.serialize([1,2,{_a:1}],true));"+
                 "alert(_.serialize({d:new Date}));"+
-                "alert(_.serialize({d:new Date},'utc'))",
-                "alert(_.serialize({d:new Date},'gmt'))",
+                "alert(_.serialize({d:new Date},null,'utc'))",
+                "alert(_.serialize({d:new Date},null,'gmt'))",
                 "alert(_.serialize(linb('btnLang')))",
                 "alert(_.serialize(linb.Dom.byId('btnLang')))",
                 "alert(_.serialize(linb.UIProfile.getFromDom('btnLang')))",
@@ -1472,6 +1480,20 @@ _.set(linb.Locale,["cn","doc","linb","SC"], {
         $snippet:[
             "/*\n//The most common usage: \n"+
             "linb.SC.background(['linb.UI.Button','linb.UI.Input','linb.UI.List'],null,null,function(){alert('ends.')});"+
+            "\n*/"
+        ]
+    },
+    runInBG:{
+        $desc:"To load a set of code snippet and execute them one by one in the background. (wrap them to a shell thread).",
+        $paras:[
+            "pathArr [Required]: Array, a set of path names(String).",
+            "callback [Optional]: Function, arguments:[path, code]. A function to be executed whenever the code snip returns. If returns successfully, [path] will be the [path name], and [this] pointer will be an empty object/{}; if fails, [path] will be [null], and [this] pointer will be the inner linb.Ajax/iajax object.",
+            "onStart [Optional]: Function, onStart function for the shell thread.",
+            "onEnd [Optional]: Function, onEnd function for the shell thread."
+        ],
+        $snippet:[
+            "/*\n//The most common usage: \n"+
+            "linb.SC.runInBG(['linb.UI.Button','linb.UI.Input','linb.UI.List'],null,null,function(){alert('ends.')});"+
             "\n*/"
         ]
     },
@@ -3779,7 +3801,7 @@ _.set(linb.Locale,["cn","doc","linb","Template"], {
             ]
         },
         getItem:{
-            $des:"从一个DOM元素上获取项的数据.",
+            $desc:"从一个DOM元素上获取项的数据.",
             $rtn:"Oject",
             $paras:[
                 "src [必需参数] : Dom 元素"
@@ -4263,7 +4285,7 @@ _.set(linb.Locale,["cn","doc","linb","Com"], {
             ]
         },
         getHost:{
-            $des:"获取host对象.",
+            $desc:"获取host对象.",
             $rtn:"Object",
             $snippet:[
                 "linb.SC('App.Test1',function(){var com=new this; com.create(function(com){com.setHost(window,'com_alias'); alert(com.getHost()===window); alert(window.com_alias)});},false);"
@@ -7181,7 +7203,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","Label"], {
             ]
         },
         getImagePos :{
-            $desc:"获取图标的显示位置",
+            $desc:"获取图标的css position属性",
             $rtn:"String",
             $snippet:[
                 "var id='linb.temp.lbl15'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -7191,7 +7213,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","Label"], {
             ]
         },
         setImagePos :{
-            $desc:"设置图标的显示位置, 并刷新界面.",
+            $desc:"设置图标的css position属性, 并刷新界面.",
             $rtn:"[self]",
             $paras:[
                 "value [必需参数] : String, 图标的显示位置.",
@@ -7620,7 +7642,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","Button"], {
             ]
         },
         getImagePos :{
-            $desc:"获取图标的显示位置.",
+            $desc:"获取图标的css position属性.",
             $rtn:"String",
             $snippet:[
                 "var id='linb.temp.btn15'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -7630,7 +7652,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","Button"], {
             ]
         },
         setImagePos :{
-            $desc:"设置图标的显示位置, 并刷新界面.",
+            $desc:"设置图标的css position属性, 并刷新界面.",
             $rtn:"[self]",
             $paras:[
                 "value [必需参数] : String, corresponding CSS value.",
@@ -8126,7 +8148,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","Group"], {
             ]
         },
         getImagePos :{
-            $desc:"获取编组框图标的位置",
+            $desc:"获取编组框图标的css position属性",
             $rtn:"String",
             $snippet:[
                 "var id='linb.temp.grp5'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -8136,7 +8158,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","Group"], {
             ]
         },
         setImagePos :{
-            $desc:"设置编组框图标的位置, 并刷新界面.",
+            $desc:"设置编组框图标的css position属性, 并刷新界面.",
             $rtn:"[self]",
             $paras:[
                 "value [必需参数] : String, 图标的位置(CSS值).",
@@ -8457,6 +8479,54 @@ _.set(linb.Locale,["cn","doc","linb","UI","ComboInput"], {
                 "var id='linb.temp.ci18'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var o1,o2;linb(id).prepend(o1=new linb.UI.ComboInput({position:'relative',type:'spin'}));"+
                 "_.asyRun(function(){o1.setMax(2);alert(o1.getMax())},1000)"+
+                "}"
+            ]
+        },
+        getImage :{
+            $desc:"获取按钮图标的url",
+            $rtn:"String",
+            $snippet:[
+                "var id='linb.temp.ci18'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var o1;linb(id).prepend(o1=new linb.UI.ComboInput({position:'relative',type:'cmdbox'}));"+
+                "_.asyRun(function(){o1.setImage('img/img.gif'); alert(o1.getImage())},1000)"+
+                "}"
+            ]
+        },
+        setImage :{
+            $desc:"设置按钮图标的url, 并刷新界面.",
+            $rtn:"[self]",
+            $paras:[
+                "value [必需参数] : String, corresponding CSS value.",
+                "flag [可选参数] : Bool, 强制设置该属性值，即使属性已经设置为该值. 默认为 [false]."
+            ],
+            $snippet:[
+                "var id='linb.temp.ci19'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var o1;linb(id).prepend(o1=new linb.UI.ComboInput({position:'relative',type:'cmdbox'}));"+
+                "_.asyRun(function(){o1.setImage('img/img.gif'); alert(o1.getImage())},1000)"+
+                "}"
+            ]
+        },
+        getImagePos :{
+            $desc:"获取按钮图标的css position属性",
+            $rtn:"String",
+            $snippet:[
+                "var id='linb.temp.ci20'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var o1;linb(id).prepend(o1=new linb.UI.ComboInput({position:'relative',type:'cmdbox'}));"+
+                "_.asyRun(function(){o1.setImage('img/img.gif').setImagePos('left -16px'); alert(o1.getImagePos())},1000)"+
+                "}"
+            ]
+        },
+        setImagePos :{
+            $desc:"设置按钮图标的css position属性, 并刷新界面.",
+            $rtn:"[self]",
+            $paras:[
+                "value [必需参数] : String, corresponding CSS value.",
+                "flag [可选参数] : Bool, 强制设置该属性值，即使属性已经设置为该值. 默认为 [false]."
+            ],
+            $snippet:[
+                "var id='linb.temp.ci21'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var o1;linb(id).prepend(o1=new linb.UI.ComboInput({position:'relative',type:'cmdbox'}));"+
+                "_.asyRun(function(){o1.setImage('img/img.gif').setImagePos('left -16px'); alert(o1.getImagePos())},1000)"+
                 "}"
             ]
         },
@@ -9752,7 +9822,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","Panel"], {
             ]
         },
         getImagePos :{
-            $desc:"获取图标的位置",
+            $desc:"获取图标的css position属性",
             $rtn:"String",
             $snippet:[
                 "var id='linb.temp.panel5'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -9762,7 +9832,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","Panel"], {
             ]
         },
         setImagePos :{
-            $desc:"设置图标的位置, 并刷新界面.",
+            $desc:"设置图标的css position属性, 并刷新界面.",
             $rtn:"[self]",
             $paras:[
                 "value [必需参数] : String, corresponding CSS value.",
@@ -11071,14 +11141,14 @@ _.set(linb.Locale,["cn","doc","linb","UI","Dialog"], {
             ]
         },
         getImagePos :{
-            $desc:"获取对话框左上角的图标位置",
+            $desc:"获取对话框左上角图标的css position属性",
             $rtn:"String",
             $snippet:[
                 "var dlg=(new linb.UI.Dialog).show(null,false, 100,100); alert(dlg.getImagePos());_.asyRun(function(){dlg.setImage('img/img.gif').setImagePos('left -16px');},1000);"
             ]
         },
         setImagePos :{
-            $desc:"设置对话框左上角的图标位置, 并刷新界面.",
+            $desc:"设置对话框左上角图标的css position属性, 并刷新界面.",
             $rtn:"[self]",
             $paras:[
                 "value [必需参数] : String, corresponding CSS value.",
@@ -12757,12 +12827,15 @@ _.set(linb.Locale,["cn","doc","linb","UI","TreeGrid"], {
         },
         getRows :{
             $desc:"获取表格的所有行",
+            $paras:[
+                "type [可选参数] : String. 'data': 得到行数据; 'min': 得到行的最简化数据; 其他值，得到内存中行的原数据."
+            ],
             $rtn:"object",
             $snippet:[
                 "var id='linb.temp.grid32'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var o=new linb.UI.TreeGrid({editable:false, position:'relative'});"+
                 "linb.Ajax('App/js/grid.js','',function(s){var hash=_.unserialize(s);o.setHeader(hash.header).setRows(hash.rows);},null,null,{asy:false}).start();"+
-                "_.asyRun(function(){o.setRows([{id : 'row_1',cells:['cell_1',1,true,'label1']},{id : 'row_11',cells:['cell_11',1,true,'label1']}]); alert(o.getRows().length)});"+
+                "_.asyRun(function(){o.setRows([{id : 'row_1',cells:['cell_1',1,true,'label1']},{id : 'row_11',cells:['cell_11',1,true,'label1']}]); alert(o.getRows().length); alert(_.serialize(o.getRows('data'))); alert(_.serialize(o.getRows('min')))});"+
                 "linb(id).prepend(o);"+
                 "}"
             ]
@@ -12785,12 +12858,17 @@ _.set(linb.Locale,["cn","doc","linb","UI","TreeGrid"], {
         },
         getHeader :{
             $desc:"获取表头对象",
+            $paras:[
+                "type [可选参数] : String. 'data': 得到列数据; 'min': 得到列的最简化数据; 其他值，得到内存中列的原数据."
+            ],
             $rtn:"object",
             $snippet:[
                 "var id='linb.temp.grid34'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var o=new linb.UI.TreeGrid({editable:false, position:'relative'});"+
                 "linb.Ajax('App/js/grid.js','',function(s){var hash=_.unserialize(s);o.setHeader(hash.header).setRows(hash.rows);},null,null,{asy:false}).start();"+
                 "_.asyRun(function(){alert(o.getHeader().length)});"+
+                "_.asyRun(function(){alert(_.serialize(o.getHeader('data')))});"+
+                "_.asyRun(function(){alert(_.serialize(o.getHeader('min')))});"+
                 "linb(id).prepend(o);"+
                 "}"
             ]

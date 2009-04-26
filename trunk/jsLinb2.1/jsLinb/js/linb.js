@@ -157,7 +157,7 @@ _.merge(_,{
     exec:function(script){
         var me=this,
             d=document,
-            h=me.h||(me.h=d.getElementsByTagName("head")[0] || d.documentElement),
+            h=d.getElementsByTagName("head")[0] || d.documentElement,
             s=d.createElement("script");
         s.type = "text/javascript";
         if(linb.browser.ie)
@@ -273,14 +273,14 @@ _.merge(_,{
     /*shadow copy for hash/array
     * var a=[]; a.b='b'; a.b will not be copied
     */
-    copy:function(hash,fun){
-        return _.clone(hash,fun,1);
+    copy:function(hash,filter){
+        return _.clone(hash,filter,1);
     },
     /*deep copy for hash/array, and hash/array only
     * var a=[]; a.b='b'; a.b will not be cloned
     *be careful for dead lock
     */
-    clone:function(hash,fun,deep){
+    clone:function(hash,filter,deep){
         if(hash && typeof hash=='object'){
             var c=hash.constructor,a=c==Array;
             if(a||c==Object){
@@ -291,36 +291,38 @@ _.merge(_,{
                 }
                 if(a){
                     l=hash.length;
-                    for(;i<l;i++)
-                        if(fun?fun(hash[i],i):1)
-                            h[h.length]=((v=hash[i]) && deep && typeof v=='object')?me(v,fun,deep-1):v;
+                    for(;i<l;i++){
+                        if(typeof filter=='function'&&false===filter.call(hash,hash[i],i))continue;
+                        h[h.length]=((v=hash[i]) && deep && typeof v=='object')?me(v,filter,deep-1):v;
+                    }
                 }else{
-                    for(i in hash)
-                        if(fun?fun(hash[i],i):1)
-                            h[i]=((v=hash[i]) && deep && typeof v=='object')?me(v,fun,deep-1):v;
+                    for(i in hash){
+                        if(filter===true?i.charAt(0)=='_':typeof filter=='function'?false===filter.call(hash,hash[i],i):0)
+                            continue;
+                        h[i]=((v=hash[i]) && deep && typeof v=='object')?me(v,filter,deep-1):v;
+                    }
                 }
                 return h;
             }else return hash;
         }else return hash;
     },
     /*filter hash/array
-    fun: filter function(will delete "return false")
+    filter: filter function(will delete "return false")
     */
-    filter:function(obj, fun, scope,force){
+    filter:function(obj, filter, force){
         if(!force && obj && obj.constructor == Array){
-            var i,l,a=[],o;
+            var i,l,v,a=[],o;
             for(i=0, l=obj.length; i<l; i++)a[a.length]=obj[i];
             obj.length=0;
-            scope=scope||a;
             for(i=0, l=a.length; i<l; i++)
-                if(fun.call(scope,a[i],i,a)!==false)
+                if(typeof filter=='function'?false!==filter.call(a,a[i],i):1)
                     obj[obj.length]=a[i];
         }else{
             var i, bak={};
-            scope=scope||obj;
             for(i in obj)
-                if(false===fun.call(scope, obj[i], i, obj))
+                if(filter===true?i.charAt(0)=='_':typeof filter=='function'?false===filter.call(obj,obj[i],i):0)
                     bak[i]=1;
+
             for(i in bak)
                 delete obj[i];
         }
@@ -1409,7 +1411,7 @@ Class('linb.SAjax','linb.absIO',{
                 self._flag = _.asyRun(function(){if(self && !self._end){self._time()}}, self.timeout);
         },
         _clear:function(){
-            var self=this, n=self.node, c=self.constructor, div=c.div||(c.div=c._n.createElement('div')),_pool=self.constructor._pool;
+            var self=this, n=self.node, c=self.constructor, div=c._div||(c._div=c._n.createElement('div')),_pool=self.constructor._pool;
             _pool.length=0;
             delete _pool[self.id];
             if(n){
@@ -1550,7 +1552,7 @@ Class('linb.IAjax','linb.absIO',{
                 self._flag = _.asyRun(function(){if(self && !self._end){self._time()}}, self.timeout);
         },
         _clear:function(){
-            var self=this, n=self.node,f=self.form, c=self.constructor, div=c.div||(c.div=document.createElement('div'));
+            var self=this, n=self.node,f=self.form, c=self.constructor, div=c._div||(c._div=document.createElement('div'));
 			if(linb.browser.gek&&n)try{n.onload=null;var d=n.contentWindow.document;d.write(" ");d.close()}catch(e){}
             self.form=self.node=self.frm=null;
             clearTimeout(self._tf);
@@ -1785,7 +1787,9 @@ Class('linb.SC',null,{
 /*serialize/unserialize
 */
 new function(){
-    var M ={
+    var 
+    max,
+    M ={
         '\b': '\\b',
         '\t': '\\t',
         '\n': '\\n',
@@ -1841,10 +1845,11 @@ new function(){
             )
             + '"'
     };
-    T[O]=function(x,dateformat,filter,deep){
+    T[O]=function(x,filter,dateformat,deep){
         var me=arguments.callee, map = me.map || (me.map={prototype:1,constructor:1,toString:1,valueOf:1});
         deep=deep||1;
-        if(deep>99)return '"too much recursion!"';
+        if(deep>99||max>9999)return '"too much recursion!"';
+        max++;
         if (x){
             var a=[], b=[], c=x.constructor, f, i, l, v;
             if(x===window)return "window";
@@ -1855,11 +1860,13 @@ new function(){
             else if(c==Array){
                 a[0] = '[';
                 l = x.length;
-                for(i=0;i<l;++i)
-                    if(f=T[typeof (v=x[i])])
-                        if(typeof (v=f(v,dateformat,filter,deep+1))==S)
-                            b[b.length]=v;
+                for(i=0;i<l;++i){
+                    if(typeof filter=='function' && false==filter.call(x,x[i],i))continue;
 
+                    if(f=T[typeof (v=x[i])])
+                        if(typeof (v=f(v,filter,dateformat,deep+1))==S)
+                            b[b.length]=v;
+                }
                 a[2]=']';
             }else if(c==Date){
                 if(dateformat=='utc')
@@ -1894,10 +1901,10 @@ new function(){
                         a[0] = '{';
                         for(i in x){
                             if(map[i] || 
-                                (filter?typeof filter=='function'?false===filter(i,x[i]):((v=i.charAt(0))=='$'||v=='_'):false))
+                                (filter===true?i.charAt(0)=='_':typeof filter=='function'?false===filter.call(x,x[i],i):0))
                                 continue;
                             if (f=T[typeof (v=x[i])])
-                                if (typeof (v=f(v,dateformat,filter,deep+1))==S)
+                                if (typeof (v=f(v,filter,dateformat,deep+1))==S)
                                     b[b.length] = T.string(i) + ':' + v;
                         }
                         a[2]='}';
@@ -1912,8 +1919,9 @@ new function(){
     T[F]=function(x){return x.$path?x.$path:String(x)};
 
     //serialize object to string (bool/string/number/array/hash/simple function)
-    _.serialize = function (obj,dateformat,filter){
-        return T[typeof obj](obj,dateformat,filter)||'';
+    _.serialize = function (obj,filter,dateformat){
+        max=0;
+        return T[typeof obj](obj,filter,dateformat)||'';
     };
     //unserialize string to object
     _.unserialize = function(str, dateformat){

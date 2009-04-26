@@ -2,6 +2,13 @@ _.set(linb.Locale,["en","app"], {
     en:'English',
     cn:'Chinese',
     apititle:"jsLINB 2.1 - API Documentation",
+    
+    lQ1:'Search API',
+    lQ2:'Search Description',
+    ciQ1a:'Begins with',
+    ciQ1b:'Ends with',
+    ciQ1c:'Any Match',
+    
     staticMethods:"Static Methods",
     staticProperties:"Static Properties",
     gFun:'Global Function',
@@ -158,12 +165,13 @@ _.set(linb.Locale,["en","doc"], {
             $rtn:"Cloned object",
             $paras:[
                 "hash [Required]: Object, target object to clone.",
-                "fun [Optional]: Function, arguments: [hash value, hash key]. to Determines whether or not it clones certain item.",
+                "filter [Optional]: Function, arguments: [hash value, hash key]. to Determines whether or not it clones certain item. Or [true], means to neglect those items which key starts with '_'.",
                 "deep [Optional]: Number, default is 100."
             ],
             $snippet:[
                 "var a=1, b='s'; alert(_.clone(a)); alert(_.clone(b));",
                 "var o={a:1,b:{b:{c:2}}}; alert(_.serialize(_.clone(o))); alert(_.serialize(_.clone(o,function(o,i){return i!='c'}))); ",
+                "var o={a:1,_b:2,$c:3}; alert(_.serialize(_.clone(o,true)));",
                 "var o=['1','2','3']; alert(_.serialize(_.clone(o))); alert(_.serialize(_.clone(o,function(o){return o!='2'}))); "
             ]
         },
@@ -172,7 +180,7 @@ _.set(linb.Locale,["en","doc"], {
             $rtn:"Copied object",
             $paras:[
                 "hash [Required]: Object, target object to copy.",
-                "fun [Optional]: Function, to Determines whether or not it clones certain item."
+                "filter [Optional]: Function, arguments: [hash value, hash key]. to Determines whether or not it copy certain item. Or [true], means to neglect those items which key starts with '_'.",
             ],
             $memo:"Sees <a href='#_.clone'>_.clone</a>"
         },
@@ -213,8 +221,7 @@ _.set(linb.Locale,["en","doc"], {
             $rtn:"the object",
             $paras:[
                 "obj [Required]: Object, object to filter.",
-                "fun [Required]: Function, filter function.",
-                "scope [Optional]: Object, [this] pointer for [fun].",
+                "filter [Optional]: Function, arguments: [hash value, hash key]. to Determines whether or not it keeps certain item. Or [true], means to filter those items which key starts with '_'.",
                 "force [Optional]: Bool, force to take [obj] as a {}. Default is false."
             ],
             $snippet:[
@@ -447,12 +454,14 @@ _.set(linb.Locale,["en","doc"], {
             $rtn: "String",
             $paras:[
                 "obj [Required]: Object, target object. ",
+                 "filter [Optional]: Function, arguments: [hash value, hash key]. to Determines whether or not it serializes certain item. Or [true], means to neglect those items which key starts with '_'.",
                 "dateformat  [Optional]: String, 'utc' or 'gmt'. Force to serialize all the [Date]in the target object into ISO UTC string, ISO GMT string, or the default format( new Date(yyyy,mm,dd,hh,nn,ss,ms) )."
             ],
             $snippet:[
                 "alert(_.serialize('a'));"+
                 "alert(_.serialize({a:1}));"+
                 "alert(_.serialize([1,2,{a:1}]));"+
+                "alert(_.serialize([1,2,{_a:1}],true));"+
                 "alert(_.serialize({d:new Date}));"+
                 "alert(_.serialize({d:new Date},'utc'))",
                 "alert(_.serialize({d:new Date},'gmt'))",
@@ -3779,7 +3788,7 @@ _.set(linb.Locale,["en","doc","linb","Template"], {
             ]
         },
         getItem:{
-            $des:"To get item data from a dom element.",
+            $desc:"To get item data from a dom element.",
             $rtn:"Oject",
             $paras:[
                 "src [Required] : Dom element"
@@ -4263,7 +4272,7 @@ _.set(linb.Locale,["en","doc","linb","Com"], {
             ]
         },
         getHost:{
-            $des:"Gets the host object.",
+            $desc:"Gets the host object.",
             $rtn:"Object",
             $snippet:[
                 "linb.SC('App.Test1',function(){var com=new this; com.create(function(com){com.setHost(window,'com_alias'); alert(com.getHost()===window); alert(window.com_alias)});},false);"
@@ -8459,6 +8468,54 @@ _.set(linb.Locale,["en","doc","linb","UI","ComboInput"], {
                 "var id='linb.temp.ci18'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var o1,o2;linb(id).prepend(o1=new linb.UI.ComboInput({position:'relative',type:'spin'}));"+
                 "_.asyRun(function(){o1.setMax(2);alert(o1.getMax())},1000)"+
+                "}"
+            ]
+        },
+        getImage :{
+            $desc:"Gets the command button's image url",
+            $rtn:"String",
+            $snippet:[
+                "var id='linb.temp.ci18'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var o1;linb(id).prepend(o1=new linb.UI.ComboInput({position:'relative',type:'cmdbox'}));"+
+                "_.asyRun(function(){o1.setImage('img/img.gif'); alert(o1.getImage())},1000)"+
+                "}"
+            ]
+        },
+        setImage :{
+            $desc:"Sets the command button's image url, and reflects the value to UI.",
+            $rtn:"[self]",
+            $paras:[
+                "value [Required] :String,  image path.",
+                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+            ],
+            $snippet:[
+                "var id='linb.temp.ci19'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var o1;linb(id).prepend(o1=new linb.UI.ComboInput({position:'relative',type:'cmdbox'}));"+
+                "_.asyRun(function(){o1.setImage('img/img.gif'); alert(o1.getImage())},1000)"+
+                "}"
+            ]
+        },
+        getImagePos :{
+            $desc:"Gets command button's image position",
+            $rtn:"String",
+            $snippet:[
+                "var id='linb.temp.ci20'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var o1;linb(id).prepend(o1=new linb.UI.ComboInput({position:'relative',type:'cmdbox'}));"+
+                "_.asyRun(function(){o1.setImage('img/img.gif').setImagePos('left -16px'); alert(o1.getImagePos())},1000)"+
+                "}"
+            ]
+        },
+        setImagePos :{
+            $desc:"Sets command button's image position, and reflects the value to UI.",
+            $rtn:"[self]",
+            $paras:[
+                "value [Required] : String, corresponding CSS value.",
+                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+            ],
+            $snippet:[
+                "var id='linb.temp.ci21'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var o1;linb(id).prepend(o1=new linb.UI.ComboInput({position:'relative',type:'cmdbox'}));"+
+                "_.asyRun(function(){o1.setImage('img/img.gif').setImagePos('left -16px'); alert(o1.getImagePos())},1000)"+
                 "}"
             ]
         },
@@ -12759,12 +12816,15 @@ _.set(linb.Locale,["en","doc","linb","UI","TreeGrid"], {
         },
         getRows :{
             $desc:"Gets the all rows of this grid",
+            $paras:[
+                "type [Optional] : String. 'data': get rows' data; 'min': get rows' min data; else, return the memory one."
+            ],
             $rtn:"object",
             $snippet:[
                 "var id='linb.temp.grid32'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var o=new linb.UI.TreeGrid({editable:false, position:'relative'});"+
                 "linb.Ajax('App/js/grid.js','',function(s){var hash=_.unserialize(s);o.setHeader(hash.header).setRows(hash.rows);},null,null,{asy:false}).start();"+
-                "_.asyRun(function(){o.setRows([{id : 'row_1',cells:['cell_1',1,true,'label1']},{id : 'row_11',cells:['cell_11',1,true,'label1']}]); alert(o.getRows().length)});"+
+                "_.asyRun(function(){o.setRows([{id : 'row_1',cells:['cell_1',1,true,'label1']},{id : 'row_11',cells:['cell_11',1,true,'label1']}]); alert(o.getRows().length); alert(_.serialize(o.getRows('data'))); alert(_.serialize(o.getRows('min')))});"+
                 "linb(id).prepend(o);"+
                 "}"
             ]
@@ -12787,12 +12847,17 @@ _.set(linb.Locale,["en","doc","linb","UI","TreeGrid"], {
         },
         getHeader :{
             $desc:"Get grid header object",
+            $paras:[
+                "type [Optional] : String. 'data': get header's data; 'min': get header's min data; else, return the memory one."
+            ],
             $rtn:"object",
             $snippet:[
                 "var id='linb.temp.grid34'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var o=new linb.UI.TreeGrid({editable:false, position:'relative'});"+
                 "linb.Ajax('App/js/grid.js','',function(s){var hash=_.unserialize(s);o.setHeader(hash.header).setRows(hash.rows);},null,null,{asy:false}).start();"+
                 "_.asyRun(function(){alert(o.getHeader().length)});"+
+                "_.asyRun(function(){alert(_.serialize(o.getHeader('data')))});"+
+                "_.asyRun(function(){alert(_.serialize(o.getHeader('min')))});"+
                 "linb(id).prepend(o);"+
                 "}"
             ]

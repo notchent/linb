@@ -263,7 +263,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
         _.merge(t.FRAME.BORDER,{
             SBTN:{
                 $order:5,
-                style:"{saveDisplay}",
+                style:"{_saveDisplay}",
                 STOP:{},
                 SMID:{}
             }
@@ -647,6 +647,18 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                     self.boxing().clearPopCache();
                 }
             },
+            image:{
+                action: function(value){
+                    this.getSubNode('MID')
+                        .css('backgroundImage','url('+(value||'')+')');
+                }
+            },
+            imagePos:{
+                action: function(value){
+                    this.getSubNode('MID')
+                        .css('backgroundPosition', value);
+                }
+            },
             readonly:{
                 ini:false,
                 action:function(v){
@@ -746,10 +758,10 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                 default:
                     t.BTN={
                         $order:4,
-                        style:"{popbtnDisplay}",
+                        style:"{_popbtnDisplay}",
                         TOP:{},
                         MID:{
-                            style:'{typePos}'
+                            style:'{_btnStyle}'
                         }
                     };
                 }
@@ -763,10 +775,10 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
             var data=arguments.callee.upper.call(this, profile),
                 map=profile.box._posMap;
             if(map[data.type])
-                data.typePos = 'background-position:'+map[data.type];
+                data._btnStyle = data.image? ('background: url('+data.image+')' + (data.imagePos||'')) :('background-position:'+map[data.type]);
 
-            data.saveDisplay = data.saveBtn?'':'display:none';
-            data.popbtnDisplay = data.type!='none'?'':'display:none';
+            data._saveDisplay = data.saveBtn?'':'display:none';
+            data._popbtnDisplay = data.type!='none'?'':'display:none';
             return data;
         },
         _ensureValue:function(profile, value){

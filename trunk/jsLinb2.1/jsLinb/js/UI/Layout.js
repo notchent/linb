@@ -6,6 +6,10 @@ Class("linb.UI.Layout",["linb.UI", "linb.absList"],{
         append:function(target, subId){
             var pro=this.get(0);
             return arguments.callee.upper.call(this, target, subId||'main');
+        },
+        fireCmdClickEvent:function(subId){
+            this.getSubNodeByItemId('CMD', subId).onMousedown();
+            return this;
         }
     },
     Static:{

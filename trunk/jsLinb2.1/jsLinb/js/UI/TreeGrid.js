@@ -134,6 +134,37 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                 this.insertRows(rows);
             profile.box._ajdustBody(profile);
         },
+        /*
+        type: original, data, arr
+        */
+        getRows:function(type){
+            var v=this.get(0).properties.rows;
+            if(type=='data')
+                return _.clone(v,true);
+            else if(type=='min'){
+                var a=_.clone(v,true),b;
+                _.arr.each(a,function(o,i){
+                    _.each(b=a[i]=a[i].cells,function(v,j){
+                        b[j] = (typeof v=='object' && 'value' in v) ? v.value : v;
+                    });
+                });
+                return a;
+            }else
+                return v;
+        },
+        getHeader:function(type){
+            var v=this.get(0).properties.header;
+            if(type=='data')
+                return _.clone(v,true);
+            else if(type=='min'){
+                var a=_.clone(v,true),b;
+                _.arr.each(a,function(o,i){
+                    a[i]=o.id
+                });
+                return a;
+            }else
+                return v;
+        },
         //pid,base are id
         insertRows:function(arr, pid, base ,before){
             var c=this.constructor, profile=this.get(0), pro=profile.properties, row_m=profile.rowMap2, t;

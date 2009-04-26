@@ -2400,11 +2400,11 @@ Class("linb.UI",  "linb.absObj", {
                         getPanelChildren:function(){
                             return this.get(0).children;
                         },
-                        e1:function(profile, item, e, src, type){},
-                        e2:function(profile, key, control, shift, alt, e, src){},
-                        e3:function(profile, e, shift, src){},
-                        e4:function(profile, e, src, key, data, item){},
-                        e5:function(profile, e, src){}
+                        _e1:function(profile, item, e, src, type){},
+                        _e2:function(profile, key, control, shift, alt, e, src){},
+                        _e3:function(profile, e, shift, src){},
+                        _e4:function(profile, e, src, key, data, item){},
+                        _e5:function(profile, e, src){}
                     },
                     Static:{
                         DataModel:{
@@ -2426,7 +2426,7 @@ Class("linb.UI",  "linb.absObj", {
                         t.afterMouseout = f(o,'mouseout', 2);
                     }
                 });
-                hls.beforeHoverEffect=src.e1;
+                hls.beforeHoverEffect=src._e1;
             }
             if(hash.ClickEffected){
                 _.each(hash.ClickEffected,function(o,i){
@@ -2438,7 +2438,7 @@ Class("linb.UI",  "linb.absObj", {
                         t.afterMouseup = f(o,'mouseup', 2);
                     }
                 });
-                hls.beforeClickEffect=src.e1;
+                hls.beforeClickEffect=src._e1;
             }
             //for onHotKey
             if(hash.KeyHook){
@@ -2462,7 +2462,7 @@ Class("linb.UI",  "linb.absObj", {
                         }
                     }
                 },'all');
-                hls.onHotKeydown=hls.onHotKeypress=hls.onHotKeyup=src.e2;
+                hls.onHotKeydown=hls.onHotKeypress=hls.onHotKeyup=src._e2;
             }
             //for focus action
             if(hash.NavKeys){
@@ -2518,7 +2518,7 @@ Class("linb.UI",  "linb.absObj", {
                         }
                     }
                 });
-                hls.beforeNextFocus=src.e3;
+                hls.beforeNextFocus=src._e3;
             }
             if((t=hash.DropableKeys) && t.length){
                 _.arr.each(t,function(o){
@@ -2530,7 +2530,7 @@ Class("linb.UI",  "linb.absObj", {
                     if(!t[o])t[o]=src[o];
                 });
                 self.$DataModel.dropKeys=self.$DataStruct.dropKeys='';
-                hls.onDragEnter=hls.onDragLeave=hls.onDrop=hls.onDropTest=hls.onDropMarkShow=hls.onDropMarkClear=src.e4;
+                hls.onDragEnter=hls.onDragLeave=hls.onDrop=hls.onDropTest=hls.onDropMarkShow=hls.onDropMarkClear=src._e4;
             }
             if((t=hash.DragableKeys)&& t.length){
                 _.arr.each(t,function(o){
@@ -2541,7 +2541,7 @@ Class("linb.UI",  "linb.absObj", {
                     if(!t[o])t[o]=src[o];
                 });
                 self.$DataModel.dragKey=self.$DataStruct.dragKey='';
-                hls.onGetDragData=hls.onStartDrag=hls.onDragStop=src.e5;
+                hls.onGetDragData=hls.onStartDrag=hls.onDragStop=src._e5;
             }
             self.setEventHandlers(hls);
         },
@@ -3586,7 +3586,7 @@ Class("linb.absList", "linb.absObj",{
                             node.html(ss);
                     }else{
                         r = _.str.toDom(ss);
-                        node=profile.getSubNodeByItemId(box.ITEMKEY || 'ITEM', base);
+                        node=profile.getSubNodeByItemId(box._ITEMKEY || 'ITEM', base);
                         if(before===true)
                             node.addPrev(r);
                         else

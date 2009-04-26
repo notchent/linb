@@ -29,7 +29,7 @@ Class("linb.UI.RadioBox", "linb.UI.List",{
         this.setTemplate(t);
     },
     Static:{
-        DIRTYKEY:'MARK',
+        _DIRTYKEY:'MARK',
         Appearances:{
             ITEM:{
                display:linb.$inlineBlock,

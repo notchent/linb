@@ -7,8 +7,8 @@ Class("linb.UI.List", ["linb.UI", "linb.absList","linb.absValue" ],{
                 var box=profile.box,
                     uiv=profile.boxing().getUIValue(),
                     p=profile.properties,
-                    item=box.ITEMKEY || 'ITEM',
-                    k=box.DIRTYKEY || 'ITEM',
+                    item=box._ITEMKEY || 'ITEM',
+                    k=box._DIRTYKEY || 'ITEM',
                     getN=function(k,i){return profile.getSubNode(k,i)},
                     getI=function(i){return profile.getSubIdByItemId(i)};
                 if(p.selMode=='single'){
@@ -85,7 +85,7 @@ Class("linb.UI.List", ["linb.UI", "linb.absList","linb.absValue" ],{
         }
     },
     Static:{
-        DIRTYKEY:'ITEM',
+        _DIRTYKEY:'ITEM',
         Templates:{
             tagName : 'div',
             style:'{_style}',
@@ -213,7 +213,9 @@ Class("linb.UI.List", ["linb.UI", "linb.absList","linb.absValue" ],{
                             value = arr.join(';');
 
                             //update string value only for setCtrlValue
-                            if(box.getUIValue() != value){
+                            if(box.getUIValue() == value)
+                                rt=false;
+                            else{
                                 box.setUIValue(value);
                                 if(box.getUIValue() == value)
                                     rt=box.onItemSelected(profile, item, src)||rt2;

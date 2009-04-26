@@ -1,45 +1,43 @@
 Class('App', 'linb.Com',{
-        Initialize:function(){
-            var arr=[];
+    Initialize:function(){
+        var arr=[];
 
-            arr.push('.ccss-item{text-decoration: line-through;}');
+        arr.push('.ccss-item{text-decoration: line-through;}');
 
-            arr.push('h1{margin:10px 2px 2px 10px; padding-bottom:10px; font: bold 24px "Trebuchet MS","Lucida Grande",Verdana,sans-serif; color: #D00000; border-bottom: 1px dashed #aca899;}');
-            arr.push('h2{margin:10px 2px 10px 2px; font: bold 18px "Trebuchet MS","Lucida Grande",Verdana,sans-serif;  color:#134275; border-bottom: 1px dashed #aca899;}');
-            arr.push('h2.notice{color:#000}');
-            arr.push('h2.inherite{color:#D2691E}');
-            arr.push('h3{margin:10px 2px 10px 2px; font: bold 16px Bookman Old Style, Helvetica, sans-serif; color: #4C4B43; border-bottom: 1px dashed #aca899;}');
-            arr.push('h4{position:relative;padding-left:20px;font: bold 12px "Trebuchet MS","Lucida Grande",Verdana,sans-serif;background:#F9FFE9;}');
-            arr.push('.totop{position:absolute;padding-left:3px;padding-right:3px;left:4px;top:4px;}');
+        arr.push('h1{margin:10px 2px 2px 10px; padding-bottom:10px; font: bold 24px "Trebuchet MS","Lucida Grande",Verdana,sans-serif; color: #D00000; border-bottom: 1px dashed #aca899;}');
+        arr.push('h2{margin:10px 2px 10px 2px; font: bold 18px "Trebuchet MS","Lucida Grande",Verdana,sans-serif;  color:#134275; border-bottom: 1px dashed #aca899;}');
+        arr.push('h2.notice{color:#000}');
+        arr.push('h2.inherite{color:#D2691E}');
+        arr.push('h3{margin:10px 2px 10px 2px; font: bold 16px Bookman Old Style, Helvetica, sans-serif; color: #4C4B43; border-bottom: 1px dashed #aca899;}');
+        arr.push('h4{position:relative;padding-left:20px;font: bold 12px "Trebuchet MS","Lucida Grande",Verdana,sans-serif;background:#F9FFE9;}');
+        arr.push('.totop{position:absolute;padding-left:3px;padding-right:3px;left:4px;top:4px;}');
 
-            arr.push('.linb-custom-block{margin:2px 2px 2px 18px;display:none;}');
-            arr.push('.linb-custom-icon{margin:2px;width:16px;height:16px;background-image:url(img/img.gif);vertical-align: bottom;}');
+        arr.push('.linb-custom-block{margin:2px 2px 2px 18px;display:none;}');
+        arr.push('.linb-custom-icon{margin:2px;width:16px;height:16px;background-image:url(img/img.gif);vertical-align: bottom;}');
 
-            arr.push('.inndiv {margin:3px;}');
-            arr.push('.inndiv li{padding-left:20px;}');
-            
-            arr.push('.required{color:red;}');
+        arr.push('.inndiv {margin:3px;}');
+        arr.push('.inndiv li{padding-left:20px;}');
 
-            arr.push('.linb-custom-block .p{margin:2px;border: 1px solid #E9D3F4;position:relative;}');
-            arr.push('.linb-custom-block .con{display:none;padding:8px; font: 12px "Trebuchet MS","Lucida Grande",Verdana,sans-serif;background:#FFF;border-top: 1px solid #E9D3F4;}');
+        arr.push('.required{color:red;}');
 
-            arr.push('.linb-custom-list{background:#E5ECF9;border:1px solid #3366CC;margin:2px;padding:5px;}');
+        arr.push('.linb-custom-block .p{margin:2px;border: 1px solid #E9D3F4;position:relative;}');
+        arr.push('.linb-custom-block .con{display:none;padding:8px; font: 12px "Trebuchet MS","Lucida Grande",Verdana,sans-serif;background:#FFF;border-top: 1px solid #E9D3F4;}');
 
-            arr.push('.linb-custom-list a{text-decoration: underline;}');
+        arr.push('.linb-custom-list{background:#E5ECF9;border:1px solid #3366CC;margin:2px;padding:5px;}');
 
-            arr.push('.linb-custom-cmd{cursor:pointer;margin:2px;width:16px;height:16px;line-height:0;font-size:0;background-image:url(img/img.gif)}');
+        arr.push('.linb-custom-list a{text-decoration: underline;}');
 
-            linb.CSS.addStyleSheet(arr.join(''),'',true);
-            
-            //dont want to show original function code
-            _.id.$auto$=1;
+        arr.push('.linb-custom-cmd{cursor:pointer;margin:2px;width:16px;height:16px;line-height:0;font-size:0;background-image:url(img/img.gif)}');
 
-        },
-        Instance:{
-        $S_CLS:{'Namespace':1,'Class':1,'_':1,'_.fun':1,'_.arr':1,'_.str':1,'linb':1},
-        $CLS_FUN:{'Namespace':1,'Class':1,'_':1,'_.fun':1,'linb':1,'linb.Thread':1,'linb.Ajax':1,'linb.SAjax':1,'linb.IAjax':1,'linb.SC':1},
-        $CLS_STATIC:{'_.fun':1,'linb':1,'linb.Thread':1,'linb.Ajax':1,'linb.SAjax':1,'linb.IAjax':1,'linb.SC':1,'linb.Event':1,'linb.DragDrop':1,'linb.CSS':1,'linb.History':1,'linb.Cookies':1,'linb.ComFactory':1,'linb.Debugger':1,'linb.Date':1,'linb.Tips':1,'linb.Coder':1,'linb.XML':1},
-        events:{onRender:'_onrender'},
+        linb.CSS.addStyleSheet(arr.join(''),'',true);
+
+        //dont want to show original function code
+        _.id.$auto$=1;
+
+    }, 
+    Instance:{
+
+        events:{onRender:'_onrender'}, 
         _onrender:function(){
             SPA=this;
             SPA.btnLang.setCaption(linb.getRes('app.'+linb.getLang()));
@@ -98,7 +96,7 @@ Class('App', 'linb.Com',{
                         id4=str;
                     }
                 }
- 
+
 
                 if(id1){
                     if(SPA._curId!=id1){
@@ -130,11 +128,11 @@ Class('App', 'linb.Com',{
                             SPA.divHead.getRoot().scrollTop(linb(id4).offset(null,SPA.divHead.getRoot()).top);
                         });
                 }
-            });            
-        },
+            });
+        }, 
         showCode:function(e, key){
-            var txt = linb.getRes('app.oCodeDesc') + 
-                      key + ' = ' + 
+            var txt = linb.getRes('app.oCodeDesc') +
+                      key + ' = ' +
                       linb.SC(key).toString();
             txt = linb.Coder.formatAll(txt, 'js', ['plain']);
             var node=linb.create("<div style='visibiliy:hidden;left:-10000px;width:600px;background:#fff;border:solid 1px #aaa;overflow:auto;'>"+txt+"</div>");
@@ -150,23 +148,26 @@ Class('App', 'linb.Com',{
             });
 
             return false;
-        },
+        }, 
         iniComponents:function(){
             // [[code created by jsLinb UI Builder
             var host=this, children=[], append=function(child){children.push(child.get(0))};
-
+            
             append((new linb.UI.PopMenu)
                 .host(host,"popLang")
                 .setItems([{"id":"en", "caption":"$app.en"}, {"id":"cn", "caption":"$app.cn"}])
                 .onMenuSelected("_pop_onmenuselected")
             );
-
-
-            append((new linb.UI.Block)
-                .host(host,"paneTop")
-                .setDock("top")
-                .setHeight("38")
+            
+            append((new linb.UI.Layout)
+                .host(host,"layoutR")
+                .setItems([{"id":"top", "pos":"before", "size":40, "locked":true, "hide":false, "cmd":false, "min":10, "caption":"top"}, {"id":"top2", "pos":"before", "size":120, "hide":false, "locked":false, "cmd":true, "min":50, "caption":"top2"}, {"id":"main", "min":200, "caption":"main"}])
             );
+            
+            host.layoutR.append((new linb.UI.Block)
+                .host(host,"paneTop")
+                .setDock("fill")
+            , 'top');
             
             host.paneTop.append((new linb.UI.Label)
                 .host(host,"labelName")
@@ -174,42 +175,137 @@ Class('App', 'linb.Com',{
                 .setTop(10)
                 .setWidth(270)
                 .setCaption("$app.apititle")
+                .setHAlign("left")
                 .setFontSize("16px")
                 .setFontWeight("bold")
-                .setHAlign('left')
             );
             
             host.paneTop.append((new linb.UI.Button)
                 .host(host,"btnLang")
                 .setDomId("btnLang")
                 .setTop(10)
-                .setWidth("80")
-                .setRight("10")
+                .setWidth(80)
+                .setRight(10)
+                .setCaption("btnLang")
                 .setType("drop")
-                .onClickDrop("_butlang_onclickdrop")
                 .onClick("_butlang_onclickdrop")
+                .onClickDrop("_butlang_onclickdrop")
             );
-
-            append((new linb.UI.Layout)
+            
+            host.layoutR.append((new linb.UI.Block)
+                .host(host,"blockQ")
+                .setDock("fill")
+                .setZIndex(100)
+            , 'top2');
+            
+            host.blockQ.append((new linb.UI.Div)
+                .host(host,"divQ")
+                .setWidth("auto")
+                .setHeight("auto")
+                .setPosition("relative")
+            );
+            
+            host.blockQ.append((new linb.UI.List)
+                .host(host,"listQ")
+                .setDirtyMark(false)
+                .setDock("fill")
+                .setSelMode("none")
+                .setValue("")
+                .onItemSelected("_listq_onitemselected")
+                .setCustomStyle({"ITEM":"padding:0 12px"})
+            );
+            
+            host.blockQ.append((new linb.UI.Block)
+                .host(host,"block20")
+                .setDock("bottom")
+                .setHeight(32)
+                .setBorderType("groove")
+            );
+            
+            host.block20.append((new linb.UI.PageBar)
+                .host(host,"pbQ")
+                .setTop(2)
+                .setRight(10)
+                .setCaption("")
+                .onClick("_pbq_onclick")
+            );
+            
+            host.block20.append((new linb.UI.Pane)
+                .host(host,"pane4")
+                .setLeft(1)
+                .setTop(3)
+                .setWidth(590)
+                .setHeight(23)
+            );
+            
+            host.pane4.append((new linb.UI.SLabel)
+                .host(host,"lQ1")
+                .setLeft(10)
+                .setTop(3)
+                .setWidth(94)
+                .setCaption("$app.lQ1")
+            );
+            
+            host.pane4.append((new linb.UI.Input)
+                .host(host,"iQ1")
+                .setDirtyMark(false)
+                .setLeft(220)
+                .setTop(0)
+                .setWidth(100)
+                .setDynCheck(true)
+                .beforeFormatCheck("_iq1_afteruivalueset")
+            );
+            
+            host.pane4.append((new linb.UI.SLabel)
+                .host(host,"lQ2")
+                .setLeft(330)
+                .setTop(3)
+                .setWidth(130)
+                .setCaption("$app.lQ2")
+            );
+            
+            host.pane4.append((new linb.UI.Input)
+                .host(host,"iQ2")
+                .setDirtyMark(false)
+                .setLeft(470)
+                .setTop(0)
+                .setWidth(110)
+                .setDynCheck(true)
+                .beforeFormatCheck("_iq2_afteruivalueset")
+            );
+            
+            host.pane4.append((new linb.UI.ComboInput)
+                .host(host,"ciQ1")
+                .setLeft(110)
+                .setTop(0)
+                .setWidth(110)
+                .setReadonly(true)
+                .setType("listbox")
+                .setItems([{"id":"a", "caption":"$app.ciQ1a"}, {"id":"b", "caption":"$app.ciQ1b"}, {"id":"c", "caption":"$app.ciQ1c"}])
+                .setValue("a")
+                .beforeUIValueSet("_ciq1_beforeuivalueset")
+            );
+            
+            host.layoutR.append((new linb.UI.Layout)
                 .host(host,"mainLayout")
                 .setItems([{"id":"before", "pos":"before", "locked":false, "size":240, "min":100, "max":400, "hide":false, "cmd":true, "caption":"before"}, {"id":"main", "min":10, "caption":"main"}])
                 .setType("horizontal")
-            );
+            , 'main');
             
             host.mainLayout.append((new linb.UI.TreeBar)
                 .host(host,"objTree")
                 .onRender("_objtree_aftercreated")
-            ,'before');
+            , 'before');
             
             host.mainLayout.append((new linb.UI.Div)
                 .host(host,"divHead")
                 .setDock("fill")
                 .setCustomStyle({"KEY":"overflow:auto;"})
             , 'main');
-
+            
             return children;
             // ]]code created by jsLinb UI Builder
-        },
+        }, 
         _pop_onmenuselected:function (profile, item, src) {
             if(linb.getLang()==item.id)return;
 
@@ -222,11 +318,11 @@ Class('App', 'linb.Com',{
                     linb.History._callback(s);
                 }
             });
-        },
+        }, 
         _butlang_onclickdrop:function(profile, e, src) {
             SPA.popLang.refresh();
             SPA.popLang.pop(src);
-        },
+        }, 
         _objtree_aftercreated:function (profile) {
             var items=[
                 {id:'Namespace', href:'#Namespace', caption:'Namespace', image:'img/img.gif', imagePos:'left -48px'},
@@ -241,7 +337,7 @@ Class('App', 'linb.Com',{
                     for(var i in o)
                         if('prototype'!=i && 'constructor' != i&& 'upper' !=i)
                             if(typeof o[i]=='function'&& o[i].$linb$){
-                                
+
                                 temp={id:id+'.'+i, href:'#'+id+'.'+i, caption:id+'.'+i, image:'img/img.gif',imagePos:ref._iconPosMap['cls']};
                                 if(typeof linb.getRes('doc.'+id+'.'+i)!='object')
                                     temp.itemClass='ccss-item';
@@ -265,29 +361,29 @@ Class('App', 'linb.Com',{
             }
 
             o=items[3];
-            sub=o.sub; 
-            id='linb'; 
+            sub=o.sub;
+            id='linb';
             o.sub=getClass(linb, self, id);
 
             profile.boxing().setItems(items);
-        },
+        }, 
         _getFunArgs:function(f,i){
             with (''+(i?f[i]:f)) return (i||'') + ' ( ' + slice(indexOf("(") + 1, indexOf(")")) + ' )';
-        },
+        }, 
         _getItem:function(pos, head, key, okey, flag){
             var con = this.getDoc(key),t;
             okey=okey||key;
             //for IE :  getElementById, name property has priority over id property.
-            return '<a name="'+okey+'"></a> <div class="p"> <h4 id="'+okey+'_">' + 
-                    (con?'<span class="linb-custom-icon" style="background-position:' +pos+';"></span>':'') + 
+            return '<a name="'+okey+'"></a> <div class="p"> <h4 id="'+okey+'_">' +
+                    (con?'<span class="linb-custom-icon" style="background-position:' +pos+';"></span>':'') +
                     head +
-                    (flag !==false?((t=linb.SC(key)).$linb$||t.$auto$ ?"":'<a href="javascript:;" onclick="return SPA.showCode(event,\''+key+'\');">&nbsp;&nbsp;&nbsp;&nbsp;['+linb.getRes('app.oCode')+']</a>'):"") + 
-                    '</h4>' + 
-                    (con?'<div class="con">'+con+'</div>':"") + 
+                    (flag !==false?((t=linb.SC(key)).$linb$||t.$auto$ ?"":'<a href="javascript:;" onclick="return SPA.showCode(event,\''+key+'\');">&nbsp;&nbsp;&nbsp;&nbsp;['+linb.getRes('app.oCode')+']</a>'):"") +
+                    '</h4>' +
+                    (con?'<div class="con">'+con+'</div>':"") +
                     (flag!==false?'<a class="totop" href="#'+okey+'._list"> ^ </a>':'')+
                     '</div>'
                     ;
-        },
+        }, 
         _format:function(obj){
             var key=obj.key,
                 dot=".",
@@ -450,7 +546,7 @@ Class('App', 'linb.Com',{
               arr.push('<h3 id="'+_.id()+'"> ==== Abstract Virtual Class or Inner Class ==== </h3>');
 
             return arr.join('');
-        },
+        }, 
         _iconPosMap:{
             cls:'left -16px',
             con:'left -145px',
@@ -461,7 +557,7 @@ Class('App', 'linb.Com',{
             event:'left -32px',
             close:'left -160px',
             open: 'left -176px'
-        },
+        }, 
         _parse:function(id){
             var o = linb.SC.get(id), cls, key, obj={},filter=function(s,o){
                 var me=arguments.callee, h=me.h||(me.h={upper:1,Constructor:1,Before:1,After:1,prototype:1}),
@@ -511,7 +607,7 @@ Class('App', 'linb.Com',{
                             }
                         }
                     }
-                    
+
                     o=o.prototype;
                     for(var i in o){
                         if(filter(i,o[i])){
@@ -541,7 +637,7 @@ Class('App', 'linb.Com',{
                             }
                         }
                     }
-                    
+
                     //add linb.Com event
                     if(o.KEY=='linb.Com'){
                         if(!obj.events)obj.events={};
@@ -574,7 +670,7 @@ Class('App', 'linb.Com',{
                 }
             }
             return  obj ;
-        },
+        }, 
         _clickForToggle:function(p,e,s,n){
             var f=SPA._clickForToggle,ff=SPA._clickForLoca, ics=SPA._iconPosMap, ths=linb([this]);
             if(linb.Event.getSrc(e).nodeName=='A')return;
@@ -598,7 +694,7 @@ Class('App', 'linb.Com',{
             }
             a.css('display', (b=a.css('display')=='none')?'block':'none' );
             ths.first().css('backgroundPosition', b?ics.open:ics.close);
-        },
+        }, 
         _clickForLoca:function(){
             var a=this,
                 id = a.href.split('#')[1],
@@ -607,14 +703,87 @@ Class('App', 'linb.Com',{
                 node.animate({opacity:[0,1]}, 0,0, 2000, 20).start();
                 if(node.next().css('display')=='none')node.onClick();
             }
-        },
+        }, 
+        _ciq1_beforeuivalueset:function (profile, oldValue, newValue) {
+            profile.boxing().updateValue();
+            SPA.Q1type=newValue;
+
+            SPA.RefreshQ();
+        }, 
+        _iq1_afteruivalueset:function (profile,v) {
+            _.resetRun('__a__',function(){
+                SPA.RefreshQ(1,v,SPA.Q1type);
+            },500);
+        }, 
+        _iq2_afteruivalueset:function (profile, v) {
+            _.resetRun('__a__',function(){
+                SPA.RefreshQ(2,v);
+            },500);
+        }, 
+
+        RefreshQ:function(type1,v,type2){
+            var pool;
+            if(!(pool=SPA.$api_pool))
+                pool=SPA.indexing();
+
+            if(!v){
+                    if(SPA.iQ1.getUIValue())
+                        SPA.iQ1.setValue('',true);
+                if(SPA.iQ2.getUIValue())
+                    SPA.iQ2.setValue('',true);
+
+                SPA.listQ.setItems([]);
+                SPA.pbQ.setValue('1:1:1');
+            }else{
+                var arr=[];
+                if(type1==1){
+                    if(SPA.iQ2.getUIValue())
+                        SPA.iQ2.setValue('',true);
+                    switch(type2){
+                        case 'b':
+                            _.each(pool,function(o,i){
+                                if(_.str.endWith(i,v))
+                                    arr.push({id:i,caption:i +' : '+o})
+                            });
+                        break;
+                        case 'c':
+                            _.each(pool,function(o,i){
+                                if(i.indexOf(v)!=-1)
+                                    arr.push({id:i,caption:i +' : '+o})
+                            });
+                        break;
+                        default:
+                            _.each(pool,function(o,i){
+                                if(_.str.startWith(i,v))
+                                    arr.push({id:i,caption:i +' : '+o})
+                            });
+                    }
+                }else{
+                    if(SPA.iQ1.getUIValue())
+                        SPA.iQ1.setValue('',true);
+                    var r=new RegExp(v);
+                    _.each(pool,function(o,i){
+                        if(r.test(o)){
+                            arr.push({id:i,caption:i +' : '+o})
+                        }
+                    });
+                }
+
+                SPA.$Qresult=arr;
+
+                SPA.listQ.setItems(arr.slice(0,20));
+                var page=Math.ceil(arr.length / 20);
+                SPA.pbQ.setValue('1:1:'+page);
+            }
+        }, 
+
         getDoc:function(key){
             if(!key)return '';
             var o = linb.getRes("doc."+key);
             if(typeof o == 'string')
                 return o;
             return this.buildDoc(o);
-        },
+        }, 
         buildDoc:function(o){
             var arr=[];
             if(o){
@@ -650,6 +819,65 @@ Class('App', 'linb.Com',{
                 }
             }
             return arr.join('');
-        }
+        }, 
+        base:[], 
+        required:["linb.UI.PopMenu", "linb.UI.Layout", "linb.UI.Block", "linb.UI.Pane", "linb.UI.SLabel", "linb.UI.Input", "linb.UI.ComboInput", "linb.UI.Label", "linb.UI.Button", "linb.UI.Div", "linb.UI.List", "linb.UI.TreeBar", "linb.UI.PageBar"], 
+        _listq_onitemselected:function (profile, item, src) {
+            linb.History.setFI(item.id);
+        }, 
+        _pbq_onclick:function (profile, page) {
+            var arr=SPA.$Qresult;
+            SPA.listQ.setItems(arr.slice(page*20, (page+1)*20));
+
+            profile.boxing().setPage(page);
+            return false;
+        }, $S_CLS:{'Namespace':1,'Class':1,'_':1,'_.fun':1,'_.arr':1,'_.str':1,'linb':1}, $CLS_FUN:{'Namespace':1,'Class':1,'_':1,'_.fun':1,'linb':1,'linb.Thread':1,'linb.Ajax':1,'linb.SAjax':1,'linb.IAjax':1,'linb.SC':1}, $CLS_STATIC:{'_.fun':1,'linb':1,'linb.Thread':1,'linb.Ajax':1,'linb.SAjax':1,'linb.IAjax':1,'linb.SC':1,'linb.Event':1,'linb.DragDrop':1,'linb.CSS':1,'linb.History':1,'linb.Cookies':1,'linb.ComFactory':1,'linb.Debugger':1,'linb.Date':1,'linb.Tips':1,'linb.Coder':1,'linb.XML':1}, 
+            
+indexing:function(){
+    var t,
+        doc=linb.Locale[linb.getLang()].doc,
+        map1={_:1,$:1},
+        map2={prototype:1,constructor:1,toString:1,valueOf:1,upper:1,Constructor:1,After:1,Before:1,KEY:1},
+        reg=/\./,
+        hash={},
+        getAPI=function(o,tag){
+            var k=o.KEY;
+            for(var i in o){
+                if(!map1[i.charAt(0)] && !map2[i] && !reg.test(i)){
+                    if(typeof o[i]=='function'&& o[i].$linb$)
+                        getAPI(o[i],tag+'.'+i);
+                    else{
+                        if(typeof (t=o[i])!='function' || !(t=t.$original$) || t==k)
+                            hash[tag+'.'+i]=1;
+                    }
+                }
+            }
+            o=o.prototype;
+            for(var i in o)
+                if(!map1[i.charAt(0)])
+                    if(typeof (t=o[i])=='function' && (!(t=t.$original$) || t==k))
+                        hash[tag+'.prototype.'+i]=1;
+        };
+    _.arr.each(['_','_.fun','_.str','_.arr','Class','Namespace','linb'],function(o,i){
+        hash[o]=1;
+        getAPI(linb.SC(o),o);
+    });
+    _.each(hash,function(o,i){
+        hash[i]=_.get(doc,(i+'.$desc').split('.'));
+        if(hash[i]&&hash[i].indexOf('<')!=-1)
+            hash[i]=hash[i].split('<')[0] + '...';
+    });
+
+
+    /*
+    var no={},l=0;
+    _.each(hash,function(o,i){
+        l++;
+        if(!o)no[i]=1;
+    });
+    */
+
+    return SPA.$api_pool=hash;
+}
     }
 });
