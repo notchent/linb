@@ -1420,7 +1420,7 @@ Class('VisualJS.Designer', 'linb.Com',{
                         }else{
                             var b;
                             if(page._map1[property]){
-                                value=String((value=='auto')?value:(parseFloat(value)||'auto'));
+                                value=String((value=='auto')?value:(parseFloat(value)===0?0:(parseFloat(value)||'auto')));
 
                                 //if the value changed in the process
                                 if(value!==hash.value){
