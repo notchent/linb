@@ -3,11 +3,10 @@ _.set(linb.Locale,["cn","app"], {
     cn:'中文',
     apititle:"jsLINB 2.1 - API 文档",
     
+    search:'API查询',
     lQ1:'按API查询',
     lQ2:'按功能描述查询',
-    ciQ1a:'开始于',
-    ciQ1b:'结尾于',
-    ciQ1c:'任意匹配',
+
     
     staticMethods:"静态方法",
     staticProperties:"静态属性",

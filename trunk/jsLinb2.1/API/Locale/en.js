@@ -3,11 +3,9 @@ _.set(linb.Locale,["en","app"], {
     cn:'Chinese',
     apititle:"jsLINB 2.1 - API Documentation",
     
+    search:'Search',
     lQ1:'Search API',
     lQ2:'Search Description',
-    ciQ1a:'Begins with',
-    ciQ1b:'Ends with',
-    ciQ1c:'Any Match',
     
     staticMethods:"Static Methods",
     staticProperties:"Static Properties",

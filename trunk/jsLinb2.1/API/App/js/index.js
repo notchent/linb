@@ -159,44 +159,24 @@ Class('App', 'linb.Com',{
                 .onMenuSelected("_pop_onmenuselected")
             );
             
-            append((new linb.UI.Layout)
-                .host(host,"layoutR")
-                .setItems([{"id":"top", "pos":"before", "size":40, "locked":true, "hide":false, "cmd":false, "min":10, "caption":"top"}, {"id":"top2", "pos":"before", "size":120, "hide":false, "locked":false, "cmd":true, "min":50, "caption":"top2"}, {"id":"main", "min":200, "caption":"main"}])
+            append((new linb.UI.Dialog)
+                .host(host,"dialog2")
+                .setTop(40)
+                .setWidth(420)
+                .setHeight(360)
+                .setRight(1)
+                .setZIndex(100)
+                .setResizer(false)
+                .setCaption("$app.search")
+                .setMaxBtn(false)
+                .setCloseBtn(false)
             );
             
-            host.layoutR.append((new linb.UI.Block)
-                .host(host,"paneTop")
-                .setDock("fill")
-            , 'top');
-            
-            host.paneTop.append((new linb.UI.Label)
-                .host(host,"labelName")
-                .setLeft(10)
-                .setTop(10)
-                .setWidth(270)
-                .setCaption("$app.apititle")
-                .setHAlign("left")
-                .setFontSize("16px")
-                .setFontWeight("bold")
-            );
-            
-            host.paneTop.append((new linb.UI.Button)
-                .host(host,"btnLang")
-                .setDomId("btnLang")
-                .setTop(10)
-                .setWidth(80)
-                .setRight(10)
-                .setCaption("btnLang")
-                .setType("drop")
-                .onClick("_butlang_onclickdrop")
-                .onClickDrop("_butlang_onclickdrop")
-            );
-            
-            host.layoutR.append((new linb.UI.Block)
+            host.dialog2.append((new linb.UI.Block)
                 .host(host,"blockQ")
                 .setDock("fill")
                 .setZIndex(100)
-            , 'top2');
+            );
             
             host.blockQ.append((new linb.UI.Div)
                 .host(host,"divQ")
@@ -212,7 +192,6 @@ Class('App', 'linb.Com',{
                 .setSelMode("none")
                 .setValue("")
                 .onItemSelected("_listq_onitemselected")
-                .setCustomStyle({"ITEM":"padding:0 12px"})
             );
             
             host.blockQ.append((new linb.UI.Block)
@@ -224,73 +203,89 @@ Class('App', 'linb.Com',{
             
             host.block20.append((new linb.UI.PageBar)
                 .host(host,"pbQ")
+                .setLeft(2)
                 .setTop(2)
-                .setRight(10)
                 .setCaption("")
                 .onClick("_pbq_onclick")
             );
             
-            host.block20.append((new linb.UI.Pane)
-                .host(host,"pane4")
-                .setLeft(1)
-                .setTop(3)
-                .setWidth(590)
-                .setHeight(23)
+            host.blockQ.append((new linb.UI.Block)
+                .host(host,"block6")
+                .setDock("top")
+                .setHeight(32)
+                .setBorderType("groove")
             );
             
-            host.pane4.append((new linb.UI.SLabel)
+            host.block6.append((new linb.UI.SLabel)
                 .host(host,"lQ1")
-                .setLeft(10)
-                .setTop(3)
-                .setWidth(94)
+                .setLeft(5)
+                .setTop(6)
+                .setWidth(66)
                 .setCaption("$app.lQ1")
             );
             
-            host.pane4.append((new linb.UI.Input)
+            host.block6.append((new linb.UI.Input)
                 .host(host,"iQ1")
                 .setDirtyMark(false)
-                .setLeft(220)
-                .setTop(0)
+                .setLeft(73)
+                .setTop(3)
                 .setWidth(100)
                 .setDynCheck(true)
                 .beforeFormatCheck("_iq1_afteruivalueset")
             );
             
-            host.pane4.append((new linb.UI.SLabel)
+            host.block6.append((new linb.UI.SLabel)
                 .host(host,"lQ2")
-                .setLeft(330)
-                .setTop(3)
-                .setWidth(130)
+                .setLeft(183)
+                .setTop(6)
+                .setWidth(100)
                 .setCaption("$app.lQ2")
             );
             
-            host.pane4.append((new linb.UI.Input)
+            host.block6.append((new linb.UI.Input)
                 .host(host,"iQ2")
                 .setDirtyMark(false)
-                .setLeft(470)
-                .setTop(0)
+                .setLeft(289)
+                .setTop(3)
                 .setWidth(110)
                 .setDynCheck(true)
                 .beforeFormatCheck("_iq2_afteruivalueset")
             );
             
-            host.pane4.append((new linb.UI.ComboInput)
-                .host(host,"ciQ1")
-                .setLeft(110)
-                .setTop(0)
-                .setWidth(110)
-                .setReadonly(true)
-                .setType("listbox")
-                .setItems([{"id":"a", "caption":"$app.ciQ1a"}, {"id":"b", "caption":"$app.ciQ1b"}, {"id":"c", "caption":"$app.ciQ1c"}])
-                .setValue("a")
-                .beforeUIValueSet("_ciq1_beforeuivalueset")
+            append((new linb.UI.Block)
+                .host(host,"paneTop")
+                .setDock("top")
+                .setHeight(40)
             );
             
-            host.layoutR.append((new linb.UI.Layout)
+            host.paneTop.append((new linb.UI.Label)
+                .host(host,"labelName")
+                .setLeft(10)
+                .setTop(10)
+                .setWidth(270)
+                .setCaption("$app.apititle")
+                .setHAlign("left")
+                .setFontSize("16px")
+                .setFontWeight("bold")
+            );
+            
+            host.paneTop.append((new linb.UI.Button)
+                .host(host,"btnLang")
+                .setDomId("btnLang")
+                .setTop(9)
+                .setWidth(80)
+                .setRight(10)
+                .setCaption("btnLang")
+                .setType("drop")
+                .onClick("_butlang_onclickdrop")
+                .onClickDrop("_butlang_onclickdrop")
+            );
+            
+            append((new linb.UI.Layout)
                 .host(host,"mainLayout")
                 .setItems([{"id":"before", "pos":"before", "locked":false, "size":240, "min":100, "max":400, "hide":false, "cmd":true, "caption":"before"}, {"id":"main", "min":10, "caption":"main"}])
                 .setType("horizontal")
-            , 'main');
+            );
             
             host.mainLayout.append((new linb.UI.TreeBar)
                 .host(host,"objTree")
@@ -704,19 +699,17 @@ Class('App', 'linb.Com',{
                 if(node.next().css('display')=='none')node.onClick();
             }
         }, 
-        _ciq1_beforeuivalueset:function (profile, oldValue, newValue) {
-            profile.boxing().updateValue();
-            SPA.Q1type=newValue;
-
-            SPA.RefreshQ();
-        }, 
         _iq1_afteruivalueset:function (profile,v) {
+            if(SPA.$v==v)return;
             _.resetRun('__a__',function(){
-                SPA.RefreshQ(1,v,SPA.Q1type);
+                SPA.$v=v;
+                SPA.RefreshQ(1,v);
             },500);
         }, 
         _iq2_afteruivalueset:function (profile, v) {
+            if(SPA.$v==v)return;
             _.resetRun('__a__',function(){
+                SPA.$v=v;
                 SPA.RefreshQ(2,v);
             },500);
         }, 
@@ -733,47 +726,31 @@ Class('App', 'linb.Com',{
                     SPA.iQ2.setValue('',true);
 
                 SPA.listQ.setItems([]);
+ 
                 SPA.pbQ.setValue('1:1:1');
             }else{
                 var arr=[];
                 if(type1==1){
                     if(SPA.iQ2.getUIValue())
                         SPA.iQ2.setValue('',true);
-                    switch(type2){
-                        case 'b':
-                            _.each(pool,function(o,i){
-                                if(_.str.endWith(i,v))
-                                    arr.push({id:i,caption:i.replace(/\.prototype\./,' -> ').replace(/(\w*)$/,'<b>$1</b>') +' : '+o})
-                            });
-                        break;
-                        case 'c':
-                            _.each(pool,function(o,i){
-                                if(i.indexOf(v)!=-1)
-                                    arr.push({id:i,caption:i.replace(/\.prototype\./,' -> ').replace(/(\w*)$/,'<b>$1</b>') +' : '+o})
-                            });
-                        break;
-                        default:
-                            _.each(pool,function(o,i){
-                                if(_.str.startWith(i,v))
-                                    arr.push({id:i,caption:i.replace(/\.prototype\./,' -> ').replace(/(\w*)$/,'<b>$1</b>') +' : '+o})
-                            });
-                    }
+                    _.each(pool,function(o,i){
+                        if(i.indexOf(v)!=-1)
+                            arr.push({id:i,caption:'<font style="color:#444">'+i.replace(/(.*)(\.prototype\.)(.*)/,'$3&nbsp;&nbsp;$1').replace(/^([\w\.]*)/,'<b>$1</b>') +'</font><br />&nbsp;&nbsp;'+o})
+                    });
                 }else{
                     if(SPA.iQ1.getUIValue())
                         SPA.iQ1.setValue('',true);
-                    var r=new RegExp(v);
                     _.each(pool,function(o,i){
-                        if(r.test(o)){
-                            arr.push({id:i,caption:i.replace(/\.prototype\./,' -> ').replace(/(\w*)$/,'<b>$1</b>') +' : '+o})
-                        }
+                        if(o.indexOf(v)!=-1)
+                            arr.push({id:i,caption:'<font style="color:#444">'+i.replace(/(.*)(\.prototype\.)(.*)/,'$3&nbsp;&nbsp;$1').replace(/^([\w\.]*)/,'<b>$1</b>') +'</font><br />&nbsp;&nbsp;'+o})
                     });
                 }
 
                 SPA.$Qresult=arr;
 
-                SPA.listQ.setItems(arr.slice(0,20));
                 var page=Math.ceil(arr.length / 20);
                 SPA.pbQ.setValue('1:1:'+page);
+                SPA.listQ.setItems(arr.slice(0,20));
             }
         }, 
 
@@ -821,18 +798,18 @@ Class('App', 'linb.Com',{
             return arr.join('');
         }, 
         base:[], 
-        required:["linb.UI.PopMenu", "linb.UI.Layout", "linb.UI.Block", "linb.UI.Pane", "linb.UI.SLabel", "linb.UI.Input", "linb.UI.ComboInput", "linb.UI.Label", "linb.UI.Button", "linb.UI.Div", "linb.UI.List", "linb.UI.TreeBar", "linb.UI.PageBar"], 
+        required:["linb.UI.PopMenu", "linb.UI.Layout", "linb.UI.Block", "linb.UI.Pane", "linb.UI.SLabel", "linb.UI.Input", "linb.UI.ComboInput", "linb.UI.Label", "linb.UI.Button", "linb.UI.Div", "linb.UI.List", "linb.UI.TreeBar", "linb.UI.PageBar", "linb.UI.Dialog"], 
         _listq_onitemselected:function (profile, item, src) {
             linb.History.setFI(item.id);
         }, 
         _pbq_onclick:function (profile, page) {
             var arr=SPA.$Qresult;
-            SPA.listQ.setItems(arr.slice(page*20, (page+1)*20));
-
+            if(!arr)return;
+            SPA.listQ.setItems(arr.slice((page-1)*20, page*20));
             profile.boxing().setPage(page);
             return false;
-        }, $S_CLS:{'Namespace':1,'Class':1,'_':1,'_.fun':1,'_.arr':1,'_.str':1,'linb':1}, $CLS_FUN:{'Namespace':1,'Class':1,'_':1,'_.fun':1,'linb':1,'linb.Thread':1,'linb.Ajax':1,'linb.SAjax':1,'linb.IAjax':1,'linb.SC':1}, $CLS_STATIC:{'_.fun':1,'linb':1,'linb.Thread':1,'linb.Ajax':1,'linb.SAjax':1,'linb.IAjax':1,'linb.SC':1,'linb.Event':1,'linb.DragDrop':1,'linb.CSS':1,'linb.History':1,'linb.Cookies':1,'linb.ComFactory':1,'linb.Debugger':1,'linb.Date':1,'linb.Tips':1,'linb.Coder':1,'linb.XML':1}, 
-            
+        }, 
+
 indexing:function(){
     var t,
         doc=linb.Locale[linb.getLang()].doc,
@@ -866,7 +843,8 @@ indexing:function(){
         hash[i]=_.get(doc,(i+'.$desc').split('.'));
         if(hash[i]){
             if(hash[i].indexOf('<')!=-1)
-                hash[i]=hash[i].split('<')[0] + '...';
+                hash[i]=hash[i].split('<')[0];
+            if(hash[i].length>30)hash[i]=hash[i].slice(0,30)+'...';
         }else
             hash[i]='';
     });
@@ -881,6 +859,6 @@ indexing:function(){
     */
 
     return SPA.$api_pool=hash;
-}
+}, $S_CLS:{'Namespace':1,'Class':1,'_':1,'_.fun':1,'_.arr':1,'_.str':1,'linb':1}, $CLS_FUN:{'Namespace':1,'Class':1,'_':1,'_.fun':1,'linb':1,'linb.Thread':1,'linb.Ajax':1,'linb.SAjax':1,'linb.IAjax':1,'linb.SC':1}, $CLS_STATIC:{'_.fun':1,'linb':1,'linb.Thread':1,'linb.Ajax':1,'linb.SAjax':1,'linb.IAjax':1,'linb.SC':1,'linb.Event':1,'linb.DragDrop':1,'linb.CSS':1,'linb.History':1,'linb.Cookies':1,'linb.ComFactory':1,'linb.Debugger':1,'linb.Date':1,'linb.Tips':1,'linb.Coder':1,'linb.XML':1}
     }
 });
