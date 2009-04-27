@@ -1542,7 +1542,9 @@ Class('VisualJS.Designer', 'linb.Com',{
             else if(!(key=widget.get(0)&&widget.get(0).key))return;
 
             id=node.id;
-            pid=node.parentNode.id;
+            pid=node.parentNode&&node.parentNode.id;
+            if(!id || !pid)return;
+            
             sid=profile.getSubId(id);
 
             if(id.indexOf(ks.CELL+':')==0 || pid.indexOf(ks.CELL+':')==0 || pid.indexOf(ks.CELLA+':')==0)
@@ -1962,8 +1964,9 @@ Class('VisualJS.Designer', 'linb.Com',{
                             profile.boxing().clearItems();
 
                             _.asyRun(function(){page._focus()});
+                            return false;
                         },
-                        beforeHoverEffect:function(profile, item, src, type){
+                        beforeHoverEffect:function(profile, item, e, src, type){
                             if(!item)return;
                             if(item.id==this.canvas.get(0).$id)return;
                             if(type=='mouseover')

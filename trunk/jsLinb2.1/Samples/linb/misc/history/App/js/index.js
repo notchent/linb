@@ -93,8 +93,7 @@ Class('App', 'linb.Com',{
             // ]]code created by jsLinb UI Builder
         }, 
         fakeHreflick:function(str,flag){
-            if(false!==linb.History.setFI(str) || flag)
-                this.divInfo.setHtml(str);
+            linb.History.setFI(str);
         }, 
         _onready:function () {
             SPA=this;
