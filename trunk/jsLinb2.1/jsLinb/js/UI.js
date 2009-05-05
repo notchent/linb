@@ -2576,7 +2576,7 @@ Class("linb.UI",  "linb.absObj", {
                 ns.$CSSCACHE={};
                 var count=0;
                 _.asyRun(function(){
-                    if(count>10)
+                    if(count>5)
                         throw new Error('errLoadTheme:'+key);
                     count++;
                     var s=linb.CSS.$getCSSValue('.setting-uikey','fontFamily');
@@ -2584,7 +2584,7 @@ Class("linb.UI",  "linb.absObj", {
                         linb.UI.getAll().reLayout(false,true);
                         count=null;
                     }else
-                        _.asyRun(arguments.callee,200);
+                        _.asyRun(arguments.callee,200*count);
                 },100);
             }
             return this;

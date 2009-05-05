@@ -2572,6 +2572,8 @@ caption
                 });
         },
         _showTips:function(profile, node, pos){
+            if(!profile.properties.showCellTips)
+                return;
             if(profile.onShowTips)
                 return profile.boxing().onShowTips(profile, node, pos);
             if(!linb.Tips)return;

@@ -28,6 +28,7 @@ Class('VisualJS.OpenFile', 'linb.Com',{
                 .setLeft(50)
                 .setTop(10)
                 .setWidth(517)
+                .setDirtyMark(false)
                 .setValueFormat("^(http|https)\\:\\/\\/[\\w\\-\\_\\.]+[\\w\\-\\_](:[\\w]*)?\\/?([\\w\\-\\._\\?\\,\\'\\/\\\\\\+&amp;%\\$#\\=~])*$")
                 .setType("none")
             );

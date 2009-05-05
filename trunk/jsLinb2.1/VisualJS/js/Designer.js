@@ -2413,6 +2413,7 @@ Class('VisualJS.Designer', 'linb.Com',{
             .setDock("top")
             .setType("popbox")
             .setReadonly(true)
+            .setDirtyMark(false)
             .beoforeComboPop("$listobject_onlistshow")
             );
 

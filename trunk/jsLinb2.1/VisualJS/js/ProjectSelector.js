@@ -66,6 +66,7 @@ Class('VisualJS.ProjectSelector', 'linb.Com',{
                 .host(host,"listName")
                 .setDock("top")
                 .setHeight(112)
+                .setDirtyMark(false)
                 .onDblclick("_listname_ondblclick")
             );
             
