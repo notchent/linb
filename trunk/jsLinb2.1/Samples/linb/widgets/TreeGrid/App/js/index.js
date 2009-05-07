@@ -91,15 +91,6 @@ Class('App', 'linb.Com',{
                 .onClick("_pagebar3_onclick")
             );
 
-            host.tabs.append((new linb.UI.ComboInput)
-                .host(host,"comboinput4")
-                .setLeft(80)
-                .setTop(30)
-                .setType("popbox")
-                .setItems([{"id":"a", "caption":"itema", "tips":"item a"}, {"id":"b", "caption":"itemb", "tips":"item b"}, {"id":"c", "caption":"itemc", "tips":"item c"}])
-                .beoforeComboPop("_comboinput4_beoforeComboPop")
-            , 'c');
-
             host.tabs.append((new linb.UI.Dialog)
                 .host(host,"dialog7")
                 .setLeft(20)
@@ -119,24 +110,6 @@ Class('App', 'linb.Com',{
                 .setHeader([])
                 .setRows([])
             );
-
-            host.tabs.append((new linb.UI.ComboInput)
-                .host(host,"comboinput8")
-                .setLeft(230)
-                .setTop(30)
-                .setType("popbox")
-                .setItems([{"id":"a", "caption":"itema", "tips":"item a"}, {"id":"b", "caption":"itemb", "tips":"item b"}, {"id":"c", "caption":"itemc", "tips":"item c"}])
-                .beoforeComboPop("_comboinput8_beoforeComboPop")
-            , 'c');
-
-            host.tabs.append((new linb.UI.ComboInput)
-                .host(host,"comboinput9")
-                .setLeft(80)
-                .setTop(100)
-                .setType("popbox")
-                .setItems([{"id":"a", "caption":"itema", "tips":"item a"}, {"id":"b", "caption":"itemb", "tips":"item b"}, {"id":"c", "caption":"itemc", "tips":"item c"}])
-                .beoforeComboPop("_comboinput9_beoforeComboPop")
-            , 'c');
 
             host.tabs.append((new linb.UI.Dialog)
                 .host(host,"dialog8")
@@ -197,11 +170,34 @@ Class('App', 'linb.Com',{
             );
 
             host.tabs.append((new linb.UI.ComboInput)
+                .host(host,"comboinput8")
+                .setLeft(230)
+                .setTop(30)
+                .setType("popbox")
+                .beoforeComboPop("_comboinput8_beoforeComboPop")
+            , 'c');
+
+            host.tabs.append((new linb.UI.ComboInput)
+                .host(host,"comboinput4")
+                .setLeft(80)
+                .setTop(30)
+                .setType("popbox")
+                .beoforeComboPop("_comboinput4_beoforeComboPop")
+            , 'c');
+
+            host.tabs.append((new linb.UI.ComboInput)
+                .host(host,"comboinput9")
+                .setLeft(80)
+                .setTop(100)
+                .setType("popbox")
+                .beoforeComboPop("_comboinput9_beoforeComboPop")
+            , 'c');
+
+            host.tabs.append((new linb.UI.ComboInput)
                 .host(host,"comboinput10")
                 .setLeft(230)
                 .setTop(100)
                 .setType("popbox")
-                .setItems([{"id":"a", "caption":"itema", "tips":"item a"}, {"id":"b", "caption":"itemb", "tips":"item b"}, {"id":"c", "caption":"itemc", "tips":"item c"}])
                 .beoforeComboPop("_comboinput10_beoforeComboPop")
             , 'c');
 

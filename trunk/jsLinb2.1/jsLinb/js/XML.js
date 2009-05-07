@@ -54,6 +54,13 @@ Class('linb.XML',null,{
                 '"' : '\\"',
                 '\\': '\\\\'
             },
+            R=/^-?(\d\d*\.\d*$)|(^-?\d\d*$)|(^-?\.\d\d*$)/,
+            _map={
+                "__[]__":[],
+                "null":null,
+                'false':false,
+                'true':true
+             },
             _es=function(str){
                 return str.replace(/[\s\S]/g,function(a,b){return (b=M[a])?b:a});
             },
@@ -70,9 +77,10 @@ Class('linb.XML',null,{
                 return xml;
             },
             _xml=function(n){
-                if ("innerHTML" in n)
-                    return _es(n.innerHTML);
-                else{
+                if ("innerHTML" in n){
+                    n=n.innerHTML;
+                    n=n in _map?_map[n]:R.test(n)?parseFloat(n):n;
+                }else{
                     var arr=[],t,
                     _in=function(n) {
                         if(n.nodeType==1) {
@@ -86,15 +94,17 @@ Class('linb.XML',null,{
                                     arr.push(_in(m));
                                 arr.push("</"+n.nodeName+">");
                             }else arr.push("/>");
-                        }else if(n.nodeType==3)
-                            arr.push(n.nodeValue);
-                        else if(n.nodeType==4)
+                        }else if(n.nodeType==3){
+                            n=n.nodeValue;
+                            arr.push(n in _map?_map[n]:R.test(n)?parseFloat(n):n);
+                        }else if(n.nodeType==4)
                             arr.push("<![CDATA[" + n.nodeValue + "]]>");
                     };
                     for(var m=n.firstChild;m;m=m.nextSibling)
                         _in(m);
-                    return _es(arr.join(''));
+                    n=(arr.length==1?arr[0]:arr.join(''))
                 }
+                return typeof n=='string'?_es(n):n;
             },
             _f=function(xml){
                 var o=null,t,tt;
@@ -139,8 +149,6 @@ Class('linb.XML',null,{
                         }else if(text){
                             if(!t.length) {
                                 o=_xml(xml);
-                                if (o=="__[]__")o=[];
-                                if (o=="__NULL__")o=null;
                             }else
                                 o["#text"]=_xml(xml);
                         }else if(cdata) {
