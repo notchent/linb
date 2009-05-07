@@ -26,7 +26,7 @@ Class('VisualJS.ClassTool',null,{
                                 if(!_.isNull(o.comments))
                                     arr.push((o.comments ||'') + i + ':' + (o.code?o.code:o.sub?self.call(this,o):''));
                             },this);
-                            return o.frame.replace('*1', o.name||'').replace('*2', o.pname||'').replace('*3', arr.join(', '));//.replace(/\$/g,'$$$'));
+                            return o.frame.replace('*1', o.name||'').replace('*2', o.pname||'').replace('*3', arr.join(', ').replace(/\$/g,"\x01")).replace(/\x01/g, "$");
                         }else return '';
                     }else
                         return (o.code ||'').replace(/^[\r\n]*/, '');

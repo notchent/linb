@@ -1112,9 +1112,10 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
 
                     var order = col._order || false,
                     type = col.type || 'input',
+                    sortby = col.sortby,
                     index = _.arr.indexOf(p.header,col),
                     me=arguments.callee,
-                    fun = me.fun||(me.fun = function(profile, root, index, type, order){
+                    fun = me.fun||(me.fun = function(profile, root, index, type, sortby,order){
                         var rows,parent,self=arguments.callee;
                         if(root){
                             rows = root.sub;
@@ -1128,25 +1129,29 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                         var a1=[], a2=[], a3=[], t,ff;
                         _.arr.each(rows,function(row){
                             if(row.sub && row.sub.length>1)
-                                self(profile, row, index, type, order);
+                                self(profile, row, index, type, sortby, order);
                              //for short input
                              a1[a1.length]=(t=row.cells)?(t=t[index])?t.value:'':row[index];
                              a2[a2.length]=a2.length;
                         });
-                        switch(type){
-                            case 'number':
-                                ff=function(n){return parseFloat(n)||0};
-                                break;
-                            case 'date':
-                                ff=function(n){return new Date(n).getTime()||0};
-                                break;
-                            default:
-                                ff=function(n){return n||''};
+                        if(typeof sortby!='function'){
+                            switch(type){
+                                case 'number':
+                                    ff=function(n){return parseFloat(n)||0};
+                                    break;
+                                case 'date':
+                                    ff=function(n){return new Date(n).getTime()||0};
+                                    break;
+                                default:
+                                    ff=function(n){return n||''};
+                            }
+                            sortby=function(x,y){
+                               x=ff(a1[x]); y=ff(a1[y]);
+                               return (x>y?1:x==y?0:-1)*(order?1:-1);
+                            };
                         }
-                        a2.sort(function(x,y){
-                           x=ff(a1[x]); y=ff(a1[y]);
-                           return (x>y?1:x==y?0:-1)*(order?1:-1);
-                        });
+                        a2.sort(sortby);
+
                         //sort memory array
                         //sort domnode
                         var b = root._created, bak=_.copy(rows), c;
@@ -1164,7 +1169,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                         }
                     });
 
-                    fun(profile, '', index, type, order);
+                    fun(profile, '', index, type, sortby,order);
 
                     //show sort mark
                     profile.getSubNode('SORT', true).css('display','none');
@@ -2035,6 +2040,8 @@ editorFormat
 editorReadonly
 value
 caption
+
+sortby [for column only]
 */
                 node.cellCls=profile.getClass('CELL', '-'+type) + (t2?(' '+dcls):'');
                 node.type=type;
