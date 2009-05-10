@@ -1560,6 +1560,13 @@ Class("linb.UI",  "linb.absObj", {
                 cursor:'default',
                 'vertical-align':'middle'
             },
+            '.uicmd-empty':{
+                width:'16px',
+                height:'16px',
+                'margin-right':'2px',
+                cursor:'default',
+                'vertical-align':'middle'
+            },
             '.uicmd-opt':{
                 $order:1,
                 'background-position' : '0 0'
@@ -1743,7 +1750,6 @@ Class("linb.UI",  "linb.absObj", {
             },
             '.uicmd-toggle2':{
                 $order:1,
-                'margin-left':'6px',
                 'background-position': '-200px -70px'
             },
             '.uicmd-toggle2-mouseover':{

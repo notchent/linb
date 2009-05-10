@@ -1115,15 +1115,14 @@ Class('VisualJS.Designer', 'linb.Com',{
                          mapName:(em&&em[i])||'',
                          ini:o
                     };
-                    arr.push({id:'event:'+i, tipk:'event', tipv:i, cells:[
-                        {value:i, type:'label'},
+                    arr.push({id:'event:'+i, tipk:'event', tipv:i, value:i, caption:i, cells:[
                         {value:(em&&em[i])||'', type:'popbox', $tagVar:$tagVar, event:$fun}]
                     });
                 });
                 var rows=[
-                    {id:'properties:width', cells:[{value:'width',type:'label', tips:'Canvas width'}, {value: pro.properties.width}] },
-                    {id:'properties:height',cells:[{value:'height', type:'label', tips:'Canvas height'}, {value: pro.properties.height}] },
-                    {id:'UIE', group:true, caption:'events',sub:arr}
+                    {id:'properties:width', caption:'width',tips:'Canvas width', cells:[{value: pro.properties.width}] },
+                    {id:'properties:height',caption:'label', tips:'Canvas height', cells:[{value: pro.properties.height}] },
+                    {id:'UIE', group:true, caption:'events', sub:arr}
                 ];
                 var list=[];
 
@@ -1166,30 +1165,30 @@ Class('VisualJS.Designer', 'linb.Com',{
                     };
 
                     var rows=[
-                            {id:'key', tipk:'class', cells:[{value:'class', type:'label', tips:linb.getRes('VisualJS.designer.openapi')},{disabled:true, value:'<strong>'+pro.key+'</strong>',type:'label', tips:linb.getRes('VisualJS.designer.openapi')}] },
-                            {id:'alias',tipk:'fun', tipv:'alias',cells:[{value:'alias', type:'label'},{value:pro.alias,type:uis._nodes.length===1?'input':'label'}] },
-                            {id:'domId',tipk:'fun', tipv:'setDomId',cells:[{value:'setDomId',caption:'domId', type:'label'},{value:pro.domId,type:uis._nodes.length===1?'input':'label'}] },
+                            {id:'key', tipk:'class', caption:'class', tips:linb.getRes('VisualJS.designer.openapi'), cells:[{disabled:true, value:'<strong>'+pro.key+'</strong>',type:'label', tips:linb.getRes('VisualJS.designer.openapi')}] },
+                            {id:'alias',tipk:'fun', tipv:'alias',caption:'alias',cells:[{value:pro.alias,type:uis._nodes.length===1?'input':'label'}] },
+                            {id:'domId',tipk:'fun', tipv:'setDomId',value:'setDomId',caption:'domId',cells:[{value:pro.domId,type:uis._nodes.length===1?'input':'label'}] },
                             {id:'properties',  group:true, caption:'properties', sub:true},
                             {id:'UIE', group:true, caption:'events', sub:true},
-                            {id:'CS', tipk:'fun', tipv:'setCustomStyle', cells:[{value:'setCustomStyle',caption:'Custom Style', type:'label'},{value:'[<strong> key/value pairs</strong>]', event:$fun, $tagVar:{
+                            {id:'CS', tipk:'fun', tipv:'setCustomStyle', value:'setCustomStyle',caption:'Custom Style', cells:[{value:'[<strong> key/value pairs</strong>]', event:$fun, $tagVar:{
                                 widgetName:pro.alias,
                                 name:'CS',
                                 funName:'setCustomStyle',
                                 profile:pro
                             }, type:'popbox', editorReadonly:true}] },
-                            {id:'CC',tipk:'fun', tipv:'setCustomClass',cells:[{value:'setCustomClass',caption:'Custom Class', type:'label'},{value:'[<strong> key/value pairs</strong>]', event:$fun, $tagVar:{
+                            {id:'CC',tipk:'fun', tipv:'setCustomClass',value:'setCustomClass',caption:'Custom Class', cells:[{value:'[<strong> key/value pairs</strong>]', event:$fun, $tagVar:{
                                 widgetName:pro.alias,
                                 name:'CC',
                                 funName:'setCustomClass',
                                 profile:pro
                             }, type:'popbox', editorReadonly:true}] },
-                            {id:'CB',tipk:'fun', tipv:'setCustomBehavior',cells:[{value:'setCustomBehavior',caption:'Custom Behaviors', type:'label'},{value:'[<strong> key/value pairs</strong>]', event:$fun, $tagVar:{
+                            {id:'CB',tipk:'fun', tipv:'setCustomBehavior',value:'setCustomBehavior',caption:'Custom Behaviors', cells:[{value:'[<strong> key/value pairs</strong>]', event:$fun, $tagVar:{
                                 widgetName:pro.alias,
                                 name:'CB',
                                 funName:'setCustomBehavior',
                                 profile:pro
                             }, type:'popbox', editorReadonly:true}] },
-                            {id:'CF',tipk:'fun', tipv:'setCustomFunction',cells:[{value:'setCustomFunction',caption:'Custom Functions', type:'label'},{value:'[<strong> key/value pairs</strong>]', event:$fun, $tagVar:{
+                            {id:'CF',tipk:'fun', tipv:'setCustomFunction',value:'setCustomFunction',caption:'Custom Functions',cells:[{value:'[<strong> key/value pairs</strong>]', event:$fun, $tagVar:{
                                 widgetName:pro.alias,
                                 name:'CF',
                                 funName:'setCustomFunction',
@@ -1216,8 +1215,8 @@ Class('VisualJS.Designer', 'linb.Com',{
                     pro= linb.getObject(ids[0]);
                     uis = pro.boxing();
                     var rows=[
-                            {id:'key',  cells:[{value:'class',type:'label'},{value: pro.key, type:'label'}] },
-                            {id:'alias',tipk:'fun',tipv:'alias', cells:[{value:'alias', type:'label'},{value:pro.alias, type:'label'}] },
+                            {id:'key',  caption:'class', cells:[{value: pro.key, type:'label'}] },
+                            {id:'alias',tipk:'fun',tipv:'alias', caption:'alias', cells:[{value:pro.alias, type:'label'}] },
                             {id:'properties',  group:true, caption:'properties', sub:true},
                             {id:'UIE', group:true, caption:'events', sub:true}
                     ];
@@ -1512,11 +1511,11 @@ Class('VisualJS.Designer', 'linb.Com',{
                 return false;
              }
         },
-        $tg_click:function(profile, cell,  e, src){
+        $tg_click:function(profile, row,  e, src){
+            if(row.group)return;
             var page=this,
-                row=cell._row,
                 i=row.tipv,
-                name=row.tipk=='property'?'get' + _.str.initial(i):i,
+                name=(row.tipk=='property'?'get' + _.str.initial(i):i)||"",
                 widget,key,fun;
             if(!(widget=profile.$widget))return;
             if(widget==page.canvas)
@@ -1525,7 +1524,7 @@ Class('VisualJS.Designer', 'linb.Com',{
             if(row.tipk=='class')
                 window.open('../API/#'+key);
             else
-                window.open('../API/#'+key + (key=='linb.Com'?'.':'.prototype.') + name);
+                window.open('../API/#'+key + (key=='linb.Com'?(name?'.':''):'.prototype'+(name?'.':'')) + name);
         },
         $tg_tips:function(profile,node,pos){
             var page=this,
@@ -1547,11 +1546,14 @@ Class('VisualJS.Designer', 'linb.Com',{
             
             sid=profile.getSubId(id);
 
-            if(id.indexOf(ks.CELL+':')==0 || pid.indexOf(ks.CELL+':')==0 || pid.indexOf(ks.CELLA+':')==0)
+            if(pid.indexOf(ks.FIRSTCELL+':')==0 || pid.indexOf(ks.FIRSTCELLA+':')==0 ||id.indexOf(ks.FIRSTCELL+':')==0)
+                cell=row = profile.rowMap[sid];
+            else if(id.indexOf(ks.CELL+':')==0 || pid.indexOf(ks.CELL+':')==0 || pid.indexOf(ks.CELLA+':')==0){
                 cell = profile.cellMap[sid];
-
-            if(cell){
                 row=cell._row;
+            }
+
+            if(row){
                 if(row.tipk){
                     if(row.tipk=='class'){
                         str+= '<div>'+key+' [Class]</div>';
@@ -1816,8 +1818,7 @@ Class('VisualJS.Designer', 'linb.Com',{
                         //cv = cv.replace(/^\"/,'').replace(/\"$/,'');
                     }
 
-                    arr.push({id:'properties:'+i, tipk:'property', tipv:i, cells:[
-                        {value:i},
+                    arr.push({id:'properties:'+i, tipk:'property', tipv:i, value:i, caption:i,cells:[
                         {value:cv, type:type , disabled:editorDisabled, editorReadonly:editorReadonly, $tag:$tag, event:$fun , $tagVar:$tagVar,  editorListKey:listKey}
                     ]});
                 });
@@ -1910,8 +1911,7 @@ Class('VisualJS.Designer', 'linb.Com',{
                          funName: i,
                          ini:o
                     };
-                    arr.push({id:'event:'+i, tipk:'event',tipv:i, cells:[
-                        {value:i, type:'label'},
+                    arr.push({id:'event:'+i, tipk:'event',tipv:i, value:i, caption:i, cells:[
                         {value:typeof target[i]=='string'?target[i]:'', type: 'popbox', $tagVar:$tagVar, event:$fun}
                     ]});
                 });
@@ -1919,7 +1919,7 @@ Class('VisualJS.Designer', 'linb.Com',{
 
             //check others to disable editable
             _.filter(arr,function(o,i){
-                var ns=uis._nodes,key=o.cells[0].value,value=o.cells[1].value,prop;
+                var ns=uis._nodes,key=o.value,value=o.cells[0].value,prop;
                 for(var i=0;i<ns.length-1;i++){
                     prop=ns[i].properties;
                     if(!(key in prop))
@@ -2423,8 +2423,10 @@ Class('VisualJS.Designer', 'linb.Com',{
             t.panelRigth.append(
             (new u.TreeGrid)
             .host(t,"profileGrid")
+            .setRowHandlerWidth(100)
+            .setRowHandlerClass('linbdesign-help')
+            .setGridHandlerCaption('$VisualJS.designer.gridcol1')
             .setHeader([
-            {"id":"name","caption":"$VisualJS.designer.gridcol1","width":70,"type":"label",cellClass:'linbdesign-help'},
             {"id":"value","caption":"$VisualJS.designer.gridcol2","width":120,"type":"input"}
             ])
             .setAltRowsBg(false)
@@ -2434,7 +2436,7 @@ Class('VisualJS.Designer', 'linb.Com',{
             .onGetContent("$profilegrid_onrequestdata")
             .afterRowActive("$profilegrid_afterrowactive")
             .onShowTips("$tg_tips")
-            .onDblClickCell('$tg_click')
+            .onDblClickRow('$tg_click')
             );
 
             t.layoutBase.append(
