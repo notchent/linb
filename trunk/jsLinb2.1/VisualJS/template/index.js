@@ -3,18 +3,20 @@
 */
 Class('{className}', 'linb.Com',{
     Instance:{
-        //base Class for this com
-        base:["linb.UI"],
-        //requried class for this com
-        required:[],
-
-        properties:{},
+        iniComponents:function(com, threadid){
+        },
         events:{},
         iniResource:function(com, threadid){
         },
-        iniComponents:function(com, threadid){
-        },
         iniExComs:function(com, hreadid){
         }
+        /*,
+        properties:{},
+        *for loading class dynamically
+        //base Class for this com
+        base:["linb.UI"],
+        //requried class for this com
+        required:[]
+        */
     }
 });

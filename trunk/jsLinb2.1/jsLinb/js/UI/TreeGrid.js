@@ -134,9 +134,18 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                 this.insertRows(rows);
             profile.box._ajdustBody(profile);
         },
-        /*
-        type: original, data, arr
-        */
+        _expendRows:function(rows){
+            var self=this;
+            if(rows && rows.length)
+                _.arr.each(rows,function(o){
+                    if(o.sub && o.sub.length && !o.iniFold && !o._checked)
+                        self.toggleRow(o.id, true);
+                });
+        },
+
+
+        /*rows related*/
+        //type: 'original', 'data', 'min'
         getRows:function(type){
             var v=this.get(0).properties.rows;
             if(type=='data')
@@ -152,18 +161,15 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
             }else
                 return v;
         },
-        getHeader:function(type){
-            var v=this.get(0).properties.header;
-            if(type=='data')
-                return _.clone(v,true);
-            else if(type=='min'){
-                var a=_.clone(v,true),b;
-                _.arr.each(a,function(o,i){
-                    a[i]=o.id
-                });
-                return a;
-            }else
-                return v;
+        toggleRow:function(id, expend){
+            var profile = this.get(0),
+            row = profile.rowMap[profile.rowMap2[id]];
+            if(row && row.sub)
+                profile.box._setSub(profile, row, typeof expend=="boolean"?expend:!row._checked);
+        },
+        getRowbyRowId:function(rowId){
+            var profile=this.get(0),v=profile.rowMap2[rowId];
+            return v?profile.rowMap[v]:null;
         },
         //pid,base are id
         insertRows:function(arr, pid, base ,before){
@@ -173,6 +179,9 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                 t=profile.rowMap[base];
                 if(t)pid=t._pid;
             }
+            if(!arr)arr=[[]];
+            if(arr[0] && typeof arr[0]!='object')arr=[arr];
+
             //prepareData(add links)
             var rows = c._prepareItems(profile, arr, pid),
                 tar,
@@ -201,9 +210,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
             return this;
         },
         //delete row according to id
-        /*
-            linb.UI.TreeGrid.getAll().removeRows(['2','5'])
-        */
+        //linb.UI.TreeGrid.getAll().removeRows(['2','5'])
         removeRows:function(ids){
             var self=this,
                 profile=self.get(0),
@@ -293,53 +300,6 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
             }
             return this;
         },
-
-        updateCellByRowCol:function(rowId, colId, hash, dirtyMark){
-            var t,self=this,con=self.constructor;
-            if(t=con._getCellId(self.get(0), rowId, colId))
-                con._updCell(self.get(0), t, hash, dirtyMark);
-            return self;
-        },
-        updateCell:function(cellId, hash, dirtyMark){
-            var self=this;
-            self.constructor._updCell(self.get(0),cellId,hash, dirtyMark);
-            return self;
-        },
-        _expendRows:function(rows){
-            var self=this;
-            if(rows && rows.length)
-                _.arr.each(rows,function(o){
-                    if(o.sub && o.sub.length && !o.iniFold && !o._checked)
-                        self.toggleRow(o.id, true);
-                });
-        },
-        toggleRow:function(id, expend){
-            var profile = this.get(0),
-            row = profile.rowMap[profile.rowMap2[id]];
-            if(row && row.sub)
-                profile.box._setSub(profile, row, typeof expend=="boolean"?expend:!row._checked);
-        },
-        editCellbyRowCol:function(rowId, colId){
-            var profile=this.get(0),con=profile.box;
-            return con._editCell(profile, con._getCellId(profile, rowId, colId));
-        },
-        getCellbyRowCol:function(rowId, colId){
-            var profile=this.get(0),v;
-            v=_.get(profile.rowMap,[profile.rowMap2[rowId], '_cells',colId]);
-            return v?profile.cellMap[v]:null;
-        },
-        getRowbyRowId:function(rowId){
-            var profile=this.get(0),v=profile.rowMap2[rowId];
-            return v?profile.rowMap[v]:null;
-        },
-        resetGridValue:function(){
-            return this.each(function(profile){
-                _.each(profile.cellMap,function(v){
-                    v._$value=v.value;
-                });
-                profile.getSubNode('CELLA',true).removeClass('ui-dirty');
-            })
-        },
         resetRowValue:function(rowId){
             var profile=this.get(0),row=this.getRowbyRowId(rowId),arr=[];
             _.each(row.cells,function(o){
@@ -349,6 +309,59 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                 }
             });
             linb(arr).removeClass('ui-dirty');
+        },
+        getActiveRow:function(){
+            var ar,profile=this.get(0);
+            if(profile.properties.activeMode!='row')return;
+            if(!(ar=profile.$activeRow))return;
+            return profile.rowMap[profile.getSubId(ar)];
+        },
+        setActiveRow:function(rowId){
+            var dr, row, profile=this.get(0);
+            if(profile.properties.activeMode!='row')return;
+            if(!(row=this.getRowbyRowId(rowId)))return;
+            if(!(dr=profile.getSubNode('CELLS',row._serialId)).isEmpty())
+                profile.box._activeRow(profile, dr.get(0).id);
+            return this;
+        },
+
+        /*column and header related*/
+        //type: 'original', 'data', 'min'
+        getHeader:function(type){
+            var v=this.get(0).properties.header;
+            if(type=='data')
+                return _.clone(v,true);
+            else if(type=='min'){
+                var a=_.clone(v,true),b;
+                _.arr.each(a,function(o,i){
+                    a[i]=o.id;
+                });
+                return a;
+            }else
+                return v;
+        },
+        updateHeader:function(colId,options){
+            if(_.isStr(options)) options={caption:options};
+            else _.filter(options,true);
+            delete options.id;
+
+            var ns=this, colh=ns.getHeaderByColId(colId), t;
+            _.merge(colh, options, 'all');
+            if(t=options.caption)
+                ns.getSubNode('HCELLA',colh._serialId).html(t,false);
+            if(t=options.width){
+                var n=[];
+                n.push(ns.getSubNode('HCELL',colh._serialId).get(0));
+                _.each(colh._cells,function(o){
+                    n.push(ns.getSubNode('CELL',o).get(0));
+                });
+                linb(n).width(t);
+            }
+        },
+        getHeaderByColId:function(colId){
+            var v=this.get(0).properties.header,
+                i=_.arr.subIndexOf(v,"id",colId);
+            return v[i];
         },
         showColumn:function(colId, flag){
             return this.each(function(profile){
@@ -367,19 +380,27 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                 }
             });
         },
-        getActiveRow:function(){
-            var ar,profile=this.get(0);
-            if(profile.properties.activeMode!='row')return;
-            if(!(ar=profile.$activeRow))return;
-            return profile.rowMap[profile.getSubId(ar)];
+
+        /*cell realted*/
+        getCellbyRowCol:function(rowId, colId){
+            var profile=this.get(0),v;
+            v=_.get(profile.rowMap,[profile.rowMap2[rowId], '_cells',colId]);
+            return v?profile.cellMap[v]:null;
         },
-        setActiveRow:function(rowId){
-            var dr, row, profile=this.get(0);
-            if(profile.properties.activeMode!='row')return;
-            if(!(row=this.getRowbyRowId(rowId)))return;
-            if(!(dr=profile.getSubNode('CELLS',row._serialId)).isEmpty())
-                profile.box._activeRow(profile, dr.get(0).id);
-            return this;
+        updateCellByRowCol:function(rowId, colId, options, dirtyMark){
+            var t,self=this,con=self.constructor;
+            if(t=con._getCellId(self.get(0), rowId, colId))
+                con._updCell(self.get(0), t, options, dirtyMark);
+            return self;
+        },
+        updateCell:function(cellId, options, dirtyMark){
+            var self=this;
+            self.constructor._updCell(self.get(0),cellId,options, dirtyMark);
+            return self;
+        },
+        editCellbyRowCol:function(rowId, colId){
+            var profile=this.get(0),con=profile.box;
+            return con._editCell(profile, con._getCellId(profile, rowId, colId));
         },
         getActiveCell:function(){
             var ar,profile=this.get(0);
@@ -394,6 +415,24 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
             if(!(dr=profile.getSubNode('CELL',cell._serialId)).isEmpty())
                 profile.box._activeCell(profile, dr.get(0).id);
             return this;
+        },
+
+        /*others*/        
+        // reset all cells' value, and clear all dirty mark
+        resetGridValue:function(){
+            return this.each(function(profile){
+                _.each(profile.cellMap,function(v){
+                    v._$value=v.value;
+                });
+                profile.getSubNode('CELLA',true).removeClass('ui-dirty');
+            })
+        },
+        getSubNodeInGrid:function(key, rowId, colId){
+            var ns=this,
+                t=  (rowId && colId) ? ns.getCellbyRowCol(rowId, colId) :
+                    colId ? ns.getHeaderByColId(colId):
+                    rowId ? ns.getRowbyRowId(rowId):null;
+            return ns.getSubNode(key, (t&&t._serialId)||true);
         }
     },
     Initialize:function(){
@@ -706,7 +745,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
             },
            'CELLS-mouseover':{
                 $order:4,
-                'background-color':'#FEFFB3'
+                'background-color':'#DFE8F6'
             },
             'CELL-disabled':{
                  $order:8,
@@ -718,11 +757,12 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
             },
             'CELLS-active, CELL-active':{
                  $order:5,
-                 'background-color':'#F6D009'
+                 'background-color':'#A3BAE9'
             },
-            'CELLS-checked, CELL-checked':{
+            'CELLS-checked, CELL-checked, CELLS-checked CELLA, CELL-checked CELLA':{
                  $order:6,
-                'background-color':'#C87800'
+                'background-color':'#7199E8',
+                color:'#fff'
             },
             'HCELL0, FIRSTCELL, GROUPCAP':{
                height:'100%',
@@ -812,7 +852,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
             },
             'CELL-mouseover':{
                 $order:5,
-                'background-color':'#FEFFB3'
+                'background-color':'#DFE8F6'
             },
             HCELLA:{
                 position:'relative'
@@ -823,6 +863,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                 '-moz-box-flex':'1',
                 '-moz-user-select':'none',
                 height:'100%',
+                color:'#000',
                 //ie need this
                 width:linb.browser.ie?'100%':''
             },
@@ -832,8 +873,8 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                 '-moz-box-flex':0
             },
             'HCELLA, HCELL0A':{
-                'text-align': 'center',
-                'font-weight': 'bold'
+                'text-align': 'center'//,
+                //'font-weight': 'bold'
             },
             PROGRESS:{
                 height:'100%',
@@ -1596,7 +1637,8 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                 action:function(value){
                     var ns=this;
                     var nodes = ns.getSubNode('FIRSTCELLNO',true),i=0,map=ns.rowMap,row,ol=0,l=0,a1=[],a2=[],tag='',temp;
-                    nodes.each(function(o){
+                    if(value)
+                        nodes.each(function(o){
                             if(o.parentNode.offsetHeight){
                                 row=map[ns.getSubId(o.id)];
                                 l=row._layer;
@@ -1619,7 +1661,9 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                                 else
                                     o.appendChild(document.createTextNode(tag+i));
                             }
-                    });
+                        });
+                    else
+                        nodes.text('');
                 }
             },
             editable:false,
@@ -1682,7 +1726,8 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
             colSortable:{
                 ini:true,
                 action:function(value){
-                    this.getSubNode('SORT',true).css('display',value?'':'none');
+                    if(!value)
+                        this.getSubNode('SORT',true).css('display','none');
                 }
             },
             colMovable:false,
@@ -1921,6 +1966,9 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                 temp='h_'+profile.pickSubId('header');
                 if(typeof o=='string')
                     o=arr[i]={id:o};
+                if(typeof o.id!='string')
+                    o.id=o.caption||(_()+'');
+
                 //#
                 o._cells={};
                 o[SubID]=temp;
@@ -1978,17 +2026,19 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                     if(dom)node.html(caption||cell.value,false);
                 break;
                 case 'datepicker':
-                    cell.value=new Date(parseInt(cell.value)).getTime();
+                    cell.value=(parseInt(cell.value)?new Date(parseInt(cell.value)):new Date()).getTime();
                     caption= capOut || ren(profile,cell,ncell,f1);
                     if(dom)
                         node.html(caption, false);
                 break;
                 case 'textarea':
+                    cell.value=cell.value||"";
                     caption= capOut ||ren(profile,cell,ncell,f2);
                     if(dom)
                         node.html(caption,false);
                 break;
                 case 'colorpicker':
+                    cell.value=cell.value||"#ffffff";
                     caption= capOut ||ren(profile,cell,ncell);
                     t1=linb.UI.ColorPicker.getTextColor(cell.value);
                     if(dom){
@@ -2018,6 +2068,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
 
                 break;
                 default:
+                    cell.value=cell.value||"";
                     caption= capOut ||ren(profile,cell,ncell);
                     if(dom)node.html(caption||cell.value,false);
             }
@@ -2067,7 +2118,7 @@ sortby [for column only]
                 me=arguments.callee,
                 ider = me._id||(me._id=new _.id()),
                 rows=[],
-                temp,cells,t,row,headCell,
+                temp,cells,t,row,g,j,v,
                 NONE='display:none';
 
             for(var i=0,l=arr.length;i<l;i++){
@@ -2119,15 +2170,15 @@ sortby [for column only]
                 if(row.group)
                     row.cells=null;
 
-                if(row.cells)
-                    _.arr.each(row.cells,function(g,j){
-                        headCell=pro.header[j];
+                if(v=row.cells)
+                    _.arr.each(pro.header,function(headCell,j){
+                        g=v[j]||(v[j]={});
 
                         var n={};
                         //check input
                         if(typeof g=='object' && g.constructor == Object){}
                         else{
-                            g = row.cells[j] = {value:g};
+                            g = v[j] = {value:g};
                             n.value=g;
                         }
                         //cell/cell link to row
@@ -2251,7 +2302,7 @@ sortby [for column only]
         _getCellId:function(profile, rowId, colId){
             return _.get(profile.rowMap,[profile.rowMap2[rowId], '_cells',colId]);
         },
-        _updCell:function(profile, cellId, hash, dirtyMark){
+        _updCell:function(profile, cellId, options, dirtyMark){
             var box=profile.box,
                 sc=linb.absObj.$specialChars,
                 cell,node;
@@ -2264,33 +2315,33 @@ sortby [for column only]
             }
             if(!cell)return;
 
-            if(typeof hash!='object')hash={value:hash};
-            hash=_.filter(hash,function(o,i){return !sc[i.charAt(0)] || i=='$caption' });
+            if(!_.isObj(options))options={value:options};
+            options=_.filter(options,function(o,i){return !sc[i.charAt(0)] || i=='$caption' });
 
-            if(false === profile.boxing().beforeCellUpdated(profile, cell, hash))
+            if(false === profile.boxing().beforeCellUpdated(profile, cell, options))
                 return;
 
             //special for caption
             delete cell.caption;
             if(cell.caption!==undefined){
-                hash.caption=hash.caption;
-                delete hash.caption;
+                options.caption=options.caption;
+                delete options.caption;
             }
-            _.merge(cell,hash,'all');
+            _.merge(cell,options,'all');
 
             node=profile.getSubNode('CELLA', cellId);
 
-            if('type' in hash){
+            if('type' in options){
                 var uicell={};
                 box._adjustCell(profile, cell, uicell);
                 node.parent().replace(_.str.toDom(profile.buildItems('rows.cells', [uicell])));
             }else
                 box._renderCell(profile, cell, node);
 
-            profile.boxing().afterCellUpdated(profile,cell, hash);
+            profile.boxing().afterCellUpdated(profile,cell, options);
 
             //if update value
-            if('value' in hash){
+            if('value' in options){
                 if(dirtyMark===false)
                     cell._$value=cell.value;
                 else{
@@ -2596,7 +2647,7 @@ sortby [for column only]
                 item = profile.cellMap[sid];
 
             if(item){
-                linb.Tips.show(pos, {tips:('tips' in item)?item.tips:(item._$tips||item.caption)});
+                linb.Tips.show(pos, ('tips' in item)?item.tips:(item._$tips||item.caption));
             }else
                 linb.Tips.hide();
             return true;

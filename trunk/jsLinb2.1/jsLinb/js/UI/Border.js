@@ -154,6 +154,7 @@ Class("linb.UI.Border","linb.UI",{
                 'line-height':0
             },
             '.setting-linb-border':{
+                'border-style':'solid',
                 'border-top-width':'1px',
                 'border-bottom-width':'1px',
                 'border-left-width':'1px',

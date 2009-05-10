@@ -26,6 +26,14 @@ _.set(linb.Locale,["en","app"], {
     oCode:'Original Code',
     oCodeDesc:'/*\n * Original code in jsLinb \n * With it, maybe you can understand the function easily \n*/'
 });
+var $eo={
+    $rtn:"[self]",
+    $paras:[
+        "fun [Optional]: Function, [this] pointer is the current element, arguments are [linb.DomProfile Object, DOM event Object, the current element].",
+        "label [Optional]: String, the event label.",
+        "flag  [Optional]: Boolean, for remove event only. to indicate if remove all related event."
+    ]
+};
 /*
 $desc string
 $paras array
@@ -37,6 +45,7 @@ $memo string
 _.set(linb.Locale,["en","doc"], {
     Namespace:{
         $desc:"Desclares a namespace.",
+        $rtn:"Object",
         $paras:[
             "key [Required]: String, namespace string."
         ],
@@ -44,10 +53,11 @@ _.set(linb.Locale,["en","doc"], {
     },
     Class:{
         $desc:"Desclares a class.",
+        $rtn:"Object",
         $paras:[
             "key [Required]: String, class string.",
             "pkey [Required]: String/Array, parent class key , array for inheriting multi parent class in order.",
-            "obj [Optional]: Object, class object. Default is {}."
+            "obj [Optional]: Object, class Object. Default is {}."
         ],
         $snippet:["// Equals to declare a Namespae 'Test.NS' and declare a Class 'Test.NS.Cls'; \n  Class('Test.NS.Cls'); Class('Test.NS.Cls.Subcls', 'Test.NS.Cls', {}); alert(typeof Test.NS); alert(typeof Test.NS.Cls); alert(typeof Test.NS.Cls.Subcls);"],
         $links:[
@@ -115,7 +125,7 @@ _.set(linb.Locale,["en","doc"], {
                 $desc:"Removes a specified element from an array.",
                 $rtn:'Array',
                 $paras: [
-                    "arr [Required] [Required]: Array, target array.",
+                    "arr [Required] : Array, target array.",
                     "value: Any, element to be removed."
                 ],
                 $snippet:[
@@ -123,7 +133,7 @@ _.set(linb.Locale,["en","doc"], {
                 ]
             },
             subIndexOf:{
-                $desc:"Returns the first index at which a given key and value can be found in the object element of the array, or -1 if it is not present.",
+                $desc:"Returns the first index at which a given key and value can be found in the Object element of the array, or -1 if it is not present.",
                 $rtn:'Number',
                 $paras: [
                     "arr [Required]: Array, target array.",
@@ -137,6 +147,7 @@ _.set(linb.Locale,["en","doc"], {
         },
         asyRun:{
             $desc:"Asynchronous Function Call.",
+            $rtn:"Interger",
             $paras:[
                 "fun [Required]: Funcition, target function.",
                 "defer [Optional]: Number, setTimeout defer time. Default is 0",
@@ -148,9 +159,9 @@ _.set(linb.Locale,["en","doc"], {
             ]
         },
         breakO:{
-            $desc:"Breaks object reference[for memory release].",
+            $desc:"Breaks Object reference[for memory release].",
             $paras:[
-                "target [Required]: Object, target object to break.",
+                "target [Required]: Object, target Object to break.",
                 "depth [Optional]: Number, depth value. Default is 1."
             ],
             $snippet:[
@@ -159,10 +170,10 @@ _.set(linb.Locale,["en","doc"], {
             ]
         },
         clone:{
-            $desc:"Clones object, deep copy.",
-            $rtn:"Cloned object",
+            $desc:"Clones Object, deep copy.",
+            $rtn:"Object",
             $paras:[
-                "hash [Required]: Object, target object to clone.",
+                "hash [Required]: Object, target Object to clone.",
                 "filter [Optional]: Function, arguments: [hash value, hash key]. to Determines whether or not it clones certain item. Or [true], means to neglect those items which key starts with '_'.",
                 "deep [Optional]: Number, default is 100."
             ],
@@ -174,19 +185,19 @@ _.set(linb.Locale,["en","doc"], {
             ]
         },
         copy:{
-            $desc:"Shadow copy, just clones the fist layer of object.",
-            $rtn:"Copied object",
+            $desc:"Shadow copy, just clones the fist layer of Object.",
+            $rtn:"Object",
             $paras:[
-                "hash [Required]: Object, target object to copy.",
+                "hash [Required]: Object, target Object to copy.",
                 "filter [Optional]: Function, arguments: [hash value, hash key]. to Determines whether or not it copy certain item. Or [true], means to neglect those items which key starts with '_'.",
             ],
             $memo:"Sees <a href='#_.clone'>_.clone</a>"
         },
         each:{
-            $desc:"Loops through each element of the object, and apply fun.",
-            $rtn:"the first parameter",
+            $desc:"Loops through each element of the Object, and apply fun.",
+            $rtn:"Object",
             $paras:[
-                "hash [Required]: Object, object to loop.",
+                "hash [Required]: Object, Object to loop.",
                 "fun [Required]: Function, arguments: [hash value, hash key]. The Function for apply.",
                 "scope [Optional]: Object, [this] pointer for [fun]."
             ],
@@ -196,7 +207,7 @@ _.set(linb.Locale,["en","doc"], {
         },
         'exec':{
             $desc:"Executes script string.",
-            $rtn:"The return of script",
+            $rtn:"Object",
             $paras:[
                 "script [Required]: String, script string."
             ],
@@ -206,19 +217,19 @@ _.set(linb.Locale,["en","doc"], {
         },
         exists:{
             $desc:"Equals to [target==undefined].",
-            $rtn:"Bool",
+            $rtn:"Boolean",
             $paras:[
-                "target [Required]: Object, target object."
+                "target [Required]: Object, target Object."
             ],
             $snippet:[
                 "alert(_.exists(window.aaaa))"
             ]
         },
         filter:{
-            $desc:"Filters items out of a object({} or []).",
-            $rtn:"the object",
+            $desc:"Filters items out of a Object({} or []).",
+            $rtn:"Object",
             $paras:[
-                "obj [Required]: Object, object to filter.",
+                "obj [Required]: Object, Object to filter.",
                 "filter [Optional]: Function, arguments: [hash value, hash key]. to Determines whether or not it keeps certain item. Or [true], means to filter those items which key starts with '_'.",
                 "force [Optional]: Bool, force to take [obj] as a {}. Default is false."
             ],
@@ -266,9 +277,9 @@ _.set(linb.Locale,["en","doc"], {
         },
         get:{
             $desc:"Gets something from deep hash.",
-            $rtn:"variable",
+            $rtn:"Object",
             $paras:[
-                "hash [Required]: Object, deep hash object.",
+                "hash [Required]: Object, deep hash Object.",
                 "arr [Required]: Array, path array, ['a','b','c'] => {a:{b:{c:[variable]}}}."
             ],
             $snippet:[
@@ -287,7 +298,7 @@ _.set(linb.Locale,["en","doc"], {
         },
         isArr :{
             $desc:"To Determines whether or not the target is Array.",
-            $rtn:"Bool",
+            $rtn:"Boolean",
             $paras:[
                 "target [Required]: any"
             ],
@@ -297,7 +308,7 @@ _.set(linb.Locale,["en","doc"], {
         },
         isBool :{
             $desc:"To Determines whether or not the target is Bool.",
-            $rtn:"Bool",
+            $rtn:"Boolean",
             $paras:[
                 "target [Required]: any"
             ],
@@ -307,7 +318,7 @@ _.set(linb.Locale,["en","doc"], {
         },
         isDate :{
             $desc:"To Determines whether or not the target is Date.",
-            $rtn:"Bool",
+            $rtn:"Boolean",
             $paras:[
                 "target [Required]: any"
             ],
@@ -317,18 +328,18 @@ _.set(linb.Locale,["en","doc"], {
         },
         isEmpty :{
             $desc:"To Determines whether or not the target is empty Object.",
-            $rtn:"Bool",
+            $rtn:"Boolean",
             $paras:[
                 "target [Required]: any"
             ],
             $snippet:[
                 "alert(_.isEmpty('s')+':'+_.isEmpty(//)+':'+_.isEmpty(function(){})+':'+_.isEmpty(1)+':'+_.isEmpty(NaN)+':'+_.isEmpty({})+':'+_.isEmpty(new Date)+':'+_.isEmpty(null)+':'+_.isEmpty(undefined)+':'+_.isEmpty(true)+':'+_.isEmpty([]));"
             ],
-            $memo:"It's only for hash object"
+            $memo:"It's only for hash Object"
         },
         isFun :{
             $desc:"To Determines whether or not the target is a Function.",
-            $rtn:"Bool",
+            $rtn:"Boolean",
             $paras:[
                 "target [Required]: any"
             ],
@@ -337,8 +348,8 @@ _.set(linb.Locale,["en","doc"], {
             ]
         },
         isArguments:{
-            $desc:"To Determines whether or not the target is an arguments object.",
-            $rtn:"Bool",
+            $desc:"To Determines whether or not the target is an arguments Object.",
+            $rtn:"Boolean",
             $paras:[
                 "target [Required]: any"
             ],
@@ -348,7 +359,7 @@ _.set(linb.Locale,["en","doc"], {
         },
         isHash:{
             $desc:"To Determines whether or not the target is a hash Object.",
-            $rtn:"Bool",
+            $rtn:"Boolean",
             $paras:[
                 "target [Required]: any"
             ],
@@ -358,7 +369,7 @@ _.set(linb.Locale,["en","doc"], {
         },
         isNull:{
             $desc:"To Determines whether or not the target is null.",
-            $rtn:"Bool",
+            $rtn:"Boolean",
             $paras:[
                 "targe [Required]t: any"
             ],
@@ -368,7 +379,7 @@ _.set(linb.Locale,["en","doc"], {
         },
         isNumb:{
             $desc:"To Determines whether or not the target is Number.",
-            $rtn:"Bool",
+            $rtn:"Boolean",
             $paras:[
                 "target [Required]: any"
             ],
@@ -378,7 +389,7 @@ _.set(linb.Locale,["en","doc"], {
         },
         isObj :{
             $desc:"To Determines whether or not the target is Object.",
-            $rtn:"Bool",
+            $rtn:"Boolean",
             $paras:[
                 "target [Required]: any"
             ],
@@ -388,7 +399,7 @@ _.set(linb.Locale,["en","doc"], {
         },
         isReg :{
             $desc:"To Determines whether or not the target is regular expression.",
-            $rtn:"Bool",
+            $rtn:"Boolean",
             $paras:[
                 "target [Required]: any"
             ],
@@ -398,7 +409,7 @@ _.set(linb.Locale,["en","doc"], {
         },
         isStr :{
             $desc:"To Determines whether or not the target is String.",
-            $rtn:"Bool",
+            $rtn:"Boolean",
             $paras:[
                 "target [Required]: any"
             ],
@@ -408,7 +419,7 @@ _.set(linb.Locale,["en","doc"], {
         },
         merge:{
             $desc:"Merges hash from source to target.",
-            $rtn:"merged target",
+            $rtn:"Object",
             $paras:[
                 "target [Required]: Object, target hash Object.",
                 "source [Required]: Object, source hash Object.",
@@ -448,12 +459,12 @@ _.set(linb.Locale,["en","doc"], {
             ]
         },
         serialize:{
-            $desc: "To serialize object to JSON string.",
+            $desc: "To serialize Object to JSON string.",
             $rtn: "String",
             $paras:[
-                "obj [Required]: Object, target object. ",
+                "obj [Required]: Object, target Object. ",
                  "filter [Optional]: Function, arguments: [hash value, hash key]. to Determines whether or not it serializes certain item. Or [true], means to neglect those items which key starts with '_'.",
-                "dateformat  [Optional]: String, 'utc' or 'gmt'. Force to serialize all the [Date]in the target object into ISO UTC string, ISO GMT string, or the default format( new Date(yyyy,mm,dd,hh,nn,ss,ms) )."
+                "dateformat  [Optional]: String, 'utc' or 'gmt'. Force to serialize all the [Date]in the target Object into ISO UTC string, ISO GMT string, or the default format( new Date(yyyy,mm,dd,hh,nn,ss,ms) )."
             ],
             $snippet:[
                 "alert(_.serialize('a'));"+
@@ -471,9 +482,9 @@ _.set(linb.Locale,["en","doc"], {
         },
         set:{
             $desc:"Sets/Unsets something to deep hash.",
-            $rtn:"set value",
+            $rtn:"Object",
             $paras:[
-                "hash [Required]: Object, deep hash object.",
+                "hash [Required]: Object, deep hash Object.",
                 "arr [Required]: Array, path array, ['a','b','c'] => {a:{b:{c:[variable]}}}.",
                 "value [Optional]: any, value to set. Default is undefined => Unsets value."
             ],
@@ -504,10 +515,10 @@ _.set(linb.Locale,["en","doc"], {
             ]
         },
         urlEncode:{
-            $desc:"Converts a key/value pairs object to URL query string.",
+            $desc:"Converts a key/value pairs Object to URL query string.",
             $rtn:"String",
             $paras:[
-                "hash [Required] : a key/value pairs object."
+                "hash [Required] : a key/value pairs Object."
             ],
             $snippet:[
                 "alert(_.urlEncode({a:1,b:2}));"+
@@ -517,7 +528,7 @@ _.set(linb.Locale,["en","doc"], {
         },
         urlDecode:{
             $desc:"Gets a value from a given query string.",
-            $rtn:"String or key/value pairs.",
+            $rtn:"Object",
             $paras:[
                 "str [Required] : String, query string.",
                 "key [Optional] : String."
@@ -592,7 +603,7 @@ _.set(linb.Locale,["en","doc"], {
             },
             toDom:{
                 $desc:"To create DOM element based on the specified string.",
-                $rtn:'Array of DOM element',
+                $rtn:'linb.Dom',
                 $paras:[
                     "str [Required]: String, target string."
                 ],
@@ -612,11 +623,11 @@ _.set(linb.Locale,["en","doc"], {
             }
         },
         toArr:{
-            $desc:"Makes an Array object from input value.",
+            $desc:"Makes an Array Object from input value.",
             $rtn:"Array",
             $paras:[
-                "value [Required]: Object, target object.",
-                "flag [Optional]: Bool , char, or [undefined]. [undefined] for trans arguments to Array, char for trans String to Arry, Bool for trans hash object to Array. Default is [undefined]."
+                "value [Required]: Object, target Object.",
+                "flag [Optional]: Bool , char, or [undefined]. [undefined] for trans arguments to Array, char for trans String to Arry, Bool for trans hash Object to Array. Default is [undefined]."
             ],
             $snippet:[
                 "var s='a,b,c', a=_.toArr(s); alert(_.serialize(a));",
@@ -628,7 +639,7 @@ _.set(linb.Locale,["en","doc"], {
         },
         tryF:{
             $desc:"To try to run a function.",
-            $rtn:"function return",
+            $rtn:"Object",
             $paras:[
                 "fun [Required]: Function. Function to run.",
                 "args [Optional]: Array, Arguments for fun.",
@@ -642,7 +653,7 @@ _.set(linb.Locale,["en","doc"], {
             ]
         },
         unserialize:{
-            $desc:"To unserialize JSON string to a javascript object.",
+            $desc:"To unserialize JSON string to a javascript Object.",
             $rtn:"Object",
             $paras:[
                 "str [Required]: String, string to unserialize.",
@@ -661,8 +672,8 @@ _.set(linb.Locale,["en","doc"], {
 });
 
 _.set(linb.Locale,["en","doc","linb"], {
-    $desc:"A shortcut function to create a linb.Dom object to wrap a set of DOM elements.",
-    $rtn:"linb.Dom object",
+    $desc:"A shortcut function to create a linb.Dom Object to wrap a set of DOM elements.",
+    $rtn:"linb.Dom",
     $paras:[
         "nodes [Optional]: Any, any variable to match a set of DOM elements. Maybe a [DOM element], a [DOM element] array, a [DOM element id] or a [DOM element id] array. Default is [].",
         "flag [Optional]: Bool, ignore clean function(for better performance) or not. Default is false."
@@ -672,66 +683,66 @@ _.set(linb.Locale,["en","doc","linb"], {
         "//Input DOM element \n var n=linb(document.getElementById('btnLang')); alert(n.get(0).id);",
         "//Input DOM element id array\n var n=linb(['btnLang']); alert(n.get(0).id);",
         "//Input DOM element array\n var n=linb([document.getElementById('btnLang')]); alert(n.get(0).id);",
-        "//Input linb.Dom object \n var n=linb(linb('btnLang')); alert(n.get(0).id);",
-        "//Input linb.UI object \n var n=linb(linb.UI.Div.getAll()); alert(n.get(0).id);",
+        "//Input linb.Dom Object \n var n=linb(linb('btnLang')); alert(n.get(0).id);",
+        "//Input linb.UI Object \n var n=linb(linb.UI.Div.getAll()); alert(n.get(0).id);",
         "//Input a function that can return DOM elements array\n var n=linb(function(){return [document.getElementById('btnLang')]}); alert(n.get(0).id);",
         "//Input '{linb.UI key}' \n var n=linb('{linb.UI.Div}'); alert(n.get(0).id);"
     ],
     isDomReady:{
-        $desc:"Indicates whether or not the DOM is ready.",
+        $desc:"Boolean, Indicates whether or not the DOM is ready.",
         $snippet:[
             "alert(linb.isDomReady)"
         ]
     },
     Locale: {
-        $desc:"linb.Locale is an hash object for locale related info.",
-        $snippet:[
+        $desc:"String, linb.Locale is an hash Object for locale related info.",
+\        $snippet:[
             "_.each(linb.Locale.en,function(o,i){alert(i+':'+o)})"
         ],
         $memo:"Use linb.getRes([resource key]) to get Locale value"
     },
     browser:{
-        $desc:"linb.browser is an hash object for browser related info.",
+        $desc:"Object, linb.browser is an hash Object for browser related info.",
         $snippet:[
             "alert(_.serialize(linb.browser))"
         ]
     },
     cache:{
-        $desc:"linb.cache is an hash object for cache related info.",
+        $desc:"Object, linb.cache is an hash Object for cache related info.",
         $snippet:[
             "_.each(linb.cache,function(o,i){alert(i+':'+o)})"
         ]
     },
     ini:{
-        $desc:"linb.ini is an hash object collection for jsLinb path, application path and other path name. And, jsLinb will merge customized [linb_ini](You must declare [linb_ini] before jsLinb lib is loaded.) object into [linb.ini] too.",
+        $desc:"Object, linb.ini is an hash Object collection for jsLinb path, application path and other path name. And, jsLinb will merge customized [linb_ini](You must declare [linb_ini] before jsLinb lib is loaded.) Object into [linb.ini] too.",
         $snippet:[
             "alert(_.serialize(linb.ini))"
         ]
     },
     win:{
-        $desc:"The shortcut of linb([window])."
+        $desc:"linb.Dom, The shortcut of linb([window])."
     },
     doc:{
-        $desc:"The shortcut of linb([document])."
+        $desc:"linb.Dom, The shortcut of linb([document])."
     },
 
     create:{
-        $desc:"To create DOM element or linb.UI object.",
-        $rtn:"linb.Dom object or linb.UI object",
+        $desc:"To create DOM element or linb.UI Object.",
+        $rtn:"linb.Dom/linb.UI",
         $snippet:[
             "//create DOM element \n var a=linb.create('div'); alert(a.get(0).nodeName)",
             "//create DOM element \n var a=linb.create('<div>node</div>'); alert(a.get(0).nodeName)",
             "//create text DOM element \n var a=linb.create('text node',true); alert(a.get(0).nodeName)",
-            "//create linb.UI object \n var a=linb.create('linb.UI.Button'); alert(a.get(0).key)",
-            "//create linb.UI object \n //parameters: // key,properties, events, host \n var a=linb.create('linb.UI.Button',{caption:'btn'}); alert(a.get(0).key)",
-            "//create linb.UI object \n var profile = (new linb.UI.Button()).get(0); var a=linb.create(profile); alert(a.get(0).key)"
+            "//create linb.UI Object \n var a=linb.create('linb.UI.Button'); alert(a.get(0).key)",
+            "//create linb.UI Object \n //parameters: // key,properties, events, host \n var a=linb.create('linb.UI.Button',{caption:'btn'}); alert(a.get(0).key)",
+            "//create linb.UI Object \n var profile = (new linb.UI.Button()).get(0); var a=linb.create(profile); alert(a.get(0).key)"
         ]
     },
     getObject:{
-        $desc:"Each linb.UIProfile/linb.Template object has an unique id, this function enables you to get UIProfile/linb.Template object by the unique id.",
+        $desc:"Each linb.UIProfile/linb.Template Object has an unique id, this function enables you to get UIProfile/linb.Template Object by the unique id.",
         $rtn:'linb.UIProfile',
         $paras:[
-            "id [Required]: String, linb.UI object unique id."
+            "id [Required]: String, linb.UI Object unique id."
         ],
         $snippet:[
             "var id=linb.UI.getAll().get(0).getId(); alert(linb.getObject(id).key);"
@@ -788,8 +799,8 @@ _.set(linb.Locale,["en","doc","linb"], {
         $paras:[
             "uri [Required]: String, The URL of the request target.",
             "query [Optional]:  Object[Key/value pairs], request data. Defalut is {}.",
-            "onSuccess [Optional]: Function, arguments:[response object, response type, threadid]. A function to be executed whenever a request is done successfully.",
-            "onFail [Optional]: Function, arguments:[response object, response type, threadid]. A function to be executed whenever a request fails.",
+            "onSuccess [Optional]: Function, arguments:[response Object, response type, threadid]. A function to be executed whenever a request is done successfully.",
+            "onFail [Optional]: Function, arguments:[response Object, response type, threadid]. A function to be executed whenever a request fails.",
             "threadid [Optional]: String, a thread id to be bound to the current request. [suspend the thread -> execute request -> resume thread]",
             "options [Optional]: Object, a set of key/value pairs that configure the request. All options are optional. <strong>Values in Parameters has high priority</strong>."
         ],
@@ -828,6 +839,7 @@ _.set(linb.Locale,["en","doc","linb"], {
     },
     getAppLangKey:{
         $desc:"Gets the current application language key.",
+        $rtn:"String",
         $snippet:["linb.setAppLangKey('app'); alert(linb.getAppLangKey());"]
     },
     setAppLangKey:{
@@ -836,6 +848,7 @@ _.set(linb.Locale,["en","doc","linb"], {
     },
     getLang:{
         $desc:"Gets the language.",
+        $rtn:"String",
         $snippet:["alert(linb.getLang());"]
     },
     setLang:{
@@ -867,10 +880,10 @@ _.set(linb.Locale,["en","doc","linb"], {
 });
 
 _.set(linb.Locale,["en","doc","linb","Thread"], {
-    $desc:"To Get/Create a linb.Thread object. <br /> linb.Thread model: <strong>[onStart function]--delay 1-->[task function 1][callback function 1]--delay 2-->[task function 2][callback function 2]--delay 3-->[task function ...n][callback function ...n][onEnd function]</strong>",
-    $rtn:"linb.tread object",
+    $desc:"To Get/Create a linb.Thread Object. <br /> linb.Thread model: <strong>[onStart function]--delay 1-->[task function 1][callback function 1]--delay 2-->[task function 2][callback function 2]--delay 3-->[task function ...n][callback function ...n][onEnd function]</strong>",
+    $rtn:"linb.Thread",
     $paras:[
-        "id [Required]: String, for identify a thead. If system finds an existing linb.Thread object with this id, this function will return that object ; If system does not find it, or this function doesn't specify id, system will create a new linb.Thread object, assign an unique id to it, and return it. Uses null if you don't want to specify it.",
+        "id [Required]: String, for identify a thead. If system finds an existing linb.Thread Object with this id, this function will return that Object ; If system does not find it, or this function doesn't specify id, system will create a new linb.Thread Object, assign an unique id to it, and return it. Uses null if you don't want to specify it.",
         "tasks [Required]: Array, functions/'function package' to execute. package format:<br> { <br>"+
                 "task [Required],      //Function, arguments: args or [threadid]. task function.<br>"+
                 "args [Optional],      //Array, arguments for task function.<br>"+
@@ -893,7 +906,7 @@ _.set(linb.Locale,["en","doc","linb","Thread"], {
         "var a=[];linb.Thread(null, [function(threadid){a.push(threadid+' task1')},{task:function(threadid){a.push(threadid+' task2')},callback:function(threadid){a.push(threadid+' not the default callback')}}],null,function(threadid){a.push(threadid+' callback')},function(threadid){a.push(threadid+' start')},function(threadid){a.push(threadid+' end'); alert(a);}).start()",
         "var a=[],i=3; linb.Thread(null, [function(){a.push(1)},function(){a.push(2)}],0,function(){i--;if(!i)return false;},null,function(){alert(a);},true).start()"
     ],
-    $memo:"Dont use [new linb.tread] to create a [linb.tread] object.",
+    $memo:"Dont use [new linb.tread] to create a [linb.tread] Object.",
     abort:{
         $desc:"To abort the specified thread.",
         $paras:[
@@ -919,8 +932,8 @@ _.set(linb.Locale,["en","doc","linb","Thread"], {
     },
 
     isAlive:{
-        $desc:"Gets a specified thread object by threadid.",
-        $rtn:"linb.Thread",
+        $desc:"Gets a specified thread Object by threadid.",
+        $rtn:"Boolean",
         $paras:[
             "id [Required]: String, thread id."
         ],
@@ -930,11 +943,11 @@ _.set(linb.Locale,["en","doc","linb","Thread"], {
         ]
     },
     group:{
-        $desc:"To group a set of linb.Thread object(or threadid), wrap them to a shell thread. You can execute them in parallel.",
+        $desc:"To group a set of linb.Thread Object(or threadid), wrap them to a shell thread. You can execute them in parallel.",
         $rtn:"linb.Thread",
         $paras:[
             "id [Required]: String, thread id. Uses [null] if you don't want to specify it.",
-            "group [Required]: Array, a set of linb.Thread object(or threadid).",
+            "group [Required]: Array, a set of linb.Thread Object(or threadid).",
             "callback [Optional]: Function, arguments: [threadid]. Callback function for the shell thread.",
             "onStart [Optional]: Function, arguments: [threadid].  onStart function for the shell thread.",
             "onEnd [Optional]:  Function, arguments: [threadid].  onEnd function for the shell thread."
@@ -975,9 +988,9 @@ _.set(linb.Locale,["en","doc","linb","Thread"], {
     prototype:{
         links:{
             $desc:"Links another thread(the target thread) to the current one, the target thread will be started after the [onEnd] function of the current thread finishes. ",
-            $rtn:"self",
+            $rtn:"[self]",
             $paras:[
-                "thread [Required] : linb.Thread object, the target thread to be linked."
+                "thread [Required] : linb.Thread Object, the target thread to be linked."
             ],
             $snippet:[
                 "var out=[];var t1=linb.Thread(null,[function(){out.push(2)},function(){out.push(3)}],null,null,function(){out.push(1)},function(){out.push(4)});" +
@@ -993,14 +1006,14 @@ _.set(linb.Locale,["en","doc","linb","Thread"], {
         },
         suspend:{
             $desc:"Suspends the thread until the [resume] function will be called.",
-            $rtn:"linb.Thread",
+            $rtn:"[self]",
             $snippet:[
                 "linb.Thread('_bb',[function(){linb.message(1)},function(){linb.Thread('_bb').suspend();_.asyRun(function(){linb.Thread('_bb').resume()},3000)},function(){linb.message(2)}]).start();"
             ]
         },
         resume:{
             $desc:"Resumes to execute the suspended thread.",
-            $rtn:"linb.Thread",
+            $rtn:"[self]",
             $paras:[
                 "time [Optional]: undefined/Number/Bool.<br> "+
                     "Number: Resumes to execute the next task after [time]ms. <br> "+
@@ -1014,7 +1027,7 @@ _.set(linb.Locale,["en","doc","linb","Thread"], {
         },
         start:{
             $desc:"Starts to execute a thread",
-            $rtn:"linb.Thread",
+            $rtn:"[self]",
             $paras:[
                 "id [Required]: String, thread id."
             ],
@@ -1023,8 +1036,8 @@ _.set(linb.Locale,["en","doc","linb","Thread"], {
             ]
         },
         getCache:{
-            $desc:"Get a cache value from thread object according to a key.",
-            $rtn:"Any",
+            $desc:"Get a cache value from thread Object according to a key.",
+            $rtn:"Object",
             $paras:[
                 "key [Required]: String, cache key."
             ],
@@ -1033,8 +1046,8 @@ _.set(linb.Locale,["en","doc","linb","Thread"], {
             ]
         },
         setCache:{
-            $desc:"Set a cache value to thread object.",
-            $rtn:"linb.Thread",
+            $desc:"Set a cache value to thread Object.",
+            $rtn:"[self]",
             $paras:[
                 "key [Required]: String, cache key.",
                 "value [Required]: String, cache value."
@@ -1045,7 +1058,7 @@ _.set(linb.Locale,["en","doc","linb","Thread"], {
         },
         insert:{
             $desc:"Inserts a set of tasks[function] to the currrent thread.",
-            $rtn:"self",
+            $rtn:"[self]",
             $paras:[
                 "arr [Required]: Array, a set of tasks[function].",
                 "index [Optional]: Nubmer, the target postion. Default is the inner current index(the position before the next task to be executed)."
@@ -1062,7 +1075,7 @@ _.set(linb.Locale,["en","doc","linb","absIO"], {
         $desc:"To build query string.",
         $rtn:"String",
         $paras:[
-            "hash [Required]: Object, target object to build query string.",
+            "hash [Required]: Object, target Object to build query string.",
             "flag [Optional]: Bool, true: to return 'a serialized String'. false: to return a 'A URL query string'."
         ],
         $snippet:[
@@ -1070,11 +1083,11 @@ _.set(linb.Locale,["en","doc","linb","absIO"], {
         ]
     },*/
     groupCall:{
-        $desc:"To group a set of linb.absIO object, wrap them to a shell thread. You can execute them in parallel.",
+        $desc:"To group a set of linb.absIO Object, wrap them to a shell thread. You can execute them in parallel.",
         $rtn:"linb.Thread",
         $paras:[
-            "hash [Required]: hash object, A set of linb.absIO object",
-            "callback [Optional]: Function,  this function will be triggered after each linb.absIO object has ended.",
+            "hash [Required]: hash Object, A set of linb.absIO Object",
+            "callback [Optional]: Function,  this function will be triggered after each linb.absIO Object has ended.",
             "onStart [Optional]: Function, onStart function for the shell thread.",
             "onEnd [Optional]: Function, onEnd function for the shell thread.",
             "threadid [Optional]: String, a thread id to be bound to the current request. [suspend the thread -> execute the request -> resume the thread]"
@@ -1085,7 +1098,7 @@ _.set(linb.Locale,["en","doc","linb","absIO"], {
     },
     isCrossDomain:{
         $desc:"To Determines whether  or not the given path is a cross domain URI.",
-        $rtn:"Bool",
+        $rtn:"Boolean",
         $paras:[
             "uri [Required]: String, URI path String."
         ],
@@ -1094,14 +1107,16 @@ _.set(linb.Locale,["en","doc","linb","absIO"], {
         ]
     },
     customQS: {
-        $desc:"To customize query string object. Subclass can overwrite it for adding extra variables or something.",
+        $desc:"To customize query string Object. Subclass can overwrite it for adding extra variables or something.",
+        $rtn:"Object",
         $paras:[
             "obj [Required]: Object or String, query original value."
         ]
     },
     prototype:{
         start:{
-            $desc:"Starts to execute a linb.absIO object",
+            $desc:"Starts to execute a linb.absIO Object",
+            $rtn:"[self]",
             $snippet:[
                 "//linb.Ajax('uri').start();"
             ]
@@ -1143,13 +1158,13 @@ _.set(linb.Locale,["en","doc","linb","XML"], {
 });
 
 _.set(linb.Locale,["en","doc","linb","Ajax"], {
-    $desc:"To Create a linb.Ajax object. <strong>linb.Ajax can handle GET/POST request in the current domain; linb.Ajax is the only one can handle the synchronous request.</strong>",
-    $rtn:"linb.Ajax object",
+    $desc:"To Create a linb.Ajax Object. <strong>linb.Ajax can handle GET/POST request in the current domain; linb.Ajax is the only one can handle the synchronous request.</strong>",
+    $rtn:"linb.Ajax",
     $paras:[
-        "uri [Required]: String/Object. String -- The URL of the request target; Object(to see options) -- a set of key/value pairs that configure the request. If this parameter is object, other parameters will be ignored.",
+        "uri [Required]: String/Object. String -- The URL of the request target; Object(to see options) -- a set of key/value pairs that configure the request. If this parameter is Object, other parameters will be ignored.",
         "query [Optional]:  Object[Key/value pairs], request data.",
-        "onSuccess [Optional]: Function, arguments:[response object, response type, threadid]. A function to be executed whenever the request is done successfully.",
-        "onFail [Optional]: Function, arguments:[response object, response type, threadid]. A function to be executed whenever the request fails.",
+        "onSuccess [Optional]: Function, arguments:[response Object, response type, threadid]. A function to be executed whenever the request is done successfully.",
+        "onFail [Optional]: Function, arguments:[response Object, response type, threadid]. A function to be executed whenever the request fails.",
         "threadid [Optional]: String, a thread id to be bound to the current request. [suspend the thread -> execute the request -> resume the thread]",
         "options [Optional]: Object, a set of key/value pairs that configure the request. All options are optional. <strong>Values in Parameters has high priority</strong>." +
             "<br>{"+
@@ -1163,10 +1178,10 @@ _.set(linb.Locale,["en","doc","linb","Ajax"], {
             "<br>&nbsp;&nbsp;timeout: Number, the timeout time(ms) for this request."+
             "<strong><br>&nbsp;&nbsp;resType: String 'text' or 'xml', Response type of the request.</strong>"+
             "<br><em>//functions</em>"+
-            "<br>&nbsp;&nbsp;cusomQS: Function, arguments: [obj, type]. A function to customize query string object."+
+            "<br>&nbsp;&nbsp;cusomQS: Function, arguments: [obj, type]. A function to customize query string Object."+
             "<br><em>//normal events</em>"+
-            "<br>&nbsp;&nbsp;onSuccess: Function, arguments:[response object, response type, threadid]. A function to be executed whenever the request is done successfully."+
-            "<br>&nbsp;&nbsp;onFail: Function, arguments:[response object, response type, threadid]. Afunction to be executed whenever the request fails."+
+            "<br>&nbsp;&nbsp;onSuccess: Function, arguments:[response Object, response type, threadid]. A function to be executed whenever the request is done successfully."+
+            "<br>&nbsp;&nbsp;onFail: Function, arguments:[response Object, response type, threadid]. Afunction to be executed whenever the request fails."+
             "<br><em>//trace events</em>"+
             "<br>&nbsp;&nbsp;onRetry: Function, arguments:[the current retry time], A function will be triggered when the request retries."+
             "<br>&nbsp;&nbsp;onTimeout: Function, , A function will be triggered when the request the request is timeout."+
@@ -1174,7 +1189,7 @@ _.set(linb.Locale,["en","doc","linb","Ajax"], {
             "<br>&nbsp;&nbsp;onEnd: Function,  , A function will be triggered when the request ends."+
             "<br><em>//before events</em>"+
             "<br>&nbsp;&nbsp;beforeStart: Function. A function to be executed before onStart, if it returns [false], the request will be End."+
-            "<br>&nbsp;&nbsp;beforeFail: Function, arguments:[error object, threadid]. A function to be executed before onFail, if it returns [false], the request will not call onFail function."+
+            "<br>&nbsp;&nbsp;beforeFail: Function, arguments:[error Object, threadid]. A function to be executed before onFail, if it returns [false], the request will not call onFail function."+
             "<br>&nbsp;&nbsp;beforeSuccess: Function, arguments:[response, response type, threadid]. A function to be executed before onSuccess, if it returns [false], the request will not call onSuccess function."+
             "<br>}"
     ],
@@ -1221,7 +1236,8 @@ _.set(linb.Locale,["en","doc","linb","Ajax"], {
     },
     prototype:{
         start:{
-            $desc:"Starts to execute a linb.absIO object",
+            $desc:"Starts to execute a linb.absIO Object",
+            $rtn:"[self]",
             $snippet:[
                 "//linb.Ajax('uri').start();"
             ]
@@ -1236,13 +1252,13 @@ _.set(linb.Locale,["en","doc","linb","Ajax"], {
 });
 
 _.set(linb.Locale,["en","doc","linb","SAjax"], {
-    $desc:"To Create a linb.SAjax object. <strong>linb.SAjax can handle GET request cross domain, but cant POST data.</strong>.",
-    $rtn:"linb.SAjax object",
+    $desc:"To Create a linb.SAjax Object. <strong>linb.SAjax can handle GET request cross domain, but cant POST data.</strong>.",
+    $rtn:"linb.SAjax",
     $paras:[
-        "uri [Required]: String/Object. String -- The URL of the request target; Object(to see options) -- a set of key/value pairs that configure the request. If this parameter is object, other parameters will be ignored.",
+        "uri [Required]: String/Object. String -- The URL of the request target; Object(to see options) -- a set of key/value pairs that configure the request. If this parameter is Object, other parameters will be ignored.",
         "query [Optional]:  Object[Key/value pairs], request data.",
-        "onSuccess [Optional]: Function, arguments:[response object, response type, threadid]. A function to be executed whenever the request is done successfully.",
-        "onFail [Optional]: Function, arguments:[response object, response type, threadid]. A function to be executed whenever the request fails.",
+        "onSuccess [Optional]: Function, arguments:[response Object, response type, threadid]. A function to be executed whenever the request is done successfully.",
+        "onFail [Optional]: Function, arguments:[response Object, response type, threadid]. A function to be executed whenever the request fails.",
         "threadid [Optional]: String, a thread id to be bound to the current request. [suspend the thread -> execute the request -> resume the thread]",
         "options [Optional]: Object, a set of key/value pairs that configure the request. All options are optional. <strong>Values in Parameters has high priority</strong>." +
             "<br>{"+
@@ -1254,10 +1270,10 @@ _.set(linb.Locale,["en","doc","linb","SAjax"], {
             "<br>&nbsp;&nbsp;timeout: Number, the timeout time(ms) for this request."+
             "<strong><br>&nbsp;&nbsp;resType: String, 'json' or 'script'. Response type of the request.</strong>"+
             "<br><em>//functions</em>"+
-            "<br>&nbsp;&nbsp;cusomQS: Function, arguments: [obj, type]. A function to customize query string object."+
+            "<br>&nbsp;&nbsp;cusomQS: Function, arguments: [obj, type]. A function to customize query string Object."+
             "<br><em>//normal events</em>"+
-            "<br>&nbsp;&nbsp;onSuccess: Function, arguments:[response object, response type, threadid]. A function to be executed whenever the request is done successfully."+
-            "<br>&nbsp;&nbsp;onFail: Function, arguments:[response object, response type, threadid]. Afunction to be executed whenever the request fails."+
+            "<br>&nbsp;&nbsp;onSuccess: Function, arguments:[response Object, response type, threadid]. A function to be executed whenever the request is done successfully."+
+            "<br>&nbsp;&nbsp;onFail: Function, arguments:[response Object, response type, threadid]. Afunction to be executed whenever the request fails."+
             "<br><em>//trace events</em>"+
             "<br>&nbsp;&nbsp;onRetry: Function, arguments:[the current retry time], A function will be triggered when the request retries."+
             "<br>&nbsp;&nbsp;onTimeout: Function, , A function will be triggered when the request the request is timeout."+
@@ -1265,7 +1281,7 @@ _.set(linb.Locale,["en","doc","linb","SAjax"], {
             "<br>&nbsp;&nbsp;onEnd: Function,  , A function will be triggered when the request ends."+
             "<br><em>//before events</em>"+
             "<br>&nbsp;&nbsp;beforeStart: Function. A function to be executed before onStart, if it returns [false], the request will be End."+
-            "<br>&nbsp;&nbsp;beforeFail: Function, arguments:[error object, threadid]. A function to be executed before onFail, if it returns [false], the request will not call onFail function."+
+            "<br>&nbsp;&nbsp;beforeFail: Function, arguments:[error Object, threadid]. A function to be executed before onFail, if it returns [false], the request will not call onFail function."+
             "<br>&nbsp;&nbsp;beforeSuccess: Function, arguments:[response, response type, threadid]. A function to be executed before onSuccess, if it returns [false], the request will not call onSuccess function."+
             "<br>}"
     ],
@@ -1311,15 +1327,17 @@ _.set(linb.Locale,["en","doc","linb","SAjax"], {
     },
 
     customQS: {
-        $desc:"To customize query string object. Subclass can overwrite it for adding extra variables or something.",
+        $desc:"To customize query string Object. Subclass can overwrite it for adding extra variables or something.",
+        $rtn:"Object",
         $paras:[
-            "obj [Required]: Object, original object."
+            "obj [Required]: Object, original Object."
         ]
     },
 
     prototype:{
         start:{
-            $desc:"Starts to execute a linb.SAjax object",
+            $desc:"Starts to execute a linb.SAjax Object",
+            $rtn:"[self]",
             $snippet:[
                 "//linb.SAjax('uri').start();"
             ]
@@ -1328,13 +1346,13 @@ _.set(linb.Locale,["en","doc","linb","SAjax"], {
 });
 
 _.set(linb.Locale,["en","doc","linb","IAjax"], {
-    $desc:"To Create a linb.IAjax object. <strong>linb.IAjax can handle GET/POST request cross domain, and can post binary file to server too.</strong>",
-    $rtn:"linb.IAjax object",
+    $desc:"To Create a linb.IAjax Object. <strong>linb.IAjax can handle GET/POST request cross domain, and can post binary file to server too.</strong>",
+    $rtn:"linb.IAjax",
     $paras:[
-        "uri [Required]: String/Object. String -- The URL of the request target; Object(to see options) -- a set of key/value pairs that configure the request. If this parameter is object, other parameters will be ignored.",
+        "uri [Required]: String/Object. String -- The URL of the request target; Object(to see options) -- a set of key/value pairs that configure the request. If this parameter is Object, other parameters will be ignored.",
         "query [Optional]:  Object[Key/value pairs], request data.",
-        "onSuccess [Optional]: Function, arguments:[response object, response type, threadid]. A function to be executed whenever the request is done successfully.",
-        "onFail [Optional]: Function, arguments:[response object, response type, threadid]. A function to be executed whenever the request fails.",
+        "onSuccess [Optional]: Function, arguments:[response Object, response type, threadid]. A function to be executed whenever the request is done successfully.",
+        "onFail [Optional]: Function, arguments:[response Object, response type, threadid]. A function to be executed whenever the request fails.",
         "threadid [Optional]: String, a thread id to be bound to the current request. [suspend the thread -> execute the request -> resume the thread]",
         "options [Optional]: Object, a set of key/value pairs that configure the request. All options are optional. <strong>Values in Parameters has high priority</strong>." +
             "<br>{"+
@@ -1346,10 +1364,10 @@ _.set(linb.Locale,["en","doc","linb","IAjax"], {
             "<br>&nbsp;&nbsp;retry: Number, how many times it is tried when the request is timeout."+
             "<br>&nbsp;&nbsp;timeout: Number, the timeout time(ms) for this request."+
             "<br><em>//functions</em>"+
-            "<br>&nbsp;&nbsp;cusomQS: Function, arguments: [obj]. A function to customize query string object."+
+            "<br>&nbsp;&nbsp;cusomQS: Function, arguments: [obj]. A function to customize query string Object."+
             "<br><em>//normal events</em>"+
-            "<br>&nbsp;&nbsp;onSuccess: Function, arguments:[response object, response type, threadid]. A function to be executed whenever the request is done successfully."+
-            "<br>&nbsp;&nbsp;onFail: Function, arguments:[response object, response type, threadid]. Afunction to be executed whenever the request fails."+
+            "<br>&nbsp;&nbsp;onSuccess: Function, arguments:[response Object, response type, threadid]. A function to be executed whenever the request is done successfully."+
+            "<br>&nbsp;&nbsp;onFail: Function, arguments:[response Object, response type, threadid]. Afunction to be executed whenever the request fails."+
             "<br><em>//trace events</em>"+
             "<br>&nbsp;&nbsp;onRetry: Function, arguments:[the current retry time], A function will be triggered when the request retries."+
             "<br>&nbsp;&nbsp;onTimeout: Function, , A function will be triggered when the request the request is timeout."+
@@ -1357,7 +1375,7 @@ _.set(linb.Locale,["en","doc","linb","IAjax"], {
             "<br>&nbsp;&nbsp;onEnd: Function,  , A function will be triggered when the request ends."+
             "<br><em>//before events</em>"+
             "<br>&nbsp;&nbsp;beforeStart: Function. A function to be executed before onStart, if it returns [false], the request will be End."+
-            "<br>&nbsp;&nbsp;beforeFail: Function, arguments:[error object, threadid]. A function to be executed before onFail, if it returns [false], the request will not call onFail function."+
+            "<br>&nbsp;&nbsp;beforeFail: Function, arguments:[error Object, threadid]. A function to be executed before onFail, if it returns [false], the request will not call onFail function."+
             "<br>&nbsp;&nbsp;beforeSuccess: Function, arguments:[response, response type, threadid]. A function to be executed before onSuccess, if it returns [false], the request will not call onSuccess function."+
             "<br>}"
     ],
@@ -1413,14 +1431,16 @@ _.set(linb.Locale,["en","doc","linb","IAjax"], {
     },
 
     customQS: {
-        $desc:"To customize query string object. Subclass can overwrite it for adding extra variables or something.",
+        $desc:"To customize query string Object. Subclass can overwrite it for adding extra variables or something.",
+        $rtn:"Object",
         $paras:[
-            "obj: Object, original object."
+            "obj: Object, original Object."
         ]
     },
     prototype:{
         start:{
-            $desc:"Starts to execute a linb.IAjax object",
+            $desc:"Starts to execute a linb.IAjax Object",
+            $rtn:"[self]",
             $snippet:[
                 "//linb.IAjax('uri').start();"
             ]
@@ -1429,11 +1449,11 @@ _.set(linb.Locale,["en","doc","linb","IAjax"], {
 });
 
 _.set(linb.Locale,["en","doc","linb","SC"], {
-    $desc:"Straight Call. Uses path name to call a specified class/object. If the target class/object exists, returns it directly, but if the target class/object does not exist, loads it from code(in memory or in the remote file[linb.Ajax/linb.SAjax]) first, returns it, and executes the callback function(if it exists).",
-    $rtn:"class/object[in synchronous mode], undefined[in asynchronous mode]",
+    $desc:"Straight Call. Uses path name to call a specified class/Object. If the target class/Object exists, returns it directly, but if the target class/Object does not exist, loads it from code(in memory or in the remote file[linb.Ajax/linb.SAjax]) first, returns it, and executes the callback function(if it exists).",
+    $rtn:"Object, class/Object[in synchronous mode], undefined[in asynchronous mode]",
     $paras:[
-        "path [Required]: String, path name of a class/object(e.g. 'linb.UI.Button').",
-        "callback [Optional]: Function, arguments:[path, code, threadid]. A function to be executed whenever the straight call returns. If returns successfully, [path] will be the [path name], and [this] pointer will be the result class/object; if fails, [path] will be [null], and [this] pointer will be the inner linb.Ajax/iajax object.",
+        "path [Required]: String, path name of a class/Object(e.g. 'linb.UI.Button').",
+        "callback [Optional]: Function, arguments:[path, code, threadid]. A function to be executed whenever the straight call returns. If returns successfully, [path] will be the [path name], and [this] pointer will be the result class/Object; if fails, [path] will be [null], and [this] pointer will be the inner linb.Ajax/iajax Object.",
         "isAsy [Optional]: Bool, to Determines whether or not  the current SC is in asynchronous Mode. If the target class exists, this parameter is invalide. Default is [false].",
         "threadid [Optional]: String, a thread id to be bound to the current request. [suspend the thread -> execute the request -> resume the thread]",
         "options [Optional]: Object, a set of key/value pairs that configure the inner linb.Ajax(asynchronous mode) or linb.SAjax(synchronous mode)."
@@ -1443,11 +1463,11 @@ _.set(linb.Locale,["en","doc","linb","SC"], {
         "linb.SC('linb.UI.LoadFromRemoteFile',function(path,code,threaid){alert('You can know the calling result in firefox only!'); if(!path)alert('Fail to load '+ this.uri)},true);"
     ],
     get:{
-        $desc:"Gets value from an object according to a path name.",
-        $rtn:"Any",
+        $desc:"Gets value from an Object according to a path name.",
+        $rtn:"Object",
         $paras:[
             "path [Required]: String, path name (e.g. 'linb.SC.get', '_.isArr', 'linb.ini.path').",
-            "obj [Optional]: Object, target object. Default is [window]."
+            "obj [Optional]: Object, target Object. Default is [window]."
         ],
         $snippet:[
             "alert(linb.SC.get('linb.ini.path')); alert(_.get(window,'linb.ini.path'.split('.'))); "
@@ -1458,7 +1478,7 @@ _.set(linb.Locale,["en","doc","linb","SC"], {
         $desc:"To group a set of path names to load code snippet and execute them in parallel.",
         $paras:[
             "pathArr [Required]: Array, a set of path names(String).",
-            "callback [Optional]: Function, arguments:[path, code]. A function to be executed whenever the code snip returns. If returns successfully, [path] will be the [path name], and [this] pointer will be an empty object/{}; if fails, [path] will be [null], and [this] pointer will be the inner linb.Ajax/iajax object.",
+            "callback [Optional]: Function, arguments:[path, code]. A function to be executed whenever the code snip returns. If returns successfully, [path] will be the [path name], and [this] pointer will be an empty Object/{}; if fails, [path] will be [null], and [this] pointer will be the inner linb.Ajax/iajax Object.",
             "onEnd [Optional]: Function, arguments:[the process id]. A function to be executed after all the code snippet are loaded and executed.",
             "threadid [Optional]: String, a thread id to be bound to the current request. [suspend the thread -> execute the request -> resume the thread]"
         ],
@@ -1472,7 +1492,7 @@ _.set(linb.Locale,["en","doc","linb","SC"], {
         $desc:"To load a set of code snippet and execute them one by one in the background. (wrap them to a shell thread).",
         $paras:[
             "pathArr [Required]: Array, a set of path names(String).",
-            "callback [Optional]: Function, arguments:[path, code]. A function to be executed whenever the code snip returns. If returns successfully, [path] will be the [path name], and [this] pointer will be an empty object/{}; if fails, [path] will be [null], and [this] pointer will be the inner linb.Ajax/iajax object.",
+            "callback [Optional]: Function, arguments:[path, code]. A function to be executed whenever the code snip returns. If returns successfully, [path] will be the [path name], and [this] pointer will be an empty Object/{}; if fails, [path] will be [null], and [this] pointer will be the inner linb.Ajax/iajax Object.",
             "onStart [Optional]: Function, onStart function for the shell thread.",
             "onEnd [Optional]: Function, onEnd function for the shell thread."
         ],
@@ -1487,7 +1507,7 @@ _.set(linb.Locale,["en","doc","linb","SC"], {
         $paras:[
             "pathArr [Required]: Array, a set of path names(String).",
             "cache [Optional]: Object[Key/value pairs], target cache pool. Defalut is [linb.cache.text].",
-            "callback [Optional]: Function, arguments:[path, code]. A function to be executed whenever the code returns. If returns successfully, [path] will be the [path name], and [this] pointer will be an empty object/{}; if fails, [path] will be [null], and [this] pointer will be the inner linb.Ajax/iajax object.",
+            "callback [Optional]: Function, arguments:[path, code]. A function to be executed whenever the code returns. If returns successfully, [path] will be the [path name], and [this] pointer will be an empty Object/{}; if fails, [path] will be [null], and [this] pointer will be the inner linb.Ajax/iajax Object.",
             "onEnd [Optional]: Function, arguments:[the process id]. A function to be executed whenever all the code snippets returned.",
             "threadid [Optional]: String, a thread id to be bound to the current request. [suspend the thread -> execute the request -> resume the thread]"
         ],
@@ -1512,10 +1532,10 @@ _.set(linb.Locale,["en","doc","linb","SC"], {
 
 _.set(linb.Locale,["en","doc","linb","Event"], {
     getBtn :{
-        $desc:"Gets mouse button name from event object.",
+        $desc:"Gets mouse button name from event Object.",
         $rtn:"String",
         $paras:[
-            "event [Required] : DOM event object."
+            "event [Required] : DOM event Object."
         ],
         $snippet:[
             "var id='linb.temp.e1'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">click here ' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -1524,9 +1544,10 @@ _.set(linb.Locale,["en","doc","linb","Event"], {
         ]
     },
     getEventPara:{
-        $desc:"Gets event parameters object.",
+        $desc:"Gets event parameters Object.",
+        $rtn:"Object",
         $paras:[
-            "event [Required] : DOM event object."
+            "event [Required] : DOM event Object."
         ],
         $snippet:[
             "var id='linb.temp.e2'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">click here ' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -1535,19 +1556,20 @@ _.set(linb.Locale,["en","doc","linb","Event"], {
         ]
     },
     getId:{
-        $desc:"Gets DOM element id string(include window and document object).",
+        $desc:"Gets DOM element id string(include window and document Object).",
+        $rtn:"String",
         $paras:[
-            "node [Required] : DOM element, window or document object."
+            "node [Required] : DOM element, window or document Object."
         ],
         $snippet:[
             "alert(linb.Event.getId(document.getElementById('btnLang')));alert(linb.Event.getId(document));alert(linb.Event.getId(window));"
         ]
     },
     getKey:{
-        $desc:"Get keyboard related value from event object.",
-        $rtn:"Array. [keycode string, ctrl status, shift status, alt status]",
+        $desc:"Get keyboard related value from event Object.",
+        $rtn:"Array, [keycode string, ctrl status, shift status, alt status]",
         $paras:[
-            "event [Required] : DOM event object."
+            "event [Required] : DOM event Object."
         ],
         $snippet:[
             "//'Run' the code, and press any keyboars please!\n"+
@@ -1555,10 +1577,10 @@ _.set(linb.Locale,["en","doc","linb","Event"], {
         ]
     },
     getPos:{
-        $desc:"Gets mouse postion from event object.",
-        $rtn:"key/value pairs. {left:xx,top:xx}",
+        $desc:"Gets mouse postion from event Object.",
+        $rtn:"Object, key/value pairs. {left:xx,top:xx}",
         $paras:[
-            "event [Required] : DOM event object."
+            "event [Required] : DOM event Object."
         ],
         $snippet:[
             "var id='linb.temp.e4'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">click here ' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -1567,10 +1589,10 @@ _.set(linb.Locale,["en","doc","linb","Event"], {
         ]
     },
     getSrc:{
-        $desc:"Gets DOM element from event object.",
-        $rtn:"DOM element",
+        $desc:"Gets DOM element from event Object.",
+        $rtn:"Element",
         $paras:[
-            "event [Required] : DOM event object."
+            "event [Required] : DOM event Object."
         ],
         $snippet:[
             "var id='linb.temp.e5'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">click here ' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -1620,7 +1642,7 @@ _.set(linb.Locale,["en","doc","linb","Event"], {
     stopBubble:{
         $desc:"To stop both default action and event bubbling.",
         $paras:[
-            "event [Required] : DOM event object."
+            "event [Required] : DOM event Object."
         ],
         $snippet:[
             "if(!linb.Dom.byId('linb.temp.3')){this.prepend(linb.create('<div style=\"border:solid 1px;padding:10px;\" onclick=\"alert(\\\'onclick event on the div\\\')\"><p>You can click here to fire onclick event on the div </p><a id=\"linb.temp.3\" href=\"http://www.linb.net\" onclick=\"linb.message(\\\'Event bubble is stopped. You cant fire onclick event on the outter div !\\\');linb.Event.stopBubble(event);\" >Event bubble to outter div is stopped here. Click me to try it!</a><button onclick=\"linb(this).parent().remove()\">remove this example</button></div>'))}"
@@ -1629,7 +1651,7 @@ _.set(linb.Locale,["en","doc","linb","Event"], {
     stopDefault:{
         $desc:"To stop both default action.",
         $paras:[
-            "event [Required] : DOM event object."
+            "event [Required] : DOM event Object."
         ],
         $snippet:[
             "if(!linb.Dom.byId('linb.temp.4')){this.prepend(linb.create('<div style=\"border:solid 1px;padding:10px;\" ><a id=\"linb.temp.4\" href=\"http://www.linb.net\" onclick=\"linb.message(\\\'Default action is stopped here. You cant go to \\\'+this.href);linb.Event.stopDefault(event);\" >My default action is stopped. Click me to try it!</a><button onclick=\"linb(this).parent().remove()\">remove this example</button></div>'))}"
@@ -1639,7 +1661,7 @@ _.set(linb.Locale,["en","doc","linb","Event"], {
 
 _.set(linb.Locale,["en","doc","linb","absBox"],{
     pack:{
-        $desc: "To create a [linb.absBox] object, and pack a set of value to this object. ",
+        $desc: "To create a [linb.absBox] Object, and pack a set of value to this Object. ",
         $rtn: "linb.absBox",
         $paras:[
             "arr [Required] : Array, a set of value. ",
@@ -1662,17 +1684,17 @@ _.set(linb.Locale,["en","doc","linb","absBox"],{
     },
     prototype:{
         each:{
-            $desc:"To apply a function to each element of the current linb.absBox object.",
+            $desc:"To apply a function to each element of the current linb.absBox Object.",
             $rtn:'[self]',
             $paras:[
-                "fun [Required]: Function, [this] pointer is the linb.absBox object, arguments: [element, array index]. The function to apply to inner array item."
+                "fun [Required]: Function, [this] pointer is the linb.absBox Object, arguments: [element, array index]. The function to apply to inner array item."
             ],
             $snippet:[
                 "linb(['linb.UI.Layout:a:','btnLang']).each(function(o,i){alert(i+' -> #'+o.id)})"
             ]
         },
         get:{
-            $desc:"To get a specified element from the linb.absBox object by index, or get all elements.",
+            $desc:"To get a specified element from the linb.absBox Object by index, or get all elements.",
             $rtn:"element or array of elements.",
             $paras:[
                 "index [Optional] : Number."
@@ -1682,25 +1704,25 @@ _.set(linb.Locale,["en","doc","linb","absBox"],{
             ]
         },
         isEmpty:{
-            $desc:"To Determines if the current linb.absBox object includes any element.",
+            $desc:"To Determines if the current linb.absBox Object includes any element.",
             $rtn:"Bool.",
             $snippet:[
                 "var n=linb(['linb.UI.Layout:a:','btnLang']); alert(n.isEmpty()); alert(linb().isEmpty())"
             ]
         },
         merge:{
-            $desc:"To merge a target linb.absBox object to the current one.",
+            $desc:"To merge a target linb.absBox Object to the current one.",
             $rtn:"[self].",
             $paras:[
-                "obj [Required] : linb.absBox objcet, the target object"
+                "obj [Required] : linb.absBox objcet, the target Object"
             ],
             $snippet:[
                 "alert(linb('linb.UI.Layout:a:').merge(linb('btnLang')).get().length)"
             ]
         },
         reBoxing:{
-            $desc:"To pack all the elements in the current object to another linb.absBox object.",
-            $trn:"the new linb.absBox object",
+            $desc:"To pack all the elements in the current Object to another linb.absBox Object.",
+            $trn:"linb.absBox",
             $paras:[
                 "key [Optional] : new linb.absBox class name.",
                 "ensureValue [Optional] : Bool, force to ensure value. Default is true. "
@@ -1714,13 +1736,13 @@ _.set(linb.Locale,["en","doc","linb","absBox"],{
 
 _.set(linb.Locale,["en","doc","linb","Dom"], {
     constructor:{
-        $desc:"Generally, don't use [new linb.Dom()], but [linb(nodes, flag)] to create a linb.Dom object."
+        $desc:"Generally, don't use [new linb.Dom()], but [linb(nodes, flag)] to create a linb.Dom Object."
     },
     Events:{
-        $desc:  "<strong>Description</strong>: to add, remove or fire the specified event. There are three group of event functions are designed for a DOM event: [before-], [on-] and [after-]. "+
+        $desc:  "<strong>Description</strong>: to add, remove or fire the specified eventÂ. There are three group of event functions are designed for a DOM event: [before-], [on-ª] andò [after-ª]. £"+
                 "<ul>"+
-                    "<li><strong>linb(/**/).onClick([function], 'label')</strong> => adds the [function] to [onclick] group.</li>"+
-                    "<li><strong>linb(/**/).onClick([function]) </strong> => removes all event functions in [onclick] group, and adds the [function] to [onclick] group.</li>"+
+                    "<li><strong>linb(/**/).onClick([function], 'label')</strong> =>adds the [function] to  [onclick]groupý.</li>"+
+                    "<li><strong>linb(/**/).onClick([function]) </strong> => removes all event functions in [onclick] group, and adds the [function] to [onclick] groupë.</li>"+
 
                     "<li><strong>linb(/**/).onClick(null, 'label') </strong> => removes the event function labelled with 'label' from the [onclick] group.</li>"+
                     "<li><strong>linb(/**/).onClick(null) </strong> => removes all event functions in [onclick] group.</li>"+
@@ -1733,7 +1755,7 @@ _.set(linb.Locale,["en","doc","linb","Dom"], {
                 "<p><strong>Returns</strong>: Add: return [self]; Remove: return [self]; Fire: no return.</p>"+
                 "<p><strong>Parameters</strong>: </p>"+
                 "<ul>"+
-                    "<li><strong>fun [Optional] </strong>: Function, [this] pointer is the current element, arguments are [linb.DomProfile object, DOM event object, the current element].</li>"+
+                    "<li><strong>fun [Optional] </strong>: Function, [this] pointer is the current element, arguments are [linb.DomProfile Object, DOM event Object, the current element].</li>"+
                     "<li><strong>label [Optional]</strong> : String, the event label.</li>"+
                     "<li><strong>flag [Optional]</strong> : Bool, for remove event only. to indicate if remove all related event.</li>"+
                 "</ul>"+
@@ -1770,7 +1792,7 @@ _.set(linb.Locale,["en","doc","linb","Dom"], {
     },
     byId:{
         $desc:"Gets the DOM element according to its id. Equivals to [document.getElementById]. ",
-        $rtn:"DOM element",
+        $rtn:"Element",
         $paras:[
             "id [Required] : String, id value"
         ],
@@ -1779,8 +1801,8 @@ _.set(linb.Locale,["en","doc","linb","Dom"], {
         ]
     },
     animate:{
-        $desc:"Wraps a 'Special Effects' animation into a linb.Thread object(shell thread).",
-        $rtn:"linb.Thread object",
+        $desc:"Wraps a 'Special Effects' animation into a linb.Thread Object(shell thread).",
+        $rtn:"linb.Thread",
         $paras:[
             "css [Required] : Object[CSS Key/value pairs].",
             "args [Required] : Object[Key/value([from value, to value]) pairs] .",
@@ -1789,7 +1811,7 @@ _.set(linb.Locale,["en","doc","linb","Dom"], {
             "time [Optional]: Number(ms), the duration of this animation. Default is 200.",
             "step [Optional]: Number, the step number of this animation. Default is 5.",
             "type [Optional]: String, the animate type. 'linear','expoIn','expoOut','expoInOut','sineIn','sineOut','sineInOut','backIn','backOut','backInOut' or 'bounceOut'. Default is 'expoIn'.",
-            "threadid [Optional]: String, Assigns an unique id to the shell thread object."
+            "threadid [Optional]: String, Assigns an unique id to the shell thread Object."
         ],
         $snippet:[
             "linb.Dom.animate({backgroundColor:'#ff0000'},{left:[0,200],top:[0,300],width:[30,300],height:[30,300],opacity:[1,0]}, null, null, 500, 50, 'sineOut').start()"
@@ -1797,7 +1819,7 @@ _.set(linb.Locale,["en","doc","linb","Dom"], {
     },
     getEmptyDiv:{
         $desc:"Gets an empty div in DOM, which DOM id starts with 'linb.matrix::'. ",
-        $rtn:"linb.Dom object",
+        $rtn:"linb.Dom",
         $paras:[
             "sequence [Optional] : Number, sequence number. Default is 1."
         ],
@@ -1846,7 +1868,7 @@ _.set(linb.Locale,["en","doc","linb","Dom"], {
         $desc:"To simulate a HTML form submit action. ",
         $paras:[
             "action [Required] : String(URL), form action property. To define where to send the data when the form is submitted.",
-            "data [Required] : Object[Key/value pairs], the data object will be submitted.",
+            "data [Required] : Object[Key/value pairs], the data Object will be submitted.",
             "method [Optional] : String, form method property. The HTTP method for sending data to the server(the action URL). [get|post], default is 'get'.",
             "target [Optional] : String, form target property. [_blank|_parent|_self|_top], default is '_blank'.",
             "enctype [Optional] : String, form enctype property(The enctype property sets the MIME type used to encode the content of the form), The default value is 'application/x-www-form-urlencoded'. When the [data] includes [file] type data, the value should be 'multipart/form-data'."
@@ -1859,7 +1881,7 @@ _.set(linb.Locale,["en","doc","linb","Dom"], {
     prototype:{
         addBorder:{
             $desc:"To add a border to the first element. ",
-            $rtn:"linb.UI.Border object.",
+            $rtn:"linb.UI.Border.",
             $paras:[
                 "properties [Optional] : key/value pairs, the properties of border. The most common usage: {borderActive: [bool]}."
             ],
@@ -1879,7 +1901,7 @@ _.set(linb.Locale,["en","doc","linb","Dom"], {
         },
         addResizer:{
             $desc:"To add a resizer to the first element. ",
-            $rtn:"linb.UI.Resizer object.",
+            $rtn:"linb.UI.Resizer",
             $paras:[
                 "properties [Optional] : key/value pairs, the properties of border.",
                 "onUpdate [Optional] : Function, the callback function."
@@ -1901,7 +1923,7 @@ _.set(linb.Locale,["en","doc","linb","Dom"], {
         },
         addShadow:{
             $desc:"To add a shadow to the first element. ",
-            $rtn:"linb.UI.Shadow object.",
+            $rtn:"linb.UI.Shadow",
             $paras:[
                 "properties [Optional] : key/value pairs, the properties of border."
             ],
@@ -1942,7 +1964,7 @@ _.set(linb.Locale,["en","doc","linb","Dom"], {
         },
         hasClass:{
             $desc:"Returns true if the specified class name is present on the first element.",
-            $rtn:"Bool",
+            $rtn:"Boolean",
             $paras:[
                 "name [Required] : String, class name."
             ],
@@ -1954,7 +1976,7 @@ _.set(linb.Locale,["en","doc","linb","Dom"], {
             $desc:"To replace the className attribute for each of the current elements.",
             $rtn:"[self]",
             $paras:[
-                "regexp [Required] : Regexp object.",
+                "regexp [Required] : Regexp Object.",
                 "replace [Required] : String."
             ],
             $snippet:[
@@ -1973,10 +1995,10 @@ _.set(linb.Locale,["en","doc","linb","Dom"], {
             ]
         },
         append:{
-            $desc:"Appends a linb.Dom object(including a set of DOM elements or linb.UIProile objects) to the inside of the first element.",
+            $desc:"Appends a linb.Dom Object(including a set of DOM elements or linb.UIProile objects) to the inside of the first element.",
             $rtn:"[self]",
             $paras:[
-                "target [Required] : a linb.Dom object(including a set of DOM elements or linb.UIProile objects).",
+                "target [Required] : a linb.Dom Object(including a set of DOM elements or linb.UIProile objects).",
                 "reversed [Optional] : Bool, if it's [true], that means 'append to' Default is [false]."
             ],
             $snippet:[
@@ -1988,10 +2010,10 @@ _.set(linb.Locale,["en","doc","linb","Dom"], {
             ]
         },
         prepend:{
-            $desc:"Prepends a linb.Dom object(including a set of DOM elements or linb.UIProile objects) to the inside of the first element.",
+            $desc:"Prepends a linb.Dom Object(including a set of DOM elements or linb.UIProile objects) to the inside of the first element.",
             $rtn:"[self]",
             $paras:[
-                "target [Required] : a linb.Dom object(including a set of DOM elements or linb.UIProile objects).",
+                "target [Required] : a linb.Dom Object(including a set of DOM elements or linb.UIProile objects).",
                 "reversed [Optional] : Bool, if it's [true], that means 'prepend to' Default is [false]."
             ],
             $snippet:[
@@ -2003,10 +2025,10 @@ _.set(linb.Locale,["en","doc","linb","Dom"], {
             ]
         },
         addPrev:{
-            $desc:"Adds a linb.Dom object(including a set of DOM elements or linb.UIProile objects) to the previous position of the first element.",
+            $desc:"Adds a linb.Dom Object(including a set of DOM elements or linb.UIProile objects) to the previous position of the first element.",
             $rtn:"[self]",
             $paras:[
-                "target [Required] : a linb.Dom object(including a set of DOM elements or linb.UIProile objects).",
+                "target [Required] : a linb.Dom Object(including a set of DOM elements or linb.UIProile objects).",
                 "reversed [Optional] : Bool, if it's [true], that means 'addPrev to' Default is [false]."
             ],
             $snippet:[
@@ -2019,10 +2041,10 @@ _.set(linb.Locale,["en","doc","linb","Dom"], {
             ]
         },
         addNext:{
-            $desc:"Adds a linb.Dom object(including a set of DOM elements or linb.UIProile objects) to the following position of the first element.",
+            $desc:"Adds a linb.Dom Object(including a set of DOM elements or linb.UIProile objects) to the following position of the first element.",
             $rtn:"[self]",
             $paras:[
-                "target [Required] : a linb.Dom object(including a set of DOM elements or linb.UIProile objects).",
+                "target [Required] : a linb.Dom Object(including a set of DOM elements or linb.UIProile objects).",
                 "reversed [Optional] : Bool, if it's [true], that means 'addNext to' Default is [false]."
             ],
             $snippet:[
@@ -2036,7 +2058,7 @@ _.set(linb.Locale,["en","doc","linb","Dom"], {
         },
         offset:{
             $desc:"Gets(the first element)/Sets(all elements) the offset relative to the boundary.",
-            $rtn:"{left:value,top:value}/[self]",
+            $rtn:"Object/[self]",
             $paras:[
                 "pos [Optional] : {left:value,top:value}, the target abs position.",
                 "boundary [Optional] : the boundary (DOM element or document.body). Default is document.body."
@@ -2048,7 +2070,7 @@ _.set(linb.Locale,["en","doc","linb","Dom"], {
         },
         cssPos:{
             $desc:"Gets(the first element)/Sets(all elements) the css offset.",
-            $rtn:"{left:value,top:value}/[self]",
+            $rtn:"Object/[self]",
             $paras:[
                 "pos [Optional] : {left:value,top:value}, the target abs position.",
                 "flag [Optional] : Bool, to trigger element onLocation event. Default is false."
@@ -2058,8 +2080,8 @@ _.set(linb.Locale,["en","doc","linb","Dom"], {
             ]
         },
         animate:{
-            $desc:"Wraps a 'Special Effects' animation into a linb.Thread object(shell thread).",
-            $rtn:"linb.Thread object",
+            $desc:"Wraps a 'Special Effects' animation into a linb.Thread Object(shell thread).",
+            $rtn:"linb.Thread",
             $paras:[
                 "args [Required] : Object[Key/value([from value, to value]) pairs] .",
                 "onStart [Optional]: Function, arguments: [threadid]. this function will be called before the shell thread triggered the first task.",
@@ -2067,7 +2089,7 @@ _.set(linb.Locale,["en","doc","linb","Dom"], {
                 "time [Optional]: Number(ms), the duration of this animation. Default is 200.",
                 "step [Optional]: Number, the step number of this animation. Default is 5.",
                 "type [Optional]: String, the type. 'linear','expoIn','expoOut','expoInOut','sineIn','sineOut','sineInOut','backIn','backOut','backInOut' or 'bounceOut'. Default is 'expoIn'.",
-                "threadid [Optional]: String, Assigns an unique id to the shell thread object."
+                "threadid [Optional]: String, Assigns an unique id to the shell thread Object."
             ],
             $snippet:[
                 "var node=linb.create('div').css({opacity:0,zIndex:linb.Dom.TOP_ZINDEX, backgroundColor:'#0000ff', position:'absolute',left:'100px', top:'100px',width:'100px',height:'100px'});"+
@@ -2080,10 +2102,10 @@ _.set(linb.Locale,["en","doc","linb","Dom"], {
             ]
         },
         attr:{
-            $desc:"Gets a property on the first element, or sets a property(or key/value object as properties) to all elements, or removes a property from all elements.",
-            $rtn:"Gets:property value; Sets:[self]; Removes:[self].",
+            $desc:"Gets a property on the first element, or sets a property(or key/value Object as properties) to all elements, or removes a property from all elements.",
+            $rtn:"String/[self].",
             $paras:[
-                "name [Required] : property name or a key/value object as properties.",
+                "name [Required] : property name or a key/value Object as properties.",
                 "value [Optional] : property value, [null] for 'remove'."
             ],
             $snippet:[
@@ -2095,7 +2117,7 @@ _.set(linb.Locale,["en","doc","linb","Dom"], {
         },
         caret:{
             $desc:"Gets or sets Caret position in the first element ( must be an Input or Textarea element).",
-            $rtn:"Gets: Array [begin position, end position]; Sets: [self]",
+            $rtn:"Array/[self]",
             $paras:[
                 "begin [Optional] : Number, the Caret begin position.",
                 "end [Optional] : Number, the Caret end position."
@@ -2108,7 +2130,7 @@ _.set(linb.Locale,["en","doc","linb","Dom"], {
         },
         children:{
             $desc:"Gets a set of elements containing all of the immediate children of all elements.",
-            $rtn:"linb.Dom object including all children elements.",
+            $rtn:"linb.Dom",
             $snippet:[
                 "var id='linb.temp.children'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<input/><input/><div style=\"padding:5px;\"><input/><input/></div> <br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "linb(id).children().css('border','solid 4px')"+
@@ -2117,7 +2139,7 @@ _.set(linb.Locale,["en","doc","linb","Dom"], {
         },
         width:{
             $desc:"Gets(the first element) or sets(all elements) the css width value.",
-            $rtn:"Gets: Number; Sets:[self].",
+            $rtn:"Number/[self]",
             $paras:[
                 "value [Optional] : Number."
             ],
@@ -2138,7 +2160,7 @@ _.set(linb.Locale,["en","doc","linb","Dom"], {
         },
         innerWidth:{
             $desc:"Gets(the first element) or sets(all elements) the inner width(includes the padding).",
-            $rtn:"Gets: Number; Sets:[self].",
+            $rtn:"Number/[self]",
             $paras:[
                 "value [Optional] : Number."
             ],
@@ -2150,7 +2172,7 @@ _.set(linb.Locale,["en","doc","linb","Dom"], {
         },
         offsetWidth:{
             $desc:"Gets(the first element) or sets(all elements) the offset width(includes the padding and border).",
-            $rtn:"Gets: Number; Sets:[self].",
+            $rtn:"Number/[self]",
             $paras:[
                 "value [Optional] : Number."
             ],
@@ -2162,7 +2184,7 @@ _.set(linb.Locale,["en","doc","linb","Dom"], {
         },
         outerWidth:{
             $desc:"Gets(the first element) or sets(all elements) the outer width(includes the padding, border and margin).",
-            $rtn:"Gets: Number; Sets:[self].",
+            $rtn:"Number/[self]",
             $paras:[
                 "value [Optional] : Number."
             ],
@@ -2175,7 +2197,7 @@ _.set(linb.Locale,["en","doc","linb","Dom"], {
 
         height:{
             $desc:"Gets(the first element) or sets(all elements) the css height value.",
-            $rtn:"Gets: Number; Sets:[self].",
+            $rtn:"Number/[self]",
             $paras:[
                 "value [Optional] : Number."
             ],
@@ -2196,7 +2218,7 @@ _.set(linb.Locale,["en","doc","linb","Dom"], {
         },
         innerHeight:{
             $desc:"Gets(the first element) or sets(all elements) the inner height(includes the padding).",
-            $rtn:"Gets: Number; Sets:[self].",
+            $rtn:"Number/[self]",
             $paras:[
                 "value [Optional] : Number."
             ],
@@ -2208,7 +2230,7 @@ _.set(linb.Locale,["en","doc","linb","Dom"], {
         },
         offsetHeight:{
             $desc:"Gets(the first element) or sets(all elements) the offset height(includes the padding and border).",
-            $rtn:"Gets: Number; Sets:[self].",
+            $rtn:"Number/[self]",
             $paras:[
                 "value [Optional] : Number."
             ],
@@ -2220,7 +2242,7 @@ _.set(linb.Locale,["en","doc","linb","Dom"], {
         },
         outerHeight:{
             $desc:"Gets(the first element) or sets(all elements) the outer height(includes the padding, border and margin).",
-            $rtn:"Gets: Number; Sets:[self].",
+            $rtn:"Number/[self]",
             $paras:[
                 "value [Optional] : Number."
             ],
@@ -2232,7 +2254,7 @@ _.set(linb.Locale,["en","doc","linb","Dom"], {
         },
         clone:{
             $desc:"Creates copies of the set of elements.",
-            $rtn:"linb.Dom object including the copied nodes.",
+            $rtn:"linb.Dom",
             $paras:[
                 "deep [Optional] : Bool. This parameter indicates if the cloned node should include all child elementes of the original element. Default is [false]."
             ],
@@ -2243,10 +2265,10 @@ _.set(linb.Locale,["en","doc","linb","Dom"], {
             ]
         },
         css:{
-            $desc:"Gets a css property on the first element, or sets a css property(or key/value object as css properties) to all elements.",
-            $rtn:"Gets:String, property value; Sets:[self].",
+            $desc:"Gets a css property on the first element, or sets a css property(or key/value Object as css properties) to all elements.",
+            $rtn:"String/[self]",
             $paras:[
-                "name [Required] : css property name or a key/value object as css properties.",
+                "name [Required] : css property name or a key/value Object as css properties.",
                 "value [Optional] : css property value."
             ],
             $snippet:[
@@ -2257,7 +2279,7 @@ _.set(linb.Locale,["en","doc","linb","Dom"], {
         },
         cssPos:{
             $desc:"Gets or sets css left and top properties on the first element.",
-            $rtn:"Gets: {left:Number,top:Number}; Sets:[self].",
+            $rtn:"Object/[self]",
             $paras:[
                 "pos [Optional] : {left:Number or String,top:Number or String}.",
                 "triggerEvent [Optional] : Bool, indicates if the 'set' action trigger related event or not."
@@ -2269,7 +2291,7 @@ _.set(linb.Locale,["en","doc","linb","Dom"], {
         },
         cssSize:{
             $desc:"Gets or sets css width and height properties on the first element.",
-            $rtn:"Gets:{width:Number,height:Number}; Sets:[self].",
+            $rtn:"Object/[self]",
             $paras:[
                 "value [Optional] : {width:Number or String,height:Number or String}.",
                 "triggerEvent [Optional] : Bool, indicates if the 'set' action trigger related event or not."
@@ -2280,7 +2302,7 @@ _.set(linb.Locale,["en","doc","linb","Dom"], {
         },
         cssRegion:{
             $desc:"Gets or sets css region properties on the first element.",
-            $rtn:"Gets:{left:Number,top:Number,width:Number,height:Number}; Sets:[self].",
+            $rtn:"Object/[self]",
             $paras:[
                 "value [Optional] : {left:Number or String,top:Number or String,right:Number or String,bottom:Number or String,width:Number or String,height:Number or String}.",
                 "triggerEvent [Optional] : Bool, indicates if the 'set' action trigger related event or not."
@@ -2291,7 +2313,7 @@ _.set(linb.Locale,["en","doc","linb","Dom"], {
         },
         query:{
             $desc:"Searches for all elements that match the specified parameters.",
-            $rtn:"linb.Dom object.",
+            $rtn:"linb.Dom",
             $paras:[
                 "tagName [Optional] : DOM element tagName.",
                 "property [Optional] : DOM element property name or function.",
@@ -2307,8 +2329,8 @@ _.set(linb.Locale,["en","doc","linb","Dom"], {
             $desc:"Starts to drag the first element.",
             $rtn:"[self]",
             $paras:[
-                "e [Required] : DOM [event] object.",
-                "profile [Optional] : key/value object. Go <strong>linb.DragDrop.startDrag</strong> for the profile struct detail.",
+                "e [Required] : DOM [event] Object.",
+                "profile [Optional] : key/value Object. Go <strong>linb.DragDrop.startDrag</strong> for the profile struct detail.",
                 "dragKey [Optional] : String, dragKey for drag data.",
                 "dragData [Optional] : Any, the dragged [data]."
             ],
@@ -2324,7 +2346,7 @@ _.set(linb.Locale,["en","doc","linb","Dom"], {
             $rtn:"[self]",
             $paras:[
                 "flag [Required] : Bool. [true]: enables draggable functionality; [false]: disables draggable functionality. Default is [true]",
-                "profile [Optional] : key/value object. Go <strong>linb.DragDrop.startDrag</strong> for the profile struct detail.",
+                "profile [Optional] : key/value Object. Go <strong>linb.DragDrop.startDrag</strong> for the profile struct detail.",
                 "key [Optional] : String, the [key] for drag data.",
                 "data [Optional] : Any, the dragged [data]."
             ],
@@ -2382,9 +2404,9 @@ _.set(linb.Locale,["en","doc","linb","Dom"], {
         },
         replace:{
             $desc:"Replaces the first element with a set of elements.",
-            $rtn:"the target objectt.",
+            $rtn:"linb.Dom",
             $paras:[
-                "target [Required] : linb.Dom object including the target elements.",
+                "target [Required] : linb.Dom Object including the target elements.",
                 "triggerGC [Optional] : Bool, indicates if trigger GC function."
             ],
             $snippet:[
@@ -2397,7 +2419,7 @@ _.set(linb.Locale,["en","doc","linb","Dom"], {
             $desc:"Swaps the first element with the target element.",
             $rtn:"[self]",
             $paras:[
-                "target [Required] : linb.Dom object including the target element."
+                "target [Required] : linb.Dom Object including the target element."
             ],
             $snippet:[
                 "var id='linb.temp.replace'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div  style=\"border:solid 1px;padding:10px;\"><div id='+id+'1  style=\"border:solid 1px;padding:5px;\">1</div><div id='+id+'2 style=\"border:solid 1px;padding:5px;\">2</div>' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -2428,7 +2450,7 @@ _.set(linb.Locale,["en","doc","linb","Dom"], {
         },
         first:{
             $desc:"Get a set of elements containing the first child of each of the given set of elements.",
-            $rtn:"linb.Dom object",
+            $rtn:"linb.Dom",
             $paras:[
                 "index [Optional] : Number, iterator index."
             ],
@@ -2440,7 +2462,7 @@ _.set(linb.Locale,["en","doc","linb","Dom"], {
         },
         parent:{
             $desc:"Get a set of elements containing the parent node of each of the given set of elements.",
-            $rtn:"linb.Dom object",
+            $rtn:"linb.Dom",
             $paras:[
                 "index [Optional] : Number, iterator index."
             ],
@@ -2452,7 +2474,7 @@ _.set(linb.Locale,["en","doc","linb","Dom"], {
         },
         last:{
             $desc:"Get a set of elements containing the last child of each of the given set of elements.",
-            $rtn:"linb.Dom object",
+            $rtn:"linb.Dom",
             $paras:[
                 "index [Optional] : Number, iterator index."
             ],
@@ -2464,7 +2486,7 @@ _.set(linb.Locale,["en","doc","linb","Dom"], {
         },
         prev:{
             $desc:"Get a set of elements containing the previous siblings of each of the given set of elements.",
-            $rtn:"linb.Dom object",
+            $rtn:"linb.Dom",
             $paras:[
                 "index [Optional] : Number, iterator index."
             ],
@@ -2476,7 +2498,7 @@ _.set(linb.Locale,["en","doc","linb","Dom"], {
         },
         next:{
             $desc:"Get a set of elements containing the next siblings of each of the given set of elements.",
-            $rtn:"linb.Dom object",
+            $rtn:"linb.Dom",
             $paras:[
                 "index [Optional] : Number, iterator index."
             ],
@@ -2570,7 +2592,7 @@ _.set(linb.Locale,["en","doc","linb","Dom"], {
         },
         text:{
             $desc:"Gets the text contents of the first element, or sets the text contents to the set of elements.",
-            $rtn:"Gets: String, Sets: [self].",
+            $rtn:"String/[self]",
             $paras:[
                 "content [Optional] : String, text content."
             ],
@@ -2582,7 +2604,7 @@ _.set(linb.Locale,["en","doc","linb","Dom"], {
         },
         html:{
             $desc:"Gets/sets the html contents (innerHTML) of the first element.",
-            $rtn:"Gets: String, Sets: [self].",
+            $rtn:"String/[self]",
             $paras:[
                 "content [Optional] : String, innerHTML content.",
                 "triggerGC [Optional] : Bool, indicates if trigger GC function."
@@ -2595,7 +2617,7 @@ _.set(linb.Locale,["en","doc","linb","Dom"], {
         },
         outerHTML:{
             $desc:"Gets/sets the html contents (outerHTML) of the first element.",
-            $rtn:"Gets: String, Sets: [self].",
+            $rtn:"String/[self]",
             $paras:[
                 "content [Optional] : String, outerHTML content.",
                 "triggerGC [Optional] : Bool, indicates if trigger GC function."
@@ -2608,7 +2630,7 @@ _.set(linb.Locale,["en","doc","linb","Dom"], {
         },
         id:{
             $desc:"Gets(the first element) or sets(the set of elements) DOM id.",
-            $rtn:"Gets: String; Sets: [self].",
+            $rtn:"String/[self]",
             $paras:[
                 "value [Optional] : String, DOM id value.",
                 "ignoreCache [Optional] : Bool, indicates if ignore to reset cache. Default is [false]"
@@ -2619,16 +2641,18 @@ _.set(linb.Locale,["en","doc","linb","Dom"], {
         },
         fixPng:{
             $desc: "To fix the png problem in IE 6.",
+            $rtn:"[self]",
             $memo:"Only for IE6."
         },
         ieRemedy:{
             $desc: "To trigger DOM element inner redraw function in IE."+
                 " For some old IE versions, that did not trigger layout when one dimension is changed (e.g. to change css height only with overflow='visible'.",
+            $rtn:"[self]",
             $memo:"Only for IE."
         },
         scrollLeft:{
             $desc:"Gets(the first element) or sets(all elements) the scrollLeft value.",
-            $rtn:"Gets: Number; Sets:[self].",
+            $rtn:"Number/[self]",
             $paras:[
                 "value [Optional] : Number."
             ],
@@ -2640,7 +2664,7 @@ _.set(linb.Locale,["en","doc","linb","Dom"], {
         },
         scrollTop:{
             $desc:"Gets(the first element) or sets(all elements) the scrollTop value.",
-            $rtn:"Gets: Number; Sets:[self].",
+            $rtn:"Number/[self]",
             $paras:[
                 "value [Optional] : Number."
             ],
@@ -2653,7 +2677,7 @@ _.set(linb.Locale,["en","doc","linb","Dom"], {
 
         left:{
             $desc:"Gets(the first element) or sets(all elements) the css left value.",
-            $rtn:"Gets: Number; Sets:[self].",
+            $rtn:"Number/[self]",
             $paras:[
                 "value [Optional] : Number."
             ],
@@ -2665,7 +2689,7 @@ _.set(linb.Locale,["en","doc","linb","Dom"], {
         },
         top:{
             $desc:"Gets(the first element) or sets(all elements) the css top value.",
-            $rtn:"Gets: Number; Sets:[self].",
+            $rtn:"Number/[self]",
             $paras:[
                 "value [Optional] : Number."
             ],
@@ -2677,7 +2701,7 @@ _.set(linb.Locale,["en","doc","linb","Dom"], {
         },
         nextFocus:{
             $desc:"To get or set the next 'should be' focus(element).",
-            $rtn:"linb.Dom object including the next focus DOM element.",
+            $rtn:"linb.Dom",
             $paras:[
                 "downwards [Optional] : Bool, to indicate the 'next' is downwards([true]) or upwards([false]). Default is [true].",
                 "includeChild [Optional] : Bool, to indicate if the function to search the children elements. Default is [true].",
@@ -2703,23 +2727,13 @@ _.set(linb.Locale,["en","doc","linb","Dom"], {
             "alert(this.offsetTop())"
             ]
         },
-
-        afterBlur:{},
-        afterChange:{},
-        afterClick:{
-            $snippet:[
-            "var id='linb.temp.event'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div style=\"border:solid 1px;padding:10px;\"></p><button style=\"height:50px;\" id='+id+'>BUTTON element for testing.</button></p>' + '<br /><br /><button onclick=\"linb(\\\''+id+'\\\').onClick();\">fire event:[onclick] group functions</button> - <button onclick=\"linb(\\\''+id+'\\\').onClick(true);\">fire event: all functions</button> - <button onclick=\"linb(\\\''+id+'\\\').onClick(null,\\\'1#\\\');\">remove [onclick] 1#</button> - <button onclick=\"linb(\\\''+id+'\\\').beforeClick(null);\">remove all [beforeclick] functions</button> - <button onclick=\"linb(\\\''+id+'\\\').onClick(null,null,true);\">remove all functions</button><br /><br /><br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
-            "linb(id).beforeClick(function(){alert('beforeclick 1#')},'1#').beforeClick(function(){alert('beforeclick 2#')},'2#').onClick(function(){alert('onclick 1#')},'1#').onClick(function(){alert('onclick 2#')},'2#').afterClick(function(){alert('afterclick 1#, this function return [false], the remaining functions will be ignored!'); return false;},'1#').afterClick(function(){alert('afterclick 2#')},'2#');"+
-            "}"
-            ]
-        },
         popToTop:{
             $desc:"Pops the first element to the top zIndex into the specified parent element.",
             $rtn:"[self]",
             $paras:[
-                "pos [Reqired] : {left:Number,top:Number} object(The css left and top value) or linb.Dom object(for getting position).",
+                "pos [Reqired] : {left:Number,top:Number} Object(The css left and top value) or linb.Dom Object(for getting position).",
                 "type [Optional] : Number, from 1 to 4, pop position type. Default is 1.",
-                "parent [Optional] : linb.Dom object. the parent element to hold the pop element. Default is [document.body]."
+                "parent [Optional] : linb.Dom Object. the parent element to hold the pop element. Default is [document.body]."
             ],
             $snippet:[
                 "var id='linb.temp.p2p'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div style=\"position:relative; border:solid 1px;padding:10px;\"><button id='+id+' style=\"height:100px;width:100px;\">downwards</button>' + '<br /><br /><br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -2736,7 +2750,7 @@ _.set(linb.Locale,["en","doc","linb","Dom"], {
             $paras:[
                 "id [Required] : String, this trigger's id value.",
                 "trigger [Required] : Function or [null] : trigger function.",
-                "group [Optional] : linb.Dom object. this trigger's group object."
+                "group [Optional] : linb.Dom Object. this trigger's group Object."
             ],
             $snippet:[
             "var id='linb.temp.sbt'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div style=\"border:solid 1px;padding:10px;\"> <div id='+id+' style=\"border:solid 1px;padding:5px;width:50px;height:50px;\"> </div>' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -2749,7 +2763,7 @@ _.set(linb.Locale,["en","doc","linb","Dom"], {
         },
         topZindex:{
             $desc:"Gets the minimum available zIndex value that can make the first element to be set to the most top layer; or set the first element to the most top layer directly.",
-            $rtn:"Get: Number, Set:[self]",
+            $rtn:"Number/[self]",
             $paras:[
                 "flag [Optional] : Bool, indicates whether or not it sets the first element to the most top layer directly. Default is [false]."
             ],
@@ -2760,87 +2774,105 @@ _.set(linb.Locale,["en","doc","linb","Dom"], {
             ]
         },
 
-        afterDblclick:{},
-        afterDrag:{},
-        afterDragbegin:{},
-        afterDragenter:{},
-        afterDragleave:{},
-        afterDragover:{},
-        afterDragstop:{},
-        afterDrop:{},
-        afterError:{},
-        afterFocus:{},
-        afterKeydown:{},
-        afterKeypress:{},
-        afterKeyup:{},
-        afterLoad:{},
-        afterLocation:{},
-        afterMousedown:{},
-        afterMousemove:{},
-        afterMouseout:{},
-        afterMouseover:{},
-        afterMouseup:{},
-        afterScroll:{},
-        afterSelect:{},
-        afterSize:{},
-        afterSubmit:{},
-        afterUnload:{},
-        beforeBlur:{},
-        beforeChange:{},
-        beforeClick:{},
-        beforeDblclick:{},
-        beforeDrag:{},
-        beforeDragbegin:{},
-        beforeDragenter:{},
-        beforeDragleave:{},
-        beforeDragover:{},
-        beforeDragstop:{},
-        beforeDrop:{},
-        beforeError:{},
-        beforeFocus:{},
-        beforeKeydown:{},
-        beforeKeypress:{},
-        beforeKeyup:{},
-        beforeLoad:{},
-        beforeLocation:{},
-        beforeMousedown:{},
-        beforeMousemove:{},
-        beforeMouseout:{},
-        beforeMouseover:{},
-        beforeMouseup:{},
-        beforeScroll:{},
-        beforeSelect:{},
-        beforeSize:{},
-        beforeSubmit:{},
-        beforeUnload:{},
-        onBlur:{},
-        onChange:{},
-        onClick:{},
-        onDblclick:{},
-        onDrag:{},
-        onDragbegin:{},
-        onDragenter:{},
-        onDragleave:{},
-        onDragover:{},
-        onDragstop:{},
-        onDrop:{},
-        onError:{},
-        onFocus:{},
-        onKeydown:{},
-        onKeypress:{},
-        onKeyup:{},
-        onLoad:{},
-        onLocation:{},
-        onMousedown:{},
-        onMousemove:{},
-        onMouseout:{},
-        onMouseover:{},
-        onMouseup:{},
-        onScroll:{},
-        onSelect:{},
-        onSize:{},
-        onSubmit:{},
-        onUnload:{}
+        afterBlur:$eo,
+        afterChange:$eo,
+        afterClick:{
+            $rtn:"[self]",
+            $paras:[
+                "fun [Optional]: Function, [this] pointer is the current element, arguments are [linb.DomProfile Object, DOM event Object, the current element].",
+                "label [Optional]: String, the event label.",
+                "flag  [Optional]: Boolean, for remove event only. to indicate if remove all related event."
+            ],
+            $snippet:[
+            "var id='linb.temp.event'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div style=\"border:solid 1px;padding:10px;\"></p><button style=\"height:50px;\" id='+id+'>BUTTON element for testing.</button></p>' + '<br /><br /><button onclick=\"linb(\\\''+id+'\\\').onClick();\">fire event:[onclick] group functions</button> - <button onclick=\"linb(\\\''+id+'\\\').onClick(true);\">fire event: all functions</button> - <button onclick=\"linb(\\\''+id+'\\\').onClick(null,\\\'1#\\\');\">remove [onclick] 1#</button> - <button onclick=\"linb(\\\''+id+'\\\').beforeClick(null);\">remove all [beforeclick] functions</button> - <button onclick=\"linb(\\\''+id+'\\\').onClick(null,null,true);\">remove all functions</button><br /><br /><br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+            "linb(id).beforeClick(function(){alert('beforeclick 1#')},'1#').beforeClick(function(){alert('beforeclick 2#')},'2#').onClick(function(){alert('onclick 1#')},'1#').onClick(function(){alert('onclick 2#')},'2#').afterClick(function(){alert('afterclick 1#, this function return [false], the remaining functions will be ignored!'); return false;},'1#').afterClick(function(){alert('afterclick 2#')},'2#');"+
+            "}"
+            ]
+        },
+        afterContextmenu:$eo,
+        afterDblclick:$eo,
+        afterDrag:$eo,
+        afterDragbegin:$eo,
+        afterDragenter:$eo,
+        afterDragleave:$eo,
+        afterDragover:$eo,
+        afterDragstop:$eo,
+        afterDrop:$eo,
+        afterError:$eo,
+        afterFocus:$eo,
+        afterKeydown:$eo,
+        afterKeypress:$eo,
+        afterKeyup:$eo,
+        afterLoad:$eo,
+        afterLocation:$eo,
+        afterMousedown:$eo,
+        afterMousemove:$eo,
+        afterMouseout:$eo,
+        afterMouseover:$eo,
+        afterMouseup:$eo,
+        afterScroll:$eo,
+        afterSelect:$eo,
+        afterSize:$eo,
+        afterSubmit:$eo,
+        afterUnload:$eo,
+        beforeBlur:$eo,
+        beforeChange:$eo,
+        beforeClick:$eo,
+        beforeContextmenu:$eo,
+        beforeDblclick:$eo,
+        beforeDrag:$eo,
+        beforeDragbegin:$eo,
+        beforeDragenter:$eo,
+        beforeDragleave:$eo,
+        beforeDragover:$eo,
+        beforeDragstop:$eo,
+        beforeDrop:$eo,
+        beforeError:$eo,
+        beforeFocus:$eo,
+        beforeKeydown:$eo,
+        beforeKeypress:$eo,
+        beforeKeyup:$eo,
+        beforeLoad:$eo,
+        beforeLocation:$eo,
+        beforeMousedown:$eo,
+        beforeMousemove:$eo,
+        beforeMouseout:$eo,
+        beforeMouseover:$eo,
+        beforeMouseup:$eo,
+        beforeScroll:$eo,
+        beforeSelect:$eo,
+        beforeSize:$eo,
+        beforeSubmit:$eo,
+        beforeUnload:$eo,
+        onBlur:$eo,
+        onChange:$eo,
+        onClick:$eo,
+        onContextmenu:$eo,
+        onDblclick:$eo,
+        onDrag:$eo,
+        onDragbegin:$eo,
+        onDragenter:$eo,
+        onDragleave:$eo,
+        onDragover:$eo,
+        onDragstop:$eo,
+        onDrop:$eo,
+        onError:$eo,
+        onFocus:$eo,
+        onKeydown:$eo,
+        onKeypress:$eo,
+        onKeyup:$eo,
+        onLoad:$eo,
+        onLocation:$eo,
+        onMousedown:$eo,
+        onMousemove:$eo,
+        onMouseout:$eo,
+        onMouseover:$eo,
+        onMouseup:$eo,
+        onScroll:$eo,
+        onSelect:$eo,
+        onSize:$eo,
+        onSubmit:$eo,
+        onUnload:$eo
     }
 });
 
@@ -2855,7 +2887,7 @@ _.set(linb.Locale,["en","doc","linb","DragDrop"], {
     },
     getProfile:{
         $desc:"Gets the current drag process profile, that includes all the useful information.",
-        $rtn:"key/value object.",
+        $rtn:"Object",
         $snippet:[
             "var id='linb.temp.ddo2'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:150px;\">' + '<div style=\"position:absolute;border:solid 1px;padding:20px;left:10px;top:30px;\">dragable</div>' +'<div style=\"position:absolute;border:solid 1px;left:160px;top:30px;width:100px;height:100px;\">dropable</div>' + ' <button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
             "var n=linb(id); n.first().dragable(true,{dragType:'icon'},'key1','data1').next().dropable(true,'key1').onDrop(function(){alert(linb.Coder.formatText(_.serialize(linb.DragDrop.getProfile())))})"+
@@ -2864,6 +2896,7 @@ _.set(linb.Locale,["en","doc","linb","DragDrop"], {
     },
     setDragIcon:{
         $desc:"To change the dragIcon while dragging.",
+        $rtn:"linb.DragDrop",
         $paras:[
             "key [Optional] : String, the drag icon key. Default is 'move'"
         ],
@@ -2876,6 +2909,7 @@ _.set(linb.Locale,["en","doc","linb","DragDrop"], {
     },
     setDropElement:{
         $desc:"To set the drop target DOM element.",
+        $rtn:"linb.DragDrop",
         $snippet:[
             "src [Required] : DOM element, the drop target."
         ],
@@ -2890,8 +2924,9 @@ _.set(linb.Locale,["en","doc","linb","DragDrop"], {
     },
     setDropFace:{
         $desc:"Set dropable appearance on the drop tareget.",
+        $rtn:"linb.DragDrop",
         $paras:[
-            "target [Required] : DOM element or linb.Dom object.",
+            "target [Required] : DOM element or linb.Dom Object.",
             "dragIcon [Optional] : String, the drag icon key. Default is 'move'."
         ],
         $snippet:[
@@ -2902,14 +2937,13 @@ _.set(linb.Locale,["en","doc","linb","DragDrop"], {
     },
     startDrag:{
         $desc:"<p>Starts to drag the first element.",
-        $rtn:"[self]",
         $paras:[
-            "e [Required] : DOM [event] object.",
-            "targetNode [Required] : DOM element or linb.Dom object.",
-            "profile [Optional] : key/value object, for linb.DragDrop profile. Profile struct:" +
+            "e [Required] : DOM [event] Object.",
+            "targetNode [Required] : DOM element or linb.Dom Object.",
+            "profile [Optional] : key/value Object, for linb.DragDrop profile. Profile struct:" +
             "<div>{<ul>" +
             "<li><strong>dragType</strong>: 'move','copy','deep_copy','shape','icon', 'blank' or 'none', default is 'shape';</li>"+
-            "<li><strong>shadowFrom</strong>: DOM element or linb.Dom object. It's valid when dragType=='icon';</li>"+
+            "<li><strong>shadowFrom</strong>: DOM element or linb.Dom Object. It's valid when dragType=='icon';</li>"+
             "<li><strong>targetReposition</strong>: Bool, does dd reset the target position, default is [true];</li>"+
 
             "<li><strong>dragIcon</strong>: String, the drag icon image path, default is [linb.ini.path+'ondrag.gif'].</li>"+
@@ -2927,15 +2961,15 @@ _.set(linb.Locale,["en","doc","linb","DragDrop"], {
             "<li><strong>maxRightOffset</strong>:Number, the offset between [the restricted right] and [the current mouse X], for mouse restricted region, default is [null];</li>"+
             "<li><strong>maxTopOffset</strong>: Number, the offset between [the restricted top] and [the current mouse Y], for mouse restricted region, default is [null];</li>"+
 
-            "<li><strong>targetNode</strong>: DOM element or linb.Dom object, the drag target node;</li>"+
-            "<li><strong>targetCSS</strong>: Number, the drag target node's css key/value object, default is [null];</li>"+
+            "<li><strong>targetNode</strong>: DOM element or linb.Dom Object, the drag target node;</li>"+
+            "<li><strong>targetCSS</strong>: Number, the drag target node's css key/value Object, default is [null];</li>"+
             "<li><strong>dragKey</strong>: String, the drag key, default is [null];</li>"+
             "<li><strong>dragData</strong>: Any, the drag data, default is [null];</li>"+
             "<li><strong>targetLeft</strong>: Number, the drag target node's css left, default is [null];</li>"+
             "<li><strong>targetTop</strong>: Number, the drag target node's css top, default is [null];</li>"+
             "<li><strong>targetWidth</strong>: Number, the drag target node's css width, default is [null];</li>"+
             "<li><strong>targetHeight</strong>: Number, the drag target node's css height, default is [null];</li>"+
-            "<li><strong>targetOffsetParent</strong>: linb.Dom object, the drag target node offsetParent node, default is [null];</li>"+
+            "<li><strong>targetOffsetParent</strong>: linb.Dom Object, the drag target node offsetParent node, default is [null];</li>"+
 
             "<li><strong>dragCursor</strong>:  'none', 'move', 'link', or 'add', the drag cursor key; <strong>[readonly]</strong></li>"+
             "<li><strong>x</strong>: Number, current X value of mouse; <strong>[readonly]</strong></li>"+
@@ -2949,7 +2983,7 @@ _.set(linb.Locale,["en","doc","linb","DragDrop"], {
             "<li><strong>restrictedRight</strong>: Number, the calculated restricted right value; <strong>[readonly]</strong></li>"+
             "<li><strong>restrictedTop</strong>: Number, the calculated restricted top value; <strong>[readonly]</strong></li>"+
             "<li><strong>restrictedBottom</strong>: Number, the calculated restricted bottom value; <strong>[readonly]</strong></li>"+
-            "<li><strong>proxyNode</strong>: linb.Dom object, the proxy object; <strong>[readonly]</strong></li>"+
+            "<li><strong>proxyNode</strong>: linb.Dom Object, the proxy Object; <strong>[readonly]</strong></li>"+
             "<li><strong>dropElement</strong>: String, the target drop element DOM id. <strong>[readonly]</strong></li>"+
             "</ul>}</div>",
             "dragKey [Optional] : String, dragKey for drag data.",
@@ -2966,7 +3000,7 @@ _.set(linb.Locale,["en","doc","linb","DragDrop"], {
 _.set(linb.Locale,["en","doc","linb","CSS"], {
     addStyleSheet:{
         $desc:"Adds a &lt;style> element to DOM &lt;head>.",
-        $rtn:"style DOM element",
+        $rtn:"Element",
         $paras:[
             "txt [Required] : String, css text.",
             "id [Optional] : String, element id. If a style element with this id exists in &lt;head> already, the function will be ignored.",
@@ -2990,6 +3024,7 @@ _.set(linb.Locale,["en","doc","linb","CSS"], {
     },
     get:{
         $desc:"Gets a specified &lt;style> or &lt;link>  element from DOM &lt;head>.",
+        $rtn:"Element",
         $paras:[
             "property [Required] : String, property name of style element.",
             "value [Required] : String, property value of style element."
@@ -3001,7 +3036,7 @@ _.set(linb.Locale,["en","doc","linb","CSS"], {
     },
     setStyleRules:{
         $desc:"Sets a specified style rules.",
-        $rtn:"[self]",
+        $rtn:"linb.CSS",
         $paras:[
             "selector [Required] : String, css expression without ',' in it.",
             "value [Optional] : key/value pairs. if it isn't specified, the function will remove the style selector.",
@@ -3026,11 +3061,12 @@ _.set(linb.Locale,["en","doc","linb","CSS"], {
     },
     includeLink:{
         $desc:"Includes a specified [href] as a &lt;link> element into DOM &lt;head>.",
+        $rtn:"Element",
         $paras:[
             "href [Required] : String, the styleSheet file path.",
             "id [Optional] : String, the elment id value.",
             "front [Optional] : Bool, adds this &lt;link> element in the front of &lt;head> nor not. Default is false.",
-            "attr [Optional] : key/value object, the &lt;link> element's attributes."
+            "attr [Optional] : key/value Object, the &lt;link> element's attributes."
         ],
         $snippet:[
             "//linb.CSS.includeLink('http://xxx.com/a.css', 'id', flase, {title:'title'});"
@@ -3041,7 +3077,7 @@ _.set(linb.Locale,["en","doc","linb","CSS"], {
 _.set(linb.Locale,["en","doc","linb","History"], {
     setCallback:{
         $desc:"Sets callback function thant will be triggered when the Fragement Identifier changed.",
-        $rtn:"[self]",
+        $rtn:"linb.History",
         $paras:[
             "callback [Required] : Function, callback function."
         ],
@@ -3085,7 +3121,7 @@ _.set(linb.Locale,["en","doc","linb","Cookies"], {
     },
     set:{
         $desc:"Creates a cookie with the given name, value, and other options.",
-        $rtn:"[self]",
+        $rtn:"linb.Cookies",
         $paras:[
             "name [Required] : String, the name of cookie.",
             "value [Required] : String, the value of cookie.",
@@ -3100,7 +3136,7 @@ _.set(linb.Locale,["en","doc","linb","Cookies"], {
     },
     remove:{
         $desc:"Removes a cookie with the given name.",
-        $rtn:"[self]",
+        $rtn:"linb.Cookies",
         $paras:[
             "name [Required] : String, the name of cookie."
         ],
@@ -3118,7 +3154,7 @@ _.set(linb.Locale,["en","doc","linb","Debugger"], {
         ]
     },
     trace:{
-        $desc:"Shows an object's key/value pairs ,and the current function's trace information to the Debugger window.",
+        $desc:"Shows an Object's key/value pairs ,and the current function's trace information to the Debugger window.",
         $paras:[
             "obj [Optional] : Object."
         ],
@@ -3137,9 +3173,9 @@ _.set(linb.Locale,["en","doc","linb","Debugger"], {
 _.set(linb.Locale,["en","doc","linb","Date"], {
     add:{
         $desc:"Returns a new datetime value based on adding an interval to the specified date.",
-        $rtn:"the result Date object.",
+        $rtn:"Object, the result Date Object.",
         $paras:[
-            "date [Required] : Date object, the specified date used to increment datepart.",
+            "date [Required] : Date Object, the specified date used to increment datepart.",
             "datepart [Required] : String, the parameter that specifies on which part of the date to calculate. 'ms','s','n','h','d','ww','m','q','y','de' or 'c'.",
             "count [Required] : Number, the value used to increment datepart."
         ],
@@ -3161,6 +3197,7 @@ _.set(linb.Locale,["en","doc","linb","Date"], {
     },
     diff:{
         $desc:"Returns the number of date and time boundaries crossed between two specified dates.",
+        $rtn:"Number",
         $paras:[
             "startdate [Required] : Date, the beginning date for the calculation.",
             "enddate [Required] : Date, the the ending date for the calculation.",
@@ -3187,7 +3224,7 @@ _.set(linb.Locale,["en","doc","linb","Date"], {
         $desc:"Returns an integer representing the specified datepart of the specified date.",
         $rtn:"Number",
         $paras:[
-            "date [Required] : Date object, the specified date.",
+            "date [Required] : Date Object, the specified date.",
             "datepart [Required] : String, the parameter that specifies on which part of the date to calculate. 'ms','s','n','h','d','ww','m','q','y','de' or 'c'.",
             "firstDayOfWeek [Optional] : Number the first day of week. Default is 0."
         ],
@@ -3209,8 +3246,9 @@ _.set(linb.Locale,["en","doc","linb","Date"], {
     },
     getTimSpanStart:{
         $desc:"Gets the 'from' time of the given time span(e.g. 3 hours, 2 day, 1 week...).",
+        $rtn:"Object, Date Object",
         $paras:[
-            "date [Required] : Date object, a date to caculate the time span.",
+            "date [Required] : Date Object, a date to caculate the time span.",
             "datepart [Required] : String, the time span's datepart: 'ms','s','n','h','d','ww','m','q','y','de' or 'c'.",
             "count [Optional] : Number, how many [datepart]s in the time span. Default is 1.",
             "firstDayOfWeek [Optional] : Number the first day of week. Default is 0."
@@ -3234,8 +3272,9 @@ _.set(linb.Locale,["en","doc","linb","Date"], {
     },
     getTimSpanEnd:{
         $desc:"Gets the 'to' time of the given time span(e.g. 3 hours, 2 day, 1 week...).",
+        $rtn:"Object, Date Object",
         $paras:[
-            "date [Required] : Date object, a date to caculate the time span.",
+            "date [Required] : Date Object, a date to caculate the time span.",
             "datepart [Required] : String, time span's datepart: 'ms','s','n','h','d','ww','m','q','y','de' or 'c'.",
             "count [Optional] : Number, how many [datepart]s in the time span. Default is 1.",
             "firstDayOfWeek [Optional] : Number the first day of week. Default is 0."
@@ -3261,7 +3300,7 @@ _.set(linb.Locale,["en","doc","linb","Date"], {
         $desc:"Converts the specified date to a string representation.",
         $rtn:"String",
         $paras:[
-            "date [Required] : Date object, the specified date.",
+            "date [Required] : Date Object, the specified date.",
             "datepart [Required] : String, the result string's format.",
             "firstDayOfWeek [Optional] : Number the first day of week. Default is 0."
         ],
@@ -3301,7 +3340,7 @@ _.set(linb.Locale,["en","doc","linb","Date"], {
         $desc:"Gets the week of the year according to the given date.",
         $rtn:"Number",
         $paras:[
-            "date [Required] : Date object, the given date.",
+            "date [Required] : Date Object, the given date.",
             "firstDayOfWeek [Optional] : Number the first day of week. Default is 0."
         ],
         $snippet:[
@@ -3309,8 +3348,8 @@ _.set(linb.Locale,["en","doc","linb","Date"], {
         ]
     },
     parse:{
-        $desc:"Converts the specified string representation of a date and time to its [Date] object equivalent.",
-        $rtn:"Date object",
+        $desc:"Converts the specified string representation of a date and time to its [Date] Object equivalent.",
+        $rtn:"Object, Date Object",
         $paras:[
             "str [Required] : String, the given string."
         ],
@@ -3323,8 +3362,9 @@ _.set(linb.Locale,["en","doc","linb","Date"], {
     },
     offsetTimeZone:{
         $desc:"Offset date time to a given time zone, or offset back.",
+        $rtn:"Object, Date Object",
         $paras:[
-            "date [Required] : Date object, the target date.",
+            "date [Required] : Date Object, the target date.",
             "timeZone [Required] : integer Number, the given time zone value.",
             "back [Optional] : Bool, indicates whether or not is offsets back. Default is [false]."
         ],
@@ -3338,7 +3378,7 @@ _.set(linb.Locale,["en","doc","linb","Date"], {
 _.set(linb.Locale,["en","doc","linb","absObj"], {
     getAll:{
         $desc:"Gets all instances of the current Class.",
-        $rtn:"the current Class object",
+        $rtn:"linb.absObj, the current Class Object",
         $snippet:[
             "alert(linb.UI.getAll().get().length)"
         ]
@@ -3351,8 +3391,8 @@ _.set(linb.Locale,["en","doc","linb","absObj"], {
         ]
     },
     setDataModel:{
-        $desc:"Sets a set of Model object to the current Class.",
-        $rtn:"[self]",
+        $desc:"Sets a set of Model Object to the current Class.",
+        $rtn:"linb.absObject",
         $paras:[
             "hash [Required] : key/value pairs"
         ],
@@ -3361,8 +3401,8 @@ _.set(linb.Locale,["en","doc","linb","absObj"], {
         ]
     },
     setEventHandlers:{
-        $desc:"Sets a set of event Handlers object to the current Class.",
-        $rtn:"[self]",
+        $desc:"Sets a set of event Handlers Object to the current Class.",
+        $rtn:"linb.absObject",
         $paras:[
             "hash [Required] : key/value pairs"
         ],
@@ -3372,10 +3412,10 @@ _.set(linb.Locale,["en","doc","linb","absObj"], {
     },
     prototype:{
         host:{
-            $desc:"Sets the host object and alias to the first profile, or gets the host object of the first profile.",
-            $rtn:'Sest: [self]; Gets: Object',
+            $desc:"Sets the host Object and alias to the first profile, or gets the host Object of the first profile.",
+            $rtn:'Object/[self]',
             $paras:[
-                "host [Optional : Object, the host object.",
+                "host [Optional : Object, the host Object.",
                 "alias [Optional : String, the alias value."
             ],
             $snippet:[
@@ -3385,7 +3425,7 @@ _.set(linb.Locale,["en","doc","linb","absObj"], {
         },
         alias:{
             $desc:"Sets or gets an alias to the first profile.",
-            $rtn:'Sest: [self]; Gets: String',
+            $rtn:'Object/[self]',
             $paras:[
                 "str [Optional] : String, the alias value."
             ],
@@ -3444,16 +3484,16 @@ _.set(linb.Locale,["en","doc","linb","absProfile"], {
 
 _.set(linb.Locale,["en","doc","linb","Profile"], {
     constructor:{
-        $desc:"Creates a profile object",
+        $desc:"Creates a profile Object",
         $memo:"Usually, we do not need to create this Class manually."
     },
     prototype:{
         serialize:{
             $desc:"To serialize the current profile to a string representation.",
-            $rtn:"String or Array",
+            $rtn:"String",
             $paras:[
                 "rtnString [Optional] : Bool. to indicate whether it returns String or Object. Default is true.",
-                "keepHost [Optional] : Bool. to keep host object link or not. Default is false."
+                "keepHost [Optional] : Bool. to keep host Object link or not. Default is false."
             ],
             $snippet:[
                 "alert(linb.UIProfile.getFromDom('btnLang').serialize());" +
@@ -3478,8 +3518,8 @@ _.set(linb.Locale,["en","doc","linb","Profile"], {
             ]
         },
         boxing:{
-            $desc:"Packs the current profile to a linb.absBox object, and returns it.",
-            $rtn:'linb.absBox object',
+            $desc:"Packs the current profile to a linb.absBox Object, and returns it.",
+            $rtn:'linb.absBox',
             $snippet:[
                 "alert(linb.UIProfile.getFromDom('btnLang').boxing().KEY)"
             ]
@@ -3489,7 +3529,7 @@ _.set(linb.Locale,["en","doc","linb","Profile"], {
 
 _.set(linb.Locale,["en","doc","linb","UIProfile"], {
     constructor:{
-        $desc:"Creates an UI profile object",
+        $desc:"Creates an UI profile Object",
         $memo:"Usually, we do not need to create this Class manually."
     },
     getFromDom:{
@@ -3505,28 +3545,28 @@ _.set(linb.Locale,["en","doc","linb","UIProfile"], {
     },
     prototype:{
         rendered:{
-            $desc:"Indicates whether the UIProfile is rendered or not."
+            $desc:"Boolean, Indicates whether the UIProfile is rendered or not."
         },
         getRoot:{
-            $desc:"Gets the root linb.Dom object.",
-            $rtn:"linb.Dom element",
+            $desc:"Gets the root linb.Dom Object.",
+            $rtn:"linb.Dom",
             $snippet:[
             "alert(linb.UIProfile.getFromDom('btnLang').getRoot());"
             ]
         },
         getRootNode:{
             $desc:"Gets the root DOM element.",
-            $rtn:"DOM element",
+            $rtn:"Element",
             $snippet:[
             "alert(linb.UIProfile.getFromDom('btnLang').getRootNode());"
             ]
         },
         serialize:{
             $desc:"to serialize the current profile to a string representation.",
-            $rtn:"String or Array",
+            $rtn:"String",
             $paras:[
                 "rtnString [Optional] : Bool. to indicate whether it return String or Object. Default is true.",
-                "keepHost [Optional] : Bool. to keep host object link or not. Default is false."
+                "keepHost [Optional] : Bool. to keep host Object link or not. Default is false."
             ],
             $snippet:[
                 "alert(linb.UIProfile.getFromDom('btnLang').serialize());" +
@@ -3581,7 +3621,7 @@ _.set(linb.Locale,["en","doc","linb","UIProfile"], {
         },
         queryItems:{
              $desc:"Query for the matched items in a deep Array.",
-             $rtn:"Array of items",
+             $rtn:"Array",
              $paras:[
                 "items [Required] : A deep array.",
                 "fun [Required] : Function, query filter function.",
@@ -3596,8 +3636,8 @@ _.set(linb.Locale,["en","doc","linb","UIProfile"], {
             ]
         },
         getItemByDom:{
-            $desc:"Gets a item object according to a specified DOM element or an id string.",
-            $rtn:"key/value pairs.",
+            $desc:"Gets a item Object according to a specified DOM element or an id string.",
+            $rtn:"Object, key/value pairs.",
             $paras:[
                 "src [Required] : DOM element or id string."
             ],
@@ -3618,8 +3658,8 @@ _.set(linb.Locale,["en","doc","linb","UIProfile"], {
             $memo:"For those [linb.absList] profiles only. Usually, we use this function in event callback function."
         },
         getItemByItemId:{
-            $desc:"Gets a item object according to a specified item id.",
-            $rtn:"key/value pairs.",
+            $desc:"Gets a item Object according to a specified item id.",
+            $rtn:"Object, key/value pairs.",
             $paras:[
                 "itemId [Required] :String, item id."
             ],
@@ -3641,7 +3681,7 @@ _.set(linb.Locale,["en","doc","linb","UIProfile"], {
         },
         getSubNode:{
             $desc:"Gets one or a set of specified inner DOM elements (in the root DOM element) according to the given [key] and [subId].",
-            $rtn:"linb.dom object",
+            $rtn:"linb.Dom",
             $paras:[
                 "key [Required] : String, key string.",
                 "subId [Optional] : String or [true]. [true] for getting all the sub nodes with the specified [key]."
@@ -3655,7 +3695,7 @@ _.set(linb.Locale,["en","doc","linb","UIProfile"], {
         },
         getSubNodes:{
             $desc:"Gets a set of specified inner DOM elements(in the root DOM element) according to the given [arr] and [subId].",
-            $rtn:"linb.dom object",
+            $rtn:"linb.Dom",
             $paras:[
                 "arr [Required] : Array, a set of key string.",
                 "subId [Optional] : String or [true]. [true] for getting all the sub nodes with the specified [key]."
@@ -3670,7 +3710,7 @@ _.set(linb.Locale,["en","doc","linb","UIProfile"], {
         },
         getSubNodeByItemId:{
             $desc:"Gets a specified inner DOM element(in the root DOM element) according to the given [key] and [itemId].",
-            $rtn:"linb.dom object",
+            $rtn:"linb.Dom",
             $paras:[
                 "key [Required] : String, key string.",
                 "itemId [Optional] : String, the item id."
@@ -3701,7 +3741,8 @@ _.set(linb.Locale,["en","doc","linb","UIProfile"], {
             ]
         },
         clearCache:{
-            $desc:"Clears the profile cache object.",
+            $desc:"Clears the profile cache Object.",
+            $rtn:"[self]",
             $memo:"Usually, we do not need to call this function manually."
         },
         pickSubId:{
@@ -3745,7 +3786,7 @@ _.set(linb.Locale,["en","doc","linb","UIProfile"], {
 
 _.set(linb.Locale,["en","doc","linb","Template"], {
     getFromDom:{
-        $desc:"Gets a template object according to a given DOM element or id.",
+        $desc:"Gets a template Object according to a given DOM element or id.",
         $rtn:"linb.Template",
         $paras:[
             "id [Required] : String, a DOM element or id."
@@ -3774,11 +3815,11 @@ _.set(linb.Locale,["en","doc","linb","Template"], {
     },
     prototype:{
         rendered:{
-            $desc:"Indicates whether the template is rendered or not."
+            $desc:"Boolean, Indicates whether the template is rendered or not."
         },
         getRootNode:{
             $desc:"Gets DOM element from the current template, if it's in DOM already.",
-            $rtn:"DOM element",
+            $rtn:"Element",
             $snippet:[
             "var id='linb.temp.2'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var t=new linb.Template({'':'<div>{caption}</div>'},{id:'1',caption:'cap'}); t.setDomId('t_2'); linb(id).append(t); alert(t.getRootNode());"+
@@ -3787,7 +3828,7 @@ _.set(linb.Locale,["en","doc","linb","Template"], {
         },
         getItem:{
             $desc:"To get item data from a dom element.",
-            $rtn:"Oject",
+            $rtn:"Object",
             $paras:[
                 "src [Required] : Dom element"
             ],
@@ -3808,8 +3849,8 @@ _.set(linb.Locale,["en","doc","linb","Template"], {
             ]
         },
         serialize:{
-            $desc:"To serialize the current object to a string representation.",
-            $rtn:"String or Array",
+            $desc:"To serialize the current Object to a string representation.",
+            $rtn:"String",
             $snippet:[
                 "var t=new linb.Template({'':'<div>{caption}</div>'},{id:'1',caption:'cap'}); alert(t.serialize())"
             ]
@@ -3906,9 +3947,9 @@ _.set(linb.Locale,["en","doc","linb","Com"], {
     constructor:{
         $desc:"linb.Com constructor",
         $paras:[
-            "properties [Optional] : key/value(any) pairs. the Com properties object. Default is {}.",
-            "events [Optional] : key/value(Function) pairs. the Com event object. Default is {}.",
-            "host [Optional] : object. the Com's host object. Default is itself."
+            "properties [Optional] : key/value(any) pairs. the Com properties Object. Default is {}.",
+            "events [Optional] : key/value(Function) pairs. the Com event Object. Default is {}.",
+            "host [Optional] : Object. the Com's host Object. Default is itself."
         ],
         $snippet:[
             "var order=[], com = new linb.Com({"+
@@ -4056,10 +4097,10 @@ _.set(linb.Locale,["en","doc","linb","Com"], {
         ]
     },
     'load':{
-        $desc:"Loads a linb.Com object code from remote file first, creates it, and returns it.",
+        $desc:"Loads a linb.Com Object code from remote file first, creates it, and returns it.",
         $paras:[
             "cls [Required] : String, the full class path name(e.g. 'linb.App').",
-            "onEnd [Optional]: Function, arguments : [the current linb.Com object]. This function will be called after the process is end.",
+            "onEnd [Optional]: Function, arguments : [the current linb.Com Object]. This function will be called after the process is end.",
             "lang [Optional] : String, language name.(e.g. 'en').",
             "showUI [Optional] : Bool, indicates whether or not it shows the Com UI. Default is true;"
         ],
@@ -4080,15 +4121,15 @@ _.set(linb.Locale,["en","doc","linb","Com"], {
             $desc:"Sets the current Com's Components.",
             $rtn:"[self]",
             $paras:[
-                "obj [Reqired] : linb.absObj object."
+                "obj [Reqired] : linb.absObj Object."
             ],
             $snippet:[
                 "linb.SC('App.Test1',function(){var com=new this; com.create(function(com){com.setComponents((new linb.UI.Button()).host(window,'btn') ); alert(com.getComponents().get(0).alias); });},false);"
             ]
         },
         getComponents:{
-            $desc:"Gets all Components in a specified linb.Com object.",
-            $rtn:"linb.absObj object",
+            $desc:"Gets all Components in a specified linb.Com Object.",
+            $rtn:"linb.absObj",
             $snippet:[
                 "Class('App1','linb.Com',{" +
                 "   Instance:{"+
@@ -4112,8 +4153,8 @@ _.set(linb.Locale,["en","doc","linb","Com"], {
             ]
         },
         getUIComponents:{
-            $desc:"Gets all UI Components in a specified linb.Com object.",
-            $rtn:"linb.UI object",
+            $desc:"Gets all UI Components in a specified linb.Com Object.",
+            $rtn:"linb.UI",
             $snippet:[
                 "Class('App1','linb.Com',{" +
                 "   Instance:{"+
@@ -4137,8 +4178,8 @@ _.set(linb.Locale,["en","doc","linb","Com"], {
             ]
         },
         getEvents:{
-            $desc:"Gets all events or a specified event from a Com object.",
-            $rtn:"Object , String or Function",
+            $desc:"Gets all events or a specified event from a Com Object.",
+            $rtn:"Object, String or Function",
             $paras:[
                 "key [Optional] : String"
             ],
@@ -4148,7 +4189,7 @@ _.set(linb.Locale,["en","doc","linb","Com"], {
             ]
         },
         setEvents:{
-            $desc:"Sets a set of event functions(or a specified event function with a key) to the Com object.",
+            $desc:"Sets a set of event functions(or a specified event function with a key) to the Com Object.",
             $rtn:"[self]",
             $paras:[
                 "key [Required] : key/value(Function) pairs or String. A set of event functions or key.",
@@ -4159,7 +4200,7 @@ _.set(linb.Locale,["en","doc","linb","Com"], {
             ]
         },
         create:{
-            $desc:"Creates the Com object in async mode.",
+            $desc:"Creates the Com Object in async mode.",
             $paras:[
                 "onEnd [Optiona] : Function, the callback function, it will be executed once when the Com is created successfully.",
                 "threadid [Optional] : String, the inner thread id."
@@ -4169,10 +4210,10 @@ _.set(linb.Locale,["en","doc","linb","Com"], {
             ]
         },
         show:{
-            $desc:"Shows the Com object.",
+            $desc:"Shows the Com Object.",
             $paras:[
                 "onEnd [Optiona] : Function, the callback function, it will be executed once when the Com is created successfully.",
-                "parent [Optional] : the parent DOM node or linb.UI object.",
+                "parent [Optional] : the parent DOM node or linb.UI Object.",
                 "subId [Optional] : String, this parameter valid when parent is linb.UI only. The sub id that Determines the [target] will be added to which sub DOM node. This parameter can be [false] too, that means the [target] will be appended to DOM only, no link created between the [target] UIProfiles and the parent UIProfile.",
                 "threadid [Optional] : String, the inner thread id."
             ],
@@ -4208,11 +4249,11 @@ _.set(linb.Locale,["en","doc","linb","Com"], {
             $memo:"For sub class overwriting."
         },
         destroy:{
-            $desc:"Destroys the current object.",
+            $desc:"Destroys the current Object.",
             $memo:"Usually, we do not need to call this function manually."
         },
         iniComponents:{
-            $desc:"Creates the inner Components and return the set of Components(linb.absObj object).",
+            $desc:"Creates the inner Components and return the set of Components(linb.absObj Object).",
             $rtn:"Array, a set of linb.absObj objects.",
             $snippet:[
                 "Class('App1','linb.Com',{" +
@@ -4237,8 +4278,8 @@ _.set(linb.Locale,["en","doc","linb","Com"], {
             ]
         },
         getProperties:{
-            $desc:"Gets all Properties or a specified Properties from a Com object.",
-            $rtn:"Any",
+            $desc:"Gets all Properties or a specified Properties from a Com Object.",
+            $rtn:"Object",
             $paras:[
                 "key [Optional] : String"
             ],
@@ -4248,7 +4289,7 @@ _.set(linb.Locale,["en","doc","linb","Com"], {
             ]
         },
         setProperties:{
-            $desc:"Sets a set of Properties(or an specified Property with a key) to the current Com object.",
+            $desc:"Sets a set of Properties(or an specified Property with a key) to the current Com Object.",
             $rtn:"[self]",
             $paras:[
                 "key [Required] : key/value pairs or String. A set of Properties or key.",
@@ -4259,10 +4300,10 @@ _.set(linb.Locale,["en","doc","linb","Com"], {
             ]
         },
         setHost:{
-            $desc:"Sets the host object to the Com object.",
+            $desc:"Sets the host Object to the Com Object.",
             $rtn:"[self]",
             $paras:[
-                "host [Requied] : Object, the host object.",
+                "host [Requied] : Object, the host Object.",
                 "alias [Optional] : String, the alias name."
             ],
             $snippet:[
@@ -4270,7 +4311,7 @@ _.set(linb.Locale,["en","doc","linb","Com"], {
             ]
         },
         getHost:{
-            $desc:"Gets the host object.",
+            $desc:"Gets the host Object.",
             $rtn:"Object",
             $snippet:[
                 "linb.SC('App.Test1',function(){var com=new this; com.create(function(com){com.setHost(window,'com_alias'); alert(com.getHost()===window); alert(window.com_alias)});},false);"
@@ -4280,7 +4321,7 @@ _.set(linb.Locale,["en","doc","linb","Com"], {
         beforeCreated:{
             $desc:'Fired before com is created.',
             $paras:[
-                'com : linb.Com object.',
+                'com : linb.Com Object.',
                 'threadid : String, thread id.'
             ],
             $memo:'See constructor.'
@@ -4288,7 +4329,7 @@ _.set(linb.Locale,["en","doc","linb","Com"], {
         onCreated:{
             $desc:'Fired when com is created.',
             $paras:[
-                'com : linb.Com object.',
+                'com : linb.Com Object.',
                 'threadid : String, thread id.'
             ],
             $memo:'See constructor.'
@@ -4296,7 +4337,7 @@ _.set(linb.Locale,["en","doc","linb","Com"], {
         onLoadBaseClass:{
             $desc:'Fired when com loads base classes.',
             $paras:[
-                'com : linb.Com object.',
+                'com : linb.Com Object.',
                 'threadid : String, thread id.',
                 'key: String, base class name.'
             ],
@@ -4305,24 +4346,24 @@ _.set(linb.Locale,["en","doc","linb","Com"], {
         onIniResource:{
             $desc:'Fired when com loads resources.',
             $paras:[
-                'com : linb.Com object.',
+                'com : linb.Com Object.',
                 'threadid : String, thread id.',
                 'key: String, base class name.'
             ],
             $memo:'See constructor.'
         },
         beforeIniComponents:{
-            $desc:'Fired beofre com object initializes inner components.',
+            $desc:'Fired beofre com Object initializes inner components.',
             $paras:[
-                'com : linb.Com object.',
+                'com : linb.Com Object.',
                 'threadid : String, thread id.'
             ],
             $memo:'See constructor.'
         },
         afterIniComponents:{
-            $desc:'Fired after com object initializes inner components.',
+            $desc:'Fired after com Object initializes inner components.',
             $paras:[
-                'com : linb.Com object.',
+                'com : linb.Com Object.',
                 'threadid : String, thread id.'
             ],
             $memo:'See constructor.'
@@ -4330,7 +4371,7 @@ _.set(linb.Locale,["en","doc","linb","Com"], {
         onLoadRequiredClass:{
             $desc:'Fired when com loads requried Classes.',
             $paras:[
-                'com : linb.Com object.',
+                'com : linb.Com Object.',
                 'threadid : String, thread id.',
                 'key: String, class name.'
             ],
@@ -4339,7 +4380,7 @@ _.set(linb.Locale,["en","doc","linb","Com"], {
         onReady:{
             $desc:'Fired when com is ready.',
             $paras:[
-                'com : linb.Com object.',
+                'com : linb.Com Object.',
                 'threadid : String, thread id.'
             ],
             $memo:'See constructor.'
@@ -4347,7 +4388,7 @@ _.set(linb.Locale,["en","doc","linb","Com"], {
         onRender:{
             $desc:'Fired when com is added to DOM.',
             $paras:[
-                'com : linb.Com object.',
+                'com : linb.Com Object.',
                 'threadid : String, thread id.'
             ],
             $memo:'See constructor.'
@@ -4359,10 +4400,10 @@ _.set(linb.Locale,["en","doc","linb","Com"], {
 _.set(linb.Locale,["en","doc","linb","ComFactory"], {
     setProfile:{
         $desc:"Sets comfactory profile.",
-        $rtn:'[self]',
+        $rtn:'linb.ComFactory',
         $paras:[
-            "key [Required] : String or key/value pairs object.",
-            "value [Optional] : String or key/value pairs object."
+            "key [Required] : String or key/value pairs Object.",
+            "value [Optional] : String or key/value pairs Object."
         ],
         $snippet:[
             "linb.ComFactory.setProfile({test1:'App.Test1',test2:'App.Test2'});"+
@@ -4375,7 +4416,7 @@ _.set(linb.Locale,["en","doc","linb","ComFactory"], {
     },
     getProfile:{
         $desc:"Gets comfactory profile.",
-        $rtn:'String or key/value pairs object',
+        $rtn:'String/Object',
         $paras:[
             "key [Optional] : String."
         ],
@@ -4406,8 +4447,8 @@ _.set(linb.Locale,["en","doc","linb","ComFactory"], {
         ]
     },
     getComFromCache:{
-        $desc:"Gets a Com object from cache directly if it exists.",
-        $rtn:"Com object or null",
+        $desc:"Gets a Com Object from cache directly if it exists.",
+        $rtn:"linb.Com",
         $paras:[
             "id [Required] : String, the Com id."
         ],
@@ -4418,8 +4459,8 @@ _.set(linb.Locale,["en","doc","linb","ComFactory"], {
         ]
     },
     getCom :{
-        $desc:"Gets a Com object from cache directly if it exists, or loads the Com code first, creates the Com and returns it.",
-        $rtn:"Com object or null",
+        $desc:"Gets a Com Object from cache directly if it exists, or loads the Com code first, creates the Com and returns it.",
+        $rtn:"linb.Com",
         $paras:[
             "id [Required] : String, the Com id.",
             "onEnd [Optional] : Function, the callback function, it will be executed once when the Com is created successfully.",
@@ -4433,11 +4474,11 @@ _.set(linb.Locale,["en","doc","linb","ComFactory"], {
         ]
     },
     setCom:{
-        $desc:"Sets the Com object to the cache with a specified id string.",
-        $rtn:"[self]",
+        $desc:"Sets the Com Object to the cache with a specified id string.",
+        $rtn:"linb.ComFactory",
         $paras:[
             "id [Required] : String, the Com id.",
-            "obj [Required] : Object, the Com object."
+            "obj [Required] : Object, the Com Object."
         ],
         $snippet:[
             "linb.SC('App.Test1',function(){linb.ComFactory.setCom('test1',(new this));},false);"+
@@ -4459,12 +4500,14 @@ _.set(linb.Locale,["en","doc","linb","ComFactory"], {
     },
     prepareWidgets:{
         $desc:"Loads and creates all the Widgets in the background, those Widgets needs to be defined in the required proprety of the current Application Class.",
+        $rtn:"linb.ComFactory",
         $snippet:[
             "//linb.ComFactory.prepareWidgets();"
         ]
     },
     prepareComs:{
         $desc:"Loads and creates a set of Coms in the background, those Coms needs to be defined in the profile first.",
+        $rtn:"linb.ComFactory",
         $snippet:[
             "//linb.ComFactory.setProfile({test1:'App.Test1',test2:'App.Test2'});\n"+
             "//linb.ComFactory.prepareWidgets(['test1','test2']);"
@@ -4488,7 +4531,7 @@ _.set(linb.Locale,["en","doc","linb","DomProfile"], {
 
 _.set(linb.Locale,["en","doc","linb","DataBinder"], {
     constructor:{
-        $desc:"Creates a databinder object."
+        $desc:"Creates a databinder Object."
     },
     destroyAll:{
         $desc:"To destroy all linb.DataBinder objects.",
@@ -4497,8 +4540,8 @@ _.set(linb.Locale,["en","doc","linb","DataBinder"], {
         ]
     },
     getFromName:{
-        $desc:"To get a linb.DataBinder object from it's name.",
-        $rtn:'linb.DataBinder object.',
+        $desc:"To get a linb.DataBinder Object from it's name.",
+        $rtn:'linb.DataBinder.',
         $paras:[
             "name [Required] : String, the DataBinder name."
         ],
@@ -4512,10 +4555,10 @@ _.set(linb.Locale,["en","doc","linb","DataBinder"], {
     prototype:{
         checkValid:{
             $desc:"To checks if all the bound linb.absValue profiles are valid. For example: if user input some chars into a 'number only' linb.UI.Input(it is bound to the current databinder), this function will return [false].",
-            $rtn:"Bool"
+            $rtn:"linb.absValue"
         },
         destroy:{
-            $desc:"To destroy the current object.",
+            $desc:"To destroy the current Object.",
             $memo:"Usually, we do not need to call this function manually."
         },
         setName:{
@@ -4527,8 +4570,8 @@ _.set(linb.Locale,["en","doc","linb","DataBinder"], {
             $memo:"To see the 'getValue' snippets. "
         },
         getUI:{
-            $desc:"Gets the bound UI object.",
-            $rtn:'linb.UI object.',
+            $desc:"Gets the bound UI Object.",
+            $rtn:'linb.UI.',
             $memo:"To see the 'getValue' snippets. ",
             $snippet:[
                 "var id='linb.temp.ui'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -4543,8 +4586,8 @@ _.set(linb.Locale,["en","doc","linb","DataBinder"], {
             $memo:"To see the 'getValue' snippets. "
         },
         getValue:{
-            $desc:"Gets a key/value pairs object from the current databinder, that includes the values of all those bound linb.absValue profiles.",
-            $rtn:"key/value pairs object.",
+            $desc:"Gets a key/value pairs Object from the current databinder, that includes the values of all those bound linb.absValue profiles.",
+            $rtn:"Object, key/value pairs Object.",
             $snippet:[
                 "var id='linb.temp.cv'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var db1=new linb.DataBinder,i1=new linb.UI.Input({position:'relative'}), i2=new linb.UI.Input({position:'relative'}); db1.setName('db1'); i1.setValue('aaa').setDataBinder('db1').setDataField('i1'); i2.setValue('bbb').setDataBinder('db1').setDataField('i2');"+
@@ -4562,7 +4605,7 @@ _.set(linb.Locale,["en","doc","linb","DataBinder"], {
             $desc:"Sets or resets the value of those bound linb.absValue profiles.",
             $rtn:"[self].",
             $paras:[
-                "hash [Optional] : a key/value pairs object. If this parameter is not specified, the bound linb.absValue profiles will be set to their original values."
+                "hash [Optional] : a key/value pairs Object. If this parameter is not specified, the bound linb.absValue profiles will be set to their original values."
             ],
             $memo:"To see the 'getValue' snippets. "
         }
@@ -4571,27 +4614,27 @@ _.set(linb.Locale,["en","doc","linb","DataBinder"], {
 
 _.set(linb.Locale,["en","doc","linb","Tips"], {
     AUTOHIDETIME:{
-        $desc:"Indicates that how long(in ms) the tooltips will be hidden automatically after it's showed. This parameter is valid when MOABLE is [true].",
+        $desc:"Number, Indicates that how long(in ms) the tooltips will be hidden automatically after it's showed. This parameter is valid when MOABLE is [true].",
         $snippet:["alert(linb.Tips.AUTOHIDETIME)"]
     },
     DELAYTIME:{
-        $desc:"Indicates that how long(in ms) the tooltips will be showed after the function 'linb.Tips.show' is called.",
+        $desc:"Number, Indicates that how long(in ms) the tooltips will be showed after the function 'linb.Tips.show' is called.",
         $snippet:["alert(linb.Tips.DELAYTIME)"]
     },
     MAXWIDTH:{
-        $desc:"The max width of the tooltips.",
+        $desc:"Number, The max width of the tooltips.",
         $snippet:["alert(linb.Tips.MAXWIDTH)"]
     },
     MOVABLE:{
-        $desc:"Indicates whether or not the tooltips is movable.",
+        $desc:"Boolean, Indicates whether or not the tooltips is movable.",
         $snippet:["alert(linb.Tips.MOVABLE)"]
     },
     TIPSKEY:{
-        $desc:"The tooltips key. Default is 'tips'.",
+        $desc:"String, The tooltips key. Default is 'tips'.",
         $snippet:["alert(linb.Tips.TIPSKEY)"]
     },
     getTips:{
-        $desc:"To get the tips string.",
+        $desc:"String, To get the tips string.",
         $snippet:[
             "linb.Tips.show({left:100,top:100}, 'a string');"+
             "alert(linb.Tips.getTips());"+
@@ -4602,7 +4645,7 @@ _.set(linb.Locale,["en","doc","linb","Tips"], {
     hide:{
         $desc:"To hide the tooltips.",
         $snippet:[
-            "linb.Tips.show({left:100,top:100}, 'a string'); _.asyRun(function(){linb.Tips.hide()},1000); _.asyRun(function(){linb.Tips.show({left:100,top:100}, {tips:'an object with a \\\'tips\\\' key'})},2000); _.asyRun(function(){linb.Tips.hide()},3000); _.asyRun(function(){linb.Tips.show({left:100,top:100}, {any:'an object with a customizable key'},'any')},4000);_.asyRun(function(){linb.Tips.hide()},5000);"
+            "linb.Tips.show({left:100,top:100}, 'a string'); _.asyRun(function(){linb.Tips.hide()},1000); _.asyRun(function(){linb.Tips.show({left:100,top:100}, {tips:'an Object with a \\\'tips\\\' key'})},2000); _.asyRun(function(){linb.Tips.hide()},3000); _.asyRun(function(){linb.Tips.show({left:100,top:100}, {any:'an Object with a customizable key'},'any')},4000);_.asyRun(function(){linb.Tips.hide()},5000);"
         ]
     },
     show:{
@@ -4613,7 +4656,7 @@ _.set(linb.Locale,["en","doc","linb","Tips"], {
             "key [Optional] : String, the tips key. Default is 'tips'."
         ],
         $snippet:[
-            "linb.Tips.show({left:100,top:100}, 'a string'); _.asyRun(function(){linb.Tips.hide()},1000); _.asyRun(function(){linb.Tips.show({left:100,top:100}, {tips:'an object with a \\\'tips\\\' key'})},2000); _.asyRun(function(){linb.Tips.hide()},3000); _.asyRun(function(){linb.Tips.show({left:100,top:100}, {any:'an object with a customizable key'},'any')},4000);_.asyRun(function(){linb.Tips.hide()},5000);"
+            "linb.Tips.show({left:100,top:100}, 'a string'); _.asyRun(function(){linb.Tips.hide()},1000); _.asyRun(function(){linb.Tips.show({left:100,top:100}, {tips:'an Object with a \\\'tips\\\' key'})},2000); _.asyRun(function(){linb.Tips.hide()},3000); _.asyRun(function(){linb.Tips.show({left:100,top:100}, {any:'an Object with a customizable key'},'any')},4000);_.asyRun(function(){linb.Tips.hide()},5000);"
         ]
     }
 });
@@ -4703,6 +4746,7 @@ _.set(linb.Locale,["en","doc","linb","absList"], {
     prototype:{
         fireItemClickEvent:{
             $desc:"To fires the click event on the specified item.",
+            $rtn:"[self]",
             $paras:[
                 "subId [Required] : String, the id value of target item."
             ],
@@ -4715,7 +4759,7 @@ _.set(linb.Locale,["en","doc","linb","absList"], {
         },
         updateItem:{
             $desc:"Updates the specified item(key or value) and the corresponding DOM Element.",
-            $rtn:"String",
+            $rtn:"[self]",
             $paras:[
                 "id [Required] : String. The node id.",
                 "options [Required] : a key/value pairs Object or String."
@@ -4730,8 +4774,8 @@ _.set(linb.Locale,["en","doc","linb","absList"], {
         },
 
         getItems:{
-            $desc:"Gets the items proerpy from the current UI object.",
-            $rtn:"String",
+            $desc:"Gets the items proerpy from the current UI Object.",
+            $rtn:"Array",
             $snippet:[
                 "var id='linb.temp.absl1'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var o;linb(id).prepend(o=new linb.UI.List({position:'relative',items:[{id:'a',caption:'a'},{id:'b',caption:'b'},{id:'c',caption:'c'}]}))"+
@@ -4740,7 +4784,7 @@ _.set(linb.Locale,["en","doc","linb","absList"], {
             ]
         },
         setItems:{
-            $desc:"Sets the items property to the current UI object, and reflects it to DOM UI.",
+            $desc:"Sets the items property to the current UI Object, and reflects it to DOM UI.",
             $rtn:"[self]",
             $paras:[
                 "value [Required] : Array, the items.",
@@ -4754,7 +4798,7 @@ _.set(linb.Locale,["en","doc","linb","absList"], {
             ]
         },
         insertItems:{
-            $desc:"Inserts a set of items to the current UI object.",
+            $desc:"Inserts a set of items to the current UI Object.",
             $rtn:"[self]",
             $paras:[
                 "arr [Required] : Array. A set of Item objects.",
@@ -4773,8 +4817,8 @@ _.set(linb.Locale,["en","doc","linb","absList"], {
             ]
         },
         removeItems:{
-            $desc:"Removes a set of items from the current UI object.",
-            $rtn:"String",
+            $desc:"Removes a set of items from the current UI Object.",
+            $rtn:"[self]",
             $paras:[
                 "arr [Required] : Array. A set of id strings."
             ],
@@ -4786,8 +4830,8 @@ _.set(linb.Locale,["en","doc","linb","absList"], {
             ]
         },
         clearItems:{
-            $desc:"Removes all items from the current UI object.",
-            $rtn:"String",
+            $desc:"Removes all items from the current UI Object.",
+            $rtn:"[self]",
             $paras:[
                 "key [Optional] : String. the template key which node includes all the items nodes. Defalt is 'ITEMS'."
             ],
@@ -4799,7 +4843,7 @@ _.set(linb.Locale,["en","doc","linb","absList"], {
             ]
         },
         getListKey:{
-            $desc:"Gets the list key property from the current UI object.",
+            $desc:"Gets the list key property from the current UI Object.",
             $rtn:"String",
             $snippet:[
                 "var id='linb.temp.abs6'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -4811,7 +4855,7 @@ _.set(linb.Locale,["en","doc","linb","absList"], {
             ]
         },
         setListKey:{
-            $desc:"Sets the list key property to the current UI object.",
+            $desc:"Sets the list key property to the current UI Object.",
             $rtn:"[self]",
             $paras:[
                 "value [Required] : String, the list key.",
@@ -4827,8 +4871,8 @@ _.set(linb.Locale,["en","doc","linb","absList"], {
             ]
         },
         getItemByItemId:{
-            $desc:"Gets a item object according to a specified item id.",
-            $rtn:"key/value pairs.",
+            $desc:"Gets a item Object according to a specified item id.",
+            $rtn:"Object",
             $paras:[
                 "itemId [Required] :String, item id."
             ],
@@ -4837,8 +4881,8 @@ _.set(linb.Locale,["en","doc","linb","absList"], {
             ]
         },
         getItemByDom:{
-            $desc:"Gets a item object according to a specified DOM element or an id string.",
-            $rtn:"key/value pairs.",
+            $desc:"Gets a item Object according to a specified DOM element or an id string.",
+            $rtn:"Object",
             $paras:[
                 "src [Required] : DOM element or id string."
             ],
@@ -4858,7 +4902,7 @@ _.set(linb.Locale,["en","doc","linb","absList"], {
         },
         getSubNodeByItemId:{
             $desc:"Gets the sub DOM element) according to a specified item id.",
-            $rtn:"String",
+            $rtn:"linb.Dom",
             $paras:[
                 "itemId [Required] :String, item id."
             ],
@@ -4932,7 +4976,7 @@ _.set(linb.Locale,["en","doc","linb","absValue"], {
 
         getUIValue:{
             $desc:"Gets the 'UI value' on the first UIProfile",
-            $rtn:"Any",
+            $rtn:"Object",
             $snippet:[
                 "var id='linb.temp.absv7'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var o;linb(id).prepend(o=new linb.UI.Input({value:'ini'}));"+
@@ -4968,7 +5012,7 @@ _.set(linb.Locale,["en","doc","linb","absValue"], {
         },
         getValue:{
             $desc:"Gets the 'value' on the first UIProfile",
-            $rtn:"Any",
+            $rtn:"Object",
             $snippet:[
                 "var id='linb.temp.absv9'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var o;linb(id).prepend(o=new linb.UI.Input({value:'ini'}));"+
@@ -4993,7 +5037,7 @@ _.set(linb.Locale,["en","doc","linb","absValue"], {
         },
         checkValid:{
             $desc:"To check whether or not the current 'UI value' is valid.",
-            $rtn:"Bool",
+            $rtn:"Boolean",
             $snippet:[
                 "var id='linb.temp.absv11'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var o;linb(id).prepend(o=new linb.UI.Input({value:'ini',valueFormat:'^-?\\\\d\\\\d*$'}));"+
@@ -5003,7 +5047,7 @@ _.set(linb.Locale,["en","doc","linb","absValue"], {
         },
         isDirtied:{
             $desc:"To check whether or not the 'value' equals to the 'UI value'.",
-            $rtn:"Bool",
+            $rtn:"Boolean",
             $snippet:[
                 "var id='linb.temp.absv13'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var o;linb(id).prepend(o=new linb.UI.Input({value:'ini'}));"+
@@ -5190,6 +5234,7 @@ _.set(linb.Locale,["en","doc","linb","absComposed"], {
         },
         getPanelPara:{
             $desc:"Gets panel parameters from the current UI.",
+            $rtn:"Object",
             $snippet:[
                 "var id='linb.temp.d8'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var panel, tabs;"+
@@ -5202,6 +5247,7 @@ _.set(linb.Locale,["en","doc","linb","absComposed"], {
         },
         getPanelChildren:{
             $desc:"Gets panel chldren from the current UI.",
+            $rtn:"Array",
             $snippet:[
                 "var id='linb.temp.d9'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var panel, tabs;"+
@@ -5221,7 +5267,7 @@ _.set(linb.Locale,["en","doc","linb","absComposed"], {
                 "control: Number, 1 or 0, indicates whether or not the 'control' key is pressed.",
                 "shift: Number, 1 or 0, indicates whether or not the 'shift' key is pressed.",
                 "alt: Number, 1 or 0, indicates whether or not the 'alt' key is pressed.",
-                "e : DOM event object.",
+                "e : DOM event Object.",
                 "src : the event source DOM element."
             ],
             $snippet:[
@@ -5242,7 +5288,7 @@ _.set(linb.Locale,["en","doc","linb","absComposed"], {
                 "control: Number, 1 or 0, indicates whether or not the 'control' key is pressed.",
                 "shift: Number, 1 or 0, indicates whether or not the 'shift' key is pressed.",
                 "alt: Number, 1 or 0, indicates whether or not the 'alt' key is pressed.",
-                "e : DOM event object.",
+                "e : DOM event Object.",
                 "src : the event source DOM element."
             ],
             $snippet:[
@@ -5263,7 +5309,7 @@ _.set(linb.Locale,["en","doc","linb","absComposed"], {
                 "control: Number, 1 or 0, indicates whether or not the 'control' key is pressed.",
                 "shift: Number, 1 or 0, indicates whether or not the 'shift' key is pressed.",
                 "alt: Number, 1 or 0, indicates whether or not the 'alt' key is pressed.",
-                "e : DOM event object.",
+                "e : DOM event Object.",
                 "src : the event source DOM element."
             ],
             $snippet:[
@@ -5277,14 +5323,14 @@ _.set(linb.Locale,["en","doc","linb","absComposed"], {
             ]
         },
         onDragEnter:{
-            $desc:"Fired when the user drags the object to a valid drop target.",
+            $desc:"Fired when the user drags the Object to a valid drop target.",
             $paras:[
                 "profile : linb.UIProfile.",
-                "e : DOM event object.",
+                "e : DOM event Object.",
                 "src : the event source DOM element.",
                 "key : String, the DragDrop key.",
                 "data : Object, the DragDrop data.",
-                "item : Object, the source item object."
+                "item : Object, the source item Object."
             ],
             $snippet:[
                 "var id='linb.temp.ab1'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -5302,14 +5348,14 @@ _.set(linb.Locale,["en","doc","linb","absComposed"], {
             ]
         },
         onDragLeave:{
-            $desc:"Fired when the user drags the object leave a valid drop target.",
+            $desc:"Fired when the user drags the Object leave a valid drop target.",
             $paras:[
                 "profile : linb.UIProfile.",
-                "e : DOM event object.",
+                "e : DOM event Object.",
                 "src : the event source DOM element.",
                 "key : String, the DragDrop key.",
                 "data : Object, the DragDrop data.",
-                "item : Object, the source item object."
+                "item : Object, the source item Object."
             ],
             $snippet:[
                 "var id='linb.temp.ab2'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -5328,15 +5374,15 @@ _.set(linb.Locale,["en","doc","linb","absComposed"], {
 
         },
         onDrop:{
-            $desc:"Fired when the user drop the object to a valid drop target.",
+            $desc:"Fired when the user drop the Object to a valid drop target.",
             $paras:[
                 "profile : linb.UIProfile.",
-                "e : DOM event object.",
+                "e : DOM event Object.",
                 "node : the source DOM element.",
                 "src : the event source DOM element.",
                 "key : String, the DragDrop key.",
                 "data : Object, the DragDrop data.",
-                "item : Object, the source item object."
+                "item : Object, the source item Object."
             ],
             $snippet:[
                 "var id='linb.temp.ab3'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -5354,14 +5400,14 @@ _.set(linb.Locale,["en","doc","linb","absComposed"], {
             ]
         },
         onDropMarkClear:{
-            $desc:"Fired when the user drags the object leave a valid drop target.",
+            $desc:"Fired when the user drags the Object leave a valid drop target.",
             $paras:[
                 "profile : linb.UIProfile.",
-                "e : DOM event object.",
+                "e : DOM event Object.",
                 "src : the event source DOM element.",
                 "key : String, the DragDrop key.",
                 "data : Object, the DragDrop data.",
-                "item : Object, the source item object."
+                "item : Object, the source item Object."
             ],
             $snippet:[
                 "var id='linb.temp.ab4'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -5379,14 +5425,14 @@ _.set(linb.Locale,["en","doc","linb","absComposed"], {
             ]
         },
         onDropMarkShow:{
-            $desc:"Fired when the user drags the object to a valid drop target.",
+            $desc:"Fired when the user drags the Object to a valid drop target.",
             $paras:[
                 "profile : linb.UIProfile.",
-                "e : DOM event object.",
+                "e : DOM event Object.",
                 "src : the event source DOM element.",
                 "key : String, the DragDrop key.",
                 "data : Object, the DragDrop data.",
-                "item : Object, the source item object."
+                "item : Object, the source item Object."
             ],
             $snippet:[
                 "var id='linb.temp.ab5'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -5404,14 +5450,14 @@ _.set(linb.Locale,["en","doc","linb","absComposed"], {
             ]
         },
         onDropTest:{
-            $desc:"Fired when the user drags the object to a valid drop target.",
+            $desc:"Fired when the user drags the Object to a valid drop target.",
             $paras:[
                 "profile : linb.UIProfile.",
-                "e : DOM event object.",
+                "e : DOM event Object.",
                 "src : the event source DOM element.",
                 "key : String, the DragDrop key.",
                 "data : Object, the DragDrop data.",
-                "item : Object, the source item object."
+                "item : Object, the source item Object."
             ],
             $snippet:[
                 "var id='linb.temp.ab61'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -5432,7 +5478,7 @@ _.set(linb.Locale,["en","doc","linb","absComposed"], {
             $desc:"Triggered when the user start to drag.",
             $paras:[
                 "profile : linb.UIProfile.",
-                "e : DOM event object.",
+                "e : DOM event Object.",
                 "src : the event source DOM element."
             ],
             $snippet:[
@@ -5448,7 +5494,7 @@ _.set(linb.Locale,["en","doc","linb","absComposed"], {
             $desc:"Fired when the user start to drag.",
             $paras:[
                 "profile : linb.UIProfile.",
-                "e : DOM event object.",
+                "e : DOM event Object.",
                 "src : the event source DOM element."
             ],
             $snippet:[
@@ -5463,7 +5509,7 @@ _.set(linb.Locale,["en","doc","linb","absComposed"], {
             $desc:"Fired when the user stop the dragging process.",
             $paras:[
                 "profile : linb.UIProfile.",
-                "e : DOM event object.",
+                "e : DOM event Object.",
                 "src : the event source DOM element."
             ],
             $snippet:[
@@ -5479,8 +5525,8 @@ _.set(linb.Locale,["en","doc","linb","absComposed"], {
             $desc:"Fired when the user click the specified element. If returns false, the default click effect will be ignored.",
             $paras:[
                 "profile : linb.UIProfile.",
-                "item : Object, the data item object.",
-                "e : DOM event object.",
+                "item : Object, the data item Object.",
+                "e : DOM event Object.",
                 "src : the source DOM element.",
                 "type : String, 'mousedown'or 'mouseup'."
             ],
@@ -5495,8 +5541,8 @@ _.set(linb.Locale,["en","doc","linb","absComposed"], {
             $desc:"Fired when the mouse hover the specified element. If returns false, the default mouse hover effect will be ignored.",
             $paras:[
                 "profile : linb.UIProfile.",
-                "item : Object, the data item object.",
-                "e : DOM event object.",
+                "item : Object, the data item Object.",
+                "e : DOM event Object.",
                 "src : the source DOM element.",
                 "type : String, 'mouseover'or 'mouseout'."
             ],
@@ -5511,7 +5557,7 @@ _.set(linb.Locale,["en","doc","linb","absComposed"], {
             $desc:"Fired when the mouse hover the specified element. If returns false, the default 'set focus to the next' action will be ignored.",
             $paras:[
                 "profile : linb.UIProfile.",
-                "e : DOM event object.",
+                "e : DOM event Object.",
                 "shift: Bool, Shift keyboard is pressed or not.",
                 "src : the source DOM element."
             ],
@@ -5527,8 +5573,8 @@ _.set(linb.Locale,["en","doc","linb","absComposed"], {
 
 _.set(linb.Locale,["en","doc","linb","UI"], {
     getFromDom:{
-        $desc:"Gets an UI object according to a given DOM element or id.",
-        $rtn:"linb.UI object",
+        $desc:"Gets an UI Object according to a given DOM element or id.",
+        $rtn:"linb.UI",
         $paras:[
             "id [Required] : String, a DOM element or id."
         ],
@@ -5537,7 +5583,7 @@ _.set(linb.Locale,["en","doc","linb","UI"], {
         ]
     },
     buildCSSText:{
-        $desc:"Builds CSS text from a key/value pairs object.",
+        $desc:"Builds CSS text from a key/value pairs Object.",
         $rtn:"String",
         $paras:[
             "hash [Required] : key/value pairs."
@@ -5566,7 +5612,7 @@ _.set(linb.Locale,["en","doc","linb","UI"], {
     },
     adjustData:{
         $desc:"Adjusts an input key/value pairs to appropriate data format for building UI.",
-        $rtn:"key/value pairs.",
+        $rtn:"Object",
         $paras:[
             "profile [Required] : the target profile",
             "hashIn [Required] : key/value pairs, the data to be adjusted.",
@@ -5588,16 +5634,16 @@ _.set(linb.Locale,["en","doc","linb","UI"], {
         $memo:"Generally, you don't need to use this function manually in the normal project."
     },
     getAppearance:{
-        $desc:"Gets the appearance object.",
-        $rtn:'object',
+        $desc:"Gets the appearance Object.",
+        $rtn:'Object',
         $snippet:[
             "alert(_.serialize(linb.UI.Div.getAppearance()))"
         ],
         $memo:"Generally, you don't need to use this function manually in the normal project."
     },
     getTemplate:{
-        $desc:"Gets template object according to a given cache id.",
-        $rtn:'object',
+        $desc:"Gets template Object according to a given cache id.",
+        $rtn:'Object',
         $paras:[
             "cacheId [Optional] : String."
         ],
@@ -5607,15 +5653,15 @@ _.set(linb.Locale,["en","doc","linb","UI"], {
         $memo:"Generally, you don't need to use this function manually in the normal project."
     },
     getBehavior:{
-        $desc:"Gets behavior object.",
-        $rtn:'object',
+        $desc:"Gets behavior Object.",
+        $rtn:'Object',
         $snippet:[
             "alert(_.serialize(linb.UI.Link.getBehavior()))"
         ],
         $memo:"Generally, you don't need to use this function manually in the normal project."
     },
     setAppearance:{
-        $desc:"Sets the appearance object.",
+        $desc:"Sets the appearance Object.",
         $rtn:'[self]',
         $paras:[
             "hash [Required] : key/value pairs."
@@ -5623,7 +5669,7 @@ _.set(linb.Locale,["en","doc","linb","UI"], {
         $memo:"Generally, you don't need to use this function manually in the normal project."
     },
     setTemplate:{
-        $desc:"Sets a template object to a specified cache id.",
+        $desc:"Sets a template Object to a specified cache id.",
         $rtn:'[self]',
         $paras:[
             "hash [Required] : key/value pairs.",
@@ -5632,7 +5678,7 @@ _.set(linb.Locale,["en","doc","linb","UI"], {
         $memo:"Generally, you don't need to use this function manually in the normal project."
     },
     setBehavior:{
-        $desc:"Sets behavior object.",
+        $desc:"Sets behavior Object.",
         $rtn:'[self]',
         $memo:"Generally, you don't need to use this function manually in the normal project."
     },
@@ -5649,7 +5695,7 @@ _.set(linb.Locale,["en","doc","linb","UI"], {
     },
     getCachedData:{
         $desc:"Gets the data in the cache at the specified key.",
-        $rtn:"Any",
+        $rtn:"Object",
         $paras:[
             "key [Required] : String, cache key."
         ],
@@ -5662,7 +5708,7 @@ _.set(linb.Locale,["en","doc","linb","UI"], {
         $rtn:"Object",
         $paras:[
             "profile [Required] : the target profile",
-            "event: DOM event object.",
+            "event: DOM event Object.",
             "node [Required] : the related DOM element."
         ],
         $memo:"Generally, you don't need to use this function manually. This function might be overwrote in the sub Class."
@@ -5686,8 +5732,8 @@ _.set(linb.Locale,["en","doc","linb","UI"], {
         $memo:"Generally, you don't need to use this function manually. This function might be overwrote in the sub Class."
     },
     unserialize:{
-        $desc:"To unserialize a string representation or a set of profile representations to a linb.UI object.",
-        $rtn:"linb.UI object",
+        $desc:"To unserialize a string representation or a set of profile representations to a linb.UI Object.",
+        $rtn:"linb.UI",
         $paras:[
             "target [Required] : String or Array.",
             "keepSerialId [Optional] : Bool. to keep serila id or not. Default is [false]."
@@ -5734,13 +5780,9 @@ _.set(linb.Locale,["en","doc","linb","UI"], {
                 "force [Optional] : Bool, force to relayou or not."
             ]
         },
-        resize:{
-            $desc:"To trigger the control's onresize event.",
-            $rtn:"[self]"
-        },
         getChildren:{
             $desc:"Gets the current widget's children.",
-            $rtn:"linb.UI object",
+            $rtn:"linb.UI",
             $paras:[
                 "subId [Optional] : String, the sub id."
             ],
@@ -5752,7 +5794,7 @@ _.set(linb.Locale,["en","doc","linb","UI"], {
             ]
         },
         toHtml:{
-            $desc:"To build HTML string from the current object, and returns it.",
+            $desc:"To build HTML string from the current Object, and returns it.",
             $rtn:"String",
             $snippet:[
                 "alert(linb.UIProfile.getFromDom('btnLang').boxing().toHtml())"
@@ -5787,15 +5829,15 @@ _.set(linb.Locale,["en","doc","linb","UI"], {
             ]
         },
         getRoot:{
-            $desc:"Gets root object(linb.Dom) of the UIProfile.",
-            $rtn:"linb.Dom element",
+            $desc:"Gets root Object(linb.Dom) of the UIProfile.",
+            $rtn:"linb.Dom",
             $snippet:[
             "alert(linb.UIProfile.getFromDom('btnLang').boxing().getRoot());"
             ]
         },
         getRootNode:{
             $desc:"Gets the root DOM element of the UIProfile.",
-            $rtn:"DOM element",
+            $rtn:"Element",
             $snippet:[
             "alert(linb.UIProfile.getFromDom('btnLang').boxing().getRootNode());"
             ]
@@ -5831,7 +5873,7 @@ _.set(linb.Locale,["en","doc","linb","UI"], {
         },
         clone:{
             $desc:"Creates a copy of the set of UIProfiles.",
-            $rtn:"linb.UI object including the copied UIProfiles.",
+            $rtn:"linb.UI",
             $snippet:[
                 "var id='linb.temp.ui3'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var block,btn1,btn2;linb(id).prepend(block=new linb.UI.Block({position:'relative',border:true}));"+
@@ -5842,7 +5884,7 @@ _.set(linb.Locale,["en","doc","linb","UI"], {
             ]
         },
         destroy:{
-            $desc:"To destroy current object.",
+            $desc:"To destroy current Object.",
             $snippet:[
                 "var id='linb.temp.ui4'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var block;linb(id).prepend(block=new linb.UI.Block({position:'relative',border:true}));"+
@@ -6156,7 +6198,7 @@ _.set(linb.Locale,["en","doc","linb","UI"], {
         },
         getTagVar:{
             $desc:"Gets the tagVar property value on the first UIProfile",
-            $rtn:"Any",
+            $rtn:"Object",
             $snippet:[
                 "var id='linb.temp.ui42'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var btn;linb(id).prepend(btn=new linb.UI.Button);"+
@@ -6204,7 +6246,7 @@ _.set(linb.Locale,["en","doc","linb","UI"], {
         },
         getDisabled:{
             $desc:"Determines whether this UI control is disabled or not.",
-            $rtn:"Bool",
+            $rtn:"Boolean",
             $snippet:[
                 "var id='linb.temp.ui46'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var btn;linb(id).prepend(btn=new linb.UI.Button);"+
@@ -6253,7 +6295,7 @@ _.set(linb.Locale,["en","doc","linb","UI"], {
         },
         getDockFloat:{
             $desc:"Gets the dockFloat property value on the first UIProfile",
-            $rtn:"Bool",
+            $rtn:"Boolean",
             $snippet:[
                 "var id='linb.temp.ui52'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var btn;linb(id).prepend(btn=new linb.UI.Button);"+
@@ -6285,7 +6327,7 @@ _.set(linb.Locale,["en","doc","linb","UI"], {
         },
         getDockMargin:{
             $desc:"Gets dock margin on the first UIProfile",
-            $rtn:"key/value pairs",
+            $rtn:"Object",
             $snippet:[
                 "var id='linb.temp.ui60'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var btn;linb(id).prepend(btn=new linb.UI.Button);"+
@@ -6343,7 +6385,7 @@ _.set(linb.Locale,["en","doc","linb","UI"], {
         },
         getDockIgnore:{
             $desc:"Gets the dockIgnore property value on the first UIProfile",
-            $rtn:"Bool",
+            $rtn:"Boolean",
             $snippet:[
                 "var id='linb.temp.ui75'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var btn;linb(id).prepend(btn=new linb.UI.Button({dock:'fill'}));"+
@@ -6426,7 +6468,7 @@ _.set(linb.Locale,["en","doc","linb","UI"], {
         },
         getSubNode:{
             $desc:"Gets one or a set of specified inner DOM elements(in the corresponding DOM element of the first profile) according to the given [key] and [subId].",
-            $rtn:"linb.dom object",
+            $rtn:"linb.dom",
             $paras:[
                 "key [Required] : String, key string.",
                 "subId [Optional] : String or [true]. [true] for getting all the sub nodes with the specified [key]."
@@ -6459,7 +6501,7 @@ _.set(linb.Locale,["en","doc","linb","UI"], {
             $desc:"To show the set of UIProfile.",
             $rtn:"[self]",
             $paras:[
-                "parent [Required] : linb.UIProfile, linb.UI ojbect, Dom element or linb.Dom object.",
+                "parent [Required] : linb.UIProfile, linb.UI ojbect, Dom element or linb.Dom Object.",
                 "subId [Optional] : String, the sub id that Determines the set of UIProfiles will be added to.",
                 "left [Optional] : Number, the css left value.",
                 "top [Optional] : Number, the css top value."
@@ -6469,11 +6511,11 @@ _.set(linb.Locale,["en","doc","linb","UI"], {
             ]
         },
         serialize:{
-            $desc:"To serialize the current object to a string representation.",
-            $rtn:"String or Array",
+            $desc:"To serialize the current Object to a string representation.",
+            $rtn:"String",
             $paras:[
                 "rtnString [Optional] : Bool. to indicate whether or not it returns String or Object. Default is true.",
-                "keepHost [Optional] : Bool. to keep host object link or not. Default is false."
+                "keepHost [Optional] : Bool. to keep host Object link or not. Default is false."
             ],
             $snippet:[
                 "alert(linb.UIProfile.getFromDom('btnLang').boxing().serialize());" +
@@ -6517,8 +6559,8 @@ _.set(linb.Locale,["en","doc","linb","UI"], {
             $desc:"To render the first UIProfile to DOM, and replace an existing DOM element.",
             $rtn:"[self]",
             $paras:[
-                "node [Required] : String,DOM element, DOM id or linb.Dom object.",
-                "host [Optional] : Object, the host object. Default is [window]."
+                "node [Required] : String,DOM element, DOM id or linb.Dom Object.",
+                "host [Optional] : Object, the host Object. Default is [window]."
             ],
             $snippet:[
                 "var id='linb.temp.a1'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -6529,7 +6571,7 @@ _.set(linb.Locale,["en","doc","linb","UI"], {
             ]
         },
         setCustomStyle:{
-            $desc:"Sets customized CSS object to the set of UIProfiles.",
+            $desc:"Sets customized CSS Object to the set of UIProfiles.",
             $rtn:"[self]",
             $paras:[
                 "key [Optional] : String or Object. the template string key, or key/value pairs.",
@@ -6630,8 +6672,8 @@ _.set(linb.Locale,["en","doc","linb","UI"], {
         onContextmenu:{
             $desc:"Fired when the root element's contextmenu event was fired. If returns false, the default contextmenu will be blocked(not in opera).",
             $paras:[
-                "profile : linb.UIProfile object.",
-                "e: DOM event object.",
+                "profile : linb.UIProfile Object.",
+                "e: DOM event Object.",
                 "node: the related DOM element."
             ],
             $snippet:[
@@ -6687,12 +6729,12 @@ _.set(linb.Locale,["en","doc","linb","UI"], {
 });
 _.set(linb.Locale,["en","doc","linb","UI","Widget"], {
     constructor:{
-        $desc:"Creates a linb.UI.Widget object."
+        $desc:"Creates a linb.UI.Widget Object."
     },
     prototype:{
         getBorder:{
             $desc:"Determines whether this widget has border.",
-            $rtn:"Bool",
+            $rtn:"Boolean",
             $snippet:[
                 "var id='linb.temp.w1'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var o;linb(id).prepend(o=(new linb.UI.Widget()).setBorder(true));"+
@@ -6716,7 +6758,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Widget"], {
         },
         getShadow:{
             $desc:"Determines whether this widget has shadow.",
-            $rtn:"Bool",
+            $rtn:"Boolean",
             $snippet:[
                 "var id='linb.temp.w3'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var o;linb(id).prepend(o=(new linb.UI.Widget()).setShadow(true));"+
@@ -6740,7 +6782,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Widget"], {
         },
         getResizer:{
             $desc:"Determines whether this widget could be resized by end user.",
-            $rtn:"Bool",
+            $rtn:"Boolean",
             $snippet:[
                 "var id='linb.temp.w5'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var o;linb(id).prepend(o=(new linb.UI.Widget()).setCustomStyle('KEY','background:#ccc').setResizer(true));"+
@@ -6767,11 +6809,11 @@ _.set(linb.Locale,["en","doc","linb","UI","Widget"], {
 
 _.set(linb.Locale,["en","doc","linb","UI","Div"], {
     constructor:{
-        $desc:"Creates a linb.UI.Div object."
+        $desc:"Creates a linb.UI.Div Object."
     },
     prototype:{
         getHtml:{
-            $desc:"Gets the html string from the current UI object.",
+            $desc:"Gets the html string from the current UI Object.",
             $rtn:"String",
             $snippet:[
                 "var id='linb.temp.div1'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -6781,7 +6823,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Div"], {
             ]
         },
         setHtml:{
-            $desc:"Sets the html string to the current UI object.",
+            $desc:"Sets the html string to the current UI Object.",
             $rtn:"[self]",
             $paras:[
                 "value [Required] : String, the html string.",
@@ -6799,14 +6841,14 @@ _.set(linb.Locale,["en","doc","linb","UI","Div"], {
 
 _.set(linb.Locale,["en","doc","linb","UI","Pane"], {
     constructor:{
-        $desc:"Creates a linb.UI.Pane object."
+        $desc:"Creates a linb.UI.Pane Object."
     }
 });
 
 _.set(linb.Locale,["en","doc","linb","UI","Tag"], {
     constructor:{
-        $desc:"Creates a linb.UI.Tag object. linb.UI.Tag is a proxy UI class for 'Inversion of Control' in jsLinb.",
-        $memo:"linb.UI.Tag is for embedding a target UI object(from linb.Com object) into an existing UI dynamically.",
+        $desc:"Creates a linb.UI.Tag Object. linb.UI.Tag is a proxy UI class for 'Inversion of Control' in jsLinb.",
+        $memo:"linb.UI.Tag is for embedding a target UI Object(from linb.Com Object) into an existing UI dynamically.",
         $links:[
             ["linb.ComFactory.getCom","#linb.ComFactory"]
         ]
@@ -6814,9 +6856,9 @@ _.set(linb.Locale,["en","doc","linb","UI","Tag"], {
     replace:{
         $desc:"To replace the tagProfile with the profile.",
         $paras:[
-            "tagProfile [Required] : the profile of linb.UI.Tag object.",
-            "profile [Required] : the profile of the target UI object",
-            "com [Optional] : linb.Com object, if the tagProfile is in a com objcet directly(no parent UIProfile), you have to specify this."
+            "tagProfile [Required] : the profile of linb.UI.Tag Object.",
+            "profile [Required] : the profile of the target UI Object",
+            "com [Optional] : linb.Com Object, if the tagProfile is in a com objcet directly(no parent UIProfile), you have to specify this."
         ],
         $demo:"Generally, you don't need to use this function manually."
     },
@@ -6824,7 +6866,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Tag"], {
         getTagKey:{
             $desc:"Gets the tag key string.",
             $rtn:"String",
-            $memo:"linb.ComFactory will find the target UI object in the matched linb.Com according to this tagKey."
+            $memo:"linb.ComFactory will find the target UI Object in the matched linb.Com according to this tagKey."
         },
         setTagKey:{
             $desc:"Sets the tag key string.",
@@ -6833,18 +6875,18 @@ _.set(linb.Locale,["en","doc","linb","UI","Tag"], {
                 "value [Required] : String, the tag key.",
                 "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
             ],
-            $memo:"linb.ComFactory will find the target UI object in the matched linb.Com according to this tagKey."
+            $memo:"linb.ComFactory will find the target UI Object in the matched linb.Com according to this tagKey."
         }
     }
 });
 
 _.set(linb.Locale,["en","doc","linb","UI","Link"], {
     constructor:{
-        $desc:"Creates a linb.UI.Link object."
+        $desc:"Creates a linb.UI.Link Object."
     },
     prototype:{
         getCaption:{
-            $desc:"Gets the caption string from the current UI object.",
+            $desc:"Gets the caption string from the current UI Object.",
             $rtn:"String",
             $snippet:[
                 "var id='linb.temp.link1'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -6854,7 +6896,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Link"], {
             ]
         },
         setCaption:{
-            $desc:"Sets the caption string to the current UI object.",
+            $desc:"Sets the caption string to the current UI Object.",
             $rtn:"[self]",
             $paras:[
                 "value [Required] : String, the caption.",
@@ -6868,7 +6910,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Link"], {
             ]
         },
         getTarget:{
-            $desc:"Gets the target attribute from the current UI object.",
+            $desc:"Gets the target attribute from the current UI Object.",
             $rtn:"String",
             $snippet:[
                 "var id='linb.temp.link3'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -6878,7 +6920,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Link"], {
             ]
         },
         setTarget:{
-            $desc:"Sets the target attribute to the current UI object.",
+            $desc:"Sets the target attribute to the current UI Object.",
             $rtn:"[self]",
             $paras:[
                 "value [Required] : String, the target.",
@@ -6892,7 +6934,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Link"], {
             ]
         },
         getHref:{
-            $desc:"Gets the href attribute from the current UI object.",
+            $desc:"Gets the href attribute from the current UI Object.",
             $rtn:"String",
             $snippet:[
                 "var id='linb.temp.link5'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -6902,7 +6944,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Link"], {
             ]
         },
         setHref :{
-            $desc:"Sets the href attribute to the current UI object.",
+            $desc:"Sets the href attribute to the current UI Object.",
             $rtn:"[self]",
             $paras:[
                 "value [Required] : String, the href.",
@@ -6920,8 +6962,8 @@ _.set(linb.Locale,["en","doc","linb","UI","Link"], {
         onClick:{
             $desc:"onClick event handler.",
             $paras:[
-                "profile : linb.UIProfile object.",
-                "e : DOM event object."
+                "profile : linb.UIProfile Object.",
+                "e : DOM event Object."
             ],
             $snippet:[
                 "var id='linb.temp.link7'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -6940,11 +6982,11 @@ _.set(linb.Locale,["en","doc","linb","UI","Resizer"], {});
 
 _.set(linb.Locale,["en","doc","linb","UI","Block"], {
     constructor:{
-        $desc:"Creates a linb.UI.Block object."
+        $desc:"Creates a linb.UI.Block Object."
     },
     prototype:{
         getHtml:{
-            $desc:"Gets the html string from the current UI object.",
+            $desc:"Gets the html string from the current UI Object.",
             $rtn:"String",
             $snippet:[
                 "var id='linb.temp.blk1'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -6954,7 +6996,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Block"], {
             ]
         },
         setHtml:{
-            $desc:"Sets the html string to the current UI object.",
+            $desc:"Sets the html string to the current UI Object.",
             $rtn:"[self]",
             $paras:[
                 "value [Required] : String, the html string.",
@@ -6968,7 +7010,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Block"], {
             ]
         },
         getBackground:{
-            $desc:"Gets background from the current UI object.",
+            $desc:"Gets background from the current UI Object.",
             $rtn:"String",
             $snippet:[
                 "var id='linb.temp.blk3'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -6978,7 +7020,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Block"], {
             ]
         },
         setBackground:{
-            $desc:"Sets background to the current UI object.",
+            $desc:"Sets background to the current UI Object.",
             $rtn:"[self]",
             $paras:[
                 "value [Required] : String, the background string.",
@@ -6992,7 +7034,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Block"], {
             ]
         },
         getBorderType:{
-            $desc:"Gets border type from the current UI object.",
+            $desc:"Gets border type from the current UI Object.",
             $rtn:"String",
             $snippet:[
                 "var id='linb.temp.blk5'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -7002,7 +7044,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Block"], {
             ]
         },
         setBorderType:{
-            $desc:"Sets border type to the current UI object.",
+            $desc:"Sets border type to the current UI Object.",
             $rtn:"[self]",
             $paras:[
                 "value [Required] : String, 'none','inset','outset','groove'or 'ridge'.",
@@ -7020,7 +7062,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Block"], {
 
 _.set(linb.Locale,["en","doc","linb","UI","Label"], {
     constructor:{
-        $desc:"Creates a linb.UI.Label object."
+        $desc:"Creates a linb.UI.Label Object."
     },
     prototype:{
         getCaption :{
@@ -7219,7 +7261,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Label"], {
 });
 _.set(linb.Locale,["en","doc","linb","UI","ProgressBar"], {
     constructor:{
-        $desc:"Creates a linb.UI.ProgressBar object."
+        $desc:"Creates a linb.UI.ProgressBar Object."
     },
     prototype:{
         getCaptionTpl :{
@@ -7260,7 +7302,7 @@ _.set(linb.Locale,["en","doc","linb","UI","ProgressBar"], {
             ]
         },
         setFillBG:{
-            $desc:"Sets the fill backgournd to the properties object of each UIProfile, and reflects the value to UI.",
+            $desc:"Sets the fill backgournd to the properties Object of each UIProfile, and reflects the value to UI.",
             $rtn:"[self]",
              $paras:[
                 "value [Required] : nonnegative Number.",
@@ -7279,7 +7321,7 @@ _.set(linb.Locale,["en","doc","linb","UI","ProgressBar"], {
 
 _.set(linb.Locale,["en","doc","linb","UI","SLabel"], {
     constructor:{
-        $desc:"Creates a linb.UI.SLabel object."
+        $desc:"Creates a linb.UI.SLabel Object."
     },
     prototype:{
         getCaption :{
@@ -7335,7 +7377,7 @@ _.set(linb.Locale,["en","doc","linb","UI","SLabel"], {
 
 _.set(linb.Locale,["en","doc","linb","UI","SButton"], {
     constructor:{
-        $desc:"Creates a linb.UI.SButton object."
+        $desc:"Creates a linb.UI.SButton Object."
     },
     prototype:{
         activate:{
@@ -7400,8 +7442,8 @@ _.set(linb.Locale,["en","doc","linb","UI","SButton"], {
         onClick:{
             $desc:"Fired when button is clicked.",
             $paras:[
-                "profile : linb.UIProfile object.",
-                "e : DOM event object.",
+                "profile : linb.UIProfile Object.",
+                "e : DOM event Object.",
                 "src : DOM element.",
                 "value : the value."
             ],
@@ -7416,7 +7458,7 @@ _.set(linb.Locale,["en","doc","linb","UI","SButton"], {
 
 _.set(linb.Locale,["en","doc","linb","UI","SCheckBox"], {
     constructor:{
-        $desc:"Creates a linb.UI.SCheckBox object."
+        $desc:"Creates a linb.UI.SCheckBox Object."
     },
     prototype:{
         activate:{
@@ -7456,8 +7498,8 @@ _.set(linb.Locale,["en","doc","linb","UI","SCheckBox"], {
         onChecked:{
             $desc:"Fired when CheckBox is checked.",
             $paras:[
-                "profile : linb.UIProfile object.",
-                "e : DOM event object.",
+                "profile : linb.UIProfile Object.",
+                "e : DOM event Object.",
                 "value : String, the value."
             ],
             $snippet:[
@@ -7471,7 +7513,7 @@ _.set(linb.Locale,["en","doc","linb","UI","SCheckBox"], {
 
 _.set(linb.Locale,["en","doc","linb","UI","Button"], {
     constructor:{
-        $desc:"Creates a linb.UI.Button object."
+        $desc:"Creates a linb.UI.Button Object."
     },
     prototype:{
         activate:{
@@ -7656,8 +7698,8 @@ _.set(linb.Locale,["en","doc","linb","UI","Button"], {
         onClick:{
             $desc:"Fired when button is clicked.",
             $paras:[
-                "profile : linb.UIProfile object.",
-                "e : DOM event object.",
+                "profile : linb.UIProfile Object.",
+                "e : DOM event Object.",
                 "src : DOM element.",
                 "value : the value."
             ],
@@ -7670,8 +7712,8 @@ _.set(linb.Locale,["en","doc","linb","UI","Button"], {
         onClickDrop:{
             $desc:"Fired when button is clicked.",
             $paras:[
-                "profile : linb.UIProfile object.",
-                "e : DOM event object.",
+                "profile : linb.UIProfile Object.",
+                "e : DOM event Object.",
                 "src : DOM element.",
                 "value : the value."
             ],
@@ -7682,10 +7724,10 @@ _.set(linb.Locale,["en","doc","linb","UI","Button"], {
             ]
         },
         onChecked:{
-            $desc:"Fired when button is checked. linb.UI.Button object has this event handler only when button type is 'status' is [true].",
+            $desc:"Fired when button is checked. linb.UI.Button Object has this event handler only when button type is 'status' is [true].",
             $paras:[
-                "profile : linb.UIProfile object.",
-                "e : DOM event object.",
+                "profile : linb.UIProfile Object.",
+                "e : DOM event Object.",
                 "value : String, the value."
             ],
             $snippet:[
@@ -7699,14 +7741,14 @@ _.set(linb.Locale,["en","doc","linb","UI","Button"], {
 
 _.set(linb.Locale,["en","doc","linb","UI","CheckBox"], {
     constructor:{
-        $desc:"Creates a linb.UI.CheckBox object."
+        $desc:"Creates a linb.UI.CheckBox Object."
     },
     prototype:{
         onChecked:{
             $desc:"Fired when CheckBox is checked.",
             $paras:[
-                "profile : linb.UIProfile object.",
-                "e : DOM event object.",
+                "profile : linb.UIProfile Object.",
+                "e : DOM event Object.",
                 "value : String, the value."
             ],
             $snippet:[
@@ -7720,7 +7762,7 @@ _.set(linb.Locale,["en","doc","linb","UI","CheckBox"], {
 
 _.set(linb.Locale,["en","doc","linb","UI","Input"], {
     constructor:{
-        $desc:"Creates a linb.UI.Input object."
+        $desc:"Creates a linb.UI.Input Object."
     },
     prototype:{
         activate:{
@@ -7735,7 +7777,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Input"], {
         },
         getDynCheck:{
             $desc:"Gets the 'dynamic check' property value on the first UIProfile",
-            $rtn:"Bool",
+            $rtn:"Boolean",
             $snippet:[
                 "var id='linb.temp.input3'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var o;linb(id).prepend(new linb.UI.Input({position:'relative',valueFormat:'^\\\\d*$'})).prepend(o=new linb.UI.Input({position:'relative',valueFormat:'^\\\\d*$'}));"+
@@ -7759,7 +7801,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Input"], {
         },
         getMultiLines:{
             $desc:"Determines whether input box holds single line or multi line",
-            $rtn:"Bool",
+            $rtn:"Boolean",
             $snippet:[
                 "var id='linb.temp.input5'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var o;linb(id).prepend(new linb.UI.Input({position:'relative'})).prepend(o=new linb.UI.Input({position:'relative'}));"+
@@ -7813,7 +7855,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Input"], {
         },
         getReadonly:{
             $desc:"Gets the readonly property value on the first UIProfile",
-            $rtn:"Bool",
+            $rtn:"Boolean",
             $snippet:[
                 "var id='linb.temp.input9'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var o;linb(id).prepend(o=new linb.UI.Input({value:'ini'}));"+
@@ -7965,7 +8007,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Input"], {
         onBlur:{
             $desc:"Fired when input box loses focus.",
             $paras:[
-                "profile : linb.UIProfile object."
+                "profile : linb.UIProfile Object."
             ],
             $snippet:[
                 "var id='linb.temp.input20'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -7977,7 +8019,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Input"], {
         onFocus:{
             $desc:"Fired when input box gets focus.",
             $paras:[
-                "profile : linb.UIProfile object."
+                "profile : linb.UIProfile Object."
             ],
             $snippet:[
                 "var id='linb.temp.input20'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -7989,7 +8031,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Input"], {
         beforeFormatCheck:{
             $desc:"Fired before validating value format. If returns false, the inner formatCheck function will be ignored.",
             $paras:[
-                "profile : linb.UIProfile object.",
+                "profile : linb.UIProfile Object.",
                 "value: String, the value need to be checked."
             ],
             $snippet:[
@@ -8002,7 +8044,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Input"], {
         beforeFormatMark:{
             $desc:"Fired before the UIProfile sets the format mark. If returns false, the inner formatMark function will be ignored.",
             $paras:[
-                "profile : linb.UIProfile object.",
+                "profile : linb.UIProfile Object.",
                 "formatErr: Bool, is the format error."
             ],
             $snippet:[
@@ -8016,11 +8058,11 @@ _.set(linb.Locale,["en","doc","linb","UI","Input"], {
 });
 _.set(linb.Locale,["en","doc","linb","UI","TextEditor"], {
     constructor:{
-        $desc:"Creates a linb.UI.TextEditor object."
+        $desc:"Creates a linb.UI.TextEditor Object."
     },
     prototype:{
         activate:{
-            $desc:"Activates the current UI object.",
+            $desc:"Activates the current UI Object.",
             $rtn:"[self]",
             $snippet:[
                 "var id='linb.temp.TextEditor0'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -8031,7 +8073,7 @@ _.set(linb.Locale,["en","doc","linb","UI","TextEditor"], {
         },
         getReadonly:{
             $desc:"Determines whether editor is read-only or editable.",
-            $rtn:"Bool",
+            $rtn:"Boolean",
             $snippet:[
                 "var id='linb.temp.TextEditor9'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var o;linb(id).prepend(o=new linb.UI.TextEditor({dock:'fill'}));"+
@@ -8058,7 +8100,7 @@ _.set(linb.Locale,["en","doc","linb","UI","TextEditor"], {
         onChange:{
             $desc:"Fired when end user changes text in this editor.",
             $paras:[
-                "profile : linb.UIProfile object.",
+                "profile : linb.UIProfile Object.",
                 "oV : the old value.",
                 "nV : the new value."
             ],
@@ -8073,11 +8115,11 @@ _.set(linb.Locale,["en","doc","linb","UI","TextEditor"], {
 });
 _.set(linb.Locale,["en","doc","linb","UI","Group"], {
     constructor:{
-        $desc:"Creates a linb.UI.Group object."
+        $desc:"Creates a linb.UI.Group Object."
     },
     prototype:{
         activate:{
-            $desc:"Activates the current UI object.",
+            $desc:"Activates the current UI Object.",
             $rtn:"[self]",
             $snippet:[
                 "var id='linb.temp.grp0'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -8160,7 +8202,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Group"], {
         },
         getToggle:{
             $desc:"Determines whether group collapses or not.",
-            $rtn:"Bool",
+            $rtn:"Boolean",
             $snippet:[
                 "var id='linb.temp.fs3'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var btn;linb(id).prepend(btn=new linb.UI.Group);"+
@@ -8184,7 +8226,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Group"], {
         },
         getToggleBtn:{
             $desc:"Determines whether toggle button shows or not.",
-            $rtn:"Bool",
+            $rtn:"Boolean",
             $snippet:[
                 "var id='linb.temp.fs3-1'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var btn;linb(id).prepend(btn=new linb.UI.Group);"+
@@ -8211,7 +8253,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Group"], {
         onExpend:{
             $desc:"Fired when group expends.",
             $paras:[
-                "profile : linb.UIProfile object."
+                "profile : linb.UIProfile Object."
             ],
             $snippet:[
                 "var id='linb.temp.fs5'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -8224,7 +8266,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Group"], {
         onFold:{
             $desc:"Fired when group collapses.",
             $paras:[
-                "profile : linb.UIProfile object."
+                "profile : linb.UIProfile Object."
             ],
             $snippet:[
                 "var id='linb.temp.fs6'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -8237,7 +8279,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Group"], {
         onIniPanelView:{
             $desc:"Fired on panel is initialized.",
             $paras:[
-                "profile : linb.UIProfile object."
+                "profile : linb.UIProfile Object."
             ],
             $snippet:[
                 "var id='linb.temp.fs7'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -8252,7 +8294,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Group"], {
 
 _.set(linb.Locale,["en","doc","linb","UI","ComboInput"], {
     constructor:{
-        $desc:"Creates a linb.UI.ComboInput object."
+        $desc:"Creates a linb.UI.ComboInput Object."
     },
     prototype:{
         resetValue:{
@@ -8273,8 +8315,8 @@ _.set(linb.Locale,["en","doc","linb","UI","ComboInput"], {
             $rtn:"[self]"
         },
         getUploadObj:{
-            $desc:"Gest the object (picture or other binary file), that need to be uploaded.",
-            $rtn:"linb.Dom object",
+            $desc:"Gest the Object (picture or other binary file), that need to be uploaded.",
+            $rtn:"linb.Dom",
             $snippet:[
                 "var id='linb.temp.ci2'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var o;linb(id).prepend(o=new linb.UI.ComboInput({type:'upload'}));"+
@@ -8298,8 +8340,8 @@ _.set(linb.Locale,["en","doc","linb","UI","ComboInput"], {
             ]
         },
         getItems:{
-            $desc:"Gets the items from the current UI object.",
-            $rtn:"String",
+            $desc:"Gets the items from the current UI Object.",
+            $rtn:"Array",
             $snippet:[
                 "var id='linb.temp.ci5'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var o;linb(id).prepend(o=new linb.UI.ComboInput({position:'relative',items:[{id:'a',caption:'a'},{id:'b',caption:'b'},{id:'c',caption:'c'}]}));"+
@@ -8308,7 +8350,7 @@ _.set(linb.Locale,["en","doc","linb","UI","ComboInput"], {
             ]
         },
         setItems:{
-            $desc:"Sets the items property to the current UI object, and reflects it to DOM UI.",
+            $desc:"Sets the items property to the current UI Object, and reflects it to DOM UI.",
             $rtn:"[self]",
             $paras:[
                 "value [Required] : Array, the items.",
@@ -8322,7 +8364,7 @@ _.set(linb.Locale,["en","doc","linb","UI","ComboInput"], {
             ]
         },
         getListKey:{
-            $desc:"Gets the list key property from the current UI object.",
+            $desc:"Gets the list key property from the current UI Object.",
             $rtn:"String",
             $snippet:[
                 "var id='linb.temp.ci7'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -8334,7 +8376,7 @@ _.set(linb.Locale,["en","doc","linb","UI","ComboInput"], {
             ]
         },
         setListKey:{
-            $desc:"Sets the list key property to the current UI object.",
+            $desc:"Sets the list key property to the current UI Object.",
             $rtn:"[self]",
             $paras:[
                 "value [Required] : String, the lisk key.",
@@ -8351,7 +8393,7 @@ _.set(linb.Locale,["en","doc","linb","UI","ComboInput"], {
         },
         getSaveBtn:{
             $desc:"Determines whether save button shows up or not.",
-            $rtn:"String",
+            $rtn:"Boolean",
             $snippet:[
                 "var id='linb.temp.ci8'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var o1,o2;linb(id).prepend(o1=new linb.UI.ComboInput({position:'relative'})).prepend(o2=new linb.UI.ComboInput({position:'relative',type:'none'}));"+
@@ -8423,7 +8465,7 @@ _.set(linb.Locale,["en","doc","linb","UI","ComboInput"], {
         },
         getMin:{
             $desc:"Gets min value. For style is 'spin' only.",
-            $rtn:"Number",
+            $rtn:"Boolean",
             $snippet:[
                 "var id='linb.temp.ci15'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var o1,o2;linb(id).prepend(o1=new linb.UI.ComboInput({position:'relative',type:'spin'}));"+
@@ -8447,7 +8489,7 @@ _.set(linb.Locale,["en","doc","linb","UI","ComboInput"], {
         },
         getMax:{
             $desc:"Gets max value. For style is 'spin' only.",
-            $rtn:"Number",
+            $rtn:"Boolean",
             $snippet:[
                 "var id='linb.temp.ci17'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var o1,o2;linb(id).prepend(o1=new linb.UI.ComboInput({position:'relative',type:'spin'}));"+
@@ -8520,7 +8562,7 @@ _.set(linb.Locale,["en","doc","linb","UI","ComboInput"], {
         onFileDlgOpen:{
             $desc:"Fired when the file upload dialog is open.",
             $paras:[
-                "profile : linb.UIProfile object.",
+                "profile : linb.UIProfile Object.",
                 "node : the input DOM element."
             ],
             $snippet:[
@@ -8533,9 +8575,9 @@ _.set(linb.Locale,["en","doc","linb","UI","ComboInput"], {
         beoforeComboPop:{
             $desc:"Fired before the pop-up window shows. If returns false, the default pop action will be ignored.",
             $paras:[
-                "profile : linb.UIProfile object.",
+                "profile : linb.UIProfile Object.",
                 "pos : the mouse position.",
-                "e : DOM event object.",
+                "e : DOM event Object.",
                 "src : the command button DOM element."
             ],
             $snippet:[
@@ -8548,7 +8590,7 @@ _.set(linb.Locale,["en","doc","linb","UI","ComboInput"], {
         onSave:{
             $desc:"Fired when the save button is clicked.",
             $paras:[
-                "profile : linb.UIProfile object.",
+                "profile : linb.UIProfile Object.",
                 "node : the command button DOM element."
             ],
             $snippet:[
@@ -8564,13 +8606,13 @@ _.set(linb.Locale,["en","doc","linb","UI","ComboInput"], {
 
 _.set(linb.Locale,["en","doc","linb","UI","Stacks"], {
     constructor:{
-        $desc:"Creates a linb.UI.Stacks object."
+        $desc:"Creates a linb.UI.Stacks Object."
     }
 });
 
 _.set(linb.Locale,["en","doc","linb","UI","ButtonViews"], {
     constructor:{
-        $desc:"Creates a linb.UI.ButtonViews object."
+        $desc:"Creates a linb.UI.ButtonViews Object."
     },
     prototype:{
         setBarLocation:{
@@ -8676,14 +8718,14 @@ _.set(linb.Locale,["en","doc","linb","UI","ButtonViews"], {
 
 _.set(linb.Locale,["en","doc","linb","UI","RadioBox"], {
     constructor:{
-        $desc:"Creates a linb.UI.RadioBox object."
+        $desc:"Creates a linb.UI.RadioBox Object."
     }
 });
 
 
 _.set(linb.Locale,["en","doc","linb","UI","ColorPicker"], {
     constructor:{
-        $desc:"Creates a linb.UI.ColorPicker object."
+        $desc:"Creates a linb.UI.ColorPicker Object."
     },
     getTextColor:{
         $desc:"Gets the text color that can be showd more well-marked in the specified background color.",
@@ -8743,7 +8785,7 @@ _.set(linb.Locale,["en","doc","linb","UI","ColorPicker"], {
     },
     prototype:{
         getColorName:{
-            $desc:"Gets color name from the ColorPicker object, if it exists.",
+            $desc:"Gets color name from the ColorPicker Object, if it exists.",
             $rtn:"String",
             $snippet:[
                 "var id='linb.temp.clr1'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -8754,7 +8796,7 @@ _.set(linb.Locale,["en","doc","linb","UI","ColorPicker"], {
         },
         getAdvance:{
             $desc:"Determines whether advanced chooser shows up on the right side.",
-            $rtn:"Bool",
+            $rtn:"Boolean",
             $snippet:[
                 "var id='linb.temp.clr2'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var o;linb(id).prepend(o=new linb.UI.ColorPicker({position:'relative',closeBtn:false}));"+
@@ -8764,7 +8806,7 @@ _.set(linb.Locale,["en","doc","linb","UI","ColorPicker"], {
         },
         setAdvance:{
             $desc:"Specify whether advanced chooser shows up on the right side, and reflects it to DOM UI.",
-            $rtn:"Bool",
+            $rtn:"Boolean",
             $snippet:[
                 "var id='linb.temp.clr2'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var o;linb(id).prepend(o=new linb.UI.ColorPicker({position:'relative',closeBtn:false}));"+
@@ -8774,7 +8816,7 @@ _.set(linb.Locale,["en","doc","linb","UI","ColorPicker"], {
         },
         getCloseBtn:{
             $desc:"Determines whether close button shows up or not.",
-            $rtn:"Bool",
+            $rtn:"Boolean",
             $snippet:[
                 "var id='linb.temp.clr3'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var o;linb(id).prepend(o=new linb.UI.ColorPicker({position:'relative'}));"+
@@ -8784,7 +8826,7 @@ _.set(linb.Locale,["en","doc","linb","UI","ColorPicker"], {
         },
         setCloseBtn:{
             $desc:"Specifys whether close button shows up or not, and reflects it to DOM UI.",
-            $rtn:"Bool",
+            $rtn:"Boolean",
             $snippet:[
                 "var id='linb.temp.clr4'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var o;linb(id).prepend(o=new linb.UI.ColorPicker({position:'relative'}));"+
@@ -8794,7 +8836,7 @@ _.set(linb.Locale,["en","doc","linb","UI","ColorPicker"], {
         },
         getDisplayBar:{
             $desc:"Determines whether display bar shows up or not.",
-            $rtn:"Bool",
+            $rtn:"Boolean",
             $snippet:[
                 "var id='linb.temp.clr5'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var o;linb(id).prepend(o=new linb.UI.ColorPicker({position:'relative'}));"+
@@ -8804,7 +8846,7 @@ _.set(linb.Locale,["en","doc","linb","UI","ColorPicker"], {
         },
         setDisplayBar:{
             $desc:"Specifys whether display bar shows up or not, and reflects it to DOM UI.",
-            $rtn:"Bool",
+            $rtn:"Boolean",
             $snippet:[
                 "var id='linb.temp.clr6'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var o;linb(id).prepend(o=new linb.UI.ColorPicker({position:'relative'}));"+
@@ -8816,7 +8858,7 @@ _.set(linb.Locale,["en","doc","linb","UI","ColorPicker"], {
         beforeClose:{
             $desc:"Fired before user click close button or cancel button. If returns false, close function will be ignored.",
             $paras:[
-                "profile : linb.UIProfile object."
+                "profile : linb.UIProfile Object."
             ],
             $snippet:[
                 "var id='linb.temp.clr9'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -8830,12 +8872,12 @@ _.set(linb.Locale,["en","doc","linb","UI","ColorPicker"], {
 
 _.set(linb.Locale,["en","doc","linb","UI","DatePicker"], {
     constructor:{
-        $desc:"Creates a linb.UI.DatePicker object."
+        $desc:"Creates a linb.UI.DatePicker Object."
     },
     prototype:{
         getCloseBtn:{
             $desc:"Determines whether close button shows up or not.",
-            $rtn:"Bool",
+            $rtn:"Boolean",
             $snippet:[
                 "var id='linb.temp.dp1'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var o;linb(id).prepend(o=new linb.UI.DatePicker({position:'relative'}));"+
@@ -8845,7 +8887,7 @@ _.set(linb.Locale,["en","doc","linb","UI","DatePicker"], {
         },
         setCloseBtn:{
             $desc:"Specifys whether close button shows up or not, and reflects it to DOM UI.",
-            $rtn:"Bool",
+            $rtn:"Boolean",
             $snippet:[
                 "var id='linb.temp.dp2'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var o;linb(id).prepend(o=new linb.UI.DatePicker({position:'relative'}));"+
@@ -8855,7 +8897,7 @@ _.set(linb.Locale,["en","doc","linb","UI","DatePicker"], {
         },
         getDateFrom:{
             $desc:"Gets the from date of the datepicker.",
-            $rtn:"Date",
+            $rtn:"Object, Date Object",
             $snippet:[
                 "var id='linb.temp.dp2-1'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var o;linb(id).prepend(o=new linb.UI.DatePicker({position:'relative'}));"+
@@ -8867,7 +8909,7 @@ _.set(linb.Locale,["en","doc","linb","UI","DatePicker"], {
         beforeClose:{
             $desc:"Fired before user click close button or Cancel button. If returns false, close function will be ignored.",
             $paras:[
-                "profile : linb.UIProfile object."
+                "profile : linb.UIProfile Object."
             ],
             $snippet:[
                 "var id='linb.temp.dp3'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -8881,12 +8923,12 @@ _.set(linb.Locale,["en","doc","linb","UI","DatePicker"], {
 
 _.set(linb.Locale,["en","doc","linb","UI","TimePicker"], {
     constructor:{
-        $desc:"Creates a linb.UI.TimePicker object."
+        $desc:"Creates a linb.UI.TimePicker Object."
     },
     prototype:{
         getCloseBtn:{
             $desc:"Determines whether close button shows up or not.",
-            $rtn:"Bool",
+            $rtn:"Boolean",
             $snippet:[
                 "var id='linb.temp.tp1'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var o;linb(id).prepend(o=new linb.UI.TimePicker({position:'relative'}));"+
@@ -8896,7 +8938,7 @@ _.set(linb.Locale,["en","doc","linb","UI","TimePicker"], {
         },
         setCloseBtn:{
             $desc:"Specifys whether close button shows up or not., and reflects it to DOM UI.",
-            $rtn:"Bool",
+            $rtn:"Boolean",
             $snippet:[
                 "var id='linb.temp.tp2'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var o;linb(id).prepend(o=new linb.UI.TimePicker({position:'relative'}));"+
@@ -8907,7 +8949,7 @@ _.set(linb.Locale,["en","doc","linb","UI","TimePicker"], {
         beforeClose:{
             $desc:"Fired before user click close button or Cancel button. If returns false, close function will be ignored.",
             $paras:[
-                "profile : linb.UIProfile object."
+                "profile : linb.UIProfile Object."
             ],
             $snippet:[
                 "var id='linb.temp.tp3'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -8974,7 +9016,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Slider"], {
         },
         getShowIncreaseHandle:{
             $desc:"Gets showIncreaseHandle property.",
-            $rtn:"Bool",
+            $rtn:"Boolean",
             $snippet:[
                 "var id='linb.temp.sl6'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:200px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var o;linb(id).prepend(o=(new linb.UI.Slider()));"+
@@ -8998,7 +9040,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Slider"], {
         },        
         getShowDecreaseHandle:{
             $desc:"Gets showDecreaseHandle property.",
-            $rtn:"Bool",
+            $rtn:"Boolean",
             $snippet:[
                 "var id='linb.temp.sl8'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:200px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var o;linb(id).prepend(o=(new linb.UI.Slider()));"+
@@ -9022,7 +9064,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Slider"], {
         },        
         getIsRange:{
             $desc:"Gets isRange property.",
-            $rtn:"Bool",
+            $rtn:"Boolean",
             $snippet:[
                 "var id='linb.temp.sl10'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:200px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var o;linb(id).prepend(o=(new linb.UI.Slider()));"+
@@ -9049,7 +9091,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Slider"], {
 
 _.set(linb.Locale,["en","doc","linb","UI","Range"], {
     constructor:{
-        $desc:"Creates a linb.UI.Range object."
+        $desc:"Creates a linb.UI.Range Object."
     },
     prototype:{
         getCaptionTpl :{
@@ -9126,7 +9168,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Range"], {
         },
         getSingleValue:{
             $desc:"Gets the Singleproperty value on the first UIProfile",
-            $rtn:"Bool",
+            $rtn:"Boolean",
             $snippet:[
                 "var id='linb.temp.rg7'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var o;linb(id).prepend(o=new linb.UI.Range);"+
@@ -9150,7 +9192,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Range"], {
         },
         getSteps:{
             $desc:"Gets the step value.",
-            $rtn:"nonnegative Number",
+            $rtn:"Number",
             $snippet:[
                 "var id='linb.temp.rg9'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var o;linb(id).prepend(o=new linb.UI.Range);"+
@@ -9201,11 +9243,11 @@ _.set(linb.Locale,["en","doc","linb","UI","Range"], {
 
 _.set(linb.Locale,["en","doc","linb","UI","List"], {
     constructor:{
-        $desc:"Creates a linb.UI.List object."
+        $desc:"Creates a linb.UI.List Object."
     },
     prototype:{
         activate:{
-            $desc:"Activates the current UI object.",
+            $desc:"Activates the current UI Object.",
             $rtn:"[self]",
             $snippet:[
                 "var id='linb.temp.list0'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -9276,8 +9318,8 @@ _.set(linb.Locale,["en","doc","linb","UI","List"], {
         onItemSelected:{
             $desc:"Fired when list item is selected.",
             $paras:[
-                "profile : linb.UIProfile object.",
-                "item: list item object.",
+                "profile : linb.UIProfile Object.",
+                "item: list item Object.",
                 "src: the related DOM element."
             ],
             $snippet:[
@@ -9290,8 +9332,8 @@ _.set(linb.Locale,["en","doc","linb","UI","List"], {
         onDblclick:{
             $desc:"Fired when list item was dblclicked.",
             $paras:[
-                "profile : linb.UIProfile object.",
-                "item: list item object.",
+                "profile : linb.UIProfile Object.",
+                "item: list item Object.",
                 "src: the related DOM element."
             ],
             $snippet:[
@@ -9306,7 +9348,7 @@ _.set(linb.Locale,["en","doc","linb","UI","List"], {
 
 _.set(linb.Locale,["en","doc","linb","UI","LinkList"], {
     constructor:{
-        $desc:"Creates a linb.UI.LinkList object."
+        $desc:"Creates a linb.UI.LinkList Object."
     },
     prototype:{
         getItemMargin:{
@@ -9337,8 +9379,8 @@ _.set(linb.Locale,["en","doc","linb","UI","LinkList"], {
         onItemClick:{
             $desc:"Fired when list item is clicked.",
             $paras:[
-                "profile : linb.UIProfile object.",
-                "item: list item object.",
+                "profile : linb.UIProfile Object.",
+                "item: list item Object.",
                 "src: the related DOM element."
             ],
             $snippet:[
@@ -9353,7 +9395,7 @@ _.set(linb.Locale,["en","doc","linb","UI","LinkList"], {
 
 _.set(linb.Locale,["en","doc","linb","UI","Gallery"], {
     constructor:{
-        $desc:"Creates a linb.UI.Gallery object."
+        $desc:"Creates a linb.UI.Gallery Object."
     },
     prototype:{
         getStatus:{
@@ -9361,7 +9403,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Gallery"], {
             $paras:[
                 "subId [Required] : String, the sub Id."
             ],
-            $rtn:"String. 'ini', 'error' or 'loaded'.",
+            $rtn:"String, 'ini', 'error' or 'loaded'.",
             $snippet:[
                 "var id='linb.temp.ga001'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var o;linb(id).prepend(o=new linb.UI.Gallery({height:'auto',items:[{id:'a',caption:'a a'},{id:'b',caption:'b b'},{id:'c',caption:'c c'}]}));"+
@@ -9519,7 +9561,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Gallery"], {
 
 _.set(linb.Locale,["en","doc","linb","UI","IconList"], {
     constructor:{
-        $desc:"Creates a linb.UI.IconList object."
+        $desc:"Creates a linb.UI.IconList Object."
     },
     prototype:{
         getStatus:{
@@ -9527,7 +9569,7 @@ _.set(linb.Locale,["en","doc","linb","UI","IconList"], {
             $paras:[
                 "subId [Required] : String, the sub Id."
             ],
-            $rtn:"String. 'ini', 'error' or 'loaded'.",
+            $rtn:"String, 'ini', 'error' or 'loaded'.",
             $snippet:[
                 "var id='linb.temp.ga001'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var o;linb(id).prepend(o=new linb.UI.IconList({height:'auto',items:[{id:'a',image:'img/logo.gif',caption:'a a'},{id:'b',image:'img/logo.gif',caption:'b b'},{id:'c',image:'img/logo.gif',caption:'c c'}]}));"+
@@ -9637,7 +9679,7 @@ _.set(linb.Locale,["en","doc","linb","UI","IconList"], {
 
 _.set(linb.Locale,["en","doc","linb","UI","Panel"], {
     constructor:{
-        $desc:"Creates a linb.UI.Panel object."
+        $desc:"Creates a linb.UI.Panel Object."
     },
     prototype:{
         getHref :{
@@ -9666,7 +9708,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Panel"], {
         },
         getCloseBtn :{
             $desc:"Determines whether close button shows up or not.",
-            $rtn:"String",
+            $rtn:"Boolean",
             $snippet:[
                 "var id='linb.temp.panel35'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var btn;linb(id).prepend(btn=new linb.UI.Panel);"+
@@ -9690,7 +9732,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Panel"], {
         },
         getLandBtn :{
             $desc:"Determines whether landing button shows up or not.",
-            $rtn:"String",
+            $rtn:"Boolean",
             $snippet:[
                 "var id='linb.temp.panel37'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var btn;linb(id).prepend(btn=new linb.UI.Panel);"+
@@ -9714,7 +9756,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Panel"], {
         },
         getOptBtn :{
             $desc:"Determines whether option button shows up or not",
-            $rtn:"String",
+            $rtn:"Boolean",
             $snippet:[
                 "var id='linb.temp.panel39'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var btn;linb(id).prepend(btn=new linb.UI.Panel);"+
@@ -9738,7 +9780,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Panel"], {
         },
         getToggleBtn :{
             $desc:"Determines whether toggle button shows up or not.",
-            $rtn:"String",
+            $rtn:"Boolean",
             $snippet:[
                 "var id='linb.temp.panel41'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var btn;linb(id).prepend(btn=new linb.UI.Panel);"+
@@ -9834,7 +9876,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Panel"], {
         },
         getToggle:{
             $desc:"Gets the toggle property value on the first UIProfile",
-            $rtn:"Bool",
+            $rtn:"Boolean",
             $snippet:[
                 "var id='linb.temp.panel7'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var btn;linb(id).prepend(btn=new linb.UI.Panel({html:'content'}));"+
@@ -9860,7 +9902,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Panel"], {
         onExpend:{
             $desc:"Fired when panel expends.",
             $paras:[
-                "profile : linb.UIProfile object."
+                "profile : linb.UIProfile Object."
             ],
             $snippet:[
                 "var id='linb.temp.panel9'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -9873,7 +9915,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Panel"], {
         onFold:{
             $desc:"Fired when panel collapses.",
             $paras:[
-                "profile : linb.UIProfile object."
+                "profile : linb.UIProfile Object."
             ],
             $snippet:[
                 "var id='linb.temp.panel10'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -9886,7 +9928,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Panel"], {
         onIniPanelView:{
             $desc:"Fired when panel is initialized.",
             $paras:[
-                "profile : linb.UIProfile object."
+                "profile : linb.UIProfile Object."
             ],
             $snippet:[
                 "var id='linb.temp.panel11'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -9899,7 +9941,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Panel"], {
         onClickBar:{
             $desc:"Fired when panel handler is clicked.",
             $paras:[
-                "profile : linb.UIProfile object.",
+                "profile : linb.UIProfile Object.",
                 "src: the related DOM element."
             ],
             $snippet:[
@@ -9912,7 +9954,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Panel"], {
         beforeClose:{
             $desc:"Fired before user click close button or Cancel button. If returns false, close function will be ignored.",
             $paras:[
-                "profile : linb.UIProfile object.",
+                "profile : linb.UIProfile Object.",
                 "src: the related DOM element."
             ],
             $snippet:[
@@ -9925,8 +9967,8 @@ _.set(linb.Locale,["en","doc","linb","UI","Panel"], {
         onShowOptions :{
             $desc:"Fired when user click the option button.",
             $paras:[
-                "profile : linb.UIProfile object.",
-                "e: DOM event object.",
+                "profile : linb.UIProfile Object.",
+                "e: DOM event Object.",
                 "src: the related DOM element."
             ],
             $snippet:[
@@ -9942,7 +9984,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Panel"], {
 
 _.set(linb.Locale,["en","doc","linb","UI","PageBar"], {
     constructor:{
-        $desc:"Creates a linb.UI.PageBar object."
+        $desc:"Creates a linb.UI.PageBar Object."
     },
     prototype:{
         setPage:{
@@ -9959,7 +10001,7 @@ _.set(linb.Locale,["en","doc","linb","UI","PageBar"], {
             ]
         },
         getCaption:{
-            $desc:"Gets the caption string from the current UI object.",
+            $desc:"Gets the caption string from the current UI Object.",
             $rtn:"String",
             $snippet:[
                 "var id='linb.temp.pb1'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -9969,7 +10011,7 @@ _.set(linb.Locale,["en","doc","linb","UI","PageBar"], {
             ]
         },
         setCaption:{
-            $desc:"Sets the caption string to the current UI object.",
+            $desc:"Sets the caption string to the current UI Object.",
             $rtn:"[self]",
             $paras:[
                 "value [Required] : String, the caption.",
@@ -9983,7 +10025,7 @@ _.set(linb.Locale,["en","doc","linb","UI","PageBar"], {
             ]
         },
         getNextMark:{
-            $desc:"Gets the NextMark string from the current UI object.",
+            $desc:"Gets the NextMark string from the current UI Object.",
             $rtn:"String",
             $snippet:[
                 "var id='linb.temp.pb3'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -9993,7 +10035,7 @@ _.set(linb.Locale,["en","doc","linb","UI","PageBar"], {
             ]
         },
         setNextMark:{
-            $desc:"Sets the NextMark string to the current UI object.",
+            $desc:"Sets the NextMark string to the current UI Object.",
             $rtn:"[self]",
             $paras:[
                 "value [Required] : String, the NextMark.",
@@ -10007,7 +10049,7 @@ _.set(linb.Locale,["en","doc","linb","UI","PageBar"], {
             ]
         },
         getPrevMark:{
-            $desc:"Gets the PrevMark string from the current UI object.",
+            $desc:"Gets the PrevMark string from the current UI Object.",
             $rtn:"String",
             $snippet:[
                 "var id='linb.temp.pb5'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -10017,7 +10059,7 @@ _.set(linb.Locale,["en","doc","linb","UI","PageBar"], {
             ]
         },
         setPrevMark:{
-            $desc:"Sets the PrevMark string to the current UI object.",
+            $desc:"Sets the PrevMark string to the current UI Object.",
             $rtn:"[self]",
             $paras:[
                 "value [Required] : String, the PrevMark.",
@@ -10031,7 +10073,7 @@ _.set(linb.Locale,["en","doc","linb","UI","PageBar"], {
             ]
         },
         getTextTpl:{
-            $desc:"Gets the TextTpl string from the current UI object.",
+            $desc:"Gets the TextTpl string from the current UI Object.",
             $rtn:"String",
             $snippet:[
                 "var id='linb.temp.pb7'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -10041,7 +10083,7 @@ _.set(linb.Locale,["en","doc","linb","UI","PageBar"], {
             ]
         },
         setTextTpl:{
-            $desc:"Sets the TextTpl string to the current UI object.",
+            $desc:"Sets the TextTpl string to the current UI Object.",
             $rtn:"[self]",
             $paras:[
                 "value [Required] : String, the TextTpl.",
@@ -10055,7 +10097,7 @@ _.set(linb.Locale,["en","doc","linb","UI","PageBar"], {
             ]
         },
         getUriTpl:{
-            $desc:"Gets the UriTpl string from the current UI object.",
+            $desc:"Gets the UriTpl string from the current UI Object.",
             $rtn:"String",
             $snippet:[
                 "var id='linb.temp.pb9'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -10065,7 +10107,7 @@ _.set(linb.Locale,["en","doc","linb","UI","PageBar"], {
             ]
         },
         setUriTpl:{
-            $desc:"Sets the UriTpl string to the current UI object.",
+            $desc:"Sets the UriTpl string to the current UI Object.",
             $rtn:"[self]",
             $paras:[
                 "value [Required] : String, the UriTpl.",
@@ -10083,7 +10125,7 @@ _.set(linb.Locale,["en","doc","linb","UI","PageBar"], {
         onClick:{
             $desc:"onClick event handler.",
             $paras:[
-                "profile : linb.UIProfile object.",
+                "profile : linb.UIProfile Object.",
                 "page : Numer, the target page."
             ],
             $snippet:[
@@ -10097,7 +10139,7 @@ _.set(linb.Locale,["en","doc","linb","UI","PageBar"], {
 
 _.set(linb.Locale,["en","doc","linb","UI","Layout"], {
     constructor:{
-        $desc:"Creates a linb.UI.Layout object."
+        $desc:"Creates a linb.UI.Layout Object."
     },
     prototype:{
         append:{
@@ -10116,7 +10158,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Layout"], {
         },
         getPanel:{
             $desc:"Gets the panel DOM according to the specified subId.",
-            $rtn:"linb.Dom object",
+            $rtn:"linb.Dom",
             $paras:[
                 "subId [Optional] : String, the sub id that Determines the result. Default is 'main'."
             ],
@@ -10170,11 +10212,11 @@ _.set(linb.Locale,["en","doc","linb","UI","Layout"], {
 
 _.set(linb.Locale,["en","doc","linb","UI","Tabs"], {
     constructor:{
-        $desc:"Creates a linb.UI.Tabs object."
+        $desc:"Creates a linb.UI.Tabs Object."
     },
     getDropKeys:{
         $desc:"Gets the drop keys from the specified profile.",
-        $rtn:"Array",
+        $rtn:"String",
         $paras:[
             "profile [Required] : the target profile",
             "node [Required] : the related DOM element."
@@ -10197,7 +10239,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Tabs"], {
             ]
         },
         setItems:{
-            $desc:"Sets the items property to the current UI object, and reflects it to DOM UI.",
+            $desc:"Sets the items property to the current UI Object, and reflects it to DOM UI.",
             $rtn:"[self]",
             $paras:[
                 "value [Required] : Array, the items."
@@ -10210,8 +10252,8 @@ _.set(linb.Locale,["en","doc","linb","UI","Tabs"], {
             ]
         },
         removeItems:{
-            $desc:"Removes a set of items from the current UI object.",
-            $rtn:"String",
+            $desc:"Removes a set of items from the current UI Object.",
+            $rtn:"[self]",
             $paras:[
                 "arr [Required] : Array. A set of id strings."
             ],
@@ -10223,8 +10265,8 @@ _.set(linb.Locale,["en","doc","linb","UI","Tabs"], {
             ]
         },
         clearItems:{
-            $desc:"Removes all items from the current UI object.",
-            $rtn:"String",
+            $desc:"Removes all items from the current UI Object.",
+            $rtn:"[self]",
             $paras:[
                 "key [Optional] : String. the template key which node includes all the items nodes. Defalt is 'ITEMS'."
             ],
@@ -10237,11 +10279,11 @@ _.set(linb.Locale,["en","doc","linb","UI","Tabs"], {
         },
         getDynRender:{
             $desc:"Gets the dynRender property, that indicates each page in the tabs will render its' children dynamically or not.",
-            $rtn:'Bool'
+            $rtn:'Boolean'
         },
         setDynRender:{
             $desc:"Sets the dynRender property.",
-            $rtn:'Bool',
+            $rtn:'[self]',
             $memo:"This function should be used before the tabs was rendered."
         },
         getHAlign :{
@@ -10270,7 +10312,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Tabs"], {
         },
         getHasPanel :{
             $desc:"Gets the hasPanel property value on the first UIProfile",
-            $rtn:"Bool",
+            $rtn:"Boolean",
             $snippet:[
                 "var id='linb.temp.tabs9'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:200px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var o;linb(id).prepend(o=(new linb.UI.Tabs({height:'auto',dock:'none',items:[{id:'a',caption:'a a'},{id:'b',caption:'b b'},{id:'c',caption:'c c'}]})));"+
@@ -10318,7 +10360,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Tabs"], {
         },
         getCurPanel:{
             $desc:"Gets the current active panel DOM.",
-            $rtn:"linb.Dom object",
+            $rtn:"linb.Dom",
             $snippet:[
                 "var id='linb.temp.tabs13'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:200px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var o;linb(id).prepend(o=(new linb.UI.Tabs({height:'auto',dock:'none',items:[{id:'a',caption:'a a'},{id:'b',caption:'b b'},{id:'c',caption:'c c'}],value:'a'})));"+
@@ -10328,7 +10370,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Tabs"], {
         },
         getPanel:{
             $desc:"Gets the panel DOM according to the specified sub id.",
-            $rtn:"linb.Dom object",
+            $rtn:"linb.Dom",
             $paras:[
                 "subId [Optional] : String, the sub id that Determines the result."
             ],
@@ -10341,7 +10383,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Tabs"], {
         },
         markItemCaption:{
             $desc:"Marks the specified tab's caption.",
-            $rtn:"linb.Dom object",
+            $rtn:"[self]",
             $paras:[
                 "subId [Required] : String, the sub id that Determines the result.",
                 "mark [Required] : Bool, to mark is not not. ",
@@ -10357,6 +10399,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Tabs"], {
 
         addPanel:{
             $desc:"Adds a panel to the current UI.",
+            $rtn:"[self]",
             $paras:[
                 "para [Required] : a key/value pairs.",
                 "children [Required] : Array. the panel's children.",
@@ -10374,6 +10417,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Tabs"], {
         },
         removePanel:{
             $desc:"Removes a panel from the current UI.",
+            $rtn:"[self]",
             $paras:[
                 "domId [Optional] : String, the DOM element id that Determines which panel will be removed."
             ],
@@ -10387,6 +10431,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Tabs"], {
         },
         getPanelPara:{
             $desc:"Gets panel parameters from the current UI.",
+            $rtn:"Object",
             $snippet:[
                 "var id='linb.temp.tabs18'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var panel, tabs;"+
@@ -10399,6 +10444,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Tabs"], {
         },
         getPanelChildren:{
             $desc:"Gets panel chldren from the current UI.",
+            $rtn:"Array",
             $snippet:[
                 "var id='linb.temp.tabs19'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var panel, tabs;"+
@@ -10413,7 +10459,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Tabs"], {
         beforePageClose:{
             $desc:"Fired before user clicked the close button on a tab. If returns false, the tab won't be closed.",
             $paras:[
-                "profile : linb.UIProfile object.",
+                "profile : linb.UIProfile Object.",
                 "item: the current item.",
                 "value : the value."
             ],
@@ -10427,7 +10473,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Tabs"], {
         afterPageClose:{
             $desc:"Fired after user clicked the close button on a tab.",
             $paras:[
-                "profile : linb.UIProfile object.",
+                "profile : linb.UIProfile Object.",
                 "item: the current item."
             ],
             $snippet:[
@@ -10440,8 +10486,8 @@ _.set(linb.Locale,["en","doc","linb","UI","Tabs"], {
         onItemSelected:{
             $desc:"Fired when a tab is selected.",
             $paras:[
-                "profile : linb.UIProfile object.",
-                "item: item object.",
+                "profile : linb.UIProfile Object.",
+                "item: item Object.",
                 "src: the related DOM element."
             ],
             $snippet:[
@@ -10454,8 +10500,8 @@ _.set(linb.Locale,["en","doc","linb","UI","Tabs"], {
         onCaptionActive:{
             $desc:"Fired when user click the current tab's caption.",
             $paras:[
-                "profile : linb.UIProfile object.",
-                "item: item object.",
+                "profile : linb.UIProfile Object.",
+                "item: item Object.",
                 "src: the related DOM element."
             ],
             $snippet:[
@@ -10468,9 +10514,9 @@ _.set(linb.Locale,["en","doc","linb","UI","Tabs"], {
         onShowOptions :{
             $desc:"Fired when user click the option button.",
             $paras:[
-                "profile : linb.UIProfile object.",
-                "item: list item object.",
-                "e: DOM event object.",
+                "profile : linb.UIProfile Object.",
+                "item: list item Object.",
+                "e: DOM event Object.",
                 "src: the related DOM element."
             ],
             $snippet:[
@@ -10485,13 +10531,13 @@ _.set(linb.Locale,["en","doc","linb","UI","Tabs"], {
 
 _.set(linb.Locale,["en","doc","linb","UI","Calendar"], {
     constructor:{
-        $desc:"Creates a linb.UI.Calendar object."
+        $desc:"Creates a linb.UI.Calendar Object."
     }
 });
 
 _.set(linb.Locale,["en","doc","linb","UI","ToolBar"], {
     constructor:{
-        $desc:"Creates a linb.UI.ToolBar object."
+        $desc:"Creates a linb.UI.ToolBar Object."
     },
     prototype:{
         getHAlign :{
@@ -10499,7 +10545,7 @@ _.set(linb.Locale,["en","doc","linb","UI","ToolBar"], {
             $rtn:"String",
             $snippet:[
                 "var id='linb.temp.tool1'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:200px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
-                "var o;linb(id).prepend(o=(new linb.UI.ToolBar({items:[{id:'ga', sub:[{id:'ga1',caption:'ga1'},{id:'ga2',caption:'ga2'}]},{id:'gb',sub:[{id:'gb1',caption:'gb1'},{id:'gb2',object:new linb.UI.ComboInput({type:'colorpicker'})}]}]})));"+
+                "var o;linb(id).prepend(o=(new linb.UI.ToolBar({items:[{id:'ga', sub:[{id:'ga1',caption:'ga1'},{id:'ga2',caption:'ga2'}]},{id:'gb',sub:[{id:'gb1',caption:'gb1'},{id:'gb2',Object:new linb.UI.ComboInput({type:'colorpicker'})}]}]})));"+
                 "alert(o.getHAlign());_.asyRun(function(){o.setHAlign('right')},1000);"+
                 "}"
             ]
@@ -10513,17 +10559,17 @@ _.set(linb.Locale,["en","doc","linb","UI","ToolBar"], {
             ],
             $snippet:[
                 "var id='linb.temp.tool2'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:200px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
-                "var o;linb(id).prepend(o=(new linb.UI.ToolBar({items:[{id:'a',caption:'a a'},{id:'b',caption:'b b'},{id:'c',object:new linb.UI.ComboInput({type:'colorpicker'})}]})));"+
+                "var o;linb(id).prepend(o=(new linb.UI.ToolBar({items:[{id:'a',caption:'a a'},{id:'b',caption:'b b'},{id:'c',Object:new linb.UI.ComboInput({type:'colorpicker'})}]})));"+
                 "alert(o.getHAlign());_.asyRun(function(){o.setHAlign('right')},1000);"+
                 "}"
             ]
         },
         getHandler:{
             $desc:"Determines whether this tool bar has a handler",
-            $rtn:"Bool",
+            $rtn:"Boolean",
             $snippet:[
                 "var id='linb.temp.tool3'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:200px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
-                "var o;linb(id).prepend(o=(new linb.UI.ToolBar({items:[{id:'ga', sub:[{id:'ga1',caption:'ga1'},{id:'ga2',caption:'ga2'}]},{id:'gb',sub:[{id:'gb1',caption:'gb1'},{id:'gb2',object:new linb.UI.ComboInput({type:'timepicker'})}]}]})));"+
+                "var o;linb(id).prepend(o=(new linb.UI.ToolBar({items:[{id:'ga', sub:[{id:'ga1',caption:'ga1'},{id:'ga2',caption:'ga2'}]},{id:'gb',sub:[{id:'gb1',caption:'gb1'},{id:'gb2',Object:new linb.UI.ComboInput({type:'timepicker'})}]}]})));"+
                 "alert(o.getHandler());_.asyRun(function(){o.setHandler(false)},1000);"+
                 "}"
             ]
@@ -10537,7 +10583,7 @@ _.set(linb.Locale,["en","doc","linb","UI","ToolBar"], {
             ],
             $snippet:[
                 "var id='linb.temp.tool4'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:200px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
-                "var o;linb(id).prepend(o=(new linb.UI.ToolBar({items:[{id:'ga', sub:[{id:'ga1',caption:'ga1'},{id:'ga2',caption:'ga2'}]},{id:'gb',sub:[{id:'gb1',caption:'gb1'},{id:'gb2',object:new linb.UI.ComboInput({type:'timepicker'})}]}]})));"+
+                "var o;linb(id).prepend(o=(new linb.UI.ToolBar({items:[{id:'ga', sub:[{id:'ga1',caption:'ga1'},{id:'ga2',caption:'ga2'}]},{id:'gb',sub:[{id:'gb1',caption:'gb1'},{id:'gb2',Object:new linb.UI.ComboInput({type:'timepicker'})}]}]})));"+
                 "alert(o.getHandler());_.asyRun(function(){o.setHandler(false)},1000);"+
                 "}"
             ]
@@ -10551,7 +10597,7 @@ _.set(linb.Locale,["en","doc","linb","UI","ToolBar"], {
             ],
             $snippet:[
                 "var id='linb.temp.tool5'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:200px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
-                "var o;linb(id).prepend(o=(new linb.UI.ToolBar({items:[{id:'ga', sub:[{id:'ga1',caption:'ga1'},{id:'ga2',caption:'ga2'}]},{id:'gb',sub:[{id:'gb1',caption:'gb1'},{id:'gb2',object:new linb.UI.ComboInput({type:'timepicker'})}]}]})));"+
+                "var o;linb(id).prepend(o=(new linb.UI.ToolBar({items:[{id:'ga', sub:[{id:'ga1',caption:'ga1'},{id:'ga2',caption:'ga2'}]},{id:'gb',sub:[{id:'gb1',caption:'gb1'},{id:'gb2',Object:new linb.UI.ComboInput({type:'timepicker'})}]}]})));"+
                 "_.asyRun(function(){o.showGroup('ga',false)},1000);"+
                 "}"
             ]
@@ -10574,10 +10620,10 @@ _.set(linb.Locale,["en","doc","linb","UI","ToolBar"], {
         onClick:{
             $desc:"Fired when an tool bar item is clicked.",
             $paras:[
-                "profile : linb.UIProfile object.",
+                "profile : linb.UIProfile Object.",
                 "item : Object.",
                 "group : Object.",
-                "e : DOM event object.",
+                "e : DOM event Object.",
                 "src : DOM element."
             ],
             $snippet:[
@@ -10594,7 +10640,7 @@ _.set(linb.Locale,["en","doc","linb","UI","ToolBar"], {
 
 _.set(linb.Locale,["en","doc","linb","UI","PopMenu"], {
     constructor:{
-        $desc:"Creates a linb.UI.PopMenu object."
+        $desc:"Creates a linb.UI.PopMenu Object."
     },
     prototype:{
         pop:{
@@ -10603,7 +10649,7 @@ _.set(linb.Locale,["en","doc","linb","UI","PopMenu"], {
             $paras:[
                 "obj [Required] : {left:Nubmer,top:Number} or a DOM element.",
                 "type [Optional] : Number, from 1 to 4, pop position type. Default is 1.",
-                "parent [Optional} : DOM element or linb.Dom object. The popmenu's parent element."
+                "parent [Optional} : DOM element or linb.Dom Object. The popmenu's parent element."
             ],
             $snippet:[
                 "var id='linb.temp.pm0'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:200px;width:300px;\">Click blank to pop up menu.' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -10627,7 +10673,7 @@ _.set(linb.Locale,["en","doc","linb","UI","PopMenu"], {
         },
         getAutoHide:{
             $desc:"Determines whether this popup menu hides automatically after showing up for several seconds.",
-            $rtn:"Bool",
+            $rtn:"Boolean",
             $snippet:[
                 "var id='linb.temp.pm2'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:200px;width:300px;\">Click blank to pop up menu.' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var o=(new linb.UI.PopMenu({items:[{id:'a',caption:'item a',tips:'item a'},{id:'b',image:'img/img.gif',caption:'itemb',tips:'item b',sub:[{id:'ba',caption:'item ba',tips:'item ba'},{id:'bb',caption:'item bb',tips:'item bb',sub:[{id:'bba',caption:'item bba',tips:'item bba'}]}]},{id:'c',caption:'item c',type:'checkbox',value:false},{id:'d',caption:'item d',type:'checkbox',value:true}]}));"+
@@ -10646,7 +10692,7 @@ _.set(linb.Locale,["en","doc","linb","UI","PopMenu"], {
             ],
             $snippet:[
                 "var id='linb.temp.pm3'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:200px;width:300px;\">Click blank to pop up menu.' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
-                "var o=(new linb.UI.PopMenu({items:[{id:'a',caption:'item a',tips:'item a'},{id:'b',caption:'itemb',tips:'item b',sub:[{id:'ba',caption:'item ba',tips:'item ba'},{id:'bb',caption:'item bb',tips:'item bb',sub:[{id:'bba',caption:'item bba',tips:'item bba'}]}]},{id:'c',caption:'item c',tips:'item c'},{id:'d',object:new linb.UI.CheckBox}]}));"+
+                "var o=(new linb.UI.PopMenu({items:[{id:'a',caption:'item a',tips:'item a'},{id:'b',caption:'itemb',tips:'item b',sub:[{id:'ba',caption:'item ba',tips:'item ba'},{id:'bb',caption:'item bb',tips:'item bb',sub:[{id:'bba',caption:'item bba',tips:'item bba'}]}]},{id:'c',caption:'item c',tips:'item c'},{id:'d',Object:new linb.UI.CheckBox}]}));"+
                 "o.setAutoHide(true);"+
                 "alert(o.getAutoHide());"+
                 "linb(id).onClick(function(p,e,s){var p1=linb.Event.getPos(e), p2=linb([s]).offset(), pos={left:p1.left-p2.left,top:p1.top-p2.top}o.pop(pos,null,s); })"+
@@ -10655,7 +10701,7 @@ _.set(linb.Locale,["en","doc","linb","UI","PopMenu"], {
         },
         getHideAfterClick:{
             $desc:"Determines whether this popup menu hides automatically after being clicked.",
-            $rtn:"Bool",
+            $rtn:"Boolean",
             $snippet:[
                 "var id='linb.temp.pm4'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:200px;width:300px;\">Click blank to pop up menu.' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var o=(new linb.UI.PopMenu({items:[{id:'a',caption:'item a',tips:'item a'},{id:'b',image:'img/img.gif',caption:'itemb',tips:'item b',sub:[{id:'ba',caption:'item ba',tips:'item ba'},{id:'bb',caption:'item bb',tips:'item bb',sub:[{id:'bba',caption:'item bba',tips:'item bba'}]}]},{id:'c',caption:'item c',type:'checkbox',value:false},{id:'d',caption:'item d',type:'checkbox',value:true}]}));"+
@@ -10674,7 +10720,7 @@ _.set(linb.Locale,["en","doc","linb","UI","PopMenu"], {
             ],
             $snippet:[
                 "var id='linb.temp.pm5'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:200px;width:300px;\">Click blank to pop up menu.' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
-                "var o=(new linb.UI.PopMenu({items:[{id:'a',caption:'item a',tips:'item a'},{id:'b',caption:'itemb',tips:'item b',sub:[{id:'ba',caption:'item ba',tips:'item ba'},{id:'bb',caption:'item bb',tips:'item bb',sub:[{id:'bba',caption:'item bba',tips:'item bba'}]}]},{id:'c',caption:'item c',tips:'item c'},{id:'d',object:new linb.UI.CheckBox}]}));"+
+                "var o=(new linb.UI.PopMenu({items:[{id:'a',caption:'item a',tips:'item a'},{id:'b',caption:'itemb',tips:'item b',sub:[{id:'ba',caption:'item ba',tips:'item ba'},{id:'bb',caption:'item bb',tips:'item bb',sub:[{id:'bba',caption:'item bba',tips:'item bba'}]}]},{id:'c',caption:'item c',tips:'item c'},{id:'d',Object:new linb.UI.CheckBox}]}));"+
                 "o.setHideAfterClick(false);"+
                 "alert(o.getHideAfterClick());"+
                 "linb(id).onClick(function(p,e,s){var p1=linb.Event.getPos(e), p2=linb([s]).offset(), pos={left:p1.left-p2.left,top:p1.top-p2.top}o.pop(pos,null,s); })"+
@@ -10750,7 +10796,7 @@ _.set(linb.Locale,["en","doc","linb","UI","PopMenu"], {
 
 _.set(linb.Locale,["en","doc","linb","UI","MenuBar"], {
     constructor:{
-        $desc:"Creates a linb.UI.MenuBar object."
+        $desc:"Creates a linb.UI.MenuBar Object."
     },
     prototype:{
         clearPopCache:{
@@ -10765,6 +10811,7 @@ _.set(linb.Locale,["en","doc","linb","UI","MenuBar"], {
         },
         setParentID:{
             $desc:"Sets the parent DOM element id for pop menus.",
+            $rtn:"[self]",
             $paras:[
                 "value [Required] : String.",
                 "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
@@ -10804,7 +10851,7 @@ _.set(linb.Locale,["en","doc","linb","UI","MenuBar"], {
         },
         getHandler:{
             $desc:"Determines whether menu bar has a hanlder.",
-            $rtn:"Bool",
+            $rtn:"Boolean",
             $snippet:[
                 "var id='linb.temp.menu4'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:200px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var o=(new linb.UI.MenuBar({items:[{id:'id',caption:'menu',sub:[{id:'a',caption:'item a',tips:'item a'},{id:'b',image:'img/img.gif',caption:'itemb',tips:'item b',sub:[{id:'ba',caption:'item ba',tips:'item ba'},{id:'bb',caption:'item bb',tips:'item bb',sub:[{id:'bba',caption:'item bba',tips:'item bba'}]}]},{id:'c',caption:'item c',type:'checkbox',value:false},{id:'d',caption:'item d',type:'checkbox',value:true,add:'[Esc]'}]}]}));"+
@@ -10876,11 +10923,11 @@ _.set(linb.Locale,["en","doc","linb","UI","MenuBar"], {
 
 _.set(linb.Locale,["en","doc","linb","UI","Dialog"], {
     constructor:{
-        $desc:"Creates a linb.UI.Dialog object."
+        $desc:"Creates a linb.UI.Dialog Object."
     },
     alert:{
         $desc:"To show an alert dialog.",
-        $rtn:"linb.Dialog object",
+        $rtn:"linb.Dialog",
         $paras:[
             "title [Optional] : String, the title string.",
             "content [Optional] : String, the content string.",
@@ -10893,7 +10940,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Dialog"], {
     },
     confirm:{
         $desc:"To show an confirm dialog.",
-        $rtn:"linb.Dialog object",
+        $rtn:"linb.Dialog",
         $paras:[
             "title [Optional] : String, the title string.",
             "content [Optional] : String, the content string.",
@@ -10907,7 +10954,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Dialog"], {
     },
     pop:{
         $desc:"To show an message dialog.",
-        $rtn:"linb.Dialog object",
+        $rtn:"linb.Dialog",
         $paras:[
             "title [Optional] : String, the title string.",
             "content [Optional] : String, the content string.",
@@ -10922,7 +10969,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Dialog"], {
     },
     prompt:{
         $desc:"To show an prompt dialog.",
-        $rtn:"linb.Dialog object",
+        $rtn:"linb.Dialog",
         $paras:[
             "title [Optional] : String, the title string.",
             "caption [Optional] : String, the caption string.",
@@ -10946,7 +10993,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Dialog"], {
             $desc:"To show the dialog.",
             $rtn:"[self]",
             $paras:[
-                "parent [Optional] : linb.Dom object. the parent node. Default is linb('body').",
+                "parent [Optional] : linb.Dom Object. the parent node. Default is linb('body').",
                 "modal [Optional] : Bool, shows in modal mode or not Default is false.",
                 "left [Optional] Number, the left position.",
                 "top [Optional] Number, the top position."
@@ -10984,7 +11031,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Dialog"], {
         },
         getCloseBtn:{
             $desc:"Determines whether this control has a close button",
-            $rtn:"Bool",
+            $rtn:"Boolean",
             $snippet:[
                 "var dlg=(new linb.UI.Dialog).show(null,false, 100,100); alert(dlg.getCloseBtn());_.asyRun(function(){dlg.setCloseBtn(false);},1000); _.asyRun(function(){dlg.close();},2000);"
             ]
@@ -11003,7 +11050,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Dialog"], {
 
         getMinBtn:{
             $desc:"Determines whether this control has a min button",
-            $rtn:"Bool",
+            $rtn:"Boolean",
             $snippet:[
                 "var dlg=(new linb.UI.Dialog).show(null,false, 100,100); alert(dlg.getMinBtn());_.asyRun(function(){dlg.setMinBtn(false);},1000);"
             ]
@@ -11021,7 +11068,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Dialog"], {
         },
         getMaxBtn:{
             $desc:"Determines whether this control has a max button",
-            $rtn:"Bool",
+            $rtn:"Boolean",
             $snippet:[
                 "var dlg=(new linb.UI.Dialog).show(null,false, 100,100); alert(dlg.getMaxBtn());_.asyRun(function(){dlg.setMaxBtn(false);},1000);"
             ]
@@ -11039,7 +11086,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Dialog"], {
         },
         getPinBtn:{
             $desc:"Determines whether this control has a pin button",
-            $rtn:"Bool",
+            $rtn:"Boolean",
             $snippet:[
                 "var dlg=(new linb.UI.Dialog).show(null,false, 100,100); alert(dlg.getPinBtn());_.asyRun(function(){dlg.setPinBtn(false);},1000);"
             ]
@@ -11057,7 +11104,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Dialog"], {
         },
         getLandBtn:{
             $desc:"Determines whether this control has a landing button",
-            $rtn:"Bool",
+            $rtn:"Boolean",
             $snippet:[
                 "var dlg=(new linb.UI.Dialog).show(null,false, 100,100); alert(dlg.getLandBtn());_.asyRun(function(){dlg.setLandBtn(true);},1000);"
             ]
@@ -11075,7 +11122,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Dialog"], {
         },
         getOptBtn:{
             $desc:"Determines whether this control has an option button",
-            $rtn:"Bool",
+            $rtn:"Boolean",
             $snippet:[
                 "var dlg=(new linb.UI.Dialog).show(null,false, 100,100); alert(dlg.getOptBtn());_.asyRun(function(){dlg.setOptBtn(true);},1000);"
             ]
@@ -11093,7 +11140,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Dialog"], {
         },
         getMovable:{
             $desc:"Determines whether end user can move this dialog by drag and drop.",
-            $rtn:"Bool",
+            $rtn:"Boolean",
             $snippet:[
                 "var dlg=(new linb.UI.Dialog).show(null,false, 100,100); alert(dlg.getMovable());_.asyRun(function(){dlg.setMovable(false);},1000);"
             ]
@@ -11263,7 +11310,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Dialog"], {
         beforeClose:{
             $desc:"Fired before user click close button or Cancel button. If returns false, close function will be ignored.",
             $paras:[
-                "profile : linb.UIProfile object."
+                "profile : linb.UIProfile Object."
             ],
             $snippet:[
                 "var dlg=new linb.UI.Dialog; "+
@@ -11275,8 +11322,8 @@ _.set(linb.Locale,["en","doc","linb","UI","Dialog"], {
         onShowOptions :{
             $desc:"Fired when user click the option button.",
             $paras:[
-                "profile : linb.UIProfile object.",
-                "e: DOM event object.",
+                "profile : linb.UIProfile Object.",
+                "e: DOM event Object.",
                 "src: the related DOM element."
             ],
             $snippet:[
@@ -11291,7 +11338,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Dialog"], {
 
 _.set(linb.Locale,["en","doc","linb","UI","Image"], {
     constructor:{
-        $desc:"Creates a linb.UI.Image object."
+        $desc:"Creates a linb.UI.Image Object."
     },
     prototype:{
         getMaxHeight:{
@@ -11382,7 +11429,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Image"], {
         onError:{
             $desc:"Fired when the image does not exist.",
             $paras:[
-                "profile : linb.UIProfile object."
+                "profile : linb.UIProfile Object."
             ],
             $snippet:[
                 "var id='linb.temp.img15'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -11395,7 +11442,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Image"], {
         beforeLoad:{
             $desc:"Fired before the src property is set.",
             $paras:[
-                "profile : linb.UIProfile object."
+                "profile : linb.UIProfile Object."
             ],
             $snippet:[
                 "var id='linb.temp.img16'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -11408,7 +11455,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Image"], {
         afterLoad:{
             $desc:"Fired after the image is loaded successfully.",
             $paras:[
-                "profile : linb.UIProfile object.",
+                "profile : linb.UIProfile Object.",
                 "path : String, src path.",
                 "width : Number, image width",
                 "height : Number, image height"
@@ -11426,7 +11473,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Image"], {
 
 _.set(linb.Locale,["en","doc","linb","UI","FoldingList"], {
     constructor:{
-        $desc:"Creates a linb.UI.FoldingList object."
+        $desc:"Creates a linb.UI.FoldingList Object."
     },
     prototype:{
         getCmds:{
@@ -11460,7 +11507,7 @@ _.set(linb.Locale,["en","doc","linb","UI","FoldingList"], {
         },
         getActiveLast :{
             $desc:"Gets the ActiveLast property value on the first UIProfile",
-            $rtn:"Bool",
+            $rtn:"Boolean",
             $snippet:[
                 "var id='linb.temp.fl5'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var o=new linb.UI.FoldingList({width:'auto',height:'auto',position:'relative',items:[{id:'a',title:'title 1',caption:'cap a'},{id:'b',title:'title b', caption:'cap b'},{id:'c',caption:'c'}]});"+
@@ -11503,7 +11550,7 @@ _.set(linb.Locale,["en","doc","linb","UI","FoldingList"], {
             $rtn:"[self]",
             $paras:[
                 "id [Required] :String, item id.",
-                "obj [Required]: linb.Dom object or linb.UI object. If obj is null, it will empty the specified item."
+                "obj [Required]: linb.Dom Object or linb.UI Object. If obj is null, it will empty the specified item."
             ],
             $snippet:[
                 "var id='linb.temp.fl8'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -11518,9 +11565,9 @@ _.set(linb.Locale,["en","doc","linb","UI","FoldingList"], {
         onShowOptions :{
             $desc:"Fired when user click the option button.",
             $paras:[
-                "profile : linb.UIProfile object.",
-                "item: list item object.",
-                "e: DOM event object.",
+                "profile : linb.UIProfile Object.",
+                "item: list item Object.",
+                "e: DOM event Object.",
                 "src: the related DOM element."
             ],
             $snippet:[
@@ -11535,8 +11582,8 @@ _.set(linb.Locale,["en","doc","linb","UI","FoldingList"], {
         onClickButton:{
             $desc:"Fired when an inner command is clicked.",
             $paras:[
-                "profile : linb.UIProfile object.",
-                "item: list item object.",
+                "profile : linb.UIProfile Object.",
+                "item: list item Object.",
                 "cmdKey: String, the command key.",
                 "src: the related DOM element."
             ],
@@ -11553,8 +11600,8 @@ _.set(linb.Locale,["en","doc","linb","UI","FoldingList"], {
         onGetContent:{
             $desc:"Fired when the UI need to build inner content.",
             $paras:[
-                "profile : linb.UIProfile object.",
-                "item: list item object.",
+                "profile : linb.UIProfile Object.",
+                "item: list item Object.",
                 "callback : Function, callback function."
             ],
             $snippet:[
@@ -11572,7 +11619,7 @@ _.set(linb.Locale,["en","doc","linb","UI","FoldingList"], {
 
 _.set(linb.Locale,["en","doc","linb","UI","Poll"], {
     constructor:{
-        $desc:"Creates a linb.UI.Poll object."
+        $desc:"Creates a linb.UI.Poll Object."
     },
     prototype:{
         getCmds:{
@@ -11610,7 +11657,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Poll"], {
             $rtn:"[self]",
             $paras:[
                 "id [Required] :String, item id.",
-                "obj [Required]: linb.Dom object or linb.UI object. If obj is null, it will empty the specified item."
+                "obj [Required]: linb.Dom Object or linb.UI Object. If obj is null, it will empty the specified item."
             ],
             $snippet:[
                 "var id='linb.temp.poll3'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -11622,7 +11669,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Poll"], {
         },
         getBindEditor:{
             $desc:"Gets the bind editor",
-            $rtn:"linb.UIProfile object",
+            $rtn:"linb.UIProfile",
             $snippet:[
                 "var id='linb.temp.poll4'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var o=new linb.UI.Poll({editable:true, width:'auto',height:'auto',title:'a survey', toggle:true, position:'relative',items:[{id:'a',caption:'option 1',percent:0.5,message:'50%'},{id:'b',caption:'option 2',percent:0.8,message:'80%'}]});"+
@@ -11688,7 +11735,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Poll"], {
         },
         getEditable:{
             $desc:"Gets the Editable property value on the first UIProfile",
-            $rtn:"Bool",
+            $rtn:"Boolean",
             $snippet:[
                 "var id='linb.temp.pool9'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var o=new linb.UI.Poll({width:'auto',height:'auto',title:'a survey', toggle:true, position:'relative',items:[{id:'a',caption:'option 1',percent:0.5,message:'50%'},{id:'b',caption:'option 2',percent:0.8,message:'80%'}]});"+
@@ -11744,7 +11791,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Poll"], {
         },
         getToggle:{
             $desc:"Gets the Toggle property value on the first UIProfile",
-            $rtn:"Bool",
+            $rtn:"Boolean",
             $snippet:[
                 "var id='linb.temp.pool13'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var o=new linb.UI.Poll({width:'auto',height:'auto',title:'a survey', position:'relative',items:[{id:'a',caption:'option 1',percent:0.5,message:'50%'},{id:'b',caption:'option 2',percent:0.8,message:'80%'}]});"+
@@ -11800,7 +11847,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Poll"], {
         },
         getNoTitle:{
             $desc:"Gets the NoTitle property value on the first UIProfile",
-            $rtn:"Bool",
+            $rtn:"Boolean",
             $snippet:[
                 "var id='linb.temp.pool19'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var o=new linb.UI.Poll({width:'auto',height:'auto',title:'a survey', position:'relative',items:[{id:'a',caption:'option 1',percent:0.5,message:'50%'},{id:'b',caption:'option 2',percent:0.8,message:'80%'}]});"+
@@ -11830,8 +11877,8 @@ _.set(linb.Locale,["en","doc","linb","UI","Poll"], {
         onGetContent:{
             $desc:"Fired when the UI need to build inner content.",
             $paras:[
-                "profile : linb.UIProfile object.",
-                "item: list item object.",
+                "profile : linb.UIProfile Object.",
+                "item: list item Object.",
                 "callback : Function, callback function."
             ],
             $snippet:[
@@ -11846,7 +11893,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Poll"], {
         onClickButton:{
             $desc:"Fired when an inner command is clicked.",
             $paras:[
-                "profile : linb.UIProfile object.",
+                "profile : linb.UIProfile Object.",
                 "key: String, the command key.",
                 "src: the related DOM element."
             ],
@@ -11863,7 +11910,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Poll"], {
         beforeOptionAdded:{
             $desc:"Fired wbefore a new item will be added.",
             $paras:[
-                "profile : linb.UIProfile object.",
+                "profile : linb.UIProfile Object.",
                 "value: String."
             ],
             $snippet:[
@@ -11880,8 +11927,8 @@ _.set(linb.Locale,["en","doc","linb","UI","Poll"], {
         beforeOptionChanged:{
             $desc:"Fired a specified item will be changed",
             $paras:[
-                "profile : linb.UIProfile object.",
-                "item: list item object.",
+                "profile : linb.UIProfile Object.",
+                "item: list item Object.",
                 "value: String."
             ],
             $snippet:[
@@ -11899,7 +11946,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Poll"], {
         beforeOptionRemoved:{
             $desc:"Fired before a specified item will be removed.",
             $paras:[
-                "profile : linb.UIProfile object."
+                "profile : linb.UIProfile Object."
             ],
             $snippet:[
                 "var id='linb.temp.pool43'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -11916,7 +11963,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Poll"], {
         beforeTitleChanged:{
             $desc:"Fired before the title will be changed.",
             $paras:[
-                "profile : linb.UIProfile object.",
+                "profile : linb.UIProfile Object.",
                 "value: String."
             ],
             $snippet:[
@@ -11934,11 +11981,11 @@ _.set(linb.Locale,["en","doc","linb","UI","Poll"], {
         onCustomEdit:{
             $desc:"Fired when the inline editor is activated.",
             $paras:[
-                "profile : linb.UIProfile object.",
+                "profile : linb.UIProfile Object.",
                 "node: the corresponding Caption DOM element.",
                 "flag: Number, 1:edit item; 2:add item; other:edit title.",
                 "value: String.",
-                "item: list item object."
+                "item: list item Object."
             ],
             $snippet:[
                 "var id='linb.temp.pool45'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -11955,12 +12002,12 @@ _.set(linb.Locale,["en","doc","linb","UI","Poll"], {
 
 _.set(linb.Locale,["en","doc","linb","UI","TreeBar"], {
     constructor:{
-        $desc:"Creates a linb.UI.TreeBar object."
+        $desc:"Creates a linb.UI.TreeBar Object."
     },
     prototype:{
         getAnimCollapse :{
             $desc:"Determines whether to show animate when a tree node collapses.",
-            $rtn:"Bool",
+            $rtn:"Boolean",
             $snippet:[
                 "var id='linb.temp.tb1'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var o=new linb.UI.TreeBar({width:'auto',height:'auto',dock:'none',position:'relative',items:[{id:'a',caption:'cap a'},{id:'b',caption:'cap b',sub:[{id:'ba',caption:'caption ba'},{id:'bb',caption:'caption bb'}]},{id:'c',caption:'c'}]});"+
@@ -11986,7 +12033,7 @@ _.set(linb.Locale,["en","doc","linb","UI","TreeBar"], {
         },
         getGroup :{
             $desc:"Gets the Group property value on the first UIProfile",
-            $rtn:"Bool",
+            $rtn:"Boolean",
             $snippet:[
                 "var id='linb.temp.tb3'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var o=new linb.UI.TreeBar({width:'auto',height:'auto',dock:'none',position:'relative',items:[{id:'a',caption:'cap a'},{id:'b',caption:'cap b',sub:[{id:'ba',caption:'caption ba'},{id:'bb',caption:'caption bb'}]},{id:'c',caption:'c'}]});"+
@@ -12012,7 +12059,7 @@ _.set(linb.Locale,["en","doc","linb","UI","TreeBar"], {
         },
         getDynDestory:{
             $desc:"Gets the DynDestory property value on the first UIProfile",
-            $rtn:"Bool",
+            $rtn:"Boolean",
             $snippet:[
                 "var id='linb.temp.tb5'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var o=new linb.UI.TreeBar({width:'auto',height:'auto',dock:'none',position:'relative',items:[{id:'a',caption:'cap a'},{id:'b',caption:'cap b',sub:true},{id:'c',caption:'c',sub:true}]});"+
@@ -12040,7 +12087,7 @@ _.set(linb.Locale,["en","doc","linb","UI","TreeBar"], {
         },
         getIniFold :{
             $desc:"Determines whether parent node collapses initially",
-            $rtn:"Bool",
+            $rtn:"Boolean",
             $snippet:[
                 "var id='linb.temp.tb7'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var o=new linb.UI.TreeBar({width:'auto',height:'auto',dock:'none',position:'relative',items:[{id:'a',caption:'cap a'},{id:'b',caption:'cap b',sub:[{id:'ba',caption:'caption ba'},{id:'bb',caption:'caption bb'}]},{id:'c',caption:'c'}]});"+
@@ -12094,7 +12141,7 @@ _.set(linb.Locale,["en","doc","linb","UI","TreeBar"], {
         },
         getSingleOpen:{
             $desc:"Determines whether only one node is allowed to expand at one time",
-            $rtn:"Bool",
+            $rtn:"Boolean",
             $snippet:[
                 "var id='linb.temp.tb11'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var o=new linb.UI.TreeBar({width:'auto',height:'auto',dock:'none',position:'relative',items:[{id:'a',caption:'cap a'},{id:'b',caption:'cap b',sub:true},{id:'c',caption:'c',sub:true}]});"+
@@ -12121,7 +12168,7 @@ _.set(linb.Locale,["en","doc","linb","UI","TreeBar"], {
             ]
         },
         insertItems:{
-            $desc:"Inserts a set of items to the current UI object.",
+            $desc:"Inserts a set of items to the current UI Object.",
             $rtn:"[self]",
             $paras:[
                 "arr [Required] : Array. A set of Item objects.",
@@ -12156,7 +12203,7 @@ _.set(linb.Locale,["en","doc","linb","UI","TreeBar"], {
         },
         toggleNode:{
             $desc:"Expends or folds the specified node.",
-            $rtn:"String",
+            $rtn:"[self]",
             $paras:[
                 "id [Required] : String. The node id.",
                 "expend [Optional] : Bool. true=>expend;false=>fold.",
@@ -12177,8 +12224,8 @@ _.set(linb.Locale,["en","doc","linb","UI","TreeBar"], {
         onGetContent:{
             $desc:"Fired when the UI needs to build a sub items.",
             $paras:[
-                "profile : linb.UIProfile object.",
-                "item: list item object.",
+                "profile : linb.UIProfile Object.",
+                "item: list item Object.",
                 "callback : Function, callback function."
             ],
             $snippet:[
@@ -12193,8 +12240,8 @@ _.set(linb.Locale,["en","doc","linb","UI","TreeBar"], {
         onItemSelected:{
             $desc:"Fired when a specified item is clicked.",
             $paras:[
-                "profile : linb.UIProfile object.",
-                "item: list item object.",
+                "profile : linb.UIProfile Object.",
+                "item: list item Object.",
                 "src: the related DOM element."
             ],
             $snippet:[
@@ -12210,14 +12257,14 @@ _.set(linb.Locale,["en","doc","linb","UI","TreeBar"], {
 
 _.set(linb.Locale,["en","doc","linb","UI","TreeGrid"], {
     constructor:{
-        $desc:"Creates a linb.UI.TreeGrid object."
+        $desc:"Creates a linb.UI.TreeGrid Object."
     },
     getCellPro:{
         $desc:"Gets the spcefied cell's property value according to the given property key.",
         $rtn:"String",
         $paras:[
             "profile [Required] : the linb.UIProfile of TreeGrid.",
-            "cell [Required] : the cell object.",
+            "cell [Required] : the cell Object.",
             "key [Required] : String, the target property key."
         ],
         $snippet:[
@@ -12232,7 +12279,7 @@ _.set(linb.Locale,["en","doc","linb","UI","TreeGrid"], {
     prototype:{
         getActiveMode :{
             $desc:"Determines grid active mode.",
-            $rtn:"String. 'cell' or 'row'. ",
+            $rtn:"String, 'cell' or 'row'. ",
             $snippet:[
                 "var id='linb.temp.grid1'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var o=new linb.UI.TreeGrid({editable:false, position:'relative'});"+
@@ -12275,7 +12322,7 @@ _.set(linb.Locale,["en","doc","linb","UI","TreeGrid"], {
         },
         getAltRowsBg :{
             $desc:"Determines whether to show rows in stripe.",
-            $rtn:"Bool",
+            $rtn:"Boolean",
             $snippet:[
                 "var id='linb.temp.grid4'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var o=new linb.UI.TreeGrid({editable:false, position:'relative'});"+
@@ -12303,7 +12350,7 @@ _.set(linb.Locale,["en","doc","linb","UI","TreeGrid"], {
         },
         getAnimCollapse :{
             $desc:"Gets the Animate property value on the first UIProfile",
-            $rtn:"Bool",
+            $rtn:"Boolean",
             $snippet:[
                 "var id='linb.temp.grid6'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var o=new linb.UI.TreeGrid({editable:false, position:'relative'});"+
@@ -12330,7 +12377,7 @@ _.set(linb.Locale,["en","doc","linb","UI","TreeGrid"], {
             ]
         },
         getCellbyRowCol:{
-            $desc:"Gets the cell object according to its row id and col id.",
+            $desc:"Gets the cell Object according to its row id and col id.",
             $rtn:"Ojbect",
             $paras:[
                 "rowId [Required] : String, row id.",
@@ -12347,7 +12394,7 @@ _.set(linb.Locale,["en","doc","linb","UI","TreeGrid"], {
         },
         getColHidable:{
             $desc:"Determines whether columns are hidable.",
-            $rtn:"Bool",
+            $rtn:"Boolean",
             $snippet:[
                 "var id='linb.temp.grid8.2'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var o=new linb.UI.TreeGrid({editable:false, position:'relative'});"+
@@ -12375,7 +12422,7 @@ _.set(linb.Locale,["en","doc","linb","UI","TreeGrid"], {
         },
         getColMovable :{
             $desc:"Determines whether columns are movable.",
-            $rtn:"Bool",
+            $rtn:"Boolean",
             $snippet:[
                 "var id='linb.temp.grid8'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var o=new linb.UI.TreeGrid({editable:false, position:'relative'});"+
@@ -12403,7 +12450,7 @@ _.set(linb.Locale,["en","doc","linb","UI","TreeGrid"], {
         },
         getColResizer :{
             $desc:"Determines whether columns are resizable.",
-            $rtn:"Bool",
+            $rtn:"Boolean",
             $snippet:[
                 "var id='linb.temp.grid10'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var o=new linb.UI.TreeGrid({editable:false, position:'relative'});"+
@@ -12431,7 +12478,7 @@ _.set(linb.Locale,["en","doc","linb","UI","TreeGrid"], {
         },
         getColSortable :{
             $desc:"Determines whether columns are sortable.",
-            $rtn:"Bool",
+            $rtn:"Boolean",
             $snippet:[
                 "var id='linb.temp.grid12'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var o=new linb.UI.TreeGrid({editable:false, position:'relative'});"+
@@ -12459,7 +12506,7 @@ _.set(linb.Locale,["en","doc","linb","UI","TreeGrid"], {
         },
         getEditable :{
             $desc:"Determines whether grid are editable or read-only.",
-            $rtn:"Bool",
+            $rtn:"Boolean",
             $snippet:[
                 "var id='linb.temp.grid14'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var o=new linb.UI.TreeGrid({position:'relative'});"+
@@ -12543,7 +12590,7 @@ _.set(linb.Locale,["en","doc","linb","UI","TreeGrid"], {
         },
         getIniFold :{
             $desc:"Gets the IniFold property value on the first UIProfile",
-            $rtn:"Bool",
+            $rtn:"Boolean",
             $snippet:[
                 "var id='linb.temp.grid20'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var o=new linb.UI.TreeGrid({position:'relative'});"+
@@ -12571,7 +12618,7 @@ _.set(linb.Locale,["en","doc","linb","UI","TreeGrid"], {
         },
         getRowResizer :{
             $desc:"Determines whether row can be resized by end user.",
-            $rtn:"Bool",
+            $rtn:"Boolean",
             $snippet:[
                 "var id='linb.temp.grid22'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var o=new linb.UI.TreeGrid({editable:false, position:'relative'});"+
@@ -12599,7 +12646,7 @@ _.set(linb.Locale,["en","doc","linb","UI","TreeGrid"], {
         },
         getRowHandler :{
             $desc:"Determines whether row has handle in the front.",
-            $rtn:"Bool",
+            $rtn:"Boolean",
             $snippet:[
                 "var id='linb.temp.grid124'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var o=new linb.UI.TreeGrid({editable:false, position:'relative'});"+
@@ -12676,7 +12723,6 @@ _.set(linb.Locale,["en","doc","linb","UI","TreeGrid"], {
         },
         toggleRow:{
             $desc:"Expends or folds the specified row. It makes sense with rows containing children only.",
-            $rtn:"String",
             $paras:[
                 "id [Required] : String. The node id.",
                 "expend [Optional] : Bool. true=>expend;false=>fold."
@@ -12695,7 +12741,7 @@ _.set(linb.Locale,["en","doc","linb","UI","TreeGrid"], {
             $rtn:"[self]",
             $paras:[
                 "cellId [Required] : String, the cell id.",
-                "hash [Required] : key/value object, the keys/values to be updated.",
+                "hash [Required] : key/value Object, the keys/values to be updated.",
                 "dirtyMark [Optional] : Bool. Make dirty mark not not. Default is [true]."
             ],
             $snippet:[
@@ -12713,7 +12759,7 @@ _.set(linb.Locale,["en","doc","linb","UI","TreeGrid"], {
             $paras:[
                 "rowId [Required] : String, the corresponding row id.",
                 "colId [Required] : String, the corresponding col id.",
-                "hash [Required] : key/value object, the keys/values to be updated.",
+                "hash [Required] : key/value Object, the keys/values to be updated.",
                 "dirtyMark [Optional] : Bool. Make dirty mark not not. Default is [true]."
             ],
             $snippet:[
@@ -12727,7 +12773,7 @@ _.set(linb.Locale,["en","doc","linb","UI","TreeGrid"], {
         },
         getActiveRow:{
             $desc:"Gets the current active row.",
-            $rtn:"row Object",
+            $rtn:"Object",
             $snippet:[
                 "var id='linb.temp.grid1311'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var o=new linb.UI.TreeGrid({editable:false,position:'relative'});"+
@@ -12756,7 +12802,7 @@ _.set(linb.Locale,["en","doc","linb","UI","TreeGrid"], {
         },
         getActiveCell:{
             $desc:"Gets the current active cell.",
-            $rtn:"cell Object",
+            $rtn:"Object",
             $snippet:[
                 "var id='linb.temp.grid1313'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var o=new linb.UI.TreeGrid({editable:false,position:'relative',activeMode:'cell'});"+
@@ -12786,7 +12832,7 @@ _.set(linb.Locale,["en","doc","linb","UI","TreeGrid"], {
         },
         getRowDragable :{
             $desc:"Determines whether rows are dragable by end user",
-            $rtn:"Bool",
+            $rtn:"Boolean",
             $snippet:[
                 "var id='linb.temp.grid32'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var o=new linb.UI.TreeGrid({editable:false, position:'relative'});"+
@@ -12817,7 +12863,7 @@ _.set(linb.Locale,["en","doc","linb","UI","TreeGrid"], {
             $paras:[
                 "type [Optional] : String. 'data': get rows' data; 'min': get rows' min data; else, return the memory one."
             ],
-            $rtn:"object",
+            $rtn:"Array",
             $snippet:[
                 "var id='linb.temp.grid32'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var o=new linb.UI.TreeGrid({editable:false, position:'relative'});"+
@@ -12831,7 +12877,7 @@ _.set(linb.Locale,["en","doc","linb","UI","TreeGrid"], {
             $desc:"Set rows of this grid, and reflects the value to UI.",
             $rtn:"[self]",
             $paras:[
-                "value [Required] : object.",
+                "value [Required] : Object.",
                 "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
@@ -12844,11 +12890,11 @@ _.set(linb.Locale,["en","doc","linb","UI","TreeGrid"], {
             ]
         },
         getHeader :{
-            $desc:"Get grid header object",
+            $desc:"Get grid header Object",
             $paras:[
                 "type [Optional] : String. 'data': get header's data; 'min': get header's min data; else, return the memory one."
             ],
-            $rtn:"object",
+            $rtn:"Array",
             $snippet:[
                 "var id='linb.temp.grid34'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var o=new linb.UI.TreeGrid({editable:false, position:'relative'});"+
@@ -12861,10 +12907,10 @@ _.set(linb.Locale,["en","doc","linb","UI","TreeGrid"], {
             ]
         },
         setHeader :{
-            $desc:"Set grid header with a header object, and reflects the value to UI.",
+            $desc:"Set grid header with a header Object, and reflects the value to UI.",
             $rtn:"[self]",
             $paras:[
-                "value [Required] : object.",
+                "value [Required] : Object.",
                 "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
@@ -12876,8 +12922,39 @@ _.set(linb.Locale,["en","doc","linb","UI","TreeGrid"], {
                 "}"
             ]
         },
+        getHeaderByColId:{
+            $desc:"Gets a specified column's header value.",
+            $rtn:"Ojbect",
+            $paras:[
+                "colId : [Required] : String, column id."
+            ],
+            $snippet:[
+                "var id='linb.temp.grid35-0'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var o=new linb.UI.TreeGrid({editable:false,position:'relative'});"+
+                "linb.Ajax('App/js/grid.js','',function(s){var hash=_.unserialize(s);o.setHeader(hash.header).setRows(hash.rows);},null,null,{asy:false}).start();"+
+                "_.asyRun(function(){alert(o.getHeaderByColId('col1').id)},1000);"+
+                "linb(id).prepend(o);"+
+                "}"
+            ]
+        },
+        updateHeader:{
+            $desc:"Updates a specified column's header value.",
+            $rtn:"[self]",
+            $paras:[
+                "colId [Required] : String, column id.",
+                "hash [Required] : key/value Object."
+            ],
+            $snippet:[
+                "var id='linb.temp.grid35-1'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var o=new linb.UI.TreeGrid({editable:false,position:'relative'});"+
+                "linb.Ajax('App/js/grid.js','',function(s){var hash=_.unserialize(s);o.setHeader(hash.header).setRows(hash.rows);},null,null,{asy:false}).start();"+
+                "_.asyRun(function(){o.updateHeader('col1',{caption:'updated',width:100})},1000);"+
+                "linb(id).prepend(o);"+
+                "}"
+            ]
+        },
         getRowbyRowId  :{
-            $desc:"Gets a row item object according to a given row id.",
+            $desc:"Gets a row item Object according to a given row id.",
             $rtn:"Object",
             $paras:[
                 "rowId [Required] : String."
@@ -12891,9 +12968,29 @@ _.set(linb.Locale,["en","doc","linb","UI","TreeGrid"], {
                 "}"
             ]
         },
+        getSubNodeInGrid:{
+            $desc:"Gets one or a set of specified inner DOM elements (in the root DOM element) in the grid.",
+            $rtn:"linb.Dom",
+            $paras:[
+                "key [Required] : String, key string.",
+                "rowId [Optional] : String row id.",
+                "colId [Optional] : String column id."
+            ],
+            $snippet:[
+                "var id='linb.temp.grid36-0'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var o=new linb.UI.TreeGrid({editable:false,position:'relative'});"+
+                "linb.Ajax('App/js/grid.js','',function(s){var hash=_.unserialize(s);o.setHeader(hash.header).setRows(hash.rows);},null,null,{asy:false}).start();"+
+                "linb(id).prepend(o);"+
+                "_.asyRun(function(){alert(o.getSubNodeInGrid('ROW').get().length)});"+
+                "_.asyRun(function(){alert(o.getSubNodeInGrid('ROW','row1').get().length)});"+
+                "_.asyRun(function(){alert(o.getSubNodeInGrid('CELL').get().length)});"+
+                "_.asyRun(function(){alert(o.getSubNodeInGrid('CELL','row1','col1').get().length)});"+
+                "}"
+            ]
+        },
         getRowNumbered :{
             $desc:"Gets the RowNumbered property value on the first UIProfile",
-            $rtn:"Bool",
+            $rtn:"Boolean",
             $snippet:[
                 "var id='linb.temp.grid37'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var o=new linb.UI.TreeGrid({editable:false, position:'relative'});"+
@@ -12921,7 +13018,7 @@ _.set(linb.Locale,["en","doc","linb","UI","TreeGrid"], {
         },
         getShowHeader :{
             $desc:"Determiness whether grid header shows up or not",
-            $rtn:"Bool",
+            $rtn:"Boolean",
             $snippet:[
                 "var id='linb.temp.grid39'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var o=new linb.UI.TreeGrid({editable:false, position:'relative'});"+
@@ -13024,8 +13121,8 @@ _.set(linb.Locale,["en","doc","linb","UI","TreeGrid"], {
         beforeCellActive:{
             $desc:"Fired before the cell is activated. If returns false, the activation will be ignored.",
             $paras:[
-                "profile : linb.UIProfile object.",
-                "cell : the cell object."
+                "profile : linb.UIProfile Object.",
+                "cell : the cell Object."
             ],
             $snippet:[
                 "var id='linb.temp.grid50'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -13040,8 +13137,8 @@ _.set(linb.Locale,["en","doc","linb","UI","TreeGrid"], {
         beforeRowActive:{
             $desc:"Fired before the row is activated. If returns false, the activation will be ignored.",
             $paras:[
-                "profile : linb.UIProfile object.",
-                "row : the row object."
+                "profile : linb.UIProfile Object.",
+                "row : the row Object."
             ],
             $snippet:[
                 "var id='linb.temp.grid51'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -13056,8 +13153,8 @@ _.set(linb.Locale,["en","doc","linb","UI","TreeGrid"], {
         afterCellActive:{
             $desc:"Fired after the cell is activated.",
             $paras:[
-                "profile : linb.UIProfile object.",
-                "cell : the cell object."
+                "profile : linb.UIProfile Object.",
+                "cell : the cell Object."
             ],
             $snippet:[
                 "var id='linb.temp.grid52'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -13072,8 +13169,8 @@ _.set(linb.Locale,["en","doc","linb","UI","TreeGrid"], {
         afterRowActive:{
             $desc:"Fired after the row is activated.",
             $paras:[
-                "profile : linb.UIProfile object.",
-                "row : the row object."
+                "profile : linb.UIProfile Object.",
+                "row : the row Object."
             ],
             $snippet:[
                 "var id='linb.temp.grid53'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -13088,7 +13185,7 @@ _.set(linb.Locale,["en","doc","linb","UI","TreeGrid"], {
         beforeColMoved:{
             $desc:"Fired before the column is moved. If returns false, the move action will be ignored.",
             $paras:[
-                "profile : linb.UIProfile object.",
+                "profile : linb.UIProfile Object.",
                 "colId : the moved column id.",
                 "toId : [colId] will be moved to the front of which column."
             ],
@@ -13106,7 +13203,7 @@ _.set(linb.Locale,["en","doc","linb","UI","TreeGrid"], {
         afterColMoved:{
             $desc:"Fired after the column is moved.",
             $paras:[
-                "profile : linb.UIProfile object.",
+                "profile : linb.UIProfile Object.",
                 "colId : the moved column id.",
                 "toId : [colId] will be moved to the front of which column."
             ],
@@ -13124,7 +13221,7 @@ _.set(linb.Locale,["en","doc","linb","UI","TreeGrid"], {
         beforeColDrag:{
             $desc:"Fired before the column is draged. If returns false, the drag action will be ignored.",
             $paras:[
-                "profile : linb.UIProfile object.",
+                "profile : linb.UIProfile Object.",
                 "colId : the column id."
             ],
             $snippet:[
@@ -13148,7 +13245,7 @@ _.set(linb.Locale,["en","doc","linb","UI","TreeGrid"], {
         onGetContent:{
             $desc:"Fired when treegrid need to get content to build a set of sub rows.",
             $paras:[
-                "profile : linb.UIProfile object.",
+                "profile : linb.UIProfile Object.",
                 "row : the parent row.",
                 "callback : Function, callback function."
             ],
@@ -13164,8 +13261,8 @@ _.set(linb.Locale,["en","doc","linb","UI","TreeGrid"], {
         onRowSelected:{
             $desc:"Fired when a row is selected.",
             $paras:[
-                "profile : linb.UIProfile object.",
-                "row: row object.",
+                "profile : linb.UIProfile Object.",
+                "row: row Object.",
                 "src: the related DOM element."
             ],
             $snippet:[
@@ -13180,9 +13277,9 @@ _.set(linb.Locale,["en","doc","linb","UI","TreeGrid"], {
         onDblClickRow:{
             $desc:"Fired when a row is dblclicked.",
             $paras:[
-                "profile : linb.UIProfile object.",
-                "row: row object.",
-                "e: the DOM event object.",
+                "profile : linb.UIProfile Object.",
+                "row: row Object.",
+                "e: the DOM event Object.",
                 "src: the related DOM element."
             ],
             $snippet:[
@@ -13197,11 +13294,11 @@ _.set(linb.Locale,["en","doc","linb","UI","TreeGrid"], {
         beoforeComboPop :{
             $desc:"Fired when a cell which type is 'getter/popbox/cmdbox' is clicked.",
             $paras:[
-                "profile : linb.UIProfile object.",
-                "cell: the cell object.",
-                "proEditor: the editor profile object, if the editor exists.",
+                "profile : linb.UIProfile Object.",
+                "cell: the cell Object.",
+                "proEditor: the editor profile Object, if the editor exists.",
                 "pos: the click event mouse position.",
-                "e: the DOM event object.",
+                "e: the DOM event Object.",
                 "src: the related DOM element."
             ],
             $snippet:[
@@ -13217,9 +13314,9 @@ _.set(linb.Locale,["en","doc","linb","UI","TreeGrid"], {
         onClickCell:{
             $desc:"Fired when a cell(type is 'label/button' or not editable) is clicked.",
             $paras:[
-                "profile : linb.UIProfile object.",
-                "cell: the cell object.",
-                "e: the DOM event object.",
+                "profile : linb.UIProfile Object.",
+                "cell: the cell Object.",
+                "e: the DOM event Object.",
                 "src: the related DOM element."
             ],
             $snippet:[
@@ -13234,9 +13331,9 @@ _.set(linb.Locale,["en","doc","linb","UI","TreeGrid"], {
         onDblClickCell:{
             $desc:"Fired when a cell(type is 'label/button' or not editable) is double clicked.",
             $paras:[
-                "profile : linb.UIProfile object.",
-                "cell: the cell object.",
-                "e: the DOM event object.",
+                "profile : linb.UIProfile Object.",
+                "cell: the cell Object.",
+                "e: the DOM event Object.",
                 "src: the related DOM element."
             ],
             $snippet:[
@@ -13251,8 +13348,8 @@ _.set(linb.Locale,["en","doc","linb","UI","TreeGrid"], {
         beforeIniEditor: {
             $desc:"Fired before a specified cell will be changed to edit mode(attach an editor to it). If returns false, tha action will be cancelled.",
             $paras:[
-                "profile : linb.UIProfile object.",
-                "cell : the cell object."
+                "profile : linb.UIProfile Object.",
+                "cell : the cell Object."
             ],
             $snippet:[
                 "var id='linb.temp.grid61-1'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -13266,9 +13363,9 @@ _.set(linb.Locale,["en","doc","linb","UI","TreeGrid"], {
         beforeCellUpdated: {
             $desc:"Fired before a specified cell is update. If returns false, the update action will be ignored.",
             $paras:[
-                "profile : linb.UIProfile object.",
-                "cell : the cell object.",
-                "hash [Required] : key/value object, the keys/values to be updated."
+                "profile : linb.UIProfile Object.",
+                "cell : the cell Object.",
+                "hash [Required] : key/value Object, the keys/values to be updated."
             ],
             $snippet:[
                 "var id='linb.temp.grid61'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -13283,9 +13380,9 @@ _.set(linb.Locale,["en","doc","linb","UI","TreeGrid"], {
         afterCellUpdated: {
             $desc:"Fired before a specified cell is update. If returns false, the update action will be ignored.",
             $paras:[
-                "profile : linb.UIProfile object.",
-                "cell : the cell object.",
-                "hash [Required] : key/value object, the keys/values to be updated."
+                "profile : linb.UIProfile Object.",
+                "cell : the cell Object.",
+                "hash [Required] : key/value Object, the keys/values to be updated."
             ],
             $snippet:[
                 "var id='linb.temp.grid62'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -13303,7 +13400,7 @@ _.set(linb.Locale,["en","doc","linb","UI","TreeGrid"], {
 
 _.set(linb.Locale,["en","doc","linb","UI","TimeLine"], {
     constructor:{
-        $desc:"Creates a linb.UI.TimeLine object."
+        $desc:"Creates a linb.UI.TimeLine Object."
     },
     prototype:{
         getTimeRange:{
@@ -13318,7 +13415,7 @@ _.set(linb.Locale,["en","doc","linb","UI","TimeLine"], {
             ]
         },
         addTasks:{
-            $desc:"Adds a set of tasks to the current UI object.",
+            $desc:"Adds a set of tasks to the current UI Object.",
             $rtn:"[self]",
             $paras:[
                 "arr [required] : Array, a set of Object."
@@ -13332,7 +13429,7 @@ _.set(linb.Locale,["en","doc","linb","UI","TimeLine"], {
             ]
         },
         removeTasks:{
-            $desc:"Removes a set of tasks to the current UI object.",
+            $desc:"Removes a set of tasks to the current UI Object.",
             $rtn:"[self]",
             $paras:[
                 "arr [required] : Array, a set of id string."
@@ -13348,7 +13445,7 @@ _.set(linb.Locale,["en","doc","linb","UI","TimeLine"], {
         },
         getCloseBtn:{
             $desc:"Gets the close button property value on the first UIProfile",
-            $rtn:"Bool",
+            $rtn:"Boolean",
             $snippet:[
                 "var id='linb.temp.tl4'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var o=new linb.UI.TimeLine({position:'relative', multiTasks:true});"+
@@ -13374,7 +13471,7 @@ _.set(linb.Locale,["en","doc","linb","UI","TimeLine"], {
         },
         getZoomable:{
             $desc:"Gets the zoomable property value on the first UIProfile",
-            $rtn:"Bool",
+            $rtn:"Boolean",
             $snippet:[
                 "var id='linb.temp.tl4-1'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var o=new linb.UI.TimeLine({position:'relative', multiTasks:true});"+
@@ -13440,7 +13537,7 @@ _.set(linb.Locale,["en","doc","linb","UI","TimeLine"], {
         },
         getOptBtn:{
             $desc:"Gets the option button property value on the first UIProfile",
-            $rtn:"Bool",
+            $rtn:"Boolean",
             $snippet:[
                 "var id='linb.temp.tl6'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var o=new linb.UI.TimeLine({position:'relative', multiTasks:true});"+
@@ -13466,7 +13563,7 @@ _.set(linb.Locale,["en","doc","linb","UI","TimeLine"], {
         },
         getDateBtn:{
             $desc:"Gets the date button property value on the first UIProfile",
-            $rtn:"Bool",
+            $rtn:"Boolean",
             $snippet:[
                 "var id='linb.temp.tl6'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var o=new linb.UI.TimeLine({position:'relative', multiTasks:true});"+
@@ -13492,7 +13589,7 @@ _.set(linb.Locale,["en","doc","linb","UI","TimeLine"], {
         },
         getDftTaskName:{
             $desc:"Gets the default task name property value on the first UIProfile",
-            $rtn:"Bool",
+            $rtn:"Boolean",
             $snippet:[
                 "var id='linb.temp.tl8'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var o=new linb.UI.TimeLine({position:'relative', multiTasks:true});"+
@@ -13520,7 +13617,7 @@ _.set(linb.Locale,["en","doc","linb","UI","TimeLine"], {
         },
         getFixWidth:{
             $desc:"Gets the FixWidth property value on the first UIProfile",
-            $rtn:"Bool",
+            $rtn:"Boolean",
             $memo:"If you set the FixWidth property to [false], the widget UI will be refreshed once when the widget width is changed."
         },
         setFixWidth:{
@@ -13534,7 +13631,7 @@ _.set(linb.Locale,["en","doc","linb","UI","TimeLine"], {
         },
         getDateStart:{
             $desc:"Gets the date start property value on the first UIProfile",
-            $rtn:'Date Ojbect',
+            $rtn:'Ojbect, Date Object',
             $snippet:[
                 "var id='linb.temp.tl20'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var o=new linb.UI.TimeLine({position:'relative', multiTasks:true});"+
@@ -13562,7 +13659,7 @@ _.set(linb.Locale,["en","doc","linb","UI","TimeLine"], {
         },
         getMultiTasks:{
             $desc:"Gets the multiTasks property value on the first UIProfile",
-            $rtn:'Date Ojbect',
+            $rtn:'Boolean',
             $snippet:[
                 "var id='linb.temp.tl22'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var o=new linb.UI.TimeLine({position:'relative'});"+
@@ -13589,7 +13686,7 @@ _.set(linb.Locale,["en","doc","linb","UI","TimeLine"], {
         },
         getMinDate:{
             $desc:"Gets the min date property value on the first UIProfile",
-            $rtn:'Date Ojbect',
+            $rtn:'Object, Date Ojbect',
             $snippet:[
                 "var id='linb.temp.tl24'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var o=new linb.UI.TimeLine({position:'relative'});"+
@@ -13616,7 +13713,7 @@ _.set(linb.Locale,["en","doc","linb","UI","TimeLine"], {
         },
         getMaxDate:{
             $desc:"Gets the max date property value on the first UIProfile",
-            $rtn:'Date Ojbect',
+            $rtn:'Object, Date Ojbect',
             $snippet:[
                 "var id='linb.temp.tl26'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var o=new linb.UI.TimeLine({position:'relative'});"+
@@ -13642,7 +13739,7 @@ _.set(linb.Locale,["en","doc","linb","UI","TimeLine"], {
         },
         getReadonly:{
             $desc:"Gets the Readonly property value on the first UIProfile",
-            $rtn:'Bool',
+            $rtn:'Boolean',
             $snippet:[
                 "var id='linb.temp.tl28'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var o=new linb.UI.TimeLine({position:'relative'});"+
@@ -13668,7 +13765,7 @@ _.set(linb.Locale,["en","doc","linb","UI","TimeLine"], {
         },
         getShowTips:{
             $desc:"Gets the ShowTips property value on the first UIProfile",
-            $rtn:'Bool',
+            $rtn:'Boolean',
             $snippet:[
                 "var id='linb.temp.tl30'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var o=new linb.UI.TimeLine({position:'relative'});"+
@@ -13694,7 +13791,7 @@ _.set(linb.Locale,["en","doc","linb","UI","TimeLine"], {
         },
         getShowBar:{
             $desc:"Gets the ShowBar property value on the first UIProfile",
-            $rtn:'Bool',
+            $rtn:'Boolean',
             $snippet:[
                 "var id='linb.temp.tl32'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var o=new linb.UI.TimeLine({position:'relative'});"+
@@ -13720,7 +13817,7 @@ _.set(linb.Locale,["en","doc","linb","UI","TimeLine"], {
         },
         getShowBigLabel:{
             $desc:"Gets the ShowBigLabel property value on the first UIProfile",
-            $rtn:'Bool',
+            $rtn:'Boolean',
             $snippet:[
                 "var id='linb.temp.tl34'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var o=new linb.UI.TimeLine({position:'relative'});"+
@@ -13746,7 +13843,7 @@ _.set(linb.Locale,["en","doc","linb","UI","TimeLine"], {
         },
         getTimeSpanKey:{
             $desc:"Gets the TimeSpanKey property value on the first UIProfile",
-            $rtn:'String. ',
+            $rtn:'String',
             $snippet:[
                 "var id='linb.temp.tl36'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var o=new linb.UI.TimeLine({position:'relative'});"+
@@ -13772,7 +13869,7 @@ _.set(linb.Locale,["en","doc","linb","UI","TimeLine"], {
         },
         getUnitPixs:{
             $desc:"Gets the UnitPixs property value on the first UIProfile",
-            $rtn:'Number. ',
+            $rtn:'Number',
             $snippet:[
                 "var id='linb.temp.tl38'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var o=new linb.UI.TimeLine({position:'relative'});"+
@@ -13825,9 +13922,9 @@ _.set(linb.Locale,["en","doc","linb","UI","TimeLine"], {
         beforeDragTask:{
             $desc:"Fired before user start to drag a task. If returns false, the defalut drag action will be ignored.",
             $paras:[
-                "profile : linb.UIProfile object.",
-                "task : the task object.",
-                "e: DOM event object.",
+                "profile : linb.UIProfile Object.",
+                "task : the task Object.",
+                "e: DOM event Object.",
                 "src: the related DOM element."
             ],
             $snippet:[
@@ -13841,7 +13938,7 @@ _.set(linb.Locale,["en","doc","linb","UI","TimeLine"], {
         beforeClose:{
             $desc:"Fired before user click close button or Cancel button. If returns false, close function will be ignored.",
             $paras:[
-                "profile : linb.UIProfile object.",
+                "profile : linb.UIProfile Object.",
                 "src: the related DOM element."
             ],
             $snippet:[
@@ -13855,8 +13952,8 @@ _.set(linb.Locale,["en","doc","linb","UI","TimeLine"], {
         onShowOptions :{
             $desc:"Fired when user click the option button.",
             $paras:[
-                "profile : linb.UIProfile object.",
-                "e: DOM event object.",
+                "profile : linb.UIProfile Object.",
+                "e: DOM event Object.",
                 "src: the related DOM element."
             ],
             $snippet:[
@@ -13870,9 +13967,9 @@ _.set(linb.Locale,["en","doc","linb","UI","TimeLine"], {
         onClickTask:{
             $desc:"Fired when user click the task block.",
             $paras:[
-                "profile : linb.UIProfile object.",
-                "task : the task object.",
-                "e: DOM event object.",
+                "profile : linb.UIProfile Object.",
+                "task : the task Object.",
+                "e: DOM event Object.",
                 "src: the related DOM element."
             ],
             $snippet:[
@@ -13887,7 +13984,7 @@ _.set(linb.Locale,["en","doc","linb","UI","TimeLine"], {
         onGetContent:{
             $desc:"Fired when the UI need to build new tasks.",
             $paras:[
-                "profile : linb.UIProfile object.",
+                "profile : linb.UIProfile Object.",
                 "from : Date, the 'from' time.",
                 "to : Date, the 'to' time.",
                 "minMs : Number, the min ms count.",
@@ -13905,21 +14002,21 @@ _.set(linb.Locale,["en","doc","linb","UI","TimeLine"], {
         beforeDelTasks:{
             $desc:"Fired before a specified task is deleted. If returns false, the action will be ignored.",
             $paras:[
-                "profile : linb.UIProfile object.",
+                "profile : linb.UIProfile Object.",
                 "arr : Array. A set of id strings."
             ]
         },
         beforeNewTasks:{
             $desc:"Fired before a specified task is added. If returns false, the action will be ignored.",
             $paras:[
-                "profile : linb.UIProfile object.",
+                "profile : linb.UIProfile Object.",
                 "tasks: Array. A set of tasks."
             ]
         },
         beforeTaskUpdated:{
             $desc:"Fired before a specified task is updated. If returns false, the action will be ignored.",
             $paras:[
-                "profile : linb.UIProfile object.",
+                "profile : linb.UIProfile Object.",
                 "tasks: Array. A set of tasks.",
                 "from : Date, the 'from' time.",
                 "to: Date, the 'to' time."

@@ -2555,8 +2555,15 @@ Class("linb.UI",  "linb.absObj", {
         },
         $CSSCACHE:{},
         $getCSSValue:function(cls, key){
-            var cache=this.$CSSCACHE, ck='.'+cls+':'+key;
-            return cache[ck]||(cache[ck]=parseInt(linb.CSS.$getCSSValue('.'+cls,key))||0);
+            var cache=this.$CSSCACHE, 
+                ck=cls+'->'+key,
+                me=arguments.callee;
+            if(ck in cache)return cache[ck];
+            var c=linb.Dom.getEmptyDiv().get(0),r;
+            c.className=cls;
+            r=cache[ck]=parseInt(linb.Dom.getStyle(c,key))||0;
+            c.className="";
+            return r;
         },
         getTheme:function(){
             return this.$theme;
@@ -3552,10 +3559,12 @@ Class("linb.absList", "linb.absObj",{
         [x] ,valid id   ,false => insert [x ]after node
         [x] ,null ,true  => insert [x ] to head
         [x] ,null ,false => insert [x ] to tail
-        [x] => html([x ])
         */
         insertItems:function(arr, base, before){
-            if(!arr || !arr.length)return;
+            if(!arr)arr=[_()+''];
+            if(_.isStr(arr))arr=[arr];
+            if(!arr.length)return;
+
             var node,
                 items, index, r,
                 data,box,
@@ -3574,20 +3583,16 @@ Class("linb.absList", "linb.absObj",{
                     if(index==-1){
                         //if no base specified, use innerHtml dir
                         node = profile.getSubNode(box.ITEMSKEY || profile.keys.ITEMS || profile.keys.KEY);
-
-                        if(typeof before=="boolean"){
-                            r=_.str.toDom(ss);
-                            //items.length==1 for that one have fake item(for example: editable poll)
-                            if(before)
-                                node.prepend(r);
-                            else
-                                node.append(r);
-                        }else
-                            node.html(ss);
+                        r=_.str.toDom(ss);
+                        //items.length==1 for that one have fake item(for example: editable poll)
+                        if(before)
+                            node.prepend(r);
+                        else
+                            node.append(r);
                     }else{
                         r = _.str.toDom(ss);
                         node=profile.getSubNodeByItemId(box._ITEMKEY || 'ITEM', base);
-                        if(before===true)
+                        if(before)
                             node.addPrev(r);
                         else
                             node.addNext(r);
@@ -3686,7 +3691,7 @@ Class("linb.absList", "linb.absObj",{
                 items=profile.properties.items,
                 rst=profile.queryItems(items,function(o){return typeof o=='object'?o.id===subId:o==subId},true,true,true),
                 item,serialId,node,sub,t;
-            if(typeof options=='string')options={caption:options};
+            if(_.isStr(options))options={caption:options};
             if(rst.length){
                 rst=rst[0];
                 if(typeof rst[0]!='object')

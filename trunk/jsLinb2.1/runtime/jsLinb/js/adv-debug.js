@@ -934,9 +934,6 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
             onClickTask:function(profile, task, e, src){}
         },
         Appearances:{
-            '.setting-timeline':{
-                height:'6px'
-            },
             MAINI:{
                 'padding-top':'4px'
             },
@@ -2027,7 +2024,7 @@ Class("linb.UI.Poll", "linb.UI.List",{
         },
         _insertOpt:function(opt){
             if(!opt.id)opt.id='$'+_();
-            this.insertItems([opt],null, false);
+            this.insertItems([opt]);
             return this;
         },
         _removeOpt:function(id){

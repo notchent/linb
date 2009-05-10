@@ -344,7 +344,7 @@ Class("linb.UI.List", ["linb.UI", "linb.absList","linb.absValue" ],{
             if(k==profile.keys.ITEM)
                 profile.boxing().insertItems([oitem], item.id, true);
             else
-                profile.boxing().insertItems([oitem],null,false);
+                profile.boxing().insertItems([oitem]);
 
             return false;
         },

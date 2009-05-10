@@ -7,13 +7,20 @@ Class("linb.CSS", null,{
         _baseid:'linb:css:base',
         _firstid:'linb:css:first',
         _lastid:'linb:css:last',
+        _reg1:/\.(\w+)\[CLASS~="\1"\]/g,
+        _reg2:/\[ID"([^"]+)"\]/g,
+        _reg3:/\*([.#])/g,
+        _reg4:/\s+/g,
+        _reg5:/\*\|/g,
+        _reg6:/(\s*,\s*)/g,
         _rep:function(str){
-            return str.replace(/\.(\w+)\[CLASS~="\1"\]/g,'.$1')
-                     .replace(/\[ID"([^"]+)"\]/g,'#$1')
-                     .replace(/\*([.#])/g,'$1')
-                     .replace(/\s+/g,' ')
-                     .replace(/\*\|/g,'')
-                     .replace(/(\s*,\s*)/g,',').toLowerCase();
+            var ns=this;
+            return str.replace(ns._reg1,'.$1')
+                     .replace(ns._reg2,'#$1')
+                     .replace(ns._reg3,'$1')
+                     .replace(ns._reg4,' ')
+                     .replace(ns._reg5,'')
+                     .replace(ns._reg6,',').toLowerCase();
         },
         _createCss:function(id, last){
             var ns=this,
@@ -67,7 +74,6 @@ Class("linb.CSS", null,{
             for(var head = this._getHead(),i=0,t=head.childNodes,l;l=t[i++];)
                 if(l.type=="text/css" && property in l && l[property]==value)
                     return l;
-            return false;
         },
         //if backOf==true, add to head last node
         //else add to the before position of the base styleSheet
@@ -161,7 +167,7 @@ Class("linb.CSS", null,{
                         if(v.disabled)return;
                         selectorText = ns._rep(v.selectorText);
                         /*Notice: in IE, no ',' in any selectorTExt*/
-                        _t=_.toArr(selectorText);
+                        _t=selectorText.split(',');
                         //null=>remove
                         if(!value){
                             add=false;
@@ -222,22 +228,21 @@ Class("linb.CSS", null,{
         },
         $getCSSValue:function(selector, cssKey){
             var ns=this,
+                k=ns._r,
                 ds=document.styleSheets,
-                r,b,
+                l=ds.length,m, o,v,i,j,
                 selectorText;
             selector=_.str.trim(selector.replace(/\s+/g,' '));
-            _.arr.each(_.toArr(ds),function(o){
-                try{o[ns._r]}catch(e){return}
-                _.arr.each(_.toArr(o[ns._r]),function(v,i){
-                    if(!v.selectorText)return;
-                    if(v.disabled)return;
-                    selectorText =  ns._rep(v.selectorText);
-                    if(_.arr.indexOf(_.toArr(selectorText),selector)!=-1 &&(r=v.style[cssKey]))
-                        return b=false;
-                },null,true);
-                return b;
-            },null,true);
-            return r;
+            for(i=l-1; i>=0; i--){
+                m=(o=ds[i][k]).length;
+                for(j=m-1; j>=0; j--){
+                    if((v=o[j]).selectorText && !v.disabled){
+                        selectorText = ns._rep(v.selectorText);
+                        if(_.arr.indexOf(selectorText.split(','),selector)!=-1)
+                            return v.style[cssKey];
+                    }
+                }
+            }
         },
         _addRules:function(selector,value){
             var ns=this,

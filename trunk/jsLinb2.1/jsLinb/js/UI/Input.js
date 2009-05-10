@@ -162,6 +162,7 @@ Class("linb.UI.Input", ["linb.UI.Widget","linb.absValue"] ,{
             },
 //border<<<
             '.setting-linb-input':{
+                'border-style':'solid',
                 'border-top-width':'1px',
                 'border-bottom-width':'1px',
                 'border-left-width':'1px',

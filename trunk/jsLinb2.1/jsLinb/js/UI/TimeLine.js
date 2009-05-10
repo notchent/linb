@@ -932,9 +932,6 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
             onClickTask:function(profile, task, e, src){}
         },
         Appearances:{
-            '.setting-timeline':{
-                height:'6px'
-            },
             MAINI:{
                 'padding-top':'4px'
             },

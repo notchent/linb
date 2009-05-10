@@ -2313,13 +2313,16 @@ Class('VisualJS.Designer', 'linb.Com',{
                                 base.push(o.Dependency[i]);
                     }
                 });
-                _.set(ins,['sub','base','code'],_.serialize(base));
-                if(!_.get(ins,['sub','base','comments']))
-                    _.set(ins,['sub','base','comments'],'\n'+_.str.repeat(' ',8));
-
-                _.set(ins,['sub','required','code'],_.serialize(arr));
-                if(!_.get(ins,['sub','required','comments']))
-                    _.set(ins,['sub','required','comments'],'\n'+_.str.repeat(' ',8));
+                if(_.get(ins,['sub','base'])){
+                    _.set(ins,['sub','base','code'],_.serialize(base));
+                    if(!_.get(ins,['sub','base','comments']))
+                        _.set(ins,['sub','base','comments'],'\n'+_.str.repeat(' ',8));
+                }
+                if(_.get(ins,['sub','required'])){
+                    _.set(ins,['sub','required','code'],_.serialize(arr));
+                    if(!_.get(ins,['sub','required','comments']))
+                        _.set(ins,['sub','required','comments'],'\n'+_.str.repeat(' ',8));
+                }
 
                 //get all code
                 return VisualJS.ClassTool.getCodeFromStruct(data.clsStruct);

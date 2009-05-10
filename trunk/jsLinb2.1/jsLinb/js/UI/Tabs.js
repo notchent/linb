@@ -119,7 +119,7 @@ Class("linb.UI.Tabs", ["linb.UI", "linb.absList","linb.absValue"],{
             arr: hash(view properties) or array of hash
             before: views will insert before it, string
         */
-        _afterInsertItems:function(profile, data, base, before){
+        _afterInsertItems:function(profile, data){
             var box=profile.box,obj,v,pp=profile.properties;
             if(pp.hasPanel && (obj=profile.getSubNode(profile.keys.BOX||profile.keys.KEY))){
                 obj.append(_.str.toDom(profile.buildItems('panels', data)));

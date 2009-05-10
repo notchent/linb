@@ -47,6 +47,10 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
             });
         },
         insertItems:function(arr, pid, base ,before){
+            if(!arr)arr=[_()+''];
+            if(_.isStr(arr))arr=[arr];
+            if(!arr.length)return this;
+
             var node;
             return this.each(function(profile){
                 // prepare properties format
