@@ -1878,15 +1878,16 @@ type:4
                             style.visibility = 'hidden'; style.position ='absolute';style.display = 'block';
                         }
                     }
+                    t=linb([node]);
                     switch(index){
                         case 1:
                             r=getStyle(node,o[1]);
                             if(isNaN(parseInt(r)) || r1.test(r))
-                                r = me(node,2) - (contentBox?linb([node])[o[2]]():0);
+                                r = me(node,2) - (contentBox?t[o[2]]():0);
                             r=parseInt(r)||0;
                             break;
                         case 2:
-                            r=node[o[6]]-linb([node])[o[3]]();
+                            r=node[o[6]]-t[o[3]]();
                             break;
                         case 3:
                             //for in firefox, offsetHeight/Width's bad performance
@@ -1902,16 +1903,16 @@ type:4
                             //}
                             if(!r)
                                 //get from css setting before css applied
-                                r=me(node,1)+(contentBox?(t=linb([node]))[o[2]]():0)+t[o[3]]();
+                                r=me(node,1)+(contentBox?t[o[2]]():0)+t[o[3]]();
                             break;
                         case 4:
                             r=me(node,3);
-                            r+=linb([node])[o[4]]();
+                            r+=t[o[4]]();
                             break;
                     }
                     if(n){
                         style.display = d; style.position = p;style.visibility = b;
-                        linb([node]).swap(temp);
+                        t.swap(temp);
                         temp.empty(false);
                     }
                     return parseInt(r)||0;

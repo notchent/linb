@@ -492,7 +492,7 @@ html, .uibg-base{
     background: none;
 }
 
-.linb-treegrid-cell, .linb-treegrid-cells-group, .linb-treegrid-preview, .linb-treegrid-summary{
+.linb-treegrid-fcell,.linb-treegrid-cell, .linb-treegrid-cells-group, .linb-treegrid-preview, .linb-treegrid-summary{
     border-right:solid 1px #f1f1f1;
 }
 .linb-treegrid-row{
@@ -521,10 +521,10 @@ html, .uibg-base{
     background: #3C7FB1;
     color:#fff;
 }
-.linb-treegrid-header, .linb-treegrid-hcell0, .linb-treegrid-hcell{
+.linb-treegrid-header, .linb-treegrid-hfcell, .linb-treegrid-hcell{
     background: #fff url(TreeGrid/head.gif) repeat-x left bottom;
 }
-.linb-treegrid-hcell0, .linb-treegrid-hcell{
+.linb-treegrid-hfcell, .linb-treegrid-hcell{
     border-right:solid 1px #d4d4d4;
     border-bottom:solid 1px #d4d4d4;
 }

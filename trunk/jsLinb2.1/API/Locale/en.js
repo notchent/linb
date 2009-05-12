@@ -12560,6 +12560,62 @@ _.set(linb.Locale,["en","doc","linb","UI","TreeGrid"], {
                 "}"
             ]
         },
+        getRowHandlerWidth :{
+            $desc:"Get row handler width.",
+            $rtn:"Number",
+            $snippet:[
+                "var id='linb.temp.grid16-1'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var o=new linb.UI.TreeGrid({editable:false, position:'relative'});"+
+                "linb.Ajax('App/js/grid.js','',function(s){var hash=_.unserialize(s);o.setHeader(hash.header).setRows(hash.rows);},null,null,{asy:false}).start();"+
+                "o.setRowHandlerWidth(40); alert(o.getRowHandlerWidth());"+
+                "linb(id).prepend(o);"+
+                "}"
+            ]
+        },
+        setRowHandlerWidth :{
+            $desc:"Set row handler width, and reflects the value to UI.",
+            $rtn:"[self]",
+            $paras:[
+                "value [Required] : Number.",
+                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+            ],
+            $snippet:[
+                "var id='linb.temp.grid17-1'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var o=new linb.UI.TreeGrid({editable:false,position:'relative'});"+
+                "linb.Ajax('App/js/grid.js','',function(s){var hash=_.unserialize(s);o.setHeader(hash.header).setRows(hash.rows);},null,null,{asy:false}).start();"+
+                "o.setRowHandlerWidth(40); alert(o.getRowHandlerWidth());"+
+                "linb(id).prepend(o);"+
+                "}"
+            ]
+        },
+        getGridHandlerCaption :{
+            $desc:"Get grid handler caption.",
+            $rtn:"String",
+            $snippet:[
+                "var id='linb.temp.grid16-2'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var o=new linb.UI.TreeGrid({editable:false, position:'relative'});"+
+                "linb.Ajax('App/js/grid.js','',function(s){var hash=_.unserialize(s);o.setHeader(hash.header).setRows(hash.rows);},null,null,{asy:false}).start();"+
+                "o.setGridHandlerCaption('tg'); alert(o.getGridHandlerCaption());"+
+                "linb(id).prepend(o);"+
+                "}"
+            ]
+        },
+        setGridHandlerCaption :{
+            $desc:"Set grid handler caption, and reflects the value to UI.",
+            $rtn:"[self]",
+            $paras:[
+                "value [Required] : String.",
+                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+            ],
+            $snippet:[
+                "var id='linb.temp.grid17-2'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var o=new linb.UI.TreeGrid({editable:false,position:'relative'});"+
+                "linb.Ajax('App/js/grid.js','',function(s){var hash=_.unserialize(s);o.setHeader(hash.header).setRows(hash.rows);},null,null,{asy:false}).start();"+
+                "o.setGridHandlerCaption('tg'); alert(o.getGridHandlerCaption());"+
+                "linb(id).prepend(o);"+
+                "}"
+            ]
+        },
         getRowHeight :{
             $desc:"Get grid row height.",
             $rtn:"Number",
@@ -12736,12 +12792,28 @@ _.set(linb.Locale,["en","doc","linb","UI","TreeGrid"], {
                 "}"
             ]
         },
+        updateRow:{
+            $desc:"Updates a specifed row.",
+            $rtn:"[self]",
+            $paras:[
+                "rowId [Required] : String, 行id.",
+                "options [Required] : key/value Object, 需要更新的键值对."
+            ],
+            $snippet:[
+                "var id='linb.temp.grid130-1'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var o=new linb.UI.TreeGrid({editable:false,position:'relative'});"+
+                "linb.Ajax('App/js/grid.js','',function(s){var hash=_.unserialize(s);o.setHeader(hash.header).setRows(hash.rows);},null,null,{asy:false}).start();"+
+                "linb(id).prepend(o);"+
+                "_.asyRun(function(){o.updateRow('row1',{caption:'new row1',height:100,sub:[]})},1000);"+
+                "}"
+            ]
+        },
         updateCell:{
-            $desc:"Updates a specified cell's value.",
+            $desc:"Updates a specified cell.",
             $rtn:"[self]",
             $paras:[
                 "cellId [Required] : String, the cell id.",
-                "hash [Required] : key/value Object, the keys/values to be updated.",
+                "options [Required] : key/value Object, the keys/values to be updated.",
                 "dirtyMark [Optional] : Bool. Make dirty mark not not. Default is [true]."
             ],
             $snippet:[
@@ -12942,7 +13014,7 @@ _.set(linb.Locale,["en","doc","linb","UI","TreeGrid"], {
             $rtn:"[self]",
             $paras:[
                 "colId [Required] : String, column id.",
-                "hash [Required] : key/value Object."
+                "options [Required] : key/value Object."
             ],
             $snippet:[
                 "var id='linb.temp.grid35-1'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -12966,6 +13038,20 @@ _.set(linb.Locale,["en","doc","linb","UI","TreeGrid"], {
                 "linb(id).prepend(o);"+
                 "_.asyRun(function(){alert(o.getRowbyRowId('row2'))});"+
                 "}"
+            ]
+        },
+        getRowbyCell:{
+            $desc:"Gets a row item Object according to a cell Object.",
+            $rtn:"Object",
+            $paras:[
+                "cell [Required] : Object."
+            ]
+        },
+        getHeaderbyCell:{
+            $desc:"Gets a column header Object according to a cell Object.",
+            $rtn:"Object",
+            $paras:[
+                "cell [Required] : Object."
             ]
         },
         getSubNodeInGrid:{

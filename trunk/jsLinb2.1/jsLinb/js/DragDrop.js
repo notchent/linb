@@ -300,11 +300,12 @@ Class('linb.DragDrop',null,{
         },
         startDrag:function(e, targetNode, profile, dragKey, dragData){
             var d=this;
-            profile=_.isHash(profile)?profile:{};
-
+            if(d._profile.isWorking)return false;
             //clear
             d._end()._reset();
+            d._profile.isWorking=true;
 
+            profile=_.isHash(profile)?profile:{};
             e = e || window.event;
             // not left button
             if(linb.Event.getBtn(e) !== 'left')
@@ -340,7 +341,7 @@ Class('linb.DragDrop',null,{
                 //call event, you can call abort(set _stoop)
                 d._source.beforeDragbegin();
 
-                if(p.isWorking || d._stop){d._end()._reset();return false}
+                if(d._stop){d._end()._reset();return false}
 
                 //set linb.Event._preDropable at the begining of drag, for a dd from a child in a dropable node
                 if(linb.Event)linb.Event._preDropable=d._source.get(0).id;
@@ -352,9 +353,6 @@ Class('linb.DragDrop',null,{
                 d._ini(p.dragType=='none'?null:d._pack(_pos, p.targetNode));
                 // on scrollbar
                 if(profile.x >= d._box.width  || profile.y >= d._box.height ){d._end()._reset();return true}
-
-                //set isWorking flag
-                p.isWorking = true;
 
                 d._source.onDragbegin();
 

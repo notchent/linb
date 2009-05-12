@@ -1,37 +1,3 @@
-/***setting begin***/
-.setting-uikey{
-    font-family: aqua;
-}
-.setting-linb-border{
-    border-top-width:3px;
-    border-bottom-width:3px;
-    border-left-width:3px;
-    border-right-width:3px;
-}
-.setting-linb-button{
-    border-top-width:11px;
-    border-bottom-width:11px;
-    border-left-width:11px;
-    border-right-width:11px;
-}
-.setting-linb-input{
-    border-top-width:1px;
-    border-bottom-width:1px;
-    border-left-width:1px;
-    border-right-width:1px;
-}
-.setting-linb-comboinput{
-    border-top-width:1px;
-    border-bottom-width:1px;
-    border-left-width:1px;
-    border-right-width:1px;
-}
-.setting-linb-layout{
-    width:12px;
-}
-
-/***setting end***/
-
 /*background here*/
 html, .uibg-base{
     background:transparent url(Public/bg.png) repeat scroll 0 50%;
@@ -575,12 +541,16 @@ html, .uibg-base{
 }
 
 /*linb.UI.TreeGrid*/
-.linb-treegrid-hcell0, .linb-treegrid-hcell {
+.linb-treegrid-hfcell, .linb-treegrid-hcell {
     border:none;
     border-right:1px solid #929292;
 }
-.linb-treegrid-hcells, .linb-treegrid-body{
+.linb-treegrid-hcells{
     border:1px solid #929292;
+}
+.linb-treegrid-body{
+    border:1px solid #929292;
+    border-top:none;
 }
 .linb-treegrid-hcells{
     padding-left:2px;
@@ -605,7 +575,7 @@ html, .uibg-base{
     background-image: url(Public/icons.gif);
 }
 
-.linb-treegrid-cell, .linb-treegrid-cells-group{
+.linb-treegrid-fcell, .linb-treegrid-cell, .linb-treegrid-cells-group{
      border:none;
      padding-left:0;
      padding-right:1px;
@@ -621,6 +591,10 @@ html, .uibg-base{
 .linb-treegrid-cell-mouseover{
     background: #B6D2EE;
 }
+.linb-treegrid-cells{
+    padding-left:1px;
+}
+
 .linb-treegrid-cells-mouseover{
     background: #B6D2EE;
 }
@@ -631,7 +605,7 @@ html, .uibg-base{
     background: #0D54AE;
     color:#fff;
 }
-.linb-treegrid-header, .linb-treegrid-hcell0, .linb-treegrid-hcell{
+.linb-treegrid-header, .linb-treegrid-hfcell, .linb-treegrid-hcell{
     background: #fff url(TreeGrid/head.gif) repeat-x left bottom;
 }
 
@@ -715,3 +689,53 @@ html, .uibg-base{
 .linb-range-ind1, .linb-range-ind2{
     background-image: url(Public/icons.gif);
 }
+
+
+
+
+
+
+
+
+
+
+/***setting begin***/
+.setting-uikey{
+    font-family: aqua;
+}
+.setting-linb-border{
+    border-style:solid;
+    border-top-width:3px;
+    border-bottom-width:3px;
+    border-left-width:3px;
+    border-right-width:3px;
+}
+.setting-linb-button{
+    border-style:solid;
+    border-top-width:11px;
+    border-bottom-width:11px;
+    border-left-width:11px;
+    border-right-width:11px;
+}
+.setting-linb-input{
+    border-style:solid;
+    border-top-width:1px;
+    border-bottom-width:1px;
+    border-left-width:1px;
+    border-right-width:1px;
+}
+.setting-linb-comboinput{
+    border-style:solid;
+    border-top-width:1px;
+    border-bottom-width:1px;
+    border-left-width:1px;
+    border-right-width:1px;
+}
+.setting-linb-layout{
+    width:12px;
+}
+/***the last one***/
+.setting-uikey{
+    font-family: aqua;
+}
+/***setting end***/

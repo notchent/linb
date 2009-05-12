@@ -1,14 +1,25 @@
 
 Class('App', 'linb.Com',{
     Instance:{
-        tg2page:0,
+        tg2page:0, 
 
         events:{"onReady":"_onready"}, 
         iniComponents:function(){
             // [[code created by jsLinb UI Builder
             var host=this, children=[], append=function(child){children.push(child.get(0))};
             
-            append((new linb.UI.Layout)
+            append((new linb.UI.Panel)
+                .host(host,"panel4")
+                .setDock("none")
+                .setLeft(20)
+                .setTop(10)
+                .setWidth(770)
+                .setHeight(630)
+                .setZIndex(1)
+                .setCaption("panel4")
+            );
+            
+            host.panel4.append((new linb.UI.Layout)
                 .host(host,"layout4")
                 .setItems([{"id":"before", "pos":"before", "locked":false, "size":260, "min":50, "max":500, "hide":false, "cmd":false, "caption":"before"}, {"id":"main", "min":10, "caption":"main"}])
             );
@@ -179,7 +190,7 @@ Class('App', 'linb.Com',{
                 hash[o._col.id]=o.value;
             });
             SPA.$dbBinder.resetValue(hash).getUI().setDisabled(false)
-        },
+        }, 
         iniResource:function (com, threadid) {
             linb.Ajax('App/js/grid2.js',"",function(rsp){
                 com._data=_.unserialize(rsp);

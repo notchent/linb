@@ -1546,10 +1546,12 @@ Class('VisualJS.Designer', 'linb.Com',{
             
             sid=profile.getSubId(id);
 
-            if(pid.indexOf(ks.FIRSTCELL+':')==0 || pid.indexOf(ks.FIRSTCELLA+':')==0 ||id.indexOf(ks.FIRSTCELL+':')==0)
+            if(id.indexOf(ks.FCELL)==0 || pid.indexOf(ks.FCELL)==0){
                 cell=row = profile.rowMap[sid];
-            else if(id.indexOf(ks.CELL+':')==0 || pid.indexOf(ks.CELL+':')==0 || pid.indexOf(ks.CELLA+':')==0){
+                if(!cell)return true;
+            }else if(id.indexOf(ks.CELL)==0 || pid.indexOf(ks.CELL)==0){
                 cell = profile.cellMap[sid];
+                if(!cell)return true;
                 row=cell._row;
             }
 
@@ -2424,7 +2426,6 @@ Class('VisualJS.Designer', 'linb.Com',{
             (new u.TreeGrid)
             .host(t,"profileGrid")
             .setRowHandlerWidth(100)
-            .setRowHandlerClass('linbdesign-help')
             .setGridHandlerCaption('$VisualJS.designer.gridcol1')
             .setHeader([
             {"id":"value","caption":"$VisualJS.designer.gridcol2","width":120,"type":"input"}
@@ -2548,6 +2549,5 @@ Class('VisualJS.Designer', 'linb.Com',{
                 return ' ';
         };
 
-        linb.CSS.addStyleSheet('.linbdesign-help .linb-treegrid-cella{cursor:help;}');
     }
 });

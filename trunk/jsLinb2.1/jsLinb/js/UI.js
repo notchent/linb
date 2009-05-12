@@ -2258,7 +2258,7 @@ Class("linb.UI",  "linb.absObj", {
         _rpt:function(profile,temp){
             var me=arguments.callee,
                 tag=linb.UI.$tag_special,
-                r=me._r||(me._r=new RegExp( tag+'([A-Z0-9]+)_C([SC])'+tag + '|'+ tag+'([\\w_\\-\\.]*)'+tag, 'img')),
+                r=me._r||(me._r=new RegExp( tag+'([0-9A-Z_]+)_C([SC])'+tag + '|'+ tag+'([\\w_\\-\\.]*)'+tag, 'img')),
                 h1={
                     id:profile.serialId,
                     cls:profile.getClass('KEY'),
@@ -2794,7 +2794,7 @@ Class("linb.UI",  "linb.absObj", {
             _.merge(v, {
                 beforeMouseover:function(profile, e, src){
                     if(profile.properties.disabled||profile.properties.readonly)return;
-                    var self=this,
+                    var ns=this,
                         dd = linb.DragDrop,
                         pp = dd.getProfile(),
                         key = pp.dragKey,
@@ -2805,14 +2805,14 @@ Class("linb.UI",  "linb.absObj", {
                     //not include the dragkey
                     if(!key
                     || !data
-                    || !(new RegExp('\\b'+key+'\\b')).test(profile.box.getDropKeys(profile, self))
+                    || !(new RegExp('\\b'+key+'\\b')).test(profile.box.getDropKeys(profile, ns))
                     )return;
 
                     box=profile.boxing();
                     if(box.getItemByDom)
                         item=box.getItemByDom(src);
 
-                    args=[profile, e, self, key, data, item];
+                    args=[profile, e, ns, key, data, item];
                     if((t=profile.onDropTest) && (false===box.onDropTest.apply(box,args)))
                         return;
                     if((t=profile.box._onDropTest) && (false===t.apply(profile.host||profile, args)))
@@ -2823,7 +2823,7 @@ Class("linb.UI",  "linb.absObj", {
                     else if((t=profile.box._onDropMarkShow) && (false===t.apply(profile.host||profile, args))){}
                     else
                         //show region
-                        _.resetRun('setDropFace', dd.setDropFace, 0, [self], dd);
+                        _.resetRun('setDropFace', dd.setDropFace, 0, [ns], dd);
 
                     if(t=profile.box._onDragEnter)t.apply(profile.host||profile, args);
                     if(profile.onDragEnter)box.onDragEnter.apply(box,args);

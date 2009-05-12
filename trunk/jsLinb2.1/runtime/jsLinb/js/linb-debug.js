@@ -6048,15 +6048,16 @@ type:4
                             style.visibility = 'hidden'; style.position ='absolute';style.display = 'block';
                         }
                     }
+                    t=linb([node]);
                     switch(index){
                         case 1:
                             r=getStyle(node,o[1]);
                             if(isNaN(parseInt(r)) || r1.test(r))
-                                r = me(node,2) - (contentBox?linb([node])[o[2]]():0);
+                                r = me(node,2) - (contentBox?t[o[2]]():0);
                             r=parseInt(r)||0;
                             break;
                         case 2:
-                            r=node[o[6]]-linb([node])[o[3]]();
+                            r=node[o[6]]-t[o[3]]();
                             break;
                         case 3:
                             //for in firefox, offsetHeight/Width's bad performance
@@ -6072,16 +6073,16 @@ type:4
                             //}
                             if(!r)
                                 //get from css setting before css applied
-                                r=me(node,1)+(contentBox?(t=linb([node]))[o[2]]():0)+t[o[3]]();
+                                r=me(node,1)+(contentBox?t[o[2]]():0)+t[o[3]]();
                             break;
                         case 4:
                             r=me(node,3);
-                            r+=linb([node])[o[4]]();
+                            r+=t[o[4]]();
                             break;
                     }
                     if(n){
                         style.display = d; style.position = p;style.visibility = b;
-                        linb([node]).swap(temp);
+                        t.swap(temp);
                         temp.empty(false);
                     }
                     return parseInt(r)||0;
@@ -7308,11 +7309,12 @@ Class('linb.DragDrop',null,{
         },
         startDrag:function(e, targetNode, profile, dragKey, dragData){
             var d=this;
-            profile=_.isHash(profile)?profile:{};
-
+            if(d._profile.isWorking)return false;
             //clear
             d._end()._reset();
+            d._profile.isWorking=true;
 
+            profile=_.isHash(profile)?profile:{};
             e = e || window.event;
             // not left button
             if(linb.Event.getBtn(e) !== 'left')
@@ -7348,7 +7350,7 @@ Class('linb.DragDrop',null,{
                 //call event, you can call abort(set _stoop)
                 d._source.beforeDragbegin();
 
-                if(p.isWorking || d._stop){d._end()._reset();return false}
+                if(d._stop){d._end()._reset();return false}
 
                 //set linb.Event._preDropable at the begining of drag, for a dd from a child in a dropable node
                 if(linb.Event)linb.Event._preDropable=d._source.get(0).id;
@@ -7360,9 +7362,6 @@ Class('linb.DragDrop',null,{
                 d._ini(p.dragType=='none'?null:d._pack(_pos, p.targetNode));
                 // on scrollbar
                 if(profile.x >= d._box.width  || profile.y >= d._box.height ){d._end()._reset();return true}
-
-                //set isWorking flag
-                p.isWorking = true;
 
                 d._source.onDragbegin();
 
@@ -10827,7 +10826,7 @@ Class("linb.UI",  "linb.absObj", {
         _rpt:function(profile,temp){
             var me=arguments.callee,
                 tag=linb.UI.$tag_special,
-                r=me._r||(me._r=new RegExp( tag+'([A-Z0-9]+)_C([SC])'+tag + '|'+ tag+'([\\w_\\-\\.]*)'+tag, 'img')),
+                r=me._r||(me._r=new RegExp( tag+'([0-9A-Z_]+)_C([SC])'+tag + '|'+ tag+'([\\w_\\-\\.]*)'+tag, 'img')),
                 h1={
                     id:profile.serialId,
                     cls:profile.getClass('KEY'),
@@ -11363,7 +11362,7 @@ Class("linb.UI",  "linb.absObj", {
             _.merge(v, {
                 beforeMouseover:function(profile, e, src){
                     if(profile.properties.disabled||profile.properties.readonly)return;
-                    var self=this,
+                    var ns=this,
                         dd = linb.DragDrop,
                         pp = dd.getProfile(),
                         key = pp.dragKey,
@@ -11374,14 +11373,14 @@ Class("linb.UI",  "linb.absObj", {
                     //not include the dragkey
                     if(!key
                     || !data
-                    || !(new RegExp('\\b'+key+'\\b')).test(profile.box.getDropKeys(profile, self))
+                    || !(new RegExp('\\b'+key+'\\b')).test(profile.box.getDropKeys(profile, ns))
                     )return;
 
                     box=profile.boxing();
                     if(box.getItemByDom)
                         item=box.getItemByDom(src);
 
-                    args=[profile, e, self, key, data, item];
+                    args=[profile, e, ns, key, data, item];
                     if((t=profile.onDropTest) && (false===box.onDropTest.apply(box,args)))
                         return;
                     if((t=profile.box._onDropTest) && (false===t.apply(profile.host||profile, args)))
@@ -11392,7 +11391,7 @@ Class("linb.UI",  "linb.absObj", {
                     else if((t=profile.box._onDropMarkShow) && (false===t.apply(profile.host||profile, args))){}
                     else
                         //show region
-                        _.resetRun('setDropFace', dd.setDropFace, 0, [self], dd);
+                        _.resetRun('setDropFace', dd.setDropFace, 0, [ns], dd);
 
                     if(t=profile.box._onDragEnter)t.apply(profile.host||profile, args);
                     if(profile.onDragEnter)box.onDragEnter.apply(box,args);
@@ -18686,8 +18685,10 @@ Class("linb.UI.Group", "linb.UI.Div",{
             return [ns._to255(hex.substr(0, 2)), ns._to255(hex.substr(2, 2)), ns._to255(hex.substr(4, 2))];
         },
         getTextColor:function(value){
-            value=this.hex2rgb(value);
-            value=this.rgb2hsv(value);
+            var ns=this;
+            value=ns._ensureValue(0,value);
+            value=ns.hex2rgb(value);
+            value=ns.rgb2hsv(value);
             return (value&&value[2])>0.6?'#000000':'#FFFFFF';
         },
         _onresize:function(){}
@@ -25168,10 +25169,10 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
             }
 
             var obj,hw,
-                hw=profile.getSubNode('HCELL0').width();
+                hw=profile.getSubNode('HFCELL').width();
             //give width at here
             _.arr.each(arr,function(o){
-                o._row0DfW = hw-o._layer*profile.properties.$subMargin;
+                o._row0DfW = hw;
                 _.arr.each(o.cells,function(v,i){
                     v.width=v._col.width;
                 })
@@ -25261,6 +25262,50 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
             var profile=this.get(0),v=profile.rowMap2[rowId];
             return v?profile.rowMap[v]:null;
         },
+        getRowbyCell:function(cell){
+            return cell._row;
+        },
+        updateRow:function(rowId,options){
+            var ns=this, orow=ns.getRowbyRowId(rowId), t;
+            if(!orow)return ns;
+
+            if(_.isStr(options)) options={value:options};
+            else _.filter(options,true);
+            options.id=rowId;
+            if(('group' in options && options.group!=orow.group) || 
+                'cells' in options || 
+                ('sub' in options && !((!options.sub && orow.sub && orow.sub.length==0) || (options.sub.length==0 && !orow.sub)))
+            ){
+                var id="__special",pid=orow._pid,profile=ns.get(0);
+                orow.id=id;
+                profile.rowMap2[id]=profile.rowMap2[rowId];
+                delete profile.rowMap2[rowId];
+                orow=_.clone(orow,true);
+                _.merge(orow, options, 'all');
+                if('sub' in options && !options.sub)delete orow.sub;
+                ns.insertRows([orow],pid,id,true);
+                ns.removeRows([id]);
+            }else{
+                if(!options.caption)
+                    options.caption=''+(options.value||rowId);
+                if(options.caption && !options.tips)
+                    options._$tips=options.caption;
+                if('sub' in options){
+                    t=ns.getSubNode('FCELLCMD',orow._serialId);
+                    if(options.sub)
+                        t.removeClass('uicmd-empty').addClass('uicmd-toggle2')
+                    else
+                        t.removeClass('uicmd-toggle2').addClass('uicmd-empty')
+                    
+                }
+                _.merge(orow, options, 'all');
+                if(t=options.caption)
+                    ns.getSubNode('FCELLCAPTION',orow._serialId).get(0).innerHTML=t;
+                if(t=options.height)
+                    ns.getSubNode('CELLS',orow._serialId).height(t);
+            }
+            return ns;
+        },
         //pid,base are id
         insertRows:function(arr, pid, base ,before){
             var c=this.constructor, profile=this.get(0), pro=profile.properties, row_m=profile.rowMap2, t;
@@ -25321,7 +25366,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                         rowid = row.id,
                         temp;
                     //for sub delete
-                    if(row.sub){
+                    if(row.sub && _.isArr(row.sub)){
                         var arr=[];
                         _.arr.each(row.sub,function(o){
                             arr.push(o.id)
@@ -25340,9 +25385,10 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
 
                     //clear properties.row array
                     if(temp= row._pid?(temp=profile.rowMap[profile.rowMap2[row._pid]])?temp.sub:null:profile.properties.rows)
-                        _.filter(temp,function(o){
-                            return o._serialId != id;
-                        });
+                        if(_.isArr(temp))
+                            _.filter(temp,function(o){
+                                return o._serialId != id;
+                            });
 
                     //clear profile.rowMap2
                     delete profile.rowMap2[rowid];
@@ -25431,11 +25477,13 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                 return v;
         },
         updateHeader:function(colId,options){
+            var ns=this, colh=ns.getHeaderByColId(colId), t;
+            if(!colh)return ns;
+
             if(_.isStr(options)) options={caption:options};
             else _.filter(options,true);
             delete options.id;
 
-            var ns=this, colh=ns.getHeaderByColId(colId), t;
             _.merge(colh, options, 'all');
             if(t=options.caption)
                 ns.getSubNode('HCELLCAPTION',colh._serialId).get(0).innerHTML=t;
@@ -25452,6 +25500,9 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
             var v=this.get(0).properties.header,
                 i=_.arr.subIndexOf(v,"id",colId);
             return v[i];
+        },
+        getHeaderByCell:function(cell){
+            return cell._header;
         },
         showColumn:function(colId, flag){
             return this.each(function(profile){
@@ -25548,15 +25599,15 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                                 tagName:'div',
                                 style:'{headerHeight};',
                                 /*the first col (row handler) in table header*/
-                                HCELL0:{
+                                HFCELL:{
                                     $order:0,
                                     style:'{rowHandlerDisplay};width:{_row0DfW}px;',
-                                    HCELL0A:{
+                                    HFCELLA:{
                                         HHANDLER:{
                                             tagName:'div',
                                             style:'{colDDDisplay}'
                                         },
-                                        ROWHANDLER:{
+                                        FHANDLER:{
                                             tagName:'div',
                                             style:'{rowDDDisplay}'
                                         },
@@ -25625,21 +25676,29 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                             tagName:'div',
                             className:'{rowCls} {rowClass}',
                             style:'height:{rowHeight}px;{rowStyle}',
-                            FIRSTCELL:{
+                            FCELL:{
                                 $order:0,
-                                style:'{rowHandlerDisplay};width:{_row0DfW}px;{rowHandlerStyle}',
-                                className:'{rowHandlerClass}',
-                                FIRSTCELLA:{
-                                    ROWCMD:{
+                                style:'{rowHandlerDisplay};width:{_row0DfW}px;{firstCellStyle}',
+                                className:'{firstCellClass}',
+                                FCELLA:{
+                                    FCELLRULER:{
+                                        style:'width:{_rulerW}px'
+                                    },
+                                    FCELLCMD:{
+                                        $order:1,
                                         className:'{subClass}'
                                     },
-                                    ROWHANDLER:{
+                                    FHANDLER:{
                                         tagName:'div',
                                         style:'{rowDDDisplay}'
                                     },
-                                    ROWCAPTION:{
-                                        $order:1,
-                                        text:'{caption}'
+                                    FCELLINN:{
+                                        $order:2,
+                                        ROWNUM:{},
+                                        FCELLCAPTION:{
+                                            $order:1,
+                                            text:'{caption}'
+                                        }
                                     }
                                 }
                             },
@@ -25825,11 +25884,11 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                 $order:1,
                 'border-right': '1px solid #ACA899'
             },
-            'CELLS-group FIRSTCELL':{
+            'CELLS-group FCELL':{
                 'border-right':0,
                 'padding-right':'1px'
             },
-            'CELLS-group ROWCAPTION, CELLS-group FIRSTCELLA':{
+            'CELLS-group FCELLCAPTION, CELLS-group FCELLA':{
                 'font-weight':'bold',
                 color:'#3764A0',
                 overflow:'visible'
@@ -25867,14 +25926,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                 'background-color':'#7199E8',
                 color:'#fff'
             },
-            HCELL0:{
-               height:'100%',
-                'font-weight':'bold',
-                'font-size':'12px',
-                'line-height':'20px',
-                'vertical-align':'top'
-            },
-            'HCELL0A, FIRSTCELLA':{
+            'HFCELLA, FCELLA':{
                 '-moz-box-flex':'1',
                 '-moz-user-select':'none',
                 display:'block',
@@ -25882,11 +25934,11 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                 overflow:'hidden',
                 height:'100%'
             },
-            FIRSTCELLA:{
+            FCELLA:{
                 'text-align': 'left',
                 'padding-left':'4px'
             },
-            ROWHANDLER:{
+            FHANDLER:{
                 position:'absolute',
                 'height':'4px',
                 left:'0px',
@@ -25897,7 +25949,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                 'font-size':0,
                 'line-height':0
             },
-            'HCELL0, HCELL':{
+            'HFCELL, HCELL':{
                height:'100%',
                'border-left':'1px solid #fff',
                'border-top':'1px solid #fff',
@@ -25917,7 +25969,10 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                 'font-size':0,
                 'line-height':0
             },
-           'FIRSTCELL, CELL':{
+            ROWNUM:{
+                'padding-right':'6px'
+            },
+            'FCELL, CELL':{
                 //firefox:height:100% without overflow:hidden
                 'padding-left':'1px',
                 'border-right':'1px solid #A2BBD9',
@@ -25968,7 +26023,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                 display:'inline',
                 '-moz-box-flex':0
             },
-            'HCELLA, HCELL0A':{
+            'HCELLA, HFCELLA':{
                 'text-align': 'center'
             },
             PROGRESS:{
@@ -26010,22 +26065,20 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                 '*zoom':1,
                 height:0,
                 position:'relative',
-                overflow:'hidden',
-                'border-left': '1px solid #A2BBD9',
-                'margin-left':'15px'
+                overflow:'hidden'
             }
         },
         Behaviors:{
-            HoverEffected:{ROWCMD:'ROWCMD', HCELL:'HCELL'},
-            ClickEffected:{ROWCMD:'ROWCMD', CELL:'CELL', HCELL:'HCELL'},
-            DropableKeys:['SCROLL','CELLS','ROWCMD'],
-            DragableKeys:['FIRSTCELL'],
+            HoverEffected:{FCELLCMD:'FCELLCMD', HCELL:'HCELL'},
+            ClickEffected:{FCELLCMD:'FCELLCMD', CELL:'CELL', HCELL:'HCELL'},
+            DropableKeys:['SCROLL','CELLS','FCELLCMD'],
+            DragableKeys:['FCELL'],
 
             onSize:function(profile,e){
                 var o = profile.root;
                 linb.UI.$tryResize(profile, e.width?o.width():null, o.height?o.height():null);
             },
-            HCELL0A:{
+            HFCELLA:{
                 onClick:function(profile,e,src){
                     profile.getSubNode('COLLIST').onClick(true);
                 }
@@ -26095,8 +26148,8 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
 
                     //collect cell id
                     var ids=[],ws=[];
-                    if(_.str.startWith(src.parentNode.id,profile.keys.HCELL0A))
-                        profile.box._asy0(profile,w);
+                    if(_.str.startWith(src.parentNode.id,profile.keys.HFCELLA))
+                        profile.box._setRowHanderW(profile,w);
                     else{
                         var cells = profile.colMap[profile.getSubId(src.id)]._cells;
                         _.each(cells,function(o){
@@ -26114,8 +26167,8 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                 },
                 onDblclick:function(profile, e, src){
                     //for row0
-                    if(profile.getKey(src.parentNode.id)==profile.keys['HCELL0A']){
-                        profile.box._asy0(profile,true);
+                    if(profile.getKey(src.parentNode.id)==profile.keys['HFCELLA']){
+                        profile.box._setRowHanderW(profile,true);
                         return;
                     }
                     //for other rows
@@ -26142,7 +26195,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                 }
             },
             //row resizer
-            ROWHANDLER:{
+            FHANDLER:{
                 onMousedown:function(profile, e, src){
                     var p=profile.properties,
                     row = profile.rowMap[profile.getSubId(src.id)],
@@ -26194,7 +26247,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                     //for ie's weird bug
                     if(linb.browser.ie && h%2==1)h+=1;
                     o.height(h);
-                    if(_.str.startWith(src.parentNode.id,profile.keys.HCELL0A)){
+                    if(_.str.startWith(src.parentNode.id,profile.keys.HFCELLA)){
                         profile.properties.headerHeight=h;
                         linb.UI.$tryResize(profile,null,profile.root.height());
                     }else
@@ -26219,7 +26272,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                 onClick:function(){return false}
             },
             //mark click for tree build
-            ROWCMD:{
+            FCELLCMD:{
                 onClick:function(profile, e, src){
                     var
                     p = profile.properties,
@@ -26495,7 +26548,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                     var p = profile.properties,
                         row = profile.rowMap[profile.getSubId(this.id)];
                     if(row.group)
-                        profile.getSubNode('ROWCMD',row._serialId).onClick();
+                        profile.getSubNode('FCELLCMD',row._serialId).onClick();
                 }
             },
             CELL:{
@@ -26631,6 +26684,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                    case 'down':
                         //get no.
                         var count=1,
+                            fkey=profile.keys.FCELL,
                             temp = cur.parent().get(0),
                             max=temp.parentNode.childNodes.length;
                         while(temp=temp.previousSibling)count++;
@@ -26643,7 +26697,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                             var all=profile.getSubNode('CELLS',true).get();
                             //filter dispaly==none
                             _.filter(all,function(o){
-                                return !!o.offsetWidth;
+                                return !!o.offsetWidth && profile.getKey(o.lastChild.id)!=fkey;
                             });
                             profile.$allrowscache = all;
                         }
@@ -26678,12 +26732,20 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                     }
                 }
             },
-            FIRSTCELL:{
+            FCELL:{
                 onClick:function(profile, e, src){
-                    var p = profile.properties,
-                        row = profile.rowMap[profile.getSubId(this.id)];
-                    if(!row.group)
-                        profile.getSubNode('ROWCMD',row._serialId).onClick();
+                    var p=profile.properties,
+                        id=this.id,
+                        row = profile.rowMap[profile.getSubId(id)],
+                        b=profile.box
+                    if(!row.group){
+                        if(p.disabled || row.disabled)
+                            return false;
+                        if(p.activeMode=='row')
+                            b._sel(profile, 'row',src, id, e);
+                        if(row.cells[0])
+                            linb([src]).next().first().focus();
+                    }
                 }
             }
         },
@@ -26727,8 +26789,12 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
             rowNumbered:{
                 ini:false,
                 action:function(value){
-                    var ns=this;
-                    var nodes = ns.getSubNode('ROWCAPTION',true),i=0,map=ns.rowMap,row,ol=0,l=0,a1=[],a2=[],tag='',temp;
+                    var ns=this,
+                        f=ns.CF.getNumberedStr||function(a){return a},
+                        nodes = ns.getSubNode('ROWNUM',true),
+                        i=0,
+                        map=ns.rowMap,
+                        row,ol=0,l=0,a1=[],a2=[],tag='',temp,t;
                     if(value)
                         nodes.each(function(o){
                             if(o.parentNode.offsetHeight){
@@ -26748,10 +26814,12 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                                 i++;
                                 ol=l;
                                 //o.innerHTML=''+tag+i;
-                                if(o.firstChild)
-                                    o.firstChild.nodeValue=tag+i;
-                                else
-                                    o.appendChild(document.createTextNode(tag+i));
+                                temp=f(tag+i);
+                                if(t=o.firstChild){
+                                    if(t.nodeValue!=temp)
+                                        t.nodeValue=temp;
+                                }else
+                                    o.appendChild(document.createTextNode(temp));
                             }
                         });
                     else
@@ -26773,17 +26841,23 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
             _maxColW:300,
             _minRowH:20,
             
-            //todo:
             gridHandlerCaption:{
                 ini:"",
                 action:function(v){
                     this.getSubNode('GRIDCAPTION').get(0).innerHTML=v;
                 }
             },
-            rowHandlerWidth: 32,
-
-            rowHandlerClass:"",
-            rowHandlerStyle:"",
+            rowHandlerWidth: {
+                ini:100,
+                set:function(value){
+                    return this.each(function(o){
+                        if(o.domNode)
+                            o.box._setRowHanderW(o,value);
+                        else
+                            o.rowHandlerWidth=value;
+                    })
+                }
+            },
 
             showHeader:{
                 ini:true,
@@ -26809,14 +26883,14 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
             rowHandler:{
                 ini:true,
                 action:function(value){
-                    this.getSubNode('HCELL0').css('display',value?'':'none');
-                    this.getSubNode('FIRSTCELL',true).css('display',value?'':'none');
+                    this.getSubNode('HFCELL').css('display',value?'':'none');
+                    this.getSubNode('FCELL',true).css('display',value?'':'none');
                 }
             },
             rowResizer:{
                 ini:true,
                 action:function(value){
-                    this.getSubNode('ROWHANDLER',true).css('display',value?'':'none');
+                    this.getSubNode('FHANDLER',true).css('display',value?'':'none');
                 }
             },
 
@@ -26904,55 +26978,42 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
             var pro=profile.properties,b=profile.boxing(),id=profile.$id;
             if(pro.altRowsBg)_.resetRun(id+"1",function(){b.setAltRowsBg(true,true)});
             if(pro.rowNumbered)_.resetRun(id+"2",function(){b.setRowNumbered(true,true)});
-            if(flag!==false){
-                if(pro.rowHandler)
-                    this._asy0(profile);
-                else
-                    profile.box._ajdustBody(profile);
-            }
-        },
-        _asy0:function(profile, flag){
-            var pro=profile.properties,id=profile.$id,ww=pro.$subMargin,map=profile.rowMap;
-            _.resetRun(id+"3",function(){
-                var n,w,b,hcell=profile.getSubNode('HCELL0');
-                if(typeof flag=='number')
-                    w=flag;
-                else{
-                    _.arr.each(pro.rows,function(o){
-                        if(o.sub){b=true;return false;}
-                    });
-                    //if it's a treegrid
-                    if(b){
-                        var ns=[],ws=[],
-                            cells=profile.getSubNode('FIRSTCELLA',true),
-                            cls=profile.getClass('CELLA','-inline');
-                        cells.each(function(o){
-                            if(o.parentNode.offsetWidth>0){
-                                n=map[profile.getSubId(o.id)];
-                                if(n){
-                                    ns.push(o);
-                                    ws.push(linb([o]).addClass(cls).width() + n._layer*ww);
-                                }
-                            }
-                        });
-                        ws.push(pro._minColW);
-                        w=parseInt(Math.max.apply(null,ws))+ww;
-                        linb(ns).removeClass(cls);
-                        if(flag!==true && hcell.width()>w)
-                            w=null;
-                    }
-                }
-
-                //set width
-                if(w){
-                    hcell.width(w);
-                    profile.getSubNode('FIRSTCELL',true).each(function(o){
-                        n=map[profile.getSubId(o.id)];
-                        o.style.width=w-n._layer*ww+'px';
-                    });
-                }
+            if(flag!==false)
                 profile.box._ajdustBody(profile);
-            });
+        },
+        _setRowHanderW:function(profile, flag){
+            var pro=profile.properties,
+                ww=pro.$subMargin,
+                map=profile.rowMap,
+                hcell=profile.getSubNode('HFCELL'),
+                n,w;
+            if(typeof flag=='number')
+                w=flag;
+            else if(flag===true){
+                var ws=[];
+                profile.getSubNode('FCELLINN',true).each(function(o){
+                    if(o.parentNode.parentNode.offsetWidth>0)
+                        if(n=map[profile.getSubId(o.id)])
+                            ws.push(linb([o]).width() + n._layer*ww);
+                });
+                ws.push(pro._minColW);
+                w=parseInt(Math.max.apply(null,ws))+ww*2;
+            }else
+                w=hcell.width();
+
+            //set width
+            if(w){
+                if(w<pro._minColW)w=pro._minColW;
+                if(pro.rowHandlerWidth!=w){
+                    hcell.width(pro.rowHandlerWidth=w);
+                    profile.getSubNode('FCELL',true).width(w);
+                    profile.getSubNode('FCELLRULER',true).each(function(o){
+                        n=map[profile.getSubId(o.id)];
+                        o.style.width=n._layer*ww+'px';
+                    });
+                    profile.box._ajdustBody(profile);
+                }
+            }
         },
         _onStartDrag:function(profile, e, src){
             var pos=linb.Event.getPos(e);
@@ -26971,6 +27032,13 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
         },
         _onDropTest:function(profile, e, src, key, data, item){
             var fid=data&&data.domId, tid=src.id, fp=data&&data.profile,t;
+            if(tid){
+                var k=profile.getKey(tid),
+                    ks=profile.keys,
+                    row=profile.rowMap[profile.getSubId(tid)];
+                if(k==ks.FCELLCMD && !row.sub)
+                    return false;
+            }
             if(fp && fp.$id==profile.$id){
                 if(fid && profile.getSubId(fid)==profile.getSubId(tid))
                     return false;
@@ -27005,7 +27073,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
             //add
             if(k==ks.SCROLL)
                 b.insertRows([orow], null, null, false);
-            else if(k==ks.ROWCMD)
+            else if((k==ks.FCELLCMD) && row.sub)
                 b.insertRows([orow], row.id, null, false);
             else if(k==ks.CELLS)
                 b.insertRows([orow], row._pid, row.id, true);
@@ -27143,7 +27211,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                         node.html(caption,false);
                 break;
                 case 'colorpicker':
-                    cell.value=cell.value||"#ffffff";
+                    cell.value="#"+linb.UI.ColorPicker._ensureValue(0,cell.value);
                     caption= capOut ||ren(profile,cell,ncell);
                     t1=linb.UI.ColorPicker.getTextColor(cell.value);
                     if(dom){
@@ -27215,6 +27283,7 @@ sortby [for column only]
         _prepareItems:function(profile, arr, pid){
             var self=this,
                 pro=profile.properties,
+                mm = pro.$subMargin,
                 a = profile.rowMap2,
                 b = profile.rowMap,
                 d = profile.cellMap,
@@ -27242,6 +27311,8 @@ sortby [for column only]
                 row._pid = pid;
                 row._cells={};
                 row._layer=_layer;
+                
+
                 row[SubID]=temp;
                 row._tabindex=pro.tabindex;
 
@@ -27258,11 +27329,10 @@ sortby [for column only]
                     t.previewDisplay='display:block;';
 
                 t._row0DfW=pro.rowHandlerWidth;
+                t._rulerW=_layer*mm;
 
                 t.rowHeight=row.height||pro.rowHeight;
                 t.rowHandlerDisplay=pro.rowHandler?'':NONE;
-                t.rowHandlerClass=row.rowHandlerClass||pro.rowHandlerClass;
-                t.rowHandlerStyle=row.rowHandlerStyle||pro.rowHandlerStyle;
                 t.rowDDDisplay=(('rowResizer' in row)?row.rowResizer:pro.rowResizer)?'':NONE;
 
                 cells = t.cells = [];
@@ -27276,8 +27346,9 @@ sortby [for column only]
                 // for cells
                 if(row.group)
                     row.cells=null;
-                if('value' in row && !row.caption)
-                    row.caption=''+row.value;
+                if(!row.caption)
+                    row.caption=''+(row.value||row.id);
+
                 if(row.caption && !row.tips)
                     row._$tips=row.caption;
 
@@ -27340,7 +27411,7 @@ sortby [for column only]
             var id=profile.domId,
                 pro=profile.properties,
                 serialId = profile.rowMap2[item.id],
-                markNode = profile.getSubNode('ROWCMD', serialId),
+                markNode = profile.getSubNode('FCELLCMD', serialId),
                 subNs = profile.getSubNode('SUB', serialId)
                 ;
 
@@ -27750,11 +27821,11 @@ sortby [for column only]
             pid=node.parentNode.id;
             sid=profile.getSubId(id);
 
-            if(pid.indexOf(ks.FIRSTCELL+':')==0 || pid.indexOf(ks.FIRSTCELLA+':')==0 ||id.indexOf(ks.FIRSTCELL+':')==0)
+            if(id.indexOf(ks.FCELL)==0 || pid.indexOf(ks.FCELL)==0)
                 item = profile.rowMap[sid];
-            else if(pid.indexOf(ks.HCELL+':')==0 || pid.indexOf(ks.HCELLA+':')==0 ||id.indexOf(ks.HCELL+':')==0)
+            else if(id.indexOf(ks.HCELL)==0 || pid.indexOf(ks.HCELL)==0)
                 item = profile.colMap[sid];
-            else if(id.indexOf(ks.CELL+':')==0 || pid.indexOf(ks.CELL+':')==0 || pid.indexOf(ks.CELLA+':')==0)
+            else if(id.indexOf(ks.CELL)==0 || pid.indexOf(ks.CELL)==0)
                 item = profile.cellMap[sid];
 
             if(item){

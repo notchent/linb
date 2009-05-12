@@ -541,12 +541,16 @@ html, .uibg-base{
 }
 
 /*linb.UI.TreeGrid*/
-.linb-treegrid-hcell0, .linb-treegrid-hcell {
+.linb-treegrid-hfcell, .linb-treegrid-hcell {
     border:none;
     border-right:1px solid #929292;
 }
-.linb-treegrid-hcells, .linb-treegrid-body{
+.linb-treegrid-hcells{
     border:1px solid #929292;
+}
+.linb-treegrid-body{
+    border:1px solid #929292;
+    border-top:none;
 }
 .linb-treegrid-hcells{
     padding-left:2px;
@@ -571,7 +575,7 @@ html, .uibg-base{
     background-image: url(Public/icons.gif);
 }
 
-.linb-treegrid-cell, .linb-treegrid-cells-group{
+.linb-treegrid-fcell, .linb-treegrid-cell, .linb-treegrid-cells-group{
      border:none;
      padding-left:0;
      padding-right:1px;
@@ -587,6 +591,10 @@ html, .uibg-base{
 .linb-treegrid-cell-mouseover{
     background: #B6D2EE;
 }
+.linb-treegrid-cells{
+    padding-left:1px;
+}
+
 .linb-treegrid-cells-mouseover{
     background: #B6D2EE;
 }
@@ -597,7 +605,7 @@ html, .uibg-base{
     background: #0D54AE;
     color:#fff;
 }
-.linb-treegrid-header, .linb-treegrid-hcell0, .linb-treegrid-hcell{
+.linb-treegrid-header, .linb-treegrid-hfcell, .linb-treegrid-hcell{
     background: #fff url(TreeGrid/head.gif) repeat-x left bottom;
 }
 

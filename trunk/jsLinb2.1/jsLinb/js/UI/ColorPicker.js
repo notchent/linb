@@ -952,8 +952,10 @@ Class('linb.UI.ColorPicker', ['linb.UI',"linb.absValue"], {
             return [ns._to255(hex.substr(0, 2)), ns._to255(hex.substr(2, 2)), ns._to255(hex.substr(4, 2))];
         },
         getTextColor:function(value){
-            value=this.hex2rgb(value);
-            value=this.rgb2hsv(value);
+            var ns=this;
+            value=ns._ensureValue(0,value);
+            value=ns.hex2rgb(value);
+            value=ns.rgb2hsv(value);
             return (value&&value[2])>0.6?'#000000':'#FFFFFF';
         },
         _onresize:function(){}
