@@ -328,7 +328,7 @@ Class('VisualJS.Designer', 'linb.Com',{
                 .setItems(_.clone(CONF.widgets))
                 .setCustomBehavior({
                     BAR:{
-                        onMousedown : function(profile, e, src){
+                        beforeMousedown : function(profile, e, src){
                             var id=src.id,
                                 itemId = profile.getSubId(id),
                                 properties = profile.properties,

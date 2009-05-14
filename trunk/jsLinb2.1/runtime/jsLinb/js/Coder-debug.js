@@ -247,6 +247,7 @@ Class("linb.Coder", null,{
                 arr.push([this.$COM_REG.HTML_COMMENT,'$0\\n']);
 
                 //ignore input and img
+                arr.push([/<!\[CDATA\[(([^\]])|(\][^\]])|(\]\][^>]))*\]\]>/, function(a,i){return space[deep]+a[i]+'\n'}]);
                 arr.push([/<input[^>]+>/, function(a,i){return space[deep]+a[i]+'\n'}]);
                 arr.push([/<img[^>]+>/, function(a,i){return space[deep]+a[i]+'\n'}]);
                 arr.push([/<[\w]+[^>]*\/>/, function(a,i){return space[deep]+a[i]+'\n'}]);
@@ -336,7 +337,7 @@ Class("linb.Coder", null,{
                 //restore those protection
                 code=linb.Coder.replace(code,[
                     [/[\n\r]+/.source,'\n'],
-                
+
                     [/( *)(\x01[d]\d+\x02)/.source, function(s,i){s[i+1]=s[i+1]||'';return s[i+1] + cache.d[s[i+2]].replace(/(\n)(\s*)/g,'$1'+s[i+1])}],
                     [/\x03[g]\d+\x04/.source, function(s,i){return cache.g[s[i]].replace(/\s*,\s*/g,','+(reverse?'':' '))}],
                     [/[\x01\x03]([\w])\d+[\x02\x04]/.source, function(s,i){return cache[s[i+1]][s[i]]}],

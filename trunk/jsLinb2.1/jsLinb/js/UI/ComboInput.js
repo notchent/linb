@@ -670,9 +670,9 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
             type:{
                 ini:'combobox',
                 listbox:_.toArr('none,combobox,listbox,upload,getter,helpinput,cmdbox,popbox,timepicker,datepicker,colorpicker,spin'),
-                set:function(value, flag){
+                set:function(value, force){
                     return this.each(function(pro){
-                        if(pro.properties.type!=value||flag){
+                        if(pro.properties.type!=value||force){
                             pro.properties.type=value;
                             pro.box._iniType(pro);
                             if(pro.domNode)

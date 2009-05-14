@@ -8756,11 +8756,11 @@ Class('linb.absObj',"linb.absBox",{
                     //custom set
                     t = o.set;
                     m = ps[n];
-                    ps[n] = typeof t=='function' ? Class._fun(t,n,self.KEY) : typeof m=='function' ? m : Class._fun(function(value,flag){
+                    ps[n] = typeof t=='function' ? Class._fun(t,n,self.KEY) : typeof m=='function' ? m : Class._fun(function(value,force){
                         return this.each(function(v){
                             if(!v.properties)return;
                             //if same return
-                            if(v.properties[i] === value && !flag)return;
+                            if(v.properties[i] === value && !force)return;
                             var ovalue = v.properties[i],
                                 m = _.get(v.box.$DataModel, [i, 'action']);
                             v.properties[i] = value;
@@ -12322,9 +12322,9 @@ Class("linb.absList", "linb.absObj",{
         $abstract:true,
         DataModel:{
             listKey:{
-                set:function(value, flag){
+                set:function(value, force){
                     return this.each(function(o){
-                        if(o.properties.listKey != value || flag){
+                        if(o.properties.listKey != value || force){
                             var t = o.box.getCachedData(value);
                             if(t)
                                 o.boxing().setItems(t);
@@ -12461,12 +12461,12 @@ Class("linb.absValue", "linb.absObj",{
                 combobox:function(){
                     return _.toArr(linb.DataBinder._pool,true);
                 },
-                set:function(value,flag){
+                set:function(value,force){
                     var ds,r;
                     return this.each(function(profile){
                         var p=profile.properties,
                             old = p.dataBinder;
-                        if(old==value && !flag)return;
+                        if(old==value && !force)return;
                         if(old)
                             linb.DataBinder._unBind(old, profile);
                         p.dataBinder=value;
@@ -12479,14 +12479,14 @@ Class("linb.absValue", "linb.absObj",{
             // setValue and getValue
             value:{
                 ini:null,
-                set:function(value, flag){
+                set:function(value, force){
                     this.each(function(profile){
                         var p=profile.properties,r,
                             ovalue = p.value,
                             box=profile.boxing(),
                             nv=value;
                         //check value
-                        if(ovalue!==nv || flag){
+                        if(ovalue!==nv || force){
                             //check format
                             if(profile.box._checkValid(profile, nv)===false)return;
                             //if return false in beforeValueSet, not set
@@ -17336,9 +17336,9 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
             type:{
                 ini:'combobox',
                 listbox:_.toArr('none,combobox,listbox,upload,getter,helpinput,cmdbox,popbox,timepicker,datepicker,colorpicker,spin'),
-                set:function(value, flag){
+                set:function(value, force){
                     return this.each(function(pro){
-                        if(pro.properties.type!=value||flag){
+                        if(pro.properties.type!=value||force){
                             pro.properties.type=value;
                             pro.box._iniType(pro);
                             if(pro.domNode)
@@ -25099,6 +25099,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
         _setCtrlValue:function(value){
             return this.each(function(profile){
                 if(!profile.domNode)return;
+                if(profile.properties.activeMode=='none')return;
 
                 var box = profile.boxing(),
                     uiv = box.getUIValue(),
@@ -26938,13 +26939,17 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
             },
             activeMode:{
                 ini:'row',
-                listbox:['row','cell'],
+                listbox:['row','cell','none'],
                 action:function(value){
                     var profile=this;
-                    if(profile.$activeCell)
+                    if(value!='cell' && profile.$activeCell){
                         linb(profile.$activeCell).tagClass('-active',false);
-                    if(profile.$activeRow)
+                        delete profile.$activeCell;
+                    }
+                    if(value!='row' && profile.$activeRow){
                         linb(profile.$activeRow).tagClass('-active',false);
+                        delete profile.$activeRow;
+                    }
                 }
             }
         },
@@ -26992,9 +26997,9 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
             if(typeof flag=='number')
                 w=flag;
             else if(flag===true){
-                var ws=[];
+                var ws=[],t;
                 profile.getSubNode('FCELLINN',true).each(function(o){
-                    if(o.parentNode.parentNode.offsetWidth>0)
+                    if((t=o.parentNode).parentNode.offsetWidth>0 && linb.Dom.getStyle(t,'overflow')!='visible')
                         if(n=map[profile.getSubId(o.id)])
                             ws.push(linb([o]).width() + n._layer*ww);
                 });

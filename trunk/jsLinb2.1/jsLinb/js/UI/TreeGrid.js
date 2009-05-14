@@ -8,6 +8,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
         _setCtrlValue:function(value){
             return this.each(function(profile){
                 if(!profile.domNode)return;
+                if(profile.properties.activeMode=='none')return;
 
                 var box = profile.boxing(),
                     uiv = box.getUIValue(),
@@ -1847,13 +1848,17 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
             },
             activeMode:{
                 ini:'row',
-                listbox:['row','cell'],
+                listbox:['row','cell','none'],
                 action:function(value){
                     var profile=this;
-                    if(profile.$activeCell)
+                    if(value!='cell' && profile.$activeCell){
                         linb(profile.$activeCell).tagClass('-active',false);
-                    if(profile.$activeRow)
+                        delete profile.$activeCell;
+                    }
+                    if(value!='row' && profile.$activeRow){
                         linb(profile.$activeRow).tagClass('-active',false);
+                        delete profile.$activeRow;
+                    }
                 }
             }
         },
@@ -1901,9 +1906,9 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
             if(typeof flag=='number')
                 w=flag;
             else if(flag===true){
-                var ws=[];
+                var ws=[],t;
                 profile.getSubNode('FCELLINN',true).each(function(o){
-                    if(o.parentNode.parentNode.offsetWidth>0)
+                    if((t=o.parentNode).parentNode.offsetWidth>0 && linb.Dom.getStyle(t,'overflow')!='visible')
                         if(n=map[profile.getSubId(o.id)])
                             ws.push(linb([o]).width() + n._layer*ww);
                 });

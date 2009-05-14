@@ -76,7 +76,7 @@ _.set(linb.Locale,["en","doc"], {
                     "arr [Required]: Array, target array.",
                     "fun [Required]: Function, arguments: [array element, array index]. The function to apply to array item.",
                     "scope [Optional]: Object, [this] pointer for [fun]. Default is [arr].",
-                    "order [Optional]: Bool, iterate by descend order. Default is false."
+                    "order [Optional]: Boolean, iterate by descend order. Default is false."
                 ],
                 $snippet:[
                     "_.arr.each(['a','b'], function(o,i){alert(i+':'+o);} )",
@@ -88,7 +88,7 @@ _.set(linb.Locale,["en","doc"], {
                 $rtn:'Number',
                 $paras: [
                     "arr [Required]: Array, target array.",
-                    "value [Required]: Any, element to locate in the array."
+                    "value [Required]: Object, element to locate in the array."
                 ],
                 $snippet:[
                     "var a=[1,2,3,4];alert(_.arr.indexOf(a, 3))"
@@ -99,9 +99,9 @@ _.set(linb.Locale,["en","doc"], {
                 $rtn:'Number',
                 $paras: [
                     "arr [Required]: Array, target array.",
-                    "target [Required]: Any, elements to add.",
+                    "target [Required]: Object, elements to add.",
                     "index [Optional]: Number, the specified position. Default is -1.",
-                    "flag [Optional]: Bool, force to take [target] as a single element.  Default is false."
+                    "flag [Optional]: Boolean, force to take [target] as a single element.  Default is false."
                 ],
                 $snippet:[
                     "var a=[1,2,3]; _.arr.insertAny(a,5,1);alert(a)",
@@ -126,7 +126,7 @@ _.set(linb.Locale,["en","doc"], {
                 $rtn:'Array',
                 $paras: [
                     "arr [Required] : Array, target array.",
-                    "value: Any, element to be removed."
+                    "value: Object, element to be removed."
                 ],
                 $snippet:[
                     "var a=[1,2,3,4,5]; _.arr.removeValue(a, 4); alert(a);"
@@ -138,7 +138,7 @@ _.set(linb.Locale,["en","doc"], {
                 $paras: [
                     "arr [Required]: Array, target array.",
                     "key [Required]: String, a specified key in the hash element.",
-                    "value [Required]: Any, a specified value in the hash element."
+                    "value [Required]: Object, a specified value in the hash element."
                 ],
                 $snippet:[
                     "var a=[1,2,{k:'v'},4]; var i=_.arr.subIndexOf(a,'k','v'); alert(i);"
@@ -149,7 +149,7 @@ _.set(linb.Locale,["en","doc"], {
             $desc:"Asynchronous Function Call.",
             $rtn:"Interger",
             $paras:[
-                "fun [Required]: Funcition, target function.",
+                "fun [Required]: Function, target function.",
                 "defer [Optional]: Number, setTimeout defer time. Default is 0",
                 "args [Optional]: Array, arguments for fun. Default is []",
                 "scope [Optional]: Object, [this] pointer for [fun]. Default is [window]"
@@ -216,7 +216,7 @@ _.set(linb.Locale,["en","doc"], {
             ]
         },
         exists:{
-            $desc:"Equals to [target==undefined].",
+            $desc:"Equals to [target===undefined].",
             $rtn:"Boolean",
             $paras:[
                 "target [Required]: Object, target Object."
@@ -231,7 +231,7 @@ _.set(linb.Locale,["en","doc"], {
             $paras:[
                 "obj [Required]: Object, Object to filter.",
                 "filter [Optional]: Function, arguments: [hash value, hash key]. to Determines whether or not it keeps certain item. Or [true], means to filter those items which key starts with '_'.",
-                "force [Optional]: Bool, force to take [obj] as a {}. Default is false."
+                "force [Optional]: Boolean, force to take [obj] as a {}. Default is false."
             ],
             $snippet:[
                 "var o={a:1,b:2}; _.filter(o,function(o,i){return i!='b'}); alert(_.serialize(o))",
@@ -307,7 +307,7 @@ _.set(linb.Locale,["en","doc"], {
             ]
         },
         isBool :{
-            $desc:"To Determines whether or not the target is Bool.",
+            $desc:"To Determines whether or not the target is Boolean.",
             $rtn:"Boolean",
             $paras:[
                 "target [Required]: any"
@@ -540,7 +540,7 @@ _.set(linb.Locale,["en","doc"], {
         str:{
             endWith :{
                 $desc:"Tests if this string ends with the specified str.",
-                $rtn:'Bool',
+                $rtn:'Boolean',
                 $paras:[
                     "str [Required]: String, target string.",
                     "eStr [Required]: String, test string."
@@ -592,7 +592,7 @@ _.set(linb.Locale,["en","doc"], {
             },
             startWith :{
                     $desc:"Tests if this string starts with the specified str.",
-                    $rtn:'Bool',
+                    $rtn:'Boolean',
                     $paras:[
                         "str [Required]: String, target string.",
                         "sStr [Required]: String, test string."
@@ -602,7 +602,7 @@ _.set(linb.Locale,["en","doc"], {
                     ]
             },
             toDom:{
-                $desc:"To create DOM element based on the specified string.",
+                $desc:"To create Element based on the specified string.",
                 $rtn:'linb.Dom',
                 $paras:[
                     "str [Required]: String, target string."
@@ -627,7 +627,7 @@ _.set(linb.Locale,["en","doc"], {
             $rtn:"Array",
             $paras:[
                 "value [Required]: Object, target Object.",
-                "flag [Optional]: Bool , char, or [undefined]. [undefined] for trans arguments to Array, char for trans String to Arry, Bool for trans hash Object to Array. Default is [undefined]."
+                "force [Optional]: Boolean , char, or [undefined]. [undefined] for trans arguments to Array, char for trans String to Arry, Boolean for trans hash Object to Array. Default is [undefined]."
             ],
             $snippet:[
                 "var s='a,b,c', a=_.toArr(s); alert(_.serialize(a));",
@@ -641,10 +641,10 @@ _.set(linb.Locale,["en","doc"], {
             $desc:"To try to run a function.",
             $rtn:"Object",
             $paras:[
-                "fun [Required]: Function. Function to run.",
+                "fun [Required]: Function, Function to run.",
                 "args [Optional]: Array, Arguments for fun.",
                 "scope [Optional]: Object, [this] pointer for [fun].",
-                "df [Optional]: Any. Default return value of fun( if [fun] is not a Function)"
+                "df [Optional]: Object, Default return value of fun( if [fun] is not a Function)"
             ],
             $snippet:[
                 "alert(_.tryF()); alert(_.tryF('s')); alert(_.tryF(4,null,null,true)); ",
@@ -672,16 +672,16 @@ _.set(linb.Locale,["en","doc"], {
 });
 
 _.set(linb.Locale,["en","doc","linb"], {
-    $desc:"A shortcut function to create a linb.Dom Object to wrap a set of DOM elements.",
+    $desc:"A shortcut function to create a linb.Dom Object to wrap a set of Elements.",
     $rtn:"linb.Dom",
     $paras:[
-        "nodes [Optional]: Any, any variable to match a set of DOM elements. Maybe a [DOM element], a [DOM element] array, a [DOM element id] or a [DOM element id] array. Default is [].",
-        "flag [Optional]: Bool, ignore clean function(for better performance) or not. Default is false."
+        "nodes [Optional]: Element/Element[]/String/String[], any variable to match a set of Elements. Maybe a [Element], a [Element] array, a [Element id] or a [Element id] array. Default is [].",
+        "flag [Optional]: Boolean, ignore clean function(for better performance) or not. Default is false."
     ],
     $snippet:[
-        "//Input DOM element id \n var n=linb('btnLang'); alert(n.get(0).id);",
-        "//Input DOM element \n var n=linb(document.getElementById('btnLang')); alert(n.get(0).id);",
-        "//Input DOM element id array\n var n=linb(['btnLang']); alert(n.get(0).id);",
+        "//Input Element id \n var n=linb('btnLang'); alert(n.get(0).id);",
+        "//Input Element \n var n=linb(document.getElementById('btnLang')); alert(n.get(0).id);",
+        "//Input Element id array\n var n=linb(['btnLang']); alert(n.get(0).id);",
         "//Input DOM element array\n var n=linb([document.getElementById('btnLang')]); alert(n.get(0).id);",
         "//Input linb.Dom Object \n var n=linb(linb('btnLang')); alert(n.get(0).id);",
         "//Input linb.UI Object \n var n=linb(linb.UI.Div.getAll()); alert(n.get(0).id);",
@@ -689,41 +689,48 @@ _.set(linb.Locale,["en","doc","linb"], {
         "//Input '{linb.UI key}' \n var n=linb('{linb.UI.Div}'); alert(n.get(0).id);"
     ],
     isDomReady:{
-        $desc:"Boolean, Indicates whether or not the DOM is ready.",
+        $desc:"Indicates whether or not the DOM is ready.",
+        $rtn:"Boolean",
         $snippet:[
             "alert(linb.isDomReady)"
         ]
     },
     Locale: {
-        $desc:"String, linb.Locale is an hash Object for locale related info.",
-\        $snippet:[
+        $desc:"linb.Locale is an hash Object for locale related info.",
+        $rtn:"Object",
+        $snippet:[
             "_.each(linb.Locale.en,function(o,i){alert(i+':'+o)})"
         ],
         $memo:"Use linb.getRes([resource key]) to get Locale value"
     },
     browser:{
-        $desc:"Object, linb.browser is an hash Object for browser related info.",
+        $desc:"linb.browser is an hash Object for browser related info.",
+        $rtn:"Object",
         $snippet:[
             "alert(_.serialize(linb.browser))"
         ]
     },
     cache:{
-        $desc:"Object, linb.cache is an hash Object for cache related info.",
+        $desc:"linb.cache is an hash Object for cache related info.",
+        $rtn:"Object",
         $snippet:[
             "_.each(linb.cache,function(o,i){alert(i+':'+o)})"
         ]
     },
     ini:{
-        $desc:"Object, linb.ini is an hash Object collection for jsLinb path, application path and other path name. And, jsLinb will merge customized [linb_ini](You must declare [linb_ini] before jsLinb lib is loaded.) Object into [linb.ini] too.",
+        $desc:"linb.ini is an hash Object collection for jsLinb path, application path and other path name. And, jsLinb will merge customized [linb_ini](You must declare [linb_ini] before jsLinb lib is loaded.) Object into [linb.ini] too.",
+        $rtn:"Object",
         $snippet:[
             "alert(_.serialize(linb.ini))"
         ]
     },
     win:{
-        $desc:"linb.Dom, The shortcut of linb([window])."
+        $desc:"The shortcut of linb([window]).",
+        $rtn:"linb.Dom"
     },
     doc:{
-        $desc:"linb.Dom, The shortcut of linb([document])."
+        $desc:"The shortcut of linb([document]).",
+        $rtn:"linb.Dom"
     },
 
     create:{
@@ -1015,11 +1022,11 @@ _.set(linb.Locale,["en","doc","linb","Thread"], {
             $desc:"Resumes to execute the suspended thread.",
             $rtn:"[self]",
             $paras:[
-                "time [Optional]: undefined/Number/Bool.<br> "+
-                    "Number: Resumes to execute the next task after [time]ms. <br> "+
-                    "true: Resumes to execute the next task after [default delay]ms. <br> "+
-                    "false: Resumes to execute the next task after 0ms. <br> "+
-                    "undefined: Resumes to execute the next task after [the remaining time]. <br> "
+                "time [Optional]: undefined/Number/Boolean.<br> "+
+                "Number: Resumes to execute the next task after [time]ms. <br> "+
+                "true: Resumes to execute the next task after [default delay]ms. <br> "+
+                "false: Resumes to execute the next task after 0ms. <br> "+
+                "undefined: Resumes to execute the next task after [the remaining time]. <br> "
             ],
             $snippet:[
                 "linb.Thread('_bb',[function(){linb.message(1)},function(){linb.Thread('_bb').suspend();_.asyRun(function(){linb.Thread('_bb').resume()},3000)},function(){linb.message(2)}]).start();"
@@ -1076,7 +1083,7 @@ _.set(linb.Locale,["en","doc","linb","absIO"], {
         $rtn:"String",
         $paras:[
             "hash [Required]: Object, target Object to build query string.",
-            "flag [Optional]: Bool, true: to return 'a serialized String'. false: to return a 'A URL query string'."
+            "flag [Optional]: Boolean, true: to return 'a serialized String'. false: to return a 'A URL query string'."
         ],
         $snippet:[
             "alert(linb.absIO.buildQS({a:1,b:{aa:1,bb:2}},true)); alert(linb.absIO.buildQS({a:1,b:{aa:1,bb:2}}));"
@@ -1161,7 +1168,7 @@ _.set(linb.Locale,["en","doc","linb","Ajax"], {
     $desc:"To Create a linb.Ajax Object. <strong>linb.Ajax can handle GET/POST request in the current domain; linb.Ajax is the only one can handle the synchronous request.</strong>",
     $rtn:"linb.Ajax",
     $paras:[
-        "uri [Required]: String/Object. String -- The URL of the request target; Object(to see options) -- a set of key/value pairs that configure the request. If this parameter is Object, other parameters will be ignored.",
+        "uri [Required]: String/Object, String -- The URL of the request target; Object(to see options) -- a set of key/value pairs that configure the request. If this parameter is Object, other parameters will be ignored.",
         "query [Optional]:  Object[Key/value pairs], request data.",
         "onSuccess [Optional]: Function, arguments:[response Object, response type, threadid]. A function to be executed whenever the request is done successfully.",
         "onFail [Optional]: Function, arguments:[response Object, response type, threadid]. A function to be executed whenever the request fails.",
@@ -1172,7 +1179,7 @@ _.set(linb.Locale,["en","doc","linb","Ajax"], {
             "<br>&nbsp;&nbsp;uri: String, The URL of the request target."+
             "<br>&nbsp;&nbsp;query: Object[Key/value pairs], request data."+
             "<br>&nbsp;&nbsp;threadid: String, a thread id to be bound to the current request."+
-            "<br>&nbsp;&nbsp;asy: Bool, to Determines whether or not  the request is asynchronous. Default is [false]."+
+            "<br>&nbsp;&nbsp;asy: Boolean, to Determines whether or not  the request is asynchronous. Default is [false]."+
             "<br>&nbsp;&nbsp;<strong>method: 'GET' or 'POST', the request method. Default is 'GET'.</strong>"+
             "<br>&nbsp;&nbsp;retry: Number, how many times it is tried when the request is timeout."+
             "<br>&nbsp;&nbsp;timeout: Number, the timeout time(ms) for this request."+
@@ -1255,7 +1262,7 @@ _.set(linb.Locale,["en","doc","linb","SAjax"], {
     $desc:"To Create a linb.SAjax Object. <strong>linb.SAjax can handle GET request cross domain, but cant POST data.</strong>.",
     $rtn:"linb.SAjax",
     $paras:[
-        "uri [Required]: String/Object. String -- The URL of the request target; Object(to see options) -- a set of key/value pairs that configure the request. If this parameter is Object, other parameters will be ignored.",
+        "uri [Required]: String/Object, String -- The URL of the request target; Object(to see options) -- a set of key/value pairs that configure the request. If this parameter is Object, other parameters will be ignored.",
         "query [Optional]:  Object[Key/value pairs], request data.",
         "onSuccess [Optional]: Function, arguments:[response Object, response type, threadid]. A function to be executed whenever the request is done successfully.",
         "onFail [Optional]: Function, arguments:[response Object, response type, threadid]. A function to be executed whenever the request fails.",
@@ -1454,7 +1461,7 @@ _.set(linb.Locale,["en","doc","linb","SC"], {
     $paras:[
         "path [Required]: String, path name of a class/Object(e.g. 'linb.UI.Button').",
         "callback [Optional]: Function, arguments:[path, code, threadid]. A function to be executed whenever the straight call returns. If returns successfully, [path] will be the [path name], and [this] pointer will be the result class/Object; if fails, [path] will be [null], and [this] pointer will be the inner linb.Ajax/iajax Object.",
-        "isAsy [Optional]: Bool, to Determines whether or not  the current SC is in asynchronous Mode. If the target class exists, this parameter is invalide. Default is [false].",
+        "isAsy [Optional]: Boolean, to Determines whether or not  the current SC is in asynchronous Mode. If the target class exists, this parameter is invalide. Default is [false].",
         "threadid [Optional]: String, a thread id to be bound to the current request. [suspend the thread -> execute the request -> resume the thread]",
         "options [Optional]: Object, a set of key/value pairs that configure the inner linb.Ajax(asynchronous mode) or linb.SAjax(synchronous mode)."
     ],
@@ -1605,9 +1612,9 @@ _.set(linb.Locale,["en","doc","linb","Event"], {
         $rtn:'[self]',
         $paras:[
             "key [Required] : String, keyboard name to be monitored.",
-            "ctrl [Optional] : Bool, to Determines whether or not it monitors 'CTRL' status. Default is [false].",
-            "shift [Optional] : Bool, to Determines whether or not it monitors 'SHIFT' status. Default is [false].",
-            "alt [Optional] : Bool, to Determines whether or not it monitors 'ALT' status. Default is [false].",
+            "ctrl [Optional] : Boolean, to Determines whether or not it monitors 'CTRL' status. Default is [false].",
+            "shift [Optional] : Boolean, to Determines whether or not it monitors 'SHIFT' status. Default is [false].",
+            "alt [Optional] : Boolean, to Determines whether or not it monitors 'ALT' status. Default is [false].",
             "fun [Optional] : Function, the hook function that will be executed whenever the pre-defined condition is triggered. If you do not specify this parameter, or enter a non-function variable, system will remove the event hook by the [key](keyboard name).",
             "args [Optional]: Array, arguments for fun. Default is []",
             "scope [Optional]: Object, [this] pointer for [fun]. Default is [window]"
@@ -1623,7 +1630,7 @@ _.set(linb.Locale,["en","doc","linb","Event"], {
     popTabOutTrigger:{
          $desc:"Pops the latest 'TAB boundary DOM element' from the inner 'stack', and activates the previous one if it exists. Take a look at <a href='#linb.Event.pushTabOutTrigger'>linb.Event.pushTabOutTrigger</a>",
          $paras:[
-            "flag [Optional] : Bool, to force to clear the inner 'stack'(pops all 'TAB boundary DOM elements' out).Default is [false]."
+            "flag [Optional] : Boolean, to force to clear the inner 'stack'(pops all 'TAB boundary DOM elements' out).Default is [false]."
          ],
          $rtn:'[self]'
     },
@@ -1665,7 +1672,7 @@ _.set(linb.Locale,["en","doc","linb","absBox"],{
         $rtn: "linb.absBox",
         $paras:[
             "arr [Required] : Array, a set of value. ",
-            "ensureValue [Optional] : Bool, force to ensure value. Default is true. "
+            "ensureValue [Optional] : Boolean, force to ensure value. Default is true. "
         ],
         $snippet:[
             "var nodes = linb.Dom.pack(['btnLang',document.getElementById('btnLang')]); alert(nodes.get(0).id)"
@@ -1705,7 +1712,7 @@ _.set(linb.Locale,["en","doc","linb","absBox"],{
         },
         isEmpty:{
             $desc:"To Determines if the current linb.absBox Object includes any element.",
-            $rtn:"Bool.",
+            $rtn:"Boolean.",
             $snippet:[
                 "var n=linb(['linb.UI.Layout:a:','btnLang']); alert(n.isEmpty()); alert(linb().isEmpty())"
             ]
@@ -1725,7 +1732,7 @@ _.set(linb.Locale,["en","doc","linb","absBox"],{
             $trn:"linb.absBox",
             $paras:[
                 "key [Optional] : new linb.absBox class name.",
-                "ensureValue [Optional] : Bool, force to ensure value. Default is true. "
+                "ensureValue [Optional] : Boolean, force to ensure value. Default is true. "
             ],
             $snippet:[
                 "alert(linb('linb.UI.Layout:a:').KEY);alert(linb('linb.UI.Layout:a:').reBoxing('linb.UI.Layout').KEY);"
@@ -1757,7 +1764,7 @@ _.set(linb.Locale,["en","doc","linb","Dom"], {
                 "<ul>"+
                     "<li><strong>fun [Optional] </strong>: Function, [this] pointer is the current element, arguments are [linb.DomProfile Object, DOM event Object, the current element].</li>"+
                     "<li><strong>label [Optional]</strong> : String, the event label.</li>"+
-                    "<li><strong>flag [Optional]</strong> : Bool, for remove event only. to indicate if remove all related event.</li>"+
+                    "<li><strong>flag [Optional]</strong> : Boolean, for remove event only. to indicate if remove all related event.</li>"+
                 "</ul>"+
                 "<p style='padding:5px;'><a href='#linb.Dom.prototype.afterClick' onclick='var n =linb(this).parent(5).query(\"a\",\"name\",\"linb.Dom.prototype.afterClick\").next().first(); if(n.next().css(\"display\")==\"none\")n.onClick()'><strong>Go to [onClick] for getting the code snippets!</strong></a></p>"
     },
@@ -1833,7 +1840,7 @@ _.set(linb.Locale,["en","doc","linb","Dom"], {
         $desc:"To get the specified css property from the target DOM element.",
         $rtn:"String",
         $paras:[
-            "node [Required] : Dom element, target Dom element.",
+            "node [Required] : Element, target Element.",
             "name [Required] : String, the specified css property name."
         ],
         $snippet:[
@@ -1843,7 +1850,7 @@ _.set(linb.Locale,["en","doc","linb","Dom"], {
     setStyle:{
         $desc:"To set the specified css property to the target DOM element.",
         $paras:[
-            "node [Required] : Dom element, target Dom element.",
+            "node [Required] : Element, target Element.",
             "name [Required] : String, the specified css property name.",
             "value [Required] : String, the css property value to be set."
         ],
@@ -1854,7 +1861,7 @@ _.set(linb.Locale,["en","doc","linb","Dom"], {
     setCover:{
         $desc:"To set a special cover div to the top of the page, or to hide it.",
         $paras:[
-            "visible [Required] : Bool or String, true=>show the cover; false=>hide the cover; 'string'=>show the cover and the 'string'.",
+            "visible [Required] : Boolean or String, true=>show the cover; false=>hide the cover; 'string'=>show the cover and the 'string'.",
             "label [Optional] : String, the busy label. "
         ],
         $snippet:[
@@ -1883,7 +1890,7 @@ _.set(linb.Locale,["en","doc","linb","Dom"], {
             $desc:"To add a border to the first element. ",
             $rtn:"linb.UI.Border.",
             $paras:[
-                "properties [Optional] : key/value pairs, the properties of border. The most common usage: {borderActive: [bool]}."
+                "properties [Optional] : key/value pairs, the properties of border. The most common usage: {borderActive: [Boolean]}."
             ],
             $snippet:[
                 "var div=linb.create('<div style=\\\'background:#fff;position:absolute;border:solid 1px;width:100px;height:100px;left:100px;top:100px;z-index:20000;\\\'></div>');linb('body').append(div);_.asyRun(function(){div.addBorder()},1000);_.asyRun(function(){div.removeBorder()},2000);_.asyRun(function(){div.remove()},3000);",
@@ -1988,7 +1995,7 @@ _.set(linb.Locale,["en","doc","linb","Dom"], {
             $rtn:"[self]",
             $paras:[
                 "tag [Required] : String, tag name.",
-                "isAdd [Optional] : Bool, adds or removes. Default is [true]."
+                "isAdd [Optional] : Boolean, adds or removes. Default is [true]."
             ],
             $snippet:[
                 "var n=linb('btnLang');n.tagClass('-checked').tagClass('-mouseover');alert(n.attr('className')); n.tagClass('-checked',false).tagClass('-mouseover',false);alert(n.attr('className'));"
@@ -1999,7 +2006,7 @@ _.set(linb.Locale,["en","doc","linb","Dom"], {
             $rtn:"[self]",
             $paras:[
                 "target [Required] : a linb.Dom Object(including a set of DOM elements or linb.UIProile objects).",
-                "reversed [Optional] : Bool, if it's [true], that means 'append to' Default is [false]."
+                "reversed [Optional] : Boolean, if it's [true], that means 'append to' Default is [false]."
             ],
             $snippet:[
             "var id='linb.temp.1'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -2014,7 +2021,7 @@ _.set(linb.Locale,["en","doc","linb","Dom"], {
             $rtn:"[self]",
             $paras:[
                 "target [Required] : a linb.Dom Object(including a set of DOM elements or linb.UIProile objects).",
-                "reversed [Optional] : Bool, if it's [true], that means 'prepend to' Default is [false]."
+                "reversed [Optional] : Boolean, if it's [true], that means 'prepend to' Default is [false]."
             ],
             $snippet:[
             "var id='linb.temp.2'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -2029,7 +2036,7 @@ _.set(linb.Locale,["en","doc","linb","Dom"], {
             $rtn:"[self]",
             $paras:[
                 "target [Required] : a linb.Dom Object(including a set of DOM elements or linb.UIProile objects).",
-                "reversed [Optional] : Bool, if it's [true], that means 'addPrev to' Default is [false]."
+                "reversed [Optional] : Boolean, if it's [true], that means 'addPrev to' Default is [false]."
             ],
             $snippet:[
             "var id='linb.temp.3'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -2045,7 +2052,7 @@ _.set(linb.Locale,["en","doc","linb","Dom"], {
             $rtn:"[self]",
             $paras:[
                 "target [Required] : a linb.Dom Object(including a set of DOM elements or linb.UIProile objects).",
-                "reversed [Optional] : Bool, if it's [true], that means 'addNext to' Default is [false]."
+                "reversed [Optional] : Boolean, if it's [true], that means 'addNext to' Default is [false]."
             ],
             $snippet:[
             "var id='linb.temp.4'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -2073,7 +2080,7 @@ _.set(linb.Locale,["en","doc","linb","Dom"], {
             $rtn:"Object/[self]",
             $paras:[
                 "pos [Optional] : {left:value,top:value}, the target abs position.",
-                "flag [Optional] : Bool, to trigger element onLocation event. Default is false."
+                "flag [Optional] : Boolean, to trigger element onLocation event. Default is false."
             ],
             $snippet:[
                 "var n=linb(this),pos=n.cssPos(); pos.top+=20;pos.left+=20; n.css('position','relative').cssPos(pos); n.onLocation(function(){linb.message('Fired onlocation event')});pos.top+=20;pos.left+=20; n.cssPos(pos,true); _.asyRun(function(){n.css({top:'',position:''}).onLocation(null)},1000)"
@@ -2256,7 +2263,7 @@ _.set(linb.Locale,["en","doc","linb","Dom"], {
             $desc:"Creates copies of the set of elements.",
             $rtn:"linb.Dom",
             $paras:[
-                "deep [Optional] : Bool. This parameter indicates if the cloned node should include all child elementes of the original element. Default is [false]."
+                "deep [Optional] : Boolean, This parameter indicates if the cloned node should include all child elementes of the original element. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.w11'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div style=\"border:solid 1px;padding:10px;\">' + '<div id='+id+' style=\"background:#ccc;border:solid 1px;padding:10px;\"><div style=\"background:#fff;border:solid 1px;padding:10px;\">inner<input /></div>outer</div> <br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -2282,7 +2289,7 @@ _.set(linb.Locale,["en","doc","linb","Dom"], {
             $rtn:"Object/[self]",
             $paras:[
                 "pos [Optional] : {left:Number or String,top:Number or String}.",
-                "triggerEvent [Optional] : Bool, indicates if the 'set' action trigger related event or not."
+                "triggerEvent [Optional] : Boolean, indicates if the 'set' action trigger related event or not."
 
             ],
             $snippet:[
@@ -2294,7 +2301,7 @@ _.set(linb.Locale,["en","doc","linb","Dom"], {
             $rtn:"Object/[self]",
             $paras:[
                 "value [Optional] : {width:Number or String,height:Number or String}.",
-                "triggerEvent [Optional] : Bool, indicates if the 'set' action trigger related event or not."
+                "triggerEvent [Optional] : Boolean, indicates if the 'set' action trigger related event or not."
             ],
             $snippet:[
                 "var n=linb('btnLang'), bak=n.cssSize(); n.cssSize({width:50,height:50}); alert(_.serialize(n.cssSize())); n.cssSize(bak)"
@@ -2305,7 +2312,7 @@ _.set(linb.Locale,["en","doc","linb","Dom"], {
             $rtn:"Object/[self]",
             $paras:[
                 "value [Optional] : {left:Number or String,top:Number or String,right:Number or String,bottom:Number or String,width:Number or String,height:Number or String}.",
-                "triggerEvent [Optional] : Bool, indicates if the 'set' action trigger related event or not."
+                "triggerEvent [Optional] : Boolean, indicates if the 'set' action trigger related event or not."
             ],
             $snippet:[
                 "var n=linb('btnLang'),bak=n.cssRegion(); n.cssRegion({left:100,top:100,width:50,height:50}); alert(_.serialize(n.cssRegion())); bak.left=bak.top='auto'; n.cssRegion(bak);"
@@ -2332,7 +2339,7 @@ _.set(linb.Locale,["en","doc","linb","Dom"], {
                 "e [Required] : DOM [event] Object.",
                 "profile [Optional] : key/value Object. Go <strong>linb.DragDrop.startDrag</strong> for the profile struct detail.",
                 "dragKey [Optional] : String, dragKey for drag data.",
-                "dragData [Optional] : Any, the dragged [data]."
+                "dragData [Optional] : Object, the dragged [data]."
             ],
             $snippet:[
                 "var id='linb.temp.dd0'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div style=\"border:solid 1px;padding:10px;\"><button id='+id+'>drag me</button>' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -2345,10 +2352,10 @@ _.set(linb.Locale,["en","doc","linb","Dom"], {
             $desc:"Enables/Disables the draggable functionality on the set of elements.",
             $rtn:"[self]",
             $paras:[
-                "flag [Required] : Bool. [true]: enables draggable functionality; [false]: disables draggable functionality. Default is [true]",
+                "flag [Required] : Boolean, [true]: enables draggable functionality; [false]: disables draggable functionality. Default is [true]",
                 "profile [Optional] : key/value Object. Go <strong>linb.DragDrop.startDrag</strong> for the profile struct detail.",
                 "key [Optional] : String, the [key] for drag data.",
-                "data [Optional] : Any, the dragged [data]."
+                "data [Optional] : Object, the dragged [data]."
             ],
             $snippet:[
                 "var id='linb.temp.dd_a'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:80px;\">' + '<div id='+id+'a style=\"background:#ccc;position:absolute;border:solid 1px;padding:15px;left:10px;top:30px;\">1</div>' + '<div id='+id+'b style=\"background:#ccc;position:absolute;border:solid 1px;padding:15px;left:50px;top:30px;\">2</div>'+ '<div id='+id+'c style=\"background:#ccc;position:absolute;border:solid 1px;padding:15px;left:100px;top:30px;\">3</div>'+ '<div id='+id+'d style=\"background:#ccc;position:absolute;border:solid 1px;padding:15px;left:150px;top:30px;\">4</div>'+ '<div id='+id+'e style=\"background:#ccc;position:absolute;border:solid 1px;padding:15px;left:200px;top:30px;\">5</div>'+ '<div id='+id+'f style=\"background:#ccc;position:absolute;border:solid 1px;padding:15px;left:250px;top:30px;\">6</div>'+ '<div id='+id+'g style=\"background:#ccc;position:absolute;border:solid 1px;padding:15px;left:300px;top:30px;\">7</div>'+ '<div id='+id+'h style=\"background:#ccc;position:absolute;border:solid 1px;padding:15px;left:350px;top:30px;\">8</div>'+ '<div id='+id+'i style=\"background:#ccc;position:absolute;border:solid 1px;padding:15px;left:400px;top:30px;\">9</div>'+ ' <button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));" +
@@ -2370,7 +2377,7 @@ _.set(linb.Locale,["en","doc","linb","Dom"], {
             $desc:"Enables/Disables the dropable functionality on the set of elements.",
             $rtn:"[self]",
             $paras:[
-                "flag [Required] : Bool. [true]: enables dropable functionality; [false]: disables dropable functionality. Default is [true]",
+                "flag [Required] : Boolean, [true]: enables dropable functionality; [false]: disables dropable functionality. Default is [true]",
                 "key [Required] : String, the [key] for dropable data. Default is 'default'."
             ],
             $snippet:[
@@ -2384,7 +2391,7 @@ _.set(linb.Locale,["en","doc","linb","Dom"], {
             $desc:"Removes all child nodes from the set of elements.",
             $rtn:"[self]",
             $paras:[
-                "triggerGC [Optional] : Bool, indicates if trigger GC function."
+                "triggerGC [Optional] : Boolean, indicates if trigger GC function."
             ],
             $snippet:[
                 "var id='linb.temp.empty'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div style=\"border:solid 1px;padding:20px;position:relative;height:150px;\">' + '<div id='+id+' style=\"position:absolute;border:solid 1px;padding:20px;left:10px;top:30px;\">content in div<br /><button onclick=\"linb(\\\''+id+'\\\').empty()\">Empty me</button></div>'+ '<button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -2395,7 +2402,7 @@ _.set(linb.Locale,["en","doc","linb","Dom"], {
             $desc:"Removes the set of elements from DOM.",
             $rtn:"[self]",
             $paras:[
-                "triggerGC [Optional] : Bool, indicates if trigger GC function."
+                "triggerGC [Optional] : Boolean, indicates if trigger GC function."
             ],
             $snippet:[
                 "var id='linb.temp.empty'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div style=\"border:solid 1px;padding:10px;\">content in div'+ '<button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -2407,7 +2414,7 @@ _.set(linb.Locale,["en","doc","linb","Dom"], {
             $rtn:"linb.Dom",
             $paras:[
                 "target [Required] : linb.Dom Object including the target elements.",
-                "triggerGC [Optional] : Bool, indicates if trigger GC function."
+                "triggerGC [Optional] : Boolean, indicates if trigger GC function."
             ],
             $snippet:[
                 "var id='linb.temp.replace'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div style=\"border:solid 1px;padding:10px;\"><div id='+id+' style=\"border:solid 1px;padding:5px;\"></div>' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -2440,7 +2447,7 @@ _.set(linb.Locale,["en","doc","linb","Dom"], {
             $desc:"Enables or disables selectable functionality on the set of elements.",
             $rtn:"[self]",
             $paras:[
-                "value [Optional] : Bool. Default is [false]."
+                "value [Optional] : Boolean, Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.ssable'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div  style=\"border:solid 1px;padding:10px;\"><div id='+id+'1  style=\"border:solid 1px;padding:5px;\">selectable</div><div id='+id+'2 style=\"border:solid 1px;padding:5px;\">not selectable</div>' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -2512,7 +2519,7 @@ _.set(linb.Locale,["en","doc","linb","Dom"], {
             $desc:"Sets focus to the first element, if it's can be focused.",
             $rtn:"[self]",
             $paras:[
-                "force [Optional] : Bool, force to set focus."
+                "force [Optional] : Boolean, force to set focus."
             ],
             $snippet:[
                 "var id='linb.temp.1'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -2525,7 +2532,7 @@ _.set(linb.Locale,["en","doc","linb","Dom"], {
             $rtn:"[self]",
             $paras:[
                 "offset [Required] : Number, the offset value.",
-                "triggerEvent [Optional] : Bool, indicates if the 'set' action trigger related event or not."
+                "triggerEvent [Optional] : Boolean, indicates if the 'set' action trigger related event or not."
             ],
             $snippet:[
                 "var id='linb.temp.leftBy'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div style=\"position:relative;height:50px;border:solid 1px;padding:10px;\"><input style=\"position:absolute;left:0;top:0;\" id='+id+' />' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -2538,7 +2545,7 @@ _.set(linb.Locale,["en","doc","linb","Dom"], {
             $rtn:"[self]",
             $paras:[
                 "offset [Required] : Number, the offset value.",
-                "triggerEvent [Optional] : Bool, indicates if the 'set' action trigger related event or not."
+                "triggerEvent [Optional] : Boolean, indicates if the 'set' action trigger related event or not."
             ],
             $snippet:[
                 "var id='linb.temp.topBy'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div style=\"position:relative;height:50px;border:solid 1px;padding:10px;\"><input style=\"position:absolute;left:0;top:0;\" id='+id+' />' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -2551,7 +2558,7 @@ _.set(linb.Locale,["en","doc","linb","Dom"], {
             $rtn:"[self]",
             $paras:[
                 "offset [Required] : Number, the offset value.",
-                "triggerEvent [Optional] : Bool, indicates if the 'set' action trigger related event or not."
+                "triggerEvent [Optional] : Boolean, indicates if the 'set' action trigger related event or not."
             ],
             $snippet:[
                 "var id='linb.temp.widthBy'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div style=\"position:relative;height:50px;border:solid 1px;padding:10px;\"><input style=\"position:absolute;left:0;top:0;\" id='+id+' />' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -2564,7 +2571,7 @@ _.set(linb.Locale,["en","doc","linb","Dom"], {
             $rtn:"[self]",
             $paras:[
                 "offset [Required] : Number, the offset value.",
-                "triggerEvent [Optional] : Bool, indicates if the 'set' action trigger related event or not."
+                "triggerEvent [Optional] : Boolean, indicates if the 'set' action trigger related event or not."
             ],
             $snippet:[
                 "var id='linb.temp.heightBy'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div style=\"position:relative;height:50px;border:solid 1px;padding:10px;\"><input style=\"position:absolute;left:0;top:0;\" id='+id+' />' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -2607,7 +2614,7 @@ _.set(linb.Locale,["en","doc","linb","Dom"], {
             $rtn:"String/[self]",
             $paras:[
                 "content [Optional] : String, innerHTML content.",
-                "triggerGC [Optional] : Bool, indicates if trigger GC function."
+                "triggerGC [Optional] : Boolean, indicates if trigger GC function."
             ],
             $snippet:[
                 "var id='linb.temp.html1'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div style=\"border:solid 1px;padding:10px;\"><div style=\"padding:5px;border:solid 1px;\" id='+id+' ></div>' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -2620,7 +2627,7 @@ _.set(linb.Locale,["en","doc","linb","Dom"], {
             $rtn:"String/[self]",
             $paras:[
                 "content [Optional] : String, outerHTML content.",
-                "triggerGC [Optional] : Bool, indicates if trigger GC function."
+                "triggerGC [Optional] : Boolean, indicates if trigger GC function."
             ],
             $snippet:[
                 "var id='linb.temp.html1'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div style=\"border:solid 1px;padding:10px;\"><div style=\"padding:5px;border:solid 1px;\" id='+id+' ></div>' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -2633,7 +2640,7 @@ _.set(linb.Locale,["en","doc","linb","Dom"], {
             $rtn:"String/[self]",
             $paras:[
                 "value [Optional] : String, DOM id value.",
-                "ignoreCache [Optional] : Bool, indicates if ignore to reset cache. Default is [false]"
+                "ignoreCache [Optional] : Boolean, indicates if ignore to reset cache. Default is [false]"
             ],
             $snippet:[
                 "var n=linb('btnLang'); n.id('logo2'); alert(n.id()); n.id('btnLang');"
@@ -2703,9 +2710,9 @@ _.set(linb.Locale,["en","doc","linb","Dom"], {
             $desc:"To get or set the next 'should be' focus(element).",
             $rtn:"linb.Dom",
             $paras:[
-                "downwards [Optional] : Bool, to indicate the 'next' is downwards([true]) or upwards([false]). Default is [true].",
-                "includeChild [Optional] : Bool, to indicate if the function to search the children elements. Default is [true].",
-                "setFocus [Optional] : Bool, to indicate if the function to set the focus to the result element. Default is [true]."
+                "downwards [Optional] : Boolean, to indicate the 'next' is downwards([true]) or upwards([false]). Default is [true].",
+                "includeChild [Optional] : Boolean, to indicate if the function to search the children elements. Default is [true].",
+                "setFocus [Optional] : Boolean, to indicate if the function to set the focus to the result element. Default is [true]."
             ],
             $snippet:[
                 "var id='linb.temp.nextFocus'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div style=\"position:relative;height:50px;border:solid 1px;padding:10px;\"><input value=upwards /><input id='+id+' /><button>downwards</button>' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -2765,7 +2772,7 @@ _.set(linb.Locale,["en","doc","linb","Dom"], {
             $desc:"Gets the minimum available zIndex value that can make the first element to be set to the most top layer; or set the first element to the most top layer directly.",
             $rtn:"Number/[self]",
             $paras:[
-                "flag [Optional] : Bool, indicates whether or not it sets the first element to the most top layer directly. Default is [false]."
+                "flag [Optional] : Boolean, indicates whether or not it sets the first element to the most top layer directly. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.tzi'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:130px;\">' + '<div id='+id+'1 style=\"z-index:1;background:#ccc;position:absolute;border:solid 1px;padding:50px;left:10px;top:30px;\">1</div>' + '<div id='+id+'2 style=\"z-index:2;background:#aaa;position:absolute;border:solid 1px;padding:50px;left:50px;top:30px;\">2</div>'+ '<div id='+id+'3 style=\"z-index:3;background:#888;position:absolute;border:solid 1px;padding:50px;left:100px;top:30px;\">3</div>'+ '<div id='+id+'4 style=\"z-index:4;background:#444;position:absolute;border:solid 1px;padding:50px;left:150px;top:30px;\">4</div>'+ ' <button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));" +
@@ -2944,7 +2951,7 @@ _.set(linb.Locale,["en","doc","linb","DragDrop"], {
             "<div>{<ul>" +
             "<li><strong>dragType</strong>: 'move','copy','deep_copy','shape','icon', 'blank' or 'none', default is 'shape';</li>"+
             "<li><strong>shadowFrom</strong>: DOM element or linb.Dom Object. It's valid when dragType=='icon';</li>"+
-            "<li><strong>targetReposition</strong>: Bool, does dd reset the target position, default is [true];</li>"+
+            "<li><strong>targetReposition</strong>: Boolean, does dd reset the target position, default is [true];</li>"+
 
             "<li><strong>dragIcon</strong>: String, the drag icon image path, default is [linb.ini.path+'ondrag.gif'].</li>"+
             "<li><strong>magneticDistance</strong>: Number, the magnetic distance, default is 0;</li>"+
@@ -2954,8 +2961,8 @@ _.set(linb.Locale,["en","doc","linb","DragDrop"], {
             "<li><strong>heightIncrement</strong>: Number, the height increment in vertical dir, default is 0;</li>"+
             "<li><strong>dragDefer</strong>: Number, when [linb.DragDrop.startDrag] is called, the real drag action will be triggered after [document.onmousemove] runs [dragDefer] times, default is 0;</li>"+
 
-            "<li><strong>horizontalOnly</strong>:Bool, drag horizontal dir only, default is [false];</li>"+
-            "<li><strong>verticalOnly</strong>: Bool, drag vertical dir only, default is [false];</li>"+
+            "<li><strong>horizontalOnly</strong>:Boolean, drag horizontal dir only, default is [false];</li>"+
+            "<li><strong>verticalOnly</strong>: Boolean, drag vertical dir only, default is [false];</li>"+
             "<li><strong>maxBottomOffset</strong>:Number, the offset between [the restricted bottom] and [the current mouse Y], for mouse restricted region, default is [null];</li>"+
             "<li><strong>maxLeftOffset</strong>:Number, the offset between [the restricted left] and [the current mouse X], for mouse restricted region, default is [null];</li>"+
             "<li><strong>maxRightOffset</strong>:Number, the offset between [the restricted right] and [the current mouse X], for mouse restricted region, default is [null];</li>"+
@@ -2964,7 +2971,7 @@ _.set(linb.Locale,["en","doc","linb","DragDrop"], {
             "<li><strong>targetNode</strong>: DOM element or linb.Dom Object, the drag target node;</li>"+
             "<li><strong>targetCSS</strong>: Number, the drag target node's css key/value Object, default is [null];</li>"+
             "<li><strong>dragKey</strong>: String, the drag key, default is [null];</li>"+
-            "<li><strong>dragData</strong>: Any, the drag data, default is [null];</li>"+
+            "<li><strong>dragData</strong>: Object, the drag data, default is [null];</li>"+
             "<li><strong>targetLeft</strong>: Number, the drag target node's css left, default is [null];</li>"+
             "<li><strong>targetTop</strong>: Number, the drag target node's css top, default is [null];</li>"+
             "<li><strong>targetWidth</strong>: Number, the drag target node's css width, default is [null];</li>"+
@@ -2978,7 +2985,7 @@ _.set(linb.Locale,["en","doc","linb","DragDrop"], {
             "<li><strong>oy</strong>: Number, original Y value of mouse; <strong>[readonly]</strong></li>"+
             "<li><strong>curPos</strong>: {left:Number,top:Number}, current css pos of the dragging node <strong>[readonly]</strong></li>"+
             "<li><strong>offset</strong>: {x:Number,y:Number}, offset from now to origin <strong>[readonly]</strong></li>"+
-            "<li><strong>isWorking</strong>: Bool, is dd working or not? <strong>[readonly]</strong></li>"+
+            "<li><strong>isWorking</strong>: Boolean, is dd working or not? <strong>[readonly]</strong></li>"+
             "<li><strong>restrictedLeft</strong>: Number, the calculated restricted left value; <strong>[readonly]</strong></li>"+
             "<li><strong>restrictedRight</strong>: Number, the calculated restricted right value; <strong>[readonly]</strong></li>"+
             "<li><strong>restrictedTop</strong>: Number, the calculated restricted top value; <strong>[readonly]</strong></li>"+
@@ -2987,7 +2994,7 @@ _.set(linb.Locale,["en","doc","linb","DragDrop"], {
             "<li><strong>dropElement</strong>: String, the target drop element DOM id. <strong>[readonly]</strong></li>"+
             "</ul>}</div>",
             "dragKey [Optional] : String, dragKey for drag data.",
-            "dragData [Optional] : Any, the dragged [data]."
+            "dragData [Optional] : Object, the dragged [data]."
         ],
         $snippet:[
             "var id='linb.temp.ddo9'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div style=\"border:solid 1px;padding:10px;\"><button id='+id+'>drag me</button>' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -3004,7 +3011,7 @@ _.set(linb.Locale,["en","doc","linb","CSS"], {
         $paras:[
             "txt [Required] : String, css text.",
             "id [Optional] : String, element id. If a style element with this id exists in &lt;head> already, the function will be ignored.",
-            "backOf [Optional] : Bool, adds this style element at the back of &lt;head> or not. Default is false."
+            "backOf [Optional] : Boolean, adds this style element at the back of &lt;head> or not. Default is false."
         ],
         $snippet:[
             "var id='linb.temp.add'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' class=testadded style=\"border:solid 1px;padding:10px;\">' + '<button onclick=\"linb.CSS.addStyleSheet(\\\'.testadded{background:#ccc;}\\\',\\\'testadded\\\')\">addStyleSheet</button> - '+ '<button onclick=\"alert(linb.CSS.get(\\\'id\\\',\\\'testadded\\\'))\">get</button> - '+  '<button onclick=\"linb.CSS.remove(\\\'id\\\',\\\'testadded\\\')\">remove</button>'+ '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -3065,7 +3072,7 @@ _.set(linb.Locale,["en","doc","linb","CSS"], {
         $paras:[
             "href [Required] : String, the styleSheet file path.",
             "id [Optional] : String, the elment id value.",
-            "front [Optional] : Bool, adds this &lt;link> element in the front of &lt;head> nor not. Default is false.",
+            "front [Optional] : Boolean, adds this &lt;link> element in the front of &lt;head> nor not. Default is false.",
             "attr [Optional] : key/value Object, the &lt;link> element's attributes."
         ],
         $snippet:[
@@ -3098,7 +3105,7 @@ _.set(linb.Locale,["en","doc","linb","History"], {
         $desc:"Sets the Fragement Identifier string.",
         $paras:[
             "fi [Required] : String, the Fragement Identifier string",
-            "triggerCallback [Optional] : Bool, trigger callback function or not. Default is [true]."
+            "triggerCallback [Optional] : Boolean, trigger callback function or not. Default is [true]."
         ],
         $snippet:[
             "//linb.History.setCallback(function(str){alert('Fragement Identifier is: '+str)});\n"+
@@ -3128,7 +3135,7 @@ _.set(linb.Locale,["en","doc","linb","Cookies"], {
             "days [Optional] : Number, the expiry days after which the cookie is no longer valid. Default is 0.",
             "path [Optional] : String, the directory where the cookie is active. Default is the path of the current URL.",
             "domain [Optional] : String, the domain name of your site. Default is the domain of the current URL.",
-            "isSecure [Optional] : Bool, to indicate if the cookie may only be retrieved with a secure server. Default is [false]."
+            "isSecure [Optional] : Boolean, to indicate if the cookie may only be retrieved with a secure server. Default is [false]."
         ],
         $snippet:[
             "var o=linb.Cookies; o.set('a','b',1); alert(o.get('a')); o.remove('a'); alert(o.get('a')); "
@@ -3366,7 +3373,7 @@ _.set(linb.Locale,["en","doc","linb","Date"], {
         $paras:[
             "date [Required] : Date Object, the target date.",
             "timeZone [Required] : integer Number, the given time zone value.",
-            "back [Optional] : Bool, indicates whether or not is offsets back. Default is [false]."
+            "back [Optional] : Boolean, indicates whether or not is offsets back. Default is [false]."
         ],
         $snippet:[
             "var localDate = new Date, timezone9Date=linb.Date.offsetTimeZone(localDate, 9);"+
@@ -3452,7 +3459,7 @@ _.set(linb.Locale,["en","doc","linb","absProfile"], {
             $paras:[
                 "obj [Required] : Object or Array.",
                 "id [Required] : String, link id.",
-                "target [Optional] : Any, default is [self]."
+                "target [Optional] : Object, default is [self]."
             ],
             $snippet:[
                 "var profile=new linb.Profile(), a1=[],a2=[],a3=[]; profile.link(a1,'a').link(a2,'b').link(a3,'c'); alert(a1+':'+a2+':'+a3); profile.unLink('a'); alert(a1+':'+a2+':'+a3); profile.unLinkAll(); alert(a1+':'+a2+':'+a3); "
@@ -3492,8 +3499,8 @@ _.set(linb.Locale,["en","doc","linb","Profile"], {
             $desc:"To serialize the current profile to a string representation.",
             $rtn:"String",
             $paras:[
-                "rtnString [Optional] : Bool. to indicate whether it returns String or Object. Default is true.",
-                "keepHost [Optional] : Bool. to keep host Object link or not. Default is false."
+                "rtnString [Optional] : Boolean, to indicate whether it returns String or Object. Default is true.",
+                "keepHost [Optional] : Boolean, to keep host Object link or not. Default is false."
             ],
             $snippet:[
                 "alert(linb.UIProfile.getFromDom('btnLang').serialize());" +
@@ -3565,8 +3572,8 @@ _.set(linb.Locale,["en","doc","linb","UIProfile"], {
             $desc:"to serialize the current profile to a string representation.",
             $rtn:"String",
             $paras:[
-                "rtnString [Optional] : Bool. to indicate whether it return String or Object. Default is true.",
-                "keepHost [Optional] : Bool. to keep host Object link or not. Default is false."
+                "rtnString [Optional] : Boolean, to indicate whether it return String or Object. Default is true.",
+                "keepHost [Optional] : Boolean, to keep host Object link or not. Default is false."
             ],
             $snippet:[
                 "alert(linb.UIProfile.getFromDom('btnLang').serialize());" +
@@ -3625,9 +3632,9 @@ _.set(linb.Locale,["en","doc","linb","UIProfile"], {
              $paras:[
                 "items [Required] : A deep array.",
                 "fun [Required] : Function, query filter function.",
-                "deep [Optional] : Bool, indicates whether or not it queries the sub items. Default is [false].",
-                "single [Optional] : Bool, indicates whether or not it returns a single result. Default is [false].",
-                "flag [Optional] : Bool, indicates whether or not it returns mixed items. Default is [false]."
+                "deep [Optional] : Boolean, indicates whether or not it queries the sub items. Default is [false].",
+                "single [Optional] : Boolean, indicates whether or not it returns a single result. Default is [false].",
+                "flag [Optional] : Boolean, indicates whether or not it returns mixed items. Default is [false]."
             ],
             $snippet:[
                 "var profile=linb.UIProfile.getFromDom('linb.UI.TreeBar:a:'), items=[{id:'a'},{id:'.b',sub:[{id:'aa'},{id:'.bb'}]}], filter=function(o,i){return o.id.indexOf('.')!=-1},results= profile.queryItems(items,filter);alert(results.length);results= profile.queryItems(items,filter,true);alert(results.length);results= profile.queryItems(items,filter,true,true);alert(results.length);results= profile.queryItems(items,filter,false,true);alert(results.length);",
@@ -3830,7 +3837,7 @@ _.set(linb.Locale,["en","doc","linb","Template"], {
             $desc:"To get item data from a dom element.",
             $rtn:"Object",
             $paras:[
-                "src [Required] : Dom element"
+                "src [Required] : Element"
             ],
             $snippet:[
             "var id='linb.temp.0.1'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -3916,7 +3923,7 @@ _.set(linb.Locale,["en","doc","linb","Template"], {
             $rtn:"[self]",
             $paras:[
                 "key [Required] : String or Object.",
-                "value [Optional] : Any."
+                "value [Optional] : Object."
             ],
             $snippet:[
             "var id='linb.temp.tt2'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -4102,7 +4109,7 @@ _.set(linb.Locale,["en","doc","linb","Com"], {
             "cls [Required] : String, the full class path name(e.g. 'linb.App').",
             "onEnd [Optional]: Function, arguments : [the current linb.Com Object]. This function will be called after the process is end.",
             "lang [Optional] : String, language name.(e.g. 'en').",
-            "showUI [Optional] : Bool, indicates whether or not it shows the Com UI. Default is true;"
+            "showUI [Optional] : Boolean, indicates whether or not it shows the Com UI. Default is true;"
         ],
         $snippet:[
             "////Uses the beblow line to load a specified application, and append its UI to 'document.body' if its UI exits. \n"+
@@ -4192,7 +4199,7 @@ _.set(linb.Locale,["en","doc","linb","Com"], {
             $desc:"Sets a set of event functions(or a specified event function with a key) to the Com Object.",
             $rtn:"[self]",
             $paras:[
-                "key [Required] : key/value(Function) pairs or String. A set of event functions or key.",
+                "key [Required] : Object/String, A set of event functions or key.",
                 "value [Optional] : Function, event function."
             ],
             $snippet:[
@@ -4235,7 +4242,7 @@ _.set(linb.Locale,["en","doc","linb","Com"], {
             $paras:[
                 "onEnd [Optional]:  Function, the callback function, it must be called in the current composeUI function.",
                 "threadid [Optional] : String, the inner thread id.",
-                "flag [Optional] : Bool, a parameter for user to Determines whether or not  the current UI will be forced to compose."
+                "flag [Optional] : Boolean, a parameter for user to Determines whether or not  the current UI will be forced to compose."
             ],
             $memo:"For sub class overwriting."
         },
@@ -4244,7 +4251,7 @@ _.set(linb.Locale,["en","doc","linb","Com"], {
             $paras:[
                 "onEnd [Optional]:  Function, the callback function, it must be called in the current fillUI function.",
                 "threadid [Optional] : String, the inner thread id.",
-                "flag [Optional] : Bool, a parameter for user to Determines whether or not  the current UI will be forced to fill."
+                "flag [Optional] : Boolean, a parameter for user to Determines whether or not  the current UI will be forced to fill."
             ],
             $memo:"For sub class overwriting."
         },
@@ -4292,8 +4299,8 @@ _.set(linb.Locale,["en","doc","linb","Com"], {
             $desc:"Sets a set of Properties(or an specified Property with a key) to the current Com Object.",
             $rtn:"[self]",
             $paras:[
-                "key [Required] : key/value pairs or String. A set of Properties or key.",
-                "value [Optional] : Any, a property value."
+                "key [Required] : Object/String, A set of Properties or key.",
+                "value [Optional] : Object, a property value."
             ],
             $snippet:[
                 "linb.SC('App.Test1',function(){var com=new this; com.create(function(com){com.setProperties('p3','p3 value'); alert(com.getProperties('p3'))});},false);"
@@ -4321,7 +4328,7 @@ _.set(linb.Locale,["en","doc","linb","Com"], {
         beforeCreated:{
             $desc:'Fired before com is created.',
             $paras:[
-                'com : linb.Com Object.',
+                'com : linb.Com .',
                 'threadid : String, thread id.'
             ],
             $memo:'See constructor.'
@@ -4329,7 +4336,7 @@ _.set(linb.Locale,["en","doc","linb","Com"], {
         onCreated:{
             $desc:'Fired when com is created.',
             $paras:[
-                'com : linb.Com Object.',
+                'com : linb.Com .',
                 'threadid : String, thread id.'
             ],
             $memo:'See constructor.'
@@ -4337,7 +4344,7 @@ _.set(linb.Locale,["en","doc","linb","Com"], {
         onLoadBaseClass:{
             $desc:'Fired when com loads base classes.',
             $paras:[
-                'com : linb.Com Object.',
+                'com : linb.Com .',
                 'threadid : String, thread id.',
                 'key: String, base class name.'
             ],
@@ -4346,7 +4353,7 @@ _.set(linb.Locale,["en","doc","linb","Com"], {
         onIniResource:{
             $desc:'Fired when com loads resources.',
             $paras:[
-                'com : linb.Com Object.',
+                'com : linb.Com .',
                 'threadid : String, thread id.',
                 'key: String, base class name.'
             ],
@@ -4355,7 +4362,7 @@ _.set(linb.Locale,["en","doc","linb","Com"], {
         beforeIniComponents:{
             $desc:'Fired beofre com Object initializes inner components.',
             $paras:[
-                'com : linb.Com Object.',
+                'com : linb.Com .',
                 'threadid : String, thread id.'
             ],
             $memo:'See constructor.'
@@ -4363,7 +4370,7 @@ _.set(linb.Locale,["en","doc","linb","Com"], {
         afterIniComponents:{
             $desc:'Fired after com Object initializes inner components.',
             $paras:[
-                'com : linb.Com Object.',
+                'com : linb.Com .',
                 'threadid : String, thread id.'
             ],
             $memo:'See constructor.'
@@ -4371,7 +4378,7 @@ _.set(linb.Locale,["en","doc","linb","Com"], {
         onLoadRequiredClass:{
             $desc:'Fired when com loads requried Classes.',
             $paras:[
-                'com : linb.Com Object.',
+                'com : linb.Com .',
                 'threadid : String, thread id.',
                 'key: String, class name.'
             ],
@@ -4380,7 +4387,7 @@ _.set(linb.Locale,["en","doc","linb","Com"], {
         onReady:{
             $desc:'Fired when com is ready.',
             $paras:[
-                'com : linb.Com Object.',
+                'com : linb.Com .',
                 'threadid : String, thread id.'
             ],
             $memo:'See constructor.'
@@ -4388,7 +4395,7 @@ _.set(linb.Locale,["en","doc","linb","Com"], {
         onRender:{
             $desc:'Fired when com is added to DOM.',
             $paras:[
-                'com : linb.Com Object.',
+                'com : linb.Com .',
                 'threadid : String, thread id.'
             ],
             $memo:'See constructor.'
@@ -4465,7 +4472,7 @@ _.set(linb.Locale,["en","doc","linb","ComFactory"], {
             "id [Required] : String, the Com id.",
             "onEnd [Optional] : Function, the callback function, it will be executed once when the Com is created successfully.",
             "threadid [Optional] : String, the inner threadid",
-            "singleton[Optional] : Bool, default is true. If singleton is false, that indicates ComFactory won't get it from the cache, and won't cache the result."
+            "singleton[Optional] : Boolean, default is true. If singleton is false, that indicates ComFactory won't get it from the cache, and won't cache the result."
         ],
         $snippet:[
             "linb.ComFactory.destroyAll();"+
@@ -4682,7 +4689,7 @@ _.set(linb.Locale,["en","doc","linb","Coder"], {
         $paras:[
             "code [Required] : String, code snippet.",
             "type [Optional] : String, code type. Defalut is 'js'",
-            "paras [Optional] : Array of String. Commands, e.g. ['plain','run']",
+            "paras [Optional] : String[], Commands, e.g. ['plain','run']",
             "id [Optional] : String, the output HTML DOM id.",
             "height [Optional] : Number, the output HTML height."
         ],
@@ -4699,7 +4706,7 @@ _.set(linb.Locale,["en","doc","linb","Coder"], {
         $paras:[
             "code [Required] : String, code snippet.",
             "type [Optional] : String, code type. Defalut is 'js'",
-            "paras [Optional] : Array of String. Commands, e.g. ['plain','run']",
+            "paras [Optional] : String[], Commands, e.g. ['plain','run']",
             "id [Optional] : String, the output HTML DOM id.",
             "height [Optional] : Number, the output HTML height."
         ],
@@ -4717,7 +4724,7 @@ _.set(linb.Locale,["en","doc","linb","Coder"], {
             "str [Required] : string, the target string.",
             "reg [Required] : Array: [string, string] or [RegExp, string].",
             "replace [Optional] : String, the replace.",
-            "ignore_case [Optional] : Bool, for RegExp symbol 'i'."
+            "ignore_case [Optional] : Boolean, for RegExp symbol 'i'."
         ],
         $snippet:[
             'alert(linb.Coder.replace("aAa","a","*",true));'+
@@ -4735,7 +4742,7 @@ _.set(linb.Locale,["en","doc","linb","Coder"], {
         $desc:"Apply linb.Coder to all the specified elements with a given DOM id.",
         $paras:[
             "id [Required] : String, DOM id.",
-            "formatAll [Optional] : Bool, use 'formatAll' or not (use 'formatHTML'), Default is [false]."
+            "formatAll [Optional] : Boolean, use 'formatAll' or not (use 'formatHTML'), Default is [false]."
         ],
         $memo:"Generally, this function will not be used in a web application, but a HTML page with code to be highlighted."
     }
@@ -4761,7 +4768,7 @@ _.set(linb.Locale,["en","doc","linb","absList"], {
             $desc:"Updates the specified item(key or value) and the corresponding DOM Element.",
             $rtn:"[self]",
             $paras:[
-                "id [Required] : String. The node id.",
+                "id [Required] : String, The node id.",
                 "options [Required] : a key/value pairs Object or String."
             ],
             $snippet:[
@@ -4788,7 +4795,7 @@ _.set(linb.Locale,["en","doc","linb","absList"], {
             $rtn:"[self]",
             $paras:[
                 "value [Required] : Array, the items.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.absl2'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -4801,9 +4808,9 @@ _.set(linb.Locale,["en","doc","linb","absList"], {
             $desc:"Inserts a set of items to the current UI Object.",
             $rtn:"[self]",
             $paras:[
-                "arr [Required] : Array. A set of Item objects.",
-                "base [Optional] : String. the base item id string.",
-                "before [Optional] : Bool. Indicates whether it inserts the target items before the base, or after the base. Default is false;"
+                "arr [Required] : Array, A set of Item objects.",
+                "base [Optional] : String, the base item id string.",
+                "before [Optional] : Boolean, Indicates whether it inserts the target items before the base, or after the base. Default is false;"
             ],
             $snippet:[
                 "var id='linb.temp.absl3'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -4820,7 +4827,7 @@ _.set(linb.Locale,["en","doc","linb","absList"], {
             $desc:"Removes a set of items from the current UI Object.",
             $rtn:"[self]",
             $paras:[
-                "arr [Required] : Array. A set of id strings."
+                "arr [Required] : Array, A set of id strings."
             ],
             $snippet:[
                 "var id='linb.temp.absl4'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -4833,7 +4840,7 @@ _.set(linb.Locale,["en","doc","linb","absList"], {
             $desc:"Removes all items from the current UI Object.",
             $rtn:"[self]",
             $paras:[
-                "key [Optional] : String. the template key which node includes all the items nodes. Defalt is 'ITEMS'."
+                "key [Optional] : String, the template key which node includes all the items nodes. Defalt is 'ITEMS'."
             ],
             $snippet:[
                 "var id='linb.temp.absl5'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -4859,7 +4866,7 @@ _.set(linb.Locale,["en","doc","linb","absList"], {
             $rtn:"[self]",
             $paras:[
                 "value [Required] : String, the list key.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.abs7'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -4940,7 +4947,7 @@ _.set(linb.Locale,["en","doc","linb","absValue"], {
             $rtn:"[self]",
             $paras:[
                 "value [Required] : String.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.absv2'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -4964,7 +4971,7 @@ _.set(linb.Locale,["en","doc","linb","absValue"], {
             $rtn:"[self]",
             $paras:[
                 "value [Required] : String.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.absv4'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -4988,8 +4995,8 @@ _.set(linb.Locale,["en","doc","linb","absValue"], {
             $desc:"Sets the 'UI value' and the 'Control value' on the first UIProfile",
             $rtn:"[self]",
             $paras:[
-                "value [Required] : Any.",
-                "force [Optional] : Bool. Force to execute the function even if the same UI value already exists. Default is [false]."
+                "value [Required] : Object.",
+                "force [Optional] : Boolean, Force to execute the function even if the same UI value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.absv81'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -5024,8 +5031,8 @@ _.set(linb.Locale,["en","doc","linb","absValue"], {
             $desc:"Sets the 'value', the 'UI value' and the 'Control value' on the first UIProfile",
             $rtn:"[self]",
             $paras:[
-                "value [Required] : Any.",
-                "flag [Optional] : Bool, force to set the value even if the same value already exists. Default is [false]."
+                "value [Required] : Object.",
+                "force [Optional] : Boolean, force to set the value even if the same value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.absv10'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -5059,7 +5066,7 @@ _.set(linb.Locale,["en","doc","linb","absValue"], {
             $desc:"To reset the 'value', the 'UI value' and the 'Control value', no event will be triggered in this process.",
             $rtn:'[self]',
             $paras:[
-                "value [Optional] : Any, the reset value. Default is ''."
+                "value [Optional] : Object, the reset value. Default is ''."
             ],
             $snippet:[
                 "var id='linb.temp.absv14'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -5073,8 +5080,8 @@ _.set(linb.Locale,["en","doc","linb","absValue"], {
             $desc:"Fired before setUIValue is called. If returns false, setUIValue function will be ignored.",
             $paras:[
                 "profile : linb.UIProfile.",
-                "oldValue : the old UIValue.",
-                "newValue : the new UIValue."
+                "oldValue : String, the old UIValue.",
+                "newValue : String, the new UIValue."
             ],
             $snippet:[
                 "var id='linb.temp.absv15'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -5091,8 +5098,8 @@ _.set(linb.Locale,["en","doc","linb","absValue"], {
             $desc:"Fired after setUIValue is called.",
             $paras:[
                 "profile : linb.UIProfile.",
-                "oldValue : the old UIValue.",
-                "newValue : the new UIValue."
+                "oldValue :String,  the old UIValue.",
+                "newValue : String, the new UIValue."
             ],
             $snippet:[
                 "var id='linb.temp.absv16'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -5109,8 +5116,8 @@ _.set(linb.Locale,["en","doc","linb","absValue"], {
             $desc:"Fired before setValue is called. If returns false, setValue function will be ignored.",
             $paras:[
                 "profile : linb.UIProfile.",
-                "oldValue : the old UIValue.",
-                "newValue : the new UIValue."
+                "oldValue : String, the old UIValue.",
+                "newValue : String, the new UIValue."
             ],
             $snippet:[
                 "var id='linb.temp.absv17'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -5127,8 +5134,8 @@ _.set(linb.Locale,["en","doc","linb","absValue"], {
             $desc:"Fired after setValue is called.",
             $paras:[
                 "profile : linb.UIProfile.",
-                "oldValue : the old UIValue.",
-                "newValue : the new UIValue."
+                "oldValue : String, the old UIValue.",
+                "newValue : String, the new UIValue."
             ],
             $snippet:[
                 "var id='linb.temp.absv18'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -5147,7 +5154,7 @@ _.set(linb.Locale,["en","doc","linb","absValue"], {
             $desc:"Fired when before _setDirtyMark is called.If returns false, the inner dirtyMark function will be ignored.",
             $paras:[
                 "profile : linb.UIProfile.",
-                 "dirty : it's dirty or not."
+                 "dirty : Boolean, it's dirty or not."
             ],
             $snippet:[
                 "var id='linb.temp.absv19'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -5207,7 +5214,7 @@ _.set(linb.Locale,["en","doc","linb","absComposed"], {
             $desc:"Adds a panel to the current UI.",
             $paras:[
                 "para [Required] : a key/value pairs.",
-                "children [Required] : Array. the panel's children.",
+                "children [Required] : Array, the panel's children.",
                 "item [Optional] : Object"
             ],
             $snippet:[
@@ -5267,8 +5274,8 @@ _.set(linb.Locale,["en","doc","linb","absComposed"], {
                 "control: Number, 1 or 0, indicates whether or not the 'control' key is pressed.",
                 "shift: Number, 1 or 0, indicates whether or not the 'shift' key is pressed.",
                 "alt: Number, 1 or 0, indicates whether or not the 'alt' key is pressed.",
-                "e : DOM event Object.",
-                "src : the event source DOM element."
+                "e : Event.",
+                "src : Element, the event source DOM element."
             ],
             $snippet:[
                 "var id='linb.temp.c1'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -5288,8 +5295,8 @@ _.set(linb.Locale,["en","doc","linb","absComposed"], {
                 "control: Number, 1 or 0, indicates whether or not the 'control' key is pressed.",
                 "shift: Number, 1 or 0, indicates whether or not the 'shift' key is pressed.",
                 "alt: Number, 1 or 0, indicates whether or not the 'alt' key is pressed.",
-                "e : DOM event Object.",
-                "src : the event source DOM element."
+                "e : Event.",
+                "src : Element, the event source DOM element."
             ],
             $snippet:[
                 "var id='linb.temp.c2'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -5309,8 +5316,8 @@ _.set(linb.Locale,["en","doc","linb","absComposed"], {
                 "control: Number, 1 or 0, indicates whether or not the 'control' key is pressed.",
                 "shift: Number, 1 or 0, indicates whether or not the 'shift' key is pressed.",
                 "alt: Number, 1 or 0, indicates whether or not the 'alt' key is pressed.",
-                "e : DOM event Object.",
-                "src : the event source DOM element."
+                "e : Event.",
+                "src : Element, the event source DOM element."
             ],
             $snippet:[
                 "var id='linb.temp.c3'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -5326,8 +5333,8 @@ _.set(linb.Locale,["en","doc","linb","absComposed"], {
             $desc:"Fired when the user drags the Object to a valid drop target.",
             $paras:[
                 "profile : linb.UIProfile.",
-                "e : DOM event Object.",
-                "src : the event source DOM element.",
+                "e : Event.",
+                "src : Element, the event source DOM element.",
                 "key : String, the DragDrop key.",
                 "data : Object, the DragDrop data.",
                 "item : Object, the source item Object."
@@ -5351,8 +5358,8 @@ _.set(linb.Locale,["en","doc","linb","absComposed"], {
             $desc:"Fired when the user drags the Object leave a valid drop target.",
             $paras:[
                 "profile : linb.UIProfile.",
-                "e : DOM event Object.",
-                "src : the event source DOM element.",
+                "e : Event.",
+                "src : Element, the event source DOM element.",
                 "key : String, the DragDrop key.",
                 "data : Object, the DragDrop data.",
                 "item : Object, the source item Object."
@@ -5377,9 +5384,9 @@ _.set(linb.Locale,["en","doc","linb","absComposed"], {
             $desc:"Fired when the user drop the Object to a valid drop target.",
             $paras:[
                 "profile : linb.UIProfile.",
-                "e : DOM event Object.",
-                "node : the source DOM element.",
-                "src : the event source DOM element.",
+                "e : Event.",
+                "node : Element, the source DOM element.",
+                "src : Element, the event source DOM element.",
                 "key : String, the DragDrop key.",
                 "data : Object, the DragDrop data.",
                 "item : Object, the source item Object."
@@ -5403,8 +5410,8 @@ _.set(linb.Locale,["en","doc","linb","absComposed"], {
             $desc:"Fired when the user drags the Object leave a valid drop target.",
             $paras:[
                 "profile : linb.UIProfile.",
-                "e : DOM event Object.",
-                "src : the event source DOM element.",
+                "e : Event.",
+                "src : Element, the event source DOM element.",
                 "key : String, the DragDrop key.",
                 "data : Object, the DragDrop data.",
                 "item : Object, the source item Object."
@@ -5428,8 +5435,8 @@ _.set(linb.Locale,["en","doc","linb","absComposed"], {
             $desc:"Fired when the user drags the Object to a valid drop target.",
             $paras:[
                 "profile : linb.UIProfile.",
-                "e : DOM event Object.",
-                "src : the event source DOM element.",
+                "e : Event.",
+                "src : Element, the event source DOM element.",
                 "key : String, the DragDrop key.",
                 "data : Object, the DragDrop data.",
                 "item : Object, the source item Object."
@@ -5453,8 +5460,8 @@ _.set(linb.Locale,["en","doc","linb","absComposed"], {
             $desc:"Fired when the user drags the Object to a valid drop target.",
             $paras:[
                 "profile : linb.UIProfile.",
-                "e : DOM event Object.",
-                "src : the event source DOM element.",
+                "e : Event.",
+                "src : Element, the event source DOM element.",
                 "key : String, the DragDrop key.",
                 "data : Object, the DragDrop data.",
                 "item : Object, the source item Object."
@@ -5478,8 +5485,8 @@ _.set(linb.Locale,["en","doc","linb","absComposed"], {
             $desc:"Triggered when the user start to drag.",
             $paras:[
                 "profile : linb.UIProfile.",
-                "e : DOM event Object.",
-                "src : the event source DOM element."
+                "e : Event.",
+                "src : Element, the event source DOM element."
             ],
             $snippet:[
                 "var id='linb.temp.ab661'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -5494,8 +5501,8 @@ _.set(linb.Locale,["en","doc","linb","absComposed"], {
             $desc:"Fired when the user start to drag.",
             $paras:[
                 "profile : linb.UIProfile.",
-                "e : DOM event Object.",
-                "src : the event source DOM element."
+                "e : Event.",
+                "src : Element, the event source DOM element."
             ],
             $snippet:[
                 "var id='linb.temp.ab661-1'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -5509,8 +5516,8 @@ _.set(linb.Locale,["en","doc","linb","absComposed"], {
             $desc:"Fired when the user stop the dragging process.",
             $paras:[
                 "profile : linb.UIProfile.",
-                "e : DOM event Object.",
-                "src : the event source DOM element."
+                "e : Event.",
+                "src : Element, the event source DOM element."
             ],
             $snippet:[
                 "var id='linb.temp.ab662'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -5526,8 +5533,8 @@ _.set(linb.Locale,["en","doc","linb","absComposed"], {
             $paras:[
                 "profile : linb.UIProfile.",
                 "item : Object, the data item Object.",
-                "e : DOM event Object.",
-                "src : the source DOM element.",
+                "e : Event.",
+                "src : Element, the source DOM element.",
                 "type : String, 'mousedown'or 'mouseup'."
             ],
             $snippet:[
@@ -5542,8 +5549,8 @@ _.set(linb.Locale,["en","doc","linb","absComposed"], {
             $paras:[
                 "profile : linb.UIProfile.",
                 "item : Object, the data item Object.",
-                "e : DOM event Object.",
-                "src : the source DOM element.",
+                "e : Event.",
+                "src : Element, the source DOM element.",
                 "type : String, 'mouseover'or 'mouseout'."
             ],
             $snippet:[
@@ -5557,9 +5564,9 @@ _.set(linb.Locale,["en","doc","linb","absComposed"], {
             $desc:"Fired when the mouse hover the specified element. If returns false, the default 'set focus to the next' action will be ignored.",
             $paras:[
                 "profile : linb.UIProfile.",
-                "e : DOM event Object.",
-                "shift: Bool, Shift keyboard is pressed or not.",
-                "src : the source DOM element."
+                "e : Event.",
+                "shift: Boolean, Shift keyboard is pressed or not.",
+                "src : Element, the source DOM element."
             ],
             $snippet:[
                 "var id='linb.temp.ab9'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -5687,7 +5694,7 @@ _.set(linb.Locale,["en","doc","linb","UI"], {
         $rtn:'[self]',
         $paras:[
             "key [Required] : String, cache key.",
-            "data [Optional] : Any. Default is [undifined], that indicates to remove the cacke at the specified key."
+            "data [Optional] : Object. Default is [undifined], that indicates to remove the cacke at the specified key."
         ],
         $snippet:[
             "linb.UI.cacheData('a',1); alert(linb.UI.getCachedData('a')); linb.UI.cacheData('a')"
@@ -5736,7 +5743,7 @@ _.set(linb.Locale,["en","doc","linb","UI"], {
         $rtn:"linb.UI",
         $paras:[
             "target [Required] : String or Array.",
-            "keepSerialId [Optional] : Bool. to keep serila id or not. Default is [false]."
+            "keepSerialId [Optional] : Boolean, to keep serila id or not. Default is [false]."
         ],
         $snippet:[
             "var s=linb.UIProfile.getFromDom('btnLang').boxing().serialize(false); alert(_.serialize(s)); alert(linb.UI.unserialize(s))"
@@ -5776,8 +5783,8 @@ _.set(linb.Locale,["en","doc","linb","UI"], {
             $desc:"relayout the control. It'll trigger the control's onresize event.",
             $rtn:"[self]",
             $paras:[
-                "syn [Optional] : Bool, run it synchronous(ture) or asynchronous(false)",
-                "force [Optional] : Bool, force to relayou or not."
+                "syn [Optional] : Boolean, run it synchronous(ture) or asynchronous(false)",
+                "force [Optional] : Boolean, force to relayou or not."
             ]
         },
         getChildren:{
@@ -5817,7 +5824,7 @@ _.set(linb.Locale,["en","doc","linb","UI"], {
             $rtn:"[self]",
             $paras:[
                 "value [Required] : Function",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.ui-2'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -5923,7 +5930,7 @@ _.set(linb.Locale,["en","doc","linb","UI"], {
             $rtn:"[self]",
             $paras:[
                 "value [Required] : Number",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.ui11'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -5947,7 +5954,7 @@ _.set(linb.Locale,["en","doc","linb","UI"], {
             $rtn:"[self]",
             $paras:[
                 "value [Required] : Number.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.ui13'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -5971,7 +5978,7 @@ _.set(linb.Locale,["en","doc","linb","UI"], {
             $rtn:"[self]",
             $paras:[
                 "value [Required] : Number.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.ui15'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -5995,7 +6002,7 @@ _.set(linb.Locale,["en","doc","linb","UI"], {
             $rtn:"[self]",
             $paras:[
                 "value [Required] : Number.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.ui17'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -6019,7 +6026,7 @@ _.set(linb.Locale,["en","doc","linb","UI"], {
             $rtn:"[self]",
              $paras:[
                 "value [Required] : nonnegative Number.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
            $snippet:[
                 "var id='linb.temp.ui19'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -6043,7 +6050,7 @@ _.set(linb.Locale,["en","doc","linb","UI"], {
             $rtn:"[self]",
             $paras:[
                 "value [Required] : nonnegative Number.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.ui21'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -6067,7 +6074,7 @@ _.set(linb.Locale,["en","doc","linb","UI"], {
             $rtn:"[self]",
             $paras:[
                 "value [Required] : corresponding CSS value.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.ui23'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -6091,7 +6098,7 @@ _.set(linb.Locale,["en","doc","linb","UI"], {
             $rtn:"[self]",
             $paras:[
                 "value [Required] : corresponding CSS value.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.ui25'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -6115,7 +6122,7 @@ _.set(linb.Locale,["en","doc","linb","UI"], {
             $rtn:"[self]",
             $paras:[
                 "value [Required] : corresponding CSS value.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.ui27'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -6139,7 +6146,7 @@ _.set(linb.Locale,["en","doc","linb","UI"], {
             $rtn:"[self]",
             $paras:[
                 "value [Required] : corresponding CSS value.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.ui28'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -6163,7 +6170,7 @@ _.set(linb.Locale,["en","doc","linb","UI"], {
             $rtn:"[self]",
             $paras:[
                 "value [Required] : Number.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.ui30'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -6187,7 +6194,7 @@ _.set(linb.Locale,["en","doc","linb","UI"], {
             $rtn:"[self]",
             $paras:[
                 "value [Required] : String.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.ui41'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -6210,8 +6217,8 @@ _.set(linb.Locale,["en","doc","linb","UI"], {
             $desc:"Sets the tagVar property value on the each UIProfile.",
             $rtn:"[self]",
             $paras:[
-                "value [Required] : Any.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "value [Required] : Object.",
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.ui43'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -6235,7 +6242,7 @@ _.set(linb.Locale,["en","doc","linb","UI"], {
             $rtn:"[self]",
             $paras:[
                 "value [Required] : String.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.ui45'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -6258,8 +6265,8 @@ _.set(linb.Locale,["en","doc","linb","UI"], {
             $desc:"Specifys whether this UI control is disabled or not, and reflects the value to UI.",
             $rtn:"[self]",
             $paras:[
-                "value [Required] : Bool.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "value [Required] : Boolean.",
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.ui47'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -6283,7 +6290,7 @@ _.set(linb.Locale,["en","doc","linb","UI"], {
             $rtn:"[self]",
             $paras:[
                 "value [Required] : 'none','top','bottom','left','right','center','middle','origin','width','height','fill','cover'.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.ui51'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -6307,8 +6314,8 @@ _.set(linb.Locale,["en","doc","linb","UI"], {
             $desc:"Sets the dockFloat property value on the each UIProfile, and reflects the value to UI.",
             $rtn:"[self]",
             $paras:[
-                "value [Required] : Bool.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "value [Required] : Boolean.",
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.ui53'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -6340,7 +6347,7 @@ _.set(linb.Locale,["en","doc","linb","UI"], {
             $rtn:"[self]",
             $paras:[
                 "value [Required] : {left:Number,right:Number,top:Number,bottom:Number}.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.ui61'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -6372,7 +6379,7 @@ _.set(linb.Locale,["en","doc","linb","UI"], {
             $rtn:"[self]",
             $paras:[
                 "value [Required] : Number.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.ui72'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -6397,8 +6404,8 @@ _.set(linb.Locale,["en","doc","linb","UI"], {
             $desc:"Sets the dockIgnore property value on the each UIProfile, and reflects the value to UI.",
             $rtn:"[self]",
             $paras:[
-                "value [Required] : Bool.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "value [Required] : Boolean.",
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.ui76'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -6434,7 +6441,7 @@ _.set(linb.Locale,["en","doc","linb","UI"], {
             $rtn:"[self]",
             $paras:[
                 "value [Required] : Number.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.ui81'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"overflow:visible;border:solid 1px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -6449,7 +6456,7 @@ _.set(linb.Locale,["en","doc","linb","UI"], {
             $rtn:"[self]",
             $paras:[
                 "value [Required] : Number.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.ui82'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -6501,7 +6508,7 @@ _.set(linb.Locale,["en","doc","linb","UI"], {
             $desc:"To show the set of UIProfile.",
             $rtn:"[self]",
             $paras:[
-                "parent [Required] : linb.UIProfile, linb.UI ojbect, Dom element or linb.Dom Object.",
+                "parent [Required] : linb.UIProfile, linb.UI ojbect, Element or linb.Dom Object.",
                 "subId [Optional] : String, the sub id that Determines the set of UIProfiles will be added to.",
                 "left [Optional] : Number, the css left value.",
                 "top [Optional] : Number, the css top value."
@@ -6514,8 +6521,8 @@ _.set(linb.Locale,["en","doc","linb","UI"], {
             $desc:"To serialize the current Object to a string representation.",
             $rtn:"String",
             $paras:[
-                "rtnString [Optional] : Bool. to indicate whether or not it returns String or Object. Default is true.",
-                "keepHost [Optional] : Bool. to keep host Object link or not. Default is false."
+                "rtnString [Optional] : Boolean, to indicate whether or not it returns String or Object. Default is true.",
+                "keepHost [Optional] : Boolean, to keep host Object link or not. Default is false."
             ],
             $snippet:[
                 "alert(linb.UIProfile.getFromDom('btnLang').boxing().serialize());" +
@@ -6532,7 +6539,7 @@ _.set(linb.Locale,["en","doc","linb","UI"], {
                 "_.asyRun(function(){btn.refresh()},1000);"+
                 "}"
             ],
-            $memo:"This function refreshes Dom element only; 'refresh' fnction refreshes all the UIProfile."
+            $memo:"This function refreshes Element only; 'refresh' fnction refreshes all the UIProfile."
         },
         refresh:{
             $desc:"To refresh the set of UIProfiles.",
@@ -6549,7 +6556,7 @@ _.set(linb.Locale,["en","doc","linb","UI"], {
             $desc:"To render the set of UIProfiles to DOM.",
             $rtn:"[self]",
             $paras:[
-                "triggerLayOut [Optional] : Bool. triggers lay out or not. Default is [false]."
+                "triggerLayOut [Optional] : Boolean, triggers lay out or not. Default is [false]."
             ],
             $snippet:[
                 "var btn=new linb.UI.Button; alert(btn.get(0).domNode); btn.render(); alert(btn.get(0).domNode); btn.destroy()"
@@ -6672,9 +6679,9 @@ _.set(linb.Locale,["en","doc","linb","UI"], {
         onContextmenu:{
             $desc:"Fired when the root element's contextmenu event was fired. If returns false, the default contextmenu will be blocked(not in opera).",
             $paras:[
-                "profile : linb.UIProfile Object.",
-                "e: DOM event Object.",
-                "node: the related DOM element."
+                "profile : linb.UIProfile.",
+                "e: Event, DOM event Object.",
+                "node: Element, the related DOM element."
             ],
             $snippet:[
                 "var id='linb.temp.b2-1'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -6715,8 +6722,8 @@ _.set(linb.Locale,["en","doc","linb","UI"], {
             $desc:"Fired when linb.Tips shows tips.",
             $paras:[
                 "profile : linb.UIProfile.",
-                "node : DOM node.",
-                "pos : {left:Number, top:Number}"
+                "node : Element, DOM node.",
+                "pos : Object, {left:Number, top:Number}"
             ],
             $snippet:[
                 "var id='linb.temp.b5'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -6746,8 +6753,8 @@ _.set(linb.Locale,["en","doc","linb","UI","Widget"], {
             $desc:"Specifys whether this widget has border, and reflects it to DOM UI",
             $rtn:"[self]",
             $paras:[
-                "value [Required] : Bool.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "value [Required] : Boolean.",
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.w2'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -6770,8 +6777,8 @@ _.set(linb.Locale,["en","doc","linb","UI","Widget"], {
             $desc:"Specifys whether this widget has shadow, and reflects it to DOM UI",
             $rtn:"[self]",
             $paras:[
-                "value [Required] : Bool.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "value [Required] : Boolean.",
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.w4'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -6794,8 +6801,8 @@ _.set(linb.Locale,["en","doc","linb","UI","Widget"], {
             $desc:"Specifys whether this widget could be resized by end user, and reflects it to DOM UI",
             $rtn:"[self]",
             $paras:[
-                "value [Required] : Bool.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "value [Required] : Boolean.",
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.w6'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -6827,7 +6834,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Div"], {
             $rtn:"[self]",
             $paras:[
                 "value [Required] : String, the html string.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.div2'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -6873,7 +6880,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Tag"], {
             $rtn:"[self]",
             $paras:[
                 "value [Required] : String, the tag key.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $memo:"linb.ComFactory will find the target UI Object in the matched linb.Com according to this tagKey."
         }
@@ -6900,7 +6907,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Link"], {
             $rtn:"[self]",
             $paras:[
                 "value [Required] : String, the caption.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.link2'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -6924,7 +6931,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Link"], {
             $rtn:"[self]",
             $paras:[
                 "value [Required] : String, the target.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.link4'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -6948,7 +6955,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Link"], {
             $rtn:"[self]",
             $paras:[
                 "value [Required] : String, the href.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.link6'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -6962,8 +6969,8 @@ _.set(linb.Locale,["en","doc","linb","UI","Link"], {
         onClick:{
             $desc:"onClick event handler.",
             $paras:[
-                "profile : linb.UIProfile Object.",
-                "e : DOM event Object."
+                "profile : linb.UIProfile.",
+                "e : Event."
             ],
             $snippet:[
                 "var id='linb.temp.link7'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -7000,7 +7007,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Block"], {
             $rtn:"[self]",
             $paras:[
                 "value [Required] : String, the html string.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.blk2'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -7024,7 +7031,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Block"], {
             $rtn:"[self]",
             $paras:[
                 "value [Required] : String, the background string.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.blk4'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -7048,7 +7055,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Block"], {
             $rtn:"[self]",
             $paras:[
                 "value [Required] : String, 'none','inset','outset','groove'or 'ridge'.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.blk6'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -7080,7 +7087,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Label"], {
             $rtn:"[self]",
             $paras:[
                 "value [Required] : String.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.lbl2'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -7104,7 +7111,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Label"], {
             $rtn:"[self]",
             $paras:[
                 "value [Required] : corresponding CSS value.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.lbl4'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -7128,7 +7135,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Label"], {
             $rtn:"[self]",
             $paras:[
                 "value [Required] : corresponding CSS value.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.lbl6'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -7151,8 +7158,8 @@ _.set(linb.Locale,["en","doc","linb","UI","Label"], {
             $desc:"Sets horizontal alignment, and reflects the value to UI.",
             $rtn:"[self]",
             $paras:[
-                "value [Required] : 'left', 'center' or 'right'.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "value [Required] : String, 'left', 'center' or 'right'.",
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.lbl8'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -7175,8 +7182,8 @@ _.set(linb.Locale,["en","doc","linb","UI","Label"], {
             $desc:"Sets the VAlign property value on the each UIProfile, and reflects the value to UI.",
             $rtn:"[self]",
             $paras:[
-                "value [Required] : 'top', 'middle' or 'bottom'.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "value [Required] : String, 'top', 'middle' or 'bottom'.",
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.lbl20'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -7199,8 +7206,8 @@ _.set(linb.Locale,["en","doc","linb","UI","Label"], {
             $desc:"Sets the ShadowText property value on the each UIProfile, and reflects the value to UI.",
             $rtn:"[self]",
             $paras:[
-                "value [Required] : Bool.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "value [Required] : Boolean.",
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.lbl12'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -7224,7 +7231,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Label"], {
             $rtn:"[self]",
             $paras:[
                 "value [Required] :String,  image path.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.lbl14'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -7248,7 +7255,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Label"], {
             $rtn:"[self]",
             $paras:[
                 "value [Required] : String, corresponding CSS value.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.lbl16'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -7280,7 +7287,7 @@ _.set(linb.Locale,["en","doc","linb","UI","ProgressBar"], {
             $rtn:"[self]",
             $paras:[
                 "value [Required] : String.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.pb1-2'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -7306,7 +7313,7 @@ _.set(linb.Locale,["en","doc","linb","UI","ProgressBar"], {
             $rtn:"[self]",
              $paras:[
                 "value [Required] : nonnegative Number.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
            $snippet:[
                 "var id='linb.temp.pb3'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -7339,7 +7346,7 @@ _.set(linb.Locale,["en","doc","linb","UI","SLabel"], {
             $rtn:"[self]",
             $paras:[
                 "value [Required] : String.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.SLabel2'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -7362,8 +7369,8 @@ _.set(linb.Locale,["en","doc","linb","UI","SLabel"], {
             $desc:"Sets horizontal alignment, and reflects the value to UI.",
             $rtn:"[self]",
             $paras:[
-                "value [Required] : 'left', 'center' or 'right'.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "value [Required] : String, 'left', 'center' or 'right'.",
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.SLabel8'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -7405,7 +7412,7 @@ _.set(linb.Locale,["en","doc","linb","UI","SButton"], {
             $rtn:"[self]",
             $paras:[
                 "value [Required] : String.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.Sbtn2'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -7428,8 +7435,8 @@ _.set(linb.Locale,["en","doc","linb","UI","SButton"], {
             $desc:"Sets horizontal alignment, and reflects the value to UI.",
             $rtn:"[self]",
             $paras:[
-                "value [Required] : 'left', 'center' or 'right'.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "value [Required] : String, 'left', 'center' or 'right'.",
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.Sbtn8'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -7442,10 +7449,10 @@ _.set(linb.Locale,["en","doc","linb","UI","SButton"], {
         onClick:{
             $desc:"Fired when button is clicked.",
             $paras:[
-                "profile : linb.UIProfile Object.",
-                "e : DOM event Object.",
-                "src : DOM element.",
-                "value : the value."
+                "profile : linb.UIProfile.",
+                "e : Event.",
+                "src : Element.",
+                "value : Boolean."
             ],
             $snippet:[
                 "var id='linb.temp.Sbtn17'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -7486,7 +7493,7 @@ _.set(linb.Locale,["en","doc","linb","UI","SCheckBox"], {
             $rtn:"[self]",
             $paras:[
                 "value [Required] : String.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.Scbtn2'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -7498,9 +7505,9 @@ _.set(linb.Locale,["en","doc","linb","UI","SCheckBox"], {
         onChecked:{
             $desc:"Fired when CheckBox is checked.",
             $paras:[
-                "profile : linb.UIProfile Object.",
-                "e : DOM event Object.",
-                "value : String, the value."
+                "profile : linb.UIProfile.",
+                "e : Event.",
+                "value : Boolean, the value."
             ],
             $snippet:[
                 "var id='linb.temp.scbtn18'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -7541,7 +7548,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Button"], {
             $rtn:"[self]",
             $paras:[
                 "value [Required] : String.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.btn2'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -7565,7 +7572,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Button"], {
             $rtn:"[self]",
             $paras:[
                 "value [Required] : String.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.btn4'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -7588,8 +7595,8 @@ _.set(linb.Locale,["en","doc","linb","UI","Button"], {
             $desc:"Sets button type.",
             $rtn:"[self]",
             $paras:[
-                "value [Required] : 'normal', 'drop' or 'status'.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "value [Required] : String, 'normal', 'drop' or 'status'.",
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.btn6'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -7612,8 +7619,8 @@ _.set(linb.Locale,["en","doc","linb","UI","Button"], {
             $desc:"Sets horizontal alignment, and reflects the value to UI.",
             $rtn:"[self]",
             $paras:[
-                "value [Required] : 'left', 'center' or 'right'.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "value [Required] : String, 'left', 'center' or 'right'.",
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.btn8'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -7636,8 +7643,8 @@ _.set(linb.Locale,["en","doc","linb","UI","Button"], {
             $desc:"Sets vertical alignment, and reflects the value to UI.",
             $rtn:"[self]",
             $paras:[
-                "value [Required] : 'top', 'middle' or 'bottom'.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "value [Required] : String, 'top', 'middle' or 'bottom'.",
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.btn20'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -7661,7 +7668,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Button"], {
             $rtn:"[self]",
             $paras:[
                 "value [Required] :String,  image path.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.btn14'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -7685,7 +7692,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Button"], {
             $rtn:"[self]",
             $paras:[
                 "value [Required] : String, corresponding CSS value.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.btn16'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -7698,10 +7705,10 @@ _.set(linb.Locale,["en","doc","linb","UI","Button"], {
         onClick:{
             $desc:"Fired when button is clicked.",
             $paras:[
-                "profile : linb.UIProfile Object.",
-                "e : DOM event Object.",
-                "src : DOM element.",
-                "value : the value."
+                "profile : linb.UIProfile.",
+                "e : Event.",
+                "src : Element.",
+                "value : Object."
             ],
             $snippet:[
                 "var id='linb.temp.btn17'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -7712,10 +7719,10 @@ _.set(linb.Locale,["en","doc","linb","UI","Button"], {
         onClickDrop:{
             $desc:"Fired when button is clicked.",
             $paras:[
-                "profile : linb.UIProfile Object.",
-                "e : DOM event Object.",
-                "src : DOM element.",
-                "value : the value."
+                "profile : linb.UIProfile.",
+                "e : Event.",
+                "src : Element.",
+                "value : Object."
             ],
             $snippet:[
                 "var id='linb.temp.btn17-1'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -7724,11 +7731,11 @@ _.set(linb.Locale,["en","doc","linb","UI","Button"], {
             ]
         },
         onChecked:{
-            $desc:"Fired when button is checked. linb.UI.Button Object has this event handler only when button type is 'status' is [true].",
+            $desc:"Fired when button is checked. linb.UI.Button Object has this event handler only when button type is 'status'.",
             $paras:[
-                "profile : linb.UIProfile Object.",
-                "e : DOM event Object.",
-                "value : String, the value."
+                "profile : linb.UIProfile.",
+                "e : Event.",
+                "value : Boolean, the value."
             ],
             $snippet:[
                 "var id='linb.temp.btn18'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -7747,9 +7754,9 @@ _.set(linb.Locale,["en","doc","linb","UI","CheckBox"], {
         onChecked:{
             $desc:"Fired when CheckBox is checked.",
             $paras:[
-                "profile : linb.UIProfile Object.",
-                "e : DOM event Object.",
-                "value : String, the value."
+                "profile : linb.UIProfile.",
+                "e : Event.",
+                "value : Boolean, the value."
             ],
             $snippet:[
                 "var id='linb.temp.scbtn18'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -7789,8 +7796,8 @@ _.set(linb.Locale,["en","doc","linb","UI","Input"], {
             $desc:"Sets the 'dynamic check' property value on the each UIProfile, and reflects the value to UI.",
             $rtn:"[self]",
             $paras:[
-                "value [Required] : Bool.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "value [Required] : Boolean.",
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.input4'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -7813,8 +7820,8 @@ _.set(linb.Locale,["en","doc","linb","UI","Input"], {
             $desc:"Specifys whether input box holds single line or multi line, and reflects the value to UI.",
             $rtn:"[self]",
             $paras:[
-                "value [Required] : Bool.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "value [Required] : Boolean.",
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.input6'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -7844,7 +7851,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Input"], {
             $rtn:"[self]",
             $paras:[
                 "value [Required] : String.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.input8'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -7867,8 +7874,8 @@ _.set(linb.Locale,["en","doc","linb","UI","Input"], {
             $desc:"Sets the readonly property value on the each UIProfile, and reflects the value to UI.",
             $rtn:"[self]",
             $paras:[
-                "value [Required] : Bool.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "value [Required] : Boolean.",
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.input10'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -7893,7 +7900,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Input"], {
             $rtn:"[self]",
             $paras:[
                 "value [Required] : String.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.input12'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -7919,7 +7926,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Input"], {
             $rtn:"[self]",
             $paras:[
                 "value [Required] : String.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.input14'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -7945,7 +7952,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Input"], {
             $rtn:"[self]",
             $paras:[
                 "value [Required] : String.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.input16'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -7970,7 +7977,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Input"], {
             $rtn:"[self]",
             $paras:[
                 "value [Required] : String.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.input18'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -7994,7 +8001,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Input"], {
             $rtn:"[self]",
             $paras:[
                 "value [Required] : 'input' or 'password'. Default is 'input'.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.input20'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -8007,7 +8014,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Input"], {
         onBlur:{
             $desc:"Fired when input box loses focus.",
             $paras:[
-                "profile : linb.UIProfile Object."
+                "profile : linb.UIProfile."
             ],
             $snippet:[
                 "var id='linb.temp.input20'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -8019,7 +8026,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Input"], {
         onFocus:{
             $desc:"Fired when input box gets focus.",
             $paras:[
-                "profile : linb.UIProfile Object."
+                "profile : linb.UIProfile."
             ],
             $snippet:[
                 "var id='linb.temp.input20'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -8031,7 +8038,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Input"], {
         beforeFormatCheck:{
             $desc:"Fired before validating value format. If returns false, the inner formatCheck function will be ignored.",
             $paras:[
-                "profile : linb.UIProfile Object.",
+                "profile : linb.UIProfile.",
                 "value: String, the value need to be checked."
             ],
             $snippet:[
@@ -8044,8 +8051,8 @@ _.set(linb.Locale,["en","doc","linb","UI","Input"], {
         beforeFormatMark:{
             $desc:"Fired before the UIProfile sets the format mark. If returns false, the inner formatMark function will be ignored.",
             $paras:[
-                "profile : linb.UIProfile Object.",
-                "formatErr: Bool, is the format error."
+                "profile : linb.UIProfile.",
+                "formatErr: Boolean, is the format error."
             ],
             $snippet:[
                 "var id='linb.temp.input21'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -8085,8 +8092,8 @@ _.set(linb.Locale,["en","doc","linb","UI","TextEditor"], {
             $desc:"Sets editor read-only or editable, and reflects the value to UI.",
             $rtn:"[self]",
             $paras:[
-                "value [Required] : Bool.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "value [Required] : Boolean.",
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.TextEditor10'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -8100,9 +8107,9 @@ _.set(linb.Locale,["en","doc","linb","UI","TextEditor"], {
         onChange:{
             $desc:"Fired when end user changes text in this editor.",
             $paras:[
-                "profile : linb.UIProfile Object.",
-                "oV : the old value.",
-                "nV : the new value."
+                "profile : linb.UIProfile.",
+                "oV : String, the old value.",
+                "nV : String, the new value."
             ],
             $snippet:[
                 "var id='linb.temp.input23'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -8143,7 +8150,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Group"], {
             $rtn:"[self]",
             $paras:[
                 "value [Required] : String.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.grp2'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -8167,7 +8174,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Group"], {
             $rtn:"[self]",
             $paras:[
                 "value [Required] :String,  image path.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.grp4'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -8191,7 +8198,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Group"], {
             $rtn:"[self]",
             $paras:[
                 "value [Required] : String, corresponding CSS value.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.grp6'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -8214,8 +8221,8 @@ _.set(linb.Locale,["en","doc","linb","UI","Group"], {
             $desc:"Specifys whether group collapses or not, and reflects the value to UI.",
             $rtn:"[self]",
             $paras:[
-                "value [Required] : Bool.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "value [Required] : Boolean.",
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.fs4'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -8238,8 +8245,8 @@ _.set(linb.Locale,["en","doc","linb","UI","Group"], {
             $desc:"Specifys whether toggle button shows or not, and reflects the value to UI.",
             $rtn:"[self]",
             $paras:[
-                "value [Required] : Bool.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "value [Required] : Boolean.",
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.fs4-2'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -8253,7 +8260,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Group"], {
         onExpend:{
             $desc:"Fired when group expends.",
             $paras:[
-                "profile : linb.UIProfile Object."
+                "profile : linb.UIProfile."
             ],
             $snippet:[
                 "var id='linb.temp.fs5'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -8266,7 +8273,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Group"], {
         onFold:{
             $desc:"Fired when group collapses.",
             $paras:[
-                "profile : linb.UIProfile Object."
+                "profile : linb.UIProfile."
             ],
             $snippet:[
                 "var id='linb.temp.fs6'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -8279,7 +8286,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Group"], {
         onIniPanelView:{
             $desc:"Fired on panel is initialized.",
             $paras:[
-                "profile : linb.UIProfile Object."
+                "profile : linb.UIProfile."
             ],
             $snippet:[
                 "var id='linb.temp.fs7'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -8301,7 +8308,7 @@ _.set(linb.Locale,["en","doc","linb","UI","ComboInput"], {
             $desc:"To reset value, UI value and Control value, no event will be triggered in this process.",
             $rtn:'[self]',
             $paras:[
-                "value [Optional] : Any, the reset value. Default is ''."
+                "value [Optional] : Object, the reset value. Default is ''."
             ],
             $snippet:[
                 "var id='linb.temp.ci1'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -8329,7 +8336,7 @@ _.set(linb.Locale,["en","doc","linb","UI","ComboInput"], {
             $rtn:"[self]",
             $paras:[
                 "value [Required] : 'none','combobox','listbox','upload','getter','helpinput','cmdbox','popbox','timepicker','datepicker', 'colorpicker' or 'spin'. Default is 'combobox'.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.ci4'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -8354,7 +8361,7 @@ _.set(linb.Locale,["en","doc","linb","UI","ComboInput"], {
             $rtn:"[self]",
             $paras:[
                 "value [Required] : Array, the items.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.ci6'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -8380,7 +8387,7 @@ _.set(linb.Locale,["en","doc","linb","UI","ComboInput"], {
             $rtn:"[self]",
             $paras:[
                 "value [Required] : String, the lisk key.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.ci7'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -8405,8 +8412,8 @@ _.set(linb.Locale,["en","doc","linb","UI","ComboInput"], {
             $desc:"Specify whether save button shows up or not.",
             $rtn:"[self]",
             $paras:[
-                "value [Required] : Bool.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "value [Required] : Boolean.",
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.ci9'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -8430,7 +8437,7 @@ _.set(linb.Locale,["en","doc","linb","UI","ComboInput"], {
             $rtn:"[self]",
             $paras:[
                 "value [Required] : Number.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.ci12'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -8454,7 +8461,7 @@ _.set(linb.Locale,["en","doc","linb","UI","ComboInput"], {
             $rtn:"[self]",
             $paras:[
                 "value [Required] : Number.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.ci14'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -8478,7 +8485,7 @@ _.set(linb.Locale,["en","doc","linb","UI","ComboInput"], {
             $rtn:"[self]",
             $paras:[
                 "value [Required] : Number.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.ci16'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -8502,7 +8509,7 @@ _.set(linb.Locale,["en","doc","linb","UI","ComboInput"], {
             $rtn:"[self]",
             $paras:[
                 "value [Required] : Number.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.ci18'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -8526,7 +8533,7 @@ _.set(linb.Locale,["en","doc","linb","UI","ComboInput"], {
             $rtn:"[self]",
             $paras:[
                 "value [Required] :String,  image path.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.ci19'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -8550,7 +8557,7 @@ _.set(linb.Locale,["en","doc","linb","UI","ComboInput"], {
             $rtn:"[self]",
             $paras:[
                 "value [Required] : String, corresponding CSS value.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.ci21'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -8562,8 +8569,8 @@ _.set(linb.Locale,["en","doc","linb","UI","ComboInput"], {
         onFileDlgOpen:{
             $desc:"Fired when the file upload dialog is open.",
             $paras:[
-                "profile : linb.UIProfile Object.",
-                "node : the input DOM element."
+                "profile : linb.UIProfile.",
+                "node : Element, the input DOM element."
             ],
             $snippet:[
                 "var id='linb.temp.ci99'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -8575,10 +8582,10 @@ _.set(linb.Locale,["en","doc","linb","UI","ComboInput"], {
         beoforeComboPop:{
             $desc:"Fired before the pop-up window shows. If returns false, the default pop action will be ignored.",
             $paras:[
-                "profile : linb.UIProfile Object.",
+                "profile : linb.UIProfile.",
                 "pos : the mouse position.",
-                "e : DOM event Object.",
-                "src : the command button DOM element."
+                "e : Event.",
+                "src : Element, the command button DOM element."
             ],
             $snippet:[
                 "var id='linb.temp.ci100'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -8590,8 +8597,8 @@ _.set(linb.Locale,["en","doc","linb","UI","ComboInput"], {
         onSave:{
             $desc:"Fired when the save button is clicked.",
             $paras:[
-                "profile : linb.UIProfile Object.",
-                "node : the command button DOM element."
+                "profile : linb.UIProfile.",
+                "node : Element, the command button DOM element."
             ],
             $snippet:[
                 "var id='linb.temp.ci101'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -8620,7 +8627,7 @@ _.set(linb.Locale,["en","doc","linb","UI","ButtonViews"], {
             $rtn:"[self]",
             $paras:[
                 "value [Required] : 'top','bottom','left' or 'right'. Default is 'top'.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.bv1'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -8645,8 +8652,8 @@ _.set(linb.Locale,["en","doc","linb","UI","ButtonViews"], {
             $desc:"Sets the commands bar horizontal alignment , and reflects the value to UI.",
             $rtn:"[self]",
             $paras:[
-                "value [Required] : 'left', 'center' or 'right'. Default is 'left'.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "value [Required] : String, 'left', 'center' or 'right'. Default is 'left'.",
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.bv3'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -8670,7 +8677,7 @@ _.set(linb.Locale,["en","doc","linb","UI","ButtonViews"], {
             $rtn:"[self]",
             $paras:[
                 "value [Required] : 'top' or 'bottom'. Default is 'top'.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.bv3'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -8694,7 +8701,7 @@ _.set(linb.Locale,["en","doc","linb","UI","ButtonViews"], {
             $rtn:"[self]",
             $paras:[
                 "value [Required] : Number.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.bv3'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -8858,7 +8865,7 @@ _.set(linb.Locale,["en","doc","linb","UI","ColorPicker"], {
         beforeClose:{
             $desc:"Fired before user click close button or cancel button. If returns false, close function will be ignored.",
             $paras:[
-                "profile : linb.UIProfile Object."
+                "profile : linb.UIProfile."
             ],
             $snippet:[
                 "var id='linb.temp.clr9'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -8909,7 +8916,7 @@ _.set(linb.Locale,["en","doc","linb","UI","DatePicker"], {
         beforeClose:{
             $desc:"Fired before user click close button or Cancel button. If returns false, close function will be ignored.",
             $paras:[
-                "profile : linb.UIProfile Object."
+                "profile : linb.UIProfile."
             ],
             $snippet:[
                 "var id='linb.temp.dp3'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -8949,7 +8956,7 @@ _.set(linb.Locale,["en","doc","linb","UI","TimePicker"], {
         beforeClose:{
             $desc:"Fired before user click close button or Cancel button. If returns false, close function will be ignored.",
             $paras:[
-                "profile : linb.UIProfile Object."
+                "profile : linb.UIProfile."
             ],
             $snippet:[
                 "var id='linb.temp.tp3'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -8980,8 +8987,8 @@ _.set(linb.Locale,["en","doc","linb","UI","Slider"], {
             $desc:"Sets Slider type, and reflects the value to UI.",
             $rtn:"[self]",
             $paras:[
-                "value [Required] : 'vertical' or 'horizontal'.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "value [Required] : String, 'vertical' or 'horizontal'.",
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.sl3'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:200px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -9005,7 +9012,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Slider"], {
             $rtn:"[self]",
             $paras:[
                 "value [Required] : Number, steps value(integer)",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.sl5'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:200px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -9028,8 +9035,8 @@ _.set(linb.Locale,["en","doc","linb","UI","Slider"], {
             $desc:"Sets showIncreaseHandle property.",
             $rtn:"[self]",
             $paras:[
-                "value [Required] : Bool",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "value [Required] : Boolean",
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.sl7'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:200px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -9052,8 +9059,8 @@ _.set(linb.Locale,["en","doc","linb","UI","Slider"], {
             $desc:"Sets showDecreaseHandle property.",
             $rtn:"[self]",
             $paras:[
-                "value [Required] : Bool.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "value [Required] : Boolean.",
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.sl9'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:200px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -9076,8 +9083,8 @@ _.set(linb.Locale,["en","doc","linb","UI","Slider"], {
             $desc:"Sets isRange property.",
             $rtn:"[self]",
             $paras:[
-                "value [Required] : Bool.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "value [Required] : Boolean.",
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.sl11'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:200px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -9109,7 +9116,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Range"], {
             $rtn:"[self]",
             $paras:[
                 "value [Required] : String.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.rg2'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -9133,7 +9140,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Range"], {
             $rtn:"[self]",
             $paras:[
                 "value [Required] : Number.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.rg4'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -9157,7 +9164,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Range"], {
             $rtn:"[self]",
             $paras:[
                 "value [Required] : Number.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.rg6'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -9180,8 +9187,8 @@ _.set(linb.Locale,["en","doc","linb","UI","Range"], {
             $desc:"Sets the Singleproperty value on the each UIProfile, and reflects the value to UI.",
             $rtn:"[self]",
             $paras:[
-                "value [Required] : Bool.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "value [Required] : Boolean.",
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.rg8'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -9205,7 +9212,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Range"], {
             $rtn:"[self]",
             $paras:[
                 "value [Required] : nonnegative Number.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.rg10'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -9229,7 +9236,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Range"], {
             $rtn:"[self]",
             $paras:[
                 "value [Required] : String.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.rg12'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -9281,7 +9288,7 @@ _.set(linb.Locale,["en","doc","linb","UI","List"], {
             $rtn:"[self]",
             $paras:[
                 "value [Required] : Number.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.list5'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -9304,8 +9311,8 @@ _.set(linb.Locale,["en","doc","linb","UI","List"], {
             $desc:"Sets selection mode, and reflects the value to UI.",
             $rtn:"[self]",
             $paras:[
-                "value [Required] : String. 'none', 'multi' or 'single'.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "value [Required] : String, 'none', 'multi' or 'single'.",
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.list7'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -9318,9 +9325,9 @@ _.set(linb.Locale,["en","doc","linb","UI","List"], {
         onItemSelected:{
             $desc:"Fired when list item is selected.",
             $paras:[
-                "profile : linb.UIProfile Object.",
-                "item: list item Object.",
-                "src: the related DOM element."
+                "profile : linb.UIProfile.",
+                "item: Object, list item Object.",
+                "src: Element, the related DOM element."
             ],
             $snippet:[
                 "var id='linb.temp.list8'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -9332,9 +9339,9 @@ _.set(linb.Locale,["en","doc","linb","UI","List"], {
         onDblclick:{
             $desc:"Fired when list item was dblclicked.",
             $paras:[
-                "profile : linb.UIProfile Object.",
+                "profile : linb.UIProfile.",
                 "item: list item Object.",
-                "src: the related DOM element."
+                "src: Element, the related DOM element."
             ],
             $snippet:[
                 "var id='linb.temp.list9'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -9366,7 +9373,7 @@ _.set(linb.Locale,["en","doc","linb","UI","LinkList"], {
             $rtn:"[self]",
             $paras:[
                 "value [Required] : Number.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.llist2'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -9379,9 +9386,9 @@ _.set(linb.Locale,["en","doc","linb","UI","LinkList"], {
         onItemClick:{
             $desc:"Fired when list item is clicked.",
             $paras:[
-                "profile : linb.UIProfile Object.",
-                "item: list item Object.",
-                "src: the related DOM element."
+                "profile : linb.UIProfile.",
+                "item: Object, list item Object.",
+                "src: Element, the related DOM element."
             ],
             $snippet:[
                 "var id='linb.temp.llist8'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -9427,7 +9434,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Gallery"], {
             $rtn:"[self]",
             $paras:[
                 "value [Required] : Number.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.ga2'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -9451,7 +9458,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Gallery"], {
             $rtn:"[self]",
             $paras:[
                 "value [Required] : Number.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.da4'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -9475,7 +9482,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Gallery"], {
             $rtn:"[self]",
             $paras:[
                 "value [Required] : Number.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.ga6'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -9499,7 +9506,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Gallery"], {
             $rtn:"[self]",
             $paras:[
                 "value [Required] : Number.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.ga8'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -9523,7 +9530,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Gallery"], {
             $rtn:"[self]",
             $paras:[
                 "value [Required] : Number.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.ga10'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -9547,7 +9554,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Gallery"], {
             $rtn:"[self]",
             $paras:[
                 "value [Required] : Number.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.ga12'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -9593,7 +9600,7 @@ _.set(linb.Locale,["en","doc","linb","UI","IconList"], {
             $rtn:"[self]",
             $paras:[
                 "value [Required] : Number.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.ga6'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -9617,7 +9624,7 @@ _.set(linb.Locale,["en","doc","linb","UI","IconList"], {
             $rtn:"[self]",
             $paras:[
                 "value [Required] : Number.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.ga8'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -9641,7 +9648,7 @@ _.set(linb.Locale,["en","doc","linb","UI","IconList"], {
             $rtn:"[self]",
             $paras:[
                 "value [Required] : Number.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.ga10'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -9665,7 +9672,7 @@ _.set(linb.Locale,["en","doc","linb","UI","IconList"], {
             $rtn:"[self]",
             $paras:[
                 "value [Required] : Number.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.ga12'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -9697,7 +9704,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Panel"], {
             $rtn:"[self]",
             $paras:[
                 "value [Required] : String.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.panel34'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -9721,7 +9728,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Panel"], {
             $rtn:"[self]",
             $paras:[
                 "value [Required] : String.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.panel36'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -9745,7 +9752,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Panel"], {
             $rtn:"[self]",
             $paras:[
                 "value [Required] : String.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.panel38'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -9769,7 +9776,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Panel"], {
             $rtn:"[self]",
             $paras:[
                 "value [Required] : String.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.panel40'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -9793,7 +9800,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Panel"], {
             $rtn:"[self]",
             $paras:[
                 "value [Required] : String.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.panel42'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -9817,7 +9824,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Panel"], {
             $rtn:"[self]",
             $paras:[
                 "value [Required] : String.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.panel2'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -9841,7 +9848,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Panel"], {
             $rtn:"[self]",
             $paras:[
                 "value [Required] :String,  image path.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.panel4'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -9865,7 +9872,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Panel"], {
             $rtn:"[self]",
             $paras:[
                 "value [Required] : String, corresponding CSS value.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.panel6'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -9888,8 +9895,8 @@ _.set(linb.Locale,["en","doc","linb","UI","Panel"], {
             $desc:"Sets the toggle property value on the each UIProfile, and reflects the value to UI.",
             $rtn:"[self]",
             $paras:[
-                "value [Required] : Bool.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "value [Required] : Boolean.",
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.panel8'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -9902,7 +9909,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Panel"], {
         onExpend:{
             $desc:"Fired when panel expends.",
             $paras:[
-                "profile : linb.UIProfile Object."
+                "profile : linb.UIProfile."
             ],
             $snippet:[
                 "var id='linb.temp.panel9'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -9915,7 +9922,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Panel"], {
         onFold:{
             $desc:"Fired when panel collapses.",
             $paras:[
-                "profile : linb.UIProfile Object."
+                "profile : linb.UIProfile."
             ],
             $snippet:[
                 "var id='linb.temp.panel10'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -9928,7 +9935,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Panel"], {
         onIniPanelView:{
             $desc:"Fired when panel is initialized.",
             $paras:[
-                "profile : linb.UIProfile Object."
+                "profile : linb.UIProfile."
             ],
             $snippet:[
                 "var id='linb.temp.panel11'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -9941,7 +9948,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Panel"], {
         onClickBar:{
             $desc:"Fired when panel handler is clicked.",
             $paras:[
-                "profile : linb.UIProfile Object.",
+                "profile : linb.UIProfile.",
                 "src: the related DOM element."
             ],
             $snippet:[
@@ -9954,7 +9961,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Panel"], {
         beforeClose:{
             $desc:"Fired before user click close button or Cancel button. If returns false, close function will be ignored.",
             $paras:[
-                "profile : linb.UIProfile Object.",
+                "profile : linb.UIProfile.",
                 "src: the related DOM element."
             ],
             $snippet:[
@@ -9967,9 +9974,9 @@ _.set(linb.Locale,["en","doc","linb","UI","Panel"], {
         onShowOptions :{
             $desc:"Fired when user click the option button.",
             $paras:[
-                "profile : linb.UIProfile Object.",
-                "e: DOM event Object.",
-                "src: the related DOM element."
+                "profile : linb.UIProfile.",
+                "e: Event, DOM event Object.",
+                "src: Element, the related DOM element."
             ],
             $snippet:[
                 "var id='linb.temp.panel14'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -10015,7 +10022,7 @@ _.set(linb.Locale,["en","doc","linb","UI","PageBar"], {
             $rtn:"[self]",
             $paras:[
                 "value [Required] : String, the caption.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.pb2'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -10039,7 +10046,7 @@ _.set(linb.Locale,["en","doc","linb","UI","PageBar"], {
             $rtn:"[self]",
             $paras:[
                 "value [Required] : String, the NextMark.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.pb4'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -10063,7 +10070,7 @@ _.set(linb.Locale,["en","doc","linb","UI","PageBar"], {
             $rtn:"[self]",
             $paras:[
                 "value [Required] : String, the PrevMark.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.pb6'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -10087,7 +10094,7 @@ _.set(linb.Locale,["en","doc","linb","UI","PageBar"], {
             $rtn:"[self]",
             $paras:[
                 "value [Required] : String, the TextTpl.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.pb8'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -10111,7 +10118,7 @@ _.set(linb.Locale,["en","doc","linb","UI","PageBar"], {
             $rtn:"[self]",
             $paras:[
                 "value [Required] : String, the UriTpl.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.pb10'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -10125,7 +10132,7 @@ _.set(linb.Locale,["en","doc","linb","UI","PageBar"], {
         onClick:{
             $desc:"onClick event handler.",
             $paras:[
-                "profile : linb.UIProfile Object.",
+                "profile : linb.UIProfile.",
                 "page : Numer, the target page."
             ],
             $snippet:[
@@ -10184,7 +10191,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Layout"], {
             $rtn:"[self]",
             $paras:[
                 "value [Required] : 'vertical' or 'horizontal'.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.lo3'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:200px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -10255,7 +10262,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Tabs"], {
             $desc:"Removes a set of items from the current UI Object.",
             $rtn:"[self]",
             $paras:[
-                "arr [Required] : Array. A set of id strings."
+                "arr [Required] : Array, A set of id strings."
             ],
             $snippet:[
                 "var id='linb.temp.tabs4'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:200px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -10268,7 +10275,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Tabs"], {
             $desc:"Removes all items from the current UI Object.",
             $rtn:"[self]",
             $paras:[
-                "key [Optional] : String. the template key which node includes all the items nodes. Defalt is 'ITEMS'."
+                "key [Optional] : String, the template key which node includes all the items nodes. Defalt is 'ITEMS'."
             ],
             $snippet:[
                 "var id='linb.temp.tabs5'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:200px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -10300,8 +10307,8 @@ _.set(linb.Locale,["en","doc","linb","UI","Tabs"], {
             $desc:"Sets horizontal alignment, and reflects the value to UI.",
             $rtn:"[self]",
             $paras:[
-                "value [Required] : 'left', 'center' or 'right'.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "value [Required] : String, 'left', 'center' or 'right'.",
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.tabs8'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:200px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -10324,8 +10331,8 @@ _.set(linb.Locale,["en","doc","linb","UI","Tabs"], {
             $desc:"Sets the hasPanel property value on the each UIProfile, and reflects the value to UI.",
             $rtn:"[self]",
             $paras:[
-                "value [Required] : Bool.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "value [Required] : Boolean.",
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.tabs10'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:200px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -10349,7 +10356,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Tabs"], {
             $rtn:"[self]",
             $paras:[
                 "value [Required] : String.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.tabs12'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:200px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -10386,8 +10393,8 @@ _.set(linb.Locale,["en","doc","linb","UI","Tabs"], {
             $rtn:"[self]",
             $paras:[
                 "subId [Required] : String, the sub id that Determines the result.",
-                "mark [Required] : Bool, to mark is not not. ",
-                "force [Optional]: Bool, force to mark it. Default is false."
+                "mark [Required] : Boolean, to mark is not not. ",
+                "force [Optional]: Boolean, force to mark it. Default is false."
             ],
             $snippet:[
                 "var id='linb.temp.tabs15'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:200px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -10402,7 +10409,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Tabs"], {
             $rtn:"[self]",
             $paras:[
                 "para [Required] : a key/value pairs.",
-                "children [Required] : Array. the panel's children.",
+                "children [Required] : Array, the panel's children.",
                 "item [Optional] : Object"
             ],
             $snippet:[
@@ -10459,9 +10466,9 @@ _.set(linb.Locale,["en","doc","linb","UI","Tabs"], {
         beforePageClose:{
             $desc:"Fired before user clicked the close button on a tab. If returns false, the tab won't be closed.",
             $paras:[
-                "profile : linb.UIProfile Object.",
-                "item: the current item.",
-                "value : the value."
+                "profile : linb.UIProfile.",
+                "item: Object, the current item.",
+                "value : Object."
             ],
             $snippet:[
                 "var id='linb.temp.tabs21'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:200px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -10473,8 +10480,8 @@ _.set(linb.Locale,["en","doc","linb","UI","Tabs"], {
         afterPageClose:{
             $desc:"Fired after user clicked the close button on a tab.",
             $paras:[
-                "profile : linb.UIProfile Object.",
-                "item: the current item."
+                "profile : linb.UIProfile.",
+                "item: Element, the current item."
             ],
             $snippet:[
                 "var id='linb.temp.tabs22'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:200px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -10486,9 +10493,9 @@ _.set(linb.Locale,["en","doc","linb","UI","Tabs"], {
         onItemSelected:{
             $desc:"Fired when a tab is selected.",
             $paras:[
-                "profile : linb.UIProfile Object.",
-                "item: item Object.",
-                "src: the related DOM element."
+                "profile : linb.UIProfile.",
+                "item: Object, item Object.",
+                "src:Element, the related DOM element."
             ],
             $snippet:[
                 "var id='linb.temp.tabs23'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:200px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -10500,9 +10507,9 @@ _.set(linb.Locale,["en","doc","linb","UI","Tabs"], {
         onCaptionActive:{
             $desc:"Fired when user click the current tab's caption.",
             $paras:[
-                "profile : linb.UIProfile Object.",
-                "item: item Object.",
-                "src: the related DOM element."
+                "profile : linb.UIProfile.",
+                "item: Object, item Object.",
+                "src: Element, the related DOM element."
             ],
             $snippet:[
                 "var id='linb.temp.tabs24'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:200px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -10514,10 +10521,10 @@ _.set(linb.Locale,["en","doc","linb","UI","Tabs"], {
         onShowOptions :{
             $desc:"Fired when user click the option button.",
             $paras:[
-                "profile : linb.UIProfile Object.",
-                "item: list item Object.",
-                "e: DOM event Object.",
-                "src: the related DOM element."
+                "profile : linb.UIProfile.",
+                "item: Object, list item Object.",
+                "e: Event, DOM event Object.",
+                "src: Element, the related DOM element."
             ],
             $snippet:[
                 "var id='linb.temp.tabs25'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:200px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -10554,8 +10561,8 @@ _.set(linb.Locale,["en","doc","linb","UI","ToolBar"], {
             $desc:"Sets horizontal alignment, and reflects the value to UI.",
             $rtn:"[self]",
             $paras:[
-                "value [Required] : 'left', 'center' or 'right'.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "value [Required] : String, 'left', 'center' or 'right'.",
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.tool2'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:200px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -10578,8 +10585,8 @@ _.set(linb.Locale,["en","doc","linb","UI","ToolBar"], {
             $desc:"Specifys whether this tool bar has a handler, and reflects the value to UI.",
             $rtn:"[self]",
             $paras:[
-                "value [Required] : Bool.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "value [Required] : Boolean.",
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.tool4'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:200px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -10593,7 +10600,7 @@ _.set(linb.Locale,["en","doc","linb","UI","ToolBar"], {
             $rtn:"[self]",
             $paras:[
                 "grpId [Required] : String.",
-                "value [Required] : Bool. Default is true"
+                "value [Required] : Boolean, Default is true"
             ],
             $snippet:[
                 "var id='linb.temp.tool5'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:200px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -10607,7 +10614,7 @@ _.set(linb.Locale,["en","doc","linb","UI","ToolBar"], {
             $rtn:"[self]",
             $paras:[
                 "itemId [Required] : String.",
-                "value: [Optional] : Bool. Default is true."
+                "value: [Optional] : Boolean, Default is true."
             ],
             $snippet:[
                 "var id='linb.temp.tool7'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:200px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -10620,11 +10627,11 @@ _.set(linb.Locale,["en","doc","linb","UI","ToolBar"], {
         onClick:{
             $desc:"Fired when an tool bar item is clicked.",
             $paras:[
-                "profile : linb.UIProfile Object.",
+                "profile : linb.UIProfile.",
                 "item : Object.",
                 "group : Object.",
-                "e : DOM event Object.",
-                "src : DOM element."
+                "e : Event.",
+                "src : Element."
             ],
             $snippet:[
                 "var id='linb.temp.tool8'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:200px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -10647,9 +10654,9 @@ _.set(linb.Locale,["en","doc","linb","UI","PopMenu"], {
             $desc:"Pops this menu.",
             $rtn:"[self]",
             $paras:[
-                "obj [Required] : {left:Nubmer,top:Number} or a DOM element.",
-                "type [Optional] : Number, from 1 to 4, pop position type. Default is 1.",
-                "parent [Optional} : DOM element or linb.Dom Object. The popmenu's parent element."
+                "obj [Required] : Object{left:Nubmer,top:Number}/Element.",
+                "type [Optional] : Number(from 1 to 4,Default is 1), pop position type.",
+                "parent [Optional} : linb.Dom/Element,The popmenu's parent element."
             ],
             $snippet:[
                 "var id='linb.temp.pm0'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:200px;width:300px;\">Click blank to pop up menu.' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -10662,7 +10669,7 @@ _.set(linb.Locale,["en","doc","linb","UI","PopMenu"], {
             $desc:"Hides the the first UIProfile",
             $rtn:"[self]",
             $paras:[
-                "triggerEvent [Optional] : triggers onHide event or not."
+                "triggerEvent [Optional] :Boolean, triggers onHide event or not."
             ],
             $snippet:[
                 "var id='linb.temp.pm1'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:200px;width:300px;\">Click blank to pop up menu.' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -10687,8 +10694,8 @@ _.set(linb.Locale,["en","doc","linb","UI","PopMenu"], {
             $desc:"Specifys whether this popup menu hides automatically , and reflects the value to UI.",
             $rtn:"[self]",
             $paras:[
-                "value [Required] : Bool.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "value [Required] : Boolean.",
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.pm3'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:200px;width:300px;\">Click blank to pop up menu.' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -10715,8 +10722,8 @@ _.set(linb.Locale,["en","doc","linb","UI","PopMenu"], {
             $desc:"Specifys whether this popup menu hides automatically after being clicked, and reflects the value to UI.",
             $rtn:"[self]",
             $paras:[
-                "value [Required] : Bool.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "value [Required] : Boolean.",
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.pm5'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:200px;width:300px;\">Click blank to pop up menu.' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -10759,7 +10766,7 @@ _.set(linb.Locale,["en","doc","linb","UI","PopMenu"], {
             $paras:[
                 "profile : linb.UIProfile",
                 "item : Object.",
-                "src : DOM element."
+                "src : Element."
             ],
             $snippet:[
                 "var id='linb.temp.pm12'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:200px;width:300px;\">Click blank to pop up menu.' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -10774,7 +10781,7 @@ _.set(linb.Locale,["en","doc","linb","UI","PopMenu"], {
             $paras:[
                 "profile : linb.UIProfile",
                 "item : Object.",
-                "src : DOM element."
+                "src : Element."
             ],
             $snippet:[
                 "var id='linb.temp.pm13'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:200px;width:300px;\">Click blank to pop up menu.' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -10814,11 +10821,7 @@ _.set(linb.Locale,["en","doc","linb","UI","MenuBar"], {
             $rtn:"[self]",
             $paras:[
                 "value [Required] : String.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
-            ],
-            $paras:[
-                "value [Required] : Number.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ]
         },
         getAutoShowTime:{
@@ -10838,7 +10841,7 @@ _.set(linb.Locale,["en","doc","linb","UI","MenuBar"], {
             $rtn:"[self]",
             $paras:[
                 "value [Required] : Number.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.menu3'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:200px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -10865,8 +10868,8 @@ _.set(linb.Locale,["en","doc","linb","UI","MenuBar"], {
             $desc:"Specifys whether menu bar has a hanlder, and reflects the value to UI.",
             $rtn:"[self]",
             $paras:[
-                "value [Required] : Bool.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "value [Required] : Boolean.",
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.menu5'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:200px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -10885,7 +10888,7 @@ _.set(linb.Locale,["en","doc","linb","UI","MenuBar"], {
                 "profile : linb.UIProfile",
                 "popProfile: linb.UIProfile, the current popmenu's profile.",
                 "item : Object.",
-                "src : DOM element."
+                "src : Element."
             ],
             $snippet:[
                 "var id='linb.temp.pm12'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:200px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -10901,7 +10904,7 @@ _.set(linb.Locale,["en","doc","linb","UI","MenuBar"], {
                 "profile : linb.UIProfile.",
                 "popProfile: linb.UIProfile, the current popmenu's profile.",
                 "item : Object.",
-                "src : DOM element."
+                "src : Element."
             ],
             $snippet:[
                 "var id='linb.temp.menu13'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:200px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -10994,7 +10997,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Dialog"], {
             $rtn:"[self]",
             $paras:[
                 "parent [Optional] : linb.Dom Object. the parent node. Default is linb('body').",
-                "modal [Optional] : Bool, shows in modal mode or not Default is false.",
+                "modal [Optional] : Boolean, shows in modal mode or not Default is false.",
                 "left [Optional] Number, the left position.",
                 "top [Optional] Number, the top position."
             ],
@@ -11023,7 +11026,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Dialog"], {
             $rtn:"[self]",
             $paras:[
                 "value [Required] : String.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var dlg=(new linb.UI.Dialog).show(null,false, 100,100); alert(dlg.getCaption());_.asyRun(function(){dlg.setCaption('c cc c');},1000);"
@@ -11040,8 +11043,8 @@ _.set(linb.Locale,["en","doc","linb","UI","Dialog"], {
             $desc:"Specifys whether this control has a close button, and reflects the value to UI.",
             $rtn:"[self]",
             $paras:[
-                "value [Required] : Bool.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "value [Required] : Boolean.",
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var dlg=(new linb.UI.Dialog).show(null,false, 100,100); alert(dlg.getCloseBtn());_.asyRun(function(){dlg.setCloseBtn(false);},1000);_.asyRun(function(){dlg.close();},2000);"
@@ -11059,8 +11062,8 @@ _.set(linb.Locale,["en","doc","linb","UI","Dialog"], {
             $desc:"Specifys whether this control has a min button, and reflects the value to UI.",
             $rtn:"[self]",
             $paras:[
-                "value [Required] : Bool.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "value [Required] : Boolean.",
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var dlg=(new linb.UI.Dialog).show(null,false, 100,100); alert(dlg.getMinBtn());_.asyRun(function(){dlg.setMinBtn(false);},1000);"
@@ -11077,8 +11080,8 @@ _.set(linb.Locale,["en","doc","linb","UI","Dialog"], {
             $desc:"Specifys whether this control has a max button, and reflects the value to UI.",
             $rtn:"[self]",
             $paras:[
-                "value [Required] : Bool.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "value [Required] : Boolean.",
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var dlg=(new linb.UI.Dialog).show(null,false, 100,100); alert(dlg.getMaxBtn());_.asyRun(function(){dlg.setMaxBtn(false);},1000);"
@@ -11095,8 +11098,8 @@ _.set(linb.Locale,["en","doc","linb","UI","Dialog"], {
             $desc:"Specifys whether this control has a pin button, and reflects the value to UI.",
             $rtn:"[self]",
             $paras:[
-                "value [Required] : Bool.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "value [Required] : Boolean.",
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var dlg=(new linb.UI.Dialog).show(null,false, 100,100); alert(dlg.getPinBtn());_.asyRun(function(){dlg.setPinBtn(false);},1000);"
@@ -11113,8 +11116,8 @@ _.set(linb.Locale,["en","doc","linb","UI","Dialog"], {
             $desc:"Specifys whether this control has a landing button, and reflects the value to UI.",
             $rtn:"[self]",
             $paras:[
-                "value [Required] : Bool.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "value [Required] : Boolean.",
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var dlg=(new linb.UI.Dialog).show(null,false, 100,100); alert(dlg.getLandBtn());_.asyRun(function(){dlg.setLandBtn(true);},1000);"
@@ -11131,8 +11134,8 @@ _.set(linb.Locale,["en","doc","linb","UI","Dialog"], {
             $desc:"Specifys whether this control has an option button, and reflects the value to UI.",
             $rtn:"[self]",
             $paras:[
-                "value [Required] : Bool.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "value [Required] : Boolean.",
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var dlg=(new linb.UI.Dialog).show(null,false, 100,100); alert(dlg.getOptBtn());_.asyRun(function(){dlg.setOptBtn(true);},1000);"
@@ -11149,8 +11152,8 @@ _.set(linb.Locale,["en","doc","linb","UI","Dialog"], {
             $desc:"Specifys whether end user can move this dialog by drag and drop, and reflects the value to UI.",
             $rtn:"[self]",
             $paras:[
-                "value [Required] : Bool.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "value [Required] : Boolean.",
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var dlg=(new linb.UI.Dialog).show(null,false, 100,100); alert(dlg.getMovable());_.asyRun(function(){dlg.setMovable(false);},1000);"
@@ -11168,7 +11171,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Dialog"], {
             $rtn:"[self]",
             $paras:[
                 "value [Required] :String,  image path.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var dlg=(new linb.UI.Dialog).show(null,false, 100,100); alert(dlg.getImage());_.asyRun(function(){dlg.setImage('img/img.gif');},1000);"
@@ -11186,7 +11189,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Dialog"], {
             $rtn:"[self]",
             $paras:[
                 "value [Required] : String, corresponding CSS value.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var dlg=(new linb.UI.Dialog).show(null,false, 100,100); alert(dlg.getImagePos());_.asyRun(function(){dlg.setImage('img/img.gif').setImagePos('left -16px');},1000);"
@@ -11204,7 +11207,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Dialog"], {
             $rtn:"[self]",
             $paras:[
                 "value [Required] : String.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var dlg=(new linb.UI.Dialog).show(null,false, 100,100); _.asyRun(function(){dlg.setHtml('<p>content</p>');alert(dlg.getHtml());},1000);"
@@ -11221,8 +11224,8 @@ _.set(linb.Locale,["en","doc","linb","UI","Dialog"], {
             $desc:"Sets dialog status, and reflects the value to UI.",
             $rtn:"[self]",
             $paras:[
-                "value [Required] : String. 'normal', 'min' or 'max'.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "value [Required] : String, 'normal', 'min' or 'max'.",
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var dlg=(new linb.UI.Dialog).show(null,false, 100,100); _.asyRun(function(){dlg.setStatus('max');alert(dlg.getStatus());},1000);"
@@ -11242,7 +11245,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Dialog"], {
             $rtn:"[self]",
             $paras:[
                 "value [Required] : Number.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var dlg=(new linb.UI.Dialog).show(null,false, 100,100); "+
@@ -11264,7 +11267,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Dialog"], {
             $rtn:"[self]",
             $paras:[
                 "value [Required] : Number.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var dlg=(new linb.UI.Dialog).show(null,false, 100,100); "+
@@ -11287,7 +11290,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Dialog"], {
             $rtn:"[self]",
             $paras:[
                 "value [Required] : Object.{left:Number,top:Number,width:Number,height:Number}",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var dl=(new linb.UI.Dialog);"+
@@ -11310,7 +11313,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Dialog"], {
         beforeClose:{
             $desc:"Fired before user click close button or Cancel button. If returns false, close function will be ignored.",
             $paras:[
-                "profile : linb.UIProfile Object."
+                "profile : linb.UIProfile."
             ],
             $snippet:[
                 "var dlg=new linb.UI.Dialog; "+
@@ -11322,9 +11325,9 @@ _.set(linb.Locale,["en","doc","linb","UI","Dialog"], {
         onShowOptions :{
             $desc:"Fired when user click the option button.",
             $paras:[
-                "profile : linb.UIProfile Object.",
+                "profile : linb.UIProfile.",
                 "e: DOM event Object.",
-                "src: the related DOM element."
+                "src: Element, the related DOM element."
             ],
             $snippet:[
                 "var dlg=new linb.UI.Dialog({optBtn:true}); "+
@@ -11356,7 +11359,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Image"], {
             $rtn:"[self]",
             $paras:[
                 "value [Required] : Number.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.img2'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -11380,7 +11383,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Image"], {
             $rtn:"[self]",
             $paras:[
                 "value [Required] : Number.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.img4'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -11405,7 +11408,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Image"], {
             $rtn:"[self]",
             $paras:[
                 "value [Required] : String.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.img6'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -11429,7 +11432,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Image"], {
         onError:{
             $desc:"Fired when the image does not exist.",
             $paras:[
-                "profile : linb.UIProfile Object."
+                "profile : linb.UIProfile."
             ],
             $snippet:[
                 "var id='linb.temp.img15'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -11442,7 +11445,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Image"], {
         beforeLoad:{
             $desc:"Fired before the src property is set.",
             $paras:[
-                "profile : linb.UIProfile Object."
+                "profile : linb.UIProfile."
             ],
             $snippet:[
                 "var id='linb.temp.img16'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -11455,7 +11458,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Image"], {
         afterLoad:{
             $desc:"Fired after the image is loaded successfully.",
             $paras:[
-                "profile : linb.UIProfile Object.",
+                "profile : linb.UIProfile.",
                 "path : String, src path.",
                 "width : Number, image width",
                 "height : Number, image height"
@@ -11493,7 +11496,7 @@ _.set(linb.Locale,["en","doc","linb","UI","FoldingList"], {
             $rtn:"[self]",
             $paras:[
                 "value [Required] : Array.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.fl2'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -11520,8 +11523,8 @@ _.set(linb.Locale,["en","doc","linb","UI","FoldingList"], {
             $desc:"Sets the ActiveLast property value on the each UIProfile, and reflects the value to UI.",
             $rtn:"[self]",
             $paras:[
-                "value [Required] : Bool.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "value [Required] : Boolean.",
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.fl6'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -11565,10 +11568,10 @@ _.set(linb.Locale,["en","doc","linb","UI","FoldingList"], {
         onShowOptions :{
             $desc:"Fired when user click the option button.",
             $paras:[
-                "profile : linb.UIProfile Object.",
-                "item: list item Object.",
+                "profile : linb.UIProfile.",
+                "item: Object, list item Object.",
                 "e: DOM event Object.",
-                "src: the related DOM element."
+                "src: Element, the related DOM element."
             ],
             $snippet:[
                 "var id='linb.temp.fl9'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -11582,10 +11585,10 @@ _.set(linb.Locale,["en","doc","linb","UI","FoldingList"], {
         onClickButton:{
             $desc:"Fired when an inner command is clicked.",
             $paras:[
-                "profile : linb.UIProfile Object.",
-                "item: list item Object.",
+                "profile : linb.UIProfile.",
+                "item: Object, list item Object.",
                 "cmdKey: String, the command key.",
-                "src: the related DOM element."
+                "src: Element, the related DOM element."
             ],
             $snippet:[
                 "var id='linb.temp.fl10'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -11600,8 +11603,8 @@ _.set(linb.Locale,["en","doc","linb","UI","FoldingList"], {
         onGetContent:{
             $desc:"Fired when the UI need to build inner content.",
             $paras:[
-                "profile : linb.UIProfile Object.",
-                "item: list item Object.",
+                "profile : linb.UIProfile.",
+                "item: Object, list item Object.",
                 "callback : Function, callback function."
             ],
             $snippet:[
@@ -11639,7 +11642,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Poll"], {
             $rtn:"[self]",
             $paras:[
                 "value [Required] : Array.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.pool2'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -11694,7 +11697,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Poll"], {
             $rtn:"[self]",
             $paras:[
                 "value [Required] : String.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.pool6'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -11721,7 +11724,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Poll"], {
             $rtn:"[self]",
             $paras:[
                 "value [Required] : 'none','combobox','listbox','upload','getter','helpinput','cmdbox','popbox','timepicker','datepicker' or 'colorpicker'. Default is 'none'.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.pool8'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -11749,8 +11752,8 @@ _.set(linb.Locale,["en","doc","linb","UI","Poll"], {
             $desc:"Sets the Editable property value on the each UIProfile, and reflects the value to UI.",
             $rtn:"[self]",
             $paras:[
-                "value [Required] : Bool.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "value [Required] : Boolean.",
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.pool10'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -11778,7 +11781,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Poll"], {
             $rtn:"[self]",
             $paras:[
                 "value [Required] : String.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.pool12'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -11805,8 +11808,8 @@ _.set(linb.Locale,["en","doc","linb","UI","Poll"], {
             $desc:"Sets the Toggle property value on the each UIProfile, and reflects the value to UI.",
             $rtn:"[self]",
             $paras:[
-                "value [Required] : Bool.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "value [Required] : Boolean.",
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.pool14'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -11834,7 +11837,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Poll"], {
             $rtn:"[self]",
             $paras:[
                 "value [Required] : String.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.pool16'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -11861,8 +11864,8 @@ _.set(linb.Locale,["en","doc","linb","UI","Poll"], {
             $desc:"Sets the NoTitle property value on the each UIProfile, and reflects the value to UI.",
             $rtn:"[self]",
             $paras:[
-                "value [Required] : Bool.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "value [Required] : Boolean.",
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.pool20'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -11877,8 +11880,8 @@ _.set(linb.Locale,["en","doc","linb","UI","Poll"], {
         onGetContent:{
             $desc:"Fired when the UI need to build inner content.",
             $paras:[
-                "profile : linb.UIProfile Object.",
-                "item: list item Object.",
+                "profile : linb.UIProfile.",
+                "item: Object, list item Object.",
                 "callback : Function, callback function."
             ],
             $snippet:[
@@ -11893,9 +11896,9 @@ _.set(linb.Locale,["en","doc","linb","UI","Poll"], {
         onClickButton:{
             $desc:"Fired when an inner command is clicked.",
             $paras:[
-                "profile : linb.UIProfile Object.",
+                "profile : linb.UIProfile.",
                 "key: String, the command key.",
-                "src: the related DOM element."
+                "src: Element, the related DOM element."
             ],
             $snippet:[
                 "var id='linb.temp.pool31'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -11910,7 +11913,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Poll"], {
         beforeOptionAdded:{
             $desc:"Fired wbefore a new item will be added.",
             $paras:[
-                "profile : linb.UIProfile Object.",
+                "profile : linb.UIProfile.",
                 "value: String."
             ],
             $snippet:[
@@ -11927,8 +11930,8 @@ _.set(linb.Locale,["en","doc","linb","UI","Poll"], {
         beforeOptionChanged:{
             $desc:"Fired a specified item will be changed",
             $paras:[
-                "profile : linb.UIProfile Object.",
-                "item: list item Object.",
+                "profile : linb.UIProfile.",
+                "item: Object, list item Object.",
                 "value: String."
             ],
             $snippet:[
@@ -11946,7 +11949,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Poll"], {
         beforeOptionRemoved:{
             $desc:"Fired before a specified item will be removed.",
             $paras:[
-                "profile : linb.UIProfile Object."
+                "profile : linb.UIProfile."
             ],
             $snippet:[
                 "var id='linb.temp.pool43'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -11963,7 +11966,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Poll"], {
         beforeTitleChanged:{
             $desc:"Fired before the title will be changed.",
             $paras:[
-                "profile : linb.UIProfile Object.",
+                "profile : linb.UIProfile.",
                 "value: String."
             ],
             $snippet:[
@@ -11981,11 +11984,11 @@ _.set(linb.Locale,["en","doc","linb","UI","Poll"], {
         onCustomEdit:{
             $desc:"Fired when the inline editor is activated.",
             $paras:[
-                "profile : linb.UIProfile Object.",
-                "node: the corresponding Caption DOM element.",
+                "profile : linb.UIProfile",
+                "node: Element, the corresponding Caption DOM element.",
                 "flag: Number, 1:edit item; 2:add item; other:edit title.",
                 "value: String.",
-                "item: list item Object."
+                "item: Object, list item Object."
             ],
             $snippet:[
                 "var id='linb.temp.pool45'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -12020,8 +12023,8 @@ _.set(linb.Locale,["en","doc","linb","UI","TreeBar"], {
             $desc:"Specifys whether to show animate when a tree node collapses, and reflects the value to UI.",
             $rtn:"[self]",
             $paras:[
-                "value [Required] : Bool.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "value [Required] : Boolean.",
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.tb2'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -12046,8 +12049,8 @@ _.set(linb.Locale,["en","doc","linb","UI","TreeBar"], {
             $desc:"Sets the Group property value on the each UIProfile, and reflects the value to UI.",
             $rtn:"[self]",
             $paras:[
-                "value [Required] : Bool.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "value [Required] : Boolean.",
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.tb4'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -12073,8 +12076,8 @@ _.set(linb.Locale,["en","doc","linb","UI","TreeBar"], {
             $desc:"Sets the DynDestory property value on the each UIProfile, and reflects the value to UI.",
             $rtn:"[self]",
             $paras:[
-                "value [Required] : Bool.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "value [Required] : Boolean.",
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.tb6'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -12100,8 +12103,8 @@ _.set(linb.Locale,["en","doc","linb","UI","TreeBar"], {
             $desc:"Specifys whether parent node collapses initially, and reflects the value to UI.",
             $rtn:"[self]",
             $paras:[
-                "value [Required] : Bool.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "value [Required] : Boolean.",
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.tb8'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -12127,8 +12130,8 @@ _.set(linb.Locale,["en","doc","linb","UI","TreeBar"], {
             $desc:"Sets selection mode, and reflects the value to UI.",
             $rtn:"[self]",
             $paras:[
-                "value [Required] : String. 'none', 'single' or 'multi'. Default is 'single'",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "value [Required] : String, 'none', 'single' or 'multi'. Default is 'single'",
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.tb10'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -12155,8 +12158,8 @@ _.set(linb.Locale,["en","doc","linb","UI","TreeBar"], {
             $desc:"Specify whether only one node is allowed to expand at one time, and reflects the value to UI.",
             $rtn:"[self]",
             $paras:[
-                "value [Required] : Bool.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "value [Required] : Boolean.",
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.tb12'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -12171,10 +12174,10 @@ _.set(linb.Locale,["en","doc","linb","UI","TreeBar"], {
             $desc:"Inserts a set of items to the current UI Object.",
             $rtn:"[self]",
             $paras:[
-                "arr [Required] : Array. A set of Item objects.",
-                "pid [Optional] : String. The parent node id.",
-                "base [Optional] : String. The base item id string.",
-                "before [Optional] : Bool. Indicats whether it inserts the target items before the base, or after the base. Default is false;"
+                "arr [Required] : Array, A set of Item objects.",
+                "pid [Optional] : String, The parent node id.",
+                "base [Optional] : String, The base item id string.",
+                "before [Optional] : Boolean, Indicats whether it inserts the target items before the base, or after the base. Default is false;"
             ],
             $snippet:[
                 "var id='linb.temp.tb13'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -12191,7 +12194,7 @@ _.set(linb.Locale,["en","doc","linb","UI","TreeBar"], {
             $desc:"Opens the specified node even if it's in the deeper layer.",
             $rtn:"String",
             $paras:[
-                "id [Required] : String. The node id."
+                "id [Required] : String, The node id."
             ],
             $snippet:[
                 "var id='linb.temp.tb14'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -12205,9 +12208,9 @@ _.set(linb.Locale,["en","doc","linb","UI","TreeBar"], {
             $desc:"Expends or folds the specified node.",
             $rtn:"[self]",
             $paras:[
-                "id [Required] : String. The node id.",
-                "expend [Optional] : Bool. true=>expend;false=>fold.",
-                "recursive [Optional] : Bool. it's recursive or not."
+                "id [Required] : String, The node id.",
+                "expend [Optional] : Boolean, true=>expend;false=>fold.",
+                "recursive [Optional] : Boolean, it's recursive or not."
             ],
             $snippet:[
                 "var id='linb.temp.tb17'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -12224,8 +12227,8 @@ _.set(linb.Locale,["en","doc","linb","UI","TreeBar"], {
         onGetContent:{
             $desc:"Fired when the UI needs to build a sub items.",
             $paras:[
-                "profile : linb.UIProfile Object.",
-                "item: list item Object.",
+                "profile : linb.UIProfile.",
+                "item: Object, list item Object.",
                 "callback : Function, callback function."
             ],
             $snippet:[
@@ -12240,9 +12243,9 @@ _.set(linb.Locale,["en","doc","linb","UI","TreeBar"], {
         onItemSelected:{
             $desc:"Fired when a specified item is clicked.",
             $paras:[
-                "profile : linb.UIProfile Object.",
-                "item: list item Object.",
-                "src: the related DOM element."
+                "profile : linb.UIProfile.",
+                "item: Object, list item Object.",
+                "src: Element, the related DOM element."
             ],
             $snippet:[
                 "var id='linb.temp.tb20'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -12279,7 +12282,7 @@ _.set(linb.Locale,["en","doc","linb","UI","TreeGrid"], {
     prototype:{
         getActiveMode :{
             $desc:"Determines grid active mode.",
-            $rtn:"String, 'cell' or 'row'. ",
+            $rtn:"String, 'cell', 'row' or 'none'. ",
             $snippet:[
                 "var id='linb.temp.grid1'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var o=new linb.UI.TreeGrid({editable:false, position:'relative'});"+
@@ -12293,8 +12296,8 @@ _.set(linb.Locale,["en","doc","linb","UI","TreeGrid"], {
             $desc:"Sets grid active mode, and reflects the value to UI.",
             $rtn:"[self]",
             $paras:[
-                "value [Required] : String. 'cell', 'row'.Default is 'row'.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "value [Required] : String, 'cell', 'row' or 'none'.Default is 'row'.",
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.grid2'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -12336,8 +12339,8 @@ _.set(linb.Locale,["en","doc","linb","UI","TreeGrid"], {
             $desc:"Specifys whether to show rows in stripe., and reflects the value to UI.",
             $rtn:"[self]",
             $paras:[
-                "value [Required] : Bool.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "value [Required] : Boolean.",
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.grid5'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -12364,8 +12367,8 @@ _.set(linb.Locale,["en","doc","linb","UI","TreeGrid"], {
             $desc:"Sets the Animate property value on the each UIProfile, and reflects the value to UI.",
             $rtn:"[self]",
             $paras:[
-                "value [Required] : Bool.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "value [Required] : Boolean.",
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.grid7'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -12408,8 +12411,8 @@ _.set(linb.Locale,["en","doc","linb","UI","TreeGrid"], {
             $desc:"Specifys whether columns are hidable, and reflects the value to UI.",
             $rtn:"[self]",
             $paras:[
-                "value [Required] : Bool.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "value [Required] : Boolean.",
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.grid9.2'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -12436,8 +12439,8 @@ _.set(linb.Locale,["en","doc","linb","UI","TreeGrid"], {
             $desc:"Specifys whether columns are movable, and reflects the value to UI.",
             $rtn:"[self]",
             $paras:[
-                "value [Required] : Bool.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "value [Required] : Boolean.",
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.grid9'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -12464,8 +12467,8 @@ _.set(linb.Locale,["en","doc","linb","UI","TreeGrid"], {
             $desc:"Specifys whether columns are resizable, and reflects the value to UI.",
             $rtn:"[self]",
             $paras:[
-                "value [Required] : Bool.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "value [Required] : Boolean.",
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.grid11'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -12492,8 +12495,8 @@ _.set(linb.Locale,["en","doc","linb","UI","TreeGrid"], {
             $desc:"Specify whether columns are sortable, and reflects the value to UI.",
             $rtn:"[self]",
             $paras:[
-                "value [Required] : Bool.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "value [Required] : Boolean.",
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.grid13'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -12520,8 +12523,8 @@ _.set(linb.Locale,["en","doc","linb","UI","TreeGrid"], {
             $desc:"Sets grid to editable or read-only., and reflects the value to UI.",
             $rtn:"[self]",
             $paras:[
-                "value [Required] : Bool.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "value [Required] : Boolean.",
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.grid15'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -12549,7 +12552,7 @@ _.set(linb.Locale,["en","doc","linb","UI","TreeGrid"], {
             $rtn:"[self]",
             $paras:[
                 "value [Required] : Number.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.grid17'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -12577,7 +12580,7 @@ _.set(linb.Locale,["en","doc","linb","UI","TreeGrid"], {
             $rtn:"[self]",
             $paras:[
                 "value [Required] : Number.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.grid17-1'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -12605,7 +12608,7 @@ _.set(linb.Locale,["en","doc","linb","UI","TreeGrid"], {
             $rtn:"[self]",
             $paras:[
                 "value [Required] : String.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.grid17-2'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -12633,7 +12636,7 @@ _.set(linb.Locale,["en","doc","linb","UI","TreeGrid"], {
             $rtn:"[self]",
             $paras:[
                 "value [Required] : Number.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.grid19'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -12660,8 +12663,8 @@ _.set(linb.Locale,["en","doc","linb","UI","TreeGrid"], {
             $desc:"Sets the IniFold property value on the each UIProfile, and reflects the value to UI.",
             $rtn:"[self]",
             $paras:[
-                "value [Required] : Bool.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "value [Required] : Boolean.",
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.grid21'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -12688,8 +12691,8 @@ _.set(linb.Locale,["en","doc","linb","UI","TreeGrid"], {
             $desc:"Specify whether row can be resized by end user, and reflects the value to UI.",
             $rtn:"[self]",
             $paras:[
-                "value [Required] : Bool.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "value [Required] : Boolean.",
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.grid23'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -12716,8 +12719,8 @@ _.set(linb.Locale,["en","doc","linb","UI","TreeGrid"], {
             $desc:"Specify whether row has handle in the front., and reflects the value to UI.",
             $rtn:"[self]",
             $paras:[
-                "value [Required] : Bool.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "value [Required] : Boolean.",
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.grid125'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -12744,8 +12747,8 @@ _.set(linb.Locale,["en","doc","linb","UI","TreeGrid"], {
             $desc:"Sets grid selection mode, and reflects the value to UI.",
             $rtn:"[self]",
             $paras:[
-                "value [Required] : String. 'none', 'single' or 'multi'. Default is 'single'.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "value [Required] : String, 'none', 'single' or 'multi'. Default is 'single'.",
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.grid127'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -12760,10 +12763,10 @@ _.set(linb.Locale,["en","doc","linb","UI","TreeGrid"], {
              $desc:"Inserts a set of rows to the current grid.",
              $rtn:"[self]",
              $paras:[
-                "arr [Required] : Array. A set of Item objects.",
+                "arr [Required] : Array, A set of Item objects.",
                 "pid [Optional] : String, the parent id.",
-                "base [Optional] : String. the base row id string.",
-                "before [Optional] : Bool. Indicats whether it inserts the target rows before the base, or after the base. Default is false;"
+                "base [Optional] : String, the base row id string.",
+                "before [Optional] : Boolean, Indicats whether it inserts the target rows before the base, or after the base. Default is false;"
              ],
             $snippet:[
                 "var id='linb.temp.grid128'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -12780,8 +12783,8 @@ _.set(linb.Locale,["en","doc","linb","UI","TreeGrid"], {
         toggleRow:{
             $desc:"Expends or folds the specified row. It makes sense with rows containing children only.",
             $paras:[
-                "id [Required] : String. The node id.",
-                "expend [Optional] : Bool. true=>expend;false=>fold."
+                "id [Required] : String, The node id.",
+                "expend [Optional] : Boolean, true=>expend;false=>fold."
             ],
             $snippet:[
                 "var id='linb.temp.grid129'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -12814,7 +12817,7 @@ _.set(linb.Locale,["en","doc","linb","UI","TreeGrid"], {
             $paras:[
                 "cellId [Required] : String, the cell id.",
                 "options [Required] : key/value Object, the keys/values to be updated.",
-                "dirtyMark [Optional] : Bool. Make dirty mark not not. Default is [true]."
+                "dirtyMark [Optional] : Boolean, Make dirty mark not not. Default is [true]."
             ],
             $snippet:[
                 "var id='linb.temp.grid130'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -12832,7 +12835,7 @@ _.set(linb.Locale,["en","doc","linb","UI","TreeGrid"], {
                 "rowId [Required] : String, the corresponding row id.",
                 "colId [Required] : String, the corresponding col id.",
                 "hash [Required] : key/value Object, the keys/values to be updated.",
-                "dirtyMark [Optional] : Bool. Make dirty mark not not. Default is [true]."
+                "dirtyMark [Optional] : Boolean, Make dirty mark not not. Default is [true]."
             ],
             $snippet:[
                 "var id='linb.temp.grid131'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -12918,8 +12921,8 @@ _.set(linb.Locale,["en","doc","linb","UI","TreeGrid"], {
             $desc:"Specifys whether rows are dragable by end user, and reflects the value to UI.",
             $rtn:"[self]",
             $paras:[
-                "value [Required] : Bool.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "value [Required] : Boolean.",
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.grid33'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -12933,7 +12936,7 @@ _.set(linb.Locale,["en","doc","linb","UI","TreeGrid"], {
         getRows :{
             $desc:"Gets the all rows of this grid",
             $paras:[
-                "type [Optional] : String. 'data': get rows' data; 'min': get rows' min data; else, return the memory one."
+                "type [Optional] : String, 'data': get rows' data; 'min': get rows' min data; else, return the memory one."
             ],
             $rtn:"Array",
             $snippet:[
@@ -12950,7 +12953,7 @@ _.set(linb.Locale,["en","doc","linb","UI","TreeGrid"], {
             $rtn:"[self]",
             $paras:[
                 "value [Required] : Object.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.grid33'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -12964,7 +12967,7 @@ _.set(linb.Locale,["en","doc","linb","UI","TreeGrid"], {
         getHeader :{
             $desc:"Get grid header Object",
             $paras:[
-                "type [Optional] : String. 'data': get header's data; 'min': get header's min data; else, return the memory one."
+                "type [Optional] : String, 'data': get header's data; 'min': get header's min data; else, return the memory one."
             ],
             $rtn:"Array",
             $snippet:[
@@ -12983,7 +12986,7 @@ _.set(linb.Locale,["en","doc","linb","UI","TreeGrid"], {
             $rtn:"[self]",
             $paras:[
                 "value [Required] : Object.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.grid35'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -13090,8 +13093,8 @@ _.set(linb.Locale,["en","doc","linb","UI","TreeGrid"], {
             $desc:"Sets the RowNumbered property value on the each UIProfile, and reflects the value to UI.",
             $rtn:"[self]",
             $paras:[
-                "value [Required] : Bool.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "value [Required] : Boolean.",
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.grid38'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -13118,8 +13121,8 @@ _.set(linb.Locale,["en","doc","linb","UI","TreeGrid"], {
             $desc:"Specifys whether grid header shows up or not, and reflects the value to UI.",
             $rtn:"[self]",
             $paras:[
-                "value [Required] : Bool.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "value [Required] : Boolean.",
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.grid40'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -13163,8 +13166,8 @@ _.set(linb.Locale,["en","doc","linb","UI","TreeGrid"], {
             $desc:"Shows/hides a specified column.",
             $rtn:"[self]",
             $paras:[
-                "colId [Required] : String. the column id.",
-                "flag [Optional] : Bool. Determiness to show or hide the specified column. Default is true(to show)."
+                "colId [Required] : String, the column id.",
+                "flag [Optional] : Boolean, Determiness to show or hide the specified column. Default is true(to show)."
             ],
             $snippet:[
                 "var id='linb.temp.grid42'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -13207,8 +13210,8 @@ _.set(linb.Locale,["en","doc","linb","UI","TreeGrid"], {
         beforeCellActive:{
             $desc:"Fired before the cell is activated. If returns false, the activation will be ignored.",
             $paras:[
-                "profile : linb.UIProfile Object.",
-                "cell : the cell Object."
+                "profile : linb.UIProfile.",
+                "cell : Object."
             ],
             $snippet:[
                 "var id='linb.temp.grid50'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -13223,8 +13226,8 @@ _.set(linb.Locale,["en","doc","linb","UI","TreeGrid"], {
         beforeRowActive:{
             $desc:"Fired before the row is activated. If returns false, the activation will be ignored.",
             $paras:[
-                "profile : linb.UIProfile Object.",
-                "row : the row Object."
+                "profile : linb.UIProfile.",
+                "row : Object."
             ],
             $snippet:[
                 "var id='linb.temp.grid51'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -13239,8 +13242,8 @@ _.set(linb.Locale,["en","doc","linb","UI","TreeGrid"], {
         afterCellActive:{
             $desc:"Fired after the cell is activated.",
             $paras:[
-                "profile : linb.UIProfile Object.",
-                "cell : the cell Object."
+                "profile : linb.UIProfile.",
+                "cell : Object."
             ],
             $snippet:[
                 "var id='linb.temp.grid52'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -13255,8 +13258,8 @@ _.set(linb.Locale,["en","doc","linb","UI","TreeGrid"], {
         afterRowActive:{
             $desc:"Fired after the row is activated.",
             $paras:[
-                "profile : linb.UIProfile Object.",
-                "row : the row Object."
+                "profile : linb.UIProfile.",
+                "row : Object."
             ],
             $snippet:[
                 "var id='linb.temp.grid53'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -13271,9 +13274,9 @@ _.set(linb.Locale,["en","doc","linb","UI","TreeGrid"], {
         beforeColMoved:{
             $desc:"Fired before the column is moved. If returns false, the move action will be ignored.",
             $paras:[
-                "profile : linb.UIProfile Object.",
-                "colId : the moved column id.",
-                "toId : [colId] will be moved to the front of which column."
+                "profile : linb.UIProfile.",
+                "colId : String, the moved column id.",
+                "toId : String, [colId] will be moved to the front of which column."
             ],
             $snippet:[
                 "var id='linb.temp.grid54'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -13289,9 +13292,9 @@ _.set(linb.Locale,["en","doc","linb","UI","TreeGrid"], {
         afterColMoved:{
             $desc:"Fired after the column is moved.",
             $paras:[
-                "profile : linb.UIProfile Object.",
-                "colId : the moved column id.",
-                "toId : [colId] will be moved to the front of which column."
+                "profile : linb.UIProfile.",
+                "colId : String, the moved column id.",
+                "toId : String, [colId] will be moved to the front of which column."
             ],
             $snippet:[
                 "var id='linb.temp.grid55'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -13307,8 +13310,8 @@ _.set(linb.Locale,["en","doc","linb","UI","TreeGrid"], {
         beforeColDrag:{
             $desc:"Fired before the column is draged. If returns false, the drag action will be ignored.",
             $paras:[
-                "profile : linb.UIProfile Object.",
-                "colId : the column id."
+                "profile : linb.UIProfile.",
+                "colId : String, the column id."
             ],
             $snippet:[
                 "var id='linb.temp.grid56'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -13331,8 +13334,8 @@ _.set(linb.Locale,["en","doc","linb","UI","TreeGrid"], {
         onGetContent:{
             $desc:"Fired when treegrid need to get content to build a set of sub rows.",
             $paras:[
-                "profile : linb.UIProfile Object.",
-                "row : the parent row.",
+                "profile : linb.UIProfile.",
+                "row : Object, the parent row.",
                 "callback : Function, callback function."
             ],
             $snippet:[
@@ -13347,9 +13350,9 @@ _.set(linb.Locale,["en","doc","linb","UI","TreeGrid"], {
         onRowSelected:{
             $desc:"Fired when a row is selected.",
             $paras:[
-                "profile : linb.UIProfile Object.",
-                "row: row Object.",
-                "src: the related DOM element."
+                "profile : linb.UIProfile.",
+                "row:  Object.",
+                "src: Element, the related DOM element."
             ],
             $snippet:[
                 "var id='linb.temp.grid58'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -13363,10 +13366,10 @@ _.set(linb.Locale,["en","doc","linb","UI","TreeGrid"], {
         onDblClickRow:{
             $desc:"Fired when a row is dblclicked.",
             $paras:[
-                "profile : linb.UIProfile Object.",
-                "row: row Object.",
-                "e: the DOM event Object.",
-                "src: the related DOM element."
+                "profile : linb.UIProfile.",
+                "row: Object.",
+                "e: Event, the DOM event Object.",
+                "src: Element, the related DOM element."
             ],
             $snippet:[
                 "var id='linb.temp.grid59'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -13380,12 +13383,12 @@ _.set(linb.Locale,["en","doc","linb","UI","TreeGrid"], {
         beoforeComboPop :{
             $desc:"Fired when a cell which type is 'getter/popbox/cmdbox' is clicked.",
             $paras:[
-                "profile : linb.UIProfile Object.",
-                "cell: the cell Object.",
-                "proEditor: the editor profile Object, if the editor exists.",
-                "pos: the click event mouse position.",
-                "e: the DOM event Object.",
-                "src: the related DOM element."
+                "profile : linb.UIProfile.",
+                "cell: Object.",
+                "proEditor: linb.UIProfile, the editor profile Object, if the editor exists.",
+                "pos: Object, the click event mouse position.",
+                "e: Event, the DOM event Object.",
+                "src: Element, the related DOM element."
             ],
             $snippet:[
                 "var id='linb.temp.grid60'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -13400,10 +13403,10 @@ _.set(linb.Locale,["en","doc","linb","UI","TreeGrid"], {
         onClickCell:{
             $desc:"Fired when a cell(type is 'label/button' or not editable) is clicked.",
             $paras:[
-                "profile : linb.UIProfile Object.",
-                "cell: the cell Object.",
-                "e: the DOM event Object.",
-                "src: the related DOM element."
+                "profile : linb.UIProfile.",
+                "cell: Object.",
+                "e: Event, the DOM event Object.",
+                "src: Element, the related DOM element."
             ],
             $snippet:[
                 "var id='linb.temp.grid60-1'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -13417,10 +13420,10 @@ _.set(linb.Locale,["en","doc","linb","UI","TreeGrid"], {
         onDblClickCell:{
             $desc:"Fired when a cell(type is 'label/button' or not editable) is double clicked.",
             $paras:[
-                "profile : linb.UIProfile Object.",
-                "cell: the cell Object.",
-                "e: the DOM event Object.",
-                "src: the related DOM element."
+                "profile : linb.UIProfile.",
+                "cell: Object.",
+                "e: Event, the DOM event Object.",
+                "src: Element, the related DOM element."
             ],
             $snippet:[
                 "var id='linb.temp.grid60-2'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -13434,8 +13437,8 @@ _.set(linb.Locale,["en","doc","linb","UI","TreeGrid"], {
         beforeIniEditor: {
             $desc:"Fired before a specified cell will be changed to edit mode(attach an editor to it). If returns false, tha action will be cancelled.",
             $paras:[
-                "profile : linb.UIProfile Object.",
-                "cell : the cell Object."
+                "profile : linb.UIProfile.",
+                "cell : Object."
             ],
             $snippet:[
                 "var id='linb.temp.grid61-1'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -13449,9 +13452,9 @@ _.set(linb.Locale,["en","doc","linb","UI","TreeGrid"], {
         beforeCellUpdated: {
             $desc:"Fired before a specified cell is update. If returns false, the update action will be ignored.",
             $paras:[
-                "profile : linb.UIProfile Object.",
-                "cell : the cell Object.",
-                "hash [Required] : key/value Object, the keys/values to be updated."
+                "profile : linb.UIProfile.",
+                "cell :Object, the cell Object.",
+                "options : Object, the keys/values to be updated."
             ],
             $snippet:[
                 "var id='linb.temp.grid61'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -13466,9 +13469,9 @@ _.set(linb.Locale,["en","doc","linb","UI","TreeGrid"], {
         afterCellUpdated: {
             $desc:"Fired before a specified cell is update. If returns false, the update action will be ignored.",
             $paras:[
-                "profile : linb.UIProfile Object.",
-                "cell : the cell Object.",
-                "hash [Required] : key/value Object, the keys/values to be updated."
+                "profile : linb.UIProfile.",
+                "cell : Object, the cell Object.",
+                "options : Object, the keys/values to be updated."
             ],
             $snippet:[
                 "var id='linb.temp.grid62'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -13544,8 +13547,8 @@ _.set(linb.Locale,["en","doc","linb","UI","TimeLine"], {
             $desc:"Sets the close button property value on the first UIProfile, and reflects it to DOM UI.",
             $rtn:"[self]",
             $paras:[
-                "value [Required] : Bool.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "value [Required] : Boolean.",
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.tl5'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -13636,8 +13639,8 @@ _.set(linb.Locale,["en","doc","linb","UI","TimeLine"], {
             $desc:"Sets the option button property value on the first UIProfile, and reflects it to DOM UI.",
             $rtn:"[self]",
             $paras:[
-                "value [Required] : Bool.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "value [Required] : Boolean.",
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.tl7'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -13662,8 +13665,8 @@ _.set(linb.Locale,["en","doc","linb","UI","TimeLine"], {
             $desc:"Sets the date button property value on the first UIProfile, and reflects it to DOM UI.",
             $rtn:"[self]",
             $paras:[
-                "value [Required] : Bool.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "value [Required] : Boolean.",
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.tl7'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -13690,7 +13693,7 @@ _.set(linb.Locale,["en","doc","linb","UI","TimeLine"], {
             $rtn:"[self]",
             $paras:[
                 "value [Required] : String.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.tl9'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -13711,7 +13714,7 @@ _.set(linb.Locale,["en","doc","linb","UI","TimeLine"], {
             $rtn:"[self]",
             $paras:[
                 "value [Required] : Number.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $memo:"If you set the FixWidth property to [false], the widget UI will be refreshed once when the widget width is changed."
         },
@@ -13732,7 +13735,7 @@ _.set(linb.Locale,["en","doc","linb","UI","TimeLine"], {
             $rtn:"[self]",
             $paras:[
                 "value [Required] : Date Object.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.tl21'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -13759,7 +13762,7 @@ _.set(linb.Locale,["en","doc","linb","UI","TimeLine"], {
             $rtn:"[self]",
             $paras:[
                 "value [Required] : Date Object.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.tl23'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -13786,7 +13789,7 @@ _.set(linb.Locale,["en","doc","linb","UI","TimeLine"], {
             $rtn:"[self]",
             $paras:[
                 "value [Required] : Date Object.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.tl25'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -13813,7 +13816,7 @@ _.set(linb.Locale,["en","doc","linb","UI","TimeLine"], {
             $rtn:"[self]",
             $paras:[
                 "value [Required] : Date Object.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.tl27'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -13838,8 +13841,8 @@ _.set(linb.Locale,["en","doc","linb","UI","TimeLine"], {
             $desc:"Gets the Readonly property value on the first UIProfile",
             $rtn:"[self]",
             $paras:[
-                "value [Required] : Bool.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "value [Required] : Boolean.",
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.tl29'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -13864,8 +13867,8 @@ _.set(linb.Locale,["en","doc","linb","UI","TimeLine"], {
             $desc:"Gets the ShowTips property value on the first UIProfile",
             $rtn:"[self]",
             $paras:[
-                "value [Required] : Bool.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "value [Required] : Boolean.",
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.tl31'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -13890,8 +13893,8 @@ _.set(linb.Locale,["en","doc","linb","UI","TimeLine"], {
             $desc:"Gets the ShowBar property value on the first UIProfile",
             $rtn:"[self]",
             $paras:[
-                "value [Required] : Bool.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "value [Required] : Boolean.",
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.tl33'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -13916,8 +13919,8 @@ _.set(linb.Locale,["en","doc","linb","UI","TimeLine"], {
             $desc:"Gets the ShowBigLabel property value on the first UIProfile.",
             $rtn:"[self]",
             $paras:[
-                "value [Required] : Bool.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "value [Required] : Boolean.",
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.tl35'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -13942,8 +13945,8 @@ _.set(linb.Locale,["en","doc","linb","UI","TimeLine"], {
             $desc:"Gets the TimeSpanKey property value on the first UIProfile.",
             $rtn:"[self]",
             $paras:[
-                "value [Required] : String. '10 ms','100 ms','1 s','10 s', '1 n','5 n', '10 n', '30 n', '1 h','2 h', '6 h', '1 d', '1 w', '15 d', '1 m', '1 q', '1 y', '1 de' or '1 c'.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "value [Required] : String, '10 ms','100 ms','1 s','10 s', '1 n','5 n', '10 n', '30 n', '1 h','2 h', '6 h', '1 d', '1 w', '15 d', '1 m', '1 q', '1 y', '1 de' or '1 c'.",
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.tl37'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -13969,7 +13972,7 @@ _.set(linb.Locale,["en","doc","linb","UI","TimeLine"], {
             $rtn:"[self]",
             $paras:[
                 "value [Required] : Number.",
-                "flag [Optional] : Bool, force to set the property value even if the same property value already exists. Default is [false]."
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
                 "var id='linb.temp.tl39'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -14008,10 +14011,10 @@ _.set(linb.Locale,["en","doc","linb","UI","TimeLine"], {
         beforeDragTask:{
             $desc:"Fired before user start to drag a task. If returns false, the defalut drag action will be ignored.",
             $paras:[
-                "profile : linb.UIProfile Object.",
-                "task : the task Object.",
-                "e: DOM event Object.",
-                "src: the related DOM element."
+                "profile : linb.UIProfile.",
+                "task : Object.",
+                "e: Event, DOM event Object.",
+                "src: Element, the related DOM element."
             ],
             $snippet:[
                 "var id='linb.temp.tl50-2'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -14024,8 +14027,8 @@ _.set(linb.Locale,["en","doc","linb","UI","TimeLine"], {
         beforeClose:{
             $desc:"Fired before user click close button or Cancel button. If returns false, close function will be ignored.",
             $paras:[
-                "profile : linb.UIProfile Object.",
-                "src: the related DOM element."
+                "profile : linb.UIProfile.",
+                "src: Element, the related DOM element."
             ],
             $snippet:[
                 "var id='linb.temp.tl50'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -14038,9 +14041,9 @@ _.set(linb.Locale,["en","doc","linb","UI","TimeLine"], {
         onShowOptions :{
             $desc:"Fired when user click the option button.",
             $paras:[
-                "profile : linb.UIProfile Object.",
-                "e: DOM event Object.",
-                "src: the related DOM element."
+                "profile : linb.UIProfile.",
+                "e: Event, DOM event Object.",
+                "src: Element,  the related DOM element."
             ],
             $snippet:[
                 "var id='linb.temp.tl51'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -14053,10 +14056,10 @@ _.set(linb.Locale,["en","doc","linb","UI","TimeLine"], {
         onClickTask:{
             $desc:"Fired when user click the task block.",
             $paras:[
-                "profile : linb.UIProfile Object.",
-                "task : the task Object.",
-                "e: DOM event Object.",
-                "src: the related DOM element."
+                "profile : linb.UIProfile.",
+                "task :  Object.",
+                "e: Event, DOM event Object.",
+                "src: Element, the related DOM element."
             ],
             $snippet:[
                 "var id='linb.temp.tl52'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -14070,7 +14073,7 @@ _.set(linb.Locale,["en","doc","linb","UI","TimeLine"], {
         onGetContent:{
             $desc:"Fired when the UI need to build new tasks.",
             $paras:[
-                "profile : linb.UIProfile Object.",
+                "profile : linb.UIProfile.",
                 "from : Date, the 'from' time.",
                 "to : Date, the 'to' time.",
                 "minMs : Number, the min ms count.",
@@ -14088,22 +14091,22 @@ _.set(linb.Locale,["en","doc","linb","UI","TimeLine"], {
         beforeDelTasks:{
             $desc:"Fired before a specified task is deleted. If returns false, the action will be ignored.",
             $paras:[
-                "profile : linb.UIProfile Object.",
-                "arr : Array. A set of id strings."
+                "profile : linb.UIProfile.",
+                "arr : Obejct[], A set of id strings."
             ]
         },
         beforeNewTasks:{
             $desc:"Fired before a specified task is added. If returns false, the action will be ignored.",
             $paras:[
-                "profile : linb.UIProfile Object.",
-                "tasks: Array. A set of tasks."
+                "profile : linb.UIProfile.",
+                "tasks: Object[], A set of tasks."
             ]
         },
         beforeTaskUpdated:{
             $desc:"Fired before a specified task is updated. If returns false, the action will be ignored.",
             $paras:[
-                "profile : linb.UIProfile Object.",
-                "tasks: Array. A set of tasks.",
+                "profile : linb.UIProfile.",
+                "tasks: Object[], A set of tasks.",
                 "from : Date, the 'from' time.",
                 "to: Date, the 'to' time."
             ]
