@@ -26,6 +26,7 @@ Class('App', 'linb.Com',{
             
             host.layout4.append((new linb.UI.TreeGrid)
                 .host(host,"tg2")
+                .setRowHandler(false)
                 .afterRowActive("_tg2_afterRowActive")
                 .setCustomStyle({"CELL":"border-right:none;padding-right:1px;", "CELL-GROUP":"border-right:none;padding-right:1px;", "PREVIEW":"border-right:none;padding-right:1px;", "SUMMARY":"border-right:none;padding-right:1px;"})
             , 'before');

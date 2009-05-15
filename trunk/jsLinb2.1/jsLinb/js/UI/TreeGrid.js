@@ -184,7 +184,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
             options.id=rowId;
             if(('group' in options && options.group!=orow.group) || 
                 'cells' in options || 
-                ('sub' in options && !((!options.sub && orow.sub && orow.sub.length==0) || (options.sub.length==0 && !orow.sub)))
+                ('sub' in options && !((!options.sub && orow.sub && orow.sub.length==0) || (options.sub && options.sub.length==0 && !orow.sub)))
             ){
                 var id="__special",pid=orow._pid,profile=ns.get(0);
                 orow.id=id;
@@ -916,7 +916,8 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                 'line-height':0
             },
             ROWNUM:{
-                'padding-right':'6px'
+                'padding-right':'6px',
+                color:'#808080'
             },
             'FCELL, CELL':{
                 //firefox:height:100% without overflow:hidden
@@ -2293,7 +2294,7 @@ sortby [for column only]
                 // for cells
                 if(row.group)
                     row.cells=null;
-                if(!row.caption)
+                if(!'caption' in row)
                     row.caption=''+(row.value||row.id);
 
                 if(row.caption && !row.tips)

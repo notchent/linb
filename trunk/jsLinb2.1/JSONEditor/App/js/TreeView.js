@@ -16,6 +16,7 @@ Class('App.TreeView', 'linb.Com',{
                 .setEditable(true)
                 .setColSortable(false)
                 .setColMovable(false)
+                .setRowNumbered(true)
                 .setHeader([{"id":"key", "width":100, "type":"input", "caption":"key"}, {"id":"value", "width":400, "type":"textarea", "caption":"value"}, {"id":"action", "width":90, "type":"label", "cellRenderer":
                     function (o) {
                         o.tips = "";
@@ -61,7 +62,7 @@ Class('App.TreeView', 'linb.Com',{
                 if(row._pid)
                     type=_.get(profile.rowMap, [profile.rowMap2[row._pid],'_type']);
 
-                profile.boxing().insertRows([{id:nid, cells:[{value:type=='array'?'[index]':'new',disabled:type=='array'},'null','']}],null,row.id,true);
+                profile.boxing().insertRows([{id:nid, caption:"", cells:[{value:type=='array'?'[index]':'new',disabled:type=='array'},'null','']}],null,row.id,true);
                 _.asyRun(function(){
                     profile.getSubNode('FIRSTCELL',profile.rowMap2[nid]).onClick();
                 });
@@ -70,7 +71,7 @@ Class('App.TreeView', 'linb.Com',{
                 if(row._pid)
                     type=_.get(profile.rowMap, [profile.rowMap2[row._pid],'_type']);
 
-                profile.boxing().insertRows([{id:nid, cells:[{value:type=='array'?'[index]':'new',disabled:type=='array'},'null','']}],null,row.id,false);
+                profile.boxing().insertRows([{id:nid, caption:"", cells:[{value:type=='array'?'[index]':'new',disabled:type=='array'},'null','']}],null,row.id,false);
                 _.asyRun(function(){
                     profile.getSubNode('FIRSTCELL',profile.rowMap2[nid]).onClick();
                 });
@@ -89,7 +90,7 @@ Class('App.TreeView', 'linb.Com',{
                     v=v.replace(/^\s*/,'').replace(/\s*$/,'');
                     v= v=='null'? ['null','null'] :
                       //number
-                        parseFloat(String(parseFloat(v)))==parseFloat(v) ? ['number',v]  :
+                        String(parseFloat(v))==v ? ['number',v]  :
                       //reg
                         /^\/(\\[\/\\]|[^*\/])(\\.|[^\/\n\\])*\/[gim]*$/.test(v) ? ['regexp', v]  :
                       //bool
@@ -112,7 +113,9 @@ Class('App.TreeView', 'linb.Com',{
                     return null
                 v[1]=_.serialize(v[1]);
             }
-              return v;
+            if(v[1]==="false" && v[0]!='string')
+                v[0]='boolean';
+            return v;
         },
         _json2rows:function(obj,array,rows){
             var me=arguments.callee;
@@ -134,6 +137,7 @@ Class('App.TreeView', 'linb.Com',{
                     row.cells=[i,_.serialize(o),''];
                 }
                 row._type=type;
+                row.caption="";
                 rows.push(row);
             });
             return rows;
@@ -188,27 +192,19 @@ Class('App.TreeView', 'linb.Com',{
                     alert('Text format is not valid!');
                     return false;
                 }else{
-                    if(map[type]){
-                        var a=[];
-                        _.arr.each(row.sub,function(o){
-                            a.push(o.id);
-                        });
-                        this.tg.removeRows(a);
-                        this.tg.toggleRow(row.id, false);
-                        delete row.sub;
-                    }
-                    if(map[va[0]]){
-                        var sub=this._json2rows(_.unserialize(va[1]),va[0]=='array');
-
-                        this.tg.insertRows(sub,row.id);
-                        this.tg.toggleRow(row.id, true);
-                        options.caption=va[0]=='hash'?'{...}':'[...]';
-                    }
-                    if(map[type]!=map[va[0]])
-                        profile.getSubNode('TOGGLE',row._serialId).css('display',map[va[0]]?'':'none');
-
                     row._type=va[0];
                     options.value=va[1];
+
+                    var ops={};                    
+                    if(map[va[0]]){
+                        ops.sub=this._json2rows(_.unserialize(va[1]),va[0]=='array');
+                        options.caption=va[0]=='hash'?'{...}':'[...]';
+                    }else{
+                        ops.sub=null;
+                    }
+                    _.asyRun(function(){
+                        profile.boxing().updateRow(row.id, ops);
+                    });
                 }
             }else{
                 if(!/^"(\\.|[^"\\])*"$/.test('"'+options.value+'"')){

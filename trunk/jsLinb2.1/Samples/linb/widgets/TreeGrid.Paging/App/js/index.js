@@ -4,7 +4,7 @@ Class('App', 'linb.Com',{
         //base Class for linb.Com
         base:["linb.UI"], 
         //requried class for the App
-        required:["linb.UI.Pane", "linb.UI.PageBar", "linb.UI.TreeGrid", "linb.UI.ComboInput"], 
+        required:["linb.UI.Pane", "linb.UI.PageBar", "linb.UI.TreeGrid", "linb.UI.ComboInput", "linb.UI.Panel"], 
         //Com events
         events:{"onRender":"_onready"}, 
         iniComponents:function(){
@@ -19,7 +19,25 @@ Class('App', 'linb.Com',{
                 .setHeight(300)
             );
             
-            host.pane29.append((new linb.UI.Pane)
+            append((new linb.UI.Panel)
+                .host(host,"panel3")
+                .setDock("none")
+                .setLeft(30)
+                .setTop(40)
+                .setWidth(660)
+                .setHeight(360)
+                .setZIndex(1)
+                .setCaption("Paging")
+            );
+            
+            host.panel3.append((new linb.UI.TreeGrid)
+                .host(host,"tg")
+                .setAltRowsBg(true)
+                .setRowHandler(false)
+                .setCustomStyle({"BORDER":"border:solid 1px #aaa;"})
+            );
+            
+            host.panel3.append((new linb.UI.Pane)
                 .host(host,"pane30")
                 .setDock("bottom")
                 .setHeight(30)
@@ -36,18 +54,12 @@ Class('App', 'linb.Com',{
                 .host(host,"comboinput19")
                 .setLeft(562)
                 .setTop(5)
+                .setWidth(40)
                 .setType("spin")
                 .setIncrement("1")
                 .setMin("10")
                 .setMax("20")
-                .setWidth(40)
                 .afterUIValueSet("_comboinput19_afteruivalueset")
-            );
-            
-            host.pane29.append((new linb.UI.TreeGrid)
-                .host(host,"tg")
-                .setAltRowsBg(true)
-                .setCustomStyle({"BORDER":"border:solid 1px #aaa;"})
             );
             
             return children;
@@ -72,8 +84,8 @@ Class('App', 'linb.Com',{
             var page=parseInt((SPA._rows.length+(SPA.count-1))/SPA.count);
             SPA.pagebar2.setValue([1,1,page].join(':')).setPage(1);
             SPA.comboinput19.setValue(count);
-            SPA.setTg(1);            
-        },
+            SPA.setTg(1);
+        }, 
         setTg:function(index){
             var rows=SPA._rows.slice((index-1)*SPA.count,index*SPA.count);
             SPA.tg.removeAllRows().insertRows(rows);
