@@ -176,7 +176,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
             return cell._row;
         },
         updateRow:function(rowId,options){
-            var ns=this, orow=ns.getRowbyRowId(rowId), t;
+            var ns=this, orow=ns.getRowbyRowId(rowId), rid=orow._serialId, t,tt;
             if(!orow)return ns;
 
             if(_.isStr(options)) options={value:options};
@@ -196,23 +196,41 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                 ns.insertRows([orow],pid,id,true);
                 ns.removeRows([id]);
             }else{
-                if(!options.caption)
-                    options.caption=''+(options.value||rowId);
-                if(options.caption && !options.tips)
-                    options._$tips=options.caption;
+
                 if('sub' in options){
-                    t=ns.getSubNode('FCELLCMD',orow._serialId);
+                    t=ns.getSubNode('FCELLCMD',rid);
                     if(options.sub)
                         t.removeClass('uicmd-empty').addClass('uicmd-toggle2')
                     else
                         t.removeClass('uicmd-toggle2').addClass('uicmd-empty')
                     
                 }
-                _.merge(orow, options, 'all');
-                if(t=options.caption)
-                    ns.getSubNode('FCELLCAPTION',orow._serialId).get(0).innerHTML=t;
+
                 if(t=options.height)
-                    ns.getSubNode('CELLS',orow._serialId).height(t);
+                    ns.getSubNode('CELLS',rid).height(t);
+                if(t=options.rowStyle)
+                    (tt=ns.getSubNode('CELLS',rid)).attr('style',tt.attr('style')+";"+t);
+                if(t=options.rowClass)
+                    ns.getSubNode('CELLS',rid).addClass(t);
+                if(t=options.firstCellStyle)
+                    (tt=ns.getSubNode('FCELL',rid)).attr('style',tt.attr('style')+";"+t);
+                if(t=options.firstCellClass)
+                    ns.getSubNode('FCELL',rid).addClass(t);
+
+                if('caption' in options)
+                    ns.getSubNode('FCELLCAPTION',rid).get(0).innerHTML=options.caption;
+                if('previewDisplay' in options)
+                    ns.getSubNode('PREVIEW',rid).css('display',options.previewDisplay?"block":'none');
+                if('preview' in options)
+                    ns.getSubNode('PREVIEW',rid).html(options.preview);
+                if('summaryDisplay' in options)
+                    ns.getSubNode('SUMMERY',rid).css('display',options.summaryDisplay?"block":'none');
+                if('summary' in options)
+                    ns.getSubNode('SUMMERY',rid).html(options.summary);
+                if('rowResizer' in options)
+                    ns.getSubNode('FHANDLER',rid).css('display',options.rowResizer?"block":'none');
+                    
+                _.merge(orow, options, 'all');
             }
             return ns;
         },
@@ -387,24 +405,33 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                 return v;
         },
         updateHeader:function(colId,options){
-            var ns=this, colh=ns.getHeaderByColId(colId), t;
+            var ns=this, colh=ns.getHeaderByColId(colId), hid=colh._serialId, t;
             if(!colh)return ns;
 
             if(_.isStr(options)) options={caption:options};
             else _.filter(options,true);
             delete options.id;
 
-            _.merge(colh, options, 'all');
-            if(t=options.caption)
-                ns.getSubNode('HCELLCAPTION',colh._serialId).get(0).innerHTML=t;
             if(t=options.width){
                 var n=[];
-                n.push(ns.getSubNode('HCELL',colh._serialId).get(0));
+                n.push(ns.getSubNode('HCELL',hid).get(0));
                 _.each(colh._cells,function(o){
                     n.push(ns.getSubNode('CELL',o).get(0));
                 });
                 linb(n).width(t);
             }
+            
+            if(t=options.headerStyle)
+                (tt=ns.getSubNode('HCELL',hid)).attr('style',tt.attr('style')+";"+t);
+            if(t=options.headerClass)
+                ns.getSubNode('HCELL',hid).addClass(t);
+
+            if('caption' in options)
+                ns.getSubNode('HCELLCAPTION',hid).get(0).innerHTML=options.caption;
+            if('colResizer' in options)
+                ns.getSubNode('HHANDLER',hid).css('display',options.colResizer?"block":'none');
+            
+            _.merge(colh, options, 'all');
         },
         getHeaderByColId:function(colId){
             var v=this.get(0).properties.header,
