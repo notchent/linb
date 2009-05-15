@@ -6456,12 +6456,12 @@ type:4
             }else
                 return str;
         },
-        _getEV:function(id, name, src){
+        _getEV:function(funs, id, name, src){
             var evs = this.events,
                 evkey = src.getAttribute('evkey'),
                 evg = evkey&&evs&&evs[evkey]||evs,
                 ev = evg&&evg[name];
-            return typeof ev=='function'?[ev]:[];
+            if(ev)funs.push(ev);
         },
         _doTemplate:function(properties, tag, result){
             if(!properties)return '';
@@ -25294,16 +25294,22 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
 
                 if('caption' in options)
                     ns.getSubNode('FCELLCAPTION',rid).get(0).innerHTML=options.caption;
-                if('previewDisplay' in options)
-                    ns.getSubNode('PREVIEW',rid).css('display',options.previewDisplay?"block":'none');
+                if('previewDisplay' in options){
+                    t=!!options.previewDisplay;
+                    ns.getSubNode('PREVIEW',rid).css('display',(options.previewDisplay=t)?"block":'none');
+                }
                 if('preview' in options)
                     ns.getSubNode('PREVIEW',rid).html(options.preview);
-                if('summaryDisplay' in options)
-                    ns.getSubNode('SUMMERY',rid).css('display',options.summaryDisplay?"block":'none');
+                if('summaryDisplay' in options){
+                    t=!!options.summaryDisplay;
+                    ns.getSubNode('SUMMARY',rid).css('display',(options.summaryDisplay=t)?"block":'none');
+                }
                 if('summary' in options)
-                    ns.getSubNode('SUMMERY',rid).html(options.summary);
-                if('rowResizer' in options)
-                    ns.getSubNode('FHANDLER',rid).css('display',options.rowResizer?"block":'none');
+                    ns.getSubNode('SUMMARY',rid).html(options.summary);
+                if('rowResizer' in options){
+                    t=!!options.rowResizer;
+                    ns.getSubNode('FHANDLER',rid).css('display',(options.rowResizer=t)?"block":'none');
+                }
                     
                 _.merge(orow, options, 'all');
             }
@@ -25480,25 +25486,35 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                 return v;
         },
         updateHeader:function(colId,options){
-            var ns=this, colh=ns.getHeaderByColId(colId), t;
+            var ns=this, colh=ns.getHeaderByColId(colId), hid=colh._serialId, t;
             if(!colh)return ns;
 
             if(_.isStr(options)) options={caption:options};
             else _.filter(options,true);
             delete options.id;
 
-            _.merge(colh, options, 'all');
-            if(t=options.caption)
-                ns.getSubNode('HCELLCAPTION',colh._serialId).get(0).innerHTML=t;
             if(t=options.width){
                 var n=[];
-                n.push(ns.getSubNode('HCELL',colh._serialId).get(0));
+                n.push(ns.getSubNode('HCELL',hid).get(0));
                 _.each(colh._cells,function(o){
                     n.push(ns.getSubNode('CELL',o).get(0));
                 });
                 linb(n).width(t);
             }
             
+            if(t=options.headerStyle)
+                (tt=ns.getSubNode('HCELL',hid)).attr('style',tt.attr('style')+";"+t);
+            if(t=options.headerClass)
+                ns.getSubNode('HCELL',hid).addClass(t);
+
+            if('caption' in options)
+                ns.getSubNode('HCELLCAPTION',hid).get(0).innerHTML=options.caption;
+            if('colResizer' in options){
+                t=!!options.colResizer;
+                ns.getSubNode('HHANDLER',hid).css('display',(options.colResizer=t)?"block":'none');
+            }
+            
+            _.merge(colh, options, 'all');
         },
         getHeaderByColId:function(colId){
             var v=this.get(0).properties.header,

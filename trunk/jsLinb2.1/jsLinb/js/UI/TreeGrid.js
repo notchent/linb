@@ -219,16 +219,22 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
 
                 if('caption' in options)
                     ns.getSubNode('FCELLCAPTION',rid).get(0).innerHTML=options.caption;
-                if('previewDisplay' in options)
-                    ns.getSubNode('PREVIEW',rid).css('display',options.previewDisplay?"block":'none');
+                if('previewDisplay' in options){
+                    t=!!options.previewDisplay;
+                    ns.getSubNode('PREVIEW',rid).css('display',(options.previewDisplay=t)?"block":'none');
+                }
                 if('preview' in options)
                     ns.getSubNode('PREVIEW',rid).html(options.preview);
-                if('summaryDisplay' in options)
-                    ns.getSubNode('SUMMERY',rid).css('display',options.summaryDisplay?"block":'none');
+                if('summaryDisplay' in options){
+                    t=!!options.summaryDisplay;
+                    ns.getSubNode('SUMMARY',rid).css('display',(options.summaryDisplay=t)?"block":'none');
+                }
                 if('summary' in options)
-                    ns.getSubNode('SUMMERY',rid).html(options.summary);
-                if('rowResizer' in options)
-                    ns.getSubNode('FHANDLER',rid).css('display',options.rowResizer?"block":'none');
+                    ns.getSubNode('SUMMARY',rid).html(options.summary);
+                if('rowResizer' in options){
+                    t=!!options.rowResizer;
+                    ns.getSubNode('FHANDLER',rid).css('display',(options.rowResizer=t)?"block":'none');
+                }
                     
                 _.merge(orow, options, 'all');
             }
@@ -428,8 +434,10 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
 
             if('caption' in options)
                 ns.getSubNode('HCELLCAPTION',hid).get(0).innerHTML=options.caption;
-            if('colResizer' in options)
-                ns.getSubNode('HHANDLER',hid).css('display',options.colResizer?"block":'none');
+            if('colResizer' in options){
+                t=!!options.colResizer;
+                ns.getSubNode('HHANDLER',hid).css('display',(options.colResizer=t)?"block":'none');
+            }
             
             _.merge(colh, options, 'all');
         },

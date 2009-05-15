@@ -181,12 +181,12 @@ Class('linb.Template','linb.absProfile',{
             }else
                 return str;
         },
-        _getEV:function(id, name, src){
+        _getEV:function(funs, id, name, src){
             var evs = this.events,
                 evkey = src.getAttribute('evkey'),
                 evg = evkey&&evs&&evs[evkey]||evs,
                 ev = evg&&evg[name];
-            return typeof ev=='function'?[ev]:[];
+            if(ev)funs.push(ev);
         },
         _doTemplate:function(properties, tag, result){
             if(!properties)return '';
