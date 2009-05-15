@@ -550,11 +550,6 @@ Class("linb.UI.Tabs", ["linb.UI", "linb.absList","linb.absValue"],{
                     this.getSubNode('ITEMS').css('textAlign',value);
                 }
             },
-            tabindex:{
-                action:function(value){
-                    this.getSubNode('HANDLE',true).attr('tabIndex',value);
-                }
-            },
             dynRender:true,
             dropKeysPanel:'',
             value:{

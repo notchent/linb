@@ -474,11 +474,6 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
             listKey:null,
             width:200,
             height:200,
-            tabindex:{
-                action:function(value){
-                    this.getSubNode('BAR', true).attr('tabIndex',value);
-                }
-            },
             iniFold:true,
             animCollapse:false,
             dock:'fill',

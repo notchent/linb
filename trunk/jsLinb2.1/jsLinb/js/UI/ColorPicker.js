@@ -1,5 +1,9 @@
 Class('linb.UI.ColorPicker', ['linb.UI',"linb.absValue"], {
     Instance:{
+        activate:function(){
+            this.getSubNode('TOGGLEA').focus();
+            return this;
+        },
         _setCtrlValue:function(value,inner){
             return this.each(function(profile){
                 if(!profile.domNode)return;

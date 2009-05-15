@@ -66,11 +66,6 @@ Class("linb.UI.LinkList", ["linb.UI.List"],{
                 action:function(value){
                     this.getSubNode('ITEM',true).css('margin',value+'px');
                 }
-            },
-            tabindex:{
-                action:function(value){
-                    this.getSubNode('LINK',true).attr('tabIndex',value);
-                }
             }
         }),
         Behaviors:{

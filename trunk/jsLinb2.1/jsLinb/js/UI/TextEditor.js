@@ -223,12 +223,6 @@ Class("linb.UI.TextEditor", ["linb.UI.Widget","linb.absValue"] ,{
             }
         },
         DataModel:{
-            tabindex:{
-                action:function(value){
-                    this.getSubNode('INPUT').attr('tabIndex',value);
-                }
-            },
-
             left:0,
             top:0,
             width:200,

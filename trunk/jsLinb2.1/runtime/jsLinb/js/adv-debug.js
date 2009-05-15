@@ -1956,11 +1956,6 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
                 action:function(value){
                     this.getSubNode('ITEM',true).css('margin',value+'px');
                 }
-            },
-            tabindex:{
-                action:function(value){
-                    this.getSubNode('LINK',true).attr('tabIndex',value);
-                }
             }
         }),
         Behaviors:{
@@ -2893,12 +2888,6 @@ Class("linb.UI.FoldingList", ["linb.UI.List"],{
         },
         DataModel:({
             value:null,
-            tabindex:{
-                action:function(value){
-                    this.getSubNode('TITLE',true).attr('tabIndex',value);
-                    this.getSubNode('CMDA',true).attr('tabIndex',value);
-                }
-            },
             cmds:{
                 ini:[]
             },

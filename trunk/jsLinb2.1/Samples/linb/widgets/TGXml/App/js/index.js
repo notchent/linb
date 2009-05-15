@@ -8,8 +8,8 @@ Class('App', 'linb.Com',{
             append((new linb.UI.Panel)
                 .host(host,"panel4")
                 .setDock("none")
-                .setLeft(80)
-                .setTop(50)
+                .setLeft(40)
+                .setTop(20)
                 .setWidth(700)
                 .setHeight(400)
                 .setCaption("Build Grid from xml")
@@ -25,11 +25,20 @@ Class('App', 'linb.Com',{
             
             append((new linb.UI.SButton)
                 .host(host,"sbutton1")
-                .setLeft(320)
-                .setTop(460)
+                .setLeft(280)
+                .setTop(430)
                 .setWidth(160)
                 .setCaption("Make Grid Editable")
                 .onClick("_sbutton1_onclick")
+            );
+            
+            append((new linb.UI.Div)
+                .host(host,"div8")
+                .setLeft(160)
+                .setTop(460)
+                .setWidth(450)
+                .setHeight(180)
+                .setHtml("<b>Try keyboard</b>: <br /><b>up</b> : to upper cell;<br /><b>down</b> : to below cell; <br /><b>(alt+)left</b>: to left cell; <br /><b>(alt+)right</b> : to right cell;<br /><b>tab</b> : direct to the last cell; <br /><b>enter</b> : equal to down(in edit mode); <br /><b>alt+enter</b> : input 'enter' in textarea(in edit mode); <br /><b>ctrl+enter</b>: show pop wnd(in edit mode); ")
             );
             
             return children;
@@ -53,6 +62,6 @@ Class('App', 'linb.Com',{
             this.treegrid.setEditable(true)
         }, 
         base:[], 
-        required:["linb.UI.Panel", "linb.UI.TreeGrid", "linb.UI.SButton"]
+        required:["linb.UI.Panel", "linb.UI.TreeGrid", "linb.UI.SButton", "linb.UI.Div"]
     }
 });

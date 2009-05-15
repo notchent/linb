@@ -200,12 +200,6 @@ Class("linb.UI.ToolBar",["linb.UI","linb.absList"],{
         },
         DataModel:{
             listKey:null,
-            tabindex:{
-                action:function(value){
-                    this.getSubNode('BOX',true).attr('tabIndex',value);
-                }
-            },
-
             height:{
                 ini:'auto',
                 readonly:true

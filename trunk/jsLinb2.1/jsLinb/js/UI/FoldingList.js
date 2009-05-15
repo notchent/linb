@@ -340,12 +340,6 @@ Class("linb.UI.FoldingList", ["linb.UI.List"],{
         },
         DataModel:({
             value:null,
-            tabindex:{
-                action:function(value){
-                    this.getSubNode('TITLE',true).attr('tabIndex',value);
-                    this.getSubNode('CMDA',true).attr('tabIndex',value);
-                }
-            },
             cmds:{
                 ini:[]
             },

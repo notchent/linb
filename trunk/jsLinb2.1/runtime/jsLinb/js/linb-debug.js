@@ -10019,7 +10019,14 @@ Class("linb.UI",  "linb.absObj", {
                 }
             },
             tabindex:{
-                ini:1
+                ini:1,
+                action:function(value){
+                    var ns=this,
+                        reg=new RegExp("^"+ns.key+"[-\\w]*"+":"+ns.serialId+":");
+                    ns.root.query("*",function(n){
+                        return n.id && reg.test(n.id) && n.getAttribute('tabIndex');
+                    }).attr('tabIndex',value);
+                }
             },
             position:{
                 ini : 'absolute',
@@ -12789,11 +12796,6 @@ new function(){
                         this.getSubNode('FOCUS').css('textAlign',v);
                     }
                 },
-                tabindex:{
-                    action:function(value){
-                        this.getSubNode('FOCUS').attr('tabIndex',value);
-                    }
-                },
                 width:{
                     ini:'auto',
                     action:function(value){
@@ -12909,11 +12911,6 @@ new function(){
                     ini:undefined,
                     action: function(value){
                         this.getSubNode('CAPTION').get(0).innerHTML = value;
-                    }
-                },
-                tabindex:{
-                    action:function(value){
-                        this.getSubNode('FOCUS').attr('tabIndex',value);
                     }
                 }
             },
@@ -14882,11 +14879,6 @@ Class("linb.UI.Button", ["linb.UI.Widget","linb.absValue"],{
                     this.getSubNode('TD').attr('valign',v);
                 }
             },
-            tabindex:{
-                action:function(value){
-                    this.getSubNode('FOCUS').attr('tabIndex',value);
-                }
-            },
             href:linb.$href,
             value:false,
             type:{
@@ -16041,11 +16033,6 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
             value:'',
             width:120,
             height:22,
-            tabindex:{
-                action:function(value){
-                    this.getSubNode('INPUT').attr('tabIndex',value);
-                }
-            },
             disabled:{
                 ini:false,
                 action: function(v){
@@ -16488,12 +16475,6 @@ Class("linb.UI.TextEditor", ["linb.UI.Widget","linb.absValue"] ,{
             }
         },
         DataModel:{
-            tabindex:{
-                action:function(value){
-                    this.getSubNode('INPUT').attr('tabIndex',value);
-                }
-            },
-
             left:0,
             top:0,
             width:200,
@@ -16826,11 +16807,11 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                             o.beforeUIValueSet(function(pro, ovalue, value){
                                 var b2=this.boxing();
                                 //update value
-                                b2.setUIValue(value);
+                                b2.setUIValue(value)
                                 //set activate
-                                b2.activate();
+                                .activate()
                                 //cache pop
-                                b2._cache();
+                                ._cache();
                                 return false;
                             });
                             break;
@@ -16838,20 +16819,20 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                             linb.SC('linb.UI.TimePicker');
                             o = linb.create('TimePicker').render();
                             o.host(profile);
-                            o.beforeClose(function(){this.boxing()._cache();return false});
+                            o.beforeClose(function(){this.boxing().activate()._cache();return false});
                             o.beforeUIValueSet(function(p, o, v){
                                 //update value
-                                this.boxing().setUIValue(v)._cache();
+                                this.boxing().setUIValue(v).activate()._cache();
                             });
                             break;
                         case 'datepicker':
                             linb.SC('linb.UI.DatePicker');
                             o = linb.create('DatePicker').render();
                             o.host(profile);
-                            o.beforeClose(function(){this.boxing()._cache();return false});
+                            o.beforeClose(function(){this.boxing().activate()._cache();return false});
                             o.beforeUIValueSet(function(p, o, v){
                                 //update value
-                                this.boxing().setUIValue(String(v.getTime()))._cache();
+                                this.boxing().setUIValue(String(v.getTime())).activate()._cache();
                             });
 
                             break;
@@ -16860,10 +16841,10 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                             linb.SC('linb.UI.ColorPicker');
                             o = linb.create('ColorPicker').render();
                             o.host(profile);
-                            o.beforeClose(function(){this.boxing()._cache();return false});
+                            o.beforeClose(function(){this.boxing().activate()._cache();return false});
                             o.beforeUIValueSet(function(p, o, v){
                                 //update value
-                                this.boxing().setUIValue('#'+v)._cache();
+                                this.boxing().setUIValue('#'+v).activate()._cache();
                             });
                             break;
                     }
@@ -17642,11 +17623,6 @@ Class("linb.UI.Group", "linb.UI.Div",{
                     this.getSubNode('CAPTION').get(0).innerHTML = value;
                 }
             },
-            tabindex:{
-                action:function(value){
-                    this.getSubNode('HANDLE').attr('tabIndex',value);
-                }
-            },
             html:{
                 action:function(v){
                     this.getSubNode('PANEL').html(v);
@@ -17733,6 +17709,10 @@ Class("linb.UI.Group", "linb.UI.Div",{
     }
 });Class('linb.UI.ColorPicker', ['linb.UI',"linb.absValue"], {
     Instance:{
+        activate:function(){
+            this.getSubNode('TOGGLEA').focus();
+            return this;
+        },
         _setCtrlValue:function(value,inner){
             return this.each(function(profile){
                 if(!profile.domNode)return;
@@ -18696,6 +18676,10 @@ Class("linb.UI.Group", "linb.UI.Div",{
 });Class('linb.UI.DatePicker', ['linb.UI',"linb.absValue"], {
     Dependency:['linb.Date'],
     Instance:{
+        activate:function(){
+            this.getSubNode('PRE').focus();
+            return this;
+        },
         _setCtrlValue:function(value){
             return this.each(function(profile){
                 if(!profile.domNode)return;
@@ -18785,16 +18769,36 @@ Class("linb.UI.Group", "linb.UI.Div",{
                     BARCMDL:{
                         tagName:'div',
                         className:'uibar-cmdl',
-                        PRE2:{$order:0},
-                        PRE:{$order:1},
+                        PRE2:{
+                            $order:0,
+                            tagName:'a',
+                            href:linb.$href,
+                            tabindex: '{tabindex}'
+                        },
+                        PRE:{
+                            $order:1,
+                            tagName:'a',
+                            href:linb.$href,
+                            tabindex: '{tabindex}'
+                        },
                         YEAR:{$order:2,unselectable:'on',
                             className:'ui-dragable'},
 //                        YTXT:{$order:3,style:'display:inline'},
                         MONTH:{$order:4,unselectable:'on',
                             className:'ui-dragable'},
                         MTXT:{$order:5,style:'display:inline'},
-                        NEXT:{$order:6},
-                        NEXT2:{$order:7}
+                        NEXT:{
+                            $order:6,
+                            tagName:'a',
+                            href:linb.$href,
+                            tabindex: '{tabindex}'
+                        },
+                        NEXT2:{
+                            $order:7,
+                            tagName:'a',
+                            href:linb.$href,
+                            tabindex: '{tabindex}'
+                        }
                     },
                     BARCMDR:{
                         tagName: 'div',
@@ -18917,6 +18921,7 @@ Class("linb.UI.Group", "linb.UI.Div",{
             },
             'PRE,PRE2,NEXT,NEXT2':{
                 $order:0,
+                display:linb.$inlineBlock,
                 position:'relative',
                 margin:'0 2px',
                 width:'15px',
@@ -19280,6 +19285,10 @@ Class("linb.UI.Group", "linb.UI.Div",{
 });Class('linb.UI.TimePicker', ['linb.UI',"linb.absValue"], {
     Dependency:['linb.Date'],
     Instance:{
+        activate:function(){
+            this.getSubNode('PRE').focus();
+            return this;
+        },
         _setCtrlValue:function(value){
             return this.each(function(profile){
                 if(!profile.domNode)return;
@@ -19355,14 +19364,24 @@ Class("linb.UI.Group", "linb.UI.Div",{
                     BARCMDL:{
                         tagName: 'div',
                         className:'uibar-cmdl',
-                        PRE:{$order:0},
+                        PRE:{
+                            $order:0,
+                            tagName:'a',
+                            href:linb.$href,
+                            tabindex: '{tabindex}'
+                        },
                         HOUR:{
                             $order:1,
                             unselectable:'on',
                             className:'ui-dragable'
                         },
 //                        HOURTXT:{$order:2,style:'display:inline'},
-                        NEXT:{$order:3}
+                        NEXT:{
+                            $order:3,
+                            tagName:'a',
+                            href:linb.$href,
+                            tabindex: '{tabindex}'
+                        }
                     },
                     BARCMDR:{
                         tagName: 'div',
@@ -19501,6 +19520,7 @@ Class("linb.UI.Group", "linb.UI.Div",{
             },
             PRE:{
                 $order:1,
+                display:linb.$inlineBlock,
                 'background-position': '-260px -70px'
             },
             'PRE-mouseover':{
@@ -19513,6 +19533,7 @@ Class("linb.UI.Group", "linb.UI.Div",{
             },
             NEXT:{
                 $order:1,
+                display:linb.$inlineBlock,
                 'background-position': '-280px -70px'
             },
             'NEXT-mouseover':{
@@ -20024,11 +20045,6 @@ Class("linb.UI.Group", "linb.UI.Div",{
             }
         },
         DataModel:({
-            tabindex:{
-                action:function(value){
-                    this.getSubNode('ITEM',true).attr('tabIndex',value);
-                }
-            },
             selMode:{
                 ini:'single',
                 listbox:['single','none','multi']
@@ -20679,11 +20695,6 @@ Class("linb.UI.Panel", "linb.UI.Div",{
                         .css('backgroundPosition', value);
                 }
             },
-            tabindex:{
-                action:function(value){
-                    this.getSubNode('CAPTION').attr('tabIndex',value);
-                }
-            },
             href:{
                 ini:linb.$href,
                 action:function(v){
@@ -21075,13 +21086,7 @@ Class("linb.UI.PageBar",["linb.UI","linb.absValue"] ,{
             textTpl:"*",
             prevMark:'&lt;',
             nextMark:'&gt;',
-            _moreStep:100,
-
-            tabindex:{
-                action:function(value){
-                    this.root.query('a').attr('tabIndex',value);
-                }
-            }
+            _moreStep:100
         },
         EventHandlers:{
             onClick:function(profile, page){}
@@ -21717,11 +21722,6 @@ Class("linb.UI.Tabs", ["linb.UI", "linb.absList","linb.absValue"],{
                 listbox:['left','center','right'],
                 action:function(value){
                     this.getSubNode('ITEMS').css('textAlign',value);
-                }
-            },
-            tabindex:{
-                action:function(value){
-                    this.getSubNode('HANDLE',true).attr('tabIndex',value);
                 }
             },
             dynRender:true,
@@ -22724,11 +22724,6 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
             listKey:null,
             width:200,
             height:200,
-            tabindex:{
-                action:function(value){
-                    this.getSubNode('BAR', true).attr('tabIndex',value);
-                }
-            },
             iniFold:true,
             animCollapse:false,
             dock:'fill',
@@ -24025,12 +24020,6 @@ Class("linb.UI.MenuBar",["linb.UI","linb.absList" ],{
             },
                 
             width:'auto',
-
-            tabindex:{
-                action:function(value){
-                    this.getSubNode('ITEMA', true).attr('tabIndex',value);
-                }
-            },
             parentID:'',
             $hborder:1,
             $vborder:1,
@@ -24268,12 +24257,6 @@ Class("linb.UI.ToolBar",["linb.UI","linb.absList"],{
         },
         DataModel:{
             listKey:null,
-            tabindex:{
-                action:function(value){
-                    this.getSubNode('BOX',true).attr('tabIndex',value);
-                }
-            },
-
             height:{
                 ini:'auto',
                 readonly:true
@@ -26756,11 +26739,6 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
         DataModel:{
             directInput:true,
             listKey:null,
-            tabindex:{
-                action:function(value){
-                    this.root.query('A').attr('tabIndex',value);
-                }
-            },
             selMode:{
                 ini:'none',
                 listbox:['single','none','multi']

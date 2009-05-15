@@ -1451,7 +1451,14 @@ Class("linb.UI",  "linb.absObj", {
                 }
             },
             tabindex:{
-                ini:1
+                ini:1,
+                action:function(value){
+                    var ns=this,
+                        reg=new RegExp("^"+ns.key+"[-\\w]*"+":"+ns.serialId+":");
+                    ns.root.query("*",function(n){
+                        return n.id && reg.test(n.id) && n.getAttribute('tabIndex');
+                    }).attr('tabIndex',value);
+                }
             },
             position:{
                 ini : 'absolute',
@@ -4221,11 +4228,6 @@ new function(){
                         this.getSubNode('FOCUS').css('textAlign',v);
                     }
                 },
-                tabindex:{
-                    action:function(value){
-                        this.getSubNode('FOCUS').attr('tabIndex',value);
-                    }
-                },
                 width:{
                     ini:'auto',
                     action:function(value){
@@ -4341,11 +4343,6 @@ new function(){
                     ini:undefined,
                     action: function(value){
                         this.getSubNode('CAPTION').get(0).innerHTML = value;
-                    }
-                },
-                tabindex:{
-                    action:function(value){
-                        this.getSubNode('FOCUS').attr('tabIndex',value);
                     }
                 }
             },

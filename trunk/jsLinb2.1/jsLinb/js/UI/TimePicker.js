@@ -1,6 +1,10 @@
 Class('linb.UI.TimePicker', ['linb.UI',"linb.absValue"], {
     Dependency:['linb.Date'],
     Instance:{
+        activate:function(){
+            this.getSubNode('PRE').focus();
+            return this;
+        },
         _setCtrlValue:function(value){
             return this.each(function(profile){
                 if(!profile.domNode)return;
@@ -76,14 +80,24 @@ Class('linb.UI.TimePicker', ['linb.UI',"linb.absValue"], {
                     BARCMDL:{
                         tagName: 'div',
                         className:'uibar-cmdl',
-                        PRE:{$order:0},
+                        PRE:{
+                            $order:0,
+                            tagName:'a',
+                            href:linb.$href,
+                            tabindex: '{tabindex}'
+                        },
                         HOUR:{
                             $order:1,
                             unselectable:'on',
                             className:'ui-dragable'
                         },
 //                        HOURTXT:{$order:2,style:'display:inline'},
-                        NEXT:{$order:3}
+                        NEXT:{
+                            $order:3,
+                            tagName:'a',
+                            href:linb.$href,
+                            tabindex: '{tabindex}'
+                        }
                     },
                     BARCMDR:{
                         tagName: 'div',
@@ -222,6 +236,7 @@ Class('linb.UI.TimePicker', ['linb.UI',"linb.absValue"], {
             },
             PRE:{
                 $order:1,
+                display:linb.$inlineBlock,
                 'background-position': '-260px -70px'
             },
             'PRE-mouseover':{
@@ -234,6 +249,7 @@ Class('linb.UI.TimePicker', ['linb.UI',"linb.absValue"], {
             },
             NEXT:{
                 $order:1,
+                display:linb.$inlineBlock,
                 'background-position': '-280px -70px'
             },
             'NEXT-mouseover':{

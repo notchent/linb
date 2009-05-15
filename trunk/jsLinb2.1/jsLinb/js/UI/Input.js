@@ -400,11 +400,6 @@ Class("linb.UI.Input", ["linb.UI.Widget","linb.absValue"] ,{
             value:'',
             width:120,
             height:22,
-            tabindex:{
-                action:function(value){
-                    this.getSubNode('INPUT').attr('tabIndex',value);
-                }
-            },
             disabled:{
                 ini:false,
                 action: function(v){

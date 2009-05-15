@@ -278,13 +278,7 @@ Class("linb.UI.PageBar",["linb.UI","linb.absValue"] ,{
             textTpl:"*",
             prevMark:'&lt;',
             nextMark:'&gt;',
-            _moreStep:100,
-
-            tabindex:{
-                action:function(value){
-                    this.root.query('a').attr('tabIndex',value);
-                }
-            }
+            _moreStep:100
         },
         EventHandlers:{
             onClick:function(profile, page){}

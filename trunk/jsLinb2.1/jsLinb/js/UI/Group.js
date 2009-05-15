@@ -116,11 +116,6 @@ Class("linb.UI.Group", "linb.UI.Div",{
                     this.getSubNode('CAPTION').get(0).innerHTML = value;
                 }
             },
-            tabindex:{
-                action:function(value){
-                    this.getSubNode('HANDLE').attr('tabIndex',value);
-                }
-            },
             html:{
                 action:function(v){
                     this.getSubNode('PANEL').html(v);

@@ -284,11 +284,6 @@ Class("linb.UI.List", ["linb.UI", "linb.absList","linb.absValue" ],{
             }
         },
         DataModel:({
-            tabindex:{
-                action:function(value){
-                    this.getSubNode('ITEM',true).attr('tabIndex',value);
-                }
-            },
             selMode:{
                 ini:'single',
                 listbox:['single','none','multi']

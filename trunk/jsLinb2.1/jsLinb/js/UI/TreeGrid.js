@@ -1664,11 +1664,6 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
         DataModel:{
             directInput:true,
             listKey:null,
-            tabindex:{
-                action:function(value){
-                    this.root.query('A').attr('tabIndex',value);
-                }
-            },
             selMode:{
                 ini:'none',
                 listbox:['single','none','multi']

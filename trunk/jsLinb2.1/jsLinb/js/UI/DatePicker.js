@@ -1,6 +1,10 @@
 Class('linb.UI.DatePicker', ['linb.UI',"linb.absValue"], {
     Dependency:['linb.Date'],
     Instance:{
+        activate:function(){
+            this.getSubNode('PRE').focus();
+            return this;
+        },
         _setCtrlValue:function(value){
             return this.each(function(profile){
                 if(!profile.domNode)return;
@@ -90,16 +94,36 @@ Class('linb.UI.DatePicker', ['linb.UI',"linb.absValue"], {
                     BARCMDL:{
                         tagName:'div',
                         className:'uibar-cmdl',
-                        PRE2:{$order:0},
-                        PRE:{$order:1},
+                        PRE2:{
+                            $order:0,
+                            tagName:'a',
+                            href:linb.$href,
+                            tabindex: '{tabindex}'
+                        },
+                        PRE:{
+                            $order:1,
+                            tagName:'a',
+                            href:linb.$href,
+                            tabindex: '{tabindex}'
+                        },
                         YEAR:{$order:2,unselectable:'on',
                             className:'ui-dragable'},
 //                        YTXT:{$order:3,style:'display:inline'},
                         MONTH:{$order:4,unselectable:'on',
                             className:'ui-dragable'},
                         MTXT:{$order:5,style:'display:inline'},
-                        NEXT:{$order:6},
-                        NEXT2:{$order:7}
+                        NEXT:{
+                            $order:6,
+                            tagName:'a',
+                            href:linb.$href,
+                            tabindex: '{tabindex}'
+                        },
+                        NEXT2:{
+                            $order:7,
+                            tagName:'a',
+                            href:linb.$href,
+                            tabindex: '{tabindex}'
+                        }
                     },
                     BARCMDR:{
                         tagName: 'div',
@@ -222,6 +246,7 @@ Class('linb.UI.DatePicker', ['linb.UI',"linb.absValue"], {
             },
             'PRE,PRE2,NEXT,NEXT2':{
                 $order:0,
+                display:linb.$inlineBlock,
                 position:'relative',
                 margin:'0 2px',
                 width:'15px',

@@ -296,11 +296,6 @@ Class("linb.UI.Button", ["linb.UI.Widget","linb.absValue"],{
                     this.getSubNode('TD').attr('valign',v);
                 }
             },
-            tabindex:{
-                action:function(value){
-                    this.getSubNode('FOCUS').attr('tabIndex',value);
-                }
-            },
             href:linb.$href,
             value:false,
             type:{

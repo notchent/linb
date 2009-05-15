@@ -244,11 +244,6 @@ Class("linb.UI.Panel", "linb.UI.Div",{
                         .css('backgroundPosition', value);
                 }
             },
-            tabindex:{
-                action:function(value){
-                    this.getSubNode('CAPTION').attr('tabIndex',value);
-                }
-            },
             href:{
                 ini:linb.$href,
                 action:function(v){
