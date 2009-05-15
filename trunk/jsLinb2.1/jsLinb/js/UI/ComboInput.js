@@ -161,10 +161,10 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                                 var b2=this.boxing();
                                 //update value
                                 b2.setUIValue(value);
-                                //cache pop
-                                b2._cache();
                                 //set activate
                                 b2.activate();
+                                //cache pop
+                                b2._cache();
                                 return false;
                             });
                             break;

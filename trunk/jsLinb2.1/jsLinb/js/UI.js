@@ -2484,26 +2484,26 @@ Class("linb.UI",  "linb.absObj", {
                         t.afterKeydown = null;
                     else{
                         t.afterKeydown = function(profile, e, src){
-                            var k=linb.Event.getKey(e), key = k[0], shift=k[2], alt=k[3], b=false;
+                            var k=linb.Event.getKey(e), key = k[0], ctrl=k[2], shift=k[2], alt=k[3], b=false;
                             if(m2[k=src.tagName.toLowerCase()]){
                                 if(m3[key]){
                                     var reg = linb([src]).caret(),txt=src.value;
 
                                     switch(key){
                                         case 'up':
-                                            if(!/[\n\r]/.test(txt.substr(0,reg[0]))) b=true;
+                                            if(ctrl || !/[\n\r]/.test(txt.substr(0,reg[0]))) b=true;
                                             break;
                                         case 'left':
-                                            if(reg[0]===0 && (reg[1]!==txt.length || reg[1]===0)) b=true;
+                                            if(ctrl || reg[0]===0 && (reg[1]!==txt.length || reg[1]===0)) b=true;
                                             break;
                                         case 'down':
-                                            if(!/[\n\r]/.test(txt.substr(reg[1],txt.length))) b=true;
+                                            if(ctrl || !/[\n\r]/.test(txt.substr(reg[1],txt.length))) b=true;
                                             break;
                                         case 'right':
-                                            if(reg[1]===txt.length && (reg[0]!==0 || reg[1]===0)) b=true;
+                                            if(ctrl || reg[1]===txt.length && (reg[0]!==0 || reg[1]===0)) b=true;
                                             break;
-                                        default:
-                                            if(k=='input'|| alt)b=true;
+                                        case 'enter':
+                                            if(k=='input' || ctrl || alt)b=true;
                                             break;
                                         case "tab":
                                             b=true;

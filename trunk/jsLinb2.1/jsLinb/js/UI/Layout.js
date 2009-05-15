@@ -66,7 +66,7 @@ Class("linb.UI.Layout",["linb.UI", "linb.absList"],{
             },
             'MOVE-mouseover':{
                 $order:1,
-                'background-color':'#FFFA9F'
+                'background-color':'#C8E1FA'
             },
             CMD:{
                 position:'absolute',

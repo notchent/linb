@@ -183,6 +183,8 @@ Class("linb.UI.List", ["linb.UI", "linb.absList","linb.absValue" ],{
 
                     if(properties.disabled|| item.disabled)return false;
 
+                    linb(src).focus();
+                    
                     switch(properties.selMode){
                     case 'none':
                         rt=box.onItemSelected(profile, item, src);
@@ -233,7 +235,6 @@ Class("linb.UI.List", ["linb.UI", "linb.absList","linb.absValue" ],{
                         }
                         break;
                     }
-                    linb(src).focus();
                     return rt;
                 },
                 onKeydown:function(profile, e, src){

@@ -12365,6 +12365,18 @@ _.set(linb.Locale,["cn","doc","linb","UI","TreeGrid"], {
                 "}"
             ]
         },
+        getDirectInput:{
+            $desc:"判断在编辑状态下的 Editor 是否用直接输入的方式（不需要用回车键来确认）输入。",
+            $rtn:"Boolean"
+        },
+        setDirectInput:{
+            $desc:"设置在编辑状态下的 Editor 是否用直接输入的方式（不需要用回车键来确认）输入。",
+            $rtn:"[self]",
+            $paras:[
+                "value [必需参数] : Boolean.",
+                "force [可选参数] : Boolean, 强制设置该属性值，即使属性已经设置为该值. 默认为 [false]."
+            ]
+        },        
         getAnimCollapse :{
             $desc:"Gets the Animate property value on the first UIProfile",
             $rtn:"Boolean",

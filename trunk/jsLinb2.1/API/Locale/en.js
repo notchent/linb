@@ -12351,6 +12351,18 @@ _.set(linb.Locale,["en","doc","linb","UI","TreeGrid"], {
                 "}"
             ]
         },
+        getDirectInput:{
+            $desc:"Determines whether editor input value into grid cell without pressing 'enter' keyboard.",
+            $rtn:"Boolean"
+        },
+        setDirectInput:{
+            $desc:"Specifys whether editor input value into grid cell without pressing 'enter' keyboard.",
+            $rtn:"[self]",
+            $paras:[
+                "value [Required] : Boolean.",
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
+            ]
+        },
         getAnimCollapse :{
             $desc:"Gets the Animate property value on the first UIProfile",
             $rtn:"Boolean",

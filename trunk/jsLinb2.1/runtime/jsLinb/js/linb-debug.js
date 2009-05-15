@@ -11052,26 +11052,26 @@ Class("linb.UI",  "linb.absObj", {
                         t.afterKeydown = null;
                     else{
                         t.afterKeydown = function(profile, e, src){
-                            var k=linb.Event.getKey(e), key = k[0], shift=k[2], alt=k[3], b=false;
+                            var k=linb.Event.getKey(e), key = k[0], ctrl=k[2], shift=k[2], alt=k[3], b=false;
                             if(m2[k=src.tagName.toLowerCase()]){
                                 if(m3[key]){
                                     var reg = linb([src]).caret(),txt=src.value;
 
                                     switch(key){
                                         case 'up':
-                                            if(!/[\n\r]/.test(txt.substr(0,reg[0]))) b=true;
+                                            if(ctrl || !/[\n\r]/.test(txt.substr(0,reg[0]))) b=true;
                                             break;
                                         case 'left':
-                                            if(reg[0]===0 && (reg[1]!==txt.length || reg[1]===0)) b=true;
+                                            if(ctrl || reg[0]===0 && (reg[1]!==txt.length || reg[1]===0)) b=true;
                                             break;
                                         case 'down':
-                                            if(!/[\n\r]/.test(txt.substr(reg[1],txt.length))) b=true;
+                                            if(ctrl || !/[\n\r]/.test(txt.substr(reg[1],txt.length))) b=true;
                                             break;
                                         case 'right':
-                                            if(reg[1]===txt.length && (reg[0]!==0 || reg[1]===0)) b=true;
+                                            if(ctrl || reg[1]===txt.length && (reg[0]!==0 || reg[1]===0)) b=true;
                                             break;
-                                        default:
-                                            if(k=='input'|| alt)b=true;
+                                        case 'enter':
+                                            if(k=='input' || ctrl || alt)b=true;
                                             break;
                                         case "tab":
                                             b=true;
@@ -16827,10 +16827,10 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                                 var b2=this.boxing();
                                 //update value
                                 b2.setUIValue(value);
-                                //cache pop
-                                b2._cache();
                                 //set activate
                                 b2.activate();
+                                //cache pop
+                                b2._cache();
                                 return false;
                             });
                             break;
@@ -19923,6 +19923,8 @@ Class("linb.UI.Group", "linb.UI.Div",{
 
                     if(properties.disabled|| item.disabled)return false;
 
+                    linb(src).focus();
+                    
                     switch(properties.selMode){
                     case 'none':
                         rt=box.onItemSelected(profile, item, src);
@@ -19973,7 +19975,6 @@ Class("linb.UI.Group", "linb.UI.Div",{
                         }
                         break;
                     }
-                    linb(src).focus();
                     return rt;
                 },
                 onKeydown:function(profile, e, src){
@@ -24438,7 +24439,7 @@ Class("linb.UI.Layout",["linb.UI", "linb.absList"],{
             },
             'MOVE-mouseover':{
                 $order:1,
-                'background-color':'#FFFA9F'
+                'background-color':'#C8E1FA'
             },
             CMD:{
                 position:'absolute',
@@ -26753,6 +26754,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
             }
         },
         DataModel:{
+            directInput:true,
             listKey:null,
             tabindex:{
                 action:function(value){
@@ -27765,10 +27767,12 @@ sortby [for column only]
             }
             editor.undo=function(){
                 if(!editor)return;
-                editor.afterUIValueSet(null).beforeNextFocus(null);
-                if(editor.beforeFormatCheck)editor.beforeFormatCheck(null);
-                if(editor.setValueFormat)editor.setValueFormat('');
-                editor.setValue('',true);
+                if(!profile.properties.directInput){
+                    editor.afterUIValueSet(null).beforeNextFocus(null);
+                    if(editor.beforeFormatCheck)editor.beforeFormatCheck(null);
+                    if(editor.setValueFormat)editor.setValueFormat('');
+                    editor.setValue('',true);
+                }
                 //don't use disply:none, firfox has many bugs about Caret or renderer
                 editor.reBoxing().hide();
                 editor=null;
@@ -27781,11 +27785,13 @@ sortby [for column only]
                 grid._updCell(profile, cellId, {value:nV, $caption:pro.$caption});
             })
             .beforeNextFocus(function(pro, key, shift, e){
-                editor.undo();
-                var hash=linb.Event.getEventPara(e);
-                if(hash.keyCode=='enter')hash.keyCode='down';
+                if(editor){
+                    editor.undo();
+                    var hash=linb.Event.getEventPara(e);
+                    if(hash.keyCode=='enter')hash.keyCode='down';
 
-                profile.getSubNode('CELLA', cell._serialId).onKeydown(true,hash);
+                    profile.getSubNode('CELLA', cell._serialId).onKeydown(true,hash);
+                }
                 //prevent
                 return false;
             });

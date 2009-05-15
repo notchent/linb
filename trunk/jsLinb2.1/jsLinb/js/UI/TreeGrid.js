@@ -1662,6 +1662,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
             }
         },
         DataModel:{
+            directInput:true,
             listKey:null,
             tabindex:{
                 action:function(value){
@@ -2674,10 +2675,12 @@ sortby [for column only]
             }
             editor.undo=function(){
                 if(!editor)return;
-                editor.afterUIValueSet(null).beforeNextFocus(null);
-                if(editor.beforeFormatCheck)editor.beforeFormatCheck(null);
-                if(editor.setValueFormat)editor.setValueFormat('');
-                editor.setValue('',true);
+                if(!profile.properties.directInput){
+                    editor.afterUIValueSet(null).beforeNextFocus(null);
+                    if(editor.beforeFormatCheck)editor.beforeFormatCheck(null);
+                    if(editor.setValueFormat)editor.setValueFormat('');
+                    editor.setValue('',true);
+                }
                 //don't use disply:none, firfox has many bugs about Caret or renderer
                 editor.reBoxing().hide();
                 editor=null;
@@ -2690,11 +2693,13 @@ sortby [for column only]
                 grid._updCell(profile, cellId, {value:nV, $caption:pro.$caption});
             })
             .beforeNextFocus(function(pro, key, shift, e){
-                editor.undo();
-                var hash=linb.Event.getEventPara(e);
-                if(hash.keyCode=='enter')hash.keyCode='down';
+                if(editor){
+                    editor.undo();
+                    var hash=linb.Event.getEventPara(e);
+                    if(hash.keyCode=='enter')hash.keyCode='down';
 
-                profile.getSubNode('CELLA', cell._serialId).onKeydown(true,hash);
+                    profile.getSubNode('CELLA', cell._serialId).onKeydown(true,hash);
+                }
                 //prevent
                 return false;
             });
