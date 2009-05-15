@@ -6,7 +6,6 @@ Contact linb.net[at]gmail.com for Commercial issues
 */
 //speed up references
 var undefined, 
-window=this,
 
 //global: time stamp
 _=window._=function(){return +new Date()},

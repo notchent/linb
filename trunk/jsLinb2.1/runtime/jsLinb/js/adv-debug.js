@@ -1,5 +1,3 @@
-(function(){
-
 /*
 *to do: background div
 *to do: special div
@@ -3486,4 +3484,3 @@ Class("linb.UI.Range", ["linb.UI","linb.absValue"],{
         }
     }
 });
-})();

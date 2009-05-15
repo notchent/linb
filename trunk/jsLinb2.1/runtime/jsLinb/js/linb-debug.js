@@ -1,5 +1,3 @@
-(function(){
-
 /*
 jsLinb 2.0
 Copyright(c) 2008 Yingbo Li(www.linb.net, linb.net[at]gmail.com)
@@ -8,7 +6,6 @@ Contact linb.net[at]gmail.com for Commercial issues
 */
 //speed up references
 var undefined, 
-window=this,
 
 //global: time stamp
 _=window._=function(){return +new Date()},
@@ -29476,5 +29473,3 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
         }
     }
 });
-
-})();
