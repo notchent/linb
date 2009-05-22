@@ -650,9 +650,7 @@ _.merge(linb,{
         return '<span id="'+linb.$langId+'" class="'+s+'">'+r+'</span>';
     },
     request:function(uri, query, onSuccess, onFail, threadid, options){
-        if(!query)
-            query=''+_();
-            return ((options&&options.method.toLowerCase()=='post')?linb.IAjax:linb.absIO.isCrossDomain(uri)?linb.SAjax:linb.Ajax).apply(null, arguments).start()
+        return ((options&&options.method.toLowerCase()=='post')?linb.IAjax:linb.absIO.isCrossDomain(uri)?linb.SAjax:linb.Ajax).apply(null, arguments).start()
     },
     include:function(id,path,onSuccess,onFail){if(id&&linb.SC.get(id))_.tryF(onSuccess); else linb.SAjax(path,'',onSuccess,onFail,0,{rspType:'script',checkKey:id}).start()},
     /*
