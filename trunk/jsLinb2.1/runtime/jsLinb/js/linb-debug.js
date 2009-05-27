@@ -4837,7 +4837,7 @@ Class('linb.Dom','linb.absBox',{
         show:function(left,top){
             var style,t,auto='auto',v=linb.Dom.HIDE_VALUE;
             return this.each(function(o){
-                if(o.nodeType != 1 || o._linbhide==0)return;
+                if(o.nodeType != 1)return;
                 style=o.style;
                 if( t = (top || (style.top==v && (o._top || auto))))style.top = t;
                 if( t = (left || (style.left==v && (o._left || auto))))style.left = t;
@@ -4856,14 +4856,16 @@ Class('linb.Dom','linb.absBox',{
         hide:function(){
             var style,t;
             return this.each(function(o){
-                if(o.nodeType != 1 || o._linbhide===1)return; 
+                if(o.nodeType != 1)return; 
                 style=o.style;t=linb([o]);
-                o._position = style.position;
-                o._top = style.top;
-                o._left = style.left;
+                if(o._linbhide!==1){
+                    o._position = style.position;
+                    o._top = style.top;
+                    o._left = style.left;
+                    o._linbhide=1;
+                }
                 if(style.position!='absolute')style.position = 'absolute';
                 style.top = style.left = linb.Dom.HIDE_VALUE;
-                o._linbhide=1;
             });
         },
         cssRegion:function(region,triggerEvent) {
