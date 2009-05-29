@@ -1012,7 +1012,10 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                 '*zoom':1,
                 height:0,
                 position:'relative',
-                overflow:'hidden'
+                overflow:'hidden',
+                'font-size':'1px',
+                //1px for ie8
+                'line-height':'1px'
             }
         },
         Behaviors:{

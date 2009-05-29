@@ -450,7 +450,7 @@ _.set(linb.Locale,["cn","doc"], {
             $paras:[
                 "tasks [Required]: Funtion or Array, A single task(function) or a set of tasks(functions).",
                 "onEnd [Optional]: Function, 'on end' callback function.",
-                "threadid [Required]: Stirng, thread id. If this thread exists, all [tasks] will be insert into this thread."
+                "threadid [Optional]: Stirng, thread id. If this thread exists, all [tasks] will be insert into this thread."
             ],
             $snippet:[
                 "_.observableRun(_.fun());",
@@ -926,9 +926,9 @@ _.set(linb.Locale,["cn","doc","linb","Thread"], {
     observableRun:{
         $desc:"将一些列的任务函数和一个onEnd函数包装到一个UI-Observable线程，并执行这个线程. <br /> 如果[threadid]不存在, 就产生一个新的线程, 线程开始时会调用'dom.busy' 显示沙漏图标，线程结束的时候调用'dom.free'还原为默认图标. <br /> 如果线程存在, 则会分别插入任务和onEnd函数到现有的线程中.",
         $paras:[
-            "threadid [必需参数]: Stirng, 线程id. 不需要指定时可传入[null].",
             "tasks [必需参数]: Array, 一系列的任务函数(functions).",
-            "onEnd [可选参数]: Function, 'onEnd' 回调函数."
+            "onEnd [可选参数]: Function, 'onEnd' 回调函数.",
+            "threadid [可选参数]: Stirng, 线程id. 不需要指定时可传入[null]."
         ],
         $snippet:[
             "linb.Thread.observableRun(function(){linb.message('fun')},function(){alert('end')});",

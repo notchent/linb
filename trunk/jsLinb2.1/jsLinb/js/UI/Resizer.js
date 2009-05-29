@@ -521,7 +521,7 @@ Class("linb.UI.Resizer","linb.UI",{
             self.domNode.zIndexIgnore=true;
             // set ini update function
             if(!self.onUpdate)
-                self.onUpdate = self.constructor.onUpdate;
+                self.onUpdate = self.box.onUpdate;
         },
         onUpdate:function(profile, target, size, cssPos){
             if(target){

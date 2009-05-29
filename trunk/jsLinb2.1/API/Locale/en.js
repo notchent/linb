@@ -450,7 +450,7 @@ _.set(linb.Locale,["en","doc"], {
             $paras:[
                 "tasks [Required]: Funtion or Array, A single task(function) or a set of tasks(functions).",
                 "onEnd [Optional]: Function, 'on end' callback function.",
-                "threadid [Required]: Stirng, thread id. If this thread exists, all [tasks] will be insert into this thread."
+                "threadid [Optional]: Stirng, thread id. If this thread exists, all [tasks] will be insert into this thread."
             ],
             $snippet:[
                 "_.observableRun(_.fun());",
@@ -928,7 +928,7 @@ _.set(linb.Locale,["en","doc","linb","Thread"], {
         $paras:[
             "tasks [Required]: Funtion or Array, A single task(function) or a set of tasks(functions).",
             "onEnd [Optional]: Function, 'on end' callback function.",
-            "threadid [Required]: Stirng, thread id. If this thread exists, all [tasks] will be insert into this thread."
+            "threadid [Optional]: Stirng, thread id. If this thread exists, all [tasks] will be insert into this thread."
         ],
         $snippet:[
             "linb.Thread.observableRun(function(){linb.message('fun')},function(){alert('end')});",

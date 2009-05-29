@@ -14041,7 +14041,7 @@ Class("linb.UI.Resizer","linb.UI",{
             self.domNode.zIndexIgnore=true;
             // set ini update function
             if(!self.onUpdate)
-                self.onUpdate = self.constructor.onUpdate;
+                self.onUpdate = self.box.onUpdate;
         },
         onUpdate:function(profile, target, size, cssPos){
             if(target){
@@ -26084,7 +26084,10 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                 '*zoom':1,
                 height:0,
                 position:'relative',
-                overflow:'hidden'
+                overflow:'hidden',
+                'font-size':'1px',
+                //1px for ie8
+                'line-height':'1px'
             }
         },
         Behaviors:{
