@@ -3128,7 +3128,7 @@ Class("linb.UI",  "linb.absObj", {
 
 
             //attached to matix
-            if(pid && _.str.startWith(pid,linb.Dom._matixid))
+            if(pid && _.str.startWith(pid,linb.Dom._matrixid))
                 return;
 
             if(profile.$dockParent!=pid || profile.$dockType != value || force){
