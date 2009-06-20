@@ -4486,7 +4486,7 @@ Class("linb.CSS", null,{
 Class('linb.DomProfile', 'linb.absProfile', {
     Constructor:function(domId){
         arguments.callee.upper.call(this);
-        linb.$cache.profileMap[domId]=this;
+        linb.$cache.profileMap[this.domId=domId]=this;
     },
     Instance:{
         __gc:function(){
