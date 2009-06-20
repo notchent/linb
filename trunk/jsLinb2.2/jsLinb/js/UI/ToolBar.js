@@ -71,7 +71,7 @@ Class("linb.UI.ToolBar",["linb.UI","linb.absList"],{
                 style:'{mode}',
                 text:'{items}'
             },
-            $dynamic:{
+            $submap:{
                 items:{
                     GROUP:{
                         className:'{groupClass}',
@@ -168,7 +168,7 @@ Class("linb.UI.ToolBar",["linb.UI","linb.absList"],{
                 'line-height':0,
                 position:'relative',
                 padding:'2px 4px 0px 2px',
-                'vertical-align':'baseline'
+                'vertical-align':'middle'
             },
             ITEM:{
                 'vertical-align':'middle',

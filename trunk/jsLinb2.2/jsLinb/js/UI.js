@@ -2386,7 +2386,7 @@ Class("linb.UI",  "linb.absObj", {
                 //set main template
                 _.set(cache, [key, hash, ''], temp);
                 //set sub template
-                if(t=profile.template.$dynamic)
+                if(t=profile.template.$submap)
                     for(var i in t){
                         if(typeof (m=t[i])!='function'){
                             var temp=[[],[]];
@@ -2740,7 +2740,7 @@ Class("linb.UI",  "linb.absObj", {
                     t._=hash;
 
                 //set sub
-                if(t=hash.$dynamic)
+                if(t=hash.$submap)
                     for(var i in t)
                         for(var j in t[i])
                             me.call(self, t[i], j);

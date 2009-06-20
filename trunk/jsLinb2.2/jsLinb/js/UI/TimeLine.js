@@ -245,7 +245,7 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
                     }
                 }
             },
-            $dynamic : {
+            $submap : {
                 _bigMarks:{
                     LABELT:{
                         id:null,

@@ -2,7 +2,7 @@ Class("linb.UI.RadioBox", "linb.UI.List",{
     Initialize:function(){
         //modify default template for shell
         var t = this.getTemplate();
-        t.$dynamic={
+        t.$submap={
             items:{
                 ITEM:{
                     className:'{itemClass}  {disabled}',

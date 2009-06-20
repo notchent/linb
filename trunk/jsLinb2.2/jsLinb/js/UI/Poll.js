@@ -61,7 +61,7 @@ Class("linb.UI.Poll", "linb.UI.List",{
             className:"uibg-bar uiborder-outset {disabled}",
             text:"{cmds}"
         };
-        t.$dynamic={
+        t.$submap={
             items:{
                 OUTER:{
                     tagName:'div',

@@ -424,19 +424,19 @@ class IO{
 	 *
 	 * @param string $src : file or folder / rel or abs path
 	 * @param string $dst : file or folder / rel or abs path
-	 * @param bool $dynamic : hidden
+	 * @param bool $submap : hidden
 	 * @return bool
 	 */
-	function copy($src="", $dst="", $dynamic=FALSE) {
+	function copy($src="", $dst="", $submap=FALSE) {
 		if (!$src=realpath($src)) throw new LINB_E("$src is not a path");
 		$dst = $this->absPath($dst);
 		if (is_dir($src)) {
 			if (!is_readable($src))  throw new LINB_E("$src is not readalbe");
 			if ($dst[strlen($dst)-1]!=DIRECTORY_SEPARATOR) $dst .= DIRECTORY_SEPARATOR;
 			// the source is the last touched dir
-			if (TRUE===$dynamic&&$src==$this->last_dir) return TRUE;
+			if (TRUE===$submap&&$src==$this->last_dir) return TRUE;
 			// the last touched dir is ''
-			if (TRUE!==$dynamic) $this->last_dir = "";
+			if (TRUE!==$submap) $this->last_dir = "";
 			// create dir
 			if (!$this->dirMake($dst)) return FALSE;
 			// error on read dir
@@ -463,17 +463,17 @@ class IO{
 	 *
 	 * @param string $src : file or folder / rel or abs path
 	 * @param string $dst : file or folder / rel or abs path
-	 * @param bool $dynamic : hidden
+	 * @param bool $submap : hidden
 	 * @return bool
 	 */
-	function move($src="", $dst="", $dynamic=FALSE) {
+	function move($src="", $dst="", $submap=FALSE) {
 		if (!$src=realpath($src))  throw new LINB_E("$src is not a path");
 		$dst = $this->absPath($dst);
 		if (is_dir($src)) {
 			if (!is_readable($src))  throw new LINB_E("$src is not readable");
 			if ($dst[strlen($dst)-1]!=DIRECTORY_SEPARATOR) $dst .= DIRECTORY_SEPARATOR;
-			if (TRUE===$dynamic&&$src==$this->last_dir) return TRUE;
-			if (TRUE!==$dynamic) $this->last_dir = "";
+			if (TRUE===$submap&&$src==$this->last_dir) return TRUE;
+			if (TRUE!==$submap) $this->last_dir = "";
 			if (!$this->dirMake($dst)) return FALSE;
 			if (FALSE===$i=$this->dirList($src)) return FALSE;
 			for ($j=0,$k=count($i);$j<$k;$j++) if (!$this->move($i[$j]["location"], $dst.$i[$j]["name"],TRUE)) return FALSE;

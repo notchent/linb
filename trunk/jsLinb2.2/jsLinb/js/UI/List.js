@@ -107,7 +107,7 @@ Class("linb.UI.List", ["linb.UI", "linb.absList","linb.absValue" ],{
                tagName:'div',
                text:"{items}"
             },
-            $dynamic:{
+            $submap:{
                 items:{
                     ITEM:{
                         className:'{itemClass} {disabled}',

@@ -8,7 +8,7 @@ Class("linb.UI.Gallery", "linb.UI.List",{
     Initialize:function(){
         //modify default template fro shell
         var t = this.getTemplate();
-        t.$dynamic={
+        t.$submap={
             items:{
                 ITEM:{
                     tagName : 'a',
@@ -63,7 +63,6 @@ Class("linb.UI.Gallery", "linb.UI.List",{
                 display:linb.$inlineBlock,
                 zoom:linb.browser.ie6?1:null,
                 position:'relative',
-                overflow:'hidden',
                 cursor:'pointer',
                 'vertical-align':'top',
                 /*opera must be 0 not 'none'*/

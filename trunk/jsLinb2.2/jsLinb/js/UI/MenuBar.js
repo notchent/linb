@@ -118,7 +118,7 @@ Class("linb.UI.MenuBar",["linb.UI","linb.absList" ],{
                     }
                 }
             },
-            $dynamic:{
+            $submap:{
                 items:{
                     ITEM:{
                         ITEMI:{

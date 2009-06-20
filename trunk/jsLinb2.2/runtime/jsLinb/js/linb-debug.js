@@ -4525,6 +4525,10 @@ Class('linb.absBox',null, {
             var t=this._nodes;
             return  _.isNumb(index)?t[index]:t;
         },
+        _empty:function(){
+            this._nodes.length=0;
+            return this;
+        },
         get:function(index){
             return this._get(index);
         },
@@ -5867,7 +5871,6 @@ type:4
             var ns=this,
                 doc=document,
                 sid='$blur_triggers$',
-                target = linb(group?group:ns),
                 fun=linb.Dom._blurTrigger||(linb.Dom._blurTrigger=function(p,e){
                     var me=arguments.callee,
                         p=linb.Event.getPos(e),
@@ -5909,9 +5912,21 @@ type:4
                     },null,true);
                     a.length=0;
                 }),
-                arr=fun.arr||(fun.arr=[]);
+                arr=fun.arr||(fun.arr=[]),
+                target;
+            if(group){
+                //keep the original refrence
+                if(group['linb.Dom'])
+                    target=group;
+                else if(_.isArr(group)){
+                    target=linb();
+                    target._nodes=group;
+                }
+            }else
+                target=ns;
+            
             if(!doc.onmousedown)doc.onmousedown=linb.Event.$eventhandler;
-            target.each(function(o){if(!o.id)o.id=_.id()});
+            target.each(function(o){if(!o.id)o.id=linb.Dom._pickDomId()});
             //remove this trigger
             if(!trigger){
                 _.arr.removeValue(arr,id);
@@ -11631,7 +11646,7 @@ Class("linb.UI",  "linb.absObj", {
                 //set main template
                 _.set(cache, [key, hash, ''], temp);
                 //set sub template
-                if(t=profile.template.$dynamic)
+                if(t=profile.template.$submap)
                     for(var i in t){
                         if(typeof (m=t[i])!='function'){
                             var temp=[[],[]];
@@ -11985,7 +12000,7 @@ Class("linb.UI",  "linb.absObj", {
                     t._=hash;
 
                 //set sub
-                if(t=hash.$dynamic)
+                if(t=hash.$submap)
                     for(var i in t)
                         for(var j in t[i])
                             me.call(self, t[i], j);
@@ -16489,8 +16504,7 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
             });
         },
         _getCtrlValue:function(){
-            var profile=this.get(0);
-            return profile.getSubNode('INPUT').attr('value');
+            return this.getSubNode('INPUT').attr('value');
         },
         _setDirtyMark:function(){
             return this.each(function(profile){
@@ -17635,6 +17649,9 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
 Class("linb.UI.ComboInput", "linb.UI.Input",{
     /*Instance*/
     Instance:{
+        _getCtrlValue:function(){
+            return this._fromEditValue(this.getSubNode('INPUT').attr('value'));
+        },
         _setCtrlValue:function(value, flag){
             var me=arguments.callee, r1=me._r1||(me._r1=/\</),r2=me._r2||(me._r2=/\<\/?[^>]+\>/g);
             return this.each(function(profile){
@@ -17645,10 +17662,8 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                 value=flag?value:profile.boxing().getShowValue(value);
                 if(type!=='none'&& !profile.properties.multiLines && typeof value=='string' && r1.test(value))value=value.replace(r2,'');
                 o.attr('value',value||'');
-                if(type=='colorpicker'){
-                    profile.getSubNode('BOX').css('backgroundColor',value);
-                    o.css('color',linb.UI.ColorPicker.getTextColor(value));
-                }
+                if(type=='colorpicker')
+                    o.css({backgroundColor:value, color:linb.UI.ColorPicker.getTextColor(value)});
             })
         },
         _compareValue:function(v1,v2){
@@ -17861,16 +17876,16 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                     case 'helpinput':
                         o.setWidth(profile.getRoot().width());
                     case 'timepicker':
-                        o.setValue(box.getUIValue(), true);
+                        o.setValue(profile.properties.$UIvalue, true);
                         break;
                     case 'datepicker':
                         var t = profile.$drop.properties;
                         t.WEEK_FIRST=pro.WEEK_FIRST;
-                        if(t=box.getUIValue())
+                        if(t=profile.properties.$UIvalue)
                             o.setValue(new Date( parseInt(t) ), true);
                         break;
                     case 'colorpicker':
-                        o.setValue(box.getUIValue().replace('#',''), true);
+                        o.setValue(profile.properties.$UIvalue.replace('#',''), true);
                         break;
                 }
 
@@ -18130,7 +18145,6 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
             INPUT:{
                 onChange:function(profile, e, src){
                     if(profile.$_onedit||profile.$_inner)return;
-
                     var o=profile.inValid,
                         instance=profile.boxing(),
                         v = instance._fromEditValue(linb.use(src).get(0).value),
@@ -20875,7 +20889,7 @@ Class("linb.UI.Group", "linb.UI.Div",{
                tagName:'div',
                text:"{items}"
             },
-            $dynamic:{
+            $submap:{
                 items:{
                     ITEM:{
                         className:'{itemClass} {disabled}',
@@ -21146,7 +21160,7 @@ Class("linb.UI.Gallery", "linb.UI.List",{
     Initialize:function(){
         //modify default template fro shell
         var t = this.getTemplate();
-        t.$dynamic={
+        t.$submap={
             items:{
                 ITEM:{
                     tagName : 'a',
@@ -21201,7 +21215,6 @@ Class("linb.UI.Gallery", "linb.UI.List",{
                 display:linb.$inlineBlock,
                 zoom:linb.browser.ie6?1:null,
                 position:'relative',
-                overflow:'hidden',
                 cursor:'pointer',
                 'vertical-align':'top',
                 /*opera must be 0 not 'none'*/
@@ -21343,7 +21356,7 @@ Class("linb.UI.IconList", "linb.UI.List",{
     Initialize:function(){
         //modify default template fro shell
         var t = this.getTemplate();
-        t.$dynamic={
+        t.$submap={
             items:{
                 ITEM:{
                     tagName : 'a',
@@ -21384,7 +21397,6 @@ Class("linb.UI.IconList", "linb.UI.List",{
                 display:linb.$inlineBlock,
                 zoom:linb.browser.ie6?1:null,
                 position:'relative',
-                overflow:'hidden',
                 cursor:'pointer',
                 border:'solid 1px #C2E4FC',
                 'vertical-align':'top'
@@ -22407,7 +22419,7 @@ Class("linb.UI.Tabs", ["linb.UI", "linb.absList","linb.absValue"],{
                 tagName:'text',
                 text:'{panels}'
             },
-            $dynamic:{
+            $submap:{
                 items:{
                     ITEM:{
                         className:'{itemClass} {disabled}',
@@ -23215,7 +23227,7 @@ Class("linb.UI.ButtonViews", "linb.UI.Tabs",{
     Initialize:function(){
         //modify default template for shell
         var t = this.getTemplate();
-        t.$dynamic={
+        t.$submap={
             items:{
                 ITEM:{
                     className:'{itemClass}  {disabled}',
@@ -23461,7 +23473,7 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
                     }
                 }
             },
-            $dynamic:{
+            $submap:{
                 items:{
                     ITEM:{
                         className:'{itemClass} {disabled}',
@@ -24098,7 +24110,7 @@ Class("linb.UI.PopMenu",["linb.UI.Widget","linb.absList"],{
             f.profile=profile;
 
             if(!profile.$popGrp || !profile.$popGrp.length){
-                profile.$popGrp = [root.get(0)];
+                profile.$popGrp = [root._get(0)];
                 //group blur trigger
                 root.setBlurTrigger(profile.$linbid, null);
                 root.setBlurTrigger(profile.$linbid, f, profile.$popGrp);
@@ -24137,7 +24149,7 @@ Class("linb.UI.PopMenu",["linb.UI.Widget","linb.absList"],{
             profile[cm]=profile[sms]=null;
             if(t=profile.$parentPopMenu)t[sms]=null;
 
-            _.arr.removeValue(profile.$popGrp,root.get(0));
+            _.arr.removeValue(profile.$popGrp,root._get(0));
 
             if(false!==triggerEvent)
                 profile.boxing().onHide(profile);
@@ -24162,7 +24174,7 @@ Class("linb.UI.PopMenu",["linb.UI.Widget","linb.absList"],{
                 style:'display:none;'
              }
         },'all');
-        t.$dynamic = {
+        t.$submap = {
             'items':function(profile,template,v,tag,result){
                 var t;
                 tag = tag+'.'+v.type;
@@ -24425,7 +24437,7 @@ Class("linb.UI.PopMenu",["linb.UI.Widget","linb.absList"],{
                             }else popp=pop.get(0);
 
                             //input a copy of root for group trigger
-                            profile[popgrp].push(popp.getRoot().get(0));
+                            profile[popgrp].push(popp.getRoot()._get(0));
                             popp[popgrp] = profile[popgrp];
 
                             //set parent pop
@@ -24446,7 +24458,7 @@ Class("linb.UI.PopMenu",["linb.UI.Widget","linb.absList"],{
                                     r.onMouseout(function(p,e,src){
                                         profile.box._mouseout(profile, e, src);
                                     },null,-1);
-                                    profile[popgrp].push(r.get(0));
+                                    profile[popgrp].push(r._get(0));
 
                                     r.popToTop(src,2,profile._conainer);
                                 }
@@ -24667,6 +24679,8 @@ Class("linb.UI.PopMenu",["linb.UI.Widget","linb.absList"],{
             item.displayAdd = item.add?'':'display:none';
             item.tagClass = item.sub?'':'display:none';
 
+            item.imageDisplay=true;
+
             item.type=item.type||'button';
             if(item.type=='checkbox'){
                 item.checkboxCls =profile.getClass('CHECKBOX', item.value?'-checked':'');
@@ -24799,7 +24813,7 @@ Class("linb.UI.MenuBar",["linb.UI","linb.absList" ],{
                     }
                 }
             },
-            $dynamic:{
+            $submap:{
                 items:{
                     ITEM:{
                         ITEMI:{
@@ -25156,7 +25170,7 @@ Class("linb.UI.ToolBar",["linb.UI","linb.absList"],{
                 style:'{mode}',
                 text:'{items}'
             },
-            $dynamic:{
+            $submap:{
                 items:{
                     GROUP:{
                         className:'{groupClass}',
@@ -25253,7 +25267,7 @@ Class("linb.UI.ToolBar",["linb.UI","linb.absList"],{
                 'line-height':0,
                 position:'relative',
                 padding:'2px 4px 0px 2px',
-                'vertical-align':'baseline'
+                'vertical-align':'middle'
             },
             ITEM:{
                 'vertical-align':'middle',
@@ -25463,7 +25477,7 @@ Class("linb.UI.Layout",["linb.UI", "linb.absList"],{
             tagName:'div',
             style:'{_style}',
             text:"{items}",
-            $dynamic:{
+            $submap:{
                 items:{
                     ITEM:{
                         tagName:'div',
@@ -26242,7 +26256,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                 hw=profile.getSubNode('HFCELL').width();
             //give width at here
             _.arr.each(arr,function(o){
-                o._row0DfW = hw;
+                o._row0DfW = hw?('width:'+hw+'px'):'';
                 _.arr.each(o.cells,function(v,i){
                     v.width=v._col.width;
                 })
@@ -26725,7 +26739,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                                 /*the first col (row handler) in table header*/
                                 HFCELL:{
                                     $order:0,
-                                    style:'{rowHandlerDisplay};width:{_row0DfW}px;',
+                                    style:'{rowHandlerDisplay};{_row0DfW};',
                                     HFCELLA:{
                                         HHANDLER:{
                                             tagName:'div',
@@ -26765,7 +26779,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                     }
                 }
             },
-            $dynamic : {
+            $submap : {
                 /*the other header in table header*/
                 header:{
                     HCELL:{
@@ -26802,7 +26816,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                             style:'height:{rowHeight}px;{rowStyle}',
                             FCELL:{
                                 $order:0,
-                                style:'{rowHandlerDisplay};width:{_row0DfW}px;{firstCellStyle}',
+                                style:'{rowHandlerDisplay};{_row0DfW};{firstCellStyle}',
                                 className:'{firstCellClass}',
                                 FCELLA:{
                                     FCELLRULER:{
@@ -27073,6 +27087,9 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                 'font-size':0,
                 'line-height':0
             },
+            FCELLINN:{
+                'vertical-align':'middle'
+            },
             'HFCELL, HCELL':{
                height:'100%',
                'border-left':'1px solid #fff',
@@ -27163,6 +27180,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                cursor:'pointer',
                width:'16px',
                height:'16px',
+               'vertical-align':'middle',
                background: linb.UI.$bg('icons.gif', 'no-repeat -20px -70px', true)
             },
             'CELL-mouseover CHECKBOX':{
@@ -27214,7 +27232,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
             //key navigator
             SCROLL:{
                 onScroll:function(profile, e, src){
-                    var l=src.scrollLeft||0;
+                    var l=linb.use(src).get(0).scrollLeft||0;
                     if(profile.$sl!=l)
                         profile.getSubNode('HEADER').get(0).scrollLeft=profile.$sl=l;
                 }
@@ -27921,7 +27939,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                         row,ol=0,l=0,a1=[],a2=[],tag='',temp,t;
                     if(value)
                         nodes.each(function(o){
-                            if(o.parentNode.offsetHeight){
+                            if(o.parentNode.offsetWidth){
                                 row=map[ns.getSubId(o.id)];
                                 l=row._layer;
                                 if(l>ol){
@@ -27972,13 +27990,13 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                 }
             },
             rowHandlerWidth: {
-                ini:100,
+                ini:50,
                 set:function(value){
                     return this.each(function(o){
                         if(o.renderId)
                             o.box._setRowHanderW(o,value);
                         else
-                            o.rowHandlerWidth=value;
+                            o.properties.rowHandlerWidth=value;
                     })
                 }
             },
@@ -28263,7 +28281,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
 
             pro.header=this._adjustHeader(pro.header);
             data.header=this._prepareHeader(profile, pro.header);
-            data._row0DfW=data.rowHandlerWidth;
+            data._row0DfW=data.rowHandlerWidth?('width:'+data.rowHandlerWidth+'px'):'';
 
             arguments.callee.upper.call(this, profile);
 
@@ -28470,7 +28488,7 @@ sortby [for column only]
                 if(row.preview)
                     t.previewDisplay='display:block;';
 
-                t._row0DfW=pro.rowHandlerWidth;
+                t._row0DfW=pro.rowHandlerWidth?('width:'+pro.rowHandlerWidth+'px'):'';
                 t._rulerW=_layer*mm;
 
                 t.rowHeight=row.height||pro.rowHeight;

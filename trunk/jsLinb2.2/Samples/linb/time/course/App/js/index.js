@@ -32,8 +32,9 @@ Class('App', 'linb.Com',{
             host.pane8.append((new linb.UI.TreeGrid)
                 .host(host,"treegrid2")
                 .setRowNumbered(true)
-                .setHeader([{"id":"course", "type":"label", "caption":"course", "width":240}, {"caption":"from", "type":"datepicker", "width":120}, {"caption":"to", "type":"datepicker", "width":120}, {"type":"button", "caption":"remove", "width":45, "cellClass":"gridbutton"}])
+                .setHeader([{"id":"course", "type":"label","width":240}, {"id":"from", "type":"datepicker", "width":100}, {"id":"to", "type":"datepicker", "width":100}, {"type":"button", "id":"remove", "width":45, "cellClass":"gridbutton"}])
                 .setDropKeys("iEvent2")
+                .setRowHandlerWidth(40)
                 .onClickCell("_treegrid2_onclickcell")
                 .onDrop("_od")
             );
@@ -200,9 +201,11 @@ Class('App', 'linb.Com',{
             });
         }, 
         _treegrid2_onclickcell:function (profile, cell,  e, src) {
-            linb.UI.Dialog.confirm('confirm','Do you mean to remove the course?',function(){
-                profile.boxing().removeRows([cell._row.id]);
-            });
+            if(cell._col.id=='remove'){
+                linb.UI.Dialog.confirm('confirm','Do you mean to remove the course?',function(){
+                    profile.boxing().removeRows([cell._row.id]);
+                });
+            }
         }, 
         _timeline1_ongetcontent:function (profile, from, to, minMs, type, callback) {
             var datasource=SPA.courses;

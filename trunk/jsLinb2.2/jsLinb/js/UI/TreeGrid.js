@@ -82,7 +82,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                 hw=profile.getSubNode('HFCELL').width();
             //give width at here
             _.arr.each(arr,function(o){
-                o._row0DfW = hw;
+                o._row0DfW = hw?('width:'+hw+'px'):'';
                 _.arr.each(o.cells,function(v,i){
                     v.width=v._col.width;
                 })
@@ -565,7 +565,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                                 /*the first col (row handler) in table header*/
                                 HFCELL:{
                                     $order:0,
-                                    style:'{rowHandlerDisplay};width:{_row0DfW}px;',
+                                    style:'{rowHandlerDisplay};{_row0DfW};',
                                     HFCELLA:{
                                         HHANDLER:{
                                             tagName:'div',
@@ -605,7 +605,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                     }
                 }
             },
-            $dynamic : {
+            $submap : {
                 /*the other header in table header*/
                 header:{
                     HCELL:{
@@ -642,7 +642,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                             style:'height:{rowHeight}px;{rowStyle}',
                             FCELL:{
                                 $order:0,
-                                style:'{rowHandlerDisplay};width:{_row0DfW}px;{firstCellStyle}',
+                                style:'{rowHandlerDisplay};{_row0DfW};{firstCellStyle}',
                                 className:'{firstCellClass}',
                                 FCELLA:{
                                     FCELLRULER:{
@@ -913,6 +913,9 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                 'font-size':0,
                 'line-height':0
             },
+            FCELLINN:{
+                'vertical-align':'middle'
+            },
             'HFCELL, HCELL':{
                height:'100%',
                'border-left':'1px solid #fff',
@@ -1003,6 +1006,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                cursor:'pointer',
                width:'16px',
                height:'16px',
+               'vertical-align':'middle',
                background: linb.UI.$bg('icons.gif', 'no-repeat -20px -70px', true)
             },
             'CELL-mouseover CHECKBOX':{
@@ -1054,7 +1058,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
             //key navigator
             SCROLL:{
                 onScroll:function(profile, e, src){
-                    var l=src.scrollLeft||0;
+                    var l=linb.use(src).get(0).scrollLeft||0;
                     if(profile.$sl!=l)
                         profile.getSubNode('HEADER').get(0).scrollLeft=profile.$sl=l;
                 }
@@ -1761,7 +1765,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                         row,ol=0,l=0,a1=[],a2=[],tag='',temp,t;
                     if(value)
                         nodes.each(function(o){
-                            if(o.parentNode.offsetHeight){
+                            if(o.parentNode.offsetWidth){
                                 row=map[ns.getSubId(o.id)];
                                 l=row._layer;
                                 if(l>ol){
@@ -1812,13 +1816,13 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                 }
             },
             rowHandlerWidth: {
-                ini:100,
+                ini:50,
                 set:function(value){
                     return this.each(function(o){
                         if(o.renderId)
                             o.box._setRowHanderW(o,value);
                         else
-                            o.rowHandlerWidth=value;
+                            o.properties.rowHandlerWidth=value;
                     })
                 }
             },
@@ -2103,7 +2107,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
 
             pro.header=this._adjustHeader(pro.header);
             data.header=this._prepareHeader(profile, pro.header);
-            data._row0DfW=data.rowHandlerWidth;
+            data._row0DfW=data.rowHandlerWidth?('width:'+data.rowHandlerWidth+'px'):'';
 
             arguments.callee.upper.call(this, profile);
 
@@ -2310,7 +2314,7 @@ sortby [for column only]
                 if(row.preview)
                     t.previewDisplay='display:block;';
 
-                t._row0DfW=pro.rowHandlerWidth;
+                t._row0DfW=pro.rowHandlerWidth?('width:'+pro.rowHandlerWidth+'px'):'';
                 t._rulerW=_layer*mm;
 
                 t.rowHeight=row.height||pro.rowHeight;

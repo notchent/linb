@@ -17,7 +17,7 @@ Class("linb.UI.Layout",["linb.UI", "linb.absList"],{
             tagName:'div',
             style:'{_style}',
             text:"{items}",
-            $dynamic:{
+            $submap:{
                 items:{
                     ITEM:{
                         tagName:'div',

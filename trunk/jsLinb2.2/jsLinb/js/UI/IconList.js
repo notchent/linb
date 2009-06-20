@@ -8,7 +8,7 @@ Class("linb.UI.IconList", "linb.UI.List",{
     Initialize:function(){
         //modify default template fro shell
         var t = this.getTemplate();
-        t.$dynamic={
+        t.$submap={
             items:{
                 ITEM:{
                     tagName : 'a',
@@ -49,7 +49,6 @@ Class("linb.UI.IconList", "linb.UI.List",{
                 display:linb.$inlineBlock,
                 zoom:linb.browser.ie6?1:null,
                 position:'relative',
-                overflow:'hidden',
                 cursor:'pointer',
                 border:'solid 1px #C2E4FC',
                 'vertical-align':'top'

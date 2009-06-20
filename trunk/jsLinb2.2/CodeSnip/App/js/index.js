@@ -53,7 +53,7 @@ Class('App', 'linb.Com',{
                 .host(host,"blockCode")
                 .setDomId("ce_blockCode")
                 .setDock("fill")
-                .setCustomStyle({"PANEL":"background:#F4F4F4"})
+                .setCustomStyle({"PANEL":"background:#F4F4F4;overflow:auto;"})
             , 'after');
             
             host.layout.append((new linb.UI.TreeBar)

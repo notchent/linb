@@ -28,8 +28,7 @@ Class("linb.UI.Input", ["linb.UI.Widget","linb.absValue"] ,{
             });
         },
         _getCtrlValue:function(){
-            var profile=this.get(0);
-            return profile.getSubNode('INPUT').attr('value');
+            return this.getSubNode('INPUT').attr('value');
         },
         _setDirtyMark:function(){
             return this.each(function(profile){

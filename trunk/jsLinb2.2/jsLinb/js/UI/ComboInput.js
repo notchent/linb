@@ -1,6 +1,9 @@
 Class("linb.UI.ComboInput", "linb.UI.Input",{
     /*Instance*/
     Instance:{
+        _getCtrlValue:function(){
+            return this._fromEditValue(this.getSubNode('INPUT').attr('value'));
+        },
         _setCtrlValue:function(value, flag){
             var me=arguments.callee, r1=me._r1||(me._r1=/\</),r2=me._r2||(me._r2=/\<\/?[^>]+\>/g);
             return this.each(function(profile){
@@ -11,10 +14,8 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                 value=flag?value:profile.boxing().getShowValue(value);
                 if(type!=='none'&& !profile.properties.multiLines && typeof value=='string' && r1.test(value))value=value.replace(r2,'');
                 o.attr('value',value||'');
-                if(type=='colorpicker'){
-                    profile.getSubNode('BOX').css('backgroundColor',value);
-                    o.css('color',linb.UI.ColorPicker.getTextColor(value));
-                }
+                if(type=='colorpicker')
+                    o.css({backgroundColor:value, color:linb.UI.ColorPicker.getTextColor(value)});
             })
         },
         _compareValue:function(v1,v2){
@@ -227,16 +228,16 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                     case 'helpinput':
                         o.setWidth(profile.getRoot().width());
                     case 'timepicker':
-                        o.setValue(box.getUIValue(), true);
+                        o.setValue(profile.properties.$UIvalue, true);
                         break;
                     case 'datepicker':
                         var t = profile.$drop.properties;
                         t.WEEK_FIRST=pro.WEEK_FIRST;
-                        if(t=box.getUIValue())
+                        if(t=profile.properties.$UIvalue)
                             o.setValue(new Date( parseInt(t) ), true);
                         break;
                     case 'colorpicker':
-                        o.setValue(box.getUIValue().replace('#',''), true);
+                        o.setValue(profile.properties.$UIvalue.replace('#',''), true);
                         break;
                 }
 
@@ -496,7 +497,6 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
             INPUT:{
                 onChange:function(profile, e, src){
                     if(profile.$_onedit||profile.$_inner)return;
-
                     var o=profile.inValid,
                         instance=profile.boxing(),
                         v = instance._fromEditValue(linb.use(src).get(0).value),

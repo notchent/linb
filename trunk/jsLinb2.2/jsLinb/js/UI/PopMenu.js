@@ -129,7 +129,7 @@ Class("linb.UI.PopMenu",["linb.UI.Widget","linb.absList"],{
             f.profile=profile;
 
             if(!profile.$popGrp || !profile.$popGrp.length){
-                profile.$popGrp = [root.get(0)];
+                profile.$popGrp = [root._get(0)];
                 //group blur trigger
                 root.setBlurTrigger(profile.$linbid, null);
                 root.setBlurTrigger(profile.$linbid, f, profile.$popGrp);
@@ -168,7 +168,7 @@ Class("linb.UI.PopMenu",["linb.UI.Widget","linb.absList"],{
             profile[cm]=profile[sms]=null;
             if(t=profile.$parentPopMenu)t[sms]=null;
 
-            _.arr.removeValue(profile.$popGrp,root.get(0));
+            _.arr.removeValue(profile.$popGrp,root._get(0));
 
             if(false!==triggerEvent)
                 profile.boxing().onHide(profile);
@@ -193,7 +193,7 @@ Class("linb.UI.PopMenu",["linb.UI.Widget","linb.absList"],{
                 style:'display:none;'
              }
         },'all');
-        t.$dynamic = {
+        t.$submap = {
             'items':function(profile,template,v,tag,result){
                 var t;
                 tag = tag+'.'+v.type;
@@ -456,7 +456,7 @@ Class("linb.UI.PopMenu",["linb.UI.Widget","linb.absList"],{
                             }else popp=pop.get(0);
 
                             //input a copy of root for group trigger
-                            profile[popgrp].push(popp.getRoot().get(0));
+                            profile[popgrp].push(popp.getRoot()._get(0));
                             popp[popgrp] = profile[popgrp];
 
                             //set parent pop
@@ -477,7 +477,7 @@ Class("linb.UI.PopMenu",["linb.UI.Widget","linb.absList"],{
                                     r.onMouseout(function(p,e,src){
                                         profile.box._mouseout(profile, e, src);
                                     },null,-1);
-                                    profile[popgrp].push(r.get(0));
+                                    profile[popgrp].push(r._get(0));
 
                                     r.popToTop(src,2,profile._conainer);
                                 }
@@ -697,6 +697,8 @@ Class("linb.UI.PopMenu",["linb.UI.Widget","linb.absList"],{
             item.add = item.add || '';
             item.displayAdd = item.add?'':'display:none';
             item.tagClass = item.sub?'':'display:none';
+
+            item.imageDisplay=true;
 
             item.type=item.type||'button';
             if(item.type=='checkbox'){

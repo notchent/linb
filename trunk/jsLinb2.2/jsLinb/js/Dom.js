@@ -41,6 +41,10 @@ Class('linb.absBox',null, {
             var t=this._nodes;
             return  _.isNumb(index)?t[index]:t;
         },
+        _empty:function(){
+            this._nodes.length=0;
+            return this;
+        },
         get:function(index){
             return this._get(index);
         },
@@ -1383,7 +1387,6 @@ type:4
             var ns=this,
                 doc=document,
                 sid='$blur_triggers$',
-                target = linb(group?group:ns),
                 fun=linb.Dom._blurTrigger||(linb.Dom._blurTrigger=function(p,e){
                     var me=arguments.callee,
                         p=linb.Event.getPos(e),
@@ -1425,9 +1428,21 @@ type:4
                     },null,true);
                     a.length=0;
                 }),
-                arr=fun.arr||(fun.arr=[]);
+                arr=fun.arr||(fun.arr=[]),
+                target;
+            if(group){
+                //keep the original refrence
+                if(group['linb.Dom'])
+                    target=group;
+                else if(_.isArr(group)){
+                    target=linb();
+                    target._nodes=group;
+                }
+            }else
+                target=ns;
+            
             if(!doc.onmousedown)doc.onmousedown=linb.Event.$eventhandler;
-            target.each(function(o){if(!o.id)o.id=_.id()});
+            target.each(function(o){if(!o.id)o.id=linb.Dom._pickDomId()});
             //remove this trigger
             if(!trigger){
                 _.arr.removeValue(arr,id);

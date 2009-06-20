@@ -186,7 +186,7 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
                     }
                 }
             },
-            $dynamic:{
+            $submap:{
                 items:{
                     ITEM:{
                         className:'{itemClass} {disabled}',

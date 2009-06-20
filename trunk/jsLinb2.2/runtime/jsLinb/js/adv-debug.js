@@ -642,7 +642,7 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
                     }
                 }
             },
-            $dynamic : {
+            $submap : {
                 _bigMarks:{
                     LABELT:{
                         id:null,
@@ -2309,7 +2309,7 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
     Initialize:function(){
         //modify default template fro shell
         var t = this.getTemplate();
-        t.$dynamic={
+        t.$submap={
             items:{
                 ITEM:{
                     className:'{itemClass} {disabled}',
@@ -2463,7 +2463,7 @@ Class("linb.UI.Poll", "linb.UI.List",{
             className:"uibg-bar uiborder-outset {disabled}",
             text:"{cmds}"
         };
-        t.$dynamic={
+        t.$submap={
             items:{
                 OUTER:{
                     tagName:'div',
@@ -3026,7 +3026,7 @@ Class("linb.UI.FoldingList", ["linb.UI.List"],{
     Initialize:function(){
         //modify default template fro shell
         var t = this.getTemplate();
-        t.$dynamic={
+        t.$submap={
             items:{
                 ITEM:{
                     tagName : 'div',
