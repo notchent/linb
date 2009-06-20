@@ -13165,7 +13165,8 @@ Class("linb.absList", "linb.absObj",{
                     return this.each(function(o){
                         if(o.renderId)
                             o.boxing().clearItems().insertItems(value);
-                        o.properties.items = _.copy(value);
+                        else
+                            o.properties.items = _.copy(value);
                     });
                 }
             }
