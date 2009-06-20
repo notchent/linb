@@ -291,7 +291,6 @@ Class("linb.UI.RichEditor", ["linb.UI","linb.absValue"],{
             if(!editor.$doc)return;
 
             var pro=editor.properties;
-
             editor.$win.focus();
 
             if(item.command=='custom'){
@@ -408,12 +407,12 @@ Class("linb.UI.RichEditor", ["linb.UI","linb.absValue"],{
                             var doc=editor.$doc;
                             if(cmd=='bgcolor' && linb.browser.gek){
                                 doc.execCommand('useCSS',0,false);
-                                doc.execCommand('hilitecolor',false,v);
+                                doc.execCommand('hilitecolor',false, '#'+v);
                                 doc.execCommand('useCSS',0,true);
                             }else{
                                 if(cmd=='bgcolor')
                                     cmd=linb.browser.opr?'hilitecolor':'backcolor';
-                                doc.execCommand(cmd,false, (linb.browser.ie||linb.browser.kde)?v:v.replace('#',''));
+                                doc.execCommand(cmd,false, linb.browser.kde?('#'+v):v)  ;
                             }
                             doc=null;
                             return false;
@@ -427,7 +426,7 @@ Class("linb.UI.RichEditor", ["linb.UI","linb.absValue"],{
                             //store range for IE
                             if(linb.browser.ie && (v=='...' ||cmd=='formatblock' )){
                                 var selection=editor.$doc.selection,
-                                    range=(selection && selection.type!="None")?selection.createRange():null;
+                                    range=selection?selection.createRange():null;
                                 if(range && range.parentElement().ownerDocument!=editor.$doc)
                                     range=selection=null;
                             }
@@ -437,6 +436,7 @@ Class("linb.UI.RichEditor", ["linb.UI","linb.absValue"],{
                                     //for formatblock in IE
                                     //reset range for IE
                                     if(range){
+                                        editor.$win.focus();
                                         if(cmd=='formatblock' && v){
                                             var p=range.parentElement(),html;
                                             if(p.ownerDocument==doc){
@@ -474,7 +474,10 @@ Class("linb.UI.RichEditor", ["linb.UI","linb.absValue"],{
                                 },function(){
                                     //reset range for IE
                                     if(linb.browser.ie){
-                                        if(range)range.select();
+                                        if(range){
+                                            editor.$win.focus();
+                                            range.select();
+                                        }
                                         selection=range=null
                                     }
                                 });
@@ -489,14 +492,17 @@ Class("linb.UI.RichEditor", ["linb.UI","linb.absValue"],{
                         //store range for IE
                         if(linb.browser.ie){
                             var selection=editor.$doc.selection,
-                                range=(selection && selection.type!="None")?selection.createRange():null;
+                                range=selection?selection.createRange():null;
                                 if(range && range.parentElement().ownerDocument!=editor.$doc)
                                     range=selection=null;
                         }
                         linb.UI.Dialog.prompt(str,str2,"http:/"+'/',function(v){
                             //reset range for IE
                             if(linb.browser.ie){
-                                if(range)range.select();
+                                if(range){
+                                    editor.$win.focus();
+                                    range.select();
+                                }
                                 selection=range=null
                             }
                             if(v){
@@ -507,7 +513,10 @@ Class("linb.UI.RichEditor", ["linb.UI","linb.absValue"],{
                         },function(){
                             //reset range for IE
                             if(linb.browser.ie){
-                                if(range)range.select();
+                                if(range){
+                                    editor.$win.focus();
+                                    range.select();
+                                }
                                 selection=range=null
                             }
                         });

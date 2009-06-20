@@ -1829,7 +1829,7 @@ Class("linb.UI",  "linb.absObj", {
             '.uibar-top, .uibar-bottom, .uibar-top-s, .uibar-bottom-s':{
                 position:'relative',
                 //for avoiding extra space after table in IE
-                'vertical-align':'top',
+                'vertical-align':'baseline',
                 'font-size':0,
                 'line-height':0
             },
@@ -4457,8 +4457,7 @@ new function(){
                     'vertical-align':'middle',
                     padding:'2px 0',
                     'font-size':'12px',
-                    'line-height':'14px',
-                    'vertical-align': 'middle'
+                    'line-height':'14px'
                 },
                 CAPTION:{
                     'vertical-align': 'middle'

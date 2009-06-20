@@ -145,6 +145,7 @@ Class("linb.UI.Input", ["linb.UI.Widget","linb.absValue"] ,{
                'font-size':'12px',
                position:'relative',
                overflow:'auto',
+               'white-space':'normal',
                'overflow-y':(linb.browser.gek||linb.browser.ie)?'auto':'',
                'overflow-x':(linb.browser.gek||linb.browser.ie)?'hidden':''
             },
