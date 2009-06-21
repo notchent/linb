@@ -416,7 +416,7 @@ Class("linb.Coder", null,{
                         if(!_.isArr(o))o=[o];
                         _.arr.each(o,function(o){
                             if(typeof o =='string')o="\\b(" + o + ")\\b";
-                            arr.push([o, "$1<span class='"+s+"'>$2<\/span>$5"]);
+                            arr.push([o, "<span class='"+s+"'>$0<\/span>"]);
                         });
                     }
                 })(a['reg'],'reg');

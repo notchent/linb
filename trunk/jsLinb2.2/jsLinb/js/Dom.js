@@ -2008,8 +2008,8 @@ type:4
         });
     },
     Initialize:function(){
-        _.set(linb.$cache.domPurgeData,'!window',{element:window});
-        _.set(linb.$cache.domPurgeData,'!document',{element:document});
+        _.set(linb.$cache.domPurgeData,'!window',{$linbid:'!window',element:window});
+        _.set(linb.$cache.domPurgeData,'!document',{$linbid:'!document',element:document});
 
         linb.win=linb(['!window'],false);
         linb.doc=linb(['!document'],false);

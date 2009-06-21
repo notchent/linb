@@ -161,15 +161,7 @@ Class('linb.Com',null,{
 
         iniComponents:function(){},
 
-//<<<todo:
-
-        requestData:function(group, onEnd, threadid){
-            var thread=linb.Thread;
-            thread.observableRun(function(t){
-                linb.absIO.groupCall(group, null, null, onEnd,thread||t);
-            },null,threadid);
-        },
-        /* build order:
+/*
         +-----------+
         |  +-------+|
         |  |  +---+||
@@ -185,16 +177,16 @@ Class('linb.Com',null,{
             fill ab data
                 fill abc data
         4.thread end
-        */
-        //buid UI
-        composeUI:function(onEnd, threadid, flag){
-            _.tryF(onEnd);
+
+        requestData:function(group, onEnd, threadid){
+            var thread=linb.Thread;
+            thread.observableRun(function(t){
+                linb.absIO.groupCall(group, null, null, onEnd,thread||t);
+            },null,threadid);
         },
-        //fill data
-        fillUI:function(onEnd, threadid, flag){
-            _.tryF(onEnd);
-        },
-//>>>todo end
+        composeUI:function(onEnd, threadid, flag){_.tryF(onEnd)},
+        fillUI:function(onEnd, threadid, flag){_.tryF(onEnd)},
+*/
 
 
 

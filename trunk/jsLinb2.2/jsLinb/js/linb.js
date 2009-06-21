@@ -786,13 +786,17 @@ _.merge(linb,{
         o=null;
         return v;
     },
+    getId:function(node){
+        if(typeof node=='string')node=document.getElementById(node);
+        return node ? window===node?"!window":document===node?"!document":(node.$linbid||'') : '';
+    },
     getNodeData:function(node,path){
         if(!node)return;
-        return _.get(linb.$cache.domPurgeData[typeof node=='string'?node:linb.Event.getId(node,true)],path);
+        return _.get(linb.$cache.domPurgeData[typeof node=='string'?node:linb.getId(node)],path);
     },
     setNodeData:function(node,path,value){
         if(!node)return;
-        return _.set(linb.$cache.domPurgeData[typeof node=='string'?node:linb.Event.getId(node,true)],path,value);
+        return _.set(linb.$cache.domPurgeData[typeof node=='string'?node:linb.getId(node)],path,value);
     },
     $purgeChildren:function(node){
         var cache=linb.$cache,
@@ -885,9 +889,9 @@ _.merge(linb,{
             o =new (linb.SC(tag.key))(tag);
         return o;
     },
-    use:function(o){
+    use:function(linbid){
         var c=linb._tempBox||(linb._tempBox=linb()), n=c._nodes;
-        n[0]=o;
+        n[0]=linbid;
         if(n.length!=1)n.length=1;
         return c;
     }
@@ -1261,7 +1265,7 @@ Class('linb.Thread',null,{
             }],0,null,onStart,onEnd);
         },
         repeat:function(task, interval, onStart, onEnd){
-            linb.Thread(null,[_.fun()],interval||0,task,onStart,onEnd,true).start();
+            return linb.Thread(null,[_.fun()],interval||0,task,onStart,onEnd,true).start();
         }
     }
 });

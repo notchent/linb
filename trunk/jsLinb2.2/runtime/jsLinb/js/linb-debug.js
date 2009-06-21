@@ -786,13 +786,17 @@ _.merge(linb,{
         o=null;
         return v;
     },
+    getId:function(node){
+        if(typeof node=='string')node=document.getElementById(node);
+        return node ? window===node?"!window":document===node?"!document":(node.$linbid||'') : '';
+    },
     getNodeData:function(node,path){
         if(!node)return;
-        return _.get(linb.$cache.domPurgeData[typeof node=='string'?node:linb.Event.getId(node,true)],path);
+        return _.get(linb.$cache.domPurgeData[typeof node=='string'?node:linb.getId(node)],path);
     },
     setNodeData:function(node,path,value){
         if(!node)return;
-        return _.set(linb.$cache.domPurgeData[typeof node=='string'?node:linb.Event.getId(node,true)],path,value);
+        return _.set(linb.$cache.domPurgeData[typeof node=='string'?node:linb.getId(node)],path,value);
     },
     $purgeChildren:function(node){
         var cache=linb.$cache,
@@ -885,9 +889,9 @@ _.merge(linb,{
             o =new (linb.SC(tag.key))(tag);
         return o;
     },
-    use:function(o){
+    use:function(linbid){
         var c=linb._tempBox||(linb._tempBox=linb()), n=c._nodes;
-        n[0]=o;
+        n[0]=linbid;
         if(n.length!=1)n.length=1;
         return c;
     }
@@ -1261,7 +1265,7 @@ Class('linb.Thread',null,{
             }],0,null,onStart,onEnd);
         },
         repeat:function(task, interval, onStart, onEnd){
-            linb.Thread(null,[_.fun()],interval||0,task,onStart,onEnd,true).start();
+            return linb.Thread(null,[_.fun()],interval||0,task,onStart,onEnd,true).start();
         }
     }
 });
@@ -2633,7 +2637,7 @@ Class('linb.Event',null,{
             if(src===document)return true;
             var node=src,r;
             do{
-                if(this.getId(node,true)==target[0]){
+                if(linb.getId(node)==target[0]){
                     node=src=null;
                     return true;
                 }
@@ -2698,8 +2702,8 @@ Class('linb.Event',null,{
             var a;
             return ((a=event.target||event.srcElement||null) && linb.browser.kde && a.nodeType == 3)?a.parentNode:a
         },
-        getId:function(node, flag){
-            return window===node?"!window":document===node?"!document":node?(flag?node.$linbid:node.id):'';
+        getId:function(node){
+            return window===node?"!window":document===node?"!document":node.id;
         },
         // only for mousedown and mouseup
         // return 1 : left button, else not left button
@@ -6492,8 +6496,8 @@ type:4
         });
     },
     Initialize:function(){
-        _.set(linb.$cache.domPurgeData,'!window',{element:window});
-        _.set(linb.$cache.domPurgeData,'!document',{element:document});
+        _.set(linb.$cache.domPurgeData,'!window',{$linbid:'!window',element:window});
+        _.set(linb.$cache.domPurgeData,'!document',{$linbid:'!document',element:document});
 
         linb.win=linb(['!window'],false);
         linb.doc=linb(['!document'],false);
@@ -6768,7 +6772,7 @@ type:4
             if(!self.renderId)
                 self.render();
             
-            domNode=self.getDomNode();
+            domNode=self.getRootNode();
             node.parentNode.replaceChild(domNode,node);
 
             if(domNode.tabIndex!=node.tabIndex)
@@ -7084,7 +7088,7 @@ type:4
             if(!self.renderId)
                 self.render();
             
-            domNode=self.getDomNode();
+            domNode=self.getRootNode();
             node.parentNode.replaceChild(domNode,node);
 
             if(domNode.tabIndex!=node.tabIndex)
@@ -7355,15 +7359,7 @@ Class('linb.Com',null,{
 
         iniComponents:function(){},
 
-//<<<todo:
-
-        requestData:function(group, onEnd, threadid){
-            var thread=linb.Thread;
-            thread.observableRun(function(t){
-                linb.absIO.groupCall(group, null, null, onEnd,thread||t);
-            },null,threadid);
-        },
-        /* build order:
+/*
         +-----------+
         |  +-------+|
         |  |  +---+||
@@ -7379,16 +7375,16 @@ Class('linb.Com',null,{
             fill ab data
                 fill abc data
         4.thread end
-        */
-        //buid UI
-        composeUI:function(onEnd, threadid, flag){
-            _.tryF(onEnd);
+
+        requestData:function(group, onEnd, threadid){
+            var thread=linb.Thread;
+            thread.observableRun(function(t){
+                linb.absIO.groupCall(group, null, null, onEnd,thread||t);
+            },null,threadid);
         },
-        //fill data
-        fillUI:function(onEnd, threadid, flag){
-            _.tryF(onEnd);
-        },
-//>>>todo end
+        composeUI:function(onEnd, threadid, flag){_.tryF(onEnd)},
+        fillUI:function(onEnd, threadid, flag){_.tryF(onEnd)},
+*/
 
 
 
@@ -8430,7 +8426,7 @@ Class('linb.DragDrop',null,{
                 }
                 if(!!flag)
                     self.$addEvent('onMousedown',function(p,e,src){
-                        if(linb.Event.getSrc(e)!=this)return true;
+                        if(linb.getId(linb.Event.getSrc(e))!=src)return true;
                         linb.use(src).startDrag(e, profile, dragKey, dragData)
                     }, dd._eh, -1);
                 else

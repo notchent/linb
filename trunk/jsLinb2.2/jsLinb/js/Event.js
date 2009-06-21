@@ -179,7 +179,7 @@ Class('linb.Event',null,{
             if(src===document)return true;
             var node=src,r;
             do{
-                if(this.getId(node,true)==target[0]){
+                if(linb.getId(node)==target[0]){
                     node=src=null;
                     return true;
                 }
@@ -244,8 +244,8 @@ Class('linb.Event',null,{
             var a;
             return ((a=event.target||event.srcElement||null) && linb.browser.kde && a.nodeType == 3)?a.parentNode:a
         },
-        getId:function(node, flag){
-            return window===node?"!window":document===node?"!document":node?(flag?node.$linbid:node.id):'';
+        getId:function(node){
+            return window===node?"!window":document===node?"!document":node.id;
         },
         // only for mousedown and mouseup
         // return 1 : left button, else not left button

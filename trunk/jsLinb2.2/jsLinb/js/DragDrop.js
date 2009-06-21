@@ -757,7 +757,7 @@ Class('linb.DragDrop',null,{
                 }
                 if(!!flag)
                     self.$addEvent('onMousedown',function(p,e,src){
-                        if(linb.Event.getSrc(e)!=this)return true;
+                        if(linb.getId(linb.Event.getSrc(e))!=src)return true;
                         linb.use(src).startDrag(e, profile, dragKey, dragData)
                     }, dd._eh, -1);
                 else

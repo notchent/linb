@@ -206,7 +206,7 @@ Class('linb.Template','linb.absProfile',{
             if(!self.renderId)
                 self.render();
             
-            domNode=self.getDomNode();
+            domNode=self.getRootNode();
             node.parentNode.replaceChild(domNode,node);
 
             if(domNode.tabIndex!=node.tabIndex)

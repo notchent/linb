@@ -49,7 +49,8 @@ _.set(linb.Locale,["en","doc"], {
         $paras:[
             "key [Required]: String, namespace string."
         ],
-        $snippet:["Namespace('Test.NS'); alert(typeof Test.NS)"]
+        $snippet:["Namespace('Test.NS'); alert(typeof Test.NS)"],
+        $memo:"	Namespace naming rules: [A-Z][0-9a-zA-Z]+"
     },
     Class:{
         $desc:"Desclares a class.",
@@ -59,9 +60,8 @@ _.set(linb.Locale,["en","doc"], {
             "pkey [Required]: String/Array, parent class key , array for inheriting multi parent class in order.",
             "obj [Optional]: Object, class Object. Default is {}."
         ],
-        $snippet:["// Equals to declare a Namespae 'Test.NS' and declare a Class 'Test.NS.Cls'; \n  Class('Test.NS.Cls'); Class('Test.NS.Cls.Subcls', 'Test.NS.Cls', {}); alert(typeof Test.NS); alert(typeof Test.NS.Cls); alert(typeof Test.NS.Cls.Subcls);"],
-        $links:[
-        ]
+        $snippet:["// Equals to declare a Namespae 'Test.NS' and declare a Class 'Test.NS.Cls'; \n  Class('Test.NS.Cls'); Class('Test.NS.Cls.Subcls1', 'Test.NS.Cls', {}); Class('Test.NS.Cls.Subcls2', null, {});  alert(typeof Test.NS); alert(typeof Test.NS.Cls); alert(typeof Test.NS.Cls.Subcls1);alert(typeof Test.NS.Cls.Subcls2);"],
+        $memo:"Class naming rules: [A-Z][0-9a-zA-Z]+"
     },
     _:{
         $desc:"Gets local time stamp.",
@@ -235,6 +235,7 @@ _.set(linb.Locale,["en","doc"], {
             ],
             $snippet:[
                 "var o={a:1,b:2}; _.filter(o,function(o,i){return i!='b'}); alert(_.serialize(o))",
+                "var o={a:1,_b:2}; _.filter(o,true); alert(_.serialize(o))",
                 "var o=[1,2,3]; _.filter(o,function(o,i){return o!=2}); alert(_.serialize(o))"
             ]
         },
@@ -283,6 +284,7 @@ _.set(linb.Locale,["en","doc"], {
                 "arr [Required]: Array, path array, ['a','b','c'] => {a:{b:{c:[variable]}}}."
             ],
             $snippet:[
+                "alert(_.get({a:{b:{c:1}}},'a'))",
                 "alert(_.get({a:{b:{c:1}}},['a','b']))",
                 "alert(_.get({a:{b:{c:1}}},['a','b','c']))",
                 "alert(_.get({a:{b:{c:1}}},['a','b','c','d']))"
@@ -303,7 +305,7 @@ _.set(linb.Locale,["en","doc"], {
                 "target [Required]: any"
             ],
             $snippet:[
-                "alert(_.isArr('s')+':'+_.isArr(//)+':'+_.isArr(function(){})+':'+_.isArr(1)+':'+_.isArr(NaN)+':'+_.isArr({})+':'+_.isArr(new Date)+':'+_.isArr(null)+':'+_.isArr(undefined)+':'+_.isArr(true)+':'+_.isArr([]));"
+                "alert(_.isArr('s')+':'+_.isArr(new RegExp())+':'+_.isArr(function(){})+':'+_.isArr(1)+':'+_.isArr(NaN)+':'+_.isArr({})+':'+_.isArr(new Date)+':'+_.isArr(null)+':'+_.isArr(undefined)+':'+_.isArr(true)+':'+_.isArr([]));"
             ]
         },
         isBool :{
@@ -313,7 +315,7 @@ _.set(linb.Locale,["en","doc"], {
                 "target [Required]: any"
             ],
             $snippet:[
-                "alert(_.isBool('s')+':'+_.isBool(//)+':'+_.isBool(function(){})+':'+_.isBool(1)+':'+_.isBool(NaN)+':'+_.isBool({})+':'+_.isBool(new Date)+':'+_.isBool(null)+':'+_.isBool(undefined)+':'+_.isBool(true)+':'+_.isBool([]));"
+                "alert(_.isBool('s')+':'+_.isBool(new RegExp())+':'+_.isBool(function(){})+':'+_.isBool(1)+':'+_.isBool(NaN)+':'+_.isBool({})+':'+_.isBool(new Date)+':'+_.isBool(null)+':'+_.isBool(undefined)+':'+_.isBool(true)+':'+_.isBool([]));"
             ]
         },
         isDate :{
@@ -323,7 +325,7 @@ _.set(linb.Locale,["en","doc"], {
                 "target [Required]: any"
             ],
             $snippet:[
-                "alert(_.isDate('s')+':'+_.isDate(//)+':'+_.isDate(function(){})+':'+_.isDate(1)+':'+_.isDate(NaN)+':'+_.isDate({})+':'+_.isDate(new Date)+':'+_.isDate(null)+':'+_.isDate(undefined)+':'+_.isDate(true)+':'+_.isDate([]));"
+                "alert(_.isDate('s')+':'+_.isDate(new RegExp())+':'+_.isDate(function(){})+':'+_.isDate(1)+':'+_.isDate(NaN)+':'+_.isDate({})+':'+_.isDate(new Date)+':'+_.isDate(null)+':'+_.isDate(undefined)+':'+_.isDate(true)+':'+_.isDate([]));"
             ]
         },
         isEmpty :{
@@ -333,7 +335,7 @@ _.set(linb.Locale,["en","doc"], {
                 "target [Required]: any"
             ],
             $snippet:[
-                "alert(_.isEmpty('s')+':'+_.isEmpty(//)+':'+_.isEmpty(function(){})+':'+_.isEmpty(1)+':'+_.isEmpty(NaN)+':'+_.isEmpty({})+':'+_.isEmpty(new Date)+':'+_.isEmpty(null)+':'+_.isEmpty(undefined)+':'+_.isEmpty(true)+':'+_.isEmpty([]));"
+                "alert(_.isEmpty('s')+':'+_.isEmpty(new RegExp())+':'+_.isEmpty(function(){})+':'+_.isEmpty(1)+':'+_.isEmpty(NaN)+':'+_.isEmpty({})+':'+_.isEmpty(new Date)+':'+_.isEmpty(null)+':'+_.isEmpty(undefined)+':'+_.isEmpty(true)+':'+_.isEmpty([]));"
             ],
             $memo:"It's only for hash Object"
         },
@@ -344,7 +346,7 @@ _.set(linb.Locale,["en","doc"], {
                 "target [Required]: any"
             ],
             $snippet:[
-                "alert(_.isFun('s')+':'+_.isFun(//)+':'+_.isFun(function(){})+':'+_.isFun(1)+':'+_.isFun(NaN)+':'+_.isFun({})+':'+_.isFun(new Date)+':'+_.isFun(null)+':'+_.isFun(undefined)+':'+_.isFun(true)+':'+_.isFun([]));"
+                "alert(_.isFun('s')+':'+_.isFun(new RegExp())+':'+_.isFun(function(){})+':'+_.isFun(1)+':'+_.isFun(NaN)+':'+_.isFun({})+':'+_.isFun(new Date)+':'+_.isFun(null)+':'+_.isFun(undefined)+':'+_.isFun(true)+':'+_.isFun([]));"
             ]
         },
         isArguments:{
@@ -364,7 +366,7 @@ _.set(linb.Locale,["en","doc"], {
                 "target [Required]: any"
             ],
             $snippet:[
-                "alert(_.isHash('s')+':'+_.isHash(//)+':'+_.isHash(function(){})+':'+_.isHash()+':'+_.isHash(1)+':'+_.isHash(NaN)+':'+_.isHash({})+':'+_.isHash(new Date)+':'+_.isHash(null)+':'+_.isHash(undefined)+':'+_.isHash(true)+':'+_.isHash([]));"
+                "alert(_.isHash('s')+':'+_.isHash(new RegExp())+':'+_.isHash(function(){})+':'+_.isHash()+':'+_.isHash(1)+':'+_.isHash(NaN)+':'+_.isHash({})+':'+_.isHash(new Date)+':'+_.isHash(null)+':'+_.isHash(undefined)+':'+_.isHash(true)+':'+_.isHash([]));"
             ]
         },
         isNull:{
@@ -374,7 +376,7 @@ _.set(linb.Locale,["en","doc"], {
                 "targe [Required]t: any"
             ],
             $snippet:[
-                "alert(_.isNull('s')+':'+_.isNull(//)+':'+_.isNull(function(){})+':'+_.isNull(1)+':'+_.isNull(NaN)+':'+_.isNull({})+':'+_.isNull(new Date)+':'+_.isNull(null)+':'+_.isNull(undefined)+':'+_.isNull(true)+':'+_.isNull([]));"
+                "alert(_.isNull('s')+':'+_.isNull(new RegExp())+':'+_.isNull(function(){})+':'+_.isNull(1)+':'+_.isNull(NaN)+':'+_.isNull({})+':'+_.isNull(new Date)+':'+_.isNull(null)+':'+_.isNull(undefined)+':'+_.isNull(true)+':'+_.isNull([]));"
             ]
         },
         isNumb:{
@@ -384,7 +386,7 @@ _.set(linb.Locale,["en","doc"], {
                 "target [Required]: any"
             ],
             $snippet:[
-                "alert(_.isNumb('s')+':'+_.isNumb(//)+':'+_.isNumb(function(){})+':'+_.isNumb(1)+':'+_.isNumb(NaN)+':'+_.isNumb({})+':'+_.isNumb(new Date)+':'+_.isNumb(null)+':'+_.isNumb(undefined)+':'+_.isNumb(true)+':'+_.isNumb([]));"
+                "alert(_.isNumb('s')+':'+_.isNumb(new RegExp())+':'+_.isNumb(function(){})+':'+_.isNumb(1)+':'+_.isNumb(NaN)+':'+_.isNumb({})+':'+_.isNumb(new Date)+':'+_.isNumb(null)+':'+_.isNumb(undefined)+':'+_.isNumb(true)+':'+_.isNumb([]));"
             ]
         },
         isObj :{
@@ -394,7 +396,7 @@ _.set(linb.Locale,["en","doc"], {
                 "target [Required]: any"
             ],
             $snippet:[
-                "alert(_.isObj('s')+':'+_.isObj(//)+':'+_.isObj(function(){})+':'+_.isObj(1)+':'+_.isObj(NaN)+':'+_.isObj({})+':'+_.isObj(new Date)+':'+_.isObj(null)+':'+_.isObj(undefined)+':'+_.isObj(true)+':'+_.isObj([]));"
+                "alert(_.isObj('s')+':'+_.isObj(new RegExp())+':'+_.isObj(function(){})+':'+_.isObj(1)+':'+_.isObj(NaN)+':'+_.isObj({})+':'+_.isObj(new Date)+':'+_.isObj(null)+':'+_.isObj(undefined)+':'+_.isObj(true)+':'+_.isObj([]));"
             ]
         },
         isReg :{
@@ -404,7 +406,7 @@ _.set(linb.Locale,["en","doc"], {
                 "target [Required]: any"
             ],
             $snippet:[
-                "alert(_.isReg('s')+':'+_.isReg(//)+':'+_.isReg(function(){})+':'+_.isReg(1)+':'+_.isReg(NaN)+':'+_.isReg({})+':'+_.isReg(new Date)+':'+_.isReg(null)+':'+_.isReg(undefined)+':'+_.isReg(true)+':'+_.isReg([]));"
+                "alert(_.isReg('s')+':'+_.isReg(new RegExp())+':'+_.isReg(function(){})+':'+_.isReg(1)+':'+_.isReg(NaN)+':'+_.isReg({})+':'+_.isReg(new Date)+':'+_.isReg(null)+':'+_.isReg(undefined)+':'+_.isReg(true)+':'+_.isReg([]));"
             ]
         },
         isStr :{
@@ -414,7 +416,7 @@ _.set(linb.Locale,["en","doc"], {
                 "target [Required]: any"
             ],
             $snippet:[
-                "alert(_.isStr('s')+':'+_.isStr(//)+':'+_.isStr(function(){})+':'+_.isStr(1)+':'+_.isStr(NaN)+':'+_.isStr({})+':'+_.isStr(new Date)+':'+_.isStr(null)+':'+_.isStr(undefined)+':'+_.isStr(true)+':'+_.isStr([]));"
+                "alert(_.isStr('s')+':'+_.isStr(new RegExp())+':'+_.isStr(function(){})+':'+_.isStr(1)+':'+_.isStr(NaN)+':'+_.isStr({})+':'+_.isStr(new Date)+':'+_.isStr(null)+':'+_.isStr(undefined)+':'+_.isStr(true)+':'+_.isStr([]));"
             ]
         },
         merge:{
@@ -675,8 +677,8 @@ _.set(linb.Locale,["en","doc","linb"], {
     $desc:"A shortcut function to create a linb.Dom Object to wrap a set of Elements.",
     $rtn:"linb.Dom",
     $paras:[
-        "nodes [Optional]: Element/Element[]/String/String[], any variable to match a set of Elements. Maybe a [Element], a [Element] array, a [Element id] or a [Element id] array. Default is [].",
-        "flag [Optional]: Boolean, ignore clean function(for better performance) or not. Default is false."
+        "nodes [Optional]: Element/Element[]/String/String[]/Function, any variable to match a set of Elements. Maybe a [Element], a [Element] array, a [Element id], a [Element id] array, a [linbid], or a [linbid] array etc. Default is [].",
+        "flag [Optional]: Boolean, ignore clean function(for better performance) or not. Default is false. This parameter can be true only when [nodes] is a [linbid] array."
     ],
     $snippet:[
         "//Input Element id \n var n=linb('btnLang'); alert(n.get(0).id);",
@@ -686,8 +688,56 @@ _.set(linb.Locale,["en","doc","linb"], {
         "//Input linb.Dom Object \n var n=linb(linb('btnLang')); alert(n.get(0).id);",
         "//Input linb.UI Object \n var n=linb(linb.UI.Div.getAll()); alert(n.get(0).id);",
         "//Input a function that can return DOM elements array\n var n=linb(function(){return [document.getElementById('btnLang')]}); alert(n.get(0).id);",
-        "//Input '{linb.UI key}' \n var n=linb('{linb.UI.Div}'); alert(n.get(0).id);"
+        "//Input a linbid string \n var linbid=linb.getId('btnLang'), n=linb(linbid); alert(linbid);alert(n.get(0).id);",
+        "//Input a linbid string array\n var linbid=linb.getId('btnLang'), n=linb([linbid],false); alert(linbid);alert(n.get(0).id);"
     ],
+    use:{
+        $desc:"Uses a linbid (each linbid represents a DOM Element) to quickly pack a DOM Element to a linb.Dom Object. No new linb.Dom was created here.",
+        $rtn:"linb.Dom Object",
+        $paras:[
+            "linbid [Required]: String. each linbid represents a DOM Element."
+        ],
+        $snippet:[
+                "var id='linb.temp.1'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var o;linb(id).prepend(o=linb.create('<button>click me</button>')); o.onClick(function(p,e,linbid){ linb.use(linbid).text('updated')  });"+
+                "}"
+        ],
+        $memo:"Uses the [linb.use] result immediately."
+    },
+    getId:{
+        $desc:"Gets corresponding linbis string from a DOM Element or id.",
+        $rtn:'String',
+        $snippet:[
+            "alert(linb.getId('btnLang'))"
+        ]
+    },
+    setNodeData:{
+        $desc:"Sets data to a dom element",
+        $rtn:"Object",
+        $paras:[
+            "node [Required]: Element/String, a dom element or a linbid.",
+            "path [Required]: Array, path array, ['a','b','c'] => {a:{b:{c:[variable]}}}.",
+            "value [Optional]: any, value to set. Default is undefined => Unsets value."
+        ],
+        $snippet:[
+                "var id='linb.temp.2'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var o;linb(id).prepend(o=linb.create('<button>click me</button>')); linb.setNodeData(o.get(0), 'key1','value1'); linb.setNodeData(o.get(0),['key21','key22'],'value2'); o.onClick(function(p,e,linbid){ alert(linb.getNodeData(linbid, 'key1')); alert(linb.getNodeData(linbid, ['key21','key22']));});"+
+                "}"
+        ]
+    },
+    getNodeData:{
+        $desc:"Gets data from a dom element",
+        $rtn:"Object",
+        $paras:[
+            "node [Required]: Element/String, a dom element or a linbid.",
+            "path [Required]: Array, path array, ['a','b','c'] => {a:{b:{c:[variable]}}}."
+        ],
+        $snippet:[
+                "var id='linb.temp.3'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var o;linb(id).prepend(o=linb.create('<button>click me</button>')); linb.setNodeData(o.get(0), 'key1','value1'); linb.setNodeData(o.get(0),['key21','key22'],'value2'); o.onClick(function(p,e,linbid){ alert(linb.getNodeData(linbid, 'key1')); alert(linb.getNodeData(linbid, ['key21','key22']));});"+
+                "}"
+        ]
+    },
     isDomReady:{
         $desc:"Indicates whether or not the DOM is ready.",
         $rtn:"Boolean",
@@ -733,7 +783,7 @@ _.set(linb.Locale,["en","doc","linb"], {
             "//create DOM element \n var a=linb.create('div'); alert(a.get(0).nodeName)",
             "//create DOM element \n var a=linb.create('<div>node</div>'); alert(a.get(0).nodeName)",
             "//create linb.UI Object \n var a=linb.create('linb.UI.Button'); alert(a.get(0).key)",
-            "//create linb.UI Object \n //parameters: // key,properties, events, host \n var a=linb.create('linb.UI.Button',{caption:'btn'}); alert(a.get(0).key)",
+            "//create linb.UI Object \n //parameters: // key,properties, events, host, children \n var a=linb.create('linb.UI.Button',{caption:'btn'}); alert(a.get(0).key)",
             "//create linb.UI Object \n var profile = (new linb.UI.Button()).get(0); var a=linb.create(profile); alert(a.get(0).key)"
         ]
     },
@@ -801,16 +851,16 @@ _.set(linb.Locale,["en","doc","linb"], {
             "onSuccess [Optional]: Function, arguments:[response Object, response type, threadid]. A function to be executed whenever a request is done successfully.",
             "onFail [Optional]: Function, arguments:[response Object, response type, threadid]. A function to be executed whenever a request fails.",
             "threadid [Optional]: String, a thread id to be bound to the current request. [suspend the thread -> execute request -> resume thread]",
-            "options [Optional]: Object, a set of key/value pairs that configure the request. All options are optional. <strong>Values in Parameters has high priority</strong>."
+            "options [Optional]: Object, a set of key/value pairs that configure the request."
         ],
         $memo:"Sees <a href='#linb.Ajax'>linb.Ajax</a>, <a href='#linb.SAjax'>linb.SAjax</a> and <a href='#linb.IAjax'>linb.IAjax</a> please!"
     },
     log:{
-        $desc:"Logs information into firebug(if you are in firefox and the firebug is active).",
-        $paras:[
-            "arguments: Arguments, you can input as many parameters as you like, [linb.log] will tak arguments as an array."
+        $desc:"Logs information to Debugger window. If you are in firefox and the firebug is active, it'll log information into firebug too.",
+        $snippet:[
+            "linb.log(1,'a',[],{});"
         ],
-        $memo:"You must include linb.Debugger.js to enable this function."
+        $memo:"You can input multi parameters to this funciton. <br /> <b>You must include linb.Debugger.js to enable this function.</b>"
     },
     main:{
         $desc:"Binds a function to be executed whenever the DOM is ready. You can have as many main functions on your page as you like. The functions are then executed in the order they were added.",
@@ -846,7 +896,7 @@ _.set(linb.Locale,["en","doc","linb"], {
         $snippet:["linb.setAppLangKey('app'); alert(linb.getAppLangKey())"]
     },
     getLang:{
-        $desc:"Gets the language.",
+        $desc:"Gets the language key.",
         $rtn:"String",
         $snippet:["alert(linb.getLang());"]
     },
@@ -855,9 +905,6 @@ _.set(linb.Locale,["en","doc","linb"], {
         $paras:[
             "key [Required]: String, lang key.",
             "callback [Optional]: Function, callback function."
-        ],
-        $snippet:[
-            "linb.setLang('cn',function(){linb.message('cn');linb.setLang('en',function(){linb.message('en')})});"
         ],
         $memo:"[<a href='#linb.setLang'>linb.setLang</a>], [<a href='#linb.getRes'>linb.getRes</a>/<a href='#linb.wrapRes'>linb.wrapRes</a>] often used together."
     },
@@ -929,7 +976,19 @@ _.set(linb.Locale,["en","doc","linb","Thread"], {
             "var a=[];linb.Thread.observableRun([{task:function(){a.push(3);},delay:2000}],function(){a.push(4);alert(a);},'__id'); linb.Thread.observableRun([function(){a.push(1)}],function(){a.push(2)},'__id');"
         ]
     },
-
+    repeat:{
+        $desc:"Repeats a task function again and again until the function returns [false].",
+        $rtn:"linb.Thread",
+        $paras:[
+            "task [Required]: Function, a task function.",
+            "interval [Optional]: Number, repeat interval(ms).",
+            "onStart [Optional]: Function.",
+            "onEnd [Optional]:  Function."
+        ],
+        $snippet:[
+            "var l=1; linb.Thread.repeat(function(){alert('repeat time:' + (l++)); if(l>3)return false;}, 500)"
+        ]
+    },
     isAlive:{
         $desc:"Gets a specified thread Object by threadid.",
         $rtn:"Boolean",
@@ -1555,15 +1614,13 @@ _.set(linb.Locale,["en","doc","linb","Event"], {
         ]
     },
     getId:{
-        $desc:"Gets DOM element's id or linbid string(include window and document Object).",
+        $desc:"Gets DOM element's id string(include window and document Object).",
         $rtn:"String",
         $paras:[
-            "node [Required] : DOM element, window or document Object.",
-            "flag [Optional] : Boolean, default is [false]"
+            "node [Required] : DOM element, window or document Object."
         ],
         $snippet:[
-            "alert(linb.Event.getId(document.getElementById('btnLang')));alert(linb.Event.getId(document));alert(linb.Event.getId(window));",
-            "alert(linb.Event.getId(document.getElementById('btnLang'),true));alert(linb.Event.getId(document,true));alert(linb.Event.getId(window,true));"
+            "alert(linb.Event.getId(document.getElementById('btnLang')));alert(linb.Event.getId(document));alert(linb.Event.getId(window));"
         ]
     },
     getKey:{
@@ -1636,7 +1693,7 @@ _.set(linb.Locale,["en","doc","linb","Event"], {
             "trigger [Required] : Function, arguments[boundary DOM element]. The trigger funtion whenever user uses 'TAB' keyboard to go out the 'boundary DOM element'. "
         ],
         $snippet:[
-            "if(!linb.Dom.byId('linb.temp.out')){this.prepend(linb.create('<div><div id=\"linb.temp.out\" style=\"border:solid 1px;padding:10px;\">linb.temp.out<input id=\"linb.temp.out.first\"><input /><input /><input /><div id=\"linb.temp.in\"  style=\"border:solid 1px;padding:10px;\">linb.temp.in<input id=\"linb.temp.in.first\" /><input /><input /><input /><input /></div></div><div><button onclick=\"_.arr.each(linb.Event._tabHookStack,function(o){alert(o[0].id)})\">Click here to show inner stack content!</button><br /><br /><button onclick=\"linb.Event.popTabOutTrigger();\">popTabOutTrigger</button><br /><br /></div><div><button onclick=\"linb.Event.popTabOutTrigger(1);linb(this).parent(2).remove();\">remove this example</button></div></div>'));\n"+
+            "if(!linb.Dom.byId('linb.temp.out')){this.prepend(linb.create('<div><div id=\"linb.temp.out\" style=\"border:solid 1px;padding:10px;\">linb.temp.out<input id=\"linb.temp.out.first\"><input /><input /><input /><div id=\"linb.temp.in\"  style=\"border:solid 1px;padding:10px;\">linb.temp.in<input id=\"linb.temp.in.first\" /><input /><input /><input /><input /></div></div><div><button onclick=\"_.arr.each(linb.Event._tabHookStack,function(o){alert(o[0])})\">Click here to show inner stack content!</button><br /><br /><button onclick=\"linb.Event.popTabOutTrigger();\">popTabOutTrigger</button><br /><br /></div><div><button onclick=\"linb.Event.popTabOutTrigger(1);linb(this).parent(2).remove();\">remove this example</button></div></div>'));\n"+
             "linb.Event.pushTabOutTrigger(document.getElementById('linb.temp.out'),function(){document.getElementById('linb.temp.out.first').focus()});"+"linb.Event.pushTabOutTrigger(document.getElementById('linb.temp.in'),function(){document.getElementById('linb.temp.in.first').focus()});}"
         ]
     },
@@ -2940,7 +2997,7 @@ _.set(linb.Locale,["en","doc","linb","DragDrop"], {
         $desc:"<p>Starts to drag the first element.",
         $paras:[
             "e [Required] : DOM [event] Object.",
-            "targetNode [Required] : DOM element or linb.Dom Object.",
+            "targetNode [Required] : Any input can be packed to linb.Dom Object.",
             "profile [Optional] : key/value Object, for linb.DragDrop profile. Profile struct:" +
             "<div>{<ul>" +
             "<li><strong>dragType</strong>: 'move','copy','deep_copy','shape','icon', 'blank' or 'none', default is 'shape';</li>"+
@@ -3546,7 +3603,7 @@ _.set(linb.Locale,["en","doc","linb","UIProfile"], {
     },
     prototype:{
         renderId:{
-            $desc:"Boolean, Indicates whether the UIProfile is rendered or not."
+            $desc:"String, Indicates whether the UIProfile is rendered or not."
         },
         getRoot:{
             $desc:"Gets the root linb.Dom Object.",
@@ -3805,7 +3862,17 @@ _.set(linb.Locale,["en","doc","linb","Template"], {
     },
     prototype:{
         renderId:{
-            $desc:"Boolean, Indicates whether the template is rendered or not."
+            $desc:"String, Indicates whether the template is rendered or not."
+        },
+        refresh:{
+            $desc:"To refresh the current tempalte.",
+            $rtn:"[self]",
+            $snippet:[
+            "var id='linb.temp.0'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var t=new linb.Template({'':'<div>{caption}</div>'},{id:'1',caption:'cap'}); t.setDomId('t_2'); linb(id).append(t); "+
+                "_.asyRun(function(){t.setProperties({id:'2',caption:'cap2'});t.refresh()},1000);"+
+            "}"
+            ]
         },
         getRootNode:{
             $desc:"Gets DOM element from the current template, if it's in DOM already.",
@@ -4209,33 +4276,6 @@ _.set(linb.Locale,["en","doc","linb","Com"], {
             $snippet:[
                 "linb.SC('App.Test1',function(){var com=new this; com.show(function(){});},false);"
             ]
-        },
-        requestData:{
-            $desc:"Executes a group of linb.absIO objects.",
-            $paras:[
-                "group [Require] : Array, a set of linb.absIO objects.",
-                "onEnd [Optional]:  Function, the callback function, it will be executed after all the absIO were finished.",
-                "threadid [Optional] : String, the inner thread id."
-            ],
-            $memo:"Usually, this function will be used in 'fillUI' function for requesting data from server and filling data into UI."
-        },
-        composeUI:{
-            $desc:"Composes the current Com's UI.",
-            $paras:[
-                "onEnd [Optional]:  Function, the callback function, it must be called in the current composeUI function.",
-                "threadid [Optional] : String, the inner thread id.",
-                "flag [Optional] : Boolean, a parameter for user to Determines whether or not  the current UI will be forced to compose."
-            ],
-            $memo:"For sub class overwriting."
-        },
-        fillUI:{
-            $desc:"Fills the current Com's UI.",
-            $paras:[
-                "onEnd [Optional]:  Function, the callback function, it must be called in the current fillUI function.",
-                "threadid [Optional] : String, the inner thread id.",
-                "flag [Optional] : Boolean, a parameter for user to Determines whether or not  the current UI will be forced to fill."
-            ],
-            $memo:"For sub class overwriting."
         },
         destroy:{
             $desc:"Destroys the current Object.",
@@ -7433,6 +7473,38 @@ _.set(linb.Locale,["en","doc","linb","UI","SButton"], {
     }
 });
 
+_.set(linb.Locale,["cn","doc","linb","UI","RichEditor"], {
+    constructor:{
+        $desc:"Creates a linb.UI.RichEditor Object."
+    },
+    prototype:{
+        getCmdList :{
+            $desc:"Gets the control's command list.",
+            $rtn:"String",
+            $snippet:[
+                "var id='linb.temp.rich'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:300px;width:400px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var rich;linb(id).prepend(rich=new linb.UI.RichEditor);"+
+                "_.asyRun(function(){rich.setCmdList('font1;font2;font3;font4'); alert(rich.getCmdList ())},1000)"+
+                "}"
+            ]
+        },
+        setCmdList :{
+            $desc:"Sets the control's command list.",
+            $rtn:"[self]",
+            $paras:[
+                "value [Required] : String.",
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
+            ],
+            $snippet:[
+                "var id='linb.temp.rich'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:300px;width:400px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var rich;linb(id).prepend(rich=new linb.UI.RichEditor);"+
+                "_.asyRun(function(){rich.setCmdList('font1;font2;font3;font4'); alert(rich.getCmdList ())},1000)"+
+                "}"
+            ]
+        }
+    }
+});
+
 _.set(linb.Locale,["en","doc","linb","UI","SCheckBox"], {
     constructor:{
         $desc:"Creates a linb.UI.SCheckBox Object."
@@ -8274,6 +8346,16 @@ _.set(linb.Locale,["en","doc","linb","UI","ComboInput"], {
         $desc:"Creates a linb.UI.ComboInput Object."
     },
     prototype:{
+        getShowValue:{
+            $desc:"Gets control's display string.",
+            $rtn:"String",
+            $snippet:[
+                "var id='linb.temp.ci001'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var o;linb(id).prepend(o=new linb.UI.ComboInput({type:'listbox',items:[{id:'id1',caption:'show1'},{id:'id2',caption:'show2'}]}));"+
+                "o.setValue('id2'); _.asyRun(function(){ alert(o.getValue() + '->' + o.getShowValue()) },1000)"+
+                "}"
+            ]
+        },
         resetValue:{
             $desc:"To reset value, UI value and Control value, no event will be triggered in this process.",
             $rtn:'[self]',
@@ -9223,6 +9305,16 @@ _.set(linb.Locale,["en","doc","linb","UI","List"], {
         $desc:"Creates a linb.UI.List Object."
     },
     prototype:{
+        getShowValue:{
+            $desc:"Gets control's display string.",
+            $rtn:"String",
+            $snippet:[
+                "var id='linb.temp.list00'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var o;linb(id).prepend(o=new linb.UI.List({items:[{id:'a',caption:'a a'},{id:'b',caption:'b b'},{id:'c',caption:'c c'}]}));"+
+                "o.setValue('b'); _.asyRun(function(){ alert(o.getValue() + '->' + o.getShowValue()) },1000)"+
+                "}"
+            ]
+        },
         activate:{
             $desc:"Activates the current UI Object.",
             $rtn:"[self]",
@@ -10955,6 +11047,13 @@ _.set(linb.Locale,["en","doc","linb","UI","Dialog"], {
         ]
     },
     prototype:{
+        activate:{
+            $desc:"Activates dialog.",
+            $rtn:"[self]",
+            $snippet:[
+                "var dlg1=(new linb.UI.Dialog({html:'dlg1'})).show(), dlg2=(new linb.UI.Dialog({html:'dlg2',left:100,top:100})).show(); _.asyRun(function(){dlg1.activate()},1000)"
+            ]
+        },
         close:{
             $desc:"To close the dialog.",
             $rtn:"[self]",

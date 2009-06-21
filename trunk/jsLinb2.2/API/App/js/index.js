@@ -110,6 +110,7 @@ Class('App', 'linb.Com',{
                         SPA.divHead.setHtml( SPA._format( SPA._parse(id1) ) );
                         //attach event
                         node.query('h2').css('cursor','pointer').onClick(f).first().css('backgroundPosition',ics.close);
+                        node.query('h3').css('cursor','pointer').onClick(f).first().css('backgroundPosition',ics.close);
                         node.query('h4').css('cursor','pointer').onClick(f).first().css('backgroundPosition',ics.close);
                     }
                     //for IE :  getElementById, name property has priority over id property.
