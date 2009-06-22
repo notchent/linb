@@ -238,9 +238,9 @@ Class('App', 'linb.Com',{
             
             host.block6.append((new linb.UI.SLabel)
                 .host(host,"lQ2")
-                .setLeft(183)
+                .setLeft(176)
                 .setTop(6)
-                .setWidth(100)
+                .setWidth(110)
                 .setCaption("$app.lQ2")
             );
             
