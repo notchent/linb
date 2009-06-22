@@ -43,7 +43,8 @@ Class('App', 'linb.Com',{
             SPA.btnLang.setCaption(linb.getRes('app.'+linb.getLang()));
             linb.UI.Border.$abstract=linb.UI.Shadow.$abstract=linb.UI.Resizer.$abstract=true;
             linb.History.setCallback(function(str){
-                str=str.replace('#','');
+                var str2=str.replace('#','');
+                str=str2;
                 if(!str)return;
                 var obj, t, id1, id2, id3, id4;
                 obj=linb.SC.get(str);
@@ -57,7 +58,7 @@ Class('App', 'linb.Com',{
                 //if same
                 if(SPA.__vid==str)return;
                 //if return to list
-                if(SPA.__vid && _.str.endWith(SPA.__vid, '._list'))
+                if(SPA.__vid && _.str.endWith(str2, '._list'))
                     return;
 
                 SPA.__vid=str;
@@ -134,7 +135,7 @@ Class('App', 'linb.Com',{
         showCode:function(e, key){
             var txt = linb.getRes('app.oCodeDesc') +
                       key + ' = ' +
-                      linb.SC(key).toString();
+                      linb.SC.get(key).toString();
             txt = linb.Coder.formatAll(txt, 'js', ['plain']);
             var node=linb.create("<div style='visibiliy:hidden;left:-10000px;width:600px;background:#fff;border:solid 1px #aaa;overflow:auto;'>"+txt+"</div>");
             //add first
@@ -373,7 +374,7 @@ Class('App', 'linb.Com',{
             return '<a name="'+okey+'"></a> <div class="p"> <h4 id="'+okey+'_">' +
                     (con?'<span class="linb-custom-icon" style="background-position:' +pos+';"></span>':'') +
                     head +
-                    (flag !==false?((t=linb.SC(key)).$linb$||t.$auto$ ?"":'<a href="javascript:;" onclick="return SPA.showCode(event,\''+key+'\');">&nbsp;&nbsp;&nbsp;&nbsp;['+linb.getRes('app.oCode')+']</a>'):"") +
+                    (flag !==false?((t=linb.SC.get(key)) && (t.$linb$||t.$auto$) ?"":'<a href="javascript:;" onclick="return SPA.showCode(event,\''+key+'\');">&nbsp;&nbsp;&nbsp;&nbsp;['+linb.getRes('app.oCode')+']</a>'):"") +
                     '</h4>' +
                     (con?'<div class="con">'+con+'</div>':"") +
                     (flag!==false?'<a class="totop" href="#'+okey+'._list"> ^ </a>':'')+
@@ -410,7 +411,7 @@ Class('App', 'linb.Com',{
             if(this.$CLS_FUN[key]){
                 arr.push('<h2 id="'+key+'._global'+'" class="notice"><span class="linb-custom-cmd"></span>'+linb.getRes('app.gFun')+'</h2>');
                 arr.push('<div class="linb-custom-block">');
-                arr.push(getItem(ipm.fun, obj.key + ' ' + this._getFunArgs(linb.SC(obj.key)), obj.key));
+                arr.push(getItem(ipm.fun, obj.key + ' ' + this._getFunArgs(linb.SC.get(obj.key)), obj.key));
                 arr.push('</div>')
             }
 
@@ -515,7 +516,7 @@ Class('App', 'linb.Com',{
                     var a1=[],a2=[],tt;
                     _.arr.each(obj.events.self,function(o){
                         tt=key + pdot + o[0];
-                        a1.push(getItem(ipm.event,o[1], tt, tt,false));
+                        a1.push(getItem(ipm.event,o[1], tt, tt));
                         a2.push("<a id='short-abc' name='"+tt+"._list' href='#"+tt+"' >"+o[0]+"</a> &nbsp;&nbsp;&nbsp;");
                     });
                     arr.push('<div class="linb-custom-list">'+a2.join('')+'</div>'+a1.join(''))
@@ -527,7 +528,7 @@ Class('App', 'linb.Com',{
                         arr.push('<h3 id="'+key+'._event.'+i.replace(/\./g,'_')+'" ><span class="linb-custom-cmd"></span>'+linb.getRes('app.inhFrom')+' ' +i+'</h3>');
                         _.arr.each(obj.events[i],function(o){
                             tt=i + pdot + o[0];
-                            a1.push(getItem(ipm.event,o[1], tt,key+pdot+o[0],false));
+                            a1.push(getItem(ipm.event,o[1], tt,key+pdot+o[0]));
                             tt=key + pdot + o[0];
                             a2.push("<a id='short-abc' name='"+tt+"._list' href='#"+tt+"' >"+o[0]+"</a> &nbsp;&nbsp;&nbsp;");
                         });
@@ -838,7 +839,7 @@ indexing:function(){
         };
     _.arr.each(['_','_.fun','_.str','_.arr','Class','Namespace','linb'],function(o,i){
         hash[o]=1;
-        getAPI(linb.SC(o),o);
+        getAPI(linb.SC.get(o),o);
     });
     _.each(hash,function(o,i){
         hash[i]=_.get(doc,(i+'.$desc').split('.'));

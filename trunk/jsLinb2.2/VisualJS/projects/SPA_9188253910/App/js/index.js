@@ -7,6 +7,7 @@ Class('App', 'linb.Com',{
             
             append((new linb.UI.RichEditor)
                 .host(host,"richeditor1")
+                .setDisabled(true)
                 .setLeft(50)
                 .setTop(30)
             );

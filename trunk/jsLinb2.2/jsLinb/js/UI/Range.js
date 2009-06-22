@@ -320,6 +320,7 @@ Class("linb.UI.Range", ["linb.UI","linb.absValue"],{
             return d;
         },
         _ensureValue:function(profile, value){
+            if(!value)value="";
             var p = profile.properties,
                 a = value.split(':'),
                 min=p.min,

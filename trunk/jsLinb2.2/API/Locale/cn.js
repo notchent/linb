@@ -30,7 +30,7 @@ _.set(linb.Locale,["cn","app"], {
 var $eo={
     $rtn:"[self]",
     $paras:[
-        "fun [可选参数]: Function, 函数的[this]指针是Dom元素， arguments 是 [linb.DomProfile Object, DOM event Object, the current element].",
+        "fun [可选参数]: Function, 函数的参数 是 [linb.DomProfile Object, DOM event Object, the current element's linbid].",
         "label [可选参数]: String, 事件的标签.",
         "flag  [可选参数]: Boolean, 仅删除事件的时候有效，表示是否删除所有相关的事件."
     ]
@@ -66,7 +66,7 @@ _.set(linb.Locale,["cn","doc"], {
     },
     _:{
         $desc:"得到本地的时间戳.",
-        $rtn:"Integer",
+        $rtn:"Number",
         $snippet:["alert(_()); linb.message(_())"],
 
         arr:{
@@ -1753,7 +1753,7 @@ _.set(linb.Locale,["cn","doc","linb","absBox"],{
             ]
         },
         get:{
-            $desc:"根据给定位置得到箱内元素，或则得到箱内所有原属.",
+            $desc:"根据给定位置得到箱内元素，或者得到箱内所有元素.",
             $rtn:"Object/Array",
             $paras:[
                 "index [可选参数] : Number."
@@ -1938,6 +1938,26 @@ _.set(linb.Locale,["cn","doc","linb","Dom"], {
         ]
     },
     prototype:{
+        each:{
+            $desc:"将函数应用于数组中的每一个箱内元素.",
+            $rtn:'[self]',
+            $paras:[
+                "fun [必需参数]: Function, [this]指针是 linb.absBox Object, 函数参数: [element, array index]. 应用到每一个箱内元素的函数."
+            ],
+            $snippet:[
+                "linb(['linb.UI.Layout:a:','btnLang']).each(function(o,i){alert(i+' -> #'+o.id)})"
+            ]
+        },
+        get:{
+            $desc:"根据给定位置得到箱内元素，或者得到箱内所有元素.",
+            $rtn:"Object/Array",
+            $paras:[
+                "index [可选参数] : Number."
+            ],
+            $snippet:[
+                "var n=linb(['linb.UI.Layout:a:','btnLang']); alert(n.get(1).id); alert(n.get()[0].id+' , '+n.get()[1].id);"
+            ]
+        },
         addBorder:{
             $desc:"为第一个元素添加边框. ",
             $rtn:"linb.UI.Border",
@@ -2043,11 +2063,11 @@ _.set(linb.Locale,["cn","doc","linb","Dom"], {
             ]
         },
         tagClass:{
-            $desc:"Copies each of the class names(from 'className' property) on the each of elements, adds a tag string to each of those copies, and sets all the [original names + copies] back(set back to 'className' property). Or, clears(reverses) those copied css calss names on the each of elements according to a given tag name.",
+            $desc:"对于箱中的每个元素的className，拷贝这些className并在每个className后添加一个给定的标签。或者将有特定标签的className移除。",
             $rtn:"[self]",
             $paras:[
-                "tag [必需参数] : String, tag name.",
-                "isAdd [可选参数] : Boolean, adds or removes. 默认为[true]."
+                "tag [必需参数] : String, 标签字符串.",
+                "isAdd [可选参数] : Boolean, 添加标签或移除标签. 默认为 [true]."
             ],
             $snippet:[
                 "var n=linb('btnLang');n.tagClass('-checked').tagClass('-mouseover');alert(n.attr('className')); n.tagClass('-checked',false).tagClass('-mouseover',false);alert(n.attr('className'));"
@@ -2062,9 +2082,9 @@ _.set(linb.Locale,["cn","doc","linb","Dom"], {
             ],
             $snippet:[
             "var id='linb.temp.1'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
-            "linb(id).append(linb.create('1',true));"+
+            "linb(id).append(linb.create('input'));"+
             "linb(id).append(new linb.UI.Button({position:'relative'}));"+
-            "linb(id).append(linb.create('3',true));"+
+            "linb(id).append(linb.create('<button>btn</button>'));"+
             "}"
             ]
         },
@@ -2077,9 +2097,9 @@ _.set(linb.Locale,["cn","doc","linb","Dom"], {
             ],
             $snippet:[
             "var id='linb.temp.2'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
-            "linb(id).prepend(linb.create('1',true));"+
+            "linb(id).prepend(linb.create('input'));"+
             "linb(id).prepend(new linb.UI.Button({position:'relative'}));"+
-            "linb(id).prepend(linb.create('3',true));"+
+            "linb(id).prepend(linb.create('<button>btn</button>'));"+
             "}"
             ]
         },
@@ -2093,9 +2113,9 @@ _.set(linb.Locale,["cn","doc","linb","Dom"], {
             $snippet:[
             "var id='linb.temp.3'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
             "var node = linb(id).last();"+
-            "node.addPrev(linb.create('1',true));"+
+            "node.addPrev(linb.create('input'));"+
             "node.addPrev(new linb.UI.Button({position:'relative'}));"+
-            "node.addPrev(linb.create('3',true));"+
+            "node.addPrev(linb.create('<button>btn</button>'));"+
             "}"
             ]
         },
@@ -2109,9 +2129,9 @@ _.set(linb.Locale,["cn","doc","linb","Dom"], {
             $snippet:[
             "var id='linb.temp.4'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
             "var node = linb(id).last();"+
-            "node.addNext(linb.create('1',true));"+
+            "node.addNext(linb.create('input'));"+
             "node.addNext(new linb.UI.Button({position:'relative'}));"+
-            "node.addNext(linb.create('3',true));"+
+            "node.addNext(linb.create('<button>btn</button>'));"+
             "}"
             ]
         },
@@ -2206,6 +2226,13 @@ _.set(linb.Locale,["cn","doc","linb","Dom"], {
                 "var id='linb.temp.w1'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div style=\"border:solid 1px;padding:10px;\">' + '<div style=\"background:#888;position:relative;width:80px;height:80px;\"><div id='+id+' style=\"overflow:auto;position:absolute;margin:10px;border:solid 10px #ccc;padding:10px;\"> 1111111111111111111 2222222222222222 333333333333</div></div> <br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var n=linb(id); n.width(20).height(20); alert(n.width()+':'+n.innerWidth()+':'+n.offsetWidth()+':'+n.outerWidth()+':'+n.scrollWidth());"+
                 "}"
+            ]
+        },
+        serialize:{
+            $desc:"将一个DOM概要对象(profile)序列化为一个JSON字符串或一个JSON对象.",
+            $rtn:"String",
+            $snippet:[
+                "alert(linb('btnLang').serialize());" 
             ]
         },
         scrollWidth:{
@@ -2838,9 +2865,9 @@ _.set(linb.Locale,["cn","doc","linb","Dom"], {
         afterClick:{
             $rtn:"[self]",
             $paras:[
-                "fun [Optional]: Function, [this] pointer is the current element, arguments are [linb.DomProfile Object, DOM event Object, the current element].",
-                "label [Optional]: String, the event label.",
-                "flag  [Optional]: Boolean, for remove event only. to indicate if remove all related event."
+                "fun [Optional]: Function, 函数参数是 [linb.DomProfile Object, DOM event Object, the current element's linbid].",
+                "label [Optional]: String, 事件标签.",
+                "flag  [Optional]: Boolean, 移除事件标志."
             ],
             $snippet:[
             "var id='linb.temp.event'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div style=\"border:solid 1px;padding:10px;\"></p><button style=\"height:50px;\" id='+id+'>BUTTON element for testing.</button></p>' + '<br /><br /><button onclick=\"linb(\\\''+id+'\\\').onClick();\">fire event:[onclick] group functions</button> - <button onclick=\"linb(\\\''+id+'\\\').onClick(true);\">fire event: all functions</button> - <button onclick=\"linb(\\\''+id+'\\\').onClick(null,\\\'1#\\\');\">remove [onclick] 1#</button> - <button onclick=\"linb(\\\''+id+'\\\').beforeClick(null);\">remove all [beforeclick] functions</button> - <button onclick=\"linb(\\\''+id+'\\\').onClick(null,null,true);\">remove all functions</button><br /><br /><br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -3438,7 +3465,7 @@ _.set(linb.Locale,["cn","doc","linb","Date"], {
 _.set(linb.Locale,["cn","doc","linb","absObj"], {
     getAll:{
         $desc:"获取该类的所有对象实例.",
-        $rtn:"linb.absObj, the current Class Object",
+        $rtn:"linb.absObj, 当前类对象",
         $snippet:[
             "alert(linb.UI.getAll().get().length)"
         ]
@@ -4783,6 +4810,16 @@ _.set(linb.Locale,["cn","doc","linb","Coder"], {
 
 _.set(linb.Locale,["cn","doc","linb","absList"], {
     prototype:{
+        activate:{
+            $desc:"激活当前控件(获取焦点状态).",
+            $rtn:"[self]",
+            $snippet:[
+                "var id='linb.temp.abs10-l2'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var o;linb(id).prepend(o=new linb.UI.List({position:'relative',items:[{id:'a',caption:'a'},{id:'b',caption:'b'},{id:'c',caption:'c'}]}));"+
+                "_.asyRun(function(){o.activate()});"+
+                "}"
+            ]
+        },
         fireItemClickEvent:{
             $desc:"模拟鼠标点击，以选中list中的某一项.",
             $rtn:"[self]",
@@ -4790,18 +4827,18 @@ _.set(linb.Locale,["cn","doc","linb","absList"], {
                 "subId [必需参数] : String, 项的id."
             ],
             $snippet:[
-                "var id='linb.temp.tabs6'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:200px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var id='linb.temp.absl0-0'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:200px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var o;linb(id).prepend(o=(new linb.UI.Tabs({height:'auto',items:[{id:'a',caption:'a a'},{id:'b',caption:'b b'},{id:'c',caption:'c c'}]})));"+
                 "_.asyRun(function(){o.fireItemClickEvent('b')},1000);"+
                 "}"
             ]
         },
         updateItem:{
-            $desc:"Updates the specified item(key or value) and the corresponding DOM Element.",
+            $desc:"更新一个项，并刷新对应的DOM界面.",
             $rtn:"[self]",
             $paras:[
-                "id [Required] : String, The node id.",
-                "options [Required] : Object/String."
+                "id [Required] : String, 项的标识号.",
+                "options [Required] : Object/String, 要更新的选项."
             ],
             $snippet:[
                 "var id='linb.temp.absl0-1'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -5307,7 +5344,7 @@ _.set(linb.Locale,["cn","doc","linb","absComposed"], {
                 "shift: Number, 1 or 0, 标志'shift'是否被按下.",
                 "alt: Number, 1 or 0, 标志'alt'是否被按下.",
                 "e : Event, DOM 事件.",
-                "src : Element, 事件发生的DOM元素."
+                "src: String, 事件所属DOM元素的linbid."
             ],
             $snippet:[
                 "var id='linb.temp.c1'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -5328,7 +5365,7 @@ _.set(linb.Locale,["cn","doc","linb","absComposed"], {
                 "shift: Number, 1 or 0, 标志'shift'是否被按下.",
                 "alt: Number, 1 or 0, 标志'alt'是否被按下.",
                 "e : Event, DOM 事件.",
-                "src : Element, 事件发生的DOM元素."
+                "src: String, 事件所属DOM元素的linbid."
             ],
             $snippet:[
                 "var id='linb.temp.c2'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -5349,7 +5386,7 @@ _.set(linb.Locale,["cn","doc","linb","absComposed"], {
                 "shift: Number, 1 or 0, 标志'shift'是否被按下.",
                 "alt: Number, 1 or 0, 标志'alt'是否被按下.",
                 "e : Event, DOM 事件.",
-                "src : Element, 事件发生的DOM元素."
+                "src: String, 事件所属DOM元素的linbid."
             ],
             $snippet:[
                 "var id='linb.temp.c3'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -5366,7 +5403,7 @@ _.set(linb.Locale,["cn","doc","linb","absComposed"], {
             $paras:[
                 "profile : linb.UIProfile.",
                 "e : Event, DOM事件元素.",
-                "src : Element, 事件发生的DOM元素.",
+                "src: String, 事件所属DOM元素的linbid.",
                 "key : String, 被拖动物体的拖动标志串.",
                 "data : Object, 拖动物体代表的数据.",
                 "item : Object, 被拖动物体的项."
@@ -5391,7 +5428,7 @@ _.set(linb.Locale,["cn","doc","linb","absComposed"], {
             $paras:[
                 "profile : linb.UIProfile.",
                 "e : Event, DOM事件元素.",
-                "src : Element, 事件发生的DOM元素.",
+                "src: String, 事件所属DOM元素的linbid.",
                 "key : String, 被拖动物体的拖动标志串.",
                 "data : Object, 拖动物体代表的数据.",
                 "item : Object, 被拖动物体的项."
@@ -5417,8 +5454,7 @@ _.set(linb.Locale,["cn","doc","linb","absComposed"], {
             $paras:[
                 "profile : linb.UIProfile.",
                 "e : Event, DOM事件元素.",
-                "src : Element, 事件发生的DOM元素.",
-                "node : Element, 被拖动对象的DOM元素.",
+                "src: String, 事件所属DOM元素的linbid.",
                 "key : String, 被拖动物体的拖动标志串.",
                 "data : Object, 拖动物体代表的数据.",
                 "item : Object, 被拖动物体的项."
@@ -5443,7 +5479,7 @@ _.set(linb.Locale,["cn","doc","linb","absComposed"], {
             $paras:[
                 "profile : linb.UIProfile.",
                 "e : Event, DOM事件元素.",
-                "src : Element, 事件发生的DOM元素.",
+                "src: String, 事件所属DOM元素的linbid.",
                 "key : String, 被拖动物体的拖动标志串.",
                 "data : Object, 拖动物体代表的数据.",
                 "item : Object, 被拖动物体的项."
@@ -5468,7 +5504,7 @@ _.set(linb.Locale,["cn","doc","linb","absComposed"], {
             $paras:[
                 "profile : linb.UIProfile.",
                 "e : Event, DOM事件元素.",
-                "src : Element, 事件发生的DOM元素.",
+                "src: String, 事件所属DOM元素的linbid.",
                 "key : String, 被拖动物体的拖动标志串.",
                 "data : Object, 拖动物体代表的数据.",
                 "item : Object, 被拖动物体的项."
@@ -5493,7 +5529,7 @@ _.set(linb.Locale,["cn","doc","linb","absComposed"], {
             $paras:[
                 "profile : linb.UIProfile.",
                 "e : Event, DOM事件元素.",
-                "src : Element, 事件发生的DOM元素.",
+                "src: String, 事件所属DOM元素的linbid.",
                 "key : String, 被拖动物体的拖动标志串.",
                 "data : Object, 拖动物体代表的数据.",
                 "item : Object, 被拖动物体的项."
@@ -5518,7 +5554,7 @@ _.set(linb.Locale,["cn","doc","linb","absComposed"], {
             $paras:[
                 "profile : linb.UIProfile.",
                 "e : Event, DOM事件元素.",
-                "src : Element, 事件发生的DOM元素."
+                "src: String, 事件所属DOM元素的linbid."
             ],
             $snippet:[
                 "var id='linb.temp.ab661'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -5534,7 +5570,7 @@ _.set(linb.Locale,["cn","doc","linb","absComposed"], {
             $paras:[
                 "profile : linb.UIProfile.",
                 "e : Event, DOM事件元素.",
-                "src : Element, 事件发生的DOM元素."
+                "src: String, 事件所属DOM元素的linbid."
             ],
             $snippet:[
                 "var id='linb.temp.ab661-1'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -5549,7 +5585,7 @@ _.set(linb.Locale,["cn","doc","linb","absComposed"], {
             $paras:[
                 "profile : linb.UIProfile.",
                 "e : Event, DOM事件元素.",
-                "src : Element, 事件发生的DOM元素."
+                "src: String, 事件所属DOM元素的linbid."
             ],
             $snippet:[
                 "var id='linb.temp.ab662'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -5566,7 +5602,7 @@ _.set(linb.Locale,["cn","doc","linb","absComposed"], {
                 "profile : linb.UIProfile.",
                 "item : Object, 数据项对象.",
                 "e : Event, DOM事件元素.",
-                "src : Element, 事件发生的DOM元素.",
+                "src: String, 事件所属DOM元素的linbid.",
                 "type : String, 'mousedown'或'mouseup'."
             ],
             $snippet:[
@@ -5582,7 +5618,7 @@ _.set(linb.Locale,["cn","doc","linb","absComposed"], {
                 "profile : linb.UIProfile.",
                 "item : Object, 数据项对象.",
                 "e : Event, DOM事件元素.",
-                "src : Element, 事件发生的DOM元素.",
+                "src: String, 事件所属DOM元素的linbid.",
                 "type : String, 'mousedown'或'mouseup'."
             ],
             $snippet:[
@@ -5598,7 +5634,7 @@ _.set(linb.Locale,["cn","doc","linb","absComposed"], {
                 "profile : linb.UIProfile.",
                 "e : Event, DOM事件元素.",
                 "shift: Boolean, 指示用户是否按下了Shift键.",
-                "src : Element, 事件发生的DOM元素."
+                "src: String, 事件所属DOM元素的linbid."
             ],
             $snippet:[
                 "var id='linb.temp.ab9'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -5765,8 +5801,8 @@ _.set(linb.Locale,["cn","doc","linb","UI"], {
         $desc:"设置拖动时的键名字.",
         $rtn:"Array",
         $paras:[
-            "profile [必需参数] : the target profile",
-            "node [必需参数] : the related DOM element."
+            "profile [必需参数] : linb.UIProfile, 目标概要对象",
+            "node [必需参数] : String, 事件所属DOM元素的linbid."
         ],
         $memo:"一般情况下，程序员无需直接调用该函数. 该函数会被部分子类覆盖."
     },
@@ -5774,7 +5810,7 @@ _.set(linb.Locale,["cn","doc","linb","UI"], {
         $desc:"将JSON字符串或数组反序列化为linb.UI对象.",
         $rtn:"linb.UI",
         $paras:[
-            "target [必需参数] : String or Array.",
+            "target [必需参数] : String/Array.",
             "keepSerialId [可选参数] : Boolean, 指示是否保留序列号. 默认为 [false]."
         ],
         $snippet:[
@@ -5812,7 +5848,7 @@ _.set(linb.Locale,["cn","doc","linb","UI"], {
             ]
         },
         reLayout:{
-            $desc:"重新layout本控件",
+            $desc:"重新布局本控件",
             $rtn:"[self]",
             $paras:[
                 "syn [可选参数] : Boolean, 是否同步运行。",
@@ -5820,10 +5856,10 @@ _.set(linb.Locale,["cn","doc","linb","UI"], {
             ]
         },
         getChildren:{
-            $desc:"Gets the current widget's children.",
+            $desc:"得到目前控件的所有子控件.",
             $rtn:"linb.UI",
             $paras:[
-                "subId [Optional] : String, the sub id."
+                "subId [Optional] : String, sub id."
             ],
             $snippet:[
                 "var id='linb.temp.ui-1e'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -5833,7 +5869,7 @@ _.set(linb.Locale,["cn","doc","linb","UI"], {
             ]
         },
         toHtml:{
-            $desc:"To build HTML string from the current Object, and returns it.",
+            $desc:"得到控件的html字符串.",
             $rtn:"String",
             $snippet:[
                 "alert(linb.UIProfile.getFromDom('btnLang').boxing().toHtml())"
@@ -5856,7 +5892,7 @@ _.set(linb.Locale,["cn","doc","linb","UI"], {
             $rtn:"[self]",
             $paras:[
                 "value [必需参数] : Function",
-                "force [可选参数] : Boolean, force to set the property value even if the same property value already exists. 默认为 [false]."
+                "force [可选参数] : Boolean, 强制设置该属性值，即使属性已经设置为该值. 默认为 [false]."
             ],
             $snippet:[
                 "var id='linb.temp.ui-2'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -5868,25 +5904,25 @@ _.set(linb.Locale,["cn","doc","linb","UI"], {
             ]
         },
         getRoot:{
-            $desc:"获取根(linb.Dom)对象.",
+            $desc:"获取控件的根节点(linb.Dom)对象.",
             $rtn:"linb.Dom",
             $snippet:[
             "alert(linb.UIProfile.getFromDom('btnLang').boxing().getRoot());"
             ]
         },
         getRootNode:{
-            $desc:"获取根DOM元素.",
+            $desc:"获取控件的根节点DOM元素.",
             $rtn:"Element",
             $snippet:[
             "alert(linb.UIProfile.getFromDom('btnLang').boxing().getRootNode());"
             ]
         },
         append:{
-            $desc:"添加一系列的linb.UIProfile到当前对象上.",
+            $desc:"添加一系列的控件添加到到当前控件对象上.",
             $rtn:"[self]",
             $paras:[
-                "target [必需参数] : linb.UIProfile[], a linb.UI ojbect(including a set of linb.UIProfile objects).",
-                "subId [可选参数] : String, the sub id that Determines the [target] will be added to which sub DOM node. This parameter can be [false] too, that means the [target] will be appended to DOM only, no link created between the [target] UIProfiles and the parent UIProfile."
+                "target [必需参数] : linb.UIProfile[],  子控件的 linb.UI 对象(里面可以包括多个控件概要对象).",
+                "subId [可选参数] : String, subid会指示子控件加到那个DOM节点上。这个参数可以为 [false] ，表示控件不会做为子控件添加到当前控件对象上，只进行在DOM界面上添加UI的工作。"
             ],
             $snippet:[
                 "var id='linb.temp.ui2'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -5900,18 +5936,19 @@ _.set(linb.Locale,["cn","doc","linb","UI"], {
             $desc:"移除内部所有的子控件.",
             $rtn:"[self]",
             $paras:[
-                "subId [可选参数] : String, the sub id that Determines which profile will be removeed."
+                "subId [可选参数] : String, 决定哪个subid下面的子控件会被移除.",
+                "bDestroy [可选参数] : Boolean, 是否移除的子控件会被销毁."
             ],
             $snippet:[
                 "var id='linb.temp.ui2'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var block,btn1,btn2;linb(id).prepend(block=new linb.UI.Block({border:true}));"+
                 "block.append(btn1=new linb.UI.Button({position:'relative'})).append(btn2=new linb.UI.Button({position:'relative'}), false);"+
-                "_.asyRun(function(){block.removeChildren()},1000)"+
+                "_.asyRun(function(){block.removeChildren(null,true)},1000)"+
                 "}"
             ]
         },
         clone:{
-            $desc:"克隆一个系列的Profile.",
+            $desc:"克隆这个控件对象（里面可以包括多个控件概要对象）.",
             $rtn:"linb.UI",
             $snippet:[
                 "var id='linb.temp.ui3'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -5937,7 +5974,7 @@ _.set(linb.Locale,["cn","doc","linb","UI"], {
             $paras:[
                 "dragKey [可选参数] : String, 拖动时的标志键.",
                 "dragData [可选参数] : Object, 拖动时的数据.",
-                "key [可选参数] : String, a template key in UIProfile that will Determines which elements will be the target elements. 默认为 'KEY'."
+                "key [可选参数] : String, 模板键，指示哪一个DOM节点回作为可拖拽的目标节点. 默认为 'KEY'."
             ],
             $snippet:[
                 "var id='linb.temp.ui5'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -6188,7 +6225,7 @@ _.set(linb.Locale,["cn","doc","linb","UI"], {
             ]
         },
         getTabindex:{
-            $desc:"获取tab键的先后顺序",
+            $desc:"获取tab键值",
             $rtn:"Number",
             $snippet:[
                 "var id='linb.temp.ui29'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -6198,7 +6235,7 @@ _.set(linb.Locale,["cn","doc","linb","UI"], {
             ]
         },
         setTabindex:{
-            $desc:"设置tab键的先后顺序, 并刷新界面.",
+            $desc:"设置tab键值, 并刷新界面.",
             $rtn:"[self]",
             $paras:[
                 "value [必需参数] : Number.",
@@ -6397,7 +6434,7 @@ _.set(linb.Locale,["cn","doc","linb","UI"], {
             ]
         },
         getDockOrder:{
-            $desc:"获取停靠的先后顺序",
+            $desc:"获取停靠的优先顺序",
             $rtn:"Number",
             $snippet:[
                 "var id='linb.temp.ui70'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -6407,7 +6444,7 @@ _.set(linb.Locale,["cn","doc","linb","UI"], {
             ]
         },
         setDockOrder:{
-            $desc:"设置停靠的先后顺序, 并刷新界面.",
+            $desc:"设置停靠的优先顺序, 并刷新界面.",
             $rtn:"[self]",
             $paras:[
                 "value [必需参数] : Number.",
@@ -6423,7 +6460,7 @@ _.set(linb.Locale,["cn","doc","linb","UI"], {
             ]
         },
         getDockIgnore:{
-            $desc:"判断是否忽略停靠",
+            $desc:"判断是否停靠忽略（在系统进行停靠计算时会忽略本控件）",
             $rtn:"Boolean",
             $snippet:[
                 "var id='linb.temp.ui75'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -6433,7 +6470,7 @@ _.set(linb.Locale,["cn","doc","linb","UI"], {
             ]
         },
         setDockIgnore:{
-            $desc:"设置是否忽略停靠, 并刷新界面.",
+            $desc:"设置是否停靠忽略, 并刷新界面.",
             $rtn:"[self]",
             $paras:[
                 "value [必需参数] : Boolean.",
@@ -6520,24 +6557,24 @@ _.set(linb.Locale,["cn","doc","linb","UI"], {
             $memo:"The [subId] parameter is for those [linb.absList] profiles only."
         },
         setDomId:{
-            $desc:"设置dom元素id.",
+            $desc:"设置DOM元素id.",
             $rtn:"[self]",
             $paras:[
-                "id [必需参数] : String, id string"
+                "id [必需参数] : String, id 字符串"
             ],
             $snippet:[
                 "var logo=linb.UIProfile.getFromDom('btnLang').boxing(); alert(logo.getDomId()); logo.setDomId('logo1'); alert(logo.getDomId());logo.setDomId('btnLang'); alert(logo.getDomId());"
             ]
         },
         hide:{
-            $desc:"隐藏该UIProfile对象.",
+            $desc:"隐藏该控件对象.",
             $rtn:"[self]",
             $snippet:[
                 "var logo=linb.UIProfile.getFromDom('btnLang').boxing(); logo.hide(); _.asyRun(function(){logo.show()},1000);"
             ]
         },
         show:{
-            $desc:"显示该UIProfile对象.",
+            $desc:"显示该控件对象.",
             $rtn:"[self]",
             $paras:[
                 "parent [必需参数] : linb.UIProfile/linb.UI/Element/linb.Dom.",
@@ -6573,7 +6610,7 @@ _.set(linb.Locale,["cn","doc","linb","UI"], {
             ]
         },
         render:{
-            $desc:"将UIProfiles渲染到DOM节点上.",
+            $desc:"将控件渲染成DOM.",
             $rtn:"[self]",
             $paras:[
                 "triggerLayOut [可选参数] : Boolean, 指示是否触发布局. 默认为 [false]."
@@ -6583,7 +6620,7 @@ _.set(linb.Locale,["cn","doc","linb","UI"], {
             ]
         },
         renderOnto:{
-            $desc:"将UIProfiles渲染, 并替换已经存在的一个DOM元素.",
+            $desc:"将控件渲染, 并替换已经存在的一个DOM元素.",
             $rtn:"[self]",
             $paras:[
                 "domId [必需参数] : String, DOM元素id.",
@@ -6601,7 +6638,7 @@ _.set(linb.Locale,["cn","doc","linb","UI"], {
             $desc:"设置自定义的CSS对象.",
             $rtn:"[self]",
             $paras:[
-                "key [可选参数] : String/Object, 模板支付串键, 或键值对.",
+                "key [可选参数] : String/Object, 模板字符串键, 或键值对.",
                 "value [可选参数] : String, CSS字符串."
             ],
             $snippet:[
@@ -6618,7 +6655,7 @@ _.set(linb.Locale,["cn","doc","linb","UI"], {
             $desc:"设置自定义的CSS class.",
             $rtn:"[self]",
             $paras:[
-                "key [可选参数] : String/Object, 模板支付串键, 或键值对.",
+                "key [可选参数] : String/Object, 模板字符串键, 或键值对.",
                 "value [可选参数] : String, CSS class 字符串."
             ],
             $snippet:[
@@ -6637,7 +6674,7 @@ _.set(linb.Locale,["cn","doc","linb","UI"], {
             $desc:"设置自定义行为函数.",
             $rtn:"[self]",
             $paras:[
-                "key [可选参数] : String/Object, 模板支付串键, 或键值对.",
+                "key [可选参数] : String/Object, 模板字符串键, 或键值对.",
                 "value [可选参数] : Object, 键值对."
             ],
             $snippet:[
@@ -6651,7 +6688,7 @@ _.set(linb.Locale,["cn","doc","linb","UI"], {
             $desc:"设置自定义函数. 这些函数可以被序列化.",
             $rtn:"[self]",
             $paras:[
-                "key [可选参数] : String/Object, 模板支付串键, 或键值对.",
+                "key [可选参数] : String/Object, 模板字符串键, 或键值对.",
                 "value [可选参数] : Function, 自定义函数."
             ],
             $snippet:[
@@ -6660,18 +6697,11 @@ _.set(linb.Locale,["cn","doc","linb","UI"], {
                 "btn.setCustomFunction('showTips', function(profile, node, pos){linb.Tips.show(pos, 'hi tips');return true;});"+
                 "btn.setCustomFunction('a', function(){var a;});"+
                 "alert(btn.serialize(btn))"+
-                "}",
-                "var id='linb.temp.a6'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
-                "var o=new linb.UI.List({position:'relative',items:[{id:'a',caption:'a'},{id:'b',caption:'b'}]});"+
-                "o.setCustomFunction('render',{items:function(profile,item){"+
-                "    return '[' + item.caption + ']';"+
-                "}});"+
-                "linb(id).append(o);"+
                 "}"
             ]
         },
         beforeDestroy:{
-            $desc:"Fired before the UIProfile is destroyed. If returns false, destroy function will be ignored.",
+            $desc:"在控件概要对象(profile)被销毁前触发，如果返回false，控件销毁的动作将被取消.",
             $paras:[
                 "profile : linb.UIProfile."
             ],
@@ -6684,7 +6714,7 @@ _.set(linb.Locale,["cn","doc","linb","UI"], {
             ]
         },
         onDestroy:{
-            $desc:"当UIProfile被销毁时调用.",
+            $desc:"当控件概要对象(profile)被销毁时调用.",
             $paras:[
                 "profile : linb.UIProfile."
             ],
@@ -6701,7 +6731,7 @@ _.set(linb.Locale,["cn","doc","linb","UI"], {
             $paras:[
                 "profile : linb.UIProfile.",
                 "e : Event, DOM事件元素.",
-                "node : Element, 事件发生的DOM元素."
+                "src: String, 事件所属DOM元素的linbid."
             ],
             $snippet:[
                 "var id='linb.temp.b2-1'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -6711,7 +6741,7 @@ _.set(linb.Locale,["cn","doc","linb","UI"], {
             ]
         },
         onRender:{
-            $desc:"当UIProfile被渲染时调用.",
+            $desc:"当控件概要对象(profile)被渲染时(生成DOM节点)调用.",
             $paras:[
                 "profile : linb.UIProfile."
             ],
@@ -6724,7 +6754,7 @@ _.set(linb.Locale,["cn","doc","linb","UI"], {
             ]
         },
         onLayout:{
-            $desc:"当UIProfile被重新布局的时候调用.",
+            $desc:"当控件概要对象(profile)被重新布局的时候调用.",
             $paras:[
                 "profile : linb.UIProfile."
             ],
@@ -6742,7 +6772,7 @@ _.set(linb.Locale,["cn","doc","linb","UI"], {
             $desc:"当linb.Tips显示tips时调用.",
             $paras:[
                 "profile : linb.UIProfile.",
-                "node : Element, DOM节点.",
+                "src: String, 事件所属DOM元素的linbid.",
                 "pos : Object, {left:Number, top:Number}"
             ],
             $snippet:[
@@ -6891,18 +6921,18 @@ _.set(linb.Locale,["cn","doc","linb","UI","Tag"], {
     },
     prototype:{
         getTagKey:{
-            $desc:"Gets the tag key string.",
+            $desc:"得到 tagKey 字符串.",
             $rtn:"String",
-            $memo:"linb.ComFactory will find the target UI Object in the matched linb.Com according to this tagKey."
+            $memo:"linb.ComFactory 会按照这个tabKey查找对应的 linb.Com."
         },
         setTagKey:{
-            $desc:"Sets the tag key string.",
+            $desc:"设置 tagKey 字符串.",
             $rtn:"[self]",
             $paras:[
                 "value [必需参数] : String, the tag key.",
                 "force [可选参数] : Boolean, 强制设置该属性值，即使属性已经设置为该值 默认为 [false]."
             ],
-            $memo:"linb.ComFactory will find the target UI Object in the matched linb.Com according to this tagKey."
+            $memo:"linb.ComFactory 会按照这个tabKey查找对应的 linb.Com."
         }
     }
 });
@@ -7291,7 +7321,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","ProgressBar"], {
     },
     prototype:{
         getCaptionTpl :{
-            $desc:"Gets the caption template string.",
+            $desc:"得到标题模板字符串.",
             $rtn:"String",
             $snippet:[
                 "var id='linb.temp.pb1-1'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -7302,11 +7332,11 @@ _.set(linb.Locale,["cn","doc","linb","UI","ProgressBar"], {
             ]
         },
         setCaptionTpl :{
-            $desc:"Sets the caption template string.",
+            $desc:"设置标题模板字符串.",
             $rtn:"[self]",
             $paras:[
                 "value [Required] : String.",
-                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. 默认为 [false]."
+                "force [可选参数] : Boolean, 强制设置该属性值，即使属性已经设置为该值 默认为 [false]."
             ],
             $snippet:[
                 "var id='linb.temp.pb1-2'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -7470,7 +7500,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","SButton"], {
             $paras:[
                 "profile : linb.UIProfile.",
                 "e : Event, DOM事件元素.",
-                "src : Element, 事件发生的DOM元素."
+                "src: String, 事件所属DOM元素的linbid."
             ],
             $snippet:[
                 "var id='linb.temp.sbtn17'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -7634,7 +7664,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","Button"], {
             ]
         },
         getType:{
-            $desc:"Gets button type.",
+            $desc:"得到按钮的类型.",
             $rtn:"String",
             $snippet:[
                 "var id='linb.temp.btn5'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -7644,11 +7674,11 @@ _.set(linb.Locale,["cn","doc","linb","UI","Button"], {
             ]
         },
         setType:{
-            $desc:"Sets button type.",
+            $desc:"设置按钮的类型.",
             $rtn:"[self]",
             $paras:[
-                "value [Required] : String, 'normal', 'drop' or 'status'.",
-                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. 默认为 [false]."
+                "value [Required] : String, 'normal', 'drop' 或 'status'.",
+                "force [可选参数] : Boolean, 强制设置该属性值，即使属性已经设置为该值 默认为 [false]."
             ],
             $snippet:[
                 "var id='linb.temp.btn6'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -7759,7 +7789,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","Button"], {
             $paras:[
                 "profile : linb.UIProfile.",
                 "e : Event, DOM事件元素.",
-                "src : Element, 事件发生的DOM元素.",
+                "src: String, 事件所属DOM元素的linbid.",
                 "value : Boolean, 值."
             ],
             $snippet:[
@@ -7769,11 +7799,11 @@ _.set(linb.Locale,["cn","doc","linb","UI","Button"], {
             ]
         },
         onClickDrop:{
-            $desc:"Fired when button is clicked.",
+            $desc:"当终端用户单击按钮时调用（当按钮的 type 为'drop'时才有效）.",
             $paras:[
                 "profile : linb.UIProfile.",
                 "e : Event, DOM事件元素.",
-                "src : Element, 事件发生的DOM元素."
+                "src: String, 事件所属DOM元素的linbid."
             ],
             $snippet:[
                 "var id='linb.temp.btn17-1'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -7782,7 +7812,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","Button"], {
             ]
         },        
         onChecked:{
-            $desc:"Fired when button is checked. linb.UI.Button Object has this event handler only when button type is 'status'.",
+            $desc:"在按钮按下时触发（当按钮的 type 为'status'时才有效）.",
             $paras:[
                 "profile : linb.UIProfile.",
                 "e : Event, DOM事件元素.",
@@ -7790,7 +7820,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","Button"], {
             ],
             $snippet:[
                 "var id='linb.temp.btn18'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
-                "linb(id).prepend((new linb.UI.Button({statusButton:true})).onChecked(function(profile,e,value){alert(value)}));"+
+                "linb(id).prepend((new linb.UI.Button({type:'status'})).onChecked(function(profile,e,value){alert(value)}));"+
                 "}"
             ]
         }
@@ -8055,7 +8085,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","Input"], {
                 "force [可选参数] : Boolean, 强制设置该属性值，即使属性已经设置为该值 默认为 [false]."
             ],
             $snippet:[
-                "var id='linb.temp.input20'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var id='linb.temp.input20-1'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var o;linb(id).prepend(new linb.UI.Input({position:'relative'})).prepend(o=new linb.UI.Input({position:'relative'}));"+
                 "o.setType('password');alert(o.getType());"+
                 "}"
@@ -8068,7 +8098,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","Input"], {
                 "profile : linb.UIProfile."
             ],
             $snippet:[
-                "var id='linb.temp.input20'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var id='linb.temp.input20-2'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var o;linb(id).prepend(o=new linb.UI.Input({position:'relative'}));"+
                 "o.onBlur(function(){alert('onBlur')});"+
                 "}"
@@ -8080,7 +8110,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","Input"], {
                 "profile : linb.UIProfile."
             ],
             $snippet:[
-                "var id='linb.temp.input20'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var id='linb.temp.input20-3'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var o;linb(id).prepend(o=new linb.UI.Input({position:'relative'}));"+
                 "o.onFocus(function(){alert('onFocus')});"+
                 "}"
@@ -8103,7 +8133,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","Input"], {
             $desc:"在设置有效的格式模式前调用. 如果返回false, 将阻止格式模式设置.",
             $paras:[
                 "profile : linb.UIProfile.",
-                "formatErr: Boolean, is the format error."
+                "formatErr: Boolean, 是否格式有错误."
             ],
             $snippet:[
                 "var id='linb.temp.input21'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -8484,7 +8514,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","ComboInput"], {
             ]
         },
         getScale:{
-            $desc:"Gets scale length. For style is 'spin' only.",
+            $desc:"获取scle值。只对 'spin' 类型有效。",
             $rtn:"Number",
             $snippet:[
                 "var id='linb.temp.ci11'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -8494,11 +8524,11 @@ _.set(linb.Locale,["cn","doc","linb","UI","ComboInput"], {
             ]
         },
         setScale:{
-            $desc:"Sets scale length. For style is 'spin' only.",
+            $desc:"设置scale值。只对 'spin' 类型有效。",
             $rtn:"[self]",
             $paras:[
                 "value [Required] : Number.",
-                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. 默认为 [false]."
+                "force [可选参数] : Boolean, 强制设置该属性值，即使属性已经设置为该值 默认为 [false]."
             ],
             $snippet:[
                 "var id='linb.temp.ci12'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -8508,7 +8538,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","ComboInput"], {
             ]
         },
         getIncrement:{
-            $desc:"Gets increment value. For style is 'spin' only.",
+            $desc:"获取增量值。只对 'spin' 类型有效。",
             $rtn:"Number",
             $snippet:[
                 "var id='linb.temp.ci13'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -8518,11 +8548,11 @@ _.set(linb.Locale,["cn","doc","linb","UI","ComboInput"], {
             ]
         },
         setIncrement:{
-            $desc:"Sets increment value. For style is 'spin' only.",
+            $desc:"设置增量值。只对 'spin' 类型有效。",
             $rtn:"[self]",
             $paras:[
                 "value [Required] : Number.",
-                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. 默认为 [false]."
+                "force [可选参数] : Boolean, 强制设置该属性值，即使属性已经设置为该值 默认为 [false]."
             ],
             $snippet:[
                 "var id='linb.temp.ci14'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -8532,7 +8562,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","ComboInput"], {
             ]
         },
         getMin:{
-            $desc:"Gets min value. For style is 'spin' only.",
+            $desc:"获取最小值。只对 'spin' 类型有效。",
             $rtn:"Boolean",
             $snippet:[
                 "var id='linb.temp.ci15'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -8542,11 +8572,11 @@ _.set(linb.Locale,["cn","doc","linb","UI","ComboInput"], {
             ]
         },
         setMin:{
-            $desc:"Sets min value. For style is 'spin' only.",
+            $desc:"设置最小值。只对 'spin' 类型有效。",
             $rtn:"[self]",
             $paras:[
                 "value [Required] : Number.",
-                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. 默认为 [false]."
+                "force [可选参数] : Boolean, 强制设置该属性值，即使属性已经设置为该值 默认为 [false]."
             ],
             $snippet:[
                 "var id='linb.temp.ci16'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -8556,7 +8586,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","ComboInput"], {
             ]
         },
         getMax:{
-            $desc:"Gets max value. For style is 'spin' only.",
+            $desc:"获取最大值。只对 'spin' 类型有效。",
             $rtn:"Boolean",
             $snippet:[
                 "var id='linb.temp.ci17'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -8566,11 +8596,11 @@ _.set(linb.Locale,["cn","doc","linb","UI","ComboInput"], {
             ]
         },
         setMax:{
-            $desc:"Sets max value. For style is 'spin' only.",
+            $desc:"设置最大值。只对 'spin' 类型有效。",
             $rtn:"[self]",
             $paras:[
                 "value [Required] : Number.",
-                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. 默认为 [false]."
+                "force [可选参数] : Boolean, 强制设置该属性值，即使属性已经设置为该值 默认为 [false]."
             ],
             $snippet:[
                 "var id='linb.temp.ci18'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -8593,7 +8623,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","ComboInput"], {
             $desc:"设置按钮图标的url, 并刷新界面.",
             $rtn:"[self]",
             $paras:[
-                "value [必需参数] : String, corresponding CSS value.",
+                "value [必需参数] : String, 对应的 CSS 值.",
                 "force [可选参数] : Boolean, 强制设置该属性值，即使属性已经设置为该值. 默认为 [false]."
             ],
             $snippet:[
@@ -8617,7 +8647,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","ComboInput"], {
             $desc:"设置按钮图标的css position属性, 并刷新界面.",
             $rtn:"[self]",
             $paras:[
-                "value [必需参数] : String, corresponding CSS value.",
+                "value [必需参数] : String, 对应的 CSS 值.",
                 "force [可选参数] : Boolean, 强制设置该属性值，即使属性已经设置为该值. 默认为 [false]."
             ],
             $snippet:[
@@ -8631,7 +8661,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","ComboInput"], {
             $desc:"当上载文件选择对话框打开时调用.",
             $paras:[
                 "profile : linb.UIProfile.",
-                "node : the input DOM element."
+                "node : String, input DOM 元素的 linbid."
             ],
             $snippet:[
                 "var id='linb.temp.ci99'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -8644,9 +8674,9 @@ _.set(linb.Locale,["cn","doc","linb","UI","ComboInput"], {
             $desc:"当命令按钮按下时（弹出窗口弹出前）调用.",
             $paras:[
                 "profile : linb.UIProfile.",
-                "pos : Object, the mouse position.",
+                "pos : Object, 鼠标位置.",
                 "e : Event, DOM事件元素.",
-                "src : Element, 事件发生的DOM元素."
+                "src: String, 事件所属DOM元素的linbid."
             ],
             $snippet:[
                 "var id='linb.temp.ci10'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -8659,7 +8689,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","ComboInput"], {
             $desc:"当保存按钮按下时调用. 只对带有保存按钮的多选框有效",
             $paras:[
                 "profile : linb.UIProfile.",
-                "node : Element, the command button DOM element."
+                "node : String, save按钮 DOM 元素的linbid."
             ],
             $snippet:[
                 "var id='linb.temp.ci11'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -8852,6 +8882,10 @@ _.set(linb.Locale,["cn","doc","linb","UI","ColorPicker"], {
         ]
     },
     prototype:{
+        activate:{
+             $desc:"激活该控件，使它获得焦点.",
+            $rtn:"[self]"
+        },
         getColorName:{
             $desc:"获取颜色名字(如果有的话,如深红，咖啡色).",
             $rtn:"String",
@@ -8943,6 +8977,10 @@ _.set(linb.Locale,["cn","doc","linb","UI","DatePicker"], {
         $desc:"生成一个linb.UI.DatePicker对象."
     },
     prototype:{
+        activate:{
+             $desc:"激活该控件，使它获得焦点.",
+            $rtn:"[self]"
+        },
         getCloseBtn:{
             $desc:"判断日期选择框是否带有关闭按钮.",
             $rtn:"Boolean",
@@ -8994,6 +9032,10 @@ _.set(linb.Locale,["cn","doc","linb","UI","TimePicker"], {
         $desc:"生成一个linb.UI.TimePicker对象."
     },
     prototype:{
+        activate:{
+             $desc:"激活该控件，使它获得焦点.",
+            $rtn:"[self]"
+        },
         getCloseBtn:{
             $desc:"判断时间选择器是否带有关闭按钮.",
             $rtn:"Boolean",
@@ -9397,8 +9439,8 @@ _.set(linb.Locale,["cn","doc","linb","UI","List"], {
             $desc:"当列表项被选择时调用.",
             $paras:[
                 "profile : linb.UIProfile.",
-                "item: Object, list item Object.",
-                "src: Element, the related DOM element."
+                "item: Object, 项对象.",
+                "src: String, 事件所属DOM元素的linbid."
             ],
             $snippet:[
                 "var id='linb.temp.list8'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -9408,11 +9450,11 @@ _.set(linb.Locale,["cn","doc","linb","UI","List"], {
             ]
         },
         onDblclick:{
-            $desc:"Fired when list item was dblclicked.",
+            $desc:"在双击条目的时候触发该事件.",
             $paras:[
                 "profile : linb.UIProfile.",
-                "item: Object, list item Object.",
-                "src: Element, the related DOM element."
+                "item: Object, 项对象.",
+                "src: String, 事件所属DOM元素的linbid."
             ],
             $snippet:[
                 "var id='linb.temp.list9'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -9444,7 +9486,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","LinkList"], {
             $rtn:"[self]",
             $paras:[
                 "value [必需参数] : Number.",
-                "force [可选参数] : Boolean, force to set the property value even if the same property value already exists. 默认为 [false]."
+                "force [可选参数] : Boolean, 强制设置该属性值，即使属性已经设置为该值. 默认为[false]."
             ],
             $snippet:[
                 "var id='linb.temp.llist2'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -9458,8 +9500,8 @@ _.set(linb.Locale,["cn","doc","linb","UI","LinkList"], {
             $desc:"当某个超链接队列项被单击时调用.",
             $paras:[
                 "profile : linb.UIProfile.",
-                "item: Object, list item Object.",
-                "src: Element, the related DOM element."
+                "item: Object, 项对象.",
+                "src: String, 事件所属DOM元素的linbid."
             ],
             $snippet:[
                 "var id='linb.temp.llist8'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -9505,7 +9547,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","Gallery"], {
             $rtn:"[self]",
             $paras:[
                 "value [必需参数] : Number.",
-                "force [可选参数] : Boolean, force to set the property value even if the same property value already exists. 默认为 [false]."
+                "force [可选参数] : Boolean, 强制设置该属性值，即使属性已经设置为该值. 默认为[false]."
             ],
             $snippet:[
                 "var id='linb.temp.ga2'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -9529,7 +9571,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","Gallery"], {
             $rtn:"[self]",
             $paras:[
                 "value [必需参数] : Number.",
-                "force [可选参数] : Boolean, force to set the property value even if the same property value already exists. 默认为 [false]."
+                "force [可选参数] : Boolean, 强制设置该属性值，即使属性已经设置为该值. 默认为[false]."
             ],
             $snippet:[
                 "var id='linb.temp.da4'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -9682,7 +9724,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","IconList"], {
         },
         getItemHeight:{
             $desc:"获取图标项高度",
-            $rtn:"String",
+            $rtn:"Number",
             $snippet:[
                 "var id='linb.temp.ga7'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var o;linb(id).prepend(o=new linb.UI.IconList({height:'auto',items:[{id:'a',image:'img/logo.gif',caption:'a a'},{id:'b',image:'img/logo.gif',caption:'b b'},{id:'c',image:'img/logo.gif',caption:'c c'}]}));"+
@@ -10020,7 +10062,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","Panel"], {
             $desc:"当终端用户单击标题栏时调用.",
             $paras:[
                 "profile : linb.UIProfile.",
-                "src: Element, the related DOM element."
+                "src: String, 事件所属DOM元素的linbid."
             ],
             $snippet:[
                 "var id='linb.temp.panel12'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -10033,7 +10075,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","Panel"], {
             $desc:"在面板被关闭前调用. 返回false可阻止面板被关闭.",
             $paras:[
                 "profile : linb.UIProfile.",
-                "src: Element, the related DOM element."
+                "src: String, 事件所属DOM元素的linbid."
             ],
             $snippet:[
                 "var id='linb.temp.panel13'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -10047,7 +10089,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","Panel"], {
             $paras:[
                 "profile : linb.UIProfile.",
                 "e : Event, DOM事件元素.",
-                "src : Element, 事件发生的DOM元素."
+                "src: String, 事件所属DOM元素的linbid."
             ],
             $snippet:[
                 "var id='linb.temp.panel14'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -10066,10 +10108,10 @@ _.set(linb.Locale,["cn","doc","linb","UI","PageBar"], {
     },
     prototype:{
         setPage:{
-            $desc:"Sets the current PageBar to the specified page.",
+            $desc:"设置目前页.",
             $rtn:"[self]",
             $paras:[
-                "value: Number. page number."
+                "value: Number. 页代码."
             ],
             $snippet:[
                 "var id='linb.temp.pb0'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -10079,7 +10121,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","PageBar"], {
             ]
         },
         getCaption:{
-            $desc:"Gets the caption string from the current UI Object.",
+            $desc:"得到 caption 字符串.",
             $rtn:"String",
             $snippet:[
                 "var id='linb.temp.pb1'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -10089,10 +10131,10 @@ _.set(linb.Locale,["cn","doc","linb","UI","PageBar"], {
             ]
         },
         setCaption:{
-            $desc:"Sets the caption string to the current UI Object.",
+            $desc:"设置caption字符串.",
             $rtn:"[self]",
             $paras:[
-                "value [必需参数] : String, the caption.",
+                "value [必需参数] : String, caption字符串.",
                 "force [可选参数] : Boolean, 强制设置该属性值，即使属性已经设置为该值. 默认为 [false]."
             ],
             $snippet:[
@@ -10103,7 +10145,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","PageBar"], {
             ]
         },
         getNextMark:{
-            $desc:"Gets the NextMark string from the current UI Object.",
+            $desc:"得到下一页的显示字符串.",
             $rtn:"String",
             $snippet:[
                 "var id='linb.temp.pb3'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -10113,10 +10155,10 @@ _.set(linb.Locale,["cn","doc","linb","UI","PageBar"], {
             ]
         },
         setNextMark:{
-            $desc:"Sets the NextMark string to the current UI Object.",
+            $desc:"设置下一页的显示字符串.",
             $rtn:"[self]",
             $paras:[
-                "value [必需参数] : String, the NextMark.",
+                "value [必需参数] : String, 下一页的显示字符串.",
                 "force [可选参数] : Boolean, 强制设置该属性值，即使属性已经设置为该值. 默认为 [false]."
             ],
             $snippet:[
@@ -10127,7 +10169,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","PageBar"], {
             ]
         },
         getPrevMark:{
-            $desc:"Gets the PrevMark string from the current UI Object.",
+            $desc:"得到前一页的显示字符串.",
             $rtn:"String",
             $snippet:[
                 "var id='linb.temp.pb5'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -10137,10 +10179,10 @@ _.set(linb.Locale,["cn","doc","linb","UI","PageBar"], {
             ]
         },
         setPrevMark:{
-            $desc:"Sets the PrevMark string to the current UI Object.",
+            $desc:"设置前一页显示字符串.",
             $rtn:"[self]",
             $paras:[
-                "value [必需参数] : String, the PrevMark.",
+                "value [必需参数] : String, 前一页显示字符串.",
                 "force [可选参数] : Boolean, 强制设置该属性值，即使属性已经设置为该值. 默认为 [false]."
             ],
             $snippet:[
@@ -10151,7 +10193,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","PageBar"], {
             ]
         },
         getTextTpl:{
-            $desc:"Gets the TextTpl string from the current UI Object.",
+            $desc:"得到文字显示模板字符串.",
             $rtn:"String",
             $snippet:[
                 "var id='linb.temp.pb7'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -10161,10 +10203,10 @@ _.set(linb.Locale,["cn","doc","linb","UI","PageBar"], {
             ]
         },
         setTextTpl:{
-            $desc:"Sets the TextTpl string to the current UI Object.",
+            $desc:"设置文字显示模板字符串.",
             $rtn:"[self]",
             $paras:[
-                "value [必需参数] : String, the TextTpl.",
+                "value [必需参数] : String, 文字显示模板字符串.",
                 "force [可选参数] : Boolean, 强制设置该属性值，即使属性已经设置为该值. 默认为 [false]."
             ],
             $snippet:[
@@ -10175,7 +10217,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","PageBar"], {
             ]
         },
         getUriTpl:{
-            $desc:"Gets the UriTpl string from the current UI Object.",
+            $desc:"获取URL模板字符串.",
             $rtn:"String",
             $snippet:[
                 "var id='linb.temp.pb9'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -10185,10 +10227,10 @@ _.set(linb.Locale,["cn","doc","linb","UI","PageBar"], {
             ]
         },
         setUriTpl:{
-            $desc:"Sets the UriTpl string to the current UI Object.",
+            $desc:"设置URL模板字符串.",
             $rtn:"[self]",
             $paras:[
-                "value [必需参数] : String, the UriTpl.",
+                "value [必需参数] : String, URL模板字符串.",
                 "force [可选参数] : Boolean, 强制设置该属性值，即使属性已经设置为该值. 默认为 [false]."
             ],
             $snippet:[
@@ -10201,10 +10243,10 @@ _.set(linb.Locale,["cn","doc","linb","UI","PageBar"], {
 
 
         onClick:{
-            $desc:"onClick event handler.",
+            $desc:"当鼠标单击一个按钮时触发.",
             $paras:[
                 "profile : linb.UIProfile.",
-                "page : Number, the target page."
+                "page : Number, 目标页码."
             ],
             $snippet:[
                 "var id='linb.temp.pb11'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -10243,7 +10285,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","Layout"], {
             $snippet:[
                 "var id='linb.temp.lo1'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:200px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var o;linb(id).prepend(o=(new linb.UI.Layout({items:[{id:'main'},{id:'after',size:50}]})));"+
-                "_.asyRun(function(){o.getPanel('after').append(linb.create('afgter',true));},1000);"+
+                "_.asyRun(function(){o.getPanel('after').append(linb.create('<button>afgter</button>'));},1000);"+
                 "}"
             ]
         },
@@ -10279,9 +10321,22 @@ _.set(linb.Locale,["cn","doc","linb","UI","Layout"], {
             ],
             $snippet:[
                 "var id='linb.temp.lo4'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:200px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
-                "var o;linb(id).prepend(o=(new linb.UI.Layout()));"+
+                "var o;linb(id).prepend(o=(new linb.UI.Layout({items:[{id:'main'},{id:'before',size:50},{id:'after',size:50}]})));"+
                 "o.append(new linb.UI.Button).append(new linb.UI.Link, 'before').append(new linb.UI.Input, 'after');"+
                 "_.asyRun(function(){o.setType('horizontal').setItems([{id:'before', pos:'before', 'size':50, min:50, max:200}, {id:'main', min:10}, {id:'after', pos:'after', size:50}, {id:'c', pos:'after', cmd:true, size:50}])},1000);"+
+                "}"
+            ]
+        },
+        fireCmdClickEvent:{
+            $desc:"触发折叠/打开面板的click事件.",
+            $rtn:"[self]",
+            $paras:[
+                "subId [必需参数] : String, 面板的subId字符串."
+            ],
+            $snippet:[
+                "var id='linb.temp.lo6'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:200px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var o;linb(id).prepend(o=(new linb.UI.Layout({items:[{id:'main'},{id:'after',cmd:true, size:50}]})));"+
+                "_.asyRun(function(){o.fireCmdClickEvent('after'); },1000);"+
                 "}"
             ]
         }
@@ -10297,7 +10352,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","Tabs"], {
         $rtn:"String",
         $paras:[
             "profile [必需参数] : 目标的profile",
-            "node [必需参数] : the related DOM element."
+            "node [必需参数] : 相应DOM元素的linbid."
         ],
         $memo:"一般情况下，程序员不需要调用该函数. 该函数可能被子类覆盖."
     },
@@ -10313,6 +10368,19 @@ _.set(linb.Locale,["cn","doc","linb","UI","Tabs"], {
                 "var id='linb.temp.tabs0'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:200px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var o;linb(id).prepend(o=(new linb.UI.Tabs({height:'auto',items:[{id:'a',caption:'a a'},{id:'b',caption:'b b'},{id:'c',caption:'c c'}],value:'a'})));"+
                 "_.asyRun(function(){o.append(new linb.UI.Button,'a');},1000);"+
+                "}"
+            ]
+        },
+        fireItemClickEvent:{
+            $desc:"触发给定标签的click事件.",
+            $rtn:"[self]",
+            $paras:[
+                "subId [必需参数] : String, 标签项的subId字符串."
+            ],
+            $snippet:[
+                "var id='linb.temp.tabs004'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:200px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var o;linb(id).prepend(o=(new linb.UI.Tabs({height:'auto',items:[{id:'a',caption:'a a'},{id:'b',caption:'b b'},{id:'c',caption:'c c'}]})));"+
+                "_.asyRun(function(){o.fireItemClickEvent('a')},1000);"+
                 "}"
             ]
         },
@@ -10399,7 +10467,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","Tabs"], {
             ]
         },
         setHasPanel :{
-            $desc:", 并刷新界面.",
+            $desc:"设置当前页面控件是否有面板, 并刷新界面.",
             $rtn:"[self]",
             $paras:[
                 "value [必需参数] : Boolean.",
@@ -10413,7 +10481,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","Tabs"], {
             ]
         },
         getDropKeysPanel :{
-            $desc:"Gets the DropKeysPanel property value on the first UIProfile",
+            $desc:"得到面板的drop键值.",
             $rtn:"String",
             $snippet:[
                 "var id='linb.temp.tabs11'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:200px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -10423,7 +10491,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","Tabs"], {
             ]
         },
         setDropKeysPanel :{
-            $desc:"Sets the DropKeysPanel property value on the each UIProfile, 并刷新界面.",
+            $desc:"设置面板的drop键值, 并刷新界面.",
             $rtn:"[self]",
             $paras:[
                 "value [必需参数] : String.",
@@ -10539,7 +10607,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","Tabs"], {
             $paras:[
                 "profile : linb.UIProfile.",
                 "item: Object, 当前标签项.",
-                "value : String, the value."
+                "src : String, 事件所在DOM的linbid."
             ],
             $snippet:[
                 "var id='linb.temp.tabs21'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:200px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -10566,7 +10634,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","Tabs"], {
             $paras:[
                 "profile : linb.UIProfile.",
                 "item: Object, 被选择的标签项对象.",
-                "src: Element, 事件发生时对应的DOM元素."
+                "src: String, 事件所属DOM元素的linbid."
             ],
             $snippet:[
                 "var id='linb.temp.tabs23'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:200px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -10580,7 +10648,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","Tabs"], {
             $paras:[
                 "profile : linb.UIProfile.",
                 "item: Object, 当前标签项.",
-                "src: Element, 事件发生的DOM元素."
+                "src: String, 事件所属DOM元素的linbid."
             ],
             $snippet:[
                 "var id='linb.temp.tabs24'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:200px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -10590,12 +10658,12 @@ _.set(linb.Locale,["cn","doc","linb","UI","Tabs"], {
             ]
         },
         onShowOptions :{
-            $desc:"Fired when user click the option button.",
+            $desc:"当用户单击option按钮时触发.",
             $paras:[
                 "profile : linb.UIProfile.",
-                "item: Object, list item Object.",
-                "e: Event, DOM event Object.",
-                "src: the related DOM element."
+                "item: Object, 当前标签项.",
+                "e: Event, 事件对象.",
+                "src: 事件发生的DOM元素的linbid."
             ],
             $snippet:[
                 "var id='linb.temp.tabs25'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:200px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -10610,6 +10678,24 @@ _.set(linb.Locale,["cn","doc","linb","UI","Tabs"], {
 _.set(linb.Locale,["cn","doc","linb","UI","Calendar"], {
     constructor:{
         $desc:"生成一个linb.UI.Calendar对象."
+    },
+    prototype:{
+        setWidth:{
+            $desc:"设置控件的宽度。（单位px）.",
+            $rtn:"[self]",
+             $paras:[
+                "value [必需参数] : nonnegative Number.",
+                "force [可选参数] : Boolean, 强制设置该属性值，即使属性已经设置为该值. 默认为 [false]."
+            ]
+        },
+        setHeight:{
+            $desc:"设置控件的高度。（单位px）.",
+            $rtn:"[self]",
+            $paras:[
+                "value [必需参数] : 非负 Number.",
+                "force [可选参数] : Boolean, 强制设置该属性值，即使属性已经设置为该值. 默认为 [false]."
+            ]
+        }
     }
 });
 
@@ -10618,6 +10704,21 @@ _.set(linb.Locale,["cn","doc","linb","UI","ToolBar"], {
         $desc:"生成一个linb.UI.ToolBar对象."
     },
     prototype:{
+        updateItem:{
+            $desc:"更新一个tool项，并刷新对应的DOM界面.",
+            $rtn:"[self]",
+            $paras:[
+                "id [Required] : String, 项的标识号.",
+                "options [Required] : Object/String, 要更新的选项."
+            ],
+            $snippet:[
+                "var id='linb.temp.tool01'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:200px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var o;linb(id).prepend(o=(new linb.UI.ToolBar({items:[{id:'ga', sub:[{id:'ga1',caption:'ga1'},{id:'ga2',caption:'ga2'}]},{id:'gb',sub:[{id:'gb1',caption:'gb1'},{id:'gb2',Object:new linb.UI.ComboInput({type:'colorpicker'})}]}]})));"+
+                "alert(o.getHAlign());_.asyRun(function(){o.updateItem('ga1',{caption:'updated'})},1000);"+
+                "}"
+            ]
+        },
+
         getHAlign :{
             $desc:"获取水平对齐方式",
             $rtn:"String",
@@ -10702,7 +10803,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","ToolBar"], {
                 "item : Object, 工具栏按钮项对象.",
                 "group : Object, 工具栏按钮项所在组对象.",
                 "e : Event, DOM事件元素.",
-                "src : Element, 事件发生的DOM元素."
+                "src: String, 事件所属DOM元素的linbid."
             ],
             $snippet:[
                 "var id='linb.temp.tool8'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:200px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -10837,7 +10938,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","PopMenu"], {
             $paras:[
                 "profile : linb.UIProfile",
                 "item : Object, 菜单项对象",
-                "src : Element, 触发的DOM元素."
+                "src: String, 事件所属DOM元素的linbid."
             ],
             $snippet:[
                 "var id='linb.temp.pm12'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:200px;width:300px;\">点击这里弹出菜单.' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -10852,14 +10953,14 @@ _.set(linb.Locale,["cn","doc","linb","UI","PopMenu"], {
             $paras:[
                 "profile : linb.UIProfile",
                 "item : Object, 父菜单项对象",
-                "src : Element, 触发的DOM元素"
+                "src: String, 事件所属DOM元素的linbid."
             ],
             $snippet:[
                 "var id='linb.temp.pm13'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:200px;width:300px;\">点击这里弹出菜单.' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var o=(new linb.UI.PopMenu({autoHide:true, items:[{id:'a',caption:'item a',tips:'item a'},{id:'b',image:'img/img.gif',caption:'itemb',tips:'item b',sub:true},{id:'c',caption:'item c',type:'checkbox',value:false},{id:'d',caption:'item d',type:'checkbox',value:true,add:'[Esc]'}]}));"+
                 "var cp=(new linb.UI.ColorPicker).render(true);"+
                 "cp.beforeClose(function(){cp.hide();return false;})"+
-                ".onOK(function(p,old,n){o.onMenuSelected(o.get(0),{id:'b',value:n}); o.hide();});"+
+                ".afterUIValueSet(function(p,old,n){o.onMenuSelected(o.get(0),{id:'b',value:n}); o.hide();});"+
                 "o.onShowSubMenu(function(p,item,src){"+
                 "if(item.id=='b'){cp.reBoxing().popToTop(src,2,linb(id));return cp;}"+
                 "})"+
@@ -10935,6 +11036,21 @@ _.set(linb.Locale,["cn","doc","linb","UI","MenuBar"], {
                 "}"
             ]
         },
+        updateItem:{
+            $desc:"更新一个项，并刷新对应的DOM界面.",
+            $rtn:"[self]",
+            $paras:[
+                "id [Required] : String, 项的标识号.",
+                "options [Required] : Object/String, 要更新的选项."
+            ],
+            $snippet:[
+                "var id='linb.temp.menu4-1'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:200px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var o=(new linb.UI.MenuBar({items:[{id:'id',caption:'menu',sub:[{id:'a',caption:'item a',tips:'item a'},{id:'b',image:'img/img.gif',caption:'itemb',tips:'item b',sub:[{id:'ba',caption:'item ba',tips:'item ba'},{id:'bb',caption:'item bb',tips:'item bb',sub:[{id:'bba',caption:'item bba',tips:'item bba'}]}]},{id:'c',caption:'item c',type:'checkbox',value:false},{id:'d',caption:'item d',type:'checkbox',value:true,add:'[Esc]'}]}]}));"+
+                "linb(id).prepend(o);"+
+                "_.asyRun(function(){o.updateItem('a',{caption:'item udpated'})});"+
+                "}"
+            ]
+        },
         setHandler:{
             $desc:"设置菜单条前是否有一个手柄，以供鼠标拖动, 并刷新界面.",
             $rtn:"[self]",
@@ -10959,7 +11075,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","MenuBar"], {
                 "profile : 菜单条的linb.UIProfile",
                 "popProfile: linb.UIProfile, 当前弹出菜单的profile.",
                 "item : Object, ",
-                "src : Element, DOM元素."
+                "src: String, 事件所属DOM元素的linbid."
             ],
             $snippet:[
                 "var id='linb.temp.pm12'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:200px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -10975,14 +11091,14 @@ _.set(linb.Locale,["cn","doc","linb","UI","MenuBar"], {
                 "profile : 菜单条的linb.UIProfile.",
                 "popProfile: linb.UIProfile, 当前弹出菜单的profile.",
                 "item : Object.",
-                "src : DOM element."
+                "src: String, 事件所属DOM元素的linbid."
             ],
             $snippet:[
                 "var id='linb.temp.menu13'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:200px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var o=(new linb.UI.MenuBar({parentID:id,autoShowTime:0,items:[{id:'id',caption:'menu',sub:[{id:'a',caption:'item a',tips:'item a'},{id:'b',image:'img/img.gif',caption:'itemb',tips:'item b',sub:true},{id:'c',caption:'item c',type:'checkbox',value:false},{id:'d',caption:'item d',type:'checkbox',value:true,add:'[Esc]'}]}]}));"+
                 "var cp=(new linb.UI.ColorPicker).render(true);"+
                 "cp.beforeClose(function(){cp.hide();return false;})"+
-                ".onOK(function(p,old,n){o.onMenuSelected(o.get(0),null,{id:'b',value:n}); o.hide();});"+
+                ".afterUIValueSet(function(p,old,n){o.onMenuSelected(o.get(0),null,{id:'b',value:n}); o.hide();});"+
                 "o.onShowSubMenu(function(pm, p,item,src){"+
                 "if(item.id=='b'){cp.reBoxing().popToTop(src,2,linb(id));return cp;}"+
                 "})"+
@@ -11405,7 +11521,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","Dialog"], {
             $paras:[
                 "profile : linb.UIProfile.",
                 "e : Event, DOM事件元素.",
-                "src : Element, 事件发生的DOM元素."
+                "src: String, 事件所属DOM元素的linbid."
             ],
             $snippet:[
                 "var dlg=new linb.UI.Dialog({optBtn:true}); "+
@@ -11537,9 +11653,9 @@ _.set(linb.Locale,["cn","doc","linb","UI","Image"], {
             $desc:"当图像装载后调用.",
             $paras:[
                 "profile : linb.UIProfile.",
-                "path : String, src path.",
-                "width : Number, image width",
-                "height : Number, image height"
+                "path : String, 图片的文件路径.",
+                "width : Number, 图片宽",
+                "height : Number, 图片高"
             ],
             $snippet:[
                 "var id='linb.temp.img17'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -11647,13 +11763,13 @@ _.set(linb.Locale,["cn","doc","linb","UI","FoldingList"], {
             $desc:"当用户单击选项按钮时调用.",
             $paras:[
                 "profile : linb.UIProfile.",
-                "item: Object, list item Object.",
+                "item: Object, 项对象.",
                 "e : Event, DOM事件元素.",
-                "src : Element, 事件发生的DOM元素."
+                "src: String, 事件所属DOM元素的linbid."
             ],
             $snippet:[
                 "var id='linb.temp.fl9'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
-                "var o=new linb.UI.FoldingList({width:'auto',height:'auto',optBtn:true, position:'relative',items:[{id:'a',title:'title 1',caption:'cap a'},{id:'b',title:'title b', caption:'cap b'},{id:'c',caption:'c'}]});"+
+                "var o=new linb.UI.FoldingList({width:'auto',height:'auto', position:'relative',items:[{id:'a',optBtn:true,title:'title 1',caption:'cap a'},{id:'b',title:'title b', caption:'cap b'},{id:'c',caption:'c'}]});"+
                 "linb(id).prepend(o);"+
                 "o.onShowOptions(function(){alert('onShowOptions');});"+
                 "}"
@@ -11664,9 +11780,9 @@ _.set(linb.Locale,["cn","doc","linb","UI","FoldingList"], {
             $desc:"当用户单击内部按钮的时候调用.",
             $paras:[
                 "profile : linb.UIProfile.",
-                "item: Object, list item Object.",
-                "cmdKey: String, the command key.",
-                "src : Element, 事件发生的DOM元素."
+                "item: Object, 项对象.",
+                "cmdKey: String, 命令的键值.",
+                "src: String, 事件所属DOM元素的linbid."
             ],
             $snippet:[
                 "var id='linb.temp.fl10'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -11682,7 +11798,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","FoldingList"], {
             $desc:"当某个文件夹项需要填充内容时调用.",
             $paras:[
                 "profile : linb.UIProfile.",
-                "item: Object, list item Object.",
+                "item: Object, 项对象.",
                 "callback : Function, 填充完成后的回调函数."
             ],
             $snippet:[
@@ -11704,7 +11820,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","Poll"], {
     },
     prototype:{
         getCmds:{
-            $desc:"Gets the cmds property value on the first UIProfile",
+            $desc:"得到命令项",
             $rtn:"Array",
             $snippet:[
                 "var id='linb.temp.pool1'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -11716,11 +11832,11 @@ _.set(linb.Locale,["cn","doc","linb","UI","Poll"], {
             ]
         },
         setCmds:{
-            $desc:"Sets the cmds property value on the each UIProfile, and reflects the value to UI.",
+            $desc:"设置命令项，并反映到界面.",
             $rtn:"[self]",
             $paras:[
                 "value [必需参数] : Array.",
-                "force [可选参数] : Boolean, force to set the property value even if the same property value already exists. 默认为 [false]."
+                "force [可选参数] : Boolean, 强制设置该属性值，即使属性已经设置为该值. 默认为[false]."
             ],
             $snippet:[
                 "var id='linb.temp.pool2'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -11734,11 +11850,11 @@ _.set(linb.Locale,["cn","doc","linb","UI","Poll"], {
         },
 
         fillContent:{
-            $desc:"Fills the specified item content according to the given item id.",
+            $desc:"填充内容到指定项.",
             $rtn:"[self]",
             $paras:[
-                "id [必需参数] :String, item id.",
-                "obj [必需参数]: linb.Dom/linb.UI, If obj is null, it will empty the specified item."
+                "id [必需参数] :String, 项目 id.",
+                "obj [必需参数]: linb.Dom/linb.UI, 如果是 null, 会清空项的内容."
             ],
             $snippet:[
                 "var id='linb.temp.poll3'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -11749,7 +11865,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","Poll"], {
             ]
         },
         getBindEditor:{
-            $desc:"Gets the bind editor",
+            $desc:"得到绑定的编辑器",
             $rtn:"linb.UIProfile",
             $snippet:[
                 "var id='linb.temp.poll4'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -11760,7 +11876,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","Poll"], {
             ]
         },
         getRemoveText:{
-            $desc:"Gets the remove text property value on the first UIProfile",
+            $desc:"得到移除命令的文本值",
             $rtn:"String",
             $snippet:[
                 "var id='linb.temp.pool5'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -11771,11 +11887,11 @@ _.set(linb.Locale,["cn","doc","linb","UI","Poll"], {
             ]
         },
         setRemoveText:{
-            $desc:"Sets the remove text property value on the each UIProfile, and reflects the value to UI.",
+            $desc:"设置移除命令的文本值.",
             $rtn:"[self]",
             $paras:[
                 "value [必需参数] : String.",
-                "force [可选参数] : Boolean, force to set the property value even if the same property value already exists. 默认为 [false]."
+                "force [可选参数] : Boolean, 强制设置该属性值，即使属性已经设置为该值. 默认为[false]."
             ],
             $snippet:[
                 "var id='linb.temp.pool6'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -11786,7 +11902,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","Poll"], {
             ]
         },
         getEditorType:{
-            $desc:"Gets the editorType property value on the first UIProfile",
+            $desc:"得到编辑器的种类.",
             $rtn:"String",
             $snippet:[
                 "var id='linb.temp.pool7'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -11798,11 +11914,11 @@ _.set(linb.Locale,["cn","doc","linb","UI","Poll"], {
             ]
         },
         setEditorType:{
-            $desc:"Sets the editorType property value on the each UIProfile, and reflects the value to UI.",
+            $desc:"设置编辑器的种类.",
             $rtn:"[self]",
             $paras:[
                 "value [必需参数] : 'none','combobox','listbox','upload','getter','helpinput','cmdbox','popbox','timepicker','datepicker' or 'colorpicker'. 默认为 'none'.",
-                "force [可选参数] : Boolean, force to set the property value even if the same property value already exists. 默认为 [false]."
+                "force [可选参数] : Boolean, 强制设置该属性值，即使属性已经设置为该值. 默认为[false]."
             ],
             $snippet:[
                 "var id='linb.temp.pool8'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -11815,7 +11931,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","Poll"], {
             $memo:"You have to use this function before the UIProfile is rendered."
         },
         getEditable:{
-            $desc:"Gets the Editable property value on the first UIProfile",
+            $desc:"获得当前控件是否可以编辑.",
             $rtn:"Boolean",
             $snippet:[
                 "var id='linb.temp.pool9'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -11827,11 +11943,11 @@ _.set(linb.Locale,["cn","doc","linb","UI","Poll"], {
             ]
         },
         setEditable:{
-            $desc:"Sets the Editable property value on the each UIProfile, and reflects the value to UI.",
+            $desc:"设置当前控件是否可以编辑.",
             $rtn:"[self]",
             $paras:[
                 "value [必需参数] : Boolean.",
-                "force [可选参数] : Boolean, force to set the property value even if the same property value already exists. 默认为 [false]."
+                "force [可选参数] : Boolean, 强制设置该属性值，即使属性已经设置为该值. 默认为[false]."
             ],
             $snippet:[
                 "var id='linb.temp.pool10'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -11843,7 +11959,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","Poll"], {
             ]
         },
         getNewOption:{
-            $desc:"Gets the NewOption property value on the first UIProfile",
+            $desc:"获得是否支持新项的加入",
             $rtn:"String",
             $snippet:[
                 "var id='linb.temp.pool11'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -11855,11 +11971,11 @@ _.set(linb.Locale,["cn","doc","linb","UI","Poll"], {
             ]
         },
         setNewOption:{
-            $desc:"Sets the NewOption property value on the each UIProfile, and reflects the value to UI.",
+            $desc:"设置是否支持新项的加入.",
             $rtn:"[self]",
             $paras:[
                 "value [必需参数] : String.",
-                "force [可选参数] : Boolean, force to set the property value even if the same property value already exists. 默认为 [false]."
+                "force [可选参数] : Boolean, 强制设置该属性值，即使属性已经设置为该值. 默认为[false]."
             ],
             $snippet:[
                 "var id='linb.temp.pool12'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -11871,7 +11987,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","Poll"], {
             ]
         },
         getToggle:{
-            $desc:"Gets the Toggle property value on the first UIProfile",
+            $desc:"获得Toggle状态",
             $rtn:"Boolean",
             $snippet:[
                 "var id='linb.temp.pool13'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -11883,11 +11999,11 @@ _.set(linb.Locale,["cn","doc","linb","UI","Poll"], {
             ]
         },
         setToggle:{
-            $desc:"Sets the Toggle property value on the each UIProfile, and reflects the value to UI.",
+            $desc:"设置Toggle状态.",
             $rtn:"[self]",
             $paras:[
                 "value [必需参数] : Boolean.",
-                "force [可选参数] : Boolean, force to set the property value even if the same property value already exists. 默认为 [false]."
+                "force [可选参数] : Boolean, 强制设置该属性值，即使属性已经设置为该值. 默认为[false]."
             ],
             $snippet:[
                 "var id='linb.temp.pool14'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -11899,7 +12015,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","Poll"], {
             ]
         },
         getTitle:{
-            $desc:"Gets the Title property value on the first UIProfile",
+            $desc:"获得标题内容",
             $rtn:"String",
             $snippet:[
                 "var id='linb.temp.pool15'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -11911,11 +12027,11 @@ _.set(linb.Locale,["cn","doc","linb","UI","Poll"], {
             ]
         },
         setTitle:{
-            $desc:"Sets the Title property value on the each UIProfile, and reflects the value to UI.",
+            $desc:"设置标题内容.",
             $rtn:"[self]",
             $paras:[
                 "value [必需参数] : String.",
-                "force [可选参数] : Boolean, force to set the property value even if the same property value already exists. 默认为 [false]."
+                "force [可选参数] : Boolean, 强制设置该属性值，即使属性已经设置为该值. 默认为[false]."
             ],
             $snippet:[
                 "var id='linb.temp.pool16'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -11927,7 +12043,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","Poll"], {
             ]
         },
         getNoTitle:{
-            $desc:"Gets the NoTitle property value on the first UIProfile",
+            $desc:"获得当前控件“是否允许没有标题”的状态",
             $rtn:"Boolean",
             $snippet:[
                 "var id='linb.temp.pool19'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -11939,11 +12055,11 @@ _.set(linb.Locale,["cn","doc","linb","UI","Poll"], {
             ]
         },
         setNoTitle:{
-            $desc:"Sets the NoTitle property value on the each UIProfile, and reflects the value to UI.",
+            $desc:"设置当前控件“是否允许没有标题”的状态.",
             $rtn:"[self]",
             $paras:[
                 "value [必需参数] : Boolean.",
-                "force [可选参数] : Boolean, force to set the property value even if the same property value already exists. 默认为 [false]."
+                "force [可选参数] : Boolean, 强制设置该属性值，即使属性已经设置为该值. 默认为[false]."
             ],
             $snippet:[
                 "var id='linb.temp.pool20'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -11956,10 +12072,10 @@ _.set(linb.Locale,["cn","doc","linb","UI","Poll"], {
         },
 
         onGetContent:{
-            $desc:"Fired when the UI need to build inner content.",
+            $desc:"在需要内容填充的时候调用.",
             $paras:[
                 "profile : linb.UIProfile.",
-                "item: Object, list item Object.",
+                "item: Object, 项对象.",
                 "callback : Function, 回调函数."
             ],
             $snippet:[
@@ -11972,11 +12088,11 @@ _.set(linb.Locale,["cn","doc","linb","UI","Poll"], {
             ]
         },
         onClickButton:{
-            $desc:"Fired when an inner command is clicked.",
+            $desc:"在点击命令按钮的时候调用.",
             $paras:[
                 "profile : linb.UIProfile.",
-                "key: String, the command key.",
-                "src : Element, 事件发生的DOM元素."
+                "key: String, 命令按钮的键值.",
+                "src: String, 事件所属DOM元素的linbid."
             ],
             $snippet:[
                 "var id='linb.temp.pool31'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -11989,7 +12105,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","Poll"], {
         },
 
         beforeOptionAdded:{
-            $desc:"Fired wbefore a new item will be added.",
+            $desc:"在添加选项之前触发.",
             $paras:[
                 "profile : linb.UIProfile.",
                 "value: String."
@@ -12006,10 +12122,10 @@ _.set(linb.Locale,["cn","doc","linb","UI","Poll"], {
             ]
         },
         beforeOptionChanged:{
-            $desc:"Fired a specified item will be changed",
+            $desc:"在更新选项前触发.",
             $paras:[
                 "profile : linb.UIProfile.",
-                "item: Object, list item Object.",
+                "item: Object, 项对象.",
                 "value: String."
             ],
             $snippet:[
@@ -12025,7 +12141,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","Poll"], {
             ]
         },
         beforeOptionRemoved:{
-            $desc:"Fired before a specified item will be removed.",
+            $desc:"在移除选项前触发.",
             $paras:[
                 "profile : linb.UIProfile."
             ],
@@ -12042,7 +12158,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","Poll"], {
             ]
         },
         beforeTitleChanged:{
-            $desc:"Fired before the title will be changed.",
+            $desc:"在更新标题前触发.",
             $paras:[
                 "profile : linb.UIProfile.",
                 "value: String."
@@ -12060,13 +12176,13 @@ _.set(linb.Locale,["cn","doc","linb","UI","Poll"], {
             ]
         },
         onCustomEdit:{
-            $desc:"Fired when the inline editor is activated.",
+            $desc:"在显示内部编辑器时触发.",
             $paras:[
                 "profile : linb.UIProfile.",
-                "node: Element, the corresponding Caption DOM element.",
-                "flag: Number, 1:edit item; 2:add item; other:edit title.",
+                "node: Element, 相应的DOM元素.",
+                "flag: Number, 1:编辑; 2:添加; other:编辑标题.",
                 "value: String.",
-                "item: Object, list item Object."
+                "item: Object, 项对象."
             ],
             $snippet:[
                 "var id='linb.temp.pool45'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -12086,6 +12202,21 @@ _.set(linb.Locale,["cn","doc","linb","UI","TreeBar"], {
         $desc:"生成一个linb.UI.TreeBar对象."
     },
     prototype:{
+        fireItemClickEvent:{
+            $desc:"模拟鼠标点击，以选中TreeBar中的某一项.",
+            $rtn:"[self]",
+            $paras:[
+                "subId [必需参数] : String, 项的id."
+            ],
+            $snippet:[
+                "var id='linb.temp.tb01'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var o=new linb.UI.TreeBar({width:'auto',height:'auto',dock:'none',position:'relative',items:[{id:'a',caption:'cap a'},{id:'b',caption:'cap b',sub:[{id:'ba',caption:'caption ba'},{id:'bb',caption:'caption bb'}]},{id:'c',caption:'c'}]});"+
+                "linb(id).prepend(o);"+
+                "o.fireItemClickEvent('a');"+
+                "}"
+            ]
+        },
+
         getAnimCollapse :{
             $desc:"判断在父节点打开时，是否显示动画.",
             $rtn:"Boolean",
@@ -12306,7 +12437,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","TreeBar"], {
             $desc:"在父节点展开时，需要子节点数据时调用.",
             $paras:[
                 "profile : linb.UIProfile.",
-                "item: Object, list item Object.",
+                "item: Object, 项对象.",
                 "callback : Function, 回调函数."
             ],
             $snippet:[
@@ -12322,8 +12453,8 @@ _.set(linb.Locale,["cn","doc","linb","UI","TreeBar"], {
             $desc:"在某个节点被单击时调用时调用.",
             $paras:[
                 "profile : linb.UIProfile.",
-                "item: Object, list item Object.",
-                "src : Element, 事件发生的DOM元素."
+                "item: Object, 项对象.",
+                "src: String, 事件所属DOM元素的linbid."
             ],
             $snippet:[
                 "var id='linb.temp.tb20'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -13442,7 +13573,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","TreeGrid"], {
             $paras:[
                 "profile : linb.UIProfile.",
                 "row: Object, 行对象.",
-                "src: Element, 相关的DOM对象."
+                "src: String, 事件所属DOM元素的linbid."
             ],
             $snippet:[
                 "var id='linb.temp.grid58'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -13459,7 +13590,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","TreeGrid"], {
                 "profile : linb.UIProfile.",
                 "row: Object, 行对象.",
                 "e : Event, DOM事件元素.",
-                "src : Element, 事件发生的DOM元素."
+                "src: String, 事件所属DOM元素的linbid."
             ],
             $snippet:[
                 "var id='linb.temp.grid59'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -13474,11 +13605,11 @@ _.set(linb.Locale,["cn","doc","linb","UI","TreeGrid"], {
             $desc:"当单元格按钮被单击时调用，只对单元格为'button/getter/popbox/cmdbox'时有效.",
             $paras:[
                 "profile : linb.UIProfile.",
-                "cell: Object, the cell Object.",
-                "proEditor: linb.UIProfile, the editor profile Object, if the editor exists.",
-                "pos: Object, the click event mouse position.",
+                "cell: Object, cell 对象.",
+                "proEditor: linb.UIProfile, 编辑器的控件概要对象.",
+                "pos: Object, 鼠标位置.",
                 "e : Event, DOM事件元素.",
-                "src : Element, 事件发生的DOM元素."
+                "src: String, 事件所属DOM元素的linbid."
             ],
             $snippet:[
                 "var id='linb.temp.grid60'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -13491,12 +13622,12 @@ _.set(linb.Locale,["cn","doc","linb","UI","TreeGrid"], {
            ]
         },
         onClickCell:{
-            $desc:"Fired when a cell(type is 'label/button' or not editable) is clicked.",
+            $desc:"当点击一个cell(当cell不在编辑状态时)的时候触发.",
             $paras:[
                 "profile : linb.UIProfile.",
-                "cell: Object, the cell Object.",
+                "cell: Object,  cell 对象.",
                 "e : Event, DOM事件元素.",
-                "src : Element, 事件发生的DOM元素."
+                "src: String, 事件所属DOM元素的linbid."
             ],
             $snippet:[
                 "var id='linb.temp.grid60-1'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -13508,12 +13639,12 @@ _.set(linb.Locale,["cn","doc","linb","UI","TreeGrid"], {
            ]
         },
         onDblClickCell:{
-            $desc:"Fired when a cell(type is 'label/button' or not editable) is double clicked.",
+            $desc:"当双击一个cell(当cell不在编辑状态时)的时候触发.",
             $paras:[
                 "profile : linb.UIProfile.",
-                "cell: Object, the cell Object.",
+                "cell: Object,  cell 对象.",
                 "e : Event, DOM事件元素.",
-                "src : Element, 事件发生的DOM元素."
+                "src: String, 事件所属DOM元素的linbid."
             ],
             $snippet:[
                 "var id='linb.temp.grid60-2'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -13544,7 +13675,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","TreeGrid"], {
             $desc:"在单元格的值被终端用户更新前调用. 返回false将阻止单元格值被更新.",
             $paras:[
                 "profile : linb.UIProfile.",
-                "cell : Object, the cell Object.",
+                "cell : Object,  cell 对象.",
                 "hash : Object, 将要更新的键值对."
             ],
             $snippet:[
@@ -13635,7 +13766,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","TimeLine"], {
             ]
         },
         setCloseBtn:{
-            $desc:"Sets the close button property value on the first UIProfile, 并刷新界面.",
+            $desc:"设置是否显示关闭按钮， 并刷新界面.",
             $rtn:"[self]",
             $paras:[
                 "value [必需参数] : Boolean.",
@@ -13838,7 +13969,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","TimeLine"], {
             ]
         },
         getMultiTasks:{
-            $desc:"Gets the multiTasks property value on the first UIProfile",
+            $desc:"得到是否为多任务显示。",
             $rtn:'Boolean',
             $snippet:[
                 "var id='linb.temp.tl22'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -13849,7 +13980,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","TimeLine"], {
             ]
         },
         setMultiTasks:{
-            $desc:"Gets the multiTasks property value on the first UIProfile",
+            $desc:"设置是否为多任务显示。",
             $rtn:"[self]",
             $paras:[
                 "value [必需参数] : Date Object.",
@@ -13865,7 +13996,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","TimeLine"], {
             ]
         },
         getMinDate:{
-            $desc:"Gets the min date property value on the first UIProfile",
+            $desc:"得到最小的时间。",
             $rtn:'Object, Date Ojbect',
             $snippet:[
                 "var id='linb.temp.tl24'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -13876,7 +14007,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","TimeLine"], {
             ]
         },
         setMinDate:{
-            $desc:"Gets the min date property value on the first UIProfile",
+            $desc:"设置最小的时间。",
             $rtn:"[self]",
             $paras:[
                 "value [必需参数] : Date Object.",
@@ -13892,7 +14023,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","TimeLine"], {
             ]
         },
         getMaxDate:{
-            $desc:"Gets the max date property value on the first UIProfile",
+            $desc:"得到最大的时间。",
             $rtn:'Object, Date Ojbect',
             $snippet:[
                 "var id='linb.temp.tl26'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -13903,7 +14034,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","TimeLine"], {
             ]
         },
         setMaxDate:{
-            $desc:"Gets the max date property value on the first UIProfile",
+            $desc:"设置最大的时间。",
             $rtn:"[self]",
             $paras:[
                 "value [必需参数] : Date Object.",
@@ -13918,7 +14049,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","TimeLine"], {
             ]
         },
         getReadonly:{
-            $desc:"Gets the Readonly property value on the first UIProfile",
+            $desc:"得到只读标识",
             $rtn:'Boolean',
             $snippet:[
                 "var id='linb.temp.tl28'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -13929,7 +14060,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","TimeLine"], {
             ]
         },
         setReadonly:{
-            $desc:"Gets the Readonly property value on the first UIProfile",
+            $desc:"设置只读标识",
             $rtn:"[self]",
             $paras:[
                 "value [必需参数] : Boolean.",
@@ -13944,7 +14075,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","TimeLine"], {
             ]
         },
         getShowTips:{
-            $desc:"Gets the ShowTips property value on the first UIProfile",
+            $desc:"得到是否显示Tips栏",
             $rtn:'Boolean',
             $snippet:[
                 "var id='linb.temp.tl30'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -13955,7 +14086,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","TimeLine"], {
             ]
         },
         setShowTips:{
-            $desc:"Gets the ShowTips property value on the first UIProfile",
+            $desc:"设置是否显示Tips栏",
             $rtn:"[self]",
             $paras:[
                 "value [必需参数] : Boolean.",
@@ -13970,7 +14101,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","TimeLine"], {
             ]
         },
         getShowBar:{
-            $desc:"Gets the ShowBar property value on the first UIProfile",
+            $desc:"得到时候显示Bar",
             $rtn:'Boolean',
             $snippet:[
                 "var id='linb.temp.tl32'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -13981,7 +14112,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","TimeLine"], {
             ]
         },
         setShowBar:{
-            $desc:"Gets the ShowBar property value on the first UIProfile",
+            $desc:"设置是否显示Bar",
             $rtn:"[self]",
             $paras:[
                 "value [必需参数] : Boolean.",
@@ -13996,7 +14127,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","TimeLine"], {
             ]
         },
         getShowBigLabel:{
-            $desc:"Gets the ShowBigLabel property value on the first UIProfile",
+            $desc:"得到是否显示大时间标签。",
             $rtn:'Boolean',
             $snippet:[
                 "var id='linb.temp.tl34'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -14007,7 +14138,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","TimeLine"], {
             ]
         },
         setShowBigLabel:{
-            $desc:"Gets the ShowBigLabel property value on the first UIProfile.",
+            $desc:"设置是否显示大时间标签。",
             $rtn:"[self]",
             $paras:[
                 "value [必需参数] : Boolean.",
@@ -14022,7 +14153,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","TimeLine"], {
             ]
         },
         getTimeSpanKey:{
-            $desc:"Gets the TimeSpanKey property value on the first UIProfile",
+            $desc:"得到时间段的键值。",
             $rtn:'String',
             $snippet:[
                 "var id='linb.temp.tl36'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -14033,7 +14164,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","TimeLine"], {
             ]
         },
         setTimeSpanKey:{
-            $desc:"Gets the TimeSpanKey property value on the first UIProfile.",
+            $desc:"设置时间段的键值。",
             $rtn:"[self]",
             $paras:[
                 "value [必需参数] : String, '10 ms','100 ms','1 s','10 s', '1 n','5 n', '10 n', '30 n', '1 h','2 h', '6 h', '1 d', '1 w', '15 d', '1 m', '1 q', '1 y', '1 de' or '1 c'.",
@@ -14048,7 +14179,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","TimeLine"], {
             ]
         },
         getUnitPixs:{
-            $desc:"Gets the UnitPixs property value on the first UIProfile",
+            $desc:"得到最小单元的像素值。",
             $rtn:'Number',
             $snippet:[
                 "var id='linb.temp.tl38'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -14059,7 +14190,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","TimeLine"], {
             ]
         },
         setUnitPixs:{
-            $desc:"Gets the UnitPixs property value on the first UIProfile.",
+            $desc:"设置最小单元的像素值.",
             $rtn:"[self]",
             $paras:[
                 "value [必需参数] : Number.",
@@ -14074,7 +14205,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","TimeLine"], {
             ]
         },
         visibleTask:{
-            $desc:"To make the single task visible.",
+            $desc:"让任务在Timeline中可见。",
             $rtn:"[self]",
             $snippet:[
                 "var id='linb.temp.tl41'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -14087,7 +14218,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","TimeLine"], {
             $memo:" 'visibleTask' is valid only when the 'multiTasks' is false."
         },
         iniContent:{
-            $desc:"Triggers the current widget to load tasks.",
+            $desc:"初始化TimeLine，加载任务.",
             $rtn:"[self]",
             $snippet:[
                 "var id='linb.temp.tl53-1'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -14105,7 +14236,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","TimeLine"], {
                 "profile : linb.UIProfile.",
                 "task : Object, 任务对象.",
                 "e : Event, DOM事件元素.",
-                "src : Element, 事件发生的DOM元素."
+                "src: String, 事件所属DOM元素的linbid."
             ],
             $snippet:[
                 "var id='linb.temp.tl50-2'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -14116,10 +14247,10 @@ _.set(linb.Locale,["cn","doc","linb","UI","TimeLine"], {
             ]
         },
         beforeClose:{
-            $desc:"Fired before user click close button or Cancel button. If returns false, close function will be ignored.",
+            $desc:"在关闭本控件之前触发，如果返回false，关闭动作会被取消.",
             $paras:[
                 "profile : linb.UIProfile.",
-                "src: Element, the related DOM element."
+                "src: String, 事件所属DOM元素的linbid."
             ],
             $snippet:[
                 "var id='linb.temp.tl50'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -14130,11 +14261,11 @@ _.set(linb.Locale,["cn","doc","linb","UI","TimeLine"], {
             ]
         },
         onShowOptions :{
-            $desc:"Fired when user click the option button.",
+            $desc:"当鼠标单击选项按钮的时候触发。",
             $paras:[
                 "profile : linb.UIProfile.",
                 "e : Event, DOM事件元素.",
-                "src : Element, 事件发生的DOM元素."
+                "src: String, 事件所属DOM元素的linbid."
             ],
             $snippet:[
                 "var id='linb.temp.tl51'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -14145,12 +14276,12 @@ _.set(linb.Locale,["cn","doc","linb","UI","TimeLine"], {
             ]
         },
         onClickTask:{
-            $desc:"Fired when user click the task block.",
+            $desc:"当鼠标单击任务的是否触发。",
             $paras:[
                 "profile : linb.UIProfile.",
                 "task : Object, the task Object.",
                 "e : Event, DOM事件元素.",
-                "src : Element, 事件发生的DOM元素."
+                "src: String, 事件所属DOM元素的linbid."
             ],
             $snippet:[
                 "var id='linb.temp.tl52'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -14162,13 +14293,13 @@ _.set(linb.Locale,["cn","doc","linb","UI","TimeLine"], {
             ]
         },
         onGetContent:{
-            $desc:"Fired when the UI need to build new tasks.",
+            $desc:"当TimeLine需要加入内容的时候触发.",
             $paras:[
                 "profile : linb.UIProfile.",
-                "from : Date, the 'from' time.",
-                "to : Date, the 'to' time.",
-                "minMs : Number, the min ms count.",
-                "type : String, 'left', 'right' or 'inner'.",
+                "from : Date, 开始时间.",
+                "to : Date, 结束时间",
+                "minMs : Number, 显示任务的最小毫秒数（忽略低于这个数的任务）.",
+                "type : String, 任务加入的位置：'left', 'right' or 'inner'.",
                 "callback : Function, 回调函数."
             ],
             $snippet:[
@@ -14180,26 +14311,26 @@ _.set(linb.Locale,["cn","doc","linb","UI","TimeLine"], {
             ]
         },
         beforeDelTasks:{
-            $desc:"Fired before a specified task is deleted. If returns false, the action will be ignored.",
+            $desc:"再删除任务之前触发。如果返回false，任务不会被删除。",
             $paras:[
-                "profile : linb.UIProfile.",
-                "arr : Array, A set of id strings."
+                "profile : 控件概要对象.",
+                "arr : Array, 一组任务的id字符串."
             ]
         },
         beforeNewTasks:{
-            $desc:"Fired before a specified task is added. If returns false, the action will be ignored.",
+            $desc:"在新加入任务之前触发。 如果返回false，任务不会被加入。",
             $paras:[
                 "profile : linb.UIProfile.",
-                "tasks: Array, A set of tasks."
+                "tasks: Array, 任务对象数组."
             ]
         },
         beforeTaskUpdated:{
-            $desc:"Fired before a specified task is updated. If returns false, the action will be ignored.",
+            $desc:"在任务更新之前触发。 如果返回false，任务不会被更新。",
             $paras:[
                 "profile : linb.UIProfile.",
-                "tasks: Array, A set of tasks.",
-                "from : Date, the 'from' time.",
-                "to: Date, the 'to' time."
+                "task: Object, 任务对象.",
+                "from : Date, 任务开始时间.",
+                "to: Date, 任务结束时间."
             ]
         }
     }

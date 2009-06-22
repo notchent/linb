@@ -139,12 +139,6 @@ Class('linb.Dom','linb.absBox',{
             n=null;
             return ns;
         },
-        one:function(fun){
-             var ns=this,purge=linb.$cache.domPurgeData,n,rt=null;
-            if((n=purge[ns._nodes[0]]) && (n=n.element))
-                rt=fun.call(ns,n);
-            return rt;
-        },
 
         serialize:function(){
             var a=[];

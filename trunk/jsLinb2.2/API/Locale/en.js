@@ -29,7 +29,7 @@ _.set(linb.Locale,["en","app"], {
 var $eo={
     $rtn:"[self]",
     $paras:[
-        "fun [Optional]: Function, [this] pointer is the current element, arguments are [linb.DomProfile Object, DOM event Object, the current element].",
+        "fun [Optional]: Function, arguments is [linb.DomProfile Object, DOM event Object, the current element's linbid].",
         "label [Optional]: String, the event label.",
         "flag  [Optional]: Boolean, for remove event only. to indicate if remove all related event."
     ]
@@ -1813,7 +1813,7 @@ _.set(linb.Locale,["en","doc","linb","Dom"], {
                 "<p><strong>Returns</strong>: Add: return [self]; Remove: return [self]; Fire: no return.</p>"+
                 "<p><strong>Parameters</strong>: </p>"+
                 "<ul>"+
-                    "<li><strong>fun [Optional] </strong>: Function, [this] pointer is the current element, arguments are [linb.DomProfile Object, DOM event Object, the current element].</li>"+
+                    "<li><strong>fun [Optional] </strong>: Function, [this] pointer is the current element, arguments are [linb.DomProfile Object, DOM event Object, the current element's linbid].</li>"+
                     "<li><strong>label [Optional]</strong> : String, the event label.</li>"+
                     "<li><strong>flag [Optional]</strong> : Boolean, for remove event only. to indicate if remove all related event.</li>"+
                 "</ul>"+
@@ -1937,6 +1937,26 @@ _.set(linb.Locale,["en","doc","linb","Dom"], {
         ]
     },
     prototype:{
+        each:{
+            $desc:"To apply a function to each element of the current linb.Dom Object.",
+            $rtn:'[self]',
+            $paras:[
+                "fun [Required]: Function, [this] pointer is the linb.absBox Object, arguments: [element, array index]. The function to apply to inner array item."
+            ],
+            $snippet:[
+                "linb(['linb.UI.Layout:a:','btnLang']).each(function(o,i){alert(i+' -> #'+o.id)})"
+            ]
+        },
+        get:{
+            $desc:"To get a specified element from the linb.Dom Object by index, or get all elements.",
+            $rtn:"element or array of elements.",
+            $paras:[
+                "index [Optional] : Number."
+            ],
+            $snippet:[
+                "var n=linb(['linb.UI.Layout:a:','btnLang']); alert(n.get(1).id); alert(n.get()[0].id+' , '+n.get()[1].id);"
+            ]
+        },
         addBorder:{
             $desc:"To add a border to the first element. ",
             $rtn:"linb.UI.Border.",
@@ -2061,9 +2081,9 @@ _.set(linb.Locale,["en","doc","linb","Dom"], {
             ],
             $snippet:[
             "var id='linb.temp.1'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
-            "linb(id).append(linb.create('1',true));"+
+            "linb(id).append(linb.create('input'));"+
             "linb(id).append(new linb.UI.Button({position:'relative'}));"+
-            "linb(id).append(linb.create('3',true));"+
+            "linb(id).append(linb.create('<button>btn</button>'));"+
             "}"
             ]
         },
@@ -2076,9 +2096,9 @@ _.set(linb.Locale,["en","doc","linb","Dom"], {
             ],
             $snippet:[
             "var id='linb.temp.2'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
-            "linb(id).prepend(linb.create('1',true));"+
+            "linb(id).prepend(linb.create('input'));"+
             "linb(id).prepend(new linb.UI.Button({position:'relative'}));"+
-            "linb(id).prepend(linb.create('3',true));"+
+            "linb(id).prepend(linb.create('<button>btn</button>'));"+
             "}"
             ]
         },
@@ -2092,9 +2112,9 @@ _.set(linb.Locale,["en","doc","linb","Dom"], {
             $snippet:[
             "var id='linb.temp.3'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
             "var node = linb(id).last();"+
-            "node.addPrev(linb.create('1',true));"+
+            "node.addPrev(linb.create('input'));"+
             "node.addPrev(new linb.UI.Button({position:'relative'}));"+
-            "node.addPrev(linb.create('3',true));"+
+            "node.addPrev(linb.create('<button>btn</button>'));"+
             "}"
             ]
         },
@@ -2108,9 +2128,9 @@ _.set(linb.Locale,["en","doc","linb","Dom"], {
             $snippet:[
             "var id='linb.temp.4'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
             "var node = linb(id).last();"+
-            "node.addNext(linb.create('1',true));"+
+            "node.addNext(linb.create('input'));"+
             "node.addNext(new linb.UI.Button({position:'relative'}));"+
-            "node.addNext(linb.create('3',true));"+
+            "node.addNext(linb.create('<button>btn</button>'));"+
             "}"
             ]
         },
@@ -2205,6 +2225,13 @@ _.set(linb.Locale,["en","doc","linb","Dom"], {
                 "var id='linb.temp.w1'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div style=\"border:solid 1px;padding:10px;\">' + '<div style=\"background:#888;position:relative;width:80px;height:80px;\"><div id='+id+' style=\"overflow:auto;position:absolute;margin:10px;border:solid 10px #ccc;padding:10px;\"> 1111111111111111111 2222222222222222 333333333333</div></div> <br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var n=linb(id); n.width(20).height(20); alert(n.width()+':'+n.innerWidth()+':'+n.offsetWidth()+':'+n.outerWidth()+':'+n.scrollWidth());"+
                 "}"
+            ]
+        },
+        serialize:{
+            $desc:"Serializes a DOM profile to a JSON string or JSON object.",
+            $rtn:"String",
+            $snippet:[
+                "alert(linb('btnLang').serialize());" 
             ]
         },
         scrollWidth:{
@@ -2837,7 +2864,7 @@ _.set(linb.Locale,["en","doc","linb","Dom"], {
         afterClick:{
             $rtn:"[self]",
             $paras:[
-                "fun [Optional]: Function, [this] pointer is the current element, arguments are [linb.DomProfile Object, DOM event Object, the current element].",
+                "fun [Optional]: Function, [this] pointer is the current element, arguments are [linb.DomProfile Object, DOM event Object, the current element's linbid].",
                 "label [Optional]: String, the event label.",
                 "flag  [Optional]: Boolean, for remove event only. to indicate if remove all related event."
             ],
@@ -2969,7 +2996,7 @@ _.set(linb.Locale,["en","doc","linb","DragDrop"], {
         $desc:"To set the drop target DOM element.",
         $rtn:"linb.DragDrop",
         $snippet:[
-            "src [Required] : DOM element, the drop target."
+            "src [Required] : String, the drop target's linbid."
         ],
         $snippet:[
             "var id='linb.temp.ddo4'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:150px;\">' + '<div style=\"position:absolute;border:solid 1px;padding:20px;left:10px;top:30px;\">dragable</div>' +'<div style=\"position:absolute;border:solid 1px;left:160px;top:30px;width:100px;height:100px;\">dropable</div>' + ' <button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -2984,7 +3011,7 @@ _.set(linb.Locale,["en","doc","linb","DragDrop"], {
         $desc:"Set dropable appearance on the drop tareget.",
         $rtn:"linb.DragDrop",
         $paras:[
-            "target [Required] : DOM element or linb.Dom Object.",
+            "target [Required] : Element/String/linb.Dom.",
             "dragIcon [Optional] : String, the drag icon key. Default is 'move'."
         ],
         $snippet:[
@@ -5297,7 +5324,7 @@ _.set(linb.Locale,["en","doc","linb","absComposed"], {
                 "shift: Number, 1 or 0, indicates whether or not the 'shift' key is pressed.",
                 "alt: Number, 1 or 0, indicates whether or not the 'alt' key is pressed.",
                 "e : Event.",
-                "src : Element, the event source DOM element."
+                "src : String, the event source DOM element's linbid."
             ],
             $snippet:[
                 "var id='linb.temp.c1'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -5318,7 +5345,7 @@ _.set(linb.Locale,["en","doc","linb","absComposed"], {
                 "shift: Number, 1 or 0, indicates whether or not the 'shift' key is pressed.",
                 "alt: Number, 1 or 0, indicates whether or not the 'alt' key is pressed.",
                 "e : Event.",
-                "src : Element, the event source DOM element."
+                "src : String, the event source DOM element's linbid."
             ],
             $snippet:[
                 "var id='linb.temp.c2'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -5339,7 +5366,7 @@ _.set(linb.Locale,["en","doc","linb","absComposed"], {
                 "shift: Number, 1 or 0, indicates whether or not the 'shift' key is pressed.",
                 "alt: Number, 1 or 0, indicates whether or not the 'alt' key is pressed.",
                 "e : Event.",
-                "src : Element, the event source DOM element."
+                "src : String, the event source DOM element's linbid."
             ],
             $snippet:[
                 "var id='linb.temp.c3'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -5356,7 +5383,7 @@ _.set(linb.Locale,["en","doc","linb","absComposed"], {
             $paras:[
                 "profile : linb.UIProfile.",
                 "e : Event.",
-                "src : Element, the event source DOM element.",
+                "src : String, the event source DOM element's linbid.",
                 "key : String, the DragDrop key.",
                 "data : Object, the DragDrop data.",
                 "item : Object, the source item Object."
@@ -5381,7 +5408,7 @@ _.set(linb.Locale,["en","doc","linb","absComposed"], {
             $paras:[
                 "profile : linb.UIProfile.",
                 "e : Event.",
-                "src : Element, the event source DOM element.",
+                "src : String, the event source DOM element's linbid.",
                 "key : String, the DragDrop key.",
                 "data : Object, the DragDrop data.",
                 "item : Object, the source item Object."
@@ -5407,8 +5434,7 @@ _.set(linb.Locale,["en","doc","linb","absComposed"], {
             $paras:[
                 "profile : linb.UIProfile.",
                 "e : Event.",
-                "node : Element, the source DOM element.",
-                "src : Element, the event source DOM element.",
+                "src : String, the event source DOM element's linbid.",
                 "key : String, the DragDrop key.",
                 "data : Object, the DragDrop data.",
                 "item : Object, the source item Object."
@@ -5433,7 +5459,7 @@ _.set(linb.Locale,["en","doc","linb","absComposed"], {
             $paras:[
                 "profile : linb.UIProfile.",
                 "e : Event.",
-                "src : Element, the event source DOM element.",
+                "src : String, the event source DOM element's linbid.",
                 "key : String, the DragDrop key.",
                 "data : Object, the DragDrop data.",
                 "item : Object, the source item Object."
@@ -5458,7 +5484,7 @@ _.set(linb.Locale,["en","doc","linb","absComposed"], {
             $paras:[
                 "profile : linb.UIProfile.",
                 "e : Event.",
-                "src : Element, the event source DOM element.",
+                "src : String, the event source DOM element's linbid.",
                 "key : String, the DragDrop key.",
                 "data : Object, the DragDrop data.",
                 "item : Object, the source item Object."
@@ -5483,7 +5509,7 @@ _.set(linb.Locale,["en","doc","linb","absComposed"], {
             $paras:[
                 "profile : linb.UIProfile.",
                 "e : Event.",
-                "src : Element, the event source DOM element.",
+                "src : String, the event source DOM element's linbid.",
                 "key : String, the DragDrop key.",
                 "data : Object, the DragDrop data.",
                 "item : Object, the source item Object."
@@ -5508,7 +5534,7 @@ _.set(linb.Locale,["en","doc","linb","absComposed"], {
             $paras:[
                 "profile : linb.UIProfile.",
                 "e : Event.",
-                "src : Element, the event source DOM element."
+                "src : String, the event source DOM element's linbid."
             ],
             $snippet:[
                 "var id='linb.temp.ab661'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -5524,7 +5550,7 @@ _.set(linb.Locale,["en","doc","linb","absComposed"], {
             $paras:[
                 "profile : linb.UIProfile.",
                 "e : Event.",
-                "src : Element, the event source DOM element."
+                "src : String, the event source DOM element's linbid."
             ],
             $snippet:[
                 "var id='linb.temp.ab661-1'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -5539,7 +5565,7 @@ _.set(linb.Locale,["en","doc","linb","absComposed"], {
             $paras:[
                 "profile : linb.UIProfile.",
                 "e : Event.",
-                "src : Element, the event source DOM element."
+                "src : String, the event source DOM element's linbid."
             ],
             $snippet:[
                 "var id='linb.temp.ab662'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -5556,7 +5582,7 @@ _.set(linb.Locale,["en","doc","linb","absComposed"], {
                 "profile : linb.UIProfile.",
                 "item : Object, the data item Object.",
                 "e : Event.",
-                "src : Element, the source DOM element.",
+                "src : String, the event source DOM element's linbid.",
                 "type : String, 'mousedown'or 'mouseup'."
             ],
             $snippet:[
@@ -5572,7 +5598,7 @@ _.set(linb.Locale,["en","doc","linb","absComposed"], {
                 "profile : linb.UIProfile.",
                 "item : Object, the data item Object.",
                 "e : Event.",
-                "src : Element, the source DOM element.",
+                "src : String, the event source DOM element's linbid.",
                 "type : String, 'mouseover'or 'mouseout'."
             ],
             $snippet:[
@@ -5588,7 +5614,7 @@ _.set(linb.Locale,["en","doc","linb","absComposed"], {
                 "profile : linb.UIProfile.",
                 "e : Event.",
                 "shift: Boolean, Shift keyboard is pressed or not.",
-                "src : Element, the source DOM element."
+                "src : String, the event source DOM element's linbid."
             ],
             $snippet:[
                 "var id='linb.temp.ab9'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -5764,7 +5790,7 @@ _.set(linb.Locale,["en","doc","linb","UI"], {
         $desc:"To unserialize a string representation or a set of profile representations to a linb.UI Object.",
         $rtn:"linb.UI",
         $paras:[
-            "target [Required] : String or Array.",
+            "target [Required] : String/Array.",
             "keepSerialId [Optional] : Boolean, to keep serila id or not. Default is [false]."
         ],
         $snippet:[
@@ -6650,13 +6676,6 @@ _.set(linb.Locale,["en","doc","linb","UI"], {
                 "btn.setCustomFunction('showTips', function(profile, node, pos){linb.Tips.show(pos, 'hi tips');return true;});"+
                 "btn.setCustomFunction('a', function(){var a;});"+
                 "alert(btn.serialize(btn))"+
-                "}",
-                "var id='linb.temp.a6'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
-                "var o=new linb.UI.List({position:'relative',items:[{id:'a',caption:'a'},{id:'b',caption:'b'}]});"+
-                "o.setCustomFunction('render',{items:function(profile,item){"+
-                "    return '[' + item.caption + ']';"+
-                "}});"+
-                "linb(id).append(o);"+
                 "}"
             ]
         },
@@ -6691,7 +6710,7 @@ _.set(linb.Locale,["en","doc","linb","UI"], {
             $paras:[
                 "profile : linb.UIProfile.",
                 "e: Event, DOM event Object.",
-                "node: Element, the related DOM element."
+                "src : String, the event source DOM element's linbid."
             ],
             $snippet:[
                 "var id='linb.temp.b2-1'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -6732,7 +6751,7 @@ _.set(linb.Locale,["en","doc","linb","UI"], {
             $desc:"Fired when linb.Tips shows tips.",
             $paras:[
                 "profile : linb.UIProfile.",
-                "node : Element, DOM node.",
+                "src : String, the event source DOM element's linbid.",
                 "pos : Object, {left:Number, top:Number}"
             ],
             $snippet:[
@@ -8622,7 +8641,7 @@ _.set(linb.Locale,["en","doc","linb","UI","ComboInput"], {
             $desc:"Fired when the file upload dialog is open.",
             $paras:[
                 "profile : linb.UIProfile.",
-                "node : Element, the input DOM element."
+                "src : String, the event source DOM element's linbid."
             ],
             $snippet:[
                 "var id='linb.temp.ci99'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -8637,7 +8656,7 @@ _.set(linb.Locale,["en","doc","linb","UI","ComboInput"], {
                 "profile : linb.UIProfile.",
                 "pos : the mouse position.",
                 "e : Event.",
-                "src : Element, the command button DOM element."
+                "src : String, the event source DOM element's linbid."
             ],
             $snippet:[
                 "var id='linb.temp.ci100'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -8650,7 +8669,7 @@ _.set(linb.Locale,["en","doc","linb","UI","ComboInput"], {
             $desc:"Fired when the save button is clicked.",
             $paras:[
                 "profile : linb.UIProfile.",
-                "node : Element, the command button DOM element."
+                "src : String, the event source DOM element's linbid."
             ],
             $snippet:[
                 "var id='linb.temp.ci101'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -8843,6 +8862,10 @@ _.set(linb.Locale,["en","doc","linb","UI","ColorPicker"], {
         ]
     },
     prototype:{
+        activate:{
+            $desc:"Activates it.",
+            $rtn:"[self]"
+        },
         getColorName:{
             $desc:"Gets color name from the ColorPicker Object, if it exists.",
             $rtn:"String",
@@ -8934,6 +8957,10 @@ _.set(linb.Locale,["en","doc","linb","UI","DatePicker"], {
         $desc:"Creates a linb.UI.DatePicker Object."
     },
     prototype:{
+        activate:{
+            $desc:"Activates it.",
+            $rtn:"[self]"
+        },
         getCloseBtn:{
             $desc:"Determines whether close button shows up or not.",
             $rtn:"Boolean",
@@ -8985,6 +9012,10 @@ _.set(linb.Locale,["en","doc","linb","UI","TimePicker"], {
         $desc:"Creates a linb.UI.TimePicker Object."
     },
     prototype:{
+        activate:{
+            $desc:"Activates the current UI Object.",
+            $rtn:"[self]"
+        },
         getCloseBtn:{
             $desc:"Determines whether close button shows up or not.",
             $rtn:"Boolean",
@@ -9389,7 +9420,7 @@ _.set(linb.Locale,["en","doc","linb","UI","List"], {
             $paras:[
                 "profile : linb.UIProfile.",
                 "item: Object, list item Object.",
-                "src: Element, the related DOM element."
+                "src : String, the event source DOM element's linbid."
             ],
             $snippet:[
                 "var id='linb.temp.list8'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -9403,7 +9434,7 @@ _.set(linb.Locale,["en","doc","linb","UI","List"], {
             $paras:[
                 "profile : linb.UIProfile.",
                 "item: list item Object.",
-                "src: Element, the related DOM element."
+                "src : String, the event source DOM element's linbid."
             ],
             $snippet:[
                 "var id='linb.temp.list9'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -9450,7 +9481,7 @@ _.set(linb.Locale,["en","doc","linb","UI","LinkList"], {
             $paras:[
                 "profile : linb.UIProfile.",
                 "item: Object, list item Object.",
-                "src: Element, the related DOM element."
+                "src : String, the event source DOM element's linbid."
             ],
             $snippet:[
                 "var id='linb.temp.llist8'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -10038,7 +10069,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Panel"], {
             $paras:[
                 "profile : linb.UIProfile.",
                 "e: Event, DOM event Object.",
-                "src: Element, the related DOM element."
+                "src : String, the event source DOM element's linbid."
             ],
             $snippet:[
                 "var id='linb.temp.panel14'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -10234,7 +10265,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Layout"], {
             $snippet:[
                 "var id='linb.temp.lo1'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:200px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var o;linb(id).prepend(o=(new linb.UI.Layout({items:[{id:'main'},{id:'after',size:50}]})));"+
-                "_.asyRun(function(){o.getPanel('after').append(linb.create('afgter',true));},1000);"+
+                "_.asyRun(function(){o.getPanel('after').append(linb.create('<button>afgter</button>'));},1000);"+
                 "}"
             ]
         },
@@ -10270,12 +10301,26 @@ _.set(linb.Locale,["en","doc","linb","UI","Layout"], {
             ],
             $snippet:[
                 "var id='linb.temp.lo4'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:200px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
-                "var o;linb(id).prepend(o=(new linb.UI.Layout()));"+
+                "var o;linb(id).prepend(o=(new linb.UI.Layout({items:[{id:'main'},{id:'before',size:50},{id:'after',size:50}]})));"+
                 "o.append(new linb.UI.Button).append(new linb.UI.Link, 'before').append(new linb.UI.Input, 'after');"+
                 "_.asyRun(function(){o.setType('horizontal').setItems([{id:'before', pos:'before', 'size':50, min:50, max:200}, {id:'main', min:10}, {id:'after', pos:'after', size:50}, {id:'c', pos:'after', cmd:true, size:50}])},1000);"+
                 "}"
             ]
+        },
+        fireCmdClickEvent:{
+            $desc:"Fires 'fold/expand' command button's click event.",
+            $rtn:"[self]",
+            $paras:[
+                "subId [Required] : String, subId string."
+            ],
+            $snippet:[
+                "var id='linb.temp.lo6'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:200px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var o;linb(id).prepend(o=(new linb.UI.Layout({items:[{id:'main'},{id:'after',cmd:true, size:50}]})));"+
+                "_.asyRun(function(){o.fireCmdClickEvent('after'); },1000);"+
+                "}"
+            ]
         }
+    }
     }
 });
 
@@ -10304,6 +10349,19 @@ _.set(linb.Locale,["en","doc","linb","UI","Tabs"], {
                 "var id='linb.temp.tabs0'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:200px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var o;linb(id).prepend(o=(new linb.UI.Tabs({height:'auto',items:[{id:'a',caption:'a a'},{id:'b',caption:'b b'},{id:'c',caption:'c c'}],value:'a'})));"+
                 "_.asyRun(function(){o.append(new linb.UI.Button,'a');},1000);"+
+                "}"
+            ]
+        },
+        fireItemClickEvent:{
+            $desc:"Fires the item click event.",
+            $rtn:"[self]",
+            $paras:[
+                "subId [Required] : String, item's subId."
+            ],
+            $snippet:[
+                "var id='linb.temp.tabs004'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:200px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var o;linb(id).prepend(o=(new linb.UI.Tabs({height:'auto',items:[{id:'a',caption:'a a'},{id:'b',caption:'b b'},{id:'c',caption:'c c'}]})));"+
+                "_.asyRun(function(){o.fireItemClickEvent('a')},1000);"+
                 "}"
             ]
         },
@@ -10543,7 +10601,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Tabs"], {
             $desc:"Fired after user clicked the close button on a tab.",
             $paras:[
                 "profile : linb.UIProfile.",
-                "item: Element, the current item."
+                "item: Object, the current item."
             ],
             $snippet:[
                 "var id='linb.temp.tabs22'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:200px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -10557,7 +10615,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Tabs"], {
             $paras:[
                 "profile : linb.UIProfile.",
                 "item: Object, item Object.",
-                "src:Element, the related DOM element."
+                "src : String, the event source DOM element's linbid."
             ],
             $snippet:[
                 "var id='linb.temp.tabs23'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:200px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -10571,7 +10629,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Tabs"], {
             $paras:[
                 "profile : linb.UIProfile.",
                 "item: Object, item Object.",
-                "src: Element, the related DOM element."
+                "src : String, the event source DOM element's linbid."
             ],
             $snippet:[
                 "var id='linb.temp.tabs24'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:200px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -10586,7 +10644,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Tabs"], {
                 "profile : linb.UIProfile.",
                 "item: Object, list item Object.",
                 "e: Event, DOM event Object.",
-                "src: Element, the related DOM element."
+                "src : String, the event source DOM element's linbid."
             ],
             $snippet:[
                 "var id='linb.temp.tabs25'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:200px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -10601,6 +10659,24 @@ _.set(linb.Locale,["en","doc","linb","UI","Tabs"], {
 _.set(linb.Locale,["en","doc","linb","UI","Calendar"], {
     constructor:{
         $desc:"Creates a linb.UI.Calendar Object."
+    },
+    prototype:{
+        setWidth:{
+            $desc:"Sets the width(corresponding to the CSS value of the root DOM element) property value on the each UIProfile, and reflects the value to UI.",
+            $rtn:"[self]",
+             $paras:[
+                "value [Required] : nonnegative Number.",
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
+            ]
+        },
+        setHeight:{
+            $desc:"Sets the height(corresponding to the CSS value of the root DOM element) property value on the each UIProfile, and reflects the value to UI.",
+            $rtn:"[self]",
+             $paras:[
+                "value [Required] : nonnegative Number.",
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
+            ]
+        }
     }
 });
 
@@ -10609,6 +10685,20 @@ _.set(linb.Locale,["en","doc","linb","UI","ToolBar"], {
         $desc:"Creates a linb.UI.ToolBar Object."
     },
     prototype:{
+        updateItem:{
+            $desc:"Updates the specified item(key or value) and the corresponding DOM Element.",
+            $rtn:"[self]",
+            $paras:[
+                "id [Required] : String, The node id.",
+                "options [Required] : a key/value pairs Object or String."
+            ],
+            $snippet:[
+                "var id='linb.temp.tool01'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:200px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var o;linb(id).prepend(o=(new linb.UI.ToolBar({items:[{id:'ga', sub:[{id:'ga1',caption:'ga1'},{id:'ga2',caption:'ga2'}]},{id:'gb',sub:[{id:'gb1',caption:'gb1'},{id:'gb2',Object:new linb.UI.ComboInput({type:'colorpicker'})}]}]})));"+
+                "_.asyRun(function(){o.updateItem('ga1',{caption:'updated'})},1000);"+
+                "}"
+            ]
+        },
         getHAlign :{
             $desc:"Gets horizontal alignment",
             $rtn:"String",
@@ -10923,6 +11013,21 @@ _.set(linb.Locale,["en","doc","linb","UI","MenuBar"], {
                 "linb(id).prepend(o);"+
                 "alert(o.getHandler());"+
                 "_.asyRun(function(){o.setHandler(false)});"+
+                "}"
+            ]
+        },
+        updateItem:{
+            $desc:"Updates the specified item(key or value) and the corresponding DOM Element.",
+            $rtn:"[self]",
+            $paras:[
+                "id [Required] : String, The node id.",
+                "options [Required] : a key/value pairs Object or String."
+            ],
+            $snippet:[
+                "var id='linb.temp.menu4-1'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:200px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var o=(new linb.UI.MenuBar({items:[{id:'id',caption:'menu',sub:[{id:'a',caption:'item a',tips:'item a'},{id:'b',image:'img/img.gif',caption:'itemb',tips:'item b',sub:[{id:'ba',caption:'item ba',tips:'item ba'},{id:'bb',caption:'item bb',tips:'item bb',sub:[{id:'bba',caption:'item bba',tips:'item bba'}]}]},{id:'c',caption:'item c',type:'checkbox',value:false},{id:'d',caption:'item d',type:'checkbox',value:true,add:'[Esc]'}]}]}));"+
+                "linb(id).prepend(o);"+
+                "_.asyRun(function(){o.updateItem('a',{caption:'item udpated'})});"+
                 "}"
             ]
         },
@@ -11396,7 +11501,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Dialog"], {
             $paras:[
                 "profile : linb.UIProfile.",
                 "e: DOM event Object.",
-                "src: Element, the related DOM element."
+                "src : String, the event source DOM element's linbid."
             ],
             $snippet:[
                 "var dlg=new linb.UI.Dialog({optBtn:true}); "+
@@ -11640,11 +11745,11 @@ _.set(linb.Locale,["en","doc","linb","UI","FoldingList"], {
                 "profile : linb.UIProfile.",
                 "item: Object, list item Object.",
                 "e: DOM event Object.",
-                "src: Element, the related DOM element."
+                "src : String, the event source DOM element's linbid."
             ],
             $snippet:[
                 "var id='linb.temp.fl9'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
-                "var o=new linb.UI.FoldingList({width:'auto',height:'auto',optBtn:true, position:'relative',items:[{id:'a',title:'title 1',caption:'cap a'},{id:'b',title:'title b', caption:'cap b'},{id:'c',caption:'c'}]});"+
+                "var o=new linb.UI.FoldingList({width:'auto',height:'auto' , position:'relative',items:[{id:'a',optBtn:true,title:'title 1',caption:'cap a'},{id:'b',title:'title b', caption:'cap b'},{id:'c',caption:'c'}]});"+
                 "linb(id).prepend(o);"+
                 "o.onShowOptions(function(){alert('onShowOptions');});"+
                 "}"
@@ -11657,7 +11762,7 @@ _.set(linb.Locale,["en","doc","linb","UI","FoldingList"], {
                 "profile : linb.UIProfile.",
                 "item: Object, list item Object.",
                 "cmdKey: String, the command key.",
-                "src: Element, the related DOM element."
+                "src : String, the event source DOM element's linbid."
             ],
             $snippet:[
                 "var id='linb.temp.fl10'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -11967,7 +12072,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Poll"], {
             $paras:[
                 "profile : linb.UIProfile.",
                 "key: String, the command key.",
-                "src: Element, the related DOM element."
+                "src : String, the event source DOM element's linbid."
             ],
             $snippet:[
                 "var id='linb.temp.pool31'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -12077,6 +12182,21 @@ _.set(linb.Locale,["en","doc","linb","UI","TreeBar"], {
         $desc:"Creates a linb.UI.TreeBar Object."
     },
     prototype:{
+        fireItemClickEvent:{
+            $desc:"To fires the click event on the specified item.",
+            $rtn:"[self]",
+            $paras:[
+                "subId [Required] : String, the id value of target item."
+            ],
+            $snippet:[
+                "var id='linb.temp.tb01'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var o=new linb.UI.TreeBar({width:'auto',height:'auto',dock:'none',position:'relative',items:[{id:'a',caption:'cap a'},{id:'b',caption:'cap b',sub:[{id:'ba',caption:'caption ba'},{id:'bb',caption:'caption bb'}]},{id:'c',caption:'c'}]});"+
+                "linb(id).prepend(o);"+
+                "o.fireItemClickEvent('a');"+
+                "}"
+            ]
+        },
+
         getAnimCollapse :{
             $desc:"Determines whether to show animate when a tree node collapses.",
             $rtn:"Boolean",
@@ -12314,7 +12434,7 @@ _.set(linb.Locale,["en","doc","linb","UI","TreeBar"], {
             $paras:[
                 "profile : linb.UIProfile.",
                 "item: Object, list item Object.",
-                "src: Element, the related DOM element."
+                "src : String, the event source DOM element's linbid."
             ],
             $snippet:[
                 "var id='linb.temp.tb20'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -13433,7 +13553,7 @@ _.set(linb.Locale,["en","doc","linb","UI","TreeGrid"], {
             $paras:[
                 "profile : linb.UIProfile.",
                 "row:  Object.",
-                "src: Element, the related DOM element."
+                "src : String, the event source DOM element's linbid."
             ],
             $snippet:[
                 "var id='linb.temp.grid58'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -13450,7 +13570,7 @@ _.set(linb.Locale,["en","doc","linb","UI","TreeGrid"], {
                 "profile : linb.UIProfile.",
                 "row: Object.",
                 "e: Event, the DOM event Object.",
-                "src: Element, the related DOM element."
+                "src : String, the event source DOM element's linbid."
             ],
             $snippet:[
                 "var id='linb.temp.grid59'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -13469,7 +13589,7 @@ _.set(linb.Locale,["en","doc","linb","UI","TreeGrid"], {
                 "proEditor: linb.UIProfile, the editor profile Object, if the editor exists.",
                 "pos: Object, the click event mouse position.",
                 "e: Event, the DOM event Object.",
-                "src: Element, the related DOM element."
+                "src : String, the event source DOM element's linbid."
             ],
             $snippet:[
                 "var id='linb.temp.grid60'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -13487,7 +13607,7 @@ _.set(linb.Locale,["en","doc","linb","UI","TreeGrid"], {
                 "profile : linb.UIProfile.",
                 "cell: Object.",
                 "e: Event, the DOM event Object.",
-                "src: Element, the related DOM element."
+                "src : String, the event source DOM element's linbid."
             ],
             $snippet:[
                 "var id='linb.temp.grid60-1'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -13504,7 +13624,7 @@ _.set(linb.Locale,["en","doc","linb","UI","TreeGrid"], {
                 "profile : linb.UIProfile.",
                 "cell: Object.",
                 "e: Event, the DOM event Object.",
-                "src: Element, the related DOM element."
+                "src : String, the event source DOM element's linbid."
             ],
             $snippet:[
                 "var id='linb.temp.grid60-2'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -14096,7 +14216,7 @@ _.set(linb.Locale,["en","doc","linb","UI","TimeLine"], {
                 "profile : linb.UIProfile.",
                 "task : Object.",
                 "e: Event, DOM event Object.",
-                "src: Element, the related DOM element."
+                "src : String, the event source DOM element's linbid."
             ],
             $snippet:[
                 "var id='linb.temp.tl50-2'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -14110,7 +14230,7 @@ _.set(linb.Locale,["en","doc","linb","UI","TimeLine"], {
             $desc:"Fired before user click close button or Cancel button. If returns false, close function will be ignored.",
             $paras:[
                 "profile : linb.UIProfile.",
-                "src: Element, the related DOM element."
+                "src : String, the event source DOM element's linbid."
             ],
             $snippet:[
                 "var id='linb.temp.tl50'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -14125,7 +14245,7 @@ _.set(linb.Locale,["en","doc","linb","UI","TimeLine"], {
             $paras:[
                 "profile : linb.UIProfile.",
                 "e: Event, DOM event Object.",
-                "src: Element,  the related DOM element."
+                "src : String, the event source DOM element's linbid."
             ],
             $snippet:[
                 "var id='linb.temp.tl51'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -14141,7 +14261,7 @@ _.set(linb.Locale,["en","doc","linb","UI","TimeLine"], {
                 "profile : linb.UIProfile.",
                 "task :  Object.",
                 "e: Event, DOM event Object.",
-                "src: Element, the related DOM element."
+                "src : String, the event source DOM element's linbid."
             ],
             $snippet:[
                 "var id='linb.temp.tl52'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -14188,7 +14308,7 @@ _.set(linb.Locale,["en","doc","linb","UI","TimeLine"], {
             $desc:"Fired before a specified task is updated. If returns false, the action will be ignored.",
             $paras:[
                 "profile : linb.UIProfile.",
-                "tasks: Object[], A set of tasks.",
+                "task: Object, task Object.",
                 "from : Date, the 'from' time.",
                 "to: Date, the 'to' time."
             ]

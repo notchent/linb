@@ -4627,12 +4627,6 @@ Class('linb.Dom','linb.absBox',{
             n=null;
             return ns;
         },
-        one:function(fun){
-             var ns=this,purge=linb.$cache.domPurgeData,n,rt=null;
-            if((n=purge[ns._nodes[0]]) && (n=n.element))
-                rt=fun.call(ns,n);
-            return rt;
-        },
 
         serialize:function(){
             var a=[];
@@ -16551,7 +16545,6 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
         }
     },
     Initialize:function(){
-
         //modify default template fro shell
         var t = this.getTemplate();
         _.merge(t.FRAME.BORDER,{
@@ -16837,6 +16830,9 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
                             });
                             return  a.join('');
                         }(b,value);
+
+                        //visibility mask string
+                        ns.boxing()._setCtrlValue(ns.$Mask);
 
                         //add event for cut/paste text
                         if(ns.renderId){
@@ -17135,6 +17131,16 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
                     ns.box._iniToolBar(ns);
                     linb.UI.$tryResize(ns, pro.width, pro.height);
                 }
+            },
+            disabled:{
+                ini:false,
+                action: function(v){
+                    var ns=this;
+                    if(ns.$toolbar)
+                        ns.$toolbar.boxing().setDisabled(v);
+                    if(ns.$doc)
+                        ns.$doc.designMode=v?'off':'on';
+                }
             }
         },
         Appearances:{
@@ -17269,7 +17275,7 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
                             doc.write('<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><style type="text/css">body{border:0;margin:0;padding:0;margin:0;cursor:text;background:#fff;color:#000;padding:3px;}p{margin:0;padding:0;} div{margin:0;padding:0;}</style></head><body>'+self.properties.value+'</body></html>');
                             doc.close();
 
-                            doc.designMode="on";
+                            doc.designMode=self.properties.disabled?'off':"on";
                             try{doc.execCommand("styleWithCSS", 0, false)}catch(e){
                                 try {doc.execCommand("useCSS", 0, true)}catch(e){}
                             }
@@ -17317,7 +17323,11 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
                             }
 
                             event=self=checkF=doc=null;
-                        
+
+                            //for disabled
+                            if(self.properties.disabled)
+                                self.boxing().setDisabled(true,true);
+
                             return false;
                         }
                     };
@@ -17373,7 +17383,7 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
 
             //compose
             self.getRoot().prepend(
-                t = self._$tb = new linb.UI.ToolBar({handler:false,items:items}).render(true).get(0)
+                t = self._$tb = new linb.UI.ToolBar({handler:false,items:items,disabled:pro.disabled}).render(true).get(0)
             );
             t.onClick=self.box._toolbarclick;
             v=self._$composed={};
@@ -23446,8 +23456,7 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
                     a.reverse();
                     _.arr.each(a,function(o){
                         if(o.sub){
-                            if(!o._checked)
-                                profile.box._setSub(profile, o, true);
+                            profile.boxing().toggleNode(o.id,true);
                         }else
                             profile.boxing().fireItemClickEvent(o.id);
                     });
@@ -23457,7 +23466,7 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
         fireItemClickEvent:function(subId){
             this.getSubNodeByItemId('BAR', subId).onClick();
             return this;
-        }
+        }     
     },
     Initialize:function(){
         this.addTemplateKeys(['DISABLED']);

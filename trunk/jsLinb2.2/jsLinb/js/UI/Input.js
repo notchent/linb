@@ -79,7 +79,6 @@ Class("linb.UI.Input", ["linb.UI.Widget","linb.absValue"] ,{
         }
     },
     Initialize:function(){
-
         //modify default template fro shell
         var t = this.getTemplate();
         _.merge(t.FRAME.BORDER,{
@@ -365,6 +364,9 @@ Class("linb.UI.Input", ["linb.UI.Widget","linb.absValue"] ,{
                             });
                             return  a.join('');
                         }(b,value);
+
+                        //visibility mask string
+                        ns.boxing()._setCtrlValue(ns.$Mask);
 
                         //add event for cut/paste text
                         if(ns.renderId){

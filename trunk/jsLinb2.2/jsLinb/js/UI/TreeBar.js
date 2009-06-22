@@ -153,8 +153,7 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
                     a.reverse();
                     _.arr.each(a,function(o){
                         if(o.sub){
-                            if(!o._checked)
-                                profile.box._setSub(profile, o, true);
+                            profile.boxing().toggleNode(o.id,true);
                         }else
                             profile.boxing().fireItemClickEvent(o.id);
                     });
@@ -164,7 +163,7 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
         fireItemClickEvent:function(subId){
             this.getSubNodeByItemId('BAR', subId).onClick();
             return this;
-        }
+        }     
     },
     Initialize:function(){
         this.addTemplateKeys(['DISABLED']);
