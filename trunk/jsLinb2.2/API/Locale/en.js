@@ -1797,7 +1797,7 @@ _.set(linb.Locale,["en","doc","linb","Dom"], {
         $desc:"Generally, don't use [new linb.Dom()], but [linb(nodes, flag)] to create a linb.Dom Object."
     },
     Events:{
-        $desc:  "<strong>Description</strong>: to add, remove or fire the specified eventÂ. There are three group of event functions are designed for a DOM event: [before-], [on-ª] andò [after-ª]. £"+
+        $desc:  "<strong>Description</strong>: to add, remove or fire the specified eventÂ. There are three group of event functions are designed for a DOM event: [before-], [on-] and [after-]" +
                 "<ul>"+
                     "<li><strong>linb(/**/).onClick([function], 'label')</strong> =>adds the [function] to  [onclick]groupý.</li>"+
                     "<li><strong>linb(/**/).onClick([function]) </strong> => removes all event functions in [onclick] group, and adds the [function] to [onclick] groupë.</li>"+
@@ -10320,7 +10320,6 @@ _.set(linb.Locale,["en","doc","linb","UI","Layout"], {
                 "}"
             ]
         }
-    }
     }
 });
 
