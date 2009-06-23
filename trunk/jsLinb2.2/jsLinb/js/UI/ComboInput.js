@@ -869,7 +869,6 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
             /*for ie6 bug*/
             if((profile.$border||profile.$shadow||profile.$resizer) && linb.browser.ie){
                 o.ieRemedy();
-                o2.ieRemedy();
             }
 
         }

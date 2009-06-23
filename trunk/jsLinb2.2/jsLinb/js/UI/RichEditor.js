@@ -36,9 +36,8 @@ Class("linb.UI.RichEditor", ["linb.UI","linb.absValue"],{
             cmdList:{
                 ini:'font1;font2;align;list;font4;font3;insert;clear;html',
                 action:function(v){
-                    var ns=this,pro=ns.properties;
+                    var ns=this;
                     ns.box._iniToolBar(ns);
-                    linb.UI.$tryResize(ns, pro.width, pro.height);
                 }
             },
             disabled:{
@@ -302,13 +301,18 @@ Class("linb.UI.RichEditor", ["linb.UI","linb.absValue"],{
 
             //compose
             self.getRoot().prepend(
-                t = self._$tb = new linb.UI.ToolBar({handler:false,items:items,disabled:pro.disabled}).render(true).get(0)
+                t=new linb.UI.ToolBar({handler:false,items:items,disabled:pro.disabled})
             );
+            t.render(true);
+            t = self._$tb = t.get(0);
+
             t.onClick=self.box._toolbarclick;
             v=self._$composed={};
             v[t.$linbid]=t;
             self.$toolbar=t;
             t.$hostage=self;
+            
+            linb.UI.$tryResize(profile, pro.width, pro.height);
         },
         _toolbarclick:function(profile,item,group,e,src){
             var editor=profile.$hostage;

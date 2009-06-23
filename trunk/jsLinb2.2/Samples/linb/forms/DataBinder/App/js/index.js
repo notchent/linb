@@ -1,51 +1,51 @@
 Class('App', 'linb.Com',{
     Instance:{
         //Com events
-        events:{"onReady":"_onready"}, 
+        events:{"onReady":"_onready"},
         iniComponents:function(){
             // [[code created by jsLinb UI Builder
             var host=this, children=[], append=function(child){children.push(child.get(0))};
-            
+
             append((new linb.DataBinder)
                 .host(host,"databinder")
                 .setName("databinder")
             );
-            
+
             append((new linb.UI.Input)
                 .host(host,"input13")
                 .setLeft(40)
-                .setTop(140)
-                .setWidth(220)
+                .setTop(280)
+                .setWidth(440)
                 .setHeight(100)
                 .setMultiLines(true)
                 .setValue("{email:'a@a.com',web:'string'}")
             );
-            
+
             append((new linb.UI.Button)
                 .host(host,"button29")
-                .setLeft(270)
-                .setTop(220)
+                .setLeft(490)
+                .setTop(350)
                 .setCaption("setValue")
                 .onClick("_button29_onclick")
             );
-            
+
             append((new linb.UI.Button)
                 .host(host,"button22")
-                .setLeft(270)
-                .setTop(100)
+                .setLeft(490)
+                .setTop(240)
                 .setCaption("getValue")
                 .onClick("_button22_onclick")
             );
-            
+
             append((new linb.UI.Group)
                 .host(host,"group1")
                 .setLeft(40)
                 .setTop(20)
-                .setWidth(220)
-                .setHeight(100)
+                .setWidth(440)
+                .setHeight(240)
                 .setCaption("group1")
             );
-            
+
             host.group1.append((new linb.UI.Input)
                 .host(host,"input2")
                 .setDataBinder("databinder")
@@ -55,50 +55,62 @@ Class('App', 'linb.Com',{
                 .setValueFormat("^[\\w\\.=-]+@[\\w\\.-]+\\.[\\w\\.-]{2,4}$")
                 .setValue("a@a.com")
             );
-            
-            host.group1.append((new linb.UI.Div)
-                .host(host,"div39")
-                .setLeft(20)
-                .setTop(20)
-                .setWidth(50)
-                .setHeight(20)
-                .setHtml("Email:")
-            );
-            
-            host.group1.append((new linb.UI.Div)
-                .host(host,"div40")
-                .setLeft(30)
-                .setTop(50)
-                .setWidth(60)
-                .setHeight(20)
-                .setHtml("Any :")
-            );
-            
+
             host.group1.append((new linb.UI.Input)
                 .host(host,"input6")
                 .setDataBinder("databinder")
-                .setDataField("web")
-                .setLeft(80)
-                .setTop(50)
+                .setDataField("Name")
+                .setLeft(300)
+                .setTop(20)
+                .setValue("Jack")
             );
-            
+
+            host.group1.append((new linb.UI.RichEditor)
+                .host(host,"richeditor1")
+                .setDataBinder("databinder")
+                .setDataField("Memo")
+                .setLeft(20)
+                .setTop(80)
+                .setHeight(130)
+                .setValue(" Dear <font face='Courier New'><b>All</b></font>:<br> <hr size='1' width='100%'>")
+            );
+
+            host.group1.append((new linb.UI.SLabel)
+                .host(host,"slabel1")
+                .setLeft(240)
+                .setTop(25)
+                .setCaption("Name:")
+            );
+
+            host.group1.append((new linb.UI.SLabel)
+                .host(host,"slabel2")
+                .setLeft(20)
+                .setTop(25)
+                .setCaption("Email:")
+            );
+
+            host.group1.append((new linb.UI.SLabel)
+                .host(host,"slabel3")
+                .setLeft(20)
+                .setTop(60)
+                .setCaption("Memo:")
+            );
+
             return children;
             // ]]code created by jsLinb UI Builder
-        }, 
+        },
         _button22_onclick:function (profile, e, value) {
             var data=SPA.databinder.getValue();
             if(!data)
                 alert('Ensure all the fields are valid first!');
             else
                 SPA.input13.setValue(_.serialize(data),true);
-        }, 
+        },
         _onready:function () {
             SPA=this;
-        }, 
+        },
         _button29_onclick:function (profile, e, value) {
             SPA.databinder.resetValue( _.unserialize(SPA.input13.getUIValue()) );
-        }, 
-        base:[], 
-        required:["linb.DataBinder", "linb.UI.Input", "linb.UI.Button", "linb.UI.Group", "linb.UI.Div"]
+        }
     }
 });

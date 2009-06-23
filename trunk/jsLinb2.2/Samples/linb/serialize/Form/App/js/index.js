@@ -1,11 +1,11 @@
 Class('App', 'linb.Com',{
     Instance:{
         //Com events
-        events:{"onReady":"_onready"}, 
+        events:{"onReady":"_onready"},
         iniComponents:function(){
             // [[code created by jsLinb UI Builder
             var host=this, children=[], append=function(child){children.push(child.get(0))};
-            
+
             append((new linb.UI.Input)
                 .host(host,"inCode")
                 .setLeft(40)
@@ -14,7 +14,7 @@ Class('App', 'linb.Com',{
                 .setHeight(410)
                 .setMultiLines(true)
             );
-            
+
             append((new linb.UI.Button)
                 .host(host,"button29")
                 .setLeft(250)
@@ -23,7 +23,7 @@ Class('App', 'linb.Com',{
                 .setCaption("Build Form")
                 .onClick("_button29_onclick")
             );
-            
+
             append((new linb.UI.Button)
                 .host(host,"button22")
                 .setLeft(500)
@@ -31,7 +31,7 @@ Class('App', 'linb.Com',{
                 .setCaption("Get form values")
                 .onClick("_button22_onclick")
             );
-            
+
             append((new linb.UI.Block)
                 .host(host,"blockForm")
                 .setLeft(350)
@@ -39,7 +39,7 @@ Class('App', 'linb.Com',{
                 .setWidth(440)
                 .setHeight(410)
             );
-            
+
             append((new linb.UI.Div)
                 .host(host,"div8")
                 .setLeft(40)
@@ -47,7 +47,7 @@ Class('App', 'linb.Com',{
                 .setHeight(20)
                 .setHtml("Form Data :")
             );
-            
+
             append((new linb.UI.Div)
                 .host(host,"div9")
                 .setLeft(350)
@@ -55,10 +55,10 @@ Class('App', 'linb.Com',{
                 .setHeight(20)
                 .setHtml("Output:")
             );
-            
+
             return children;
             // ]]code created by jsLinb UI Builder
-        }, 
+        },
         _button22_onclick:function (profile, e, value) {
             var db;
             if(!this.$formObj)return;
@@ -71,11 +71,11 @@ Class('App', 'linb.Com',{
                 alert('Ensure all the fields are valid first!');
             else
                 alert(_.serialize(data));
-        }, 
+        },
         _onready:function () {
             SPA=this;
             SPA.inCode.setValue("{\n \"dbbinder\" : \"db1\",\n \"cols\" : 2,\n \"ctrls\" : [{\n \"id\" : \"label\",\n \"type\" : \"label\"\n },\n {\n \"id\" : \"button\",\n \"type\" : \"button\"\n },\n {\n \"id\" : \"checkbox\",\n \"type\" : \"checkbox\",\n \"value\" : true\n },\n {\n \"id\" : \"number\",\n \"type\" : \"number\",\n \"value\" : 20\n },\n {\n \"id\" : \"spin\",\n \"type\" : \"spin\",\n \"value\" : 20.01\n },\n {\n \"id\" : \"input\",\n \"type\" : \"input\",\n \"value\" : \"input\"\n },\n {\n \"id\" : \"combox\",\n \"type\" : \"combox\",\n \"value\" : \"combobox\"\n },\n {\n \"id\" : \"listbox\",\n \"type\" : \"listbox\"\n },\n {\n \"id\" : \"popbox\",\n \"type\" : \"popbox\",\n \"value\" : \"popbox\"\n },\n {\n \"id\" : \"cmdbox\",\n \"type\" : \"cmdbox\",\n \"value\" : \"cmdbox\"\n },\n {\n \"id\" : \"helpinput\",\n \"type\" : \"helpinput\",\n \"value\" : \"helpinput\"\n },\n {\n \"id\" : \"getter\",\n \"type\" : \"getter\",\n \"value\" : \"getter\"\n },\n {\n \"id\" : \"upload\",\n \"type\" : \"upload\"\n },\n {\n \"id\" : \"datepicker\",\n \"type\" : \"datepicker\",\n \"value\" : new Date(2008,11,9)\n },\n {\n \"id\" : \"timepicker\",\n \"type\" : \"timepicker\",\n \"value\" : \"09:10\"\n },\n {\n \"id\" : \"colorpicker\",\n \"type\" : \"colorpicker\",\n \"value\" : \"#00ff00\"\n },\n {\n \"id\" : \"textarea\",\n \"type\" : \"textarea\",\n \"value\" : \"text \\n area\"\n }]\n}\n");
-        }, 
+        },
         _button29_onclick:function (profile, e, value) {
             var code=this.inCode.getUIValue();
             try{
@@ -86,7 +86,7 @@ Class('App', 'linb.Com',{
             }
             this.$formObj=code;
             this.buildForm(code,this.blockForm.getSubNode('PANEL'));
-        }, 
+        },
         buildForm:function(form, parent, cols){
             var widget, type, ns=[], nodes=[], t, strA=[],
                 idc=new _.id;
@@ -202,8 +202,6 @@ Class('App', 'linb.Com',{
             parent.html(strA.join(''));
             nodes.render(true);
             ns.length=nodes.length=strA.length=0;
-        }, 
-        base:[], 
-        required:["linb.UI.Input", "linb.UI.Button", "linb.UI.Block", "linb.UI.Div"]
+        }
     }
 });
