@@ -20,7 +20,7 @@
                     {id:'linb.UI.Input', caption:'Input', image:_img_widgets, imagePos:'-112px top'},
                     {id:'linb.UI.List', caption:'List', image:_img_widgets, imagePos:'-192px top'},
                     {id:'linb.UI.ComboInput', caption:'ComboInput', image:_img_widgets, imagePos:'-144px top'},
-        
+                    {id:'linb.UI.RichEditor', caption:'RichEditor', image:_img_widgets, imagePos:'-128px top'},
                     {id:'linb.UI.ProgressBar', caption:'ProgressBar', image:_img_widgets, imagePos:'-608px top'},
         
                     {id:'linb.UI.Slider', caption:'Slider', image:_img_widgets, imagePos:'-64px -16px'},
@@ -49,8 +49,7 @@
                     {id:'linb.UI.MenuBar', caption:'MenuBar', image:_img_widgets, imagePos:'-416px top'},
                     {id:'linb.UI.ToolBar', caption:'ToolBar', image:_img_widgets, imagePos:'-432px top'},
                     {id:'linb.UI.Gallery', caption:'Gallery', image:_img_widgets, imagePos:'-448px top'},
-                    {id:'linb.UI.TreeBar', caption:'TreeBar', image:_img_widgets, imagePos:'-464px top'},
-                    {id:'linb.UI.TreeGrid', caption:'TreeGrid', image:_img_widgets, imagePos:'-480px top'}
+                    {id:'linb.UI.TreeBar', caption:'TreeBar', image:_img_widgets, imagePos:'-464px top'}
                 ]},
                 {id:'linb.UI.absAdv',caption:'Advanced',group:true, image:_img_app, imagePos:'-48px -48px', sub:[
                     {id:'linb.UI.TextEditor', caption:'TextEditor', image:_img_widgets, imagePos:'-128px top'},
@@ -84,9 +83,7 @@
             ]},
             {id:'snip', caption:'Common Funcions', group:true, image:_img_app, imagePos:'-64px -48px', sub:[
                 {id:'snip.tooltips',caption:'ToolTips',image:_img_app, imagePos:'-48px -64px'},
-                {id:'snip.serialize',caption:'(un)serialize',image:_img_app, imagePos:'-48px -64px'},
-                {id:'snip.panelRel',caption:'Pane Related',image:_img_app, imagePos:'-48px -64px'},
-                {id:'snip.panelBarRel',caption:'Panel Related',image:_img_app, imagePos:'-48px -64px'}
+                {id:'snip.serialize',caption:'(un)serialize',image:_img_app, imagePos:'-48px -64px'}
             ]}/*,    
             {id:'app', caption:'Application Related', group:true, image:_img_app, imagePos:'-64px -48px', sub:[
                 {id:'app.2',caption:'Skinable',image:_img_app, imagePos:'-48px -64px'},

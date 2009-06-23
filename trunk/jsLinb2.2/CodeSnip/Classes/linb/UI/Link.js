@@ -8,16 +8,18 @@
             
             append((new linb.UI.Link)
                 .host(host,"link1")
-                .setLeft(70)
-                .setTop(50)
-                .setCaption("link1")
+                .setLeft(60)
+                .setTop(60)
+                .setCaption("A default link can't open the href")
+                .setHref("http://www.google.com")
+                .setTarget("_blank")
             );
             
             append((new linb.UI.Link)
                 .host(host,"link2")
-                .setLeft(170)
-                .setTop(50)
-                .setCaption("click me")
+                .setLeft(60)
+                .setTop(140)
+                .setCaption("A link with onClick event")
                 .onShowTips("_shotips")
                 .onClick("_link2_onclick")
             );
@@ -25,9 +27,19 @@
             append((new linb.UI.Link)
                 .host(host,"link3")
                 .setDisabled(true)
-                .setLeft(290)
-                .setTop(50)
-                .setCaption("disabled")
+                .setLeft(60)
+                .setTop(200)
+                .setCaption("a disabled link")
+            );
+            
+            append((new linb.UI.Link)
+                .host(host,"link6")
+                .setLeft(60)
+                .setTop(100)
+                .setCaption("A link can open the href")
+                .setHref("http://www.google.com")
+                .setTarget("_blank")
+                .onClick("_link6_onclick")
             );
             
             return children;
@@ -35,9 +47,12 @@
         }, 
         _link2_onclick:function (profile, e) {
             linb.message(profile.boxing().getCaption() + ' clicked')
-        },
+        }, 
         _shotips:function(profile,node, pos){
             linb.Tips.show(pos, 'link tips');
+            return true;
+        }, 
+        _link6_onclick:function (profile, e) {
             return true;
         }
     }

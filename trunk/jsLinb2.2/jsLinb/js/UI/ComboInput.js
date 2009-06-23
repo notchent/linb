@@ -822,7 +822,6 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
 
             var t = profile.properties,
                 o = profile.getSubNode('BOX'),
-                o2 = profile.getSubNode('BORDER'),
                 px='px',
                 f=function(k){return k?profile.getSubNode(k).get(0):null},
                 v1=f('INPUT'),
@@ -866,7 +865,6 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
             }
 
             o.cssRegion({left:left,top:top,width:ww,height:hh});
-            o2.cssRegion({width:width,height:height});
 
             /*for ie6 bug*/
             if((profile.$border||profile.$shadow||profile.$resizer) && linb.browser.ie){

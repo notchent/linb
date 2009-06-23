@@ -82,6 +82,7 @@ Class("linb.UI.Input", ["linb.UI.Widget","linb.absValue"] ,{
         //modify default template fro shell
         var t = this.getTemplate();
         _.merge(t.FRAME.BORDER,{
+            style:'',
             BOX:{
                 WRAP:{
                     tagName : 'div',

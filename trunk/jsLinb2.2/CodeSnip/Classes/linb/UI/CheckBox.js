@@ -3,56 +3,66 @@ Class('App.linb_UI_CheckBox', 'linb.Com',{
         //base Class for linb.Com
         base:["linb.UI"], 
         //requried class for the App
-        required:["linb.UI.CheckBox"], 
+        required:["linb.UI.CheckBox", "linb.UI.SCheckBox", "linb.UI.Group"], 
         iniComponents:function(){
             // [[code created by jsLinb UI Builder
             var host=this, children=[], append=function(child){children.push(child.get(0))};
             
-            append((new linb.UI.CheckBox)
-                .host(host,"checkbox5")
+            append((new linb.UI.Group)
+                .host(host,"group2")
                 .setLeft(50)
                 .setTop(110)
-                .setWidth(190)
+                .setWidth(330)
+                .setHeight(310)
+                .setCaption("linb.UI.CheckBox")
+                .setToggleBtn(false)
+            );
+            
+            host.group2.append((new linb.UI.CheckBox)
+                .host(host,"checkbox5")
+                .setLeft(30)
+                .setTop(50)
+                .setWidth(250)
                 .setHeight(30)
-                .setCaption("with image")
+                .setCaption("a advanced checkbox with image")
                 .setImage("img/demo.gif")
             );
             
-            append((new linb.UI.CheckBox)
+            host.group2.append((new linb.UI.CheckBox)
                 .host(host,"checkbox4")
-                .setLeft(50)
-                .setTop(160)
-                .setWidth(190)
+                .setLeft(30)
+                .setTop(90)
+                .setWidth(250)
                 .setHeight(30)
                 .setShadow(true)
                 .setResizer(true)
-                .setCaption("with shadow")
+                .setCaption("a advanced checkbox with shadow")
             );
             
-            append((new linb.UI.CheckBox)
+            host.group2.append((new linb.UI.CheckBox)
                 .host(host,"checkbox6")
-                .setLeft(50)
+                .setLeft(30)
                 .setTop(210)
-                .setWidth(190)
+                .setWidth(250)
                 .setHeight(30)
                 .setCaption("Check me to check all")
                 .afterUIValueSet("_checkbox_aftervalueupdated")
             );
             
-            append((new linb.UI.CheckBox)
+            host.group2.append((new linb.UI.CheckBox)
                 .host(host,"checkbox1")
-                .setLeft(270)
-                .setTop(70)
-                .setWidth(190)
+                .setLeft(30)
+                .setTop(180)
+                .setWidth(250)
                 .setCaption("Cant check me")
                 .beforeUIValueSet("_checkbox1_beforeuivalueset")
             );
             
-            append((new linb.UI.CheckBox)
+            host.group2.append((new linb.UI.CheckBox)
                 .host(host,"checkbox3")
-                .setLeft(50)
-                .setTop(260)
-                .setWidth(190)
+                .setLeft(30)
+                .setTop(140)
+                .setWidth(250)
                 .setHeight(27)
                 .setBorder(true)
                 .setResizer(true)
@@ -60,19 +70,37 @@ Class('App.linb_UI_CheckBox', 'linb.Com',{
                 .setHAlign("right")
             );
             
-            append((new linb.UI.CheckBox)
+            host.group2.append((new linb.UI.CheckBox)
                 .host(host,"checkbox2")
-                .setLeft(50)
-                .setTop(70)
-                .setWidth(190)
+                .setLeft(30)
+                .setTop(10)
+                .setWidth(250)
                 .setHeight(27)
                 .setBorder(true)
-                .setCaption("with border")
+                .setCaption("a advanced checkbox with border")
+            );
+            
+            append((new linb.UI.Group)
+                .host(host,"group1")
+                .setLeft(50)
+                .setTop(20)
+                .setWidth(330)
+                .setHeight(70)
+                .setCaption("linb.UI.SCheckBox (recommended)")
+                .setToggleBtn(false)
+            );
+            
+            host.group1.append((new linb.UI.SCheckBox)
+                .host(host,"scheckbox1")
+                .setLeft(30)
+                .setTop(20)
+                .setCaption("a simple checkbox ")
             );
             
             return children;
             // ]]code created by jsLinb UI Builder
-        }, _checkbox_aftervalueupdated:function (profile, oldValue, newValue) {
+        }, 
+        _checkbox_aftervalueupdated:function (profile, oldValue, newValue) {
             linb.UI.CheckBox.getAll().setUIValue(newValue);
         }, 
         _checkbox1_beforeuivalueset:function (profile, oldValue, newValue) {

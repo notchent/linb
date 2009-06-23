@@ -76,7 +76,7 @@ Class('App.linb_UI_ComboInput', 'linb.Com',{
                 .host(host,"label9")
                 .setLeft(304)
                 .setTop(19)
-                .setCaption("listbox(border/resizer)")
+                .setCaption("listbox(shadow/resizer)")
             );
             
             append((new linb.UI.Label)
@@ -228,7 +228,6 @@ Class('App.linb_UI_ComboInput', 'linb.Com',{
                 .setTabindex("7")
                 .setBorder(false)
                 .setType("timepicker")
-                .setItems([{"id":"a", "caption":"itema", "tips":"item a"}, {"id":"b", "caption":"itemb", "tips":"item b"}, {"id":"c", "caption":"itemc", "tips":"item c"}])
             );
             
             append((new linb.UI.ComboInput)
@@ -238,7 +237,6 @@ Class('App.linb_UI_ComboInput', 'linb.Com',{
                 .setTabindex("8")
                 .setBorder(false)
                 .setType("colorpicker")
-                .setItems([{"id":"a", "caption":"itema", "tips":"item a"}, {"id":"b", "caption":"itemb", "tips":"item b"}, {"id":"c", "caption":"itemc", "tips":"item c"}])
             );
             
             append((new linb.UI.ComboInput)
@@ -247,6 +245,7 @@ Class('App.linb_UI_ComboInput', 'linb.Com',{
                 .setTop(14)
                 .setHeight(27)
                 .setTabindex("9")
+                .setShadow(true)
                 .setResizer(true)
                 .setReadonly(true)
                 .setType("listbox")
@@ -292,7 +291,6 @@ Class('App.linb_UI_ComboInput', 'linb.Com',{
                 .setTop(170)
                 .setTabindex("13")
                 .setType("none")
-                .setItems([{"id":"a", "caption":"itema", "tips":"item a", "sub":[{"id":"aa", "caption":"suba"}, {"id":"ab", "caption":"subb"}]}, {"id":"b", "caption":"itemb", "tips":"item b"}, {"id":"c", "caption":"itemc", "tips":"item c"}])
                 .setSaveBtn(true)
                 .onSave("_comboinput28_onsave")
             );
@@ -303,7 +301,7 @@ Class('App.linb_UI_ComboInput', 'linb.Com',{
                 .setTop(200)
                 .setTabindex("14")
                 .setType("datepicker")
-                .setItems([{"id":"a", "caption":"itema", "tips":"item a"}, {"id":"b", "caption":"itemb", "tips":"item b"}, {"id":"c", "caption":"itemc", "tips":"item c"}])
+                .setValue("-28800000")
             );
             
             append((new linb.UI.ComboInput)
@@ -312,7 +310,6 @@ Class('App.linb_UI_ComboInput', 'linb.Com',{
                 .setTop(230)
                 .setTabindex("15")
                 .setType("spin")
-                .setItems([{"id":"a", "caption":"itema", "tips":"item a"}, {"id":"b", "caption":"itemb", "tips":"item b"}, {"id":"c", "caption":"itemc", "tips":"item c"}])
                 .setValue("0")
             );
             
@@ -324,7 +321,6 @@ Class('App.linb_UI_ComboInput', 'linb.Com',{
                 .setTabindex("16")
                 .setReadonly(true)
                 .setType("upload")
-                .setItems([{"id":"a", "caption":"itema", "tips":"item a"}, {"id":"b", "caption":"itemb", "tips":"item b"}, {"id":"c", "caption":"itemc", "tips":"item c"}])
             );
             
             return children;

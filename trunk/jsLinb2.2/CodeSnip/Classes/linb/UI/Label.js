@@ -1,49 +1,112 @@
 Class('App.linb_UI_Label', 'linb.Com',{
     Instance:{
-        base:["linb.UI"], 
-        required:["linb.UI.Label"], 
         iniComponents:function(){
             // [[code created by jsLinb UI Builder
             var host=this, children=[], append=function(child){children.push(child.get(0))};
             
-            append((new linb.UI.Label)
+            append((new linb.UI.Group)
+                .host(host,"group1")
+                .setLeft(50)
+                .setTop(20)
+                .setWidth(690)
+                .setHeight(100)
+                .setCaption("linb.UI.SLabel (recommended)")
+                .setToggleBtn(false)
+            );
+            
+            host.group1.append((new linb.UI.SLabel)
+                .host(host,"slabel2")
+                .setLeft(280)
+                .setTop(10)
+                .setWidth(220)
+                .setCaption("simple label 1")
+            );
+            
+            host.group1.append((new linb.UI.SLabel)
+                .host(host,"slabel3")
+                .setLeft(280)
+                .setTop(30)
+                .setWidth(220)
+                .setCaption("simple label 1-1")
+            );
+            
+            host.group1.append((new linb.UI.SLabel)
+                .host(host,"slabel4")
+                .setLeft(280)
+                .setTop(50)
+                .setWidth(220)
+                .setCaption("simple label 1-1-1")
+            );
+            
+            host.group1.append((new linb.UI.SLabel)
+                .host(host,"slabel5")
+                .setLeft(10)
+                .setTop(10)
+                .setCaption("simple label 1")
+            );
+            
+            host.group1.append((new linb.UI.SLabel)
+                .host(host,"slabel6")
+                .setLeft(10)
+                .setTop(30)
+                .setCaption("simple label 1-1")
+            );
+            
+            host.group1.append((new linb.UI.SLabel)
+                .host(host,"slabel7")
+                .setLeft(10)
+                .setTop(50)
+                .setCaption("simple label 1-1-1")
+            );
+            
+            append((new linb.UI.Group)
+                .host(host,"group2")
+                .setLeft(50)
+                .setTop(140)
+                .setWidth(690)
+                .setHeight(310)
+                .setCaption("linb.UI.Label")
+                .setToggleBtn(false)
+            );
+            
+            host.group2.append((new linb.UI.Label)
                 .host(host,"label6")
-                .setLeft(64)
-                .setTop(250)
+                .setLeft(10)
+                .setTop(202)
                 .setWidth(232)
-                .setHeight(64)
+                .setHeight(42)
                 .setBorder(true)
                 .setCaption("<strong>label</strong> (left/bottom)")
                 .setHAlign("left")
                 .setVAlign("bottom")
             );
             
-            append((new linb.UI.Label)
+            host.group2.append((new linb.UI.Label)
                 .host(host,"label2")
-                .setLeft(64)
-                .setTop(56)
+                .setLeft(10)
+                .setTop(50)
                 .setWidth(224)
                 .setHeight(32)
                 .setBorder(true)
                 .setCaption("label with border")
             );
             
-            append((new linb.UI.Label)
+            host.group2.append((new linb.UI.Label)
                 .host(host,"label7")
-                .setLeft(632)
-                .setTop(128)
-                .setWidth(136)
-                .setHeight(80)
+                .setLeft(530)
+                .setTop(50)
+                .setWidth(110)
+                .setHeight(117)
                 .setBorder(true)
                 .setResizer(true)
                 .setCaption("resizable label")
                 .setHAlign("center")
             );
             
-            append((new linb.UI.Label)
+            host.group2.append((new linb.UI.Label)
                 .host(host,"label9")
-                .setLeft(336)
-                .setTop(56)
+                .setLeft(282)
+                .setTop(50)
                 .setWidth(224)
                 .setHeight(32)
                 .setBorder(true)
@@ -51,10 +114,10 @@ Class('App.linb_UI_Label', 'linb.Com',{
                 .setCustomStyle({"KEY":"cursor:pointer"})
             );
             
-            append((new linb.UI.Label)
+            host.group2.append((new linb.UI.Label)
                 .host(host,"label10")
-                .setLeft(336)
-                .setTop(110)
+                .setLeft(282)
+                .setTop(94)
                 .setWidth(224)
                 .setHeight(32)
                 .setBorder(true)
@@ -62,42 +125,42 @@ Class('App.linb_UI_Label', 'linb.Com',{
                 .setImage("img/demo.gif")
             );
             
-            append((new linb.UI.Label)
+            host.group2.append((new linb.UI.Label)
                 .host(host,"label11")
-                .setLeft(280)
-                .setTop(198)
+                .setLeft(226)
+                .setTop(150)
                 .setWidth(280)
-                .setHeight(72)
+                .setHeight(50)
                 .setZIndex("2")
                 .setBorder(true)
                 .setCaption("label (zIndex:2)")
             );
             
-            append((new linb.UI.Label)
+            host.group2.append((new linb.UI.Label)
                 .host(host,"label1")
-                .setLeft(65)
-                .setTop(16)
+                .setLeft(11)
+                .setTop(10)
                 .setWidth(224)
                 .setHeight(32)
-                .setCaption("normal label")
+                .setCaption("a advanced label")
             );
             
-            append((new linb.UI.Label)
+            host.group2.append((new linb.UI.Label)
                 .host(host,"label3")
-                .setLeft(64)
-                .setTop(158)
+                .setLeft(10)
+                .setTop(128)
                 .setWidth(224)
-                .setHeight(32)
+                .setHeight(22)
                 .setCaption("label with shadow text")
                 .setShadowText(true)
                 .setFontSize("16px")
                 .setFontWeight("bold")
             );
             
-            append((new linb.UI.Label)
+            host.group2.append((new linb.UI.Label)
                 .host(host,"label4")
-                .setLeft(64)
-                .setTop(206)
+                .setLeft(10)
+                .setTop(158)
                 .setWidth(232)
                 .setHeight(32)
                 .setBorder(true)
@@ -105,10 +168,10 @@ Class('App.linb_UI_Label', 'linb.Com',{
                 .setHAlign("center")
             );
             
-            append((new linb.UI.Label)
+            host.group2.append((new linb.UI.Label)
                 .host(host,"label5")
-                .setLeft(64)
-                .setTop(110)
+                .setLeft(10)
+                .setTop(94)
                 .setWidth(224)
                 .setHeight(32)
                 .setBorder(true)
@@ -116,22 +179,22 @@ Class('App.linb_UI_Label', 'linb.Com',{
                 .setCaption("label with border&shadow")
             );
             
-            append((new linb.UI.Label)
+            host.group2.append((new linb.UI.Label)
                 .host(host,"label12")
-                .setLeft(280)
-                .setTop(298)
+                .setLeft(226)
+                .setTop(232)
                 .setWidth(280)
-                .setHeight(64)
+                .setHeight(42)
                 .setZIndex("2")
                 .setBorder(true)
                 .setCaption("label (set background in onRender event)")
-                .onRender("_label12_aftercreated")
+                .onRender("_label12_onrender")
             );
             
             return children;
             // ]]code created by jsLinb UI Builder
         }, 
-        _label12_aftercreated:function (profile) {
+        _label12_onrender:function (profile) {
              profile.getSubNode('BORDER').css('background','#fff');
         }
     }

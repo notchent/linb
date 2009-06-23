@@ -180,6 +180,7 @@ Class("linb.UI.RichEditor", ["linb.UI","linb.absValue"],{
                         if(frames[id].document!=doc || doc.readyState=='complete'){
                             self.$win=frames[id];
                             self.$doc=doc=frames[id].document;
+
                             doc.open();
                             doc.write('<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><style type="text/css">body{border:0;margin:0;padding:0;margin:0;cursor:text;background:#fff;color:#000;padding:3px;}p{margin:0;padding:0;} div{margin:0;padding:0;}</style></head><body>'+self.properties.value+'</body></html>');
                             doc.close();
@@ -195,9 +196,10 @@ Class("linb.UI.RichEditor", ["linb.UI","linb.absValue"],{
                                 doc.attachEvent("onclick",event);
                                 doc.attachEvent("onkeyup",event);
                                 doc.attachEvent("onkeydown",event);
-                                self.$ondestory=function(){
+                                self.$beforeDestroy=function(){
                                     var doc=this.$doc,
                                         event=this._event;
+
                                     doc.detachEvent("onmousedown",event);
                                     doc.detachEvent("ondblclick",event);
                                     doc.detachEvent("onclick",event);
@@ -216,9 +218,14 @@ Class("linb.UI.RichEditor", ["linb.UI","linb.absValue"],{
                                 else
                                     doc.addEventListener("keydown",event,false);
 
-                                self.$ondestory=function(){
+                                //don't ues $ondestory, opera will set doc to null
+                                self.$beforeDestroy=function(){
                                     var doc=this.$doc,
                                         event=this._event;
+
+                                    //for firefox
+                                    if(linb.browser.gek)
+                                        delete frames[this.$frameId];
                                     doc.removeEventListener("mousedown",event,false);
                                     doc.removeEventListener("dblclick",event,false);
                                     doc.removeEventListener("click",event,false);
@@ -231,16 +238,18 @@ Class("linb.UI.RichEditor", ["linb.UI","linb.absValue"],{
                                 }
                             }
 
-                            event=self=checkF=doc=null;
+                            iframe.style.visibility='';
 
                             //for disabled
                             if(self.properties.disabled)
                                 self.boxing().setDisabled(true,true);
 
+                            event=self=checkF=doc=null;
+
                             return false;
                         }
                     };
-
+                self.$frameId=id;
                 iframe.id=iframe.name=id;
                 iframe.className=div.className;
                 iframe.src="javascript:false;";
@@ -250,6 +259,7 @@ Class("linb.UI.RichEditor", ["linb.UI","linb.absValue"],{
                 iframe.marginHeight=0;
                 iframe.tabIndex=-1;
                 iframe.allowTransparency="allowtransparency";
+                iframe.style.visibility='hidden';
 
 
                 //replace the original one
@@ -260,7 +270,7 @@ Class("linb.UI.RichEditor", ["linb.UI","linb.absValue"],{
 
                 linb.Thread.repeat(checkF,50);
 
-                iframe=div=null;
+                div=null;
             }
         },
         _clearPool:function(profile){

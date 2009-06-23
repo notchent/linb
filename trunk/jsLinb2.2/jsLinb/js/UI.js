@@ -938,6 +938,7 @@ Class("linb.UI",  "linb.absObj", {
     Instance:{
         destroy:function(){
             this.each(function(o){
+                _.tryF(o.$beforeDestroy,[],o);
                 if(o.beforeDestroy && false===o.boxing().beforeDestroy())return;
                 if(o.renderId)o.getRoot().remove();
                 else o.__gc();
@@ -2591,13 +2592,13 @@ Class("linb.UI",  "linb.absObj", {
                                             if(!/[\n\r]/.test(txt.substr(0,reg[0]))) b=true;
                                             break;
                                         case 'left':
-                                            if(ctrl || (reg[0]===0 && (reg[1]!==txt.length || reg[1]===0))) b=true;
+                                            if((ctrl&&!shift) || (reg[0]===0 && (reg[1]!==txt.length || reg[1]===0))) b=true;
                                             break;
                                         case 'down':
                                             if(!/[\n\r]/.test(txt.substr(reg[1],txt.length))) b=true;
                                             break;
                                         case 'right':
-                                            if(ctrl || (reg[1]===txt.length && (reg[0]!==0 || reg[1]===0))) b=true;
+                                            if((ctrl&&!shift) || (reg[1]===txt.length && (reg[0]!==0 || reg[1]===0))) b=true;
                                             break;
                                         case 'enter':
                                             if(k=='input' || alt)b=true;
@@ -4241,7 +4242,7 @@ new function(){
                     //**** if dont return false, this click will break sajax in IE
                     //**** In IE, click a href(not return false) will break the current script downloading
                     var href=linb.use(src).attr('href');
-                    return (href.indexOf('javascript:')===0||href.indexOf('#')===0||r===undefined) ? r : false;
+                    return typeof r=='boolean'?r:(href.indexOf('javascript:')===0||href.indexOf('#')===0)?true:false;
                 }
             },
             DataModel:{
@@ -4279,7 +4280,7 @@ new function(){
                 caption:{
                     ini:undefined,
                     action: function(value){
-                        this.room(value);
+                        this.getRoot().html(value);
                     }
                 },
                 hAlign:{

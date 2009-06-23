@@ -2700,8 +2700,8 @@ sortby [for column only]
                         case 'popbox':
                         case 'cmdbox':
                             editor.setType(type).beoforeComboPop(function(pro, pos, e, src){
-                                var cell=pro.$cell,event=getPro('event');
-                                if(getPro('disabled'))
+                                var cell=pro.$cell,event=profile.box.getCellPro(profile, cell, 'event');
+                                if(profile.box.getCellPro(profile, cell,'disabled'))
                                     return false;
                                 if(typeof event == 'function')
                                     return event.call(profile._host||profile, profile, cell, pro, pos,e,src);

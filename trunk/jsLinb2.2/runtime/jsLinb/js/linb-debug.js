@@ -10188,6 +10188,7 @@ Class("linb.UI",  "linb.absObj", {
     Instance:{
         destroy:function(){
             this.each(function(o){
+                _.tryF(o.$beforeDestroy,[],o);
                 if(o.beforeDestroy && false===o.boxing().beforeDestroy())return;
                 if(o.renderId)o.getRoot().remove();
                 else o.__gc();
@@ -11841,13 +11842,13 @@ Class("linb.UI",  "linb.absObj", {
                                             if(!/[\n\r]/.test(txt.substr(0,reg[0]))) b=true;
                                             break;
                                         case 'left':
-                                            if(ctrl || (reg[0]===0 && (reg[1]!==txt.length || reg[1]===0))) b=true;
+                                            if((ctrl&&!shift) || (reg[0]===0 && (reg[1]!==txt.length || reg[1]===0))) b=true;
                                             break;
                                         case 'down':
                                             if(!/[\n\r]/.test(txt.substr(reg[1],txt.length))) b=true;
                                             break;
                                         case 'right':
-                                            if(ctrl || (reg[1]===txt.length && (reg[0]!==0 || reg[1]===0))) b=true;
+                                            if((ctrl&&!shift) || (reg[1]===txt.length && (reg[0]!==0 || reg[1]===0))) b=true;
                                             break;
                                         case 'enter':
                                             if(k=='input' || alt)b=true;
@@ -13491,7 +13492,7 @@ new function(){
                     //**** if dont return false, this click will break sajax in IE
                     //**** In IE, click a href(not return false) will break the current script downloading
                     var href=linb.use(src).attr('href');
-                    return (href.indexOf('javascript:')===0||href.indexOf('#')===0||r===undefined) ? r : false;
+                    return typeof r=='boolean'?r:(href.indexOf('javascript:')===0||href.indexOf('#')===0)?true:false;
                 }
             },
             DataModel:{
@@ -13529,7 +13530,7 @@ new function(){
                 caption:{
                     ini:undefined,
                     action: function(value){
-                        this.room(value);
+                        this.getRoot().html(value);
                     }
                 },
                 hAlign:{
@@ -16548,6 +16549,7 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
         //modify default template fro shell
         var t = this.getTemplate();
         _.merge(t.FRAME.BORDER,{
+            style:'',
             BOX:{
                 WRAP:{
                     tagName : 'div',
@@ -17271,6 +17273,7 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
                         if(frames[id].document!=doc || doc.readyState=='complete'){
                             self.$win=frames[id];
                             self.$doc=doc=frames[id].document;
+
                             doc.open();
                             doc.write('<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><style type="text/css">body{border:0;margin:0;padding:0;margin:0;cursor:text;background:#fff;color:#000;padding:3px;}p{margin:0;padding:0;} div{margin:0;padding:0;}</style></head><body>'+self.properties.value+'</body></html>');
                             doc.close();
@@ -17286,9 +17289,10 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
                                 doc.attachEvent("onclick",event);
                                 doc.attachEvent("onkeyup",event);
                                 doc.attachEvent("onkeydown",event);
-                                self.$ondestory=function(){
+                                self.$beforeDestroy=function(){
                                     var doc=this.$doc,
                                         event=this._event;
+
                                     doc.detachEvent("onmousedown",event);
                                     doc.detachEvent("ondblclick",event);
                                     doc.detachEvent("onclick",event);
@@ -17307,9 +17311,14 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
                                 else
                                     doc.addEventListener("keydown",event,false);
 
-                                self.$ondestory=function(){
+                                //don't ues $ondestory, opera will set doc to null
+                                self.$beforeDestroy=function(){
                                     var doc=this.$doc,
                                         event=this._event;
+
+                                    //for firefox
+                                    if(linb.browser.gek)
+                                        delete frames[this.$frameId];
                                     doc.removeEventListener("mousedown",event,false);
                                     doc.removeEventListener("dblclick",event,false);
                                     doc.removeEventListener("click",event,false);
@@ -17322,16 +17331,18 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
                                 }
                             }
 
-                            event=self=checkF=doc=null;
+                            iframe.style.visibility='';
 
                             //for disabled
                             if(self.properties.disabled)
                                 self.boxing().setDisabled(true,true);
 
+                            event=self=checkF=doc=null;
+
                             return false;
                         }
                     };
-
+                self.$frameId=id;
                 iframe.id=iframe.name=id;
                 iframe.className=div.className;
                 iframe.src="javascript:false;";
@@ -17341,6 +17352,7 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
                 iframe.marginHeight=0;
                 iframe.tabIndex=-1;
                 iframe.allowTransparency="allowtransparency";
+                iframe.style.visibility='hidden';
 
 
                 //replace the original one
@@ -17351,7 +17363,7 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
 
                 linb.Thread.repeat(checkF,50);
 
-                iframe=div=null;
+                div=null;
             }
         },
         _clearPool:function(profile){
@@ -18486,7 +18498,6 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
 
             var t = profile.properties,
                 o = profile.getSubNode('BOX'),
-                o2 = profile.getSubNode('BORDER'),
                 px='px',
                 f=function(k){return k?profile.getSubNode(k).get(0):null},
                 v1=f('INPUT'),
@@ -18530,7 +18541,6 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
             }
 
             o.cssRegion({left:left,top:top,width:ww,height:hh});
-            o2.cssRegion({width:width,height:height});
 
             /*for ie6 bug*/
             if((profile.$border||profile.$shadow||profile.$resizer) && linb.browser.ie){
@@ -28889,8 +28899,8 @@ sortby [for column only]
                         case 'popbox':
                         case 'cmdbox':
                             editor.setType(type).beoforeComboPop(function(pro, pos, e, src){
-                                var cell=pro.$cell,event=getPro('event');
-                                if(getPro('disabled'))
+                                var cell=pro.$cell,event=profile.box.getCellPro(profile, cell, 'event');
+                                if(profile.box.getCellPro(profile, cell,'disabled'))
                                     return false;
                                 if(typeof event == 'function')
                                     return event.call(profile._host||profile, profile, cell, pro, pos,e,src);
