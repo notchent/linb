@@ -830,12 +830,6 @@ _.merge(linb,{
 
             //clear event handler
             if(id=v.id){
-/*                    if((t=ch[id]) || (t=ch[id.substr(0,id.indexOf(':'))]))
-                    for(j in t){
-                        //detach event here
-                        v[j]=null;
-                    }
-*/
                 //clear dom cache
                 //trigger object __gc
                 if(id in proMap){
@@ -13492,7 +13486,7 @@ new function(){
                     //**** if dont return false, this click will break sajax in IE
                     //**** In IE, click a href(not return false) will break the current script downloading
                     var href=linb.use(src).attr('href');
-                    return typeof r=='boolean'?r:(href.indexOf('javascript:')===0||href.indexOf('#')===0)?true:false;
+                    return typeof r=='boolean'?r:(href.indexOf('javascript:')===0||href.indexOf('#')===0)?false:true;
                 }
             },
             DataModel:{
