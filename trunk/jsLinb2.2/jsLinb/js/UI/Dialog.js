@@ -658,6 +658,7 @@ Class("linb.UI.Dialog","linb.UI.Widget",{
                     cover.css('display','block').onMousedown(function(){return false}).topZindex(true);
                     s.css('zIndex',(parseInt(cover.css('zIndex'))||0)+1);
 
+                    /*
                     //bak dlg tabzindnex
                     var hash={},a=profile.getRoot().query('*',function(o){return o.tabIndex>0}).get();
                     for(var i=0,o;o=a[i++];){
@@ -676,6 +677,7 @@ Class("linb.UI.Dialog","linb.UI.Widget",{
                         for(var j in h)
                             h[j].tabIndex=i;
                     }
+                    */
                     linb.Event.pushTabOutTrigger(profile.renderId, function(){linb([profile.renderId]).nextFocus()});
 
                     profile.$inModal=true;
@@ -689,7 +691,7 @@ Class("linb.UI.Dialog","linb.UI.Widget",{
                 profile.getSubNode('BORDER').append(profile.$modalDiv.reBoxing().css('display','none'));
 
                 profile.$inModal=false;
-
+                /*
                 var hash=profile.$focusHash,h;
                 for(var i in hash){
                     h=hash[i];
@@ -697,6 +699,7 @@ Class("linb.UI.Dialog","linb.UI.Widget",{
                         h[j].tabIndex=i;
                 }
                 _.breakO(profile.$focusHash,2);
+                */
                 linb.Event.popTabOutTrigger();
             }
         },

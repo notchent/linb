@@ -13002,7 +13002,7 @@ Class("linb.absList", "linb.absObj",{
 
                                     //parent node is deleted
                                     if(!force){
-                                        if(!(obj = profile.getSubNode(profile.keys[key]?key:'ITEM', serialId) ).isEmpty() )
+                                        if(!(obj = profile.getSubNode(profile.keys[key]?key:(profile.box._ITEMKEY||'ITEM'), serialId) ).isEmpty() )
                                             ns.merge(obj);
                                         //for inner template or linb.UI
                                         if(o.$linbid)ns.get().push(linb.getObject(o.$linbid).getRootNode());
@@ -25205,6 +25205,7 @@ Class("linb.UI.ToolBar",["linb.UI","linb.absList"],{
         }
     },
     Static:{
+        _ITEMKEY:'GROUP',
         Templates:{
             tagName:'div',
             ITEMS:{
@@ -30346,6 +30347,7 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
                     cover.css('display','block').onMousedown(function(){return false}).topZindex(true);
                     s.css('zIndex',(parseInt(cover.css('zIndex'))||0)+1);
 
+                    /*
                     //bak dlg tabzindnex
                     var hash={},a=profile.getRoot().query('*',function(o){return o.tabIndex>0}).get();
                     for(var i=0,o;o=a[i++];){
@@ -30364,6 +30366,7 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
                         for(var j in h)
                             h[j].tabIndex=i;
                     }
+                    */
                     linb.Event.pushTabOutTrigger(profile.renderId, function(){linb([profile.renderId]).nextFocus()});
 
                     profile.$inModal=true;
@@ -30377,7 +30380,7 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
                 profile.getSubNode('BORDER').append(profile.$modalDiv.reBoxing().css('display','none'));
 
                 profile.$inModal=false;
-
+                /*
                 var hash=profile.$focusHash,h;
                 for(var i in hash){
                     h=hash[i];
@@ -30385,6 +30388,7 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
                         h[j].tabIndex=i;
                 }
                 _.breakO(profile.$focusHash,2);
+                */
                 linb.Event.popTabOutTrigger();
             }
         },

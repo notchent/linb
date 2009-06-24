@@ -63,6 +63,7 @@ Class("linb.UI.ToolBar",["linb.UI","linb.absList"],{
         }
     },
     Static:{
+        _ITEMKEY:'GROUP',
         Templates:{
             tagName:'div',
             ITEMS:{

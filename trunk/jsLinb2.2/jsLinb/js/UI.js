@@ -3752,7 +3752,7 @@ Class("linb.absList", "linb.absObj",{
 
                                     //parent node is deleted
                                     if(!force){
-                                        if(!(obj = profile.getSubNode(profile.keys[key]?key:'ITEM', serialId) ).isEmpty() )
+                                        if(!(obj = profile.getSubNode(profile.keys[key]?key:(profile.box._ITEMKEY||'ITEM'), serialId) ).isEmpty() )
                                             ns.merge(obj);
                                         //for inner template or linb.UI
                                         if(o.$linbid)ns.get().push(linb.getObject(o.$linbid).getRootNode());
