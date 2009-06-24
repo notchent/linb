@@ -12,6 +12,7 @@ Class('App.Table', 'linb.Com',{
                         
             append((new linb.UI.TreeGrid)
                 .host(host,"treegrid3")
+                .setRowNumbered(true)
             );
 
             host.block1.append((new linb.UI.PageBar)

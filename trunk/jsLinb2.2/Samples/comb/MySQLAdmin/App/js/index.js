@@ -1,17 +1,9 @@
 
 Class('App', 'linb.Com',{
     Instance:{
-        _pageCount:20,
-        
-        //base Class for this com
-        base:["linb.UI"], 
-        //requried class for this com
-        required:["linb.UI.Layout", "linb.UI.TreeBar", "linb.UI.Tabs", "linb.UI.ToolBar", "linb.UI.Div", "linb.UI.Panel"], 
+        _pageCount:20, 
 
-        properties:{}, 
         events:{"onReady":"_onready"}, 
-        iniResource:function(com, threadid){
-        }, 
         iniComponents:function(){
             // [[code created by jsLinb UI Builder
             var host=this, children=[], append=function(child){children.push(child.get(0))};
@@ -26,7 +18,7 @@ Class('App', 'linb.Com',{
                 .host(host,"tabs")
                 .setItems([{"id":"Start", "caption":"Start"}])
                 .setValue("Start")
-                .setCustomStyle({PANEL:'overflow:hidden'})
+                .setCustomStyle({"PANEL":"overflow:hidden"})
             , 'main');
             
             host.tabs.append((new linb.UI.Div)
@@ -55,6 +47,7 @@ Class('App', 'linb.Com',{
             append((new linb.UI.ToolBar)
                 .host(host,"toolbar7")
                 .setItems([{"id":"item a", "sub":["Add connection", "Delete connection", "SQL query"], "caption":"item a"}])
+                .onClick("_toolbar7_onclick")
             );
             
             return children;
@@ -125,7 +118,7 @@ Class('App', 'linb.Com',{
                     };
                     if(!page.tagVars || page.tagVars._dbname != item._dbname || page.tagVars._tablename!= item.id)
                         page.clear();
-                    
+
                     var tagVars = this.tagVars={
                         _dbname:item._dbname,
                         _tablename:item.id,
@@ -138,6 +131,9 @@ Class('App', 'linb.Com',{
                 });
             }
             tabs.fireItemClickEvent(item.id);
+        }, 
+        _toolbar7_onclick:function (profile, item, group, e, src) {
+            linb.message('No implementation yet!')
         }
     }
 });
