@@ -2085,30 +2085,30 @@ Class("linb.UI",  "linb.absObj", {
             var ch=linb.$cache.UIKeyMapEvents,
                 eh=linb.Event._eventHandler,
                 children=_.toArr(node.getElementsByTagName('*')),
-                i,l,j,k,o,id,t,v;
+                i,l,j,k,id,t,v;
 
             if(includeSelf)
                 children.push(node);
             if(l=children.length){
                 for(i=0;i<l;i++){
-                    if((o=children[i]).nodeType!=1)continue;
-                    if(id=o.id){
+                    if((node=children[i]).nodeType!=1)continue;
+                    if(id=node.id){
                         if(t = ch[id] || ch[id.substr(0,id.indexOf(':'))] ){
-                            v=linb.$registerNode(o);
+                            v=linb.$registerNode(node);
                             v=v.eHandlers||(v.eHandlers={});
                             for(j in t){
                                 //attach event handler to domPurgeData
                                 v[j]=t[j];
                                 //attach event handler to dom node
                                 if(k=eh[j])
-                                    v[k]=o[k]=t[j];
+                                    v[k]=node[k]=t[j];
                             }
                         }
                     }
                 }
             }
             children.length=0;
-            o=node=null;
+            node=null;
         },
 
         _getChildren:function(profile){

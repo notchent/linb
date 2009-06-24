@@ -830,12 +830,6 @@ _.merge(linb,{
 
             //clear event handler
             if(id=v.id){
-/*                    if((t=ch[id]) || (t=ch[id.substr(0,id.indexOf(':'))]))
-                    for(j in t){
-                        //detach event here
-                        v[j]=null;
-                    }
-*/
                 //clear dom cache
                 //trigger object __gc
                 if(id in proMap){
