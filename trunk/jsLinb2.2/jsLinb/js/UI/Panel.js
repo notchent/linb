@@ -1,4 +1,19 @@
 Class("linb.UI.Panel", "linb.UI.Div",{
+    Instance:{
+        activate:function(flag){
+            var profile, cls=this.constructor;
+            if(profile=linb.UI._cache['$'+cls.activeWndId])
+                profile.getSubNode('TBAR').tagClass('-focus',false);
+            delete cls.activeWndId;
+
+            if(flag!==false){
+                profile=this.get(0);
+                profile.getSubNode('TBAR').tagClass('-focus');
+                profile.getSubNode('CAPTION').focus();
+                cls.activeWndId=profile.$linbid;
+            }
+        }
+    },
     Static:{
         Templates:{
             tagName : 'div',

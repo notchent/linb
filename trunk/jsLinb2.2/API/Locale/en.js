@@ -9782,6 +9782,19 @@ _.set(linb.Locale,["en","doc","linb","UI","Panel"], {
         $desc:"Creates a linb.UI.Panel Object."
     },
     prototype:{
+        activate:{
+            $desc:"Activates Panel.",
+            $rtn:"[self]",
+            $paras:[
+                "flag [Optional] : Boolean, false represents deactive."
+            ],
+            $snippet:[
+                "var id='linb.temp.panel01'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var btn;linb(id).prepend(btn=new linb.UI.Panel);"+
+                "_.asyRun(function(){btn.activate();},500); _.asyRun(function(){btn.activate(false);},1000);"+
+                "}"
+            ]
+        },
         getHref :{
             $desc:"Gets panel href",
             $rtn:"String",
@@ -11154,8 +11167,11 @@ _.set(linb.Locale,["en","doc","linb","UI","Dialog"], {
         activate:{
             $desc:"Activates dialog.",
             $rtn:"[self]",
+            $paras:[
+                "flag [Optional] : Boolean, false represents deactive."
+            ],
             $snippet:[
-                "var dlg1=(new linb.UI.Dialog({html:'dlg1'})).show(), dlg2=(new linb.UI.Dialog({html:'dlg2',left:100,top:100})).show(); _.asyRun(function(){dlg1.activate()},1000)"
+                "var dlg1=(new linb.UI.Dialog({html:'dlg1'})).show(), dlg2=(new linb.UI.Dialog({html:'dlg2',left:100,top:100})).show(); _.asyRun(function(){dlg1.activate()},500); _.asyRun(function(){dlg2.activate()},1000);_.asyRun(function(){dlg2.activate(false)},1500);"
             ]
         },
         close:{

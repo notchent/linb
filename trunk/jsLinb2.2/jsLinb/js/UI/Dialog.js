@@ -84,11 +84,13 @@ Class("linb.UI.Dialog","linb.UI.Widget",{
                     fun();
             });
         },
-        activate:function(){
+        activate:function(flag){
             var profile=this.get(0);
-            profile.box._active(profile);
-            //set default focus, the min tabzindex
-            _.resetRun("dlg_focus:"+profile.$linbid,function(){profile.getRoot().nextFocus()});
+            profile.box._active(profile,flag);
+            if(flag!==false){
+                //set default focus, the min tabzindex
+                _.resetRun("dlg_focus:"+profile.$linbid,function(){profile.getRoot().nextFocus()});
+            }
         }
     },
     Initialize:function(){
@@ -616,20 +618,21 @@ Class("linb.UI.Dialog","linb.UI.Widget",{
             // resize
             linb.UI.$tryResize(profile, t.width, t.height,true);
         },
-        _active:function(profile){
+        _active:function(profile,flag){
             var self=this;
-            if(self.activeWndId == profile.$linbid)return;
+            if(flag!==false && self.activeWndId==profile.$linbid)return;
 
             self._deActive();
-
-            var o=linb(profile.domId),
-                //in ie, .children can't get the same thread added node(modal div,  here)
-                t1=o.topZindex(),
-                t2=o.css('zIndex');
-            o.css('zIndex',t1>t2?t1:t2);
-
-            profile.getSubNode('TBAR').tagClass('-focus');
-            self.activeWndId = profile.$linbid;
+            if(flag!==false){
+                var o=linb(profile.domId),
+                    //in ie, .children can't get the same thread added node(modal div,  here)
+                    t1=o.topZindex(),
+                    t2=o.css('zIndex');
+                o.css('zIndex',t1>t2?t1:t2);
+    
+                profile.getSubNode('TBAR').tagClass('-focus');
+                self.activeWndId = profile.$linbid;
+            }
         },
         _deActive:function(){
             var profile;
