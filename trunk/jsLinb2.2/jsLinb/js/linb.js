@@ -1532,32 +1532,48 @@ Class('linb.SAjax','linb.absIO',{
             else
                 c._pool[id]=[self];
 
-            var w=c._n=document;
+            var w=c._n=document,
+                _cb=function(){
+                    if(!ok){
+                        ok=true;
+                        if(self.rspType=='script'){
+                            if(typeof self.checkKey=='string')
+                                _.asyRun(function(){
+                                    _.exec("if(linb.SC.get('"+self.checkKey+"'))linb.SAjax._pool['"+id+"'][0]._onResponse();" +
+                                        "else linb.SAjax._pool['"+id+"'][0]._loaded();");
+                                });
+                            else
+                                self._onResponse();
+                        }else
+                            self._loaded();
+                    }
+                };
             n = self.node = w.createElement("script");
             n.src = self.uri + (self.query?'?'+self.query:'');
             n.type= 'text/javascript';
             n.charset='utf-8';
             n.id='linb:script:'+self.id;
             n.onload = n.onreadystatechange = function(){
+                if(ok)
+                    return;
                 var t=this.readyState;
-                if(!ok && (!t || t == "loaded" || t == "complete") ) {
-                    ok=true;
-                    if(self.rspType=='script'){
-                        if(typeof self.checkKey=='string')
-                            _.asyRun(function(){
-                                _.exec("if(linb.SC.get('"+self.checkKey+"'))linb.SAjax._pool['"+id+"'][0]._onResponse();" +
-                                    "else linb.SAjax._pool['"+id+"'][0]._loaded();");
-                            });
-                        else
-                            self._onResponse();
-                    }else
-                        self._loaded();
+                if(!t || t == "loaded" || t == "complete")
+                    _cb();
+
+                if(t=='interactive' && linb.browser.opr){
+                    linb.Thread.repeat(function(){
+                        if(ok)
+                            return false;
+                        if (/loaded|complete/.test(document.readyState)) {
+                            _cb();
+                            return false;
+                        }
+                    },50);
                 }
             };
-            //firefox only
-            n.onerror=function(){
-                self._loaded();
-            };
+
+            if(linb.browser.gek)
+                n.onerror=_cb;
 
             //w.getElementsByTagName("head")[0].appendChild(n);
             w.body.appendChild(n);

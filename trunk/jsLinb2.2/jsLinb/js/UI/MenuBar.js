@@ -30,6 +30,7 @@ Class("linb.UI.MenuBar",["linb.UI","linb.absList" ],{
                     });
                 }
             }
+            return self;
         },
         _pop:function(id,src){
             var menu, 

@@ -320,12 +320,7 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
             ClickEffected:{TOGGLE:'TOGGLE', BAR:'BAR'},
             DragableKeys:["BAR"],
             DropableKeys:["BAR","TOGGLE","BOX"],
-            onSize:function(profile,e){
-                var o = profile.getRoot(),w=null,h=null;
-                if(e.height)h=o.height();
-                if(e.width)w=o.width();
-                linb.UI.$tryResize(profile, w, h);
-            },
+            onSize:linb.UI.$onSize,
             TOGGLE:{
                 onClick:function(profile, e, src){
                     var properties = profile.properties,

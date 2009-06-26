@@ -199,10 +199,7 @@ Class("linb.UI.Layout",["linb.UI", "linb.absList"],{
         Behaviors:{
             DropableKeys:['PANEL'],
             HoverEffected:{MOVE:'MOVE',CMD:'CMD'},
-            onSize:function(profile,e){
-                var o=profile.getRoot();
-                linb.UI.$tryResize(profile, e.width?o.width():null, e.height?o.height():null);
-            },
+            onSize:linb.UI.$onSize,
             MOVE:{
                 onMousedown:function(profile, e, src){
                     var itemId = profile.getSubId(src),

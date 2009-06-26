@@ -2,6 +2,7 @@ Class("linb.UI.RadioBox", "linb.UI.List",{
     Initialize:function(){
         //modify default template for shell
         var t = this.getTemplate();
+        t.ITEMS.className='';
         t.$submap={
             items:{
                 ITEM:{
@@ -57,6 +58,7 @@ Class("linb.UI.RadioBox", "linb.UI.List",{
         Behaviors:{
             HoverEffected:{ITEM:'MARK'},
             ClickEffected:{ITEM:'MARK'}
-        }
+        },
+        _onresize:function(){}
     }
 });

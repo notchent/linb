@@ -190,7 +190,6 @@ Class("linb.UI.Gallery", "linb.UI.List",{
             item.capition = item.capition || '';
             item.comment = item.comment || '';
             item._tabindex = p.tabindex;
-        },
-        _onresize:function(){}
+        }
     }
 });

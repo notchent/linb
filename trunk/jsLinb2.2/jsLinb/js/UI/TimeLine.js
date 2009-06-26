@@ -308,12 +308,7 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
             DropableKeys:['ITEMS'],
             HoverEffected:{PRE:'PRE',NEXT:'NEXT',ZOOMIN:'ZOOMIN',ZOOMOUT:'ZOOMOUT',DATE:'DATE',OPT:'OPT',CLOSE:'CLOSE',MIN:'MIN',NORMAL:'NORMAL'},
             ClickEffected:{PRE:'PRE',NEXT:'NEXT',ZOOMIN:'ZOOMIN',ZOOMOUT:'ZOOMOUT',DATE:'DATE',OPT:'OPT',CLOSE:'CLOSE',MIN:'MIN'},
-            onSize:function(profile,e){
-                var o = profile.getRootNode().style,f=parseInt, n=null, w=n, h=n;
-                if(e.height)h=f(o.height)||n;
-                if(e.width)w=f(o.width)||n;
-                if(h)linb.UI.$tryResize(profile, w, h);
-            },
+            onSize:linb.UI.$onSize,
             CLOSE:{
                 onClick:function(profile, e, src){
                     if(profile.properties.disabled)return;

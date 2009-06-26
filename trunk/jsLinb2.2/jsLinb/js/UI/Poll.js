@@ -146,6 +146,7 @@ Class("linb.UI.Poll", "linb.UI.List",{
                 }
             }
         };
+        t.ITEMS.className='';
         self.setTemplate(t);
 
         //for modify

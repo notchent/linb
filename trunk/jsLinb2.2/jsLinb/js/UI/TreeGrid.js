@@ -1046,10 +1046,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
             DropableKeys:['SCROLL','CELLS','FCELLCMD'],
             DragableKeys:['FCELL'],
 
-            onSize:function(profile,e){
-                var o = profile.getRoot();
-                linb.UI.$tryResize(profile, e.width?o.width():null, o.height?o.height():null);
-            },
+            onSize:linb.UI.$onSize,
             HFCELLA:{
                 onClick:function(profile,e,src){
                     profile.getSubNode('COLLIST').onClick(true);
@@ -2819,8 +2816,11 @@ sortby [for column only]
             var a=_.copy(arr),m;
             _.arr.each(a,function(o,i){
                 if(typeof o!= 'object')
-                    a[i]={id:o};
-                else a[i]=_.copy(o);
+                    a[i]={id:o+''};
+                else{
+                    a[i]=_.copy(o);
+                    a[i].id=a[i].id?(a[i].id+''):_.id();
+                }
             });
             return a;
         },
@@ -2836,8 +2836,11 @@ sortby [for column only]
                 m=a[i].cells=_.copy(a[i].cells);
                 _.arr.each(m,function(o,i){
                     if(typeof o!='object')
-                        m[i]={value:o};
-                    else m[i]=_.copy(o);
+                        m[i]={value:o+''};
+                    else{
+                        m[i]=_.copy(o);
+                        m[i].id=m[i].id?(m[i].id+''):_.id();
+                    }
                 })
             });
             return a;

@@ -105,6 +105,7 @@ Class("linb.UI.List", ["linb.UI", "linb.absList","linb.absValue" ],{
             ITEMS:{
                $order:10,
                tagName:'div',
+               className:'uiborder-inset',
                text:"{items}"
             },
             $submap:{
@@ -135,7 +136,6 @@ Class("linb.UI.List", ["linb.UI", "linb.absList","linb.absValue" ],{
             },
             ITEMS:{
                 position:'relative',
-                border:'1px solid #6a92ba',
                 overflow:'auto',
                 'overflow-x': (linb.browser.ie || linb.browser.gek)?'hidden':''
             },
@@ -173,12 +173,7 @@ Class("linb.UI.List", ["linb.UI", "linb.absList","linb.absValue" ],{
             ClickEffected:{ITEM:'ITEM'},
             DragableKeys:["ITEM"],
             DropableKeys:["ITEM","ITEMS"],
-            onSize:function(profile,e){
-                var o = profile.getRootNode().style,w=null,h=null;
-                if(e.height)h = parseInt(o.height)||w;
-                if(e.width)w = parseInt(o.width)||h;
-                linb.UI.$tryResize(profile, w, h);
-            },
+            onSize:linb.UI.$onSize,
             ITEM:{
                 onDblclick:function(profile, e, src){
                     var properties = profile.properties,
@@ -357,14 +352,8 @@ Class("linb.UI.List", ["linb.UI", "linb.absList","linb.absValue" ],{
             return false;
         },
         _onresize:function(profile,width,height){
-            var t=profile.properties,
-                temp,
-                l=profile.getSubNode('ITEMS')
-            ;
-            //no height set
-            if(!parseInt(profile.getRootNode().style.height))
-                return;
-            l.height(height);
+            if(height)
+                profile.getSubNode('ITEMS').height(height=='auto'?height:(height-2));
         }
     }
 });

@@ -167,12 +167,7 @@ Class("linb.UI.Panel", "linb.UI.Div",{
             DragableKeys:['TBAR'],
             HoverEffected:{OPT:'OPT', CLOSE:'CLOSE',LAND:'LAND', TOGGLE:'TOGGLE'},
             ClickEffected:{CLOSE:'CLOSE', OPT:'OPT', LAND:'LAND', TOGGLE:'TOGGLE'},
-            onSize:function(profile,e){
-                var o = profile.getRoot(),w=null,h=null;
-                if(e.height)h=o.height();
-                if(e.width)w=o.width();
-                linb.UI.$tryResize(profile, w, h);
-            },
+            onSize:linb.UI.$onSize,
             OPT:{
                 onClick:function(profile, e, src){
                     profile.boxing().onShowOptions(profile, e, src);
@@ -336,9 +331,13 @@ Class("linb.UI.Panel", "linb.UI.Div",{
                 v6=profile.getSubNode('MAINI'),
                 h1,h4,t;
             if(height){
-                h1=v1.height(), h4=v4.height();
-                if((t=height-h1-h4)>0)
-                    isize.height=t;
+                if(height=='auto')
+                    isize.height=height;
+                else{
+                    h1=v1.height(), h4=v4.height();
+                    if((t=height-h1-h4)>0)
+                        isize.height=t;
+                }
             }
             if(width)
                 isize.width=width-(parseInt(v6.css('paddingRight'))||0)-(parseInt(v5.css('paddingLeft'))||0);

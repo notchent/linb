@@ -58,13 +58,7 @@ Class('linb.UI.Calendar', 'linb.UI.DatePicker', {
             DropableKeys:['DAY'],
             HoverEffected:{},
             ClickEffected:{},
-            onSize:function(profile,e){
-                var o = profile.getRootNode().style,f=parseInt, n=null, w=n, h=n;
-                if(e.height)h=f(o.height)||n;
-                if(e.width)w=f(o.width)||n;
-                if(h||w)linb.UI.$tryResize(profile, w, h);
-                o=null;
-            },
+            onSize:linb.UI.$onSize,
             TD:{onClick:null}
         },
         DataModel:{

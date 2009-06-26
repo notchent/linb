@@ -1532,32 +1532,48 @@ Class('linb.SAjax','linb.absIO',{
             else
                 c._pool[id]=[self];
 
-            var w=c._n=document;
+            var w=c._n=document,
+                _cb=function(){
+                    if(!ok){
+                        ok=true;
+                        if(self.rspType=='script'){
+                            if(typeof self.checkKey=='string')
+                                _.asyRun(function(){
+                                    _.exec("if(linb.SC.get('"+self.checkKey+"'))linb.SAjax._pool['"+id+"'][0]._onResponse();" +
+                                        "else linb.SAjax._pool['"+id+"'][0]._loaded();");
+                                });
+                            else
+                                self._onResponse();
+                        }else
+                            self._loaded();
+                    }
+                };
             n = self.node = w.createElement("script");
             n.src = self.uri + (self.query?'?'+self.query:'');
             n.type= 'text/javascript';
             n.charset='utf-8';
             n.id='linb:script:'+self.id;
             n.onload = n.onreadystatechange = function(){
+                if(ok)
+                    return;
                 var t=this.readyState;
-                if(!ok && (!t || t == "loaded" || t == "complete") ) {
-                    ok=true;
-                    if(self.rspType=='script'){
-                        if(typeof self.checkKey=='string')
-                            _.asyRun(function(){
-                                _.exec("if(linb.SC.get('"+self.checkKey+"'))linb.SAjax._pool['"+id+"'][0]._onResponse();" +
-                                    "else linb.SAjax._pool['"+id+"'][0]._loaded();");
-                            });
-                        else
-                            self._onResponse();
-                    }else
-                        self._loaded();
+                if(!t || t == "loaded" || t == "complete")
+                    _cb();
+
+                if(t=='interactive' && linb.browser.opr){
+                    linb.Thread.repeat(function(){
+                        if(ok)
+                            return false;
+                        if (/loaded|complete/.test(document.readyState)) {
+                            _cb();
+                            return false;
+                        }
+                    },50);
                 }
             };
-            //firefox only
-            n.onerror=function(){
-                self._loaded();
-            };
+
+            if(linb.browser.gek)
+                n.onerror=_cb;
 
             //w.getElementsByTagName("head")[0].appendChild(n);
             w.body.appendChild(n);
@@ -11307,6 +11323,12 @@ Class("linb.UI",  "linb.absObj", {
         $CLS:"#cls#",
         $tag_subId:"_serialId",
         $childTag:"<!--{id}-->",
+        $onSize:function(profile,e){
+            var style = profile.getRootNode().style;
+            if(e.width||e.height)
+                linb.UI.$tryResize(profile, style.width, style.height);
+            style=null;
+        },
 
         $theme:'default',
         $ps:{left:1,top:1,width:1,height:1,right:1,bottom:1},
@@ -12433,9 +12455,9 @@ Class("linb.UI",  "linb.absObj", {
                         }
                     });
                 }
-                //keep the last one
-                if(w)args[1]=w;
-                if(h)args[2]=h;
+                //keep the last one, neglect zero and 'auto'
+                args[1]=parseInt(w)||null;
+                args[2]=((h===""||h=='auto')?"auto":parseInt(h))||null;
                 args[3]=force;
                 args[4]=key;
             }
@@ -13171,8 +13193,11 @@ Class("linb.absList", "linb.absObj",{
             var a=_.copy(arr),m;
             _.arr.each(a,function(o,i){
                 if(typeof o!= 'object')
-                    a[i]={id:o};
-                else a[i]=_.copy(o);
+                    a[i]={id:o+''};
+                else{
+                    a[i]=_.copy(o);
+                    a[i].id=a[i].id?(a[i].id+''):_.id();
+                }
             });
             return a;
         },
@@ -13398,17 +13423,7 @@ new function(){
             },
             Behaviors:{
                 KeyHook:true,
-                onSize:function(profile,e){
-                    //if fire onresize ,w/h must be set to style
-                    var style = profile.getRootNode().style ,w=null,h=null;
-
-                    if(e.width)
-                        w=parseInt(style.width)||w;
-                    if(e.height)
-                        h=parseInt(style.height)||h;
-
-                    linb.UI.$tryResize(profile,w,h);
-                }
+                onSize:linb.UI.$onSize
             },
             DataModel:{
                 width:100,
@@ -13438,14 +13453,14 @@ new function(){
                     hh=height,
                     left=Math.max(0, (t.$b_lw||0)-(t.$hborder||0)),
                     top=Math.max(0, (t.$b_tw||0)-(t.$vborder||0));
-                if(null!==ww){
+                if(ww&&'auto'!==ww){
                     ww -= Math.max((t.$hborder||0)*2, (t.$b_lw||0)+(t.$b_rw||0));
                     /*for ie6 bug*/
                     /*for example, if single number, 100% width will add 1*/
                     /*for example, if single number, attached shadow will overlap*/
                     if(linb.browser.ie6)ww=(parseInt(ww/2))*2;
                 }
-                if(null!==hh){
+                if(hh&&'auto'!==hh){
                     hh -=Math.max((t.$vborder||0)*2, (t.$b_lw||0) + (t.$b_rw||0));
 
                     if(linb.browser.ie6)hh=(parseInt(hh/2))*2;
@@ -13484,7 +13499,7 @@ new function(){
                     if(!profile.properties.disabled && profile.onClick)
                         r = profile.boxing().onClick(profile, e, src);
                     //**** if dont return false, this click will break sajax in IE
-                    //**** In IE, click a href(not return false) will break the current script downloading
+                    //**** In IE, click a fake(javascript: or #) href(onclick not return false) will break the current script downloading
                     var href=linb.use(src).attr('href');
                     return typeof r=='boolean'?r:(href.indexOf('javascript:')===0||href.indexOf('#')===0)?false:true;
                 }
@@ -14502,8 +14517,8 @@ Class("linb.UI.Resizer","linb.UI",{
                 position:'absolute',
                 margin:'0 -1px -1px 0',
                 visibility: 'visible',
-                '_font-size':0,
-                '_line-height':0,
+                'font-size':0,
+                'line-height':0,
 
                 //for ie
                 '*background': 'url('+linb.ini.path+'bg.gif)',
@@ -14517,8 +14532,8 @@ Class("linb.UI.Resizer","linb.UI",{
                 'z-index':100,
                 visibility: 'visible',
                 background: linb.UI.$bg('icons.gif', 'no-repeat -17px -244px', true),
-                '_font-size':0,
-                '_line-height':0
+                'font-size':0,
+                'line-height':0
             },
             HANDLER:{
                 $order:0,
@@ -14528,8 +14543,8 @@ Class("linb.UI.Resizer","linb.UI",{
                 'background-color':'#fff',
                 'z-index':100,
                 visibility: 'visible',
-                '_font-size':0,
-                '_line-height':0
+                'font-size':0,
+                'line-height':0
             },
             T:{
                $order:1,
@@ -15092,7 +15107,7 @@ Class("linb.UI.Resizer","linb.UI",{
 
                     //force to resize
                     ns.box._setB(ns);
-                    linb.UI.$tryResize(ns,root.width(),root.height());
+                    linb.UI.$tryResize(ns,root.get(0).style.width,root.get(0).style.height);
                 }
             },
             background:{
@@ -15124,7 +15139,8 @@ Class("linb.UI.Resizer","linb.UI",{
                 p=profile.properties,
                 b=(p.$iborder||0)*2;
             if(size.width)size.width-=b;
-            if(size.height)size.height-=b;
+            if(size.height&&'auto'!==size.height)
+                size.height-=b;
             profile.getSubNode('PANEL').cssSize(size,true);
         }
     }
@@ -16146,10 +16162,7 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
         Behaviors:{
             HoverEffected:{IND1:'IND1',IND2:'IND2',DECREASE:'DECREASE',INCREASE:'INCREASE'},
             ClickEffected:{IND1:'IND1',IND2:'IND2',DECREASE:'DECREASE',INCREASE:'INCREASE'},
-            onSize:function(profile,e){
-                var o = profile.getRoot();
-                linb.UI.$tryResize(profile, e.width?o.width():null, o.height?o.height():null);
-            },
+            onSize:linb.UI.$onSize,
             IND:{
                 onClick:function(profile, e, src){
                     var p=profile.properties,
@@ -17162,15 +17175,7 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
             }
         },
         Behaviors:{
-            onSize:function(profile,e){
-                //if fire onresize ,w/h must be set to style
-                var style = profile.getRootNode().style ,w=null,h=null;
-                if(e.width)
-                    w=parseInt(style.width)||w;
-                if(e.height)
-                    h=parseInt(style.height)||h;
-                linb.UI.$tryResize(profile, w, h);
-            }
+            onSize:linb.UI.$onSize
         },
         $cmds:{
             //font style
@@ -17708,7 +17713,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                 v = t(profile, value);
             else{
                 //get from items
-                if('listbox'==pro.type){
+                if('listbox'==pro.type || 'combobox'==pro.type){
                     if( (v=_.arr.subIndexOf(pro.items,'id',value))!=-1){
                         v=pro.items[v].caption;
                         v=v.charAt(0)=='$'?linb.getRes(v.slice(1)):v;
@@ -18563,15 +18568,7 @@ Class("linb.UI.Group", "linb.UI.Div",{
             ClickEffected:{TOGGLE:'TOGGLE'},
             DropableKeys:['PANEL'],
             DragableKeys:['HANDLE'],
-            onSize:function(profile,e){
-                //if fire onresize ,w/h must be set to style
-                var style = profile.getRootNode().style ,w=null,h=null;
-                if(e.width)
-                    w=parseInt(style.width)||w;
-                if(e.height)
-                    h=parseInt(style.height)||h;
-                linb.UI.$tryResize(profile, w, h);
-            },
+            onSize:linb.UI.$onSize,
             HANDLE:{
                 onClick:function(profile, e, src){
                     if(profile.properties.toggleBtn){
@@ -18719,11 +18716,11 @@ Class("linb.UI.Group", "linb.UI.Div",{
             return data;
         },
         _onresize:function(profile,width,height){
-            if(height && parseInt(profile.getRootNode().style.height)){
+            if(height && height!='auto'){
                 profile.getSubNode('FIELDSET').height(height);
                 profile.getSubNode('PANEL').height(height-(profile.getSubNode('LEGEND').height()||18));
             }
-            if(width && parseInt(profile.getRootNode().style.width))
+            if(width && width!='auto')
                 profile.getSubNode('PANEL').width(width-2);
         },
         _toggle:function(profile, value){
@@ -20910,6 +20907,7 @@ Class("linb.UI.Group", "linb.UI.Div",{
             ITEMS:{
                $order:10,
                tagName:'div',
+               className:'uiborder-inset',
                text:"{items}"
             },
             $submap:{
@@ -20940,7 +20938,6 @@ Class("linb.UI.Group", "linb.UI.Div",{
             },
             ITEMS:{
                 position:'relative',
-                border:'1px solid #6a92ba',
                 overflow:'auto',
                 'overflow-x': (linb.browser.ie || linb.browser.gek)?'hidden':''
             },
@@ -20978,12 +20975,7 @@ Class("linb.UI.Group", "linb.UI.Div",{
             ClickEffected:{ITEM:'ITEM'},
             DragableKeys:["ITEM"],
             DropableKeys:["ITEM","ITEMS"],
-            onSize:function(profile,e){
-                var o = profile.getRootNode().style,w=null,h=null;
-                if(e.height)h = parseInt(o.height)||w;
-                if(e.width)w = parseInt(o.width)||h;
-                linb.UI.$tryResize(profile, w, h);
-            },
+            onSize:linb.UI.$onSize,
             ITEM:{
                 onDblclick:function(profile, e, src){
                     var properties = profile.properties,
@@ -21162,14 +21154,8 @@ Class("linb.UI.Group", "linb.UI.Div",{
             return false;
         },
         _onresize:function(profile,width,height){
-            var t=profile.properties,
-                temp,
-                l=profile.getSubNode('ITEMS')
-            ;
-            //no height set
-            if(!parseInt(profile.getRootNode().style.height))
-                return;
-            l.height(height);
+            if(height)
+                profile.getSubNode('ITEMS').height(height=='auto'?height:(height-2));
         }
     }
 });
@@ -21365,8 +21351,7 @@ Class("linb.UI.Gallery", "linb.UI.List",{
             item.capition = item.capition || '';
             item.comment = item.comment || '';
             item._tabindex = p.tabindex;
-        },
-        _onresize:function(){}
+        }
     }
 });
 Class("linb.UI.IconList", "linb.UI.List",{
@@ -21499,8 +21484,7 @@ Class("linb.UI.IconList", "linb.UI.List",{
                 item[i] = item[i] || p[i];
             });
             item._tabindex = p.tabindex;
-        },
-        _onresize:function(){}
+        }
     }
 });
 Class("linb.UI.Panel", "linb.UI.Div",{
@@ -21672,12 +21656,7 @@ Class("linb.UI.Panel", "linb.UI.Div",{
             DragableKeys:['TBAR'],
             HoverEffected:{OPT:'OPT', CLOSE:'CLOSE',LAND:'LAND', TOGGLE:'TOGGLE'},
             ClickEffected:{CLOSE:'CLOSE', OPT:'OPT', LAND:'LAND', TOGGLE:'TOGGLE'},
-            onSize:function(profile,e){
-                var o = profile.getRoot(),w=null,h=null;
-                if(e.height)h=o.height();
-                if(e.width)w=o.width();
-                linb.UI.$tryResize(profile, w, h);
-            },
+            onSize:linb.UI.$onSize,
             OPT:{
                 onClick:function(profile, e, src){
                     profile.boxing().onShowOptions(profile, e, src);
@@ -21841,9 +21820,13 @@ Class("linb.UI.Panel", "linb.UI.Div",{
                 v6=profile.getSubNode('MAINI'),
                 h1,h4,t;
             if(height){
-                h1=v1.height(), h4=v4.height();
-                if((t=height-h1-h4)>0)
-                    isize.height=t;
+                if(height=='auto')
+                    isize.height=height;
+                else{
+                    h1=v1.height(), h4=v4.height();
+                    if((t=height-h1-h4)>0)
+                        isize.height=t;
+                }
             }
             if(width)
                 isize.width=width-(parseInt(v6.css('paddingRight'))||0)-(parseInt(v5.css('paddingLeft'))||0);
@@ -22263,10 +22246,11 @@ Class("linb.UI.Tabs", ["linb.UI", "linb.absList","linb.absValue"],{
                         profile.getSubNodes(['ITEM','BOX'],itemId).tagClass('-checked');
                         if(box.KEY!='linb.UI.Tabs'||properties.hasPanel){
                             // show pane
-                            box.getPanel(value).show('auto',profile.getSubNode('LIST').offsetHeight()+'px');
-                            t=profile.getRoot().cssSize();
+                            box.getPanel(value).css('position','relative').show('auto','auto');
+                            t=profile.getRootNode().style;
                             //reset width and height
-                            linb.UI.$tryResize(profile, parseInt(t.width)||null, parseInt(t.height)||null, false, value);
+                            linb.UI.$tryResize(profile, t.width, t.height, false, value);
+                            t=null;
 
                             //dynamic render
                             if(properties.dynRender){
@@ -22378,8 +22362,8 @@ Class("linb.UI.Tabs", ["linb.UI", "linb.absList","linb.absValue"],{
                     this.fireItemClickEvent((v=pp.items[0]) && (v=v.id));
 
                 var t=profile.getRootNode().style;
-
-                linb.UI.$tryResize(profile, parseInt(t.width)||null, parseInt(t.height)||null, false,v);
+                linb.UI.$tryResize(profile, t.width, t.height, false,v);
+                t=null;
             }
         },
         /*  remove some views from pageView
@@ -22408,8 +22392,11 @@ Class("linb.UI.Tabs", ["linb.UI", "linb.absList","linb.absValue"],{
                     var i;
                     profile.boxing().fireItemClickEvent((i=profile.properties.items[0]) && i.id);
                 }
-                if(profile.properties.hasPanel)
-                    linb.UI.$tryResize(profile, profile.getRoot().width(), profile.getRoot().height(), false, profile.boxing().getUIValue());
+                if(profile.properties.hasPanel){
+                    var t=profile.getRootNode().style;
+                    linb.UI.$tryResize(profile, t.width, t.height, false, profile.boxing().getUIValue());
+                    t=null;
+                }
             });
 
             return self;
@@ -22608,12 +22595,7 @@ Class("linb.UI.Tabs", ["linb.UI", "linb.absList","linb.absValue"],{
             DragableKeys:['ITEM'],
             HoverEffected:{ITEM:'ITEM',OPT:'OPT',CLOSE:'CLOSE',LAND:'LAND'},
             ClickEffected:{ITEM:'ITEM',OPT:'OPT',CLOSE:'CLOSE',LAND:'LAND'},
-            onSize:function(profile,e){
-                var o = profile.getRootNode().style,w=null,h=null;
-                if(e.height)h = parseInt(o.height)||null;
-                if(e.width)w = parseInt(o.width)||null;
-                linb.UI.$tryResize(profile, w, h);
-            },
+            onSize:linb.UI.$onSize,
             OPT:{
                 onMousedown:function(){
                     return false;
@@ -22735,7 +22717,9 @@ Class("linb.UI.Tabs", ["linb.UI", "linb.absList","linb.absValue"],{
 
                     instance.afterPageClose(profile, bak);
 
-                    linb.UI.$tryResize(profile, profile.getRoot().width(), profile.getRoot().height());
+                    var t=profile.getRootNode().style;
+                    linb.UI.$tryResize(profile, t.width, t.height);
+                    t=null;
                     //for design mode in firefox
                     return false;
                 }
@@ -22843,8 +22827,9 @@ Class("linb.UI.Tabs", ["linb.UI", "linb.absList","linb.absValue"],{
                             box.setValue(bv,true);
 
                             //resize
-                            var size = o.getRoot().cssSize();
-                            linb.UI.$tryResize(o, size.width, size.height);
+                            var t=o.getRootNode().style;
+                            linb.UI.$tryResize(o, t.width, t.height);
+                            t=null;
                         }else
                             o.properties.items = _.copy(value);
                     });
@@ -22913,26 +22898,25 @@ Class("linb.UI.Tabs", ["linb.UI", "linb.absList","linb.absValue"],{
             ;
             if(!o || o.isEmpty())return;
 
-            //no height set
-            if(!parseInt(profile.getRootNode().style.height))
-                height=null;
-
             var wc=null,hc=null;
             if(force)item._w=item._h=null;
             if(width && item._w!=width){
-                height=profile.getRootNode().offsetHeight || profile.getRoot().offsetHeight();
+                if(height!='auto')
+                    height=profile.getRootNode().offsetHeight || profile.getRoot().offsetHeight();
                 forceH=1;
             }
             if((height && item._h!=height) || forceH){
                 item._h=height;
-                listH = l.get(0).offsetHeight ||
-                    //for opear 9.0 get height bug, get offsetheight in firefox is slow
-                    l.offsetHeight();
-
-                height = height-listH+(linb.browser.ie6?2:1);
-                if(height>0)hc=height;
+                if(height && height!='auto'){
+                    listH = l.get(0).offsetHeight ||
+                        //for opear 9.0 get height bug, get offsetheight in firefox is slow
+                        l.offsetHeight();
+    
+                    height = height-listH+(linb.browser.ie6?2:1);
+                    if(height>0)hc=height;
+                }else hc=height;
             }
-            if(listH)o.top(listH);
+            //if(listH)o.top(listH);
             //force to trigger onSze event, whatever width or height was changed.
             if(hc)o.height(hc).onSize();
         }
@@ -23217,7 +23201,8 @@ Class("linb.UI.ButtonViews", "linb.UI.Tabs",{
                     }else{
                         hs.height(v);
                     }
-                    linb.UI.$tryResize(self,self.getRoot().width(), self.getRoot().height());
+                    var t=self.getRootNode().style;
+                    linb.UI.$tryResize(self,t.width, t.height);
                 }
             }
         },
@@ -23265,6 +23250,7 @@ Class("linb.UI.ButtonViews", "linb.UI.Tabs",{
     Initialize:function(){
         //modify default template for shell
         var t = this.getTemplate();
+        t.ITEMS.className='';
         t.$submap={
             items:{
                 ITEM:{
@@ -23320,7 +23306,8 @@ Class("linb.UI.ButtonViews", "linb.UI.Tabs",{
         Behaviors:{
             HoverEffected:{ITEM:'MARK'},
             ClickEffected:{ITEM:'MARK'}
-        }
+        },
+        _onresize:function(){}
     }
 });
 Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
@@ -23645,12 +23632,7 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
             ClickEffected:{TOGGLE:'TOGGLE', BAR:'BAR'},
             DragableKeys:["BAR"],
             DropableKeys:["BAR","TOGGLE","BOX"],
-            onSize:function(profile,e){
-                var o = profile.getRoot(),w=null,h=null;
-                if(e.height)h=o.height();
-                if(e.width)w=o.width();
-                linb.UI.$tryResize(profile, w, h);
-            },
+            onSize:linb.UI.$onSize,
             TOGGLE:{
                 onClick:function(profile, e, src){
                     var properties = profile.properties,
@@ -24762,6 +24744,7 @@ Class("linb.UI.MenuBar",["linb.UI","linb.absList" ],{
                     });
                 }
             }
+            return self;
         },
         _pop:function(id,src){
             var menu, 
@@ -25697,10 +25680,7 @@ Class("linb.UI.Layout",["linb.UI", "linb.absList"],{
         Behaviors:{
             DropableKeys:['PANEL'],
             HoverEffected:{MOVE:'MOVE',CMD:'CMD'},
-            onSize:function(profile,e){
-                var o=profile.getRoot();
-                linb.UI.$tryResize(profile, e.width?o.width():null, e.height?o.height():null);
-            },
+            onSize:linb.UI.$onSize,
             MOVE:{
                 onMousedown:function(profile, e, src){
                     var itemId = profile.getSubId(src),
@@ -27258,10 +27238,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
             DropableKeys:['SCROLL','CELLS','FCELLCMD'],
             DragableKeys:['FCELL'],
 
-            onSize:function(profile,e){
-                var o = profile.getRoot();
-                linb.UI.$tryResize(profile, e.width?o.width():null, o.height?o.height():null);
-            },
+            onSize:linb.UI.$onSize,
             HFCELLA:{
                 onClick:function(profile,e,src){
                     profile.getSubNode('COLLIST').onClick(true);
@@ -29031,8 +29008,11 @@ sortby [for column only]
             var a=_.copy(arr),m;
             _.arr.each(a,function(o,i){
                 if(typeof o!= 'object')
-                    a[i]={id:o};
-                else a[i]=_.copy(o);
+                    a[i]={id:o+''};
+                else{
+                    a[i]=_.copy(o);
+                    a[i].id=a[i].id?(a[i].id+''):_.id();
+                }
             });
             return a;
         },
@@ -29048,8 +29028,11 @@ sortby [for column only]
                 m=a[i].cells=_.copy(a[i].cells);
                 _.arr.each(m,function(o,i){
                     if(typeof o!='object')
-                        m[i]={value:o};
-                    else m[i]=_.copy(o);
+                        m[i]={value:o+''};
+                    else{
+                        m[i]=_.copy(o);
+                        m[i].id=m[i].id?(m[i].id+''):_.id();
+                    }
                 })
             });
             return a;
@@ -29368,10 +29351,7 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
         Behaviors:{
             HoverEffected:{IND1:'IND1',IND2:'IND2',DECREASE:'DECREASE',INCREASE:'INCREASE'},
             ClickEffected:{IND1:'IND1',IND2:'IND2',DECREASE:'DECREASE',INCREASE:'INCREASE'},
-            onSize:function(profile,e){
-                var o = profile.getRoot();
-                linb.UI.$tryResize(profile, e.width?o.width():null, o.height?o.height():null);
-            },
+            onSize:linb.UI.$onSize,
             IND:{
                 onClick:function(profile, e, src){
                     var p=profile.properties,
@@ -29926,6 +29906,11 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
                 'font-size':'12px',
                 display:'inline',
                 'vertical-align':'middle'
+            },
+            BORDER:{
+                position:'relative',
+                'font-size':0,
+                'line-height':0
             }
         },
         Behaviors:{
@@ -30277,7 +30262,7 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
             }
 
             ins.setDock('none');
-            
+
             // resize
             linb.UI.$tryResize(profile, t.width, t.height,true);
         },
@@ -30388,7 +30373,8 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
         },
         _refreshRegion:function(profile){
             if(!profile.renderId) return;
-            return _.merge(profile.properties, profile.getRoot().cssRegion(), 'all');
+            var pro=profile.properties;
+            return _.merge(pro, profile.getRoot().cssRegion(), function(o,i){return pro[i]!='auto'});
         },
 
         _adjust:function(dialog,caption, content){
@@ -30690,9 +30676,13 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
                 v6=profile.getSubNode('MAINI'),
                 h1,h4,t;
             if(height){
-                h1=v1.height(), h4=v4.height();
-                if((t=size.height-h1-h4)>0)
-                    isize.height=t;
+                if(height=='auto'){
+                    isize.height=height;
+                }else{
+                    h1=v1.height(), h4=v4.height();
+                    if((t=size.height-h1-h4)>0)
+                        isize.height=t;
+                }
             }
 
             if(width)

@@ -272,10 +272,7 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
         Behaviors:{
             HoverEffected:{IND1:'IND1',IND2:'IND2',DECREASE:'DECREASE',INCREASE:'INCREASE'},
             ClickEffected:{IND1:'IND1',IND2:'IND2',DECREASE:'DECREASE',INCREASE:'INCREASE'},
-            onSize:function(profile,e){
-                var o = profile.getRoot();
-                linb.UI.$tryResize(profile, e.width?o.width():null, o.height?o.height():null);
-            },
+            onSize:linb.UI.$onSize,
             IND:{
                 onClick:function(profile, e, src){
                     var p=profile.properties,

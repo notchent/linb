@@ -75,15 +75,7 @@ Class("linb.UI.RichEditor", ["linb.UI","linb.absValue"],{
             }
         },
         Behaviors:{
-            onSize:function(profile,e){
-                //if fire onresize ,w/h must be set to style
-                var style = profile.getRootNode().style ,w=null,h=null;
-                if(e.width)
-                    w=parseInt(style.width)||w;
-                if(e.height)
-                    h=parseInt(style.height)||h;
-                linb.UI.$tryResize(profile, w, h);
-            }
+            onSize:linb.UI.$onSize
         },
         $cmds:{
             //font style

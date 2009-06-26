@@ -151,8 +151,8 @@ Class("linb.UI.Resizer","linb.UI",{
                 position:'absolute',
                 margin:'0 -1px -1px 0',
                 visibility: 'visible',
-                '_font-size':0,
-                '_line-height':0,
+                'font-size':0,
+                'line-height':0,
 
                 //for ie
                 '*background': 'url('+linb.ini.path+'bg.gif)',
@@ -166,8 +166,8 @@ Class("linb.UI.Resizer","linb.UI",{
                 'z-index':100,
                 visibility: 'visible',
                 background: linb.UI.$bg('icons.gif', 'no-repeat -17px -244px', true),
-                '_font-size':0,
-                '_line-height':0
+                'font-size':0,
+                'line-height':0
             },
             HANDLER:{
                 $order:0,
@@ -177,8 +177,8 @@ Class("linb.UI.Resizer","linb.UI",{
                 'background-color':'#fff',
                 'z-index':100,
                 visibility: 'visible',
-                '_font-size':0,
-                '_line-height':0
+                'font-size':0,
+                'line-height':0
             },
             T:{
                $order:1,

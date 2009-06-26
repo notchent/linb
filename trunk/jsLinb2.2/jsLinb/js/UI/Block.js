@@ -72,7 +72,7 @@ Class("linb.UI.Block", "linb.UI.Widget",{
 
                     //force to resize
                     ns.box._setB(ns);
-                    linb.UI.$tryResize(ns,root.width(),root.height());
+                    linb.UI.$tryResize(ns,root.get(0).style.width,root.get(0).style.height);
                 }
             },
             background:{
@@ -104,7 +104,8 @@ Class("linb.UI.Block", "linb.UI.Widget",{
                 p=profile.properties,
                 b=(p.$iborder||0)*2;
             if(size.width)size.width-=b;
-            if(size.height)size.height-=b;
+            if(size.height&&'auto'!==size.height)
+                size.height-=b;
             profile.getSubNode('PANEL').cssSize(size,true);
         }
     }

@@ -2063,6 +2063,12 @@ Class("linb.UI",  "linb.absObj", {
         $CLS:"#cls#",
         $tag_subId:"_serialId",
         $childTag:"<!--{id}-->",
+        $onSize:function(profile,e){
+            var style = profile.getRootNode().style;
+            if(e.width||e.height)
+                linb.UI.$tryResize(profile, style.width, style.height);
+            style=null;
+        },
 
         $theme:'default',
         $ps:{left:1,top:1,width:1,height:1,right:1,bottom:1},
@@ -3189,9 +3195,9 @@ Class("linb.UI",  "linb.absObj", {
                         }
                     });
                 }
-                //keep the last one
-                if(w)args[1]=w;
-                if(h)args[2]=h;
+                //keep the last one, neglect zero and 'auto'
+                args[1]=parseInt(w)||null;
+                args[2]=((h===""||h=='auto')?"auto":parseInt(h))||null;
                 args[3]=force;
                 args[4]=key;
             }
@@ -3927,8 +3933,11 @@ Class("linb.absList", "linb.absObj",{
             var a=_.copy(arr),m;
             _.arr.each(a,function(o,i){
                 if(typeof o!= 'object')
-                    a[i]={id:o};
-                else a[i]=_.copy(o);
+                    a[i]={id:o+''};
+                else{
+                    a[i]=_.copy(o);
+                    a[i].id=a[i].id?(a[i].id+''):_.id();
+                }
             });
             return a;
         },
@@ -4154,17 +4163,7 @@ new function(){
             },
             Behaviors:{
                 KeyHook:true,
-                onSize:function(profile,e){
-                    //if fire onresize ,w/h must be set to style
-                    var style = profile.getRootNode().style ,w=null,h=null;
-
-                    if(e.width)
-                        w=parseInt(style.width)||w;
-                    if(e.height)
-                        h=parseInt(style.height)||h;
-
-                    linb.UI.$tryResize(profile,w,h);
-                }
+                onSize:linb.UI.$onSize
             },
             DataModel:{
                 width:100,
@@ -4194,14 +4193,14 @@ new function(){
                     hh=height,
                     left=Math.max(0, (t.$b_lw||0)-(t.$hborder||0)),
                     top=Math.max(0, (t.$b_tw||0)-(t.$vborder||0));
-                if(null!==ww){
+                if(ww&&'auto'!==ww){
                     ww -= Math.max((t.$hborder||0)*2, (t.$b_lw||0)+(t.$b_rw||0));
                     /*for ie6 bug*/
                     /*for example, if single number, 100% width will add 1*/
                     /*for example, if single number, attached shadow will overlap*/
                     if(linb.browser.ie6)ww=(parseInt(ww/2))*2;
                 }
-                if(null!==hh){
+                if(hh&&'auto'!==hh){
                     hh -=Math.max((t.$vborder||0)*2, (t.$b_lw||0) + (t.$b_rw||0));
 
                     if(linb.browser.ie6)hh=(parseInt(hh/2))*2;

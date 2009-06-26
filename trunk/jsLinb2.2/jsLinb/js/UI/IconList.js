@@ -128,7 +128,6 @@ Class("linb.UI.IconList", "linb.UI.List",{
                 item[i] = item[i] || p[i];
             });
             item._tabindex = p.tabindex;
-        },
-        _onresize:function(){}
+        }
     }
 });

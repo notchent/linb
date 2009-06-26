@@ -21,10 +21,11 @@ Class("linb.UI.Tabs", ["linb.UI", "linb.absList","linb.absValue"],{
                         profile.getSubNodes(['ITEM','BOX'],itemId).tagClass('-checked');
                         if(box.KEY!='linb.UI.Tabs'||properties.hasPanel){
                             // show pane
-                            box.getPanel(value).show('auto',profile.getSubNode('LIST').offsetHeight()+'px');
-                            t=profile.getRoot().cssSize();
+                            box.getPanel(value).css('position','relative').show('auto','auto');
+                            t=profile.getRootNode().style;
                             //reset width and height
-                            linb.UI.$tryResize(profile, parseInt(t.width)||null, parseInt(t.height)||null, false, value);
+                            linb.UI.$tryResize(profile, t.width, t.height, false, value);
+                            t=null;
 
                             //dynamic render
                             if(properties.dynRender){
@@ -136,8 +137,8 @@ Class("linb.UI.Tabs", ["linb.UI", "linb.absList","linb.absValue"],{
                     this.fireItemClickEvent((v=pp.items[0]) && (v=v.id));
 
                 var t=profile.getRootNode().style;
-
-                linb.UI.$tryResize(profile, parseInt(t.width)||null, parseInt(t.height)||null, false,v);
+                linb.UI.$tryResize(profile, t.width, t.height, false,v);
+                t=null;
             }
         },
         /*  remove some views from pageView
@@ -166,8 +167,11 @@ Class("linb.UI.Tabs", ["linb.UI", "linb.absList","linb.absValue"],{
                     var i;
                     profile.boxing().fireItemClickEvent((i=profile.properties.items[0]) && i.id);
                 }
-                if(profile.properties.hasPanel)
-                    linb.UI.$tryResize(profile, profile.getRoot().width(), profile.getRoot().height(), false, profile.boxing().getUIValue());
+                if(profile.properties.hasPanel){
+                    var t=profile.getRootNode().style;
+                    linb.UI.$tryResize(profile, t.width, t.height, false, profile.boxing().getUIValue());
+                    t=null;
+                }
             });
 
             return self;
@@ -366,12 +370,7 @@ Class("linb.UI.Tabs", ["linb.UI", "linb.absList","linb.absValue"],{
             DragableKeys:['ITEM'],
             HoverEffected:{ITEM:'ITEM',OPT:'OPT',CLOSE:'CLOSE',LAND:'LAND'},
             ClickEffected:{ITEM:'ITEM',OPT:'OPT',CLOSE:'CLOSE',LAND:'LAND'},
-            onSize:function(profile,e){
-                var o = profile.getRootNode().style,w=null,h=null;
-                if(e.height)h = parseInt(o.height)||null;
-                if(e.width)w = parseInt(o.width)||null;
-                linb.UI.$tryResize(profile, w, h);
-            },
+            onSize:linb.UI.$onSize,
             OPT:{
                 onMousedown:function(){
                     return false;
@@ -493,7 +492,9 @@ Class("linb.UI.Tabs", ["linb.UI", "linb.absList","linb.absValue"],{
 
                     instance.afterPageClose(profile, bak);
 
-                    linb.UI.$tryResize(profile, profile.getRoot().width(), profile.getRoot().height());
+                    var t=profile.getRootNode().style;
+                    linb.UI.$tryResize(profile, t.width, t.height);
+                    t=null;
                     //for design mode in firefox
                     return false;
                 }
@@ -601,8 +602,9 @@ Class("linb.UI.Tabs", ["linb.UI", "linb.absList","linb.absValue"],{
                             box.setValue(bv,true);
 
                             //resize
-                            var size = o.getRoot().cssSize();
-                            linb.UI.$tryResize(o, size.width, size.height);
+                            var t=o.getRootNode().style;
+                            linb.UI.$tryResize(o, t.width, t.height);
+                            t=null;
                         }else
                             o.properties.items = _.copy(value);
                     });
@@ -671,26 +673,25 @@ Class("linb.UI.Tabs", ["linb.UI", "linb.absList","linb.absValue"],{
             ;
             if(!o || o.isEmpty())return;
 
-            //no height set
-            if(!parseInt(profile.getRootNode().style.height))
-                height=null;
-
             var wc=null,hc=null;
             if(force)item._w=item._h=null;
             if(width && item._w!=width){
-                height=profile.getRootNode().offsetHeight || profile.getRoot().offsetHeight();
+                if(height!='auto')
+                    height=profile.getRootNode().offsetHeight || profile.getRoot().offsetHeight();
                 forceH=1;
             }
             if((height && item._h!=height) || forceH){
                 item._h=height;
-                listH = l.get(0).offsetHeight ||
-                    //for opear 9.0 get height bug, get offsetheight in firefox is slow
-                    l.offsetHeight();
-
-                height = height-listH+(linb.browser.ie6?2:1);
-                if(height>0)hc=height;
+                if(height && height!='auto'){
+                    listH = l.get(0).offsetHeight ||
+                        //for opear 9.0 get height bug, get offsetheight in firefox is slow
+                        l.offsetHeight();
+    
+                    height = height-listH+(linb.browser.ie6?2:1);
+                    if(height>0)hc=height;
+                }else hc=height;
             }
-            if(listH)o.top(listH);
+            //if(listH)o.top(listH);
             //force to trigger onSze event, whatever width or height was changed.
             if(hc)o.height(hc).onSize();
         }

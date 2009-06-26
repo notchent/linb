@@ -243,6 +243,11 @@ Class("linb.UI.Dialog","linb.UI.Widget",{
                 'font-size':'12px',
                 display:'inline',
                 'vertical-align':'middle'
+            },
+            BORDER:{
+                position:'relative',
+                'font-size':0,
+                'line-height':0
             }
         },
         Behaviors:{
@@ -594,7 +599,7 @@ Class("linb.UI.Dialog","linb.UI.Widget",{
             }
 
             ins.setDock('none');
-            
+
             // resize
             linb.UI.$tryResize(profile, t.width, t.height,true);
         },
@@ -705,7 +710,8 @@ Class("linb.UI.Dialog","linb.UI.Widget",{
         },
         _refreshRegion:function(profile){
             if(!profile.renderId) return;
-            return _.merge(profile.properties, profile.getRoot().cssRegion(), 'all');
+            var pro=profile.properties;
+            return _.merge(pro, profile.getRoot().cssRegion(), function(o,i){return pro[i]!='auto'});
         },
 
         _adjust:function(dialog,caption, content){
@@ -1007,9 +1013,13 @@ Class("linb.UI.Dialog","linb.UI.Widget",{
                 v6=profile.getSubNode('MAINI'),
                 h1,h4,t;
             if(height){
-                h1=v1.height(), h4=v4.height();
-                if((t=size.height-h1-h4)>0)
-                    isize.height=t;
+                if(height=='auto'){
+                    isize.height=height;
+                }else{
+                    h1=v1.height(), h4=v4.height();
+                    if((t=size.height-h1-h4)>0)
+                        isize.height=t;
+                }
             }
 
             if(width)

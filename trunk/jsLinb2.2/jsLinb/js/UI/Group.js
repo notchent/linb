@@ -13,15 +13,7 @@ Class("linb.UI.Group", "linb.UI.Div",{
             ClickEffected:{TOGGLE:'TOGGLE'},
             DropableKeys:['PANEL'],
             DragableKeys:['HANDLE'],
-            onSize:function(profile,e){
-                //if fire onresize ,w/h must be set to style
-                var style = profile.getRootNode().style ,w=null,h=null;
-                if(e.width)
-                    w=parseInt(style.width)||w;
-                if(e.height)
-                    h=parseInt(style.height)||h;
-                linb.UI.$tryResize(profile, w, h);
-            },
+            onSize:linb.UI.$onSize,
             HANDLE:{
                 onClick:function(profile, e, src){
                     if(profile.properties.toggleBtn){
@@ -169,11 +161,11 @@ Class("linb.UI.Group", "linb.UI.Div",{
             return data;
         },
         _onresize:function(profile,width,height){
-            if(height && parseInt(profile.getRootNode().style.height)){
+            if(height && height!='auto'){
                 profile.getSubNode('FIELDSET').height(height);
                 profile.getSubNode('PANEL').height(height-(profile.getSubNode('LEGEND').height()||18));
             }
-            if(width && parseInt(profile.getRootNode().style.width))
+            if(width && width!='auto')
                 profile.getSubNode('PANEL').width(width-2);
         },
         _toggle:function(profile, value){
