@@ -990,7 +990,7 @@ _.set(linb.Locale,["en","doc","linb","Thread"], {
         ]
     },
     isAlive:{
-        $desc:"Gets a specified thread Object by threadid.",
+        $desc:"To determine whether the specific thread id is alive.",
         $rtn:"Boolean",
         $paras:[
             "id [Required]: String, thread id."
@@ -1055,6 +1055,10 @@ _.set(linb.Locale,["en","doc","linb","Thread"], {
                 "var t2=linb.Thread(null,[function(){out.push(6)},function(){out.push(7)}],null,null,function(){out.push(5)},function(){out.push(8);alert(out);});" +
                 "t1.links(t2); t1.start();"
             ]
+        },
+        isAlive:{
+            $desc:"To determine whether the thread is alive.",
+            $rtn:"Boolean"
         },
         abort:{
             $desc:"To abort the thread.",
@@ -1178,6 +1182,10 @@ _.set(linb.Locale,["en","doc","linb","absIO"], {
             $snippet:[
                 "//linb.Ajax('uri').start();"
             ]
+        },
+        isAlive:{
+            $desc:"To determine whether the linb.absIO is alive.",
+            $rtn:"Boolean"
         },
         abort:{
             $desc:'To abort a linb.absIO process.',

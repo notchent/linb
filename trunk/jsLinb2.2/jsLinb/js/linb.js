@@ -1174,6 +1174,9 @@ Class('linb.Thread',null,{
         setCache:function(key,value){
             this.profile.cache[key] = value;
             return this;
+        },
+        isAlive:function(){
+            return !!linb.$cache.thread[this.id];
         }
     },
     After:function(){
@@ -1322,7 +1325,7 @@ Class('linb.absIO',null,{
         _flag:0,
         _response:'',
         _retryNo:0,
-        _end:false,
+        inProcessing:false,
 
         _time:function() {
             var self=this,c=self.constructor;
@@ -1338,14 +1341,16 @@ Class('linb.absIO',null,{
         },
         _onEnd:function(){
             var self=this;
-            self._end=true;
-            if(self._flag>0){
-                clearTimeout(self._flag);
-                self._flag=0
+            if(!self._end){
+                self._end=true;
+                if(self._flag>0){
+                    clearTimeout(self._flag);
+                    self._flag=0
+                }
+                linb.Thread.resume(self.threadid);
+                _.tryF(self.onEnd,[],self);
+                self._clear();
             }
-            linb.Thread.resume(self.threadid);
-            _.tryF(self.onEnd,[],self);
-            self._clear();
         },
         _onStart:function(){
             var self=this;
@@ -1363,6 +1368,9 @@ Class('linb.absIO',null,{
             if(false!==_.tryF(self.beforeFail,[e, self.threadid],self))
                 _.tryF(self.onFail,[String(e), self.rspType, self.threadid], self);
             self._onEnd();
+        },
+        isAlive:function(){
+            return !this._end;
         },
         abort:function(){
             this._onEnd();

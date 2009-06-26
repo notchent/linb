@@ -954,6 +954,22 @@ _.set(linb.Locale,["cn","doc","linb","Thread"], {
         "var a=[],i=3; linb.Thread(null, [function(){a.push(1)},function(){a.push(2)}],0,function(){i--;if(!i)return false;},null,function(){alert(a);},true).start()"
     ],
     $memo:"不要使用[new linb.tread]去创造一个[linb.tread]对象.",
+    group:{
+        $desc:"将一系列的linb.Thread对象(或线程id)编组, 打包到一个可执行的线程. 程序员可并行的执行他们.",
+        $rtn:"linb.Thread",
+        $paras:[
+            "id [必需参数]: String, thread id. 线程id. 不需要指定时可传入[null]..",
+            "group [必需参数]: Array, 一系列的linb.Thread对象(或线程id).",
+            "callback [可选参数]: Function, 参数: [threadid]. 回调函数.",
+            "onStart [可选参数]: Function, 参数: [threadid].  线程开始时调用.",
+            "onEnd [可选参数]:  Function, 参数: [threadid].  线程结束时调用."
+        ],
+        $snippet:[
+            "var a=[]; var t1=linb.Thread('t1',[function(){a.push(1)},function(){a.push(2)}]), t2=linb.Thread('t2',[function(){a.push('a')},function(){a.push('b')}]);"+
+            "linb.Thread.group(null,[t1,'t2'],function(){a.push('|')},function(){a.push('<')},function(){a.push('>');alert(a);}).start();"
+        ],
+        $memo:"You have to use start function to start [thread group]!"
+    },
     abort:{
         $desc:"按照识别号终止一个线程.",
         $paras:[
@@ -1056,6 +1072,10 @@ _.set(linb.Locale,["cn","doc","linb","Thread"], {
                 "var t2=linb.Thread(null,[function(){out.push(6)},function(){out.push(7)}],null,null,function(){out.push(5)},function(){out.push(8);alert(out);});" +
                 "t1.links(t2); t1.start();"
             ]
+        },
+        isAlive:{
+            $desc:"判断线程是否还活着.",
+            $rtn:"Boolean"
         },
         abort:{
             $desc:"终止该线程.",
@@ -1179,6 +1199,10 @@ _.set(linb.Locale,["cn","doc","linb","absIO"], {
             $snippet:[
                 "//linb.Ajax('uri').start();"
             ]
+        },
+        isAlive:{
+            $desc:"判断 IO 是否还活着.",
+            $rtn:"Boolean"
         },
         abort:{
             $desc:'取消执行linb.absIO对象.',
