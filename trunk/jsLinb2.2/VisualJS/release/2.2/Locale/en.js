@@ -102,6 +102,8 @@
         noSaved:'No Files Modified Since Last Saving'
     },
     projectPro:{
+        type:"Template type:",
+        template:"Template list:",
         name:"Project Name :",
         'class':"Class Name :",
         pagefile:"Page File :",

@@ -167,49 +167,6 @@ class VisualJS extends Unit
             return;
 
             break;
-        case 'new':
-            $r = array();
-            $r['path'] = $hash->path;
-            $r['className'] = $hash->className;
-
-            $prjpath = self::PROJECTS_PATH.DIRECTORY_SEPARATOR.$r['path'];
-
-            //replace exists project file
-            $path = $prjpath;
-            if($io->exists($path)){
-                throw new LINB_E("$path exists!");
-            }
-            //$io->delete($path);
-            $io->dirMake($path, true);
-
-            $template = $io->getString(self::TEMPLATE_HTML);
-            //html page file
-            file_put_contents($path.DIRECTORY_SEPARATOR.self::INDEX.self::FILE_HTML, LINB::parseTemplate($template, $r));
-
-            $template = $io->getString(self::TEMPLATE_DEBUG);
-            //html page file
-            file_put_contents($path.DIRECTORY_SEPARATOR.self::DEBUG.self::FILE_HTML, LINB::parseTemplate($template, $r));
-
-            //img path
-            $io->dirMake($path.DIRECTORY_SEPARATOR.self::IMG_PATH, true);
-            
-            $rpath=$path;
-            //base class path
-            $path = $rpath.DIRECTORY_SEPARATOR.$r['className'];
-            $io->dirMake($path, true);
-            //js path
-            $path = $path.DIRECTORY_SEPARATOR.self::JS_PATH;
-            $io->dirMake($path, true);
-
-            $template = $io->getString(self::TEMPLATE_JS);
-            // js class file
-            file_put_contents($path.DIRECTORY_SEPARATOR.self::INDEX.self::FILE_JS, LINB::parseTemplate($template, $r));
-
-            $path=$rpath.DIRECTORY_SEPARATOR.self::LOCATE_PATH;
-            //lang path
-            $io->dirMake($path, true);
-            $io->setString($path.DIRECTORY_SEPARATOR.self::EN_PATH, '{}');
-            break;
         case 'upload_img':
             $uploader = LINB::SC('Uploader');
             $uploader->set_type('image');

@@ -103,6 +103,8 @@
     },
 
     projectPro:{
+        type:"模板类别：",
+        template:"模板列表：",
         name:"工程名称 :",
         'class':"类名 :",
         pagefile:"页面文件为 :",

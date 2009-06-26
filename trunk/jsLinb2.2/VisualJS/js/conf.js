@@ -13,6 +13,7 @@ new function(){
 
         prjPath:'projects/',
         requestKey:'VisualJS',
+        requestKey2:'VisualJS2',
 
         path_link:"http://www.linb.net",
         //path_video:'http://linb.googlecode.com/files/video.html',

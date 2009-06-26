@@ -102,6 +102,8 @@
         noSaved:'最後に保存した状態からの変更はありませんでした。'
     },
     projectPro:{
+        type:"Template type:",
+        template:"Template list:",
         name:"プロジェクト名 :",
         'class':"クラス名 :",
         pagefile:"ページファイル :",

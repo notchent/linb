@@ -1,5 +1,8 @@
 Class('VisualJS.ProjectPro', 'linb.Com',{
     Instance:{
+        _template:'blank',
+
+        events:{onReady:'_onReady'},
         customAppend:function(){
             var self=this,
                 prop = self.properties;
@@ -14,6 +17,10 @@ Class('VisualJS.ProjectPro', 'linb.Com',{
 
             self.inputName.setDisabled(prop.readonly);
             self.inputClassName.setDisabled(prop.readonly);
+            
+            self._template='blank';
+            self.listType.setValue('blank',true);
+            self.listTemplate.clearItems();
 
             self.dialog.show(self.parent, true);
         }, 
@@ -25,8 +32,8 @@ Class('VisualJS.ProjectPro', 'linb.Com',{
                 .host(host,"dialog")
                 .setLeft(100)
                 .setTop(100)
-                .setWidth(540)
-                .setHeight(220)
+                .setWidth(520)
+                .setHeight(450)
                 .setResizer(false)
                 .setCaption("$VisualJS.dialog.newone")
                 .setImage("@CONF.img_app")
@@ -39,33 +46,34 @@ Class('VisualJS.ProjectPro', 'linb.Com',{
             
             host.dialog.append((new linb.UI.Input)
                 .host(host,"inputName")
-                .setLeft(126)
-                .setTop(16)
+                .setLeft(100)
+                .setTop(277)
+                .setWidth(150)
                 .setTipsErr("$VisualJS.projectPro.onlyword")
                 .setValueFormat("^\\w{3,15}$")
                 .afterUIValueSet("_inputname_aftervalueupdated")
             );
             
-            host.dialog.append((new linb.UI.Label)
+            host.dialog.append((new linb.UI.SLabel)
                 .host(host,"label1")
-                .setLeft(14)
-                .setTop(18)
-                .setWidth(104)
+                .setLeft(10)
+                .setTop(279)
+                .setWidth(88)
                 .setCaption("$VisualJS.projectPro.name")
             );
             
-            host.dialog.append((new linb.UI.Label)
+            host.dialog.append((new linb.UI.SLabel)
                 .host(host,"label3")
-                .setLeft(30)
-                .setTop(82)
+                .setLeft(10)
+                .setTop(310)
                 .setWidth(88)
                 .setCaption("$VisualJS.projectPro.classfile")
             );
             
-            host.dialog.append((new linb.UI.Label)
+            host.dialog.append((new linb.UI.SLabel)
                 .host(host,"label5")
-                .setLeft(38)
-                .setTop(50)
+                .setLeft(260)
+                .setTop(279)
                 .setWidth(80)
                 .setCaption("$VisualJS.projectPro.class")
             );
@@ -73,7 +81,7 @@ Class('VisualJS.ProjectPro', 'linb.Com',{
             host.dialog.append((new linb.UI.Button)
                 .host(host,"btnCancel")
                 .setLeft(262)
-                .setTop(152)
+                .setTop(380)
                 .setWidth(90)
                 .setTabindex("0")
                 .setCaption("$VisualJS.cancel")
@@ -84,47 +92,94 @@ Class('VisualJS.ProjectPro', 'linb.Com',{
             
             host.dialog.append((new linb.UI.Input)
                 .host(host,"inputClassName")
-                .setLeft(126)
-                .setTop(48)
+                .setLeft(342)
+                .setTop(277)
+                .setWidth(148)
                 .setTipsErr("$VisualJS.projectPro.onlyword")
                 .setValueFormat("^\\w{3,15}$")
             );
             
-            host.dialog.append((new linb.UI.Label)
+            host.dialog.append((new linb.UI.SLabel)
                 .host(host,"label7")
-                .setLeft(126)
-                .setTop(114)
-                .setWidth(384)
+                .setLeft(100)
+                .setTop(346)
+                .setWidth(388)
                 .setCaption("label7")
                 .setHAlign("left")
+                .setCustomClass({"KEY":"uiborder-inset"})
             );
             
-            host.dialog.append((new linb.UI.Label)
+            host.dialog.append((new linb.UI.SLabel)
                 .host(host,"label2")
-                .setLeft(30)
-                .setTop(114)
+                .setLeft(10)
+                .setTop(346)
                 .setWidth(88)
                 .setCaption("$VisualJS.projectPro.pagefile")
             );
             
-            host.dialog.append((new linb.UI.Label)
+            host.dialog.append((new linb.UI.SLabel)
                 .host(host,"label8")
-                .setLeft(126)
-                .setTop(82)
-                .setWidth(384)
+                .setLeft(100)
+                .setTop(310)
+                .setWidth(388)
                 .setCaption("label8")
                 .setHAlign("left")
+                .setCustomClass({"KEY":"uiborder-inset"})
             );
             
             host.dialog.append((new linb.UI.Button)
                 .host(host,"btnOK")
                 .setLeft(374)
-                .setTop(152)
+                .setTop(380)
                 .setWidth(90)
                 .setCaption("$VisualJS.ok")
                 .setImage("@CONF.img_app")
                 .setImagePos("-64px -16px")
                 .onClick("_btnok_onclick")
+            );
+            
+            host.dialog.append((new linb.UI.SLabel)
+                .host(host,"slabel12")
+                .setLeft(20)
+                .setTop(10)
+                .setWidth(104)
+                .setCaption("$VisualJS.projectPro.type")
+                .setHAlign("left")
+            );
+            
+            host.dialog.append((new linb.UI.SLabel)
+                .host(host,"slabel13")
+                .setLeft(180)
+                .setTop(10)
+                .setWidth(104)
+                .setCaption("$VisualJS.projectPro.template")
+                .setHAlign("left")
+            );
+            
+            host.dialog.append((new linb.UI.List)
+                .host(host,"listType")
+                .setDirtyMark(false)
+                .setLeft(20)
+                .setTop(30)
+                .setWidth(150)
+                .setHeight(240)
+                .setItems([{id:'blank',caption:'Blank Application'}])
+                .onItemSelected('_listtype_onitemsel')
+            );
+            
+            host.dialog.append((new linb.UI.Gallery)
+                .host(host,"listTemplate")
+                .setLeft(180)
+                .setTop(30)
+                .setDirtyMark(false)
+                .setWidth(310)
+                .setHeight(240)
+                .setItemWidth(80)
+                .setItemHeight(80)
+                .setImgWidth(64)
+                .setImgHeight(64)
+                .onItemSelected('_listtempl_onitemsel')
+                .onDblclick('_listtempl_ondblclick')
             );
             
             return children;
@@ -144,25 +199,36 @@ Class('VisualJS.ProjectPro', 'linb.Com',{
                     linb.message(linb.getRes('VisualJS.projectPro.invalid'));
                     return;
             }
-
-            var pm = self.projectName = self.inputName.updateValue().getValue();
+            self.projectName = self.inputName.updateValue().getValue();
             self.className = self.inputClassName.updateValue().getValue();
 
+            if(self._template==='blank')
+                self._buildApp();
+            else{
+                linb.UI.Dialog.alert("You selected the template '"+self._template+"'! This function is in construction");
+            }
+            self.dialog.setFromRegion(null).close();
+         },
+         _buildApp:function(){
+            var self=this;
             linb.request(CONF.phpPath,({
-                key:CONF.requestKey,
+                key:CONF.requestKey2,
                 para:{
-                    action:'new',
+                    action:'buildWizard',
                     hashCode:_.id(),
-                    path:this.projectName,
-                    className: this.className
+                    path:self._template=='blank'?'':self._template,
+                    paras:{
+                        pathName:self.projectName,
+                        className:self.className
+                    }
                 }
             }),function(txt){
                 var obj = typeof txt=='string'?_.unserialize(txt):txt;
                 if(obj.error)
                     linb.message(obj.error.message);
                 else
-                    _.tryF(self.properties.onOK, ['projects/'+pm, obj.data], self.host);
-                self.dialog.close();
+                    _.tryF(self.properties.onOK, ['projects/'+self.projectName, obj.data], self.host);
+                self.dialog.setFromRegion(null).close();
             },function(txt){
                 linb.message(txt);
             });
@@ -179,6 +245,83 @@ Class('VisualJS.ProjectPro', 'linb.Com',{
         _dialog_onhotkey:function(profile, key, control, shift, alt){
             if(key=='esc')
                 profile.boxing().close();
+        },
+        _onReady:function(){
+            var self=this;
+            linb.request(CONF.phpPath, ({
+                    key:CONF.requestKey2,
+                    para:{
+                        action:'getWizardTypeList',
+                        hashCode:_.id()
+                    }
+                }),
+                function(txt){
+                    var obj = typeof txt=='string'?_.unserialize(txt):txt;
+                    if(!obj || obj.error)
+                        linb.message(_.get(obj,['error','message'])||'on response!');
+                    else{
+                        obj=obj.data;
+                        var arr=[];
+                        if(obj && obj.length){
+                            _.arr.each(obj,function(i){
+                                arr.push({id:i.name,caption:i.name})
+                            });
+                        }
+
+                        self.listType.insertItems(arr);
+                    }
+                },
+                function(msg){
+                    linb.message(msg);
+                });
+        },
+        _listtype_onitemsel:function(profile,item,src){
+            var ns=this, id=item.id;
+            ns._template='blank';
+
+            if(id=='blank'){
+                if(ns._curAjax && ns._curAjax.isAlive())
+                    ns._curAjax.abort();
+                ns.listTemplate.free();
+                ns.listTemplate.clearItems();
+            }else{
+                ns.listTemplate.busy();
+                ns._curAjax=linb.request(CONF.phpPath, ({
+                        key:CONF.requestKey2,
+                        para:{
+                            action:'getWizardList',
+                            path:id,
+                            hashCode:_()
+                        }
+                    }),
+                    function(txt){
+                        var obj = typeof txt=='string'?_.unserialize(txt):txt;
+                        if(!obj || obj.error)
+                            linb.message(_.get(obj,['error','message'])||'on response!');
+                        else{
+                            obj=obj.data;
+                            var arr=[];
+                            if(obj && obj.length){
+                                _.arr.each(obj,function(i){
+                                    arr.push({id:i.name,caption:i.name,image:i.location+'/icon.jpg',tips:'Double click for description!',tag:i.location+'/description.html'})
+                                });
+                            }
+                            ns.listTemplate.setItems(arr).setValue('',true);
+                        }
+                        ns.listTemplate.free();
+                    },
+                    function(msg){
+                        linb.message(msg);
+                        ns.listTemplate.free();
+                    });
+            }
+        },
+        _listtempl_onitemsel:function(profile,item){
+            var ns=this, id=item.id;
+            ns._template=id;
+        },
+        _listtempl_ondblclick:function(profile,item){
+            linb.Dom.submit(item.tag);
         }
     }
 });

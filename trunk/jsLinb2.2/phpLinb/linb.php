@@ -261,6 +261,8 @@
      */
     public static function parseTemplate($template, $data, $tag_l = '{', $tag_r = '}'){
         $str = $template;
+        if(is_object($data))
+            $data=(array)$data;
         foreach ($data as $key => $val){
             if ( ! is_array($val)){
                 $str = str_replace($tag_l.$key.$tag_r, $val, $str);
