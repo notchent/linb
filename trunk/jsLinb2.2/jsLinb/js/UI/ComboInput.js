@@ -2,7 +2,8 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
     /*Instance*/
     Instance:{
         _getCtrlValue:function(){
-            return this._fromEditValue(this.getSubNode('INPUT').attr('value'));
+            return this.get(0).properties.$UIvalue;
+            //return this._fromEditValue(this.getSubNode('INPUT').attr('value'));
         },
         _setCtrlValue:function(value, flag){
             var me=arguments.callee, r1=me._r1||(me._r1=/\</),r2=me._r2||(me._r2=/\<\/?[^>]+\>/g);
@@ -34,7 +35,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                 v = t(profile, value);
             else{
                 //get from items
-                if('listbox'==pro.type || 'combobox'==pro.type){
+                if('listbox'==pro.type){
                     if( (v=_.arr.subIndexOf(pro.items,'id',value))!=-1){
                         v=pro.items[v].caption;
                         v=v.charAt(0)=='$'?linb.getRes(v.slice(1)):v;
