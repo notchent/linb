@@ -15779,6 +15779,7 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
                'font-size':'12px',
                position:'relative',
                overflow:'auto',
+               'white-space':'normal',
                'overflow-y':(linb.browser.gek||linb.browser.ie)?'auto':'',
                'overflow-x':(linb.browser.gek||linb.browser.ie)?'hidden':''
             },
