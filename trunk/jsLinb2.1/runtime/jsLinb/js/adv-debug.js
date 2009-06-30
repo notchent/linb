@@ -39,9 +39,11 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
             return this;
         },
         _afterInsertItems:function(profile){
+            if(!profile.domNode)return;
            profile.box._reArrage(profile);
         },
         _afterRemoveItems:function(profile){
+            if(!profile.domNode)return;
             profile.box._reArrage(profile);
         },
         _cache:function(){
@@ -751,7 +753,6 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
             }
         },
         DataModel:{
-            $borderW : 0,
             readonly:false,
             // control width and height
             width : 400,
@@ -1227,8 +1228,8 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
             p._lines=[{}];
 
             //border
-            d._bWidth = p.width - 2*p.$borderW;
-            d._bHeight = p.height - 2*p.$borderW;
+            d._bWidth = p.width;
+            d._bHeight = p.height;
             //view
             p._viewHeight = d._bHeight;
             d._tipsdisplay=p.showTips?'':nodisplay;
@@ -1626,11 +1627,10 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
                     });
                     profile.boxing().removeItems(arr);
 
-                    if(profile.onGetContent)
-                        profile.boxing()._getContent(offsetCount>0 ? _smallLabelStart : bak_e,
-                            offsetCount>0 ? bak_s : _smallLabelEnd,
-                            t._rate,
-                            offsetCount>0 ? 'left' : 'right');
+                    profile.boxing()._getContent(offsetCount>0 ? _smallLabelStart : bak_e,
+                        offsetCount>0 ? bak_s : _smallLabelEnd,
+                        t._rate,
+                        offsetCount>0 ? 'left' : 'right');
                     
                     //adjust the items
                     self._reArrage(profile);
@@ -1852,24 +1852,20 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
         _onresize:function(profile,width,height){
             var p=profile.properties,
                 f=function(k){return profile.getSubNode(k)},
-                _tbarH=f('TBAR').height(),
                 _bbarH=f('BBAR').height(),
                 _tipsH=f('TAIL').height(),
-                _bigLabelH=f('BIGLABEL').height(),
-                _smallLabelH=f('SMALLLABEL').height(),
-                off1=2*p.$borderW,
-                off2=3,
+                off2=f('VIEW').offset(null, profile.getRoot()),
+                off3=2,
                 t;
-            var toff=linb.UI.$getCSSValue('linb-timeline','height');
 
             //for border, view and items
             if(height){
-                f('BORDER').height(t=height-off1);
-                f('VIEW').height(t=t - (p.showTips?_tipsH:0) -off2 - (p.showBigLabel?_bigLabelH:0) - _smallLabelH - (p.showBar?(_tbarH+_bbarH):0)-toff);
+                f('BORDER').height(t=height);
+                f('VIEW').height(t=t - (p.showTips?_tipsH:0) -off2.top - (p.showBar?_bbarH:0) -off3);
                 this._ajustHeight(profile);
             }
             if(width && width!=p.width){
-                f('BORDER').width(width-off1);
+                f('BORDER').width(width);
 
                 //if width changed, refresh the timeline
                 if(!p.fixWidth){
@@ -1881,8 +1877,31 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
             }
         },
         _refresh:function(profile){
-            //if multiTasks, setUIValue will be ignored
-            profile.boxing().clearItems().refresh().setUIValue(profile.properties.$UIvalue);
+            var pro=profile.properties, ins=profile.boxing(), nodes;
+            //clear items first
+            ins.clearItems();
+
+            //ins.refresh()
+            this._prepareData(profile);
+            
+            //refresh labels
+            nodes=profile._buildItems('_smallMarks', pro._smallMarks);
+            profile.getSubNode('SMALLLABEL').empty().append(nodes);
+            if(pro.showBigLabel){
+                nodes=profile._buildItems('_bigMarks', pro._bigMarks);
+                profile.getSubNode('BIGLABEL').empty().append(nodes);
+            }
+
+            //view/band set left
+            profile.getSubNodes(['BAND','ITEMS']).left(pro._band_left).width(pro._band_width);
+
+            //if singleTask, setUIValue
+            if(!pro.multiTasks)
+                ins.setUIValue(pro.$UIvalue);
+            //if multiTasks, call iniContent to get tasks 
+            else
+                ins.iniContent();
+
             return this;
         }
     }

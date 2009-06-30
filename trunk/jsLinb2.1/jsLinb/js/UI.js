@@ -3592,25 +3592,22 @@ Class("linb.absList", "linb.absObj",{
                     // prepare properties format
                     data = box._prepareItems(profile, arr, base);
 
-                    var ss=profile.buildItems('items', data);
+                    r = _.str.toDom(profile.buildItems('items', data));
                     if(index==-1){
-                        //if no base specified, use innerHtml dir
-                        node = profile.getSubNode(box.ITEMSKEY || profile.keys.ITEMS || profile.keys.KEY);
-                        r=_.str.toDom(ss);
+                        //if no base specified
+                        node = profile.getSubNode(box._ITEMSKEY || profile.keys.ITEMS || profile.keys.KEY);
                         //items.length==1 for that one have fake item(for example: editable poll)
                         if(before)
                             node.prepend(r);
                         else
                             node.append(r);
                     }else{
-                        r = _.str.toDom(ss);
                         node=profile.getSubNodeByItemId(box._ITEMKEY || 'ITEM', base);
                         if(before)
                             node.addPrev(r);
                         else
                             node.addNext(r);
                     }
-                    if(b)profile.boxing()._afterInsertItems(profile, data, base, before);
                 }
 
                 //must be here
@@ -3619,6 +3616,8 @@ Class("linb.absList", "linb.absObj",{
                 }else
                     _.arr.insertAny(items,arr, before?index:index+1);
 
+                if(b)
+                    profile.boxing()._afterInsertItems(profile, data, base, before);
             });
         },
         removeItems:function(arr, key){
@@ -3640,7 +3639,7 @@ Class("linb.absList", "linb.absObj",{
 
                                     //parent node is deleted
                                     if(!force){
-                                        if(!(obj = profile.getSubNode(profile.keys[key]?key:'ITEM', serialId) ).isEmpty() )
+                                        if(!(obj = profile.getSubNode(profile.keys[key]?key:(profile.box._ITEMKEY||'ITEM'), serialId) ).isEmpty() )
                                             ns.merge(obj);
                                         //for inner template or linb.UI
                                         if(o.$id)ns.get().push(linb.getObject(o.$id).getRootNode());
@@ -3674,15 +3673,16 @@ Class("linb.absList", "linb.absObj",{
                             p.$UIvalue=null;
                     }
                 }
-                if(b && profile.domNode)
+                if(b)
                     profile.boxing()._afterRemoveItems(profile, arr);
             });
         },
         clearItems:function(key){
+            var b=this._afterRemoveItems;
             return this.each(function(profile){
                 if(!profile.SubSerialIdMapItem)return;
                 //empty dom
-                profile.getSubNode(profile.keys[key] || profile.keys.ITEMS || 'KEY', true).empty();
+                profile.getSubNode(profile.keys[profile.box._ITEMKEY||'ITEM'], true).remove();
                 //save subid
                 _.each(profile.SubSerialIdMapItem, function(o,serialId){
                     profile.reclaimSubId(serialId, 'items');
@@ -3692,6 +3692,9 @@ Class("linb.absList", "linb.absObj",{
                 //clear cache
                 profile.SubSerialIdMapItem={};
                 profile.ItemIdMapSubSerialId={};
+
+                if(b)
+                    profile.boxing()._afterRemoveItems(profile, []);
 
                 //keep the value
                 //profile.properties.value=null;
