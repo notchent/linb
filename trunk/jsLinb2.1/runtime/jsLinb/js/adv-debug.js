@@ -39,11 +39,9 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
             return this;
         },
         _afterInsertItems:function(profile){
-            if(!profile.domNode)return;
            profile.box._reArrage(profile);
         },
         _afterRemoveItems:function(profile){
-            if(!profile.domNode)return;
             profile.box._reArrage(profile);
         },
         _cache:function(){
@@ -82,7 +80,7 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
                     }
                 }
             });
-        } 
+        }
     },
     Static:{
         Templates:{
@@ -753,6 +751,7 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
             }
         },
         DataModel:{
+            $borderW : 0,
             readonly:false,
             // control width and height
             width : 400,
@@ -894,7 +893,7 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
                         this.box._refresh(this);
                 }
             },
-            
+
             dateBtn:{
                 ini:true,
                 action:function(v){
@@ -913,7 +912,7 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
                     this.getSubNode('OPT').css('display',v?'':'none');
                 }
             },
- 
+
             fixWidth:true,
             dateStart : {
                 ini:new Date,
@@ -933,6 +932,9 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
             onClickTask:function(profile, task, e, src){}
         },
         Appearances:{
+            '.setting-timeline':{
+                height:'6px'
+            },
             MAINI:{
                 'padding-top':'4px'
             },
@@ -1228,8 +1230,8 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
             p._lines=[{}];
 
             //border
-            d._bWidth = p.width;
-            d._bHeight = p.height;
+            d._bWidth = p.width - 2*p.$borderW;
+            d._bHeight = p.height - 2*p.$borderW;
             //view
             p._viewHeight = d._bHeight;
             d._tipsdisplay=p.showTips?'':nodisplay;
@@ -1363,7 +1365,7 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
             // caculate top and set task to lines cache
             index = self._getLinePos(profile, item);
 //min region is alway 16 + 3
-            item._top = t.multiTasks? 'top:' + (item._min?0:((t.taskHeight+3) * (index-1) + 16 + 3)) + 'px' : '';
+            item._top = t.multiTasks? ('top:' + (item._min?0:((t.taskHeight+3) * index + 'px'))): '';
 
             item._height = 'height:' + (t.multiTasks?item._min?'16px':t.taskHeight+'px':'100%');
             item._border = t.multiTasks?'':'border-top:0;border-bottom:0';
@@ -1627,11 +1629,12 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
                     });
                     profile.boxing().removeItems(arr);
 
-                    profile.boxing()._getContent(offsetCount>0 ? _smallLabelStart : bak_e,
-                        offsetCount>0 ? bak_s : _smallLabelEnd,
-                        t._rate,
-                        offsetCount>0 ? 'left' : 'right');
-                    
+                    if(profile.onGetContent)
+                        profile.boxing()._getContent(offsetCount>0 ? _smallLabelStart : bak_e,
+                            offsetCount>0 ? bak_s : _smallLabelEnd,
+                            t._rate,
+                            offsetCount>0 ? 'left' : 'right');
+
                     //adjust the items
                     self._reArrage(profile);
                 }
@@ -1749,11 +1752,11 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
                     v._line = index;
                     // set top
                     if(t.multiTasks)
-                        self._setItemNode(profile, v,'top',((t.taskHeight+3) * (index-1) + 16 + 3) +'px');
+                        self._setItemNode(profile, v,'top',(t.taskHeight + 3) * index +'px');
                 };
             });
 
-            h = t._linesHeight =  (t._lines.length+1) * (t.taskHeight);
+            h = t._linesHeight =  t._lines.length * (t.taskHeight + 3);
 
             self._ajustHeight(profile);
         },
@@ -1823,7 +1826,7 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
         _showTips:function(profile, node, pos){
             if(profile.onShowTips)
                 return profile.boxing().onShowTips(profile, node, pos);
-             
+
             if(!linb.Tips)return;
 
              var t=profile.properties,
@@ -1852,20 +1855,24 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
         _onresize:function(profile,width,height){
             var p=profile.properties,
                 f=function(k){return profile.getSubNode(k)},
+                _tbarH=f('TBAR').height(),
                 _bbarH=f('BBAR').height(),
                 _tipsH=f('TAIL').height(),
-                off2=f('VIEW').offset(null, profile.getRoot()),
-                off3=2,
+                _bigLabelH=f('BIGLABEL').height(),
+                _smallLabelH=f('SMALLLABEL').height(),
+                off1=2*p.$borderW,
+                off2=3,
                 t;
+            var toff=linb.UI.$getCSSValue('linb-timeline','height');
 
             //for border, view and items
             if(height){
-                f('BORDER').height(t=height);
-                f('VIEW').height(t=t - (p.showTips?_tipsH:0) -off2.top - (p.showBar?_bbarH:0) -off3);
+                f('BORDER').height(t=height-off1);
+                f('VIEW').height(t=t - (p.showTips?_tipsH:0) -off2 - (p.showBigLabel?_bigLabelH:0) - _smallLabelH - (p.showBar?(_tbarH+_bbarH):0)-toff);
                 this._ajustHeight(profile);
             }
             if(width && width!=p.width){
-                f('BORDER').width(width);
+                f('BORDER').width(width-off1);
 
                 //if width changed, refresh the timeline
                 if(!p.fixWidth){
@@ -1877,31 +1884,8 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
             }
         },
         _refresh:function(profile){
-            var pro=profile.properties, ins=profile.boxing(), nodes;
-            //clear items first
-            ins.clearItems();
-
-            //ins.refresh()
-            this._prepareData(profile);
-            
-            //refresh labels
-            nodes=profile._buildItems('_smallMarks', pro._smallMarks);
-            profile.getSubNode('SMALLLABEL').empty().append(nodes);
-            if(pro.showBigLabel){
-                nodes=profile._buildItems('_bigMarks', pro._bigMarks);
-                profile.getSubNode('BIGLABEL').empty().append(nodes);
-            }
-
-            //view/band set left
-            profile.getSubNodes(['BAND','ITEMS']).left(pro._band_left).width(pro._band_width);
-
-            //if singleTask, setUIValue
-            if(!pro.multiTasks)
-                ins.setUIValue(pro.$UIvalue);
-            //if multiTasks, call iniContent to get tasks 
-            else
-                ins.iniContent();
-
+            //if multiTasks, setUIValue will be ignored
+            profile.boxing().clearItems().refresh().setUIValue(profile.properties.$UIvalue);
             return this;
         }
     }
