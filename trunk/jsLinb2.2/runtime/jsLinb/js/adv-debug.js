@@ -479,7 +479,7 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
                     }
                 }
             });
-        } 
+        }
     },
     Static:{
         Templates:{
@@ -1289,7 +1289,7 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
                         this.box._refresh(this);
                 }
             },
-            
+
             dateBtn:{
                 ini:true,
                 action:function(v){
@@ -1308,7 +1308,7 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
                     this.getSubNode('OPT').css('display',v?'':'none');
                 }
             },
- 
+
             fixWidth:true,
             dateStart : {
                 ini:new Date,
@@ -2026,7 +2026,7 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
                         offsetCount>0 ? bak_s : _smallLabelEnd,
                         t._rate,
                         offsetCount>0 ? 'left' : 'right');
-                    
+
                     //adjust the items
                     self._reArrage(profile);
                 }
@@ -2148,7 +2148,7 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
                 };
             });
 
-            h = t._linesHeight =  (t._lines.length+1) * (t.taskHeight);
+            h = t._linesHeight = t._lines.length * (t.taskHeight+3);
 
             self._ajustHeight(profile);
         },
@@ -2218,7 +2218,7 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
         _showTips:function(profile, node, pos){
             if(profile.onShowTips)
                 return profile.boxing().onShowTips(profile, node, pos);
-             
+
             if(!linb.Tips)return;
 
              var t=profile.properties,
@@ -2278,7 +2278,7 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
 
             //ins.refresh()
             this._prepareData(profile);
-            
+
             //refresh labels
             nodes=profile._buildItems('_smallMarks', pro._smallMarks);
             profile.getSubNode('SMALLLABEL').empty().append(nodes);
@@ -2293,7 +2293,7 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
             //if singleTask, setUIValue
             if(!pro.multiTasks)
                 ins.setUIValue(pro.$UIvalue);
-            //if multiTasks, call iniContent to get tasks 
+            //if multiTasks, call iniContent to get tasks
             else
                 ins.iniContent();
 
