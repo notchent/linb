@@ -82,6 +82,7 @@
                  ]}
             ]},
             {id:'snip', caption:'Common Funcions', group:true, image:_img_app, imagePos:'-64px -48px', sub:[
+                {id:'snip.animator',caption:'Animator',image:_img_app, imagePos:'-48px -64px'},
                 {id:'snip.tooltips',caption:'ToolTips',image:_img_app, imagePos:'-48px -64px'},
                 {id:'snip.serialize',caption:'(un)serialize',image:_img_app, imagePos:'-48px -64px'}
             ]}/*,    
