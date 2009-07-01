@@ -10801,6 +10801,13 @@ Class("linb.UI",  "linb.absObj", {
         self.setDataModel(hash);
 
         linb.UI.$cache_css += linb.UI.buildCSSText({
+            '.linb-html, .linb-html BODY':{
+                overflow:'hidden',
+                height:'100%',
+                border:'0 none',
+                margin:'0',
+                padding:'0'
+            },
             '.ui-ctr':{},
             '.ui-dragable':{},
             '.ui-btn, .ui-btni, .ui-btnc':{
@@ -12512,12 +12519,14 @@ Class("linb.UI",  "linb.absObj", {
                 },
                 region,
                 inMatrix='$inMatrix',
-                f,t,
+                f,t,isWin,
                 //for ie6 1px bug
                 _adjust=function(v){return linb.browser.ie6?v-v%2:v}
 
-            if(p.get(0)==document.body)
+            if(p.get(0)===document.body){
                 pid='!document';
+                isWin=true;
+            }
 
             //attached to matrix
             if(pid && (pid==linb.Dom._ghostDivId || _.str.startWith(pid,linb.Dom._emptyDivId)))
@@ -12577,7 +12586,7 @@ Class("linb.UI",  "linb.absObj", {
                 }
                 node.cssRegion(region,true);
                 //if in body, set to window
-                if(p.get(0)===document.body){
+                if(isWin){
                     p=linb.win;
                     if(!linb.$cache._resizeTime)linb.$cache._resizeTime=1;
                 }
@@ -12779,6 +12788,18 @@ Class("linb.UI",  "linb.absObj", {
 
                     //set shortuct
                     profile.$dockFun=f;
+
+                    if(isWin){
+                        linb('html').addClass('linb-html');
+                        if(t=linb('body').get(0))
+                            t.scroll='no';
+                    }
+                }else{
+                    if(isWin){
+                        linb('html').removeClass('linb-html');
+                        if(t=linb('body').get(0))
+                            t.scroll='';
+                    }
                 }
             }
             //run once now
@@ -22248,14 +22269,17 @@ Class("linb.UI.Tabs", ["linb.UI", "linb.absList","linb.absValue"],{
 
                         if(box.KEY!='linb.UI.Tabs'||properties.hasPanel)
                             // hide pane
-                            box.getPanel(uiv).hide();
+                            //box.getPanel(uiv).hide();
+                            box.getPanel(uiv).css('display','none');
                     }
                     itemId = profile.getSubIdByItemId(value);
                     if(itemId){
                         profile.getSubNodes(['ITEM','BOX'],itemId).tagClass('-checked');
                         if(box.KEY!='linb.UI.Tabs'||properties.hasPanel){
                             // show pane
-                            box.getPanel(value).css('position','relative').show('auto','auto');
+                            //box.getPanel(value).css('position','relative').show('auto','auto');
+                            box.getPanel(value).css('display','block');
+                            
                             t=profile.getRootNode().style;
                             //reset width and height
                             linb.UI.$tryResize(profile, t.width, t.height, false, value);
@@ -22584,10 +22608,11 @@ Class("linb.UI.Tabs", ["linb.UI", "linb.absList","linb.absValue"],{
                 'vertical-align':'middle'
             },
             PANEL:{
-                position:'absolute',
-                visibility:'hidden',
-                top:'-10000px',
-                left:'-10000px',
+                position:'relative',
+                //visibility:'hidden',
+                //top:'-10000px',
+                //left:'-10000px',
+                display:'none',
                 width:'100%',
                 overflow:'auto'
             },

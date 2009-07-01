@@ -1533,6 +1533,13 @@ Class("linb.UI",  "linb.absObj", {
         self.setDataModel(hash);
 
         linb.UI.$cache_css += linb.UI.buildCSSText({
+            '.linb-html, .linb-html BODY':{
+                overflow:'hidden',
+                height:'100%',
+                border:'0 none',
+                margin:'0',
+                padding:'0'
+            },
             '.ui-ctr':{},
             '.ui-dragable':{},
             '.ui-btn, .ui-btni, .ui-btnc':{
@@ -3244,12 +3251,14 @@ Class("linb.UI",  "linb.absObj", {
                 },
                 region,
                 inMatrix='$inMatrix',
-                f,t,
+                f,t,isWin,
                 //for ie6 1px bug
                 _adjust=function(v){return linb.browser.ie6?v-v%2:v}
 
-            if(p.get(0)==document.body)
+            if(p.get(0)===document.body){
                 pid='!document';
+                isWin=true;
+            }
 
             //attached to matrix
             if(pid && (pid==linb.Dom._ghostDivId || _.str.startWith(pid,linb.Dom._emptyDivId)))
@@ -3309,7 +3318,7 @@ Class("linb.UI",  "linb.absObj", {
                 }
                 node.cssRegion(region,true);
                 //if in body, set to window
-                if(p.get(0)===document.body){
+                if(isWin){
                     p=linb.win;
                     if(!linb.$cache._resizeTime)linb.$cache._resizeTime=1;
                 }
@@ -3511,6 +3520,18 @@ Class("linb.UI",  "linb.absObj", {
 
                     //set shortuct
                     profile.$dockFun=f;
+
+                    if(isWin){
+                        linb('html').addClass('linb-html');
+                        if(t=linb('body').get(0))
+                            t.scroll='no';
+                    }
+                }else{
+                    if(isWin){
+                        linb('html').removeClass('linb-html');
+                        if(t=linb('body').get(0))
+                            t.scroll='';
+                    }
                 }
             }
             //run once now

@@ -14,14 +14,17 @@ Class("linb.UI.Tabs", ["linb.UI", "linb.absList","linb.absValue"],{
 
                         if(box.KEY!='linb.UI.Tabs'||properties.hasPanel)
                             // hide pane
-                            box.getPanel(uiv).hide();
+                            //box.getPanel(uiv).hide();
+                            box.getPanel(uiv).css('display','none');
                     }
                     itemId = profile.getSubIdByItemId(value);
                     if(itemId){
                         profile.getSubNodes(['ITEM','BOX'],itemId).tagClass('-checked');
                         if(box.KEY!='linb.UI.Tabs'||properties.hasPanel){
                             // show pane
-                            box.getPanel(value).css('position','relative').show('auto','auto');
+                            //box.getPanel(value).css('position','relative').show('auto','auto');
+                            box.getPanel(value).css('display','block');
+
                             t=profile.getRootNode().style;
                             //reset width and height
                             linb.UI.$tryResize(profile, t.width, t.height, false, value);
@@ -350,10 +353,11 @@ Class("linb.UI.Tabs", ["linb.UI", "linb.absList","linb.absValue"],{
                 'vertical-align':'middle'
             },
             PANEL:{
-                position:'absolute',
-                visibility:'hidden',
-                top:'-10000px',
-                left:'-10000px',
+                position:'relative',
+                //visibility:'hidden',
+                //top:'-10000px',
+                //left:'-10000px',
+                display:'none',
                 width:'100%',
                 overflow:'auto'
             },
