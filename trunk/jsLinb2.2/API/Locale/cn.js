@@ -5875,7 +5875,6 @@ _.set(linb.Locale,["cn","doc","linb","UI"], {
             $desc:"重新布局本控件",
             $rtn:"[self]",
             $paras:[
-                "syn [可选参数] : Boolean, 是否同步运行。",
                 "force [可选参数] : Boolean, 是否强制。"
             ]
         },

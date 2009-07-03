@@ -1220,7 +1220,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                     o.height(h);
                     if(_.str.startWith(linb.use(src).parent().id(),profile.keys.HFCELLA)){
                         profile.properties.headerHeight=h;
-                        linb.UI.$tryResize(profile,null,profile.getRoot().height());
+                        linb.UI.$tryResize(profile,null,profile.getRoot().height(),true);
                     }else
                         row.height=h;
                     profile._limited=0;
@@ -1236,7 +1236,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                     }else{
                         cells=profile.getSubNode('HCELLS');
                         cells.height(profile.properties.headerHeight=cells.height('auto').height());
-                        linb.UI.$tryResize(profile,null,profile.getRoot().height());
+                        linb.UI.$tryResize(profile,null,profile.getRoot().height(),true);
                     }
                     return false;
                 },
@@ -1834,7 +1834,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                 ini:18,
                 action:function(v){
                     this.getSubNode('HCELLS').height(v);
-                    linb.UI.$tryResize(this, this.getRoot().width(), this.getRoot().height());
+                    linb.UI.$tryResize(this, this.getRoot().width(), this.getRoot().height(),true);
                 }
             },
             rowHeight:{
@@ -2792,7 +2792,7 @@ sortby [for column only]
                     .reBoxing()
                     .popToTop(cellNode, 4, baseNode);
                 }else{
-                    editor.setWidth(size.width+3).setHeight(size.height+2).reLayout(true,true);
+                    editor.setWidth(size.width+3).setHeight(size.height+2).reLayout(true);
                     editor.reBoxing().show((absPos.left-1) + 'px',(absPos.top-1) + 'px');
                 }
             }

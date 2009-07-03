@@ -72,7 +72,7 @@ Class("linb.UI.Block", "linb.UI.Widget",{
 
                     //force to resize
                     ns.box._setB(ns);
-                    linb.UI.$tryResize(ns,root.get(0).style.width,root.get(0).style.height);
+                    linb.UI.$tryResize(ns,root.get(0).style.width,root.get(0).style.height,true);
                 }
             },
             background:{

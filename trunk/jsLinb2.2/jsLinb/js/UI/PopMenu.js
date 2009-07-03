@@ -19,13 +19,7 @@ Class("linb.UI.PopMenu",["linb.UI.Widget","linb.absList"],{
                 root.cssSize({width:w,height:h});
 
                 //avoid blazing(shadow elements) when resize the border
-                linb.UI.$tryResize(profile,w,h,true);
-                if(pro.shadow){
-                    profile.$noS=true;
-                    var ins=profile.boxing();
-                    if(ins._shadow)
-                        ins._shadow(true);
-                 }
+                linb.UI.$doResize(profile,w,h,true);
             });
             return this._setScroll();
         },

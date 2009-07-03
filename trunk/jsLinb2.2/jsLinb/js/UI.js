@@ -1063,7 +1063,7 @@ Class("linb.UI",  "linb.absObj", {
                 if(profile.$busy)profile.$busy.css('display','none');
             });
         },
-        reLayout:function(syn, force){
+        reLayout:function(force){
             return this.each(function(o){
                 if(!o.renderId)return;
                 var p=o.properties;
@@ -1077,7 +1077,7 @@ Class("linb.UI",  "linb.absObj", {
                     o.getRootNode().style.height=0;
                     linb.UI.$dock(o,true,true);
                 }else
-                    linb.UI.$tryResize(o,p.width,p.height,syn,force);
+                    linb.UI.$tryResize(o,p.width,p.height,force);
             });
         },
         toHtml:function(force){
@@ -2702,7 +2702,7 @@ Class("linb.UI",  "linb.absObj", {
                     count++;
                     var s=linb.CSS.$getCSSValue('.setting-uikey','fontFamily');
                     if(s==key || key=='default'){
-                        linb.UI.getAll().reLayout(false,true);
+                        linb.UI.getAll().reLayout(true);
                         count=null;
                     }else
                         _.asyRun(arguments.callee,200*count);
@@ -3179,33 +3179,59 @@ Class("linb.UI",  "linb.absObj", {
 
             self.inValid=1;
         },
-        $tryResize:function(profile,w,h,syn,force,key){
-            var s=profile.box,t=s._onresize,args=profile.$rs_args;
-            if(t&&(w||h)){
-                if(!args){
-                    args=profile.$rs_args=[profile,null,null];
-                    _.asyRun(profile.$resizeFun=function(){
-                        delete profile.$rs_args;
-                        delete profile.$resizeFun;
-                        //destroyed before resize
-                        if(!profile.getRootNode())return;
-                        t.apply(s,args);
-                        var style=profile.getRootNode().style;
-                        if('_$v' in profile){
-                            //some control will set visible to recover the css class
-                            if(style.visibility!='visible')
-                                style.visibility=profile._$v;
-                            delete profile._$v;
-                        }
-                    });
-                }
-                //keep the last one, neglect zero and 'auto'
-                args[1]=parseInt(w)||null;
-                args[2]=((h===""||h=='auto')?"auto":parseInt(h))||null;
-                args[3]=force;
-                args[4]=key;
+        $doResize:function(profile,w,h,force,key){
+            if(force || ((w||h) && (profile._resize_w!=w || profile._resize_h!=h))){
+                //destroyed before resize
+                if(!profile.getRootNode())return false;
+                
+                profile._resize_w=w;
+                profile._resize_h=h;
+                _.tryF(profile.box._onresize,[profile,w,h,force,key],profile.box);
             }
-            if(syn)_.tryF(profile.$resizeFun);
+            //to prevent the functioin in $tryResize
+            if(profile._$resizetimer){
+                clearTimeout(profile._$resizetimer);
+                delete profile._$resizetimer;
+            }
+        },
+        $tryResize:function(profile,w,h,force,key){
+            var s=profile.box,t=s._onresize;
+            if(t&&(force||w||h)){
+                //adjust width and height
+                w=parseInt(w)||null;
+                h=((h===""||h=='auto')?"auto":parseInt(h))||null;
+                
+                //if it it has delay resize, overwrite arguments
+                if('_$v' in profile){
+                    var args=profile.$rs_args;
+                    if(!args){
+                        args=profile.$rs_args=[profile,null,null];
+                        profile._$resizetimer=_.asyRun(function(){
+//for performance checking
+//console.log('delay resize',profile.$rs_args);
+                            if(false!==linb.UI.$doResize.apply(null,profile.$rs_args)){
+                                var style=profile.getRootNode().style;
+                                //some control will set visible to recover the css class
+                                if(style.visibility!='visible')
+                                    style.visibility=profile._$v;
+                                delete profile.$rs_args;
+                                delete profile._$v;
+                                style=null;
+                            }
+                        });
+                    }
+                    //keep the last one, neglect zero and 'auto'
+                    args[1]=w;
+                    args[2]=h;
+                    args[3]=force;
+                    args[4]=key;
+                //else, call resize right now
+                }else{
+//for performance checking
+//console.log('resize',profile.$linbid,w,h,force,key);
+                    linb.UI.$doResize(profile,w,h,force,key);
+                }
+            }
         },
         LayoutTrigger:function(){
             var self=this, b=self.boxing(),p=self.properties;
@@ -3522,12 +3548,6 @@ Class("linb.UI",  "linb.absObj", {
                         linb('html').addClass('linb-html');
                         if(t=linb('body').get(0))
                             t.scroll='no';
-                    }
-                }else{
-                    if(isWin){
-                        linb('html').removeClass('linb-html');
-                        if(t=linb('body').get(0))
-                            t.scroll='';
                     }
                 }
             }
@@ -4196,12 +4216,10 @@ new function(){
                 if(self.renderId)
                     if((!self.$noB) && p.border && o._border)o._border();
 
-                //for performance
-                _.asyRun(function(){
-                    if(!self.renderId)return;
-                    if((!self.$noR) && p.resizer && o.setResizer)o.setResizer(p.resizer,true);
-                    if((!self.$noS) && p.shadow && o._shadow)o._shadow();
-                });
+                if((!self.$noR) && p.resizer && o.setResizer)
+                    o.setResizer(p.resizer,true);
+                if((!self.$noS) && p.shadow && o._shadow)
+                    o._shadow();
             },
             _onresize:function(profile,width,height){
                 var t = profile.properties,

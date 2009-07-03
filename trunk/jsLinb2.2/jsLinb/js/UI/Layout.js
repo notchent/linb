@@ -292,11 +292,11 @@ Class("linb.UI.Layout",["linb.UI", "linb.absList"],{
                     if(t.type=='vertical'){
                         //use size to ignore onresize event once
                         o.height(item.size =  profile._cur + (profile.pos=='before'?1:-1)*linb.DragDrop.getProfile().offset.y);
-                        linb.UI.$tryResize(profile,null,r.height());
+                        linb.UI.$tryResize(profile,null,r.height(),true);
                     }else{
                         o.width(item.size = profile._cur + (profile.pos=='before'?1:-1)*linb.DragDrop.getProfile().offset.x);
                         //use size to ignore onresize event once
-                        linb.UI.$tryResize(profile,r.width(),null);
+                        linb.UI.$tryResize(profile,r.width(),null,true);
                     }
                     profile._limited=0;
                 }
@@ -349,7 +349,7 @@ Class("linb.UI.Layout",["linb.UI", "linb.absList"],{
                                 move.css('cursor','default');
                             profile.getSubNode('MOVE').tagClass('-checked');
                         }
-                        linb.UI.$tryResize(profile,null,r.height());
+                        linb.UI.$tryResize(profile,null,r.height(),true);
                     }else{
                         if(item.hide){
                             if(item.size <= m.width()-main.min + _handlerSize){
@@ -379,7 +379,7 @@ Class("linb.UI.Layout",["linb.UI", "linb.absList"],{
                                 move.css('cursor','default');
                             profile.getSubNode('MOVE').tagClass('-checked');
                         }
-                        linb.UI.$tryResize(profile,r.width(),null);
+                        linb.UI.$tryResize(profile,r.width(),null,true);
                     }
 
                     return false;
@@ -420,7 +420,7 @@ Class("linb.UI.Layout",["linb.UI", "linb.absList"],{
                         }
 
                         var size = self.getRoot().cssSize();
-                        linb.UI.$tryResize(self, size.width, size.height);
+                        linb.UI.$tryResize(self, size.width, size.height,true);
                     }
                 }
             },
@@ -470,7 +470,7 @@ Class("linb.UI.Layout",["linb.UI", "linb.absList"],{
 
                             //resize
                             var size = o.getRoot().cssSize();
-                            linb.UI.$tryResize(o, size.width, size.height);
+                            linb.UI.$tryResize(o, size.width, size.height,true);
                         }else
                             o.properties.items = _.copy(value);
                     });
@@ -703,8 +703,8 @@ Class("linb.UI.Layout",["linb.UI", "linb.absList"],{
 
             //collect width/height in size
             _.each(obj2, function(o, id){
-                profile.getSubNode('ITEM', id).cssRegion(obj2[id]);
                 profile.getSubNode('PANEL', id).cssRegion(obj[id], true);
+                profile.getSubNode('ITEM', id).cssRegion(obj2[id]);
             });
         }
     }

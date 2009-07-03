@@ -304,7 +304,7 @@ Class("linb.UI.RichEditor", ["linb.UI","linb.absValue"],{
             self.$toolbar=t;
             t.$hostage=self;
             
-            linb.UI.$tryResize(profile, pro.width, pro.height);
+            linb.UI.$tryResize(profile, pro.width, pro.height,true);
         },
         _toolbarclick:function(profile,item,group,e,src){
             var editor=profile.$hostage;

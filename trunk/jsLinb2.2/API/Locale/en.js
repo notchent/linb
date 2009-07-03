@@ -5839,7 +5839,6 @@ _.set(linb.Locale,["en","doc","linb","UI"], {
             $desc:"relayout the control. It'll trigger the control's onresize event.",
             $rtn:"[self]",
             $paras:[
-                "syn [Optional] : Boolean, run it synchronous(ture) or asynchronous(false)",
                 "force [Optional] : Boolean, force to relayou or not."
             ]
         },

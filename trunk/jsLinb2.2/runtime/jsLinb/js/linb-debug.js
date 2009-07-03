@@ -10331,7 +10331,7 @@ Class("linb.UI",  "linb.absObj", {
                 if(profile.$busy)profile.$busy.css('display','none');
             });
         },
-        reLayout:function(syn, force){
+        reLayout:function(force){
             return this.each(function(o){
                 if(!o.renderId)return;
                 var p=o.properties;
@@ -10345,7 +10345,7 @@ Class("linb.UI",  "linb.absObj", {
                     o.getRootNode().style.height=0;
                     linb.UI.$dock(o,true,true);
                 }else
-                    linb.UI.$tryResize(o,p.width,p.height,syn,force);
+                    linb.UI.$tryResize(o,p.width,p.height,force);
             });
         },
         toHtml:function(force){
@@ -11970,7 +11970,7 @@ Class("linb.UI",  "linb.absObj", {
                     count++;
                     var s=linb.CSS.$getCSSValue('.setting-uikey','fontFamily');
                     if(s==key || key=='default'){
-                        linb.UI.getAll().reLayout(false,true);
+                        linb.UI.getAll().reLayout(true);
                         count=null;
                     }else
                         _.asyRun(arguments.callee,200*count);
@@ -12447,33 +12447,59 @@ Class("linb.UI",  "linb.absObj", {
 
             self.inValid=1;
         },
-        $tryResize:function(profile,w,h,syn,force,key){
-            var s=profile.box,t=s._onresize,args=profile.$rs_args;
-            if(t&&(w||h)){
-                if(!args){
-                    args=profile.$rs_args=[profile,null,null];
-                    _.asyRun(profile.$resizeFun=function(){
-                        delete profile.$rs_args;
-                        delete profile.$resizeFun;
-                        //destroyed before resize
-                        if(!profile.getRootNode())return;
-                        t.apply(s,args);
-                        var style=profile.getRootNode().style;
-                        if('_$v' in profile){
-                            //some control will set visible to recover the css class
-                            if(style.visibility!='visible')
-                                style.visibility=profile._$v;
-                            delete profile._$v;
-                        }
-                    });
-                }
-                //keep the last one, neglect zero and 'auto'
-                args[1]=parseInt(w)||null;
-                args[2]=((h===""||h=='auto')?"auto":parseInt(h))||null;
-                args[3]=force;
-                args[4]=key;
+        $doResize:function(profile,w,h,force,key){
+            if(force || ((w||h) && (profile._resize_w!=w || profile._resize_h!=h))){
+                //destroyed before resize
+                if(!profile.getRootNode())return false;
+                
+                profile._resize_w=w;
+                profile._resize_h=h;
+                _.tryF(profile.box._onresize,[profile,w,h,force,key],profile.box);
             }
-            if(syn)_.tryF(profile.$resizeFun);
+            //to prevent the functioin in $tryResize
+            if(profile._$resizetimer){
+                clearTimeout(profile._$resizetimer);
+                delete profile._$resizetimer;
+            }
+        },
+        $tryResize:function(profile,w,h,force,key){
+            var s=profile.box,t=s._onresize;
+            if(t&&(force||w||h)){
+                //adjust width and height
+                w=parseInt(w)||null;
+                h=((h===""||h=='auto')?"auto":parseInt(h))||null;
+                
+                //if it it has delay resize, overwrite arguments
+                if('_$v' in profile){
+                    var args=profile.$rs_args;
+                    if(!args){
+                        args=profile.$rs_args=[profile,null,null];
+                        profile._$resizetimer=_.asyRun(function(){
+//for performance checking
+//console.log('delay resize',profile.$rs_args);
+                            if(false!==linb.UI.$doResize.apply(null,profile.$rs_args)){
+                                var style=profile.getRootNode().style;
+                                //some control will set visible to recover the css class
+                                if(style.visibility!='visible')
+                                    style.visibility=profile._$v;
+                                delete profile.$rs_args;
+                                delete profile._$v;
+                                style=null;
+                            }
+                        });
+                    }
+                    //keep the last one, neglect zero and 'auto'
+                    args[1]=w;
+                    args[2]=h;
+                    args[3]=force;
+                    args[4]=key;
+                //else, call resize right now
+                }else{
+//for performance checking
+//console.log('resize',profile.$linbid,w,h,force,key);
+                    linb.UI.$doResize(profile,w,h,force,key);
+                }
+            }
         },
         LayoutTrigger:function(){
             var self=this, b=self.boxing(),p=self.properties;
@@ -12790,12 +12816,6 @@ Class("linb.UI",  "linb.absObj", {
                         linb('html').addClass('linb-html');
                         if(t=linb('body').get(0))
                             t.scroll='no';
-                    }
-                }else{
-                    if(isWin){
-                        linb('html').removeClass('linb-html');
-                        if(t=linb('body').get(0))
-                            t.scroll='';
                     }
                 }
             }
@@ -13464,12 +13484,10 @@ new function(){
                 if(self.renderId)
                     if((!self.$noB) && p.border && o._border)o._border();
 
-                //for performance
-                _.asyRun(function(){
-                    if(!self.renderId)return;
-                    if((!self.$noR) && p.resizer && o.setResizer)o.setResizer(p.resizer,true);
-                    if((!self.$noS) && p.shadow && o._shadow)o._shadow();
-                });
+                if((!self.$noR) && p.resizer && o.setResizer)
+                    o.setResizer(p.resizer,true);
+                if((!self.$noS) && p.shadow && o._shadow)
+                    o._shadow();
             },
             _onresize:function(profile,width,height){
                 var t = profile.properties,
@@ -15133,7 +15151,7 @@ Class("linb.UI.Resizer","linb.UI",{
 
                     //force to resize
                     ns.box._setB(ns);
-                    linb.UI.$tryResize(ns,root.get(0).style.width,root.get(0).style.height);
+                    linb.UI.$tryResize(ns,root.get(0).style.width,root.get(0).style.height,true);
                 }
             },
             background:{
@@ -17430,7 +17448,7 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
             self.$toolbar=t;
             t.$hostage=self;
             
-            linb.UI.$tryResize(profile, pro.width, pro.height);
+            linb.UI.$tryResize(profile, pro.width, pro.height,true);
         },
         _toolbarclick:function(profile,item,group,e,src){
             var editor=profile.$hostage;
@@ -22282,7 +22300,7 @@ Class("linb.UI.Tabs", ["linb.UI", "linb.absList","linb.absValue"],{
 
                             t=profile.getRootNode().style;
                             //reset width and height
-                            linb.UI.$tryResize(profile, t.width, t.height, false, value);
+                            linb.UI.$tryResize(profile, t.width, t.height, true, value);
                             t=null;
 
                             //dynamic render
@@ -22393,7 +22411,7 @@ Class("linb.UI.Tabs", ["linb.UI", "linb.absList","linb.absValue"],{
                     this.fireItemClickEvent((v=pp.items[0]) && (v=v.id));
 
                 var t=profile.getRootNode().style;
-                linb.UI.$tryResize(profile, t.width, t.height, false,v);
+                linb.UI.$tryResize(profile, t.width, t.height, true,v);
                 t=null;
             }
         },
@@ -22425,7 +22443,7 @@ Class("linb.UI.Tabs", ["linb.UI", "linb.absList","linb.absValue"],{
                 }
                 if(profile.properties.hasPanel){
                     var t=profile.getRootNode().style;
-                    linb.UI.$tryResize(profile, t.width, t.height, false, profile.boxing().getUIValue());
+                    linb.UI.$tryResize(profile, t.width, t.height, true, profile.boxing().getUIValue());
                     t=null;
                 }
             });
@@ -22751,7 +22769,7 @@ Class("linb.UI.Tabs", ["linb.UI", "linb.absList","linb.absValue"],{
                     instance.afterPageClose(profile, bak);
 
                     var t=profile.getRootNode().style;
-                    linb.UI.$tryResize(profile, t.width, t.height);
+                    linb.UI.$tryResize(profile, t.width, t.height,true);
                     t=null;
                     //for design mode in firefox
                     return false;
@@ -22860,7 +22878,7 @@ Class("linb.UI.Tabs", ["linb.UI", "linb.absList","linb.absValue"],{
 
                             //resize
                             var t=o.getRootNode().style;
-                            linb.UI.$tryResize(o, t.width, t.height);
+                            linb.UI.$tryResize(o, t.width, t.height,true);
                             t=null;
                         }else
                             o.properties.items = _.copy(value);
@@ -23231,7 +23249,7 @@ Class("linb.UI.ButtonViews", "linb.UI.Tabs",{
                         hs.height(v);
                     }
                     var t=self.getRootNode().style;
-                    linb.UI.$tryResize(self,t.width, t.height);
+                    linb.UI.$tryResize(self,t.width, t.height,true);
                 }
             }
         },
@@ -24048,13 +24066,7 @@ Class("linb.UI.PopMenu",["linb.UI.Widget","linb.absList"],{
                 root.cssSize({width:w,height:h});
 
                 //avoid blazing(shadow elements) when resize the border
-                linb.UI.$tryResize(profile,w,h,true);
-                if(pro.shadow){
-                    profile.$noS=true;
-                    var ins=profile.boxing();
-                    if(ins._shadow)
-                        ins._shadow(true);
-                 }
+                linb.UI.$doResize(profile,w,h,true);
             });
             return this._setScroll();
         },
@@ -25802,11 +25814,11 @@ Class("linb.UI.Layout",["linb.UI", "linb.absList"],{
                     if(t.type=='vertical'){
                         //use size to ignore onresize event once
                         o.height(item.size =  profile._cur + (profile.pos=='before'?1:-1)*linb.DragDrop.getProfile().offset.y);
-                        linb.UI.$tryResize(profile,null,r.height());
+                        linb.UI.$tryResize(profile,null,r.height(),true);
                     }else{
                         o.width(item.size = profile._cur + (profile.pos=='before'?1:-1)*linb.DragDrop.getProfile().offset.x);
                         //use size to ignore onresize event once
-                        linb.UI.$tryResize(profile,r.width(),null);
+                        linb.UI.$tryResize(profile,r.width(),null,true);
                     }
                     profile._limited=0;
                 }
@@ -25859,7 +25871,7 @@ Class("linb.UI.Layout",["linb.UI", "linb.absList"],{
                                 move.css('cursor','default');
                             profile.getSubNode('MOVE').tagClass('-checked');
                         }
-                        linb.UI.$tryResize(profile,null,r.height());
+                        linb.UI.$tryResize(profile,null,r.height(),true);
                     }else{
                         if(item.hide){
                             if(item.size <= m.width()-main.min + _handlerSize){
@@ -25889,7 +25901,7 @@ Class("linb.UI.Layout",["linb.UI", "linb.absList"],{
                                 move.css('cursor','default');
                             profile.getSubNode('MOVE').tagClass('-checked');
                         }
-                        linb.UI.$tryResize(profile,r.width(),null);
+                        linb.UI.$tryResize(profile,r.width(),null,true);
                     }
 
                     return false;
@@ -25930,7 +25942,7 @@ Class("linb.UI.Layout",["linb.UI", "linb.absList"],{
                         }
 
                         var size = self.getRoot().cssSize();
-                        linb.UI.$tryResize(self, size.width, size.height);
+                        linb.UI.$tryResize(self, size.width, size.height,true);
                     }
                 }
             },
@@ -25980,7 +25992,7 @@ Class("linb.UI.Layout",["linb.UI", "linb.absList"],{
 
                             //resize
                             var size = o.getRoot().cssSize();
-                            linb.UI.$tryResize(o, size.width, size.height);
+                            linb.UI.$tryResize(o, size.width, size.height,true);
                         }else
                             o.properties.items = _.copy(value);
                     });
@@ -26213,8 +26225,8 @@ Class("linb.UI.Layout",["linb.UI", "linb.absList"],{
 
             //collect width/height in size
             _.each(obj2, function(o, id){
-                profile.getSubNode('ITEM', id).cssRegion(obj2[id]);
                 profile.getSubNode('PANEL', id).cssRegion(obj[id], true);
+                profile.getSubNode('ITEM', id).cssRegion(obj2[id]);
             });
         }
     }
@@ -27441,7 +27453,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                     o.height(h);
                     if(_.str.startWith(linb.use(src).parent().id(),profile.keys.HFCELLA)){
                         profile.properties.headerHeight=h;
-                        linb.UI.$tryResize(profile,null,profile.getRoot().height());
+                        linb.UI.$tryResize(profile,null,profile.getRoot().height(),true);
                     }else
                         row.height=h;
                     profile._limited=0;
@@ -27457,7 +27469,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                     }else{
                         cells=profile.getSubNode('HCELLS');
                         cells.height(profile.properties.headerHeight=cells.height('auto').height());
-                        linb.UI.$tryResize(profile,null,profile.getRoot().height());
+                        linb.UI.$tryResize(profile,null,profile.getRoot().height(),true);
                     }
                     return false;
                 },
@@ -28055,7 +28067,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                 ini:18,
                 action:function(v){
                     this.getSubNode('HCELLS').height(v);
-                    linb.UI.$tryResize(this, this.getRoot().width(), this.getRoot().height());
+                    linb.UI.$tryResize(this, this.getRoot().width(), this.getRoot().height(),true);
                 }
             },
             rowHeight:{
@@ -29013,7 +29025,7 @@ sortby [for column only]
                     .reBoxing()
                     .popToTop(cellNode, 4, baseNode);
                 }else{
-                    editor.setWidth(size.width+3).setHeight(size.height+2).reLayout(true,true);
+                    editor.setWidth(size.width+3).setHeight(size.height+2).reLayout(true);
                     editor.reBoxing().show((absPos.left-1) + 'px',(absPos.top-1) + 'px');
                 }
             }
@@ -30447,7 +30459,7 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
             dialog.setCaption(caption).setWidth(w).setHeight(h);
             dialog.$cmd.reBoxing().left((size.width + 30 - dialog.$cmd.reBoxing().width())/2);
             
-            linb.UI.$tryResize(dialog.get(0), w, h,true);
+            linb.UI.$doResize(dialog.get(0), w, h);
         },
         alert:function(title, content, onOK){
             var me=arguments.callee, dialog;

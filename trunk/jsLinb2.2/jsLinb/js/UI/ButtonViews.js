@@ -156,7 +156,7 @@ Class("linb.UI.ButtonViews", "linb.UI.Tabs",{
                         hs.height(v);
                     }
                     var t=self.getRootNode().style;
-                    linb.UI.$tryResize(self,t.width, t.height);
+                    linb.UI.$tryResize(self,t.width, t.height,true);
                 }
             }
         },

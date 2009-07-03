@@ -755,7 +755,7 @@ Class("linb.UI.Dialog","linb.UI.Widget",{
             dialog.setCaption(caption).setWidth(w).setHeight(h);
             dialog.$cmd.reBoxing().left((size.width + 30 - dialog.$cmd.reBoxing().width())/2);
             
-            linb.UI.$tryResize(dialog.get(0), w, h,true);
+            linb.UI.$doResize(dialog.get(0), w, h);
         },
         alert:function(title, content, onOK){
             var me=arguments.callee, dialog;

@@ -1238,7 +1238,7 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
                     this.getSubNode('TBAR').css('display',v?'':'none');
                     var p=this.properties,w=p.width,h=p.height;
                     p.width=p.height=0;
-                    linb.UI.$tryResize(this,w,h);
+                    linb.UI.$tryResize(this,w,h,true);
                     p.width=w,p.height=h;
                 }
             },
@@ -1249,7 +1249,7 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
                     this.getSubNode('TIPS').css('display',v?'':'none');
                     var p=this.properties,w=p.width,h=p.height;
                     p.width=p.height=0;
-                    linb.UI.$tryResize(this,w,h);
+                    linb.UI.$tryResize(this,w,h,true);
                     p.width=w,p.height=h;
                 }
             },
@@ -1260,7 +1260,7 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
                     this.getSubNode('BIGLABEL').css('display',v?'':'none');
                     var p=this.properties,w=p.width,h=p.height;
                     p.width=p.height=0;
-                    linb.UI.$tryResize(this,w,h);
+                    linb.UI.$tryResize(this,w,h,true);
                     p.width=w,p.height=h;
                 }
             },

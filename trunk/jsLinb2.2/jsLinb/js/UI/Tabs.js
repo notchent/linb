@@ -27,7 +27,7 @@ Class("linb.UI.Tabs", ["linb.UI", "linb.absList","linb.absValue"],{
 
                             t=profile.getRootNode().style;
                             //reset width and height
-                            linb.UI.$tryResize(profile, t.width, t.height, false, value);
+                            linb.UI.$tryResize(profile, t.width, t.height, true, value);
                             t=null;
 
                             //dynamic render
@@ -138,7 +138,7 @@ Class("linb.UI.Tabs", ["linb.UI", "linb.absList","linb.absValue"],{
                     this.fireItemClickEvent((v=pp.items[0]) && (v=v.id));
 
                 var t=profile.getRootNode().style;
-                linb.UI.$tryResize(profile, t.width, t.height, false,v);
+                linb.UI.$tryResize(profile, t.width, t.height, true,v);
                 t=null;
             }
         },
@@ -170,7 +170,7 @@ Class("linb.UI.Tabs", ["linb.UI", "linb.absList","linb.absValue"],{
                 }
                 if(profile.properties.hasPanel){
                     var t=profile.getRootNode().style;
-                    linb.UI.$tryResize(profile, t.width, t.height, false, profile.boxing().getUIValue());
+                    linb.UI.$tryResize(profile, t.width, t.height, true, profile.boxing().getUIValue());
                     t=null;
                 }
             });
@@ -496,7 +496,7 @@ Class("linb.UI.Tabs", ["linb.UI", "linb.absList","linb.absValue"],{
                     instance.afterPageClose(profile, bak);
 
                     var t=profile.getRootNode().style;
-                    linb.UI.$tryResize(profile, t.width, t.height);
+                    linb.UI.$tryResize(profile, t.width, t.height,true);
                     t=null;
                     //for design mode in firefox
                     return false;
@@ -605,7 +605,7 @@ Class("linb.UI.Tabs", ["linb.UI", "linb.absList","linb.absValue"],{
 
                             //resize
                             var t=o.getRootNode().style;
-                            linb.UI.$tryResize(o, t.width, t.height);
+                            linb.UI.$tryResize(o, t.width, t.height,true);
                             t=null;
                         }else
                             o.properties.items = _.copy(value);
