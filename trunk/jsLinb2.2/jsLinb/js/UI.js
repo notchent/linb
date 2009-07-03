@@ -468,15 +468,16 @@ Class('linb.UIProfile','linb.Profile', {
                 if(ns.onLayout)
                     ns.boxing().onLayout(ns);
             }
-
-            if(ns.children)
-                for(var i=0,v;v=ns.children[i++];)
-                    v[0]._render(true);
-
-            if(ns.$attached){
-                for(var i=0,v;v=ns.$attached[i++];)
-                    v._render(true);
-                delete ns.$attached;
+            if(!ns.box._dynamicRender){
+                if(ns.children)
+                    for(var i=0,v;v=ns.children[i++];)
+                        v[0]._render(true);
+    
+                if(ns.$attached){
+                    for(var i=0,v;v=ns.$attached[i++];)
+                        v._render(true);
+                    delete ns.$attached;
+                }
             }
         },
         __gc:function(){
@@ -636,7 +637,7 @@ Class('linb.UIProfile','linb.Profile', {
             }
         },
         _cacheR2:/<!--([^>^\s]*)-->/g,
-        toHtml:function(){
+        toHtml:function(force){
             var self=this,
                 c = self.box,
                 h={},
@@ -649,12 +650,12 @@ Class('linb.UIProfile','linb.Profile', {
             if(c._dynamicTemplate)c._dynamicTemplate(self);
             str = c._build(self, data);
 
-            if(m=c._getChildren(self)){
+            if((!c._dynamicRender||force) && (m=self.children)){
                 for(i=0; o=m[i++];)
                     if(o[0][k1]){
                         id=o[1]||'';
                         a=h[id]||(h[id]=[]);
-                        a[a.length]=o[0].toHtml();
+                        a[a.length]=o[0].toHtml(force);
                     }else if(!o[0][k2]){
                         b.ini.call(b,o[0]);
                         o[0]=b.get(0);
@@ -1079,10 +1080,10 @@ Class("linb.UI",  "linb.absObj", {
                     linb.UI.$tryResize(o,p.width,p.height,syn,force);
             });
         },
-        toHtml:function(){
+        toHtml:function(force){
             var a=[];
             _.arr.each(this._nodes,function(o){
-                a[a.length]=o.toHtml();
+                a[a.length]=o.toHtml(force);
             });
             return a.join('');
         },
@@ -2122,10 +2123,6 @@ Class("linb.UI",  "linb.absObj", {
             }
             children.length=0;
             node=null;
-        },
-
-        _getChildren:function(profile){
-            return profile.children;
         },
         getFromDom:function(id){
             if(id=linb.UIProfile.getFromDom(id))

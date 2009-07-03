@@ -54,9 +54,10 @@ Class("linb.UI.Stacks", "linb.UI.Tabs",{
             },
             PANEL:{
                 position:'absolute',
-                visibility:'hidden',
-                top:'-10000px',
-                left:'-10000px',
+//                visibility:'hidden',
+//                top:'-10000px',
+//                left:'-10000px',
+                display:'none',
                 overflow:'auto'
             },
             CMDS:{

@@ -203,6 +203,7 @@ Class("linb.UI.Tabs", ["linb.UI", "linb.absList","linb.absValue"],{
         }
     },
     Static:{
+        _dynamicRender:true,
         Templates:{
             tagName : 'div',
             style:'{_style};',
@@ -627,11 +628,6 @@ Class("linb.UI.Tabs", ["linb.UI", "linb.absList","linb.absValue"],{
                 if(i=self.getItemByItemId(v))
                     ins.onItemSelected(self, i);
             }
-        },
-        //for linb.UI.prototype.toHtml function.
-        //tabs is a dynamic render control
-        _getChildren:function(profile){
-            return null;
         },
         _prepareData:function(profile){
             var data = arguments.callee.upper.call(this, profile);
