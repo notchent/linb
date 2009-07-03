@@ -31,17 +31,15 @@ Class("linb.UI.Tabs", ["linb.UI", "linb.absList","linb.absValue"],{
                             t=null;
 
                             //dynamic render
-                            if(properties.dynRender){
-                                var arr=profile.children,a=[];
-                                _.arr.each(arr,function(o){
-                                    if(o[1]==value && !o[0]['parent:'+profile.$linbid]){
-                                        a.push(o[0]);
-                                        o[0]['parent:'+profile.$linbid]=1;
-                                    }
-                                });
-                                if(a.length)
-                                    box.append(linb.UI.pack(a),value);
-                            }
+                            var arr=profile.children,a=[];
+                            _.arr.each(arr,function(o){
+                                if(o[1]==value && !o[0]['parent:'+profile.$linbid]){
+                                    a.push(o[0]);
+                                    o[0]['parent:'+profile.$linbid]=1;
+                                }
+                            });
+                            if(a.length)
+                                box.append(linb.UI.pack(a),value);
                         }
                     }
             });
@@ -563,7 +561,6 @@ Class("linb.UI.Tabs", ["linb.UI", "linb.absList","linb.absValue"],{
                     this.getSubNode('ITEMS').css('textAlign',value);
                 }
             },
-            dynRender:true,
             dropKeysPanel:'',
             value:{
                 ini:''
@@ -631,9 +628,10 @@ Class("linb.UI.Tabs", ["linb.UI", "linb.absList","linb.absValue"],{
                     ins.onItemSelected(self, i);
             }
         },
+        //for linb.UI.prototype.toHtml function.
+        //tabs is a dynamic render control
         _getChildren:function(profile){
-            if(!profile.properties.dynRender)
-                return profile.children;
+            return null;
         },
         _prepareData:function(profile){
             var data = arguments.callee.upper.call(this, profile);

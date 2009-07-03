@@ -10424,15 +10424,6 @@ _.set(linb.Locale,["en","doc","linb","UI","Tabs"], {
                 "}"
             ]
         },
-        getDynRender:{
-            $desc:"Gets the dynRender property, that indicates each page in the tabs will render its' children dynamically or not.",
-            $rtn:'Boolean'
-        },
-        setDynRender:{
-            $desc:"Sets the dynRender property.",
-            $rtn:'[self]',
-            $memo:"This function should be used before the tabs was rendered."
-        },
         getHAlign :{
             $desc:"Gets horizontal alignment.",
             $rtn:"String",

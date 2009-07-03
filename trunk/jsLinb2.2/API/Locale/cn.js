@@ -10460,15 +10460,6 @@ _.set(linb.Locale,["cn","doc","linb","UI","Tabs"], {
                 "}"
             ]
         },
-        getDynRender:{
-            $desc:"判断标签是否被动态渲染。设置为真时，标签页面将在切换时被动态渲染.",
-            $rtn:'Boolean'
-        },
-        setDynRender:{
-            $desc:"设置标签是否被动态渲染。设置为真时，标签页面将在切换时被动态渲染.",
-            $rtn:'[self]',
-            $memo:"该函数需要在标签被渲染前调用."
-        },
         getHAlign :{
             $desc:"获取水平对齐方式. 可以为'left', 'center' or 'right'。",
             $rtn:"String",
