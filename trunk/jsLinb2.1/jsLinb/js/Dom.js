@@ -1179,7 +1179,7 @@ Class('linb.Dom','linb.absBox',{
             fontSize:[12,18]
         }
         */
-        animate: function(args, onStart, onEnd, time, step, type, threadid){
+        animate: function(args, onStart, onEnd, time, step, type, threadid, unit){
             var me=arguments.callee,
             hash = me.lib ||  (me.lib = {
                 linear:function(x,s){return x/s},
@@ -1259,7 +1259,7 @@ Class('linb.Dom','linb.absBox',{
                             if(typeof o == 'function') o(hash[type](count,step));
                             else{
                                 var value = String( _.str.endWith(i.toLowerCase(),'color') ? color(type, o, step, count) : (o[0] + (o[1]-o[0])*hash[type](count,step)));
-                                (self[i]) ? (self[i](value)) :(self.css(i, value));
+                                (self[i]) ? (self[i](value+(unit||''))) :(self.css(i, value+(unit||'')));
                             }
                         });
                     //}catch(e){

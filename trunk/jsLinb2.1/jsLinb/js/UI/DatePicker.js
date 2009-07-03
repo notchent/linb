@@ -253,7 +253,8 @@ Class('linb.UI.DatePicker', ['linb.UI',"linb.absValue"], {
                 height:'15px',
                 'vertical-align': 'middle',
                 cursor:'default',
-                background: linb.UI.$bg('icons.gif', 'no-repeat', true)
+                background: linb.UI.$bg('icons.gif', 'no-repeat', true),
+                _zoom:1
             },
             PRE:{
                 $order:1,
