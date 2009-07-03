@@ -1147,7 +1147,7 @@ Class('linb.Dom','linb.absBox',{
             fontSize:[12,18]
         }
         */
-        animate: function(args, onStart, onEnd, time, step, type, threadid){
+        animate: function(args, onStart, onEnd, time, step, type, threadid, unit){
             var me=arguments.callee,
             hash = me.lib ||  (me.lib = {
                 linear:function(x,s){return x/s},
@@ -1227,7 +1227,7 @@ Class('linb.Dom','linb.absBox',{
                             if(typeof o == 'function') o(hash[type](count,step));
                             else{
                                 var value = String( _.str.endWith(i.toLowerCase(),'color') ? color(type, o, step, count) : (o[0] + (o[1]-o[0])*hash[type](count,step)));
-                                (self[i]) ? (self[i](value)) :(self.css(i, value));
+                                (self[i]) ? (self[i](value+(unit||''))) :(self.css(i, value+(unit||'')));
                             }
                         });
                     //}catch(e){
@@ -1718,7 +1718,7 @@ type:4
         free:function(label){
            linb.Dom.setCover(false,label);
         },
-        animate:function(css, args, onStart, onEnd, time, step, type, threadid){
+        animate:function(css, args, onStart, onEnd, time, step, type, threadid, unit){
             var node = document.createElement('div');
             _.merge(css,{position:'absolute', left:this.HIDE_VALUE, zIndex:this.TOP_ZINDEX+10});
             linb.Dom.setStyle(node, css);
@@ -1728,7 +1728,7 @@ type:4
                 if(node.parentNode)
                     node.parentNode.removeChild(node);
                 node=null;
-            }, time, step, type, threadid);
+            }, time, step, type, threadid, unit);
         },
         //plugin event function to linb.Dom
         $enableEvents:function(name){

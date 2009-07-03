@@ -5653,7 +5653,7 @@ Class('linb.Dom','linb.absBox',{
             fontSize:[12,18]
         }
         */
-        animate: function(args, onStart, onEnd, time, step, type, threadid){
+        animate: function(args, onStart, onEnd, time, step, type, threadid, unit){
             var me=arguments.callee,
             hash = me.lib ||  (me.lib = {
                 linear:function(x,s){return x/s},
@@ -5733,7 +5733,7 @@ Class('linb.Dom','linb.absBox',{
                             if(typeof o == 'function') o(hash[type](count,step));
                             else{
                                 var value = String( _.str.endWith(i.toLowerCase(),'color') ? color(type, o, step, count) : (o[0] + (o[1]-o[0])*hash[type](count,step)));
-                                (self[i]) ? (self[i](value)) :(self.css(i, value));
+                                (self[i]) ? (self[i](value+(unit||''))) :(self.css(i, value+(unit||'')));
                             }
                         });
                     //}catch(e){
@@ -6224,7 +6224,7 @@ type:4
         free:function(label){
            linb.Dom.setCover(false,label);
         },
-        animate:function(css, args, onStart, onEnd, time, step, type, threadid){
+        animate:function(css, args, onStart, onEnd, time, step, type, threadid, unit){
             var node = document.createElement('div');
             _.merge(css,{position:'absolute', left:this.HIDE_VALUE, zIndex:this.TOP_ZINDEX+10});
             linb.Dom.setStyle(node, css);
@@ -6234,7 +6234,7 @@ type:4
                 if(node.parentNode)
                     node.parentNode.removeChild(node);
                 node=null;
-            }, time, step, type, threadid);
+            }, time, step, type, threadid, unit);
         },
         //plugin event function to linb.Dom
         $enableEvents:function(name){
@@ -8339,7 +8339,7 @@ Class('linb.DragDrop',null,{
                 case 'icon':
                     pos.left=_.isNumb(p.targetLeft)?p.targetLeft:(mousePos.left - linb.win.scrollLeft() + 16);
                     pos.top=_.isNumb(p.targetTop)?p.targetTop:(mousePos.top - linb.win.scrollTop() + 16);
-                    t='<table border="0"><tr><td valign="top"><span style="background:url('+p.dragIcon+') no-repeat left top;width:'+(_.isNumb(p.targetWidth)?p.targetWidth:16)+'px;height:'+(_.isNumb(p.targetHeight)?p.targetHeight:16)+'px;" ></span></td><td id="linb:dd:shadow" '+(p.shadowFrom?'style="border:solid 1px #e5e5e5;"':'')+'>'+(p.shadowFrom?
+                    t='<table border="0"><tr><td valign="top"><span style="background:url('+p.dragIcon+') no-repeat left top;width:'+(_.isNumb(p.targetWidth)?p.targetWidth:16)+'px;height:'+(_.isNumb(p.targetHeight)?p.targetHeight:16)+'px;" ></span></td><td id="linb:dd:shadow" '+(p.shadowFrom?'style="border:solid 1px #e5e5e5;font-size:12px;line-height:14px;"':'')+'>'+(p.shadowFrom?
 
                     linb(p.shadowFrom).clone(true)
 
@@ -21312,6 +21312,7 @@ Class("linb.UI.Gallery", "linb.UI.List",{
             },
             COMMENT:{
                 display:'block',
+                'font-size':'12px',
                 margin:'0 2px 0 2px'
             }
         },
