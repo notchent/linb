@@ -58,7 +58,7 @@ Class('linb.Debugger', null, {
                 linb('body').append(ns);
                 self.$con=linb(self._id2);
                 linb(self._id4).onMousedown(function(p,e,s){
-                    if(linb.Event.getSrc(e)!=this)return;
+                    if(linb.Event.getSrc(e)!=linb.use(s).get(0))return;
                     linb.use(s).parent(2).startDrag(e);
                 });
 

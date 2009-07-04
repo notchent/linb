@@ -1,7 +1,7 @@
 _.set(linb.Locale,["cn","app"], {
     en:'英文',
     cn:'中文',
-    apititle:"jsLINB 2.1 - API 文档",
+    apititle:"jsLINB 2.2 - API 文档",
     
     search:'API查询',
     lQ1:'按API查询',
@@ -30,7 +30,7 @@ _.set(linb.Locale,["cn","app"], {
 var $eo={
     $rtn:"[self]",
     $paras:[
-        "fun [可选参数]: Function, 函数的参数 是 [linb.DomProfile Object, DOM event Object, the current element's linbid].",
+        "fun [可选参数]: Function, 函数的参数 是 [linb.DomProfile 对象, DOM 事件对象, 目前元素的linbid字符串].",
         "label [可选参数]: String, 事件的标签.",
         "flag  [可选参数]: Boolean, 仅删除事件的时候有效，表示是否删除所有相关的事件."
     ]
@@ -61,7 +61,7 @@ _.set(linb.Locale,["cn","doc"], {
             "pkey [必需参数]: String/Array, 名字空间+类名字。所要继承的类。数组表示该类为多继承，有多个父类.",
             "obj [可选参数]: Object,  类对象. 默认为 {}."
         ],
-        $snippet:["// Equals to declare a Namespae 'Test.NS' and declare a Class 'Test.NS.Cls'; \n  Class('Test.NS.Cls'); Class('Test.NS.Cls.Subcls1', 'Test.NS.Cls', {}); Class('Test.NS.Cls.Subcls2', null, {});  alert(typeof Test.NS); alert(typeof Test.NS.Cls); alert(typeof Test.NS.Cls.Subcls1);alert(typeof Test.NS.Cls.Subcls2);"],
+        $snippet:["// 申明命名空间 'Test.NS' 然后申明一个类 'Test.NS.Cls'; \n  Class('Test.NS.Cls'); Class('Test.NS.Cls.Subcls1', 'Test.NS.Cls', {}); Class('Test.NS.Cls.Subcls2', null, {});  alert(typeof Test.NS); alert(typeof Test.NS.Cls); alert(typeof Test.NS.Cls.Subcls1);alert(typeof Test.NS.Cls.Subcls2);"],
         $memo:"类的命名规则：[A-Z][0-9a-zA-Z]+"
     },
     _:{
@@ -175,7 +175,7 @@ _.set(linb.Locale,["cn","doc"], {
             $rtn:"Object",
             $paras:[
                 "hash [必需参数]: Object, 要拷贝的对象.",
-                "filter [可选参数]: Function, 参数: [hash value, hash key]. 判断是否拷贝该项. 也可以是 [true]，表示会忽略以'_'开头的项",
+                "filter [可选参数]: Function, 参数: [值, 键]. 判断是否拷贝该项. 也可以是 [true]，表示会忽略以'_'开头的项",
                 "deep [可选参数]: Number, 拷贝的深度，默认为 100."
             ],
             $snippet:[
@@ -190,16 +190,16 @@ _.set(linb.Locale,["cn","doc"], {
             $rtn:"Object",
             $paras:[
                 "hash [必需参数]: Object, 要拷贝的对象.",
-                "filter [可选参数]: Function, 参数: [hash value, hash key]. 判断是否拷贝该项. 也可以是 [true]，表示会忽略以'_'开头的项",
+                "filter [可选参数]: Function, 参数: [值, 键]. 判断是否拷贝该项. 也可以是 [true]，表示会忽略以'_'开头的项",
             ],
-            $memo:"Sees <a href='#_.clone'>_.clone</a>"
+            $memo:"请参见 <a href='#_.clone'>_.clone</a>"
         },
         each:{
             $desc:"对hash的每一个函数元素，应用一个函数.",
             $rtn:"Object",
             $paras:[
-                "hash [必需参数]: Object, hash对象.",
-                "fun [必需参数]: Function, 函数: [hash value, hash key]. 要应用的函数.",
+                "hash [必需参数]: Object, 键值对.",
+                "fun [必需参数]: Function, 函数: [值, 键]. 要应用的函数.",
                 "scope [可选参数]: Object, [fun]的this指针(哪个对象的函数)."
             ],
             $snippet:[
@@ -227,11 +227,11 @@ _.set(linb.Locale,["cn","doc"], {
             ]
         },
         filter:{
-            $desc:"过滤数组/hash对象的某些元素.",
+            $desc:"过滤数组/键值对的某些元素.",
             $rtn:"Object",
             $paras:[
-                "obj [必需参数]: Object, 数组/hash对象.",
-                "filter [可选参数]: Function, 参数: [hash value, hash key]. 判断是否保留该项. 也可以是 [true]，表示值过滤以'_'开头的项",
+                "obj [必需参数]: Object, 数组/键值对.",
+                "filter [可选参数]: Function, 参数: [值, 键]. 判断是否保留该项. 也可以是 [true]，表示值过滤以'_'开头的项",
                 "force [可选参数]: Boolean, 强行将[obj]做为一个{}执行. 默认为 false."
             ],
             $snippet:[
@@ -421,12 +421,12 @@ _.set(linb.Locale,["cn","doc"], {
             ]
         },
         merge:{
-            $desc:"将两个hash对象合并.",
+            $desc:"将两个键值对合并.",
             $rtn:"Object",
             $paras:[
                 "target [必需参数]: Object, 目标hash.",
                 "source [必需参数]: Object, 源hash.",
-                "type [可选参数]: String/Function,参数: [hash value, hash key]. 可以是'all', 'with', 'without'[默认], 或函数."
+                "type [可选参数]: String/Function,参数: [值, 键]. 可以是'all', 'with', 'without'[默认], 或函数."
             ],
             $snippet:[
                 "var a={a:1},b={b:1}; alert(_.serialize(_.merge(a,b)))",
@@ -466,7 +466,7 @@ _.set(linb.Locale,["cn","doc"], {
             $rtn: "String",
             $paras:[
                 "obj [必需参数]: Object, 目标对象. ",
-                "filter [可选参数]: Function, 参数: [hash value, hash key]. 判断是否序列化该项. 也可以是 [true]，表示会忽略以'_'开头的项",
+                "filter [可选参数]: Function, 参数: [值, 键]. 判断是否序列化该项. 也可以是 [true]，表示会忽略以'_'开头的项",
                 "dateformat  [可选参数]: String, 'utc' or 'gmt'. 强行将[Date]类型转化为ISO UTC字符串, ISO GMT 字符串, 或默认格式( new Date(yyyy,mm,dd,hh,nn,ss,ms) )."
             ],
             $snippet:[
@@ -487,8 +487,8 @@ _.set(linb.Locale,["cn","doc"], {
             $desc:"设置或取消设置多重hash中的某个项.",
             $rtn:"Object",
             $paras:[
-                "hash [必需参数]: Object, 多重hash.",
-                "path [必需参数]: Array, 项路径, ['a','b','c'] => {a:{b:{c:[variable]}}}.",
+                "hash [必需参数]: Object, 多重键值对.",
+                "path [必需参数]: Array, 目标路径, ['a','b','c'] => {a:{b:{c:[variable]}}}.",
                 "value [可选参数]: any, 项的新值. 如果是undefined则被清空."
             ],
             $snippet:[
@@ -521,7 +521,7 @@ _.set(linb.Locale,["cn","doc"], {
             $desc:"将键值对转化为URL请求字符串.",
             $rtn:"String",
             $paras:[
-                "hash [必需参数] : a key/value pairs Object."
+                "hash [必需参数] : 键值对."
             ],
             $snippet:[
                 "alert(_.urlEncode({a:1,b:2}));"+
@@ -626,7 +626,7 @@ _.set(linb.Locale,["cn","doc"], {
             }
         },
         toArr:{
-            $desc:"将字符串或hash对象分割成数组.",
+            $desc:"将字符串或键值对分割成数组.",
             $rtn:"Array",
             $paras:[
                 "value [必需参数]: Object, 要分割的字符串或对象.",
@@ -747,7 +747,7 @@ _.set(linb.Locale,["cn","doc","linb"], {
         ]
     },
     Locale: {
-        $desc:"linb.Locale是一个hash对象, 用以存储本地化的信息.",
+        $desc:"linb.Locale是一个键值对, 用以存储本地化的信息.",
         $rtn:"Object",
         $snippet:[
             "_.each(linb.Locale.en,function(o,i){alert(i+':'+o)})"
@@ -755,14 +755,14 @@ _.set(linb.Locale,["cn","doc","linb"], {
         $memo:"程序员请使用linb.getRes([resource key])来获取本地化的值"
     },
     browser:{
-        $desc:"linb.browser是一个hash对象, 用以当前浏览器的信息.",
+        $desc:"linb.browser是一个键值对, 用以当前浏览器的信息.",
         $rtn:"Object",
         $snippet:[
             "alert(_.serialize(linb.browser))"
         ]
     },
     ini:{
-        $desc:"linb.ini 是一个hash对象, 用以存储jsLinb库，应用程序路径等相关路径的信息, . 如果程序员使用了自定义的路径[linb_ini](jsLinb库加载前申明.)，这些自定义的路径也将被合并到[linb.ini]里面.",
+        $desc:"linb.ini 是一个键值对, 用以存储jsLinb库，应用程序路径等相关路径的信息, . 如果程序员使用了自定义的路径[linb_ini](jsLinb库加载前申明.)，这些自定义的路径也将被合并到[linb.ini]里面.",
         $rtn:"Object",
         $snippet:[
             "alert(_.serialize(linb.ini))"
@@ -1165,7 +1165,7 @@ _.set(linb.Locale,["cn","doc","linb","absIO"], {
         $desc:"将一系列的linb.absIO对象编组, 并包装到一个线程中. 程序员可并行的执行他们",
         $rtn:"linb.Thread",
         $paras:[
-            "hash [必需参数]: hash Object, 一系列的linb.absIO对象",
+            "hash [必需参数]: Object, 一系列的linb.absIO对象",
             "callback [可选参数]: Function,  当每个linb.absIO对象都终止后，该函数将被调用.",
             "onStart [可选参数]: Function, 当对应的线程开始时调用thread.",
             "onEnd [可选参数]: Function, 当对应的线程结束时调用.",
@@ -1603,7 +1603,7 @@ _.set(linb.Locale,["cn","doc","linb","SC"], {
     execSnips:{
         $desc:"把通过loadSnips缓存起来的代码片段都执行了.",
         $paras:[
-            "cache [可选参数]: Object[Key/value pairs], 目标代码对象. 默认是 [linb.$cache.text]."
+            "cache [可选参数]: Object[键值对], 目标代码对象. 默认是 [linb.$cache.text]."
         ],
         $snippet:[
             "/*\n//最常用的用法: \n"+
@@ -1661,7 +1661,7 @@ _.set(linb.Locale,["cn","doc","linb","Event"], {
     },
     getPos:{
         $desc:"从事件对象中获取鼠标的位置.",
-        $rtn:"Object, key/value pairs. {left:xx,top:xx}",
+        $rtn:"Object, 键值对. {left:xx,top:xx}",
         $paras:[
             "event [必需参数] : DOM事件对象."
         ],
@@ -1887,7 +1887,7 @@ _.set(linb.Locale,["cn","doc","linb","Dom"], {
         $desc:"包装特殊效果的动画到一个linb.Thread对象中(shell线程).",
         $rtn:"linb.Thread",
         $paras:[
-            "css [必需参数] : Object[CSS Key/value pairs]. 不变的CSS样式",
+            "css [必需参数] : Object[CSS 键值对]. 不变的CSS样式",
             "args [必需参数] : Object[Key/value([from value, to value]) pairs] . 渐变的CSS样式",
             "onStart [可选参数]: Function, 参数: [threadid]. 线程第一个任务开始前的回调函数.",
             "onEnd [可选参数]: Function, 参数: [threadid]. 整个shell线程结束后的回调函数.",
@@ -1951,7 +1951,7 @@ _.set(linb.Locale,["cn","doc","linb","Dom"], {
         $desc:"提交一个HTML form(表单). ",
         $paras:[
             "action [必需参数] : String(URL), 提交到哪个URL.",
-            "data [必需参数] : Object[Key/value pairs], 提交数据的键值对.",
+            "data [必需参数] : Object[键值对], 提交数据的键值对.",
             "method [可选参数] : String, . HTTP method . 可以是[get|post], 默认为'get'.",
             "target [可选参数] : String, 返回显示的窗口位置. [_blank|_parent|_self|_top], 默认为'_blank'.",
             "enctype [可选参数] : String, 表单enctype属性(设置MIME以用来编码表单内容), 默认值为 'application/x-www-form-urlencoded'. 当表单内容包含文件时为 'multipart/form-data'."
@@ -1986,7 +1986,7 @@ _.set(linb.Locale,["cn","doc","linb","Dom"], {
             $desc:"为第一个元素添加边框. ",
             $rtn:"linb.UI.Border",
             $paras:[
-                "properties [可选参数] : key/value pairs, 边框的属性. 一般的用法是: {borderActive: [Boolean]}."
+                "properties [可选参数] : 键值对, 边框的属性. 一般的用法是: {borderActive: [Boolean]}."
             ],
             $snippet:[
                 "var div=linb.create('<div style=\\\'background:#fff;position:absolute;border:solid 1px;width:100px;height:100px;left:100px;top:100px;z-index:20000;\\\'></div>');linb('body').append(div);_.asyRun(function(){div.addBorder()},1000);_.asyRun(function(){div.removeBorder()},2000);_.asyRun(function(){div.remove()},3000);",
@@ -2006,7 +2006,7 @@ _.set(linb.Locale,["cn","doc","linb","Dom"], {
             $desc:"为第一个元素添加大小调节器. ",
             $rtn:"linb.UI.Resizer",
             $paras:[
-                "properties [可选参数] : key/value pairs, 边框的属性.",
+                "properties [可选参数] : 键值对, 边框的属性.",
                 "onUpdate [可选参数] : Function, 大小修改后的回调函数."
             ],
             $snippet:[
@@ -2028,7 +2028,7 @@ _.set(linb.Locale,["cn","doc","linb","Dom"], {
             $desc:"为第一个元素添加阴影. ",
             $rtn:"linb.UI.Shadow",
             $paras:[
-                "properties [可选参数] : key/value pairs, 边框的属性."
+                "properties [可选参数] : 键值对, 边框的属性."
             ],
             $snippet:[
                 "//You can resize the following div: \n" +
@@ -2378,7 +2378,7 @@ _.set(linb.Locale,["cn","doc","linb","Dom"], {
             $desc:"获取第一个元素的某个CSS属性值, 或设置所有元素的某个属性值.",
             $rtn:"String/[self]",
             $paras:[
-                "name [必需参数] : CSS属性名或键/值对.",
+                "name [必需参数] : CSS属性名或键值对.",
                 "value [可选参数] : CSS属性值."
             ],
             $snippet:[
@@ -3051,54 +3051,54 @@ _.set(linb.Locale,["cn","doc","linb","DragDrop"], {
         $paras:[
             "e [必需参数] : DOM 事件对象.",
             "targetNode [必需参数] : 能包装成 linb.Dom 对象的输入.",
-            "profile [可选参数] : 键值对, for linb.DragDrop profile. Profile struct:" +
+            "profile [可选参数] : 键值对, 拖拽的概要对象。包括:" +
             "<div>{<ul>" +
-            "<li><strong>dragType</strong>: 'move','copy','deep_copy','shape','icon', 'blank' or 'none', 默认为 'shape';</li>"+
-            "<li><strong>shadowFrom</strong>: Element/linb.Dom, It's valid when dragType=='icon';</li>"+
-            "<li><strong>targetReposition</strong>: Boolean, does dd reset the target position, 默认为 [true];</li>"+
+            "<li><strong>dragType</strong>: 'move','copy','deep_copy','shape','icon', 'blank' 或 'none', 设置拖拽类型，默认为 'shape';</li>"+
+            "<li><strong>shadowFrom</strong>: Element/linb.Dom, 设置拖拽的时候要显示哪个dom的影子。当 dragType 为 'icon' 的时候有效。</li>"+
+            "<li><strong>targetReposition</strong>: Boolean, 设置是否最后要重置拖拽目标的位置, 默认为 [true];</li>"+
 
-            "<li><strong>dragIcon</strong>: String, the drag icon image path, 默认为 [linb.ini.path+'ondrag.gif'].</li>"+
-            "<li><strong>magneticDistance</strong>: Number, the magnetic distance, 默认为 0;</li>"+
-            "<li><strong>xMagneticLines</strong>: Array of Number, the magnetic line vlaues in horizontal dir, 默认为 [];</li>"+
-            "<li><strong>yMagneticLines</strong>: Array of Number, the magnetic line vlaues in vertical dir, 默认为 [];</li>"+
-            "<li><strong>widthIncrement</strong>: Number, the width increment in horizontal dir, 默认为 0;</li>"+
-            "<li><strong>heightIncrement</strong>: Number, the height increment in vertical dir, 默认为 0;</li>"+
-            "<li><strong>dragDefer</strong>: Number, when [linb.DragDrop.startDrag] is called, the real drag action will be triggered after [document.onmousemove] runs [dragDefer] times, 默认为 0;</li>"+
+            "<li><strong>dragIcon</strong>: String, 设置拖拽的时候显示图标的图片路径, 默认为 [linb.ini.path+'ondrag.gif'].</li>"+
+            "<li><strong>magneticDistance</strong>: Number, 设置磁性距离, 默认为 0;</li>"+
+            "<li><strong>xMagneticLines</strong>: Array of Number, 设置水平方向的磁性线数组, 默认为 [];</li>"+
+            "<li><strong>yMagneticLines</strong>: Array of Number, 设置垂直方向的磁性线数组, 默认为 [];</li>"+
+            "<li><strong>widthIncrement</strong>: Number, 设置水平方向的最小增量值, 默认为 0;</li>"+
+            "<li><strong>heightIncrement</strong>: Number, 设置垂直方向的最小增量值, 默认为 0;</li>"+
+            "<li><strong>dragDefer</strong>: Number, 设置拖拽的延迟值。表示在[document.onmousemove]几次后拖拽才真正开始, 默认为 0;</li>"+
 
-            "<li><strong>horizontalOnly</strong>:Boolean, drag horizontal dir only, 默认为 [false];</li>"+
-            "<li><strong>verticalOnly</strong>: Boolean, drag vertical dir only, 默认为 [false];</li>"+
-            "<li><strong>maxBottomOffset</strong>:Number, the offset between [the restricted bottom] and [the current mouse Y], for mouse restricted region, 默认为 [null];</li>"+
-            "<li><strong>maxLeftOffset</strong>:Number, the offset between [the restricted left] and [the current mouse X], for mouse restricted region, 默认为 [null];</li>"+
-            "<li><strong>maxRightOffset</strong>:Number, the offset between [the restricted right] and [the current mouse X], for mouse restricted region, 默认为 [null];</li>"+
-            "<li><strong>maxTopOffset</strong>: Number, the offset between [the restricted top] and [the current mouse Y], for mouse restricted region, 默认为 [null];</li>"+
+            "<li><strong>horizontalOnly</strong>:Boolean, 设置是否要只在水平方向拖拽, 默认为 [false];</li>"+
+            "<li><strong>verticalOnly</strong>: Boolean, 设置是否要只在垂直方向拖拽, 默认为 [false];</li>"+
+            "<li><strong>maxBottomOffset</strong>:Number, 设置下方向的最大拖拽距离, 默认为 [null];</li>"+
+            "<li><strong>maxLeftOffset</strong>:Number, 设置左方向的最大拖拽距离, 默认为 [null];</li>"+
+            "<li><strong>maxRightOffset</strong>:Number, 设置右方向的最大拖拽距离, 默认为 [null];</li>"+
+            "<li><strong>maxTopOffset</strong>: Number, 设置上方向的最大拖拽距离, 默认为 [null];</li>"+
 
-            "<li><strong>targetNode</strong>: Element/linb.Dom, the drag target node;</li>"+
-            "<li><strong>targetCSS</strong>: Number, the drag target node's css key/value Object, 默认为 [null];</li>"+
-            "<li><strong>dragKey</strong>: String, the drag key, 默认为 [null];</li>"+
-            "<li><strong>dragData</strong>: Object, the drag data, 默认为 [null];</li>"+
-            "<li><strong>targetLeft</strong>: Number, the drag target node's css left, 默认为 [null];</li>"+
-            "<li><strong>targetTop</strong>: Number, the drag target node's css top, 默认为 [null];</li>"+
-            "<li><strong>targetWidth</strong>: Number, the drag target node's css width, 默认为 [null];</li>"+
-            "<li><strong>targetHeight</strong>: Number, the drag target node's css height, 默认为 [null];</li>"+
-            "<li><strong>targetOffsetParent</strong>: linb.Dom, the drag target node offsetParent node, 默认为 [null];</li>"+
+            "<li><strong>targetNode</strong>: Element/linb.Dom, 设置拖拽的目标;</li>"+
+            "<li><strong>targetCSS</strong>: Number, 设置拖拽目标的CSS键值对, 默认为 [null];</li>"+
+            "<li><strong>dragKey</strong>: String, 设置拖拽的数据键, 默认为 [null];</li>"+
+            "<li><strong>dragData</strong>: Object, 设置拖拽的具体数据, 默认为 [null];</li>"+
+            "<li><strong>targetLeft</strong>: Number, 设置拖拽目标的横向坐标, 默认为 [null];</li>"+
+            "<li><strong>targetTop</strong>: Number, 设置拖拽目标的纵向坐标, 默认为 [null];</li>"+
+            "<li><strong>targetWidth</strong>: Number, 设置拖拽目标的宽, 默认为 [null];</li>"+
+            "<li><strong>targetHeight</strong>: Number, 设置拖拽目标的高, 默认为 [null];</li>"+
+            "<li><strong>targetOffsetParent</strong>: linb.Dom, 设置拖拽目标的定位父元素(offsetParent), 默认为 [null];</li>"+
 
-            "<li><strong>dragCursor</strong>:  'none', 'move', 'link', or 'add', the drag cursor key; <strong>[readonly]</strong></li>"+
-            "<li><strong>x</strong>: Number, current X value of mouse; <strong>[readonly]</strong></li>"+
-            "<li><strong>y</strong>: Number, current Y value of mouse; <strong>[readonly]</strong></li>"+
-            "<li><strong>ox</strong>: Number, original X value of mouse; <strong>[readonly]</strong></li>"+
-            "<li><strong>oy</strong>: Number, original Y value of mouse; <strong>[readonly]</strong></li>"+
-            "<li><strong>curPos</strong>: {left:Number,top:Number}, current css pos of the dragging node <strong>[readonly]</strong></li>"+
-            "<li><strong>offset</strong>: {x:Number,y:Number}, offset from now to origin <strong>[readonly]</strong></li>"+
-            "<li><strong>isWorking</strong>: Boolean, is dd working or not? <strong>[readonly]</strong></li>"+
-            "<li><strong>restrictedLeft</strong>: Number, the calculated restricted left value; <strong>[readonly]</strong></li>"+
-            "<li><strong>restrictedRight</strong>: Number, the calculated restricted right value; <strong>[readonly]</strong></li>"+
-            "<li><strong>restrictedTop</strong>: Number, the calculated restricted top value; <strong>[readonly]</strong></li>"+
-            "<li><strong>restrictedBottom</strong>: Number, the calculated restricted bottom value; <strong>[readonly]</strong></li>"+
-            "<li><strong>proxyNode</strong>: linb.Dom, the proxy Object; <strong>[readonly]</strong></li>"+
-            "<li><strong>dropElement</strong>: String, the target drop element DOM id. <strong>[readonly]</strong></li>"+
+            "<li><strong>dragCursor</strong>:  'none', 'move', 'link', 或 'add', 得到鼠标当前的形状; <strong>只读</strong></li>"+
+            "<li><strong>x</strong>: Number, 得到鼠标当前的 X 值; <strong>只读</strong></li>"+
+            "<li><strong>y</strong>: Number, 得到鼠标当前的 Y 值; <strong>只读</strong></li>"+
+            "<li><strong>ox</strong>: Number, 得到鼠标最初的 X 值; <strong>只读</strong></li>"+
+            "<li><strong>oy</strong>: Number, 得到鼠标最初的 Y 值; <strong>只读</strong></li>"+
+            "<li><strong>curPos</strong>: Object, {left:Number,top:Number}, 得到拖拽对象目前的css位置值 <strong>只读</strong></li>"+
+            "<li><strong>offset</strong>: {x:Number,y:Number}, 得到拖拽对象目前css位置相对于最初位置的偏离值 <strong>只读</strong></li>"+
+            "<li><strong>isWorking</strong>: Boolean, 得到拖拽是否在工作状态? <strong>只读</strong></li>"+
+            "<li><strong>restrictedLeft</strong>: Number, 得到拖拽在左侧的边界位置; <strong>只读</strong></li>"+
+            "<li><strong>restrictedRight</strong>: Number, 得到拖拽在右侧的边界位置; <strong>只读</strong></li>"+
+            "<li><strong>restrictedTop</strong>: Number, 得到拖拽在上侧的边界位置; <strong>只读</strong></li>"+
+            "<li><strong>restrictedBottom</strong>: Number, 得到拖拽在下侧的边界位置; <strong>只读</strong></li>"+
+            "<li><strong>proxyNode</strong>: linb.Dom, 得到当前拖拽代理的DOM元素; <strong>只读</strong></li>"+
+            "<li><strong>dropElement</strong>: String, 得到可以放下(drop)当前拖拽的DOM元素的linbid. <strong>只读</strong></li>"+
             "</ul>}</div>",
-            "dragKey [可选参数] : String, dragKey for drag data.",
-            "dragData [可选参数] : Object, the dragged [data]."
+            "dragKey [可选参数] : String, 得到拖拽的数据键.",
+            "dragData [可选参数] : Object, 得到拖拽的具体数据."
         ],
         $snippet:[
             "var id='linb.temp.ddo9'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div style=\"border:solid 1px;padding:10px;\"><button id='+id+'>drag me</button>' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -3150,7 +3150,7 @@ _.set(linb.Locale,["cn","doc","linb","CSS"], {
         $rtn:"linb.CSS",
         $paras:[
             "selector [必需参数] : String, CSS样式选择子(不包含逗号',').",
-            "value [可选参数] : key/value pairs. 如果不指定，[selector]指定的选择子将被移除",
+            "value [可选参数] : 键值对. 如果不指定，[selector]指定的选择子将被移除",
             "force [可选参数] : 设置该参数为真可强制增加选择子和CSS样式值到样式表, 即使该样式表已经存在该选择子."
         ],
         $snippet:[
@@ -3595,7 +3595,7 @@ _.set(linb.Locale,["cn","doc","linb","absProfile"], {
 
 _.set(linb.Locale,["cn","doc","linb","Profile"], {
     constructor:{
-        $desc:"生成一个profile对象",
+        $desc:"生成一个概要对象",
         $memo:"一般情况下，程序员无需直接调用该函数."
     },
     prototype:{
@@ -4676,8 +4676,8 @@ _.set(linb.Locale,["cn","doc","linb","DataBinder"], {
             $memo:"参看'getValue'代码片段. "
         },
         getValue:{
-            $desc:"获取键值对, that includes the values of all those bound linb.absValue profiles.",
-            $rtn:"Object, key/value pairs Object.",
+            $desc:"获取键值对, 得到所有绑定控件的值.",
+            $rtn:"Object, 键值对.",
             $snippet:[
                 "var id='linb.temp.cv'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var db1=new linb.DataBinder,i1=new linb.UI.Input({position:'relative'}), i2=new linb.UI.Input({position:'relative'}); db1.setName('db1'); i1.setValue('aaa').setDataBinder('db1').setDataField('i1'); i2.setValue('bbb').setDataBinder('db1').setDataField('i2');"+
@@ -4695,7 +4695,7 @@ _.set(linb.Locale,["cn","doc","linb","DataBinder"], {
             $desc:"设置或重设被绑定linb.absValue的值.",
             $rtn:"[self].",
             $paras:[
-                "hash [可选参数] : Object, a key/value pairs Object. 如果参数没有被设定, 被绑定的linb.absValue profiles 将被重设为初始值."
+                "hash [可选参数] : Object, 键值对. 如果参数没有被设定, 被绑定的linb.absValue profiles 将被重设为初始值."
             ],
             $memo:"参看'getValue'代码片段. "
         }
@@ -5682,10 +5682,10 @@ _.set(linb.Locale,["cn","doc","linb","UI"], {
         ]
     },
     buildCSSText:{
-        $desc:"由指定的键/值对生成CSS样式.",
+        $desc:"由指定的键值对生成CSS样式.",
         $rtn:"String",
         $paras:[
-            "hash [必需参数] : 键/值对."
+            "hash [必需参数] : 键值对."
         ],
         $snippet:[
             "alert(linb.UI.Button.buildCSSText({KEY:{left:linb.browser.ie?0:null,overflow:linb.browser.gek?'auto':null,'font-size':'12px'},BORDER:{'_line-height':10,'-moz-display':'none'}}));"+
@@ -5710,12 +5710,12 @@ _.set(linb.Locale,["cn","doc","linb","UI"], {
         ]
     },
     adjustData:{
-        $desc:"调整输入的键/值对，输出合适的数据格式以便UI控件生成.",
+        $desc:"调整输入的键值对，输出合适的数据格式以便UI控件生成.",
         $rtn:"Object",
         $paras:[
             "profile [必需参数] : 目标profile",
-            "hashIn [必需参数] : 键/值对, 输入参数.",
-            "hashOut [可选参数] : 键/值对, 输出参数."
+            "hashIn [必需参数] : 键值对, 输入参数.",
+            "hashOut [可选参数] : 键值对, 输出参数."
         ],
         $snippet:[
             "alert(_.serialize(linb.UI.adjustData(null, {a:1,b:2,c:'$date.MS',d:'@linb.ini.path',renderer:function(){return 'cap';}})))"
@@ -5763,7 +5763,7 @@ _.set(linb.Locale,["cn","doc","linb","UI"], {
         $desc:"设置控件外表对象.",
         $rtn:'[self]',
         $paras:[
-            "hash [必需参数] : key/value pairs."
+            "hash [必需参数] : 键值对."
         ],
         $memo:"一般情况下，程序员无需直接调用该函数."
     },
@@ -5771,7 +5771,7 @@ _.set(linb.Locale,["cn","doc","linb","UI"], {
         $desc:"设置一个模板对象到指定的缓存id中.",
         $rtn:'[self]',
         $paras:[
-            "hash [必需参数] : key/value pairs.",
+            "hash [必需参数] : 键值对.",
             "cacheId [可选参数] : String."
         ],
         $memo:"一般情况下，程序员无需直接调用该函数."
@@ -5806,7 +5806,7 @@ _.set(linb.Locale,["cn","doc","linb","UI"], {
         $desc:"获取拖动数据.",
         $rtn:"Object",
         $paras:[
-            "profile [必需参数] : 目标profile对象",
+            "profile [必需参数] : 目标概要对象",
             "event: DOM 事件对象.",
             "node [必需参数] : 相关的DOM元素."
         ],
@@ -5816,7 +5816,7 @@ _.set(linb.Locale,["cn","doc","linb","UI"], {
         $desc:"获取拖动时的键名字.",
         $rtn:"String",
         $paras:[
-            "profile [必需参数] : 目标profile对象",
+            "profile [必需参数] : 目标概要对象",
             "node [必需参数] : 相关的DOM元素."
         ],
         $memo:"一般情况下，程序员无需直接调用该函数. 该函数会被部分子类覆盖."
@@ -7003,7 +7003,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","Link"], {
             $desc:"设置超链接打开的目标窗口.",
             $rtn:"[self]",
             $paras:[
-                "value [必需参数] : String, the target.",
+                "value [必需参数] : String, 值.",
                 "force [可选参数] : Boolean, 强制设置该属性值，即使属性已经设置为该值。 默认为 [false]."
             ],
             $snippet:[
@@ -8136,6 +8136,19 @@ _.set(linb.Locale,["cn","doc","linb","UI","Input"], {
                 "var id='linb.temp.input20-3'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var o;linb(id).prepend(o=new linb.UI.Input({position:'relative'}));"+
                 "o.onFocus(function(){alert('onFocus')});"+
+                "}"
+            ]
+        },
+        onChange:{
+            $desc:"在输入框内容改变时调用. 异步方式.",
+            $paras:[
+                "profile : linb.UIProfile.",
+                "value: String, 输入框的值."
+            ],
+            $snippet:[
+                "var id='linb.temp.input21-3'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var o;linb(id).prepend(o=new linb.UI.Input({position:'relative'}));"+
+                "o.onChange(function(p,v){linb.log(v);});"+
                 "}"
             ]
         },
@@ -10302,7 +10315,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","Layout"], {
             $desc:"将一系列的linb.UIProfile添加到布局的内部.",
             $rtn:"[self]",
             $paras:[
-                "target [必需参数] : linb.UIProfile/linb.UIProfile[], 一个linb.UIProfile对象(或一组linb.UIProfile对象).",
+                "target [必需参数] : linb.UIProfile/linb.UIProfile[], 一个linb.UIProfile概要对象(或一组linb.UIProfile概要对象).",
                 "subId [可选参数] : String, 布局的子项id. 该参数可以设置为[false], 表示[target]只是添加到DOM上, 并不产生和父布局项的链接关系."
             ],
             $snippet:[
@@ -10394,10 +10407,10 @@ _.set(linb.Locale,["cn","doc","linb","UI","Tabs"], {
     },
     prototype:{
         append:{
-            $desc:"将一系列linb.UIProfile对象添加到标签中.",
+            $desc:"将一系列linb.UIProfile概要对象添加到标签中.",
             $rtn:"[self]",
             $paras:[
-                "target [必需参数] : linb.UIProfile/linb.UIProfile[], 一个linb.UI对象(或一系列linb.UIProfile对象).",
+                "target [必需参数] : linb.UIProfile/linb.UIProfile[], 一个linb.UI对象(或一系列linb.UIProfile概要对象).",
                 "subId [可选参数] : String, 标签项id. 如果该参数为false, [target]只被添加到DOM中, 而不在[target]和父元素中建立链接."
             ],
             $snippet:[
@@ -10574,8 +10587,8 @@ _.set(linb.Locale,["cn","doc","linb","UI","Tabs"], {
             $desc:"添加一个面板到标签中.",
             $rtn:"[self]",
             $paras:[
-                "para [必需参数] : a key/value pairs.",
-                "children [必需参数] : Array, the panel's children.",
+                "para [必需参数] : Object, 键值对.",
+                "children [必需参数] : Array, 子控件.",
                 "item [可选参数] : Object"
             ],
             $snippet:[

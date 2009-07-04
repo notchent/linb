@@ -235,23 +235,29 @@ Class("linb.UI.Input", ["linb.UI.Widget","linb.absValue"] ,{
             NavKeys:{INPUT:1},
             INPUT:{
                 onChange:function(profile, e, src){
-                    var o=profile.inValid;
-                    var value=linb.use(src).get(0).value;
+                    var p=profile.properties,b=profile.box,
+                        o=profile.inValid,
+                        value=linb.use(src).get(0).value;
+
                     profile.boxing().setUIValue(value);
                     //input/textarea is special, ctrl value will be set before the $UIvalue
-                    profile.properties.$UIvalue=value;
+                    p.$UIvalue=value;
                     if(o!==profile.inValid) if(profile.renderId)profile.boxing()._setDirtyMark();
+                    
+                    b._asyCheck(profile);
                 },
                 //if properties.mask exists, onHotKeyxxx wont be tigger any more
                 onKeydown:function(profile, e, src){
-                    var p=profile.properties,
+                   var p=profile.properties,b=profile.box,
                         m=p.multiLines,
-                        b=profile.box,
                         evt=linb.Event,
                         k=evt.getKey(e);
                     //fire onchange first
                     if(k[0]=='enter'&& (!m||k[3]))
                         linb.use(src).onChange();
+
+                    b._asyCheck(profile);
+
                     if(p.mask){
                         if(k[0].length>1)profile.$ignore=true;
                         else delete profile.$ignore;
@@ -266,7 +272,10 @@ Class("linb.UI.Input", ["linb.UI.Widget","linb.absValue"] ,{
                     }
                 },
                 onKeypress:function(profile, e, src){
-                    var p=profile.properties,cls=profile.box,map=cls._maskMap;
+                    var p=profile.properties,b=profile.box,cls=profile.box,map=cls._maskMap;
+
+                    b._asyCheck(profile);
+
                     if(p.mask){
                         if(profile.$ignore){
                             delete profile.$ignore;
@@ -286,6 +295,8 @@ Class("linb.UI.Input", ["linb.UI.Widget","linb.absValue"] ,{
                         profile.box._checkValid(profile, linb.use(src).get(0).value);
                         profile.boxing()._setDirtyMark();
                     }
+
+                    b._asyCheck(profile);
                 },
                 onFocus:function(profile, e, src){
                     var p=profile.properties,b=profile.box;
@@ -294,9 +305,6 @@ Class("linb.UI.Input", ["linb.UI.Widget","linb.absValue"] ,{
                     profile.getSubNode('BORDER').tagClass('-focus');
                     //if no value, add mask
                     if(p.mask){
-                        //ondrop in opera or safari will trigger onfocus event.
-                        if(linb.browser.opr ||linb.browser.kde)
-                             b._maskF(profile,linb.use(src).get(0));
                         var value=linb.use(src).get(0).value;
                         if(!value)
                             _.asyRun(function(){
@@ -306,9 +314,11 @@ Class("linb.UI.Input", ["linb.UI.Widget","linb.absValue"] ,{
                     }
                     //show tips color
                     profile.boxing()._setTB(3);
+
+                    b._asyCheck(profile);
                 },
                 onBlur:function(profile, e, src){
-                    var p=profile.properties;
+                    var p=profile.properties,b=profile.box;
                     if(p.disabled)return false;
                     if(profile.onBlur)profile.boxing().onBlur(profile);
 
@@ -318,6 +328,8 @@ Class("linb.UI.Input", ["linb.UI.Widget","linb.absValue"] ,{
                     if(p.$UIvalue==value)
                         profile.box._checkValid(profile, value);
                     profile.boxing()._setDirtyMark();
+
+                    b._asyCheck(profile);
                 }
             }
         },
@@ -368,39 +380,9 @@ Class("linb.UI.Input", ["linb.UI.Widget","linb.absValue"] ,{
 
                         //visibility mask string
                         ns.boxing()._setCtrlValue(ns.$Mask);
-
-                        //add event for cut/paste text
-                        if(ns.renderId){
-                            var ie=linb.browser.ie,
-                                src=ns.getSubNode('INPUT').get(0),
-                                f=function(o){
-                                    b._maskF(ns, src, ie&&o.propertyName);
-                                };
-                            if(ie){
-                                src.attachEvent("onpropertychange",f);
-                                src.attachEvent("ondrop",f);
-                                ns.$ondestory=function(){
-                                    src.detachEvent("onpropertychange",f);
-                                    src.detachEvent("ondrop",f);
-                                }
-                            }else{
-                                src.addEventListener("input",f,false);
-                                //firefox drop
-                                if(linb.browser.gek)
-                                    src.addEventListener("dragdrop",f,false);
-
-                                ns.$ondestory=function(){
-                                    src.removeEventListener("input",f,false);
-                                    if(linb.browser.gek)
-                                        src.removeEventListener("dragdrop",f,false);
-                                }
-                            }
-                        }
                    }else{
                         delete ns.$MaskFormat;
                         delete ns.$Mask;
-                        if(ns.renderId)
-                            _.tryF(ns.$ondestory);
                    }
                 }
             },
@@ -443,6 +425,7 @@ Class("linb.UI.Input", ["linb.UI.Widget","linb.absValue"] ,{
         EventHandlers:{
             onFocus:function(profile){},
             onBlur:function(profile){},
+            onChange:function(profile, value){},
             beforeFormatCheck:function(profile, value){},
             beforeFormatMark:function(profile, formatErr){}
         },
@@ -483,6 +466,35 @@ Class("linb.UI.Input", ["linb.UI.Widget","linb.absValue"] ,{
             ns.getSubNode('WRAP').$firfox2();
             if(p.readonly)
                 ns.boxing().setReadonly(true,true);
+                
+            //add event for cut/paste text
+            var ie=linb.browser.ie,
+                src=ns.getSubNode('INPUT').get(0),
+                b=ns.box,
+                f=function(o){
+                    if(ie && ('propertyName' in o) && o.propertyName!='value')return;
+                    b._asyCheck(ns);
+                };
+            if(ie){
+                src.attachEvent("onpropertychange",f);
+                src.attachEvent("ondrop",f);
+                ns.$ondestory=function(){
+                    src.detachEvent("onpropertychange",f);
+                    src.detachEvent("ondrop",f);
+                }
+            }else{
+                src.addEventListener("input",f,false);
+                //firefox drop
+                if(linb.browser.gek)
+                    src.addEventListener("dragdrop",f,false);
+
+                ns.$ondestory=function(){
+                    src.removeEventListener("input",f,false);
+                    if(linb.browser.gek)
+                        src.removeEventListener("dragdrop",f,false);
+                }
+            }
+            src=null;
         },
         LayoutTrigger:function(){
             var p = this.properties;
@@ -580,13 +592,22 @@ Class("linb.UI.Input", ["linb.UI.Widget","linb.absValue"] ,{
                 return true;
             }
         },
-        _maskF:function(profile,src, pro){
-            var id=src.id;
-            _.resetRun(profile.$linbid+"_mask",function(){
-                if(linb.browser.ie && pro!='value')return;
-                var src=linb.Dom.byId(id);
-                if(src.value.length != profile.$Mask.length)
-                    profile.box._changeMask(profile,src,'',true);
+        _asyCheck:function(profile){
+            _.resetRun(profile.$linbid+":asycheck",function(){
+                var src=profile.getSubNode("INPUT").get(0);
+                if(!src)return;
+
+                //for onchange event
+                if(profile.onChange){
+                    if(profile.$$$v!==src.value)
+                        profile.boxing().onChange(profile,profile.$$$v=src.value);
+                }
+
+                //for mask
+                if(profile.properties.mask){
+                    if(src.value.length != profile.$Mask.length)
+                        profile.box._changeMask(profile,src,'',true);
+                }
             });
         },
         _onresize:function(profile,width,height){

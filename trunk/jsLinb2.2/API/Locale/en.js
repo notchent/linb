@@ -1,7 +1,7 @@
 _.set(linb.Locale,["en","app"], {
     en:'English',
     cn:'Chinese',
-    apititle:"jsLINB 2.1 - API Documentation",
+    apititle:"jsLINB 2.2 - API Documentation",
     
     search:'Search',
     lQ1:'Search API',
@@ -8099,8 +8099,21 @@ _.set(linb.Locale,["en","doc","linb","UI","Input"], {
             $snippet:[
                 "var id='linb.temp.input20'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var o;linb(id).prepend(o=new linb.UI.Input({position:'relative'}));"+
-                "o.onFocus(function(){alert('onFocus')});"+
+                "o.onChange(function(p,v){linb.log(v);});"+
                 "}"
+            ]
+        },
+        onChange:{
+            $desc:"Fired before input value is changed!",
+            $paras:[
+                "profile : linb.UIProfile.",
+                "value: String, the value."
+            ],
+            $snippet:[
+                "var id='linb.temp.input21-3'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var o;linb(id).prepend(o=new linb.UI.Input({position:'relative'}));"+
+                "o.onChange(function(p,v){linb.log(v);});"+
+                ")"
             ]
         },
         beforeFormatCheck:{
