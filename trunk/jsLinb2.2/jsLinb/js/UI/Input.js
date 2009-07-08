@@ -479,8 +479,11 @@ Class("linb.UI.Input", ["linb.UI.Widget","linb.absValue"] ,{
                 src.attachEvent("onpropertychange",f);
                 src.attachEvent("ondrop",f);
                 ns.$ondestory=function(){
+                    var ns=this,
+                        src=ns.getSubNode('INPUT').get(0);
                     src.detachEvent("onpropertychange",f);
                     src.detachEvent("ondrop",f);
+                    src=null;
                 }
             }else{
                 src.addEventListener("input",f,false);
@@ -489,9 +492,12 @@ Class("linb.UI.Input", ["linb.UI.Widget","linb.absValue"] ,{
                     src.addEventListener("dragdrop",f,false);
 
                 ns.$ondestory=function(){
+                    var ns=this,
+                        src=ns.getSubNode('INPUT').get(0);
                     src.removeEventListener("input",f,false);
                     if(linb.browser.gek)
                         src.removeEventListener("dragdrop",f,false);
+                    src=null;
                 }
             }
             src=null;
