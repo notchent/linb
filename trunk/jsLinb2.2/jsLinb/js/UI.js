@@ -1120,14 +1120,25 @@ Class("linb.UI",  "linb.absObj", {
                 para=me.para||(me.para=function(node){
                     var r = node.cssRegion();
                     r.tabindex=node.attr('tabIndex');
+                    if(r.tabindex<=0)delete r.tabindex;
                     r.zIndex=node.css('zIndex');
                     r.position=node.css('position');
                     return r;
-                });
+                }),
+                id=node.id();
+
             _.merge(pro.properties, para(node),'all');
-            node.outerHTML(pro.toHtml());
-            pro.boxing().host(host||window, node.get(0).id || pro.alias);
-            pro._render(true);
+            pro.properties.dock='none';
+            if(!pro.alias && id)
+                pro.alias=id;
+            if(pro.alias)
+                self.host(host||window, pro.alias);
+            self.render(true);
+            node.replace(self.getRoot());
+
+            if(id)
+                self.setDomId(id);
+
             return self;
         },
         setDomId:function(id){

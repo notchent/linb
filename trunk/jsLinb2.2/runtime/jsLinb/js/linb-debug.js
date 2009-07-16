@@ -5637,6 +5637,7 @@ Class('linb.Dom','linb.absBox',{
             downwards=_.isBool(downwards)?downwards:true;
             var self=this.get(0),node = this.$iterator('',downwards,includeChild,function(node){return node!==self && linb([node]).$canFocus()});
             if(!node.isEmpty() && setFocus!==false)node.focus();
+            self=null;
             return node;
         },
 
@@ -10388,14 +10389,25 @@ Class("linb.UI",  "linb.absObj", {
                 para=me.para||(me.para=function(node){
                     var r = node.cssRegion();
                     r.tabindex=node.attr('tabIndex');
+                    if(r.tabindex<=0)delete r.tabindex;
                     r.zIndex=node.css('zIndex');
                     r.position=node.css('position');
                     return r;
-                });
+                }),
+                id=node.id();
+
             _.merge(pro.properties, para(node),'all');
-            node.outerHTML(pro.toHtml());
-            pro.boxing().host(host||window, node.get(0).id || pro.alias);
-            pro._render(true);
+            pro.properties.dock='none';
+            if(!pro.alias && id)
+                pro.alias=id;
+            if(pro.alias)
+                self.host(host||window, pro.alias);
+            self.render(true);
+            node.replace(self.getRoot());
+
+            if(id)
+                self.setDomId(id);
+
             return self;
         },
         setDomId:function(id){
@@ -29825,7 +29837,7 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
         }
     },
     Initialize:function(){
-        var t = this.getTemplate();
+        var ns=this, t=ns.getTemplate();
         _.merge(t.FRAME.BORDER,{
             TBAR:{
                 tagName:'div',
@@ -29957,7 +29969,12 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
                 }
             }
         },'all');
-        this.setTemplate(t)
+        ns.setTemplate(t);
+        
+        linb.alert=ns.alert;
+        linb.confirm=ns.confirm;
+        linb.pop=ns.pop;
+        linb.prompt=ns.prompt;
     },
     Static:{
         Appearances:{
@@ -30533,7 +30550,7 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
                 dialog.append(cmd).append(div).render();
             }
             me.onOK=onOK;
-            this._adjust(dialog,title, content);
+            linb.UI.Dialog._adjust(dialog,title, content);
             dialog.show(linb('body'),true);
             _.resetRun("dlg_focus:"+dialog.get(0).$linbid,function(){
                 dialog.$btn.activate();
@@ -30602,7 +30619,7 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
             }
             me.onYes=onYes;
             me.onNo=onNo;
-            this._adjust(dialog, title, caption);
+            linb.UI.Dialog._adjust(dialog, title, caption);
             dialog.show(linb('body'), true);
             _.resetRun("dlg_focus:"+dialog.get(0).$linbid,function(){
                 dialog.$btn.activate();
@@ -30643,7 +30660,7 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
 
             dialog.append(cmd).append(div).render();;
 
-            this._adjust(dialog, title, content);
+            linb.UI.Dialog._adjust(dialog, title, content);
             dialog.show(linb('body'),false,left, top);
 
             _.resetRun("dlg_focus:"+dialog.get(0).$linbid,function(){

@@ -1131,6 +1131,7 @@ Class('linb.Dom','linb.absBox',{
             downwards=_.isBool(downwards)?downwards:true;
             var self=this.get(0),node = this.$iterator('',downwards,includeChild,function(node){return node!==self && linb([node]).$canFocus()});
             if(!node.isEmpty() && setFocus!==false)node.focus();
+            self=null;
             return node;
         },
 

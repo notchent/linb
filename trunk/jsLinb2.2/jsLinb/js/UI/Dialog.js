@@ -94,7 +94,7 @@ Class("linb.UI.Dialog","linb.UI.Widget",{
         }
     },
     Initialize:function(){
-        var t = this.getTemplate();
+        var ns=this, t=ns.getTemplate();
         _.merge(t.FRAME.BORDER,{
             TBAR:{
                 tagName:'div',
@@ -226,7 +226,12 @@ Class("linb.UI.Dialog","linb.UI.Widget",{
                 }
             }
         },'all');
-        this.setTemplate(t)
+        ns.setTemplate(t);
+        
+        linb.alert=ns.alert;
+        linb.confirm=ns.confirm;
+        linb.pop=ns.pop;
+        linb.prompt=ns.prompt;
     },
     Static:{
         Appearances:{
@@ -802,7 +807,7 @@ Class("linb.UI.Dialog","linb.UI.Widget",{
                 dialog.append(cmd).append(div).render();
             }
             me.onOK=onOK;
-            this._adjust(dialog,title, content);
+            linb.UI.Dialog._adjust(dialog,title, content);
             dialog.show(linb('body'),true);
             _.resetRun("dlg_focus:"+dialog.get(0).$linbid,function(){
                 dialog.$btn.activate();
@@ -871,7 +876,7 @@ Class("linb.UI.Dialog","linb.UI.Widget",{
             }
             me.onYes=onYes;
             me.onNo=onNo;
-            this._adjust(dialog, title, caption);
+            linb.UI.Dialog._adjust(dialog, title, caption);
             dialog.show(linb('body'), true);
             _.resetRun("dlg_focus:"+dialog.get(0).$linbid,function(){
                 dialog.$btn.activate();
@@ -912,7 +917,7 @@ Class("linb.UI.Dialog","linb.UI.Widget",{
 
             dialog.append(cmd).append(div).render();;
 
-            this._adjust(dialog, title, content);
+            linb.UI.Dialog._adjust(dialog, title, content);
             dialog.show(linb('body'),false,left, top);
 
             _.resetRun("dlg_focus:"+dialog.get(0).$linbid,function(){
