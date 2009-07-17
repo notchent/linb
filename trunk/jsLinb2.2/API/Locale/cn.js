@@ -887,6 +887,62 @@ _.set(linb.Locale,["cn","doc","linb"], {
         ],
         $memo:"要使用该函数，需要包含文件linb.Debugger.js."
     },
+    alert:{
+        $desc:"弹出一个警告框.",
+        $rtn:"linb.Dialog",
+        $paras:[
+            "title [可选参数] : String, 警告框标题.",
+            "content [可选参数] : String, 警告语句.",
+            "onOK [可选参数] : Function, 用户单击OK的回调函数."
+        ],
+        $snippet:[
+            "linb.alert('title','content',function(){alert('ok')})",
+            "linb.alert('title','content content content content content content content content content content content content ',function(){alert('ok')})"
+        ]
+    },
+    confirm:{
+        $desc:"弹出一个确认框.",
+        $rtn:"linb.Dialog",
+        $paras:[
+            "title [可选参数] : String, 确认框的标题.",
+            "content [可选参数] : String, 确认的提示语句.",
+            "onYes [可选参数] : Function, the Yes 回调函数.",
+            "onNo [可选参数] : Function, the No 回调函数."
+        ],
+        $snippet:[
+            "linb.confirm('title','content',function(){alert('yes')},function(){alert('no')})",
+            "linb.confirm('title','content content content content content content content content content content content content ',function(){alert('yes')},function(){alert('no')})"
+        ]
+    },
+    pop:{
+        $desc:"弹出一个简易对话框.（非模态）",
+        $rtn:"linb.Dialog",
+        $paras:[
+            "title [可选参数] : String, 简易对话框标题文字.",
+            "content [可选参数] : String, 窗体内容输入文字",
+            "cmdStr [可选参数] : String, OK按钮文字.",
+            "left [可选参数] : Number, 对话框左边坐标.",
+            "top [可选参数] : Number, 对话框上边坐标."
+        ],
+        $snippet:[
+            "linb.pop('title','content')",
+            "linb.pop('title','content content content content content content content content content content content content ','I knew it!')"
+        ]
+    },
+    prompt:{
+        $desc:"弹出一个输入框.",
+        $rtn:"linb.Dialog",
+        $paras:[
+            "title [可选参数] : String, 输入框标题文字.",
+            "caption [可选参数] : String, 提示文字.",
+            "content [可选参数] : String, 默认输入文字.",
+            "onYes [可选参数] : Function, 用户单击Yes 回调函数.",
+            "onNo [可选参数] : Function, 用户单击 No 回调函数."
+        ],
+        $snippet:[
+            "linb.prompt('title','caption', 'content content ',function(str){alert(str)})"
+        ]
+    },
     getAppLangKey:{
         $desc:"得到当前应用程序的语言包关键字.",
         $rtn:"String",

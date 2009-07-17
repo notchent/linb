@@ -886,6 +886,62 @@ _.set(linb.Locale,["en","doc","linb"], {
         ],
         $memo:"You must include linb.Debugger.js to enable this function."
     },
+    alert:{
+        $desc:"To show an alert dialog.",
+        $rtn:"linb.Dialog",
+        $paras:[
+            "title [Optional] : String, the title string.",
+            "content [Optional] : String, the content string.",
+            "onOK [Optional] : Function, the OK callback function."
+        ],
+        $snippet:[
+            "linb.alert('title','content',function(){alert('ok')})",
+            "linb.alert('title','content content content content content content content content content content content content ',function(){alert('ok')})"
+        ]
+    },
+    confirm:{
+        $desc:"To show an confirm dialog.",
+        $rtn:"linb.Dialog",
+        $paras:[
+            "title [Optional] : String, the title string.",
+            "content [Optional] : String, the content string.",
+            "onYes [Optional] : Function, the Yes callback function.",
+            "onNo [Optional] : Function, the No callback function."
+        ],
+        $snippet:[
+            "linb.confirm('title','content',function(){alert('yes')},function(){alert('no')})",
+            "linb.confirm('title','content content content content content content content content content content content content ',function(){alert('yes')},function(){alert('no')})"
+        ]
+    },
+    pop:{
+        $desc:"To show an message dialog.",
+        $rtn:"linb.Dialog",
+        $paras:[
+            "title [Optional] : String, the title string.",
+            "content [Optional] : String, the content string.",
+            "cmdStr [Optional] : String, the command button string.",
+            "left [Optional] : Number, left value.",
+            "top [Optional] : Number, top value."
+        ],
+        $snippet:[
+            "linb.pop('title','content')",
+            "linb.pop('title','content content content content content content content content content content content content ','I knew it!')"
+        ]
+    },
+    prompt:{
+        $desc:"To show an prompt dialog.",
+        $rtn:"linb.Dialog",
+        $paras:[
+            "title [Optional] : String, the title string.",
+            "caption [Optional] : String, the caption string.",
+            "content [Optional] : String, the content string.",
+            "onYes [Optional] : Function, the Yes callback function.",
+            "onNo [Optional] : Function, the No callback function."
+        ],
+        $snippet:[
+            "linb.prompt('title','caption', 'content content ',function(str){alert(str)})"
+        ]
+    },
     getAppLangKey:{
         $desc:"Gets the current application language key.",
         $rtn:"String",
