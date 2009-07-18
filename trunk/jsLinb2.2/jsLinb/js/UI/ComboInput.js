@@ -649,19 +649,18 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
             },
             items:{
                 ini:[],
-                action:function(v){
-                    var self=this;
-                    self.boxing().setValue(null,true);
-                    self.SubSerialIdMapItem={};
-                    self.ItemIdMapSubSerialId={};
-                    //for memory map
-                    v=self.box._adjustItems(v);
-                    self.box._prepareItems(self, v);
-                    self.boxing().clearPopCache();
-                },
                 set:function(value){
                     return this.each(function(o){
                         o.properties.items = _.copy(value);
+                        if(o.renderId){
+                            o.boxing().setValue(null,true);
+                            o.SubSerialIdMapItem={};
+                            o.ItemIdMapSubSerialId={};
+                            //for memory map
+                            value=o.box._adjustItems(value);
+                            o.box._prepareItems(o, value);
+                            o.boxing().clearPopCache();                            
+                        }
                     });
                 }
             },

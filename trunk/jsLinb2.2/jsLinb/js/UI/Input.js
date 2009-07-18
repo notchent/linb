@@ -5,11 +5,13 @@ Class("linb.UI.Input", ["linb.UI.Widget","linb.absValue"] ,{
             if(!profile.host|| !p.tipsBinder)return;
 
             t = profile.tips = profile.tips||p.tips||'';
-            o = profile.host[p.tipsBinder];
-            if(o && o.KEY=='linb.UI.Div'){
-                //use innerHTML, not setHtml
-                o.get(0).getRootNode().innerHTML =  t.charAt(0)=='$'?linb.wrapRes(t):t;
-                o.reBoxing().css('color', type==1?'gray':type==2?'red':'#000');
+            o = linb.getObject(p.tipsBinder)|| ((o=profile.host[p.tipsBinder]) &&o.get(0) );
+            if(o && (o.key=='linb.UI.Div'||o.key=='linb.UI.SLabel')){
+                if(o.renderId){
+                    //use innerHTML, not setHtml
+                    o.getRootNode().innerHTML =  t.charAt(0)=='$'?linb.wrapRes(t):t;
+                    o.getRoot().css('color', type==1?'gray':type==2?'red':'#000');
+                }
             }
         },
         activate:function(){
@@ -290,7 +292,7 @@ Class("linb.UI.Input", ["linb.UI.Widget","linb.absValue"] ,{
                     }
                 },
                 onKeyup:function(profile, e, src){
-                    var p=profile.properties;
+                    var p=profile.properties,b=profile.box;
                     if(p.dynCheck){
                         profile.box._checkValid(profile, linb.use(src).get(0).value);
                         profile.boxing()._setDirtyMark();
@@ -420,7 +422,20 @@ Class("linb.UI.Input", ["linb.UI.Widget","linb.absValue"] ,{
                     this.boxing().setUIValue(v);
                 }
             },
-            tipsBinder:''
+            tipsBinder:{
+                ini:'',
+                set:function(value, force){
+                    return this.each(function(o){
+                        if(o.properties.tipsBinder != value || force){
+                            if(value['linb.UIProfile'])
+                                value=value.$linbid;
+                            if(value['linb.UI'] && (value=value.get(0)))
+                                value=value.$linbid;
+                            o.properties.tipsBinder = value +'';
+                        }
+                    });
+                }
+            }
         },
         EventHandlers:{
             onFocus:function(profile){},
@@ -466,7 +481,8 @@ Class("linb.UI.Input", ["linb.UI.Widget","linb.absValue"] ,{
             ns.getSubNode('WRAP').$firfox2();
             if(p.readonly)
                 ns.boxing().setReadonly(true,true);
-                
+            if(p.tipsBinder)
+                ns.boxing().setTipsBinder(p.tipsBinder,true);
             //add event for cut/paste text
             var ie=linb.browser.ie,
                 src=ns.getSubNode('INPUT').get(0),

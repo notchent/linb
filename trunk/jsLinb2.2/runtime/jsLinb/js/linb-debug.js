@@ -6855,7 +6855,7 @@ type:4
                     for(var i=0,l=a0.length;i<l;i++){
                         if(n=a1[i]){
                             if(n in properties){
-                                t=properties[n];
+                                t=typeof properties[n]=='function'?properties[n].call(self, n, properties):properties[n];
                                 //if sub template exists
                                 if(template[s=tag+n])
                                     me.call(self, t, s, result);
@@ -7171,7 +7171,7 @@ type:4
                     for(var i=0,l=a0.length;i<l;i++){
                         if(n=a1[i]){
                             if(n in properties){
-                                t=properties[n];
+                                t=typeof properties[n]=='function'?properties[n].call(self, n, properties):properties[n];
                                 //if sub template exists
                                 if(template[s=tag+n])
                                     me.call(self, t, s, result);
@@ -11268,6 +11268,9 @@ Class("linb.UI",  "linb.absObj", {
             }
         })
         + linb.UI.buildCSSText({
+            '.ui-ctrl':{
+                'vertical-align':'middle'
+            },
             '.uiw-shell':{
                 background:'transparent',
                 display:linb.$inlineBlock,
@@ -16535,11 +16538,13 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
             if(!profile.host|| !p.tipsBinder)return;
 
             t = profile.tips = profile.tips||p.tips||'';
-            o = profile.host[p.tipsBinder];
-            if(o && o.KEY=='linb.UI.Div'){
-                //use innerHTML, not setHtml
-                o.get(0).getRootNode().innerHTML =  t.charAt(0)=='$'?linb.wrapRes(t):t;
-                o.reBoxing().css('color', type==1?'gray':type==2?'red':'#000');
+            o = linb.getObject(p.tipsBinder)|| ((o=profile.host[p.tipsBinder]) &&o.get(0) );
+            if(o && (o.key=='linb.UI.Div'||o.key=='linb.UI.SLabel')){
+                if(o.renderId){
+                    //use innerHTML, not setHtml
+                    o.getRootNode().innerHTML =  t.charAt(0)=='$'?linb.wrapRes(t):t;
+                    o.getRoot().css('color', type==1?'gray':type==2?'red':'#000');
+                }
             }
         },
         activate:function(){
@@ -16820,7 +16825,7 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
                     }
                 },
                 onKeyup:function(profile, e, src){
-                    var p=profile.properties;
+                    var p=profile.properties,b=profile.box;
                     if(p.dynCheck){
                         profile.box._checkValid(profile, linb.use(src).get(0).value);
                         profile.boxing()._setDirtyMark();
@@ -16950,7 +16955,20 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
                     this.boxing().setUIValue(v);
                 }
             },
-            tipsBinder:''
+            tipsBinder:{
+                ini:'',
+                set:function(value, force){
+                    return this.each(function(o){
+                        if(o.properties.tipsBinder != value || force){
+                            if(value['linb.UIProfile'])
+                                value=value.$linbid;
+                            if(value['linb.UI'] && (value=value.get(0)))
+                                value=value.$linbid;
+                            o.properties.tipsBinder = value +'';
+                        }
+                    });
+                }
+            }
         },
         EventHandlers:{
             onFocus:function(profile){},
@@ -16996,7 +17014,8 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
             ns.getSubNode('WRAP').$firfox2();
             if(p.readonly)
                 ns.boxing().setReadonly(true,true);
-                
+            if(p.tipsBinder)
+                ns.boxing().setTipsBinder(p.tipsBinder,true);
             //add event for cut/paste text
             var ie=linb.browser.ie,
                 src=ns.getSubNode('INPUT').get(0),
@@ -18411,19 +18430,18 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
             },
             items:{
                 ini:[],
-                action:function(v){
-                    var self=this;
-                    self.boxing().setValue(null,true);
-                    self.SubSerialIdMapItem={};
-                    self.ItemIdMapSubSerialId={};
-                    //for memory map
-                    v=self.box._adjustItems(v);
-                    self.box._prepareItems(self, v);
-                    self.boxing().clearPopCache();
-                },
                 set:function(value){
                     return this.each(function(o){
                         o.properties.items = _.copy(value);
+                        if(o.renderId){
+                            o.boxing().setValue(null,true);
+                            o.SubSerialIdMapItem={};
+                            o.ItemIdMapSubSerialId={};
+                            //for memory map
+                            value=o.box._adjustItems(value);
+                            o.box._prepareItems(o, value);
+                            o.boxing().clearPopCache();                            
+                        }
                     });
                 }
             },

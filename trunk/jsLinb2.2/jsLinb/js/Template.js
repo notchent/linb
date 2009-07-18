@@ -276,7 +276,7 @@ Class('linb.Template','linb.absProfile',{
                     for(var i=0,l=a0.length;i<l;i++){
                         if(n=a1[i]){
                             if(n in properties){
-                                t=properties[n];
+                                t=typeof properties[n]=='function'?properties[n].call(self, n, properties):properties[n];
                                 //if sub template exists
                                 if(template[s=tag+n])
                                     me.call(self, t, s, result);

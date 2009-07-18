@@ -1999,6 +1999,9 @@ Class("linb.UI",  "linb.absObj", {
             }
         })
         + linb.UI.buildCSSText({
+            '.ui-ctrl':{
+                'vertical-align':'middle'
+            },
             '.uiw-shell':{
                 background:'transparent',
                 display:linb.$inlineBlock,
