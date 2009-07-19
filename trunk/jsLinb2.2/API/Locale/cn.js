@@ -10552,17 +10552,17 @@ _.set(linb.Locale,["cn","doc","linb","UI","Tabs"], {
                 "}"
             ]
         },
-        getHasPanel :{
+        getNoPanel :{
             $desc:"判断标签是否带有面板",
             $rtn:"Boolean",
             $snippet:[
                 "var id='linb.temp.tabs9'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:200px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var o;linb(id).prepend(o=(new linb.UI.Tabs({height:'auto',dock:'none',items:[{id:'a',caption:'a a'},{id:'b',caption:'b b'},{id:'c',caption:'c c'}]})));"+
-                "alert(o.getHasPanel());_.asyRun(function(){o.setHasPanel(false)},1000);"+
+                "alert(o.getNoPanel());_.asyRun(function(){o.setNoPanel(false)},1000);"+
                 "}"
             ]
         },
-        setHasPanel :{
+        setNoPanel :{
             $desc:"设置当前页面控件是否有面板, 并刷新界面.",
             $rtn:"[self]",
             $paras:[
@@ -10572,7 +10572,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","Tabs"], {
             $snippet:[
                 "var id='linb.temp.tabs10'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:200px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var o;linb(id).prepend(o=(new linb.UI.Tabs({height:'auto',dock:'none',items:[{id:'a',caption:'a a'},{id:'b',caption:'b b'},{id:'c',caption:'c c'}]})));"+
-                "alert(o.getHasPanel());_.asyRun(function(){o.setHasPanel('kk')},1000);"+
+                "alert(o.getNoPanel());_.asyRun(function(){o.setNoPanel(true)},1000);"+
                 "}"
             ]
         },

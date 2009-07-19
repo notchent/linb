@@ -10516,18 +10516,18 @@ _.set(linb.Locale,["en","doc","linb","UI","Tabs"], {
                 "}"
             ]
         },
-        getHasPanel :{
-            $desc:"Gets the hasPanel property value on the first UIProfile",
+        getNoPanel :{
+            $desc:"Gets the NoPanel property value on the first UIProfile",
             $rtn:"Boolean",
             $snippet:[
                 "var id='linb.temp.tabs9'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:200px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var o;linb(id).prepend(o=(new linb.UI.Tabs({height:'auto',dock:'none',items:[{id:'a',caption:'a a'},{id:'b',caption:'b b'},{id:'c',caption:'c c'}]})));"+
-                "alert(o.getHasPanel());_.asyRun(function(){o.setHasPanel(false)},1000);"+
+                "alert(o.getNoPanel());_.asyRun(function(){o.setNoPanel(false)},1000);"+
                 "}"
             ]
         },
-        setHasPanel :{
-            $desc:"Sets the hasPanel property value on the each UIProfile, and reflects the value to UI.",
+        setNoPanel :{
+            $desc:"Sets the NoPanel property value on the each UIProfile, and reflects the value to UI.",
             $rtn:"[self]",
             $paras:[
                 "value [Required] : Boolean.",
@@ -10536,7 +10536,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Tabs"], {
             $snippet:[
                 "var id='linb.temp.tabs10'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:200px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var o;linb(id).prepend(o=(new linb.UI.Tabs({height:'auto',dock:'none',items:[{id:'a',caption:'a a'},{id:'b',caption:'b b'},{id:'c',caption:'c c'}]})));"+
-                "alert(o.getHasPanel());_.asyRun(function(){o.setHasPanel('kk')},1000);"+
+                "alert(o.getNoPanel());_.asyRun(function(){o.setNoPanel(true)},1000);"+
                 "}"
             ]
         },

@@ -12,7 +12,7 @@ Class("linb.UI.Tabs", ["linb.UI", "linb.absList","linb.absValue"],{
                     if(uiv && profile.getSubIdByItemId(uiv)){
                         profile.getSubNodes(['ITEM','BOX'],itemId).tagClass('-checked',false);
 
-                        if(box.KEY!='linb.UI.Tabs'||properties.hasPanel)
+                        if(!properties.noPanel)
                             // hide pane
                             //box.getPanel(uiv).hide();
                             box.getPanel(uiv).css('display','none');
@@ -20,7 +20,7 @@ Class("linb.UI.Tabs", ["linb.UI", "linb.absList","linb.absValue"],{
                     itemId = profile.getSubIdByItemId(value);
                     if(itemId){
                         profile.getSubNodes(['ITEM','BOX'],itemId).tagClass('-checked');
-                        if(box.KEY!='linb.UI.Tabs'||properties.hasPanel){
+                        if(!properties.noPanel){
                             // show pane
                             //box.getPanel(value).css('position','relative').show('auto','auto');
                             box.getPanel(value).css('display','block');
@@ -131,15 +131,16 @@ Class("linb.UI.Tabs", ["linb.UI", "linb.absList","linb.absValue"],{
         _afterInsertItems:function(profile, data){
             if(!profile.renderId)return;
             var box=profile.box,obj,v,pp=profile.properties;
-            if(pp.hasPanel && (obj=profile.getSubNode(profile.keys.BOX||profile.keys.KEY))){
+            if(obj=profile.getSubNode(profile.keys.BOX||profile.keys.KEY)){
                 obj.append(profile._buildItems('panels', data));
-
-                if(!(v=this.getUIValue()))
-                    this.fireItemClickEvent((v=pp.items[0]) && (v=v.id));
-
-                var t=profile.getRootNode().style;
-                linb.UI.$tryResize(profile, t.width, t.height, true,v);
-                t=null;
+                if(!pp.noPanel){
+                    if(!(v=this.getUIValue()))
+                        this.fireItemClickEvent((v=pp.items[0]) && (v=v.id));
+    
+                    var t=profile.getRootNode().style;
+                    linb.UI.$tryResize(profile, t.width, t.height, true,v);
+                    t=null;
+                }
             }
         },
         /*  remove some views from pageView
@@ -151,7 +152,7 @@ Class("linb.UI.Tabs", ["linb.UI", "linb.absList","linb.absValue"],{
             if(!_.isArr(arr))arr=[arr];
 
             self.each(function(profile){
-                if(profile.properties.hasPanel)
+                if(!profile.properties.noPanel)
                     _.arr.each(arr,function(o){
                         // get ui serial id
                         serialId=profile.getSubIdByItemId(o);
@@ -168,7 +169,7 @@ Class("linb.UI.Tabs", ["linb.UI", "linb.absList","linb.absValue"],{
                     var i;
                     profile.boxing().fireItemClickEvent((i=profile.properties.items[0]) && i.id);
                 }
-                if(profile.properties.hasPanel){
+                if(!profile.properties.noPanel){
                     var t=profile.getRootNode().style;
                     linb.UI.$tryResize(profile, t.width, t.height, true, profile.boxing().getUIValue());
                     t=null;
@@ -180,7 +181,7 @@ Class("linb.UI.Tabs", ["linb.UI", "linb.absList","linb.absValue"],{
         clearItems:function(){
             var self=this;
             self.each(function(profile){
-                if(profile.properties.hasPanel)
+                if(!profile.properties.noPanel)
                     profile.getSubNode('PANEL',true).remove();
             });
             self.setValue(null,true);
@@ -551,7 +552,7 @@ Class("linb.UI.Tabs", ["linb.UI", "linb.absList","linb.absValue"],{
             dataField:null,
 
             dock:'fill',
-            hasPanel:true,
+            noPanel:false,
             width:200,
             height:200,
             position:'absolute',
