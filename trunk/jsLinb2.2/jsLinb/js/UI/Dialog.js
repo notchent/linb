@@ -815,6 +815,7 @@ Class("linb.UI.Dialog","linb.UI.Widget",{
             _.resetRun("dlg_focus:"+dialog.get(0).$linbid,function(){
                 dialog.$btn.activate();
             });
+            return dialog;
         },
         confirm:function(title, caption, onYes, onNo){
             var me=arguments.callee, dialog;
@@ -884,6 +885,7 @@ Class("linb.UI.Dialog","linb.UI.Widget",{
             _.resetRun("dlg_focus:"+dialog.get(0).$linbid,function(){
                 dialog.$btn.activate();
             });
+            return dialog;
         },
         pop:function(title, content, cmdStr, left, top){
             var dialog = new linb.UI.Dialog({
@@ -1009,6 +1011,7 @@ Class("linb.UI.Dialog","linb.UI.Widget",{
             _.resetRun("dlg_focus:"+dialog.get(0).$linbid,function(){
                 me.$inp.activate();
             });
+            return dialog;
         },
         //
         _onresize:function(profile,width,height,force){
