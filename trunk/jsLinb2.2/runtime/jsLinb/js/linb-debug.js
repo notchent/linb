@@ -12351,8 +12351,6 @@ Class("linb.UI",  "linb.absObj", {
                                 &&((o.charAt(0)=='@') ? (linb.SC.get(o.substr(1,o.length)) || o) : o)
                               ) : o;
             }
-            if((typeof (o=hashOut.renderer)=='function') || (typeof (o=hashIn.renderer)=='function'))
-                hashOut.caption=o(hashIn,hashOut,profile);
 
             if('disabled' in hashOut)
                 hashOut.disabled=hashOut.disabled?'ui-disabled':'';
@@ -12363,6 +12361,9 @@ Class("linb.UI",  "linb.absObj", {
                 hashOut.backgroundImage="background-image:url("+ hashOut.image +");";
             if(hashOut.imagePos)
                 hashOut.backgroundPosition='background-position:'+hashOut.imagePos+';';
+
+            if((typeof (o=hashOut.renderer)=='function') || (typeof (o=hashIn.renderer)=='function'))
+                hashOut.caption=o.call(profile,hashIn,hashOut);
 
             return hashOut;
         },
@@ -21304,6 +21305,7 @@ Class("linb.UI.Gallery", "linb.UI.List",{
                                 }
                         },
                         COMMENT:{
+                            tagName : 'div',
                             text: '{comment}',
                             $order:2
                         }
@@ -21385,7 +21387,8 @@ Class("linb.UI.Gallery", "linb.UI.List",{
             COMMENT:{
                 display:'block',
                 'font-size':'12px',
-                margin:'0 2px 0 2px'
+                margin:'0 2px 0 2px',
+                'text-align':'center'
             }
         },
         Behaviors:{
@@ -30255,13 +30258,14 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
         },
 
         //ov from design mode
-        _min:function(profile){
+        _min:function(profile,status){
             var o=profile.getRoot(),
                 box=profile.box,
                 p=o.parent(),
                 t=profile.properties;
+            if(!status)status=t.status;
             // unMax
-            if(t.status=='max')
+            if(status=='max')
                 box._unMax(profile);
             // keep restore values
             else
@@ -30294,14 +30298,15 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
             // resize
             o.cssSize({ width :t.minWidth, height :h+h1-h2},true);
         },
-        _max:function(profile){
+        _max:function(profile,status){
             var o=profile.getRoot(),
                 box=profile.box,
                 ins=profile.boxing(),
                 p=o.parent(),
                 t=profile.properties;
+            if(!status)status=t.status;
             // if from normal status
-            if((t.status)=='min')
+            if(status=='min')
                 //unset min
                 box._unMin(profile);
             else
@@ -30332,13 +30337,14 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
 
             ins.setDock('fill');
         },
-        _restore:function(profile){
+        _restore:function(profile,status){
             var o=profile.getRoot(),
                 box=profile.box,
                 t=profile.properties;
+            if(!status)status=t.status;
             // if from max
-            if(t.status=='max')box._unMax(profile);
-            if(t.status=='min')box._unMin(profile);
+            if(status=='max')box._unMax(profile);
+            if(status=='min')box._unMin(profile);
 
             // hide restore button
             profile.getSubNode('RESTORE').css('display','none');

@@ -494,13 +494,14 @@ Class("linb.UI.Dialog","linb.UI.Widget",{
         },
 
         //ov from design mode
-        _min:function(profile){
+        _min:function(profile,status){
             var o=profile.getRoot(),
                 box=profile.box,
                 p=o.parent(),
                 t=profile.properties;
+            if(!status)status=t.status;
             // unMax
-            if(t.status=='max')
+            if(status=='max')
                 box._unMax(profile);
             // keep restore values
             else
@@ -533,14 +534,15 @@ Class("linb.UI.Dialog","linb.UI.Widget",{
             // resize
             o.cssSize({ width :t.minWidth, height :h+h1-h2},true);
         },
-        _max:function(profile){
+        _max:function(profile,status){
             var o=profile.getRoot(),
                 box=profile.box,
                 ins=profile.boxing(),
                 p=o.parent(),
                 t=profile.properties;
+            if(!status)status=t.status;
             // if from normal status
-            if((t.status)=='min')
+            if(status=='min')
                 //unset min
                 box._unMin(profile);
             else
@@ -571,13 +573,14 @@ Class("linb.UI.Dialog","linb.UI.Widget",{
 
             ins.setDock('fill');
         },
-        _restore:function(profile){
+        _restore:function(profile,status){
             var o=profile.getRoot(),
                 box=profile.box,
                 t=profile.properties;
+            if(!status)status=t.status;
             // if from max
-            if(t.status=='max')box._unMax(profile);
-            if(t.status=='min')box._unMin(profile);
+            if(status=='max')box._unMax(profile);
+            if(status=='min')box._unMin(profile);
 
             // hide restore button
             profile.getSubNode('RESTORE').css('display','none');

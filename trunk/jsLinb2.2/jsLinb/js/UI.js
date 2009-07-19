@@ -3082,8 +3082,6 @@ Class("linb.UI",  "linb.absObj", {
                                 &&((o.charAt(0)=='@') ? (linb.SC.get(o.substr(1,o.length)) || o) : o)
                               ) : o;
             }
-            if((typeof (o=hashOut.renderer)=='function') || (typeof (o=hashIn.renderer)=='function'))
-                hashOut.caption=o(hashIn,hashOut,profile);
 
             if('disabled' in hashOut)
                 hashOut.disabled=hashOut.disabled?'ui-disabled':'';
@@ -3094,6 +3092,9 @@ Class("linb.UI",  "linb.absObj", {
                 hashOut.backgroundImage="background-image:url("+ hashOut.image +");";
             if(hashOut.imagePos)
                 hashOut.backgroundPosition='background-position:'+hashOut.imagePos+';';
+
+            if((typeof (o=hashOut.renderer)=='function') || (typeof (o=hashIn.renderer)=='function'))
+                hashOut.caption=o.call(profile,hashIn,hashOut);
 
             return hashOut;
         },

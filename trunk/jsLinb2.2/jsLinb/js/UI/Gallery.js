@@ -39,6 +39,7 @@ Class("linb.UI.Gallery", "linb.UI.List",{
                                 }
                         },
                         COMMENT:{
+                            tagName : 'div',
                             text: '{comment}',
                             $order:2
                         }
@@ -120,7 +121,8 @@ Class("linb.UI.Gallery", "linb.UI.List",{
             COMMENT:{
                 display:'block',
                 'font-size':'12px',
-                margin:'0 2px 0 2px'
+                margin:'0 2px 0 2px',
+                'text-align':'center'
             }
         },
         Behaviors:{
