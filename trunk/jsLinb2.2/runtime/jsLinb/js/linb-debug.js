@@ -27290,7 +27290,8 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                 'background-color':'#DFE8F6'
             },
             HCELLA:{
-                position:'relative'
+                position:'relative',
+                'text-align': 'center'
             },
             'HCELLA, CELLA':{
                 display:'block',
@@ -27306,9 +27307,6 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                 $order:5,
                 display:'inline',
                 '-moz-box-flex':0
-            },
-            HCELLA:{
-                'text-align': 'center'
             },
             PROGRESS:{
                 height:'100%',
