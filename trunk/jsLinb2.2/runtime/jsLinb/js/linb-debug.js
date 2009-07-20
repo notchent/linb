@@ -5299,10 +5299,10 @@ Class('linb.Dom','linb.absBox',{
                 r=ns;
             }else{
                 //for IE, firefox3(except document.body)
-                if(!(linb.browser.gek && node==document.body) && node.getBoundingClientRect){
+                if(!(linb.browser.gek && node===document.body) && node.getBoundingClientRect){
                     t = node.getBoundingClientRect();
                     pos = {left :t.left, top :t.top};
-                    if(boundary.nodeType==1)
+                    if(boundary.nodeType==1 && boundary!==document.body)
                         add(pos, -(t=boundary.getBoundingClientRect()).left+boundary.scrollLeft, -t.top+boundary.scrollTop);
                     else
                         add(pos, Math.max(dd.scrollLeft, db.scrollLeft)-dd.clientLeft, Math.max(dd.scrollTop,  db.scrollTop)-dd.clientTop);
@@ -24502,8 +24502,8 @@ Class("linb.UI.PopMenu",["linb.UI.Widget","linb.absList"],{
             },
             SUB:{
                 position:'absolute',
-                top:'4px',
-                right:0,
+                top:'2px',
+                right:'2px',
                 width:'8px',
                 height:'16px',
                 background: linb.UI.$bg('icons.gif', 'no-repeat -200px -70px', true)

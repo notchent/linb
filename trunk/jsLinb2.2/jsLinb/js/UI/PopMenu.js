@@ -385,8 +385,8 @@ Class("linb.UI.PopMenu",["linb.UI.Widget","linb.absList"],{
             },
             SUB:{
                 position:'absolute',
-                top:'4px',
-                right:0,
+                top:'2px',
+                right:'2px',
                 width:'8px',
                 height:'16px',
                 background: linb.UI.$bg('icons.gif', 'no-repeat -200px -70px', true)
