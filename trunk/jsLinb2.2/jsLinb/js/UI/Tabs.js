@@ -7,6 +7,7 @@ Class("linb.UI.Tabs", ["linb.UI", "linb.absList","linb.absValue"],{
                     uiv = box.getUIValue(),
                     properties = profile.properties,
                     itemId = profile.getSubIdByItemId(uiv),
+                    item,
                     temp,t
                     ;
                     if(uiv && profile.getSubIdByItemId(uiv)){
@@ -18,6 +19,7 @@ Class("linb.UI.Tabs", ["linb.UI", "linb.absList","linb.absValue"],{
                             box.getPanel(uiv).css('display','none');
                     }
                     itemId = profile.getSubIdByItemId(value);
+                    item=profile.getItemByItemId(value);
                     if(itemId){
                         profile.getSubNodes(['ITEM','BOX'],itemId).tagClass('-checked');
                         if(!properties.noPanel){
@@ -40,6 +42,11 @@ Class("linb.UI.Tabs", ["linb.UI", "linb.absList","linb.absValue"],{
                             });
                             if(a.length)
                                 box.append(linb.UI.pack(a),value);
+
+                            if(!item._$ini)
+                                if(box.onIniPanelView)
+                                    if(box.onIniPanelView(profile,item)!==false)
+                                        item._$ini=true;
                         }
                     }
             });
@@ -615,6 +622,7 @@ Class("linb.UI.Tabs", ["linb.UI", "linb.absList","linb.absValue"],{
             }
         },
         EventHandlers:{
+            onIniPanelView:function(profile, item){},
             beforePageClose:function(profile, item, src){},
             afterPageClose:function(profile, item){},
             onShowOptions:function(profile,item,e,src){},

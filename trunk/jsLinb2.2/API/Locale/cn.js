@@ -8457,7 +8457,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","Group"], {
             ]
         },
         onIniPanelView:{
-            $desc:"当Panel初始话时调用.",
+            $desc:"当Panel初始化时调用.",
             $paras:[
                 "profile : linb.UIProfile."
             ],
@@ -10766,6 +10766,20 @@ _.set(linb.Locale,["cn","doc","linb","UI","Tabs"], {
                 "var o;linb(id).prepend(o=(new linb.UI.Tabs({height:'auto',dock:'none',items:[{id:'a',caption:'a a',optBtn:true,closeBtn:true},{id:'b',caption:'b b',optBtn:true,closeBtn:true},{id:'c',caption:'c c',optBtn:true}],value:'a'})));"+
                 "o.onShowOptions(function(p,item){alert(item.id);})"+
                 "}"
+            ]
+        },
+        onIniPanelView:{
+            $desc:"当每个页的容器面板初始化时调用.",
+            $paras:[
+                "profile : linb.UIProfile.",
+                "item: Object, 当前标签项."
+            ],
+            $snippet:[
+                "var id='linb.temp.tabs25'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:200px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var o=new linb.UI.Tabs({height:'auto',items:['a','c','b'],value:'a'});"+
+                "o.onIniPanelView(function(p,item){linb.message(item.id);});"+
+                "linb(id).prepend(o);"+
+                "}"            
             ]
         }
     }

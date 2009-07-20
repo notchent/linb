@@ -10731,6 +10731,20 @@ _.set(linb.Locale,["en","doc","linb","UI","Tabs"], {
                 "o.onShowOptions(function(p,item){alert(item.id);})"+
                 "}"
             ]
+        }£¬
+        onIniPanelView:{
+            $desc:"Fired on panel is initialized.",
+            $paras:[
+                "profile : linb.UIProfile.",
+                "item: Object, item Object."
+            ],
+            $snippet:[
+                "var id='linb.temp.tabs25'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:200px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var o=new linb.UI.Tabs({height:'auto',items:['a','c','b'],value:'a'});"+
+                "o.onIniPanelView(function(p,item){linb.message(item.id);});"+
+                "linb(id).prepend(o);"+
+                "}"            
+            ]
         }
     }
 });
