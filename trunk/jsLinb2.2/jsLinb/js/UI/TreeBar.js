@@ -15,31 +15,28 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
                 if(selmode=='single'){
                     var itemId = profile.getSubIdByItemId(uiv);
                     if(uiv && itemId)
-                        profile.getSubNodes(['BAR','MARK2'],itemId).tagClass('-checked',false);
+                        profile.getSubNode('BAR',itemId).tagClass('-checked',false);
 
                     itemId = profile.getSubIdByItemId(value);
                     if(itemId)
-                        profile.getSubNodes(['BAR','MARK2'],itemId).tagClass('-checked');
+                        profile.getSubNode('BAR',itemId).tagClass('-checked')
                 }else if(selmode=='multi'){
                     uiv = uiv?uiv.split(';'):[];
                     value = value?value.split(';'):[];
                     if(flag){
                         _.arr.each(value,function(o){
                             fun('BAR', o);
-                            fun('MARK2', o);
                         });
                     }else{
                         //check all
                         _.arr.each(uiv,function(o){
                             if(_.arr.indexOf(value,o)==-1){
                                 fun('BAR', o, false);
-                                fun('MARK2', o, false);
                             }
                         });
                         _.arr.each(value,function(o){
                             if(_.arr.indexOf(uiv,o)==-1){
                                 fun('BAR', o);
-                                fun('MARK2', o);
                             }
                         });
                     }
@@ -201,14 +198,14 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
                             className:'{cls_group} ',
                             onselectstart:'return false',
                             unselectable:'on',
-                            TOGGLE:{
+                            MARK2:{
                                 $order:0,
+                                style:'{mark2Display}'
+                            },
+                            TOGGLE:{
+                                $order:1,
                                 className:'uicmd-toggle',
                                 style:'{mark}'
-                            },
-                            MARK2:{
-                                $order:1,
-                                style:'{mark2Display}'
                             },
                             ITEMICON:{
                                 $order:2,
@@ -256,7 +253,7 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
                display:'block',
                overflow: 'hidden',
                'font-size':'12px',
-               padding:'2px 0',
+               padding:'2px 4px',
                border: '1px solid',
                'border-color':'#EDF4FC #698AB3 #698AB3 #698AB3',
                'background-color':'#CCE4FC'
@@ -300,15 +297,15 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
             },
 
             MARK2:{
-                'vertical-align':'middle',
-                cursor:'pointer',
-                width:'16px',
-                height:'16px',
-                margin:'0 4px 0 0'
+               cursor:'pointer',
+               width:'16px',
+               height:'16px',
+               'vertical-align':'middle',
+               background: linb.UI.$bg('icons.gif', 'no-repeat -20px -70px', true)
             },
-            'MARK2-checked':{
-                $order:2,
-                background: linb.UI.$bg('icons.gif', 'no-repeat -84px -244px', true)
+            'BAR-checked MARK2':{
+                $order:3,
+                'background-position': '0 -70px'
             },
             ITEMCAPTION:{
                 'vertical-align':'middle',
@@ -347,7 +344,7 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
 
                     if(properties.disabled|| item.disabled)return false;
                     //group not fire event
-                    if(item.sub && (item.group!==undefined?item.group:properties.group)){
+                    if(item.sub && (item.hasOwnProperty('group')?item.group:properties.group)){
                         profile.getSubNode('TOGGLE', itemId).onClick();
                         return false;
                     }
@@ -359,7 +356,7 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
                     case 'multi':
                         var value = box.getUIValue(),
                             arr = value?value.split(';'):[];
-                        if(arr.length&&(ks[1]||ks[2])){
+                        if(arr.length&&(ks[1]||ks[2]||properties.noCtrlKey)){
                             //for select
                             rt2=false;
                             if(ks[2]){
@@ -492,14 +489,16 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
             selMode:{
                 ini:'single',
                 listbox:['single','none','multi'],
-                action:function(v,ov){
-                    var n=this.getSubNode('MARK2',true);
-                    if(ov=='none')
-                        n.setInlineBlock();
-                    if(v=='none')
-                        n.css('display','none');
+                action:function(value){
+                    var ns=this,p=this.properties,sels=[];
+                    _.each(this.SubSerialIdMapItem,function(o){
+                        if(!(o.sub && (o.hasOwnProperty('group')?o.group:p.group)))
+                            sels.push(ns.getSubNodeByItemId('MARK2',o.id).get(0));
+                    });
+                    linb(sels).css('display',value=='multi'?'':'none');
                 }
             },
+            noCtrlKey:false,
             singleOpen:false,
             dynDestory:false,
             position:'absolute'
@@ -570,11 +569,11 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
             // set 'visible' will show when parent call .height()
             item.mark = item.sub?'':'display:none';
             item.disabled = item.disabled?profile.getClass('KEY', '-disabled'):'';
-            item.mark2Display = (p.selMode=='none')?'display:none':'';
+            item.mark2Display = (p.selMode=='multi')?'':'display:none';
             item._tabindex = p.tabindex;
             item.href = item.href || linb.$href;
             //change css class
-            if(item.sub && (item.group!==undefined?item.group:p.group)){
+            if(item.sub && (item.hasOwnProperty('group')?item.group:p.group)){
                 item.cls_group = profile.getClass('BAR', '-group');
                 item.mark2Display = 'display:none';
             }

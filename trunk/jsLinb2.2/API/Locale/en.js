@@ -9490,7 +9490,18 @@ _.set(linb.Locale,["en","doc","linb","UI","List"], {
                 "}"
             ]
         },
-
+        getNoCtrlKey:{
+            $desc:"Determines whether using Ctrl keyboard to help select multi items or not.",
+            $rtn:"Boolean"
+        },
+        setNoCtrlKey:{
+            $desc:"Specifies using Ctrl keyboard to help select multi items or not.",
+            $rtn:"[self]",
+            $paras:[
+                "value [Required] : Boolean.",
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
+            ]
+        },
         onItemSelected:{
             $desc:"Fired when list item is selected.",
             $paras:[
@@ -12427,6 +12438,18 @@ _.set(linb.Locale,["en","doc","linb","UI","TreeBar"], {
                 "}"
             ]
         },
+        getNoCtrlKey:{
+            $desc:"Determines whether using Ctrl keyboard to help select multi items or not.",
+            $rtn:"Boolean"
+        },
+        setNoCtrlKey:{
+            $desc:"Specifies using Ctrl keyboard to help select multi items or not.",
+            $rtn:"[self]",
+            $paras:[
+                "value [Required] : Boolean.",
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
+            ]
+        },
         getSingleOpen:{
             $desc:"Determines whether only one node is allowed to expand at one time",
             $rtn:"Boolean",
@@ -13054,6 +13077,18 @@ _.set(linb.Locale,["en","doc","linb","UI","TreeGrid"], {
                 "o.setSelMode('multi'); alert(o.getSelMode());"+
                 "linb(id).prepend(o);"+
                 "}"
+            ]
+        },
+        getNoCtrlKey:{
+            $desc:"Determines whether using Ctrl keyboard to help select multi items or not.",
+            $rtn:"Boolean"
+        },
+        setNoCtrlKey:{
+            $desc:"Specifies using Ctrl keyboard to help select multi items or not.",
+            $rtn:"[self]",
+            $paras:[
+                "value [Required] : Boolean.",
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ]
         },
         insertRows:{

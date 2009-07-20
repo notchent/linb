@@ -2808,6 +2808,7 @@ Class("linb.UI.Poll", "linb.UI.List",{
         },
         DataModel:{
             $checkbox:1,
+            noCtrlKey:null,
             title:{
                 action:function(v){
                     this.getSubNode('TITLE').html(v);

@@ -575,7 +575,12 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                                             tagName:'div',
                                             style:'{rowDDDisplay}'
                                         },
+                                        HFMARK:{
+                                            className:"uicmd-check",
+                                            style:'{_rowMarkDisplay}'
+                                        },
                                         GRIDCAPTION:{
+                                            $order:2,
                                             text:'{gridHandlerCaption}'
                                         }
                                     }
@@ -649,7 +654,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                                         style:'width:{_rulerW}px'
                                     },
                                     FCELLCMD:{
-                                        $order:1,
+                                        $order:2,
                                         className:'{subClass}'
                                     },
                                     FHANDLER:{
@@ -657,12 +662,16 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                                         style:'{rowDDDisplay}'
                                     },
                                     FCELLINN:{
-                                        $order:2,
+                                        $order:3,
                                         ROWNUM:{},
                                         FCELLCAPTION:{
                                             $order:1,
                                             text:'{caption}'
                                         }
+                                    },
+                                    MARK:{
+                                        $order:1,
+                                        style:'{_rowMarkDisplay}'
                                     }
                                 }
                             },
@@ -902,6 +911,10 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                 'text-align': 'left',
                 'padding-left':'4px'
             },
+            HFCELLA:{
+                'text-align': 'left',
+                'padding-left':'2px'
+            },
             FHANDLER:{
                 position:'absolute',
                 'height':'4px',
@@ -991,7 +1004,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                 display:'inline',
                 '-moz-box-flex':0
             },
-            'HCELLA, HFCELLA':{
+            HCELLA:{
                 'text-align': 'center'
             },
             PROGRESS:{
@@ -1002,7 +1015,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                 opacity:0.7,
                 '*filter':'alpha(opacity=70)'
             },
-            CHECKBOX:{
+            'CHECKBOX, MARK':{
                cursor:'pointer',
                width:'16px',
                height:'16px',
@@ -1017,7 +1030,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                 $order:2,
                 'background-position': '-20px -110px'
             },
-            'CHECKBOX-checked':{
+            'CHECKBOX-checked, CELLS-checked MARK':{
                 $order:3,
                 'background-position': '0 -70px'
             },
@@ -1050,6 +1063,26 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
             HFCELLA:{
                 onClick:function(profile,e,src){
                     profile.getSubNode('COLLIST').onClick(true);
+                }
+            },
+            HFMARK:{
+                onClick:function(profile,e,src){
+                    if(profile.properties.selMode!='multi')return;
+
+                    var rows=[];
+                    _.each(profile.rowMap,function(o){
+                        rows.push(o.id);
+                    });
+                    if(profile._$checkAll){
+                        delete profile._$checkAll;
+                        profile.boxing().setValue("");
+                        linb.use(src).tagClass('-checked',false)
+                    }else{
+                        profile._$checkAll=true;
+                        linb.use(src).tagClass('-checked')
+                        profile.boxing().setValue(rows.join(';'));
+                    }
+                    return false;
                 }
             },
             //key navigator
@@ -1723,7 +1756,10 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
             listKey:null,
             selMode:{
                 ini:'none',
-                listbox:['single','none','multi']
+                listbox:['single','none','multi'],
+                action:function(value){
+                    this.getSubNodes(['HFMARK','MARK'],true).css('display',value=='multi'?'':'none');
+                }
             },
             dock:'fill',
 
@@ -1914,7 +1950,8 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                         delete profile.$activeRow;
                     }
                 }
-            }
+            },
+            noCtrlKey:false,
         },
         EventHandlers:{
             onGetContent:function(profile, row, callback){},
@@ -2096,6 +2133,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
             data.rowDDDisplay=pro.rowResizer?'':NONE;
             data.rowHandlerDisplay=pro.rowHandler?'':NONE;
             data.headerHeight=data.headerHeight?('height:'+data.headerHeight+'px;'):'';
+            data._rowMarkDisplay=pro.selMode=="multi"?"":"display:none;";
 
             if(pro.header && pro.header.constructor != Array)
                 pro.header = [];
@@ -2298,6 +2336,7 @@ sortby [for column only]
 
                 row[SubID]=temp;
                 row._tabindex=pro.tabindex;
+                row._rowMarkDisplay=pro.selMode=="multi"?"":NONE;
 
                 b[temp]=row;
 
@@ -2536,7 +2575,7 @@ sortby [for column only]
             case 'multi':
                 var value = box.getUIValue(),
                     arr = value?value.split(';'):[];
-                if(arr.length&&(ks[1]||ks[2])){
+                if(arr.length&&(ks[1]||ks[2]||properties.noCtrlKey)){
                     //for select
                     rt2=false;
                     //todo: give cell multi selection function

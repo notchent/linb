@@ -9526,7 +9526,18 @@ _.set(linb.Locale,["cn","doc","linb","UI","List"], {
                 "}"
             ]
         },
-
+        getNoCtrlKey:{
+            $desc:"获取是否在多选择模式下需要用Ctrl来辅助多选。",
+            $rtn:"Boolean"
+        },
+        setNoCtrlKey:{
+            $desc:"设置是否在多选择模式下需要用Ctrl来辅助多选。",
+            $rtn:"[self]",
+            $paras:[
+                "value [必需参数] : Boolean.",
+                "force [可选参数] : Boolean, 强制设置该属性值，即使属性已经设置为该值. 默认为 [false]."
+            ]
+        },
         onItemSelected:{
             $desc:"当列表项被选择时调用.",
             $paras:[
@@ -12464,6 +12475,18 @@ _.set(linb.Locale,["cn","doc","linb","UI","TreeBar"], {
                 "}"
             ]
         },
+        getNoCtrlKey:{
+            $desc:"获取是否在多选择模式下需要用Ctrl来辅助多选。",
+            $rtn:"Boolean"
+        },
+        setNoCtrlKey:{
+            $desc:"设置是否在多选择模式下需要用Ctrl来辅助多选。",
+            $rtn:"[self]",
+            $paras:[
+                "value [必需参数] : Boolean.",
+                "force [可选参数] : Boolean, 强制设置该属性值，即使属性已经设置为该值. 默认为 [false]."
+            ]
+        },
         getSingleOpen:{
             $desc:"判断是否每一次只能有一个父节点能够被打开。 设置为true时，当一个父节点被打开，其他的打开的父节点将自动合拢",
             $rtn:"Boolean",
@@ -13091,6 +13114,18 @@ _.set(linb.Locale,["cn","doc","linb","UI","TreeGrid"], {
                 "o.setSelMode('multi'); alert(o.getSelMode());"+
                 "linb(id).prepend(o);"+
                 "}"
+            ]
+        },
+        getNoCtrlKey:{
+            $desc:"获取是否在多选择模式下需要用Ctrl来辅助多选。",
+            $rtn:"Boolean"
+        },
+        setNoCtrlKey:{
+            $desc:"设置是否在多选择模式下需要用Ctrl来辅助多选。",
+            $rtn:"[self]",
+            $paras:[
+                "value [必需参数] : Boolean.",
+                "force [可选参数] : Boolean, 强制设置该属性值，即使属性已经设置为该值. 默认为 [false]."
             ]
         },
         insertRows:{

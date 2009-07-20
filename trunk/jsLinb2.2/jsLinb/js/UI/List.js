@@ -200,7 +200,7 @@ Class("linb.UI.List", ["linb.UI", "linb.absList","linb.absValue" ],{
                         var value = box.getUIValue(),
                             arr = value?value.split(';'):[];
 
-                        if(arr.length&&(ks[1]||ks[2]||properties.$checkbox)){
+                        if(arr.length&&(ks[1]||ks[2]||properties.noCtrlKey||properties.$checkbox)){
                             //for select
                             rt2=false;
                             if(ks[2]){
@@ -295,6 +295,7 @@ Class("linb.UI.List", ["linb.UI", "linb.absList","linb.absValue" ],{
                 ini:'single',
                 listbox:['single','none','multi']
             },
+            noCtrlKey:false,
             width:120,
             height:150,
             maxHeight:300
