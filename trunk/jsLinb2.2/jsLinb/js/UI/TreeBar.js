@@ -498,7 +498,7 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
                     linb(sels).css('display',value=='multi'?'':'none');
                 }
             },
-            noCtrlKey:false,
+            noCtrlKey:true,
             singleOpen:false,
             dynDestory:false,
             position:'absolute'

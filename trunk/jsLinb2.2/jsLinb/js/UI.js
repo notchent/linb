@@ -3690,7 +3690,7 @@ Class("linb.UI",  "linb.absObj", {
                 if(typeof items[i]!='object')
                     items[i]={id:items[i]};
                 item=items[i];
-                if(!('caption' in item))item.caption=item.id;
+                if(!item.hasOwnProperty('caption'))item.caption=item.id;
 
                 dataItem={id: item.id};
                 if(pid)dataItem._pid = pid;
@@ -3875,7 +3875,7 @@ Class("linb.absList", "linb.absObj",{
                 items=profile.properties.items,
                 rst=profile.queryItems(items,function(o){return typeof o=='object'?o.id===subId:o==subId},true,true,true),
                 item,serialId,node,sub,t;
-            if(_.isStr(options))options={caption:options};
+            if(typeof options!='object')options={caption:options+''};
             //ensure the original id
             delete options.id;
 

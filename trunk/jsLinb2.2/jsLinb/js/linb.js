@@ -628,7 +628,8 @@ _.merge(Class, {
             //remove it out of window
             _.set(window, key.split('.'));
         }
-    }
+    },
+    destroy:function(key){Class.__gc(key)}
 });
 
 //function dependency: linb.Dom linb.Thread

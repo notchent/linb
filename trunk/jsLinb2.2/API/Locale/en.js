@@ -13732,6 +13732,14 @@ _.set(linb.Locale,["en","doc","linb","UI","TreeGrid"], {
                 "}"
            ]
         },
+        onClickGridHandler£º{
+            $desc:"Fired when the left/top cell is clicked.",
+            $paras:[
+                "profile : linb.UIProfile.",
+                "e: Event, the DOM event Object.",
+                "src : String, the event source DOM element's linbid."
+            ]
+        }£¬
         onClickCell:{
             $desc:"Fired when a cell(type is 'label/button' or not editable) is clicked.",
             $paras:[

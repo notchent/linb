@@ -13769,6 +13769,14 @@ _.set(linb.Locale,["cn","doc","linb","UI","TreeGrid"], {
                 "}"
            ]
         },
+        onClickGridHandler:{
+            $desc:"当点击列头和行头的共同区域时触发.",
+            $paras:[
+                "profile : linb.UIProfile.",
+                "e : Event, DOM事件元素.",
+                "src: String, 事件所属DOM元素的linbid."
+            ]
+        },
         onClickCell:{
             $desc:"当点击一个cell(当cell不在编辑状态时)的时候触发.",
             $paras:[
