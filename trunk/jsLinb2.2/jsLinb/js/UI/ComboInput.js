@@ -813,7 +813,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                     value=Math.ceil((value-0.0000000000003)*n)/n;
                     return String(value>prop.max?prop.max:value<prop.min?prop.min:value);
                 default:
-                    return typeof value!=='string'?value:(value||value===0)?String(value):'';
+                    return typeof value=='string'?value:(value||value===0)?String(value):'';
             }
         },
         _onresize:function(profile,width,height){

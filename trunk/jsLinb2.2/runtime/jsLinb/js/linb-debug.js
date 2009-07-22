@@ -17139,8 +17139,8 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
                 vf1 = (p.mask&&profile.$MaskFormat) ,
                 vf2 = p.valueFormat || profile.$valueFormat;
             if( (profile.beforeFormatCheck && (profile.boxing().beforeFormatCheck(profile, value)===false)) ||
-                (vf1 && typeof vf1=='string' && !(new RegExp(vf1)).test(value||'')) ||
-                (vf2 && typeof vf2=='string' && !(new RegExp(vf2)).test(value||''))
+                (vf1 && typeof vf1=='string' && !(new RegExp(vf1)).test((value===0?'0':value)||'')) ||
+                (vf2 && typeof vf2=='string' && !(new RegExp(vf2)).test((value===0?'0':value)||''))
             ){
                 profile.inValid=2;
                 return false;
@@ -18596,7 +18596,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                     value=Math.ceil((value-0.0000000000003)*n)/n;
                     return String(value>prop.max?prop.max:value<prop.min?prop.min:value);
                 default:
-                    return typeof value!=='string'?value:(value||value===0)?String(value):'';
+                    return typeof value=='string'?value:(value||value===0)?String(value):'';
             }
         },
         _onresize:function(profile,width,height){
@@ -30647,7 +30647,7 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
         },
         alert:function(title, content, onOK){
             var me=arguments.callee, dialog;
-            if(!(dialog=me.dialog)){
+            if(!(dialog=me.dialog) || (!dialog.get(0).renderId)){
                 dialog = me.dialog = new linb.UI.Dialog({
                     minBtn:false,
                     maxBtn:false,
@@ -30700,7 +30700,7 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
         confirm:function(title, caption, onYes, onNo){
             var me=arguments.callee, dialog;
 
-            if(!(dialog=me.dialog)){
+            if(!(dialog=me.dialog) || (!dialog.get(0).renderId)){
                 dialog = me.dialog = new linb.UI.Dialog({
                     minBtn:false,
                     maxBtn:false,
@@ -30813,7 +30813,7 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
         prompt:function(title, caption, content, onYes, onNo){
             var dialog,
                 me=arguments.callee;
-            if(!(dialog=me.dialog)){
+            if(!(dialog=me.dialog) || (!dialog.get(0).renderId)){
                 var close=function(){
                     me.$inp.setValue('');
                     me.onYes=me.onNo=null;

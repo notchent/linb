@@ -767,7 +767,7 @@ Class("linb.UI.Dialog","linb.UI.Widget",{
         },
         alert:function(title, content, onOK){
             var me=arguments.callee, dialog;
-            if(!(dialog=me.dialog)){
+            if(!(dialog=me.dialog) || (!dialog.get(0).renderId)){
                 dialog = me.dialog = new linb.UI.Dialog({
                     minBtn:false,
                     maxBtn:false,
@@ -820,7 +820,7 @@ Class("linb.UI.Dialog","linb.UI.Widget",{
         confirm:function(title, caption, onYes, onNo){
             var me=arguments.callee, dialog;
 
-            if(!(dialog=me.dialog)){
+            if(!(dialog=me.dialog) || (!dialog.get(0).renderId)){
                 dialog = me.dialog = new linb.UI.Dialog({
                     minBtn:false,
                     maxBtn:false,
@@ -933,7 +933,7 @@ Class("linb.UI.Dialog","linb.UI.Widget",{
         prompt:function(title, caption, content, onYes, onNo){
             var dialog,
                 me=arguments.callee;
-            if(!(dialog=me.dialog)){
+            if(!(dialog=me.dialog) || (!dialog.get(0).renderId)){
                 var close=function(){
                     me.$inp.setValue('');
                     me.onYes=me.onNo=null;

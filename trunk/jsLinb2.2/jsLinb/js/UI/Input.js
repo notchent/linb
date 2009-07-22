@@ -604,8 +604,8 @@ Class("linb.UI.Input", ["linb.UI.Widget","linb.absValue"] ,{
                 vf1 = (p.mask&&profile.$MaskFormat) ,
                 vf2 = p.valueFormat || profile.$valueFormat;
             if( (profile.beforeFormatCheck && (profile.boxing().beforeFormatCheck(profile, value)===false)) ||
-                (vf1 && typeof vf1=='string' && !(new RegExp(vf1)).test(value||'')) ||
-                (vf2 && typeof vf2=='string' && !(new RegExp(vf2)).test(value||''))
+                (vf1 && typeof vf1=='string' && !(new RegExp(vf1)).test((value===0?'0':value)||'')) ||
+                (vf2 && typeof vf2=='string' && !(new RegExp(vf2)).test((value===0?'0':value)||''))
             ){
                 profile.inValid=2;
                 return false;
