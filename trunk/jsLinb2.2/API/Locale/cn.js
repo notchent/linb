@@ -13811,7 +13811,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","TreeGrid"], {
                 "}"
            ]
         },
-        beforeIniEditor: {
+       beforeIniEditorr: {
             $desc:"在单元格由展示状态变为编辑状态时调用(将编辑器附着在单元格上). 返回false或自定义编辑器会阻止默认的编辑器出现.",
             $paras:[
                 "profile : linb.UIProfile.",

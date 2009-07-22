@@ -651,8 +651,8 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                             style:'height:{rowHeight}px;{rowStyle}',
                             FCELL:{
                                 $order:0,
-                                style:'{rowHandlerDisplay};{_row0DfW};{firstCellStyle}',
-                                className:'{firstCellClass}',
+                                style:'{rowHandlerDisplay};{_row0DfW};{cellStyle}{firstCellStyle}',
+                                className:'{cellClass}{firstCellClass}',
                                 FCELLA:{
                                     FCELLRULER:{
                                         style:'width:{_rulerW}px'
@@ -2207,7 +2207,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
             });
             return header;
         },
-        _renderCell:function(profile,cell,node){
+        _renderCell:function(profile,cell,node,options){
             var getPro=profile.box.getCellPro,
                 dom=node['linb.Dom'],
                 ncell=dom?cell:node,
@@ -2318,6 +2318,11 @@ sortby [for column only]
             }else{
                 if(t2) node.addClass(dcls);
                 else node.removeClass(dcls);
+
+                if(t2=options.cellStyle)
+                    node.attr('style',node.attr('style')+";"+t2);
+                if(t2=options.cellClass)
+                    node.addClass(t2);
             }
         },
         _prepareItems:function(profile, arr, pid){
@@ -2549,7 +2554,7 @@ sortby [for column only]
                 box._adjustCell(profile, cell, uicell);
                 node.parent().replace(profile._buildItems('rows.cells', [uicell]));
             }else
-                box._renderCell(profile, cell, node);
+                box._renderCell(profile, cell, node, options);
 
             profile.boxing().afterCellUpdated(profile,cell, options);
 
@@ -2693,165 +2698,170 @@ sortby [for column only]
 
             editor=null;
 
-            //beforeIniEditor
-            if(profile.beforeIniEditor)
-                editor=profile.boxing().beforeIniEditor(profile, cell, cellNode);
-            //if beforeIniEditor return false
-            if(editor===false)
+            //if beforeIniEditor doesn't return an editor
+            var grid = this,
+                baseNode = profile.getSubNode('SCROLL'),
+                box=profile.box,
+                getPro=function(key){return box.getCellPro(profile, cell, key)},
+                type=getPro('type'),
+                t;
+
+            if(type=='checkbox'){
+                cellNode.first().focus();
+                return;
+            }else if(type=='button'||type=='label')
                 return;
 
-            //if beforeIniEditor doesn't return an editor
-            if(!editor){
-                var grid = this,
-                    baseNode = profile.getSubNode('SCROLL'),
-                    absPos=cellNode.offset(null, baseNode),
-                    size = cellNode.cssSize(),
-
-                    box=profile.box,
-                    getPro=function(key){return box.getCellPro(profile, cell, key)},
-                    type=getPro('type'),
-                    editorFormat = getPro('editorFormat'),
-                    editorMask =  getPro('editorMask'),
-                    editorReadonly = getPro('editorReadonly'),
-                    t;
-
-                if(type=='checkbox'){
-                    cellNode.first().focus();
-                    return;
-                }else if(type=='button'||type=='label')
-                    return;
-
-
-                //get from cache or create it
-                if(profile.$cache_editor[type]){
-                    editor=profile.$cache_editor[type];
-                }else{
-                    editor=new linb.UI.ComboInput({left:-1000,top:-1000,position:'absolute',visibility:'hidden',zIndex:100});
-                    switch(type){
-                        case 'number':
-                            editor.setType('none').setCustomStyle('INPUT',"text-align:right;");
-                            break;
-                        case 'progress':
-                            editor.setType('none').setValueFormat("^(0([\\.]\\d*[0-9]+)|0|1)$").setCustomStyle('INPUT',"text-align:right;");
-                            break;
-                        case 'input':
-                            editor.setType('none');
-                            break;
-                        case 'textarea':
-                            editor.setType('none').setMultiLines(true).setSaveBtn(true).onSave(function(p){
-                                p.boxing().hide();
-                            });
-                            _.tryF(editor.setResizer,[true],editor);
-                            break;
-                        case 'listbox':
-                        case 'combobox':
-                        case 'helpinput':
-                        case 'timepicker':
-                        case 'datepicker':
-                        case 'colorpicker':
-                        case 'getter':
-                        case 'popbox':
-                        case 'cmdbox':
-                            editor.setType(type).beoforeComboPop(function(pro, pos, e, src){
-                                var cell=pro.$cell,event=profile.box.getCellPro(profile, cell, 'event');
-                                if(profile.box.getCellPro(profile, cell,'disabled'))
-                                    return false;
-                                if(typeof event == 'function')
-                                    return event.call(profile._host||profile, profile, cell, pro, pos,e,src);
-                                else
-                                    return profile.boxing().beoforeComboPop(profile, cell, pro, pos, e, src);
-                            });
-                            break;
-                    }
-                    baseNode.append(editor);
-                    profile.$cache_editor[type] = editor;
+            //try to get editor from cache
+            //triggers beforeIniEditor event once only if the editor is a linb.UI.ComboInput/Input.
+            if(profile.$cache_editor[type])
+                editor=profile.$cache_editor[type];
+            //create editor
+            else{
+                //beforeIniEditor, return false or a editor(linb.UI object)
+                if(profile.beforeIniEditor){
+                    editor=profile.boxing().beforeIniEditor(profile, cell, cellNode);
+                    //handler editor by yourself
+                    if(editor===false)
+                        return;
                 }
-
-                //set properities
+                if(!editor || !editor['linb.UI'])
+                    editor=new linb.UI.ComboInput({left:-1000,top:-1000,position:'absolute',visibility:'hidden',zIndex:100});
                 switch(type){
+                    case 'number':
+                        editor.setType('none').setCustomStyle('INPUT',"text-align:right;").setValueFormat("^-?(\\d\\d*\\.\\d*$)|(^-?\\d\\d*$)|(^-?\\.\\d\\d*$)");
+                        break;
+                    case 'progress':
+                        editor.setType('none').setValueFormat("^(0([\\.]\\d*[0-9]+)|0|1)$").setCustomStyle('INPUT',"text-align:right;");
+                        break;
+                    case 'input':
+                        editor.setType('none');
+                        break;
+                    case 'textarea':
+                        editor.setType('none').setMultiLines(true).setSaveBtn(true).onSave(function(p){
+                            p.boxing().hide();
+                        });
+                        _.tryF(editor.setResizer,[true],editor);
+                        break;
                     case 'listbox':
                     case 'combobox':
                     case 'helpinput':
-                        //set properties
-                        if(t=getPro('editorListKey'))
-                            editor.setListKey(t);
-                        else if(t=getPro('editorListItems'))
-                            editor.setItems(t);
+                    case 'timepicker':
+                    case 'datepicker':
+                    case 'colorpicker':
+                    case 'getter':
+                    case 'popbox':
+                    case 'cmdbox':
+                        editor.setType(type).beoforeComboPop(function(pro, pos, e, src){
+                            var cell=pro.$cell,event=profile.box.getCellPro(profile, cell, 'event');
+                            if(profile.box.getCellPro(profile, cell,'disabled'))
+                                return false;
+                            if(typeof event == 'function')
+                                return event.call(profile._host||profile, profile, cell, pro, pos,e,src);
+                            else
+                                return profile.boxing().beoforeComboPop(profile, cell, pro, pos, e, src);
+                        });
                         break;
                 }
-                //$editorValue must be set in beforeIniEditor
-                editor.setValue(cell.$editorValue||cell.value,true);
-                delete cell.$editorValue;
-
-                //$tag
-                if(cell.$tag){
-                    if(editor.setCaption)editor.setCaption(cell.$tag);
-                    else if(editor.setValue)editor.setValue(cell.$tag);
-                }
-                if(editor.setReadonly)editor.setReadonly(!!editorReadonly);
-                if(editorFormat){
-                    if(typeof editorFormat=='function' && editor.beforeFormatCheck)
-                        editor.beforeFormatCheck(editorFormat);
-                    else if(typeof editorFormat=='string' && editor.setValueFormat)
-                        editor.setValueFormat(editorFormat);
-                }
-                if(editorMask && editor.setMask)
-                    editor.setMask(editorMask);
-
-                //give a reference
-                editor.get(0).$cell = cell;
-                //undo function is a must
-                editor.undo=function(){
-                    var editor=this;
-                    profile.$curEditor=null;
-
-                    editor.getRoot().setBlurTrigger(profile.$linbid);
-                    if(!profile.properties.directInput){
-                        editor.afterUIValueSet(null).beforeNextFocus(null);
-                        if(editor.beforeFormatCheck)editor.beforeFormatCheck(null);
-                        if(editor.setValueFormat)editor.setValueFormat('');
-                        if(editor.setMask)editor.setMask('');
-                        editor.setValue('',true);
-                    }
-                    delete editor.get(0).$cell;
-                    //don't use disply:none, firfox has many bugs about Caret or renderer
-                    editor.reBoxing().hide();
-                };
-
-                //editor change value, update cell value
-                editor
-                .afterUIValueSet(function(pro,oV,nV){
-                    if(getPro('type')=='number')nV=parseFloat(nV);
-                    grid._updCell(profile, cellId, {value:nV, $caption:pro.$caption});
-                })
-                .beforeNextFocus(function(pro, key, shift, e){
-                    if(editor){
-                        _.tryF(editor.undo,[],editor);
-                        var hash=linb.Event.getEventPara(e);
-                        if(hash.keyCode=='enter')hash.keyCode='down';
-
-                        profile.getSubNode('CELLA', cell._serialId).onKeydown(true,hash);
-                    }
-                    //prevent
-                    return false;
-                })
-                .getRoot().setBlurTrigger(profile.$linbid, function(){
-                    if(editor)
-                        _.tryF(editor.undo,[],editor);
-                    return false;
-                });
-
-                //show editor
-                if(type=='textarea'){
-                    editor.setWidth(Math.max(200,size.width+3)).setHeight(Math.max(100,size.height+2))
-                    .reLayout(true,true)
-                    .reBoxing()
-                    .popToTop(cellNode, 4, baseNode);
-                }else{
-                    editor.setWidth(size.width+3).setHeight(size.height+2).reLayout(true);
-                    editor.reBoxing().show((absPos.left-1) + 'px',(absPos.top-1) + 'px');
-                }
+                baseNode.append(editor);
+                //cache the editor
+                profile.$cache_editor[type] = editor;
             }
+
+            //set properities
+            switch(type){
+                case 'listbox':
+                case 'combobox':
+                case 'helpinput':
+                    //set properties
+                    if(t=getPro('editorListKey'))
+                        editor.setListKey(t);
+                    else if(t=getPro('editorListItems'))
+                        editor.setItems(t);
+                    break;
+            }
+            //$editorValue must be set in beforeIniEditor
+            editor.setValue(cell.$editorValue||cell.value,true);
+            delete cell.$editorValue;
+            
+            var editorFormat = getPro('editorFormat'),
+                editorMask =  getPro('editorMask'),
+                editorReadonly = getPro('editorReadonly');
+
+            //$tag
+            if(cell.$tag){
+                if(editor.setCaption)editor.setCaption(cell.$tag);
+                else if(editor.setValue)editor.setValue(cell.$tag);
+            }
+            if(editor.setReadonly){
+                editor.setReadonly(!!editorReadonly);
+            }
+            if(editorFormat){
+                if(typeof editorFormat=='function' && editor.beforeFormatCheck)
+                    editor.beforeFormatCheck(editorFormat);
+                else if(typeof editorFormat=='string' && editor.setValueFormat)
+                    editor.setValueFormat(editorFormat);
+            }
+            if(editorMask && editor.setMask){
+                editor.setMask(editorMask);
+            }
+
+            //give a reference
+            editor.get(0).$cell = cell;
+            //undo function is a must
+            editor.undo=function(){
+                var editor=this;
+                profile.$curEditor=null;
+
+                editor.getRoot().setBlurTrigger(profile.$linbid);
+                if(!profile.properties.directInput){
+                    editor.afterUIValueSet(null).beforeNextFocus(null);
+                    if(editor.beforeFormatCheck)editor.beforeFormatCheck(null);
+                    if(editor.setValueFormat)editor.setValueFormat('');
+                    if(editor.setMask)editor.setMask('');
+                    editor.setValue('',true);
+                }
+                delete editor.get(0).$cell;
+                //don't use disply:none, firfox has many bugs about Caret or renderer
+                editor.reBoxing().hide();
+            };
+
+            //editor change value, update cell value
+            editor
+            .afterUIValueSet(function(pro,oV,nV){
+                if(getPro('type')=='number')nV=parseFloat(nV);
+                grid._updCell(profile, cellId, {value:nV, $caption:pro.$caption});
+            })
+            .beforeNextFocus(function(pro, key, shift, e){
+                if(editor){
+                    _.tryF(editor.undo,[],editor);
+                    var hash=linb.Event.getEventPara(e);
+                    if(hash.keyCode=='enter')hash.keyCode='down';
+
+                    profile.getSubNode('CELLA', cell._serialId).onKeydown(true,hash);
+                }
+                //prevent
+                return false;
+            })
+            .getRoot().setBlurTrigger(profile.$linbid, function(){
+                if(editor)
+                    _.tryF(editor.undo,[],editor);
+                return false;
+            });
+
+            var absPos=cellNode.offset(null, baseNode),
+                size = cellNode.cssSize();
+            //show editor
+            if(type=='textarea'){
+                editor.setWidth(Math.max(200,size.width+3)).setHeight(Math.max(100,size.height+2))
+                .reLayout(true,true)
+                .reBoxing()
+                .popToTop(cellNode, 4, baseNode);
+            }else{
+                editor.setWidth(size.width+3).setHeight(size.height+2).reLayout(true);
+                editor.reBoxing().show((absPos.left-1) + 'px',(absPos.top-1) + 'px');
+            }
+
             //give a reference
             profile.$curEditor=editor;
 

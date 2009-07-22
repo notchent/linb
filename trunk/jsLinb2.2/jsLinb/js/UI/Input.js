@@ -245,7 +245,7 @@ Class("linb.UI.Input", ["linb.UI.Widget","linb.absValue"] ,{
                     //input/textarea is special, ctrl value will be set before the $UIvalue
                     p.$UIvalue=value;
                     if(o!==profile.inValid) if(profile.renderId)profile.boxing()._setDirtyMark();
-                    
+
                     b._asyCheck(profile);
                 },
                 //if properties.mask exists, onHotKeyxxx wont be tigger any more
