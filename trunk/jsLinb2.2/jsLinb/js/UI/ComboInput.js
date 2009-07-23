@@ -88,14 +88,31 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
         getUploadObj:function(){
             var profile=this.get(0);
             if(profile.renderId && profile.properties.type=='upload'){
-                var o = profile.getSubNode('UPLOAD'),c=o.clone();
+                var o = profile.getSubNode('UPLOAD').get(0)
+                if(!o.value)
+                    return null;
+
+                var c=o.cloneNode(false);
+                //inner replace
+                linb.setNodeData(c.$linbid=o.$linbid,'element',c);
+                c.onclick=o.onclick;
+                c.onchange=o.onchange;
+
+                //remove those
+                if(linb.browser.ie)
+                    o.removeAttribute('$linbid');
+                else
+                    delete o.$linbid;
+                o.id=o.onclick=o.onchange=null;
 
                 //a special node, must delete if from cache here:
                 delete profile.$_domid[profile.keys['UPLOAD']];
-                o.addPrev(c).remove(false);
-                this.setValue('',true);
+                linb([o]).addPrev(c).remove(false);
+                c=null;
 
-                return o.get(0);
+                this.setUIValue(this.getValue());
+
+                return o;
             }
         },
         resetValue:function(value){
@@ -279,6 +296,8 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
             }
         },'all');
         t.FRAME.POOL={};
+        t.className +=' {uploadClass}';
+
         this.setTemplate(t);
         
         this._adjustItems=linb.absList._adjustItems;
@@ -362,6 +381,9 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                 cursor:'pointer',
                 'font-size':'12px',
                 overflow:'hidden'
+            },
+            'UPLOAD-show INPUT':{
+                color:'#777'
             },
             'RBTN,SBTN,BTN':{
                 display:'block',
@@ -482,7 +504,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                     if(profile.onFileDlgOpen)profile.boxing().onFileDlgOpen(profile,src);
                 },
                 onChange:function(profile, e, src){
-                    profile.getSubNode('INPUT').attr('value',linb.use(src).get(0).value).onChange();
+                    profile.boxing().setUIValue(linb.use(src).get(0).value+'');
                 }
             },
             BTN:{
@@ -793,6 +815,11 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                 map=profile.box._posMap;
             if(map[data.type])
                 data._btnStyle = data.image? ('background: url('+data.image+')' + (data.imagePos||'')) :('background-position:'+map[data.type]);
+
+            if(data.type=='upload')
+                data.uploadClass=profile.getClass('UPLOAD','-show');
+                
+            data._type="text";
 
             data._saveDisplay = data.saveBtn?'':'display:none';
             data._popbtnDisplay = data.type!='none'?'':'display:none';

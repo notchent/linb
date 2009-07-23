@@ -84,6 +84,7 @@
             .setHeight(140)
             .setZIndex(1)
             .setCaption("$VisualJS.delfile.sel")
+            .setCustomStyle({PANEL:'overflow:auto'})
             .setCloseBtn(false)
             .setLandBtn(false)
             );

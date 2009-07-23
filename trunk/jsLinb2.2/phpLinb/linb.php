@@ -414,7 +414,7 @@
              	    if($t=='script')
              	        $output = $cb.'('.$output.')';
              	    else if($t=='iframe')
-             	        $output="<div id='id'>".$output."</div><script>window.name=document.getElementById('id').innerHTML;</script>";
+             	        $output="<script type='text' id='json'>".$output."</script><script type='text/javascript'>window.name=document.getElementById('json').innerHTML;</script>";
              	}
             }
             return $output;

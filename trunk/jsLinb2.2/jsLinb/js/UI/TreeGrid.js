@@ -1967,7 +1967,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                     }
                 }
             },
-            noCtrlKey:true,
+            noCtrlKey:true
         },
         EventHandlers:{
             onGetContent:function(profile, row, callback){},

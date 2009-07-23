@@ -446,6 +446,7 @@ Class('VisualJS', 'linb.Com',{
             .setCaption("$VisualJS.pm.title")
             .setImage('@CONF.img_app')
             .setImagePos("-128px -48px")
+            .setCustomStyle({PANEL:'overflow:auto'})
             , 'before');
 
             t.panelbar2.append(

@@ -90,7 +90,7 @@ Class("linb.UI.Input", ["linb.UI.Widget","linb.absValue"] ,{
                     tagName : 'div',
                     INPUT:{
                         tagName : 'input',
-                        type : '{type}',
+                        type : '{_type}',
                         tabindex:'{tabindex}',
                         cursor:'{cursor}',
                         style:'{_css}'
@@ -447,7 +447,7 @@ Class("linb.UI.Input", ["linb.UI.Widget","linb.absValue"] ,{
         _prepareData:function(profile){
             var d=arguments.callee.upper.call(this, profile);
             d.cursor = d.readonly?'default':'';
-            d.type = d.type || '';
+            d._type = d.type || '';
             if(linb.browser.kde)
                 d._css='resize:none;';
             return d;

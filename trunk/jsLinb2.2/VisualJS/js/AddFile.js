@@ -94,6 +94,7 @@ Class('VisualJS.AddFile', 'linb.Com',{
             .setDock("top")
             .setHeight(140)
             .setZIndex(1)
+            .setCustomStyle({PANEL:'overflow:auto'})
             .setCaption("$VisualJS.addfile.sel")
             );
 
@@ -102,6 +103,7 @@ Class('VisualJS.AddFile', 'linb.Com',{
             .host(t,"treebar")
             .setDock("none")
             .setWidth('auto')
+            .setHeight('auto')
             .setPosition("relative")
             .setItems([])
             .setIniFold(false)
