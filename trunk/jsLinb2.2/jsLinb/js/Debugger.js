@@ -129,8 +129,12 @@ Class('linb.Debugger', null, {
            var div, h, me=arguments.callee,
            stack=me.stack||(me.stack=[]),
            t=linb.win, left = t.scrollLeft() + t.width()/2 - width/2, height=t.height(), st=t.scrollTop();
+           
+           div=stack.pop();
+           while(div&&!div.get(0))
+                div=stack.pop();
 
-           if(!(div=stack.pop())){
+           if(!div){
                div =
                '<div class="uibg-bar uiborder-outset" style="font-size:0;line-height:0;border:solid 1px #cdcdcd;position:absolute;overflow:visible;top:-50px;z-index:'+linb.Dom.TOP_ZINDEX+'">' +
                '<div style="font-size:14px;overflow:hidden;font-weight:bold;padding:2px;"></div>'+
@@ -141,7 +145,7 @@ Class('linb.Debugger', null, {
                linb('body').append(div);
             }
             div.css({left:left+'px', width:width+'px', visibility:'visible'})
-            .first().html(head||'')
+            .first().html(head||'').css('visibility',head?'visible':'hidden')
             .next().html(body||'');
 
             if(me.last && div!=me.last){

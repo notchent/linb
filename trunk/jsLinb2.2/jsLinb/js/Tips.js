@@ -139,7 +139,7 @@ Class("linb.Tips", null,{
                     if(!pos)return;
 
                     var self=this,node,_ruler,s,w,h;
-                    if(!(node=self.node)){
+                    if(!(node=self.node) || !node.get(0)){
                         node = self.node = linb.create('<div class="linb-tips"><div class="linb-tips-i"></div></div>');
                         _ruler = self._ruler = linb.create('<div class="linb-tips" style="position:absolute;visibility:hidden;left:-10000px;"><div class="linb-tips-i" style="position:relative;"></div></div>');
                         self.n = node.first();

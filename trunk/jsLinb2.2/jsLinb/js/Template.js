@@ -35,6 +35,11 @@ Class('linb.Template','linb.absProfile',{
             _.breakO([self.properties, self.event, self], 2);
         },
         _reg0:/^\w[\w_-]*$/,
+        show:function(parent){
+            if(!parent)parent=linb('body');
+            parent=linb(parent);
+            parent.append(this);
+        },
         getRootNode:function(){
             return linb.getNodeData(this.renderId, 'element');
         },
@@ -144,7 +149,7 @@ Class('linb.Template','linb.absProfile',{
                         if((o=children[i]).nodeType!=1)continue;
                         key=o.getAttribute('tpl_evkey');
                         id=o.getAttribute('tpl_evid');
-                        if(key && id){
+                        if(key!==null && id!==null){
                             v=linb.$registerNode(o);
                             v.tpl_evkey=key;
                             v.tpl_evid=id;
@@ -158,9 +163,9 @@ Class('linb.Template','linb.absProfile',{
                                         v[k]=o[k]=f;
                                 }
                             }
+                            o.removeAttribute('tpl_evkey');
+                            o.removeAttribute('tpl_evid');
                         }
-                        o.removeAttribute('tpl_evkey');
-                        o.removeAttribute('tpl_evid');
                     }
                     if(!div.firstChild.$linbid)
                         linb.$registerNode(div.firstChild);
@@ -221,7 +226,10 @@ Class('linb.Template','linb.absProfile',{
             this.setDomId(id);
         },
         toHtml:function(properties){
-            return this._doTemplate(properties||this.properties||{});
+            //must copy it for giving a default tpl_evkey
+            var p=_.copy(properties||this.properties||{});
+            p.tpl_evkey="root";
+            return this._doTemplate(p);
         },
         _reg1:/([^{}]*)\{([\w]+)\}([^{}]*)/g,
         _reg2:/\[event\]/g,
@@ -230,7 +238,7 @@ Class('linb.Template','linb.absProfile',{
                 var obj=[[],[]],
                     a0=obj[0],
                     a1=obj[1];
-                str=str.replace(this._reg2,' tpl_evid={id} tpl_evkey={tpl_evkey} ');
+                str=str.replace(this._reg2,' tpl_evid="{id}" tpl_evkey="{tpl_evkey}" ');
                 str.replace(this._reg1,function(a,b,c,d){
                     if(b)a0[a0.length]=b;
                     a1[a0.length]=a0[a0.length]=c;
@@ -247,7 +255,7 @@ Class('linb.Template','linb.absProfile',{
 
             var evs = this.events,
                 tpl_evkey = obj.tpl_evkey,
-                evg = tpl_evkey&&evs&&evs[tpl_evkey]||evs,
+                evg = (tpl_evkey&&evs&&evs[tpl_evkey])||evs,
                 ev = evg&&evg[name];
             if(ev)funs.push(ev);
         },

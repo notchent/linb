@@ -91,7 +91,6 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
             BORDER:{
                 tagName:'div',
                 style:'height:{_bHeight}px;width:{_bWidth}px;',
-                FOCUS:{tagName:'button'},
                 POOL:{
                     tagName:'div',
                     style:'position:absolute;left:0;top:0;width:0;height:0;display:none;'
@@ -309,6 +308,50 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
             HoverEffected:{PRE:'PRE',NEXT:'NEXT',ZOOMIN:'ZOOMIN',ZOOMOUT:'ZOOMOUT',DATE:'DATE',OPT:'OPT',CLOSE:'CLOSE',MIN:'MIN',NORMAL:'NORMAL'},
             ClickEffected:{PRE:'PRE',NEXT:'NEXT',ZOOMIN:'ZOOMIN',ZOOMOUT:'ZOOMOUT',DATE:'DATE',OPT:'OPT',CLOSE:'CLOSE',MIN:'MIN'},
             onSize:linb.UI.$onSize,
+            onKeydown:function(profile, e, src){
+                if(profile.pauseA||profile.pause)return;
+                profile.pause=true;
+
+                // speed
+                var t=profile.properties,
+                    date=linb.Date,
+                    rate=t._rate,
+                    maxOffset = 30,
+                    o=profile.box._getMoveNodes(profile),
+                    x=o.left(),
+                    xx=t._band_left,
+                    off=t._scroll_offset
+                    ;
+
+                off = t._scroll_offset = off>maxOffset ? off :off*1.05;
+
+                switch(linb.Event.getKey(e)[0]){
+                    case 'left':
+                    case 'up':
+                        if(t.minDate && date.add(t.dateStart,'ms',(xx-x-off)*rate)<t.minDate)
+                            off=date.diff(t.minDate, t.dateStart,'ms')/rate + (xx-x);
+                        if(off<0)off=0;
+                        o.left(x + off);
+                        break;
+                    case 'right':
+                    case 'down':
+                        if(t.maxDate && date.add(t.dateStart,'ms',(xx-x+off+t.width)*rate)>t.maxDate)
+                            off=date.diff(t.dateStart,t.maxDate,'ms')/rate - (xx-x+t.width);
+                        if(off<0)off=0;
+                        o.left(x - off);
+                        break;
+                }
+
+                if((x + maxOffset > 0) || (x + o.width() - t.width - maxOffset < 0))
+                    profile.box._rePosition(profile);
+                profile.pause=false;
+                return false;
+            },
+            onKeyup:function(profile, e){
+                var p=profile.properties;
+                p._scroll_offset = p._scrollRate;
+                profile.box._rePosition(profile);
+            },
             CLOSE:{
                 onClick:function(profile, e, src){
                     if(profile.properties.disabled)return;
@@ -327,9 +370,6 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
                     if(profile.properties.disabled)return;
                     profile.boxing().onShowOptions(profile, e, src);
                 }
-            },
-            onClick:function(profile, e){
-                profile.box._focus(profile);
             },
             BAND:{
                 onMousedown:function(profile, e, src){
@@ -360,7 +400,6 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
                 },
                 onDragstop:function(profile, e, src){
                     profile.box._rePosition(profile);
-                    profile.box._focus(profile);
                 },
                 onDrag:function(profile, e, src){
                     var ns=profile.box._getMoveNodes(profile),
@@ -416,9 +455,6 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
                     })
                     .offset({left :x,  top :null});
                     o.startDrag(e, {dragType:'none'});
-                },
-                onMouseup:function(profile, e, src){
-                    profile.box._focus(profile);
                 }
             },
             ACTIVE:{
@@ -460,62 +496,6 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
                         b.setUIValue(from+":"+to);
 
                     profile.$dd_ox =profile.$dd_oleft=null;
-                }
-            },
-            FOCUS:{
-                onFocus:function(profile, e, src){
-//                    _.resetRun(profile.KEY+':focus',function(){
-//                        profile.getSubNode('TBAR').tagClass('-focus');
-//                    });
-                },
-                onBlur:function(profile, e, src){
-                    _.resetRun(profile.KEY+':focus',function(){
-                        profile.getSubNode('TBAR').tagClass('-focus',false);
-                    });
-                },
-                onKeydown:function(profile, e, src){
-                    if(profile.pauseA||profile.pause)return;
-                    profile.pause=true;
-
-                    // speed
-                    var t=profile.properties,
-                        date=linb.Date,
-                        rate=t._rate,
-                        maxOffset = 30,
-                        o=profile.box._getMoveNodes(profile),
-                        x=o.left(),
-                        xx=t._band_left,
-                        off=t._scroll_offset
-                        ;
-
-                    off = t._scroll_offset = off>maxOffset ? off :off*1.05;
-
-                    switch(linb.Event.getKey(e)[0]){
-                        case 'left':
-                        case 'up':
-                            if(t.minDate && date.add(t.dateStart,'ms',(xx-x-off)*rate)<t.minDate)
-                                off=date.diff(t.minDate, t.dateStart,'ms')/rate + (xx-x);
-                            if(off<0)off=0;
-                            o.left(x + off);
-                            break;
-                        case 'right':
-                        case 'down':
-                            if(t.maxDate && date.add(t.dateStart,'ms',(xx-x+off+t.width)*rate)>t.maxDate)
-                                off=date.diff(t.dateStart,t.maxDate,'ms')/rate - (xx-x+t.width);
-                            if(off<0)off=0;
-                            o.left(x - off);
-                            break;
-                    }
-
-                    if((x + maxOffset > 0) || (x + o.width() - t.width - maxOffset < 0))
-                        profile.box._rePosition(profile);
-                    profile.pause=false;
-                    return false;
-                },
-                onKeyup:function(profile, e){
-                    var p=profile.properties;
-                    p._scroll_offset = p._scrollRate;
-                    profile.box._rePosition(profile);
                 }
             },
             PRE:{
@@ -574,11 +554,6 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
                         p.timeSpanKey =  z[index- 1][0];
 
                         o = profile.getSubNodes(['VIEW','BAND']);
-
-                        //o.animate( {opacity:[1,0.2]}, null, function(){
-                            profile.box._refresh(profile)._focus(profile);
-                        //    profile.pause=false;
-                        //},200,5,'sineIn').start();
                     }
                 }
             },
@@ -595,11 +570,6 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
                         p.timeSpanKey = z[index + 1][0];
 
                         o = profile.getSubNodes(['VIEW','BAND']);
-                       // o.animate( {opacity:[1,0.2]}, null, function(){
-                            //if multiTasks, setUIValue will be ignored
-                            profile.box._refresh(profile)._focus(profile);
-                        //    profile.pause=false;
-                        //},200,5,'sineIn').start();
                     }
                 }
             },
@@ -626,11 +596,6 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
                                 box=profile.boxing(),
                                 p=profile.properties;
                             p.dateStart=v;
-                            //obj.animate( {opacity:[1,0.2]}, null, function(){
-                                //if multiTasks, setUIValue will be ignored
-                                profile.box._refresh(profile)._focus(profile);
-                            //    profile.pause=false;
-                            //},200,5,'sineIn').start()
                             box._cache();
                         });
                     }
@@ -646,7 +611,6 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
                     //for esc
                     linb.Event.keyboardHook('esc',0,0,0,function(){
                         box._cache();
-                        cls._focus(profile);
                         //unhook
                         linb.Event.keyboardHook('esc');
                     });
@@ -946,16 +910,6 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
                 margin:'2px',
                 'vertical-align': 'middle',
                 cursor:'default'
-            },
-            FOCUS:{
-                position:'absolute',
-                'font-size':'0',
-                width:'1px',
-                height:'1px',
-                left:'-100px',
-                top:'-100px',
-                'line-height':'0',
-                border:'0'
             },
             'MAINP, BAND, VIEW, BIGLABEL, SMALLLABEL':{
                 position:'relative'
@@ -1414,9 +1368,6 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
             ['1 c',  48, 1, 'c', 'c', 1000, 'y','y','y']
 
         ],
-        _focus:function(profile){
-            profile.getSubNode('FOCUS').focus(1);
-        },
         _getTips:function(profile){
             var t,s='$dd_tooltip';
             if(t = profile[s] || (profile[s] = profile.getSubNode('TIPS').get(0).childNodes[0]))
@@ -1869,7 +1820,7 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
                 if(!p.fixWidth){
                     _.resetRun(profile.$linbid+":refresh",function(){
                         //if multiTasks, setUIValue will be ignored
-                        profile.box._refresh(profile)._focus(profile);
+                        profile.box._refresh(profile);
                     });
                 }
             }

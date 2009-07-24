@@ -117,14 +117,14 @@ Class("linb.UI.List", ["linb.UI", "linb.absList","linb.absValue" ],{
                         href :linb.$href,
                         tabindex:'{_tabindex}',
                         ICON:{
-                            $order:0,
+                            $order:10,
                             className:'ui-icon {imageClass}',
                             style:'{backgroundImage} {backgroundPosition} {imageDisplay}'
                         },
                         CAPTION:{
                             tagName : 'text',
                             text : '{caption}&nbsp;',
-                            $order:1
+                            $order:20
                         }
                     }
                 }
@@ -295,7 +295,7 @@ Class("linb.UI.List", ["linb.UI", "linb.absList","linb.absValue" ],{
                 ini:'single',
                 listbox:['single','none','multi']
             },
-            noCtrlKey:false,
+            noCtrlKey:true,
             width:120,
             height:150,
             maxHeight:300

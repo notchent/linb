@@ -313,6 +313,8 @@ Class('linb.Dom','linb.absBox',{
         for addPrev prepend addNext append
         */
         $add:function(fun,target,reversed){
+            if(typeof target=='string')
+                target=linb.create(target);
             if(reversed){
                 reversed=linb(target);
                 target=this;

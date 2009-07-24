@@ -892,7 +892,9 @@ _.set(linb.Locale,["en","doc","linb"], {
         $paras:[
             "title [Optional] : String, the title string.",
             "content [Optional] : String, the content string.",
-            "onOK [Optional] : Function, the OK callback function."
+            "onOK [Optional] : Function, the OK callback function.",
+            "left [Optional] : Number, left value.",
+            "top [Optional] : Number, top value."
         ],
         $snippet:[
             "linb.alert('title','content',function(){alert('ok')})",
@@ -906,7 +908,9 @@ _.set(linb.Locale,["en","doc","linb"], {
             "title [Optional] : String, the title string.",
             "content [Optional] : String, the content string.",
             "onYes [Optional] : Function, the Yes callback function.",
-            "onNo [Optional] : Function, the No callback function."
+            "onNo [Optional] : Function, the No callback function.",
+            "left [Optional] : Number, left value.",
+            "top [Optional] : Number, top value."
         ],
         $snippet:[
             "linb.confirm('title','content',function(){alert('yes')},function(){alert('no')})",
@@ -936,7 +940,9 @@ _.set(linb.Locale,["en","doc","linb"], {
             "caption [Optional] : String, the caption string.",
             "content [Optional] : String, the content string.",
             "onYes [Optional] : Function, the Yes callback function.",
-            "onNo [Optional] : Function, the No callback function."
+            "onNo [Optional] : Function, the No callback function.",
+            "left [Optional] : Number, left value.",
+            "top [Optional] : Number, top value."
         ],
         $snippet:[
             "linb.prompt('title','caption', 'content content ',function(str){alert(str)})"
@@ -11205,7 +11211,9 @@ _.set(linb.Locale,["en","doc","linb","UI","Dialog"], {
         $paras:[
             "title [Optional] : String, the title string.",
             "content [Optional] : String, the content string.",
-            "onOK [Optional] : Function, the OK callback function."
+            "onOK [Optional] : Function, the OK callback function.",
+            "left [Optional] : Number, left value.",
+            "top [Optional] : Number, top value."
         ],
         $snippet:[
             "linb.UI.Dialog.alert('title','content',function(){alert('ok')})",
@@ -11219,7 +11227,9 @@ _.set(linb.Locale,["en","doc","linb","UI","Dialog"], {
             "title [Optional] : String, the title string.",
             "content [Optional] : String, the content string.",
             "onYes [Optional] : Function, the Yes callback function.",
-            "onNo [Optional] : Function, the No callback function."
+            "onNo [Optional] : Function, the No callback function.",
+            "left [Optional] : Number, left value.",
+            "top [Optional] : Number, top value."
         ],
         $snippet:[
             "linb.UI.Dialog.confirm('title','content',function(){alert('yes')},function(){alert('no')})",
@@ -11249,7 +11259,9 @@ _.set(linb.Locale,["en","doc","linb","UI","Dialog"], {
             "caption [Optional] : String, the caption string.",
             "content [Optional] : String, the content string.",
             "onYes [Optional] : Function, the Yes callback function.",
-            "onNo [Optional] : Function, the No callback function."
+            "onNo [Optional] : Function, the No callback function.",
+            "left [Optional] : Number, left value.",
+            "top [Optional] : Number, top value."
         ],
         $snippet:[
             "linb.UI.Dialog.prompt('title','caption', 'content content ',function(str){alert(str)})"

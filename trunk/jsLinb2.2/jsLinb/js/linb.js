@@ -1600,17 +1600,15 @@ Class('linb.SAjax','linb.absIO',{
             if(n){
                 self.node=n.id=n.onload=n.onreadystatechange=n.onerror=null;
 
-                if(self.rspType!='script'){
-                    var div=c._n.createElement('div');
-                    //in ie + add script with url(remove script immediately) + add the same script(remove script immediately) => crash
-                    //so, always clear it later
-                    div.appendChild(n.parentNode&&n.parentNode.removeChild(n)||n);
-                    if(linb.browser.ie)
-                        _.asyRun(function(){div.innerHTML='';n.removeNode();div=null;});
-                    else{
-                        div.innerHTML='';
-                        div=null;
-                    }
+                var div=c._n.createElement('div');
+                //in ie + add script with url(remove script immediately) + add the same script(remove script immediately) => crash
+                //so, always clear it later
+                div.appendChild(n.parentNode&&n.parentNode.removeChild(n)||n);
+                if(linb.browser.ie)
+                    _.asyRun(function(){div.innerHTML='';n.removeNode();div=null;});
+                else{
+                    div.innerHTML='';
+                    div=null;
                 }
             }
         },

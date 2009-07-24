@@ -893,7 +893,9 @@ _.set(linb.Locale,["cn","doc","linb"], {
         $paras:[
             "title [可选参数] : String, 警告框标题.",
             "content [可选参数] : String, 警告语句.",
-            "onOK [可选参数] : Function, 用户单击OK的回调函数."
+            "onOK [可选参数] : Function, 用户单击OK的回调函数.",
+            "left [可选参数] : Number, 对话框左边坐标.",
+            "top [可选参数] : Number, 对话框上边坐标."
         ],
         $snippet:[
             "linb.alert('title','content',function(){alert('ok')})",
@@ -907,7 +909,9 @@ _.set(linb.Locale,["cn","doc","linb"], {
             "title [可选参数] : String, 确认框的标题.",
             "content [可选参数] : String, 确认的提示语句.",
             "onYes [可选参数] : Function, the Yes 回调函数.",
-            "onNo [可选参数] : Function, the No 回调函数."
+            "onNo [可选参数] : Function, the No 回调函数.",
+            "left [可选参数] : Number, 对话框左边坐标.",
+            "top [可选参数] : Number, 对话框上边坐标."
         ],
         $snippet:[
             "linb.confirm('title','content',function(){alert('yes')},function(){alert('no')})",
@@ -937,7 +941,9 @@ _.set(linb.Locale,["cn","doc","linb"], {
             "caption [可选参数] : String, 提示文字.",
             "content [可选参数] : String, 默认输入文字.",
             "onYes [可选参数] : Function, 用户单击Yes 回调函数.",
-            "onNo [可选参数] : Function, 用户单击 No 回调函数."
+            "onNo [可选参数] : Function, 用户单击 No 回调函数.",
+            "left [可选参数] : Number, 对话框左边坐标.",
+            "top [可选参数] : Number, 对话框上边坐标."
         ],
         $snippet:[
             "linb.prompt('title','caption', 'content content ',function(str){alert(str)})"
@@ -11242,7 +11248,9 @@ _.set(linb.Locale,["cn","doc","linb","UI","Dialog"], {
         $paras:[
             "title [可选参数] : String, 警告框标题.",
             "content [可选参数] : String, 警告语句.",
-            "onOK [可选参数] : Function, 用户单击OK的回调函数."
+            "onOK [可选参数] : Function, 用户单击OK的回调函数.",
+            "left [可选参数] : Number, 对话框左边坐标.",
+            "top [可选参数] : Number, 对话框上边坐标."
         ],
         $snippet:[
             "linb.UI.Dialog.alert('title','content',function(){alert('ok')})",
@@ -11256,7 +11264,9 @@ _.set(linb.Locale,["cn","doc","linb","UI","Dialog"], {
             "title [可选参数] : String, 确认框的标题.",
             "content [可选参数] : String, 确认的提示语句.",
             "onYes [可选参数] : Function, the Yes 回调函数.",
-            "onNo [可选参数] : Function, the No 回调函数."
+            "onNo [可选参数] : Function, the No 回调函数.",
+            "left [可选参数] : Number, 对话框左边坐标.",
+            "top [可选参数] : Number, 对话框上边坐标."
         ],
         $snippet:[
             "linb.UI.Dialog.confirm('title','content',function(){alert('yes')},function(){alert('no')})",
@@ -11286,7 +11296,9 @@ _.set(linb.Locale,["cn","doc","linb","UI","Dialog"], {
             "caption [可选参数] : String, 提示文字.",
             "content [可选参数] : String, 默认输入文字.",
             "onYes [可选参数] : Function, 用户单击Yes 回调函数.",
-            "onNo [可选参数] : Function, 用户单击 No 回调函数."
+            "onNo [可选参数] : Function, 用户单击 No 回调函数.",
+            "left [可选参数] : Number, 对话框左边坐标.",
+            "top [可选参数] : Number, 对话框上边坐标."
         ],
         $snippet:[
             "linb.UI.Dialog.prompt('title','caption', 'content content ',function(str){alert(str)})"

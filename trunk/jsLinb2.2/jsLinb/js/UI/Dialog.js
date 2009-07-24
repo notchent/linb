@@ -722,7 +722,7 @@ Class("linb.UI.Dialog","linb.UI.Widget",{
             return _.merge(pro, profile.getRoot().cssRegion(), function(o,i){return pro[i]!='auto'});
         },
 
-        _adjust:function(dialog,caption, content){
+        _adjust:function(dialog,caption, content, left, top){
             caption = caption ||'';
             if(!content){
                 content = caption;
@@ -765,7 +765,7 @@ Class("linb.UI.Dialog","linb.UI.Widget",{
             
             linb.UI.$doResize(dialog.get(0), w, h);
         },
-        alert:function(title, content, onOK){
+        alert:function(title, content, onClose, left, top){
             var me=arguments.callee, dialog;
             if(!(dialog=me.dialog) || (!dialog.get(0).renderId)){
                 dialog = me.dialog = new linb.UI.Dialog({
@@ -778,8 +778,8 @@ Class("linb.UI.Dialog","linb.UI.Widget",{
                 },{
                     beforeClose:function(){
                         dialog.hide();
-                        _.tryF(me.onOK);
-                        me.onOK=null;
+                        _.tryF(me.onClose);
+                        me.onClose=null;
                         return false;
                     }
                 });
@@ -798,7 +798,8 @@ Class("linb.UI.Dialog","linb.UI.Widget",{
                 {
                     onClick:function(){
                         dialog.hide();
-                        _.tryF(onOK);
+                        _.tryF(me.onClose);
+                        me.onClose=null;
                     }
                 });
                 cmd.append(btn);
@@ -809,15 +810,15 @@ Class("linb.UI.Dialog","linb.UI.Widget",{
                 });
                 dialog.append(cmd).append(div).render();
             }
-            me.onOK=onOK;
+            me.onClose=onClose;
             linb.UI.Dialog._adjust(dialog,title, content);
-            dialog.show(linb('body'),true);
+            dialog.show(linb('body'),true, left, top);
             _.resetRun("dlg_focus:"+dialog.get(0).$linbid,function(){
                 dialog.$btn.activate();
             });
             return dialog;
         },
-        confirm:function(title, caption, onYes, onNo){
+        confirm:function(title, caption, onYes, onNo, left, top){
             var me=arguments.callee, dialog;
 
             if(!(dialog=me.dialog) || (!dialog.get(0).renderId)){
@@ -881,7 +882,7 @@ Class("linb.UI.Dialog","linb.UI.Widget",{
             me.onYes=onYes;
             me.onNo=onNo;
             linb.UI.Dialog._adjust(dialog, title, caption);
-            dialog.show(linb('body'), true);
+            dialog.show(linb('body'), true, left, top);
             _.resetRun("dlg_focus:"+dialog.get(0).$linbid,function(){
                 dialog.$btn.activate();
             });
@@ -899,13 +900,14 @@ Class("linb.UI.Dialog","linb.UI.Widget",{
 
             cmd = dialog.$cmd = new linb.UI.Div({
                 bottom:10,
-                width:60,
-                height:24
+                width:'auto',
+                height:24,
+                CS:'text-align:center;'
             })
             .append( dialog.$btn = new linb.UI.SButton({
                 caption: cmdStr || '$inline.ok',
                 tabindex:1,
-                width: 60
+                position:'relative'
             },
             {
                 onClick:function(){
@@ -915,7 +917,8 @@ Class("linb.UI.Dialog","linb.UI.Widget",{
 
             div = dialog.$div = new linb.UI.Div({
                 left:10,
-                top:10
+                top:10,
+                width:80
             }).setCustomStyle({
                 KEY:'overflow:visible'
             });
@@ -930,7 +933,7 @@ Class("linb.UI.Dialog","linb.UI.Widget",{
             });
             return dialog;
         },
-        prompt:function(title, caption, content, onYes, onNo){
+        prompt:function(title, caption, content, onYes, onNo, left, top){
             var dialog,
                 me=arguments.callee;
             if(!(dialog=me.dialog) || (!dialog.get(0).renderId)){
@@ -1007,7 +1010,7 @@ Class("linb.UI.Dialog","linb.UI.Widget",{
             me.onYes=onYes;
             me.onNo=onNo;
 
-            dialog.show(linb('body'), true);
+            dialog.show(linb('body'), true, left, top);
             _.resetRun("dlg_focus:"+dialog.get(0).$linbid,function(){
                 me.$inp.activate();
             });

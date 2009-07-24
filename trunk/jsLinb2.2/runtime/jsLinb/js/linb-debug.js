@@ -1600,17 +1600,15 @@ Class('linb.SAjax','linb.absIO',{
             if(n){
                 self.node=n.id=n.onload=n.onreadystatechange=n.onerror=null;
 
-                if(self.rspType!='script'){
-                    var div=c._n.createElement('div');
-                    //in ie + add script with url(remove script immediately) + add the same script(remove script immediately) => crash
-                    //so, always clear it later
-                    div.appendChild(n.parentNode&&n.parentNode.removeChild(n)||n);
-                    if(linb.browser.ie)
-                        _.asyRun(function(){div.innerHTML='';n.removeNode();div=null;});
-                    else{
-                        div.innerHTML='';
-                        div=null;
-                    }
+                var div=c._n.createElement('div');
+                //in ie + add script with url(remove script immediately) + add the same script(remove script immediately) => crash
+                //so, always clear it later
+                div.appendChild(n.parentNode&&n.parentNode.removeChild(n)||n);
+                if(linb.browser.ie)
+                    _.asyRun(function(){div.innerHTML='';n.removeNode();div=null;});
+                else{
+                    div.innerHTML='';
+                    div=null;
                 }
             }
         },
@@ -4820,6 +4818,8 @@ Class('linb.Dom','linb.absBox',{
         for addPrev prepend addNext append
         */
         $add:function(fun,target,reversed){
+            if(typeof target=='string')
+                target=linb.create(target);
             if(reversed){
                 reversed=linb(target);
                 target=this;
@@ -6615,6 +6615,11 @@ type:4
             _.breakO([self.properties, self.event, self], 2);
         },
         _reg0:/^\w[\w_-]*$/,
+        show:function(parent){
+            if(!parent)parent=linb('body');
+            parent=linb(parent);
+            parent.append(this);
+        },
         getRootNode:function(){
             return linb.getNodeData(this.renderId, 'element');
         },
@@ -6724,7 +6729,7 @@ type:4
                         if((o=children[i]).nodeType!=1)continue;
                         key=o.getAttribute('tpl_evkey');
                         id=o.getAttribute('tpl_evid');
-                        if(key && id){
+                        if(key!==null && id!==null){
                             v=linb.$registerNode(o);
                             v.tpl_evkey=key;
                             v.tpl_evid=id;
@@ -6738,9 +6743,9 @@ type:4
                                         v[k]=o[k]=f;
                                 }
                             }
+                            o.removeAttribute('tpl_evkey');
+                            o.removeAttribute('tpl_evid');
                         }
-                        o.removeAttribute('tpl_evkey');
-                        o.removeAttribute('tpl_evid');
                     }
                     if(!div.firstChild.$linbid)
                         linb.$registerNode(div.firstChild);
@@ -6801,7 +6806,10 @@ type:4
             this.setDomId(id);
         },
         toHtml:function(properties){
-            return this._doTemplate(properties||this.properties||{});
+            //must copy it for giving a default tpl_evkey
+            var p=_.copy(properties||this.properties||{});
+            p.tpl_evkey="root";
+            return this._doTemplate(p);
         },
         _reg1:/([^{}]*)\{([\w]+)\}([^{}]*)/g,
         _reg2:/\[event\]/g,
@@ -6810,7 +6818,7 @@ type:4
                 var obj=[[],[]],
                     a0=obj[0],
                     a1=obj[1];
-                str=str.replace(this._reg2,' tpl_evid={id} tpl_evkey={tpl_evkey} ');
+                str=str.replace(this._reg2,' tpl_evid="{id}" tpl_evkey="{tpl_evkey}" ');
                 str.replace(this._reg1,function(a,b,c,d){
                     if(b)a0[a0.length]=b;
                     a1[a0.length]=a0[a0.length]=c;
@@ -6827,7 +6835,7 @@ type:4
 
             var evs = this.events,
                 tpl_evkey = obj.tpl_evkey,
-                evg = tpl_evkey&&evs&&evs[tpl_evkey]||evs,
+                evg = (tpl_evkey&&evs&&evs[tpl_evkey])||evs,
                 ev = evg&&evg[name];
             if(ev)funs.push(ev);
         },
@@ -6931,6 +6939,11 @@ type:4
             _.breakO([self.properties, self.event, self], 2);
         },
         _reg0:/^\w[\w_-]*$/,
+        show:function(parent){
+            if(!parent)parent=linb('body');
+            parent=linb(parent);
+            parent.append(this);
+        },
         getRootNode:function(){
             return linb.getNodeData(this.renderId, 'element');
         },
@@ -7040,7 +7053,7 @@ type:4
                         if((o=children[i]).nodeType!=1)continue;
                         key=o.getAttribute('tpl_evkey');
                         id=o.getAttribute('tpl_evid');
-                        if(key && id){
+                        if(key!==null && id!==null){
                             v=linb.$registerNode(o);
                             v.tpl_evkey=key;
                             v.tpl_evid=id;
@@ -7054,9 +7067,9 @@ type:4
                                         v[k]=o[k]=f;
                                 }
                             }
+                            o.removeAttribute('tpl_evkey');
+                            o.removeAttribute('tpl_evid');
                         }
-                        o.removeAttribute('tpl_evkey');
-                        o.removeAttribute('tpl_evid');
                     }
                     if(!div.firstChild.$linbid)
                         linb.$registerNode(div.firstChild);
@@ -7117,7 +7130,10 @@ type:4
             this.setDomId(id);
         },
         toHtml:function(properties){
-            return this._doTemplate(properties||this.properties||{});
+            //must copy it for giving a default tpl_evkey
+            var p=_.copy(properties||this.properties||{});
+            p.tpl_evkey="root";
+            return this._doTemplate(p);
         },
         _reg1:/([^{}]*)\{([\w]+)\}([^{}]*)/g,
         _reg2:/\[event\]/g,
@@ -7126,7 +7142,7 @@ type:4
                 var obj=[[],[]],
                     a0=obj[0],
                     a1=obj[1];
-                str=str.replace(this._reg2,' tpl_evid={id} tpl_evkey={tpl_evkey} ');
+                str=str.replace(this._reg2,' tpl_evid="{id}" tpl_evkey="{tpl_evkey}" ');
                 str.replace(this._reg1,function(a,b,c,d){
                     if(b)a0[a0.length]=b;
                     a1[a0.length]=a0[a0.length]=c;
@@ -7143,7 +7159,7 @@ type:4
 
             var evs = this.events,
                 tpl_evkey = obj.tpl_evkey,
-                evg = tpl_evkey&&evs&&evs[tpl_evkey]||evs,
+                evg = (tpl_evkey&&evs&&evs[tpl_evkey])||evs,
                 ev = evg&&evg[name];
             if(ev)funs.push(ev);
         },
@@ -8604,7 +8620,7 @@ Class("linb.Tips", null,{
                     if(!pos)return;
 
                     var self=this,node,_ruler,s,w,h;
-                    if(!(node=self.node)){
+                    if(!(node=self.node) || !node.get(0)){
                         node = self.node = linb.create('<div class="linb-tips"><div class="linb-tips-i"></div></div>');
                         _ruler = self._ruler = linb.create('<div class="linb-tips" style="position:absolute;visibility:hidden;left:-10000px;"><div class="linb-tips-i" style="position:relative;"></div></div>');
                         self.n = node.first();
@@ -9235,8 +9251,12 @@ Class("linb.Tips", null,{
            var div, h, me=arguments.callee,
            stack=me.stack||(me.stack=[]),
            t=linb.win, left = t.scrollLeft() + t.width()/2 - width/2, height=t.height(), st=t.scrollTop();
+           
+           div=stack.pop();
+           while(div&&!div.get(0))
+                div=stack.pop();
 
-           if(!(div=stack.pop())){
+           if(!div){
                div =
                '<div class="uibg-bar uiborder-outset" style="font-size:0;line-height:0;border:solid 1px #cdcdcd;position:absolute;overflow:visible;top:-50px;z-index:'+linb.Dom.TOP_ZINDEX+'">' +
                '<div style="font-size:14px;overflow:hidden;font-weight:bold;padding:2px;"></div>'+
@@ -9247,7 +9267,7 @@ Class("linb.Tips", null,{
                linb('body').append(div);
             }
             div.css({left:left+'px', width:width+'px', visibility:'visible'})
-            .first().html(head||'')
+            .first().html(head||'').css('visibility',head?'visible':'hidden')
             .next().html(body||'');
 
             if(me.last && div!=me.last){
@@ -21052,14 +21072,14 @@ Class("linb.UI.Group", "linb.UI.Div",{
                         href :linb.$href,
                         tabindex:'{_tabindex}',
                         ICON:{
-                            $order:0,
+                            $order:10,
                             className:'ui-icon {imageClass}',
                             style:'{backgroundImage} {backgroundPosition} {imageDisplay}'
                         },
                         CAPTION:{
                             tagName : 'text',
                             text : '{caption}&nbsp;',
-                            $order:1
+                            $order:20
                         }
                     }
                 }
@@ -21230,7 +21250,7 @@ Class("linb.UI.Group", "linb.UI.Div",{
                 ini:'single',
                 listbox:['single','none','multi']
             },
-            noCtrlKey:false,
+            noCtrlKey:true,
             width:120,
             height:150,
             maxHeight:300
@@ -30629,7 +30649,7 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
             return _.merge(pro, profile.getRoot().cssRegion(), function(o,i){return pro[i]!='auto'});
         },
 
-        _adjust:function(dialog,caption, content){
+        _adjust:function(dialog,caption, content, left, top){
             caption = caption ||'';
             if(!content){
                 content = caption;
@@ -30672,7 +30692,7 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
             
             linb.UI.$doResize(dialog.get(0), w, h);
         },
-        alert:function(title, content, onOK){
+        alert:function(title, content, onClose, left, top){
             var me=arguments.callee, dialog;
             if(!(dialog=me.dialog) || (!dialog.get(0).renderId)){
                 dialog = me.dialog = new linb.UI.Dialog({
@@ -30685,8 +30705,8 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
                 },{
                     beforeClose:function(){
                         dialog.hide();
-                        _.tryF(me.onOK);
-                        me.onOK=null;
+                        _.tryF(me.onClose);
+                        me.onClose=null;
                         return false;
                     }
                 });
@@ -30705,7 +30725,8 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
                 {
                     onClick:function(){
                         dialog.hide();
-                        _.tryF(onOK);
+                        _.tryF(me.onClose);
+                        me.onClose=null;
                     }
                 });
                 cmd.append(btn);
@@ -30716,15 +30737,15 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
                 });
                 dialog.append(cmd).append(div).render();
             }
-            me.onOK=onOK;
+            me.onClose=onClose;
             linb.UI.Dialog._adjust(dialog,title, content);
-            dialog.show(linb('body'),true);
+            dialog.show(linb('body'),true, left, top);
             _.resetRun("dlg_focus:"+dialog.get(0).$linbid,function(){
                 dialog.$btn.activate();
             });
             return dialog;
         },
-        confirm:function(title, caption, onYes, onNo){
+        confirm:function(title, caption, onYes, onNo, left, top){
             var me=arguments.callee, dialog;
 
             if(!(dialog=me.dialog) || (!dialog.get(0).renderId)){
@@ -30788,7 +30809,7 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
             me.onYes=onYes;
             me.onNo=onNo;
             linb.UI.Dialog._adjust(dialog, title, caption);
-            dialog.show(linb('body'), true);
+            dialog.show(linb('body'), true, left, top);
             _.resetRun("dlg_focus:"+dialog.get(0).$linbid,function(){
                 dialog.$btn.activate();
             });
@@ -30806,13 +30827,14 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
 
             cmd = dialog.$cmd = new linb.UI.Div({
                 bottom:10,
-                width:60,
-                height:24
+                width:'auto',
+                height:24,
+                CS:'text-align:center;'
             })
             .append( dialog.$btn = new linb.UI.SButton({
                 caption: cmdStr || '$inline.ok',
                 tabindex:1,
-                width: 60
+                position:'relative'
             },
             {
                 onClick:function(){
@@ -30822,7 +30844,8 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
 
             div = dialog.$div = new linb.UI.Div({
                 left:10,
-                top:10
+                top:10,
+                width:80
             }).setCustomStyle({
                 KEY:'overflow:visible'
             });
@@ -30837,7 +30860,7 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
             });
             return dialog;
         },
-        prompt:function(title, caption, content, onYes, onNo){
+        prompt:function(title, caption, content, onYes, onNo, left, top){
             var dialog,
                 me=arguments.callee;
             if(!(dialog=me.dialog) || (!dialog.get(0).renderId)){
@@ -30914,7 +30937,7 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
             me.onYes=onYes;
             me.onNo=onNo;
 
-            dialog.show(linb('body'), true);
+            dialog.show(linb('body'), true, left, top);
             _.resetRun("dlg_focus:"+dialog.get(0).$linbid,function(){
                 me.$inp.activate();
             });
