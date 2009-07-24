@@ -3978,6 +3978,13 @@ _.set(linb.Locale,["cn","doc","linb","Template"], {
         renderId:{
             $desc:"String, 指示模板是否被渲染(生成了DOM)."
         },
+        show:{
+            $desc:"显示模板对象.",
+            $rtn:"[self]",
+            $paras:[
+                "parent [可选参数]: String/Element/linb.Dom 父DOM节点."
+            ]
+        },
         refresh:{
             $desc:"刷新模板.",
             $rtn:"[self]",
@@ -4393,7 +4400,7 @@ _.set(linb.Locale,["cn","doc","linb","Com"], {
             $desc:"显示Com对象.",
             $paras:[
                 "onEnd [Optiona] : Function. 回调函数，在Com对象成功显示后执行。",
-                "parent [可选参数] : 父DOM节点或linb.UI对象.",
+                "parent [可选参数] : String/Element/linb.Dom, 父DOM节点或linb.UI对象.",
                 "subId [可选参数] : String, 该参数在parent为linb.UI对象时有效。该子id. The sub id that Determines the [target] will be added to which sub DOM node. 该参数也可以设置成[false], that means the [target] will be appended to DOM only, no link created between the [target] UIProfiles and the parent UIProfile.",
                 "threadid [可选参数] : String, 内部线程id."
             ],

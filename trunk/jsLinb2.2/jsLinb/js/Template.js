@@ -39,6 +39,7 @@ Class('linb.Template','linb.absProfile',{
             if(!parent)parent=linb('body');
             parent=linb(parent);
             parent.append(this);
+            return this;
         },
         getRootNode:function(){
             return linb.getNodeData(this.renderId, 'element');

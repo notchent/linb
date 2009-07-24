@@ -6619,6 +6619,7 @@ type:4
             if(!parent)parent=linb('body');
             parent=linb(parent);
             parent.append(this);
+            return this;
         },
         getRootNode:function(){
             return linb.getNodeData(this.renderId, 'element');
@@ -6943,6 +6944,7 @@ type:4
             if(!parent)parent=linb('body');
             parent=linb(parent);
             parent.append(this);
+            return this;
         },
         getRootNode:function(){
             return linb.getNodeData(this.renderId, 'element');

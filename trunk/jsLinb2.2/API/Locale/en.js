@@ -3961,6 +3961,13 @@ _.set(linb.Locale,["en","doc","linb","Template"], {
         renderId:{
             $desc:"String, Indicates whether the template is rendered or not."
         },
+        show:{
+            $desc:"To show the template.",
+            $rtn:"[self]",
+            $paras:[
+                 "parent [Optional] : String/Element/linb.Dom the parent DOM node.",
+            ]
+        },
         refresh:{
             $desc:"To refresh the current tempalte.",
             $rtn:"[self]",
@@ -4366,7 +4373,7 @@ _.set(linb.Locale,["en","doc","linb","Com"], {
             $desc:"Shows the Com Object.",
             $paras:[
                 "onEnd [Optiona] : Function, the callback function, it will be executed once when the Com is created successfully.",
-                "parent [Optional] : the parent DOM node or linb.UI Object.",
+                "parent [Optional] : String/Element/linb.Dom, the parent DOM node or linb.UI Object.",
                 "subId [Optional] : String, this parameter valid when parent is linb.UI only. The sub id that Determines the [target] will be added to which sub DOM node. This parameter can be [false] too, that means the [target] will be appended to DOM only, no link created between the [target] UIProfiles and the parent UIProfile.",
                 "threadid [Optional] : String, the inner thread id."
             ],
