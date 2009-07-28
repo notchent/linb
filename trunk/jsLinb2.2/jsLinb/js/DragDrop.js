@@ -564,7 +564,7 @@ Class('linb.DragDrop',null,{
             _.resetRun('setDropFace', null);
             var d=this,p=d._profile,i=p.proxyNode,ic=d._Icons;
             if(i && p.dragType=='icon')
-                i.first(4).css('backgroundPosition', 'left ' + (ic[key]||ic.none));
+                i.first(4).css(typeof key=='object'?key:{backgroundPosition: 'left ' + (ic[key]||ic.none)});
             return d;
         },
         _setProxy:function(child, pos){
@@ -637,7 +637,7 @@ Class('linb.DragDrop',null,{
                     size.width =  _.isNumb(p.targetWidth)? p.targetWidth:(targetNode.cssSize().width||0);
                     size.height = _.isNumb(p.targetHeight)?p.targetHeight:(targetNode.cssSize().height||0);
                     var n=targetNode.clone(p.dragType=='deep_copy').id('', true).css({position:'relative',cursor:p.dragCursor,margin:0,'cssFloat':'none'}).cssSize(size);
-                    n.css('opacity',0.5);
+                    n.css('opacity',0.8);
                     if(p.targetCSS)
                         n.css(p.targetCSS);
                     n.cssPos({margin:'0',left:'0',top:'0'}).query().id('',true);
@@ -658,12 +658,14 @@ Class('linb.DragDrop',null,{
                 case 'icon':
                     pos.left=_.isNumb(p.targetLeft)?p.targetLeft:(mousePos.left - linb.win.scrollLeft() + 16);
                     pos.top=_.isNumb(p.targetTop)?p.targetTop:(mousePos.top - linb.win.scrollTop() + 16);
-                    t='<table border="0"><tr><td valign="top"><span style="background:url('+p.dragIcon+') no-repeat left top;width:'+(_.isNumb(p.targetWidth)?p.targetWidth:16)+'px;height:'+(_.isNumb(p.targetHeight)?p.targetHeight:16)+'px;" ></span></td><td id="linb:dd:shadow" '+(p.shadowFrom?'style="border:solid 1px #e5e5e5;font-size:12px;line-height:14px;"':'')+'>'+(p.shadowFrom?
+                    t='<table border="0"><tr><td valign="top"><span style="background:url('+p.dragIcon+') no-repeat left top;width:'+(_.isNumb(p.targetWidth)?p.targetWidth:16)+'px;height:'+(_.isNumb(p.targetHeight)?p.targetHeight:16)+'px;" ></span></td><td id="linb:dd:shadow" '+(p.shadowFrom?'style="border:solid 1px #e5e5e5;background:#fff;font-size:12px;line-height:14px;"':'')+'>'+(p.shadowFrom?
 
                     linb(p.shadowFrom).clone(true)
+                    .css({left:'auto',top:'auto', position:'relative'})
+                    .outerHTML().replace(/\s*id\=[^\s\>]*/g,''):'')
 
-                    .css({left:'auto',top:'auto',padding:0,margin:0}).outerHTML().replace(/\s*id\=[^\s\>]*/g,''):'')+'</td></tr></table>';
-                    target = d._setProxy(linb.create(t), pos);
+                    +'</td></tr></table>';
+                    target = d._setProxy(linb.create(t).css('opacity',0.8), pos);
                     break;
                 case 'move':
                     d.$proxySize=0;

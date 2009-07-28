@@ -399,7 +399,8 @@ _.merge(_,{
     isDate:function(target)  {return Object.prototype.toString.call(target)==='[object Date]'},
     isFun:function(target)   {return Object.prototype.toString.call(target)==='[object Function]'},
     isArr:function(target)   {return Object.prototype.toString.call(target)==='[object Array]'},
-    isHash:function(target)  {return !!target && typeof target == 'object' && Object.prototype.toString.call(target)==='[object Object]'},
+    //object in the current window only
+    isHash:function(target)  {return !!target && typeof target == 'object' && target.constructor == Object},
     isReg:function(target)   {return Object.prototype.toString.call(target)==='[object RegExp]'},
     isStr:function(target)   {return typeof target == "string"},
     isArguments:function(target)   {return !!(target && target.callee && target.callee.arguments===target)},
@@ -611,7 +612,7 @@ _.merge(Class, {
 
             //break function links
             for(i in t)
-                if(typeof t[i]=='function')
+                if(i!='upper' && typeof t[i]=='function')
                     for(j in t[i])
                         if(t[i].hasOwnProperty(j))
                             delete t[i][j];
@@ -619,7 +620,7 @@ _.merge(Class, {
 
             t=t.prototype;
             for(i in t)
-                if(typeof t[i]=='function')
+                if(i!='upper' && typeof t[i]=='function')
                     for(j in t[i])
                         if(t[i].hasOwnProperty(j))
                             delete t[i][j];
@@ -4699,13 +4700,15 @@ Class('linb.Dom','linb.absBox',{
         */
         clone:function(deep){
             return this.$sum(function(){
-                var n = this.cloneNode(deep?true:false);
-                if(linb.browser.ie){
-                    var children=n.getElementsByTagName('*'),
-                        i=0,o;
-                    n.removeAttribute('$linbid');
-                    for(;o=children[i];i++)
-                        o.removeAttribute('$linbid');
+                var n = this.cloneNode(deep?true:false),
+                    children=n.getElementsByTagName('*'),
+                    ie=linb.browser.ie,
+                    i=0,o;
+                if(ie) n.removeAttribute('$linbid');
+                else delete n.$linbid;
+                for(;o=children[i];i++){
+                    if(ie) o.removeAttribute('$linbid');
+                    else delete o.$linbid;
                 }
                 return n;
             },arguments);
@@ -4818,7 +4821,7 @@ Class('linb.Dom','linb.absBox',{
         for addPrev prepend addNext append
         */
         $add:function(fun,target,reversed){
-            if(typeof target=='string')
+            if(_.isHash(target) || _.isStr(target))
                 target=linb.create(target);
             if(reversed){
                 reversed=linb(target);
@@ -4971,17 +4974,11 @@ Class('linb.Dom','linb.absBox',{
                 return self;
             }else{
                 if(linb.browser.gek){
-                    var dom=linb.Dom, m = dom.getEmptyDiv(), n = dom.getEmptyDiv(2), np=n.parent(), p;
-                    //has parentNode, need keep node in this way
-                    if(p=o.parentNode)self.replace(n, false);
-                    //set to box
-                    m.append(o);
-                    //get string
-                    s = m.html();
-                    //set back
-                    if(p)n.replace(o, false);
-                    m.empty();
-                    np.prepend(n);
+                    var m = linb.$getGhostDiv();
+                    m.appendChild(self.get(0).cloneNode(true));
+                    s=m.innerHTML;
+                    m.innerHTML="";
+                    m=null;
                 }else{
                     s= o.outerHTML;
                 }
@@ -5062,7 +5059,7 @@ Class('linb.Dom','linb.absBox',{
                         if(iestyle)o.style.cssText=''+value;
                         else if(normal){
                              o[name]=value;
-                             if(o.nodeType==1 && typeof value=='string')o.setAttribute(name, value);
+                             if(o.nodeType==1 && name!="value" && typeof value=='string')o.setAttribute(name, value);
                         }else
                             o.setAttribute(name, value);
                     }
@@ -5982,7 +5979,7 @@ type:4
                 });
                 _.asyRun(function(){
                     if(!dom.$_ie.isEmpty()){
-                        dom.$_ie.css('wordWrap','normal');
+                        dom.$_ie.css('wordWrap','');
                         dom.$_ie._nodes.length=0;
                     }
                 });
@@ -8265,7 +8262,7 @@ Class('linb.DragDrop',null,{
             _.resetRun('setDropFace', null);
             var d=this,p=d._profile,i=p.proxyNode,ic=d._Icons;
             if(i && p.dragType=='icon')
-                i.first(4).css('backgroundPosition', 'left ' + (ic[key]||ic.none));
+                i.first(4).css(typeof key=='object'?key:{backgroundPosition: 'left ' + (ic[key]||ic.none)});
             return d;
         },
         _setProxy:function(child, pos){
@@ -8338,7 +8335,7 @@ Class('linb.DragDrop',null,{
                     size.width =  _.isNumb(p.targetWidth)? p.targetWidth:(targetNode.cssSize().width||0);
                     size.height = _.isNumb(p.targetHeight)?p.targetHeight:(targetNode.cssSize().height||0);
                     var n=targetNode.clone(p.dragType=='deep_copy').id('', true).css({position:'relative',cursor:p.dragCursor,margin:0,'cssFloat':'none'}).cssSize(size);
-                    n.css('opacity',0.5);
+                    n.css('opacity',0.8);
                     if(p.targetCSS)
                         n.css(p.targetCSS);
                     n.cssPos({margin:'0',left:'0',top:'0'}).query().id('',true);
@@ -8359,12 +8356,14 @@ Class('linb.DragDrop',null,{
                 case 'icon':
                     pos.left=_.isNumb(p.targetLeft)?p.targetLeft:(mousePos.left - linb.win.scrollLeft() + 16);
                     pos.top=_.isNumb(p.targetTop)?p.targetTop:(mousePos.top - linb.win.scrollTop() + 16);
-                    t='<table border="0"><tr><td valign="top"><span style="background:url('+p.dragIcon+') no-repeat left top;width:'+(_.isNumb(p.targetWidth)?p.targetWidth:16)+'px;height:'+(_.isNumb(p.targetHeight)?p.targetHeight:16)+'px;" ></span></td><td id="linb:dd:shadow" '+(p.shadowFrom?'style="border:solid 1px #e5e5e5;font-size:12px;line-height:14px;"':'')+'>'+(p.shadowFrom?
+                    t='<table border="0"><tr><td valign="top"><span style="background:url('+p.dragIcon+') no-repeat left top;width:'+(_.isNumb(p.targetWidth)?p.targetWidth:16)+'px;height:'+(_.isNumb(p.targetHeight)?p.targetHeight:16)+'px;" ></span></td><td id="linb:dd:shadow" '+(p.shadowFrom?'style="border:solid 1px #e5e5e5;background:#fff;font-size:12px;line-height:14px;"':'')+'>'+(p.shadowFrom?
 
                     linb(p.shadowFrom).clone(true)
+                    .css({left:'auto',top:'auto', position:'relative'})
+                    .outerHTML().replace(/\s*id\=[^\s\>]*/g,''):'')
 
-                    .css({left:'auto',top:'auto',padding:0,margin:0}).outerHTML().replace(/\s*id\=[^\s\>]*/g,''):'')+'</td></tr></table>';
-                    target = d._setProxy(linb.create(t), pos);
+                    +'</td></tr></table>';
+                    target = d._setProxy(linb.create(t).css('opacity',0.8), pos);
                     break;
                 case 'move':
                     d.$proxySize=0;
@@ -10563,9 +10562,11 @@ Class("linb.UI",  "linb.absObj", {
             });
         },
         append:function(target, subId){
+            if(_.isHash(target) || _.isStr(target))
+                target=linb.create(target);
             if(target['linb.UIProfile'])target=target.boxing();
             var pro=this.get(0),parentNode;
-            if(subId!==false){
+            if(subId!==false && target['linb.UI']){
                 target.each(function(profile){
                     profile.linkParent(pro,subId);
                 });
@@ -10598,18 +10599,20 @@ Class("linb.UI",  "linb.absObj", {
                 });
             });
         },
-        dragable:function(dragKey, dragData, key){
+        dragable:function(dragKey, dragData, key, options){
             return this.each(function(o){
                 o.getSubNode(o.keys[key] || 'KEY', true)
                 .beforeMousedown(dragKey?function(pro,e,src){
                     if(pro.properties.disabled)return;
-                    linb.use(src).startDrag(e, {
-                        dragKey:dragKey,
-                        dragData:typeof dragData == 'function'?dragData():dragData,
+                    options=options||{};
+                    options.dragKey=dragKey;
+                    options.dragData=typeof dragData == 'function'?dragData():dragData;
+                    _.merge(options,{
                         dragCursor:'pointer',
                         dragType:'icon',
                         dragDefer:1
                     });
+                    linb.use(src).startDrag(e, options);
                 }:null,'_d',-1)
                 .beforeDragbegin(dragKey?function(profile, e, src){
                     linb.use(src).onMouseout(true,{$force:true}).onMouseup(true);
@@ -12270,6 +12273,7 @@ Class("linb.UI",  "linb.absObj", {
                         key = pp.dragKey,
                         data = pp.dragData,
                         item, box, args;
+
                     //not include the dragkey
                     if(pp.dropElement==src){
                         box=profile.boxing();
@@ -12516,15 +12520,17 @@ Class("linb.UI",  "linb.absObj", {
                         profile._$resizetimer=_.asyRun(function(){
 //for performance checking
 //console.log('delay resize',profile.$rs_args);
-                            if(false!==linb.UI.$doResize.apply(null,profile.$rs_args)){
-                                var style=profile.getRootNode().style;
-                                //some control will set visible to recover the css class
-                                if(style.visibility!='visible')
-                                    style.visibility=profile._$v;
-                                delete profile.$rs_args;
-                                delete profile._$v;
-                                style=null;
-                            }
+                            //for refresh:
+                            if(profile && profile.$rs_args)
+                                if(false!==linb.UI.$doResize.apply(null,profile.$rs_args)){
+                                    var style=profile.getRootNode().style;
+                                    //some control will set visible to recover the css class
+                                    if(style.visibility!='visible')
+                                        style.visibility=profile._$v;
+                                    delete profile.$rs_args;
+                                    delete profile._$v;
+                                    style=null;
+                                }
                         });
                     }
                     //keep the last one, neglect zero and 'auto'
@@ -16704,9 +16710,8 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
                'font-size':'12px',
                position:'relative',
                overflow:'auto',
-               'white-space':'normal',
-               'overflow-y':(linb.browser.gek||linb.browser.ie)?'auto':'',
-               'overflow-x':(linb.browser.gek||linb.browser.ie)?'hidden':''
+               'overflow-y':'auto',
+               'overflow-x':'hidden'
             },
             ERROR:{
                 width:'16px',
@@ -16971,12 +16976,7 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
             multiLines:{
                 ini:false,
                 action: function(value){
-                    var str = this.getSubNode('INPUT').outerHTML();
-                    str = str.replace(/^(<)[a-zA-Z]+(\s)/i, '$1'+(value?'textarea':'input')+'$2');
-
-                    var v = this.boxing().getValue();
-                    this.getSubNode('INPUT').outerHTML(str);
-                    this.boxing().setUIValue(v);
+                    this.boxing().refresh();
                 }
             },
             tipsBinder:{
@@ -21287,7 +21287,7 @@ Class("linb.UI.Group", "linb.UI.Div",{
             var fid=data&&data.domId, tid=linb.use(src).id();
             if(fid){
                 if(fid==tid)return false;
-                if(_.get(src,['previousSibling','id'])==fid)return false;
+                if(_.get(linb.use(src).get(0),['previousSibling','id'])==fid)return false;
             }
         },
         _onDrop:function(profile, e, src, key, data, item){
@@ -28743,8 +28743,8 @@ sortby [for column only]
                 // for cells
                 if(row.group)
                     row.cells=null;
-                if(!row.hasOwnProperty('caption'))
-                    row.caption=''+(row.hasOwnProperty('value')?row.value:row.id);
+                if(!row.hasOwnProperty('caption') && row.hasOwnProperty('value'))
+                    row.caption=''+row.hasOwnProperty('value');
 
                 if(row.caption && !row.tips)
                     row._$tips=row.caption;

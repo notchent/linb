@@ -194,13 +194,15 @@ Class('linb.Dom','linb.absBox',{
         */
         clone:function(deep){
             return this.$sum(function(){
-                var n = this.cloneNode(deep?true:false);
-                if(linb.browser.ie){
-                    var children=n.getElementsByTagName('*'),
-                        i=0,o;
-                    n.removeAttribute('$linbid');
-                    for(;o=children[i];i++)
-                        o.removeAttribute('$linbid');
+                var n = this.cloneNode(deep?true:false),
+                    children=n.getElementsByTagName('*'),
+                    ie=linb.browser.ie,
+                    i=0,o;
+                if(ie) n.removeAttribute('$linbid');
+                else delete n.$linbid;
+                for(;o=children[i];i++){
+                    if(ie) o.removeAttribute('$linbid');
+                    else delete o.$linbid;
                 }
                 return n;
             },arguments);
@@ -313,7 +315,7 @@ Class('linb.Dom','linb.absBox',{
         for addPrev prepend addNext append
         */
         $add:function(fun,target,reversed){
-            if(typeof target=='string')
+            if(_.isHash(target) || _.isStr(target))
                 target=linb.create(target);
             if(reversed){
                 reversed=linb(target);
@@ -466,17 +468,11 @@ Class('linb.Dom','linb.absBox',{
                 return self;
             }else{
                 if(linb.browser.gek){
-                    var dom=linb.Dom, m = dom.getEmptyDiv(), n = dom.getEmptyDiv(2), np=n.parent(), p;
-                    //has parentNode, need keep node in this way
-                    if(p=o.parentNode)self.replace(n, false);
-                    //set to box
-                    m.append(o);
-                    //get string
-                    s = m.html();
-                    //set back
-                    if(p)n.replace(o, false);
-                    m.empty();
-                    np.prepend(n);
+                    var m = linb.$getGhostDiv();
+                    m.appendChild(self.get(0).cloneNode(true));
+                    s=m.innerHTML;
+                    m.innerHTML="";
+                    m=null;
                 }else{
                     s= o.outerHTML;
                 }
@@ -557,7 +553,7 @@ Class('linb.Dom','linb.absBox',{
                         if(iestyle)o.style.cssText=''+value;
                         else if(normal){
                              o[name]=value;
-                             if(o.nodeType==1 && typeof value=='string')o.setAttribute(name, value);
+                             if(o.nodeType==1 && name!="value" && typeof value=='string')o.setAttribute(name, value);
                         }else
                             o.setAttribute(name, value);
                     }
@@ -1477,7 +1473,7 @@ type:4
                 });
                 _.asyRun(function(){
                     if(!dom.$_ie.isEmpty()){
-                        dom.$_ie.css('wordWrap','normal');
+                        dom.$_ie.css('wordWrap','');
                         dom.$_ie._nodes.length=0;
                     }
                 });

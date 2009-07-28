@@ -6029,7 +6029,8 @@ _.set(linb.Locale,["en","doc","linb","UI"], {
             $paras:[
                 "dragKey [Optional] : String, the dragKey for linb.DragDrop.",
                 "dragData [Optional] : Object, the dragData for linb.DragDrop.",
-                "key [Optional] : String, a template key in UIProfile that will Determines which elements will be the target elements. Default is 'KEY'."
+                "key [Optional] : String, a template key in UIProfile that will Determines which elements will be the target elements. Default is 'KEY'.",
+                "options [Optional] : key/value Object. Go <strong>linb.DragDrop.startDrag</strong> for the profile struct detail."
             ],
             $snippet:[
                 "var id='linb.temp.ui5'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+

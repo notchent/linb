@@ -399,7 +399,8 @@ _.merge(_,{
     isDate:function(target)  {return Object.prototype.toString.call(target)==='[object Date]'},
     isFun:function(target)   {return Object.prototype.toString.call(target)==='[object Function]'},
     isArr:function(target)   {return Object.prototype.toString.call(target)==='[object Array]'},
-    isHash:function(target)  {return !!target && typeof target == 'object' && Object.prototype.toString.call(target)==='[object Object]'},
+    //object in the current window only
+    isHash:function(target)  {return !!target && typeof target == 'object' && target.constructor == Object},
     isReg:function(target)   {return Object.prototype.toString.call(target)==='[object RegExp]'},
     isStr:function(target)   {return typeof target == "string"},
     isArguments:function(target)   {return !!(target && target.callee && target.callee.arguments===target)},
@@ -611,7 +612,7 @@ _.merge(Class, {
 
             //break function links
             for(i in t)
-                if(typeof t[i]=='function')
+                if(i!='upper' && typeof t[i]=='function')
                     for(j in t[i])
                         if(t[i].hasOwnProperty(j))
                             delete t[i][j];
@@ -619,7 +620,7 @@ _.merge(Class, {
 
             t=t.prototype;
             for(i in t)
-                if(typeof t[i]=='function')
+                if(i!='upper' && typeof t[i]=='function')
                     for(j in t[i])
                         if(t[i].hasOwnProperty(j))
                             delete t[i][j];

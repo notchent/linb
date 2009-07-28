@@ -330,7 +330,7 @@ Class("linb.UI.List", ["linb.UI", "linb.absList","linb.absValue" ],{
             var fid=data&&data.domId, tid=linb.use(src).id();
             if(fid){
                 if(fid==tid)return false;
-                if(_.get(src,['previousSibling','id'])==fid)return false;
+                if(_.get(linb.use(src).get(0),['previousSibling','id'])==fid)return false;
             }
         },
         _onDrop:function(profile, e, src, key, data, item){

@@ -1271,9 +1271,11 @@ Class("linb.UI",  "linb.absObj", {
             });
         },
         append:function(target, subId){
+            if(_.isHash(target) || _.isStr(target))
+                target=linb.create(target);
             if(target['linb.UIProfile'])target=target.boxing();
             var pro=this.get(0),parentNode;
-            if(subId!==false){
+            if(subId!==false && target['linb.UI']){
                 target.each(function(profile){
                     profile.linkParent(pro,subId);
                 });
@@ -1306,18 +1308,20 @@ Class("linb.UI",  "linb.absObj", {
                 });
             });
         },
-        dragable:function(dragKey, dragData, key){
+        dragable:function(dragKey, dragData, key, options){
             return this.each(function(o){
                 o.getSubNode(o.keys[key] || 'KEY', true)
                 .beforeMousedown(dragKey?function(pro,e,src){
                     if(pro.properties.disabled)return;
-                    linb.use(src).startDrag(e, {
-                        dragKey:dragKey,
-                        dragData:typeof dragData == 'function'?dragData():dragData,
+                    options=options||{};
+                    options.dragKey=dragKey;
+                    options.dragData=typeof dragData == 'function'?dragData():dragData;
+                    _.merge(options,{
                         dragCursor:'pointer',
                         dragType:'icon',
                         dragDefer:1
                     });
+                    linb.use(src).startDrag(e, options);
                 }:null,'_d',-1)
                 .beforeDragbegin(dragKey?function(profile, e, src){
                     linb.use(src).onMouseout(true,{$force:true}).onMouseup(true);
@@ -2978,6 +2982,7 @@ Class("linb.UI",  "linb.absObj", {
                         key = pp.dragKey,
                         data = pp.dragData,
                         item, box, args;
+
                     //not include the dragkey
                     if(pp.dropElement==src){
                         box=profile.boxing();
@@ -3224,15 +3229,17 @@ Class("linb.UI",  "linb.absObj", {
                         profile._$resizetimer=_.asyRun(function(){
 //for performance checking
 //console.log('delay resize',profile.$rs_args);
-                            if(false!==linb.UI.$doResize.apply(null,profile.$rs_args)){
-                                var style=profile.getRootNode().style;
-                                //some control will set visible to recover the css class
-                                if(style.visibility!='visible')
-                                    style.visibility=profile._$v;
-                                delete profile.$rs_args;
-                                delete profile._$v;
-                                style=null;
-                            }
+                            //for refresh:
+                            if(profile && profile.$rs_args)
+                                if(false!==linb.UI.$doResize.apply(null,profile.$rs_args)){
+                                    var style=profile.getRootNode().style;
+                                    //some control will set visible to recover the css class
+                                    if(style.visibility!='visible')
+                                        style.visibility=profile._$v;
+                                    delete profile.$rs_args;
+                                    delete profile._$v;
+                                    style=null;
+                                }
                         });
                     }
                     //keep the last one, neglect zero and 'auto'

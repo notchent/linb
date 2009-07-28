@@ -6066,7 +6066,8 @@ _.set(linb.Locale,["cn","doc","linb","UI"], {
             $paras:[
                 "dragKey [可选参数] : String, 拖动时的标志键.",
                 "dragData [可选参数] : Object, 拖动时的数据.",
-                "key [可选参数] : String, 模板键，指示哪一个DOM节点回作为可拖拽的目标节点. 默认为 'KEY'."
+                "key [可选参数] : String, 模板键，指示哪一个DOM节点回作为可拖拽的目标节点. 默认为 'KEY'.",
+                "option [可选参数] : Object, 拖动参数，参见<strong>linb.DragDrop.startDrag</strong>中profile的具体内容."
             ],
             $snippet:[
                 "var id='linb.temp.ui5'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+

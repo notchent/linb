@@ -147,9 +147,8 @@ Class("linb.UI.Input", ["linb.UI.Widget","linb.absValue"] ,{
                'font-size':'12px',
                position:'relative',
                overflow:'auto',
-               'white-space':'normal',
-               'overflow-y':(linb.browser.gek||linb.browser.ie)?'auto':'',
-               'overflow-x':(linb.browser.gek||linb.browser.ie)?'hidden':''
+               'overflow-y':'auto',
+               'overflow-x':'hidden'
             },
             ERROR:{
                 width:'16px',
@@ -414,12 +413,7 @@ Class("linb.UI.Input", ["linb.UI.Widget","linb.absValue"] ,{
             multiLines:{
                 ini:false,
                 action: function(value){
-                    var str = this.getSubNode('INPUT').outerHTML();
-                    str = str.replace(/^(<)[a-zA-Z]+(\s)/i, '$1'+(value?'textarea':'input')+'$2');
-
-                    var v = this.boxing().getValue();
-                    this.getSubNode('INPUT').outerHTML(str);
-                    this.boxing().setUIValue(v);
+                    this.boxing().refresh();
                 }
             },
             tipsBinder:{

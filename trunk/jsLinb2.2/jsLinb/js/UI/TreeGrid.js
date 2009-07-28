@@ -2390,8 +2390,8 @@ sortby [for column only]
                 // for cells
                 if(row.group)
                     row.cells=null;
-                if(!row.hasOwnProperty('caption'))
-                    row.caption=''+(row.hasOwnProperty('value')?row.value:row.id);
+                if(!row.hasOwnProperty('caption') && row.hasOwnProperty('value'))
+                    row.caption=''+row.hasOwnProperty('value');
 
                 if(row.caption && !row.tips)
                     row._$tips=row.caption;

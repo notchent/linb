@@ -20,7 +20,7 @@ Class('App', 'linb.Com',{
                 .setWidth(256)
                 .setHeight(78)
                 .setDropKeys("iAny")
-                .onDrop("_panel2_ondrop")
+                .onDrop("__ondrop")
                 .setCustomStyle({"KEY":"border:solid 1px;"})
             );
             
@@ -49,7 +49,7 @@ Class('App', 'linb.Com',{
                 .setWidth(256)
                 .setHeight(78)
                 .setDropKeys("iAny")
-                .onDrop("_panel2_ondrop")
+                .onDrop("__ondrop")
                 .setCustomStyle({"KEY":"border:solid 1px;"})
             );
             
@@ -59,7 +59,7 @@ Class('App', 'linb.Com',{
                 .setTop(11)
                 .setWidth(121)
                 .setCaption("drag me")
-                .onRender("_label6_aftercreated")
+                .onRender("__onRender")
             );
             
             append((new linb.UI.Div)
@@ -87,7 +87,7 @@ Class('App', 'linb.Com',{
                 .setLeft(0)
                 .setTop(0)
                 .setDropKeys("iAny")
-                .onDrop("_panel2_ondrop")
+                .onDrop("__ondrop")
             );
             
             append((new linb.UI.Div)
@@ -106,7 +106,7 @@ Class('App', 'linb.Com',{
                 .setWidth(256)
                 .setCaption("Group1")
                 .setDropKeys("iAny")
-                .onDrop("_panel2_ondrop")
+                .onDrop("__ondrop")
             );
             
             append((new linb.UI.Tabs)
@@ -118,7 +118,7 @@ Class('App', 'linb.Com',{
                 .setWidth(256)
                 .setDropKeys("iAny")
                 .setValue("view1")
-                .onDrop("_panel2_ondrop")
+                .onDrop("__ondrop")
             );
             
             append((new linb.UI.Stacks)
@@ -130,7 +130,7 @@ Class('App', 'linb.Com',{
                 .setWidth(256)
                 .setDropKeys("iAny")
                 .setValue("view2")
-                .onDrop("_panel2_ondrop")
+                .onDrop("__ondrop")
             );
             
             append((new linb.UI.Div)
@@ -159,21 +159,21 @@ Class('App', 'linb.Com',{
                 .setHeight(88)
                 .setBorder(true)
                 .setDropKeys("iAny")
-                .onDrop("_panel2_ondrop")
+                .onDrop("__ondrop")
             );
             
             return children;
             // ]]code created by jsLinb UI Builder
         }, 
-        _panel2_ondrop:function (profile, e, node, key, data, item) {
+        __ondrop:function (profile, e, node, key, data, item) {
             var dd = linb.DragDrop.getProfile(), data = dd.dragData;
             if(data){
                 var label=linb.getObject(data);
                 profile.boxing().append(label.boxing(), item?item.id:'');
             }
         }, 
-        _label6_aftercreated:function (profile) {
-            profile.boxing().dragable('iAny',profile.$linbid);
+        __onRender:function (profile) {
+            profile.boxing().dragable('iAny',profile.$linbid,null,{shadowFrom:profile.getRoot()});
         }
     }
 });

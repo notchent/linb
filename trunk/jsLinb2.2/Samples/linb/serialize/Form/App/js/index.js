@@ -199,8 +199,12 @@ Class('App', 'linb.Com',{
                 strA.push('</tr>');
             }
             strA.push('</table>');
-            parent.html(strA.join(''));
+            var div=linb.Dom.getEmptyDiv();
+            div.html(strA.join(''));
             nodes.render(true);
+            parent.html('',true);
+            parent.append(div.first());
+
             ns.length=nodes.length=strA.length=0;
         }
     }
