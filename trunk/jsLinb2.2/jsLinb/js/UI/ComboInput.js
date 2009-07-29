@@ -185,7 +185,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                                 if(type=='combobox'){
                                     var item=p.queryItems(p.properties.items,function(o){return o.id==value},false,true);
                                     if(item.length)
-                                        value = item[0].caption;
+                                        value = item[0][0].caption;
                                 }
                                 //update value
                                 b2.setUIValue(value)
@@ -390,6 +390,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                 'z-index':'1',
                 cursor:'pointer',
                 width:'16px',
+                height:'20px',
                 'font-size':0,
                 'line-height':0,
                 position:'relative',

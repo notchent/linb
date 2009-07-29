@@ -320,6 +320,8 @@ Class("linb.DataBinder","linb.absObj",{
 
             //set anti-links
             profile.link(c._cache,'self').link(linb._pool,'linb');
+            
+            if(!profile.name)profile.boxing().setName(alias);
 
             self._nodes.push(profile);
             return self;
@@ -404,8 +406,10 @@ Class("linb.DataBinder","linb.absObj",{
                             _p=c._pool,
                             to=_p[ov],
                             t=_p[value];
-                        if(to && t)
-                            throw new Error(value+' exists!');
+                        
+                        //if it exitst, overwrite it dir
+                        //if(to && t)
+                        //    throw new Error(value+' exists!');
 
                         _p[o.properties.name=value]=o;
                         //modify name
@@ -1583,7 +1587,7 @@ Class("linb.UI",  "linb.absObj", {
                 padding:0
             },
             '.ui-btnc a':{
-                padding:'0 4px 1px 4px'
+                padding:'0 4px'
             },
             '.ui-btni':{
                 $order:1,
@@ -4331,6 +4335,11 @@ new function(){
             Templates:{
                 style:'{_style}text-align:{hAlign}',
                 text:'{caption}'
+            },
+            Appearances:{
+                KEY:{
+                   'padding-right':'6px'
+                }
             },
             DataModel:{
                 tabindex:null,

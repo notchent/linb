@@ -68,8 +68,8 @@ Class("linb.UI.TextEditor", ["linb.UI.Widget","linb.absValue"] ,{
                 margin:0,
                 padding:0,
                 overflow:'auto',
-                'overflow-y':(linb.browser.gek||linb.browser.ie)?'auto':'',
-                'overflow-x':(linb.browser.gek||linb.browser.ie)?'hidden':''
+                'overflow-y':'auto',
+                'overflow-x':'hidden'
             },
             'BAK1, BAK2':{
                 'font-family': 'Courier New, Courier, monospace',
@@ -1518,7 +1518,7 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
             self.boxing().iniContent();
         },
         _onDropMarkShow:function(){linb.DragDrop.setDragIcon('add');return false},
-        _onDropMarkClear:function(){linb.DragDrop.setDragIcon();return false},
+        _onDropMarkClear:function(){linb.DragDrop.setDragIcon('none');return false},
         _onDragEnter:function(profile,e,src){
             var t=profile.properties,
                 ep=linb.Event.getPos(e),

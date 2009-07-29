@@ -1121,7 +1121,7 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
             self.boxing().iniContent();
         },
         _onDropMarkShow:function(){linb.DragDrop.setDragIcon('add');return false},
-        _onDropMarkClear:function(){linb.DragDrop.setDragIcon();return false},
+        _onDropMarkClear:function(){linb.DragDrop.setDragIcon('none');return false},
         _onDragEnter:function(profile,e,src){
             var t=profile.properties,
                 ep=linb.Event.getPos(e),

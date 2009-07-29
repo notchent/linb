@@ -138,6 +138,7 @@ Class("linb.UI.Input", ["linb.UI.Widget","linb.absValue"] ,{
             INPUT:{
                //don't change it in custom class or style
                'padding-top':'2px',
+               'padding-left':'2px',
 
                'background-color':'#fff',
                border:0,
@@ -146,6 +147,9 @@ Class("linb.UI.Input", ["linb.UI.Widget","linb.absValue"] ,{
                'margin-top':linb.browser.ie?'-1px':null,
                'font-size':'12px',
                position:'relative',
+               //give default size
+               width:'102px',
+
                overflow:'auto',
                'overflow-y':'auto',
                'overflow-x':'hidden'
@@ -628,7 +632,8 @@ Class("linb.UI.Input", ["linb.UI.Widget","linb.absValue"] ,{
         },
         _onresize:function(profile,width,height){
                 var $hborder=1, $vborder=1,
-                    toff=linb.UI.$getCSSValue('linb-input-input','paddingTop');
+                    toff=linb.UI.$getCSSValue('linb-input-input','paddingTop'),
+                    loff=linb.UI.$getCSSValue('linb-input-input','paddingTop');
 
                 var t = profile.properties,
                     o = profile.getSubNode('BOX'),
@@ -655,7 +660,7 @@ Class("linb.UI.Input", ["linb.UI.Widget","linb.absValue"] ,{
                 region={left:left,top:top,width:ww,height:hh};
                 o.cssRegion(region);   
                 if(ww||hh)
-                    v1.cssSize({width:ww,height:hh?(hh-toff):null});
+                    v1.cssSize({width:ww?(ww-loff):null,height:hh?(hh-toff):null});
 
                 /*for ie6 bug*/
                 if((profile.$border||profile.$shadow||profile.$resizer) && linb.browser.ie)o.ieRemedy();

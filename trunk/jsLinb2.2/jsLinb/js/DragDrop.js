@@ -149,7 +149,7 @@ Class('linb.DragDrop',null,{
         _id:"linb.dd:proxy:",
         _idi:"linb.dd:td:",
         _type:{blank:1,move:1,shape:1,deep_copy:1,copy:1,icon:1,none:1},
-        _Icons:{none:'top', move:'-16px', link:'-32px',add:'-48px'},
+        _Icons:{none:'0 0', move:'0 -16px', link:'0 -32px',add:'0 -48px'},
         _profile:{},
 
         //get left for cssPos
@@ -430,8 +430,9 @@ Class('linb.DragDrop',null,{
 
            //try{
                 e = e || window.event;
-                //set _stop or in IE, show alert
-                if((!p.isWorking) || d._stop || (linb.browser.ie && (!e.button) )){
+                //set _stop or (in IE, show alert)
+                if(!p.isWorking || d._stop){
+                //if(!p.isWorking || d._stop || (linb.browser.ie && (!e.button) )){
                     d.$onDrop(e);
                     return true;
                 }
@@ -564,7 +565,7 @@ Class('linb.DragDrop',null,{
             _.resetRun('setDropFace', null);
             var d=this,p=d._profile,i=p.proxyNode,ic=d._Icons;
             if(i && p.dragType=='icon')
-                i.first(4).css(typeof key=='object'?key:{backgroundPosition: 'left ' + (ic[key]||ic.none)});
+                i.first(4).css(typeof key=='object'?key:{backgroundPosition: (ic[key]||key)});
             return d;
         },
         _setProxy:function(child, pos){
@@ -636,8 +637,13 @@ Class('linb.DragDrop',null,{
                    var t;
                     size.width =  _.isNumb(p.targetWidth)? p.targetWidth:(targetNode.cssSize().width||0);
                     size.height = _.isNumb(p.targetHeight)?p.targetHeight:(targetNode.cssSize().height||0);
-                    var n=targetNode.clone(p.dragType=='deep_copy').id('', true).css({position:'relative',cursor:p.dragCursor,margin:0,'cssFloat':'none'}).cssSize(size);
-                    n.css('opacity',0.8);
+                    var n=targetNode.clone(p.dragType=='deep_copy')
+                        .css({position:'relative',cursor:p.dragCursor,margin:0,'cssFloat':'none'})
+                        .cssSize(size)
+                        .id('',true)
+                        .css('opacity',0.8);
+
+                    n.query('*').id('',true);
                     if(p.targetCSS)
                         n.css(p.targetCSS);
                     n.cssPos({margin:'0',left:'0',top:'0'}).query().id('',true);

@@ -273,7 +273,7 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
                 $order:2,
                 'border-top': 'none',
                 'border-bottom': 'none',
-                padding:'5px 0',
+                padding:'5px 4px',
                 height:'18px',
                 background: linb.UI.$bg('bar_vertical.gif','repeat-x left -380px', true)
             },

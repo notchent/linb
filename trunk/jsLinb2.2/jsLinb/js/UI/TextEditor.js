@@ -68,8 +68,8 @@ Class("linb.UI.TextEditor", ["linb.UI.Widget","linb.absValue"] ,{
                 margin:0,
                 padding:0,
                 overflow:'auto',
-                'overflow-y':(linb.browser.gek||linb.browser.ie)?'auto':'',
-                'overflow-x':(linb.browser.gek||linb.browser.ie)?'hidden':''
+                'overflow-y':'auto',
+                'overflow-x':'hidden'
             },
             'BAK1, BAK2':{
                 'font-family': 'Courier New, Courier, monospace',

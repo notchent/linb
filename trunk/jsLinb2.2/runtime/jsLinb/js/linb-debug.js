@@ -202,9 +202,11 @@ _.merge(_,{
             }
             path=path[last];
         }
-        if(value===undefined)
-            delete hash[path];
-        else
+        if(value===undefined){
+            if(hash.hasOwnProperty && hash.hasOwnProperty(path))
+                delete hash[path];
+            else hash[path]=undefined;
+        }else
             return hash[path]=value;
     },
     /* try to excute a function
@@ -594,7 +596,7 @@ _.merge(Class, {
         var t = _.get(window, key.split('.')),s,i,j;
         if(t){
             //remove from SC cache
-            if(s=_.get(window,['linb','cache','SC']))delete s[key];
+            if(s=_.get(window,['linb','$cache','SC']))delete s[key];
 
             //remove parent link
             if(t.$parent)
@@ -615,7 +617,7 @@ _.merge(Class, {
                 if(i!='upper' && typeof t[i]=='function')
                     for(j in t[i])
                         if(t[i].hasOwnProperty(j))
-                            delete t[i][j];
+                           delete t[i][j];
             _.breakO(t);
 
             t=t.prototype;
@@ -7847,7 +7849,7 @@ Class('linb.DragDrop',null,{
         _id:"linb.dd:proxy:",
         _idi:"linb.dd:td:",
         _type:{blank:1,move:1,shape:1,deep_copy:1,copy:1,icon:1,none:1},
-        _Icons:{none:'top', move:'-16px', link:'-32px',add:'-48px'},
+        _Icons:{none:'0 0', move:'0 -16px', link:'0 -32px',add:'0 -48px'},
         _profile:{},
 
         //get left for cssPos
@@ -8128,8 +8130,9 @@ Class('linb.DragDrop',null,{
 
            //try{
                 e = e || window.event;
-                //set _stop or in IE, show alert
-                if((!p.isWorking) || d._stop || (linb.browser.ie && (!e.button) )){
+                //set _stop or (in IE, show alert)
+                if(!p.isWorking || d._stop){
+                //if(!p.isWorking || d._stop || (linb.browser.ie && (!e.button) )){
                     d.$onDrop(e);
                     return true;
                 }
@@ -8262,7 +8265,7 @@ Class('linb.DragDrop',null,{
             _.resetRun('setDropFace', null);
             var d=this,p=d._profile,i=p.proxyNode,ic=d._Icons;
             if(i && p.dragType=='icon')
-                i.first(4).css(typeof key=='object'?key:{backgroundPosition: 'left ' + (ic[key]||ic.none)});
+                i.first(4).css(typeof key=='object'?key:{backgroundPosition: (ic[key]||key)});
             return d;
         },
         _setProxy:function(child, pos){
@@ -8334,8 +8337,13 @@ Class('linb.DragDrop',null,{
                    var t;
                     size.width =  _.isNumb(p.targetWidth)? p.targetWidth:(targetNode.cssSize().width||0);
                     size.height = _.isNumb(p.targetHeight)?p.targetHeight:(targetNode.cssSize().height||0);
-                    var n=targetNode.clone(p.dragType=='deep_copy').id('', true).css({position:'relative',cursor:p.dragCursor,margin:0,'cssFloat':'none'}).cssSize(size);
-                    n.css('opacity',0.8);
+                    var n=targetNode.clone(p.dragType=='deep_copy')
+                        .css({position:'relative',cursor:p.dragCursor,margin:0,'cssFloat':'none'})
+                        .cssSize(size)
+                        .id('',true)
+                        .css('opacity',0.8);
+
+                    n.query('*').id('',true);
                     if(p.targetCSS)
                         n.css(p.targetCSS);
                     n.cssPos({margin:'0',left:'0',top:'0'}).query().id('',true);
@@ -9611,6 +9619,8 @@ Class("linb.DataBinder","linb.absObj",{
 
             //set anti-links
             profile.link(c._cache,'self').link(linb._pool,'linb');
+            
+            if(!profile.name)profile.boxing().setName(alias);
 
             self._nodes.push(profile);
             return self;
@@ -9695,8 +9705,10 @@ Class("linb.DataBinder","linb.absObj",{
                             _p=c._pool,
                             to=_p[ov],
                             t=_p[value];
-                        if(to && t)
-                            throw new Error(value+' exists!');
+                        
+                        //if it exitst, overwrite it dir
+                        //if(to && t)
+                        //    throw new Error(value+' exists!');
 
                         _p[o.properties.name=value]=o;
                         //modify name
@@ -10874,7 +10886,7 @@ Class("linb.UI",  "linb.absObj", {
                 padding:0
             },
             '.ui-btnc a':{
-                padding:'0 4px 1px 4px'
+                padding:'0 4px'
             },
             '.ui-btni':{
                 $order:1,
@@ -13622,6 +13634,11 @@ new function(){
             Templates:{
                 style:'{_style}text-align:{hAlign}',
                 text:'{caption}'
+            },
+            Appearances:{
+                KEY:{
+                   'padding-right':'6px'
+                }
             },
             DataModel:{
                 tabindex:null,
@@ -16701,6 +16718,7 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
             INPUT:{
                //don't change it in custom class or style
                'padding-top':'2px',
+               'padding-left':'2px',
 
                'background-color':'#fff',
                border:0,
@@ -16709,6 +16727,9 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
                'margin-top':linb.browser.ie?'-1px':null,
                'font-size':'12px',
                position:'relative',
+               //give default size
+               width:'102px',
+
                overflow:'auto',
                'overflow-y':'auto',
                'overflow-x':'hidden'
@@ -17191,7 +17212,8 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
         },
         _onresize:function(profile,width,height){
                 var $hborder=1, $vborder=1,
-                    toff=linb.UI.$getCSSValue('linb-input-input','paddingTop');
+                    toff=linb.UI.$getCSSValue('linb-input-input','paddingTop'),
+                    loff=linb.UI.$getCSSValue('linb-input-input','paddingTop');
 
                 var t = profile.properties,
                     o = profile.getSubNode('BOX'),
@@ -17218,7 +17240,7 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
                 region={left:left,top:top,width:ww,height:hh};
                 o.cssRegion(region);   
                 if(ww||hh)
-                    v1.cssSize({width:ww,height:hh?(hh-toff):null});
+                    v1.cssSize({width:ww?(ww-loff):null,height:hh?(hh-toff):null});
 
                 /*for ie6 bug*/
                 if((profile.$border||profile.$shadow||profile.$resizer) && linb.browser.ie)o.ieRemedy();
@@ -17990,7 +18012,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                                 if(type=='combobox'){
                                     var item=p.queryItems(p.properties.items,function(o){return o.id==value},false,true);
                                     if(item.length)
-                                        value = item[0].caption;
+                                        value = item[0][0].caption;
                                 }
                                 //update value
                                 b2.setUIValue(value)
@@ -18195,6 +18217,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                 'z-index':'1',
                 cursor:'pointer',
                 width:'16px',
+                height:'20px',
                 'font-size':0,
                 'line-height':0,
                 position:'relative',
@@ -23753,7 +23776,7 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
                 $order:2,
                 'border-top': 'none',
                 'border-bottom': 'none',
-                padding:'5px 0',
+                padding:'5px 4px',
                 height:'18px',
                 background: linb.UI.$bg('bar_vertical.gif','repeat-x left -380px', true)
             },
@@ -27309,6 +27332,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
             ROW:{
                 position:'relative',
                 zoom:linb.browser.ie?1:null,
+                width:linb.browser.ie?'100%':null,
                 'border-top': '1px solid #A2BBD9',
                 'font-size':0,
                 'line-height':0
@@ -27803,7 +27827,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
 
 
                     //reposition header dom node
-                    profile.getSubNode('HCELL', toId).addPrev(linb.DragDrop.getProfile().dragData);
+                    profile.getSubNode('HCELL', toId).addPrev(linb(linb.DragDrop.getProfile().dragData));
                     //reposition cell dom nodes
                     _.each(toTh._cells, function(o,i){
                         profile.getSubNode('CELL',o).addPrev(profile.getSubNode('CELL',fromTh._cells[i]));
@@ -28744,7 +28768,7 @@ sortby [for column only]
                 if(row.group)
                     row.cells=null;
                 if(!row.hasOwnProperty('caption') && row.hasOwnProperty('value'))
-                    row.caption=''+row.hasOwnProperty('value');
+                    row.caption=''+row.value;
 
                 if(row.caption && !row.tips)
                     row._$tips=row.caption;

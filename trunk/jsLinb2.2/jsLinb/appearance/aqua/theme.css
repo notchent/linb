@@ -375,7 +375,7 @@ html, .uibg-base{
 .linb-treebar-bar-group{
     background-image: url(Public/bar_vertical.gif);
     height:14px;
-    padding:2px 0 8px 0;
+    padding:2px 4px 8px;
 }
 .linb-treebar-checked{
     background-image: url(Public/icons.gif);

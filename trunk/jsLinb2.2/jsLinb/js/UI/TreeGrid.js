@@ -956,6 +956,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
             ROW:{
                 position:'relative',
                 zoom:linb.browser.ie?1:null,
+                width:linb.browser.ie?'100%':null,
                 'border-top': '1px solid #A2BBD9',
                 'font-size':0,
                 'line-height':0
@@ -1450,7 +1451,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
 
 
                     //reposition header dom node
-                    profile.getSubNode('HCELL', toId).addPrev(linb.DragDrop.getProfile().dragData);
+                    profile.getSubNode('HCELL', toId).addPrev(linb(linb.DragDrop.getProfile().dragData));
                     //reposition cell dom nodes
                     _.each(toTh._cells, function(o,i){
                         profile.getSubNode('CELL',o).addPrev(profile.getSubNode('CELL',fromTh._cells[i]));
@@ -2391,7 +2392,7 @@ sortby [for column only]
                 if(row.group)
                     row.cells=null;
                 if(!row.hasOwnProperty('caption') && row.hasOwnProperty('value'))
-                    row.caption=''+row.hasOwnProperty('value');
+                    row.caption=''+row.value;
 
                 if(row.caption && !row.tips)
                     row._$tips=row.caption;

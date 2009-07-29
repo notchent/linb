@@ -202,9 +202,11 @@ _.merge(_,{
             }
             path=path[last];
         }
-        if(value===undefined)
-            delete hash[path];
-        else
+        if(value===undefined){
+            if(hash.hasOwnProperty && hash.hasOwnProperty(path))
+                delete hash[path];
+            else hash[path]=undefined;
+        }else
             return hash[path]=value;
     },
     /* try to excute a function
@@ -594,7 +596,7 @@ _.merge(Class, {
         var t = _.get(window, key.split('.')),s,i,j;
         if(t){
             //remove from SC cache
-            if(s=_.get(window,['linb','cache','SC']))delete s[key];
+            if(s=_.get(window,['linb','$cache','SC']))delete s[key];
 
             //remove parent link
             if(t.$parent)
@@ -615,7 +617,7 @@ _.merge(Class, {
                 if(i!='upper' && typeof t[i]=='function')
                     for(j in t[i])
                         if(t[i].hasOwnProperty(j))
-                            delete t[i][j];
+                           delete t[i][j];
             _.breakO(t);
 
             t=t.prototype;

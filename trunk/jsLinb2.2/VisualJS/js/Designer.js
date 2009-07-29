@@ -1218,7 +1218,7 @@ Class('VisualJS.Designer', 'linb.Com',{
                     uis = pro.boxing();
                     var rows=[
                             {id:'key',  caption:'class', cells:[{value: pro.key, type:'label'}] },
-                            {id:'alias',tipk:'fun',tipv:'alias', caption:'alias', cells:[{value:pro.alias, type:'label'}] },
+                            {id:'alias',tipk:'fun',tipv:'alias', caption:'alias', cells:[{value:pro.alias, type:'input'}] },
                             {id:'properties',  group:true, caption:'properties', sub:true},
                             {id:'UIE', group:true, caption:'events', sub:true}
                     ];
