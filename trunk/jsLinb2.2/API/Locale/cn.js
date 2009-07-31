@@ -6903,7 +6903,7 @@ _.set(linb.Locale,["cn","doc","linb","UI"], {
             ],
             $snippet:[
                 "var id='linb.temp.b3-c'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
-                "var btn=new linb.UI.Button({dock:'fill'}); var pane= new linb.UI.Pane;"+
+                "var btn=new linb.UI.Button({dock:'fill'}); var pane= new linb.UI.Pane({position:'relative'});"+
                 "btn.onDock(function(profile,region){linb.message('onDock:'+_.serialize(region))});"+
                 "linb(id).prepend(pane.append(btn));"+
                 "_.asyRun(function(){pane.setWidth(50).setHeight(50)},1000);"+
@@ -6927,7 +6927,7 @@ _.set(linb.Locale,["cn","doc","linb","UI"], {
                 "}"
             ]
         },
-        onPropertyChanged:{
+        afterPropertyChanged:{
             $desc:"当控件的某个属性被改变前出发,返回false可以阻止这个属性被改变。",
             $paras:[
                 "profile : linb.UIProfile.",
@@ -6938,9 +6938,73 @@ _.set(linb.Locale,["cn","doc","linb","UI"], {
             $snippet:[
                 "var id='linb.temp.b3-e'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var btn=new linb.UI.Button;"+
-                "btn.onPropertyChanged(function(profile,name,v,ov){linb.message(name+':'+ov+'->'+v)});"+
+                "btn.afterPropertyChanged(function(profile,name,v,ov){linb.message(name+':'+ov+'->'+v)});"+
                 "linb(id).prepend(btn);"+
                 "_.asyRun(function(){btn.setCaption('updated')},1000);"+
+                "}"
+            ]
+        },
+        beforeAppend:{
+            $desc:"当向控件添加子控件前触发，返回false可以阻止该动作。",
+            $paras:[
+                "profile : linb.UIProfile.",
+                "child : linb.UI, 添加的子控件."
+            ],
+            $snippet:[
+                "var id='linb.temp.b3-f'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var btn=new linb.UI.Button(); var pane= new linb.UI.Pane({position:'relative'});"+
+                "pane.beforeAppend(function(){return false;});"+
+                "linb(id).prepend(pane);"+
+                "_.asyRun(function(){pane.append(btn)},1000);"+
+                "}"
+            ]
+        },
+        afterAppend:{
+            $desc:"当向控件添加子控件后触发。",
+            $paras:[
+                "profile : linb.UIProfile.",
+                "child : linb.UI, 添加的子控件."
+            ],
+            $snippet:[
+                "var id='linb.temp.b3-g'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var btn=new linb.UI.Button(); var pane=new linb.UI.Pane({position:'relative'});"+
+                "pane.afterAppend(function(p,c){linb.message(c.alias() + ' was added')});"+
+                "linb(id).prepend(pane);"+
+                "_.asyRun(function(){pane.append(btn)},1000);"+
+                "}"
+            ]
+        },
+        beforeRemove:{
+            $desc:"当从控件中移除子控件前触发，返回false可以阻止该动作。",
+            $paras:[
+                "profile : linb.UIProfile.",
+                "child : linb.UIProfile, 移除的子控件.",
+                "subId : String, 子控件在父控件的容器标识",
+                "bdestroy : Boolean, 是否在移除后被销毁"
+            ],
+            $snippet:[
+                "var id='linb.temp.b3-h'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var btn=new linb.UI.Button(); var pane=new linb.UI.Pane({position:'relative'});"+
+                "pane.beforeRemove(function(){return false;});"+
+                "linb(id).prepend(pane.append(btn));"+
+                "_.asyRun(function(){pane.removeChildren(btn,true)},1000);"+
+                "}"
+            ]
+        },
+        afterRemove:{
+            $desc:"当从控件中移除子控件后触发。",
+            $paras:[
+                "profile : linb.UIProfile.",
+                "child : linb.UIProfile, 移除的子控件.",
+                "subId : String, 子控件在父控件的容器标识",
+                "bdestroy : Boolean, 是否在移除后被销毁"
+            ],
+            $snippet:[
+                "var id='linb.temp.b3-j'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var btn=new linb.UI.Button(); var pane=new linb.UI.Pane({position:'relative'});"+
+                "pane.afterRemove(function(p,c){linb.message(c.alias+' was removed!');});"+
+                "linb(id).prepend(pane.append(btn));"+
+                "_.asyRun(function(){pane.removeChildren(btn,true)},1000);"+
                 "}"
             ]
         },

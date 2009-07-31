@@ -9507,8 +9507,8 @@ Class('linb.absObj',"linb.absBox",{
                                     v.properties[i] = ovalue;
                             }
 
-                            if(v.onPropertyChanged)
-                                v.boxing().onPropertyChanged(v,i,value,ovalue);
+                            if(v.afterPropertyChanged)
+                                v.boxing().afterPropertyChanged(v,i,value,ovalue);
                         });
                     },n,self.KEY);
                     delete o.set;
@@ -10589,6 +10589,10 @@ Class("linb.UI",  "linb.absObj", {
                 target=linb.create(target);
             if(target['linb.UIProfile'])target=target.boxing();
             var pro=this.get(0),parentNode;
+
+            if(pro.beforeAppend && false===this.beforeAppend(pro,target))
+                return;
+            
             if(subId!==false && target['linb.UI']){
                 target.each(function(profile){
                     profile.linkParent(pro,subId);
@@ -10600,6 +10604,8 @@ Class("linb.UI",  "linb.absObj", {
                 if(!parentNode.isEmpty())
                     parentNode.append(target);
             }
+            if(pro.afterAppend)
+                this.afterAppend(pro,target);
             return this;
         },
         getChildren:function(subId){
@@ -10614,11 +10620,17 @@ Class("linb.UI",  "linb.absObj", {
             return this.each(function(o){
                 var c=_.copy(o.children);
                 _.arr.each(c,function(v){
-                    if(subId?(v[1]==subId):1){
+                    if(subId?typeof subId=='string'?(v[1]==subId):(v[0]==(subId["linb.UI"]?subId.get(0):subId)):1){
+                        if(o.beforeRemove && false===o.boxing().beforeRemove(o,v[0],v[1],bDestroy))
+                            return;
+
                         v[0].unlinkParent();
+
+                        if(o.afterRemove)
+                            o.boxing().afterRemove(o,v[0],v[1],bDestroy);
+
                         if(bDestroy)
-                            v[0].boxing().destroy();
-                    }
+                            v[0].boxing().destroy();                    }
                 });
             });
         },
@@ -12501,7 +12513,11 @@ Class("linb.UI",  "linb.absObj", {
             onMove:function(profile,left,top,right,bottom){},
             onDock:function(profile,region){},
             beforePropertyChanged:function(profile,name,value,ovalue){},
-            onPropertyChanged:function(profile,name,value,ovalue){},
+            afterPropertyChanged:function(profile,name,value,ovalue){},
+            beforeAppend:function(profile,child){},
+            afterAppend:function(profile,child){},
+            beforeRemove:function(profile,child,subId,bdestroy){},
+            afterRemove:function(profile,child,subId,bdestroy){},
             onDestroy:function(profile){},
             beforeDestroy:function(profile){},
             onShowTips:function(profile, node, pos){},

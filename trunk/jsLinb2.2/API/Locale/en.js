@@ -6866,7 +6866,7 @@ _.set(linb.Locale,["en","doc","linb","UI"], {
             ],
             $snippet:[
                 "var id='linb.temp.b3-c'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
-                "var btn=new linb.UI.Button({dock:'fill'}); var pane= new linb.UI.Pane;"+
+                "var btn=new linb.UI.Button({dock:'fill'}); var pane=new linb.UI.Pane({position:'relative'});"+
                 "btn.onDock(function(profile,region){linb.message('onDock:'+_.serialize(region))});"+
                 "linb(id).prepend(pane.append(btn));"+
                 "_.asyRun(function(){pane.setWidth(50).setHeight(50)},1000);"+
@@ -6890,7 +6890,7 @@ _.set(linb.Locale,["en","doc","linb","UI"], {
                 "}"
             ]
         },
-        onPropertyChanged:{
+        afterPropertyChanged:{
             $desc:"Fired before the UIProfile's property was changed.",
             $paras:[
                 "profile : linb.UIProfile.",
@@ -6901,9 +6901,73 @@ _.set(linb.Locale,["en","doc","linb","UI"], {
             $snippet:[
                 "var id='linb.temp.b3-e'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var btn=new linb.UI.Button;"+
-                "btn.onPropertyChanged(function(profile,name,v,ov){linb.message(name+':'+ov+'->'+v)});"+
+                "btn.afterPropertyChanged(function(profile,name,v,ov){linb.message(name+':'+ov+'->'+v)});"+
                 "linb(id).prepend(btn);"+
                 "_.asyRun(function(){btn.setCaption('updated')},1000);"+
+                "}"
+            ]
+        },
+        beforeAppend:{
+            $desc:"Fired before any ctrl was appended. If returns false, append function will be ignored.",
+            $paras:[
+                "profile : linb.UIProfile.",
+                "child : linb.UI, to be appended."
+            ],
+            $snippet:[
+                "var id='linb.temp.b3-f'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var btn=new linb.UI.Button(); var pane=new linb.UI.Pane({position:'relative'});"+
+                "pane.beforeAppend(function(){return false;});"+
+                "linb(id).prepend(pane);"+
+                "_.asyRun(function(){pane.append(btn)},1000);"+
+                "}"
+            ]
+        },
+        afterAppend:{
+            $desc:"Fired after any ctrl was appended.",
+            $paras:[
+                "profile : linb.UIProfile.",
+                "child : linb.UI, to be appended."
+            ],
+            $snippet:[
+                "var id='linb.temp.b3-g'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var btn=new linb.UI.Button(); var pane=new linb.UI.Pane({position:'relative'});"+
+                "pane.afterAppend(function(p,c){linb.message(c.alias() + ' was added')});"+
+                "linb(id).prepend(pane);"+
+                "_.asyRun(function(){pane.append(btn)},1000);"+
+                "}"
+            ]
+        },
+        beforeRemove:{
+            $desc:"Fired before any ctrl was removed. If returns false, remove function will be ignored.",
+            $paras:[
+                "profile : linb.UIProfile.",
+                "child : linb.UIProfile, to be removed.",
+                "subId : String, container's id",
+                "bdestroy : Boolean, to be destroyed or not"
+            ],
+            $snippet:[
+                "var id='linb.temp.b3-h'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var btn=new linb.UI.Button(); var pane=new linb.UI.Pane({position:'relative'});"+
+                "pane.beforeRemove(function(){return false;});"+
+                "linb(id).prepend(pane.append(btn));"+
+                "_.asyRun(function(){pane.removeChildren(btn,true)},1000);"+
+                "}"
+            ]
+        },
+        afterRemove:{
+             $desc:"Fired after any ctrl was removed.",
+            $paras:[
+                "profile : linb.UIProfile.",
+                "child : linb.UIProfile, to be removed.",
+                "subId : String, container's id",
+                "bdestroy : Boolean, to be destroyed or not"
+            ],
+            $snippet:[
+                "var id='linb.temp.b3-j'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var btn=new linb.UI.Button(); var pane=new linb.UI.Pane({position:'relative'});"+
+                "pane.afterRemove(function(p,c){linb.message(c.alias+' was removed!');});"+
+                "linb(id).prepend(pane.append(btn));"+
+                "_.asyRun(function(){pane.removeChildren(btn,true)},1000);"+
                 "}"
             ]
         },
@@ -10839,7 +10903,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Tabs"], {
                 "o.onShowOptions(function(p,item){alert(item.id);})"+
                 "}"
             ]
-        }£¬
+        },
         onIniPanelView:{
             $desc:"Fired on panel is initialized.",
             $paras:[
@@ -13835,14 +13899,14 @@ _.set(linb.Locale,["en","doc","linb","UI","TreeGrid"], {
                 "}"
            ]
         },
-        onClickGridHandler£º{
+        onClickGridHandler:{
             $desc:"Fired when the left/top cell is clicked.",
             $paras:[
                 "profile : linb.UIProfile.",
                 "e: Event, the DOM event Object.",
                 "src : String, the event source DOM element's linbid."
             ]
-        }£¬
+        },
         onClickCell:{
             $desc:"Fired when a cell(type is 'label/button' or not editable) is clicked.",
             $paras:[
