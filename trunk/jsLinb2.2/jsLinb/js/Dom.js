@@ -571,7 +571,7 @@ Class('linb.Dom','linb.absBox',{
         /*
         name format: 'xxxYxx', not 'xxx-yyy'
         left/top/width/height like, must specify 'px'
-        Does't fire onResize onlocation event
+        Does't fire onResize onMove event
         */
         css:function(name, value){
             return (typeof name=='object' || value!==undefined)
@@ -695,7 +695,7 @@ Class('linb.Dom','linb.absBox',{
                 if(triggerEvent){
                     var f=dom.$hasEventHandler;
                     if(f(node,'onsize') && (m.width||m.height))self.onSize(true, {width:m.width,height:m.height});
-                    if(f(node,'onlocation') && (m.left||m.top))self.onLocation(true, {left:m.left,top:m.top});
+                    if(f(node,'onmove') && (m.left||m.top))self.onMove(true, {left:m.left,top:m.top});
                 }
                 return self;
             }else{
@@ -730,7 +730,7 @@ Class('linb.Dom','linb.absBox',{
                 var t;
                 b1 = pos.left!=null?f(node,'left',pos.left):false;
                 b2 = pos.top!==null?f(node,'top',pos.top):false;
-                if(triggerEvent && (b1||b2) && dom.$hasEventHandler(node,'onlocation'))this.onLocation(true, {left:b1,top:b2});
+                if(triggerEvent && (b1||b2) && dom.$hasEventHandler(node,'onmove'))this.onMove(true, {left:b1,top:b2});
                 r=this;
             }else{
                 f=dom.getStyle;
@@ -1932,8 +1932,8 @@ type:4
                     if(triggerEvent){
                         args={};args[k]=1;
                         var f=linb.Dom.$hasEventHandler;
-                        if((k=='left' || k=='top')&& f(node,'onlocation'))
-                            linb([node]).onLocation(true, args);
+                        if((k=='left' || k=='top')&& f(node,'onmove'))
+                            linb([node]).onMove(true, args);
                         if((k=='width' || k=='height')&& f(node,'onsize')){
                             linb([node]).onSize(true, args);
                         }
@@ -1982,9 +1982,9 @@ type:4
                                 else if(o=='height')self._H(v,1,value);
                                 else{
                                     if(f(v, o, value))
-                                        if((o=='top' || o=='left') && linb.Dom.$hasEventHandler(node,'onlocation')){
+                                        if((o=='top' || o=='left') && linb.Dom.$hasEventHandler(node,'onmove')){
                                             a={};a[o]=1;
-                                            linb([v]).onLocation(true, a);
+                                            linb([v]).onMove(true, a);
                                         }
                                 }
                             }

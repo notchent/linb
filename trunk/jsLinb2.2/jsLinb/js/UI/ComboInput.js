@@ -662,29 +662,27 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
         },
         DataModel:{
             listKey:{
-                set:function(v){
-                    var t = this.constructor.getCachedData(v);
-                    return this.each(function(o){
-                        o.boxing().setItems(t?t:o.properties.items);
-                        o.properties.listKey = v;
-                    });
+                set:function(value){
+                    var t = linb.UI.getCachedData(value),
+                        o=this;
+                    o.boxing().setItems(t?t:o.properties.items);
+                    o.properties.listKey = value;
                 }
             },
             items:{
                 ini:[],
                 set:function(value){
-                    return this.each(function(o){
-                        o.properties.items = _.copy(value);
-                        if(o.renderId){
-                            o.boxing().setValue(null,true);
-                            o.SubSerialIdMapItem={};
-                            o.ItemIdMapSubSerialId={};
-                            //for memory map
-                            value=o.box._adjustItems(value);
-                            o.box._prepareItems(o, value);
-                            o.boxing().clearPopCache();                            
-                        }
-                    });
+                    var o=this;
+                    o.properties.items = _.copy(value);
+                    if(o.renderId){
+                        o.boxing().setValue(null,true);
+                        o.SubSerialIdMapItem={};
+                        o.ItemIdMapSubSerialId={};
+                        //for memory map
+                        value=o.box._adjustItems(value);
+                        o.box._prepareItems(o, value);
+                        o.boxing().clearPopCache();                            
+                    }
                 }
             },
             image:{
@@ -709,15 +707,12 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
             type:{
                 ini:'combobox',
                 listbox:_.toArr('none,combobox,listbox,upload,getter,helpinput,cmdbox,popbox,timepicker,datepicker,colorpicker,spin'),
-                set:function(value, force){
-                    return this.each(function(pro){
-                        if(pro.properties.type!=value||force){
-                            pro.properties.type=value;
-                            pro.box._iniType(pro);
-                            if(pro.renderId)
-                                pro.boxing().refresh();
-                        }
-                    });
+                set:function(value){
+                    var pro=this;
+                    pro.properties.type=value;
+                    pro.box._iniType(pro);
+                    if(pro.renderId)
+                        pro.boxing().refresh();
                 }
             },
             scale:2,

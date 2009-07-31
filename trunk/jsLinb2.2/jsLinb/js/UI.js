@@ -187,18 +187,29 @@ Class('linb.absObj',"linb.absBox",{
                 //readonly properties
                 if(!(o && (o.readonly || o.inner))){
                     //custom set
-                    t = o.set;
+                    var $set = o.set;
                     m = ps[n];
-                    ps[n] = typeof t=='function' ? Class._fun(t,n,self.KEY) : typeof m=='function' ? m : Class._fun(function(value,force){
+                    ps[n] = typeof m=='function' ? m : Class._fun(function(value,force){
                         return this.each(function(v){
                             if(!v.properties)return;
                             //if same return
                             if(v.properties[i] === value && !force)return;
-                            var ovalue = v.properties[i],
-                                m = _.get(v.box.$DataModel, [i, 'action']);
-                            v.properties[i] = value;
-                            if(typeof m == 'function' && v._applySetAction(m, value, ovalue) === false)
-                                v.properties[i] = ovalue;
+
+                            var ovalue = v.properties[i];
+                            if(v.beforePropertyChanged && false===v.boxing().beforePropertyChanged(v,i,value,ovalue))
+                                return;
+
+                            if(typeof $set=='function'){
+                                $set.call(v,value,ovalue);
+                            }else{
+                                var m = _.get(v.box.$DataModel, [i, 'action']);
+                                v.properties[i] = value;
+                                if(typeof m == 'function' && v._applySetAction(m, value, ovalue) === false)
+                                    v.properties[i] = ovalue;
+                            }
+
+                            if(v.onPropertyChanged)
+                                v.boxing().onPropertyChanged(v,i,value,ovalue);
                         });
                     },n,self.KEY);
                     delete o.set;
@@ -208,10 +219,13 @@ Class('linb.absObj',"linb.absBox",{
                 n = 'get'+r;
                 if(!(o && o.inner)){
                     // get custom getter
-                    t = o.get;
+                    var $get = o.get;
                     m = ps[n];
                     ps[n] = typeof t=='function' ? Class._fun(t,n,self.KEY) : typeof m=='function' ? m : Class._fun(function(){
-                        return this.get(0).properties[i];
+                        if(typeof $get=='function')
+                            return $get.call(v);
+                        else
+                            return this.get(0).properties[i];
                     },n,self.KEY);
                     delete o.get;
                     if(ps[n]!==m)ps[n].$auto$=1;
@@ -398,31 +412,28 @@ Class("linb.DataBinder","linb.absObj",{
         },
         DataModel:{
             name:{
-                set:function(value){
-                    var o=this.get(0),
-                        ov=o.properties.name;
-                    if(ov!==value){
-                        var c=linb.DataBinder,
-                            _p=c._pool,
-                            to=_p[ov],
-                            t=_p[value];
-                        
-                        //if it exitst, overwrite it dir
-                        //if(to && t)
-                        //    throw new Error(value+' exists!');
+                set:function(value,ovalue){
+                    var o=this,
+                        c=linb.DataBinder,
+                        _p=c._pool,
+                        to=_p[ovalue],
+                        t=_p[value];
+                    
+                    //if it exitst, overwrite it dir
+                    //if(to && t)
+                    //    throw new Error(value+' exists!');
 
-                        _p[o.properties.name=value]=o;
-                        //modify name
-                        if(to && !t){
-                            linb.absValue.pack(o._n).setDataBinder(value);
-                            _.arr.each(o._n, function(v){c._unBind(ov,v)});
-                        }
-                        //pointer to the old one
-                        if(t && !to) o._n=t._n;
-                        //delete the old name from pool
-                        if(to)delete _p[ov];
+                    _p[o.properties.name=value]=o;
+                    //modify name
+                    if(to && !t){
+                        linb.absValue.pack(o._n).setDataBinder(value);
+                        _.arr.each(o._n, function(v){c._unBind(ovalue,v)});
                     }
-                    return this;
+                    //pointer to the old one
+                    if(t && !to) o._n=t._n;
+                    //delete the old name from pool
+                    if(to)delete _p[ovalue];
+
                 }
             }
         }
@@ -1502,6 +1513,13 @@ Class("linb.UI",  "linb.absObj", {
                     }
                     self.getRoot()[o]?self.getRoot()[o](value):linb.Dom._setPxStyle(self.getRootNode(),o,value);
                     if(p.dock!='none')_.tryF(self.$dock,[self, args],self);
+                    if(o=='width'||o=='height'){
+                        if(self.onResize)
+                            self.boxing().onResize(self,o=='width'?value:null,o=='height'?value:null)
+                    }else{
+                        if(self.onMove)
+                            self.boxing().onMove(self,o=='left'?value:null,o=='top'?value:null,o=='right'?value:null,o=='bottom'?value:null)
+                    }                        
                 }
             }
         });
@@ -3180,6 +3198,11 @@ Class("linb.UI",  "linb.absObj", {
         EventHandlers:{
             onRender:function(profile){},
             onLayout:function(profile){},
+            onResize:function(profile,width,height){},
+            onMove:function(profile,left,top,right,bottom){},
+            onDock:function(profile,region){},
+            beforePropertyChanged:function(profile,name,value,ovalue){},
+            onPropertyChanged:function(profile,name,value,ovalue){},
             onDestroy:function(profile){},
             beforeDestroy:function(profile){},
             onShowTips:function(profile, node, pos){},
@@ -3406,13 +3429,26 @@ Class("linb.UI",  "linb.absObj", {
                                 }
                                 if(obj.later){
                                     _.each(obj.later, function(o){
+                                        var profile;
                                         //for safari
                                         try{
                                             o.node.cssRegion(o, true);
+                                            
+                                            if((profile=linb.UIProfile.getFromDom(o.node.get(0))) && profile.onDock){
+                                                delete o.node;
+                                                profile.boxing().onDock(profile,o);
+                                            }
                                         }catch(e){
                                             _.asyRun(function(){
                                                 o.width+=1;o.height+=1;
+                                                o.node.cssRegion(o);
+                                                o.width-=1;o.height-=1;
                                                 o.node.cssRegion(o, true);
+                                                
+                                                if((profile=linb.UIProfile.getFromDom(o.node.get(0))) && profile.onDock){
+                                                    delete o.node;
+                                                    profile.boxing().onDock(profile,o);
+                                                }
                                             })
                                         }
                                     });
@@ -3957,28 +3993,24 @@ Class("linb.absList", "linb.absObj",{
         $abstract:true,
         DataModel:{
             listKey:{
-                set:function(value, force){
-                    return this.each(function(o){
-                        if(o.properties.listKey != value || force){
-                            var t = o.box.getCachedData(value);
-                            if(t)
-                                o.boxing().setItems(t);
-                            else
-                                o.boxing().setItems(o.properties.items);
-                            o.properties.listKey = value;
-                        }
-                    });
+                set:function(value){
+                    var o=this,
+                        t = o.box.getCachedData(value);
+                    if(t)
+                        o.boxing().setItems(t);
+                    else
+                        o.boxing().setItems(o.properties.items);
+                    o.properties.listKey = value; 
                 }
             },
             items:{
                 ini:[],
                 set:function(value){
-                    return this.each(function(o){
-                        if(o.renderId)
-                            o.boxing().clearItems().insertItems(value);
-                        else
-                            o.properties.items = _.copy(value);
-                    });
+                    var o=this;
+                    if(o.renderId)
+                        o.boxing().clearItems().insertItems(value);
+                    else
+                        o.properties.items = _.copy(value);
                 }
             }
         },
@@ -4121,17 +4153,13 @@ Class("linb.absValue", "linb.absObj",{
                 combobox:function(){
                     return _.toArr(linb.DataBinder._pool,true);
                 },
-                set:function(value,force){
-                    var ds,r;
-                    return this.each(function(profile){
-                        var p=profile.properties,
-                            old = p.dataBinder;
-                        if(old==value && !force)return;
-                        if(old)
-                            linb.DataBinder._unBind(old, profile);
-                        p.dataBinder=value;
-                        linb.DataBinder._bind(value, profile);
-                    });
+                set:function(value,ovalue){
+                    var profile=this,
+                        p=profile.properties;
+                    if(ovalue)
+                        linb.DataBinder._unBind(ovalue, profile);
+                    p.dataBinder=value;
+                    linb.DataBinder._bind(value, profile);
                 }
             },
             dataField:'',
@@ -4139,36 +4167,32 @@ Class("linb.absValue", "linb.absObj",{
             // setValue and getValue
             value:{
                 ini:null,
-                set:function(value, force){
-                    this.each(function(profile){
-                        var p=profile.properties,r,
-                            ovalue = p.value,
-                            box=profile.boxing(),
-                            nv=value;
-                        //check value
-                        if(ovalue!==nv || force){
-                            //check format
-                            if(profile.box._checkValid(profile, nv)===false)return;
-                            //if return false in beforeValueSet, not set
-                            if(profile.beforeValueSet && false=== (r=box.beforeValueSet(profile, ovalue, nv)))return;
-                            // can get return value
-                            if(r!==undefined)nv=r;
-                            //before _setCtrlValue
-                            //ensure value
-                            if(typeof (r=profile.box._ensureValue)=='function')
-                                nv = r.call(profile.box, profile, nv);
-                            if(typeof(r=profile.$onValueSet)=='function')r.call(profile,nv);
-                            //before value copy
-                            if(profile.renderId)box._setCtrlValue(nv);
-                            //value copy
-                            p.value = p.$UIvalue = nv;
+                set:function(value){
+                    var profile=this,
+                        p=profile.properties,r,
+                        ovalue = p.value,
+                        box=profile.boxing(),
+                        nv=value;
 
-                            profile.inValid=1;
-                            if(profile.renderId)box._setDirtyMark();
-                            if(profile.afterValueSet)box.afterValueSet(profile, ovalue, nv);
-                        }
-                    });
-                    return this;
+                    //check format
+                    if(profile.box._checkValid(profile, nv)===false)return;
+                    //if return false in beforeValueSet, not set
+                    if(profile.beforeValueSet && false=== (r=box.beforeValueSet(profile, ovalue, nv)))return;
+                    // can get return value
+                    if(r!==undefined)nv=r;
+                    //before _setCtrlValue
+                    //ensure value
+                    if(typeof (r=profile.box._ensureValue)=='function')
+                        nv = r.call(profile.box, profile, nv);
+                    if(typeof(r=profile.$onValueSet)=='function')r.call(profile,nv);
+                    //before value copy
+                    if(profile.renderId)box._setCtrlValue(nv);
+                    //value copy
+                    p.value = p.$UIvalue = nv;
+
+                    profile.inValid=1;
+                    if(profile.renderId)box._setDirtyMark();
+                    if(profile.afterValueSet)box.afterValueSet(profile, ovalue, nv);
                 }
             },
             dirtyMark:true

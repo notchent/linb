@@ -2221,10 +2221,10 @@ _.set(linb.Locale,["en","doc","linb","Dom"], {
             $rtn:"Object/[self]",
             $paras:[
                 "pos [Optional] : {left:value,top:value}, the target abs position.",
-                "flag [Optional] : Boolean, to trigger element onLocation event. Default is false."
+                "flag [Optional] : Boolean, to trigger element onMove event. Default is false."
             ],
             $snippet:[
-                "var n=linb(this),pos=n.cssPos(); pos.top+=20;pos.left+=20; n.css('position','relative').cssPos(pos); n.onLocation(function(){linb.message('Fired onlocation event')});pos.top+=20;pos.left+=20; n.cssPos(pos,true); _.asyRun(function(){n.css({top:'',position:''}).onLocation(null)},1000)"
+                "var n=linb(this),pos=n.cssPos(); pos.top+=20;pos.left+=20; n.css('position','relative').cssPos(pos); n.onMove(function(){linb.message('Fired onMove event')});pos.top+=20;pos.left+=20; n.cssPos(pos,true); _.asyRun(function(){n.css({top:'',position:''}).onMove(null)},1000)"
             ]
         },
         animate:{
@@ -2959,7 +2959,7 @@ _.set(linb.Locale,["en","doc","linb","Dom"], {
         afterKeypress:$eo,
         afterKeyup:$eo,
         afterLoad:$eo,
-        afterLocation:$eo,
+        afterMove:$eo,
         afterMousedown:$eo,
         afterMousemove:$eo,
         afterMouseout:$eo,
@@ -2988,7 +2988,7 @@ _.set(linb.Locale,["en","doc","linb","Dom"], {
         beforeKeypress:$eo,
         beforeKeyup:$eo,
         beforeLoad:$eo,
-        beforeLocation:$eo,
+        beforeMove:$eo,
         beforeMousedown:$eo,
         beforeMousemove:$eo,
         beforeMouseout:$eo,
@@ -3017,7 +3017,7 @@ _.set(linb.Locale,["en","doc","linb","Dom"], {
         onKeypress:$eo,
         onKeyup:$eo,
         onLoad:$eo,
-        onLocation:$eo,
+        onMove:$eo,
         onMousedown:$eo,
         onMousemove:$eo,
         onMouseout:$eo,
@@ -6821,6 +6821,89 @@ _.set(linb.Locale,["en","doc","linb","UI"], {
                 "linb(id).prepend(btn);"+
                 "_.asyRun(function(){linb(id+'1').prepend(btn)},1000);"+
                 "_.asyRun(function(){linb(id+'2').prepend(btn)},2000);"+
+                "}"
+            ]
+        },
+        onResize:{
+            $desc:"Fired when the control was resized.",
+            $paras:[
+                "profile : linb.UIProfile.",
+                "width : Number, the control's width",
+                "height : Number, the control's height"
+            ],
+            $snippet:[
+                "var id='linb.temp.b3-a'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var btn=new linb.UI.Button;"+
+                "btn.onResize(function(profile,width,height){linb.message('onResize:'+width+':'+height)});"+
+                "linb(id).prepend(btn);"+
+                "_.asyRun(function(){btn.setWidth(50).setHeight(50)},1000);"+
+                "}"
+            ]
+        },
+        onMove:{
+            $desc:"Fired when the control was moved.",
+            $paras:[
+                "profile : linb.UIProfile.",
+                "left : Number, the control's left value",
+                "top : Number, the control's top value",
+                "right : Number, the control's right value",
+                "bottom : Number, the control's bottom value"
+            ],
+            $snippet:[
+                "var id='linb.temp.b3-b'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var btn=new linb.UI.Button;"+
+                "btn.onMove(function(profile,left,top){linb.message('onMove:'+left+':'+top)});"+
+                "linb(id).prepend(btn);"+
+                "_.asyRun(function(){btn.setLeft(50).setTop(50)},1000);"+
+                "}"
+            ]
+        },
+        onDock:{
+            $desc:"Fired when the control was resized or repositioned by docking mechanism.",
+            $paras:[
+                "profile : linb.UIProfile.",
+                "region : Object"
+            ],
+            $snippet:[
+                "var id='linb.temp.b3-c'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var btn=new linb.UI.Button({dock:'fill'}); var pane= new linb.UI.Pane;"+
+                "btn.onDock(function(profile,region){linb.message('onDock:'+_.serialize(region))});"+
+                "linb(id).prepend(pane.append(btn));"+
+                "_.asyRun(function(){pane.setWidth(50).setHeight(50)},1000);"+
+                "}"
+            ]
+        },
+        beforePropertyChanged:{
+            $desc:"Fired before the UIProfile's property is going to be changed. If returns false, destroy function will be ignored.",
+            $paras:[
+                "profile : linb.UIProfile.",
+                "name : String, property name",
+                "value : Object, property new value",
+                "ovalue : Objecgt, property old value"
+            ],
+            $snippet:[
+                "var id='linb.temp.b3-d'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var btn=new linb.UI.Button;"+
+                "btn.beforePropertyChanged(function(profile,name,value){if(profile.renderId)return false;});"+
+                "linb(id).prepend(btn);"+
+                "_.asyRun(function(){btn.setCaption('updated')},1000);"+
+                "}"
+            ]
+        },
+        onPropertyChanged:{
+            $desc:"Fired before the UIProfile's property was changed.",
+            $paras:[
+                "profile : linb.UIProfile.",
+                "name : String, property name",
+                "value : Object, property new value",
+                "ovalue : Objecgt, property old value"
+            ],
+            $snippet:[
+                "var id='linb.temp.b3-e'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var btn=new linb.UI.Button;"+
+                "btn.onPropertyChanged(function(profile,name,v,ov){linb.message(name+':'+ov+'->'+v)});"+
+                "linb(id).prepend(btn);"+
+                "_.asyRun(function(){btn.setCaption('updated')},1000);"+
                 "}"
             ]
         },

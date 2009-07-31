@@ -153,7 +153,7 @@ Class('linb.Event',null,{
 
                 //customized handlers:
                 //dont use resize in IE
-                "location,size," +
+                "move,size," +
                 //dragstart dragdrop dragout will not work in IE(using innerHTML)
                 "dragbegin,drag,dragstop,dragleave,dragenter,dragover,drop")
                 .split(','),
@@ -388,7 +388,7 @@ Class('linb.Event',null,{
     Initialize:function(){
         var ns=this;
         var m1={
-                location:null,
+                move:null,
                 size:null,
     
                 drag:null,

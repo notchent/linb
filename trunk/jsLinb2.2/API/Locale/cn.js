@@ -2238,10 +2238,10 @@ _.set(linb.Locale,["cn","doc","linb","Dom"], {
             $rtn:"Object/[self]",
             $paras:[
                 "pos [可选参数] : {left:value,top:value}, 目标的绝对位置.",
-                "flag [可选参数] : Boolean, 指示是否触发元素的onLocation事件. 默认为false."
+                "flag [可选参数] : Boolean, 指示是否触发元素的onMove事件. 默认为false."
             ],
             $snippet:[
-                "var n=linb(this),pos=n.cssPos(); pos.top+=20;pos.left+=20; n.css('position','relative').cssPos(pos); n.onLocation(function(){linb.message('Fired onlocation event')});pos.top+=20;pos.left+=20; n.cssPos(pos,true); _.asyRun(function(){n.css({top:'',position:''}).onLocation(null)},1000)"
+                "var n=linb(this),pos=n.cssPos(); pos.top+=20;pos.left+=20; n.css('position','relative').cssPos(pos); n.onMove(function(){linb.message('Fired onmove event')});pos.top+=20;pos.left+=20; n.cssPos(pos,true); _.asyRun(function(){n.css({top:'',position:''}).onMove(null)},1000)"
             ]
         },
         animate:{
@@ -2976,7 +2976,7 @@ _.set(linb.Locale,["cn","doc","linb","Dom"], {
         afterKeypress:$eo,
         afterKeyup:$eo,
         afterLoad:$eo,
-        afterLocation:$eo,
+        afterMove:$eo,
         afterMousedown:$eo,
         afterMousemove:$eo,
         afterMouseout:$eo,
@@ -3005,7 +3005,7 @@ _.set(linb.Locale,["cn","doc","linb","Dom"], {
         beforeKeypress:$eo,
         beforeKeyup:$eo,
         beforeLoad:$eo,
-        beforeLocation:$eo,
+        beforeMove:$eo,
         beforeMousedown:$eo,
         beforeMousemove:$eo,
         beforeMouseout:$eo,
@@ -3034,7 +3034,7 @@ _.set(linb.Locale,["cn","doc","linb","Dom"], {
         onKeypress:$eo,
         onKeyup:$eo,
         onLoad:$eo,
-        onLocation:$eo,
+        onMove:$eo,
         onMousedown:$eo,
         onMousemove:$eo,
         onMouseout:$eo,
@@ -6794,7 +6794,7 @@ _.set(linb.Locale,["cn","doc","linb","UI"], {
             ]
         },
         beforeDestroy:{
-            $desc:"在控件概要对象(profile)被销毁前触发，如果返回false，控件销毁的动作将被取消.",
+            $desc:"在控件被销毁前触发，如果返回false，控件销毁的动作将被取消.",
             $paras:[
                 "profile : linb.UIProfile."
             ],
@@ -6807,7 +6807,7 @@ _.set(linb.Locale,["cn","doc","linb","UI"], {
             ]
         },
         onDestroy:{
-            $desc:"当控件概要对象(profile)被销毁时调用.",
+            $desc:"当控件被销毁时调用.",
             $paras:[
                 "profile : linb.UIProfile."
             ],
@@ -6834,7 +6834,7 @@ _.set(linb.Locale,["cn","doc","linb","UI"], {
             ]
         },
         onRender:{
-            $desc:"当控件概要对象(profile)被渲染时(生成DOM节点)调用.",
+            $desc:"当控件被渲染时(生成DOM节点)调用.",
             $paras:[
                 "profile : linb.UIProfile."
             ],
@@ -6847,7 +6847,7 @@ _.set(linb.Locale,["cn","doc","linb","UI"], {
             ]
         },
         onLayout:{
-            $desc:"当控件概要对象(profile)被重新布局的时候调用.",
+            $desc:"当控件被重新布局的时候调用.",
             $paras:[
                 "profile : linb.UIProfile."
             ],
@@ -6861,8 +6861,91 @@ _.set(linb.Locale,["cn","doc","linb","UI"], {
                 "}"
             ]
         },
+        onResize:{
+            $desc:"控件被改变大小的时候调用.",
+            $paras:[
+                "profile : linb.UIProfile.",
+                "width : Number, 目标宽",
+                "height : Number, 目标高"
+            ],
+            $snippet:[
+                "var id='linb.temp.b3-a'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var btn=new linb.UI.Button;"+
+                "btn.onResize(function(profile,width,height){linb.message('onResize:'+width+':'+height)});"+
+                "linb(id).prepend(btn);"+
+                "_.asyRun(function(){btn.setWidth(50).setHeight(50)},1000);"+
+                "}"
+            ]
+        },
+        onMove:{
+            $desc:"控件被改变位置的时候调用.",
+            $paras:[
+                "profile : linb.UIProfile.",
+                "left : Number, 目标左边值",
+                "top : Number, 目标上边值",
+                "right : Number, 目标右边值",
+                "bottom : Number, 目标下边值"
+            ],
+            $snippet:[
+                "var id='linb.temp.b3-b'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var btn=new linb.UI.Button;"+
+                "btn.onMove(function(profile,left,top){linb.message('onMove:'+left+':'+top)});"+
+                "linb(id).prepend(btn);"+
+                "_.asyRun(function(){btn.setLeft(50).setTop(50)},1000);"+
+                "}"
+            ]
+        },
+        onDock:{
+            $desc:"控件被dock机制改变大小或位置的时候调用.",
+            $paras:[
+                "profile : linb.UIProfile.",
+                "region : Object"
+            ],
+            $snippet:[
+                "var id='linb.temp.b3-c'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var btn=new linb.UI.Button({dock:'fill'}); var pane= new linb.UI.Pane;"+
+                "btn.onDock(function(profile,region){linb.message('onDock:'+_.serialize(region))});"+
+                "linb(id).prepend(pane.append(btn));"+
+                "_.asyRun(function(){pane.setWidth(50).setHeight(50)},1000);"+
+                "}"
+            ]
+        },
+        beforePropertyChanged:{
+            $desc:"当控件的某个属性被改变前出发,返回false可以阻止这个属性被改变。",
+            $paras:[
+                "profile : linb.UIProfile.",
+                "name : String, 属性名",
+                "value : Object, 新属性值",
+                "ovalue : Objecgt, 原来的属性值"
+            ],
+            $snippet:[
+                "var id='linb.temp.b3-d'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var btn=new linb.UI.Button;"+
+                "btn.beforePropertyChanged(function(profile,name,value){if(profile.renderId)return false;});"+
+                "linb(id).prepend(btn);"+
+                "_.asyRun(function(){btn.setCaption('updated')},1000);"+
+                "}"
+            ]
+        },
+        onPropertyChanged:{
+            $desc:"当控件的某个属性被改变前出发,返回false可以阻止这个属性被改变。",
+            $paras:[
+                "profile : linb.UIProfile.",
+                "name : String, 属性名",
+                "value : Object, 新属性值",
+                "ovalue : Objecgt, 原来的属性值"
+            ],
+            $snippet:[
+                "var id='linb.temp.b3-e'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var btn=new linb.UI.Button;"+
+                "btn.onPropertyChanged(function(profile,name,v,ov){linb.message(name+':'+ov+'->'+v)});"+
+                "linb(id).prepend(btn);"+
+                "_.asyRun(function(){btn.setCaption('updated')},1000);"+
+                "}"
+            ]
+        },
         onShowTips:{
-            $desc:"当linb.Tips显示tips时调用.",
+            $desc:"当控件显示tips时调用.",
             $paras:[
                 "profile : linb.UIProfile.",
                 "src: String, 事件所属DOM元素的linbid.",

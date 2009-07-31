@@ -432,48 +432,47 @@ Class("linb.UI.Layout",["linb.UI", "linb.absList"],{
             items:{
                 ini:[],
                 set:function(value){
-                    return this.each(function(o){
-                        if(o.renderId){
-                            var box = o.boxing(),
-                                temp = linb.$getGhostDiv(),
-                                //keep children
-                                children = _.copy(o.children),
-                                p,vv
-                            ;
-                            o.children.length=0;
-                            _.arr.each(children,function(o){
-                                //for flush dock
-                                delete o[0].$dockParent;
-                                //keep it in dom
-                                temp.appendChild(o[0].getRootNode());
-                            });
+                   var o=this;
+                    if(o.renderId){
+                        var box = o.boxing(),
+                            temp = linb.$getGhostDiv(),
+                            //keep children
+                            children = _.copy(o.children),
+                            p,vv
+                        ;
+                        o.children.length=0;
+                        _.arr.each(children,function(o){
+                            //for flush dock
+                            delete o[0].$dockParent;
+                            //keep it in dom
+                            temp.appendChild(o[0].getRootNode());
+                        });
 
-                            //bak value
+                        //bak value
 
-                            //clear all
-                            box.clearItems();
+                        //clear all
+                        box.clearItems();
 
-                            //set items
-                            //for adjust 'main'
-                            vv = o.box._prepareV(o, value);
-                            //inset items
-                            box.insertItems(vv);
+                        //set items
+                        //for adjust 'main'
+                        vv = o.box._prepareV(o, value);
+                        //inset items
+                        box.insertItems(vv);
 
-                            //restore children
-                            _.arr.each(children,function(v){
-                                box.append.apply(box,v);
-                            });
+                        //restore children
+                        _.arr.each(children,function(v){
+                            box.append.apply(box,v);
+                        });
 
-                            //clear
-                            temp.innerHTML='';
-                            //set value
+                        //clear
+                        temp.innerHTML='';
+                        //set value
 
-                            //resize
-                            var size = o.getRoot().cssSize();
-                            linb.UI.$tryResize(o, size.width, size.height,true);
-                        }else
-                            o.properties.items = _.copy(value);
-                    });
+                        //resize
+                        var size = o.getRoot().cssSize();
+                        linb.UI.$tryResize(o, size.width, size.height,true);
+                    }else
+                        o.properties.items = _.copy(value);
                 }
             }
         },

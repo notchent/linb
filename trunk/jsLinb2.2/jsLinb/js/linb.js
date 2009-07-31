@@ -1608,10 +1608,10 @@ Class('linb.SAjax','linb.absIO',{
                 //so, always clear it later
                 div.appendChild(n.parentNode&&n.parentNode.removeChild(n)||n);
                 if(linb.browser.ie)
-                    _.asyRun(function(){div.innerHTML='';n.removeNode();div=null;});
+                    _.asyRun(function(){div.innerHTML=n.outerHTML='';n=div=null;});
                 else{
                     div.innerHTML='';
-                    div=null;
+                    n=div=null;
                 }
             }
         },

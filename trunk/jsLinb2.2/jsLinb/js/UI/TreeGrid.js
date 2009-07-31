@@ -1868,12 +1868,11 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
             rowHandlerWidth: {
                 ini:50,
                 set:function(value){
-                    return this.each(function(o){
-                        if(o.renderId)
-                            o.box._setRowHanderW(o,value);
-                        else
-                            o.properties.rowHandlerWidth=value;
-                    })
+                    var o=this;
+                    if(o.renderId)
+                        o.box._setRowHanderW(o,value);
+                    else
+                        o.properties.rowHandlerWidth=value;
                 }
             },
 
@@ -1932,25 +1931,23 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
             header:{
                 ini:{},
                 set:function(value){
-                    return this.each(function(o){
-                        if(o.renderId){
-                            o.boxing()._refreshHeader(value);
-                        }else
-                            o.properties.header = _.copy(value);
-                    });
+                    var o=this;
+                    if(o.renderId){
+                        o.boxing()._refreshHeader(value);
+                    }else
+                        o.properties.header = _.copy(value);
                 }
             },
             rows:{
                 //for default merge
                 ini:{},
                 set:function(value){
-                    return this.each(function(o){
-                        if(o.renderId)
-                            o.boxing().removeAllRows().insertRows(value);
-                        else
-                            //use copy to avoid outer memory link
-                            o.properties.rows = _.copy(value);
-                    });
+                    var o=this;
+                    if(o.renderId)
+                        o.boxing().removeAllRows().insertRows(value);
+                    else
+                        //use copy to avoid outer memory link
+                        o.properties.rows = _.copy(value);
                 }
             },
             activeMode:{

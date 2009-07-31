@@ -422,16 +422,12 @@ Class("linb.UI.Input", ["linb.UI.Widget","linb.absValue"] ,{
             },
             tipsBinder:{
                 ini:'',
-                set:function(value, force){
-                    return this.each(function(o){
-                        if(o.properties.tipsBinder != value || force){
-                            if(value['linb.UIProfile'])
-                                value=value.$linbid;
-                            if(value['linb.UI'] && (value=value.get(0)))
-                                value=value.$linbid;
-                            o.properties.tipsBinder = value +'';
-                        }
-                    });
+                set:function(value){
+                    if(value['linb.UIProfile'])
+                        value=value.$linbid;
+                    if(value['linb.UI'] && (value=value.get(0)))
+                        value=value.$linbid;
+                    this.properties.tipsBinder = value +'';
                 }
             }
         },

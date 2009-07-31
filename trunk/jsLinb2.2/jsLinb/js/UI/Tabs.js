@@ -577,47 +577,46 @@ Class("linb.UI.Tabs", ["linb.UI", "linb.absList","linb.absValue"],{
             //use ilist defualt items
             items:{
                 set:function(value){
-                    return this.each(function(o){
-                        if(o.renderId){
-                            var box = o.boxing(),
-                                p,
-                                temp = linb.$getGhostDiv(),
-                                children = _.copy(o.children);
-                            o.children.length=0;
-                            _.arr.each(children,function(o){
-                                //for flush dock
-                                delete o[0].$dockParent;
-                                //keep it in dom
-                                temp.appendChild(o[0].getRootNode());
-                            });
+                    var o=this;
+                    if(o.renderId){
+                        var box = o.boxing(),
+                            p,
+                            temp = linb.$getGhostDiv(),
+                            children = _.copy(o.children);
+                        o.children.length=0;
+                        _.arr.each(children,function(o){
+                            //for flush dock
+                            delete o[0].$dockParent;
+                            //keep it in dom
+                            temp.appendChild(o[0].getRootNode());
+                        });
 
-                            //bak value
-                            var bv = o.properties.value;
+                        //bak value
+                        var bv = o.properties.value;
 
-                            //clear all
-                            box.clearItems();
+                        //clear all
+                        box.clearItems();
 
-                            //inset items
-                            box.insertItems(value);
+                        //inset items
+                        box.insertItems(value);
 
-                            //restore children
-                            _.arr.each(children,function(v){
-                                box.append.apply(box,v);
-                            });
+                        //restore children
+                        _.arr.each(children,function(v){
+                            box.append.apply(box,v);
+                        });
 
-                            //clear
-                            temp.innerHTML='';
+                        //clear
+                        temp.innerHTML='';
 
-                            //set value
-                            box.setValue(bv,true);
+                        //set value
+                        box.setValue(bv,true);
 
-                            //resize
-                            var t=o.getRootNode().style;
-                            linb.UI.$tryResize(o, t.width, t.height,true);
-                            t=null;
-                        }else
-                            o.properties.items = _.copy(value);
-                    });
+                        //resize
+                        var t=o.getRootNode().style;
+                        linb.UI.$tryResize(o, t.width, t.height,true);
+                        t=null;
+                    }else
+                        o.properties.items = _.copy(value);
                 }
             }
         },
