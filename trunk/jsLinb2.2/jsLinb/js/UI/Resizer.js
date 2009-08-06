@@ -109,6 +109,8 @@ Class("linb.UI.Resizer","linb.UI",{
                     update.profile = o;
 
                     o.$resizer = target.addResizer(args, update);
+                    
+                    o.$resizer.get(0).$parentUIProfile=o;
                 });
             },
             _unResizer:function(){
@@ -116,6 +118,8 @@ Class("linb.UI.Resizer","linb.UI",{
                     var target = o.getSubNode('BORDER');
                     if(!target.$getResizer())return;
                     target.removeResizer();
+
+                    delete o.$resizer.get(0).$parentUIProfile;
                     delete o.$resizer;
                 });
             }
@@ -243,6 +247,7 @@ Class("linb.UI.Resizer","linb.UI",{
             LT:{
                 onMousedown:function(profile, e, src){
                     profile.box._onMousedown(profile, e, src, {left:true, top:true});
+                    return false;
                 },
                 onDragbegin:function(profile, e, src){
                     profile.box._onDragbegin(profile, e, src);
@@ -257,6 +262,7 @@ Class("linb.UI.Resizer","linb.UI",{
             RT:{
                 onMousedown:function(profile, e, src){
                     profile.box._onMousedown(profile, e, src, {right:true, top:true});
+                    return false;
                 },
                 onDragbegin:function(profile, e, src){
                     profile.box._onDragbegin(profile, e, src);
@@ -271,6 +277,7 @@ Class("linb.UI.Resizer","linb.UI",{
             LB:{
                 onMousedown:function(profile, e, src){
                     profile.box._onMousedown(profile, e, src, {left:true, bottom:true});
+                    return false;
                 },
                 onDragbegin:function(profile, e, src){
                     profile.box._onDragbegin(profile, e, src);
@@ -285,6 +292,7 @@ Class("linb.UI.Resizer","linb.UI",{
             RB:{
                 onMousedown:function(profile, e, src){
                     profile.box._onMousedown(profile, e, src, {right:true, bottom:true});
+                    return false;
                 },
                 onDragbegin:function(profile, e, src){
                     profile.box._onDragbegin(profile, e, src);
@@ -299,6 +307,7 @@ Class("linb.UI.Resizer","linb.UI",{
             L:{
                 onMousedown:function(profile, e, src){
                     profile.box._onMousedown(profile, e, src, {left:true});
+                    return false;
                 },
                 onDragbegin:function(profile, e, src){
                     profile.box._onDragbegin(profile, e, src);
@@ -313,6 +322,7 @@ Class("linb.UI.Resizer","linb.UI",{
             T:{
                 onMousedown:function(profile, e, src){
                     profile.box._onMousedown(profile, e, src, {top:true});
+                    return false;
                 },
                 onDragbegin:function(profile, e, src){
                     profile.box._onDragbegin(profile, e, src);
@@ -327,6 +337,7 @@ Class("linb.UI.Resizer","linb.UI",{
             R:{
                 onMousedown:function(profile, e, src){
                     profile.box._onMousedown(profile, e, src, {right:true});
+                    return false;
                 },
                 onDragbegin:function(profile, e, src){
                     profile.box._onDragbegin(profile, e, src);
@@ -341,6 +352,7 @@ Class("linb.UI.Resizer","linb.UI",{
             B:{
                 onMousedown:function(profile, e, src){
                     profile.box._onMousedown(profile, e, src, {bottom:true});
+                    return false;
                 },
                 onDragbegin:function(profile, e, src){
                     profile.box._onDragbegin(profile, e, src);
@@ -537,6 +549,10 @@ Class("linb.UI.Resizer","linb.UI",{
         },
         //
         _onMousedown:function(profile, e, src, ddparas){
+            var puip=profile.$parentUIProfile;
+            if(puip && puip['linb.UIProfile'] && puip.beforeResizerDrag && false=== _.tryF(puip.beforeResizerDrag,[puip,profile,ddparas],puip.boxing()))
+                return;
+
             var pos=linb.Event.getPos(e);
             linb.use(src).startDrag(e,{
                 dragDefer:1,

@@ -398,7 +398,7 @@ Class("linb.UI.Tabs", ["linb.UI", "linb.absList","linb.absValue"],{
                         item = profile.getItemByDom(src),
                         box = profile.boxing();
 
-                    if(properties.disabled)return false;
+                    if(properties.disabled || item.disabled)return false;
                     if(box.getUIValue() == item.id){
                          if(profile.onCaptionActive)
                             profile.boxing().onCaptionActive(profile, profile.getItemByDom(src), src);
@@ -418,7 +418,7 @@ Class("linb.UI.Tabs", ["linb.UI", "linb.absList","linb.absValue"],{
                         item = profile.getItemByDom(src),
                         box = profile.boxing();
 
-                    if(properties.disabled)return false;
+                    if(properties.disabled || item.disabled)return false;
                     if(box.getUIValue() == item.id)return;
 
                     //for some input onblur event
@@ -492,7 +492,7 @@ Class("linb.UI.Tabs", ["linb.UI", "linb.absList","linb.absValue"],{
                     var properties = profile.properties,
                         item = profile.getItemByDom(src),bak;
 
-                    if(properties.disabled)return;
+                    if(properties.disabled || item.disabled)return;
                     var instance = profile.boxing();
 
                     if(false===instance.beforePageClose(profile, item, src)) return;
@@ -519,7 +519,7 @@ Class("linb.UI.Tabs", ["linb.UI", "linb.absList","linb.absValue"],{
                         item = profile.getItemByDom(src),
                         id=item.id;
 
-                    if(properties.disabled)return;
+                    if(properties.disabled || item.disabled)return;
 
                     var panel = profile.boxing().getPanel(id),
                         pos = profile.getRoot().offset(),
