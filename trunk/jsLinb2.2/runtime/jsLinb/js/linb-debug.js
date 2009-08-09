@@ -26891,7 +26891,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
             return v[i];
         },
         getHeaderByCell:function(cell){
-            return cell._header;
+            return cell._col;
         },
         showColumn:function(colId, flag){
             return this.each(function(profile){
@@ -27811,7 +27811,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                     if(p.disabled)return;
                     var col=profile.colMap[profile.getSubId(src)];
                     if(!(col.hasOwnProperty('colMovable')?col.colMovable:p.colMovable))return;
-                    
+
                     //fire before event
                     if(false === profile.boxing().beforeColDrag(profile, col.id))return;
 
@@ -29203,7 +29203,7 @@ sortby [for column only]
             //$editorValue must be set in beforeIniEditor
             editor.setValue(cell.$editorValue||cell.value,true);
             delete cell.$editorValue;
-            
+
             var editorFormat = getPro('editorFormat'),
                 editorMask =  getPro('editorMask'),
                 editorReadonly = getPro('editorReadonly');
