@@ -1321,7 +1321,8 @@ _.set(linb.Locale,["cn","doc","linb","Ajax"], {
             "<br>&nbsp;&nbsp;<strong>method: 'GET' 或 'POST', 请求的方法. 默认为 'GET'.</strong>"+
             "<br>&nbsp;&nbsp;retry: Number, 请求所允许的重试次数."+
             "<br>&nbsp;&nbsp;timeout: Number, 请求的超时毫秒数."+
-            "<br>&nbsp;&nbsp;resType: String, 'text' 或 'xml'. 请求返回的数据类型."+
+            "<br>&nbsp;&nbsp;reqType: String, 'form','json', 或 'xml'. 请求返回的数据类型，默认是'form'."+
+            "<br>&nbsp;&nbsp;rspType: String, 'text' 或 'xml'. 请求返回的数据类型.，默认是'text'."+
             "<br><em>//functions</em>"+
             "<br>&nbsp;&nbsp;cusomQS: Function, 函数参数: [obj, type]. 用来自定义query string对象的函数."+
             "<br><em>//normal events</em>"+
@@ -1366,6 +1367,10 @@ _.set(linb.Locale,["cn","doc","linb","Ajax"], {
     retry:{
         $desc:"Number, 默认的重试次数.",
         $snippet:["alert(linb.Ajax.retry)"]
+    },
+    reqType:{
+        $desc:"String, 默认的请求发送类型.",
+        $snippet:["alert(linb.Ajax.reqType)"]
     },
     rspType:{
         $desc:"String, 默认的返回类型.",
@@ -1413,7 +1418,8 @@ _.set(linb.Locale,["cn","doc","linb","SAjax"], {
             "<br>&nbsp;&nbsp;threadid: String, 绑定到这个请求的线程id号."+
             "<br>&nbsp;&nbsp;retry: Number, 请求所允许的重试次数."+
             "<br>&nbsp;&nbsp;timeout: Number, 请求的超时毫秒数."+
-            "<br>&nbsp;&nbsp;resType: String, 'json' 或 'script'. 请求返回的数据类型."+
+            "<br>&nbsp;&nbsp;reqType: String, 'form'或'json'. 请求返回的数据类型，默认是'form'."+
+            "<br>&nbsp;&nbsp;rspType: String, 'text' 或 'script'. 请求返回的数据类型，默认是'text'."+
             "<br><em>//functions</em>"+
             "<br>&nbsp;&nbsp;cusomQS: Function, 函数参数: [obj, type]. 用来自定义query string对象的函数."+
             "<br><em>//normal events</em>"+
@@ -1457,6 +1463,10 @@ _.set(linb.Locale,["cn","doc","linb","SAjax"], {
     retry:{
         $desc:"Number, 默认的重试次数.",
         $snippet:["alert(linb.SAjax.retry)"]
+    },
+    reqType:{
+        $desc:"String, 默认的请求发送类型.",
+        $snippet:["alert(linb.SAjax.reqType)"]
     },
     rspType:{
         $desc:"String, 默认的返回内容类型.",
@@ -1508,7 +1518,7 @@ _.set(linb.Locale,["cn","doc","linb","IAjax"], {
             "<br>&nbsp;&nbsp;<strong>method: 'GET' 或 'POST', 请求的方法. 默认为 'GET'.</strong>"+
             "<br>&nbsp;&nbsp;retry: Number, 请求所允许的重试次数."+
             "<br>&nbsp;&nbsp;timeout: Number, 请求的超时毫秒数."+
-            "<br>&nbsp;&nbsp;resType: String, 'text' 或 'xml'. 请求返回的数据类型."+
+            "<br>&nbsp;&nbsp;rspType: String, 'text' 或 'xml'. 请求返回的数据类型，默认是'text'."+
             "<br><em>//functions</em>"+
             "<br>&nbsp;&nbsp;cusomQS: Function, 函数参数: [obj, type]. 用来自定义query string对象的函数."+
             "<br><em>//normal events</em>"+
@@ -1562,6 +1572,10 @@ _.set(linb.Locale,["cn","doc","linb","IAjax"], {
     retry:{
         $desc:"Number, 默认的重试次数.",
         $snippet:["alert(linb.IAjax.retry)"]
+    },
+    reqType:{
+        $desc:"String, 默认的请求发送类型.",
+        $snippet:["alert(linb.IAjax.reqType)"]
     },
     rspType:{
         $desc:"String, 默认的返回内容类型.",

@@ -1304,7 +1304,8 @@ _.set(linb.Locale,["en","doc","linb","Ajax"], {
             "<br>&nbsp;&nbsp;<strong>method: 'GET' or 'POST', the request method. Default is 'GET'.</strong>"+
             "<br>&nbsp;&nbsp;retry: Number, how many times it is tried when the request is timeout."+
             "<br>&nbsp;&nbsp;timeout: Number, the timeout time(ms) for this request."+
-            "<strong><br>&nbsp;&nbsp;resType: String 'text' or 'xml', Response type of the request.</strong>"+
+            "<br>&nbsp;&nbsp;reqType: String, 'form','json', or 'xml'. Request type, default is 'form'."+
+            "<strong><br>&nbsp;&nbsp;rspType: String 'text' or 'xml', Response type, default is 'text'.</strong>"+
             "<br><em>//functions</em>"+
             "<br>&nbsp;&nbsp;cusomQS: Function, arguments: [obj, type]. A function to customize query string Object."+
             "<br><em>//normal events</em>"+
@@ -1349,6 +1350,10 @@ _.set(linb.Locale,["en","doc","linb","Ajax"], {
     retry:{
         $desc:"Number, default retry times.",
         $snippet:["alert(linb.Ajax.retry)"]
+    },
+    reqType:{
+        $desc:"String, default request type.",
+        $snippet:["alert(linb.Ajax.reqType)"]
     },
     rspType:{
         $desc:"String, default respond type.",
@@ -1396,7 +1401,8 @@ _.set(linb.Locale,["en","doc","linb","SAjax"], {
             "<br>&nbsp;&nbsp;threadid: String, a thread id to be bound to the current request."+
             "<br>&nbsp;&nbsp;retry: Number, how many times it is tried when the request is timeout."+
             "<br>&nbsp;&nbsp;timeout: Number, the timeout time(ms) for this request."+
-            "<strong><br>&nbsp;&nbsp;resType: String, 'json' or 'script'. Response type of the request.</strong>"+
+            "<br>&nbsp;&nbsp;reqType: String, 'form'or 'json'. Request type, default is 'form'."+
+            "<strong><br>&nbsp;&nbsp;rspType: String, 'text' or 'script'. Response type, default is 'text'.</strong>"+
             "<br><em>//functions</em>"+
             "<br>&nbsp;&nbsp;cusomQS: Function, arguments: [obj, type]. A function to customize query string Object."+
             "<br><em>//normal events</em>"+
@@ -1440,6 +1446,10 @@ _.set(linb.Locale,["en","doc","linb","SAjax"], {
     retry:{
         $desc:"Number, default retry times.",
         $snippet:["alert(linb.SAjax.retry)"]
+    },
+    reqType:{
+        $desc:"String, default request type.",
+        $snippet:["alert(linb.SAjax.reqType)"]
     },
     rspType:{
         $desc:"String, default respond type.",
@@ -1491,6 +1501,7 @@ _.set(linb.Locale,["en","doc","linb","IAjax"], {
             "<br>&nbsp;&nbsp;<strong>method: 'GET' or 'POST', the request method. Default is 'POST'.</strong>"+
             "<br>&nbsp;&nbsp;retry: Number, how many times it is tried when the request is timeout."+
             "<br>&nbsp;&nbsp;timeout: Number, the timeout time(ms) for this request."+
+            "<strong><br>&nbsp;&nbsp;rspType: String 'text' or 'xml', Response type, default is 'text'.</strong>"+
             "<br><em>//functions</em>"+
             "<br>&nbsp;&nbsp;cusomQS: Function, arguments: [obj]. A function to customize query string Object."+
             "<br><em>//normal events</em>"+
@@ -1544,6 +1555,10 @@ _.set(linb.Locale,["en","doc","linb","IAjax"], {
     retry:{
         $desc:"Number, default retry times.",
         $snippet:["alert(linb.IAjax.retry)"]
+    },
+    reqType:{
+        $desc:"String, default request type.",
+        $snippet:["alert(linb.IAjax.reqType)"]
     },
     rspType:{
         $desc:"String, default respond type.",

@@ -709,7 +709,7 @@ _.merge(linb,{
         return '<span id="'+linb.$langId+'" class="'+s+'">'+r+'</span>';
     },
     request:function(uri, query, onSuccess, onFail, threadid, options){
-        return ((options&&options.method.toLowerCase()=='post')?linb.IAjax:linb.absIO.isCrossDomain(uri)?linb.SAjax:linb.Ajax).apply(null, arguments).start()
+        return ((options&&options.method.toLowerCase()=='post')?linb.absIO.isCrossDomain(uri)?linb.IAjax:linb.Ajax:linb.absIO.isCrossDomain(uri)?linb.SAjax:linb.Ajax).apply(null, arguments).start()
     },
     include:function(id,path,onSuccess,onFail){if(id&&linb.SC.get(id))_.tryF(onSuccess); else linb.SAjax(path,'',onSuccess,onFail,0,{rspType:'script',checkKey:id}).start()},
     /*
@@ -1309,18 +1309,22 @@ Class('linb.absIO',null,{
             asy : options.asy!==false,
             method : 'POST'==(options.method||con.method).toUpperCase()?'POST':'GET'
         },'all');
-        var a='retry,timeout,rspType,customQS'.split(',');
+        var a='retry,timeout,reqType,rspType,customQS'.split(',');
         for(var i=0,l=a.length;i<l;i++)
             options[a[i]] = (a[i] in options)?options[a[i]]:con[a[i]];
 
         _.merge(self, options, 'all');
+
+        if(self.reqType=='xml')
+            self.method="POST";
+
         if(con.events)
             _.merge(self, con.events);
 
         self.query = self.customQS(self.query);
 
-        if(!self._useForm && typeof self.query!='string')
-            self.query = con._buildQS(self.query, self._single,self.method=='POST');
+        if(!self._useForm && typeof self.query!='string' && self.reqType!="xml")
+            self.query = con._buildQS(self.query, self.reqType=="json",self.method=='POST');
 
         return self;
     },
@@ -1386,6 +1390,9 @@ Class('linb.absIO',null,{
         method:'GET',
         retry:2,
         timeout:60000,
+        //form, xml, or json
+        reqType:'form',
+        //text or xml
         rspType:'text',
 
         //paras in request object
@@ -1437,7 +1444,6 @@ Class('linb.absIO',null,{
 });
 Class('linb.Ajax','linb.absIO',{
     Instance:{
-        _single:true,
         _XML:null,
         start:function() {
             var self=this;
@@ -1470,15 +1476,14 @@ Class('linb.Ajax','linb.absIO',{
                         query=null;
                     }
 
-                    if(self._XML.overrideMimeType)
-                          self._XML.overrideMimeType('text/xml');
-
                     self._XML.open(method, uri, asy);
-                    if(method != "POST")
-                        self._XML.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                    
+                    if(method=="POST")
+                        self._XML.setRequestHeader("Content-type", "application/x-www-form-urlencoded; charset=UTF-8");
+                        
                     self._XML.setRequestHeader("X-Requested-With", "XMLHttpRequest");
-                        if(self._XML.overrideMimeType )
-                    self._XML.setRequestHeader("Connection", "close");
+
+                    
 
                     //for firefox syc GET bug
                     try{self._XML.send(query);}catch(e){}

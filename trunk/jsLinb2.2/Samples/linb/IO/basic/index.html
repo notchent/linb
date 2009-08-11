@@ -110,7 +110,7 @@ var linbService='request.php';
                     var hash=getRequest();
                     if(hash)
                         linb.Thread.observableRun(function(threadid){
-                            linb.Ajax(linbService,hash, onOK, onFail,threadid,{method:'POST'}).start();
+                            linb.Ajax(linbService,hash, onOK, onFail,threadid,{method:'POST'},{reqType:'xml'}).start();
                         });
                 });
                 //use linb.SAjax
