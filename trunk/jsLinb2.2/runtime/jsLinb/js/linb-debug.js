@@ -18069,7 +18069,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                                 if(type=='combobox'){
                                     var item=p.queryItems(p.properties.items,function(o){return o.id==value},false,true);
                                     if(item.length)
-                                        value = item[0][0].caption;
+                                        value = item[0].caption;
                                 }
                                 //update value
                                 b2.setUIValue(value)
