@@ -349,6 +349,8 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
                         return false;
                     }
 
+                    linb.use(src).focus();
+
                     switch(properties.selMode){
                     case 'none':
                         rt=box.onItemSelected(profile, item, src);
@@ -402,8 +404,6 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
                         }
                         break;
                     }
-
-                    profile.getSubNode('BAR', itemId).focus();
                     return rt;
                 },
                 onKeydown:function(profile, e, src){

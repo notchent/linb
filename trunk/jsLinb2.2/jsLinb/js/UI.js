@@ -189,7 +189,7 @@ Class('linb.absObj',"linb.absBox",{
                     //custom set
                     var $set = o.set;
                     m = ps[n];
-                    ps[n] = typeof m=='function' ? m : Class._fun(function(value,force){
+                    ps[n] = (typeof $set!='function' && typeof m=='function') ? m : Class._fun(function(value,force){
                         return this.each(function(v){
                             if(!v.properties)return;
                             //if same return
@@ -221,7 +221,7 @@ Class('linb.absObj',"linb.absBox",{
                     // get custom getter
                     var $get = o.get;
                     m = ps[n];
-                    ps[n] = typeof t=='function' ? Class._fun(t,n,self.KEY) : typeof m=='function' ? m : Class._fun(function(){
+                    ps[n] = (typeof $get!='function' && typeof m=='function') ? m : Class._fun(function(){
                         if(typeof $get=='function')
                             return $get.call(v);
                         else
