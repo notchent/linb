@@ -38,8 +38,11 @@ Class('VisualJS.Designer', 'linb.Com',{
                 ap.setItems([{id:'before',pos:'before'},{id:'main'},{id:'after',pos:'after'}]);
             }else if(key=='linb.UI.ComboInput'){
                 if(pro.type=='combobox'||pro.type=='listbox'||pro.type=='helpinput'){
-                ap.setItems([{id:'a',caption:'item a',image:'img/demo.gif'}, {id:'b',caption:'item b',image:'img/demo.gif'}, {id:'c',caption:'item c',image:'img/demo.gif'}, {id:'d',caption:'item d',image:'img/demo.gif'}])
-                    .setValue('a');
+                    ap.setItems([{id:'a',caption:'item a',image:'img/demo.gif'}, {id:'b',caption:'item b',image:'img/demo.gif'}, {id:'c',caption:'item c',image:'img/demo.gif'}, {id:'d',caption:'item d',image:'img/demo.gif'}]);
+                    if(pro.type=='combobox')
+                        ap.setValue('item a');
+                    else
+                        ap.setValue('a');
                 }
             }else{
                 if(key=='linb.UI.TimeLine')return;

@@ -17955,15 +17955,21 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
             return value;
         },
         _cache:function(){
-            var profile=this.get(0),drop=profile.$drop;
+            var profile=this.get(0), drop=profile.$drop, cached=profile.properties.cachePopWnd;
             if(drop){
-                if(linb.browser.opr)
-                    drop.getRoot().css('display','none');
-                _.asyRun(function(){
-                    profile.getSubNode('POOL').append(drop.getRoot())
-                });
+                if(!cached){
+                    drop.boxing().destroy();
+                    delete profile.$drop;
+                }else{
+                    if(linb.browser.opr)
+                        drop.getRoot().css('display','none');
+                    _.asyRun(function(){
+                        profile.getSubNode('POOL').append(drop.getRoot())
+                    });
+                }
             }
             delete profile.$poplink;
+            return cached;
         },
         clearPopCache:function(){
             var profile=this.get(0);
@@ -18012,7 +18018,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
         },
         _drop:function(e,src){
             return this.each(function(profile){
-                var pro = profile.properties, type=pro.type;
+                var pro = profile.properties, type=pro.type, cacheDrop=pro.cachePopWnd;
                 if(pro.disabled)return;
                 if(type=='upload'||type=='none'||type=='spin')return;
                 //open already
@@ -18034,29 +18040,31 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
 
                 //get cache key
                 var cachekey;
-                switch(type){
-                    case 'timepicker':
-                    case 'datepicker':
-                    case 'colorpicker':
-                        cachekey=type;
-                        break;
-                    default:
-                        if(pro.listKey)
-                            //function no cache
-                            if(typeof _.get(linb.$cache,['UIDATA', pro.listKey])=='function')
-                                profile.$drop = cachekey = null;
+                if(cacheDrop){
+                    switch(type){
+                        case 'timepicker':
+                        case 'datepicker':
+                        case 'colorpicker':
+                            cachekey=type;
+                            break;
+                        default:
+                            if(pro.listKey)
+                                //function no cache
+                                if(typeof _.get(linb.$cache,['UIDATA', pro.listKey])=='function')
+                                    profile.$drop = cachekey = null;
+                                else
+                                    cachekey = "!"+pro.listKey;
                             else
-                                cachekey = pro.listKey;
-                        else
-                            cachekey = profile.$linbid;
-                }
-                //get from global cache
-                if(cachekey){
-                    //filter first
-                    _.filter(profile.box.$drop,function(o){
-                        return !!o.renderId;
-                    });
-                    profile.$drop = profile.box.$drop[cachekey];
+                                cachekey = "$"+profile.$linbid;
+                    }
+                    //get from global cache
+                    if(cachekey){
+                        //filter first
+                        _.filter(profile.box.$drop,function(o){
+                            return !!o.renderId;
+                        });
+                        profile.$drop = profile.box.$drop[cachekey];
+                    }
                 }
 
                 //cache pop
@@ -18078,9 +18086,10 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                                 //update value
                                 b2.setUIValue(value)
                                 //set activate
-                                .activate()
+                                .activate();
+                                
                                 //cache pop
-                                ._cache();
+                                return b2._cache();
                             });
                             break;
                         case 'timepicker':
@@ -18089,8 +18098,10 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                             o.host(profile);
                             o.beforeClose(function(){this.boxing().activate()._cache();return false});
                             o.beforeUIValueSet(function(p, o, v){
+                                var b2=this.boxing();
                                 //update value
-                                this.boxing().setUIValue(v).activate()._cache();
+                                b2.setUIValue(v).activate();
+                                return b2._cache();
                             });
                             break;
                         case 'datepicker':
@@ -18099,8 +18110,10 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                             o.host(profile);
                             o.beforeClose(function(){this.boxing().activate()._cache();return false});
                             o.beforeUIValueSet(function(p, o, v){
+                                var b2=this.boxing();
                                 //update value
-                                this.boxing().setUIValue(String(v.getTime())).activate()._cache();
+                                b2.setUIValue(String(v.getTime())).activate();
+                                return b2._cache();
                             });
 
                             break;
@@ -18111,8 +18124,10 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                             o.host(profile);
                             o.beforeClose(function(){this.boxing().activate()._cache();return false});
                             o.beforeUIValueSet(function(p, o, v){
+                                var b2=this.boxing();
                                 //update value
-                                this.boxing().setUIValue('#'+v).activate()._cache();
+                                b2.setUIValue('#'+v).activate();
+                                return b2._cache();
                             });
                             break;
                     }
@@ -18162,10 +18177,10 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
 
                 //for esc
                 linb.Event.keyboardHook('esc',0,0,0,function(){
-                    box._cache();
                     box.activate();
                     //unhook
                     linb.Event.keyboardHook('esc');
+                    box._cache();
                 });
             });
         }
@@ -18549,6 +18564,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
             colorpicker:'-16px -60px'
         },
         DataModel:{
+            cachePopWnd:true,
             listKey:{
                 set:function(value){
                     var t = linb.UI.getCachedData(value),

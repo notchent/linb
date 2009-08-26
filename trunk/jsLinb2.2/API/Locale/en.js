@@ -8721,6 +8721,18 @@ _.set(linb.Locale,["en","doc","linb","UI","ComboInput"], {
                 "}"
             ]
         },
+        getCachePopWnd:{
+            $desc:"Gets whether cache pop window or not",
+            $rtn:"Boolean"
+        },
+        setCachePopWnd:{
+            $desc:"Sets whether cache pop window or not",
+            $rtn:"[self]",
+            $paras:[
+                "value [Required] : Boolean",
+                "force [Optional] : Boolean, Boolean, force to set the property value even if the same property value already exists. Default is [false]."
+            ]
+        },
         getSaveBtn:{
             $desc:"Determines whether save button shows up or not.",
             $rtn:"Boolean",

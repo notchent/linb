@@ -8756,6 +8756,18 @@ _.set(linb.Locale,["cn","doc","linb","UI","ComboInput"], {
                 "}"
             ]
         },
+        getCachePopWnd:{
+            $desc:"获取是否缓存弹出窗口的设置",
+            $rtn:"Boolean"
+        },
+        setCachePopWnd:{
+            $desc:"设置是否缓存弹出窗口",
+            $rtn:"[self]",
+            $paras:[
+                "value [必需参数] : Boolean",
+                "force [可选参数] : Boolean, 强制设置该属性值，即使属性已经设置为该值. 默认为 [false]."
+            ]
+        },
         getSaveBtn:{
             $desc:"判断多选框是否带有保存按钮.",
             $rtn:"Boolean",
