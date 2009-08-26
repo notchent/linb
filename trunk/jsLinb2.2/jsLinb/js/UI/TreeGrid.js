@@ -458,6 +458,18 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                     t=!!options.colResizer;
                     ns.getSubNode('HHANDLER',hid).css('display',(options.colResizer=t)?"block":'none');
                 }
+                if('visibility' in options){
+                    var  b = !!options.visibility;
+                    if(b){
+                        if(colh.visibility===false){
+                            ns.showColumn(colId, true);
+                        }
+                    }else{
+                        if(colh.visibility!==false){
+                            ns.showColumn(colId, false);
+                        }
+                    }
+                }
 
                 _.merge(colh, options, 'all');
             }
@@ -617,7 +629,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                 /*the other header in table header*/
                 header:{
                     HCELL:{
-                        style:"width:{width}px;",
+                        style:"width:{width}px;{colDisplay};",
                         HCELLA:{
                             className:'{headerClass}',
                             style:"{headerStyle}",
@@ -2193,6 +2205,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                 t._tabindex=pro.tabindex;
 
                 t.colDDDisplay = (('colResizer' in o)?o.colResizer:pro.colResizer)?'':'display:none';
+                t.colDisplay = o.visibility===false?'display:none':'';
 
                 if(!o.type)o.type='label';
                 if(!o.caption)o.caption=o.id;
