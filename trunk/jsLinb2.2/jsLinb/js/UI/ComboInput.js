@@ -36,8 +36,9 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
             else{
                 //get from items
                 if('listbox'==pro.type){
-                    if( (v=_.arr.subIndexOf(pro.items,'id',value))!=-1){
-                        v=pro.items[v].caption;
+                    var list = (pro.listKey)?linb.UI.getCachedData(pro.listKey):pro.items;
+                    if( list && (v=_.arr.subIndexOf(list,'id',value))!=-1){
+                      v=list[v].caption;
                         v=v.charAt(0)=='$'?linb.getRes(v.slice(1)):v;
                     }else
                         v='';

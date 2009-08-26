@@ -334,7 +334,7 @@ Class("linb.DataBinder","linb.absObj",{
 
             //set anti-links
             profile.link(c._cache,'self').link(linb._pool,'linb');
-            
+
             if(!profile.name)profile.boxing().setName(alias);
 
             self._nodes.push(profile);
@@ -418,7 +418,7 @@ Class("linb.DataBinder","linb.absObj",{
                         _p=c._pool,
                         to=_p[ovalue],
                         t=_p[value];
-                    
+
                     //if it exitst, overwrite it dir
                     //if(to && t)
                     //    throw new Error(value+' exists!');
@@ -475,6 +475,7 @@ Class('linb.UIProfile','linb.Profile', {
                 delete ns.RenderTrigger;
                 if(ns.onRender)
                     ns.boxing().onRender(ns);
+                _.tryF(ns.$onrender,[],ns);
             }
 
             if(arguments[0]===true && (t=ns.LayoutTrigger)){
@@ -487,7 +488,7 @@ Class('linb.UIProfile','linb.Profile', {
                 if(ns.children)
                     for(var i=0,v;v=ns.children[i++];)
                         v[0]._render(true);
-    
+
                 if(ns.$attached){
                     for(var i=0,v;v=ns.$attached[i++];)
                         v._render(true);
@@ -785,7 +786,7 @@ Class('linb.UIProfile','linb.Profile', {
             arr[0]=key;
             arr[2]=subId||'';
             key=arr.join(':');
-            return key==this.$domId 
+            return key==this.$domId
                 ? linb.$cache.profileMap[key].domId
                 : key;
         },
@@ -840,7 +841,7 @@ Class('linb.UIProfile','linb.Profile', {
         queryItems:function(items, fun, deep, single, flag){
             var r=[],
                 me=arguments.callee,
-                f = me.f || (me.f = function(items, fun, deep, single, r){
+                f = me.f || (me.f = function(items, fun, deep, single, flag, r){
                     _.arr.each(items,function(o,i){
                         if(fun===true || fun.call(null, o, i, items)){
                             r.push(flag?[o,i,items]:o);
@@ -848,10 +849,10 @@ Class('linb.UIProfile','linb.Profile', {
                                 return false;
                         }
                         if(deep && o.sub && o.sub.length)
-                            f(o.sub, fun, deep, single, r);
+                            f(o.sub, fun, deep, single, flag, r);
                     });
                 });
-            f(items, fun, deep, single, r);
+            f(items, fun, deep, single, flag, r);
             return r;
         }
     },
@@ -1293,7 +1294,7 @@ Class("linb.UI",  "linb.absObj", {
 
             if(pro.beforeAppend && false===this.beforeAppend(pro,target))
                 return;
-            
+
             if(subId!==false && target['linb.UI']){
                 target.each(function(profile){
                     profile.linkParent(pro,subId);
@@ -1531,7 +1532,7 @@ Class("linb.UI",  "linb.absObj", {
                     }else{
                         if(self.onMove)
                             self.boxing().onMove(self,o=='left'?value:null,o=='top'?value:null,o=='right'?value:null,o=='bottom'?value:null)
-                    }                        
+                    }
                 }
             }
         });
@@ -3246,7 +3247,7 @@ Class("linb.UI",  "linb.absObj", {
             if(force || ((w||h) && (profile._resize_w!=w || profile._resize_h!=h))){
                 //destroyed before resize
                 if(!profile.getRootNode())return false;
-                
+
                 profile._resize_w=w;
                 profile._resize_h=h;
                 _.tryF(profile.box._onresize,[profile,w,h,force,key],profile.box);
@@ -3263,7 +3264,7 @@ Class("linb.UI",  "linb.absObj", {
                 //adjust width and height
                 w=parseInt(w)||null;
                 h=((h===""||h=='auto')?"auto":parseInt(h))||null;
-                
+
                 //if it it has delay resize, overwrite arguments
                 if('_$v' in profile){
                     var args=profile.$rs_args;
@@ -3342,6 +3343,7 @@ Class("linb.UI",  "linb.absObj", {
                 f,t,isWin,
                 //for ie6 1px bug
                 _adjust=function(v){return linb.browser.ie6?v-v%2:v}
+
 
             if(p.get(0)===document.body){
                 pid='!document';
@@ -3449,7 +3451,7 @@ Class("linb.UI",  "linb.absObj", {
                                         //for safari
                                         try{
                                             o.node.cssRegion(o, true);
-                                            
+
                                             if((profile=linb.UIProfile.getFromDom(o.node.get(0))) && profile.onDock){
                                                 delete o.node;
                                                 profile.boxing().onDock(profile,o);
@@ -3460,7 +3462,7 @@ Class("linb.UI",  "linb.absObj", {
                                                 o.node.cssRegion(o);
                                                 o.width-=1;o.height-=1;
                                                 o.node.cssRegion(o, true);
-                                                
+
                                                 if((profile=linb.UIProfile.getFromDom(o.node.get(0))) && profile.onDock){
                                                     delete o.node;
                                                     profile.boxing().onDock(profile,o);
@@ -3629,6 +3631,7 @@ Class("linb.UI",  "linb.absObj", {
                     }
                 }
             }
+            
             //run once now
             if(value != 'none' && trigger)
                 profile.$dockFun({width:1, height:1, $dockid:_.arr.indexOf(['width','height','fill','cover'],value)!=-1?profile.$linbid:null, $type: value});
@@ -3731,7 +3734,7 @@ Class("linb.UI",  "linb.absObj", {
             if('items' in dm){
                 profile.ItemIdMapSubSerialId = {};
                 profile.SubSerialIdMapItem = {};
-                
+
                 prop.items=profile.box._adjustItems(prop.items);
                 data.items = this._prepareItems(profile, prop.items);
             }
@@ -3849,8 +3852,8 @@ Class("linb.absList", "linb.absObj",{
                     items.push.apply(items,arr2);
                 }else
                     _.arr.insertAny(items,arr2, before?index:index+1);
-                    
-                    
+
+
                 if(b)
                     profile.boxing()._afterInsertItems(profile, data, base, before);
             });
@@ -4016,7 +4019,7 @@ Class("linb.absList", "linb.absObj",{
                         o.boxing().setItems(t);
                     else
                         o.boxing().setItems(o.properties.items);
-                    o.properties.listKey = value; 
+                    o.properties.listKey = value;
                 }
             },
             items:{

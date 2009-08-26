@@ -58,7 +58,8 @@ Class("linb.UI.ToolBar",["linb.UI","linb.absList"],{
                     }
                 });
                 profile.getSubNodeByItemId('GROUP', grpId).css('display',value===false?'none':'');
-                linb.UI.$dock(profile,true,true);
+                if(profile.renderId && profile.getRootNode().offsetWidth)
+                    linb.UI.$dock(profile,true,true);
             });
         }
     },

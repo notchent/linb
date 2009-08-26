@@ -44,8 +44,10 @@ Class('VisualJS.Designer', 'linb.Com',{
             }else{
                 if(key=='linb.UI.TimeLine')return;
                 if(!items)return;
-                ap.setItems([{id:'a',caption:'item a',image:'img/demo.gif'}, {id:'b',caption:'item b',image:'img/demo.gif'}, {id:'c',caption:'item c',image:'img/demo.gif'}, {id:'d',caption:'item d',image:'img/demo.gif'}])
-                    .setValue('a');
+                ap.setItems([{id:'a',caption:'item a',image:'img/demo.gif'}, {id:'b',caption:'item b',image:'img/demo.gif'}, {id:'c',caption:'item c',image:'img/demo.gif'}, {id:'d',caption:'item d',image:'img/demo.gif'}]);
+
+                if(ap.setValue)
+                    ap.setValue('a');
             }
         },
         events:{
@@ -346,6 +348,7 @@ Class('VisualJS.Designer', 'linb.Com',{
                                     dragKey:item.dragKey || profile.properties.dragKey,
                                     dragData:{
                                         type:item.id,
+                                        image: item.image,
                                         imagePos:item.imagePos
                                     }
                                 });
@@ -482,7 +485,7 @@ Class('VisualJS.Designer', 'linb.Com',{
                 });
                 page.layoutBase.reBoxing().prepend(page.focusBtn);
 
-
+                page._giveHandler(page.canvas.get(0),true);
                 page._enablePanelDesign(page.canvas.get(0));
 
             }
@@ -647,49 +650,65 @@ Class('VisualJS.Designer', 'linb.Com',{
             });
 
         },
-        _giveHandler:function(target){
+        _giveHandler:function(profile, isCanvas){
             var prevent = function(){return},
-                page=this;
-            target.getRoot().beforeClick(prevent).afterClick(prevent).onClick(function(pro, e, src){
-                var esrc=linb.Event.getSrc(e),
-                    id,profile;
-
-                //for lang span, or inner renderer
-                while((!esrc.id || esrc.id==linb.$langId) && esrc.parentNode!==document&& esrc.parentNode!==window)
-                    esrc=esrc.parentNode;
-
-                id=esrc.id;
-                esrc=null;
-                if(!id)return;
-
-                if(linb.UIProfile.getFromDom(id) !== (profile=linb.UIProfile.getFromDom(linb.use(src).id())))return;
-
-                if(!profile)return;
-
-                var t,key=linb.Event.$keyboard;
-
-                //if change panel, clear the panel selected
-                if(page.pProfile && (page.pProfile !=profile.parent))
-                    page.pProfile.selected = [];
-
-                if(t=profile.parent){
-                    if(key && key[2])
-                        t.reSelectObject.call(t,profile, profile.getRoot().parent());
-                    else
-                        t.selectObject.call(t,profile, profile.getRoot().parent());
-                }
-                return false;
-            });
-        },
-        _enablePanelDesignFace:function(profile, key){
+                page=this,
+                fun = function(){
+                    //don't set to canvas
+                    if(!isCanvas){
+                        profile.getRoot()
+                        .beforeClick(prevent)
+                        .afterClick(prevent)
+                        .onClick(function(pro, e, src){
+                            var esrc=linb.Event.getSrc(e),
+                                id,profile;
+            
+                            //for lang span, or inner renderer
+                            while((!esrc.id || esrc.id==linb.$langId) && esrc.parentNode!==document&& esrc.parentNode!==window)
+                                esrc=esrc.parentNode;
+            
+                            id=esrc.id;
+                            esrc=null;
+                            if(!id)return;
+            
+                            if(linb.UIProfile.getFromDom(id) !== (profile=linb.UIProfile.getFromDom(linb.use(src).id())))return;
+            
+                            if(!profile)return;
+            
+                            var t,key=linb.Event.$keyboard;
+            
+                            //if change panel, clear the panel selected
+                            if(page.pProfile && (page.pProfile !=profile.parent))
+                                page.pProfile.selected = [];
+            
+                            if(t=profile.parent){
+                                if(key && key[2])
+                                    t.reSelectObject.call(t,profile, profile.getRoot().parent());
+                                else
+                                    t.selectObject.call(t,profile, profile.getRoot().parent());
+                            }
+                            return false;
+                        });
+                    }
+                    
+                    var t=profile.behavior.DropableKeys;
+                    if(t && t.length){
+                        profile.getSubNode(t[0], true).addClass('panel')
+                        .$addEventHandler('drop')
+                        .$addEventHandler('mousedown')
+                        .$addEventHandler('click')
+                        .$addEventHandler('drag')
+                        .$addEventHandler('dragstop')
+                        .$addEventHandler('mouseup');                        
+                    }
+                };
             //add a class panel
-            profile.getSubNode(key).addClass('panel')
-            .$addEventHandler('drop')
-            .$addEventHandler('mousedown')
-            .$addEventHandler('click')
-            .$addEventHandler('drag')
-            .$addEventHandler('dragstop')
-            .$addEventHandler('mouseup');
+            if(profile.renderId){
+                fun();
+            }else{
+                profile.$onrender=fun;
+            };
+
         },
         _enablePanelDesign:function(profile){
             var t,key = profile.box.KEY,pool=profile.behavior.DropableKeys, page=this,h, k,
@@ -727,6 +746,7 @@ Class('VisualJS.Designer', 'linb.Com',{
                         dragKey = dd.dragKey,
                         dragData = dd.dragData,
                         type=dragData.type,
+                        image = dragData.image,
                         imagePos = dragData.imagePos,
                         data=dragData.data,
                         pos=dragData.pos,
@@ -741,7 +761,7 @@ Class('VisualJS.Designer', 'linb.Com',{
                                 var o = linb.create(type).get(0);
                                 o.$inDesign=true;
 
-                                page.iconlist.insertItems([{id:o.$linbid, image:linb.ini.file_bg, tips:o.key, imgStyle:'background:url(img/widgets.gif) '+ imagePos}],null,false);
+                                page.iconlist.insertItems([{id:o.$linbid, image:linb.ini.file_bg, tips:o.key, imgStyle:'background:url('+image+') '+ imagePos}],null,false);
                                 page.iconlist.setUIValue(o.$linbid);
 
                                 if(t['linb.UI'])
@@ -956,8 +976,6 @@ Class('VisualJS.Designer', 'linb.Com',{
                     //profile.boxing().setCustomBehavior(h);
                     profile._CB=h;
                     profile.clearCache();
-
-                    page._enablePanelDesignFace(profile, i)
                 }
             }
 
@@ -1795,11 +1813,8 @@ Class('VisualJS.Designer', 'linb.Com',{
                                                     b.setItems([]);
 
                                                 if(t=tagVar.profile.behavior.DropableKeys){
-                                                    //_.arr.each(t,function(i){
-                                                        var i=t[0];
-                                                        deeppage._enablePanelDesignFace(tagVar.profile, i);
-                                                    //});
-                                                 }
+                                                    deeppage._giveHandler(tagVar.profile);
+                                                y}
                                             }
 
                                         }
@@ -2256,7 +2271,7 @@ Class('VisualJS.Designer', 'linb.Com',{
                         self._designable(o);
                     });
                     _.arr.each(n2,function(target){
-                        self.iconlist.insertItems([{id:target.$linbid, image:'img/widgets.gif', iconPos:CONF.mapWidgets[target.box.KEY].iconPos}],null,false);
+                        self.iconlist.insertItems([{id:target.$linbid, image:linb.ini.file_bg, tips:target.key, imgStyle:'background:url(' + CONF.mapWidgets[target.box.KEY].image + ') '+ CONF.mapWidgets[target.box.KEY].imagePos}],null,false);
                     });
 
                     var t=self.layoutBase.reBoxing();
@@ -2264,6 +2279,7 @@ Class('VisualJS.Designer', 'linb.Com',{
                         t.css('display','block');
                         t.parent().css('background','');
                     }
+
 
                 }catch(e){
                     self.iconlist.clearItems();

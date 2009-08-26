@@ -45,7 +45,7 @@ Class('VisualJS.ClassEditor', 'linb.Com',{
             //set value
             self.$bakValue=data.text=txt;
             if(false==self._adjustData(txt,false))
-                view='normal';
+                view='';
 
             //need to refresh?
             if(self.views[view])
