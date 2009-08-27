@@ -904,7 +904,10 @@ new function(){
         opr:/opera/.test(u),
         ie:/msie/.test(u) && !/opera/.test(u),
         gek:/mozilla/.test(u) && !/(compatible|webkit)/.test(u),
-
+        
+        isStrict:d.compatMode=="CSS1Compat",
+        isChrome:/chrome/.test(u),
+        isSafari:/safari/.test(u),
         isWin:/(windows|win32)/.test(u),
         isMac:/(macintosh|mac os x)/.test(u),
         isAir:/adobeair/.test(u),

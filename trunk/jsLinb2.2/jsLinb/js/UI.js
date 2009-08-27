@@ -1584,7 +1584,7 @@ Class("linb.UI",  "linb.absObj", {
         self.setDataModel(hash);
 
         linb.UI.$cache_css += linb.UI.buildCSSText({
-            '.linb-html, .linb-html BODY':{
+            '.linb-viewport, .linb-viewport BODY':{
                 overflow:'hidden',
                 height:'100%',
                 border:'0 none',
@@ -2896,8 +2896,20 @@ Class("linb.UI",  "linb.absObj", {
         },
         $applyCSS:function( ){
             var self=linb.UI, cache=self.$cache_css;
+            if(!self.$cssNo){
+                self.$cssNo=1;
+                var b=linb.browser;
+                linb('body').addClass(
+                          (b.ie ? ("linb-ie linb-ie" + b.ver + " ") :
+                           b.gek ? ("linb-gek linb-gek" + b.ver + " ") :
+                           b.kde ? ("linb-kde linb-kde" + b.ver + " ") :
+                           b.opr ? ("linb-opr linb-opr" + b.ver + " ") : "")
+                        + (b.isSafari ? "linb-safari ": b.isChrome ? "linb-chrome " :"")
+                        + (b.isMac ? "linb-mac": b.isLinux ? "linb-linux " :"")
+                );
+                linb('html').addClass(b.isStrict?"linb-strict":"");
+            }
             if(cache){
-                if(!self.$cssNo)self.$cssNo=1;
                 linb.CSS.addStyleSheet(cache, 'linb.UI-CSS'+(self.$cssNo++));
                 linb.UI.$cache_css='';
             }
@@ -3625,7 +3637,7 @@ Class("linb.UI",  "linb.absObj", {
                     profile.$dockFun=f;
 
                     if(isWin){
-                        linb('html').addClass('linb-html');
+                        linb('html').addClass('linb-viewport');
                         if(t=linb('body').get(0))
                             t.scroll='no';
                     }
