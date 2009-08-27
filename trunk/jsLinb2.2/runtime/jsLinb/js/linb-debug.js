@@ -13409,7 +13409,10 @@ Class("linb.absValue", "linb.absObj",{
                 var r;
                 if(typeof (r=profile.box._ensureValue)=='function')
                     value = r.call(profile.box, profile, value);
-                profile.boxing()._setCtrlValue(profile.properties.$UIvalue = profile.properties.value = value);
+                // _setCtrlValue maybe use $UIvalue
+                profile.boxing()._setCtrlValue(profile.properties.value = value);
+                // So, maintain $UIvalue during _setCtrlValue call
+                profile.properties.$UIvalue = value;
                 if(typeof(r=profile.$onValueSet)=='function')r.call(profile,value);
                 profile.inValid=1;
             });
