@@ -1536,7 +1536,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                         var items=[],pop;
                         _.arr.each(profile.properties.header,function(o){
                             if(o.hasOwnProperty('colHidable')?o.colHidable:p.colHidable)
-                                items.push({id:o.id,caption:o.caption,type:'checkbox',value:true});
+                                items.push({id:o.id,caption:o.caption,type:'checkbox',value:o.visibility!==false});
                         });
                         if(items.length){
                             pop=profile.$col_pop=new linb.UI.PopMenu({hideAfterClick:false,items:items}).render(true);
