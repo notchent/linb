@@ -2933,37 +2933,43 @@ Class('linb.Event',null,{
             CENTURY     : 3155760000000   //CENTURIES 100 * 365 * 24 * 60 * 60 * 1000 (approx = 1 century)
         },
         $TEXTFORMAT:{
-            utciso:function(d,f){f=linb.Date._fix; return d.getUTCFullYear() + '-' +f(d.getUTCMonth() + 1) + '-' +f(d.getUTCDate()) + 'T' +f(d.getUTCHours()) + ':' +f(d.getUTCMinutes()) + ':' +f(d.getUTCSeconds()) + 'Z'},
-            iso:function(d,f){f=linb.Date._fix; return d.getFullYear() + '-' +f(d.getMonth() + 1) + '-' +f(d.getDate()) + 'T' +f(d.getHours()) + ':' +f(d.getMinutes()) + ':' +f(d.getSeconds())},
-            ms:function(d){return linb.Date._fix(d.getMilliseconds(),3)+ linb.wrapRes('date.MS')},
-            s:function(d){return linb.Date._fix(d.getSeconds())+ linb.wrapRes('date.S')},
-            n:function(d){return linb.Date._fix(d.getMinutes())+ linb.wrapRes('date.N')},
-            h :function(d){return linb.Date._fix(d.getHours())+ linb.wrapRes('date.H')},
-            d:function(d){return d.getDate()+ linb.wrapRes('date.D')},
-            w : function(d,firstDayOfWeek){return linb.wrapRes('date.WEEKS.'+(d.getDay() - firstDayOfWeek +7)%7 )},
-            ww : function(d,firstDayOfWeek){return linb.Date.getWeek(d, firstDayOfWeek) + linb.wrapRes('date.W')},
-            m:function(d){return (d.getMonth()+1) + linb.wrapRes('date.M')},
-            q : function(d){return (parseInt((d.getMonth()+3)/3-1) + 1) + linb.wrapRes('date.Q')},
-            y :function(d){return d.getFullYear() + linb.wrapRes('date.Y')},
-            de:function(d){return parseInt(d.getFullYear()/10) + linb.wrapRes('date.DE')},
-            c:function(d){return parseInt(d.getFullYear()/100) + linb.wrapRes('date.C')},
+            utciso:function(d,w,f){f=linb.Date._fix; return d.getUTCFullYear() + '-' +f(d.getUTCMonth() + 1) + '-' +f(d.getUTCDate()) + 'T' +f(d.getUTCHours()) + ':' +f(d.getUTCMinutes()) + ':' +f(d.getUTCSeconds()) + 'Z'},
+            iso:function(d,w,f){f=linb.Date._fix; return d.getFullYear() + '-' +f(d.getMonth() + 1) + '-' +f(d.getDate()) + 'T' +f(d.getHours()) + ':' +f(d.getMinutes()) + ':' +f(d.getSeconds())},
+            ms:function(d,w){return linb.Date._fix(d.getMilliseconds(),3)+ (w?"":linb.wrapRes('date.MS'))},
+            s:function(d,w){return d.getSeconds()+ (w?"":linb.wrapRes('date.S'))},
+            ss:function(d,w){return linb.Date._fix(d.getSeconds())+ (w?"":linb.wrapRes('date.S'))},
+            n:function(d,w){return d.getMinutes()+ (w?"":linb.wrapRes('date.N'))},
+            nn:function(d,w){return linb.Date._fix(d.getMinutes())+ (w?"":linb.wrapRes('date.N'))},
+            h :function(d,w){return d.getHours()+ (w?"":linb.wrapRes('date.H'))},
+            hh :function(d,w){return linb.Date._fix(d.getHours())+ (w?"":linb.wrapRes('date.H'))},
+            d:function(d,w){return d.getDate()+ (w?"":linb.wrapRes('date.D'))},
+            dd:function(d,w){return linb.Date._fix(d.getDate())+ (w?"":linb.wrapRes('date.D'))},
+            w : function(d,w,firstDayOfWeek){var a=(d.getDay() - firstDayOfWeek +7)%7; return w?a:linb.wrapRes('date.WEEKS.'+a)},
+            ww : function(d,w,firstDayOfWeek){return linb.Date.getWeek(d, firstDayOfWeek) + (w?"":linb.wrapRes('date.W'))},
+            m:function(d,w){return (d.getMonth()+1) + (w?"":linb.wrapRes('date.M'))},
+            mm:function(d,w){return linb.Date._fix(d.getMonth()+1) + (w?"":linb.wrapRes('date.M'))},
+            q : function(d,w){return (parseInt((d.getMonth()+3)/3-1) + 1) + (w?"":linb.wrapRes('date.Q'))},
+            y :function(d,w){return d.getYear() + (w?"":linb.wrapRes('date.Y'))},
+            yyyy :function(d,w){return d.getFullYear() + (w?"":linb.wrapRes('date.Y'))},
+            de:function(d,w){return parseInt(d.getFullYear()/10) + (w?"":linb.wrapRes('date.DE'))},
+            c:function(d,w){return parseInt(d.getFullYear()/100) + (w?"":linb.wrapRes('date.C'))},
 
-            hn:function(d){return linb.wrapRes('date.HN-'+d.getHours()+"-"+d.getMinutes())},
-            dhn:function(d){return linb.wrapRes('date.DHN-'+d.getDate()+"-"+d.getHours()+"-"+d.getMinutes())},
-            mdhn:function(d){return linb.wrapRes('date.MDHN-'+(d.getMonth()+1)+"-"+d.getDate()+"-"+d.getHours()+"-"+d.getMinutes())},
-            hns:function(d){return linb.wrapRes('date.HNS-'+d.getHours()+"-"+d.getMinutes()+"-"+d.getSeconds())},
-            hnsms:function(d){return linb.wrapRes('date.HNSMS-'+d.getHours()+"-"+d.getMinutes()+"-"+d.getSeconds()+"-"+d.getMilliseconds())},
+            hn:function(d,w){return linb.wrapRes('date.HN-'+d.getHours()+"-"+d.getMinutes())},
+            dhn:function(d,w){return linb.wrapRes('date.DHN-'+d.getDate()+"-"+d.getHours()+"-"+d.getMinutes())},
+            mdhn:function(d,w){return linb.wrapRes('date.MDHN-'+(d.getMonth()+1)+"-"+d.getDate()+"-"+d.getHours()+"-"+d.getMinutes())},
+            hns:function(d,w){return linb.wrapRes('date.HNS-'+d.getHours()+"-"+d.getMinutes()+"-"+d.getSeconds())},
+            hnsms:function(d,w){return linb.wrapRes('date.HNSMS-'+d.getHours()+"-"+d.getMinutes()+"-"+d.getSeconds()+"-"+d.getMilliseconds())},
 
-            yq:function(d){return linb.wrapRes('date.YQ-'+d.getFullYear()+"-"+(parseInt((d.getMonth()+3)/3-1)+1))},
+            yq:function(d,w){return linb.wrapRes('date.YQ-'+d.getFullYear()+"-"+(parseInt((d.getMonth()+3)/3-1)+1))},
 
-            ym :   function(d){return linb.wrapRes('date.YM-'+d.getFullYear()+"-"+(d.getMonth()+1))},
-            md :  function(d){return linb.wrapRes('date.MD-'+(d.getMonth()+1)+"-"+d.getDate())},
-            ymd :  function(d){return linb.wrapRes('date.YMD-'+d.getFullYear()+"-"+(d.getMonth()+1)+"-"+d.getDate())},
-            ymd2 :  function(d){return linb.wrapRes('date.YMD2-'+d.getFullYear()+"-"+(d.getMonth()+1)+"-"+d.getDate())},
-            ymdh:  function(d){return linb.wrapRes('date.YMDH-'+d.getFullYear()+"-"+(d.getMonth()+1)+"-"+d.getDate()+"-"+d.getHours())},
-            ymdhn: function(d){return linb.wrapRes('date.YMDHN-'+d.getFullYear()+"-"+(d.getMonth()+1)+"-"+d.getDate()+"-"+d.getHours()+"-"+d.getMinutes())},
-            ymdhns:function(d){return linb.wrapRes('date.YMDHNS-'+d.getFullYear()+"-"+(d.getMonth()+1)+"-"+d.getDate()+"-"+d.getHours()+"-"+d.getMinutes()+"-"+d.getSeconds())},
-            'all' :  function(d){return linb.wrapRes('date.ALL-'+d.getFullYear()+"-"+(d.getMonth()+1)+"-"+d.getDate()+"-"+d.getHours()+"-"+d.getMinutes()+"-"+d.getSeconds()+"-"+d.getMilliseconds())}
+            ym :   function(d,w){return linb.wrapRes('date.YM-'+d.getFullYear()+"-"+(d.getMonth()+1))},
+            md :  function(d,w){return linb.wrapRes('date.MD-'+(d.getMonth()+1)+"-"+d.getDate())},
+            ymd :  function(d,w){return linb.wrapRes('date.YMD-'+d.getFullYear()+"-"+(d.getMonth()+1)+"-"+d.getDate())},
+            ymd2 :  function(d,w){return linb.wrapRes('date.YMD2-'+d.getFullYear()+"-"+(d.getMonth()+1)+"-"+d.getDate())},
+            ymdh:  function(d,w){return linb.wrapRes('date.YMDH-'+d.getFullYear()+"-"+(d.getMonth()+1)+"-"+d.getDate()+"-"+d.getHours())},
+            ymdhn: function(d,w){return linb.wrapRes('date.YMDHN-'+d.getFullYear()+"-"+(d.getMonth()+1)+"-"+d.getDate()+"-"+d.getHours()+"-"+d.getMinutes())},
+            ymdhns:function(d,w){return linb.wrapRes('date.YMDHNS-'+d.getFullYear()+"-"+(d.getMonth()+1)+"-"+d.getDate()+"-"+d.getHours()+"-"+d.getMinutes()+"-"+d.getSeconds())},
+            'all' :  function(d,w){return linb.wrapRes('date.ALL-'+d.getFullYear()+"-"+(d.getMonth()+1)+"-"+d.getDate()+"-"+d.getHours()+"-"+d.getMinutes()+"-"+d.getSeconds()+"-"+d.getMilliseconds())}
         },
         $TIMEZONE:[{
             id:"Asia(East,North)",
@@ -4206,11 +4212,18 @@ Class('linb.Event',null,{
             }
         },
         getText:function(date, datepart, firstDayOfWeek){
-            var self=this;
+            var self=this, map=self.$TEXTFORMAT;
             date = self._date(date);
             firstDayOfWeek = self._numb(firstDayOfWeek);
-            datepart=datepart||'';
-            return self.$TEXTFORMAT[datepart](date, firstDayOfWeek);
+            return map[datepart]?map[datepart](date, false, firstDayOfWeek):datepart;
+        },
+        format:function(date, format, firstDayOfWeek){
+            var self=this, map=self.$TEXTFORMAT;
+            date = self._date(date);
+            firstDayOfWeek = self._numb(firstDayOfWeek);
+            return format.replace(/(utciso|iso|yyyy|mm|ww|dd|hh|nn|ss|ms|de|c|y|q|m|w|d|h|n|s)/g, function(a,b){
+                return map[b]?map[b](date,true,firstDayOfWeek):b;
+            });
         }
     }
 });/* css

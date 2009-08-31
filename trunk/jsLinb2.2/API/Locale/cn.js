@@ -3483,6 +3483,41 @@ _.set(linb.Locale,["cn","doc","linb","Date"], {
             "alert(arr.join('\\n'))"
         ]
     },
+    format:{
+        $desc:"按照给定的格式格式化日期.",
+        $rtn:"String",
+        $paras:[
+            "date [必需参数] : Date Object, 时间戳.",
+            "format [必需参数] : String, 时间格式. 可用的时间元素有： (utciso|iso|yyyy|mm|ww|dd|hh|nn|ss|ms|de|c|y|q|m|w|d|h|n|s). ",
+            "firstDayOfWeek [可选参数] : 每周的第一天的编号. 默认为 0."
+        ],
+        $snippet:[
+            "var arr=[],date=linb.Date,d=new Date;"+
+            "arr.push(date.format(d,'utciso'));"+
+            "arr.push(date.format(d,'iso'));"+
+            "arr.push(date.format(d,'ms'));"+
+            "arr.push(date.format(d,'s'));"+
+            "arr.push(date.format(d,'ss'));"+
+            "arr.push(date.format(d,'n'));"+
+            "arr.push(date.format(d,'nn'));"+
+            "arr.push(date.format(d,'h'));"+
+            "arr.push(date.format(d,'hh'));"+
+            "arr.push(date.format(d,'d'));"+
+            "arr.push(date.format(d,'dd'));"+
+            "arr.push(date.format(d,'w' ));"+
+            "arr.push(date.format(d,'ww'));"+
+            "arr.push(date.format(d,'m'));"+
+            "arr.push(date.format(d,'mm'));"+
+            "arr.push(date.format(d,'q' ));"+
+            "arr.push(date.format(d,'qa' ));"+
+            "arr.push(date.format(d,'y'));"+
+            "arr.push(date.format(d,'yyyy'));"+
+            "arr.push(date.format(d,'de'));"+
+            "arr.push(date.format(d,'c'));"+
+            "arr.push(date.format(d,'yyyy-mm-dd hh:nn:ss ms'));"+
+            "alert(arr.join('\\n'))"
+        ]
+    },
     getText:{
         $desc:"将时间戳转化为一个可以显示的字符串.",
         $rtn:"String",

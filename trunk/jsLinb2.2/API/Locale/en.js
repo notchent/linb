@@ -3466,6 +3466,43 @@ _.set(linb.Locale,["en","doc","linb","Date"], {
             "alert(arr.join('\\n'))"
         ]
     },
+    format:{
+        $desc:"Formats Date object.",
+        $rtn:"String",
+        $paras:[
+            "date [Required] : Date Object, the specified date.",
+            "format [Required] : String, the result string's format. The format unit is in (utciso|iso|yyyy|mm|ww|dd|hh|nn|ss|ms|de|c|y|q|m|w|d|h|n|s). ",
+            "firstDayOfWeek [Optional] : Number the first day of week. Default is 0."
+        ],
+        $snippet:[
+            "var arr=[],date=linb.Date,d=new Date;"+
+            "arr.push(date.format(d,'utciso'));"+
+            "arr.push(date.format(d,'iso'));"+
+            "arr.push(date.format(d,'ms'));"+
+            "arr.push(date.format(d,'s'));"+
+            "arr.push(date.format(d,'ss'));"+
+            "arr.push(date.format(d,'n'));"+
+            "arr.push(date.format(d,'nn'));"+
+            "arr.push(date.format(d,'h'));"+
+            "arr.push(date.format(d,'hh'));"+
+            "arr.push(date.format(d,'d'));"+
+            "arr.push(date.format(d,'dd'));"+
+            "arr.push(date.format(d,'w' ));"+
+            "arr.push(date.format(d,'ww'));"+
+            "arr.push(date.format(d,'m'));"+
+            "arr.push(date.format(d,'mm'));"+
+            "arr.push(date.format(d,'q' ));"+
+            "arr.push(date.format(d,'qa' ));"+
+            "arr.push(date.format(d,'y'));"+
+            "arr.push(date.format(d,'yyyy'));"+
+            "arr.push(date.format(d,'de'));"+
+            "arr.push(date.format(d,'c'));"+
+            "arr.push(date.format(d,'yyyy-mm-dd hh:nn:ss ms'));"+
+            "alert(arr.join('\\n'))"
+        ]
+
+        
+    },
     getText:{
         $desc:"Converts the specified date to a string representation.",
         $rtn:"String",
