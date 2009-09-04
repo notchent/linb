@@ -1239,10 +1239,10 @@ Class('linb.Date',null,{
         *   var localDate = new Date, timezone9Date=linb.Date.offsetTimeZone(localDate, 9);
         *   localDate.toString() == linb.Date.offsetTimeZone(timezone9Date, -9);
         */
-        offsetTimeZone:function(date, timeZone, back){
+        offsetTimeZone:function(date, targetTimeZone, back){
             var self=this;
             date=self._date(date);
-            return new Date(date.getTime() + (back?-1:1)*(timeZone - self._timeZone)*self.$TIMEUNIT.h);
+            return new Date(date.getTime() + (back?-1:1)*(targetTimeZone - self._timeZone)*self.$TIMEUNIT.h);
         },
 
         /*get week
@@ -1276,7 +1276,7 @@ Class('linb.Date',null,{
                   Seconds: 12,
                   Milliseconds: 14
                 }),
-                match = str.match(me.iso||(me.iso=/^((-\d+|\d{4,})(-(\d{2})(-(\d{2}))?)?)?T((\d{2})(:(\d{2})(:(\d{2})(\.(\d{1,3})(\d)?\d*)?)?)?)?(([+-])(\d{2})(:(\d{2}))?|Z)?$/)),
+                match = str.match(me.iso||(me.iso=/^((-\d+|\d{4,})(-(\d{2})(-(\d{2}))?)?)?T((\d{2})(:(\d{2})(:(\d{2})(\.(\d{1,3})(\d)?\d*)?)?)?)?(([+-])(\d{2})((\d{2}))?|Z)?$/)),
                 date = new Date(0)
                 ;
             if(match){

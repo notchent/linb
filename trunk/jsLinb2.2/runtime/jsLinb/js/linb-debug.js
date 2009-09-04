@@ -904,10 +904,7 @@ new function(){
         opr:/opera/.test(u),
         ie:/msie/.test(u) && !/opera/.test(u),
         gek:/mozilla/.test(u) && !/(compatible|webkit)/.test(u),
-        
-        isStrict:d.compatMode=="CSS1Compat",
-        isChrome:/chrome/.test(u),
-        isSafari:/safari/.test(u),
+
         isWin:/(windows|win32)/.test(u),
         isMac:/(macintosh|mac os x)/.test(u),
         isAir:/adobeair/.test(u),
@@ -2933,43 +2930,37 @@ Class('linb.Event',null,{
             CENTURY     : 3155760000000   //CENTURIES 100 * 365 * 24 * 60 * 60 * 1000 (approx = 1 century)
         },
         $TEXTFORMAT:{
-            utciso:function(d,w,f){f=linb.Date._fix; return d.getUTCFullYear() + '-' +f(d.getUTCMonth() + 1) + '-' +f(d.getUTCDate()) + 'T' +f(d.getUTCHours()) + ':' +f(d.getUTCMinutes()) + ':' +f(d.getUTCSeconds()) + 'Z'},
-            iso:function(d,w,f){f=linb.Date._fix; return d.getFullYear() + '-' +f(d.getMonth() + 1) + '-' +f(d.getDate()) + 'T' +f(d.getHours()) + ':' +f(d.getMinutes()) + ':' +f(d.getSeconds())},
-            ms:function(d,w){return linb.Date._fix(d.getMilliseconds(),3)+ (w?"":linb.wrapRes('date.MS'))},
-            s:function(d,w){return d.getSeconds()+ (w?"":linb.wrapRes('date.S'))},
-            ss:function(d,w){return linb.Date._fix(d.getSeconds())+ (w?"":linb.wrapRes('date.S'))},
-            n:function(d,w){return d.getMinutes()+ (w?"":linb.wrapRes('date.N'))},
-            nn:function(d,w){return linb.Date._fix(d.getMinutes())+ (w?"":linb.wrapRes('date.N'))},
-            h :function(d,w){return d.getHours()+ (w?"":linb.wrapRes('date.H'))},
-            hh :function(d,w){return linb.Date._fix(d.getHours())+ (w?"":linb.wrapRes('date.H'))},
-            d:function(d,w){return d.getDate()+ (w?"":linb.wrapRes('date.D'))},
-            dd:function(d,w){return linb.Date._fix(d.getDate())+ (w?"":linb.wrapRes('date.D'))},
-            w : function(d,w,firstDayOfWeek){var a=(d.getDay() - firstDayOfWeek +7)%7; return w?a:linb.wrapRes('date.WEEKS.'+a)},
-            ww : function(d,w,firstDayOfWeek){return linb.Date.getWeek(d, firstDayOfWeek) + (w?"":linb.wrapRes('date.W'))},
-            m:function(d,w){return (d.getMonth()+1) + (w?"":linb.wrapRes('date.M'))},
-            mm:function(d,w){return linb.Date._fix(d.getMonth()+1) + (w?"":linb.wrapRes('date.M'))},
-            q : function(d,w){return (parseInt((d.getMonth()+3)/3-1) + 1) + (w?"":linb.wrapRes('date.Q'))},
-            y :function(d,w){return d.getYear() + (w?"":linb.wrapRes('date.Y'))},
-            yyyy :function(d,w){return d.getFullYear() + (w?"":linb.wrapRes('date.Y'))},
-            de:function(d,w){return parseInt(d.getFullYear()/10) + (w?"":linb.wrapRes('date.DE'))},
-            c:function(d,w){return parseInt(d.getFullYear()/100) + (w?"":linb.wrapRes('date.C'))},
+            utciso:function(d,f){f=linb.Date._fix; return d.getUTCFullYear() + '-' +f(d.getUTCMonth() + 1) + '-' +f(d.getUTCDate()) + 'T' +f(d.getUTCHours()) + ':' +f(d.getUTCMinutes()) + ':' +f(d.getUTCSeconds()) + 'Z'},
+            iso:function(d,f){f=linb.Date._fix; return d.getFullYear() + '-' +f(d.getMonth() + 1) + '-' +f(d.getDate()) + 'T' +f(d.getHours()) + ':' +f(d.getMinutes()) + ':' +f(d.getSeconds())},
+            ms:function(d){return linb.Date._fix(d.getMilliseconds(),3)+ linb.wrapRes('date.MS')},
+            s:function(d){return linb.Date._fix(d.getSeconds())+ linb.wrapRes('date.S')},
+            n:function(d){return linb.Date._fix(d.getMinutes())+ linb.wrapRes('date.N')},
+            h :function(d){return linb.Date._fix(d.getHours())+ linb.wrapRes('date.H')},
+            d:function(d){return d.getDate()+ linb.wrapRes('date.D')},
+            w : function(d,firstDayOfWeek){return linb.wrapRes('date.WEEKS.'+(d.getDay() - firstDayOfWeek +7)%7 )},
+            ww : function(d,firstDayOfWeek){return linb.Date.getWeek(d, firstDayOfWeek) + linb.wrapRes('date.W')},
+            m:function(d){return (d.getMonth()+1) + linb.wrapRes('date.M')},
+            q : function(d){return (parseInt((d.getMonth()+3)/3-1) + 1) + linb.wrapRes('date.Q')},
+            y :function(d){return d.getFullYear() + linb.wrapRes('date.Y')},
+            de:function(d){return parseInt(d.getFullYear()/10) + linb.wrapRes('date.DE')},
+            c:function(d){return parseInt(d.getFullYear()/100) + linb.wrapRes('date.C')},
 
-            hn:function(d,w){return linb.wrapRes('date.HN-'+d.getHours()+"-"+d.getMinutes())},
-            dhn:function(d,w){return linb.wrapRes('date.DHN-'+d.getDate()+"-"+d.getHours()+"-"+d.getMinutes())},
-            mdhn:function(d,w){return linb.wrapRes('date.MDHN-'+(d.getMonth()+1)+"-"+d.getDate()+"-"+d.getHours()+"-"+d.getMinutes())},
-            hns:function(d,w){return linb.wrapRes('date.HNS-'+d.getHours()+"-"+d.getMinutes()+"-"+d.getSeconds())},
-            hnsms:function(d,w){return linb.wrapRes('date.HNSMS-'+d.getHours()+"-"+d.getMinutes()+"-"+d.getSeconds()+"-"+d.getMilliseconds())},
+            hn:function(d){return linb.wrapRes('date.HN-'+d.getHours()+"-"+d.getMinutes())},
+            dhn:function(d){return linb.wrapRes('date.DHN-'+d.getDate()+"-"+d.getHours()+"-"+d.getMinutes())},
+            mdhn:function(d){return linb.wrapRes('date.MDHN-'+(d.getMonth()+1)+"-"+d.getDate()+"-"+d.getHours()+"-"+d.getMinutes())},
+            hns:function(d){return linb.wrapRes('date.HNS-'+d.getHours()+"-"+d.getMinutes()+"-"+d.getSeconds())},
+            hnsms:function(d){return linb.wrapRes('date.HNSMS-'+d.getHours()+"-"+d.getMinutes()+"-"+d.getSeconds()+"-"+d.getMilliseconds())},
 
-            yq:function(d,w){return linb.wrapRes('date.YQ-'+d.getFullYear()+"-"+(parseInt((d.getMonth()+3)/3-1)+1))},
+            yq:function(d){return linb.wrapRes('date.YQ-'+d.getFullYear()+"-"+(parseInt((d.getMonth()+3)/3-1)+1))},
 
-            ym :   function(d,w){return linb.wrapRes('date.YM-'+d.getFullYear()+"-"+(d.getMonth()+1))},
-            md :  function(d,w){return linb.wrapRes('date.MD-'+(d.getMonth()+1)+"-"+d.getDate())},
-            ymd :  function(d,w){return linb.wrapRes('date.YMD-'+d.getFullYear()+"-"+(d.getMonth()+1)+"-"+d.getDate())},
-            ymd2 :  function(d,w){return linb.wrapRes('date.YMD2-'+d.getFullYear()+"-"+(d.getMonth()+1)+"-"+d.getDate())},
-            ymdh:  function(d,w){return linb.wrapRes('date.YMDH-'+d.getFullYear()+"-"+(d.getMonth()+1)+"-"+d.getDate()+"-"+d.getHours())},
-            ymdhn: function(d,w){return linb.wrapRes('date.YMDHN-'+d.getFullYear()+"-"+(d.getMonth()+1)+"-"+d.getDate()+"-"+d.getHours()+"-"+d.getMinutes())},
-            ymdhns:function(d,w){return linb.wrapRes('date.YMDHNS-'+d.getFullYear()+"-"+(d.getMonth()+1)+"-"+d.getDate()+"-"+d.getHours()+"-"+d.getMinutes()+"-"+d.getSeconds())},
-            'all' :  function(d,w){return linb.wrapRes('date.ALL-'+d.getFullYear()+"-"+(d.getMonth()+1)+"-"+d.getDate()+"-"+d.getHours()+"-"+d.getMinutes()+"-"+d.getSeconds()+"-"+d.getMilliseconds())}
+            ym :   function(d){return linb.wrapRes('date.YM-'+d.getFullYear()+"-"+(d.getMonth()+1))},
+            md :  function(d){return linb.wrapRes('date.MD-'+(d.getMonth()+1)+"-"+d.getDate())},
+            ymd :  function(d){return linb.wrapRes('date.YMD-'+d.getFullYear()+"-"+(d.getMonth()+1)+"-"+d.getDate())},
+            ymd2 :  function(d){return linb.wrapRes('date.YMD2-'+d.getFullYear()+"-"+(d.getMonth()+1)+"-"+d.getDate())},
+            ymdh:  function(d){return linb.wrapRes('date.YMDH-'+d.getFullYear()+"-"+(d.getMonth()+1)+"-"+d.getDate()+"-"+d.getHours())},
+            ymdhn: function(d){return linb.wrapRes('date.YMDHN-'+d.getFullYear()+"-"+(d.getMonth()+1)+"-"+d.getDate()+"-"+d.getHours()+"-"+d.getMinutes())},
+            ymdhns:function(d){return linb.wrapRes('date.YMDHNS-'+d.getFullYear()+"-"+(d.getMonth()+1)+"-"+d.getDate()+"-"+d.getHours()+"-"+d.getMinutes()+"-"+d.getSeconds())},
+            'all' :  function(d){return linb.wrapRes('date.ALL-'+d.getFullYear()+"-"+(d.getMonth()+1)+"-"+d.getDate()+"-"+d.getHours()+"-"+d.getMinutes()+"-"+d.getSeconds()+"-"+d.getMilliseconds())}
         },
         $TIMEZONE:[{
             id:"Asia(East,North)",
@@ -4212,18 +4203,11 @@ Class('linb.Event',null,{
             }
         },
         getText:function(date, datepart, firstDayOfWeek){
-            var self=this, map=self.$TEXTFORMAT;
+            var self=this;
             date = self._date(date);
             firstDayOfWeek = self._numb(firstDayOfWeek);
-            return map[datepart]?map[datepart](date, false, firstDayOfWeek):datepart;
-        },
-        format:function(date, format, firstDayOfWeek){
-            var self=this, map=self.$TEXTFORMAT;
-            date = self._date(date);
-            firstDayOfWeek = self._numb(firstDayOfWeek);
-            return format.replace(/(utciso|iso|yyyy|mm|ww|dd|hh|nn|ss|ms|de|c|y|q|m|w|d|h|n|s)/g, function(a,b){
-                return map[b]?map[b](date,true,firstDayOfWeek):b;
-            });
+            datepart=datepart||'';
+            return self.$TEXTFORMAT[datepart](date, firstDayOfWeek);
         }
     }
 });/* css
@@ -9509,7 +9493,7 @@ Class('linb.absObj',"linb.absBox",{
                     //custom set
                     var $set = o.set;
                     m = ps[n];
-                    ps[n] = (typeof $set!='function' && typeof m=='function') ? m : Class._fun(function(value,force){
+                    ps[n] = typeof m=='function' ? m : Class._fun(function(value,force){
                         return this.each(function(v){
                             if(!v.properties)return;
                             //if same return
@@ -9541,7 +9525,7 @@ Class('linb.absObj',"linb.absBox",{
                     // get custom getter
                     var $get = o.get;
                     m = ps[n];
-                    ps[n] = (typeof $get!='function' && typeof m=='function') ? m : Class._fun(function(){
+                    ps[n] = typeof t=='function' ? Class._fun(t,n,self.KEY) : typeof m=='function' ? m : Class._fun(function(){
                         if(typeof $get=='function')
                             return $get.call(v);
                         else
@@ -9654,7 +9638,7 @@ Class("linb.DataBinder","linb.absObj",{
 
             //set anti-links
             profile.link(c._cache,'self').link(linb._pool,'linb');
-
+            
             if(!profile.name)profile.boxing().setName(alias);
 
             self._nodes.push(profile);
@@ -9738,7 +9722,7 @@ Class("linb.DataBinder","linb.absObj",{
                         _p=c._pool,
                         to=_p[ovalue],
                         t=_p[value];
-
+                    
                     //if it exitst, overwrite it dir
                     //if(to && t)
                     //    throw new Error(value+' exists!');
@@ -9795,7 +9779,6 @@ Class('linb.UIProfile','linb.Profile', {
                 delete ns.RenderTrigger;
                 if(ns.onRender)
                     ns.boxing().onRender(ns);
-                _.tryF(ns.$onrender,[],ns);
             }
 
             if(arguments[0]===true && (t=ns.LayoutTrigger)){
@@ -9808,7 +9791,7 @@ Class('linb.UIProfile','linb.Profile', {
                 if(ns.children)
                     for(var i=0,v;v=ns.children[i++];)
                         v[0]._render(true);
-
+    
                 if(ns.$attached){
                     for(var i=0,v;v=ns.$attached[i++];)
                         v._render(true);
@@ -10106,7 +10089,7 @@ Class('linb.UIProfile','linb.Profile', {
             arr[0]=key;
             arr[2]=subId||'';
             key=arr.join(':');
-            return key==this.$domId
+            return key==this.$domId 
                 ? linb.$cache.profileMap[key].domId
                 : key;
         },
@@ -10161,7 +10144,7 @@ Class('linb.UIProfile','linb.Profile', {
         queryItems:function(items, fun, deep, single, flag){
             var r=[],
                 me=arguments.callee,
-                f = me.f || (me.f = function(items, fun, deep, single, flag, r){
+                f = me.f || (me.f = function(items, fun, deep, single, r){
                     _.arr.each(items,function(o,i){
                         if(fun===true || fun.call(null, o, i, items)){
                             r.push(flag?[o,i,items]:o);
@@ -10169,10 +10152,10 @@ Class('linb.UIProfile','linb.Profile', {
                                 return false;
                         }
                         if(deep && o.sub && o.sub.length)
-                            f(o.sub, fun, deep, single, flag, r);
+                            f(o.sub, fun, deep, single, r);
                     });
                 });
-            f(items, fun, deep, single, flag, r);
+            f(items, fun, deep, single, r);
             return r;
         }
     },
@@ -10614,7 +10597,7 @@ Class("linb.UI",  "linb.absObj", {
 
             if(pro.beforeAppend && false===this.beforeAppend(pro,target))
                 return;
-
+            
             if(subId!==false && target['linb.UI']){
                 target.each(function(profile){
                     profile.linkParent(pro,subId);
@@ -10852,7 +10835,7 @@ Class("linb.UI",  "linb.absObj", {
                     }else{
                         if(self.onMove)
                             self.boxing().onMove(self,o=='left'?value:null,o=='top'?value:null,o=='right'?value:null,o=='bottom'?value:null)
-                    }
+                    }                        
                 }
             }
         });
@@ -10904,7 +10887,7 @@ Class("linb.UI",  "linb.absObj", {
         self.setDataModel(hash);
 
         linb.UI.$cache_css += linb.UI.buildCSSText({
-            '.linb-viewport, .linb-viewport BODY':{
+            '.linb-html, .linb-html BODY':{
                 overflow:'hidden',
                 height:'100%',
                 border:'0 none',
@@ -12216,20 +12199,8 @@ Class("linb.UI",  "linb.absObj", {
         },
         $applyCSS:function( ){
             var self=linb.UI, cache=self.$cache_css;
-            if(!self.$cssNo){
-                self.$cssNo=1;
-                var b=linb.browser;
-                linb('body').addClass(
-                          (b.ie ? ("linb-ie linb-ie" + b.ver + " ") :
-                           b.gek ? ("linb-gek linb-gek" + b.ver + " ") :
-                           b.kde ? ("linb-kde linb-kde" + b.ver + " ") :
-                           b.opr ? ("linb-opr linb-opr" + b.ver + " ") : "")
-                        + (b.isSafari ? "linb-safari ": b.isChrome ? "linb-chrome " :"")
-                        + (b.isMac ? "linb-mac": b.isLinux ? "linb-linux " :"")
-                );
-                linb('html').addClass(b.isStrict?"linb-strict":"");
-            }
             if(cache){
+                if(!self.$cssNo)self.$cssNo=1;
                 linb.CSS.addStyleSheet(cache, 'linb.UI-CSS'+(self.$cssNo++));
                 linb.UI.$cache_css='';
             }
@@ -12579,7 +12550,7 @@ Class("linb.UI",  "linb.absObj", {
             if(force || ((w||h) && (profile._resize_w!=w || profile._resize_h!=h))){
                 //destroyed before resize
                 if(!profile.getRootNode())return false;
-
+                
                 profile._resize_w=w;
                 profile._resize_h=h;
                 _.tryF(profile.box._onresize,[profile,w,h,force,key],profile.box);
@@ -12596,7 +12567,7 @@ Class("linb.UI",  "linb.absObj", {
                 //adjust width and height
                 w=parseInt(w)||null;
                 h=((h===""||h=='auto')?"auto":parseInt(h))||null;
-
+                
                 //if it it has delay resize, overwrite arguments
                 if('_$v' in profile){
                     var args=profile.$rs_args;
@@ -12675,7 +12646,6 @@ Class("linb.UI",  "linb.absObj", {
                 f,t,isWin,
                 //for ie6 1px bug
                 _adjust=function(v){return linb.browser.ie6?v-v%2:v}
-
 
             if(p.get(0)===document.body){
                 pid='!document';
@@ -12783,7 +12753,7 @@ Class("linb.UI",  "linb.absObj", {
                                         //for safari
                                         try{
                                             o.node.cssRegion(o, true);
-
+                                            
                                             if((profile=linb.UIProfile.getFromDom(o.node.get(0))) && profile.onDock){
                                                 delete o.node;
                                                 profile.boxing().onDock(profile,o);
@@ -12794,7 +12764,7 @@ Class("linb.UI",  "linb.absObj", {
                                                 o.node.cssRegion(o);
                                                 o.width-=1;o.height-=1;
                                                 o.node.cssRegion(o, true);
-
+                                                
                                                 if((profile=linb.UIProfile.getFromDom(o.node.get(0))) && profile.onDock){
                                                     delete o.node;
                                                     profile.boxing().onDock(profile,o);
@@ -12957,13 +12927,12 @@ Class("linb.UI",  "linb.absObj", {
                     profile.$dockFun=f;
 
                     if(isWin){
-                        linb('html').addClass('linb-viewport');
+                        linb('html').addClass('linb-html');
                         if(t=linb('body').get(0))
                             t.scroll='no';
                     }
                 }
             }
-            
             //run once now
             if(value != 'none' && trigger)
                 profile.$dockFun({width:1, height:1, $dockid:_.arr.indexOf(['width','height','fill','cover'],value)!=-1?profile.$linbid:null, $type: value});
@@ -13066,7 +13035,7 @@ Class("linb.UI",  "linb.absObj", {
             if('items' in dm){
                 profile.ItemIdMapSubSerialId = {};
                 profile.SubSerialIdMapItem = {};
-
+                
                 prop.items=profile.box._adjustItems(prop.items);
                 data.items = this._prepareItems(profile, prop.items);
             }
@@ -13184,8 +13153,8 @@ Class("linb.absList", "linb.absObj",{
                     items.push.apply(items,arr2);
                 }else
                     _.arr.insertAny(items,arr2, before?index:index+1);
-
-
+                    
+                    
                 if(b)
                     profile.boxing()._afterInsertItems(profile, data, base, before);
             });
@@ -13351,7 +13320,7 @@ Class("linb.absList", "linb.absObj",{
                         o.boxing().setItems(t);
                     else
                         o.boxing().setItems(o.properties.items);
-                    o.properties.listKey = value;
+                    o.properties.listKey = value; 
                 }
             },
             items:{
@@ -13437,10 +13406,7 @@ Class("linb.absValue", "linb.absObj",{
                 var r;
                 if(typeof (r=profile.box._ensureValue)=='function')
                     value = r.call(profile.box, profile, value);
-                // _setCtrlValue maybe use $UIvalue
-                profile.boxing()._setCtrlValue(profile.properties.value = value);
-                // So, maintain $UIvalue during _setCtrlValue call
-                profile.properties.$UIvalue = value;
+                profile.boxing()._setCtrlValue(profile.properties.$UIvalue = profile.properties.value = value);
                 if(typeof(r=profile.$onValueSet)=='function')r.call(profile,value);
                 profile.inValid=1;
             });
@@ -17954,9 +17920,8 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
             else{
                 //get from items
                 if('listbox'==pro.type){
-                    var list = (pro.listKey)?linb.UI.getCachedData(pro.listKey):pro.items;
-                    if( list && (v=_.arr.subIndexOf(list,'id',value))!=-1){
-                      v=list[v].caption;
+                    if( (v=_.arr.subIndexOf(pro.items,'id',value))!=-1){
+                        v=pro.items[v].caption;
                         v=v.charAt(0)=='$'?linb.getRes(v.slice(1)):v;
                     }else
                         v='';
@@ -17986,21 +17951,15 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
             return value;
         },
         _cache:function(){
-            var profile=this.get(0), drop=profile.$drop, cached=profile.properties.cachePopWnd;
+            var profile=this.get(0),drop=profile.$drop;
             if(drop){
-                if(!cached){
-                    drop.boxing().destroy();
-                    delete profile.$drop;
-                }else{
-                    if(linb.browser.opr)
-                        drop.getRoot().css('display','none');
-                    _.asyRun(function(){
-                        profile.getSubNode('POOL').append(drop.getRoot())
-                    });
-                }
+                if(linb.browser.opr)
+                    drop.getRoot().css('display','none');
+                _.asyRun(function(){
+                    profile.getSubNode('POOL').append(drop.getRoot())
+                });
             }
             delete profile.$poplink;
-            return cached;
         },
         clearPopCache:function(){
             var profile=this.get(0);
@@ -18049,7 +18008,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
         },
         _drop:function(e,src){
             return this.each(function(profile){
-                var pro = profile.properties, type=pro.type, cacheDrop=pro.cachePopWnd;
+                var pro = profile.properties, type=pro.type;
                 if(pro.disabled)return;
                 if(type=='upload'||type=='none'||type=='spin')return;
                 //open already
@@ -18071,31 +18030,29 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
 
                 //get cache key
                 var cachekey;
-                if(cacheDrop){
-                    switch(type){
-                        case 'timepicker':
-                        case 'datepicker':
-                        case 'colorpicker':
-                            cachekey=type;
-                            break;
-                        default:
-                            if(pro.listKey)
-                                //function no cache
-                                if(typeof _.get(linb.$cache,['UIDATA', pro.listKey])=='function')
-                                    profile.$drop = cachekey = null;
-                                else
-                                    cachekey = "!"+pro.listKey;
+                switch(type){
+                    case 'timepicker':
+                    case 'datepicker':
+                    case 'colorpicker':
+                        cachekey=type;
+                        break;
+                    default:
+                        if(pro.listKey)
+                            //function no cache
+                            if(typeof _.get(linb.$cache,['UIDATA', pro.listKey])=='function')
+                                profile.$drop = cachekey = null;
                             else
-                                cachekey = "$"+profile.$linbid;
-                    }
-                    //get from global cache
-                    if(cachekey){
-                        //filter first
-                        _.filter(profile.box.$drop,function(o){
-                            return !!o.renderId;
-                        });
-                        profile.$drop = profile.box.$drop[cachekey];
-                    }
+                                cachekey = pro.listKey;
+                        else
+                            cachekey = profile.$linbid;
+                }
+                //get from global cache
+                if(cachekey){
+                    //filter first
+                    _.filter(profile.box.$drop,function(o){
+                        return !!o.renderId;
+                    });
+                    profile.$drop = profile.box.$drop[cachekey];
                 }
 
                 //cache pop
@@ -18117,10 +18074,9 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                                 //update value
                                 b2.setUIValue(value)
                                 //set activate
-                                .activate();
-                                
+                                .activate()
                                 //cache pop
-                                return b2._cache();
+                                ._cache();
                             });
                             break;
                         case 'timepicker':
@@ -18129,10 +18085,8 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                             o.host(profile);
                             o.beforeClose(function(){this.boxing().activate()._cache();return false});
                             o.beforeUIValueSet(function(p, o, v){
-                                var b2=this.boxing();
                                 //update value
-                                b2.setUIValue(v).activate();
-                                return b2._cache();
+                                this.boxing().setUIValue(v).activate()._cache();
                             });
                             break;
                         case 'datepicker':
@@ -18141,10 +18095,8 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                             o.host(profile);
                             o.beforeClose(function(){this.boxing().activate()._cache();return false});
                             o.beforeUIValueSet(function(p, o, v){
-                                var b2=this.boxing();
                                 //update value
-                                b2.setUIValue(String(v.getTime())).activate();
-                                return b2._cache();
+                                this.boxing().setUIValue(String(v.getTime())).activate()._cache();
                             });
 
                             break;
@@ -18155,10 +18107,8 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                             o.host(profile);
                             o.beforeClose(function(){this.boxing().activate()._cache();return false});
                             o.beforeUIValueSet(function(p, o, v){
-                                var b2=this.boxing();
                                 //update value
-                                b2.setUIValue('#'+v).activate();
-                                return b2._cache();
+                                this.boxing().setUIValue('#'+v).activate()._cache();
                             });
                             break;
                     }
@@ -18208,10 +18158,10 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
 
                 //for esc
                 linb.Event.keyboardHook('esc',0,0,0,function(){
+                    box._cache();
                     box.activate();
                     //unhook
                     linb.Event.keyboardHook('esc');
-                    box._cache();
                 });
             });
         }
@@ -18595,7 +18545,6 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
             colorpicker:'-16px -60px'
         },
         DataModel:{
-            cachePopWnd:true,
             listKey:{
                 set:function(value){
                     var t = linb.UI.getCachedData(value),
@@ -23654,9 +23603,9 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
             return this.each(function(profile){
                 // prepare properties format
                 var tar,r,k;
-                
+
                 arr2=profile.box._adjustItems(arr);
-                
+
                 if(!pid){
                     k=profile.properties;
                     tar = k.items ||(k.items=[])
@@ -23695,7 +23644,7 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
                     var index = _.arr.subIndexOf(tar, 'id', base);
                     _.arr.insertAny(tar,arr2, before?index:(index+1));
                 }
-                
+
                 var obj;
                 if(pid)
                     if((obj=profile.getSubNodeByItemId('TOGGLE', pid)).css('display')=='none')
@@ -23766,7 +23715,7 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
         fireItemClickEvent:function(subId){
             this.getSubNodeByItemId('BAR', subId).onClick();
             return this;
-        }     
+        }
     },
     Initialize:function(){
         this.addTemplateKeys(['DISABLED']);
@@ -24010,6 +23959,7 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
                         }
                         break;
                     }
+
                     return rt;
                 },
                 onKeydown:function(profile, e, src){
@@ -25464,8 +25414,7 @@ Class("linb.UI.ToolBar",["linb.UI","linb.absList"],{
                     }
                 });
                 profile.getSubNodeByItemId('GROUP', grpId).css('display',value===false?'none':'');
-                if(profile.renderId && profile.getRootNode().offsetWidth)
-                    linb.UI.$dock(profile,true,true);
+                linb.UI.$dock(profile,true,true);
             });
         }
     },
@@ -26937,18 +26886,6 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                     t=!!options.colResizer;
                     ns.getSubNode('HHANDLER',hid).css('display',(options.colResizer=t)?"block":'none');
                 }
-                if('visibility' in options){
-                    var  b = !!options.visibility;
-                    if(b){
-                        if(colh.visibility===false){
-                            ns.showColumn(colId, true);
-                        }
-                    }else{
-                        if(colh.visibility!==false){
-                            ns.showColumn(colId, false);
-                        }
-                    }
-                }
 
                 _.merge(colh, options, 'all');
             }
@@ -27108,7 +27045,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                 /*the other header in table header*/
                 header:{
                     HCELL:{
-                        style:"width:{width}px;{colDisplay};",
+                        style:"width:{width}px;",
                         HCELLA:{
                             className:'{headerClass}',
                             style:"{headerStyle}",
@@ -28015,7 +27952,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                         var items=[],pop;
                         _.arr.each(profile.properties.header,function(o){
                             if(o.hasOwnProperty('colHidable')?o.colHidable:p.colHidable)
-                                items.push({id:o.id,caption:o.caption,type:'checkbox',value:o.visibility!==false});
+                                items.push({id:o.id,caption:o.caption,type:'checkbox',value:true});
                         });
                         if(items.length){
                             pop=profile.$col_pop=new linb.UI.PopMenu({hideAfterClick:false,items:items}).render(true);
@@ -28684,7 +28621,6 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                 t._tabindex=pro.tabindex;
 
                 t.colDDDisplay = (('colResizer' in o)?o.colResizer:pro.colResizer)?'':'display:none';
-                t.colDisplay = o.visibility===false?'display:none':'';
 
                 if(!o.type)o.type='label';
                 if(!o.caption)o.caption=o.id;

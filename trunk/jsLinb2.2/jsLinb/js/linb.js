@@ -776,7 +776,7 @@ _.merge(linb,{
         }
         return p;
     },
-//for handling dom element 
+//for handling dom element
     $linbid:0,
     $registerNode:function(o){
         //get id from cache or id
@@ -904,7 +904,7 @@ new function(){
         opr:/opera/.test(u),
         ie:/msie/.test(u) && !/opera/.test(u),
         gek:/mozilla/.test(u) && !/(compatible|webkit)/.test(u),
-        
+
         isStrict:d.compatMode=="CSS1Compat",
         isChrome:/chrome/.test(u),
         isSafari:/safari/.test(u),
@@ -1480,13 +1480,13 @@ Class('linb.Ajax','linb.absIO',{
                     }
 
                     self._XML.open(method, uri, asy);
-                    
+
                     if(method=="POST")
                         self._XML.setRequestHeader("Content-type", "application/x-www-form-urlencoded; charset=UTF-8");
-                        
+
                     self._XML.setRequestHeader("X-Requested-With", "XMLHttpRequest");
 
-                    
+
 
                     //for firefox syc GET bug
                     try{self._XML.send(query);}catch(e){}
@@ -1999,16 +1999,15 @@ new function(){
     },
     H={'@window':'window','@this':'this'},
     A=/[\x00-\x1f\x7f-\x9f\\\"]/g,
-    C=/^\s*\x7b/, // /^\s*\{/,
-    D=/^(-\d+|\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})(?:\.(\d{1,3}))?((?:[+-](\d{2}):(\d{2}))|Z)?$/,
-    E=function(t,i,a,v,m,n){
+    D=/^(-\d+|\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})(?:\.(\d{1,3}))?((?:[+-](\d{2})(\d{2}))|Z)?$/,
+    E=function(t,i,a,v,m,n,p){
         for(i in t)
             if((a=typeof (v=t[i]))=='string' && (v=D.exec(v))){
                 m=v[8]&&v[8].charAt(0);
                 if(m!='Z')n=(m=='-'?-1:1)*((+v[9]||0)*60)+(+v[10]||0);
                 else n=0;
                 m=new Date(+v[1],+v[2]-1,+v[3],+v[4],+v[5],+v[6],+v[7]||0);
-                n-=m.getTimezoneOffset();
+                n+=m.getTimezoneOffset();
                 if(n)m.setTime(m.getTime()+n*60000);
                 t[i]=m;
             }else if(a=='object' &&a.constructor===Object) E(t[i]);
@@ -2024,7 +2023,7 @@ new function(){
     T={},
     S16=function(b){return Math.floor(b/16).toString(16)+(b%16).toString(16)},
     MS=function(x,s){return '.'+((s=x[s]())?s<10?'00'+s:s<100?'0'+s:s:'000')},
-    Z=(function(a,b){a=-(new Date).getTimezoneOffset()/60; b=a>0?'+':'-'; a=''+Math.abs(a); return b+a+(a.length==1?'0':'')+':00'})();
+    Z=(function(a,b){a=-(new Date).getTimezoneOffset()/60; b=a>0?'+':'-'; a=''+Math.abs(a); return b+(a.length==1?'0':'')+a+'00'})();
     T['undefined']=function(){return 'undefined'};
     T[L]=function(x){return String(x)};
     T[N]=function(x){return isFinite(x) ? String(x) : 'null'};
@@ -2125,9 +2124,9 @@ new function(){
     //unserialize string to object
     _.unserialize = function(str, dateformat){
         try{
-            str=eval(C.test(str) ? '('+str+')' : str);
-            if(dateformat){if(typeof str==='object')E(str);else if(typeof str==='string')return E({a:str}).a}
-            return str;
+            str=eval('({_:'+str+'})');
+            if(dateformat)E(str);
+            return str._;
         }catch(e){
             return false;
         }
