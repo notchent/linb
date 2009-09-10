@@ -610,6 +610,8 @@ Class("linb.UI.Input", ["linb.UI.Widget","linb.absValue"] ,{
         },
         _asyCheck:function(profile){
             _.resetRun(profile.$linbid+":asycheck",function(){
+                if(!profile.renderId)return;
+                
                 var src=profile.getSubNode("INPUT").get(0);
                 if(!src)return;
 

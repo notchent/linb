@@ -658,10 +658,13 @@ _.merge(linb,{
         //cache [key]=>[event handler] map for UIProfile
         UIKeyMapEvents:{}
     },
-
+    $dateFormat:'',
     $lang:'en',
     $href:'javascript:;',
     $langId:'linblangkey',
+    setDateFormat:function(format){linb.$dateFormat=format},
+    getDateFormat:function(){return linb.$dateFormat},
+    
     setAppLangKey:function(key){linb.$appLangKey=key},
     getAppLangKey:function(key){return linb.$appLangKey},
     getLang:function(){return linb.$lang},
@@ -1694,18 +1697,14 @@ Class('linb.IAjax','linb.absIO',{
                     if(w.name==self.id)
                         self.$e('no response');
                     else{
-                        try{
-                            o=_.unserialize(decodeURIComponent(w.name));
-                            if(o&&(t=c._pool[o[c.randkey]]))
-                                for(var i=0,l=t.length;i<l;i++){
-                                    t[i]._response=o;
-                                    t[i]._onResponse();
-                                }
-                            else
-                                self.$e(w.name);
-                         }catch(a){
+                        o=_.unserialize(w.name);
+                        if(o&&(t=c._pool[o[c.randkey]]))
+                            for(var i=0,l=t.length;i<l;i++){
+                                t[i]._response=o;
+                                t[i]._onResponse();
+                            }
+                        else
                             self.$e(w.name);
-                         }
                     }
                 }catch(e){}
             };
@@ -2010,7 +2009,7 @@ new function(){
                 n+=m.getTimezoneOffset();
                 if(n)m.setTime(m.getTime()+n*60000);
                 t[i]=m;
-            }else if(a=='object' &&a.constructor===Object) E(t[i]);
+            }else if(a=='object' && (t[i].constructor===Object || t[i].constructor===Array)) E(t[i]);
         return t;
     },
     R=function(n){return n<10?'0'+n:n},
@@ -2119,13 +2118,13 @@ new function(){
     //serialize object to string (bool/string/number/array/hash/simple function)
     _.serialize = function (obj,filter,dateformat){
         max=0;
-        return T[typeof obj](obj,filter,dateformat)||'';
+        return T[typeof obj](obj,filter,dateformat||(linb&&linb.$dateFormat))||'';
     };
     //unserialize string to object
     _.unserialize = function(str, dateformat){
         try{
             str=eval('({_:'+str+'})');
-            if(dateformat)E(str);
+            if(dateformat||(linb&&linb.$dateFormat))E(str);
             return str._;
         }catch(e){
             return false;

@@ -948,6 +948,23 @@ _.set(linb.Locale,["en","doc","linb"], {
             "linb.prompt('title','caption', 'content content ',function(str){alert(str)})"
         ]
     },
+    getDateFormat:{
+        $desc:"Gets the Date object's serialize format.",
+        $rtn:"String",
+        $snippet:[
+            "linb.setDateFormat('default'); alert(linb.getDateFormat()); alert(_.serialize(new Date));",
+            "linb.setDateFormat('gmt'); alert(linb.getDateFormat()); alert(_.serialize(new Date));",
+            "linb.setDateFormat('utc'); alert(linb.getDateFormat()); alert(_.serialize(new Date));"
+        ]
+    },
+    setDateFormat:{
+        $desc:"Sets the Date object's serialize format. 'gmt', 'utc' or 'default'.",
+        $snippet:[
+            "linb.setDateFormat('default'); alert(linb.getDateFormat()); alert(_.serialize(new Date));",
+            "linb.setDateFormat('gmt'); alert(linb.getDateFormat()); alert(_.serialize(new Date));",
+            "linb.setDateFormat('utc'); alert(linb.getDateFormat()); alert(_.serialize(new Date));"
+        ]
+    },
     getAppLangKey:{
         $desc:"Gets the current application language key.",
         $rtn:"String",

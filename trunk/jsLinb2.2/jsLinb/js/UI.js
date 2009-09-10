@@ -4400,7 +4400,6 @@ new function(){
                 }
             },
             DataModel:{
-                tabindex:null,
                 caption:{
                     ini:undefined,
                     action: function(value){

@@ -1818,7 +1818,7 @@ Class('VisualJS.Designer', 'linb.Com',{
 
                                                 if(t=tagVar.profile.behavior.DropableKeys){
                                                     deeppage._giveHandler(tagVar.profile);
-                                                y}
+                                                }
                                             }
 
                                         }

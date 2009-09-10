@@ -59,7 +59,6 @@ Class("linb.UI.Label", "linb.UI.Widget",{
             }
         },
         DataModel:{
-            tabindex:null,
             // setCaption and getCaption
             caption:{
                 ini:undefined,

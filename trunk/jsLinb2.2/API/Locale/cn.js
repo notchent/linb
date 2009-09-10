@@ -949,6 +949,23 @@ _.set(linb.Locale,["cn","doc","linb"], {
             "linb.prompt('title','caption', 'content content ',function(str){alert(str)})"
         ]
     },
+    getDateFormat:{
+        $desc:"得到当前应用程序的日期序列化方式.",
+        $rtn:"String",
+        $snippet:[
+            "linb.setDateFormat('default'); alert(linb.getDateFormat()); alert(_.serialize(new Date));",
+            "linb.setDateFormat('gmt'); alert(linb.getDateFormat()); alert(_.serialize(new Date));",
+            "linb.setDateFormat('utc'); alert(linb.getDateFormat()); alert(_.serialize(new Date));"
+        ]
+    },
+    setDateFormat:{
+        $desc:"设置当前应用程序的日期序列化方式. 'gmt', 'utc' 或 'default'。",
+        $snippet:[
+            "linb.setDateFormat('default'); alert(linb.getDateFormat()); alert(_.serialize(new Date));",
+            "linb.setDateFormat('gmt'); alert(linb.getDateFormat()); alert(_.serialize(new Date));",
+            "linb.setDateFormat('utc'); alert(linb.getDateFormat()); alert(_.serialize(new Date));"
+        ]
+    },
     getAppLangKey:{
         $desc:"得到当前应用程序的语言包关键字.",
         $rtn:"String",
