@@ -4667,12 +4667,14 @@ _.set(linb.Locale,["en","doc","linb","ComFactory"], {
             "id [Required] : String, the Com id.",
             "onEnd [Optional] : Function, the callback function, it will be executed once when the Com is created successfully.",
             "threadid [Optional] : String, the inner threadid",
-            "singleton[Optional] : Boolean, default is true. If singleton is false, that indicates ComFactory won't get it from the cache, and won't cache the result."
+            "singleton[Optional] : Boolean, default is true. If singleton is false, that indicates ComFactory won't get it from the Com cache, and won't cache the result."
         ],
         $snippet:[
+            "linb.ComFactory.getCom('App.Test1',function(){alert('The Com loaded successfully.')});",
+
             "linb.ComFactory.destroyAll();"+
-            "linb.ComFactory.setProfile({test1:'App.Test1',test2:'App.Test2'});"+
-            "linb.ComFactory.getCom('test1',function(){alert('The Com loaded successfully.')});"
+            "linb.ComFactory.setProfile({test1:{cls:'App.Test1',properties:{key1:1},events:{ev1:function(){alert(2)}}},test2:'App.Test2'});"+
+            "linb.ComFactory.getCom('test1',function(){alert('The Com loaded successfully.');alert(this.properties.key1); this.events.ev1();});"
         ]
     },
     setCom:{

@@ -4690,12 +4690,14 @@ _.set(linb.Locale,["cn","doc","linb","ComFactory"], {
             "id [必需参数] : String, 应用模块对象id.",
             "onEnd [可选参数] : Function, the 回调函数, 生成应用模块对象(Com Object)成功后被调用.",
             "threadid [可选参数] : String, 内部线程id",
-            "singleton[Optional] : Boolean, 默认为 true. If singleton is false, that indicates ComFactory won't get it from the cache, and won't cache the result."
+            "singleton[Optional] : Boolean, 默认为 true. 当 singleton 为 false 的时候相当于 newCom。"
         ],
         $snippet:[
+            "linb.ComFactory.getCom('App.Test1',function(){alert('The Com loaded successfully.')});",
+
             "linb.ComFactory.destroyAll();"+
-            "linb.ComFactory.setProfile({test1:'App.Test1',test2:'App.Test2'});"+
-            "linb.ComFactory.getCom('test1',function(){alert('The Com loaded successfully.')});"
+            "linb.ComFactory.setProfile({test1:{cls:'App.Test1',properties:{key1:1},events:{ev1:function(){alert(2)}}},test2:'App.Test2'});"+
+            "linb.ComFactory.getCom('test1',function(){alert('The Com loaded successfully.');alert(this.properties.key1); this.events.ev1();});"
         ]
     },
     setCom:{

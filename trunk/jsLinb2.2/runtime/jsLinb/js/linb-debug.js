@@ -9036,7 +9036,7 @@ Class("linb.Tips", null,{
                         if(properties)
                             _.merge(o.properties,properties,'all');
                         if(events)
-                            _.merge(o.events,event,'all');
+                            _.merge(o.events,events,'all');
 
                         if(singleton)
                             linb.ComFactory.setCom(id, o);
@@ -9110,7 +9110,7 @@ Class("linb.Tips", null,{
                 );
             }
         },
-        newCom:function(cls, onEnd,threadid){
+        newCom:function(cls, onEnd, threadid){
             var o=linb.SC.get(cls);
             o=typeof o == 'function' ?new o():null;
             if(o)
