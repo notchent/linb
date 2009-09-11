@@ -2952,11 +2952,12 @@ sortby [for column only]
 
                 m=a[i].cells=_.copy(a[i].cells);
                 _.arr.each(m,function(o,i){
-                    //no need "id" in cell
-                    if(typeof o!='object')
-                        m[i]={value:o};
-                    else
+                    //It's a hash
+                    if(!!o && typeof o == 'object' && o.constructor == Object)
                         m[i]=_.copy(o);
+                    // not a hash
+                    else
+                        m[i]={value:o};
                 })
             });
             return a;

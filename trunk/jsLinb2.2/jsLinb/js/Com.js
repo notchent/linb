@@ -90,17 +90,27 @@ Class('linb.Com',null,{
                 f();
             else
                 self.create(f,threadid);
+            return self;
         },
         render:function(triggerLayOut){
             var self=this;
-            self.getUIComponents().render(triggerLayOut);
-            self._fireEvent('onRender');
-            self.renderId='ok';
+            if(self.renderId!='ok'){
+                self.getUIComponents().render(triggerLayOut);
+                self._fireEvent('onRender');
+                self.renderId='ok';
+            }
+            return self;
         },
         create:function(onEnd, threadid){
             //get paras
-            var self=this,
-                t,funs=[]
+            var self=this;
+
+            if(self.created){
+                _.tryF(onEnd,[self, threadid],self.host);
+                return;
+            }
+            
+            var  t,funs=[]
                 ;
             self.threadid=threadid;
 
@@ -157,6 +167,8 @@ Class('linb.Com',null,{
             linb.Thread.observableRun(funs, function(){
                 self.created=true;
             },threadid);
+
+            return self;
         },
 
         iniComponents:function(){},

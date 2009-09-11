@@ -7350,17 +7350,27 @@ Class('linb.Com',null,{
                 f();
             else
                 self.create(f,threadid);
+            return self;
         },
         render:function(triggerLayOut){
             var self=this;
-            self.getUIComponents().render(triggerLayOut);
-            self._fireEvent('onRender');
-            self.renderId='ok';
+            if(self.renderId!='ok'){
+                self.getUIComponents().render(triggerLayOut);
+                self._fireEvent('onRender');
+                self.renderId='ok';
+            }
+            return self;
         },
         create:function(onEnd, threadid){
             //get paras
-            var self=this,
-                t,funs=[]
+            var self=this;
+
+            if(self.created){
+                _.tryF(onEnd,[self, threadid],self.host);
+                return;
+            }
+            
+            var  t,funs=[]
                 ;
             self.threadid=threadid;
 
@@ -7417,6 +7427,8 @@ Class('linb.Com',null,{
             linb.Thread.observableRun(funs, function(){
                 self.created=true;
             },threadid);
+
+            return self;
         },
 
         iniComponents:function(){},
@@ -9004,7 +9016,13 @@ Class("linb.Tips", null,{
                 _.tryF(onEnd, [threadid,c[id]], c[id]);
                 return c[id];
             }else{
-                if(!(p=p[id]))return null;
+                if(!(p=p[id])){
+                    if(id.indexOf(".")!=-1)
+                        p={cls:id};
+                    else 
+                        return;
+                };
+
                 var self=arguments.callee, me=this, children=p.children;
                 //ensure array
                 var iniMethod = p.iniMethod || ini || 'create',
@@ -14056,7 +14074,8 @@ new function(){
             style:'{_style}',
             border:"0",
             width:"{width}",
-            height:"{height}"
+            height:"{height}",
+            alt:"{alt}"
         },
         Behaviors:{
             HoverEffected:{KEY:'KEY'},
@@ -14133,6 +14152,11 @@ new function(){
                     var self=this;
                     if(false!==self.boxing().beforeLoad(this))
                         _.asyRun(function(){self.getRoot().attr({width:'0',height:'0',src:v})});
+                }
+            },
+            alt:{
+                action:function(v){
+                    this.getRoot().attr('alt',v);
                 }
             }
         }
@@ -29441,11 +29465,12 @@ sortby [for column only]
 
                 m=a[i].cells=_.copy(a[i].cells);
                 _.arr.each(m,function(o,i){
-                    //no need "id" in cell
-                    if(typeof o!='object')
-                        m[i]={value:o};
-                    else
+                    //It's a hash
+                    if(!!o && typeof o == 'object' && o.constructor == Object)
                         m[i]=_.copy(o);
+                    // not a hash
+                    else
+                        m[i]={value:o};
                 })
             });
             return a;

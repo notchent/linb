@@ -11921,6 +11921,30 @@ _.set(linb.Locale,["en","doc","linb","UI","Image"], {
                 "}"
             ]
         },
+        getAlt:{
+            $desc:"Gets image alt value",
+            $rtn:"String",
+            $snippet:[
+                "var id='linb.temp.img5-1'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var o;linb(id).prepend(o=new linb.UI.Image({position:'relative',src:'img/logo.gif'}));"+
+                "_.asyRun(function(){alert(o.setAlt('picture').getAlt())},1000);" + 
+                "}"
+            ]
+        },
+        setAlt:{
+            $desc:"Sets image alt value",
+            $rtn:"[self]",
+            $paras:[
+                "value [Required] : String.",
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
+            ],
+            $snippet:[
+                "var id='linb.temp.img6-1'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var o;linb(id).prepend(o=new linb.UI.Image({position:'relative',src:'img/logo.gif'}));"+
+                "_.asyRun(function(){alert(o.setAlt('picture').getAlt())},1000);" + 
+                "}"
+            ]
+        },
         getSrc:{
             $desc:"Gets image src",
             $rtn:"String",

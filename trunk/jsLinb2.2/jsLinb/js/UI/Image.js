@@ -10,7 +10,8 @@ Class("linb.UI.Image", "linb.UI",{
             style:'{_style}',
             border:"0",
             width:"{width}",
-            height:"{height}"
+            height:"{height}",
+            alt:"{alt}"
         },
         Behaviors:{
             HoverEffected:{KEY:'KEY'},
@@ -87,6 +88,11 @@ Class("linb.UI.Image", "linb.UI",{
                     var self=this;
                     if(false!==self.boxing().beforeLoad(this))
                         _.asyRun(function(){self.getRoot().attr({width:'0',height:'0',src:v})});
+                }
+            },
+            alt:{
+                action:function(v){
+                    this.getRoot().attr('alt',v);
                 }
             }
         }

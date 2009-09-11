@@ -11955,6 +11955,30 @@ _.set(linb.Locale,["cn","doc","linb","UI","Image"], {
                 "}"
             ]
         },
+        getAlt:{
+            $desc:"获取图像的 Alt 值",
+            $rtn:"String",
+            $snippet:[
+                "var id='linb.temp.img5-1'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var o;linb(id).prepend(o=new linb.UI.Image({position:'relative',src:'img/logo.gif'}));"+
+                "_.asyRun(function(){alert(o.setAlt('picture').getAlt())},1000);" + 
+                "}"
+            ]
+        },
+        setAlt:{
+            $desc:"设置图像的 Alt 值, 并刷新界面.",
+            $rtn:"[self]",
+            $paras:[
+                "value [必需参数] : String.",
+                "force [可选参数] : Boolean, 强制设置该属性值，即使属性已经设置为该值. 默认为[false]."
+            ],
+            $snippet:[
+                "var id='linb.temp.img6-1'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var o;linb(id).prepend(o=new linb.UI.Image({position:'relative',src:'img/logo.gif'}));"+
+                "_.asyRun(function(){alert(o.setAlt('picture').getAlt())},1000);" +
+                "}"
+            ]
+        },
         getSrc:{
             $desc:"获取图像的src值",
             $rtn:"String",
