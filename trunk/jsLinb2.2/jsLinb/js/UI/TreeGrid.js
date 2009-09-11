@@ -272,7 +272,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
             if(!pid)
                 tar = (pro.rows || (pro.rows=[]));
             else
-                tar = (b[pid].sub || (b[pid].sub=[]));
+                tar = _.isArr(b[pid].sub)?b[pid].sub:(b[pid].sub=[]);
             if(!base)
                 _.arr.insertAny(tar,arr, before?0:-1);
             else{

@@ -1795,11 +1795,15 @@ Class('linb.IAjax','linb.absIO',{
                     o=null;
                 }
             }
-            arr=d.getElementsByTagName("img");
-            for(var i=0,j=arr.length; i<j; i++){
-                o = arr[i];
-                if(!f(o.src))
-                    return ns.dummy=o.src.split('#')[0];
+            if(o=d.getElementById('linb:img:bg')){
+                return ns.dummy=o.src.split('#')[0];
+            }else{
+                arr=d.getElementsByTagName("img");
+                for(var i=0,j=arr.length; i<j; i++){
+                    o = arr[i];
+                    if(o.src && !f(o.src))
+                        return ns.dummy=o.src.split('#')[0];
+                }
             }
             //get from parent, not for opera in this case
             try{
@@ -2009,7 +2013,7 @@ new function(){
                 n+=m.getTimezoneOffset();
                 if(n)m.setTime(m.getTime()+n*60000);
                 t[i]=m;
-            }else if(a=='object' && (t[i].constructor===Object || t[i].constructor===Array)) E(t[i]);
+            }else if(a=='object' && t[i] && (t[i].constructor===Object || t[i].constructor===Array)) E(t[i]);
         return t;
     },
     R=function(n){return n<10?'0'+n:n},
@@ -26749,7 +26753,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
             if(!pid)
                 tar = (pro.rows || (pro.rows=[]));
             else
-                tar = (b[pid].sub || (b[pid].sub=[]));
+                tar = _.isArr(b[pid].sub)?b[pid].sub:(b[pid].sub=[]);
             if(!base)
                 _.arr.insertAny(tar,arr, before?0:-1);
             else{
