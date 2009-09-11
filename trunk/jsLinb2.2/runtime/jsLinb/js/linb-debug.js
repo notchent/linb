@@ -6013,15 +6013,23 @@ type:4
         },
         //for ie6
         fixPng:function(type){
-            if(linb.browser.ie6)
+            if(linb.browser.ie6){
+                type=type||"crop";
                 return this.each(function(n){
-                    if(n.tagName=='IMG'){
+                    if(n.tagName=='IMG' && /\.png$/i.test(n.src)){
                         n.style.height = n.height;
                         n.style.width = n.width;
                         n.style.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(enabled=true, src=" + n.src + ", sizingMethod="+type+")";
                         n.src = linb.ini.file_bg;
                     }
+                    var bgimg = n.currentStyle.backgroundImage || n.style.backgroundImage,
+                        bgmatch = bgimg.match(/^url[("']+(.*\.png[^\)"']*)[\)"']+[^\)]*$/i);
+                    if(bgmatch){
+                        n.style.backgroundImage = 'url(' + linb.ini.file_bg + ')';
+                        n.style.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(enabled=true, src=" + bgmatch[1] + ", sizingMethod="+type+")";                        
+                    }
                 });
+            }
         }
         /*,
         gekRemedy:function(){
