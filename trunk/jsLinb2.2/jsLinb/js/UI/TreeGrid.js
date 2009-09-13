@@ -77,6 +77,8 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                 var parent = profile.rowMap[pid];
                 if(parent && !parent._created)return;
             }
+            if(!arr)
+                arr=[];
 
             var obj,hw,
                 hw=profile.getSubNode('HFCELL').width();
@@ -126,18 +128,21 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                 rows = this.getRows('data');
 
             _.breakO(profile.colMap,2);
+            
+            if(!header)
+                header=[];
 
             header=profile.box._adjustHeader(header);
 
             var arr = profile.box._prepareHeader(profile, header);
 
-            var ol=pro.header.length;
+            var ol=pro.header && pro.header.length;
             pro.header = header;
             this.removeAllRows();
             profile.getSubNode('HCELL', true).remove();
             if(arr.length)
                 profile.getSubNode('HCELLS').append(profile._buildItems('header', arr));
-            if(ol==arr.length && rows.length)
+            if(ol===arr.length && rows.length)
                 this.insertRows(rows);
             profile.box._ajdustBody(profile);
         },
@@ -2246,7 +2251,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                 case 'number':
                     cell.value=parseFloat(cell.value)||0;
                     caption= capOut ||ren(profile,cell,ncell);
-                    if(dom)node.html(caption||cell.value,false);
+                    if(dom)node.html((caption===null||caption===undefined)?cell.value:caption,false);
                 break;
                 case 'datepicker':
                     cell.value=(parseInt(cell.value)?new Date(parseInt(cell.value)):new Date()).getTime();
@@ -2293,7 +2298,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                 default:
                     cell.value=cell.hasOwnProperty("value")?cell.value:"";
                     caption= capOut ||ren(profile,cell,ncell);
-                    if(dom)node.html(caption||cell.value,false);
+                    if(dom)node.html((caption===null||caption===undefined)?cell.value:caption,false);
             }
 
             cell._$tips=caption;
@@ -2550,12 +2555,6 @@ sortby [for column only]
             if(false === profile.boxing().beforeCellUpdated(profile, cell, options))
                 return;
 
-            //special for caption
-            delete cell.caption;
-            if(cell.hasOwnProperty('caption')){
-                options.caption=options.caption;
-                delete options.caption;
-            }
             _.merge(cell,options,'all');
 
             node=profile.getSubNode('CELLA', cellId);
@@ -2737,7 +2736,7 @@ sortby [for column only]
                         return;
                 }
                 if(!editor || !editor['linb.UI'])
-                    editor=new linb.UI.ComboInput({left:-1000,top:-1000,position:'absolute',visibility:'hidden',zIndex:100});
+                    editor=new linb.UI.ComboInput({dirtyMark:false,left:-1000,top:-1000,position:'absolute',visibility:'hidden',zIndex:100});
                 switch(type){
                     case 'number':
                         editor.setType('none').setCustomStyle('INPUT',"text-align:right;").setValueFormat("^-?(\\d\\d*\\.\\d*$)|(^-?\\d\\d*$)|(^-?\\.\\d\\d*$)");
@@ -2840,8 +2839,18 @@ sortby [for column only]
             //editor change value, update cell value
             editor
             .afterUIValueSet(function(pro,oV,nV){
-                if(getPro('type')=='number')nV=parseFloat(nV);
-                grid._updCell(profile, cellId, {value:nV, $caption:pro.$caption});
+                var type=getPro('type'),$caption;
+                switch(type){
+                    case 'number':
+                        nV=parseFloat(nV);
+                        break;
+                    case 'combobox':
+                    case 'listbox':
+                    case 'helpinput':
+                        $caption=pro.boxing().getShowValue();
+                        break;
+                }
+                grid._updCell(profile, cellId, {value:nV, $caption:$caption});
             })
             .beforeNextFocus(function(pro, key, shift, e){
                 if(editor){
@@ -2899,7 +2908,7 @@ sortby [for column only]
                             }
                         }
                         //set HI node
-                        header.parent().width(last.offsetWidth+last.offsetLeft+100);
+                        header.parent().width(last?(last.offsetWidth+last.offsetLeft+100):0);
                     }else{
                         if(t=body.get(0).childNodes){
                             l=t.length;

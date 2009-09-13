@@ -28,8 +28,9 @@ Class("linb.UI.Shadow","linb.UI",{
             removeShadow:function(){
                 var s = this.get();
                 _.arr.each(linb.UI.Shadow._cache,function(o){
-                    if(_.arr.indexOf(s,linb(o._target).get(0))!=-1)
-                        o.boxing().destroy();
+                    if(o.renderId)
+                        if(_.arr.indexOf(s,linb(o._target).get(0))!=-1)
+                            o.boxing().destroy();
                 });
                 return this;
             }

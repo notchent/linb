@@ -78,9 +78,7 @@ Class('linb.Com',null,{
         show:function(onEnd,parent,subId,threadid){
             var self=this,f=function(){
                 self.render();
-                if(self.customAppend)
-                    self.customAppend.call(self, parent,subId,threadid);
-                else
+                if(false!==_.tryF(self.beforeShow,[parent,subId,threadid], self))
                     (parent||linb('body')).append(self.getUIComponents(),subId);
                 _.tryF(onEnd,[self, threadid],self.host);
             };

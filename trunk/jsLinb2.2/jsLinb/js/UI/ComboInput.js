@@ -39,17 +39,14 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                     var list = (pro.listKey)?linb.UI.getCachedData(pro.listKey):pro.items;
                     if( list && (v=_.arr.subIndexOf(list,'id',value))!=-1){
                       v=list[v].caption;
+                      if(v.length>0)
                         v=v.charAt(0)=='$'?linb.getRes(v.slice(1)):v;
                     }else
                         v='';
                 }else
                     v = profile.$showValue;
             }
-            v = v || ((value||value===0)?String(value):'');
-
-            if(v!==value)profile.$caption=v;
-            else delete profile.$caption;
-            return v;
+            return String( _.isSet(v) ? v : _.isSet(value) ? value : "");
         },
         _getEditValue:function(value){
             var profile=this.get(0),
@@ -620,7 +617,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                         }
                     }
                 },
-                onKeyup : function(profile, e, src){
+                onKeyup : function(profile, e){
                     var prop=profile.properties,
                         key=linb.Event.getKey(e);
                     if(key[0]=='down'|| key[0]=='up'){
@@ -631,7 +628,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                     }
                 },
                 onClick : function(profile, e, src){
-                    if(src.readOnly)
+                    if(linb.use(src).get(0).readOnly)
                         profile.boxing()._drop(e, src);
                 }
             },

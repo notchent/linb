@@ -1,6 +1,6 @@
  Class('VisualJS.DelFile', 'linb.Com',{
     Instance:{
-        customAppend:function(parent){
+        beforeShow:function(parent){
             var self=this,
                 prop = self.properties,
                 dlg=self.dialog;
@@ -26,6 +26,7 @@
                 };
             f(arr);
             self.treebar.clearItems().insertItems(arr);
+            return false;
         },
         _dialog_beforeclose:function(profile){
             this.dialog.hide();

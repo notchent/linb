@@ -375,10 +375,9 @@ _.merge(_,{
     },
     urlEncode:function(hash){
         var a=[],i,o;
-        for(i in hash){
-            o=hash[i];
-            a.push(encodeURIComponent(i)+'='+encodeURIComponent(typeof o=='string'?o:_.serialize(o)));
-        }
+        for(i in hash)
+            if(_.isDefined(o=hash[i]))
+                a.push(encodeURIComponent(i)+'='+encodeURIComponent(typeof o=='string'?o:_.serialize(o)));
         return a.join('&');
     },
     urlDecode:function(str, key){
@@ -395,6 +394,7 @@ _.merge(_,{
     // type detection
     isDefined:function(target)  {return target!==undefined},
     isNull:function(target)  {return target===null},
+    isSet:function(target)  {return target!==undefined && target!==null},
     isObj:function(target)   {return !!target  && (typeof target == 'object' || typeof target == 'function')},
     isBool:function(target)  {return typeof target == 'boolean'},
     isNumb:function(target)  {return typeof target == 'number' && isFinite(target)},
@@ -1692,21 +1692,25 @@ Class('linb.IAjax','linb.absIO',{
                 var w=self.node.contentWindow,c=linb.IAjax,o,t;
                 //in opera, "set location" will trigger location=='about:blank' at first
                 if(linb.browser.opr)try{if(w.location=='about:blank')return}catch(e){}
+                var data;
                 try{
                     w.location=c._getDummy()+'#'+linb.ini.dummy_tag;
                     if(w.name==self.id)
                         self.$e('no response');
-                    else{
-                        o=_.unserialize(w.name);
-                        if(o&&(t=c._pool[o[c.randkey]]))
-                            for(var i=0,l=t.length;i<l;i++){
-                                t[i]._response=o;
-                                t[i]._onResponse();
-                            }
-                        else
-                            self.$e(w.name);
-                    }
+                    else
+                        data=w.name;
                 }catch(e){}
+
+                if(data){
+                    o=_.unserialize(data);
+                    if(o&&(t=c._pool[o[c.randkey]]))
+                        for(var i=0,l=t.length;i<l;i++){
+                            t[i]._response=o;
+                            t[i]._onResponse();
+                        }
+                    else
+                        self.$e(data);
+                }
             };
 
             //create form
@@ -1727,10 +1731,12 @@ Class('linb.IAjax','linb.absIO',{
                     form.appendChild(k[i]);
                     b=true;
                 }else{
-                    t=document.createElement('input');
-                    t.id=t.name=i;
-                    t.value= typeof k[i]=='string'?k[i]:_.serialize(k[i]);
-                    form.appendChild(t);
+                    if(_.isDefined(k[i])){
+                        t=document.createElement('input');
+                        t.id=t.name=i;
+                        t.value= typeof k[i]=='string'?k[i]:_.serialize(k[i],function(o){return o!=undefined});
+                        form.appendChild(t);
+                    }
                 }
             }
             if(self.method=='POST' && b){

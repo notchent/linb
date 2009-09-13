@@ -4140,7 +4140,7 @@ Class("linb.absValue", "linb.absObj",{
                       )
                         return;
                     //can get return value
-                    if(r!==undefined)value=r;
+                    if(r!==undefined && typeof r!=='boolean')value=r;
                     //before _setCtrlValue
                     if(typeof (r=profile.box._ensureValue)=='function')
                         value = r.call(profile.box, profile, value);

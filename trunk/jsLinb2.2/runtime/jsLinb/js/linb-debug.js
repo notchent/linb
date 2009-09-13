@@ -375,10 +375,9 @@ _.merge(_,{
     },
     urlEncode:function(hash){
         var a=[],i,o;
-        for(i in hash){
-            o=hash[i];
-            a.push(encodeURIComponent(i)+'='+encodeURIComponent(typeof o=='string'?o:_.serialize(o)));
-        }
+        for(i in hash)
+            if(_.isDefined(o=hash[i]))
+                a.push(encodeURIComponent(i)+'='+encodeURIComponent(typeof o=='string'?o:_.serialize(o)));
         return a.join('&');
     },
     urlDecode:function(str, key){
@@ -395,6 +394,7 @@ _.merge(_,{
     // type detection
     isDefined:function(target)  {return target!==undefined},
     isNull:function(target)  {return target===null},
+    isSet:function(target)  {return target!==undefined && target!==null},
     isObj:function(target)   {return !!target  && (typeof target == 'object' || typeof target == 'function')},
     isBool:function(target)  {return typeof target == 'boolean'},
     isNumb:function(target)  {return typeof target == 'number' && isFinite(target)},
@@ -1692,21 +1692,25 @@ Class('linb.IAjax','linb.absIO',{
                 var w=self.node.contentWindow,c=linb.IAjax,o,t;
                 //in opera, "set location" will trigger location=='about:blank' at first
                 if(linb.browser.opr)try{if(w.location=='about:blank')return}catch(e){}
+                var data;
                 try{
                     w.location=c._getDummy()+'#'+linb.ini.dummy_tag;
                     if(w.name==self.id)
                         self.$e('no response');
-                    else{
-                        o=_.unserialize(w.name);
-                        if(o&&(t=c._pool[o[c.randkey]]))
-                            for(var i=0,l=t.length;i<l;i++){
-                                t[i]._response=o;
-                                t[i]._onResponse();
-                            }
-                        else
-                            self.$e(w.name);
-                    }
+                    else
+                        data=w.name;
                 }catch(e){}
+
+                if(data){
+                    o=_.unserialize(data);
+                    if(o&&(t=c._pool[o[c.randkey]]))
+                        for(var i=0,l=t.length;i<l;i++){
+                            t[i]._response=o;
+                            t[i]._onResponse();
+                        }
+                    else
+                        self.$e(data);
+                }
             };
 
             //create form
@@ -1727,10 +1731,12 @@ Class('linb.IAjax','linb.absIO',{
                     form.appendChild(k[i]);
                     b=true;
                 }else{
-                    t=document.createElement('input');
-                    t.id=t.name=i;
-                    t.value= typeof k[i]=='string'?k[i]:_.serialize(k[i]);
-                    form.appendChild(t);
+                    if(_.isDefined(k[i])){
+                        t=document.createElement('input');
+                        t.id=t.name=i;
+                        t.value= typeof k[i]=='string'?k[i]:_.serialize(k[i],function(o){return o!=undefined});
+                        form.appendChild(t);
+                    }
                 }
             }
             if(self.method=='POST' && b){
@@ -6242,7 +6248,8 @@ type:4
             data=_.isHash(data)?data:{};method=method||'get';action=action||'';target=target||'_blank';
             var _t=[];
             _.each(data,function(o,i){
-                _t.push('<textarea name="'+i+'">'+(typeof o=='object'?_.serialize(o):o)+'</textarea>');
+                if(_.isDefined(o))
+                    _t.push('<textarea name="'+i+'">'+(typeof o=='object'?_.serialize(o):o)+'</textarea>');
             });
             if(!_.isEmpty(data))_t.push('<input type="hidden" name="rnd" value="'+_()+'">');
             var d=_.str.toDom('<form target="'+target+'" action="'+action+'" method="'+method  + (enctype?'" enctype="' +enctype:'') +  '">'+_t.join('')+'</form>');
@@ -7338,9 +7345,7 @@ Class('linb.Com',null,{
         show:function(onEnd,parent,subId,threadid){
             var self=this,f=function(){
                 self.render();
-                if(self.customAppend)
-                    self.customAppend.call(self, parent,subId,threadid);
-                else
+                if(false!==_.tryF(self.beforeShow,[parent,subId,threadid], self))
                     (parent||linb('body')).append(self.getUIComponents(),subId);
                 _.tryF(onEnd,[self, threadid],self.host);
             };
@@ -13488,7 +13493,7 @@ Class("linb.absValue", "linb.absObj",{
                       )
                         return;
                     //can get return value
-                    if(r!==undefined)value=r;
+                    if(r!==undefined && typeof r!=='boolean')value=r;
                     //before _setCtrlValue
                     if(typeof (r=profile.box._ensureValue)=='function')
                         value = r.call(profile.box, profile, value);
@@ -14462,8 +14467,9 @@ Class("linb.UI.Shadow","linb.UI",{
             removeShadow:function(){
                 var s = this.get();
                 _.arr.each(linb.UI.Shadow._cache,function(o){
-                    if(_.arr.indexOf(s,linb(o._target).get(0))!=-1)
-                        o.boxing().destroy();
+                    if(o.renderId)
+                        if(_.arr.indexOf(s,linb(o._target).get(0))!=-1)
+                            o.boxing().destroy();
                 });
                 return this;
             }
@@ -17991,17 +17997,14 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                     var list = (pro.listKey)?linb.UI.getCachedData(pro.listKey):pro.items;
                     if( list && (v=_.arr.subIndexOf(list,'id',value))!=-1){
                       v=list[v].caption;
+                      if(v.length>0)
                         v=v.charAt(0)=='$'?linb.getRes(v.slice(1)):v;
                     }else
                         v='';
                 }else
                     v = profile.$showValue;
             }
-            v = v || ((value||value===0)?String(value):'');
-
-            if(v!==value)profile.$caption=v;
-            else delete profile.$caption;
-            return v;
+            return String( _.isSet(v) ? v : _.isSet(value) ? value : "");
         },
         _getEditValue:function(value){
             var profile=this.get(0),
@@ -18572,7 +18575,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                         }
                     }
                 },
-                onKeyup : function(profile, e, src){
+                onKeyup : function(profile, e){
                     var prop=profile.properties,
                         key=linb.Event.getKey(e);
                     if(key[0]=='down'|| key[0]=='up'){
@@ -18583,7 +18586,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                     }
                 },
                 onClick : function(profile, e, src){
-                    if(src.readOnly)
+                    if(linb.use(src).get(0).readOnly)
                         profile.boxing()._drop(e, src);
                 }
             },
@@ -26590,6 +26593,8 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                 var parent = profile.rowMap[pid];
                 if(parent && !parent._created)return;
             }
+            if(!arr)
+                arr=[];
 
             var obj,hw,
                 hw=profile.getSubNode('HFCELL').width();
@@ -26639,18 +26644,21 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                 rows = this.getRows('data');
 
             _.breakO(profile.colMap,2);
+            
+            if(!header)
+                header=[];
 
             header=profile.box._adjustHeader(header);
 
             var arr = profile.box._prepareHeader(profile, header);
 
-            var ol=pro.header.length;
+            var ol=pro.header && pro.header.length;
             pro.header = header;
             this.removeAllRows();
             profile.getSubNode('HCELL', true).remove();
             if(arr.length)
                 profile.getSubNode('HCELLS').append(profile._buildItems('header', arr));
-            if(ol==arr.length && rows.length)
+            if(ol===arr.length && rows.length)
                 this.insertRows(rows);
             profile.box._ajdustBody(profile);
         },
@@ -28759,7 +28767,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                 case 'number':
                     cell.value=parseFloat(cell.value)||0;
                     caption= capOut ||ren(profile,cell,ncell);
-                    if(dom)node.html(caption||cell.value,false);
+                    if(dom)node.html((caption===null||caption===undefined)?cell.value:caption,false);
                 break;
                 case 'datepicker':
                     cell.value=(parseInt(cell.value)?new Date(parseInt(cell.value)):new Date()).getTime();
@@ -28806,7 +28814,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                 default:
                     cell.value=cell.hasOwnProperty("value")?cell.value:"";
                     caption= capOut ||ren(profile,cell,ncell);
-                    if(dom)node.html(caption||cell.value,false);
+                    if(dom)node.html((caption===null||caption===undefined)?cell.value:caption,false);
             }
 
             cell._$tips=caption;
@@ -29063,12 +29071,6 @@ sortby [for column only]
             if(false === profile.boxing().beforeCellUpdated(profile, cell, options))
                 return;
 
-            //special for caption
-            delete cell.caption;
-            if(cell.hasOwnProperty('caption')){
-                options.caption=options.caption;
-                delete options.caption;
-            }
             _.merge(cell,options,'all');
 
             node=profile.getSubNode('CELLA', cellId);
@@ -29250,7 +29252,7 @@ sortby [for column only]
                         return;
                 }
                 if(!editor || !editor['linb.UI'])
-                    editor=new linb.UI.ComboInput({left:-1000,top:-1000,position:'absolute',visibility:'hidden',zIndex:100});
+                    editor=new linb.UI.ComboInput({dirtyMark:false,left:-1000,top:-1000,position:'absolute',visibility:'hidden',zIndex:100});
                 switch(type){
                     case 'number':
                         editor.setType('none').setCustomStyle('INPUT',"text-align:right;").setValueFormat("^-?(\\d\\d*\\.\\d*$)|(^-?\\d\\d*$)|(^-?\\.\\d\\d*$)");
@@ -29353,8 +29355,18 @@ sortby [for column only]
             //editor change value, update cell value
             editor
             .afterUIValueSet(function(pro,oV,nV){
-                if(getPro('type')=='number')nV=parseFloat(nV);
-                grid._updCell(profile, cellId, {value:nV, $caption:pro.$caption});
+                var type=getPro('type'),$caption;
+                switch(type){
+                    case 'number':
+                        nV=parseFloat(nV);
+                        break;
+                    case 'combobox':
+                    case 'listbox':
+                    case 'helpinput':
+                        $caption=pro.boxing().getShowValue();
+                        break;
+                }
+                grid._updCell(profile, cellId, {value:nV, $caption:$caption});
             })
             .beforeNextFocus(function(pro, key, shift, e){
                 if(editor){
@@ -29412,7 +29424,7 @@ sortby [for column only]
                             }
                         }
                         //set HI node
-                        header.parent().width(last.offsetWidth+last.offsetLeft+100);
+                        header.parent().width(last?(last.offsetWidth+last.offsetLeft+100):0);
                     }else{
                         if(t=body.get(0).childNodes){
                             l=t.length;

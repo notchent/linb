@@ -5,7 +5,7 @@ Class('App.Dlg', 'linb.Com',{
         //requried class for the App
         required:["linb.UI.Dialog", "linb.UI.CheckBox", "linb.UI.Input", "linb.UI.Button", "linb.UI.Div"], 
         //prepare data
-        customAppend:function(){
+        beforeShow:function(){
             var self=this,
                 prop = this.properties;
             if(prop.fromRegion)
@@ -20,6 +20,8 @@ Class('App.Dlg', 'linb.Com',{
 
             //asy
             self.dialog.show(self.parent, true);
+            
+            return false;
         }, 
         iniComponents:function(){
             // [[code created by jsLinb UI Builder

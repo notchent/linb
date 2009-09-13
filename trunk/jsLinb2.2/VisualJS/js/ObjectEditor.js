@@ -57,7 +57,7 @@ Class('VisualJS.ObjectEditor', 'linb.Com',{
             }
             self.dialog.close();
         },
-        customAppend:function(parent){
+        beforeShow:function(parent){
             var page=this,
                 prop = page.properties,
                 dlg=page.dialog;

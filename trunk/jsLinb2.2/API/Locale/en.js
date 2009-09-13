@@ -4253,8 +4253,9 @@ _.set(linb.Locale,["en","doc","linb","Com"], {
             "                com.dialog1.setHtml(com._info.join('<br />'));" +
             "            }" +
             "        }," +
-            "        customAppend:function(parent,showId,threadid){" +
+            "        beforeShow:function(parent,showId,threadid){" +
             "            this.dialog1.show(parent);" +
+            "            return false;" +
             "        }," +
             "        iniComponents : function(){" +
             "            this._info.push('iniComponents');\n" +
@@ -4294,8 +4295,9 @@ _.set(linb.Locale,["en","doc","linb","Com"], {
             "            onReady : '_trace'," +
             "            onRender : '_trace'," +
             "        }," +
-            "        customAppend:function(parent,showId,threadid){" +
+            "        beforeShow:function(parent,showId,threadid){" +
             "            this.dialog1.show(parent);" +
+            "            return false;" +
             "        }," +
             "        iniComponents : function(){" +
             "            this._info.push('iniComponents');\n" +

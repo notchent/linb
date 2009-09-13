@@ -1,6 +1,6 @@
 Class('VisualJS.AddFile', 'linb.Com',{
     Instance:{
-        customAppend:function(parent){
+        beforeShow:function(parent){
             var self=this,
                 dlg=self.dialog,
                 prop = self.properties;
@@ -31,6 +31,7 @@ Class('VisualJS.AddFile', 'linb.Com',{
             };
             f(arr);
             self.treebar.clearItems().insertItems(arr);
+            return false;
         },
         iniComponents:function(){
             // [[code created by jsLinb UI Builder

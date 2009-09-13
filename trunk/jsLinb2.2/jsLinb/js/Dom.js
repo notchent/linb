@@ -1711,7 +1711,8 @@ type:4
             data=_.isHash(data)?data:{};method=method||'get';action=action||'';target=target||'_blank';
             var _t=[];
             _.each(data,function(o,i){
-                _t.push('<textarea name="'+i+'">'+(typeof o=='object'?_.serialize(o):o)+'</textarea>');
+                if(_.isDefined(o))
+                    _t.push('<textarea name="'+i+'">'+(typeof o=='object'?_.serialize(o):o)+'</textarea>');
             });
             if(!_.isEmpty(data))_t.push('<input type="hidden" name="rnd" value="'+_()+'">');
             var d=_.str.toDom('<form target="'+target+'" action="'+action+'" method="'+method  + (enctype?'" enctype="' +enctype:'') +  '">'+_t.join('')+'</form>');

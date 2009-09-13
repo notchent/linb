@@ -1,8 +1,9 @@
 Class('App.Module3', 'linb.Com',{
     Instance:{
         base:["linb.UI"], 
-        customAppend:function(){
+        beforeShow:function(){
             this.dialog.show();
+            return false;
         }, 
         iniResource:function(com, threadid){
             var ns=this;
