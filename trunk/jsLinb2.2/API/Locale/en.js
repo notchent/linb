@@ -4446,7 +4446,7 @@ _.set(linb.Locale,["en","doc","linb","Com"], {
                 "left [Optional] : Number, the css left value.",
                 "top [Optional] : Number, the css top value."
             ]
-        }
+        },
         show:{
             $desc:"Shows the Com Object.",
             $paras:[

@@ -4470,7 +4470,7 @@ _.set(linb.Locale,["cn","doc","linb","Com"], {
                 "left [可选参数] : Number, 显示的左边坐标.",
                 "top [可选参数] : Number, 显示的上边坐标."
             ]
-        }
+        },
         show:{
             $desc:"显示Com对象.",
             $paras:[
