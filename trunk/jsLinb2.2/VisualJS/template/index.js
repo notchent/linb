@@ -7,6 +7,7 @@ Class('{className}', 'linb.Com',{
         },
         events:{},
         customAppend:function(parent,subId,left,top){
+            return false;
         },
         iniResource:function(com, threadid){
         },
