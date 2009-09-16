@@ -3,7 +3,7 @@ Class('VisualJS.ProjectPro', 'linb.Com',{
         _template:'blank',
 
         events:{onReady:'_onReady'},
-        beforeShow:function(){
+        customAppend:function(){
             var self=this,
                 prop = self.properties;
 
@@ -23,7 +23,6 @@ Class('VisualJS.ProjectPro', 'linb.Com',{
             self.listTemplate.clearItems();
 
             self.dialog.show(self.parent, true);
-            return false;
         }, 
         iniComponents:function(){
             // [[code created by jsLinb UI Builder

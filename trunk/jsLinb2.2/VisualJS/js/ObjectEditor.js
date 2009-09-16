@@ -57,7 +57,7 @@ Class('VisualJS.ObjectEditor', 'linb.Com',{
             }
             self.dialog.close();
         },
-        beforeShow:function(parent){
+        customAppend:function(parent){
             var page=this,
                 prop = page.properties,
                 dlg=page.dialog;
@@ -72,8 +72,6 @@ Class('VisualJS.ObjectEditor', 'linb.Com',{
                 dlg.render(true);
 
             dlg.show(parent, true);
-
-            return false;
         },
         iniComponents:function(){
             // [[code created by jsLinb UI Builder

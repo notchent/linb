@@ -4277,9 +4277,8 @@ _.set(linb.Locale,["cn","doc","linb","Com"], {
             "                com.dialog1.setHtml(com._info.join('<br />'));" +
             "            }" +
             "        }," +
-            "        beforeShow:function(parent,showId,threadid){" +
+            "        customAppend:function(parent){" +
             "            this.dialog1.show(parent);" +
-            "            return false;" +
             "        }," +
             "        iniComponents : function(){" +
             "            this._info.push('iniComponents');\n" +
@@ -4319,9 +4318,8 @@ _.set(linb.Locale,["cn","doc","linb","Com"], {
             "            onReady : '_trace'," +
             "            onRender : '_trace'," +
             "        }," +
-            "        beforeShow:function(parent,showId,threadid){" +
+            "        customAppend:function(parent){" +
             "            this.dialog1.show(parent);" +
-            "            return false;" +
             "        }," +
             "        iniComponents : function(){" +
             "            this._info.push('iniComponents');\n" +
@@ -4464,6 +4462,15 @@ _.set(linb.Locale,["cn","doc","linb","Com"], {
                 "linb.SC('App.Test1',function(){var com=new this; com.create(function(com){alert('created!')});},false);"
             ]
         },
+        customAppend:{
+            $desc:"把UI控件加到DOM。如果函数内没有做任何appen的工作，并返回false，show函数会把所有的UI控件都将加入到DOM。",
+            $paras:[
+                "parent [必需参数] : linb.UIProfile/linb.UI/Element/linb.Dom.",
+                "subId [可选参数] : String, the sub id that Determines the set of UIProfiles will be added to.",
+                "left [可选参数] : Number, 显示的左边坐标.",
+                "top [可选参数] : Number, 显示的上边坐标."
+            ]
+        }
         show:{
             $desc:"显示Com对象.",
             $paras:[

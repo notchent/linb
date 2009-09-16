@@ -7342,10 +7342,13 @@ Class('linb.Com',null,{
             var self=this;
             return _.tryF(self[name],[self, self.threadid],self);
         },
-        show:function(onEnd,parent,subId,threadid){
+        customAppend:function(parent,subId,left,top){
+            return false;
+        },
+        show:function(onEnd,parent,subId,threadid,left,top){
             var self=this,f=function(){
                 self.render();
-                if(false!==_.tryF(self.beforeShow,[parent,subId,threadid], self))
+                if(false===_.tryF(self.customAppend,[parent,subId,left,top], self))
                     (parent||linb('body')).append(self.getUIComponents(),subId);
                 _.tryF(onEnd,[self, threadid],self.host);
             };
@@ -7437,36 +7440,6 @@ Class('linb.Com',null,{
         },
 
         iniComponents:function(){},
-
-/*
-        +-----------+
-        |  +-------+|
-        |  |  +---+||
-        |a |ab|abc|||
-        |  |  +---+||
-        |  +-------+|
-        +-----------+
-        1.thread start
-        2.build a UI
-            build ab UI
-                build abc UI
-        3.fill a data
-            fill ab data
-                fill abc data
-        4.thread end
-
-        requestData:function(group, onEnd, threadid){
-            var thread=linb.Thread;
-            thread.observableRun(function(t){
-                linb.absIO.groupCall(group, null, null, onEnd,thread||t);
-            },null,threadid);
-        },
-        composeUI:function(onEnd, threadid, flag){_.tryF(onEnd)},
-        fillUI:function(onEnd, threadid, flag){_.tryF(onEnd)},
-*/
-
-
-
         getUIComponents:function(){
             var nodes = _.copy(this._nodes),t,k='linb.UI';
             _.filter(nodes,function(o){

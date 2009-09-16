@@ -4253,9 +4253,8 @@ _.set(linb.Locale,["en","doc","linb","Com"], {
             "                com.dialog1.setHtml(com._info.join('<br />'));" +
             "            }" +
             "        }," +
-            "        beforeShow:function(parent,showId,threadid){" +
+            "        customAppend:function(parent){" +
             "            this.dialog1.show(parent);" +
-            "            return false;" +
             "        }," +
             "        iniComponents : function(){" +
             "            this._info.push('iniComponents');\n" +
@@ -4295,9 +4294,8 @@ _.set(linb.Locale,["en","doc","linb","Com"], {
             "            onReady : '_trace'," +
             "            onRender : '_trace'," +
             "        }," +
-            "        beforeShow:function(parent,showId,threadid){" +
+            "        customAppend:function(parent){" +
             "            this.dialog1.show(parent);" +
-            "            return false;" +
             "        }," +
             "        iniComponents : function(){" +
             "            this._info.push('iniComponents');\n" +
@@ -4440,6 +4438,15 @@ _.set(linb.Locale,["en","doc","linb","Com"], {
                 "linb.SC('App.Test1',function(){var com=new this; com.create(function(com){alert('created!')});},false);"
             ]
         },
+        customAppend:{
+            $desc:"Appends UI to DOM. If returns false, all the UI components will be appended to DOM by 'show'.",
+            $paras:[
+                "parent [Required] : linb.UIProfile, linb.UI ojbect, Element or linb.Dom Object.",
+                "subId [Optional] : String, the sub id that Determines the set of UIProfiles will be added to.",
+                "left [Optional] : Number, the css left value.",
+                "top [Optional] : Number, the css top value."
+            ]
+        }
         show:{
             $desc:"Shows the Com Object.",
             $paras:[

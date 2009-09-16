@@ -6,6 +6,8 @@ Class('{className}', 'linb.Com',{
         iniComponents:function(com, threadid){
         },
         events:{},
+        customAppend:function(parent,subId,left,top){
+        },
         iniResource:function(com, threadid){
         },
         iniExComs:function(com, hreadid){

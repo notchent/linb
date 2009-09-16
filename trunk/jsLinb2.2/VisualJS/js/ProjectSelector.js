@@ -1,6 +1,6 @@
 Class('VisualJS.ProjectSelector', 'linb.Com',{
     Instance:{
-        beforeShow:function(){
+        customAppend:function(){
             var self=this,
                 dlg=self.dialog,
                 prop = self.properties;
@@ -41,7 +41,6 @@ Class('VisualJS.ProjectSelector', 'linb.Com',{
                     }
                 ,threadid);
             });
-            return false;
         }, 
         iniComponents:function(){
             // [[code created by jsLinb UI Builder
