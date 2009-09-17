@@ -9815,12 +9815,19 @@ Class('linb.UIProfile','linb.Profile', {
             if(!ns.box._dynamicRender){
                 if(ns.children)
                     for(var i=0,v;v=ns.children[i++];)
-                        v[0]._render(true);
+                        if(v[0]._render)
+                            v[0]._render(true);
 
                 if(ns.$attached){
                     for(var i=0,v;v=ns.$attached[i++];)
-                        v._render(true);
+                        if(v._render)
+                            v._render(true);
                     delete ns.$attached;
+                }
+                if(ns.exchildren){
+                    var arr=[];
+                    for(var i=0,v;v=ns.exchildren[i++];)
+                        ns.boxing().append(v[0],v[1]);
                 }
             }
         },
@@ -10068,6 +10075,9 @@ Class('linb.UIProfile','linb.Profile', {
                     if(v[1])m[1]=v[1];
                     t[t.length]=m
                 });
+            }
+            if(o.exchildren && o.exchildren.length){
+                r.exchildren=o.exchildren;
             }
             return rtnString===false?r:_.serialize(r);
         },
@@ -10623,17 +10633,26 @@ Class("linb.UI",  "linb.absObj", {
             if(pro.beforeAppend && false===this.beforeAppend(pro,target))
                 return;
 
-            if(subId!==false && target['linb.UI']){
-                target.each(function(profile){
-                    profile.linkParent(pro,subId);
-                });
+            if(subId!==false){
+                if(target['linb.UI']){
+                    target.each(function(profile){
+                        profile.linkParent(pro,subId);
+                    });
+                }
             }
             if(pro.renderId){
                 if(subId=typeof subId=='string'?subId:null)subId=pro.getSubIdByItemId(subId);
                 parentNode=pro.keys.PANEL?pro.getSubNode(pro.keys.PANEL, subId):pro.getRoot();
                 if(!parentNode.isEmpty())
                     parentNode.append(target);
+            }else{
+                if(!target['linb.UI']){
+                    if(!pro.exchildren)
+                        pro.exchildren=[];
+                    pro.exchildren.push([target,subId]);
+                }
             }
+
             if(pro.afterAppend)
                 this.afterAppend(pro,target);
             return this;
@@ -22565,6 +22584,19 @@ Class("linb.UI.Tabs", ["linb.UI", "linb.absList","linb.absValue"],{
                             });
                             if(a.length)
                                 box.append(linb.UI.pack(a),value);
+
+                            arr=profile.exchildren;
+                            if(arr && arr.length){
+                                a=[];
+                                _.arr.each(arr,function(o){
+                                    if(o[1]==value)
+                                        a.push(o[0]);
+                                });
+                                if(a.length)
+                                    _.arr.each(a,function(o){
+                                        box.append(linb(o),value);
+                                    });
+                            }
 
                             if(!item._$ini)
                                 if(box.onIniPanelView)

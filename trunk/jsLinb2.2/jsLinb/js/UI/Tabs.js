@@ -43,6 +43,19 @@ Class("linb.UI.Tabs", ["linb.UI", "linb.absList","linb.absValue"],{
                             if(a.length)
                                 box.append(linb.UI.pack(a),value);
 
+                            arr=profile.exchildren;
+                            if(arr && arr.length){
+                                a=[];
+                                _.arr.each(arr,function(o){
+                                    if(o[1]==value)
+                                        a.push(o[0]);
+                                });
+                                if(a.length)
+                                    _.arr.each(a,function(o){
+                                        box.append(linb(o),value);
+                                    });
+                            }
+
                             if(!item._$ini)
                                 if(box.onIniPanelView)
                                     if(box.onIniPanelView(profile,item)!==false)
