@@ -755,6 +755,8 @@ _.merge(linb,{
             if(ini.verPath) pre += ini.verPath + '/';
             if(ini.ver) pre += ini.ver + '/';
         }
+        if(pre.slice(-1)!="/")
+            pre+="/";
         return pre + key.join('\/') + (tag||'\/');
     },
     log:_.fun(),
