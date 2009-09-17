@@ -2,12 +2,12 @@ _.set(linb.Locale,["cn","app"], {
     en:'英文',
     cn:'中文',
     apititle:"jsLINB 2.2 - API 文档",
-    
+
     search:'API查询',
     lQ1:'按API查询',
     lQ2:'按功能描述查询',
 
-    
+
     staticMethods:"静态方法",
     staticProperties:"静态属性",
     gFun:'全局函数',
@@ -1354,7 +1354,7 @@ _.set(linb.Locale,["cn","doc","linb","Ajax"], {
             "<br>&nbsp;&nbsp;beforeStart: Function. 在请求数据发送前调用，如果这个函数返回 [false] ,请求会终止."+
             "<br>&nbsp;&nbsp;beforeFail: Function, 函数参数:[error Object, threadid]. 在请求返回失败前调用，如果这个函数返回 [false], onFail 函数将被忽略."+
             "<br>&nbsp;&nbsp;beforeSuccess: Function, 函数参数:[response, response type, threadid]. 在请求返回失败前调用，如果这个函数返回 [false], onSuccess 函数将被忽略."+
-            "<br>}"    
+            "<br>}"
     ],
     $snippet:[
         "var out=[]; linb.Ajax('no.js','', function(){out.push('ok')}, function(){out.push('fail');alert(out);}, null, { onStart:function(){out.push('onStart')}, onEnd:function(){out.push('onEnd') }, onTimeout:function(){out.push('onTimeout')}, onRetry:function(){out.push('onRetry')} }).start();",
@@ -1550,7 +1550,7 @@ _.set(linb.Locale,["cn","doc","linb","IAjax"], {
             "<br>&nbsp;&nbsp;beforeStart: Function. 在请求数据发送前调用，如果这个函数返回 [false] ,请求会终止."+
             "<br>&nbsp;&nbsp;beforeFail: Function, 函数参数:[error Object, threadid]. 在请求返回失败前调用，如果这个函数返回 [false], onFail 函数将被忽略."+
             "<br>&nbsp;&nbsp;beforeSuccess: Function, 函数参数:[response, response type, threadid]. 在请求返回失败前调用，如果这个函数返回 [false], onSuccess 函数将被忽略."+
-            "<br>}"    
+            "<br>}"
     ],
     $snippet:[
         "/*\n//The most common usage: \n"+
@@ -2349,7 +2349,7 @@ _.set(linb.Locale,["cn","doc","linb","Dom"], {
             $desc:"将一个DOM概要对象(profile)序列化为一个JSON字符串或一个JSON对象.",
             $rtn:"String",
             $snippet:[
-                "alert(linb('btnLang').serialize());" 
+                "alert(linb('btnLang').serialize());"
             ]
         },
         scrollWidth:{
@@ -6490,6 +6490,30 @@ _.set(linb.Locale,["cn","doc","linb","UI"], {
                 "}"
             ]
         },
+        getDisableTips:{
+            $desc:"判断控件是否已经去掉tips效果.",
+            $rtn:"Boolean"
+        },
+        setDisableTips:{
+            $desc:"设置控件是否去掉tips效果.",
+            $rtn:"[self]",
+            $paras:[
+                "value [必需参数] : Boolean.",
+                "force [可选参数] : Boolean, 强制设置该属性值，即使属性已经设置为该值. 默认为 [false]."
+            ]
+        },
+        getDisableHover:{
+            $desc:"判断控件是否已经去掉鼠标Hover效果.",
+            $rtn:"Boolean"
+        },
+        setDisableHover:{
+            $desc:"设置控件是否去掉鼠标Hover效果.",
+            $rtn:"[self]",
+            $paras:[
+                "value [必需参数] : Boolean.",
+                "force [可选参数] : Boolean, 强制设置该属性值，即使属性已经设置为该值. 默认为 [false]."
+            ]
+        },
         getDisabled:{
             $desc:"判断控件是否变灰(不可用).",
             $rtn:"Boolean",
@@ -8127,7 +8151,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","Button"], {
                 "linb(id).prepend((new linb.UI.Button({type:'drop'})).onClick(function(profile){alert('clicked button')}).onClickDrop(function(profile){alert('clicked drop button')}));"+
                 "}"
             ]
-        },        
+        },
         onChecked:{
             $desc:"在按钮按下时触发（当按钮的 type 为'status'时才有效）.",
             $paras:[
@@ -9489,7 +9513,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","Slider"], {
                 "_.asyRun(function(){o.setShowIncreaseHandle(false); alert(o.getShowIncreaseHandle()); },1000);"+
                 "}"
             ]
-        },        
+        },
         getShowDecreaseHandle:{
             $desc:"获取是否显示减小按钮属性。",
             $rtn:"Boolean",
@@ -9513,7 +9537,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","Slider"], {
                 "_.asyRun(function(){o.setShowDecreaseHandle(false); alert(o.getShowDecreaseHandle()); },1000);"+
                 "}"
             ]
-        },        
+        },
         getIsRange:{
             $desc:"获取是否为Range类型（显示两个拖拽点）的Slider。",
             $rtn:"Boolean",
@@ -11040,7 +11064,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","Tabs"], {
                 "var o=new linb.UI.Tabs({height:'auto',items:['a','c','b'],value:'a'});"+
                 "o.onIniPanelView(function(p,item){linb.message(item.id);});"+
                 "linb(id).prepend(o);"+
-                "}"            
+                "}"
             ]
         }
     }
@@ -11972,7 +11996,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","Image"], {
             $snippet:[
                 "var id='linb.temp.img5-1'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var o;linb(id).prepend(o=new linb.UI.Image({position:'relative',src:'img/logo.gif'}));"+
-                "_.asyRun(function(){alert(o.setAlt('picture').getAlt())},1000);" + 
+                "_.asyRun(function(){alert(o.setAlt('picture').getAlt())},1000);" +
                 "}"
             ]
         },
@@ -12987,7 +13011,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","TreeGrid"], {
                 "value [必需参数] : Boolean.",
                 "force [可选参数] : Boolean, 强制设置该属性值，即使属性已经设置为该值. 默认为 [false]."
             ]
-        },        
+        },
         getAnimCollapse :{
             $desc:"Gets the Animate property value on the first UIProfile",
             $rtn:"Boolean",

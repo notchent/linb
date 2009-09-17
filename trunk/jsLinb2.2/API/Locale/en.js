@@ -2,11 +2,11 @@ _.set(linb.Locale,["en","app"], {
     en:'English',
     cn:'Chinese',
     apititle:"jsLINB 2.2 - API Documentation",
-    
+
     search:'Search',
     lQ1:'Search API',
     lQ2:'Search Description',
-    
+
     staticMethods:"Static Methods",
     staticProperties:"Static Properties",
     gFun:'Global Function',
@@ -2333,7 +2333,7 @@ _.set(linb.Locale,["en","doc","linb","Dom"], {
             $desc:"Serializes a DOM profile to a JSON string or JSON object.",
             $rtn:"String",
             $snippet:[
-                "alert(linb('btnLang').serialize());" 
+                "alert(linb('btnLang').serialize());"
             ]
         },
         scrollWidth:{
@@ -3518,7 +3518,7 @@ _.set(linb.Locale,["en","doc","linb","Date"], {
             "alert(arr.join('\\n'))"
         ]
 
-        
+
     },
     getText:{
         $desc:"Converts the specified date to a string representation.",
@@ -4528,7 +4528,7 @@ _.set(linb.Locale,["en","doc","linb","Com"], {
                 "linb.SC('App.Test1',function(){var com=new this; com.create(function(com){com.setHost(window,'com_alias'); alert(com.getHost()===window); alert(window.com_alias)});},false);"
             ]
         },
-        
+
         beforeCreated:{
             $desc:'Fired before com is created.',
             $paras:[
@@ -6454,6 +6454,30 @@ _.set(linb.Locale,["en","doc","linb","UI"], {
                 "var btn;linb(id).prepend(btn=new linb.UI.Button);"+
                 "_.asyRun(function(){btn.setTips('a b c d'); alert(btn.getTips())},1000)"+
                 "}"
+            ]
+        },
+        getDisableTips:{
+            $desc:"Determines whether this UI control disabled tips or not.",
+            $rtn:"Boolean"
+        },
+        setDisableTips:{
+            $desc:"Specifys whether this UI control disable tips or not",
+            $rtn:"[self]",
+            $paras:[
+                "value [Required] : Boolean.",
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
+            ]
+        },
+        getDisableHover:{
+            $desc:"Determines whether this UI control disabled mouse hover effection or not.",
+            $rtn:"Boolean"
+        },
+        setDisableHover:{
+            $desc:"Specifys whether this UI control disable mouse hover effection or not.",
+            $rtn:"[self]",
+            $paras:[
+                "value [Required] : Boolean.",
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ]
         },
         getDisabled:{
@@ -9456,7 +9480,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Slider"], {
                 "_.asyRun(function(){o.setShowIncreaseHandle(false); alert(o.getShowIncreaseHandle()); },1000);"+
                 "}"
             ]
-        },        
+        },
         getShowDecreaseHandle:{
             $desc:"Gets showDecreaseHandle property.",
             $rtn:"Boolean",
@@ -9480,7 +9504,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Slider"], {
                 "_.asyRun(function(){o.setShowDecreaseHandle(false); alert(o.getShowDecreaseHandle()); },1000);"+
                 "}"
             ]
-        },        
+        },
         getIsRange:{
             $desc:"Gets isRange property.",
             $rtn:"Boolean",
@@ -11007,7 +11031,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Tabs"], {
                 "var o=new linb.UI.Tabs({height:'auto',items:['a','c','b'],value:'a'});"+
                 "o.onIniPanelView(function(p,item){linb.message(item.id);});"+
                 "linb(id).prepend(o);"+
-                "}"            
+                "}"
             ]
         }
     }
@@ -11938,7 +11962,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Image"], {
             $snippet:[
                 "var id='linb.temp.img5-1'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var o;linb(id).prepend(o=new linb.UI.Image({position:'relative',src:'img/logo.gif'}));"+
-                "_.asyRun(function(){alert(o.setAlt('picture').getAlt())},1000);" + 
+                "_.asyRun(function(){alert(o.setAlt('picture').getAlt())},1000);" +
                 "}"
             ]
         },
@@ -11952,7 +11976,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Image"], {
             $snippet:[
                 "var id='linb.temp.img6-1'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var o;linb(id).prepend(o=new linb.UI.Image({position:'relative',src:'img/logo.gif'}));"+
-                "_.asyRun(function(){alert(o.setAlt('picture').getAlt())},1000);" + 
+                "_.asyRun(function(){alert(o.setAlt('picture').getAlt())},1000);" +
                 "}"
             ]
         },

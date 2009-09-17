@@ -1,10 +1,10 @@
 Class('App', 'linb.Com',{
     Instance:{
-        events:{"onReady":"_onready"}, 
+        events:{"onReady":"_onready"},
         iniComponents:function(){
             // [[code created by jsLinb UI Builder
             var host=this, children=[], append=function(child){children.push(child.get(0))};
-            
+
             append((new linb.UI.Panel)
                 .host(host,"panel4")
                 .setDock("none")
@@ -15,17 +15,17 @@ Class('App', 'linb.Com',{
                 .setZIndex(1)
                 .setCaption("Group, Preview and Summery")
             );
-            
+
             host.panel4.append((new linb.UI.TreeGrid)
                 .host(host,"treegrid")
                 .setRowResizer(false)
                 .setColHidable(true)
                 .setColMovable(true)
             );
-            
+
             return children;
             // ]]code created by jsLinb UI Builder
-        }, 
+        },
         _onready:function (com, threadid) {
             this.treegrid
             .setHeader(['col1','col2','col3','col4'])
@@ -37,7 +37,7 @@ Class('App', 'linb.Com',{
                     caption:'group layer 1',
                     summary:'summary',
                     preview:'preview',
-                    renderer : function(profile,row){return "<span style='width:16px;height:16px;background:url(img/img.gif) left -32px;vertical-align:middle;'></span>"+row.caption},
+                    renderer : function(row){return "<span style='width:16px;height:16px;background:url(img/img.gif) left -32px;vertical-align:middle;'></span>"+row.caption},
                     sub:[
                         {caption:'cap3',cells:['11-11','12-11','13-11','14-11']},
                         {id:'grp2',group:true,caption:'group layer2',

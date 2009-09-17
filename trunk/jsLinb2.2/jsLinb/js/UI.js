@@ -2527,9 +2527,13 @@ Class("linb.UI",  "linb.absObj", {
                             nodes=linb(nodes);
                             box=profile.boxing();
                             if(mode==1){
-                                if(type=='mouseover' && profile.beforeHoverEffect)
-                                    if(false == box.beforeHoverEffect(profile, item, e, src, 'mouseover'))
+                                if(type=='mouseover'){
+                                    if(prop.disableHover)
                                         return;
+                                    if(profile.beforeHoverEffect)
+                                        if(false == box.beforeHoverEffect(profile, item, e, src, 'mouseover'))
+                                            return;
+                                }
                                 if(type=='mousedown' && profile.beforeClickEffect)
                                     if(false == box.beforeClickEffect(profile, item, e, src, 'mousedown'))
                                         return;
@@ -2542,6 +2546,9 @@ Class("linb.UI",  "linb.absObj", {
                                         return;
                                     nodes.tagClass('-mousedown', false);
                                 }else{
+                                    if(prop.disableHover)
+                                        return;
+
                                     if(profile.beforeHoverEffect && false == box.beforeHoverEffect(profile, item, e, src, 'mouseout'))
                                         return;
                                     nodes.tagClass('(-mouseover|-mousedown)', false);
@@ -3190,6 +3197,8 @@ Class("linb.UI",  "linb.absObj", {
             tagVar:{
                 ini:{}
             },
+            disableHover:false,
+            disableTips:false,
             disabled:{
                 ini:false,
                 action: function(v){
@@ -3662,7 +3671,7 @@ Class("linb.UI",  "linb.absObj", {
                     }
                 }
             }
-            
+
             //run once now
             if(value != 'none' && trigger)
                 profile.$dockFun({width:1, height:1, $dockid:_.arr.indexOf(['width','height','fill','cover'],value)!=-1?profile.$linbid:null, $type: value});

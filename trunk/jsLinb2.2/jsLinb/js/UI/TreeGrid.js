@@ -128,7 +128,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                 rows = this.getRows('data');
 
             _.breakO(profile.colMap,2);
-            
+
             if(!header)
                 header=[];
 
@@ -824,8 +824,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                 left:0,
                 top:'0',
                 'font-size':0,
-                'line-height':0,
-                'border-bottom': '1px solid #ACA899'
+                'line-height':0
             },
             'SORT, SORT-checked':{
                 width:'16px',
@@ -881,9 +880,12 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
             HCELLS:{
                 'padding-bottom':'2px'
             },
+            CELLS:{
+                'border-bottom': '1px solid #A2BBD9'
+            },
             'CELLS-group':{
                 $order:1,
-                'border-right': '1px solid #ACA899'
+                'border-right': '1px solid #A2BBD9'
             },
             'CELLS-group FCELL':{
                 'border-right':0,
@@ -898,13 +900,15 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                 position:'relative',
                 display:'none',
                 'padding-left':'16px',
-                'border-right': '1px solid #ACA899'
+                'border-right': '1px solid #A2BBD9'
             },
             PREVIEW:{
-                'border-bottom': '1px dashed #ACA899'
+                $order:4,
+                'border-bottom': '1px dashed #A2BBD9'
             },
             SUMMARY:{
-                'border-top': '1px dashed #ACA899'
+                $order:4,
+                'border-bottom': '2px solid #A2BBD9'
             },
            'CELLS-mouseover':{
                 $order:4,
@@ -958,23 +962,24 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                 'vertical-align':'middle'
             },
             'HFCELL, HCELL':{
+               background:  linb.UI.$bg('head.gif', '#CAE3FF repeat-x left top'),
                height:'100%',
                'border-left':'1px solid #fff',
                'border-top':'1px solid #fff',
                'border-right':'1px solid #A2BBD9',
+               'border-bottom':'1px solid #A2BBD9',
                padding:0,
                'vertical-align':'top',
                 'font-size':'12px',
                 'line-height':'14px'
             },
-            'HCELL-mouseover':{
+            'HFCELL-mouseover, HCELL-mouseover':{
                 background:  linb.UI.$bg('head-mouseover.gif', '#FFF1A0 repeat-x left top')
             },
             ROW:{
                 position:'relative',
                 zoom:linb.browser.ie?1:null,
                 width:linb.browser.ie?'100%':null,
-                'border-top': '1px solid #A2BBD9',
                 'font-size':0,
                 'line-height':0
             },
@@ -1081,7 +1086,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
             }
         },
         Behaviors:{
-            HoverEffected:{FCELLCMD:'FCELLCMD', HCELL:'HCELL'},
+            HoverEffected:{FCELLCMD:'FCELLCMD', HCELL:'HCELL', HFCELL:'HFCELL'},
             ClickEffected:{FCELLCMD:'FCELLCMD', CELL:'CELL', HCELL:'HCELL'},
             DropableKeys:['SCROLL','CELLS','FCELLCMD'],
             DragableKeys:['FCELL'],
@@ -1566,10 +1571,12 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
             },
             CELLS:{
                 afterMouseover:function(profile, e, src){
+                    if(profile.properties.disableHover)return;
                     if(profile.properties.activeMode=='row')
                         linb.use(src).tagClass('-mouseover');
                 },
                 afterMouseout:function(profile, e, src){
+                    if(profile.properties.disableHover)return;
                     if(profile.properties.activeMode=='row')
                         linb.use(src).tagClass('-mouseover',false);
                 },
@@ -1589,10 +1596,12 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
             },
             CELL:{
                 afterMouseover:function(profile, e, src){
+                    if(profile.properties.disableHover)return;
                     if(profile.properties.activeMode=='cell')
                         linb.use(src).tagClass('-mouseover');
                 },
                 afterMouseout:function(profile, e, src){
+                    if(profile.properties.disableHover)return;
                     if(profile.properties.activeMode=='cell')
                         linb.use(src).tagClass('-mouseover',false);
                 }
@@ -2241,7 +2250,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                 //4. default caption function
                 //5. value in cell
                 //6. ""
-                ren=me._ren||(me._ren=function(profile,cell,ncell,fun){return typeof cell.$caption=='string'? cell.$caption: typeof ncell.caption =='string'?ncell.caption: typeof cell.renderer=='function'? cell.renderer(cell) : typeof fun=='function'?fun(cell.value):String(cell.value) || ""}),
+                ren=me._ren||(me._ren=function(profile,cell,ncell,fun){return typeof cell.$caption=='string'? cell.$caption: typeof ncell.caption =='string'?ncell.caption: typeof cell.renderer=='function'? cell.renderer.call(profile,cell) : typeof fun=='function'?fun(cell.value):String(cell.value) || ""}),
                 f1=me._f1=(me._f1=function(v){return linb.Date.getText(new Date(parseInt(v)), 'ymd')}),
                 f2=me._f2=(me._f2=function(v){return (v.split('\n')[0]||"").replace(/ /g,'&nbsp;').replace(reg1,'&lt;')}),
                 f3=me._f3=(me._f3=function(v){return v*1000/10+'%'})

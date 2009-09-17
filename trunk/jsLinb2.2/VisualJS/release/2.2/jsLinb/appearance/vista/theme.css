@@ -79,13 +79,14 @@ html, .uibg-base{
     background-image:url(Public/button.gif);
 }
 
-.uicmd-close, .uicmd-opt, .uicmd-pin, 
-.uicmd-land, .uicmd-min, .uicmd-max, .uicmd-restore, 
-.uicmd-check, .uicmd-radio, .uicmd-add{
+.uicmd-close, .uicmd-opt, .uicmd-pin,
+.uicmd-land, .uicmd-min, .uicmd-max, .uicmd-restore,
+.uicmd-check, .uicmd-radio, .uicmd-add,
+.linb-treebar-mark2, .linb-treegrid-mark{
     background-image: url(Public/icons.gif);
 }
 
-.uicmd-close, .uicmd-opt, .uicmd-pin, 
+.uicmd-close, .uicmd-opt, .uicmd-pin,
 .uicmd-land, .uicmd-min, .uicmd-max, .uicmd-restore{
     width:28px;
     height:15px;
@@ -439,11 +440,11 @@ html, .uibg-base{
 .linb-toolbar-drop{
     background-image: url(Button/drop.gif);
 }
-.linb-menubar-item-mouseover, 
-.linb-menubar-item-mouseover .linb-menubar-itemi, 
-.linb-menubar-item-mouseover .linb-menubar-itemc, 
-.linb-menubar-item-mousedown, 
-.linb-menubar-item-mousedown .linb-menubar-itemi, 
+.linb-menubar-item-mouseover,
+.linb-menubar-item-mouseover .linb-menubar-itemi,
+.linb-menubar-item-mouseover .linb-menubar-itemc,
+.linb-menubar-item-mousedown,
+.linb-menubar-item-mousedown .linb-menubar-itemi,
 .linb-menubar-item-mousedown .linb-menubar-itemc
 {
     background-image: url(Public/button.gif);
@@ -485,9 +486,6 @@ html, .uibg-base{
 .linb-treegrid-sort, .linb-treegrid-checkbox, .linb-treegrid-checkbox-checked{
     background-image: url(Public/icons.gif);
 }
-.linb-treegrid-sub{
-    border-left:solid 1px #f1f1f1;
-}
 .linb-treegrid-hcell-mouseover{
     background: none;
 }
@@ -495,17 +493,14 @@ html, .uibg-base{
 .linb-treegrid-fcell,.linb-treegrid-cell, .linb-treegrid-cells-group, .linb-treegrid-preview, .linb-treegrid-summary{
     border-right:solid 1px #f1f1f1;
 }
-.linb-treegrid-row{
-    border-top:1px solid #f1f1f1;
-}
-.linb-treegrid-body{
+.linb-treegrid-cells{
     border-bottom:1px solid #f1f1f1;
 }
 .linb-treegrid-preview{
     border-bottom:1px dashed #f1f1f1;
 }
 .linb-treegrid-summary{
-    border-top:1px dashed #f1f1f1;
+    border-bottom:2px solid #f1f1f1;
 }
 
 .linb-treegrid-cell-mouseover{
@@ -620,7 +615,7 @@ html, .uibg-base{
 
 
 
-	
+
 
 /***setting begin***/
 .setting-linb-border{

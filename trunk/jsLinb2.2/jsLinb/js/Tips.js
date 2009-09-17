@@ -68,6 +68,11 @@ Class("linb.Tips", null,{
 
             //check id
             if((_from=event._getProfile(id)) && _from.box && _from.KEY=='linb.UIProfile'){
+                if(_from.properties.disableTips){
+                    node=null;
+                    return false;
+                }
+
                 //if onShowTips exists, use custom tips id region, or use item region
                 tempid=_from.onShowTips?id:id.replace(tips._reg,':');
                 if(tips._markId && tempid==tips._markId)
@@ -76,7 +81,7 @@ Class("linb.Tips", null,{
                 //set mark id
                 tips._markId = tempid;
                 tips._pos=event.getPos(e);
-                
+
                 if(tips._showed){
                     tips._from=_from;
                     tips._enode=id;
@@ -308,7 +313,7 @@ Class("linb.Tips", null,{
                     _.resetRun('$Tips3', null);
                     self._clear();
                 }
-            }            
+            }
         },
         _clear:function(){
             var self=this;

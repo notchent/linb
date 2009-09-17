@@ -79,13 +79,14 @@ html, .uibg-base{
     background-image:url(Public/button.gif);
 }
 
-.uicmd-close, .uicmd-opt, .uicmd-pin, 
-.uicmd-land, .uicmd-min, .uicmd-max, .uicmd-restore, 
-.uicmd-check, .uicmd-radio, .uicmd-add{
+.uicmd-close, .uicmd-opt, .uicmd-pin,
+.uicmd-land, .uicmd-min, .uicmd-max, .uicmd-restore,
+.uicmd-check, .uicmd-radio, .uicmd-add,
+.linb-treebar-mark2, .linb-treegrid-mark{
     background-image: url(Public/icons.gif);
 }
 /*
-.uicmd-close, .uicmd-opt, .uicmd-pin, 
+.uicmd-close, .uicmd-opt, .uicmd-pin,
 .uicmd-land, .uicmd-min, .uicmd-max, .uicmd-restore{
     width:28px;
     height:15px;
@@ -503,11 +504,11 @@ html, .uibg-base{
 .linb-toolbar-drop{
     background-image: url(Button/drop.gif);
 }
-.linb-menubar-item-mouseover, 
-.linb-menubar-item-mouseover .linb-menubar-itemi, 
-.linb-menubar-item-mouseover .linb-menubar-itemc, 
-.linb-menubar-item-mousedown, 
-.linb-menubar-item-mousedown .linb-menubar-itemi, 
+.linb-menubar-item-mouseover,
+.linb-menubar-item-mouseover .linb-menubar-itemi,
+.linb-menubar-item-mouseover .linb-menubar-itemc,
+.linb-menubar-item-mousedown,
+.linb-menubar-item-mousedown .linb-menubar-itemi,
 .linb-menubar-item-mousedown .linb-menubar-itemc
 {
     background-image: url(Public/button.gif);
@@ -542,27 +543,22 @@ html, .uibg-base{
 
 /*linb.UI.TreeGrid*/
 .linb-treegrid-hfcell, .linb-treegrid-hcell {
-    border:none;
+    border:1px solid #929292;
+    border-left:none;
+    padding-left:1px;
+}
+
+.linb-treegrid-body{
+    border-left:solid 1px #929292;
+}
+.linb-treegrid-cells {
+    border-bottom:1px solid #929292;
     border-right:1px solid #929292;
 }
 .linb-treegrid-hcells{
-    border:1px solid #929292;
+    border-left:solid 1px #929292;
 }
-.linb-treegrid-body{
-    border:1px solid #929292;
-    border-top:none;
-}
-.linb-treegrid-hcells{
-    padding-left:2px;
-    padding-bottom:0;
-}
-.linb-treegrid-row{
-    border:none;
-}
-.linb-treegrid-sub {
-    border:none;
-}
-.linb-treegrid-hcell-mouseover{
+.linb-treegrid-hfcell-mouseover, .linb-treegrid-hcell-mouseover{
     background: none;
 }
 
@@ -575,24 +571,23 @@ html, .uibg-base{
     background-image: url(Public/icons.gif);
 }
 
-.linb-treegrid-fcell, .linb-treegrid-cell, .linb-treegrid-cells-group{
+.linb-treegrid-fcell, .linb-treegrid-cell{
      border:none;
      padding-left:0;
      padding-right:1px;
 }
 
 .linb-treegrid-preview{
+    border-right:solid 1px #929292;
     border-bottom:1px dashed #929292;
 }
 .linb-treegrid-summary{
-    border-top:1px dashed #929292;
+    border-right:solid 1px #929292;
+    border-bottom:2px solid #929292;
 }
 
 .linb-treegrid-cell-mouseover{
     background: #B6D2EE;
-}
-.linb-treegrid-cells{
-    padding-left:1px;
 }
 
 .linb-treegrid-cells-mouseover{
