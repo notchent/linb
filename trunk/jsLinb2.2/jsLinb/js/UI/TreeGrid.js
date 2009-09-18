@@ -2535,7 +2535,12 @@ sortby [for column only]
                         callback(sub);
                     else if(profile.onGetContent){
                         var r=profile.boxing().onGetContent(profile, item, callback);
-                        if(r) callback(r);
+                        if(r){
+                            //return true: continue UI changing
+                            if(r===true)
+                                item._created=true;
+                            callback(r);
+                        }
                     }
                 }
             }
@@ -2945,7 +2950,7 @@ sortby [for column only]
                         }
                     }
                 }
-                
+
                 if(last){
                     body.width(last.offsetWidth+last.offsetLeft);
                 }else{
@@ -2954,7 +2959,7 @@ sortby [for column only]
                     w = prop.rowHandler?prop.rowHandlerWidth:0;
                     _.each(hd,function(o){
                         if(!o.visibility)
-                            w += o.width + 2;   
+                            w += o.width + 2;
                     });
                     body.width(w+2);
                 }

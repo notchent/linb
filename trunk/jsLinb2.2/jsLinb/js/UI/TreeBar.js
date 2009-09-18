@@ -48,15 +48,15 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
             return this.each(function(profile){
                 // prepare properties format
                 var tar,r,k;
-                
+
                 arr2=profile.box._adjustItems(arr);
-                
+
                 if(!pid){
                     k=profile.properties;
                     tar = k.items ||(k.items=[])
                 }else{
                     k=profile.getItemByItemId(pid);
-                    tar = k.sub || (k.sub= []);
+                    tar = _.isArr(k.sub)?k.sub:(k.sub= []);
                 }
                 if(profile.renderId){
                     if(!base){
@@ -89,7 +89,7 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
                     var index = _.arr.subIndexOf(tar, 'id', base);
                     _.arr.insertAny(tar,arr2, before?index:(index+1));
                 }
-                
+
                 var obj;
                 if(pid)
                     if((obj=profile.getSubNodeByItemId('TOGGLE', pid)).css('display')=='none')
@@ -160,7 +160,7 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
         fireItemClickEvent:function(subId){
             this.getSubNodeByItemId('BAR', subId).onClick();
             return this;
-        }     
+        }
     },
     Initialize:function(){
         this.addTemplateKeys(['DISABLED']);
@@ -668,8 +668,12 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
                         callback(sub);
                     else if(profile.onGetContent){
                         var r=profile.boxing().onGetContent(profile, item, callback);
-                        if(r) callback(r);
-                    }
+                        if(r){
+                            //return true: continue UI changing
+                            if(r===true)
+                                item._created=true;
+                            callback(r);
+                        }                                                              }
                 }
                 if(recursive && item.sub){
                     _.arr.each(item.sub,function(o){
