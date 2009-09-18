@@ -47,7 +47,7 @@ Class('App', 'linb.Com',{
 
             host.tabs.append((new linb.UI.Layout)
                 .host(host,"layout4")
-                .setItems([{"id":"before", "pos":"before", "locked":false, "size":260, "min":50, "max":500, "hide":false, "cmd":false}, {"id":"main", "min":10}])
+                .setItems([{"id":"before", "pos":"before", "locked":false, "size":260, "min":50, "max":500, "folded":false, "cmd":false}, {"id":"main", "min":10}])
                 .setLeft(0)
                 .setTop(0)
             , 'b');

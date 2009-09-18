@@ -285,7 +285,7 @@ Class('App', 'linb.Com',{
             
             append((new linb.UI.Layout)
                 .host(host,"mainLayout")
-                .setItems([{"id":"before", "pos":"before", "locked":false, "size":240, "min":100, "max":400, "hide":false, "cmd":true, "caption":"before"}, {"id":"main", "min":10, "caption":"main"}])
+                .setItems([{"id":"before", "pos":"before", "locked":false, "size":240, "min":100, "max":400, "folded":false, "cmd":true, "caption":"before"}, {"id":"main", "min":10, "caption":"main"}])
                 .setType("horizontal")
             );
             

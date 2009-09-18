@@ -7,7 +7,7 @@ Class('App.TreeView', 'linb.Com',{
 
             append((new linb.UI.Layout)
                 .host(host,"layout7")
-                .setItems([{"id":"before", "pos":"before", "size":30, "locked":true, "min":10, "hide":false, "cmd":false, "caption":"after"}, {"id":"main", "min":10, "caption":"main"}])
+                .setItems([{"id":"before", "pos":"before", "size":30, "locked":true, "min":10, "folded":false, "cmd":false, "caption":"after"}, {"id":"main", "min":10, "caption":"main"}])
                 .setType("horizontal")
             );
 

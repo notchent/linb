@@ -15,7 +15,7 @@ Class('App', 'linb.Com',{
             
             host.panel3.append((new linb.UI.Layout)
                 .host(host,"layout4")
-                .setItems([{"id":"before", "pos":"before", "locked":false, "size":129, "min":50, "max":200, "hide":false, "cmd":true}, {"id":"main", "min":10}, {"id":"after", "pos":"after", "locked":false, "size":118, "min":50, "max":200, "hide":false, "cmd":true}])
+                .setItems([{"id":"before", "pos":"before", "locked":false, "size":129, "min":50, "max":200, "folded":false, "cmd":true}, {"id":"main", "min":10}, {"id":"after", "pos":"after", "locked":false, "size":118, "min":50, "max":200, "folded":false, "cmd":true}])
                 .setLeft(0)
                 .setTop(0)
                 .setType("horizontal")

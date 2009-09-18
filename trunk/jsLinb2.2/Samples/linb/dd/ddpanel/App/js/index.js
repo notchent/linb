@@ -83,7 +83,7 @@ Class('App', 'linb.Com',{
             
             host.Panel1.append((new linb.UI.Layout)
                 .host(host,"Layout2")
-                .setItems([{"id":"before", "pos":"before", "locked":false, "size":60, "min":50, "max":200, "cmd":true, "hide":false}, {"id":"main", "min":10}, {"id":"after", "pos":"after", "locked":false, "size":60, "min":50, "max":200, "cmd":true, "hide":false}])
+                .setItems([{"id":"before", "pos":"before", "locked":false, "size":60, "min":50, "max":200, "cmd":true, "folded":false}, {"id":"main", "min":10}, {"id":"after", "pos":"after", "locked":false, "size":60, "min":50, "max":200, "cmd":true, "folded":false}])
                 .setLeft(0)
                 .setTop(0)
                 .setDropKeys("iAny")

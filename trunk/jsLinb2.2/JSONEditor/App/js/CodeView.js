@@ -10,7 +10,7 @@ Class('App.CodeView', 'linb.Com',{
 
             append((new linb.UI.Layout)
                 .host(host,"layout6")
-                .setItems([{"id":"main", "min":10, "caption":"main"}, {"id":"after", "pos":"after", "size":30, "locked":true, "min":10, "hide":false, "cmd":false, "caption":"after"}])
+                .setItems([{"id":"main", "min":10, "caption":"main"}, {"id":"after", "pos":"after", "size":30, "locked":true, "min":10, "folded":false, "cmd":false, "caption":"after"}])
                 .setLeft(0)
                 .setTop(0)
                 .setType("horizontal")

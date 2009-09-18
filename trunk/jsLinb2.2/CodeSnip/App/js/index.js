@@ -12,14 +12,14 @@ Class('App', 'linb.Com',{
             append((new linb.UI.Layout)
                 .host(host,"layout")
                 .setDomId("ce_layout")
-                .setItems([{"id":"before", "pos":"before", "locked":false, "size":200, "min":50, "max":400, "hide":false, "cmd":true, "caption":"before"}, {"id":"main", "min":10, "caption":"main"}])
+                .setItems([{"id":"before", "pos":"before", "locked":false, "size":200, "min":50, "max":400, "folded":false, "cmd":true, "caption":"before"}, {"id":"main", "min":10, "caption":"main"}])
                 .setType("horizontal")
             );
             
             host.layout.append((new linb.UI.Layout)
                 .host(host,"layout_r")
                 .setDomId("ce_layout_r")
-                .setItems([{"id":"main", "min":10, "caption":"main"}, {"id":"after", "pos":"after", "locked":false, "size":300, "min":50, "max":600, "hide":false, "cmd":true, "caption":"after"}])
+                .setItems([{"id":"main", "min":10, "caption":"main"}, {"id":"after", "pos":"after", "locked":false, "size":300, "min":50, "max":600, "folded":false, "cmd":true, "caption":"after"}])
             , 'main');
             
             host.layout_r.append((new linb.UI.Block)

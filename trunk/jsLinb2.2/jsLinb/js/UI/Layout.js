@@ -7,6 +7,118 @@ Class("linb.UI.Layout",["linb.UI", "linb.absList"],{
             var pro=this.get(0);
             return arguments.callee.upper.call(this, target, subId||'main');
         },
+        insertItems:function(arr, base, before){
+            var node,arr2,
+                items, index, r,
+                data,box,
+                pos="before",
+                b=this._afterInsertItems;
+            return this.each(function(profile){
+                box=profile.box;
+                items = profile.properties.items;
+                index = _.arr.subIndexOf(items,'id',base);
+                if(index==-1){
+                    pos=before?'before':'after';
+                }else{
+                    if(items[index].id=='main')
+                        pos=before?'before':'after';
+                    else
+                        pos=items[index].pos;
+                }
+
+                arr2=box._adjustItems2(arr, pos);
+
+                //must be here
+                if(index==-1)
+                    _.arr.insertAny(items,arr2, before?0:-1);
+                else
+                    _.arr.insertAny(items,arr2, before?index:index+1);
+
+                //if in dom, create it now
+                if(profile.renderId){
+                    data = box._prepareItems(profile, arr2, base);
+                    r=profile._buildItems('items', data);
+                    profile.getRoot().prepend(r);
+                    
+                    var t=profile.getRootNode().style;
+                    linb.UI.$tryResize(profile, t.width, t.height, true);
+                    t=null;
+                }
+
+                if(b)
+                    profile.boxing()._afterInsertItems(profile, data, base, before);
+            });
+        },
+        _afterRemoveItems:function(profile){
+            if(profile.renderId){                    
+                var t=profile.getRootNode().style;
+                linb.UI.$tryResize(profile, t.width, t.height, true);
+                t=null;
+            }            
+        },
+        clearItems:null,
+        updateItem:function(subId,options){
+            var self=this,
+                profile=self.get(0),
+                vertical=profile.properties.type=='vertical',
+                box=profile.box,
+                items=profile.properties.items,
+                rst=profile.queryItems(items,function(o){return typeof o=='object'?o.id===subId:o==subId},true,true,true),
+                item,serialId,node,sub,t;
+            if(typeof options!='object')return;
+
+            //ensure the original id
+            delete options.id;
+
+            if(rst.length){
+                rst=rst[0];
+                if(typeof rst[0]!='object')
+                    item=rst[2][rst[1]]={id:rst[0]};
+                else
+                    item=rst[0];
+
+
+                var bResize=false;
+                //in dom already?
+                node=profile.getSubNodeByItemId('ITEM',subId);
+                if(!node.isEmpty()){
+                    if(options.hasOwnProperty('size')){
+                        options.size = parseInt(''+options.size);
+                        if(options.size!=item.size){
+                            if(vertical)
+                                node.height(options.size);
+                             else
+                                node.width(options.size);
+                        }
+                    }
+                    if(options.hasOwnProperty('hidden')){
+                        options.hidden = !!options.hidden;
+                        if(options.hidden != item.hidden)
+                            profile.getSubNodeByItemId('ITEM',subId).css('display',options.hidden?'none':'');
+                        bResize=true;
+                    }
+                    if(options.hasOwnProperty('folded')){
+                        options.folded = !!options.folded;
+                        if(options.folded != item.folded)
+                            profile.boxing().fireCmdClickEvent(subId);
+                    }
+                    if(options.hasOwnProperty('cmd')){
+                        options.cmd = !!options.cmd;
+                        if(options.cmd != item.cmd)
+                            profile.getSubNodeByItemId('CMD',subId).css('display',options.cmd?'':'none');
+                    }
+                }
+                //merge options
+                _.merge(item, options, 'all');
+
+                if(bResize){
+                    var t=profile.getRootNode().style;
+                    linb.UI.$tryResize(profile, t.width, t.height, true);
+                    t=null;
+                }
+            }
+            return self;
+        },
         fireCmdClickEvent:function(subId){
             this.getSubNodeByItemId('CMD', subId).onMousedown();
             return this;
@@ -22,12 +134,12 @@ Class("linb.UI.Layout",["linb.UI", "linb.absList"],{
                     ITEM:{
                         tagName:'div',
                         className:'{cls1} {itemClass}',
-                        style:'{size};{itemStyle}',
+                        style:'{size};{itemStyle};{display}',
                         MOVE:{
                             $order:0,
                             tagName:'div',
                             className:'uibg-bar {cls2} ',
-                            style:'{display}'
+                            style:'{moveDisplay}'
                         },
                         CMD:{
                             $order:1,
@@ -204,7 +316,7 @@ Class("linb.UI.Layout",["linb.UI", "linb.absList"],{
                 onMousedown:function(profile, e, src){
                     var itemId = profile.getSubId(src),
                         item = profile.getItemByDom(src);
-                    if(item.hide)return;
+                    if(item.folded)return;
 
                     var main = profile.getItemByItemId('main'),
                         o=profile.getSubNode('ITEM', itemId),
@@ -316,13 +428,13 @@ Class("linb.UI.Layout",["linb.UI", "linb.absList"],{
 
                     if(t.type=='vertical'){
                         // restore resize mode
-                        if(item.hide){
+                        if(item.folded){
                             if(item.size <= m.height() - main.min + _handlerSize){
                                 //restore h
                                 o.height(item.size);
                                 panel.show();
 
-                                item.hide=false;
+                                item.folded=false;
                                 //set appearance
                                 if(item.pos=='before')
                                     linb.use(src).replaceClass(/bottom/g,'top');
@@ -339,7 +451,7 @@ Class("linb.UI.Layout",["linb.UI", "linb.absList"],{
                             o.height(_handlerSize);
                             panel.hide();
 
-                            item.hide=true;
+                            item.folded=true;
                             if(item.pos=='before')
                                 linb.use(src).replaceClass(/top/g,'bottom');
                             else
@@ -351,11 +463,11 @@ Class("linb.UI.Layout",["linb.UI", "linb.absList"],{
                         }
                         linb.UI.$tryResize(profile,null,r.height(),true);
                     }else{
-                        if(item.hide){
+                        if(item.folded){
                             if(item.size <= m.width()-main.min + _handlerSize){
                                 o.width(item.size);
                                 panel.show();
-                                item.hide=false;
+                                item.folded=false;
                                 if(item.pos=='before')
                                     linb.use(src).replaceClass(/right/g,'left');
                                 else
@@ -368,7 +480,7 @@ Class("linb.UI.Layout",["linb.UI", "linb.absList"],{
                         }else{
                             o.width(_handlerSize);
                             panel.hide();
-                            item.hide=true;
+                            item.folded=true;
                             if(item.pos=='before')
                                 linb.use(src).replaceClass(/left/g,'right');
                             else
@@ -455,7 +567,7 @@ Class("linb.UI.Layout",["linb.UI", "linb.absList"],{
 
                         //set items
                         //for adjust 'main'
-                        vv = o.box._prepareV(o, value);
+                        vv = o.box._adjustItems(value);
                         //inset items
                         box.insertItems(vv);
 
@@ -476,8 +588,31 @@ Class("linb.UI.Layout",["linb.UI", "linb.absList"],{
                 }
             }
         },
-        _prepareV:function(profile, items){
+        _adjustItems2:function(items, pos){
+            var arr=[];
+            //arrage items
+            _.arr.each(items,function(o){
+                if(o.id!='main'){
+                    arr.push(o=_.isHash(o)?o:{id:''+o});
+                    o.pos=pos;
+                }
+            });
+
+            //set the items to default value
+            _.arr.each(arr,function(o){
+                o.id = _.isStr(o.id)?o.id:_.id();
+                o.min = o.min || 10;
+                o.size = parseInt(o.size) || 80;
+                o.locked= typeof o.locked=='boolean'?o.locked:false;
+                o.folded = typeof o.folded=='boolean'?o.folded:false;
+                o.hidden = typeof o.hidden=='boolean'?o.hidden:false;
+                o.cmd = typeof o.cmd=='boolean'?o.cmd:true;
+            });
+            return arr;
+        },
+        _adjustItems:function(items){
             var main, before=[], after=[];
+
             //arrage items
             _.arr.each(items,function(o){
                 if(o.id=='main'){
@@ -498,33 +633,29 @@ Class("linb.UI.Layout",["linb.UI", "linb.absList"],{
 
             //reset items
             items.length = 0;
-            _.arr.insertAny(items, before,0);
+            _.arr.insertAny(items, this._adjustItems2(before,'before'));
             _.arr.insertAny(items, main);
-            _.arr.insertAny(items, after);
+            _.arr.insertAny(items, this._adjustItems2(after,'after'));
 
-            //set the items to default value
-            _.arr.each(items,function(o){
-                o.id = _.isStr(o.id)?o.id:profile.$linbid+':'+_.id();
-                o.min = o.min || 10;
-                if(o.id!='main'){
-                    o.size = parseInt(o.size) || 20;
-                    o.locked= typeof o.locked=='boolean'?o.locked:false;
-                    o.hide = typeof o.hide=='boolean'?o.hide:false;
-                    o.cmd = typeof o.cmd=='boolean'?o.cmd:false;
-                }
-            });
             return items;
         },
         _prepareData:function(profile){
             var prop=profile.properties;
             if(!prop.items || prop.items.constructor != Array)
-            prop.items = _.clone([
-                {id:'before', pos:'before', locked:false, size:60, min: 50, max:200},
-                {id:'after',pos:'after', locked:false, size:60, min: 50, max:200}
-            ]);
+                prop.items = _.clone([
+                    {id:'before', pos:'before', locked:false, size:60, min: 50, max:200},
+                    {id:'after',pos:'after', locked:false, size:60, min: 50, max:200}
+                ]);
 
-            prop.items = this._prepareV(profile, prop.items);
+            prop.items = this._adjustItems(prop.items);
             return arguments.callee.upper.call(this, profile);
+        },
+        _prepareItems:function(profile, items){
+            var data = arguments.callee.upper.apply(this, arguments);
+            _.arr.each(items,function(o){
+                delete o.caption;
+            });            
+            return data;
         },
         _prepareItem:function(profile, item){
             var pp=profile.properties;
@@ -556,15 +687,16 @@ Class("linb.UI.Layout",["linb.UI", "linb.absList"],{
             item.cls1  = profile.getClass('ITEM', '-' + pos );
             item.cls2  = profile.getClass('MOVE', '-' + pos );
             item.cls3  = profile.getClass('CMD', '-' + pos );
-            item.display = item.locked?'display:none':'';
+            item.display = item.hidden?'display:none':'';
+            item.moveDisplay = item.locked?'display:none':'';
             item.cmdDisplay = item.cmd?'':'display:none';
         },
         RenderTrigger:function(){
             var t, profile=this;
             _.arr.each(profile.properties.items,function(item){
                 if(item.id!='main'){
-                    if(item.hide && (t=profile.getSubIdByItemId(item.id))){
-                            item.hide=false;
+                    if(item.folded && (t=profile.getSubIdByItemId(item.id))){
+                            item.folded=false;
                             profile.getSubNode('CMD',t).onMousedown();
                         }
                 }
@@ -591,7 +723,10 @@ Class("linb.UI.Layout",["linb.UI", "linb.absList"],{
                         if(o.pos=='before'){
                             n=profile.getSubNode('ITEM', itemId);
 
-                            if(o.hide){
+                            if(o.hidden){
+                                m=0;
+                                obj2[itemId].width=o.size;
+                            }else if(o.folded){
                                 m=obj2[itemId].width=_handlerSize;
                             }else
                                 m= n.width();
@@ -610,7 +745,10 @@ Class("linb.UI.Layout",["linb.UI", "linb.absList"],{
                         if(o.pos=='after'){
                             n =profile.getSubNode('ITEM', itemId);
 
-                            if(o.hide){
+                            if(o.hidden){
+                                m=0;
+                                obj2[itemId].width=o.size;
+                            }else if(o.folded){
                                 m=obj2[itemId].width=_handlerSize;
                             }else
                                 m= n.width();
@@ -650,7 +788,10 @@ Class("linb.UI.Layout",["linb.UI", "linb.absList"],{
                         if(o.pos=='before'){
                             n=profile.getSubNode('ITEM', itemId);
 
-                            if(o.hide){
+                            if(o.hidden){
+                                m=0;
+                                obj2[itemId].height=o.size;
+                            }else if(o.folded){
                                 m=obj2[itemId].height=_handlerSize;
                             }else
                                 m= n.height();
@@ -669,7 +810,10 @@ Class("linb.UI.Layout",["linb.UI", "linb.absList"],{
                             n=profile.getSubNode('ITEM', itemId);
                             m=n.height();//offsetHeight();
 
-                            if(o.hide){
+                            if(o.hidden){
+                                m=0;
+                                obj2[itemId].height=o.size;
+                            }else if(o.folded){
                                 m=obj2[itemId].height=_handlerSize;
                             }else
                                 m= n.height();
@@ -702,8 +846,10 @@ Class("linb.UI.Layout",["linb.UI", "linb.absList"],{
 
             //collect width/height in size
             _.each(obj2, function(o, id){
-                profile.getSubNode('PANEL', id).cssRegion(obj[id], true);
-                profile.getSubNode('ITEM', id).cssRegion(obj2[id]);
+                if(!obj2.hidden){
+                    profile.getSubNode('PANEL', id).cssRegion(obj[id], true);
+                    profile.getSubNode('ITEM', id).cssRegion(obj2[id]);
+                }
             });
         }
     }

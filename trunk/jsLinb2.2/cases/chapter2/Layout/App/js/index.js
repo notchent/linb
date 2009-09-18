@@ -16,7 +16,7 @@ Class('App', 'linb.Com',{
             
             host.block4.append((new linb.UI.Layout)
                 .host(host,"layout12")
-                .setItems([{id:"b1", pos:"before", size:50, cmd:true}, {id:"a1", pos:"after", size:60, cmd:true, height:60, hide:true}])
+                .setItems([{id:"b1", pos:"before", size:50, cmd:true}, {id:"a1", pos:"after", size:60, cmd:true, height:60, folded:true}])
                 .setLeft(0)
                 .setTop(0)
             );

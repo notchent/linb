@@ -21,7 +21,7 @@ Class('App', 'linb.Com',{
             
             host.panel4.append((new linb.UI.Layout)
                 .host(host,"layout4")
-                .setItems([{"id":"before", "pos":"before", "locked":false, "size":260, "min":50, "max":500, "hide":false, "cmd":false, "caption":"before"}, {"id":"main", "min":10, "caption":"main"}])
+                .setItems([{"id":"before", "pos":"before", "locked":false, "size":260, "min":50, "max":500, "folded":false, "cmd":false, "caption":"before"}, {"id":"main", "min":10, "caption":"main"}])
             );
             
             host.layout4.append((new linb.UI.TreeGrid)

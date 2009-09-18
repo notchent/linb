@@ -14,7 +14,7 @@ Class('App', 'linb.Com',{
             
             append((new linb.UI.Layout)
                 .host(host,"layout4")
-                .setItems([{"id":"before", "pos":"before", "locked":false, "size":260, "min":50, "max":200, "hide":false, "cmd":true, "caption":"before"}, {"id":"main", "min":10, "caption":"main"}])
+                .setItems([{"id":"before", "pos":"before", "locked":false, "size":260, "min":50, "max":200, "folded":false, "cmd":true, "caption":"before"}, {"id":"main", "min":10, "caption":"main"}])
                 .setType("horizontal")
             );
             
@@ -84,7 +84,7 @@ Class('App', 'linb.Com',{
             
             host.pnlEmail.append((new linb.UI.Layout)
                 .host(host,"layout5")
-                .setItems([{"id":"before", "pos":"before", "locked":false, "size":200, "min":50, "max":200, "hide":false, "cmd":true, "caption":"before"}, {"id":"main", "min":10, "caption":"main"}])
+                .setItems([{"id":"before", "pos":"before", "locked":false, "size":200, "min":50, "max":200, "folded":false, "cmd":true, "caption":"before"}, {"id":"main", "min":10, "caption":"main"}])
             );
             
             host.layout5.append((new linb.UI.TreeGrid)

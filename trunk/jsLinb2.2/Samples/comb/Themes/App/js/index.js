@@ -73,7 +73,7 @@ Class('App', 'linb.Com',{
             
             host.block1.append((new linb.UI.Layout)
                 .host(host,"layout4")
-                .setItems([{"id":"a", "min":10, "pos":"before", "size":40, "locked":false, "hide":false, "cmd":true, "caption":"a"}, {"id":"main", "min":10, "caption":"main", "size":40}, {"id":"b", "pos":"after", "min":10, "size":37, "locked":false, "hide":false, "cmd":true, "caption":"b"}])
+                .setItems([{"id":"a", "min":10, "pos":"before", "size":40, "locked":false, "folded":false, "cmd":true, "caption":"a"}, {"id":"main", "min":10, "caption":"main", "size":40}, {"id":"b", "pos":"after", "min":10, "size":37, "locked":false, "folded":false, "cmd":true, "caption":"b"}])
             );
             
             host.layout4.append((new linb.UI.Link)
@@ -92,7 +92,7 @@ Class('App', 'linb.Com',{
             
             host.layout4.append((new linb.UI.Layout)
                 .host(host,"layout5")
-                .setItems([{"id":"before", "pos":"before", "min":10, "size":50, "locked":false, "hide":false, "cmd":true, "caption":"before"}, {"id":"main", "min":10, "caption":"main"}, {"id":"after", "pos":"after", "min":10, "size":50, "locked":false, "hide":false, "cmd":true, "caption":"after"}])
+                .setItems([{"id":"before", "pos":"before", "min":10, "size":50, "locked":false, "folded":false, "cmd":true, "caption":"before"}, {"id":"main", "min":10, "caption":"main"}, {"id":"after", "pos":"after", "min":10, "size":50, "locked":false, "folded":false, "cmd":true, "caption":"after"}])
                 .setType("horizontal")
             , 'main');
             

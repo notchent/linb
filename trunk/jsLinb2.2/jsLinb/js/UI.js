@@ -3889,7 +3889,7 @@ Class("linb.absList", "linb.absObj",{
 
                 //must be here
                 if(index==-1){
-                    items.push.apply(items,arr2);
+                    _.arr.insertAny(items,arr2, before?0:-1);
                 }else
                     _.arr.insertAny(items,arr2, before?index:index+1);
 
@@ -3981,7 +3981,7 @@ Class("linb.absList", "linb.absObj",{
                 items=profile.properties.items,
                 rst=profile.queryItems(items,function(o){return typeof o=='object'?o.id===subId:o==subId},true,true,true),
                 item,serialId,node,sub,t;
-            if(typeof options!='object')options={caption:options+''};
+            if(!_.isHash(options))options={caption:options+''};
             //ensure the original id
             delete options.id;
 
