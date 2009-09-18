@@ -10703,6 +10703,42 @@ _.set(linb.Locale,["cn","doc","linb","UI","Layout"], {
                 "}"
             ]
         },
+        insertItems:{
+            $desc:"添加一些布局项。",
+            $rtn:"[self]",
+            $paras:[
+                "arr [必需参数] : Array, 项数组.",
+                "base [可选参数] : String, 基准项id.",
+                "before [可选参数] : Boolean, 指示在基准项前还是项后插入. 默认为项后;"
+            ],
+            $snippet:[
+                "var id='linb.temp.lo3-1'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:200px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var o;linb(id).prepend(o=(new linb.UI.Layout({items:[{id:'main'},{id:'after',size:50}]})));"+
+                "_.asyRun(function(){o.insertItems([{id:'a1',size:30}],'main',true)},1000);"+
+                "_.asyRun(function(){o.insertItems([{id:'c1',size:30,cmd:false}],'main',false)},2000);"+
+                "_.asyRun(function(){o.insertItems([{id:'a0',size:30, folded:true}],'after',true)},3000);"+
+                "_.asyRun(function(){o.insertItems([{id:'c2',size:30}],'after',false)},4000);"+
+                "}"
+            ]
+        },        
+        updateItem:{
+            $desc:"更新一个布局项，并刷新对应的DOM界面.",
+            $rtn:"[self]",
+            $paras:[
+                "id [Required] : String, 项的标识号.",
+                "options [Required] : Object/String, 要更新的选项."
+            ],
+            $snippet:[
+                "var id='linb.temp.lo3-2'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:200px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var o;linb(id).prepend(o=(new linb.UI.Layout({items:[{id:'main'},{id:'after',size:50}]})));"+
+                "_.asyRun(function(){o.updateItem('after',{size:30})},1000);"+
+                "_.asyRun(function(){o.updateItem('after',{folded:true})},2000);"+
+                "_.asyRun(function(){o.updateItem('after',{folded:false,cmd:false})},3000);"+
+                "_.asyRun(function(){o.updateItem('after',{hidden:true})},4000);"+
+                "_.asyRun(function(){o.updateItem('after',{folded:false,size:50,cmd:true,hidden:false})},5000);"+
+                "}"
+            ]
+        },
         setItems:{
             $desc:"设置布局项, 并刷新界面.",
             $rtn:"[self]",

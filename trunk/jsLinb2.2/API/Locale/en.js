@@ -10670,6 +10670,42 @@ _.set(linb.Locale,["en","doc","linb","UI","Layout"], {
                 "}"
             ]
         },
+        insertItems:{
+            $desc:"Inserts a set of layout items to the current UI Object.",
+            $rtn:"[self]",
+            $paras:[
+                "arr [Required] : Array, A set of Item objects.",
+                "base [Optional] : String, the base item id string.",
+                "before [Optional] : Boolean, Indicates whether it inserts the target items before the base, or after the base. Default is false;"
+            ],
+            $snippet:[
+                "var id='linb.temp.lo3-1'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:200px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var o;linb(id).prepend(o=(new linb.UI.Layout({items:[{id:'main'},{id:'after',size:50}]})));"+
+                "_.asyRun(function(){o.insertItems([{id:'a1',size:30}],'main',true)},1000);"+
+                "_.asyRun(function(){o.insertItems([{id:'c1',size:30,cmd:false}],'main',false)},2000);"+
+                "_.asyRun(function(){o.insertItems([{id:'a0',size:30, folded:true}],'after',true)},3000);"+
+                "_.asyRun(function(){o.insertItems([{id:'c2',size:30}],'after',false)},4000);"+
+                "}"
+            ]
+        },        
+        updateItem:{
+            $desc:"Updates the specified layout item and the corresponding DOM Element.",
+            $rtn:"[self]",
+            $paras:[
+                "id [Required] : String, The node id.",
+                "options [Required] : a key/value pairs Object or String."
+            ],
+            $snippet:[
+                "var id='linb.temp.lo3-2'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:200px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var o;linb(id).prepend(o=(new linb.UI.Layout({items:[{id:'main'},{id:'after',size:50}]})));"+
+                "_.asyRun(function(){o.updateItem('after',{size:30})},1000);"+
+                "_.asyRun(function(){o.updateItem('after',{folded:true})},2000);"+
+                "_.asyRun(function(){o.updateItem('after',{folded:false,cmd:false})},3000);"+
+                "_.asyRun(function(){o.updateItem('after',{hidden:true})},4000);"+
+                "_.asyRun(function(){o.updateItem('after',{folded:false,size:50,cmd:true,hidden:false})},5000);"+
+                "}"
+            ]
+        },
         setItems:{
             $desc:"Sets layout items, and reflects it to DOM UI.",
             $rtn:"[self]",

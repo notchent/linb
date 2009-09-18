@@ -25841,6 +25841,9 @@ Class("linb.UI.Layout",["linb.UI", "linb.absList"],{
             return arguments.callee.upper.call(this, target, subId||'main');
         },
         insertItems:function(arr, base, before){
+            return this._insertItems(arr, base, before);
+        },
+        _insertItems:function(arr, base, before, all){
             var node,arr2,
                 items, index, r,
                 data,box,
@@ -25849,17 +25852,21 @@ Class("linb.UI.Layout",["linb.UI", "linb.absList"],{
             return this.each(function(profile){
                 box=profile.box;
                 items = profile.properties.items;
-                index = _.arr.subIndexOf(items,'id',base);
-                if(index==-1){
-                    pos=before?'before':'after';
-                }else{
-                    if(items[index].id=='main')
+                if(!all){
+                    index = _.arr.subIndexOf(items,'id',base);
+                    if(index==-1){
                         pos=before?'before':'after';
-                    else
-                        pos=items[index].pos;
+                    }else{
+                        if(items[index].id=='main')
+                            pos=before?'before':'after';
+                        else
+                            pos=items[index].pos;
+                    }
+    
+                    arr2=box._adjustItems2(arr, pos);
+                }else{
+                    arr2=arr;
                 }
-
-                arr2=box._adjustItems2(arr, pos);
 
                 //must be here
                 if(index==-1)
@@ -25889,7 +25896,6 @@ Class("linb.UI.Layout",["linb.UI", "linb.absList"],{
                 t=null;
             }            
         },
-        clearItems:null,
         updateItem:function(subId,options){
             var self=this,
                 profile=self.get(0),
@@ -26351,7 +26357,7 @@ Class("linb.UI.Layout",["linb.UI", "linb.absList"],{
                             nodes2.each(function(o){
                                 linb(o).height(linb(o).width());
                             })
-                            .cssRegion({left:0,top:auto,right:auto,bottom:auto})
+                            .css({left:0,top:auto,right:auto,bottom:auto})
                             ;
                         }else{
                             nodes1.replaceClass(/(-top)(\b)/ig,'-left$2');
@@ -26359,7 +26365,7 @@ Class("linb.UI.Layout",["linb.UI", "linb.absList"],{
                             nodes2.each(function(o){
                                 linb(o).width(linb(o).height());
                             })
-                            .cssRegion({left:auto,top:0,right:auto,bottom:auto})
+                            .css({left:auto,top:0,right:auto,bottom:auto})
                             ;
 
                         }
@@ -26401,8 +26407,8 @@ Class("linb.UI.Layout",["linb.UI", "linb.absList"],{
                         //set items
                         //for adjust 'main'
                         vv = o.box._adjustItems(value);
-                        //inset items
-                        box.insertItems(vv);
+                        //inset all items
+                        box._insertItems(vv,null,null,true);
 
                         //restore children
                         _.arr.each(children,function(v){
@@ -26679,10 +26685,8 @@ Class("linb.UI.Layout",["linb.UI", "linb.absList"],{
 
             //collect width/height in size
             _.each(obj2, function(o, id){
-                if(!obj2.hidden){
-                    profile.getSubNode('PANEL', id).cssRegion(obj[id], true);
-                    profile.getSubNode('ITEM', id).cssRegion(obj2[id]);
-                }
+                profile.getSubNode('PANEL', id).cssRegion(obj[id], true);
+                profile.getSubNode('ITEM', id).cssRegion(obj2[id]);
             });
         }
     }
