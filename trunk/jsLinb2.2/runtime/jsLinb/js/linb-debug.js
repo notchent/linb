@@ -12118,7 +12118,7 @@ Class("linb.UI",  "linb.absObj", {
                         count=null;
                     }else
                         _.asyRun(arguments.callee,200*count);
-                },100);
+                },200);
             }
             return this;
         },
@@ -29484,7 +29484,19 @@ sortby [for column only]
                         }
                     }
                 }
-                body.width(last?(last.offsetWidth+last.offsetLeft):0);
+                
+                if(last){
+                    body.width(last.offsetWidth+last.offsetLeft);
+                }else{
+                    var prop = profile.properties,hd=prop.header,rows=prop.rows,
+                    //defult
+                    w = prop.rowHandler?prop.rowHandlerWidth:0;
+                    _.each(hd,function(o){
+                        if(!o.visibility)
+                            w += o.width + 2;   
+                    });
+                    body.width(w+2);
+                }
                 t=last=null;
             });
         },

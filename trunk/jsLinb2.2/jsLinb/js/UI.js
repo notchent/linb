@@ -2785,7 +2785,7 @@ Class("linb.UI",  "linb.absObj", {
                         count=null;
                     }else
                         _.asyRun(arguments.callee,200*count);
-                },100);
+                },200);
             }
             return this;
         },

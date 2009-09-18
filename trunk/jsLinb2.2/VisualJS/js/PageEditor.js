@@ -1,6 +1,9 @@
 
 Class('VisualJS.PageEditor', 'linb.Com',{
     Instance:{
+        customAppend:function(){
+            return true;
+        },
         events:{
             onReady:function(page){
                 page.setValue(page.properties.text);

@@ -4,7 +4,9 @@ Class('VisualJS.ClassStruct', 'linb.Com',{
         $curBlock:null, 
         $bakValue:null,
         $bakCurCode:null,
-        
+        customAppend:function(){
+            return true;
+        },
         iniExComs:function(com, threadid){
             var self=this;
             linb.ComFactory.newCom('VisualJS.PageEditor',function(){

@@ -4,6 +4,9 @@ Class('VisualJS.Designer', 'linb.Com',{
         this.$host={};
     },
     Instance:{
+        customAppend:function(){
+            return true;
+        },
         $bakCurCode:null,
         $viewSize:{
             '800':{
@@ -1412,10 +1415,11 @@ Class('VisualJS.Designer', 'linb.Com',{
 
         },
 
-        $profilegrid_afterrowactive:function(profile, row){
+/*        $profilegrid_afterrowactive:function(profile, row){
              profile.boxing().editCellbyRowCol(profile, row.id, 'value');
              return false;
         },
+*/
         _map1:{left:1,top:1,width:1,height:1,right:1,bottom:1},
         _map2:{left:1,top:1,width:1,height:1,right:1,position:1,bottom:1,dock:1,dockOrder:1,dockMargin:1,dockFloat:1,dockIgnore:1,dockMinH:1,dockMinW:1},
         $profilegrid_beforecellvalueset: function(profile, cell,hash){
@@ -2227,6 +2231,7 @@ Class('VisualJS.Designer', 'linb.Com',{
                 clsStruct = data.clsStruct,
                 clsObject = data.clsObject,
                 comCode;
+
             //ensure Instance.iniComponents
             if(!clsObject.Instance){
                 clsObject.Instance={};
@@ -2296,6 +2301,7 @@ Class('VisualJS.Designer', 'linb.Com',{
                 linb.Dom.setCover(false);
             });
 
+            this.profileGrid.reLayout();
             return self;
         },
         getValue:function(){
@@ -2454,7 +2460,7 @@ Class('VisualJS.Designer', 'linb.Com',{
             .setEditable(true)
             .beforeCellUpdated("$profilegrid_beforecellvalueset")
             .onGetContent("$profilegrid_onrequestdata")
-            .afterRowActive("$profilegrid_afterrowactive")
+//            .afterRowActive("$profilegrid_afterrowactive")
             .onShowTips("$tg_tips")
             .onDblClickRow('$tg_click')
             );
