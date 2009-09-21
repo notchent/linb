@@ -2622,6 +2622,10 @@ sortby [for column only]
                 rt=box.onRowSelected(profile, targetItem, src);
                 break;
             case 'multi':
+                //if rowHandler is showed, you can only click the first cell to select the row
+                if(properties.rowHandler && profile.getKey(src)!=profile.keys.FCELL)
+                    return;
+
                 var value = box.getUIValue(),
                     arr = value?value.split(';'):[];
                 if(arr.length&&(ks[1]||ks[2]||properties.noCtrlKey)){

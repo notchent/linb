@@ -89,6 +89,7 @@ Class("linb.UI.ButtonViews", "linb.UI.Tabs",{
             }
         },
         DataModel:{
+            hAlign:null,
             barLocation:{
                 ini:'top',
                 listbox:['top','bottom','left','right'],

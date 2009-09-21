@@ -279,14 +279,20 @@ Class("linb.UI.ToolBar",["linb.UI","linb.absList"],{
 
             var a=_.copy(arr),m;
             _.arr.each(a,function(o,i){
-                if(typeof o== 'object'){
+                if(_.isArr(o)){
+                    o={
+                        id:_.id(),
+                        sub:o
+                    };
+                }
+                if(_.isHash(o)){
                     //copy group
                     a[i]=_.copy(o);
                     a[i].sub=[];
                     //copy sub(tool item)
                     if(o.sub)
                         _.arr.each(o.sub,function(v){
-                            a[i].sub.push(_.copy(v));
+                            a[i].sub.push(_.isHash(v)?_.copy(v):{id:v+""});
                         });
                 }
             });
@@ -326,10 +332,15 @@ Class("linb.UI.ToolBar",["linb.UI","linb.absList"],{
                         if(!profile.$attached)profile.$attached=[];
                         profile.$attached.push(t);
                     }else{
-                        if(item.type=='split')item.split=true;
+                        if(item.type=='split'){
+                            item.split=true;
+                        }else{
+                            if(!item.caption)
+                                item.caption="";
+                        }
+                        
                         linb.UI.adjustData(profile,item, dataItem);
     
-                        if(!item.caption)item.caption="";
 
                         dataItem.splitDisplay=dataItem.split?'':dn;
                         dataItem.labelDisplay=dataItem.label?'':dn;
