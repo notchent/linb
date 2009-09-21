@@ -13817,7 +13817,7 @@ new function(){
                     display:'block'
                 },
                 'KEY FOCUS':{
-                    cursor:'default',
+                    cursor:'pointer',
                     'font-size':'12px',
                     'line-height':'14px',
                     'text-align':'center',
@@ -29262,6 +29262,9 @@ sortby [for column only]
             if(false === profile.boxing().beforeCellUpdated(profile, cell, options))
                 return;
 
+            // * remove cell's caption first
+            delete cell.caption;
+            
             _.merge(cell,options,'all');
 
             node=profile.getSubNode('CELLA', cellId);

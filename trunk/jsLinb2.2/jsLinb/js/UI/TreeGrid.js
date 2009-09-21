@@ -2569,6 +2569,9 @@ sortby [for column only]
             if(false === profile.boxing().beforeCellUpdated(profile, cell, options))
                 return;
 
+            // * remove cell's caption first
+            delete cell.caption;
+            
             _.merge(cell,options,'all');
 
             node=profile.getSubNode('CELLA', cellId);

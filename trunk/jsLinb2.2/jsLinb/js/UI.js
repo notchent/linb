@@ -4484,7 +4484,7 @@ new function(){
                     display:'block'
                 },
                 'KEY FOCUS':{
-                    cursor:'default',
+                    cursor:'pointer',
                     'font-size':'12px',
                     'line-height':'14px',
                     'text-align':'center',
