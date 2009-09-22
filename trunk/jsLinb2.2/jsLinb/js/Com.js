@@ -59,7 +59,15 @@ Class('linb.Com',null,{
         getEvents:function(key){
             return key?this.events[key]:this.events;
         },
-
+        fireEvent:function(event, args, host){
+            var t, self=this;
+            if(t=self.events[event]){
+                if(typeof t=='string')
+                    t=self.host[t];
+                if(typeof t=='function')
+                    return t.apply(host || self.host, args||[]);
+            }
+        },
         _fireEvent:function(name, args){
             var t, self=this;
             if(t=self.events[name]){
@@ -86,7 +94,7 @@ Class('linb.Com',null,{
                 _.tryF(onEnd,[self, threadid],self.host);
             };
             self.threadid=threadid;
-            
+
             if(self.created)
                 f();
             else
@@ -110,7 +118,7 @@ Class('linb.Com',null,{
                 _.tryF(onEnd,[self, threadid],self.host);
                 return;
             }
-            
+
             var  t,funs=[]
                 ;
             self.threadid=threadid;

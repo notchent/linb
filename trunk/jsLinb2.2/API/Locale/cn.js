@@ -4365,6 +4365,19 @@ _.set(linb.Locale,["cn","doc","linb","Com"], {
         ]
     },
     prototype:{
+        fireEvent:{
+            $desc:"触发自定义的事件",
+            $rtn:"Object",
+            $paras:[
+                "event: [必需参数] : String, 自定义事件的名字。 ",
+                "args [可选参数]: Array, 事件的参数。",
+                "host [可选参数]: Object, 事件函数的作用域对象。"
+            ],
+            $snippet:[
+             "Class('Temp.Demo', 'linb.Com',{Instance:{trigger:function(){this.fireEvent('onCall',['a','b','c'])}}});"+
+             "linb.ComFactory.getCom('Temp.Demo',function(){this.setEvents('onCall',function(){alert(_.toArr(arguments))});this.trigger();});"
+            ]
+        },
         render:{
             $desc:'渲染内部的 UI 组件。',
             $rtn:"[self]",
@@ -4732,13 +4745,6 @@ _.set(linb.Locale,["cn","doc","linb","ComFactory"], {
         $snippet:[
             "linb.ComFactory.destroyAll();"+
             "linb.ComFactory.newCom('App.Test1',function(){alert('The com loaded successfully.')});"
-        ]
-    },
-    prepareWidgets:{
-        $desc:"在后台加载并生成一些列的小器件, 这些小器件需要在当前的应用类中的[required]部分被定义.",
-        $rtn:"linb.ComFactory",
-        $snippet:[
-            "//linb.ComFactory.prepareWidgets();"
         ]
     },
     prepareComs:{
@@ -10720,7 +10726,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","Layout"], {
                 "_.asyRun(function(){o.insertItems([{id:'c2',size:30}],'after',false)},4000);"+
                 "}"
             ]
-        },        
+        },
         updateItem:{
             $desc:"更新一个布局项，并刷新对应的DOM界面.",
             $rtn:"[self]",

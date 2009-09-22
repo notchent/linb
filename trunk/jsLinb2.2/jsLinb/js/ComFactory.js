@@ -46,7 +46,7 @@ Class('linb.ComFactory',null,{
                 if(!(p=p[id])){
                     if(id.indexOf(".")!=-1)
                         p={cls:id};
-                    else 
+                    else
                         return;
                 };
 
@@ -138,21 +138,7 @@ Class('linb.ComFactory',null,{
             }
         },
         newCom:function(cls, onEnd, threadid){
-            var o=linb.SC.get(cls);
-            o=typeof o == 'function' ?new o():null;
-            if(o)
-                _.tryF(onEnd,[threadid,o],o);
-            else
-                linb.Thread.observableRun(function(threadid){
-                    linb.SC(cls, function(path,txt){
-                        if(path){
-                            var o=linb.SC.get(cls);
-                            o=typeof o == 'function' ?new o():null;
-                            _.tryF(onEnd,[threadid,o],o);
-                        }else
-                             throw new Error(cls+' doesnt exists!');
-                    }, true,threadid);
-                },null,threadid);
+            return this.getCom(cls, onEnd, threadid, false);
         },
         storeCom:function(id){
             var m,t,c=this._cache,domId=this._domId;
@@ -169,30 +155,6 @@ Class('linb.ComFactory',null,{
                     m.append(t);
                 }
             }
-        },
-
-        //prepare widget (build css string and add css to head, build template)
-        prepareWidgets:function(){
-            //prepare UI Ctrl
-            var self=this,
-                fun=function(){
-                    var r=false;
-                    _.each(linb.UI, function(o){
-                        if(o.$linb$ && o['linb.UI'] && o.$Appearances['default']){
-                            var path = linb.getPath(o.KEY, '/default/css.css','appearance');
-                            if(!linb.UI.$cache_csspath[path]){
-                                o=(new o).get(0);
-                                o.toString();
-                                o.destroy();
-                                r=true;
-                                return false;
-                            }
-                        }
-                    });
-                    if(!r)return false;
-                };
-            linb.Thread.repeat(fun,100);
-            return this;
         },
         prepareComs:function(arr){
             var self=this,funs=[];

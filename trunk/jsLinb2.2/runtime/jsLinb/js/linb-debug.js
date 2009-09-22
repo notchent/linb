@@ -7328,7 +7328,15 @@ Class('linb.Com',null,{
         getEvents:function(key){
             return key?this.events[key]:this.events;
         },
-
+        fireEvent:function(event, args, host){
+            var t, self=this;
+            if(t=self.events[event]){
+                if(typeof t=='string')
+                    t=self.host[t];
+                if(typeof t=='function')
+                    return t.apply(host || self.host, args||[]);
+            }
+        },
         _fireEvent:function(name, args){
             var t, self=this;
             if(t=self.events[name]){
@@ -7355,7 +7363,7 @@ Class('linb.Com',null,{
                 _.tryF(onEnd,[self, threadid],self.host);
             };
             self.threadid=threadid;
-            
+
             if(self.created)
                 f();
             else
@@ -7379,7 +7387,7 @@ Class('linb.Com',null,{
                 _.tryF(onEnd,[self, threadid],self.host);
                 return;
             }
-            
+
             var  t,funs=[]
                 ;
             self.threadid=threadid;
@@ -9004,7 +9012,7 @@ Class("linb.Tips", null,{
                 if(!(p=p[id])){
                     if(id.indexOf(".")!=-1)
                         p={cls:id};
-                    else 
+                    else
                         return;
                 };
 
@@ -9096,21 +9104,7 @@ Class("linb.Tips", null,{
             }
         },
         newCom:function(cls, onEnd, threadid){
-            var o=linb.SC.get(cls);
-            o=typeof o == 'function' ?new o():null;
-            if(o)
-                _.tryF(onEnd,[threadid,o],o);
-            else
-                linb.Thread.observableRun(function(threadid){
-                    linb.SC(cls, function(path,txt){
-                        if(path){
-                            var o=linb.SC.get(cls);
-                            o=typeof o == 'function' ?new o():null;
-                            _.tryF(onEnd,[threadid,o],o);
-                        }else
-                             throw new Error(cls+' doesnt exists!');
-                    }, true,threadid);
-                },null,threadid);
+            return this.getCom(cls, onEnd, threadid, false);
         },
         storeCom:function(id){
             var m,t,c=this._cache,domId=this._domId;
@@ -9127,30 +9121,6 @@ Class("linb.Tips", null,{
                     m.append(t);
                 }
             }
-        },
-
-        //prepare widget (build css string and add css to head, build template)
-        prepareWidgets:function(){
-            //prepare UI Ctrl
-            var self=this,
-                fun=function(){
-                    var r=false;
-                    _.each(linb.UI, function(o){
-                        if(o.$linb$ && o['linb.UI'] && o.$Appearances['default']){
-                            var path = linb.getPath(o.KEY, '/default/css.css','appearance');
-                            if(!linb.UI.$cache_csspath[path]){
-                                o=(new o).get(0);
-                                o.toString();
-                                o.destroy();
-                                r=true;
-                                return false;
-                            }
-                        }
-                    });
-                    if(!r)return false;
-                };
-            linb.Thread.repeat(fun,100);
-            return this;
         },
         prepareComs:function(arr){
             var self=this,funs=[];

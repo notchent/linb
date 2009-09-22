@@ -4341,6 +4341,19 @@ _.set(linb.Locale,["en","doc","linb","Com"], {
         ]
     },
     prototype:{
+        fireEvent:{
+            $desc:"Fires event.",
+            $rtn:"Object",
+            $paras:[
+                "event: [Required] : String, event's name. ",
+                "args [Optional]: Array, event funtion's arumgnets.",
+                "host [Optional]: Object, event funtion's scope object."
+            ],
+            $snippet:[
+             "Class('Temp.Demo', 'linb.Com',{Instance:{trigger:function(){this.fireEvent('onCall',['a','b','c'])}}});"+
+             "linb.ComFactory.getCom('Temp.Demo',function(){this.setEvents('onCall',function(){alert(_.toArr(arguments))});this.trigger();});"
+            ]
+        },
         render:{
             $desc:'To render the inner UI Components',
             $rtn:"[self]",
@@ -4709,13 +4722,6 @@ _.set(linb.Locale,["en","doc","linb","ComFactory"], {
         $snippet:[
             "linb.ComFactory.destroyAll();"+
             "linb.ComFactory.newCom('App.Test1',function(){alert('The com loaded successfully.')});"
-        ]
-    },
-    prepareWidgets:{
-        $desc:"Loads and creates all the Widgets in the background, those Widgets needs to be defined in the required proprety of the current Application Class.",
-        $rtn:"linb.ComFactory",
-        $snippet:[
-            "//linb.ComFactory.prepareWidgets();"
         ]
     },
     prepareComs:{
@@ -10687,7 +10693,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Layout"], {
                 "_.asyRun(function(){o.insertItems([{id:'c2',size:30}],'after',false)},4000);"+
                 "}"
             ]
-        },        
+        },
         updateItem:{
             $desc:"Updates the specified layout item and the corresponding DOM Element.",
             $rtn:"[self]",
