@@ -712,7 +712,7 @@ _.merge(linb,{
         return '<span id="'+linb.$langId+'" class="'+s+'">'+r+'</span>';
     },
     request:function(uri, query, onSuccess, onFail, threadid, options){
-        return ((options&&options.method.toLowerCase()=='post')?linb.absIO.isCrossDomain(uri)?linb.IAjax:linb.Ajax:linb.absIO.isCrossDomain(uri)?linb.SAjax:linb.Ajax).apply(null, arguments).start()
+        return ((options&&options.method.toLowerCase()=='post')?((typeof query=='object' && (function(d){for(var i in d)if(d[i].nodeType)return 1})(query))||linb.absIO.isCrossDomain(uri))?linb.IAjax:linb.Ajax:linb.absIO.isCrossDomain(uri)?linb.SAjax:linb.Ajax).apply(null, arguments).start()
     },
     include:function(id,path,onSuccess,onFail){if(id&&linb.SC.get(id))_.tryF(onSuccess); else linb.SAjax(path,'',onSuccess,onFail,0,{rspType:'script',checkKey:id}).start()},
     /*
@@ -1697,9 +1697,11 @@ Class('linb.IAjax','linb.absIO',{
                 var data;
                 try{
                     w.location=c._getDummy()+'#'+linb.ini.dummy_tag;
-                    if(w.name==self.id)
+                    if(w.name==self.id){
+                        //clear first
+                        self._clear();
                         self.$e('no response');
-                    else
+                    }else
                         data=w.name;
                 }catch(e){}
 
@@ -1710,8 +1712,11 @@ Class('linb.IAjax','linb.absIO',{
                             t[i]._response=o;
                             t[i]._onResponse();
                         }
-                    else
+                    else{
+                        //clear first
+                        self._clear();
                         self.$e(data);
+                    }
                 }
             };
 
@@ -1759,7 +1764,6 @@ Class('linb.IAjax','linb.absIO',{
             var self=this, n=self.node,f=self.form, c=self.constructor, div=document.createElement('div');
 			if(linb.browser.gek&&n)try{n.onload=null;var d=n.contentWindow.document;d.write(" ");d.close()}catch(e){}
             self.form=self.node=self.frm=null;
-            clearTimeout(self._tf);
             if(n)div.appendChild(n.parentNode.removeChild(n));
             if(f)div.appendChild(f.parentNode.removeChild(f));
             div.innerHTML='';
