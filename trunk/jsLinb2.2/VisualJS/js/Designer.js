@@ -4,9 +4,6 @@ Class('VisualJS.Designer', 'linb.Com',{
         this.$host={};
     },
     Instance:{
-        customAppend:function(){
-            return true;
-        },
         $bakCurCode:null,
         $viewSize:{
             '800':{
@@ -669,25 +666,25 @@ Class('VisualJS.Designer', 'linb.Com',{
                         .onClick(function(pro, e, src){
                             var esrc=linb.Event.getSrc(e),
                                 id,profile;
-            
+
                             //for lang span, or inner renderer
                             while((!esrc.id || esrc.id==linb.$langId) && esrc.parentNode!==document&& esrc.parentNode!==window)
                                 esrc=esrc.parentNode;
-            
+
                             id=esrc.id;
                             esrc=null;
                             if(!id)return;
-            
+
                             if(linb.UIProfile.getFromDom(id) !== (profile=linb.UIProfile.getFromDom(linb.use(src).id())))return;
-            
+
                             if(!profile)return;
-            
+
                             var t,key=linb.Event.$keyboard;
-            
+
                             //if change panel, clear the panel selected
                             if(page.pProfile && (page.pProfile !=profile.parent))
                                 page.pProfile.selected = [];
-            
+
                             if(t=profile.parent){
                                 if(key && key[2])
                                     t.reSelectObject.call(t,profile, profile.getRoot().parent());
@@ -697,7 +694,7 @@ Class('VisualJS.Designer', 'linb.Com',{
                             return false;
                         });
                     }
-                    
+
                     var t=profile.behavior.DropableKeys;
                     if(t && t.length){
                         profile.getSubNode(t[0], true).addClass('panel')
@@ -706,7 +703,7 @@ Class('VisualJS.Designer', 'linb.Com',{
                         .$addEventHandler('click')
                         .$addEventHandler('drag')
                         .$addEventHandler('dragstop')
-                        .$addEventHandler('mouseup');                        
+                        .$addEventHandler('mouseup');
                     }
                 };
             //add a class panel
@@ -1572,7 +1569,7 @@ Class('VisualJS.Designer', 'linb.Com',{
             id=node.id;
             pid=node.parentNode&&node.parentNode.id;
             if(!id || !pid)return;
-            
+
             sid=profile.getSubId(id);
 
             if(id.indexOf(ks.FCELL)==0 || pid.indexOf(ks.FCELL)==0){

@@ -123,7 +123,7 @@ Class('VisualJS', 'linb.Com',{
                 page.$infoList = new linb.UI.List({width:400}).setCustomStyle('ITEM', 'border-bottom:dashed 1px gray').render();
 
                 //linb.Dom.addHeadNode('js','','',{id:'linb:msg',src:'http://www.linb.net/message?ver='+_.version+'&rnd='+_()});
-                
+
                 page.toolbar.updateItem('ec',{'caption':linb.getRes('VisualJS.'+linb.getLang())});
             }
         },
@@ -172,9 +172,9 @@ Class('VisualJS', 'linb.Com',{
             });
         },
         _delfile:function(id){
-            var tb = this.treebarPrj, 
+            var tb = this.treebarPrj,
                 tab=this.tabsMain,
-                arr = id.split(';'), 
+                arr = id.split(';'),
                 a=[];
             _.arr.each(arr,function(o,i){
                 a[i]=o;
@@ -335,7 +335,7 @@ Class('VisualJS', 'linb.Com',{
                                 return;
                             }
                             filecon=txt.data.file;
-                        }, 
+                        },
                         funFail=function(msg){
                             linb.message(msg);
                         };
@@ -362,7 +362,7 @@ Class('VisualJS', 'linb.Com',{
                                 };
                             tb.insertItems([item], items.length?items[items.length-1].id:null);
                             tb.fireItemClickEvent(value);
-    
+
                             if(filetype != 'class'){
                                 linb.ComFactory.newCom('VisualJS.PageEditor',function(){
                                     var tabPage=tb.getPanel(item.id);
@@ -384,7 +384,7 @@ Class('VisualJS', 'linb.Com',{
                                 linb.ComFactory.newCom('VisualJS.ClassEditor',function(){
                                     var tabPage=tb.getPanel(item.id);
                                     if(tabPage.isEmpty())return;
-                                    
+
                                     var inn=this;
                                     inn.host = page;
                                     inn.setProperties({
@@ -599,7 +599,7 @@ Class('VisualJS', 'linb.Com',{
                         linb.message(linb.getRes('VisualJS.ps.noprj'));
                         return;
                     }
-                    var tb=this.tabsMain, 
+                    var tb=this.tabsMain,
                         count=0,
                         items=tb.getItems(),
                         hash={};
@@ -614,7 +614,7 @@ Class('VisualJS', 'linb.Com',{
                                     hashCode:_.id(),
                                     path: o.id,
                                     content:newText
-                                }}, 
+                                }},
                                 function(txt){
                                     var obj = typeof txt=='string'?_.unserialize(txt):txt;
                                     if(obj && !obj.error && obj.data && obj.data.OK){
@@ -647,7 +647,7 @@ Class('VisualJS', 'linb.Com',{
                                         self.$dropmenulang.destroy();
                                         delete self.$dropmenulang;
                                         self.toolbar.updateItem('ec',{'caption':linb.getRes('VisualJS.'+item.id)});
-                                    });                                
+                                    });
                             }
                         });
                     }
@@ -696,7 +696,7 @@ Class('VisualJS', 'linb.Com',{
                     break;
                 case 'simple':
                     linb.Dom.submit(CONF.path_simple);
-                    break;                    
+                    break;
                 case 'forum':
                     linb.Dom.submit(CONF.path_forum);
                     break;

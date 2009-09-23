@@ -1,12 +1,9 @@
 Class('VisualJS.ClassStruct', 'linb.Com',{
     Instance:{
         $PageEditor:null,
-        $curBlock:null, 
+        $curBlock:null,
         $bakValue:null,
         $bakCurCode:null,
-        customAppend:function(){
-            return true;
-        },
         iniExComs:function(com, threadid){
             var self=this;
             linb.ComFactory.newCom('VisualJS.PageEditor',function(){
@@ -51,7 +48,7 @@ Class('VisualJS.ClassStruct', 'linb.Com',{
                     }
                     //set back
                     data.$bakCurCode = txt;
-    
+
                     //set back and get new class text
                     r.comments = result.comments;
                     r.code = result.code;
@@ -61,7 +58,7 @@ Class('VisualJS.ClassStruct', 'linb.Com',{
                 txt=data.clsStruct.comments.replace(/^[\r\n]*/, '') + txt;
 
                 if(resetBak)
-                    self.$bakValue = txt;                
+                    self.$bakValue = txt;
                 return txt;
             }
             return data.text;
@@ -83,11 +80,11 @@ Class('VisualJS.ClassStruct', 'linb.Com',{
                         {id:'Before',caption:'Before', image:'img/App.gif', imagePos:'-32px -32px'},
                         {id:'After',caption:'After', image:'img/App.gif', imagePos:'-32px -32px'}
                 ]}];
-    
+
                 var t=clsStruct.sub,
                     j=items[0].sub,
                     m,icon;
-    
+
                 if(t){
                     m=t.Instance;
                     if(m && (m = m.sub)){
@@ -107,10 +104,10 @@ Class('VisualJS.ClassStruct', 'linb.Com',{
                         });
                     }
                 }
-    
+
                 //reset
                 delete self.$curBlock;
-    
+
                 self.treebarClass.setItems(items);
                 if(value && self.treebarClass.getItemByItemId(value)){
                     self.treebarClass.selectItem(value);
@@ -122,7 +119,7 @@ Class('VisualJS.ClassStruct', 'linb.Com',{
             }
             return self;
         },
- 
+
         _treebarclass_beforevalueupdated:function(profile, ov, nv){
             var self=this,
                 p=self.$PageEditor;

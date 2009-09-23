@@ -1,9 +1,6 @@
 
 Class('VisualJS.PageEditor', 'linb.Com',{
     Instance:{
-        customAppend:function(){
-            return true;
-        },
         events:{
             onReady:function(page){
                 page.setValue(page.properties.text);
@@ -145,7 +142,7 @@ Class('VisualJS.PageEditor', 'linb.Com',{
             var self=this;
             switch(item.id){
                 case 'format':
-                    var code=linb.Coder.formatHTML(self.texteditor.getUIValue(), self.$checkType,['plain']),                    
+                    var code=linb.Coder.formatHTML(self.texteditor.getUIValue(), self.$checkType,['plain']),
             	        dialog = self.$codeDlg || (self.$codeDlg=new linb.UI.Dialog({left:100,top:100,width:600,height:400,minBtn:false,caption:'$VisualJS.pageEditor.formatted'},{beforeClose:function(p){p.boxing().hide();return false}}));
             	    dialog.setHtml(code);
                     dialog.show(linb('body'),true);
