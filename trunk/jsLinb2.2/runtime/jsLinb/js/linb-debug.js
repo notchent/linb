@@ -23973,6 +23973,11 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
                     return false;
                 }
             },
+            MARK2:{
+                onClick:function(profile, e, src){
+                   // linb.use(src).parent().onClick();
+                }
+            },
             BAR:{
                 onClick:function(profile, e, src){
                     var properties = profile.properties,
@@ -23997,6 +24002,8 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
                         rt=box.onItemSelected(profile, item, src);
                         break;
                     case 'multi':
+                        if(profile.getKey(linb.Event.getSrc(e).id)!=profile.keys.MARK2)return;
+
                         var value = box.getUIValue(),
                             arr = value?value.split(';'):[];
                         if(arr.length&&(ks[1]||ks[2]||properties.noCtrlKey)){
@@ -27142,15 +27149,20 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                     t=!!options.colResizer;
                     ns.getSubNode('HHANDLER',hid).css('display',(options.colResizer=t)?"block":'none');
                 }
-                if('visibility' in options){
-                    var  b = !!options.visibility;
+
+                // 	Forward-compatible with 'visibility'
+                if(options.hasOwnProperty('visibility') && !options.hasOwnProperty('hidden'))
+                    options.hidden=!options.visibility;
+
+                if('hidden' in options){
+                    var  b = !!options.hidden;
                     if(b){
-                        if(colh.visibility===false){
-                            ns.showColumn(colId, true);
+                        if(colh.hidden!==true){
+                            ns.showColumn(colId, false);
                         }
                     }else{
-                        if(colh.visibility!==false){
-                            ns.showColumn(colId, false);
+                        if(colh.hidden===true){
+                            ns.showColumn(colId, true);
                         }
                     }
                 }
@@ -27180,7 +27192,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                     _.each(col._cells,function(id){
                         n.push(profile.getSubNode('CELL',id).get(0));
                     });
-                    linb(n).css('display',(col.visibility=(flag===false?false:true))?'':'none');
+                    linb(n).css('display',(col.hidden=(flag===false?true:false))?'none':'');
                 }
                 profile.box._ajdustBody(profile);
             });
@@ -28225,7 +28237,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                         var items=[],pop;
                         _.arr.each(profile.properties.header,function(o){
                             if(o.hasOwnProperty('colHidable')?o.colHidable:p.colHidable)
-                                items.push({id:o.id,caption:o.caption,type:'checkbox',value:o.visibility!==false});
+                                items.push({id:o.id,caption:o.caption,type:'checkbox',value:o.hidden!==true});
                         });
                         if(items.length){
                             pop=profile.$col_pop=new linb.UI.PopMenu({hideAfterClick:false,items:items}).render(true);
@@ -28898,7 +28910,12 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                 t._tabindex=pro.tabindex;
 
                 t.colDDDisplay = (('colResizer' in o)?o.colResizer:pro.colResizer)?'':'display:none';
-                t.colDisplay = o.visibility===false?'display:none':'';
+
+                // 	Forward-compatible with 'visibility'
+                if(o.hasOwnProperty('visibility') && !o.hasOwnProperty('hidden'))
+                    o.hidden=!o.visibility;
+
+                t.colDisplay = o.hidden===true?'display:none':'';
 
                 if(!o.type)o.type='label';
                 if(!o.caption)o.caption=o.id;
@@ -29145,7 +29162,7 @@ sortby [for column only]
 
             if(!uicell.width)uicell.width=col.width;
             uicell._tabindex=pro.tabindex;
-            uicell.cellDisplay=col.visibility===false?'display:none;':'';
+            uicell.cellDisplay=col.hidden===true?'display:none;':'';
 
             self._renderCell(profile, cell, uicell);
         },
@@ -29250,7 +29267,7 @@ sortby [for column only]
 
             // * remove cell's caption first
             delete cell.caption;
-            
+
             _.merge(cell,options,'all');
 
             node=profile.getSubNode('CELLA', cellId);
@@ -29644,7 +29661,7 @@ sortby [for column only]
                     //defult
                     w = prop.rowHandler?prop.rowHandlerWidth:0;
                     _.each(hd,function(o){
-                        if(!o.visibility)
+                        if(o.hidden!==true)
                             w += o.width + 2;
                     });
                     body.width(w+2);

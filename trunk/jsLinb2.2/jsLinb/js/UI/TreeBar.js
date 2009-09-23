@@ -332,6 +332,11 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
                     return false;
                 }
             },
+            MARK2:{
+                onClick:function(profile, e, src){
+                   // linb.use(src).parent().onClick();
+                }
+            },
             BAR:{
                 onClick:function(profile, e, src){
                     var properties = profile.properties,
@@ -356,6 +361,8 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
                         rt=box.onItemSelected(profile, item, src);
                         break;
                     case 'multi':
+                        if(profile.getKey(linb.Event.getSrc(e).id)!=profile.keys.MARK2)return;
+
                         var value = box.getUIValue(),
                             arr = value?value.split(';'):[];
                         if(arr.length&&(ks[1]||ks[2]||properties.noCtrlKey)){
