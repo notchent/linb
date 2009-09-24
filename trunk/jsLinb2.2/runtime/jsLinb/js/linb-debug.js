@@ -16846,7 +16846,8 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
             },
             BORDER:{
                 'line-height':'0px',
-                'font-size':'0px'
+                'font-size':'0px',
+                background:linb.UI.$bg('inputbgb.gif', '#fff left bottom repeat-x',"Input")
             },
             WRAP:{
                 left:0,
@@ -16858,19 +16859,19 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
                 left:0,
                 top:0,
                 position:'absolute',
-                'background-color':'#fff',
-                'border':'solid 1px #648CB4',
+                background:linb.UI.$bg('inputbg.gif', 'repeat-x',"Input"),
+                'border':'solid 1px #B5B8C8',
                 'z-index':10
             },
             'BOX-focus, BOX-mouseover':{
-                'border-color':'#FAE100'
+                'border-color':'#7EADD9'
             },
             INPUT:{
                //don't change it in custom class or style
                'padding-top':'2px',
                'padding-left':'2px',
 
-               'background-color':'#fff',
+               background:"transparent",
                border:0,
                margin:0,
 
@@ -17070,9 +17071,10 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
         },
         DataModel:{
             _customBorder:'BOX',
+            border:false,
+
             tipsErr:'',
             tipsOK:'',
-            border:true,
 
             dynCheck:false,
             valueFormat:{
@@ -17341,7 +17343,7 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
         _asyCheck:function(profile){
             _.resetRun(profile.$linbid+":asycheck",function(){
                 if(!profile.renderId)return;
-                
+
                 var src=profile.getSubNode("INPUT").get(0);
                 if(!src)return;
 
@@ -17386,7 +17388,7 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
                     if(linb.browser.ie6&&null===width)o.ieRemedy();
                 }
                 region={left:left,top:top,width:ww,height:hh};
-                o.cssRegion(region);   
+                o.cssRegion(region);
                 if(ww||hh)
                     v1.cssSize({width:ww?(ww-loff):null,height:hh?(hh-toff):null});
 
