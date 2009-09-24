@@ -5994,6 +5994,17 @@ _.set(linb.Locale,["cn","doc","linb","UI"], {
         ]
     },
     prototype:{
+       getTheme:{
+            $desc:"获取当前控件的皮肤关键字.",
+            $rtn:"String"
+        },
+        setTheme:{
+            $desc:"通过设置当前控件的皮肤关键字来更改控件的皮肤.",
+            $rtn:"[self]",
+            $paras:[
+                "key [可选参数] : String, 皮肤键字符串."
+            ]
+        },
         busy:{
             $desc:"将鼠标显示为沙漏(并将一个div覆盖在当前控件上). ",
             $rtn:"[self]",

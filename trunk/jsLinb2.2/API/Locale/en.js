@@ -5819,7 +5819,7 @@ _.set(linb.Locale,["en","doc","linb","UI"], {
         ]
     },
     setTheme:{
-        $desc:"Gets the theme key string.",
+        $desc:"Sets the theme key string.",
         $rtn:"[self]",
         $paras:[
             "key [Optional] : String, the theme key."
@@ -5961,6 +5961,17 @@ _.set(linb.Locale,["en","doc","linb","UI"], {
         ]
     },
     prototype:{
+        getTheme:{
+            $desc:"Gets the current control's theme key.",
+            $rtn:"String"
+        },
+        setTheme:{
+            $desc:"Sets a specific theme key to the current set of controls.",
+            $rtn:"[self]",
+            $paras:[
+                "key [Optional] : String, the theme key."
+            ]
+        },
         busy:{
             $desc:"Shows busy layer(A special top zindex div covers the UI). ",
             $rtn:"[self]",

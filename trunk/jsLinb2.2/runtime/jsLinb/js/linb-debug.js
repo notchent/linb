@@ -10037,10 +10037,11 @@ Class('linb.UIProfile','linb.Profile', {
             });
             if(_.isEmpty(r.events))delete r.events;
 
-            if(!_.isEmpty(o.CS)) r.CS=_.copy(o.CS);
             if(!_.isEmpty(o.CB)) r.CB=_.copy(o.CB);
             if(!_.isEmpty(o.CC)) r.CC=_.copy(o.CC);
             if(!_.isEmpty(o.CF)) r.CF=_.copy(o.CF);
+            if(!_.isEmpty(o.CS)) r.CS=_.copy(o.CS);
+            if(typeof o.theme == "string") r.theme=o.theme;
 
             //children
             if(o.children && o.children.length){
@@ -10270,6 +10271,23 @@ Class("linb.UI",  "linb.absObj", {
         }
     },
     Instance:{
+        setTheme:function(key){
+            if(typeof key!="string" || !key)key=null;
+            var k,arr=[];
+            this.each(function(o){
+                if(key!=o.theme){
+                    if(key===null)
+                        delete o.theme;
+                    else
+                        o.theme=key;
+                    arr.push(o);
+                }
+            });
+            return linb.UI.pack(arr,false).refresh();
+        },
+        getTheme:function(){
+            return this.get(0) && this.get(0).theme;
+        },
         destroy:function(){
             this.each(function(o){
                 _.tryF(o.$beforeDestroy,[],o);
@@ -10306,7 +10324,7 @@ Class("linb.UI",  "linb.absObj", {
             return arr;
         },
 
-        _ini:function(properties, events, host, CS, CC, CB, CF){
+        _ini:function(properties, events, host, theme, CS, CC, CB, CF){
             var self=this,
                 c=self.constructor,
                 profile,
@@ -10340,6 +10358,7 @@ Class("linb.UI",  "linb.absObj", {
             profile.CB = CB || profile.CB || {};
             profile.CC = CC || profile.CC || {};
             profile.CF = CF || profile.CF || {};
+            if(typeof theme =="string")profile.theme = theme;
 
             profile.template = c.getTemplate();
             profile.behavior = c.$Behaviors;
@@ -11669,7 +11688,9 @@ Class("linb.UI",  "linb.absObj", {
                     //custom class here
                     bak+' '+
                     //add a special
-                    (lkey==profile.key?' ui-ctrl ':'') +
+                    (lkey==profile.key?'ui-ctrl ':'') +
+                    //custom theme
+                    u.$tag_special + (key||'KEY') + '_CT'+u.$tag_special + ' ' +
                     //custom class
                     u.$tag_special + (key||'KEY') + '_CC'+u.$tag_special
                     ;
@@ -11744,7 +11765,7 @@ Class("linb.UI",  "linb.absObj", {
         _rpt:function(profile,temp){
             var me=arguments.callee,
                 tag=linb.UI.$tag_special,
-                r=me._r||(me._r=new RegExp( tag+'([0-9A-Z_]+)_C([SC])'+tag + '|'+ tag+'([\\w_\\-\\.]*)'+tag, 'img')),
+                r=me._r||(me._r=new RegExp( tag+'([0-9A-Z_]+)_C([SCT])'+tag + '|'+ tag+'([\\w_\\-\\.]*)'+tag, 'img')),
                 h1={
                     id:profile.serialId,
                     cls:profile.getClass('KEY'),
@@ -11752,9 +11773,10 @@ Class("linb.UI",  "linb.absObj", {
                 },
                 h2={
                     S:profile.CS,
-                    C:profile.CC
+                    C:profile.CC,
+                    T:profile._CT
                 };
-            return temp.replace(r, function(a,b,c,d){return h1[d] || h2[c][b] || ''});
+            return temp.replace(r, function(a,b,c,d){return h1[d] || (h2[c]?(h2[c][b]||""):'')});
         },
         _build:function(profile, data){
             var template, t, m,
@@ -11767,8 +11789,19 @@ Class("linb.UI",  "linb.absObj", {
                     'b:' + (profile.template._subid||'') + ';' +
                     '!' + (profile._exhash||'');
 
+            //build custom theme hash here
+            if(typeof profile.theme == "string"){
+                var h=profile._CT={},
+                    pre=profile.key.replace(/\./g,'-').toLowerCase().replace('linb-ui','linb')+"-";
+                _.each(profile.keys,function(o,i){
+                    if(i.charAt(0)!='$')
+                        h[i]=pre + profile.theme + "-" + i.toLowerCase();
+                });
+                console.log(h);
+            }
             //get template
             if(!(template = _.get(cache,[key, hash]))){
+
                 //get main template
                 u.$buildTemplate(profile,null,null,temp);
                 //split sub template from main template
@@ -14013,6 +14046,8 @@ new function(){
                 });
                 _.merge(profile.CS,tagProfile.CS,'all');
                 _.merge(profile.CC,tagProfile.CC,'all');
+                if(typeof tagProfile.theme =="string")
+                    profile.theme=tagProfile.theme;
 
                 //if parent exist, replace
                 if(tagProfile.parent){
