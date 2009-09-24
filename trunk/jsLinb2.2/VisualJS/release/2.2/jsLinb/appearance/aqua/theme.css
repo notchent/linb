@@ -223,6 +223,24 @@ html, .uibg-base{
 
 /*linb.UI.Input*/
 /*linb.UI.ComboInput*/
+.linb-input-border, .linb-comboinput-border{
+    background-image: url(Input/inputbgb.gif);
+}
+.linb-input-box, .linb-comboinput-box{
+    background-image: url(Input/inputbg.gif);
+    border: solid 1px #727272;
+}
+.linb-input-box-focus, .linb-input-box-mouseover, .linb-comboinput-box-focus, .linb-comboinput-box-mouseover{
+    border-color:#6F9BDF;
+}
+/* to cover ui-dirty */
+.linb-comboinput-input {
+    background:transparent none;
+}
+.linb-comboinput-r1, .linb-comboinput-r2, .linb-comboinput-btn, .linb-comboinput-sbtn, .linb-comboinput-stop, .linb-comboinput-top,.linb-comboinput-r1t, .linb-comboinput-r2t, .linb-comboinput-r1b, .linb-comboinput-r2b, .linb-comboinput-smin, .linb-comboinput-min
+{
+    background-image: url(ComboInput/bg.gif);
+}
 .linb-input-b-t, .linb-input-b-b,
 .linb-comboinput-b-t, .linb-comboinput-b-b
 {
@@ -261,10 +279,6 @@ html, .uibg-base{
 .linb-comboinput-box-focus .linb-comboinput-b-lt, .linb-comboinput-box-focus .linb-comboinput-b-rt, .linb-comboinput-box-focus .linb-comboinput-b-rb, .linb-comboinput-box-focus .linb-comboinput-b-lb
 {
     background-image: url(Input/corner_mouseover.gif);
-}
-.linb-comboinput-r1, .linb-comboinput-r2, .linb-comboinput-btn, .linb-comboinput-sbtn, .linb-comboinput-stop, .linb-comboinput-top,.linb-comboinput-r1t, .linb-comboinput-r2t, .linb-comboinput-r1b, .linb-comboinput-r2b, .linb-comboinput-smin, .linb-comboinput-min
-{
-    background-image: url(ComboInput/bg.gif);
 }
 .linb-input-b-t, .linb-comboinput-b-t{
     top:-1px;
