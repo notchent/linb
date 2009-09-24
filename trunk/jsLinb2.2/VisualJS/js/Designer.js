@@ -1939,6 +1939,11 @@ Class('VisualJS.Designer', 'linb.Com',{
                     arr.push({id:'event:'+i, tipk:'event',tipv:i, value:i, caption:i, cells:[
                         {value:typeof target[i]=='string'?target[i]:'', type: 'popbox', $tagVar:$tagVar, event:$fun}
                     ]});
+
+                    arr.sort(function(x,y){
+                        x=x.value||"";y=y.value||"";
+                        return x>y?1:x==y?0:-1;
+                    });
                 });
             }
 
