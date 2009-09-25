@@ -712,7 +712,7 @@ _.merge(linb,{
         return '<span id="'+linb.$langId+'" class="'+s+'">'+r+'</span>';
     },
     request:function(uri, query, onSuccess, onFail, threadid, options){
-        return ((options&&options.method.toLowerCase()=='post')?((typeof query=='object' && (function(d){for(var i in d)if(d[i].nodeType)return 1})(query))||linb.absIO.isCrossDomain(uri))?linb.IAjax:linb.Ajax:linb.absIO.isCrossDomain(uri)?linb.SAjax:linb.Ajax).apply(null, arguments).start()
+        return ((options&&options.method.toLowerCase()=='post')?((typeof query=='object' && (function(d){for(var i in d)if(d[i]&&d[i].nodeType==1)return 1})(query))||linb.absIO.isCrossDomain(uri))?linb.IAjax:linb.Ajax:linb.absIO.isCrossDomain(uri)?linb.SAjax:linb.Ajax).apply(null, arguments).start()
     },
     include:function(id,path,onSuccess,onFail){if(id&&linb.SC.get(id))_.tryF(onSuccess); else linb.SAjax(path,'',onSuccess,onFail,0,{rspType:'script',checkKey:id}).start()},
     /*
@@ -1733,7 +1733,7 @@ Class('linb.IAjax','linb.absIO',{
 
             k=self.query||{};
             for(i in k){
-                if(k[i] && k[i].nodeName=="INPUT"){
+                if(k[i] && k[i].nodeType==1){
                     k[i].id=k[i].name=i;
                     form.appendChild(k[i]);
                     b=true;
