@@ -942,7 +942,8 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                 display:'block',
                 position:'relative',
                 overflow:'hidden',
-                height:'100%'
+                height:'100%',
+                'line-height':'19px'
             },
             FCELLA:{
                 'text-align': 'left',
@@ -1037,7 +1038,8 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                 height:'100%',
                 color:'#000',
                 //ie need this
-                width:linb.browser.ie?'100%':''
+                width:linb.browser.ie?'100%':'',
+                'line-height':'19px'
             },
             'CELLA-inline':{
                 $order:5,
