@@ -26866,6 +26866,11 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
             if(ol===arr.length && rows.length)
                 this.insertRows(rows);
             profile.box._ajdustBody(profile);
+
+            if(profile.$col_pop){
+                profile.$col_pop.destroy();
+                delete profile.$col_pop;
+            }
         },
         _expendRows:function(rows){
             var self=this;
