@@ -141,7 +141,7 @@ Class("linb.UI.Input", ["linb.UI.Widget","linb.absValue"] ,{
                'padding-top':'2px',
                'padding-left':'2px',
 
-               background:"transparent",
+               "background-color":"transparent",
                border:0,
                margin:0,
 

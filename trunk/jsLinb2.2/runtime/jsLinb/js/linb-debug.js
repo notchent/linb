@@ -16871,7 +16871,7 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
                'padding-top':'2px',
                'padding-left':'2px',
 
-               background:"transparent",
+               "background-color":"transparent",
                border:0,
                margin:0,
 
@@ -18664,13 +18664,11 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                 ini:[],
                 set:function(value){
                     var o=this;
-                    o.properties.items = _.copy(value);
+                    value = o.properties.items = o.box._adjustItems(value);
                     if(o.renderId){
                         o.boxing().setValue(null,true);
                         o.SubSerialIdMapItem={};
                         o.ItemIdMapSubSerialId={};
-                        //for memory map
-                        value=o.box._adjustItems(value);
                         o.box._prepareItems(o, value);
                         o.boxing().clearPopCache();                            
                     }
