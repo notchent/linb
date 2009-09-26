@@ -5357,6 +5357,9 @@ _.set(linb.Locale,["cn","doc","linb","absValue"], {
                 "}"
             ]
         },
+        onChange:{
+            $desc:"与afterUIValueSet相同"
+        },
         beforeValueSet:{
             $desc:"在setValue调用之前被调用. 返回false会阻止setValue被调用.",
             $paras:[
@@ -8471,19 +8474,6 @@ _.set(linb.Locale,["cn","doc","linb","UI","Input"], {
                 "var id='linb.temp.input20-3'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var o;linb(id).prepend(o=new linb.UI.Input({position:'relative'}));"+
                 "o.onFocus(function(){alert('onFocus')});"+
-                "}"
-            ]
-        },
-        onChange:{
-            $desc:"在输入框内容改变时调用. 异步方式.",
-            $paras:[
-                "profile : linb.UIProfile.",
-                "value: String, 输入框的值."
-            ],
-            $snippet:[
-                "var id='linb.temp.input21-3'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
-                "var o;linb(id).prepend(o=new linb.UI.Input({position:'relative'}));"+
-                "o.onChange(function(p,v){linb.log(v);});"+
                 "}"
             ]
         },

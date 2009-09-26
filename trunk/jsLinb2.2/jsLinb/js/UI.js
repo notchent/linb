@@ -4213,6 +4213,7 @@ Class("linb.absValue", "linb.absObj",{
 
                     if(profile.renderId)box._setDirtyMark();
                     if(profile.afterUIValueSet)box.afterUIValueSet(profile, ovalue, value);
+                    if(profile.onChange)box.onChange(profile, ovalue, value);
                 }
             });
             return this;
@@ -4293,12 +4294,14 @@ Class("linb.absValue", "linb.absObj",{
             dirtyMark:true
         },
         EventHandlers:{
-           //$onValueSet
+           //real value set
             beforeValueSet:function(profile, oldValue, newValue){},
             afterValueSet:function(profile, oldValue, newValue){},
-            //$onValueUpdated
+
+            //ui value set
             beforeUIValueSet:function(profile, oldValue, newValue){},
             afterUIValueSet:function(profile, oldValue, newValue){},
+            onChange:function(profile, oldValue, newValue){},
 
             beforeDirtyMark:function(profile, dirty){}
         },

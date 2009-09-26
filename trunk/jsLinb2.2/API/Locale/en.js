@@ -5324,6 +5324,9 @@ _.set(linb.Locale,["en","doc","linb","absValue"], {
                 "}"
             ]
         },
+        onChange:{
+            $desc:"Equals to afterUIValueSet."
+        },
         beforeValueSet:{
             $desc:"Fired before setValue is called. If returns false, setValue function will be ignored.",
             $paras:[

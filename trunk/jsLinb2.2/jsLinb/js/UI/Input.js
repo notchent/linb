@@ -436,7 +436,6 @@ Class("linb.UI.Input", ["linb.UI.Widget","linb.absValue"] ,{
         EventHandlers:{
             onFocus:function(profile){},
             onBlur:function(profile){},
-            onChange:function(profile, value){},
             beforeFormatCheck:function(profile, value){},
             beforeFormatMark:function(profile, formatErr){}
         },
@@ -618,10 +617,8 @@ Class("linb.UI.Input", ["linb.UI.Widget","linb.absValue"] ,{
                 if(!src)return;
 
                 //for onchange event
-                if(profile.onChange){
-                    if(profile.$$$v!==src.value)
-                        profile.boxing().onChange(profile,profile.$$$v=src.value);
-                }
+                if(profile.properties.dynCheck)
+                    profile.boxing().setUIValue(src.value);
 
                 //for mask
                 if(profile.properties.mask){
