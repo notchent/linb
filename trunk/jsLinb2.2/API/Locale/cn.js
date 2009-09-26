@@ -8773,6 +8773,12 @@ _.set(linb.Locale,["cn","doc","linb","UI","ComboInput"], {
             $desc:"清除弹出的下拉控件的缓存.",
             $rtn:"[self]"
         },
+        expand:{
+            $desc:"打开弹出窗口."
+        },
+        collapse{
+            $desc:"关闭弹出窗口."
+        },
         getUploadObj:{
             $desc:"获取上传文件名，仅对上传框有效.",
             $rtn:"linb.Dom",

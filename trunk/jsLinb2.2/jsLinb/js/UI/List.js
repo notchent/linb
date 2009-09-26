@@ -105,7 +105,7 @@ Class("linb.UI.List", ["linb.UI", "linb.absList","linb.absValue" ],{
             ITEMS:{
                $order:10,
                tagName:'div',
-               className:'uiborder-inset',
+               className:'uiborder-flat',
                text:"{items}"
             },
             $submap:{
@@ -119,7 +119,7 @@ Class("linb.UI.List", ["linb.UI", "linb.absList","linb.absValue" ],{
                         ICON:{
                             $order:10,
                             className:'ui-icon {imageClass}',
-                            style:'{backgroundImage} {backgroundPosition} {imageDisplay}'
+                            style:'{backgroundImage} {backgroundPosition} {backgroundRepeat} {imageDisplay}'
                         },
                         CAPTION:{
                             tagName : 'text',

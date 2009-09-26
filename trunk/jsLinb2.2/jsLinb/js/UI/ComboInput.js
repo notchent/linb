@@ -293,6 +293,16 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                     box._cache();
                 });
             });
+        },
+        expand:function(){
+            var profile=this.get(0);
+            if(profile.renderId)
+                profile.boxing()._drop();
+        },
+        collapse:function(){
+            var profile=this.get(0);
+            if(profile.renderId && profile.$poplink)
+                profile.boxing()._cache();
         }
     },
     /*Initialize*/
@@ -689,11 +699,16 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                     var o=this;
                     value = o.properties.items = o.box._adjustItems(value);
                     if(o.renderId){
-                        o.boxing().setValue(null,true);
+                        //clear those
                         o.SubSerialIdMapItem={};
                         o.ItemIdMapSubSerialId={};
                         o.box._prepareItems(o, value);
-                        o.boxing().clearPopCache();                            
+
+                        // if popped
+                        if(o.$poplink)
+                            o.$poplink.boxing().setItems(value).adjustSize();
+                        else
+                            o.boxing().clearPopCache();
                     }
                 }
             },

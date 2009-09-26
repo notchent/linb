@@ -42,7 +42,7 @@ Class("linb.UI.Group", "linb.UI.Div",{
                         ICON:{
                             $order:1,
                             className:'ui-icon {imageClass}',
-                            style:'{backgroundImage} {backgroundPosition} {imageDisplay}'
+                            style:'{backgroundImage} {backgroundPosition} {backgroundRepeat} {imageDisplay}'
                         },
                         CAPTION : {
                             text:   '{caption}',

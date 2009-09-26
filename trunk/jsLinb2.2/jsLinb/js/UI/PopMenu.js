@@ -215,7 +215,7 @@ Class("linb.UI.PopMenu",["linb.UI.Widget","linb.absList"],{
                     ICON:{
                         $order:0,
                         className:'ui-icon {imageClass}',
-                        style:'{backgroundImage} {backgroundPosition} {imageDisplay}'
+                        style:'{backgroundImage} {backgroundPosition} {backgroundRepeat} {imageDisplay}'
                     },
                     CAPTION:{
                         text : '{caption}',

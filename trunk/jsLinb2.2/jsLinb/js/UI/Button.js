@@ -51,7 +51,7 @@ Class("linb.UI.Button", ["linb.UI.Widget","linb.absValue"],{
                                 ICON:{
                                     $order:1,
                                     className:'ui-icon {imageClass}',
-                                    style:'{backgroundImage} {backgroundPosition} {imageDisplay}'
+                                    style:'{backgroundImage} {backgroundPosition} {backgroundRepeat} {imageDisplay}'
                                 },
                                 CAPTION:{
                                     $order:2,

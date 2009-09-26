@@ -260,7 +260,7 @@ Class("linb.UI.Tabs", ["linb.UI", "linb.absList","linb.absValue"],{
                                         ICON:{
                                             $order:0,
                                             className:'ui-icon {imageClass}',
-                                            style:'{backgroundImage} {backgroundPosition} {imageDisplay}'
+                                            style:'{backgroundImage} {backgroundPosition} {backgroundRepeat} {imageDisplay}'
                                         },
                                         CAPTION:{
                                             text: '{caption}',

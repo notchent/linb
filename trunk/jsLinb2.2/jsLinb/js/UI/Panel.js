@@ -61,7 +61,7 @@ Class("linb.UI.Panel", "linb.UI.Div",{
                         ICON:{
                             $order:0,
                             className:'ui-icon {imageClass}',
-                            style:'{backgroundImage} {backgroundPosition} {imageDisplay}'
+                            style:'{backgroundImage} {backgroundPosition} {backgroundRepeat} {imageDisplay}'
                         },
                         CAPTION:{
                             tagName: 'a',

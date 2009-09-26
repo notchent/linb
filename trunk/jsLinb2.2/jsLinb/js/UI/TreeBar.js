@@ -210,7 +210,7 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
                             ITEMICON:{
                                 $order:2,
                                 className:'ui-icon {imageClass}',
-                                style:'{backgroundImage} {backgroundPosition} {imageDisplay}'
+                                style:'{backgroundImage} {backgroundPosition} {backgroundRepeat} {imageDisplay}'
                             },
                             ITEMCAPTION:{
                                 text : '&nbsp;{caption}',

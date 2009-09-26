@@ -1699,6 +1699,7 @@ Class("linb.UI",  "linb.absObj", {
                 'vertical-align':'middle',
                 width:'16px',
                 height:'16px',
+                'background-repeat':'no-repeat',
                 margin:'0 4px 0 2px'
             },
             '.uicmd-close, .uicmd-opt, .uicmd-land, .uicmd-toggle, .uicmd-toggle2, .uicmd-min, .uicmd-max,.uicmd-restore,.uicmd-pin, .uicmd-check, .uicmd-radio, .uicmd-add':{
@@ -2137,6 +2138,9 @@ Class("linb.UI",  "linb.absObj", {
             '.uibg-bar':{
                 'background-color':'#aad2fa'
             },
+            '.uiborder-flat':{
+                border:'solid 1px #648cb4'
+            },            
             '.uiborder-inset':{
                 border:'solid 1px',
                 'border-color':'#648cb4 #c8e1fa #c8e1fa #648cb4'
@@ -3203,6 +3207,9 @@ Class("linb.UI",  "linb.absObj", {
                 hashOut.backgroundImage="background-image:url("+ hashOut.image +");";
             if(hashOut.imagePos)
                 hashOut.backgroundPosition='background-position:'+hashOut.imagePos+';';
+            if(hashOut.imageRepeat)
+                hashOut.backgroundRepeat='background-repeat:'+hashOut.imageRepeat+';';
+
 
             if((typeof (o=hashOut.renderer)=='function') || (typeof (o=hashIn.renderer)=='function'))
                 hashOut.caption=o.call(profile,hashIn,hashOut);

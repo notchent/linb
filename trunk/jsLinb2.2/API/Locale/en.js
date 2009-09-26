@@ -8753,6 +8753,12 @@ _.set(linb.Locale,["en","doc","linb","UI","ComboInput"], {
             $desc:"Clears the popped UI cache.",
             $rtn:"[self]"
         },
+        expand:{
+            $desc:"Opens pop window."
+        },
+        collapse{
+            $desc:"Close pop window."
+        },
         getUploadObj:{
             $desc:"Gest the Object (picture or other binary file), that need to be uploaded.",
             $rtn:"linb.Dom",

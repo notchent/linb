@@ -131,7 +131,7 @@ Class("linb.UI.Dialog","linb.UI.Widget",{
                     ICON:{
                         $order:0,
                         className:'ui-icon {imageClass}',
-                        style:'{backgroundImage} {backgroundPosition} {imageDisplay}'
+                        style:'{backgroundImage} {backgroundPosition} {backgroundRepeat} {imageDisplay}'
                     },
                     CAPTION:{
                         $order:1,

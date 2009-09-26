@@ -21,7 +21,7 @@ Class("linb.UI.Label", "linb.UI.Widget",{
                 SICON:{
                     $order:0,
                     className:'ui-icon {imageClass}',
-                    style:'{backgroundImage} {backgroundPosition} {imageDisplay}'
+                    style:'{backgroundImage} {backgroundPosition} {backgroundRepeat} {imageDisplay}'
                 },
                 SCAPTION:{
                     text : '{caption}',
@@ -34,7 +34,7 @@ Class("linb.UI.Label", "linb.UI.Widget",{
                 ICON:{
                     $order:0,
                     className:'ui-icon {imageClass}',
-                    style:'{backgroundImage} {backgroundPosition} {imageDisplay}'
+                    style:'{backgroundImage} {backgroundPosition} {backgroundRepeat} {imageDisplay}'
                 },
                 CAPTION:{
                     text : '{caption}',
