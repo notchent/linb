@@ -11006,6 +11006,7 @@ Class("linb.UI",  "linb.absObj", {
                 'vertical-align':'middle',
                 width:'16px',
                 height:'16px',
+                'background-repeat':'no-repeat',
                 margin:'0 4px 0 2px'
             },
             '.uicmd-close, .uicmd-opt, .uicmd-land, .uicmd-toggle, .uicmd-toggle2, .uicmd-min, .uicmd-max,.uicmd-restore,.uicmd-pin, .uicmd-check, .uicmd-radio, .uicmd-add':{
@@ -11444,6 +11445,9 @@ Class("linb.UI",  "linb.absObj", {
             '.uibg-bar':{
                 'background-color':'#aad2fa'
             },
+            '.uiborder-flat':{
+                border:'solid 1px #648cb4'
+            },            
             '.uiborder-inset':{
                 border:'solid 1px',
                 'border-color':'#648cb4 #c8e1fa #c8e1fa #648cb4'
@@ -12510,6 +12514,9 @@ Class("linb.UI",  "linb.absObj", {
                 hashOut.backgroundImage="background-image:url("+ hashOut.image +");";
             if(hashOut.imagePos)
                 hashOut.backgroundPosition='background-position:'+hashOut.imagePos+';';
+            if(hashOut.imageRepeat)
+                hashOut.backgroundRepeat='background-repeat:'+hashOut.imageRepeat+';';
+
 
             if((typeof (o=hashOut.renderer)=='function') || (typeof (o=hashIn.renderer)=='function'))
                 hashOut.caption=o.call(profile,hashIn,hashOut);
@@ -15429,7 +15436,7 @@ Class("linb.UI.Label", "linb.UI.Widget",{
                 SICON:{
                     $order:0,
                     className:'ui-icon {imageClass}',
-                    style:'{backgroundImage} {backgroundPosition} {imageDisplay}'
+                    style:'{backgroundImage} {backgroundPosition} {backgroundRepeat} {imageDisplay}'
                 },
                 SCAPTION:{
                     text : '{caption}',
@@ -15442,7 +15449,7 @@ Class("linb.UI.Label", "linb.UI.Widget",{
                 ICON:{
                     $order:0,
                     className:'ui-icon {imageClass}',
-                    style:'{backgroundImage} {backgroundPosition} {imageDisplay}'
+                    style:'{backgroundImage} {backgroundPosition} {backgroundRepeat} {imageDisplay}'
                 },
                 CAPTION:{
                     text : '{caption}',
@@ -15737,7 +15744,7 @@ Class("linb.UI.Button", ["linb.UI.Widget","linb.absValue"],{
                                 ICON:{
                                     $order:1,
                                     className:'ui-icon {imageClass}',
-                                    style:'{backgroundImage} {backgroundPosition} {imageDisplay}'
+                                    style:'{backgroundImage} {backgroundPosition} {backgroundRepeat} {imageDisplay}'
                                 },
                                 CAPTION:{
                                     $order:2,
@@ -18270,6 +18277,16 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                     box._cache();
                 });
             });
+        },
+        expand:function(){
+            var profile=this.get(0);
+            if(profile.renderId)
+                profile.boxing()._drop();
+        },
+        collapse:function(){
+            var profile=this.get(0);
+            if(profile.renderId && profile.$poplink)
+                profile.boxing()._cache();
         }
     },
     /*Initialize*/
@@ -18666,11 +18683,16 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                     var o=this;
                     value = o.properties.items = o.box._adjustItems(value);
                     if(o.renderId){
-                        o.boxing().setValue(null,true);
+                        //clear those
                         o.SubSerialIdMapItem={};
                         o.ItemIdMapSubSerialId={};
                         o.box._prepareItems(o, value);
-                        o.boxing().clearPopCache();                            
+
+                        // if popped
+                        if(o.$poplink)
+                            o.$poplink.boxing().setItems(value).adjustSize();
+                        else
+                            o.boxing().clearPopCache();
                     }
                 }
             },
@@ -18931,7 +18953,7 @@ Class("linb.UI.Group", "linb.UI.Div",{
                         ICON:{
                             $order:1,
                             className:'ui-icon {imageClass}',
-                            style:'{backgroundImage} {backgroundPosition} {imageDisplay}'
+                            style:'{backgroundImage} {backgroundPosition} {backgroundRepeat} {imageDisplay}'
                         },
                         CAPTION : {
                             text:   '{caption}',
@@ -21245,7 +21267,7 @@ Class("linb.UI.Group", "linb.UI.Div",{
             ITEMS:{
                $order:10,
                tagName:'div',
-               className:'uiborder-inset',
+               className:'uiborder-flat',
                text:"{items}"
             },
             $submap:{
@@ -21259,7 +21281,7 @@ Class("linb.UI.Group", "linb.UI.Div",{
                         ICON:{
                             $order:10,
                             className:'ui-icon {imageClass}',
-                            style:'{backgroundImage} {backgroundPosition} {imageDisplay}'
+                            style:'{backgroundImage} {backgroundPosition} {backgroundRepeat} {imageDisplay}'
                         },
                         CAPTION:{
                             tagName : 'text',
@@ -21892,7 +21914,7 @@ Class("linb.UI.Panel", "linb.UI.Div",{
                         ICON:{
                             $order:0,
                             className:'ui-icon {imageClass}',
-                            style:'{backgroundImage} {backgroundPosition} {imageDisplay}'
+                            style:'{backgroundImage} {backgroundPosition} {backgroundRepeat} {imageDisplay}'
                         },
                         CAPTION:{
                             tagName: 'a',
@@ -22827,7 +22849,7 @@ Class("linb.UI.Tabs", ["linb.UI", "linb.absList","linb.absValue"],{
                                         ICON:{
                                             $order:0,
                                             className:'ui-icon {imageClass}',
-                                            style:'{backgroundImage} {backgroundPosition} {imageDisplay}'
+                                            style:'{backgroundImage} {backgroundPosition} {backgroundRepeat} {imageDisplay}'
                                         },
                                         CAPTION:{
                                             text: '{caption}',
@@ -23630,7 +23652,7 @@ Class("linb.UI.ButtonViews", "linb.UI.Tabs",{
                     ICON:{
                         $order:1,
                         className:'ui-icon {imageClass}',
-                        style:'{backgroundImage} {backgroundPosition} {imageDisplay}'
+                        style:'{backgroundImage} {backgroundPosition} {backgroundRepeat} {imageDisplay}'
                     },
                     CAPTION:{
                         text : '{caption}',
@@ -23886,7 +23908,7 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
                             ITEMICON:{
                                 $order:2,
                                 className:'ui-icon {imageClass}',
-                                style:'{backgroundImage} {backgroundPosition} {imageDisplay}'
+                                style:'{backgroundImage} {backgroundPosition} {backgroundRepeat} {imageDisplay}'
                             },
                             ITEMCAPTION:{
                                 text : '&nbsp;{caption}',
@@ -24589,7 +24611,7 @@ Class("linb.UI.PopMenu",["linb.UI.Widget","linb.absList"],{
                     ICON:{
                         $order:0,
                         className:'ui-icon {imageClass}',
-                        style:'{backgroundImage} {backgroundPosition} {imageDisplay}'
+                        style:'{backgroundImage} {backgroundPosition} {backgroundRepeat} {imageDisplay}'
                     },
                     CAPTION:{
                         text : '{caption}',
@@ -25214,7 +25236,7 @@ Class("linb.UI.MenuBar",["linb.UI","linb.absList" ],{
                                     ICON:{
                                         $order:1,
                                         className:'ui-icon {imageClass}',
-                                        style:'{backgroundImage} {backgroundPosition} {imageDisplay}'
+                                        style:'{backgroundImage} {backgroundPosition} {backgroundRepeat} {imageDisplay}'
                                     },
                                     CAPTION:{
                                         $order:2,
@@ -25605,7 +25627,7 @@ Class("linb.UI.ToolBar",["linb.UI","linb.absList"],{
                                                 ICON:{
                                                     $order:1,
                                                     className:'ui-icon {imageClass}',
-                                                    style:'{backgroundImage} {backgroundPosition} {imageDisplay}'
+                                                    style:'{backgroundImage} {backgroundPosition} {backgroundRepeat}  {imageDisplay}'
                                                 },
                                                 CAPTION:{
                                                     $order:2,
@@ -26845,8 +26867,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
         },
         _refreshHeader:function(header){
             var profile=this.get(0),
-                pro=profile.properties,
-                rows = this.getRows('data');
+                pro=profile.properties;
 
             _.breakO(profile.colMap,2);
 
@@ -26857,14 +26878,12 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
 
             var arr = profile.box._prepareHeader(profile, header);
 
-            var ol=pro.header && pro.header.length;
             pro.header = header;
             this.removeAllRows();
             profile.getSubNode('HCELL', true).remove();
             if(arr.length)
                 profile.getSubNode('HCELLS').append(profile._buildItems('header', arr));
-            if(ol===arr.length && rows.length)
-                this.insertRows(rows);
+
             profile.box._ajdustBody(profile);
 
             if(profile.$col_pop){
@@ -30499,7 +30518,7 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
                     ICON:{
                         $order:0,
                         className:'ui-icon {imageClass}',
-                        style:'{backgroundImage} {backgroundPosition} {imageDisplay}'
+                        style:'{backgroundImage} {backgroundPosition} {backgroundRepeat} {imageDisplay}'
                     },
                     CAPTION:{
                         $order:1,
