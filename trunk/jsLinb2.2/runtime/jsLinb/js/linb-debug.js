@@ -1695,28 +1695,25 @@ Class('linb.IAjax','linb.absIO',{
                 //in opera, "set location" will trigger location=='about:blank' at first
                 if(linb.browser.opr)try{if(w.location=='about:blank')return}catch(e){}
                 var data;
-                try{
-                    w.location=c._getDummy()+'#'+linb.ini.dummy_tag;
-                    if(w.name==self.id){
-                        //clear first
-                        self._clear();
-                        self.$e('no response');
-                    }else
-                        data=w.name;
-                }catch(e){}
+                w.location=c._getDummy()+'#'+linb.ini.dummy_tag;
+                if(self.id==w.name){
+                    //clear first
+                    self._clear();
+                    self.$e('No return');
+                }else{
+                    data=w.name;
+                    w.name=self.id;
+                }
 
-                if(data){
-                    o=_.unserialize(data);
-                    if(o&&(t=c._pool[o[c.randkey]]))
-                        for(var i=0,l=t.length;i<l;i++){
-                            t[i]._response=o;
-                            t[i]._onResponse();
-                        }
-                    else{
-                        //clear first
-                        self._clear();
-                        self.$e(data);
+                if(data && (o=_.unserialize(data)) && (t=c._pool[o[c.randkey]]) ){
+                    for(var i=0,l=t.length;i<l;i++){
+                        t[i]._response=o;
+                        t[i]._onResponse();
                     }
+                }else{
+                    //clear first
+                    self._clear();
+                    self.$e('Not json format->'+data);
                 }
             };
 
