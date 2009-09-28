@@ -664,7 +664,7 @@ _.merge(linb,{
     $langId:'linblangkey',
     setDateFormat:function(format){linb.$dateFormat=format},
     getDateFormat:function(){return linb.$dateFormat},
-    
+
     setAppLangKey:function(key){linb.$appLangKey=key},
     getAppLangKey:function(key){return linb.$appLangKey},
     getLang:function(){return linb.$lang},
@@ -1694,27 +1694,29 @@ Class('linb.IAjax','linb.absIO',{
                 var w=self.node.contentWindow,c=linb.IAjax,o,t;
                 //in opera, "set location" will trigger location=='about:blank' at first
                 if(linb.browser.opr)try{if(w.location=='about:blank')return}catch(e){}
-                var data;
-                w.location=c._getDummy()+'#'+linb.ini.dummy_tag;
-                if(self.id==w.name){
-                    //clear first
-                    self._clear();
-                    self.$e('No return');
-                }else{
-                    data=w.name;
-                    w.name=self.id;
-                }
 
-                if(data && (o=_.unserialize(data)) && (t=c._pool[o[c.randkey]]) ){
-                    for(var i=0,l=t.length;i<l;i++){
-                        t[i]._response=o;
-                        t[i]._onResponse();
+                w.location=c._getDummy()+'#'+linb.ini.dummy_tag;
+                // for in firefox3, we have to asyRun to get the window.name
+                _.asyRun(function(){
+                    var data;
+                    if(self.id==w.name){
+                        //clear first
+                        self._clear();
+                        self.$e('No return');
+                    }else
+                        data=w.name;
+    
+                    if(data && (o=_.unserialize(data)) && (t=c._pool[o[c.randkey]]) ){
+                        for(var i=0,l=t.length;i<l;i++){
+                            t[i]._response=o;
+                            t[i]._onResponse();
+                        }
+                    }else{
+                        //clear first
+                        self._clear();
+                        self.$e('Not json format->'+data);
                     }
-                }else{
-                    //clear first
-                    self._clear();
-                    self.$e('Not json format->'+data);
-                }
+                });
             };
 
             //create form
