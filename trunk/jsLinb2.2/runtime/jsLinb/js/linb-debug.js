@@ -26887,10 +26887,16 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
 
             profile.box._ajdustBody(profile);
 
+            // clear collist cache
             if(profile.$col_pop){
                 profile.$col_pop.destroy();
                 delete profile.$col_pop;
             }
+            //clear editor cache
+            _.each(profile.$cache_editor,function(o){
+                o.destroy();
+            });
+            profile.$cache_editor={};
         },
         _expendRows:function(rows){
             var self=this;
@@ -29479,6 +29485,7 @@ sortby [for column only]
             if(!cell)return;
 
             var cellNode = profile.getSubNode('CELL', cellId),
+                colId = cell._col.id,
                 editor = profile.$curEditor;
 
             //clear the prev editor
@@ -29503,8 +29510,8 @@ sortby [for column only]
 
             //try to get editor from cache
             //triggers beforeIniEditor event once only if the editor is a linb.UI.ComboInput/Input.
-            if(profile.$cache_editor[type])
-                editor=profile.$cache_editor[type];
+            if(profile.$cache_editor[colId])
+                editor=profile.$cache_editor[colId];
             //create editor
             else{
                 //beforeIniEditor, return false or a editor(linb.UI object)
@@ -29554,7 +29561,7 @@ sortby [for column only]
                 }
                 baseNode.append(editor);
                 //cache the editor
-                profile.$cache_editor[type] = editor;
+                profile.$cache_editor[colId] = editor;
             }
 
             //set properities
