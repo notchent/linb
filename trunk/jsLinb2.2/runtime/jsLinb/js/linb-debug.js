@@ -10110,8 +10110,16 @@ Class('linb.UIProfile','linb.Profile', {
         //flag : remove from cache
         getSubNode:function(key, subId){
             var self=this;
-                key=self.keys[key] || key;
-            var r,t,s,h=self.$_domid||(self.$_domid={});
+
+            // destroyed already
+            if(!self.renderId)return linb();
+            
+            var key=self.keys[key] || key,
+                r,
+                t,
+                s,
+                h=self.$_domid||(self.$_domid={});
+                
 
             // by key only
             if(subId===true)
