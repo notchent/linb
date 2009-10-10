@@ -226,7 +226,7 @@ Class("linb.UI.List", ["linb.UI", "linb.absList","linb.absValue" ],{
                                 rt=false;
                             else{
                                 box.setUIValue(value);
-                                if(box.getUIValue() == value)
+                                if(box.get(0) && box.getUIValue() == value)
                                     rt=box.onItemSelected(profile, item, src)||rt2;
                             }
                             break;
@@ -237,7 +237,7 @@ Class("linb.UI.List", ["linb.UI", "linb.absList","linb.absValue" ],{
                         else{
                             profile.$firstV=item;
                             box.setUIValue(item.id);
-                            if(box.getUIValue() == item.id)
+                            if(box.get(0) && box.getUIValue() == item.id)
                                 rt=box.onItemSelected(profile, item, src);
                         }
                         break;

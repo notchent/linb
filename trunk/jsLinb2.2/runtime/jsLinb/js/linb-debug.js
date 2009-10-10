@@ -21387,7 +21387,7 @@ Class("linb.UI.Group", "linb.UI.Div",{
                                 rt=false;
                             else{
                                 box.setUIValue(value);
-                                if(box.getUIValue() == value)
+                                if(box.get(0) && box.getUIValue() == value)
                                     rt=box.onItemSelected(profile, item, src)||rt2;
                             }
                             break;
@@ -21398,7 +21398,7 @@ Class("linb.UI.Group", "linb.UI.Div",{
                         else{
                             profile.$firstV=item;
                             box.setUIValue(item.id);
-                            if(box.getUIValue() == item.id)
+                            if(box.get(0) && box.getUIValue() == item.id)
                                 rt=box.onItemSelected(profile, item, src);
                         }
                         break;
@@ -24094,7 +24094,7 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
                                 rt=false;
                             else{
                                 box.setUIValue(value);
-                                if(box.getUIValue() == value)
+                                if(box.get(0) && box.getUIValue() == value)
                                     rt=box.onItemSelected(profile, item, src)||rt2;
                             }
                             break;
@@ -24105,7 +24105,7 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
                         else{
                             profile.$firstV=item;
                             box.setUIValue(item.id);
-                            if(box.getUIValue() == item.id)
+                            if(box.get(0) && box.getUIValue() == item.id)
                                 rt=box.onItemSelected(profile, item, src);
                         }
                         break;
@@ -29424,7 +29424,7 @@ sortby [for column only]
                         rt=false;
                     else{
                         box.setUIValue(value);
-                        if(box.getUIValue() == value)
+                        if(box.get(0) && box.getUIValue() == value)
                             rt=box.onRowSelected(profile, targetItem, src);
                     }
                     break;
@@ -29435,7 +29435,7 @@ sortby [for column only]
                 else{
                     profile.$firstV=targetItem;
                     box.setUIValue(sid);
-                    if(box.getUIValue() == sid)
+                    if(box.get(0) && box.getUIValue() == sid)
                         rt=box.onRowSelected(profile, targetItem, src)||rt2;
                 }
                 break;
@@ -29510,8 +29510,8 @@ sortby [for column only]
 
             //try to get editor from cache
             //triggers beforeIniEditor event once only if the editor is a linb.UI.ComboInput/Input.
-            if(profile.$cache_editor[colId])
-                editor=profile.$cache_editor[colId];
+            if(profile.$cache_editor[type])
+                editor=profile.$cache_editor[type];
             //create editor
             else{
                 //beforeIniEditor, return false or a editor(linb.UI object)
@@ -29522,7 +29522,7 @@ sortby [for column only]
                         return;
                 }
                 if(!editor || !editor['linb.UI'])
-                    editor=new linb.UI.ComboInput({dirtyMark:false,left:-1000,top:-1000,position:'absolute',visibility:'hidden',zIndex:100});
+                    editor=new linb.UI.ComboInput({dirtyMark:false,cachePopWnd:false,left:-1000,top:-1000,position:'absolute',visibility:'hidden',zIndex:100});
                 switch(type){
                     case 'number':
                         editor.setType('none').setCustomStyle('INPUT',"text-align:right;").setValueFormat("^-?(\\d\\d*\\.\\d*$)|(^-?\\d\\d*$)|(^-?\\.\\d\\d*$)");
@@ -29561,7 +29561,7 @@ sortby [for column only]
                 }
                 baseNode.append(editor);
                 //cache the editor
-                profile.$cache_editor[colId] = editor;
+                profile.$cache_editor[type] = editor;
             }
 
             //set properities
