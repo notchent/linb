@@ -807,13 +807,13 @@ Class('linb.UIProfile','linb.Profile', {
 
             // destroyed already
             if(!self.renderId)return linb();
-            
+
             var key=self.keys[key] || key,
                 r,
                 t,
                 s,
                 h=self.$_domid||(self.$_domid={});
-                
+
 
             // by key only
             if(subId===true)
@@ -2148,7 +2148,7 @@ Class("linb.UI",  "linb.absObj", {
             },
             '.uiborder-flat':{
                 border:'solid 1px #648cb4'
-            },            
+            },
             '.uiborder-inset':{
                 border:'solid 1px',
                 'border-color':'#648cb4 #c8e1fa #c8e1fa #648cb4'
@@ -3539,10 +3539,12 @@ Class("linb.UI",  "linb.absObj", {
                                         //for safari
                                         try{
                                             o.node.cssRegion(o, true);
-
-                                            if((profile=linb.UIProfile.getFromDom(o.node.get(0))) && profile.onDock){
+                                            if(profile=linb.UIProfile.getFromDom(o.node.get(0))){
                                                 delete o.node;
-                                                profile.boxing().onDock(profile,o);
+                                                if(profile.onResize && (o.width!==null||o.height!==null))
+                                                    profile.boxing().onResize(profile,o.width,o.height);
+                                                if(profile.onDock)
+                                                    profile.boxing().onDock(profile,o);
                                             }
                                         }catch(e){
                                             _.asyRun(function(){
@@ -3551,9 +3553,12 @@ Class("linb.UI",  "linb.absObj", {
                                                 o.width-=1;o.height-=1;
                                                 o.node.cssRegion(o, true);
 
-                                                if((profile=linb.UIProfile.getFromDom(o.node.get(0))) && profile.onDock){
+                                                if(profile=linb.UIProfile.getFromDom(o.node.get(0))){
                                                     delete o.node;
-                                                    profile.boxing().onDock(profile,o);
+                                                    if(profile.onResize && (o.width!==null||o.height!==null))
+                                                        profile.boxing().onResize(profile,o.width,o.height);
+                                                    if(profile.onDock)
+                                                        profile.boxing().onDock(profile,o);
                                                 }
                                             })
                                         }

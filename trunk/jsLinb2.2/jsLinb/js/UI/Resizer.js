@@ -80,11 +80,12 @@ Class("linb.UI.Resizer","linb.UI",{
                     var update = function(pro, target, size, cssPos){
                         var profile=arguments.callee.profile,
                             node=profile.getRoot(),
+                            instance=profile.boxing(),
                             prop=profile.properties,
                             t
                         ;
                         if(size){
-                            var w=null,h=null;
+                            var w=null,h=null,l=null,t=null;
                             if(t=size.width){
                                 node.widthBy(t);
                                 prop.width = w = node.width();
@@ -94,6 +95,8 @@ Class("linb.UI.Resizer","linb.UI",{
                                 prop.height = h = node.height();
                             }
                             linb.UI.$tryResize(profile,w,h,true);
+                            if(profile.onResize && (w!==null||h!==null))
+                                instance.onResize(profile,w,h);
                         }
                         if(cssPos){
                             if((t=cssPos.left) && !(prop.left=='auto'&&parseInt(prop.right)>=0)){
@@ -104,12 +107,14 @@ Class("linb.UI.Resizer","linb.UI",{
                                 node.topBy(t);
                                 prop.top = node.top();
                             }
+                            if(profile.onMove && (l!==null||t!==null))
+                                instance.onMove(profile,l,t,null,null);
                         }
                     };
                     update.profile = o;
 
                     o.$resizer = target.addResizer(args, update);
-                    
+
                     o.$resizer.get(0).$parentUIProfile=o;
                 });
             },
@@ -564,7 +569,7 @@ Class("linb.UI.Resizer","linb.UI",{
             });
         },
         _onDragbegin:function(profile, e){
-            var 
+            var
             //set target to specific target
             //or, set target to resizer
             o = profile.properties._attached?profile._target:linb([profile.renderId]),

@@ -158,7 +158,7 @@ Class("linb.UI.Dialog","linb.UI.Widget",{
                         className:'uicmd-land',
                         style:'{landDisplay}'
                     },
-                    
+
                     MIN:{
                         $order:4,
                         className:'uicmd-min',
@@ -227,7 +227,7 @@ Class("linb.UI.Dialog","linb.UI.Widget",{
             }
         },'all');
         ns.setTemplate(t);
-        
+
         linb.alert=ns.alert;
         linb.confirm=ns.confirm;
         linb.pop=ns.pop;
@@ -265,9 +265,14 @@ Class("linb.UI.Dialog","linb.UI.Widget",{
             },
 
             onDragstop:function(profile){
-                var pos = profile.getRoot().cssPos(),p=profile.properties;
-                p.left = pos.left;
-                p.top = pos.top;
+                var pos = profile.getRoot().cssPos(),p=profile.properties,l=null,t=null;
+                if(p.left !== pos.left)
+                    p.left = l = pos.left;
+                if(p.top !== pos.top)
+                    p.top = t = pos.top;
+
+                if(profile.onMove && (l!==null||t!==null))
+                    profile.boxing().onMove(profile,l,t,null,null);
             },
             TBAR:{
                 onMousedown:function(profile, e, src){
@@ -533,6 +538,9 @@ Class("linb.UI.Dialog","linb.UI.Widget",{
                 h=profile.getSubNode('TBAR').height();
             // resize
             o.cssSize({ width :t.minWidth, height :h+h1-h2},true);
+
+            if(profile.onResize)
+                profile.boxing().onResize(profile,t.minWidth,h+h1-h2);
         },
         _max:function(profile,status){
             var o=profile.getRoot(),
@@ -608,6 +616,9 @@ Class("linb.UI.Dialog","linb.UI.Widget",{
 
             ins.setDock('none');
 
+            if(profile.onResize)
+                profile.boxing().onResize(profile,t.width,t.height);
+
             // resize
             linb.UI.$tryResize(profile, t.width, t.height,true);
         },
@@ -628,6 +639,10 @@ Class("linb.UI.Dialog","linb.UI.Widget",{
             }
 
             profile.getRoot().cssSize({width:t.width, height:t.height});
+
+            if(profile.onResize)
+                profile.boxing().onResize(profile,t.width,t.height);
+
             // resize
             linb.UI.$tryResize(profile, t.width, t.height,true);
         },
@@ -642,7 +657,7 @@ Class("linb.UI.Dialog","linb.UI.Widget",{
                     t1=o.topZindex(),
                     t2=o.css('zIndex');
                 o.css('zIndex',t1>t2?t1:t2);
-    
+
                 profile.getSubNode('TBAR').tagClass('-focus');
                 self.activeWndId = profile.$linbid;
             }
@@ -762,7 +777,7 @@ Class("linb.UI.Dialog","linb.UI.Widget",{
             h=size.height+90;
             dialog.setCaption(caption).setWidth(w).setHeight(h);
             dialog.$cmd.reBoxing().left((size.width + 30 - dialog.$cmd.reBoxing().width())/2);
-            
+
             linb.UI.$doResize(dialog.get(0), w, h);
         },
         alert:function(title, content, onClose, left, top){

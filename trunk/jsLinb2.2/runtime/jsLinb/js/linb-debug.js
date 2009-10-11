@@ -10113,13 +10113,13 @@ Class('linb.UIProfile','linb.Profile', {
 
             // destroyed already
             if(!self.renderId)return linb();
-            
+
             var key=self.keys[key] || key,
                 r,
                 t,
                 s,
                 h=self.$_domid||(self.$_domid={});
-                
+
 
             // by key only
             if(subId===true)
@@ -11454,7 +11454,7 @@ Class("linb.UI",  "linb.absObj", {
             },
             '.uiborder-flat':{
                 border:'solid 1px #648cb4'
-            },            
+            },
             '.uiborder-inset':{
                 border:'solid 1px',
                 'border-color':'#648cb4 #c8e1fa #c8e1fa #648cb4'
@@ -12845,10 +12845,12 @@ Class("linb.UI",  "linb.absObj", {
                                         //for safari
                                         try{
                                             o.node.cssRegion(o, true);
-
-                                            if((profile=linb.UIProfile.getFromDom(o.node.get(0))) && profile.onDock){
+                                            if(profile=linb.UIProfile.getFromDom(o.node.get(0))){
                                                 delete o.node;
-                                                profile.boxing().onDock(profile,o);
+                                                if(profile.onResize && (o.width!==null||o.height!==null))
+                                                    profile.boxing().onResize(profile,o.width,o.height);
+                                                if(profile.onDock)
+                                                    profile.boxing().onDock(profile,o);
                                             }
                                         }catch(e){
                                             _.asyRun(function(){
@@ -12857,9 +12859,12 @@ Class("linb.UI",  "linb.absObj", {
                                                 o.width-=1;o.height-=1;
                                                 o.node.cssRegion(o, true);
 
-                                                if((profile=linb.UIProfile.getFromDom(o.node.get(0))) && profile.onDock){
+                                                if(profile=linb.UIProfile.getFromDom(o.node.get(0))){
                                                     delete o.node;
-                                                    profile.boxing().onDock(profile,o);
+                                                    if(profile.onResize && (o.width!==null||o.height!==null))
+                                                        profile.boxing().onResize(profile,o.width,o.height);
+                                                    if(profile.onDock)
+                                                        profile.boxing().onDock(profile,o);
                                                 }
                                             })
                                         }
@@ -14704,11 +14709,12 @@ Class("linb.UI.Resizer","linb.UI",{
                     var update = function(pro, target, size, cssPos){
                         var profile=arguments.callee.profile,
                             node=profile.getRoot(),
+                            instance=profile.boxing(),
                             prop=profile.properties,
                             t
                         ;
                         if(size){
-                            var w=null,h=null;
+                            var w=null,h=null,l=null,t=null;
                             if(t=size.width){
                                 node.widthBy(t);
                                 prop.width = w = node.width();
@@ -14718,6 +14724,8 @@ Class("linb.UI.Resizer","linb.UI",{
                                 prop.height = h = node.height();
                             }
                             linb.UI.$tryResize(profile,w,h,true);
+                            if(profile.onResize && (w!==null||h!==null))
+                                instance.onResize(profile,w,h);
                         }
                         if(cssPos){
                             if((t=cssPos.left) && !(prop.left=='auto'&&parseInt(prop.right)>=0)){
@@ -14728,12 +14736,14 @@ Class("linb.UI.Resizer","linb.UI",{
                                 node.topBy(t);
                                 prop.top = node.top();
                             }
+                            if(profile.onMove && (l!==null||t!==null))
+                                instance.onMove(profile,l,t,null,null);
                         }
                     };
                     update.profile = o;
 
                     o.$resizer = target.addResizer(args, update);
-                    
+
                     o.$resizer.get(0).$parentUIProfile=o;
                 });
             },
@@ -15188,7 +15198,7 @@ Class("linb.UI.Resizer","linb.UI",{
             });
         },
         _onDragbegin:function(profile, e){
-            var 
+            var
             //set target to specific target
             //or, set target to resizer
             o = profile.properties._attached?profile._target:linb([profile.renderId]),
@@ -30561,7 +30571,7 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
                         className:'uicmd-land',
                         style:'{landDisplay}'
                     },
-                    
+
                     MIN:{
                         $order:4,
                         className:'uicmd-min',
@@ -30630,7 +30640,7 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
             }
         },'all');
         ns.setTemplate(t);
-        
+
         linb.alert=ns.alert;
         linb.confirm=ns.confirm;
         linb.pop=ns.pop;
@@ -30668,9 +30678,14 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
             },
 
             onDragstop:function(profile){
-                var pos = profile.getRoot().cssPos(),p=profile.properties;
-                p.left = pos.left;
-                p.top = pos.top;
+                var pos = profile.getRoot().cssPos(),p=profile.properties,l=null,t=null;
+                if(p.left !== pos.left)
+                    p.left = l = pos.left;
+                if(p.top !== pos.top)
+                    p.top = t = pos.top;
+
+                if(profile.onMove && (l!==null||t!==null))
+                    profile.boxing().onMove(profile,l,t,null,null);
             },
             TBAR:{
                 onMousedown:function(profile, e, src){
@@ -30936,6 +30951,9 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
                 h=profile.getSubNode('TBAR').height();
             // resize
             o.cssSize({ width :t.minWidth, height :h+h1-h2},true);
+
+            if(profile.onResize)
+                profile.boxing().onResize(profile,t.minWidth,h+h1-h2);
         },
         _max:function(profile,status){
             var o=profile.getRoot(),
@@ -31011,6 +31029,9 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
 
             ins.setDock('none');
 
+            if(profile.onResize)
+                profile.boxing().onResize(profile,t.width,t.height);
+
             // resize
             linb.UI.$tryResize(profile, t.width, t.height,true);
         },
@@ -31031,6 +31052,10 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
             }
 
             profile.getRoot().cssSize({width:t.width, height:t.height});
+
+            if(profile.onResize)
+                profile.boxing().onResize(profile,t.width,t.height);
+
             // resize
             linb.UI.$tryResize(profile, t.width, t.height,true);
         },
@@ -31045,7 +31070,7 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
                     t1=o.topZindex(),
                     t2=o.css('zIndex');
                 o.css('zIndex',t1>t2?t1:t2);
-    
+
                 profile.getSubNode('TBAR').tagClass('-focus');
                 self.activeWndId = profile.$linbid;
             }
@@ -31165,7 +31190,7 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
             h=size.height+90;
             dialog.setCaption(caption).setWidth(w).setHeight(h);
             dialog.$cmd.reBoxing().left((size.width + 30 - dialog.$cmd.reBoxing().width())/2);
-            
+
             linb.UI.$doResize(dialog.get(0), w, h);
         },
         alert:function(title, content, onClose, left, top){
