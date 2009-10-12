@@ -1689,11 +1689,13 @@ Class('linb.IAjax','linb.absIO',{
             //use window.name
             self._onload = onload = function(id){
                 //in some situation, this function will be triggered twice.
+                if(self.OK)return;
                 //in IE/opera, "setting an image file as dummy" will trigger the second onload event with 'self.node == null'
                 if(!self.node)return;
                 var w=self.node.contentWindow,c=linb.IAjax,o,t;
                 //in opera, "set location" will trigger location=='about:blank' at first
                 if(linb.browser.opr)try{if(w.location=='about:blank')return}catch(e){}
+                self.OK=1;
 
                 w.location=c._getDummy()+'#'+linb.ini.dummy_tag;
                 // for in firefox3, we have to asyRun to get the window.name
