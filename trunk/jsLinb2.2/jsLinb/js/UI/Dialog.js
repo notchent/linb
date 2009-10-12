@@ -538,9 +538,6 @@ Class("linb.UI.Dialog","linb.UI.Widget",{
                 h=profile.getSubNode('TBAR').height();
             // resize
             o.cssSize({ width :t.minWidth, height :h+h1-h2},true);
-
-            if(profile.onResize)
-                profile.boxing().onResize(profile,t.minWidth,h+h1-h2);
         },
         _max:function(profile,status){
             var o=profile.getRoot(),
@@ -616,9 +613,6 @@ Class("linb.UI.Dialog","linb.UI.Widget",{
 
             ins.setDock('none');
 
-            if(profile.onResize)
-                profile.boxing().onResize(profile,t.width,t.height);
-
             // resize
             linb.UI.$tryResize(profile, t.width, t.height,true);
         },
@@ -639,10 +633,6 @@ Class("linb.UI.Dialog","linb.UI.Widget",{
             }
 
             profile.getRoot().cssSize({width:t.width, height:t.height});
-
-            if(profile.onResize)
-                profile.boxing().onResize(profile,t.width,t.height);
-
             // resize
             linb.UI.$tryResize(profile, t.width, t.height,true);
         },

@@ -1573,7 +1573,8 @@ Class("linb.UI",  "linb.absObj", {
                     self.getRoot()[o]?self.getRoot()[o](value):linb.Dom._setPxStyle(self.getRootNode(),o,value);
                     if(p.dock!='none')_.tryF(self.$dock,[self, args],self);
                     if(o=='width'||o=='height'){
-                        if(self.onResize)
+                        // for no _onresize widget only
+                        if(!self.box._onresize && self.onResize)
                             self.boxing().onResize(self,o=='width'?value:null,o=='height'?value:null)
                     }else{
                         if(self.onMove)
@@ -3339,6 +3340,10 @@ Class("linb.UI",  "linb.absObj", {
                 profile._resize_w=w;
                 profile._resize_h=h;
                 _.tryF(profile.box._onresize,[profile,w,h,force,key],profile.box);
+
+                // for have _onresize widget only
+                if(profile.onResize)
+                    profile.boxing().onResize(profile,w,h);
             }
             //to prevent the functioin in $tryResize
             if(profile._$resizetimer){
@@ -3541,7 +3546,8 @@ Class("linb.UI",  "linb.absObj", {
                                             o.node.cssRegion(o, true);
                                             if(profile=linb.UIProfile.getFromDom(o.node.get(0))){
                                                 delete o.node;
-                                                if(profile.onResize && (o.width!==null||o.height!==null))
+                                                // for no _onresize widget only
+                                                if(!profile.box._onresize && profile.onResize && (o.width!==null||o.height!==null))
                                                     profile.boxing().onResize(profile,o.width,o.height);
                                                 if(profile.onDock)
                                                     profile.boxing().onDock(profile,o);
@@ -3555,7 +3561,8 @@ Class("linb.UI",  "linb.absObj", {
 
                                                 if(profile=linb.UIProfile.getFromDom(o.node.get(0))){
                                                     delete o.node;
-                                                    if(profile.onResize && (o.width!==null||o.height!==null))
+                                                    // for no _onresize widget only
+                                                    if(!profile.box._onresize && profile.onResize && (o.width!==null||o.height!==null))
                                                         profile.boxing().onResize(profile,o.width,o.height);
                                                     if(profile.onDock)
                                                         profile.boxing().onDock(profile,o);

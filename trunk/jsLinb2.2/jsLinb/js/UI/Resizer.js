@@ -95,7 +95,9 @@ Class("linb.UI.Resizer","linb.UI",{
                                 prop.height = h = node.height();
                             }
                             linb.UI.$tryResize(profile,w,h,true);
-                            if(profile.onResize && (w!==null||h!==null))
+
+                            // for no _onresize widget only
+                            if(!profile.box._onresize && profile.onResize && (w!==null||h!==null))
                                 instance.onResize(profile,w,h);
                         }
                         if(cssPos){
