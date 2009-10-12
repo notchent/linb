@@ -366,7 +366,7 @@ Class('VisualJS.Designer', 'linb.Com',{
                                         case 'height':
                                             b=true;
                                         default:
-                                            w = _refresh(widget,'width',size);
+                                            w = page._refresh(widget,'width',size);
                                         }
                                 }
                             }
@@ -387,7 +387,7 @@ Class('VisualJS.Designer', 'linb.Com',{
                                         case 'width':
                                             b=true;
                                         default:
-                                            h = _refresh(widget,'height',size);
+                                            h = page._refresh(widget,'height',size);
                                     }
                                 }
                             }
@@ -414,7 +414,7 @@ Class('VisualJS.Designer', 'linb.Com',{
                                     case 'height':
                                         b=true;
                                     default:
-                                        x = _refresh(widget,'left',cssPos);
+                                        x = page._refresh(widget,'left',cssPos);
                                     }
                                 }
                             }
@@ -435,7 +435,7 @@ Class('VisualJS.Designer', 'linb.Com',{
                                     case 'width':
                                         b=true;
                                      default:
-                                        y = _refresh(widget,'top',cssPos);
+                                        y = page._refresh(widget,'top',cssPos);
                                     }
                                 }
                             }
