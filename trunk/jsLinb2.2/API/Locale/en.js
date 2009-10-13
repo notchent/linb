@@ -8756,7 +8756,7 @@ _.set(linb.Locale,["en","doc","linb","UI","ComboInput"], {
         expand:{
             $desc:"Opens pop window."
         },
-        collapse{
+        collapse:{
             $desc:"Close pop window."
         },
         getUploadObj:{

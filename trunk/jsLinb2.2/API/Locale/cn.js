@@ -8776,7 +8776,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","ComboInput"], {
         expand:{
             $desc:"打开弹出窗口."
         },
-        collapse{
+        collapse:{
             $desc:"关闭弹出窗口."
         },
         getUploadObj:{
