@@ -1700,6 +1700,10 @@ Class('linb.IAjax','linb.absIO',{
                 w.location=c._getDummy()+'#'+linb.ini.dummy_tag;
                 // for in firefox3, we have to asyRun to get the window.name
                 _.asyRun(function(){
+                    try{w.name}catch(e){
+                        _.asyRun(arguments.callee);
+                        return;
+                    }
                     var data;
                     if(self.id==w.name){
                         //clear first
