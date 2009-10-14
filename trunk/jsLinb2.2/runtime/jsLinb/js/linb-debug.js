@@ -31170,7 +31170,7 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
             if(!linb.Dom.byId(ID)){
                 n2 = me._cache=node.clone(false);
                 linb('body').append(n2);
-                n2.css({width:'auto',height:'auto',overflow:'visible',position:'absolute',visibility:'visible',left:linb.Dom.HIDE_VALUE})
+                n2.css({width:'auto',height:'auto',overflow:'visible',position:'absolute',visibility:'visible',left:linb.Dom.HIDE_VALUE,top:linb.Dom.HIDE_VALUE})
                 .id(ID,true);
             }
             var n2 = me._cache;
@@ -31185,6 +31185,7 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
                 size.height = n2.offsetHeight() + 10;
                 n2.width('auto');
             }
+            n2.html("",false);
             if(size.height>400)size.height=400;
             if(size.width<150)size.width=150;
             if(size.height<30)size.height=30;
