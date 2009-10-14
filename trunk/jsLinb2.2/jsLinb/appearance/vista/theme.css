@@ -314,7 +314,7 @@ html, .uibg-base{
 
 /*linb.UI.TreeBar*/
 .linb-treebar-bar{
-    border-color:#F2F2F2 #3C5064 #3C5064 #3C5064;
+    border-color:#F2F2F2 #3C5064 #3C5064 #F2F2F2;
     background-color:#E1F5FE;
 }
 .linb-treebar-bar-mouseover{

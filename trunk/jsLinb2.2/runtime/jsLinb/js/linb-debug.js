@@ -21989,6 +21989,7 @@ Class("linb.UI.Panel", "linb.UI.Div",{
                         className:'uicon-maini',
                         PANEL:{
                             tagName:'div',
+                            className:'uiborder-inset',
                             style:'{panelDisplay}',
                             text:'{html}'+linb.UI.$childTag
                         }
@@ -23987,7 +23988,7 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
                'font-size':'12px',
                padding:'2px 4px',
                border: '1px solid',
-               'border-color':'#EDF4FC #698AB3 #698AB3 #698AB3',
+               'border-color':'#EDF4FC #698AB3 #698AB3 #EDF4FC',
                'background-color':'#CCE4FC'
             },
             DISABLED:{

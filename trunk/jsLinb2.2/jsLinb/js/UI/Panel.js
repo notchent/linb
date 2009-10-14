@@ -102,6 +102,7 @@ Class("linb.UI.Panel", "linb.UI.Div",{
                         className:'uicon-maini',
                         PANEL:{
                             tagName:'div',
+                            className:'uiborder-inset',
                             style:'{panelDisplay}',
                             text:'{html}'+linb.UI.$childTag
                         }

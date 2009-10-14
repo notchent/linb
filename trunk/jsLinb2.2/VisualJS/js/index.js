@@ -454,7 +454,6 @@ Class('VisualJS', 'linb.Com',{
             .host(t,"treebarPrj")
             .setSelMode("none")
             .setPosition("relative")
-            .setDock("none")
             .setWidth('auto')
             .setHeight('auto')
             .setItems([])
