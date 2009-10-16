@@ -365,15 +365,22 @@ Class("linb.DataBinder","linb.absObj",{
         checkValid:function(){
             return linb.absValue.pack(this.get(0)._n,false).checkValid();
         },
-        getValue:function(){
+        getValue:function(dirtyOnly, reset){
             var o=this.get(0);
             if( this.checkValid() ){
                 var hash={};
                 _.arr.each(o._n,function(profile){
-                    var p=profile.properties, b = profile.boxing(),v;
-                    if(profile.renderId)b.updateValue();
+                    var p=profile.properties, 
+                    b = profile.boxing(),
                     v = b.getValue();
-                    hash[p.dataField]=v;
+                    uv = b.getUIValue();
+                    
+                    if(!dirtyOnly || (dirtyOnly && uv!==v)){
+                        hash[p.dataField]=uv;
+                        if(reset!==false && profile.renderId){
+                            b.updateValue();
+                        }
+                    }
                 });
                 return hash;
             }else return null;
@@ -1537,41 +1544,8 @@ Class("linb.UI",  "linb.absObj", {
                 action:function(value){
                     var self=this,
                         p=self.properties,b=false,
-                        args={$type:p.dock};
-
-                    switch(p.dock){
-                        case 'top':
-                            if(o!='height'&&o!='top')return;
-                            args.width=args.height=1;
-                            break;
-                        case 'bottom':
-                            if(o!='height'&&o!='bottom')return;
-                            args.width=args.height=1;
-                            break;
-                        case 'left':
-                            if(o!='width'&&o!='left')return;
-                            args.width=args.height=1;
-                            break;
-                        case 'right':
-                            if(o!='width'&&o!='right')return;
-                            args.width=args.height=1;
-                            break;
-                        case 'width':
-                            if('width'==o)return;
-                            args.width=1;
-                            break;
-                        case 'height':
-                            if('height'==o)return;
-                            args.height=1;
-                            break;
-                        case 'fill':
-                        case 'cover':
-                            if(o=='width'&&o=='height')return;
-                            args.width=args.height=1;
-                            break;
-                    }
+                        args;
                     self.getRoot()[o]?self.getRoot()[o](value):linb.Dom._setPxStyle(self.getRootNode(),o,value);
-                    if(p.dock!='none')_.tryF(self.$dock,[self, args],self);
                     if(o=='width'||o=='height'){
                         // for no _onresize widget only
                         if(!self.box._onresize && self.onResize)
@@ -1579,6 +1553,45 @@ Class("linb.UI",  "linb.absObj", {
                     }else{
                         if(self.onMove)
                             self.boxing().onMove(self,o=='left'?value:null,o=='top'?value:null,o=='right'?value:null,o=='bottom'?value:null)
+                    }
+                    
+                    if(p.dock!='none'){
+                        args={
+                            $type:p.dock,
+                            $dockid:_.arr.indexOf(['width','height','fill','cover'],p.dock)!=-1?self.$linbid:null
+                        };
+                        switch(p.dock){
+                            case 'top':
+                                if(o!='height'&&o!='top')return;
+                                args.width=args.height=1;
+                                break;
+                            case 'bottom':
+                                if(o!='height'&&o!='bottom')return;
+                                args.width=args.height=1;
+                                break;
+                            case 'left':
+                                if(o!='width'&&o!='left')return;
+                                args.width=args.height=1;
+                                break;
+                            case 'right':
+                                if(o!='width'&&o!='right')return;
+                                args.width=args.height=1;
+                                break;
+                            case 'width':
+                                if('width'==o)return;
+                                args.width=1;
+                                break;
+                            case 'height':
+                                if('height'==o)return;
+                                args.height=1;
+                                break;
+                            case 'fill':
+                            case 'cover':
+                                if(o=='width'&&o=='height')return;
+                                args.width=args.height=1;
+                                break;
+                        }
+                        _.tryF(self.$dockFun,[args],self);
                     }
                 }
             }

@@ -403,9 +403,9 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
         },
         resetRowValue:function(rowId){
             var profile=this.get(0),row=this.getRowbyRowId(rowId),arr=[];
-            _.each(row.cells,function(o){
-                if(o._$value!==o.value){
-                    o._$value=o.value;
+            _.arr.each(row.cells,function(o){
+                if(o._value!==o.value){
+                    o._value=o.value;
                     arr.push(profile.getSubNode('CELLA',o._serialId).get(0));
                 }
             });
@@ -561,7 +561,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
         resetGridValue:function(){
             return this.each(function(profile){
                 _.each(profile.cellMap,function(v){
-                    v._$value=v.value;
+                    v._value=v.value;
                 });
                 profile.getSubNode('CELLA',true).removeClass('ui-dirty');
             })
@@ -640,7 +640,8 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                     },
                     COLLIST:{
                         tagName:'div'
-                    }
+                    },
+                    ARROW:{}
                 }
             },
             $submap : {
@@ -818,6 +819,16 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
             SCROLL:{
                 overflow:'auto',
                 position:'relative'
+            },
+            ARROW:{
+                position:'absolute',
+                'z-index':'20',
+                left:0,
+                top:0,
+                display:'none',
+                width:'14px',
+                height:'18px',
+                background:  linb.UI.$bg('icons.gif', 'no-repeat -72px -270px', true)
             },
             COLLIST:{
                 position:'absolute',
@@ -1452,12 +1463,18 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                 beforeMouseover:function(profile, e, src){
                     if(false===profile.box._colDragCheck(profile,src))return;
                     linb.DragDrop.setDropElement(src).setDropFace(src,'move');
+                    profile.getSubNode("ARROW")
+                    .left(linb.use(src).get(0).offsetLeft-8)
+                    .top(linb.use(src).get(0).offsetHeight)
+                    .css("display","block");
                 },
                 beforeMouseout:function(profile, e, src){
                     linb.DragDrop.setDropElement(null).setDropFace(null,'none');
                     if(false===profile.box._colDragCheck(profile,src))return;
+                    profile.getSubNode("ARROW").css("display","none");
                 },
                 onDrop:function(profile, e, src){
+                    profile.getSubNode("ARROW").css("display","none");
                     if(false===profile.box._colDragCheck(profile,src))return;
 
                     //check dragData
@@ -2270,7 +2287,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                 //4. default caption function
                 //5. value in cell
                 //6. ""
-                ren=me._ren||(me._ren=function(profile,cell,ncell,fun){return typeof cell.$caption=='string'? cell.$caption: typeof ncell.caption =='string'?ncell.caption: typeof cell.renderer=='function'? cell.renderer.call(profile,cell) : typeof fun=='function'?fun(cell.value):String(cell.value) || ""}),
+                ren=me._ren||(me._ren=function(profile,cell,ncell,fun){return typeof cell.$caption=='string'? cell.$caption: typeof ncell.caption =='string'?ncell.caption: typeof cell.renderer=='function'? cell.renderer.call(profile,cell) : typeof fun=='function'?fun(cell.value):(_.isSet(cell.value)?String(cell.value):"") || ""}),
                 f1=me._f1=(me._f1=function(v){return linb.Date.getText(new Date(parseInt(v)), 'ymd')}),
                 f2=me._f2=(me._f2=function(v){return (v.split('\n')[0]||"").replace(/ /g,'&nbsp;').replace(reg1,'&lt;')}),
                 f3=me._f3=(me._f3=function(v){return v*1000/10+'%'})
@@ -2482,7 +2499,7 @@ sortby [for column only]
             //first
             linb.UI.adjustData(profile, cell, uicell);
             //next
-            cell._$value=cell.value;
+            cell._value=cell.value;
 
             if(!uicell.width)uicell.width=col.width;
             uicell._tabindex=pro.tabindex;
@@ -2608,9 +2625,9 @@ sortby [for column only]
             //if update value
             if('value' in options){
                 if(dirtyMark===false)
-                    cell._$value=cell.value;
+                    cell._value=cell.value;
                 else{
-                    if(cell.value===cell._$value)
+                    if(cell.value===cell._value)
                         node.removeClass('ui-dirty');
                     else
                         node.addClass('ui-dirty');
@@ -2989,7 +3006,7 @@ sortby [for column only]
                         if(o.hidden!==true)
                             w += o.width + 2;
                     });
-                    body.width(w+2);
+                    body.width(w);
                 }
                 t=last=null;
             });

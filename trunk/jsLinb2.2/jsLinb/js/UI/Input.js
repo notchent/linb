@@ -155,6 +155,10 @@ Class("linb.UI.Input", ["linb.UI.Widget","linb.absValue"] ,{
                'overflow-y':'auto',
                'overflow-x':'hidden'
             },
+            "INPUT-readonly":{
+                $order:2,
+                color:'#909090'
+            },
             ERROR:{
                 width:'16px',
                 height:'16px',
@@ -406,7 +410,12 @@ Class("linb.UI.Input", ["linb.UI.Widget","linb.absValue"] ,{
             readonly:{
                 ini:false,
                 action: function(v){
-                    this.getSubNode('INPUT').attr('readonly',v).css('cursor',v?'default':'');
+                    var n=this.getSubNode('INPUT'),
+                        cls=this.getClass('INPUT','-readonly');
+                    n.attr('readonly',v).css('cursor',v?'default':'');
+                    
+                    if(v)n.addClass(cls);
+                    else n.removeClass(cls);
                 }
             },
             type:{
