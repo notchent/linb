@@ -712,7 +712,14 @@ _.merge(linb,{
         return '<span id="'+linb.$langId+'" class="'+s+'">'+r+'</span>';
     },
     request:function(uri, query, onSuccess, onFail, threadid, options){
-        return ((options&&options.method.toLowerCase()=='post')?((typeof query=='object' && (function(d){for(var i in d)if(d[i]&&d[i].nodeType==1)return 1})(query))||linb.absIO.isCrossDomain(uri))?linb.IAjax:linb.Ajax:linb.absIO.isCrossDomain(uri)?linb.SAjax:linb.Ajax).apply(null, arguments).start()
+        return (
+        // include a file => IAjax
+        (typeof query=='object' && ((function(d){for(var i in d)if(d[i]&&d[i].nodeType==1)return 1})(query))) ? linb.IAjax
+        // post: crossdomain => IAjax, else Ajax
+        : (options&&options.method&&options.method.toLowerCase()=='post') ?  linb.absIO.isCrossDomain(uri) ? linb.IAjax  : linb.Ajax
+        // get : crossdomain => SAjax, else Ajax
+        : linb.absIO.isCrossDomain(uri) ? linb.SAjax : linb.Ajax
+        ).apply(null, arguments).start()
     },
     include:function(id,path,onSuccess,onFail){if(id&&linb.SC.get(id))_.tryF(onSuccess); else linb.SAjax(path,'',onSuccess,onFail,0,{rspType:'script',checkKey:id}).start()},
     /*
@@ -1711,7 +1718,7 @@ Class('linb.IAjax','linb.absIO',{
                         self.$e('No return');
                     }else
                         data=w.name;
-    
+
                     if(data && (o=_.unserialize(data)) && (t=c._pool[o[c.randkey]]) ){
                         for(var i=0,l=t.length;i<l;i++){
                             t[i]._response=o;

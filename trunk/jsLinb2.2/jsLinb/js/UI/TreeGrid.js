@@ -3001,7 +3001,7 @@ sortby [for column only]
                 }else{
                     var prop = profile.properties,hd=prop.header,rows=prop.rows,
                     //defult
-                    w = prop.rowHandler?prop.rowHandlerWidth:0;
+                    w = prop.rowHandler?(prop.rowHandlerWidth+2):0;
                     _.each(hd,function(o){
                         if(o.hidden!==true)
                             w += o.width + 2;
