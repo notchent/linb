@@ -1359,7 +1359,7 @@ Class('linb.absIO',null,{
                 self.start();
             }else{
                 _.tryF(self.onTimeout,[],self);
-                self._onError(new Error("errTimout"));
+                self._onError(new Error("Request timeout"));
             }
         },
         _onEnd:function(){
@@ -1538,7 +1538,7 @@ Class('linb.Ajax','linb.absIO',{
                 if(status===undefined || status===0 || status==304 || (status >= 200 && status < 300 ))
                     _onResponse();
                 else
-                    _onError(new Error('errXMLHTTP:' +status));
+                    _onError(new Error('XMLHTTP returns : ' +status));
             }
         }
     }
@@ -1639,7 +1639,7 @@ Class('linb.SAjax','linb.absIO',{
             var self=this;
             _.asyRun(function(){
                 if(self.id && self.constructor._pool[self.id])
-                    self._onError(new Error("errInData"));
+                    self._onError(new Error("SAjax return script doesn't match"));
             },500);
         }
     },
@@ -1654,7 +1654,7 @@ Class('linb.SAjax','linb.absIO',{
                         o[i]._onResponse();
                     }
                 }else
-                    self._onError(new Error("errInData:"+obj));
+                    self._onError(new Error("SAjax return value formatting error, or no matched 'id': "+obj));
             }catch(e){
                 linb.Debugger && linb.Debugger.trace(e);
             }
@@ -1677,7 +1677,6 @@ Class('linb.SAjax','linb.absIO',{
 Class('linb.IAjax','linb.absIO',{
     Instance:{
         _useForm:true,
-        $e:function(s){this._onError(new Error("errInData:"+s));},
         start:function(){
             var self=this,c=self.constructor, i, id, t, n, k, o, b, form,onload;
             if(false===_.tryF(self.beforeStart,[],self)){
@@ -1715,7 +1714,8 @@ Class('linb.IAjax','linb.absIO',{
                     if(self.id==w.name){
                         //clear first
                         self._clear();
-                        self.$e('No return');
+                        self._onError(new Error('IAjax no return value'));
+                        return;
                     }else
                         data=w.name;
 
@@ -1727,7 +1727,7 @@ Class('linb.IAjax','linb.absIO',{
                     }else{
                         //clear first
                         self._clear();
-                        self.$e('Not json format->'+data);
+                        self._onError(new Error("IAjax return value formatting error, or no matched 'id': "+data));
                     }
                 });
             };
