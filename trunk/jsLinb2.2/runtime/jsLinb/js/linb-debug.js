@@ -9088,15 +9088,19 @@ Class("linb.Tips", null,{
                         }];
                         args.push(threadid||null);
 
-                        //insert first
+                        // create function will be triggered latter
+                        linb.Thread(threadid).insert({
+                            task:o[iniMethod],
+                            args:args,
+                            scope:o
+                        });
+                        // onEnd will be tiggered first
                         if(onEnd)
                             linb.Thread(threadid).insert({
                                 task:onEnd,
                                 args:[threadid,o],
                                 scope:o
                             });
-                        //latter
-                        _.tryF(o[iniMethod], args, o);
                     };
                 linb.Thread.observableRun(function(threadid){
                         var f=function(a,b,threadid){
@@ -9689,11 +9693,11 @@ Class("linb.DataBinder","linb.absObj",{
             if( this.checkValid() ){
                 var hash={};
                 _.arr.each(o._n,function(profile){
-                    var p=profile.properties, 
+                    var p=profile.properties,
                     b = profile.boxing(),
                     v = b.getValue();
                     uv = b.getUIValue();
-                    
+
                     if(!dirtyOnly || (dirtyOnly && uv!==v)){
                         hash[p.dataField]=uv;
                         if(reset!==false && profile.renderId){
@@ -10015,11 +10019,11 @@ Class('linb.UIProfile','linb.Profile', {
                 return h[b]?h[b].join(''):'';
             });
         },
-        _buildItems:function(key, items){
+        _buildItems:function(key, items, addEventHandler){
             var self=this,
                 box=self.box,
                 str=box._rpt(self, linb.UI.$doTemplate(self, _.get(linb.$cache.template,[box.KEY, self._hash]), items, key));
-            return linb.UI.$toDom(str.replace(self._cacheR2,''));
+            return linb.UI.$toDom(str.replace(self._cacheR2,''), addEventHandler);
         },
         serialize:function(rtnString, keepHost){
             var t,m,
@@ -10873,7 +10877,7 @@ Class("linb.UI",  "linb.absObj", {
                         if(self.onMove)
                             self.boxing().onMove(self,o=='left'?value:null,o=='top'?value:null,o=='right'?value:null,o=='bottom'?value:null)
                     }
-                    
+
                     if(p.dock!='none'){
                         args={
                             $type:p.dock,
@@ -11517,7 +11521,10 @@ Class("linb.UI",  "linb.absObj", {
         $theme:'default',
         $ps:{left:1,top:1,width:1,height:1,right:1,bottom:1},
 
-        $toDom:function(str){
+        $toDom:function(str, addEventHandler){
+            if(addEventHandler===false)
+                return _.str.toDom(str);
+
             //must use empty div for RenderTriggers
             var matrix=linb.Dom.getEmptyDiv().get(0), r=[];
             matrix.innerHTML=str;
@@ -22674,7 +22681,11 @@ Class("linb.UI.Tabs", ["linb.UI", "linb.absList","linb.absValue"],{
                     itemId = profile.getSubIdByItemId(value);
                     item=profile.getItemByItemId(value);
                     if(itemId){
+                        // to show the seleted one
+                        _.tryF(profile.box._adjustScroll,[profile,value],profile.box);
+
                         profile.getSubNodes(['ITEM','BOX'],itemId).tagClass('-checked');
+
                         if(!properties.noPanel){
                             // show pane
                             //box.getPanel(value).css('position','relative').show('auto','auto');
@@ -22734,7 +22745,7 @@ Class("linb.UI.Tabs", ["linb.UI", "linb.absList","linb.absValue"],{
         },
         ////
         addPanel:function(para, children, item){
-            var i={}, 
+            var i={},
                 id = item&&item.id,
                 items = this.getItems(),
                 id2=para.id||para.tag;
@@ -22742,7 +22753,7 @@ Class("linb.UI.Tabs", ["linb.UI", "linb.absList","linb.absValue"],{
                 if(-1!=_.arr.subIndexOf(items,'id',id2))
                     return false;
 
-                if(!id)    
+                if(!id)
                     id = items[items.length-1].id;
             }
 
@@ -22809,7 +22820,7 @@ Class("linb.UI.Tabs", ["linb.UI", "linb.absList","linb.absValue"],{
                 if(!pp.noPanel){
                     if(!(v=this.getUIValue()))
                         this.fireItemClickEvent((v=pp.items[0]) && (v=v.id));
-    
+
                     var t=profile.getRootNode().style;
                     linb.UI.$tryResize(profile, t.width, t.height, true,v);
                     t=null;
@@ -22837,7 +22848,7 @@ Class("linb.UI.Tabs", ["linb.UI", "linb.absList","linb.absValue"],{
             });
             arguments.callee.upper.apply(self,arguments);
 
-            self.each(function(profile){                
+            self.each(function(profile){
                 if(!profile.boxing().getUIValue()){
                     var i;
                     profile.boxing().fireItemClickEvent((i=profile.properties.items[0]) && i.id);
@@ -22874,6 +22885,69 @@ Class("linb.UI.Tabs", ["linb.UI", "linb.absList","linb.absValue"],{
                 subId._dirty=mark;
             }
             return this;
+        },
+        _scrollToBottom:function(){
+            return this.each(function(profile){
+                var o = profile.getSubNode('ITEMS'),
+                border = profile.getSubNode('LIST'),
+                y = o.left(),
+                offset,
+                h = o.width(),
+                b=false,
+                bh = border.width();
+                if(bh<h+y){
+                    if(!profile.$scrollStep)profile.$scrollStep=1;
+
+                    if(profile.$scrollStep<5)
+                        profile.$scrollStep = profile.$scrollStep*1.01;
+
+                    y -= profile.$scrollStep;
+                    if(bh>h+y){
+                        y=bh-h;
+                        b=true;
+                    }
+                    o.left(y);
+                    if(b){
+                        profile.getSubNode('RIGHT').css('display','none');
+                        profile.$scrollTobottom=false;
+                        profile.$scrollStep=null;
+                    }else{
+                        profile.getSubNode('LEFT').css('display','block');
+                        if(profile.$scrollTobottom)
+                            _.asyRun(arguments.callee, 0, [profile], this);
+                    }
+                }
+            });
+        },
+        _scrollToTop:function(){
+            return this.each(function(profile){
+                var o = profile.getSubNode('ITEMS'),
+                y = o.left(),
+                b=false;
+
+                if(y<0){
+                    if(!profile.$scrollStep)profile.$scrollStep=1;
+
+                    if(profile.$scrollStep<5)
+                        profile.$scrollStep = profile.$scrollStep*1.01;
+
+                    y += profile.$scrollStep;
+                    if(y>=-1){
+                        y=0;
+                        b=true;
+                    }
+                    o.left(y);
+                    if(b){
+                        profile.getSubNode('LEFT').css('display','none');
+                        profile.$scrollToTop=false;
+                        profile.$scrollStep=null;
+                    }else{
+                        profile.getSubNode('RIGHT').css('display','block');
+                        if(profile.$scrollToTop)
+                            _.asyRun(arguments.callee, 0, [profile], this);
+                    }
+                }
+            });
         }
     },
     Static:{
@@ -22888,7 +22962,9 @@ Class("linb.UI.Tabs", ["linb.UI", "linb.absList","linb.absValue"],{
                     tagName : 'div',
                     text:"{items}",
                     style:'{HAlign}'
-                }
+                },
+                LEFT:{},
+                RIGHT:{}
             },
             PNAELS:{
                 $order:1,
@@ -22958,12 +23034,40 @@ Class("linb.UI.Tabs", ["linb.UI", "linb.absList","linb.absValue"],{
                 overflow:'hidden'
             },
             LIST:{
-                position:'relative'
+                position:'relative',
+                overflow:'hidden',
+                left:0,
+                width:'100%',
+                background: linb.UI.$bg('line.gif', 'repeat-x center bottom')
+            },
+            LEFT:{
+                cursor:'pointer',
+                display:'none',
+                position:'absolute',
+                top:0,
+                left:0,
+                height:'16px',
+                width:'16px',
+                'z-index':'10',
+                background: linb.UI.$bg('icons.gif', 'no-repeat -152px -244px', true)
+            },
+            RIGHT:{
+                cursor:'pointer',
+                display:'none',
+                position:'absolute',
+                top:0,
+                right:0,
+                height:'16px',
+                width:'16px',
+                'z-index':'10',
+                background: linb.UI.$bg('icons.gif', 'no-repeat -170px -244px', true)
             },
             ITEMS:{
                 padding:'0 4px 2px 0',
                 position:'relative',
-                background: linb.UI.$bg('line.gif', 'repeat-x center bottom')
+                left:0,
+                top:0,
+                'white-space':'nowrap'
             },
             ITEM:{
                 $order:0,
@@ -23218,6 +23322,55 @@ Class("linb.UI.Tabs", ["linb.UI", "linb.absList","linb.absValue"],{
                     //for design mode in firefox
                     return false;
                 }
+            },
+            ITEMS:{
+                onMousedown:function(profile, e, src){
+                    var ep=linb.Event.getPos(e);
+                    if(!profile._$scroll_l && !profile._$scroll_r)return;
+                    linb.use(src).startDrag(e, {
+                        horizontalOnly:true,
+                        dragType:'blank',
+                        dragDefer:2,
+                        targetLeft:ep.left,
+                        targetTop:ep.top,
+                        targetReposition:false,
+                        maxLeftOffset:profile._$scroll_l,
+                        maxRightOffset:profile._$scroll_r
+                    });
+                },
+                onDrag:function(profile, e, src){
+                    var dd=linb.DragDrop.getProfile();
+                    linb.use(src).left(-profile._$scroll_r + dd.offset.x);
+                },
+                onDragstop:function(profile, e, src){
+                    profile.box._adjustScroll(profile);
+                }
+            },
+            LEFT:{
+                onMouseover:function(profile, e, src){
+                    profile.$scrollToTop=true;
+                    profile.boxing()._scrollToTop();
+                },
+                onMouseout:function(profile, e, src){
+                    profile.$scrollToTop=false;
+                    profile.$scrollStep=null;
+                },
+                onClick:function(profile, e, src){
+                    profile.$scrollStep*=2;
+                }
+            },
+            RIGHT:{
+                onMouseover:function(profile, e, src){
+                    profile.$scrollTobottom=true;
+                    profile.boxing()._scrollToBottom();
+                },
+                onMouseout:function(profile, e, src){
+                    profile.$scrollTobottom=false;
+                    profile.$scrollStep=null;
+                },
+                onClick:function(profile, e, src){
+                    profile.$scrollStep*=2;
+                }
             }
         },
         DataModel:{
@@ -23340,33 +23493,81 @@ Class("linb.UI.Tabs", ["linb.UI", "linb.absList","linb.absValue"],{
             item = profile.getItemByItemId(key);
             var o = profile.boxing().getPanel(key),
                 l=profile.getSubNode('LIST'),
-                forceH=0,
                 listH;
             ;
             if(!o || o.isEmpty())return;
 
-            var wc=null,hc=null;
+            var hc=null;
             if(force)item._w=item._h=null;
-            if(width && item._w!=width){
-                if(height!='auto')
-                    height=profile.getRootNode().offsetHeight || profile.getRoot().offsetHeight();
-                forceH=1;
-            }
-            if((height && item._h!=height) || forceH){
+            if(height && item._h!=height){
                 item._h=height;
                 if(height && height!='auto'){
                     listH = l.get(0).offsetHeight ||
                         //for opear 9.0 get height bug, get offsetheight in firefox is slow
                         l.offsetHeight();
-    
+
                     height = height-listH+(linb.browser.ie6?2:1);
                     if(height>0)hc=height;
                 }else hc=height;
             }
-            //if(listH)o.top(listH);
-            //force to trigger onSze event, whatever width or height was changed.
             if(hc)o.height(hc).onSize();
+
+            if(width && item._w!=width){
+                l.width(item._w=width);
+                this._adjustScroll(profile);
+            }
+        },
+
+        _adjustScroll:function(profile, itemid){
+            // SCROLL
+            var list = profile.getSubNode('LIST'),
+                w=list.offsetWidth(),
+                items = profile.getSubNode('ITEMS'),
+                l=items.left(),
+                left =  profile.getSubNode('LEFT'),
+                right =  profile.getSubNode('RIGHT'),
+                wi=0,
+                sl=0,sw=0;
+            items.children().each(function(item){
+                // to show the seleted one
+                if(itemid && profile.getItemIdByDom(item.id) == itemid){
+                    sl=wi;
+                    sw=item.offsetWidth;
+                }
+                wi += item.offsetWidth;
+            });
+            items.width(Math.max(wi,w));
+
+            if(wi<=w){
+                items.left(0);
+                profile._$scroll_r=profile._$scroll_l=0;
+                items.css('cursor','');
+            }else{
+                // to show the seleted one
+                if(sw){
+                    if((sl+l<0) || (sl+sw-l>w)){
+                        l=-sl;
+                    }
+                }
+
+                if(wi+l<w){
+                    items.left(w-wi);
+                    profile._$scroll_r = wi-w;
+                    profile._$scroll_l = 0;
+                }else{
+                    items.left(l);
+                    profile._$scroll_r = -l;
+                    profile._$scroll_l =  wi - w + l;
+                }
+                items.css('cursor','move');
+            }
+
+
+            left.css('display', profile._$scroll_r ? 'block' : 'none');
+            right.css('display', profile._$scroll_l ? 'block' : 'none');
+
         }
+
     }
 });Class("linb.UI.Stacks", "linb.UI.Tabs",{
     Initialize:function(){
@@ -23374,6 +23575,8 @@ Class("linb.UI.Tabs", ["linb.UI", "linb.absList","linb.absValue"],{
         t.BOX={tagName:'div',LIST:t.LIST, PNAELS:t.PNAELS};
         delete t.LIST;
         delete t.PNAELS;
+        delete t.LEFT;
+        delete t.TOP;
         this.setTemplate(t);
     },
     Static:{
@@ -23490,13 +23693,16 @@ Class("linb.UI.Tabs", ["linb.UI", "linb.absList","linb.absValue"],{
 
             o.cssRegion({width:wc?wc:null,height:hc?hc:null,top:top,left:0},true);
             if(wc)profile.getSubNode('LIST').width(wc);
-        }
+        },
+        _adjustScroll:null
     }
 });
 Class("linb.UI.ButtonViews", "linb.UI.Tabs",{
     Initialize:function(){
         var t = this.getTemplate();
         t.LIST.className='uibg-bar uiborder-outset';
+        delete t.LEFT;
+        delete t.TOP;
         this.setTemplate(t);
     },
     Static:{
@@ -23561,18 +23767,6 @@ Class("linb.UI.ButtonViews", "linb.UI.Tabs",{
             'ITEM-mousedown ITEMC, ITEM-checked ITEMC':{
                 $order:2,
                 'background-position' : 'left -480px'
-            },
-            LEFT:{
-                'border-right': '1px solid #A7A6AA'
-            },
-            RIGHT:{
-                'border-left': '1px solid #A7A6AA'
-            },
-            TOP:{
-                'border-bottom': '1px solid #A7A6AA'
-            },
-            BOTTOM:{
-                'border-top': '1px solid #A7A6AA'
             },
             HANDLE:{
                 display:linb.$inlineBlock,
@@ -23694,7 +23888,8 @@ Class("linb.UI.ButtonViews", "linb.UI.Tabs",{
                 }
             }
             if(o && !o.isEmpty())o.cssRegion({width:wc?wc:null,height:hc?hc:null,left:left,top:top},true);
-        }
+        },
+        _adjustScroll:null
     }
 });Class("linb.UI.RadioBox", "linb.UI.List",{
     Initialize:function(){
@@ -24507,8 +24702,8 @@ Class("linb.UI.PopMenu",["linb.UI.Widget","linb.absList"],{
                 if(bh<h+y){
                     if(!profile.$scrollStep)profile.$scrollStep=1;
 
-                    if(profile.$scrollStep<30)
-                        profile.$scrollStep = profile.$scrollStep*1.1;
+                    if(profile.$scrollStep<5)
+                        profile.$scrollStep = profile.$scrollStep*1.01;
 
                     y -= profile.$scrollStep;
                     if(bh>h+y){
@@ -24537,8 +24732,8 @@ Class("linb.UI.PopMenu",["linb.UI.Widget","linb.absList"],{
                 if(y<0){
                     if(!profile.$scrollStep)profile.$scrollStep=1;
 
-                    if(profile.$scrollStep<10)
-                        profile.$scrollStep = profile.$scrollStep*1.03;
+                    if(profile.$scrollStep<5)
+                        profile.$scrollStep = profile.$scrollStep*1.01;
 
                     y += profile.$scrollStep;
                     if(y>=-1){
@@ -25060,7 +25255,7 @@ Class("linb.UI.PopMenu",["linb.UI.Widget","linb.absList"],{
                     profile.$scrollStep=null;
                 },
                 onClick:function(profile){
-                    profile.$scrollStep=1000;
+                    profile.$scrollStep*=2;
                 }
             },
             BOTTOM:{
@@ -25073,7 +25268,7 @@ Class("linb.UI.PopMenu",["linb.UI.Widget","linb.absList"],{
                     profile.$scrollStep=null;
                 },
                 onClick:function(profile){
-                    profile.$scrollStep=1000;
+                    profile.$scrollStep*=2;
                 }
             },
             ITEMS:{

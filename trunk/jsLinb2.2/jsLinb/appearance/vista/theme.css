@@ -335,6 +335,8 @@ html, .uibg-base{
 /*linb.UI.Tabs*/
 .linb-tabs-items{
     padding:0 4px 5px 0;
+}
+.linb-tabs-list{
     background-image: url(Tabs/line.gif);
 }
 .linb-tabs-item-checked{

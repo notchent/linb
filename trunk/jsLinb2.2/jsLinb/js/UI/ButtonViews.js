@@ -2,6 +2,8 @@ Class("linb.UI.ButtonViews", "linb.UI.Tabs",{
     Initialize:function(){
         var t = this.getTemplate();
         t.LIST.className='uibg-bar uiborder-outset';
+        delete t.LEFT;
+        delete t.TOP;
         this.setTemplate(t);
     },
     Static:{
@@ -66,18 +68,6 @@ Class("linb.UI.ButtonViews", "linb.UI.Tabs",{
             'ITEM-mousedown ITEMC, ITEM-checked ITEMC':{
                 $order:2,
                 'background-position' : 'left -480px'
-            },
-            LEFT:{
-                'border-right': '1px solid #A7A6AA'
-            },
-            RIGHT:{
-                'border-left': '1px solid #A7A6AA'
-            },
-            TOP:{
-                'border-bottom': '1px solid #A7A6AA'
-            },
-            BOTTOM:{
-                'border-top': '1px solid #A7A6AA'
             },
             HANDLE:{
                 display:linb.$inlineBlock,
@@ -199,6 +189,7 @@ Class("linb.UI.ButtonViews", "linb.UI.Tabs",{
                 }
             }
             if(o && !o.isEmpty())o.cssRegion({width:wc?wc:null,height:hc?hc:null,left:left,top:top},true);
-        }
+        },
+        _adjustScroll:null
     }
 });

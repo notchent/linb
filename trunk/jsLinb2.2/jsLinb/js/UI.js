@@ -370,11 +370,11 @@ Class("linb.DataBinder","linb.absObj",{
             if( this.checkValid() ){
                 var hash={};
                 _.arr.each(o._n,function(profile){
-                    var p=profile.properties, 
+                    var p=profile.properties,
                     b = profile.boxing(),
                     v = b.getValue();
                     uv = b.getUIValue();
-                    
+
                     if(!dirtyOnly || (dirtyOnly && uv!==v)){
                         hash[p.dataField]=uv;
                         if(reset!==false && profile.renderId){
@@ -696,11 +696,11 @@ Class('linb.UIProfile','linb.Profile', {
                 return h[b]?h[b].join(''):'';
             });
         },
-        _buildItems:function(key, items){
+        _buildItems:function(key, items, addEventHandler){
             var self=this,
                 box=self.box,
                 str=box._rpt(self, linb.UI.$doTemplate(self, _.get(linb.$cache.template,[box.KEY, self._hash]), items, key));
-            return linb.UI.$toDom(str.replace(self._cacheR2,''));
+            return linb.UI.$toDom(str.replace(self._cacheR2,''), addEventHandler);
         },
         serialize:function(rtnString, keepHost){
             var t,m,
@@ -1554,7 +1554,7 @@ Class("linb.UI",  "linb.absObj", {
                         if(self.onMove)
                             self.boxing().onMove(self,o=='left'?value:null,o=='top'?value:null,o=='right'?value:null,o=='bottom'?value:null)
                     }
-                    
+
                     if(p.dock!='none'){
                         args={
                             $type:p.dock,
@@ -2198,7 +2198,10 @@ Class("linb.UI",  "linb.absObj", {
         $theme:'default',
         $ps:{left:1,top:1,width:1,height:1,right:1,bottom:1},
 
-        $toDom:function(str){
+        $toDom:function(str, addEventHandler){
+            if(addEventHandler===false)
+                return _.str.toDom(str);
+
             //must use empty div for RenderTriggers
             var matrix=linb.Dom.getEmptyDiv().get(0), r=[];
             matrix.innerHTML=str;

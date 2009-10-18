@@ -9,7 +9,7 @@ Class('VisualJS.ClassEditor', 'linb.Com',{
     },
     Instance:{
         $pageviewType:'linb.UI.ButtonViews',
-        
+
         activate:function(){
             var self=this,t;
             var view = self.buttonview.getUIValue();
@@ -74,7 +74,7 @@ Class('VisualJS.ClassEditor', 'linb.Com',{
                     data.text=r;
                 }
             }
-            
+
             //adjust data
             if(nv=='struct' || nv=='design')
                 if(false==self._adjustData(data.text))

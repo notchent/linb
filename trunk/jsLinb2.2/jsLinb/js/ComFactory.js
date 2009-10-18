@@ -106,15 +106,19 @@ Class('linb.ComFactory',null,{
                         }];
                         args.push(threadid||null);
 
-                        //insert first
+                        // create function will be triggered latter
+                        linb.Thread(threadid).insert({
+                            task:o[iniMethod],
+                            args:args,
+                            scope:o
+                        });
+                        // onEnd will be tiggered first
                         if(onEnd)
                             linb.Thread(threadid).insert({
                                 task:onEnd,
                                 args:[threadid,o],
                                 scope:o
                             });
-                        //latter
-                        _.tryF(o[iniMethod], args, o);
                     };
                 linb.Thread.observableRun(function(threadid){
                         var f=function(a,b,threadid){

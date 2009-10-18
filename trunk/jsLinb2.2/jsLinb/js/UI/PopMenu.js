@@ -47,8 +47,8 @@ Class("linb.UI.PopMenu",["linb.UI.Widget","linb.absList"],{
                 if(bh<h+y){
                     if(!profile.$scrollStep)profile.$scrollStep=1;
 
-                    if(profile.$scrollStep<30)
-                        profile.$scrollStep = profile.$scrollStep*1.1;
+                    if(profile.$scrollStep<5)
+                        profile.$scrollStep = profile.$scrollStep*1.01;
 
                     y -= profile.$scrollStep;
                     if(bh>h+y){
@@ -77,8 +77,8 @@ Class("linb.UI.PopMenu",["linb.UI.Widget","linb.absList"],{
                 if(y<0){
                     if(!profile.$scrollStep)profile.$scrollStep=1;
 
-                    if(profile.$scrollStep<10)
-                        profile.$scrollStep = profile.$scrollStep*1.03;
+                    if(profile.$scrollStep<5)
+                        profile.$scrollStep = profile.$scrollStep*1.01;
 
                     y += profile.$scrollStep;
                     if(y>=-1){
@@ -600,7 +600,7 @@ Class("linb.UI.PopMenu",["linb.UI.Widget","linb.absList"],{
                     profile.$scrollStep=null;
                 },
                 onClick:function(profile){
-                    profile.$scrollStep=1000;
+                    profile.$scrollStep*=2;
                 }
             },
             BOTTOM:{
@@ -613,7 +613,7 @@ Class("linb.UI.PopMenu",["linb.UI.Widget","linb.absList"],{
                     profile.$scrollStep=null;
                 },
                 onClick:function(profile){
-                    profile.$scrollStep=1000;
+                    profile.$scrollStep*=2;
                 }
             },
             ITEMS:{

@@ -314,15 +314,15 @@ Class('VisualJS.Designer', 'linb.Com',{
 
             }
         },
-        
+
         _createResizer:function(){
             var page=this;
             //proxy region
             page.proxy = linb.create('<div style="position:absolute;border:dashed 1px blue;overflow:visible;left:-100px;top:-100px;z-index:1000"></div>');
             page.proxy.get(0).zIndexIgnore=true;
             page.holder.append(page.proxy);
-            
-            
+
+
             //resizer
             page.resizer = linb.create('AdvResizer',{
                 dragArgs:{
@@ -511,12 +511,12 @@ Class('VisualJS.Designer', 'linb.Com',{
         _attachResizer:function(profile, node){
             var self=this;
             self.proxy.css('display','none');
-            
+
             if(!self.resizer || !self.resizer.get(0) || !self.resizer.get(0).renderId){
                 // sometimes, resizer and proxy will be removed, we have to create them again
                 self._createResizer();
             }
-            
+
             self.resizer.resetTarget(null,false);
             linb(node)
             .append(self.resizer)
@@ -1158,7 +1158,7 @@ Class('VisualJS.Designer', 'linb.Com',{
                 });
                 var rows=[
                     {id:'properties:width', caption:'width',tips:'Canvas width', cells:[{value: pro.properties.width}] },
-                    {id:'properties:height',caption:'label', tips:'Canvas height', cells:[{value: pro.properties.height}] },
+                    {id:'properties:height',caption:'height', tips:'Canvas height', cells:[{value: pro.properties.height}] },
                     {id:'UIE', group:true, caption:'events', sub:arr}
                 ];
                 var list=[];

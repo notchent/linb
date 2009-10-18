@@ -299,7 +299,7 @@ Class('UIDesigner', 'linb.Com',{
             host.appRoot.append((new linb.UI.Tag)
                 .host(host,"container")
                 .setDock("fill")
-                .setDockMargin({"left":0, "top":70, "right":0, "bottom":0})
+                .setDockMargin({"left":0, "top":40, "right":0, "bottom":0})
             );
 
             host.appRoot.append((new linb.UI.Pane)

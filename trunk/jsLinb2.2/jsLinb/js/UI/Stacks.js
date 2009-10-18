@@ -4,6 +4,8 @@ Class("linb.UI.Stacks", "linb.UI.Tabs",{
         t.BOX={tagName:'div',LIST:t.LIST, PNAELS:t.PNAELS};
         delete t.LIST;
         delete t.PNAELS;
+        delete t.LEFT;
+        delete t.TOP;
         this.setTemplate(t);
     },
     Static:{
@@ -120,6 +122,7 @@ Class("linb.UI.Stacks", "linb.UI.Tabs",{
 
             o.cssRegion({width:wc?wc:null,height:hc?hc:null,top:top,left:0},true);
             if(wc)profile.getSubNode('LIST').width(wc);
-        }
+        },
+        _adjustScroll:null
     }
 });

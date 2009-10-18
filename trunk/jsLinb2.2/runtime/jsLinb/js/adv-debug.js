@@ -562,6 +562,7 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
                                 BAND:{
                                     $order:2,
                                     tagName:'div',
+                                    tabindex: '{tabindex}',
                                     style:'left:{_band_left}px;width:{_band_width}px;',
                                     BIGLABEL:{
                                         tagName:'div',
@@ -578,6 +579,11 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
                                     $order:3,
                                         tagName:'div',
                                         style:'height:{_viewHeight}px;',
+                                        BG:{
+                                            tagName:'div',
+                                            style:'left:{_band_left}px;width:{_band_width}px;',
+                                            text:'{bgitems}'
+                                        },
                                         ITEMS:{
                                             tagName:'div',
                                             style:'left:{_band_left}px;width:{_band_width}px;',
@@ -664,6 +670,12 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
                         text:'{text}'
                     }
                 },
+                bgitems:{
+                    BGITEM:{
+                        tagName:'div',
+                        style:'left:{_left}px;width:{_width}px;'
+                    }
+                },
                 items:{
                     ITEM:{
                         tagName:'div',
@@ -705,50 +717,6 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
             HoverEffected:{PRE:'PRE',NEXT:'NEXT',ZOOMIN:'ZOOMIN',ZOOMOUT:'ZOOMOUT',DATE:'DATE',OPT:'OPT',CLOSE:'CLOSE',MIN:'MIN',NORMAL:'NORMAL'},
             ClickEffected:{PRE:'PRE',NEXT:'NEXT',ZOOMIN:'ZOOMIN',ZOOMOUT:'ZOOMOUT',DATE:'DATE',OPT:'OPT',CLOSE:'CLOSE',MIN:'MIN'},
             onSize:linb.UI.$onSize,
-            onKeydown:function(profile, e, src){
-                if(profile.pauseA||profile.pause)return;
-                profile.pause=true;
-
-                // speed
-                var t=profile.properties,
-                    date=linb.Date,
-                    rate=t._rate,
-                    maxOffset = 30,
-                    o=profile.box._getMoveNodes(profile),
-                    x=o.left(),
-                    xx=t._band_left,
-                    off=t._scroll_offset
-                    ;
-
-                off = t._scroll_offset = off>maxOffset ? off :off*1.05;
-
-                switch(linb.Event.getKey(e)[0]){
-                    case 'left':
-                    case 'up':
-                        if(t.minDate && date.add(t.dateStart,'ms',(xx-x-off)*rate)<t.minDate)
-                            off=date.diff(t.minDate, t.dateStart,'ms')/rate + (xx-x);
-                        if(off<0)off=0;
-                        o.left(x + off);
-                        break;
-                    case 'right':
-                    case 'down':
-                        if(t.maxDate && date.add(t.dateStart,'ms',(xx-x+off+t.width)*rate)>t.maxDate)
-                            off=date.diff(t.dateStart,t.maxDate,'ms')/rate - (xx-x+t.width);
-                        if(off<0)off=0;
-                        o.left(x - off);
-                        break;
-                }
-
-                if((x + maxOffset > 0) || (x + o.width() - t.width - maxOffset < 0))
-                    profile.box._rePosition(profile);
-                profile.pause=false;
-                return false;
-            },
-            onKeyup:function(profile, e){
-                var p=profile.properties;
-                p._scroll_offset = p._scrollRate;
-                profile.box._rePosition(profile);
-            },
             CLOSE:{
                 onClick:function(profile, e, src){
                     if(profile.properties.disabled)return;
@@ -769,6 +737,50 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
                 }
             },
             BAND:{
+                onKeydown:function(profile, e, src){
+                    if(profile.pauseA||profile.pause)return;
+                    profile.pause=true;
+
+                    // speed
+                    var t=profile.properties,
+                        date=linb.Date,
+                        rate=t._rate,
+                        maxOffset = 30,
+                        o=profile.box._getMoveNodes(profile),
+                        x=o.left(),
+                        xx=t._band_left,
+                        off=t._scroll_offset
+                        ;
+
+                    off = t._scroll_offset = off>maxOffset ? off :off*1.05;
+
+                    switch(linb.Event.getKey(e)[0]){
+                        case 'left':
+                        case 'up':
+                            if(t.minDate && date.add(t.dateStart,'ms',(xx-x-off)*rate)<t.minDate)
+                                off=date.diff(t.minDate, t.dateStart,'ms')/rate + (xx-x);
+                            if(off<0)off=0;
+                            o.left(x + off);
+                            break;
+                        case 'right':
+                        case 'down':
+                            if(t.maxDate && date.add(t.dateStart,'ms',(xx-x+off+t.width)*rate)>t.maxDate)
+                                off=date.diff(t.dateStart,t.maxDate,'ms')/rate - (xx-x+t.width);
+                            if(off<0)off=0;
+                            o.left(x - off);
+                            break;
+                    }
+
+                    if((x + maxOffset > 0) || (x + o.width() - t.width - maxOffset < 0))
+                        profile.box._rePosition(profile);
+                    profile.pause=false;
+                    return false;
+                },
+                onKeyup:function(profile, e){
+                    var p=profile.properties;
+                    p._scroll_offset = p._scrollRate;
+                    profile.box._rePosition(profile);
+                },
                 onMousedown:function(profile, e, src){
                     if(profile.pauseA||profile.pause)return;
                     var t=profile.properties,
@@ -788,12 +800,14 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
                     linb.use(src).startDrag(e, {
                         targetReposition:false,
                         dragType:'blank',
+                        dragDefer:2,
                         horizontalOnly:true,
                         targetLeft:ep.left,
                         targetTop:ep.top,
                         maxLeftOffset:l,
                         maxRightOffset:r
                      });
+                     linb.use(src).focus();
                 },
                 onDragstop:function(profile, e, src){
                     profile.box._rePosition(profile);
@@ -950,7 +964,8 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
                         //profile.pause=true;
                         p.timeSpanKey =  z[index- 1][0];
 
-                        o = profile.getSubNodes(['VIEW','BAND']);
+                        //o = profile.getSubNodes(['VIEW','BAND']);
+                        box._refresh(profile,true);
                     }
                 }
             },
@@ -966,7 +981,8 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
                         //profile.pause=true;
                         p.timeSpanKey = z[index + 1][0];
 
-                        o = profile.getSubNodes(['VIEW','BAND']);
+                        //o = profile.getSubNodes(['VIEW','BAND']);
+                        box._refresh(profile,true);
                     }
                 }
             },
@@ -1146,14 +1162,14 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
             timeSpanKey : {
                 ini:'1 d',
                 action:function(){
-                    this.box._refresh(this);
+                    this.box._refresh(this,true);
                 }
             },
             // how much px to represent a unit
             // defalut value is from timeSpanKey
             unitPixs : {
                 action:function(){
-                    this.box._refresh(this);
+                    this.box._refresh(this,true);
                 }
             },
 
@@ -1234,7 +1250,7 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
             multiTasks: {
                 ini:false,
                 action:function(){
-                    this.box._refresh(this);
+                    this.box._refresh(this,true);
                 }
             },
 
@@ -1242,7 +1258,7 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
                 ini:null,
                 action:function(value){
                     if(value>this.properties.dateStart)
-                        this.box._refresh(this);
+                        this.box._refresh(this,true);
                 }
             },
             maxDate:{
@@ -1250,7 +1266,7 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
                 action:function(value){
                     var p=this.properties;
                     if(value<linb.Date.add(p.dateStart,'ms',p.width*p._rate))
-                        this.box._refresh(this);
+                        this.box._refresh(this,true);
                 }
             },
 
@@ -1277,7 +1293,7 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
             dateStart : {
                 ini:new Date,
                 action:function(){
-                    this.box._refresh(this);
+                    this.box._refresh(this,true);
                 }
             }
         },
@@ -1307,6 +1323,9 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
                 margin:'2px',
                 'vertical-align': 'middle',
                 cursor:'default'
+            },
+            BAND:{
+                "-moz-outline-offset":"-1px"
             },
             'MAINP, BAND, VIEW, BIGLABEL, SMALLLABEL':{
                 position:'relative'
@@ -1345,8 +1364,13 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
                 cursor:'move',
                 'border-bottom':'solid 1px #648CB4'
             },
+            BG:{
+                'z-index':0,
+                position:'absolute'
+            },
             ITEMS:{
-                position:'relative',
+                'z-index':4,
+                position:'absolute',
                 background: linb.UI.$bg('bars.gif',' left top')
             },
             'BIGLABEL div, SMALLLABEL div':{
@@ -1446,6 +1470,11 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
             'NEXT-mousedown':{
                 $order:3,
                 'background-position': '-280px -110px'
+            },
+            BGITEM:{
+                position:'absolute',
+                top:0,
+                height:'100%'
             },
             ITEM:{
                 position:'absolute',
@@ -1872,7 +1901,7 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
             }
             addLb.reverse();
             // add to band UI
-            node.prepend(profile._buildItems(key, addLb));
+            node.prepend(profile._buildItems(key, addLb,false));
             // add to memory list
             _.arr.insertAny(marks,addLb.reverse(),0);
         },
@@ -1900,12 +1929,12 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
             }
             // build
             // add to band UI
-            node.append(profile._buildItems(key, addLb));
+            node.append(profile._buildItems(key, addLb,false));
             // add to memory list
             _.arr.insertAny(marks,addLb,-1);
         },
         _getMoveNodes:function(profile){
-            return profile.$moveban = profile.$moveban || profile.getSubNodes(['BAND','ITEMS']);
+            return profile.$moveban = profile.$moveban || profile.getSubNodes(['BAND','ITEMS','BG']);
         },
         //if left is numb, force to move
         _rePosition:function(profile, left){
@@ -2153,6 +2182,7 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
                 f=function(p){return profile.getSubNode(p)},
                 view = f('VIEW'),
                 items = f('ITEMS'),
+                bg = f('BG'),
                 scroll = f('SCROLL'),
                 scrolli= f('SCROLLI'),
                 h,b,
@@ -2161,10 +2191,12 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
 
             h=Math.max(ih,vh);
             items.height(h);
+            bg.height(h);
             scrolli.height(h);
             b=ih>vh;
             scroll.css('display',b?'block':'none');
             items.top(b?-scroll.scrollTop():0);
+            bg.top(b?-scroll.scrollTop():0);
         },
         _showTips:function(profile, node, pos){
             if(profile.onShowTips)
@@ -2196,7 +2228,7 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
             return o;
         },
         _onresize:function(profile,width,height){
-            var p=profile.properties,
+            var pro=profile.properties,
                 f=function(k){return profile.getSubNode(k)},
                 _bbarH=f('BBAR').height(),
                 _tipsH=f('TAIL').height(),
@@ -2205,25 +2237,47 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
                 t;
 
             //for border, view and items
-            if(height){
-                f('BORDER').height(t=height);
-                f('VIEW').height(t=t - (p.showTips?_tipsH:0) -off2.top - (p.showBar?_bbarH:0) -off3);
+            if(height && profile._$h != height){
+                f('BORDER').height(profile._$h = t = height);
+                f('VIEW').height(t=t - (pro.showTips?_tipsH:0) -off2.top - (pro.showBar?_bbarH:0) -off3);
                 this._ajustHeight(profile);
             }
-            if(width && width!=p.width){
-                f('BORDER').width(width);
+            if(width && profile._$w != width){
+                // special: modified widget width here
+                f('BORDER').width(profile._$w =  pro.width = width);
+                var items = profile.boxing().getItems('data'),
+                    bak_s = pro._smallLabelStart,
+                    bak_e = pro._smallLabelEnd,
+                    offset;
+                this._refresh(profile);
+                offset = bak_s - pro._smallLabelStart;
 
-                //if width changed, refresh the timeline
-                if(!p.fixWidth){
-                    _.resetRun(profile.$linbid+":refresh",function(){
-                        //if multiTasks, setUIValue will be ignored
-                        profile.box._refresh(profile);
-                    });
+                // reset all items
+                profile.boxing().setItems(items);
+
+                var arr=[];
+                // filter tasks
+                _.arr.each(pro.items,function(o){
+                    if(o._left >= pro._band_width ||  (o._left+o._width) <= 0){
+                        //delete from lines
+                        delete pro._lines[o._line][o.id];
+                        arr.push(o.id);
+                    }
+                });
+                profile.boxing().removeItems(arr);
+
+                if(offset>0){
+                    profile.boxing()._getContent(pro._smallLabelStart, bak_s, pro._rate, 'left');
+                    profile.boxing()._getContent(bak_e, pro._smallLabelEnd, pro._rate, 'right');
                 }
+
+                //adjust the items
+                this._reArrage(profile);
             }
         },
-        _refresh:function(profile){
+        _refresh:function(profile,force){
             var pro=profile.properties, ins=profile.boxing(), nodes;
+
             //clear items first
             ins.clearItems();
 
@@ -2231,22 +2285,24 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
             this._prepareData(profile);
 
             //refresh labels
-            nodes=profile._buildItems('_smallMarks', pro._smallMarks);
+            nodes=profile._buildItems('_smallMarks', pro._smallMarks,false);
             profile.getSubNode('SMALLLABEL').empty().append(nodes);
             if(pro.showBigLabel){
-                nodes=profile._buildItems('_bigMarks', pro._bigMarks);
+                nodes=profile._buildItems('_bigMarks', pro._bigMarks,false);
                 profile.getSubNode('BIGLABEL').empty().append(nodes);
             }
 
             //view/band set left
-            profile.getSubNodes(['BAND','ITEMS']).left(pro._band_left).width(pro._band_width);
+            profile.getSubNodes(['BAND','ITEMS','BG']).left(pro._band_left).width(pro._band_width);
 
             //if singleTask, setUIValue
             if(!pro.multiTasks)
                 ins.setUIValue(pro.$UIvalue);
             //if multiTasks, call iniContent to get tasks
-            else
-                ins.iniContent();
+            else{
+                if(force)
+                    ins.iniContent();
+            }
 
             return this;
         }
