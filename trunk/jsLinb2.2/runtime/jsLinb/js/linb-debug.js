@@ -7304,7 +7304,7 @@ Class('linb.Com',null,{
         self._nodes=[];
         self.host=host||self;
 
-        self.properties = properties || {};
+        self.properties = properties || self.properties || {};
         //copy those from class setting
         self.events = _.copy(self.events) || {};
         if(events)
@@ -9018,7 +9018,7 @@ Class("linb.Tips", null,{
             return this._cache[id]||null;
         },
         //singleton:false->don't get it from cache, and don't cache the result.
-        getCom:function(id, onEnd, threadid, singleton){
+        getCom:function(id, onEnd, threadid, singleton, properties, events){
             singleton=singleton!==false;
             var c=this._cache,p=this._pro,ini=p._iniMethod;
             if(singleton && c[id]){
@@ -9036,8 +9036,8 @@ Class("linb.Tips", null,{
                 //ensure array
                 var iniMethod = p.iniMethod || ini || 'create',
                     clsPath = p.cls || p,
-                    properties = p.properties,
-                    events = p.events,
+                    properties = properties || p.properties,
+                    events = events || p.events,
                     singleton=p.singleton!==false,
                     cls,
                     task=function(cls,properties,threadid){
@@ -9088,19 +9088,15 @@ Class("linb.Tips", null,{
                         }];
                         args.push(threadid||null);
 
-                        // create function will be triggered latter
-                        linb.Thread(threadid).insert({
-                            task:o[iniMethod],
-                            args:args,
-                            scope:o
-                        });
-                        // onEnd will be tiggered first
+                        //insert first
                         if(onEnd)
                             linb.Thread(threadid).insert({
                                 task:onEnd,
                                 args:[threadid,o],
                                 scope:o
                             });
+                        //latter
+                        _.tryF(o[iniMethod], args, o);
                     };
                 linb.Thread.observableRun(function(threadid){
                         var f=function(a,b,threadid){
@@ -9123,8 +9119,8 @@ Class("linb.Tips", null,{
                 );
             }
         },
-        newCom:function(cls, onEnd, threadid){
-            return this.getCom(cls, onEnd, threadid, false);
+        newCom:function(cls, onEnd, threadid, properties, events){
+            return this.getCom(cls, onEnd, threadid, false, properties, events);
         },
         storeCom:function(id){
             var m,t,c=this._cache,domId=this._domId;
@@ -15768,6 +15764,23 @@ Class("linb.UI.Button", ["linb.UI.Widget","linb.absValue"],{
                     if(b)b.get(0).getRoot().tagClass('-checked', value);
                 }
             });
+        },
+        _setDirtyMark:function(){
+            return this.each(function(profile){
+                if(!profile.properties.dirtyMark)return;
+                var properties = profile.properties,
+                    o=profile.getSubNode('FOCUS'),
+                    d=linb.UI.$css_tag_dirty,
+                    flag=properties.value !== properties.$UIvalue;
+                //dirty mark
+                if(profile.beforeDirtyMark && false===box.beforeDirtyMark(profile,flag)){}
+                else{
+                    if(flag)
+                        o.addClass(d);
+                    else
+                        o.removeClass(d);
+                }
+            });
         }
     },
     Initialize:function(){
@@ -16071,7 +16084,10 @@ Class("linb.UI.Button", ["linb.UI.Widget","linb.absValue"],{
             border:true
         },
         _ensureValue:function(profile,value){
-            return !!value;
+            if(profile.properties.type=="status")
+                return !!value;
+            else
+                return value;
         },
         _prepareData:function(profile){
             var data=arguments.callee.upper.call(this, profile);
@@ -18083,7 +18099,9 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                 pro=profile.properties,v,t;
             if(!_.isDefined(value))
                 value=pro.$UIvalue;
-            if(t= profile.CF.getShowValue||profile.$getShowValue)
+            if(pro.readonly && pro.caption)
+                v = pro.caption+"";
+            else if(t = profile.CF.getShowValue||profile.$getShowValue)
                 v = t(profile, value);
             else{
                 //get from items
@@ -18802,6 +18820,14 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                 ini:false,
                 action:function(v){
                     this.boxing().refresh();
+                }
+            },
+            caption:{
+                ini:"",
+                action:function(v){
+                    if(this.properties.readonly){
+                        this.getSubNode('INPUT').attr("value",this.boxing().getShowValue());
+                    }
                 }
             }
         },

@@ -8,7 +8,9 @@ Class('VisualJS.ClassEditor', 'linb.Com',{
         this.views={};
     },
     Instance:{
-        $pageviewType:'linb.UI.ButtonViews',
+        properties:{
+            $pageviewType:'linb.UI.ButtonViews'
+        },
 
         activate:function(){
             var self=this,t;
@@ -106,13 +108,13 @@ Class('VisualJS.ClassEditor', 'linb.Com',{
             var self = this,
                 data=self.$data,
                 children = self._nodes,
-                pageview = (new (linb.SC.get(self.$pageviewType)))
+                pageview = (new (linb.SC.get(self.properties.$pageviewType)))
                     .host(self,"buttonview")
                     .setItems([{"id":"normal","caption":"$VisualJS.classEditor.nv","image":'@CONF.img_app',"imagePos":"-80px -48px","tips":"$VisualJS.classEditor.nvtips"},{"id":"struct","caption":"$VisualJS.classEditor.sv","image":'@CONF.img_app',"imagePos":"-32px -48px","tips":"$VisualJS.classEditor.svtips"},{"id":"design","caption":"$VisualJS.classEditor.dv","image":'@CONF.img_app',"imagePos":"-192px -48px","tips":"$VisualJS.classEditor.dvtips"}])
                     .setCustomStyle({PANEL:'overflow:hidden;'})
                     .beforeUIValueSet("_beforeValueUpdated")
 
-            if(self.$pageviewType=='linb.UI.ButtonViews')
+            if(self.properties.$pageviewType=='linb.UI.ButtonViews')
                 pageview.setBarSize(28);
 
             children.push(pageview.get(0));

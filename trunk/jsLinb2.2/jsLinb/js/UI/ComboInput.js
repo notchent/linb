@@ -31,7 +31,9 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                 pro=profile.properties,v,t;
             if(!_.isDefined(value))
                 value=pro.$UIvalue;
-            if(t= profile.CF.getShowValue||profile.$getShowValue)
+            if(pro.readonly && pro.caption)
+                v = pro.caption+"";
+            else if(t = profile.CF.getShowValue||profile.$getShowValue)
                 v = t(profile, value);
             else{
                 //get from items
@@ -750,6 +752,14 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                 ini:false,
                 action:function(v){
                     this.boxing().refresh();
+                }
+            },
+            caption:{
+                ini:"",
+                action:function(v){
+                    if(this.properties.readonly){
+                        this.getSubNode('INPUT').attr("value",this.boxing().getShowValue());
+                    }
                 }
             }
         },

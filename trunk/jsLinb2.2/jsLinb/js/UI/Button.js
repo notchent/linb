@@ -16,6 +16,23 @@ Class("linb.UI.Button", ["linb.UI.Widget","linb.absValue"],{
                     if(b)b.get(0).getRoot().tagClass('-checked', value);
                 }
             });
+        },
+        _setDirtyMark:function(){
+            return this.each(function(profile){
+                if(!profile.properties.dirtyMark)return;
+                var properties = profile.properties,
+                    o=profile.getSubNode('FOCUS'),
+                    d=linb.UI.$css_tag_dirty,
+                    flag=properties.value !== properties.$UIvalue;
+                //dirty mark
+                if(profile.beforeDirtyMark && false===box.beforeDirtyMark(profile,flag)){}
+                else{
+                    if(flag)
+                        o.addClass(d);
+                    else
+                        o.removeClass(d);
+                }
+            });
         }
     },
     Initialize:function(){
@@ -319,7 +336,10 @@ Class("linb.UI.Button", ["linb.UI.Widget","linb.absValue"],{
             border:true
         },
         _ensureValue:function(profile,value){
-            return !!value;
+            if(profile.properties.type=="status")
+                return !!value;
+            else
+                return value;
         },
         _prepareData:function(profile){
             var data=arguments.callee.upper.call(this, profile);

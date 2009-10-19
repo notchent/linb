@@ -36,7 +36,7 @@ Class('linb.ComFactory',null,{
             return this._cache[id]||null;
         },
         //singleton:false->don't get it from cache, and don't cache the result.
-        getCom:function(id, onEnd, threadid, singleton){
+        getCom:function(id, onEnd, threadid, singleton, properties, events){
             singleton=singleton!==false;
             var c=this._cache,p=this._pro,ini=p._iniMethod;
             if(singleton && c[id]){
@@ -54,8 +54,8 @@ Class('linb.ComFactory',null,{
                 //ensure array
                 var iniMethod = p.iniMethod || ini || 'create',
                     clsPath = p.cls || p,
-                    properties = p.properties,
-                    events = p.events,
+                    properties = properties || p.properties,
+                    events = events || p.events,
                     singleton=p.singleton!==false,
                     cls,
                     task=function(cls,properties,threadid){
@@ -106,19 +106,15 @@ Class('linb.ComFactory',null,{
                         }];
                         args.push(threadid||null);
 
-                        // create function will be triggered latter
-                        linb.Thread(threadid).insert({
-                            task:o[iniMethod],
-                            args:args,
-                            scope:o
-                        });
-                        // onEnd will be tiggered first
+                        //insert first
                         if(onEnd)
                             linb.Thread(threadid).insert({
                                 task:onEnd,
                                 args:[threadid,o],
                                 scope:o
                             });
+                        //latter
+                        _.tryF(o[iniMethod], args, o);
                     };
                 linb.Thread.observableRun(function(threadid){
                         var f=function(a,b,threadid){
@@ -141,8 +137,8 @@ Class('linb.ComFactory',null,{
                 );
             }
         },
-        newCom:function(cls, onEnd, threadid){
-            return this.getCom(cls, onEnd, threadid, false);
+        newCom:function(cls, onEnd, threadid, properties, events){
+            return this.getCom(cls, onEnd, threadid, false, properties, events);
         },
         storeCom:function(id){
             var m,t,c=this._cache,domId=this._domId;

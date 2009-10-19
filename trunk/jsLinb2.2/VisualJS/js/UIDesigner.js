@@ -209,7 +209,7 @@ Class('UIDesigner', 'linb.Com',{
             linb.ComFactory.newCom('VisualJS.ClassEditor',function(threadid){
                 var inn=this;
                 inn.host = com;
-                inn.$pageviewType=com.$pageviewType;
+
                 inn.setEvents('onValueChanged',function(ipage, profile, b, nV){
                     com.imgEdit.setDisplay(b?'':'none');
                     com.$dirty=b;
@@ -222,7 +222,7 @@ Class('UIDesigner', 'linb.Com',{
                 },threadid);
 
                 com.$classEditor=inn;
-            },threadid);
+            },threadid,{$pageviewType:com.$pageviewType});
         },
         getValue:function(){
             return this.$classEditor.getValue();

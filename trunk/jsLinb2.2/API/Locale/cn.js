@@ -4712,7 +4712,9 @@ _.set(linb.Locale,["cn","doc","linb","ComFactory"], {
             "id [必需参数] : String, 应用模块对象id.",
             "onEnd [可选参数] : Function, the 回调函数, 生成应用模块对象(Com Object)成功后被调用.",
             "threadid [可选参数] : String, 内部线程id",
-            "singleton[Optional] : Boolean, 默认为 true. 当 singleton 为 false 的时候相当于 newCom。"
+            "singleton [可选参数] : Boolean, 默认为 true. 当 singleton 为 false 的时候相当于 newCom。",
+            "properties [可选参数] : Object, 键值对，com的属性。",
+            "events [可选参数] : Object, 键值对，com的事件。"
         ],
         $snippet:[
             "linb.ComFactory.getCom('App.Test1',function(){alert('The Com loaded successfully.')});",
@@ -4740,7 +4742,9 @@ _.set(linb.Locale,["cn","doc","linb","ComFactory"], {
         $paras:[
             "cls [必需参数] : String, 应用模块类的路径名字.",
             "onEnd [可选参数] : Function, the 回调函数,加载应用模块类成功后被调用.",
-            "threadid [可选参数] : String, the inner threadid"
+            "threadid [可选参数] : String, the inner threadid",
+            "properties [可选参数] : Object, 键值对，com的属性。",
+            "events [可选参数] : Object, 键值对，com的事件。"
         ],
         $snippet:[
             "linb.ComFactory.destroyAll();"+
@@ -8746,6 +8750,19 @@ _.set(linb.Locale,["cn","doc","linb","UI","ComboInput"], {
         $desc:"生成一个linb.UI.ComboInput对象."
     },
     prototype:{
+        getCaption:{
+            $desc:"获取显示的文本内容.",
+            $rtn:"String"
+        },
+        setCaption:{
+            $desc:"设置显示的文本内容.",
+            $rtn:"[self]",
+            $paras:[
+                "value [必需参数] : String, 文本内容.",
+                "force [可选参数] : Boolean, 强制设置该属性值，即使属性已经设置为该值 默认为 [false]."
+            ],
+            $memo:"在只读状态下，用作临时显示用"
+        },
         getShowValue:{
             $desc:"获取控件的显示值.",
             $rtn:"String",

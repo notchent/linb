@@ -4689,7 +4689,9 @@ _.set(linb.Locale,["en","doc","linb","ComFactory"], {
             "id [Required] : String, the Com id.",
             "onEnd [Optional] : Function, the callback function, it will be executed once when the Com is created successfully.",
             "threadid [Optional] : String, the inner threadid",
-            "singleton[Optional] : Boolean, default is true. If singleton is false, that indicates ComFactory won't get it from the Com cache, and won't cache the result."
+            "singleton [Optional] : Boolean, default is true. If singleton is false, that indicates ComFactory won't get it from the Com cache, and won't cache the result.",
+            "properties [Optional] : Object, key/value pairs, com's properties",
+            "events [Optional] : Object, key/value pairs, com's events."
         ],
         $snippet:[
             "linb.ComFactory.getCom('App.Test1',function(){alert('The Com loaded successfully.')});",
@@ -4717,7 +4719,9 @@ _.set(linb.Locale,["en","doc","linb","ComFactory"], {
         $paras:[
             "cls [Required] : String, the Com Class path name.",
             "onEnd [Optional] : Function, the callback function, it will be executed once when the Com is created successfully.",
-            "threadid [Optional] : String, the inner threadid"
+            "threadid [Optional] : String, the inner threadid",
+            "properties [Optional] : Object, key/value pairs, com's properties",
+            "events [Optional] : Object, key/value pairs, com's events.",
         ],
         $snippet:[
             "linb.ComFactory.destroyAll();"+
@@ -8726,6 +8730,19 @@ _.set(linb.Locale,["en","doc","linb","UI","ComboInput"], {
         $desc:"Creates a linb.UI.ComboInput Object."
     },
     prototype:{
+        getCaption:{
+            $desc:"Gets the temporary caption text.",
+            $rtn:"String"
+        },
+        setCaption:{
+            $desc:"Sets ths temporary caption text.",
+            $rtn:"[self]",
+            $paras:[
+                "value [Required] : String, the caption.",
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
+            ],
+            $memo:"Only for readonly mode, for showing text temporarily."
+        },
         getShowValue:{
             $desc:"Gets control's display string.",
             $rtn:"String",
