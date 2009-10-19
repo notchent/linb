@@ -7304,7 +7304,7 @@ Class('linb.Com',null,{
         self._nodes=[];
         self.host=host||self;
 
-        self.properties = properties || self.properties || {};
+        self.properties = properties || self.properties?_.clone(self.properties):{};
         //copy those from class setting
         self.events = _.copy(self.events) || {};
         if(events)
