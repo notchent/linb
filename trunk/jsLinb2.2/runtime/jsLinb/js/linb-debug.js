@@ -7296,6 +7296,7 @@ afterIniComponents
 onLoadReqiredClass
 onReady
 onRender
+onDestroy
 */
 
 Class('linb.Com',null,{
@@ -7313,7 +7314,9 @@ Class('linb.Com',null,{
     Instance:{
         setHost:function(value, alias){
             this.host=value;
-            return value[alias]=this;
+            if(value && alias)
+                value[alias]=this;
+            return this;
         },
         getHost:function(){
             return this.host;
@@ -7531,7 +7534,8 @@ Class('linb.Com',null,{
             afterIniComponents:function(com, threadid){},
             onLoadRequiredClass:function(com, threadid, key){},
             onReady:function(com, threadid){},
-            onRender:function(com, threadid){}
+            onRender:function(com, threadid){},
+            onDestroy:function(com){}
         }
     }
 });
@@ -11838,7 +11842,6 @@ Class("linb.UI",  "linb.absObj", {
                     if(i.charAt(0)!='$')
                         h[i]=pre + profile.theme + "-" + i.toLowerCase();
                 });
-                console.log(h);
             }
             //get template
             if(!(template = _.get(cache,[key, hash]))){

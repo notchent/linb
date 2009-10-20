@@ -2519,7 +2519,6 @@ Class("linb.UI",  "linb.absObj", {
                     if(i.charAt(0)!='$')
                         h[i]=pre + profile.theme + "-" + i.toLowerCase();
                 });
-                console.log(h);
             }
             //get template
             if(!(template = _.get(cache,[key, hash]))){
