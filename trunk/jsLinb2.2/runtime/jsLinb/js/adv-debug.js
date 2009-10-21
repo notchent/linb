@@ -1039,6 +1039,10 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
                     if(profile.onClickTask)
                         profile.boxing().onClickTask(profile, profile.getItemByDom(src), e, src);
                 },
+                onDblClick:function(profile, e, src){
+                    if(profile.onDblClick)
+                        profile.boxing().onDblClick(profile, profile.getItemByDom(src), e, src);
+                },
                 onDragbegin:function(profile, e, src){
                     var t=profile.getItemByDom(src),
                         type=profile.$dd_type,
@@ -1307,7 +1311,8 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
             beforeNewTasks:function(profile, tasks){},
             beforeDelTasks:function(profile, arr){},
             beforeDragTask:function(profile, task, e, src){},
-            onClickTask:function(profile, task, e, src){}
+            onClickTask:function(profile, task, e, src){},
+            onDblClickTask:function(profile, task, e, src){}
         },
         Appearances:{
             MAINI:{
@@ -1546,6 +1551,10 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
             var self=this, p=self.properties,cls=self.box;
             self.$active = self.getSubNode('ACTIVE').get(0);
             cls._ajustHeight(self);
+
+            if(p.fixWidth){
+                self.boxing().iniContent();
+            }
         },
         _onDropMarkShow:function(){linb.DragDrop.setDragIcon('add');return false},
         _onDropMarkClear:function(){linb.DragDrop.setDragIcon('none');return false},
@@ -1832,16 +1841,20 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
                 ms='ms',
                 y=src.style,
                 z='px',
-                m,n,increment;
+                m,n,increment,
+                xx=x
+                ww=w;
 
             if(increment=t.increment){
+                x=Math.floor(xx/increment)*increment;
+                w=ww-(x-xx);
                 m=Math.floor((w+increment-1)/increment);
-                x=Math.floor(x/increment)*increment;
                 w=m*increment;
             }
 
             m = (p(x)||0);
             n = ((p(w)||0)-2);
+
             if(n>0){
                 y.left= m+z;
                 y.width= n+z;
@@ -2248,6 +2261,8 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
                 f('VIEW').height(t=t - (pro.showTips?_tipsH:0) -off2.top - (pro.showBar?_bbarH:0) -off3);
                 this._ajustHeight(profile);
             }
+            if(pro.fixWidth)return;
+
             if(width && profile._$w != width){
                 // special: modified widget width here
                 f('BORDER').width(profile._$w =  pro.width = width);
