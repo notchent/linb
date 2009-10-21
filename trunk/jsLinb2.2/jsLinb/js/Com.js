@@ -157,6 +157,16 @@ Class('linb.Com',null,{
                 funs.push(function(){
                     if(false===self._fireEvent('beforeIniComponents'))return;
                     Array.prototype.push.apply(self._nodes, self._innerCall('iniComponents')||[]);
+                    // attach destroy to the first UI control
+                    _.arr.each(self._nodes,function(o){
+                        if(o.box && o.box["linb.UI"] && !o.box.$noDomRoot){
+                            o.$afterdestory=function(){
+                                self.destroy();
+                                self=null;
+                            };
+                            return false;
+                        }
+                    });
                     self._fireEvent('afterIniComponents');
                 });
             //Outer components

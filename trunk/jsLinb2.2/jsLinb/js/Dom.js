@@ -435,26 +435,30 @@ Class('linb.Dom','linb.absBox',{
         html:function(content,triggerGC){
             var s='',t,o=this.get(0);triggerGC=triggerGC!==false;
             if(content!==undefined){
-                if(o.nodeType==3)
-                    o.nodeValue=content;
-                else{
-                     if(!o.firstChild && content=="")return this;
-                     // innerHTML='' in IE, will clear it's childNodes innerHTML
-                     if(!triggerGC && linb.browser.ie)while(t=o.firstChild)o.removeChild(t);
-                     //clear first
-                     if(triggerGC)
-                        linb.$purgeChildren(o);
-                     o.innerHTML=content;
-                    //if(triggerGC)
-                    //    linb.UI.$addEventsHanlder(o);
-
+                if(o){
+                    if(o.nodeType==3)
+                        o.nodeValue=content;
+                    else{
+                         if(!o.firstChild && content=="")return this;
+                         // innerHTML='' in IE, will clear it's childNodes innerHTML
+                         if(!triggerGC && linb.browser.ie)while(t=o.firstChild)o.removeChild(t);
+                         //clear first
+                         if(triggerGC)
+                            linb.$purgeChildren(o);
+                         o.innerHTML=content;
+                        //if(triggerGC)
+                        //    linb.UI.$addEventsHanlder(o);
+    
+                    }
+                    o=null;
                 }
-                o=null;
                 return this;
             }else{
-                r = (o.nodeType==3)?o.nodeValue:o.innerHTML;
-                o=null;
-                return r;
+                if(o){
+                    s = (o.nodeType==3)?o.nodeValue:o.innerHTML;
+                    o=null;
+                }
+                return s;
             }
         },
         outerHTML:function(content, triggerGC){

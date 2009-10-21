@@ -837,7 +837,7 @@ Class("linb.UI.Tabs", ["linb.UI", "linb.absList","linb.absValue"],{
             ;
             if(!o || o.isEmpty())return;
 
-            var hc=null;
+            var hc=null,wc=null;
             if(force)item._w=item._h=null;
             if(height && item._h!=height){
                 item._h=height;
@@ -850,12 +850,13 @@ Class("linb.UI.Tabs", ["linb.UI", "linb.absList","linb.absValue"],{
                     if(height>0)hc=height;
                 }else hc=height;
             }
-            if(hc)o.height(hc).onSize();
 
             if(width && item._w!=width){
                 l.width(item._w=width);
                 this._adjustScroll(profile);
+                wc=width;
             }
+            if(hc||wc)o.height(hc).onSize();
         },
 
         _adjustScroll:function(profile, itemid){

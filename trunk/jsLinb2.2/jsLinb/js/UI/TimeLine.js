@@ -60,6 +60,7 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
             return this.each(function(profile){
                 var p=profile.properties;
                 profile.boxing()._getContent(p._smallLabelStart,p._smallLabelEnd,p._rate,'ini');
+                profile._iniOK=true
             });
         },
 
@@ -75,7 +76,11 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
             return this.each(function(profile){
                 if(profile.onGetContent){
                     var ins=profile.boxing(),
-                        callback=function(arr){ins.addTasks(arr)};
+                        callback=function(arr){
+                            if(type=='ini')
+                                ins.clearItems();
+                            ins.addTasks(arr);
+                        };
                     if(profile.onGetContent){
                         var r = ins.onGetContent(profile, from, to, rate, type, callback);
                         if(r)callback(r);
@@ -637,6 +642,10 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
                     if(profile.onClickTask)
                         profile.boxing().onClickTask(profile, profile.getItemByDom(src), e, src);
                 },
+                onDblClick:function(profile, e, src){
+                    if(profile.onDblClick)
+                        profile.boxing().onDblClick(profile, profile.getItemByDom(src), e, src);
+                },
                 onDragbegin:function(profile, e, src){
                     var t=profile.getItemByDom(src),
                         type=profile.$dd_type,
@@ -770,11 +779,7 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
             },
             // how much px to represent a unit
             // defalut value is from timeSpanKey
-            unitPixs : {
-                action:function(){
-                    this.box._refresh(this,true);
-                }
-            },
+            unitPixs : 0,
 
 /*
 *inner properties
@@ -904,11 +909,13 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
             beforeClose:function(profile, src){},
             onShowOptions:function(profile, e, src){},
             onGetContent:function(profile, from, to, minMs, type, callback){},
+            onStartDateChanged:function(profile, odate, date){},
             beforeTaskUpdated:function(profile, task, from, to){},
             beforeNewTasks:function(profile, tasks){},
             beforeDelTasks:function(profile, arr){},
             beforeDragTask:function(profile, task, e, src){},
-            onClickTask:function(profile, task, e, src){}
+            onClickTask:function(profile, task, e, src){},
+            onDblClickTask:function(profile, task, e, src){}
         },
         Appearances:{
             MAINI:{
@@ -1147,7 +1154,6 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
             var self=this, p=self.properties,cls=self.box;
             self.$active = self.getSubNode('ACTIVE').get(0);
             cls._ajustHeight(self);
-            self.boxing().iniContent();
         },
         _onDropMarkShow:function(){linb.DragDrop.setDragIcon('add');return false},
         _onDropMarkClear:function(){linb.DragDrop.setDragIcon('none');return false},
@@ -1656,7 +1662,12 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
             }
             // reset date start point
             t._band_left = band.left();
+            var od=t.dateStart;
             t.dateStart = self._getTime(profile, -t._band_left, 1);
+
+            if(profile.onStartDateChanged){
+                profile.boxing().onStartDateChanged(profile,od,t.dateStart);
+            }
 
             profile.pause = false;
         },
@@ -1848,7 +1859,8 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
             if(width && profile._$w != width){
                 // special: modified widget width here
                 f('BORDER').width(profile._$w =  pro.width = width);
-                var items = profile.boxing().getItems('data'),
+                var ins=profile.boxing(),
+                    items = ins.getItems('data'),
                     bak_s = pro._smallLabelStart,
                     bak_e = pro._smallLabelEnd,
                     offset;
@@ -1856,7 +1868,7 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
                 offset = bak_s - pro._smallLabelStart;
 
                 // reset all items
-                profile.boxing().setItems(items);
+                ins.setItems(items);
 
                 var arr=[];
                 // filter tasks
@@ -1867,13 +1879,17 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
                         arr.push(o.id);
                     }
                 });
-                profile.boxing().removeItems(arr);
+                ins.removeItems(arr);
 
                 if(offset>0){
-                    profile.boxing()._getContent(pro._smallLabelStart, bak_s, pro._rate, 'left');
-                    profile.boxing()._getContent(bak_e, pro._smallLabelEnd, pro._rate, 'right');
+                    // first time, call iniContent
+                    if(!profile._iniOK){
+                        ins.iniContent();
+                    }else{
+                        ins._getContent(pro._smallLabelStart, bak_s, pro._rate, 'left');
+                        ins._getContent(bak_e, pro._smallLabelEnd, pro._rate, 'right');
+                    }
                 }
-
                 //adjust the items
                 this._reArrage(profile);
             }

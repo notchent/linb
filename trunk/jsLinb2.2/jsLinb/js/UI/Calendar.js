@@ -52,6 +52,8 @@ Class('linb.UI.Calendar', 'linb.UI.DatePicker', {
                 }
             }
         });
+        delete self.$Keys.YEAR;
+        delete self.$Keys.MONTH;
     },
     Static:{
         Behaviors:{        
@@ -65,7 +67,6 @@ Class('linb.UI.Calendar', 'linb.UI.DatePicker', {
             handleHeight : null,
             tipsHeight :null,
             closeBtn:null,
-            value:null,
             dataBinder:null,
             dateField:null,
 
@@ -89,7 +90,10 @@ Class('linb.UI.Calendar', 'linb.UI.DatePicker', {
             DC:{
                 'text-align':'left'
             },
-            'TD-checked':{}
+            'TD-checked':{
+                $order:1,
+                "background-color":"#D9E8FB"
+            }
         },
         _onresize:function(profile,width,height){
             var p=profile.properties,

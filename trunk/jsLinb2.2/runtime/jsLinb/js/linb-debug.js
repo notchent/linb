@@ -4990,26 +4990,30 @@ Class('linb.Dom','linb.absBox',{
         html:function(content,triggerGC){
             var s='',t,o=this.get(0);triggerGC=triggerGC!==false;
             if(content!==undefined){
-                if(o.nodeType==3)
-                    o.nodeValue=content;
-                else{
-                     if(!o.firstChild && content=="")return this;
-                     // innerHTML='' in IE, will clear it's childNodes innerHTML
-                     if(!triggerGC && linb.browser.ie)while(t=o.firstChild)o.removeChild(t);
-                     //clear first
-                     if(triggerGC)
-                        linb.$purgeChildren(o);
-                     o.innerHTML=content;
-                    //if(triggerGC)
-                    //    linb.UI.$addEventsHanlder(o);
-
+                if(o){
+                    if(o.nodeType==3)
+                        o.nodeValue=content;
+                    else{
+                         if(!o.firstChild && content=="")return this;
+                         // innerHTML='' in IE, will clear it's childNodes innerHTML
+                         if(!triggerGC && linb.browser.ie)while(t=o.firstChild)o.removeChild(t);
+                         //clear first
+                         if(triggerGC)
+                            linb.$purgeChildren(o);
+                         o.innerHTML=content;
+                        //if(triggerGC)
+                        //    linb.UI.$addEventsHanlder(o);
+    
+                    }
+                    o=null;
                 }
-                o=null;
                 return this;
             }else{
-                r = (o.nodeType==3)?o.nodeValue:o.innerHTML;
-                o=null;
-                return r;
+                if(o){
+                    s = (o.nodeType==3)?o.nodeValue:o.innerHTML;
+                    o=null;
+                }
+                return s;
             }
         },
         outerHTML:function(content, triggerGC){
@@ -7442,6 +7446,16 @@ Class('linb.Com',null,{
                 funs.push(function(){
                     if(false===self._fireEvent('beforeIniComponents'))return;
                     Array.prototype.push.apply(self._nodes, self._innerCall('iniComponents')||[]);
+                    // attach destroy to the first UI control
+                    _.arr.each(self._nodes,function(o){
+                        if(o.box && o.box["linb.UI"] && !o.box.$noDomRoot){
+                            o.$afterdestory=function(){
+                                self.destroy();
+                                self=null;
+                            };
+                            return false;
+                        }
+                    });
                     self._fireEvent('afterIniComponents');
                 });
             //Outer components
@@ -9885,6 +9899,7 @@ Class('linb.UIProfile','linb.Profile', {
                 }
                 t.length=0;
             }
+            _.tryF(ns.$afterdestory,[],ns);
             //break
             _.breakO([ns.properties,ns.events, ns.CF, ns.CB, ns.CC, ns.CS, ns],2);
         },
@@ -10125,7 +10140,7 @@ Class('linb.UIProfile','linb.Profile', {
         _getSubNodeId:function(key, subId){
             var arr = this.$domId.split(':');
             arr[0]=key;
-            arr[2]=subId||'';
+            arr[2]=_.isSet(subId)?(subId+""):'';
             key=arr.join(':');
             return key==this.$domId
                 ? linb.$cache.profileMap[key].domId
@@ -10150,9 +10165,9 @@ Class('linb.UIProfile','linb.Profile', {
                 //key==self.keys.KEY for domId!=$domId
                 r =linb([self.renderId]).query('*', 'id', key==self.keys.KEY?self.domId:new RegExp('^'+key+':'+self.serialId));
             else{
-                if(!subId && h[key] && h[key]._nodes.length==1)return h[key];
+                if(!_.isSet(subId) && h[key] && h[key]._nodes.length==1)return h[key];
                 r = (t=linb.Dom.byId(s=self._getSubNodeId(key, subId))) ? linb([t]) : ((t=self.renderId) && linb.use(t).query('*', 'id', s));
-                if(!subId)h[key]=r;
+                if(!_.isSet(subId))h[key]=r;
             }
             return r;
         },
@@ -23526,7 +23541,7 @@ Class("linb.UI.Tabs", ["linb.UI", "linb.absList","linb.absValue"],{
             ;
             if(!o || o.isEmpty())return;
 
-            var hc=null;
+            var hc=null,wc=null;
             if(force)item._w=item._h=null;
             if(height && item._h!=height){
                 item._h=height;
@@ -23539,12 +23554,13 @@ Class("linb.UI.Tabs", ["linb.UI", "linb.absList","linb.absValue"],{
                     if(height>0)hc=height;
                 }else hc=height;
             }
-            if(hc)o.height(hc).onSize();
 
             if(width && item._w!=width){
                 l.width(item._w=width);
                 this._adjustScroll(profile);
+                wc=width;
             }
+            if(hc||wc)o.height(hc).onSize();
         },
 
         _adjustScroll:function(profile, itemid){

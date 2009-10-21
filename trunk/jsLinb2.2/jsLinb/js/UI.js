@@ -562,6 +562,7 @@ Class('linb.UIProfile','linb.Profile', {
                 }
                 t.length=0;
             }
+            _.tryF(ns.$afterdestory,[],ns);
             //break
             _.breakO([ns.properties,ns.events, ns.CF, ns.CB, ns.CC, ns.CS, ns],2);
         },
@@ -802,7 +803,7 @@ Class('linb.UIProfile','linb.Profile', {
         _getSubNodeId:function(key, subId){
             var arr = this.$domId.split(':');
             arr[0]=key;
-            arr[2]=subId||'';
+            arr[2]=_.isSet(subId)?(subId+""):'';
             key=arr.join(':');
             return key==this.$domId
                 ? linb.$cache.profileMap[key].domId
@@ -827,9 +828,9 @@ Class('linb.UIProfile','linb.Profile', {
                 //key==self.keys.KEY for domId!=$domId
                 r =linb([self.renderId]).query('*', 'id', key==self.keys.KEY?self.domId:new RegExp('^'+key+':'+self.serialId));
             else{
-                if(!subId && h[key] && h[key]._nodes.length==1)return h[key];
+                if(!_.isSet(subId) && h[key] && h[key]._nodes.length==1)return h[key];
                 r = (t=linb.Dom.byId(s=self._getSubNodeId(key, subId))) ? linb([t]) : ((t=self.renderId) && linb.use(t).query('*', 'id', s));
-                if(!subId)h[key]=r;
+                if(!_.isSet(subId))h[key]=r;
             }
             return r;
         },
