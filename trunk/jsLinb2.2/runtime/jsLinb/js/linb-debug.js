@@ -7450,7 +7450,8 @@ Class('linb.Com',null,{
                     _.arr.each(self._nodes,function(o){
                         if(o.box && o.box["linb.UI"] && !o.box.$noDomRoot){
                             o.$afterdestory=function(){
-                                self.destroy();
+                                if(!self.$destroyed)
+                                    self.destroy();
                                 self=null;
                             };
                             return false;
@@ -7505,15 +7506,21 @@ Class('linb.Com',null,{
             return self;
         },
         destroy:function(threadid){
-            var self=this;
+            var self=this,ns=self._nodes;
             self.threadid=threadid;
             self._fireEvent('onDestroy');
-            _.arr.each(self._nodes, function(o){
-                if(o.box)
-                    o.boxing().destroy();
-            });
-            self._nodes.length=0;
+            //set once
+            self.$destroyed=true;
+            if(ns && ns.length)
+                _.arr.each(ns, function(o){
+                    if(o && o.box)
+                        o.boxing().destroy();
+                },null,true);
+            if(ns && ns.length)
+                self._nodes.length=0;
             _.breakO(self);
+            //set again
+            self.$destroyed=true;
         }
     },
     Static:{
@@ -9681,7 +9688,7 @@ Class("linb.DataBinder","linb.absObj",{
             this.each(function(profile){
                 var box=profile.box,name=profile.properties.name;
                 //unlink
-                _.arr.each(profile._n, function(v){box._unBind(name,v)});
+                _.arr.each(profile._n, function(v){if(v)box._unBind(name,v)});
                 //delete from pool
                 delete box._pool[name];
                 //free profile
@@ -9751,7 +9758,7 @@ Class("linb.DataBinder","linb.absObj",{
                 pro.link(o._n, 'databinder.'+name);
         },
         _unBind:function(name, pro){
-            if(this._pool[name])
+            if(pro && pro.box && this._pool[name])
                 pro.unLink('databinder.'+name);
         },
         DataModel:{
@@ -9849,6 +9856,8 @@ Class('linb.UIProfile','linb.Profile', {
         },
         __gc:function(){
             var ns=this, t;
+            if(ns.$destroyed)return;
+            
             _.tryF(ns.$ondestory,[],ns);
             if(ns.onDestroy)ns.boxing().onDestroy();
             if(ns.destroyTrigger)ns.destroyTrigger();
@@ -9899,9 +9908,13 @@ Class('linb.UIProfile','linb.Profile', {
                 }
                 t.length=0;
             }
+            
+            //set once
+            ns.$destroyed=true;
             _.tryF(ns.$afterdestory,[],ns);
-            //break
             _.breakO([ns.properties,ns.events, ns.CF, ns.CB, ns.CC, ns.CS, ns],2);
+            //set again
+            ns.$destroyed=true;
         },
         unlinkParent:function(){
             var profile=this;
@@ -10336,6 +10349,7 @@ Class("linb.UI",  "linb.absObj", {
         },
         destroy:function(){
             this.each(function(o){
+                if(o.$destroyed)return;
                 _.tryF(o.$beforeDestroy,[],o);
                 if(o.beforeDestroy && false===o.boxing().beforeDestroy())return;
                 if(o.renderId)o.getRoot().remove();

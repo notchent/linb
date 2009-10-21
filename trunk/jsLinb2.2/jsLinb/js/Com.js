@@ -161,7 +161,8 @@ Class('linb.Com',null,{
                     _.arr.each(self._nodes,function(o){
                         if(o.box && o.box["linb.UI"] && !o.box.$noDomRoot){
                             o.$afterdestory=function(){
-                                self.destroy();
+                                if(!self.$destroyed)
+                                    self.destroy();
                                 self=null;
                             };
                             return false;
@@ -216,15 +217,21 @@ Class('linb.Com',null,{
             return self;
         },
         destroy:function(threadid){
-            var self=this;
+            var self=this,ns=self._nodes;
             self.threadid=threadid;
             self._fireEvent('onDestroy');
-            _.arr.each(self._nodes, function(o){
-                if(o.box)
-                    o.boxing().destroy();
-            });
-            self._nodes.length=0;
+            //set once
+            self.$destroyed=true;
+            if(ns && ns.length)
+                _.arr.each(ns, function(o){
+                    if(o && o.box)
+                        o.boxing().destroy();
+                },null,true);
+            if(ns && ns.length)
+                self._nodes.length=0;
             _.breakO(self);
+            //set again
+            self.$destroyed=true;
         }
     },
     Static:{
