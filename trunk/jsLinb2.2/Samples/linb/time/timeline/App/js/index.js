@@ -51,7 +51,7 @@ Class('App', 'linb.Com',{
                 .setMultiTasks(true)
                 .setDropKeys("iEvent")
                 .setWidth(796)
-                .beforeNewTasks("_timeline1_beforenewtasks")
+                .beforeNewTask("_timeline1_beforeNewTask")
             , 'timeline');
             
             append((new linb.UI.Button)
@@ -95,12 +95,11 @@ Class('App', 'linb.Com',{
             linb.CSS.addStyleSheet(".linb-task{padding:1px;vertical-align:middle;}.linb-task-mouseover{padding:0;border:solid 1px #ccc;",'linb-task');
         }, 
         events:{"onReady":"_onready"}, 
-        _timeline1_beforenewtasks:function (profile, tasks) {
-            _.arr.each(tasks,function(o){
-                if(linb.Date.diff(new Date(o.from), new Date(o.to), 'h')<3)
-                    o.to=linb.Date.add(new Date(o.from),'h',6).getTime();
-                o.renderer=function(){return (o._dropData?"<img class='linb-task' src='img/"+o._dropData+".gif'>":"")+o.caption;}
-            });
+        _timeline1_beforeNewTask:function (profile, task) {
+            var o=task;
+            if(linb.Date.diff(new Date(o.to), new Date(o.from),  'h')<3)
+                o.to=linb.Date.add(new Date(o.from),'h',6).getTime();
+            o.renderer=function(){return (o._dropData?"<img class='linb-task' src='img/"+o._dropData+".gif'>":"")+o.caption;}
         }
     }
 });

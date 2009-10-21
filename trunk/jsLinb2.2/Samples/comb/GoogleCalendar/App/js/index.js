@@ -51,12 +51,12 @@ Class('App', 'linb.Com',{
                 linb.Thread.resume(threadId);
             });
         }, 
-        _timeline1_beforenewtasks:function (profile, items) {
-            //_.arr.insertAny(SPA.data_cache, _.clone(items,function(i){return (i.charAt(0)!="_"&&i.charAt(0)!="$")}));
+        _timeline1_beforeNewTask:function (profile, item) {
+            //_.arr.insertAny(SPA.data_cache, _.clone(item,function(i){return (i.charAt(0)!="_"&&i.charAt(0)!="$")}));
             var host=this;
             linb.ComFactory.getCom('event',function(){
                 var self=this, dlg=self.dlgEvent,
-                    data = items[0];
+                    data = item;
 
                 //dlg.setFromRegion(null);
                 self.refreshUIFromData(data, 'new', 'Create a new event',host.timeline1.getTimeSpanKey());
@@ -96,7 +96,7 @@ Class('App', 'linb.Com',{
                 .setZoomable(true)
                 .onGetContent("_timeline1_ongettasks")
                 .beforeTaskUpdated("_timeline1_beforechangetask")
-                .beforeNewTasks("_timeline1_beforenewtasks")
+                .beforeNewTask("_timeline1_beforeNewTask")
                 .onClickTask("_timeline1_onclicktask")
             );
             

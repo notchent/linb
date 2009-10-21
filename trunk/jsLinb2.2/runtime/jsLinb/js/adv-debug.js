@@ -906,7 +906,7 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
 
                     if(profile.properties.multiTasks){
                         task={id:_.id(),caption:p.dftTaskName,from:from,to:to};
-                        if(profile.beforeNewTasks && false===b.beforeNewTasks(profile, [task])){}else
+                        if(profile.beforeNewTask && false===b.beforeNewTask(profile, task)){}else
                             b.addTasks([task]);
                     }else
                         b.setUIValue(from+":"+to);
@@ -1040,8 +1040,8 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
                         profile.boxing().onClickTask(profile, profile.getItemByDom(src), e, src);
                 },
                 onDblClick:function(profile, e, src){
-                    if(profile.onDblClick)
-                        profile.boxing().onDblClick(profile, profile.getItemByDom(src), e, src);
+                    if(profile.onDblClickTask)
+                        profile.boxing().onDblClickTask(profile, profile.getItemByDom(src), e, src);
                 },
                 onDragbegin:function(profile, e, src){
                     var t=profile.getItemByDom(src),
@@ -1308,8 +1308,8 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
             onGetContent:function(profile, from, to, minMs, type, callback){},
             onStartDateChanged:function(profile, odate, date){},
             beforeTaskUpdated:function(profile, task, from, to){},
-            beforeNewTasks:function(profile, tasks){},
-            beforeDelTasks:function(profile, arr){},
+            beforeNewTask:function(profile, task){},
+            beforeDelTask:function(profile, id){},
             beforeDragTask:function(profile, task, e, src){},
             onClickTask:function(profile, task, e, src){},
             onDblClickTask:function(profile, task, e, src){}
@@ -1585,7 +1585,7 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
             task.to = box._getTime(profile, r.left+r.width);
             task._dropData=linb.DragDrop.getProfile().dragData;
 
-            if(profile.beforeNewTasks && false===b.beforeNewTasks(profile, [task])){}else
+            if(profile.beforeNewTask && false===b.beforeNewTask(profile, task)){}else
                 b.addTasks([task]);
         },
         _prepareData:function(profile){

@@ -52,7 +52,7 @@ Class('App', 'linb.Com',{
                 .setMultiTasks(true)
                 .setDateBtn(false)
                 .onGetContent("_timeline1_ongetcontent")
-                .beforeNewTasks("_timeline1_beforenewtasks")
+                .beforeNewTask("_timeline1_beforeNewTask")
                 .beforeDragTask("_timeline1_beforedrag")
             );
             
@@ -97,7 +97,7 @@ Class('App', 'linb.Com',{
             return children;
             // ]]code created by jsLinb UI Builder
         }, 
-        _timeline1_beforenewtasks:function (profile, tasks) {
+        _timeline1_beforeNewTask:function (profile, task) {
         }, 
         _timeline1_beforedrag:function(profile, item,e,src){
             linb(src).startDrag(e, {

@@ -14802,7 +14802,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","TimeLine"], {
             ]
         },
         onClickTask:{
-            $desc:"当鼠标单击任务的是否触发。",
+            $desc:"当鼠标单击任务的时候触发。",
             $paras:[
                 "profile : linb.UIProfile.",
                 "task : Object, the task Object.",
@@ -14816,6 +14816,15 @@ _.set(linb.Locale,["cn","doc","linb","UI","TimeLine"], {
                 "linb(id).prepend(o);"+
                 "o.onClickTask(function(p,task){alert('onClick:'+task.id);});"+
                 "}"
+            ]
+        },
+        onDblClickTask:{
+            $desc:"当鼠标双击任务的时候触发。",
+            $paras:[
+                "profile : linb.UIProfile.",
+                "task : Object, the task Object.",
+                "e : Event, DOM事件元素.",
+                "src: String, 事件所属DOM元素的linbid."
             ]
         },
         onGetContent:{
@@ -14836,18 +14845,18 @@ _.set(linb.Locale,["cn","doc","linb","UI","TimeLine"], {
                 "}"
             ]
         },
-        beforeDelTasks:{
+        beforeDelTask:{
             $desc:"再删除任务之前触发。如果返回false，任务不会被删除。",
             $paras:[
                 "profile : 控件概要对象.",
-                "arr : Array, 一组任务的id字符串."
+                "id : String, 的id字符串."
             ]
         },
-        beforeNewTasks:{
+        beforeNewTask:{
             $desc:"在新加入任务之前触发。 如果返回false，任务不会被加入。",
             $paras:[
                 "profile : linb.UIProfile.",
-                "tasks: Array, 任务对象数组."
+                "task: Object, 任务对象."
             ]
         },
         beforeTaskUpdated:{

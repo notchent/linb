@@ -14797,6 +14797,15 @@ _.set(linb.Locale,["en","doc","linb","UI","TimeLine"], {
                 "}"
             ]
         },
+        onDblClickTask:{
+            $desc:"Fired when user double click the task block.",
+            $paras:[
+                "profile : linb.UIProfile.",
+                "task :  Object.",
+                "e: Event, DOM event Object.",
+                "src : String, the event source DOM element's linbid."
+            ]
+        },
         onGetContent:{
             $desc:"Fired when the UI need to build new tasks.",
             $paras:[
@@ -14815,18 +14824,18 @@ _.set(linb.Locale,["en","doc","linb","UI","TimeLine"], {
                 "}"
             ]
         },
-        beforeDelTasks:{
+        beforeDelTask:{
             $desc:"Fired before a specified task is deleted. If returns false, the action will be ignored.",
             $paras:[
                 "profile : linb.UIProfile.",
-                "arr : Obejct[], A set of id strings."
+                "id : String, id string."
             ]
         },
-        beforeNewTasks:{
+        beforeNewTask:{
             $desc:"Fired before a specified task is added. If returns false, the action will be ignored.",
             $paras:[
                 "profile : linb.UIProfile.",
-                "tasks: Object[], A set of tasks."
+                "task: Object, task object."
             ]
         },
         beforeTaskUpdated:{
