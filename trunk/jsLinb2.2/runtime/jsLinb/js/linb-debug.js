@@ -935,7 +935,7 @@ new function(){
             w.XMLHttpRequest = function(){return new ActiveXObject("Msxml2.XMLHTTP")};
         }
     }else if(b.gek)
-        b[v('gek','firefox/')]=true;
+        b[v('gek',/.+\//)]=true;
     else if(b.opr)
         b[v('opr','opera/')]=true;
     else if(b.kde)
