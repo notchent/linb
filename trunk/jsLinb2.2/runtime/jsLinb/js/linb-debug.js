@@ -14200,6 +14200,18 @@ new function(){
                 var i=new Image(), path=i.src=linb.use(src).get(0).src,
                     size=profile.box._adjust(profile,i.width,i.height);
                 profile.boxing().afterLoad(profile, path, size[0], size[1]);
+            },
+            onClick:function(profile, e, src){
+                var p=profile.properties;
+                if(p.disabled)return false;
+                if(profile.onClick)
+                    profile.boxing().onClick(profile, e, src);
+            },
+            onDblClick:function(profile, e, src){
+                var p=profile.properties;
+                if(p.disabled)return false;
+                if(profile.onClick)
+                    profile.boxing().onDblClick(profile, e, src);
             }
         },
         RenderTrigger:function(){
@@ -14210,6 +14222,8 @@ new function(){
             }
         },
         EventHandlers:{
+            onClick:function(profile, e, src){},
+            onDblClick:function(profile, e, src){},
             onError:function(profile){},
             beforeLoad:function(profile){},
             afterLoad:function(profile, path, width, height){}
