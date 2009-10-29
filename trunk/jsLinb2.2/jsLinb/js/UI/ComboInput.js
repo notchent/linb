@@ -371,8 +371,15 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                     }
                 },'all');
 
-                var d=new Date(parseInt(pro.value)||0);
-                pro.$UIvalue=pro.value=String(date.getTimSpanStart(d,'d',1).getTime());
+                var d;
+                if(pro.value){
+                    if(_.isDate(pro.value))
+                        d=pro.value;
+                    else if(isFinite(pro.value))
+                        d=new Date(parseInt(pro.value));
+                }
+                if(d)
+                    pro.$UIvalue=pro.value=String(date.getTimSpanStart(d,'d',1).getTime());
             }else{
                 delete profile.$compareValue;
                 delete profile.$getShowValue;
@@ -860,16 +867,19 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
         },
         _ensureValue:function(profile, value){
             var me=arguments.callee, reg=me._reg||(me._reg=/^#[\w]{6}$/),prop=profile.properties;
+            //if value is empty
+            if(!_.isSet(value) || value==='')return '';
+            
             switch(profile.properties.type){
                 case 'datepicker':
-                    return (value.constructor==Date?value.getTime():value) + "";
+                    return (value.constructor==Date?value.getTime():value) + '';
                 case 'colorpicker':
                     return '#'+linb.UI.ColorPicker._ensureValue(null,value);
                 case 'timepicker':
                     return linb.UI.TimePicker._ensureValue(null,value);
                 case 'spin':
                     var n=Math.pow(10,prop.scale);
-                    value=+value||0;
+                    value=(+value||0);
                     value=Math.ceil((value-0.0000000000003)*n)/n;
                     return String(value>prop.max?prop.max:value<prop.min?prop.min:value);
                 default:

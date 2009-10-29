@@ -2842,11 +2842,14 @@ sortby [for column only]
                 case 'listbox':
                 case 'combobox':
                 case 'helpinput':
-                    //set properties
-                    if(t=getPro('editorListKey'))
-                        editor.setListKey(t);
-                    else if(t=getPro('editorListItems'))
+                    // set properties
+                    if(t=getPro('editorListItems')){
+                        editor.setListKey(null);
                         editor.setItems(t);
+                    }else if(t=getPro('editorListKey')) {
+                        editor.setItems(null);
+                        editor.setListKey(t);
+                    }
                     break;
             }
             //$editorValue must be set in beforeIniEditor
