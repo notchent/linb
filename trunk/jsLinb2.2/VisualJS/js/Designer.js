@@ -2477,7 +2477,7 @@ Class('VisualJS.Designer', 'linb.Com',{
             .onGetContent("$profilegrid_onrequestdata")
 //            .afterRowActive("$profilegrid_afterrowactive")
             .onShowTips("$tg_tips")
-            .onDblClickRow('$tg_click')
+            .onDblclickRow('$tg_click')
             );
 
             t.layoutBase.append(

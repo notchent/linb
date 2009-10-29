@@ -31,11 +31,11 @@ Class("linb.UI.Image", "linb.UI",{
                 if(profile.onClick)
                     profile.boxing().onClick(profile, e, src);
             },
-            onDblClick:function(profile, e, src){
+            onDblclick:function(profile, e, src){
                 var p=profile.properties;
                 if(p.disabled)return false;
                 if(profile.onClick)
-                    profile.boxing().onDblClick(profile, e, src);
+                    profile.boxing().onDblclick(profile, e, src);
             }
         },
         RenderTrigger:function(){
@@ -47,7 +47,7 @@ Class("linb.UI.Image", "linb.UI",{
         },
         EventHandlers:{
             onClick:function(profile, e, src){},
-            onDblClick:function(profile, e, src){},
+            onDblclick:function(profile, e, src){},
             onError:function(profile){},
             beforeLoad:function(profile){},
             afterLoad:function(profile, path, width, height){}

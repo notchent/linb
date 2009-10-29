@@ -494,7 +494,7 @@ Class('App', 'linb.Com',{
                 .setDockMargin({"left":4, "top":4, "right":4, "bottom":4})
                 .setHeader([{"id":"col1", "caption":"Order ID", "type":"input", "width":160}, {"id":"col4", "caption":"Ship Method", "type":"input", "width":100}, {"id":"col2", "caption":"Order Date", "type":"number", "format":"^-?\\d\\d*$", "width":100}, {"id":"col3", "caption":"Employee", "type":"number", "format":"^-?\\d\\d*$", "width":100}, {"id":"col5", "caption":"PO Name", "type":"number", "format":"^-?\\d\\d*$", "width":120}])
                 .setRows([])
-                .onDblClickRow("_treegrid14_ondblclickrow")
+                .onDblclickRow("_treegrid14_ondblclickrow")
             );
             
             host.tabs2.append((new linb.UI.Input)

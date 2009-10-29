@@ -4834,6 +4834,10 @@ _.set(linb.Locale,["cn","doc","linb","DataBinder"], {
         getValue:{
             $desc:"获取键值对, 得到所有绑定控件的值.",
             $rtn:"Object, 键值对.",
+            $paras:[
+                "dirtyOnly [可选参数] : Boolean, 只得到脏数据, 默认为true",
+                "reset [可选参数] : Boolean, 立即重新设置界面数据和清理脏数据标识, 默认为true"
+            ],
             $snippet:[
                 "var id='linb.temp.cv'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var db1=new linb.DataBinder,i1=new linb.UI.Input({position:'relative'}), i2=new linb.UI.Input({position:'relative'}); db1.setName('db1'); i1.setValue('aaa').setDataBinder('db1').setDataField('i1'); i2.setValue('bbb').setDataBinder('db1').setDataField('i2');"+
@@ -12158,6 +12162,22 @@ _.set(linb.Locale,["cn","doc","linb","UI","Image"], {
                 "o.setSrc('img/logo.gif');"+
                 "}"
             ]
+        },
+        onClick:{
+            $desc:"在click图片的时候触发该事件.",
+            $paras:[
+                "profile : linb.UIProfile.",
+                "item: Object, 项对象.",
+                "src: String, 事件所属DOM元素的linbid."
+            ]
+        },
+        onDblclick:{
+            $desc:"在双击图片的时候触发该事件.",
+            $paras:[
+                "profile : linb.UIProfile.",
+                "item: Object, 项对象.",
+                "src: String, 事件所属DOM元素的linbid."
+            ]
         }
     }
 });
@@ -14102,7 +14122,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","TreeGrid"], {
                 "}"
            ]
         },
-        onDblClickRow:{
+        onDblclickRow:{
             $desc:"在行被双击时调用.",
             $paras:[
                 "profile : linb.UIProfile.",
@@ -14115,7 +14135,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","TreeGrid"], {
                 "var o=new linb.UI.TreeGrid({editable:false,position:'relative'});"+
                 "linb.Ajax('App/js/grid.js','',function(s){var hash=_.unserialize(s);o.setHeader(hash.header).setRows(hash.rows);},null,null,{asy:false}).start();"+
                 "linb(id).prepend(o);"+
-                "o.onDblClickRow(function(p,row){linb.message(row.id)});" +
+                "o.onDblclickRow(function(p,row){linb.message(row.id)});" +
                 "}"
            ]
         },
@@ -14164,7 +14184,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","TreeGrid"], {
                 "}"
            ]
         },
-        onDblClickCell:{
+        onDblclickCell:{
             $desc:"当双击一个cell(当cell不在编辑状态时)的时候触发.",
             $paras:[
                 "profile : linb.UIProfile.",
@@ -14177,7 +14197,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","TreeGrid"], {
                 "var o=new linb.UI.TreeGrid({editable:false,position:'relative'});"+
                 "linb.Ajax('App/js/grid.js','',function(s){var hash=_.unserialize(s);hash.header[0].type='button';o.setHeader(hash.header).setRows(hash.rows);},null,null,{asy:false}).start();"+
                 "linb(id).prepend(o);"+
-                "o.onDblClickCell(function(p,cell){linb.message(cell.value)});" +
+                "o.onDblclickCell(function(p,cell){linb.message(cell.value)});" +
                 "}"
            ]
         },
@@ -14818,7 +14838,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","TimeLine"], {
                 "}"
             ]
         },
-        onDblClickTask:{
+        onDblclickTask:{
             $desc:"当鼠标双击任务的时候触发。",
             $paras:[
                 "profile : linb.UIProfile.",

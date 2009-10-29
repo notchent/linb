@@ -4810,6 +4810,10 @@ _.set(linb.Locale,["en","doc","linb","DataBinder"], {
         },
         getValue:{
             $desc:"Gets a key/value pairs Object from the current databinder, that includes the values of all those bound linb.absValue profiles.",
+            $paras:[
+                "dirtyOnly [Optional] : Boolean, only get dirtied data, default is [true]",
+                "reset [Optional] : Boolean, Determines whether to reset all controls' value and clear the diry mark immediately or not, default is [true]"
+            ],
             $rtn:"Object, key/value pairs Object.",
             $snippet:[
                 "var id='linb.temp.cv'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -12137,7 +12141,24 @@ _.set(linb.Locale,["en","doc","linb","UI","Image"], {
                 "o.setSrc('img/logo.gif');"+
                 "}"
             ]
+        },
+        onClick:{
+            $desc:"Fired when image is clicked.",
+            $paras:[
+                "profile : linb.UIProfile.",
+                "e : Event.",
+                "src : Element."
+            ]
+        },
+        onDblclick:{
+            $desc:"Fired when image is dblclicked.",
+            $paras:[
+                "profile : linb.UIProfile.",
+                "e : Event.",
+                "src : Element."
+            ]
         }
+
     }
 });
 
@@ -14081,7 +14102,7 @@ _.set(linb.Locale,["en","doc","linb","UI","TreeGrid"], {
                 "}"
            ]
         },
-        onDblClickRow:{
+        onDblclickRow:{
             $desc:"Fired when a row is dblclicked.",
             $paras:[
                 "profile : linb.UIProfile.",
@@ -14094,7 +14115,7 @@ _.set(linb.Locale,["en","doc","linb","UI","TreeGrid"], {
                 "var o=new linb.UI.TreeGrid({editable:false,position:'relative'});"+
                 "linb.Ajax('App/js/grid.js','',function(s){var hash=_.unserialize(s);o.setHeader(hash.header).setRows(hash.rows);},null,null,{asy:false}).start();"+
                 "linb(id).prepend(o);"+
-                "o.onDblClickRow(function(p,row){linb.message(row.id)});" +
+                "o.onDblclickRow(function(p,row){linb.message(row.id)});" +
                 "}"
            ]
         },
@@ -14143,7 +14164,7 @@ _.set(linb.Locale,["en","doc","linb","UI","TreeGrid"], {
                 "}"
            ]
         },
-        onDblClickCell:{
+        onDblclickCell:{
             $desc:"Fired when a cell(type is 'label/button' or not editable) is double clicked.",
             $paras:[
                 "profile : linb.UIProfile.",
@@ -14156,7 +14177,7 @@ _.set(linb.Locale,["en","doc","linb","UI","TreeGrid"], {
                 "var o=new linb.UI.TreeGrid({editable:false,position:'relative'});"+
                 "linb.Ajax('App/js/grid.js','',function(s){var hash=_.unserialize(s);hash.header[0].type='button';o.setHeader(hash.header).setRows(hash.rows);},null,null,{asy:false}).start();"+
                 "linb(id).prepend(o);"+
-                "o.onDblClickCell(function(p,cell){linb.message(cell.value)});" +
+                "o.onDblclickCell(function(p,cell){linb.message(cell.value)});" +
                 "}"
            ]
         },
@@ -14797,7 +14818,7 @@ _.set(linb.Locale,["en","doc","linb","UI","TimeLine"], {
                 "}"
             ]
         },
-        onDblClickTask:{
+        onDblclickTask:{
             $desc:"Fired when user double click the task block.",
             $paras:[
                 "profile : linb.UIProfile.",

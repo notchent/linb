@@ -1616,7 +1616,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                     var p = profile.properties,
                         row = profile.rowMap[profile.getSubId(src)];
                     if(p.disabled || row.disabled)return false;
-                    if(profile.onDblClickRow)profile.boxing().onDblClickRow(profile, row, e, src);
+                    if(profile.onDblclickRow)profile.boxing().onDblclickRow(profile, row, e, src);
                     return false;
                 },
                 onClick:function(profile,e,src){
@@ -1649,7 +1649,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                         editable=getPro(profile, cell, 'editable');
 
                     if(!disabled && (!editable || (type=='button'||type=='label')))
-                        profile.boxing().onDblClickCell(profile, cell, e, src);
+                        profile.boxing().onDblclickCell(profile, cell, e, src);
                 },
                 onClick:function(profile, e, src){
                     var cell = profile.cellMap[profile.getSubId(src)];
@@ -2042,10 +2042,10 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
             beforeCellUpdated:function(profile, cell, options){},
             afterCellUpdated:function(profile, cell, options){},
 
-            onDblClickRow:function(profile, row, e, src){},
+            onDblclickRow:function(profile, row, e, src){},
             beoforeComboPop:function(profile, cell, proEditor, pos, e, src){},
             onClickCell:function(profile, cell, e, src){},
-            onDblClickCell:function(profile, cell, e, src){},
+            onDblclickCell:function(profile, cell, e, src){},
             onClickGridHandler:function(profile, e, src){}
         },
         RenderTrigger:function(){

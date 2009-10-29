@@ -642,9 +642,9 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
                     if(profile.onClickTask)
                         profile.boxing().onClickTask(profile, profile.getItemByDom(src), e, src);
                 },
-                onDblClick:function(profile, e, src){
-                    if(profile.onDblClickTask)
-                        profile.boxing().onDblClickTask(profile, profile.getItemByDom(src), e, src);
+                onDblclick:function(profile, e, src){
+                    if(profile.onDblclickTask)
+                        profile.boxing().onDblclickTask(profile, profile.getItemByDom(src), e, src);
                 },
                 onDragbegin:function(profile, e, src){
                     var t=profile.getItemByDom(src),
@@ -915,7 +915,7 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
             beforeDelTask:function(profile, id){},
             beforeDragTask:function(profile, task, e, src){},
             onClickTask:function(profile, task, e, src){},
-            onDblClickTask:function(profile, task, e, src){}
+            onDblclickTask:function(profile, task, e, src){}
         },
         Appearances:{
             MAINI:{

@@ -4225,14 +4225,16 @@ Class("linb.absValue", "linb.absObj",{
         resetValue:function(value){
             var self=this;
             self.each(function(profile){
-                var r;
+                var r,pro=profile.properties;
                 if(typeof (r=profile.box._ensureValue)=='function')
                     value = r.call(profile.box, profile, value);
-                // _setCtrlValue maybe use $UIvalue
-                profile.boxing()._setCtrlValue(profile.properties.value = value);
-                // So, maintain $UIvalue during _setCtrlValue call
-                profile.properties.$UIvalue = value;
-                if(typeof(r=profile.$onValueSet)=='function')r.call(profile,value);
+                if(pro.value !== value || pro.$UIvalue!==value){
+                    // _setCtrlValue maybe use $UIvalue
+                    profile.boxing()._setCtrlValue(pro.value = value);
+                    // So, maintain $UIvalue during _setCtrlValue call
+                    pro.$UIvalue = value;
+                    if(typeof(r=profile.$onValueSet)=='function')r.call(profile,value);
+                }
                 profile.inValid=1;
             });
             self._setDirtyMark();
@@ -4357,12 +4359,13 @@ Class("linb.absValue", "linb.absObj",{
         },
         RenderTrigger:function(){
             var self=this, b=self.boxing(),p=self.properties,t,value;
-            p.$UIvalue = p.value;
             if(p.value !==undefined){
                 value=p.value;
                 if(typeof (t=self.box._ensureValue)=='function')
                     value = t.call(self.box, self, value);
-                b._setCtrlValue(value);
+
+                b._setCtrlValue(p.value=value);
+                p.$UIvalue=value;
             }
 
             if(t=p.dataBinder)b.setDataBinder(t,true);

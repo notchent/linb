@@ -13569,14 +13569,16 @@ Class("linb.absValue", "linb.absObj",{
         resetValue:function(value){
             var self=this;
             self.each(function(profile){
-                var r;
+                var r,pro=profile.properties;
                 if(typeof (r=profile.box._ensureValue)=='function')
                     value = r.call(profile.box, profile, value);
-                // _setCtrlValue maybe use $UIvalue
-                profile.boxing()._setCtrlValue(profile.properties.value = value);
-                // So, maintain $UIvalue during _setCtrlValue call
-                profile.properties.$UIvalue = value;
-                if(typeof(r=profile.$onValueSet)=='function')r.call(profile,value);
+                if(pro.value !== value || pro.$UIvalue!==value){
+                    // _setCtrlValue maybe use $UIvalue
+                    profile.boxing()._setCtrlValue(pro.value = value);
+                    // So, maintain $UIvalue during _setCtrlValue call
+                    pro.$UIvalue = value;
+                    if(typeof(r=profile.$onValueSet)=='function')r.call(profile,value);
+                }
                 profile.inValid=1;
             });
             self._setDirtyMark();
@@ -13701,12 +13703,13 @@ Class("linb.absValue", "linb.absObj",{
         },
         RenderTrigger:function(){
             var self=this, b=self.boxing(),p=self.properties,t,value;
-            p.$UIvalue = p.value;
             if(p.value !==undefined){
                 value=p.value;
                 if(typeof (t=self.box._ensureValue)=='function')
                     value = t.call(self.box, self, value);
-                b._setCtrlValue(value);
+
+                b._setCtrlValue(p.value=value);
+                p.$UIvalue=value;
             }
 
             if(t=p.dataBinder)b.setDataBinder(t,true);
@@ -14207,11 +14210,11 @@ new function(){
                 if(profile.onClick)
                     profile.boxing().onClick(profile, e, src);
             },
-            onDblClick:function(profile, e, src){
+            onDblclick:function(profile, e, src){
                 var p=profile.properties;
                 if(p.disabled)return false;
                 if(profile.onClick)
-                    profile.boxing().onDblClick(profile, e, src);
+                    profile.boxing().onDblclick(profile, e, src);
             }
         },
         RenderTrigger:function(){
@@ -14223,7 +14226,7 @@ new function(){
         },
         EventHandlers:{
             onClick:function(profile, e, src){},
-            onDblClick:function(profile, e, src){},
+            onDblclick:function(profile, e, src){},
             onError:function(profile){},
             beforeLoad:function(profile){},
             afterLoad:function(profile, path, width, height){}
@@ -17337,6 +17340,9 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
                 profile.box.setTemplate(template, hash);
             }
             profile.template = template;
+        },
+        _ensureValue:function(profile, value){
+            return ""+value;
         },
         RenderTrigger:function(){
             var ns=this,p=ns.properties;
@@ -28701,7 +28707,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                     var p = profile.properties,
                         row = profile.rowMap[profile.getSubId(src)];
                     if(p.disabled || row.disabled)return false;
-                    if(profile.onDblClickRow)profile.boxing().onDblClickRow(profile, row, e, src);
+                    if(profile.onDblclickRow)profile.boxing().onDblclickRow(profile, row, e, src);
                     return false;
                 },
                 onClick:function(profile,e,src){
@@ -28734,7 +28740,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                         editable=getPro(profile, cell, 'editable');
 
                     if(!disabled && (!editable || (type=='button'||type=='label')))
-                        profile.boxing().onDblClickCell(profile, cell, e, src);
+                        profile.boxing().onDblclickCell(profile, cell, e, src);
                 },
                 onClick:function(profile, e, src){
                     var cell = profile.cellMap[profile.getSubId(src)];
@@ -29127,10 +29133,10 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
             beforeCellUpdated:function(profile, cell, options){},
             afterCellUpdated:function(profile, cell, options){},
 
-            onDblClickRow:function(profile, row, e, src){},
+            onDblclickRow:function(profile, row, e, src){},
             beoforeComboPop:function(profile, cell, proEditor, pos, e, src){},
             onClickCell:function(profile, cell, e, src){},
-            onDblClickCell:function(profile, cell, e, src){},
+            onDblclickCell:function(profile, cell, e, src){},
             onClickGridHandler:function(profile, e, src){}
         },
         RenderTrigger:function(){

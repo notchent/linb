@@ -477,6 +477,9 @@ Class("linb.UI.Input", ["linb.UI.Widget","linb.absValue"] ,{
             }
             profile.template = template;
         },
+        _ensureValue:function(profile, value){
+            return ""+value;
+        },
         RenderTrigger:function(){
             var ns=this,p=ns.properties;
             _.asyRun(function(){

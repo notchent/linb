@@ -21,7 +21,7 @@ Class('App', 'linb.Com',{
                 .setTabindex("2")
                 .setHeader([])
                 .setRows([])
-                .onDblClickRow("_tg_ondblclickrow")
+                .onDblclickRow("_tg_ondblclickrow")
             );
             
             append((new linb.UI.Div)
