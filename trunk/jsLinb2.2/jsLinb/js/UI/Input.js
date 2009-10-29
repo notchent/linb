@@ -116,8 +116,7 @@ Class("linb.UI.Input", ["linb.UI.Widget","linb.absValue"] ,{
             },
             BORDER:{
                 'line-height':'0px',
-                'font-size':'0px',
-                background:linb.UI.$bg('inputbgb.gif', '#fff left bottom repeat-x',"Input")
+                'font-size':'0px'
             },
             WRAP:{
                 left:0,
@@ -129,9 +128,21 @@ Class("linb.UI.Input", ["linb.UI.Widget","linb.absValue"] ,{
                 left:0,
                 top:0,
                 position:'absolute',
-                background:linb.UI.$bg('inputbg.gif', 'repeat-x',"Input"),
+                background:linb.UI.$bg('inputbg.gif', '#fff repeat-x',"Input"),
                 'border':'solid 1px #B5B8C8',
                 'z-index':10
+            },
+            "KEY-readonly BORDER":{
+                $order:1,
+                background:linb.UI.$bg('inputbgb.gif', '#fff left bottom repeat-x',"Input")
+            },
+            "KEY-readonly input":{
+                $order:2,
+                color:'#909090'
+            },
+            "KEY-readonly BOX":{
+                $order:2,
+                background:'none'
             },
             'BOX-focus, BOX-mouseover':{
                 'border-color':'#7EADD9'
@@ -154,10 +165,6 @@ Class("linb.UI.Input", ["linb.UI.Widget","linb.absValue"] ,{
                overflow:'auto',
                'overflow-y':'auto',
                'overflow-x':'hidden'
-            },
-            "INPUT-readonly":{
-                $order:2,
-                color:'#909090'
             },
             ERROR:{
                 width:'16px',
@@ -411,11 +418,11 @@ Class("linb.UI.Input", ["linb.UI.Widget","linb.absValue"] ,{
                 ini:false,
                 action: function(v){
                     var n=this.getSubNode('INPUT'),
-                        cls=this.getClass('INPUT','-readonly');
-                    n.attr('readonly',v).css('cursor',v?'default':'');
+                        cls=this.getClass('KEY','-readonly');
+                    n.attr('readonly',v).css('cursor',v?'pointer':'');
                     
-                    if(v)n.addClass(cls);
-                    else n.removeClass(cls);
+                    if(v)this.getRoot().addClass(cls);
+                    else this.getRoot().removeClass(cls);
                 }
             },
             type:{
@@ -450,7 +457,7 @@ Class("linb.UI.Input", ["linb.UI.Widget","linb.absValue"] ,{
         },
         _prepareData:function(profile){
             var d=arguments.callee.upper.call(this, profile);
-            d.cursor = d.readonly?'default':'';
+            d.cursor = d.readonly?'pointer':'';
             d._type = d.type || '';
             if(linb.browser.kde)
                 d._css='resize:none;';
@@ -478,7 +485,7 @@ Class("linb.UI.Input", ["linb.UI.Widget","linb.absValue"] ,{
             profile.template = template;
         },
         _ensureValue:function(profile, value){
-            return ""+value;
+            return _.isSet(value)?(""+value):"";
         },
         RenderTrigger:function(){
             var ns=this,p=ns.properties;

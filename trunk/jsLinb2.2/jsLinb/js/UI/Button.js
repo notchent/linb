@@ -33,6 +33,21 @@ Class("linb.UI.Button", ["linb.UI.Widget","linb.absValue"],{
                         o.removeClass(d);
                 }
             });
+        },
+        resetValue:function(value){
+            this.each(function(p){
+                if(p.properties.type=='drop')
+                    p.boxing().setCaption("",true);
+            });
+            return arguments.callee.upper.apply(this,arguments);
+        },
+        setUIValue:function(value, force){
+            this.each(function(profile){
+                var p=profile.properties;
+                if(p.$UIvalue!==value && p.type=='drop')
+                    profile.boxing().setCaption("",true);
+            });
+            return arguments.callee.upper.apply(this,arguments);
         }
     },
     Initialize:function(){

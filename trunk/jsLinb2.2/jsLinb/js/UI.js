@@ -223,7 +223,7 @@ Class('linb.absObj',"linb.absBox",{
                     m = ps[n];
                     ps[n] = (typeof $get!='function' && typeof m=='function') ? m : Class._fun(function(){
                         if(typeof $get=='function')
-                            return $get.call(v);
+                            return $get.call(this.get(0));
                         else
                             return this.get(0).properties[i];
                     },n,self.KEY);
@@ -351,11 +351,33 @@ Class("linb.DataBinder","linb.absObj",{
                 profile.__gc();
             });
         },
-        resetValue:function(hash){
+        updateValue:function(){
             return this.each(function(o,i){
                 _.arr.each(o._n,function(profile){
-                    var p=profile.properties;
-                    profile.boxing().resetValue((hash && p.dataField in hash)?hash[p.dataField]:'');
+                    profile.boxing().updateValue();
+                });
+            })
+        },
+        resetValue:function(hash){
+            var p,v,c,b;
+            return this.each(function(o,i){
+                _.arr.each(o._n,function(profile){
+                    p=profile.properties;
+                    v=(hash && p.dataField in hash)?hash[p.dataField]:'';
+                    c=null;
+                    b=profile.boxing();
+                    if(v && typeof v=="object"){
+                        // catch caption at first
+                        c=_.isSet(v.caption)?v.caption:null;
+                        // reset v at last
+                        v=v.value;
+                    }
+                    // set value
+                    b.resetValue(v);
+                    // set caption
+                    if(b.setCaption && c!==null)
+                        _.tryF(b.setCaption,[c,true],b);
+                    
                 });
             })
         },
@@ -365,7 +387,7 @@ Class("linb.DataBinder","linb.absObj",{
         checkValid:function(){
             return linb.absValue.pack(this.get(0)._n,false).checkValid();
         },
-        getValue:function(dirtyOnly, reset){
+        getValue:function(dirtyOnly, reset, withCaption){
             var o=this.get(0);
             if( this.checkValid() ){
                 var hash={};
@@ -376,7 +398,11 @@ Class("linb.DataBinder","linb.absObj",{
                     uv = b.getUIValue();
 
                     if(!dirtyOnly || (dirtyOnly && uv!==v)){
-                        hash[p.dataField]=uv;
+                        if(withCaption && b.getCaption){
+                            hash[p.dataField]={value:uv,caption:b.getCaption()};
+                        }else{
+                            hash[p.dataField]=uv;
+                        }
                         if(reset!==false && profile.renderId){
                             b.updateValue();
                         }
@@ -2740,9 +2766,11 @@ Class("linb.UI",  "linb.absObj", {
                         t.afterKeydown = null;
                     else{
                         t.afterKeydown = function(profile, e, src){
-                            var k=linb.Event.getKey(e), key = k[0], ctrl=k[1], shift=k[2], alt=k[3], b=false;
-                            if(m2[k=linb.use(src).get(0).tagName.toLowerCase()]){
-                                if(m3[key]){
+                            var k=linb.Event.getKey(e), key = k[0], ctrl=k[1], shift=k[2], alt=k[3], b=false, node=linb.use(src).get(0);
+                            if(m2[k=node.tagName.toLowerCase()]){
+                                if(k=="input" && node.type.toLowerCase()!='text'&& node.type.toLowerCase()!='password'){
+                                    b=true;
+                                }else if(m3[key]){
                                     var reg = linb.use(src).caret(),txt=linb.use(src).get(0).value;
 
                                     switch(key){
@@ -2777,6 +2805,7 @@ Class("linb.UI",  "linb.absObj", {
                                 if(key!='tab')
                                     linb.use(src).nextFocus(('up'==key || 'left'==key)?false:true);
                             }
+                            node=null;
                         }
                     }
                 });
@@ -4271,12 +4300,16 @@ Class("linb.absValue", "linb.absObj",{
             return this;
         },
         updateValue:function(){
-            this.each(function(profile){
-                var prop = profile.properties,ins=profile.boxing();
-                if(ins.checkValid())
-                    prop.value = ins.getUIValue();
+            return this.each(function(profile){
+                var prop = profile.properties;
+                if(prop.value!==prop.$UIvalue){
+                    var ins=profile.boxing();
+                    if(ins.checkValid()){
+                        prop.value = ins.getUIValue();
+                        ins._setDirtyMark();
+                    }
+                }
             });
-            return this._setDirtyMark();
         },
         isDirtied:function(){
             var p = this.get(0).properties;

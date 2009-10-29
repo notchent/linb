@@ -5146,11 +5146,13 @@ Class('linb.Dom','linb.absBox',{
         *in IE: '/r/n'.lenght is 2, but range.moveEnd/moveStart will take '/r/n' as 1.
         */
         caret:function(begin,end){
-            var input =this.get(0), tn=input.tagName, type=typeof begin,ie=linb.browser.ie, pos;
-            if(!/^(input|textarea)$/i.test(tn))return this;
+            var input =this.get(0), tn=input.tagName.toLowerCase(), type=typeof begin,ie=linb.browser.ie, pos;
+            if(!/^(input|textarea)$/i.test(tn))return;
+            if(tn=="input" && input.type.toLowerCase()!='text'&& input.type.toLowerCase()!='password')return;
             input.focus();
             //set caret
             if(type=='number'){
+                
                 if(ie){
                     var r = input.createTextRange();
                     r.collapse(true);
@@ -9567,7 +9569,7 @@ Class('linb.absObj',"linb.absBox",{
                     m = ps[n];
                     ps[n] = (typeof $get!='function' && typeof m=='function') ? m : Class._fun(function(){
                         if(typeof $get=='function')
-                            return $get.call(v);
+                            return $get.call(this.get(0));
                         else
                             return this.get(0).properties[i];
                     },n,self.KEY);
@@ -9695,11 +9697,33 @@ Class("linb.DataBinder","linb.absObj",{
                 profile.__gc();
             });
         },
-        resetValue:function(hash){
+        updateValue:function(){
             return this.each(function(o,i){
                 _.arr.each(o._n,function(profile){
-                    var p=profile.properties;
-                    profile.boxing().resetValue((hash && p.dataField in hash)?hash[p.dataField]:'');
+                    profile.boxing().updateValue();
+                });
+            })
+        },
+        resetValue:function(hash){
+            var p,v,c,b;
+            return this.each(function(o,i){
+                _.arr.each(o._n,function(profile){
+                    p=profile.properties;
+                    v=(hash && p.dataField in hash)?hash[p.dataField]:'';
+                    c=null;
+                    b=profile.boxing();
+                    if(v && typeof v=="object"){
+                        // catch caption at first
+                        c=_.isSet(v.caption)?v.caption:null;
+                        // reset v at last
+                        v=v.value;
+                    }
+                    // set value
+                    b.resetValue(v);
+                    // set caption
+                    if(b.setCaption && c!==null)
+                        _.tryF(b.setCaption,[c,true],b);
+                    
                 });
             })
         },
@@ -9709,7 +9733,7 @@ Class("linb.DataBinder","linb.absObj",{
         checkValid:function(){
             return linb.absValue.pack(this.get(0)._n,false).checkValid();
         },
-        getValue:function(dirtyOnly, reset){
+        getValue:function(dirtyOnly, reset, withCaption){
             var o=this.get(0);
             if( this.checkValid() ){
                 var hash={};
@@ -9720,7 +9744,11 @@ Class("linb.DataBinder","linb.absObj",{
                     uv = b.getUIValue();
 
                     if(!dirtyOnly || (dirtyOnly && uv!==v)){
-                        hash[p.dataField]=uv;
+                        if(withCaption && b.getCaption){
+                            hash[p.dataField]={value:uv,caption:b.getCaption()};
+                        }else{
+                            hash[p.dataField]=uv;
+                        }
                         if(reset!==false && profile.renderId){
                             b.updateValue();
                         }
@@ -12084,9 +12112,11 @@ Class("linb.UI",  "linb.absObj", {
                         t.afterKeydown = null;
                     else{
                         t.afterKeydown = function(profile, e, src){
-                            var k=linb.Event.getKey(e), key = k[0], ctrl=k[1], shift=k[2], alt=k[3], b=false;
-                            if(m2[k=linb.use(src).get(0).tagName.toLowerCase()]){
-                                if(m3[key]){
+                            var k=linb.Event.getKey(e), key = k[0], ctrl=k[1], shift=k[2], alt=k[3], b=false, node=linb.use(src).get(0);
+                            if(m2[k=node.tagName.toLowerCase()]){
+                                if(k=="input" && node.type.toLowerCase()!='text'&& node.type.toLowerCase()!='password'){
+                                    b=true;
+                                }else if(m3[key]){
                                     var reg = linb.use(src).caret(),txt=linb.use(src).get(0).value;
 
                                     switch(key){
@@ -12121,6 +12151,7 @@ Class("linb.UI",  "linb.absObj", {
                                 if(key!='tab')
                                     linb.use(src).nextFocus(('up'==key || 'left'==key)?false:true);
                             }
+                            node=null;
                         }
                     }
                 });
@@ -13615,12 +13646,16 @@ Class("linb.absValue", "linb.absObj",{
             return this;
         },
         updateValue:function(){
-            this.each(function(profile){
-                var prop = profile.properties,ins=profile.boxing();
-                if(ins.checkValid())
-                    prop.value = ins.getUIValue();
+            return this.each(function(profile){
+                var prop = profile.properties;
+                if(prop.value!==prop.$UIvalue){
+                    var ins=profile.boxing();
+                    if(ins.checkValid()){
+                        prop.value = ins.getUIValue();
+                        ins._setDirtyMark();
+                    }
+                }
             });
-            return this._setDirtyMark();
         },
         isDirtied:function(){
             var p = this.get(0).properties;
@@ -15830,6 +15865,21 @@ Class("linb.UI.Button", ["linb.UI.Widget","linb.absValue"],{
                         o.removeClass(d);
                 }
             });
+        },
+        resetValue:function(value){
+            this.each(function(p){
+                if(p.properties.type=='drop')
+                    p.boxing().setCaption("",true);
+            });
+            return arguments.callee.upper.apply(this,arguments);
+        },
+        setUIValue:function(value, force){
+            this.each(function(profile){
+                var p=profile.properties;
+                if(p.$UIvalue!==value && p.type=='drop')
+                    profile.boxing().setCaption("",true);
+            });
+            return arguments.callee.upper.apply(this,arguments);
         }
     },
     Initialize:function(){
@@ -16980,8 +17030,7 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
             },
             BORDER:{
                 'line-height':'0px',
-                'font-size':'0px',
-                background:linb.UI.$bg('inputbgb.gif', '#fff left bottom repeat-x',"Input")
+                'font-size':'0px'
             },
             WRAP:{
                 left:0,
@@ -16993,9 +17042,21 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
                 left:0,
                 top:0,
                 position:'absolute',
-                background:linb.UI.$bg('inputbg.gif', 'repeat-x',"Input"),
+                background:linb.UI.$bg('inputbg.gif', '#fff repeat-x',"Input"),
                 'border':'solid 1px #B5B8C8',
                 'z-index':10
+            },
+            "KEY-readonly BORDER":{
+                $order:1,
+                background:linb.UI.$bg('inputbgb.gif', '#fff left bottom repeat-x',"Input")
+            },
+            "KEY-readonly input":{
+                $order:2,
+                color:'#909090'
+            },
+            "KEY-readonly BOX":{
+                $order:2,
+                background:'none'
             },
             'BOX-focus, BOX-mouseover':{
                 'border-color':'#7EADD9'
@@ -17018,10 +17079,6 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
                overflow:'auto',
                'overflow-y':'auto',
                'overflow-x':'hidden'
-            },
-            "INPUT-readonly":{
-                $order:2,
-                color:'#909090'
             },
             ERROR:{
                 width:'16px',
@@ -17275,11 +17332,11 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
                 ini:false,
                 action: function(v){
                     var n=this.getSubNode('INPUT'),
-                        cls=this.getClass('INPUT','-readonly');
-                    n.attr('readonly',v).css('cursor',v?'default':'');
+                        cls=this.getClass('KEY','-readonly');
+                    n.attr('readonly',v).css('cursor',v?'pointer':'');
                     
-                    if(v)n.addClass(cls);
-                    else n.removeClass(cls);
+                    if(v)this.getRoot().addClass(cls);
+                    else this.getRoot().removeClass(cls);
                 }
             },
             type:{
@@ -17314,7 +17371,7 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
         },
         _prepareData:function(profile){
             var d=arguments.callee.upper.call(this, profile);
-            d.cursor = d.readonly?'default':'';
+            d.cursor = d.readonly?'pointer':'';
             d._type = d.type || '';
             if(linb.browser.kde)
                 d._css='resize:none;';
@@ -17342,7 +17399,7 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
             profile.template = template;
         },
         _ensureValue:function(profile, value){
-            return ""+value;
+            return _.isSet(value)?(""+value):"";
         },
         RenderTrigger:function(){
             var ns=this,p=ns.properties;
@@ -18151,9 +18208,14 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                 pro=profile.properties,v,t;
             if(!_.isDefined(value))
                 value=pro.$UIvalue;
-            if(pro.readonly && pro.caption)
-                v = pro.caption+"";
-            else if(t = profile.CF.getShowValue||profile.$getShowValue)
+
+            // try to give default caption
+            if(_.isSet(pro.$caption)){
+                v = pro.$caption+"";
+                // use once only
+                delete pro.$caption;   
+                return v;
+            }else if(t = profile.CF.getShowValue||profile.$getShowValue)
                 v = t(profile, value);
             else{
                 //get from items
@@ -18164,7 +18226,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                       if(v.length>0)
                         v=v.charAt(0)=='$'?linb.getRes(v.slice(1)):v;
                     }else
-                        v='';
+                        v='';                        
                 }else
                     v = profile.$showValue;
             }
@@ -18441,7 +18503,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
             }
         },'all');
         t.FRAME.POOL={};
-        t.className +=' {uploadClass}';
+        t.className +=' {typecls}';
 
         this.setTemplate(t);
         
@@ -18450,7 +18512,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
     Static:{
         _iniType:function(profile){
             var pro=profile.properties, value=pro.type;
-            if(value=='listbox'||value=='upload')
+            if(value=='listbox'||value=='upload'||value=='cmdbox')
                 profile.boxing().setReadonly(true);
 
             if(value!='listbox' && value!='combobox' && value!='helpinput')
@@ -18534,9 +18596,15 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                 'font-size':'12px',
                 overflow:'hidden'
             },
-            'UPLOAD-show INPUT':{
+            'KEY-upload INPUT':{
+                $order:3,
                 color:'#777'
             },
+            'KEY-cmdbox INPUT, KEY-listbox INPUT':{
+                $order:4,
+                color:'#000',
+                overflow:'hidden'
+            },            
             'RBTN,SBTN,BTN':{
                 display:'block',
                 'z-index':'1',
@@ -18743,6 +18811,8 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                     var prop=profile.properties,
                         m=prop.multiLines,
                         key=linb.Event.getKey(e);
+                    if(prop.readOnly)return false;
+                    
                     //fire onchange first
                     if(key[0]=='enter'&& (!m||key[3]))
                         linb.use(src).onChange();
@@ -18767,7 +18837,11 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                     }
                 },
                 onClick : function(profile, e, src){
-                    if(linb.use(src).get(0).readOnly)
+                    var p=profile.properties;
+                    if(p.type=='cmdbox'){
+                        if(profile.onClick)
+                            profile.boxing().onClick(profile, e, src, p.$UIvalue);
+                    }else if(linb.use(src).get(0).readOnly)
                         profile.boxing()._drop(e, src);
                 }
             },
@@ -18797,7 +18871,8 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
         EventHandlers:{
             onFileDlgOpen:function(profile, node){},
             onSave:function(profile, node){},
-            beoforeComboPop:function(profile, pos, e, src){}
+            beoforeComboPop:function(profile, pos, e, src){},
+            onClick:function(profile, e, src, value){}
         },
         _posMap:{
             none:'',
@@ -18853,13 +18928,6 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                         .css('backgroundPosition', value);
                 }
             },
-            readonly:{
-                ini:false,
-                action:function(v){
-                    if(!v && this.properties.type=='listbox')return;
-                    this.getSubNode('INPUT').css('cursor',v?'pointer':'default').attr('readonly',v);
-                }
-            },
             type:{
                 ini:'combobox',
                 listbox:_.toArr('none,combobox,listbox,upload,getter,helpinput,cmdbox,popbox,timepicker,datepicker,colorpicker,spin'),
@@ -18883,10 +18951,18 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
             },
             caption:{
                 ini:"",
-                action:function(v){
-                    if(this.properties.readonly){
-                        this.getSubNode('INPUT').attr("value",this.boxing().getShowValue());
+                set:function(v,force){
+                    var p=this.properties;
+                    p.caption=v;
+                    if(_.isSet(p.caption) && this.renderId){
+                        p.$caption=p.caption;
+                        if(this.properties.readonly){
+                            this.getSubNode('INPUT').attr("value",this.boxing().getShowValue());
+                        }
                     }
+                },
+                get:function(){
+                    return this.boxing().getShowValue();
                 }
             }
         },
@@ -18897,6 +18973,9 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
             self.box._iniType(self);
             if(p.readonly)
                 instance.setReadonly(true,true);
+            if(_.isSet(p.caption)){
+                p.$caption=p.caption;
+            }
         },
         _spin:function(profile, flag){
             var id=profile.$linbid+':spin';
@@ -18931,6 +19010,8 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                 }
 
                 switch(properties.type){
+                case 'none':
+                break;
                 case 'spin':
                     t.RBTN={
                         $order:5,
@@ -18945,8 +19026,6 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                         }
                     };
                 break;
-                case 'none':
-                break;
                 case 'upload':
                     t.UPLOAD={
                         $order:2,
@@ -18954,6 +19033,9 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                         type:'file',
                         size:'1'
                     };
+                case 'cmdbox':
+                    t.BOX.WRAP.INPUT.tagName='input';
+                    t.BOX.WRAP.INPUT.type='button';
                 default:
                     t.BTN={
                         $order:4,
@@ -18975,14 +19057,12 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                 map=profile.box._posMap;
             if(map[data.type])
                 data._btnStyle = data.image? ('background: url('+data.image+')' + (data.imagePos||'')) :('background-position:'+map[data.type]);
-
-            if(data.type=='upload')
-                data.uploadClass=profile.getClass('UPLOAD','-show');
                 
             data._type="text";
 
             data._saveDisplay = data.saveBtn?'':'display:none';
             data._popbtnDisplay = data.type!='none'?'':'display:none';
+            data.typecls=profile.getClass('KEY','-'+data.type);
             return data;
         },
         _ensureValue:function(profile, value){

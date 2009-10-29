@@ -591,11 +591,13 @@ Class('linb.Dom','linb.absBox',{
         *in IE: '/r/n'.lenght is 2, but range.moveEnd/moveStart will take '/r/n' as 1.
         */
         caret:function(begin,end){
-            var input =this.get(0), tn=input.tagName, type=typeof begin,ie=linb.browser.ie, pos;
-            if(!/^(input|textarea)$/i.test(tn))return this;
+            var input =this.get(0), tn=input.tagName.toLowerCase(), type=typeof begin,ie=linb.browser.ie, pos;
+            if(!/^(input|textarea)$/i.test(tn))return;
+            if(tn=="input" && input.type.toLowerCase()!='text'&& input.type.toLowerCase()!='password')return;
             input.focus();
             //set caret
             if(type=='number'){
+                
                 if(ie){
                     var r = input.createTextRange();
                     r.collapse(true);

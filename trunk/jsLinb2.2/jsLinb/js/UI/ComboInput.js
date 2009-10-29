@@ -31,9 +31,14 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                 pro=profile.properties,v,t;
             if(!_.isDefined(value))
                 value=pro.$UIvalue;
-            if(pro.readonly && pro.caption)
-                v = pro.caption+"";
-            else if(t = profile.CF.getShowValue||profile.$getShowValue)
+
+            // try to give default caption
+            if(_.isSet(pro.$caption)){
+                v = pro.$caption+"";
+                // use once only
+                delete pro.$caption;   
+                return v;
+            }else if(t = profile.CF.getShowValue||profile.$getShowValue)
                 v = t(profile, value);
             else{
                 //get from items
@@ -44,7 +49,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                       if(v.length>0)
                         v=v.charAt(0)=='$'?linb.getRes(v.slice(1)):v;
                     }else
-                        v='';
+                        v='';                        
                 }else
                     v = profile.$showValue;
             }
@@ -321,7 +326,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
             }
         },'all');
         t.FRAME.POOL={};
-        t.className +=' {uploadClass}';
+        t.className +=' {typecls}';
 
         this.setTemplate(t);
         
@@ -330,7 +335,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
     Static:{
         _iniType:function(profile){
             var pro=profile.properties, value=pro.type;
-            if(value=='listbox'||value=='upload')
+            if(value=='listbox'||value=='upload'||value=='cmdbox')
                 profile.boxing().setReadonly(true);
 
             if(value!='listbox' && value!='combobox' && value!='helpinput')
@@ -414,9 +419,15 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                 'font-size':'12px',
                 overflow:'hidden'
             },
-            'UPLOAD-show INPUT':{
+            'KEY-upload INPUT':{
+                $order:3,
                 color:'#777'
             },
+            'KEY-cmdbox INPUT, KEY-listbox INPUT':{
+                $order:4,
+                color:'#000',
+                overflow:'hidden'
+            },            
             'RBTN,SBTN,BTN':{
                 display:'block',
                 'z-index':'1',
@@ -623,6 +634,8 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                     var prop=profile.properties,
                         m=prop.multiLines,
                         key=linb.Event.getKey(e);
+                    if(prop.readOnly)return false;
+                    
                     //fire onchange first
                     if(key[0]=='enter'&& (!m||key[3]))
                         linb.use(src).onChange();
@@ -647,7 +660,11 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                     }
                 },
                 onClick : function(profile, e, src){
-                    if(linb.use(src).get(0).readOnly)
+                    var p=profile.properties;
+                    if(p.type=='cmdbox'){
+                        if(profile.onClick)
+                            profile.boxing().onClick(profile, e, src, p.$UIvalue);
+                    }else if(linb.use(src).get(0).readOnly)
                         profile.boxing()._drop(e, src);
                 }
             },
@@ -677,7 +694,8 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
         EventHandlers:{
             onFileDlgOpen:function(profile, node){},
             onSave:function(profile, node){},
-            beoforeComboPop:function(profile, pos, e, src){}
+            beoforeComboPop:function(profile, pos, e, src){},
+            onClick:function(profile, e, src, value){}
         },
         _posMap:{
             none:'',
@@ -733,13 +751,6 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                         .css('backgroundPosition', value);
                 }
             },
-            readonly:{
-                ini:false,
-                action:function(v){
-                    if(!v && this.properties.type=='listbox')return;
-                    this.getSubNode('INPUT').css('cursor',v?'pointer':'default').attr('readonly',v);
-                }
-            },
             type:{
                 ini:'combobox',
                 listbox:_.toArr('none,combobox,listbox,upload,getter,helpinput,cmdbox,popbox,timepicker,datepicker,colorpicker,spin'),
@@ -763,10 +774,18 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
             },
             caption:{
                 ini:"",
-                action:function(v){
-                    if(this.properties.readonly){
-                        this.getSubNode('INPUT').attr("value",this.boxing().getShowValue());
+                set:function(v,force){
+                    var p=this.properties;
+                    p.caption=v;
+                    if(_.isSet(p.caption) && this.renderId){
+                        p.$caption=p.caption;
+                        if(this.properties.readonly){
+                            this.getSubNode('INPUT').attr("value",this.boxing().getShowValue());
+                        }
                     }
+                },
+                get:function(){
+                    return this.boxing().getShowValue();
                 }
             }
         },
@@ -777,6 +796,9 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
             self.box._iniType(self);
             if(p.readonly)
                 instance.setReadonly(true,true);
+            if(_.isSet(p.caption)){
+                p.$caption=p.caption;
+            }
         },
         _spin:function(profile, flag){
             var id=profile.$linbid+':spin';
@@ -811,6 +833,8 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                 }
 
                 switch(properties.type){
+                case 'none':
+                break;
                 case 'spin':
                     t.RBTN={
                         $order:5,
@@ -825,8 +849,6 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                         }
                     };
                 break;
-                case 'none':
-                break;
                 case 'upload':
                     t.UPLOAD={
                         $order:2,
@@ -834,6 +856,9 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                         type:'file',
                         size:'1'
                     };
+                case 'cmdbox':
+                    t.BOX.WRAP.INPUT.tagName='input';
+                    t.BOX.WRAP.INPUT.type='button';
                 default:
                     t.BTN={
                         $order:4,
@@ -855,14 +880,12 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                 map=profile.box._posMap;
             if(map[data.type])
                 data._btnStyle = data.image? ('background: url('+data.image+')' + (data.imagePos||'')) :('background-position:'+map[data.type]);
-
-            if(data.type=='upload')
-                data.uploadClass=profile.getClass('UPLOAD','-show');
                 
             data._type="text";
 
             data._saveDisplay = data.saveBtn?'':'display:none';
             data._popbtnDisplay = data.type!='none'?'':'display:none';
+            data.typecls=profile.getClass('KEY','-'+data.type);
             return data;
         },
         _ensureValue:function(profile, value){
