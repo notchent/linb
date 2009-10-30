@@ -337,7 +337,7 @@ Class("linb.UI.Panel", "linb.UI.Div",{
                 else{
                     h1=v1.height(), h4=v4.height();
                     if((t=height-h1-h4)>0)
-                        isize.height=t;
+                        isize.height=t-2;
                 }
             }
             if(width)

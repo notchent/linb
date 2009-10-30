@@ -18212,7 +18212,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
             // try to give default caption
             if(_.isSet(pro.$caption)){
                 v = pro.$caption+"";
-                // use once only
+                // use once only, for picklist
                 delete pro.$caption;   
                 return v;
             }else if(t = profile.CF.getShowValue||profile.$getShowValue)
@@ -18226,9 +18226,11 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                       if(v.length>0)
                         v=v.charAt(0)=='$'?linb.getRes(v.slice(1)):v;
                     }else
-                        v='';                        
+                        v='';           
+                }else if('cmdbox'==pro.type){
+                    v=pro.caption||"";
                 }else
-                    v = profile.$showValue;
+                    v=profile.$showValue;
             }
             return String( _.isSet(v) ? v : _.isSet(value) ? value : "");
         },
@@ -18603,6 +18605,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
             'KEY-cmdbox INPUT, KEY-listbox INPUT':{
                 $order:4,
                 color:'#000',
+                'text-align':'left',
                 overflow:'hidden'
             },            
             'RBTN,SBTN,BTN':{
@@ -22428,7 +22431,7 @@ Class("linb.UI.Panel", "linb.UI.Div",{
                 else{
                     h1=v1.height(), h4=v4.height();
                     if((t=height-h1-h4)>0)
-                        isize.height=t;
+                        isize.height=t-2;
                 }
             }
             if(width)
@@ -25998,6 +26001,10 @@ Class("linb.UI.ToolBar",["linb.UI","linb.absList"],{
                 if(profile.renderId && profile.getRootNode().offsetWidth)
                     linb.UI.$dock(profile,true,true);
             });
+        },
+        fireItemClickEvent:function(subId){
+            this.getSubNodeByItemId('BTN', subId).onClick();
+            return this;
         }
     },
     Static:{

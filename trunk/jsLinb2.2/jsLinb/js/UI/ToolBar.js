@@ -61,6 +61,10 @@ Class("linb.UI.ToolBar",["linb.UI","linb.absList"],{
                 if(profile.renderId && profile.getRootNode().offsetWidth)
                     linb.UI.$dock(profile,true,true);
             });
+        },
+        fireItemClickEvent:function(subId){
+            this.getSubNodeByItemId('BTN', subId).onClick();
+            return this;
         }
     },
     Static:{

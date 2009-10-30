@@ -35,7 +35,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
             // try to give default caption
             if(_.isSet(pro.$caption)){
                 v = pro.$caption+"";
-                // use once only
+                // use once only, for picklist
                 delete pro.$caption;   
                 return v;
             }else if(t = profile.CF.getShowValue||profile.$getShowValue)
@@ -49,9 +49,11 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                       if(v.length>0)
                         v=v.charAt(0)=='$'?linb.getRes(v.slice(1)):v;
                     }else
-                        v='';                        
+                        v='';           
+                }else if('cmdbox'==pro.type){
+                    v=pro.caption||"";
                 }else
-                    v = profile.$showValue;
+                    v=profile.$showValue;
             }
             return String( _.isSet(v) ? v : _.isSet(value) ? value : "");
         },
@@ -426,6 +428,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
             'KEY-cmdbox INPUT, KEY-listbox INPUT':{
                 $order:4,
                 color:'#000',
+                'text-align':'left',
                 overflow:'hidden'
             },            
             'RBTN,SBTN,BTN':{

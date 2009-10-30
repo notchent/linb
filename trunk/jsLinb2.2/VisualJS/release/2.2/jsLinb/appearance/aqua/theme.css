@@ -223,13 +223,17 @@ html, .uibg-base{
 
 /*linb.UI.Input*/
 /*linb.UI.ComboInput*/
-.linb-input-border, .linb-comboinput-border{
+.linb-input-readoly .linb-input-border, .linb-comboinput-readoly .linb-comboinput-border{
     background-image: url(Input/inputbgb.gif);
 }
 .linb-input-box, .linb-comboinput-box{
     background-image: url(Input/inputbg.gif);
     border: solid 1px #727272;
 }
+.linb-input-readoly .linb-input-box, .linb-comboinput-readoly .linb-comboinput-box{
+    background:none;
+}
+
 .linb-input-box-focus, .linb-input-box-mouseover, .linb-comboinput-box-focus, .linb-comboinput-box-mouseover{
     border-color:#6F9BDF;
 }
