@@ -63,6 +63,9 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                         if(_.arr.indexOf(uiv,o)==-1)
                             getN(k, getI(o)).tagClass('-checked')
                     });
+                    // clear the header's row handler checkbox
+                    if(value.length===0)
+                        getN("HFMARK").tagClass('-checked',false);
                 }
             });
         },
