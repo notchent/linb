@@ -22987,8 +22987,10 @@ Class("linb.UI.Tabs", ["linb.UI", "linb.absList","linb.absValue"],{
             if(!profile.renderId)return;
             var box=profile.box,obj,v,pp=profile.properties;
             if(obj=profile.getSubNode(profile.keys.BOX||profile.keys.KEY)){
+                // add panels anyway
                 obj.append(profile._buildItems('panels', data));
-                if(!pp.noPanel){
+                // for stacks only
+                if(!pp.hasOwnProperty("noPanel")){
                     if(!(v=this.getUIValue()))
                         this.fireItemClickEvent((v=pp.items[0]) && (v=v.id));
 
