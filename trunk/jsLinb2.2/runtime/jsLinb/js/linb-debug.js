@@ -26409,26 +26409,36 @@ Class("linb.UI.Layout",["linb.UI", "linb.absList"],{
                     if(options.hasOwnProperty('size')){
                         options.size = parseInt(''+options.size);
                         if(options.size!=item.size){
+                            item.size=options.size;
                             if(vertical)
                                 node.height(options.size);
                              else
                                 node.width(options.size);
+                            bResize=true;
                         }
                     }
                     if(options.hasOwnProperty('hidden')){
                         options.hidden = !!options.hidden;
-                        if(options.hidden != item.hidden)
+                        if(options.hidden !== item.hidden){
                             profile.getSubNodeByItemId('ITEM',subId).css('display',options.hidden?'none':'');
-                        bResize=true;
+                            bResize=true;
+                        }
+                    }
+                    if(options.hasOwnProperty('locked')){
+                        options.locked = !!options.locked;
+                        if(options.locked !== item.locked){
+                            profile.getSubNodeByItemId('MOVE',subId).css('display',options.locked?'none':'');
+                            bResize=true;
+                        }
                     }
                     if(options.hasOwnProperty('folded')){
                         options.folded = !!options.folded;
-                        if(options.folded != item.folded)
+                        if(options.folded !== item.folded)
                             profile.boxing().fireCmdClickEvent(subId);
                     }
                     if(options.hasOwnProperty('cmd')){
                         options.cmd = !!options.cmd;
-                        if(options.cmd != item.cmd)
+                        if(options.cmd !== item.cmd)
                             profile.getSubNodeByItemId('CMD',subId).css('display',options.cmd?'':'none');
                     }
                 }
@@ -27132,7 +27142,6 @@ Class("linb.UI.Layout",["linb.UI", "linb.absList"],{
                         itemId=profile.getSubIdByItemId(o.id);
                         if(o.pos=='after'){
                             n=profile.getSubNode('ITEM', itemId);
-                            m=n.height();//offsetHeight();
 
                             if(o.hidden){
                                 m=0;
