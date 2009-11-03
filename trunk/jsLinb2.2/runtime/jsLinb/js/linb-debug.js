@@ -18953,7 +18953,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                 }
             },
             caption:{
-                ini:"",
+                ini:null,
                 set:function(v,force){
                     var p=this.properties;
                     p.caption=v;
