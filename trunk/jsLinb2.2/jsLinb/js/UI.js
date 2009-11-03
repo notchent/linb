@@ -364,7 +364,7 @@ Class("linb.DataBinder","linb.absObj",{
                 _.arr.each(o._n,function(profile){
                     p=profile.properties;
                     v=(hash && p.dataField in hash)?hash[p.dataField]:'';
-                    c=null;
+                    c="";
                     b=profile.boxing();
                     if(v && typeof v=="object"){
                         // catch caption at first
@@ -381,8 +381,18 @@ Class("linb.DataBinder","linb.absObj",{
                 });
             })
         },
-        getUI:function(){
-            return linb.UI.pack(this.get(0)._n,false);
+        getUI:function(key){
+            var r;
+            if(!key)
+                r=linb.UI.pack(this.get(0)._n,false);
+            else
+                _.arr.each(this.get(0)._n,function(profile){
+                    if(profile.properties.dataField==key){
+                        r=profile.boxing();
+                        return false;
+                    }
+                });
+            return r;
         },
         checkValid:function(){
             return linb.absValue.pack(this.get(0)._n,false).checkValid();
