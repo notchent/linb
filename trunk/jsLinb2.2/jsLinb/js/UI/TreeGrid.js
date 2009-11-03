@@ -64,8 +64,10 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                             getN(k, getI(o)).tagClass('-checked')
                     });
                     // clear the header's row handler checkbox
-                    if(value.length===0)
+                    if(value.length===0){
                         getN("HFMARK").tagClass('-checked',false);
+                        delete profile._$checkAll;
+                    }
                 }
             });
         },
