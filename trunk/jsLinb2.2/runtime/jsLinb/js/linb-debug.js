@@ -27578,6 +27578,13 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                 }
             }
             linb(nodes).remove();
+
+            // remove activerow/cell
+            if(profile.$activeCell && !linb.Dom.byId(profile.$activeCell))
+                delete profile.$activeCell;
+            if(profile.$activeRow && !linb.Dom.byId(profile.$activeRow))
+                delete profile.$activeRow;
+
             profile.box._asy(profile);
             return self;
         },
@@ -27597,6 +27604,10 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
             profile.rowMap={};
             profile.cellMap={};
             profile.rowMap2={};
+            
+            // remove activerow/cell
+            delete profile.$activeCell;
+            delete profile.$activeRow;
 
             profile.properties.rows.length=0;
             if(profile.renderId){
@@ -27624,6 +27635,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
         setActiveRow:function(rowId){
             var dr, row, profile=this.get(0);
             if(profile.properties.activeMode!='row')return;
+            delete profile.$activeRow;
             if(!(row=this.getRowbyRowId(rowId)))return;
             if(!(dr=profile.getSubNode('CELLS',row._serialId)).isEmpty())
                 profile.box._activeRow(profile, dr.get(0).id);
@@ -27754,6 +27766,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
         setActiveCell:function(rowId, colId){
             var dr, cell, profile=this.get(0);
             if(profile.properties.activeMode!='cell')return;
+            delete profile.$activeCell;
             if(!(cell=this.getCellbyRowCol(rowId, colId)))return;
             if(!(dr=profile.getSubNode('CELL',cell._serialId)).isEmpty())
                 profile.box._activeCell(profile, dr.get(0).id);
