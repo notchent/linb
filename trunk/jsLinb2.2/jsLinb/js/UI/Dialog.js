@@ -96,6 +96,7 @@ Class("linb.UI.Dialog","linb.UI.Widget",{
     Initialize:function(){
         var ns=this, t=ns.getTemplate();
         _.merge(t.FRAME.BORDER,{
+            TABSTOP1:{$order:-1},
             TBAR:{
                 tagName:'div',
                 className:'uibar-top',
@@ -224,7 +225,8 @@ Class("linb.UI.Dialog","linb.UI.Widget",{
                         }
                     }
                 }
-            }
+            },
+            TABSTOP2:{$order:9}
         },'all');
         ns.setTemplate(t);
 
@@ -237,6 +239,12 @@ Class("linb.UI.Dialog","linb.UI.Widget",{
         Appearances:{
             KEY:{
                 overflow:'visible'
+            },
+            "TABSTOP1,TABSTOP2":{
+                height:0,
+                width:"16px",
+                display:'inline',
+                position:'absolute'
             },
             PANEL:{
                 position:'relative',
@@ -263,7 +271,31 @@ Class("linb.UI.Dialog","linb.UI.Widget",{
             onMousedown:function(profile, e){
                 profile.box._active(profile);
             },
-
+            beforeKeydown:function(profile, e){
+                var keys = linb.Event.getKey(e);
+                if((e.$key || e.keyCode || e.charCode)==9){
+// hack for ie tab event
+if(linb.browser.ie){
+    var id="linb::_specialforietab";
+    if(!linb.Dom.byId(id))
+        linb('body').append("<div style='display:none;position:absolute;' id="+id+"></div>");
+    linb.Dom.byId(id).innerHTML=_()+"";
+}
+                    var n1=profile.getSubNode("TABSTOP1").get(0),
+                        n2=profile.getSubNode("TABSTOP2").get(0),
+                        m=linb.Event.getSrc(e),t;
+                    if(keys[2]){
+                        if(m!==n1)
+                            n1.tabIndex = m.tabIndex;
+                        n2.removeAttribute("tabIndex");
+                    }else{
+                        if(m!==n2)
+                            n2.tabIndex = m.tabIndex;
+                        n1.removeAttribute("tabIndex");
+                    }
+                    n1=n2=m=null;
+                }
+            },
             onDragstop:function(profile){
                 var pos = profile.getRoot().cssPos(),p=profile.properties,l=null,t=null;
                 if(p.left !== pos.left)
@@ -273,6 +305,58 @@ Class("linb.UI.Dialog","linb.UI.Widget",{
 
                 if(profile.onMove && (l!==null||t!==null))
                     profile.boxing().onMove(profile,l,t,null,null);
+            },
+            TABSTOP1:{
+                onFocus:function(profile,e,src){
+                    tabindex = parseInt(linb.use(src).get(0).tabIndex||1 +"")-1;
+                    var children = profile.getRoot().get(0).getElementsByTagName('*'),t,n;
+                    for(var i=0,l=children.length,o;o=children[i];i++){
+                        if(o.nodeType==1){
+                            //cant set tabIndex to zero
+                            if(o.tabIndex && o.tabIndex<=tabindex){
+                                if(!t)t=(n=o).tabIndex;
+                                if(o.tabIndex>t)t=(n=o).tabIndex;
+                                if(t===tabindex)break;
+                            }
+                        }
+                    }
+                    if(o){
+                        linb(o).focus();
+                        linb.use(src).get(0).tabIndex=o.tabIndex;
+                    }
+                    else{
+                        o=profile.getRoot().nextFocus(false,true,false);
+                        linb(o).focus();
+                        linb.use(src).get(0).tabIndex=o.get(0).tabIndex;
+                    }
+                    children=o=null;
+                }
+            },
+            TABSTOP2:{
+                onFocus:function(profile,e,src){
+                    tabindex = parseInt(linb.use(src).get(0).tabIndex||1 +"")+1;
+                    var children = profile.getRoot().get(0).getElementsByTagName('*'),t,n;
+                    for(var i=0,l=children.length,o;o=children[i];i++){
+                        if(o.nodeType==1){
+                            //cant set tabIndex to zero
+                            if(o.tabIndex && o.tabIndex>=tabindex){
+                                if(!t)t=(n=o).tabIndex;
+                                if(o.tabIndex<t)t=(n=o).tabIndex;
+                                if(t===tabindex)break;
+                            }
+                        }
+                    }
+                    if(o){
+                        linb(o).focus();
+                        linb.use(src).get(0).tabIndex=o.tabIndex;
+                    }
+                    else{
+                        o=profile.getRoot().nextFocus(true,true,false);
+                        linb(o).focus();
+                        linb.use(src).get(0).tabIndex=o.get(0).tabIndex;
+                    }
+                    children=o=null;
+                }
             },
             TBAR:{
                 onMousedown:function(profile, e, src){
@@ -695,8 +779,24 @@ Class("linb.UI.Dialog","linb.UI.Widget",{
                         for(var j in h)
                             h[j].tabIndex=i;
                     }
+                    linb.Event.pushTabOutTrigger(profile.renderId, function(src,tabindex){
+                        tabindex = parseInt(tabindex||1 +"");
+                        var children = linb.use(src).get(0).getElementsByTagName('*'),t,n;
+                        for(var i=0,l=children.length,o;o=children[i];i++){
+                            if(o.nodeType==1){
+                                if(o.tabIndex>=tabindex){
+                                    if(!t)t=(n=o).tabIndex;
+                                    if(o.tabIndex<t)t=(n=o).tabIndex;
+                                    if(t===tabindex)break;
+                                }
+                            }
+                        }
+                        if(o)linb(o).focus();
+                        else profile.getRoot().nextFocus();
+
+                        children=o=null;
+                    });
                     */
-                    linb.Event.pushTabOutTrigger(profile.renderId, function(){linb([profile.renderId]).nextFocus()});
 
                     profile.$inModal=true;
                 }
@@ -717,8 +817,8 @@ Class("linb.UI.Dialog","linb.UI.Widget",{
                         h[j].tabIndex=i;
                 }
                 _.breakO(profile.$focusHash,2);
-                */
                 linb.Event.popTabOutTrigger();
+                */
             }
         },
         _refreshRegion:function(profile){

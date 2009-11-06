@@ -18,7 +18,7 @@ Class('App', 'linb.Com',{
             
             host.block1.append((new linb.UI.TreeGrid)
                 .host(host,"tg")
-                .setTabindex("2")
+                .setTabindex("4")
                 .setHeader([])
                 .setRows([])
                 .onDblclickRow("_tg_ondblclickrow")

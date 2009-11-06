@@ -177,7 +177,7 @@ Class('linb.Event',null,{
         },
         _handleTabHook:function(src, target){
             if(src===document)return true;
-            var node=src,r;
+            var node=src,r,tabindex=node.tabIndex;
             do{
                 if(linb.getId(node)==target[0]){
                     node=src=null;
@@ -185,7 +185,7 @@ Class('linb.Event',null,{
                 }
             }while(node && (node=node.parentNode) && node!==document && node!==window)
 
-            r=_.tryF(target[1],[target[0]],src);
+            r=_.tryF(target[1],[target[0],tabindex],src);
             node=src=null;
             return false;
         },
