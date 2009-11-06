@@ -153,6 +153,7 @@ Class("linb.UI.Input", ["linb.UI.Widget","linb.absValue"] ,{
                'padding-left':'2px',
 
                "background-color":"transparent",
+               "background-image":linb.browser.ie?'url(.)':null,
                border:0,
                margin:0,
 
