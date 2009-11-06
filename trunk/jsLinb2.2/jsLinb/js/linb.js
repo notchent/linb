@@ -2175,7 +2175,8 @@ _.id.prototype = {
     _chars  :"abcdefghijklmnopqrstuvwxyz".split(''),
     next : function(i){
         with(this){
-            var m,k,l,i = (i||i===0)?i:b.length-1;
+            i = (i||i===0)?i:b.length-1;
+            var m,k,l;
             if((m=a[i]) >= 25){
                 m=0;
                 if(i===0){
