@@ -194,7 +194,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                         case 'helpinput':
                             linb.SC('linb.UI.List');
                             o = linb.create('List').render();
-                            o.host(profile).setItems(_.copy(pro.items)).setListKey(pro.listKey||'').adjustSize();
+                            o.host(profile).setDirtyMark(false).setItems(_.copy(pro.items)).setListKey(pro.listKey||'').adjustSize();
                             o.beforeUIValueSet(function(p, ovalue, value){
                                 var b2=this.boxing();
                                 if(type=='combobox'){
@@ -587,12 +587,19 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                     }
                 },
                 onKeyup:function(profile, e, src){
-                    var p=profile.properties;
+                    var p=profile.properties,
+                        key=linb.Event.getKey(e);
                     if(p.dynCheck){
                         var value=linb.use(src).get(0).value;
                         if(p.$UIvalue!=value)
                             profile.box._checkValid(profile, value);
                         profile.boxing()._setDirtyMark();
+                    }
+                    if(key[0]=='down'|| key[0]=='up'){
+                        if(p.type=='spin'){
+                            linb.Thread.abort(profile.$linbid+':spin');
+                            return false;
+                        }
                     }
                 },
                 onFocus:function(profile, e, src){
@@ -637,10 +644,9 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                     var prop=profile.properties,
                         m=prop.multiLines,
                         key=linb.Event.getKey(e);
-                    if(prop.readOnly)return false;
-                    
+
                     //fire onchange first
-                    if(key[0]=='enter'&& (!m||key[3]))
+                    if(key[0]=='enter' && (!m||key[3]) && !prop.readonly)
                         linb.use(src).onChange();
                     if(key[0]=='down'|| key[0]=='up'){
                         if(prop.type=='spin'){
@@ -652,21 +658,12 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                         }
                     }
                 },
-                onKeyup : function(profile, e){
-                    var prop=profile.properties,
-                        key=linb.Event.getKey(e);
-                    if(key[0]=='down'|| key[0]=='up'){
-                        if(prop.type=='spin'){
-                            linb.Thread.abort(profile.$linbid+':spin');
-                            return false;
-                        }
-                    }
-                },
                 onClick : function(profile, e, src){
                     var p=profile.properties;
                     if(p.type=='cmdbox'){
                         if(profile.onClick)
                             profile.boxing().onClick(profile, e, src, p.$UIvalue);
+                    //DOM node's readOnly
                     }else if(linb.use(src).get(0).readOnly)
                         profile.boxing()._drop(e, src);
                 }

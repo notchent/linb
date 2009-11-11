@@ -992,6 +992,8 @@ Class('VisualJS.Designer', 'linb.Com',{
                     }
                     //profile.boxing().setCustomBehavior(h);
                     profile._CB=h;
+                    // disable behavior
+                    // delete profile.behavior;
                     profile.clearCache();
                 }
             }

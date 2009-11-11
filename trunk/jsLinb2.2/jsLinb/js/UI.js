@@ -1333,7 +1333,7 @@ Class("linb.UI",  "linb.absObj", {
 
                 //unserialize
                 s = o.serialize(false, true);
-                fun = o.$addOns;
+                fun = o.$refreshTrigger;
 
                 //replace
                 var replace = linb.create('span');
@@ -1346,6 +1346,8 @@ Class("linb.UI",  "linb.absObj", {
 
                 //set back
                 _.merge(o,s,'all');
+                // notice: remove $destroyed here
+                delete o.$destroyed;
                 o.$linbid=$linbid;
                 o.serialId=serialId;
 
@@ -2807,15 +2809,19 @@ Class("linb.UI",  "linb.absObj", {
                             }else
                                 if(m4[key])
                                     b=true;
+
+                            node=null;
+
                             //hanlder focus
                             if(b){
                                 //export event
-                                if(profile.beforeNextFocus && false === profile.boxing().beforeNextFocus(profile,key,!!shift,e))return false;
-
+                                if(profile.beforeNextFocus && false === profile.boxing().beforeNextFocus(profile,key,!!shift,e))
+                                    return false;
                                 if(key!='tab')
                                     linb.use(src).nextFocus(('up'==key || 'left'==key)?false:true);
+                                if(key!='enter')
+                                    return false;
                             }
-                            node=null;
                         }
                     }
                 });
