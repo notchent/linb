@@ -8728,12 +8728,8 @@ Class("linb.Tips", null,{
                 _.tryF(onEnd, [threadid,c[id]], c[id]);
                 return c[id];
             }else{
-                if(!(p=p[id])){
-                    if(id.indexOf(".")!=-1)
-                        p={cls:id};
-                    else
-                        return;
-                };
+                if(!(p=p[id]))
+                    p={cls:id};
 
                 var self=arguments.callee, me=this, children=p.children;
                 //ensure array
