@@ -2306,19 +2306,19 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                 //5. value in cell
                 //6. ""
                 ren=me._ren||(me._ren=function(profile,cell,ncell,fun){return typeof cell.$caption=='string'? cell.$caption: typeof ncell.caption =='string'?ncell.caption: typeof cell.renderer=='function'? cell.renderer.call(profile,cell) : typeof fun=='function'?fun(cell.value):(_.isSet(cell.value)?String(cell.value):"") || ""}),
-                f1=me._f1=(me._f1=function(v){return linb.Date.getText(new Date(parseInt(v)), 'ymd')}),
+                f1=me._f1=(me._f1=function(v){return v?linb.Date.getText(new Date(parseInt(v)), 'ymd'):""}),
                 f2=me._f2=(me._f2=function(v){return (v.split('\n')[0]||"").replace(/ /g,'&nbsp;').replace(reg1,'&lt;')}),
                 f3=me._f3=(me._f3=function(v){return v*1000/10+'%'})
             ;
 
             switch(type){
                 case 'number':
-                    cell.value=parseFloat(cell.value)||0;
+                    cell.value=parseFloat(cell.value)||"";
                     caption= capOut ||ren(profile,cell,ncell);
                     if(dom)node.html((caption===null||caption===undefined)?cell.value:caption,false);
                 break;
                 case 'datepicker':
-                    cell.value=(parseInt(cell.value)?new Date(parseInt(cell.value)):new Date()).getTime();
+                    cell.value=(parseInt(cell.value)?new Date(parseInt(cell.value)).getTime():"");
                     caption= capOut || ren(profile,cell,ncell,f1);
                     if(dom)
                         node.html(caption, false);
