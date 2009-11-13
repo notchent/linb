@@ -2769,57 +2769,16 @@ Class("linb.UI",  "linb.absObj", {
                 _.each(hash.NavKeys,function(o,i){
                     var map=arguments.callee, k, m1=map.m1||(map.m1={KEY:1,$key:1});
                     if(m1[i])return;
-                    var m2=map.m2||(map.m2={input:1,textarea:1}),
-                    m3=map.m3||(map.m3={tab:1,enter:1,up:1,down:1,left:1,right:1}),
-                    m4=map.m4||(map.m4={tab:1,up:1,down:1,left:1,right:1}),
-                    t=hash[i]||(hash[i]={});
+                    var t=hash[i]||(hash[i]={});
 
                     if(null===o)
                         t.afterKeydown = null;
                     else{
                         t.afterKeydown = function(profile, e, src){
-                            var k=linb.Event.getKey(e), key = k[0], ctrl=k[1], shift=k[2], alt=k[3], b=false, node=linb.use(src).get(0);
-                            if(m2[k=node.tagName.toLowerCase()]){
-                                if(k=="input" && node.type.toLowerCase()!='text'&& node.type.toLowerCase()!='password'){
-                                    b=true;
-                                }else if(m3[key]){
-                                    var reg = linb.use(src).caret(),txt=linb.use(src).get(0).value;
-
-                                    switch(key){
-                                        case 'up':
-                                            if(!/[\n\r]/.test(txt.substr(0,reg[0]))) b=true;
-                                            break;
-                                        case 'left':
-                                            if((ctrl&&!shift) || (reg[0]===0 && (reg[1]!==txt.length || reg[1]===0))) b=true;
-                                            break;
-                                        case 'down':
-                                            if(!/[\n\r]/.test(txt.substr(reg[1],txt.length))) b=true;
-                                            break;
-                                        case 'right':
-                                            if((ctrl&&!shift) || (reg[1]===txt.length && (reg[0]!==0 || reg[1]===0))) b=true;
-                                            break;
-                                        case 'enter':
-                                            if(k=='input' || alt)b=true;
-                                            break;
-                                        case "tab":
-                                            b=true;
-                                            break;
-                                    }
-                                }
-                            }else
-                                if(m4[key])
-                                    b=true;
-
-                            node=null;
-
-                            //hanlder focus
-                            if(b){
+                            var k=linb.Event.getKey(e);
+                            if(k[0]=='tab'){
                                 //export event
-                                if(profile.beforeNextFocus && false === profile.boxing().beforeNextFocus(profile,key,!!shift,e))
-                                    return false;
-                                if(key!='tab')
-                                    linb.use(src).nextFocus(('up'==key || 'left'==key)?false:true);
-                                if(key!='enter')
+                                if(profile.beforeNextFocus && false === profile.boxing().beforeNextFocus(profile,e,!!k[2],src))
                                     return false;
                             }
                         }
