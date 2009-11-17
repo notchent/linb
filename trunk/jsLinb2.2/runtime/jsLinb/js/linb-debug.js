@@ -9349,6 +9349,7 @@ Class("linb.DataBinder","linb.absObj",{
             }
             np[alias]=1;
             profile._n=profile._n||[];
+            profile._valuesMap=profile.__valuesMap||{};
 
             //set anti-links
             profile.link(c._cache,'self').link(linb._pool,'linb');
@@ -9371,14 +9372,18 @@ Class("linb.DataBinder","linb.absObj",{
         },
         updateValue:function(){
             return this.each(function(o,i){
+                var map=o._valuesMap;
                 _.arr.each(o._n,function(profile){
                     profile.boxing().updateValue();
+                    //update _valuesMap
+                    profile._valuesMap[profile.properites.dataField]=profile.properites.value;
                 });
             })
         },
         resetValue:function(hash){
             var p,v,c,b;
             return this.each(function(o,i){
+                o._valuesMap=hash;
                 _.arr.each(o._n,function(profile){
                     p=profile.properties;
                     v=(hash && p.dataField in hash)?hash[p.dataField]:'';
@@ -9416,8 +9421,8 @@ Class("linb.DataBinder","linb.absObj",{
             return linb.absValue.pack(this.get(0)._n,false).checkValid();
         },
         getValue:function(dirtyOnly, reset, withCaption){
-            var o=this.get(0);
-            if( this.checkValid() ){
+            var ns=this,o=ns.get(0);
+            if(ns.checkValid()){
                 var hash={};
                 _.arr.each(o._n,function(profile){
                     var p=profile.properties,
@@ -9436,7 +9441,13 @@ Class("linb.DataBinder","linb.absObj",{
                         }
                     }
                 });
+
+                if(!dirtyOnly)
+                    _.merge(hash,ns._valuesMap,'without');
+                if(reset!==false)
+                    _.merge(ns._valuesMap,hash,'all');
                 return hash;
+
             }else return null;
         },
         host:function(value, alias){
@@ -9457,15 +9468,23 @@ Class("linb.DataBinder","linb.absObj",{
             return o && o.boxing();
         },
         _bind:function(name, pro){
-            var o=this._pool[name];
+            var t,o=this._pool[name],map=o._valuesMap;
             if(!o){
                 o=new linb.DataBinder();
                 o.setName(name);
                 o=o.get(0);
             }
-            if(pro && _.arr.indexOf(o._n,pro)==-1)
-                //use link for 'destroy UIProfile' trigger 'auto unbind function '
-                pro.link(o._n, 'databinder.'+name);
+            if(pro){
+                if(_.arr.indexOf(o._n,pro)==-1)
+                    //use link for 'destroy UIProfile' trigger 'auto unbind function '
+                    pro.link(o._n, 'databinder.'+name);
+                
+                // set control value 1
+                if(t=pro.properties.dataField)
+                    if(_.isSet(t=map[t]))
+                        pro.properties.value=t;
+            }
+            map
         },
         _unBind:function(name, pro){
             if(pro && pro.box && this._pool[name])
@@ -13384,7 +13403,23 @@ Class("linb.absValue", "linb.absObj",{
                     linb.DataBinder._bind(value, profile);
                 }
             },
-            dataField:'',
+            dataField:{
+                ini:'',
+                set:function(value,ovalue){
+                    var profile=this,t,
+                        p=profile.properties;
+                    p.dataField=value;
+
+                    if(!p.dataBinder)return;
+                    // set control value 2
+                    var db=this._pool[p.dataBinder];
+                    if(db && db._valuesMap){
+                        t=db._valuesMap[value];
+                        if(_.isSet(t))
+                            p.value=t;
+                    }
+                }
+            },
 
             // setValue and getValue
             value:{
@@ -13433,6 +13468,10 @@ Class("linb.absValue", "linb.absObj",{
         },
         RenderTrigger:function(){
             var self=this, b=self.boxing(),p=self.properties,t,value;
+
+            if(t=p.dataBinder)b.setDataBinder(t,true);
+            if(t=p.dataField)b.setDataField(t);
+
             if(p.value !==undefined){
                 value=p.value;
                 if(typeof (t=self.box._ensureValue)=='function')
@@ -13441,9 +13480,6 @@ Class("linb.absValue", "linb.absObj",{
                 b._setCtrlValue(p.value=value);
                 p.$UIvalue=value;
             }
-
-            if(t=p.dataBinder)b.setDataBinder(t,true);
-            if(t=p.dataField)b.setDataField(t);
         },
         _checkValid:function(profile, value){
             return true;
