@@ -55,7 +55,7 @@ Class('App.tech_UI_event', 'linb.Com',{
         },
         _traceEvent:function(p) {
             var holder = this.panelbar2 && this.panelbar2.getSubNode('PANEL');
-            if(holder){
+            if(holder && !holder.isEmpty()){
                 if(this.arr.length){
                     _.arr.each(this.arr,function(o){
                         holder.prepend( linb.create('<p>com -> ' + o + '</p>'));

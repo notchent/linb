@@ -602,7 +602,9 @@ Class("linb.UI.Tabs", ["linb.UI", "linb.absList","linb.absValue"],{
                 },
                 onClick:function(profile, e, src){
                     var properties = profile.properties,
-                        item = profile.getItemByDom(src),bak;
+                        item = profile.getItemByDom(src),
+                        uiv=properties.$UIvalue,                        
+                        bak;
 
                     if(properties.disabled || item.disabled)return;
                     var instance = profile.boxing();
@@ -610,6 +612,17 @@ Class("linb.UI.Tabs", ["linb.UI", "linb.absList","linb.absValue"],{
                     if(false===instance.beforePageClose(profile, item, src)) return;
 
                     bak=_.copy(item);
+
+                    // if the current item is selected, select the next or the pre one item
+                    if(uiv && uiv==item.id){
+                        var items=properties.items,
+                        index=_.arr.subIndexOf(items,"id",item.id),
+                        t,
+                        nuiv=(t=items[index+1])?t.id:(t=items[index-1])?t.id:(t=items[0])?t.id:null;
+                        if(nuiv){
+                            profile.boxing().fireItemClickEvent(nuiv);
+                        }
+                    }
 
                     instance.removeItems(item.id);
 

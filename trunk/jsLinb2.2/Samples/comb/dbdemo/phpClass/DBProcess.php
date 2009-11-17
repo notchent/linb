@@ -3,7 +3,7 @@ class DBProcess extends Unit
 {
     const DB_HOST='localhost';
     const DB_USER='root';
-    const DB_PASS='';
+    const DB_PASS='root';
     const DB_DBNAME='testDB';
 
     public function stimulate(&$hash){        

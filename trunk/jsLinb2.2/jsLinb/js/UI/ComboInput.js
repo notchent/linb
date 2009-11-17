@@ -33,29 +33,24 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                 value=pro.$UIvalue;
 
             // try to give default caption
-            if(_.isSet(pro.$caption)){
-                v = pro.$caption+"";
-                // use once only, for picklist
-                delete pro.$caption;   
-                return v;
-            }else if(t = profile.CF.getShowValue||profile.$getShowValue)
+            if(t = profile.CF.getShowValue||profile.$getShowValue)
                 v = t(profile, value);
             else{
                 //get from items
                 if('listbox'==pro.type){
                     var list = (pro.listKey)?linb.UI.getCachedData(pro.listKey):pro.items;
-                    if( list && (v=_.arr.subIndexOf(list,'id',value))!=-1){
-                      v=list[v].caption;
+                    if( list && (t=_.arr.subIndexOf(list,'id',value))!=-1){
+                      v=list[t].caption;
                       if(v.length>0)
                         v=v.charAt(0)=='$'?linb.getRes(v.slice(1)):v;
                     }else
-                        v='';           
-                }else if('cmdbox'==pro.type){
-                    v=pro.caption||"";
+                        v=null;
                 }else
                     v=profile.$showValue;
             }
-            return String( _.isSet(v) ? v : _.isSet(value) ? value : "");
+            if(!_.isSet(v) && pro.readonly)
+                v=pro.caption||"";
+            return ""+( _.isSet(v) ? v : _.isSet(value) ? value : "");
         },
         _getEditValue:function(value){
             var profile=this.get(0),
@@ -772,13 +767,13 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                     this.boxing().refresh();
                 }
             },
+            // caption is for readonly comboinput(listbox/cmdbox are readonly)
             caption:{
                 ini:null,
                 set:function(v,force){
                     var p=this.properties;
                     p.caption=v;
                     if(_.isSet(p.caption) && this.renderId){
-                        p.$caption=p.caption;
                         if(this.properties.readonly){
                             this.getSubNode('INPUT').attr("value",this.boxing().getShowValue());
                         }
@@ -796,9 +791,6 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
             self.box._iniType(self);
             if(p.readonly)
                 instance.setReadonly(true,true);
-            if(_.isSet(p.caption)){
-                p.$caption=p.caption;
-            }
         },
         _spin:function(profile, flag){
             var id=profile.$linbid+':spin';

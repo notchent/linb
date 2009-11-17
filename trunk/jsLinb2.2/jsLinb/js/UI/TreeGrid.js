@@ -2898,6 +2898,7 @@ sortby [for column only]
 
             //give a reference
             editor.get(0).$cell = cell;
+            editor.setTag("smartnav");
             //undo function is a must
             editor.undo=function(){
                 var editor=this;
@@ -2932,7 +2933,7 @@ sortby [for column only]
                 }
                 grid._updCell(profile, cellId, {value:nV, $caption:$caption});
             })
-            .beforeNextFocus(function(pro, key, shift, e){
+            .beforeNextFocus(function(pro, e){
                 if(editor){
                     _.tryF(editor.undo,[],editor);
                     var hash=linb.Event.getEventPara(e);

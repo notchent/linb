@@ -11787,17 +11787,65 @@ Class("linb.UI",  "linb.absObj", {
                 _.each(hash.NavKeys,function(o,i){
                     var map=arguments.callee, k, m1=map.m1||(map.m1={KEY:1,$key:1});
                     if(m1[i])return;
+                    var m2=map.m2||(map.m2={input:1,textarea:1}),
+                    m3=map.m3||(map.m3={tab:1,enter:1,up:1,down:1,left:1,right:1}),
+                    m4=map.m4||(map.m4={tab:1,up:1,down:1,left:1,right:1}),
+                    t=hash[i]||(hash[i]={});
+
                     var t=hash[i]||(hash[i]={});
 
                     if(null===o)
                         t.afterKeydown = null;
                     else{
                         t.afterKeydown = function(profile, e, src){
-                            var k=linb.Event.getKey(e);
-                            if(k[0]=='tab'){
+                            var k=linb.Event.getKey(e), key = k[0], ctrl=k[1], shift=k[2], alt=k[3], b=false, smartnav=profile.properties.tag=="smartnav";
+                            if(smartnav){
+                                var node=linb.use(src).get(0);
+                                if(m2[k=node.tagName.toLowerCase()]){
+                                    if(k=="input" && node.type.toLowerCase()!='text'&& node.type.toLowerCase()!='password'){
+                                        b=true;
+                                    }else if(m3[key]){
+                                        var reg = linb.use(src).caret(),txt=linb.use(src).get(0).value;
+    
+                                        switch(key){
+                                            case 'up':
+                                                if(!/[\n\r]/.test(txt.substr(0,reg[0]))) b=true;
+                                                break;
+                                            case 'left':
+                                                if((ctrl&&!shift) || (reg[0]===0 && (reg[1]!==txt.length || reg[1]===0))) b=true;
+                                                break;
+                                            case 'down':
+                                                if(!/[\n\r]/.test(txt.substr(reg[1],txt.length))) b=true;
+                                                break;
+                                            case 'right':
+                                                if((ctrl&&!shift) || (reg[1]===txt.length && (reg[0]!==0 || reg[1]===0))) b=true;
+                                                break;
+                                            case 'enter':
+                                                if(k=='input' || alt)b=true;
+                                                break;
+                                            case "tab":
+                                                b=true;
+                                                break;
+                                        }
+                                    }
+                                }else{
+                                    if(m4[key])
+                                        b=true;
+                                }
+                               node=null;
+                            }else
+                                b=key==='tab';
+
+                            //hanlder focus
+                            if(b){
                                 //export event
                                 if(profile.beforeNextFocus && false === profile.boxing().beforeNextFocus(profile,e,!!k[2],src))
                                     return false;
+
+                                if(smartnav){
+                                    if(key!='tab')
+                                        linb.use(src).nextFocus(('up'==key || 'left'==key)?false:true);
+                                }
                             }
                         }
                     }
@@ -17859,29 +17907,24 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                 value=pro.$UIvalue;
 
             // try to give default caption
-            if(_.isSet(pro.$caption)){
-                v = pro.$caption+"";
-                // use once only, for picklist
-                delete pro.$caption;   
-                return v;
-            }else if(t = profile.CF.getShowValue||profile.$getShowValue)
+            if(t = profile.CF.getShowValue||profile.$getShowValue)
                 v = t(profile, value);
             else{
                 //get from items
                 if('listbox'==pro.type){
                     var list = (pro.listKey)?linb.UI.getCachedData(pro.listKey):pro.items;
-                    if( list && (v=_.arr.subIndexOf(list,'id',value))!=-1){
-                      v=list[v].caption;
+                    if( list && (t=_.arr.subIndexOf(list,'id',value))!=-1){
+                      v=list[t].caption;
                       if(v.length>0)
                         v=v.charAt(0)=='$'?linb.getRes(v.slice(1)):v;
                     }else
-                        v='';           
-                }else if('cmdbox'==pro.type){
-                    v=pro.caption||"";
+                        v=null;
                 }else
                     v=profile.$showValue;
             }
-            return String( _.isSet(v) ? v : _.isSet(value) ? value : "");
+            if(!_.isSet(v) && pro.readonly)
+                v=pro.caption||"";
+            return ""+( _.isSet(v) ? v : _.isSet(value) ? value : "");
         },
         _getEditValue:function(value){
             var profile=this.get(0),
@@ -18598,13 +18641,13 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                     this.boxing().refresh();
                 }
             },
+            // caption is for readonly comboinput(listbox/cmdbox are readonly)
             caption:{
                 ini:null,
                 set:function(v,force){
                     var p=this.properties;
                     p.caption=v;
                     if(_.isSet(p.caption) && this.renderId){
-                        p.$caption=p.caption;
                         if(this.properties.readonly){
                             this.getSubNode('INPUT').attr("value",this.boxing().getShowValue());
                         }
@@ -18622,9 +18665,6 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
             self.box._iniType(self);
             if(p.readonly)
                 instance.setReadonly(true,true);
-            if(_.isSet(p.caption)){
-                p.$caption=p.caption;
-            }
         },
         _spin:function(profile, flag){
             var id=profile.$linbid+':spin';
@@ -20580,7 +20620,7 @@ Class("linb.UI.Group", "linb.UI.Div",{
                     arr1=cls._v2a(uiv),
                     arr2=cls._v2a(value);
                 profile.$hour=arr2[0];
-                if(arr1[1])
+                if(arr1&&arr1[1])
                     cls._uncheck(profile.getSubNode('MI',arr1[1]).get(0));
                 cls._check(profile.getSubNode('MI',arr2[1]).get(0));
 
@@ -23079,7 +23119,9 @@ Class("linb.UI.Tabs", ["linb.UI", "linb.absList","linb.absValue"],{
                 },
                 onClick:function(profile, e, src){
                     var properties = profile.properties,
-                        item = profile.getItemByDom(src),bak;
+                        item = profile.getItemByDom(src),
+                        uiv=properties.$UIvalue,                        
+                        bak;
 
                     if(properties.disabled || item.disabled)return;
                     var instance = profile.boxing();
@@ -23087,6 +23129,17 @@ Class("linb.UI.Tabs", ["linb.UI", "linb.absList","linb.absValue"],{
                     if(false===instance.beforePageClose(profile, item, src)) return;
 
                     bak=_.copy(item);
+
+                    // if the current item is selected, select the next or the pre one item
+                    if(uiv && uiv==item.id){
+                        var items=properties.items,
+                        index=_.arr.subIndexOf(items,"id",item.id),
+                        t,
+                        nuiv=(t=items[index+1])?t.id:(t=items[index-1])?t.id:(t=items[0])?t.id:null;
+                        if(nuiv){
+                            profile.boxing().fireItemClickEvent(nuiv);
+                        }
+                    }
 
                     instance.removeItems(item.id);
 
@@ -29733,6 +29786,7 @@ sortby [for column only]
 
             //give a reference
             editor.get(0).$cell = cell;
+            editor.setTag("smartnav");
             //undo function is a must
             editor.undo=function(){
                 var editor=this;
@@ -29767,7 +29821,7 @@ sortby [for column only]
                 }
                 grid._updCell(profile, cellId, {value:nV, $caption:$caption});
             })
-            .beforeNextFocus(function(pro, key, shift, e){
+            .beforeNextFocus(function(pro, e){
                 if(editor){
                     _.tryF(editor.undo,[],editor);
                     var hash=linb.Event.getEventPara(e);

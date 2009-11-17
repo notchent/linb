@@ -44,8 +44,8 @@ Class('App', 'linb.Com',{
                 n2.cssRegion(region);
                 n1.css('display','none');
 
-                SPA.toolbar.showGroup('group2',false);
                 SPA.toolbar.showGroup('group1',true);
+                SPA.toolbar.showGroup('group2',false);
                 
                 SPA.$cvhost.setCode(linb.Coder.formatText(SPA.$tvhost.getCode()));
                 
@@ -81,8 +81,8 @@ Class('App', 'linb.Com',{
                 n2.cssRegion(region);
                 n1.css('display','none');
 
-                SPA.toolbar.showGroup('group1',false);
                 SPA.toolbar.showGroup('group2',true);
+                SPA.toolbar.showGroup('group1',false);
 
                 SPA.$tvhost.setCode(linb.Coder.formatText(str));
 

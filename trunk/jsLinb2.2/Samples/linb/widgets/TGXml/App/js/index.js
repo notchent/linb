@@ -55,7 +55,7 @@ Class('App', 'linb.Com',{
         }, 
         iniResource:function (com, threadid) {
             linb.Ajax("xml/data.xml","",function(rsp){
-                com._data=_.unserialize(linb.XML.xml2json(linb.XML.parseXML(rsp)));
+                com._data=linb.XML.xml2json(linb.XML.parseXML(rsp));
             },function(){},threadid).start();
         }, 
         _sbutton1_onclick:function (profile, e, src, value) {

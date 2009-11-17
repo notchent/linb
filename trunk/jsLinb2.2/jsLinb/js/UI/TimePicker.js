@@ -16,7 +16,7 @@ Class('linb.UI.TimePicker', ['linb.UI',"linb.absValue"], {
                     arr1=cls._v2a(uiv),
                     arr2=cls._v2a(value);
                 profile.$hour=arr2[0];
-                if(arr1[1])
+                if(arr1&&arr1[1])
                     cls._uncheck(profile.getSubNode('MI',arr1[1]).get(0));
                 cls._check(profile.getSubNode('MI',arr2[1]).get(0));
 
