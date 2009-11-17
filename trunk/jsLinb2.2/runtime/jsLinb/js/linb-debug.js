@@ -9349,7 +9349,7 @@ Class("linb.DataBinder","linb.absObj",{
             }
             np[alias]=1;
             profile._n=profile._n||[];
-            profile._valuesMap=profile.__valuesMap||{};
+            profile._valuesMap=profile._valuesMap||{};
 
             //set anti-links
             profile.link(c._cache,'self').link(linb._pool,'linb');
@@ -9376,7 +9376,7 @@ Class("linb.DataBinder","linb.absObj",{
                 _.arr.each(o._n,function(profile){
                     profile.boxing().updateValue();
                     //update _valuesMap
-                    profile._valuesMap[profile.properites.dataField]=profile.properites.value;
+                    map[profile.properties.dataField]=profile.properties.value;
                 });
             })
         },
