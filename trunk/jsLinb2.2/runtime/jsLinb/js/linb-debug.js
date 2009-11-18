@@ -9443,9 +9443,9 @@ Class("linb.DataBinder","linb.absObj",{
                 });
 
                 if(!dirtyOnly)
-                    _.merge(hash,ns._valuesMap,'without');
+                    _.merge(hash,o._valuesMap,'without');
                 if(reset!==false)
-                    _.merge(ns._valuesMap,hash,'all');
+                    _.merge(o._valuesMap,hash,'all');
                 return hash;
 
             }else return null;
@@ -13412,12 +13412,9 @@ Class("linb.absValue", "linb.absObj",{
 
                     if(!p.dataBinder)return;
                     // set control value 2
-                    var db=this._pool[p.dataBinder];
-                    if(db && db._valuesMap){
-                        t=db._valuesMap[value];
-                        if(_.isSet(t))
-                            p.value=t;
-                    }
+                    var db=linb.dataBinder.getFromName(p.dataBinder);
+                    if(db && (t=db.get(0)) && (t=t._valuesMap) && _.isSet(t=t[value]))
+                        p.value=t;
                 }
             },
 
