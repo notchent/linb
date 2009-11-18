@@ -2313,9 +2313,10 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
 
             switch(type){
                 case 'number':
-                    cell.value=parseFloat(cell.value)||"";
+                    var v=parseFloat(cell.value);
+                    cell.value=(v||v===0)?v:"";
                     caption= capOut ||ren(profile,cell,ncell);
-                    if(dom)node.html((caption===null||caption===undefined)?cell.value:caption,false);
+                    if(dom)node.html(""+(caption===null||caption===undefined)?cell.value:caption,false);
                 break;
                 case 'datepicker':
                     cell.value=(parseInt(cell.value)?new Date(parseInt(cell.value)).getTime():"");
@@ -2816,7 +2817,7 @@ sortby [for column only]
                     editor=new linb.UI.ComboInput({dirtyMark:false,cachePopWnd:false,left:-1000,top:-1000,position:'absolute',visibility:'hidden',zIndex:100});
                 switch(type){
                     case 'number':
-                        editor.setType('none').setCustomStyle('INPUT',"text-align:right;").setValueFormat("^-?(\\d\\d*\\.\\d*$)|(^-?\\d\\d*$)|(^-?\\.\\d\\d*$)");
+                        editor.setType('none').setCustomStyle('INPUT',"text-align:right;").setValueFormat("(^$)|(^-?(\\d\\d*\\.\\d*$)|(^-?\\d\\d*$)|(^-?\\.\\d\\d*$))");
                         break;
                     case 'progress':
                         editor.setType('none').setValueFormat("^(0([\\.]\\d*[0-9]+)|0|1)$").setCustomStyle('INPUT',"text-align:right;");

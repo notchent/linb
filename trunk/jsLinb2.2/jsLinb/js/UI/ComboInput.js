@@ -49,7 +49,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                     v=profile.$showValue;
             }
             if(!_.isSet(v) && pro.readonly)
-                v=pro.caption||"";
+                v=_.isSet(pro.caption)?pro.caption:null;
             return ""+( _.isSet(v) ? v : _.isSet(value) ? value : "");
         },
         _getEditValue:function(value){

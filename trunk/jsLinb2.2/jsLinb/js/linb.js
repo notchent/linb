@@ -394,7 +394,7 @@ _.merge(_,{
     // type detection
     isDefined:function(target)  {return target!==undefined},
     isNull:function(target)  {return target===null},
-    isSet:function(target)  {return target!==undefined && target!==null},
+    isSet:function(target)  {return target!==undefined && target!==null && target!==NaN},
     isObj:function(target)   {return !!target  && (typeof target == 'object' || typeof target == 'function')},
     isBool:function(target)  {return typeof target == 'boolean'},
     isNumb:function(target)  {return typeof target == 'number' && isFinite(target)},

@@ -439,7 +439,7 @@ Class('linb.Dom','linb.absBox',{
                     if(o.nodeType==3)
                         o.nodeValue=content;
                     else{
-                         if(!o.firstChild && content=="")return this;
+                         if(!o.firstChild && content==="")return this;
                          // innerHTML='' in IE, will clear it's childNodes innerHTML
                          if(!triggerGC && linb.browser.ie)while(t=o.firstChild)o.removeChild(t);
                          //clear first

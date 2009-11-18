@@ -394,7 +394,7 @@ _.merge(_,{
     // type detection
     isDefined:function(target)  {return target!==undefined},
     isNull:function(target)  {return target===null},
-    isSet:function(target)  {return target!==undefined && target!==null},
+    isSet:function(target)  {return target!==undefined && target!==null && target!==NaN},
     isObj:function(target)   {return !!target  && (typeof target == 'object' || typeof target == 'function')},
     isBool:function(target)  {return typeof target == 'boolean'},
     isNumb:function(target)  {return typeof target == 'number' && isFinite(target)},
@@ -4995,7 +4995,7 @@ Class('linb.Dom','linb.absBox',{
                     if(o.nodeType==3)
                         o.nodeValue=content;
                     else{
-                         if(!o.firstChild && content=="")return this;
+                         if(!o.firstChild && content==="")return this;
                          // innerHTML='' in IE, will clear it's childNodes innerHTML
                          if(!triggerGC && linb.browser.ie)while(t=o.firstChild)o.removeChild(t);
                          //clear first
@@ -12724,6 +12724,7 @@ Class("linb.UI",  "linb.absObj", {
                                         top=(flt?0:obj.top)+margin.top;
                                         if(parseFloat(style.top)!=top)region.top=top;
                                         temp=obj.width - left - right - x;
+                                        temp=_adjust(prop.dockMinW?Math.max(prop.dockMinW,temp):temp);
                                         if(parseFloat(style.width)!=temp)region.width=_adjust(temp);
                                         if(!_.isEmpty(region)){
                                             node.cssRegion(region,true);
@@ -12740,6 +12741,7 @@ Class("linb.UI",  "linb.absObj", {
                                         bottom=(flt?0:obj.bottom)+margin.bottom;
                                         if(parseFloat(style.bottom)!=bottom)region.bottom=bottom;
                                         temp=obj.width - left - right - x;
+                                        temp=_adjust(prop.dockMinW?Math.max(prop.dockMinW,temp):temp);
                                         if(parseFloat(style.width)!=temp)region.width=_adjust(temp);
                                         if(!_.isEmpty(region))node.cssRegion(region,true);
                                     }
@@ -12754,6 +12756,7 @@ Class("linb.UI",  "linb.absObj", {
                                         if(parseFloat(style.left)!=left)region.left=left;
                                         if(parseFloat(style.top)!=top)region.top=top;
                                         temp=obj.height - top - bottom - y;
+                                        temp=_adjust(prop.dockMinH?Math.max(prop.dockMinH,temp):temp);
                                         if(parseFloat(style.height)!=temp)region.height=_adjust(temp);
                                         if(!_.isEmpty(region))node.cssRegion(region,true);
                                     }
@@ -12769,6 +12772,7 @@ Class("linb.UI",  "linb.absObj", {
                                         if(parseFloat(style.right)!=right)region.right=right;
                                         if(parseFloat(style.top)!=top)region.top=top;
                                         temp=obj.height - top - bottom - y;
+                                        temp=_adjust(prop.dockMinH?Math.max(prop.dockMinH,temp):temp);
                                         if(parseFloat(style.height)!=temp)region.height=_adjust(temp);
                                         if(!_.isEmpty(region))node.cssRegion(region,true);
                                     }
@@ -17956,7 +17960,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                     v=profile.$showValue;
             }
             if(!_.isSet(v) && pro.readonly)
-                v=pro.caption||"";
+                v=_.isSet(pro.caption)?pro.caption:null;
             return ""+( _.isSet(v) ? v : _.isSet(value) ? value : "");
         },
         _getEditValue:function(value){
@@ -29234,9 +29238,10 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
 
             switch(type){
                 case 'number':
-                    cell.value=parseFloat(cell.value)||"";
+                    var v=parseFloat(cell.value);
+                    cell.value=(v||v===0)?v:"";
                     caption= capOut ||ren(profile,cell,ncell);
-                    if(dom)node.html((caption===null||caption===undefined)?cell.value:caption,false);
+                    if(dom)node.html(""+(caption===null||caption===undefined)?cell.value:caption,false);
                 break;
                 case 'datepicker':
                     cell.value=(parseInt(cell.value)?new Date(parseInt(cell.value)).getTime():"");
@@ -29737,7 +29742,7 @@ sortby [for column only]
                     editor=new linb.UI.ComboInput({dirtyMark:false,cachePopWnd:false,left:-1000,top:-1000,position:'absolute',visibility:'hidden',zIndex:100});
                 switch(type){
                     case 'number':
-                        editor.setType('none').setCustomStyle('INPUT',"text-align:right;").setValueFormat("^-?(\\d\\d*\\.\\d*$)|(^-?\\d\\d*$)|(^-?\\.\\d\\d*$)");
+                        editor.setType('none').setCustomStyle('INPUT',"text-align:right;").setValueFormat("(^$)|(^-?(\\d\\d*\\.\\d*$)|(^-?\\d\\d*$)|(^-?\\.\\d\\d*$))");
                         break;
                     case 'progress':
                         editor.setType('none').setValueFormat("^(0([\\.]\\d*[0-9]+)|0|1)$").setCustomStyle('INPUT',"text-align:right;");

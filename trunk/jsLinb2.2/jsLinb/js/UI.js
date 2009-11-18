@@ -3706,6 +3706,7 @@ Class("linb.UI",  "linb.absObj", {
                                         top=(flt?0:obj.top)+margin.top;
                                         if(parseFloat(style.top)!=top)region.top=top;
                                         temp=obj.width - left - right - x;
+                                        temp=_adjust(prop.dockMinW?Math.max(prop.dockMinW,temp):temp);
                                         if(parseFloat(style.width)!=temp)region.width=_adjust(temp);
                                         if(!_.isEmpty(region)){
                                             node.cssRegion(region,true);
@@ -3722,6 +3723,7 @@ Class("linb.UI",  "linb.absObj", {
                                         bottom=(flt?0:obj.bottom)+margin.bottom;
                                         if(parseFloat(style.bottom)!=bottom)region.bottom=bottom;
                                         temp=obj.width - left - right - x;
+                                        temp=_adjust(prop.dockMinW?Math.max(prop.dockMinW,temp):temp);
                                         if(parseFloat(style.width)!=temp)region.width=_adjust(temp);
                                         if(!_.isEmpty(region))node.cssRegion(region,true);
                                     }
@@ -3736,6 +3738,7 @@ Class("linb.UI",  "linb.absObj", {
                                         if(parseFloat(style.left)!=left)region.left=left;
                                         if(parseFloat(style.top)!=top)region.top=top;
                                         temp=obj.height - top - bottom - y;
+                                        temp=_adjust(prop.dockMinH?Math.max(prop.dockMinH,temp):temp);
                                         if(parseFloat(style.height)!=temp)region.height=_adjust(temp);
                                         if(!_.isEmpty(region))node.cssRegion(region,true);
                                     }
@@ -3751,6 +3754,7 @@ Class("linb.UI",  "linb.absObj", {
                                         if(parseFloat(style.right)!=right)region.right=right;
                                         if(parseFloat(style.top)!=top)region.top=top;
                                         temp=obj.height - top - bottom - y;
+                                        temp=_adjust(prop.dockMinH?Math.max(prop.dockMinH,temp):temp);
                                         if(parseFloat(style.height)!=temp)region.height=_adjust(temp);
                                         if(!_.isEmpty(region))node.cssRegion(region,true);
                                     }
