@@ -25,6 +25,12 @@ Class("linb.UI.ToolBar",["linb.UI","linb.absList"],{
                             profile.getSubNodeByItemId('BTN',subId).tagClass('-checked', !!options.value);
                         if('caption' in options&& options.caption!=item.caption)
                             n2.html(options.caption);
+                        if('disabled' in options && options.disabled!=item.disabled){
+                            if(options.disabled)
+                                n2.addClass('ui-disabled');
+                            else
+                                n2.removeClass('ui-disabled');
+                        }
                         if('image' in options&& options.image!=item.image)
                             n1.css('background-image',options.image);
                         if('imagePos' in options&& options.imagePos!=item.imagePos)

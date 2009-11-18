@@ -23779,8 +23779,8 @@ Class("linb.UI.ButtonViews", "linb.UI.Tabs",{
 
             if(t.barLocation=='top'||t.barLocation=='bottom'){
                 if(width){
-                    hs.width(width);
-                    hl.width(width);
+                    hs.width(width-2);
+                    hl.width(width-2);
                     left = 0;
                     wc=width;
                 }
@@ -23788,7 +23788,7 @@ Class("linb.UI.ButtonViews", "linb.UI.Tabs",{
                 top = t.barLocation=='top'?2- -t.barSize:0;
             }else{
                 if(height){
-                    hs.height(height);
+                    hs.height(height-2);
                     top=0;
                     hc=height;
                 }
@@ -25703,6 +25703,12 @@ Class("linb.UI.ToolBar",["linb.UI","linb.absList"],{
                             profile.getSubNodeByItemId('BTN',subId).tagClass('-checked', !!options.value);
                         if('caption' in options&& options.caption!=item.caption)
                             n2.html(options.caption);
+                        if('disabled' in options && options.disabled!=item.disabled){
+                            if(options.disabled)
+                                n2.addClass('ui-disabled');
+                            else
+                                n2.removeClass('ui-disabled');
+                        }
                         if('image' in options&& options.image!=item.image)
                             n1.css('background-image',options.image);
                         if('imagePos' in options&& options.imagePos!=item.imagePos)

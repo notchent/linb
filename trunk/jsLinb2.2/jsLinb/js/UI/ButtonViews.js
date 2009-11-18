@@ -170,8 +170,8 @@ Class("linb.UI.ButtonViews", "linb.UI.Tabs",{
 
             if(t.barLocation=='top'||t.barLocation=='bottom'){
                 if(width){
-                    hs.width(width);
-                    hl.width(width);
+                    hs.width(width-2);
+                    hl.width(width-2);
                     left = 0;
                     wc=width;
                 }
@@ -179,7 +179,7 @@ Class("linb.UI.ButtonViews", "linb.UI.Tabs",{
                 top = t.barLocation=='top'?2- -t.barSize:0;
             }else{
                 if(height){
-                    hs.height(height);
+                    hs.height(height-2);
                     top=0;
                     hc=height;
                 }
