@@ -26,8 +26,7 @@ Class('VisualJS.PageEditor', 'linb.Com',{
                 "parent.sandbox=MSIE?this:{eval:function(s){return eval(s)}}"+
                 "<\/script>"
             );
-            txt=txt.replace(/^\s*/,'').replace(/\s*$/,'');
-            if((txt.charAt(0)=='{' || txt.slice(0,8)=='function') && txt.charAt(txt.length-1)=='}')
+            if(/^\s*({|function)/.test(txt) && /}\s*/.test(txt))
                 txt='('+txt+')';
             try{
                 sandbox.eval(txt);
@@ -56,7 +55,7 @@ Class('VisualJS.PageEditor', 'linb.Com',{
                 	}
                 	_.asyRun(function(){
                 	    linb([inp]).caret(from+1,to);
-                	    inp.scrollTop = from*14-inp.offsetHeight;
+                	    inp.scrollTop = (line+1)*14-inp.offsetHeight;
                     });
                 }
                 r=false;
