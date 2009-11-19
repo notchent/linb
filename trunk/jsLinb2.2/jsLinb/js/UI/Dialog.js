@@ -18,6 +18,8 @@ Class("linb.UI.Dialog","linb.UI.Widget",{
                         var box=profile.box,
                             root=profile.getRoot();
 
+                        // resize immidiately here
+                        linb.UI.$doResize(profile, pro.width, pro.height);
                         root.show(left?(parseInt(left)||0)+'px':null, top?(parseInt(top)||0)+'px':null);
 
                         if(modal && !profile.$inModal)
@@ -868,8 +870,6 @@ if(linb.browser.ie){
             h=size.height+90;
             dialog.setCaption(caption).setWidth(w).setHeight(h);
             dialog.$cmd.reBoxing().left((size.width + 30 - dialog.$cmd.reBoxing().width())/2);
-
-            linb.UI.$doResize(dialog.get(0), w, h);
         },
         alert:function(title, content, onClose, left, top){
             var me=arguments.callee, dialog;
