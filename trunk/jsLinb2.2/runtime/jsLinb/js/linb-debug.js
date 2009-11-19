@@ -29815,8 +29815,8 @@ sortby [for column only]
                 if(editor.setCaption)editor.setCaption(cell.$tag);
                 else if(editor.setValue)editor.setValue(cell.$tag);
             }
-            if(editor.setReadonly){
-                editor.setReadonly(!!editorReadonly);
+            if(editor.setReadonly && editorReadonly){
+                editor.setReadonly(true);
             }
             if(editorFormat){
                 if(typeof editorFormat=='function' && editor.beforeFormatCheck)
