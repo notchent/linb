@@ -27631,9 +27631,10 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                             style:'height:{rowHeight}px;{rowStyle}',
                             FCELL:{
                                 $order:0,
-                                style:'{rowHandlerDisplay};{_row0DfW};{cellStyle}{firstCellStyle}',
-                                className:'{cellClass}{firstCellClass}',
+                                style:'{rowHandlerDisplay};{_row0DfW};',
                                 FCELLA:{
+                                    style:'{cellStyle}{firstCellStyle}',
+                                    className:'{cellClass}{firstCellClass}',
                                     FCELLRULER:{
                                         style:'width:{_rulerW}px'
                                     },
@@ -29236,7 +29237,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                 //4. default caption function
                 //5. value in cell
                 //6. ""
-                ren=me._ren||(me._ren=function(profile,cell,ncell,fun){return typeof cell.$caption=='string'? cell.$caption: typeof ncell.caption =='string'?ncell.caption: typeof cell.renderer=='function'? cell.renderer.call(profile,cell) : typeof fun=='function'?fun(cell.value):(_.isSet(cell.value)?String(cell.value):"") || ""}),
+                ren=me._ren||(me._ren=function(profile,cell,ncell,fun){return typeof cell.$caption=='string'? cell.$caption: typeof ncell.caption =='string'?ncell.caption: typeof (cell.renderer||cell._renderer)=='function'? (cell.renderer||cell._renderer).call(profile,cell) : typeof fun=='function'?fun(cell.value):(_.isSet(cell.value)?String(cell.value):"") || ""}),
                 f1=me._f1=(me._f1=function(v){return v?linb.Date.getText(new Date(parseInt(v)), 'ymd'):""}),
                 f2=me._f2=(me._f2=function(v){return (v.split('\n')[0]||"").replace(/ /g,'&nbsp;').replace(reg1,'&lt;')}),
                 f3=me._f3=(me._f3=function(v){return v*1000/10+'%'})
@@ -29444,7 +29445,7 @@ sortby [for column only]
                 col=cell._col,
                 renderer;
             if(renderer=self.getCellPro(profile, cell, 'cellRenderer'))
-                cell.renderer=renderer;
+                cell._renderer=renderer;
 
             //first
             linb.UI.adjustData(profile, cell, uicell);
