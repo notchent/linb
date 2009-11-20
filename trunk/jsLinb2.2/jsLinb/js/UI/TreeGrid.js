@@ -405,7 +405,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
             profile.rowMap={};
             profile.cellMap={};
             profile.rowMap2={};
-            
+
             // remove activerow/cell
             delete profile.$activeCell;
             delete profile.$activeRow;
@@ -1692,7 +1692,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                     }
                     if(!disabled &&type=='checkbox')
                         if(editable)
-                            box._updCell(profile, cell, !cell.value);
+                            box._updCell(profile, cell, !cell.value, p.dirtyMark);
                     if(!p.editable){
                         if(mode=='cell'){
                             if(getPro(profile, cell, 'disabled'))
@@ -2933,7 +2933,7 @@ sortby [for column only]
                         $caption=pro.boxing().getShowValue();
                         break;
                 }
-                grid._updCell(profile, cellId, {value:nV, $caption:$caption});
+                grid._updCell(profile, cellId, {value:nV, $caption:$caption}, profile.properties.dirtyMark);
             })
             .beforeNextFocus(function(pro, e){
                 if(editor){
