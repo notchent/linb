@@ -110,7 +110,7 @@ Class('VisualJS.ClassStruct', 'linb.Com',{
 
                 self.treebarClass.setItems(items);
                 if(value && self.treebarClass.getItemByItemId(value)){
-                    self.treebarClass.selectItem(value);
+                    self.treebarClass.fireItemClickEvent(value);
                     self.$readonly=false;
                 }else{
                     self.$PageEditor.setValue(data.text).setReadonly(true);

@@ -68,6 +68,9 @@ Class('VisualJS.ClassTool',null,{
                 //check it's a single block
                 //in '' or ""
                 str = linb.Coder.replace(code, [
+                    ["null|undefined|NaN", ''],
+                    [/\/(\\[\/\\]|[^*\/])(\\.|[^\/\n\\])*\/[gim]*/,''],
+                    [/-?(\d*\.?\d+|\d+\.?\d*)([eE][+-]?\d+|%)?\b/,''],
             		["'(\\\\.|[^'\\\\])*'", ''],
             		['"(\\\\.|[^"\\\\])*"', '']
                 ]);
