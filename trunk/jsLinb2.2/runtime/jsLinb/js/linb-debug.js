@@ -9400,7 +9400,7 @@ Class("linb.DataBinder","linb.absObj",{
                     // set caption
                     if(b.setCaption && c!==null)
                         _.tryF(b.setCaption,[c,true],b);
-                    
+
                 });
             })
         },
@@ -9478,7 +9478,7 @@ Class("linb.DataBinder","linb.absObj",{
                 if(_.arr.indexOf(o._n,pro)==-1)
                     //use link for 'destroy UIProfile' trigger 'auto unbind function '
                     pro.link(o._n, 'databinder.'+name);
-                
+
                 // set control value 1
                 if(t=pro.properties.dataField)
                     if(_.isSet(t=map[t]))
@@ -9586,7 +9586,7 @@ Class('linb.UIProfile','linb.Profile', {
         __gc:function(){
             var ns=this, t;
             if(ns.$destroyed)return;
-            
+
             _.tryF(ns.$ondestory,[],ns);
             if(ns.onDestroy)ns.boxing().onDestroy();
             if(ns.destroyTrigger)ns.destroyTrigger();
@@ -9637,7 +9637,7 @@ Class('linb.UIProfile','linb.Profile', {
                 }
                 t.length=0;
             }
-            
+
             //set once
             ns.$destroyed=true;
             _.tryF(ns.$afterdestory,[],ns);
@@ -11825,7 +11825,7 @@ Class("linb.UI",  "linb.absObj", {
                                         b=true;
                                     }else if(m3[key]){
                                         var reg = linb.use(src).caret(),txt=linb.use(src).get(0).value;
-    
+
                                         switch(key){
                                             case 'up':
                                                 if(!/[\n\r]/.test(txt.substr(0,reg[0]))) b=true;
@@ -13416,7 +13416,7 @@ Class("linb.absValue", "linb.absObj",{
 
                     if(!p.dataBinder)return;
                     // set control value 2
-                    var db=linb.dataBinder.getFromName(p.dataBinder);
+                    var db=linb.DataBinder.getFromName(p.dataBinder);
                     if(db && (t=db.get(0)) && (t=t._valuesMap) && _.isSet(t=t[value]))
                         p.value=t;
                 }
