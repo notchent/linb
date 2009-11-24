@@ -11919,31 +11919,39 @@ Class("linb.UI",  "linb.absObj", {
         getTheme:function(){
             return this.$theme;
         },
-        setTheme:function(key){
+        setTheme:function(key, refresh){
             key=key||'default';
             var ns=this;
             if(key!=ns.$theme){
-                if(key!='default')
-                    linb.CSS.includeLink(linb.getPath('linb.appearance.'+key,'/theme.css'),'theme:'+key);
-                var o=linb.CSS.get('id','theme:'+ns.$theme);
-                if(o){
-                    o.disabled=true;
-                    linb(o).remove(false);
+                if(refresh!==false){
+                    if(key!='default')
+                        linb.CSS.includeLink(linb.getPath('linb.appearance.'+key,'/theme.css'),'theme:'+key);
+                    var o=linb.CSS.get('id','theme:'+ns.$theme);
+                    if(o){
+                        o.disabled=true;
+                        linb(o).remove(false);
+                    }
                 }
                 ns.$theme=key;
-                ns.$CSSCACHE={};
-                var count=0;
-                _.asyRun(function(){
-                    if(count>5)
-                        throw new Error('errLoadTheme:'+key);
-                    count++;
-                    var s=linb.CSS.$getCSSValue('.setting-uikey','fontFamily');
-                    if(s==key || key=='default'){
-                        linb.UI.getAll().reLayout(true);
-                        count=null;
-                    }else
-                        _.asyRun(arguments.callee,200*count);
-                },200);
+                if(refresh!==false){
+                    ns.$CSSCACHE={};
+                    var count=0;
+                    _.asyRun(function(){
+                        if(count>10)
+                            throw new Error('errLoadTheme:'+key);
+                        count++;
+                        var s;
+                        try{
+                            s=linb.CSS.$getCSSValue('.setting-uikey','fontFamily');
+                        }catch(e){}finally{
+                            if(s==key || key=='default'){
+                                linb.UI.getAll().reLayout(true);
+                                count=null;
+                            }else
+                                _.asyRun(arguments.callee,200*count);
+                        }
+                    },200);
+                }
             }
             return this;
         },
