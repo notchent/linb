@@ -457,6 +457,13 @@ Class('linb.UI.ColorPicker', ['linb.UI',"linb.absValue"], {
                         p.boxing().setUIValue(sid);
                     p.box._vC(p);
                     return false;
+                },
+                onDblclick:function(p,e,s){
+                    var sid=p.getSubId(s);
+                    p.boxing()._setCtrlValue(p.$tempValue=sid,false);
+                    p.boxing().setUIValue(sid);
+                    p.box._vC(p);
+                    return false;
                 }
             },
             LIST:{
@@ -615,6 +622,11 @@ Class('linb.UI.ColorPicker', ['linb.UI',"linb.absValue"], {
                 },
                 onDragstop:function(p, e, src){
                     p.box._updateValueByPos(p, e);
+                },
+                onDblclick:function(p,e,src){
+                    p.box._updateValueByPos(p, e);
+                    p.boxing().setUIValue(p.$tempValue);
+                    p.box._vC(p);
                 }
             },
             ADVCLR:{
@@ -644,6 +656,11 @@ Class('linb.UI.ColorPicker', ['linb.UI',"linb.absValue"], {
                 },
                 onDragstop:function(p, e, src){
                     p.box._updateValueByPos(p, e);
+                },
+                onDblclick:function(p,e,src){
+                    p.box._updateValueByPos(p, e);
+                    p.boxing().setUIValue(p.$tempValue);
+                    p.box._vC(p);
                 }
             }
         },
