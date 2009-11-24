@@ -4248,7 +4248,7 @@ Class("linb.absList", "linb.absObj",{
             };
         },
         _adjustItems:function(arr){
-            if(!arr)arr=[_()+''];
+            if(!arr)arr=[];
             if(_.isStr(arr))arr=[arr];
 
             var a=_.copy(arr),m;
@@ -4257,7 +4257,7 @@ Class("linb.absList", "linb.absObj",{
                     a[i]={id:o+''};
                 else{
                     a[i]=_.copy(o);
-                    a[i].id=a[i].id?(a[i].id+''):_.id();
+                    a[i].id=_.isSet(a[i].id)?(a[i].id+''):_.id();
                 }
             });
             return a;
