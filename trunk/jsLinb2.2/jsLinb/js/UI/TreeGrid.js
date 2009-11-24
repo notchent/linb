@@ -2384,6 +2384,8 @@ editorListItems
 editorFormat
 editorMask
 editorReadonly
+editorDropListWidth
+editorDropListHeight
 value
 caption
 
@@ -2878,7 +2880,9 @@ sortby [for column only]
 
             var editorFormat = getPro('editorFormat'),
                 editorMask =  getPro('editorMask'),
-                editorReadonly = getPro('editorReadonly');
+                editorReadonly = getPro('editorReadonly'),
+                editorDropListWidth = getPro('editorDropListWidth'),
+                editorDropListHeight = getPro('editorDropListHeight');
 
             //$tag
             if(cell.$tag){
@@ -2887,6 +2891,12 @@ sortby [for column only]
             }
             if(editor.setReadonly && editorReadonly){
                 editor.setReadonly(true);
+            }
+            if(editor.setDropListWidth && editorDropListWidth){
+                editor.setDropListWidth(editorDropListWidth);
+            }
+            if(editor.setDropListHeight && editorDropListHeight){
+                editor.setDropListHeight(editorDropListHeight);
             }
             if(editorFormat){
                 if(typeof editorFormat=='function' && editor.beforeFormatCheck)

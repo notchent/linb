@@ -5833,7 +5833,8 @@ _.set(linb.Locale,["en","doc","linb","UI"], {
         $desc:"Sets the theme key string.",
         $rtn:"[self]",
         $paras:[
-            "key [Optional] : String, the theme key."
+            "key [Optional] : String, the theme key.",
+            "refresh [Optional] : Boolean, to determine whether refresh UI controls or not. default is [true]."
         ],
         $snippet:[
             "//linb.UI.setTheme('xp')"
@@ -8827,6 +8828,30 @@ _.set(linb.Locale,["en","doc","linb","UI","ComboInput"], {
                 "var o;linb(id).prepend(o=new linb.UI.ComboInput({position:'relative',items:[{id:'a',caption:'a'},{id:'b',caption:'b'},{id:'c',caption:'c'}]}));"+
                 "_.asyRun(function(){o.setItems([{id:'aaa',caption:'bbb'}])});"+
                 "}"
+            ]
+        },
+        getDropListHeight:{
+            $desc:"Gets pop window's height(only for listbox,combobox,helpinput).",
+            $rtn:"Number"
+        },
+        setDropListHeight:{
+            $desc:"Sets pop window's height(only for listbox,combobox,helpinput).",
+            $rtn:"[self]",
+            $paras:[
+                "value [Required] : Number, the items.",
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
+            ]
+        },
+        getDropListWidth:{
+            $desc:"Gets pop window's width(only for listbox,combobox,helpinput).",
+            $rtn:"Number"
+        },
+        setDropListWidth:{
+            $desc:"Sets pop window's height(only for listbox,combobox,helpinput).",
+            $rtn:"[self]",
+            $paras:[
+                "value [Required] : Number, the items.",
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ]
         },
         getListKey:{

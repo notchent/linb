@@ -189,7 +189,11 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                         case 'helpinput':
                             linb.SC('linb.UI.List');
                             o = linb.create('List').render();
-                            o.host(profile).setDirtyMark(false).setItems(_.copy(pro.items)).setListKey(pro.listKey||'').adjustSize();
+                            o.host(profile).setDirtyMark(false).setItems(_.copy(pro.items)).setListKey(pro.listKey||'');
+                            if(pro.dropListHeight)
+                                o.setHeight(pro.dropListHeight);
+                            else
+                                o.adjustSize();
                             o.beforeUIValueSet(function(p, ovalue, value){
                                 var b2=this.boxing();
                                 if(type=='combobox'){
@@ -261,7 +265,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                     case 'combobox':
                     case 'listbox':
                     case 'helpinput':
-                        o.setWidth(profile.getRoot().width());
+                        o.setWidth(profile.properties.dropListWidth || profile.getRoot().width());
                     case 'timepicker':
                         o.setValue(profile.properties.$UIvalue, true);
                         break;
@@ -711,6 +715,8 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                     o.properties.listKey = value;
                 }
             },
+            dropListWidth:0,
+            dropListHeight:0,
             items:{
                 ini:[],
                 set:function(value){

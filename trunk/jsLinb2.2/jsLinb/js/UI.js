@@ -2803,7 +2803,7 @@ Class("linb.UI",  "linb.absObj", {
                             if(smartnav){
                                 var node=linb.use(src).get(0);
                                 if(m2[k=node.tagName.toLowerCase()]){
-                                    if(k=="input" && node.type.toLowerCase()!='text'&& node.type.toLowerCase()!='password'){
+                                    if(key && k=="input" && node.type.toLowerCase()!='text'&& node.type.toLowerCase()!='password'){
                                         b=true;
                                     }else if(m3[key]){
                                         var reg = linb.use(src).caret(),txt=linb.use(src).get(0).value;

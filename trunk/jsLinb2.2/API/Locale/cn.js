@@ -5866,7 +5866,8 @@ _.set(linb.Locale,["cn","doc","linb","UI"], {
         $desc:"通过设置皮肤关键字来更改当前皮肤.",
         $rtn:"[self]",
         $paras:[
-            "key [可选参数] : String, 皮肤键字符串."
+            "key [可选参数] : String, 皮肤键字符串.",
+            "refresh [Optional] : Boolean, 是否要刷新所有界面控件. 默认是 [true]."
         ],
         $snippet:[
             "//linb.UI.setTheme('xp')"
@@ -8847,6 +8848,30 @@ _.set(linb.Locale,["cn","doc","linb","UI","ComboInput"], {
                 "var o;linb(id).prepend(o=new linb.UI.ComboInput({position:'relative',items:[{id:'a',caption:'a'},{id:'b',caption:'b'},{id:'c',caption:'c'}]}));"+
                 "_.asyRun(function(){o.setItems([{id:'aaa',caption:'bbb'}])});"+
                 "}"
+            ]
+        },
+        getDropListHeight:{
+            $desc:"获取弹出窗口高（只对listbox,combobox,helpinput有效）.",
+            $rtn:"Number"
+        },
+        setDropListHeight:{
+            $desc:"设置弹出窗口高（只对listbox,combobox,helpinput有效）.",
+            $rtn:"[self]",
+            $paras:[
+                "value [必需参数] : Number, 高",
+                "force [可选参数] : Boolean, 强制设置该属性值，即使属性已经设置为该值. 默认为 [false]."
+            ]
+        },
+        getDropListWidth:{
+            $desc:"获取默认的弹出窗口宽（只对listbox,combobox,helpinput有效）.",
+            $rtn:"Number"
+        },
+        setDropListWidth:{
+            $desc:"设置弹出窗口宽（只对listbox,combobox,helpinput有效）.",
+            $rtn:"[self]",
+            $paras:[
+                "value [必需参数] : Number, 宽",
+                "force [可选参数] : Boolean, 强制设置该属性值，即使属性已经设置为该值. 默认为 [false]."
             ]
         },
         getListKey:{

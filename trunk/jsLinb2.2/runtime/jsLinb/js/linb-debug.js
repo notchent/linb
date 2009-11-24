@@ -11821,7 +11821,7 @@ Class("linb.UI",  "linb.absObj", {
                             if(smartnav){
                                 var node=linb.use(src).get(0);
                                 if(m2[k=node.tagName.toLowerCase()]){
-                                    if(k=="input" && node.type.toLowerCase()!='text'&& node.type.toLowerCase()!='password'){
+                                    if(key && k=="input" && node.type.toLowerCase()!='text'&& node.type.toLowerCase()!='password'){
                                         b=true;
                                     }else if(m3[key]){
                                         var reg = linb.use(src).caret(),txt=linb.use(src).get(0).value;
@@ -18108,7 +18108,11 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                         case 'helpinput':
                             linb.SC('linb.UI.List');
                             o = linb.create('List').render();
-                            o.host(profile).setDirtyMark(false).setItems(_.copy(pro.items)).setListKey(pro.listKey||'').adjustSize();
+                            o.host(profile).setDirtyMark(false).setItems(_.copy(pro.items)).setListKey(pro.listKey||'');
+                            if(pro.dropListHeight)
+                                o.setHeight(pro.dropListHeight);
+                            else
+                                o.adjustSize();
                             o.beforeUIValueSet(function(p, ovalue, value){
                                 var b2=this.boxing();
                                 if(type=='combobox'){
@@ -18180,7 +18184,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                     case 'combobox':
                     case 'listbox':
                     case 'helpinput':
-                        o.setWidth(profile.getRoot().width());
+                        o.setWidth(profile.properties.dropListWidth || profile.getRoot().width());
                     case 'timepicker':
                         o.setValue(profile.properties.$UIvalue, true);
                         break;
@@ -18630,6 +18634,8 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                     o.properties.listKey = value;
                 }
             },
+            dropListWidth:0,
+            dropListHeight:0,
             items:{
                 ini:[],
                 set:function(value){
@@ -29338,6 +29344,8 @@ editorListItems
 editorFormat
 editorMask
 editorReadonly
+editorDropListWidth
+editorDropListHeight
 value
 caption
 
@@ -29832,7 +29840,9 @@ sortby [for column only]
 
             var editorFormat = getPro('editorFormat'),
                 editorMask =  getPro('editorMask'),
-                editorReadonly = getPro('editorReadonly');
+                editorReadonly = getPro('editorReadonly'),
+                editorDropListWidth = getPro('editorDropListWidth'),
+                editorDropListHeight = getPro('editorDropListHeight');
 
             //$tag
             if(cell.$tag){
@@ -29841,6 +29851,12 @@ sortby [for column only]
             }
             if(editor.setReadonly && editorReadonly){
                 editor.setReadonly(true);
+            }
+            if(editor.setDropListWidth && editorDropListWidth){
+                editor.setDropListWidth(editorDropListWidth);
+            }
+            if(editor.setDropListHeight && editorDropListHeight){
+                editor.setDropListHeight(editorDropListHeight);
             }
             if(editorFormat){
                 if(typeof editorFormat=='function' && editor.beforeFormatCheck)
