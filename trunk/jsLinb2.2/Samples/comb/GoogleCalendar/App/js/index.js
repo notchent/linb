@@ -142,7 +142,6 @@ Class('App', 'linb.Com',{
                 .setTop(43)
                 .setWidth(80)
                 .setHeight(18)
-                .setReadonly(true)
                 .setType("listbox")
                 .setItems([{"id":"en", "caption":"English"}, {"id":"cn", "caption":"Chinese"}])
                 .setValue("en")

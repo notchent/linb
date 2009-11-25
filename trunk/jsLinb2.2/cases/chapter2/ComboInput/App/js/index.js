@@ -243,7 +243,6 @@ Class('App', 'linb.Com',{
                 .setTabindex("9")
                 .setShadow(true)
                 .setResizer(true)
-                .setReadonly(true)
                 .setType("listbox")
                 .setListKey("test2")
             );
@@ -315,7 +314,6 @@ Class('App', 'linb.Com',{
                 .setTop(260)
                 .setWidth(240)
                 .setTabindex("16")
-                .setReadonly(true)
                 .setType("upload")
             );
             

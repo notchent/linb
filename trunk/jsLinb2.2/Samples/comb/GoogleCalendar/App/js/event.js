@@ -157,7 +157,6 @@ Class('App.event', 'linb.Com',{
                 .setLeft(306)
                 .setTop(40)
                 .setWidth(94)
-                .setReadonly(true)
                 .setType("colorpicker")
                 .setItems([{"id":"a", "caption":"itema", "tips":"item a"}, {"id":"b", "caption":"itemb", "tips":"item b"}, {"id":"c", "caption":"itemc", "tips":"item c"}])
             );

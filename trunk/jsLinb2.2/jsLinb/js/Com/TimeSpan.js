@@ -197,7 +197,6 @@ Class('linb.Com.TimeSpan', 'linb.Com',{
                 .host(host,"cbiTZ")
                 .setItems([])
                 .setType("popbox")
-                .setReadonly(true)
                 .setLeft(60)
                 .setTop(30)
                 .setWidth(340)

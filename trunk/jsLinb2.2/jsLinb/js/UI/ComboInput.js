@@ -48,7 +48,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                 }else
                     v=profile.$showValue;
             }
-            if(!_.isSet(v) && pro.readonly)
+            if(!_.isSet(v) && (profile.$inputReadonly || pro.inputReadonly))
                 v=_.isSet(pro.caption)?pro.caption:null;
             return ""+( _.isSet(v) ? v : _.isSet(value) ? value : "");
         },
@@ -134,6 +134,8 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
             return this.each(function(profile){
                 var pro = profile.properties, type=pro.type, cacheDrop=pro.cachePopWnd;
                 if(pro.disabled)return;
+                if(pro.readonly)return;
+
                 if(type=='upload'||type=='none'||type=='spin')return;
                 //open already
                 if(profile.$poplink)return;
@@ -337,7 +339,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
         _iniType:function(profile){
             var pro=profile.properties, value=pro.type;
             if(value=='listbox'||value=='upload'||value=='cmdbox')
-                profile.boxing().setReadonly(true);
+                profile.$inputReadonly=true;
 
             if(value!='listbox' && value!='combobox' && value!='helpinput')
                 pro.items=[];
@@ -422,9 +424,17 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
             },
             'KEY-upload INPUT, KEY-cmdbox INPUT, KEY-listbox INPUT':{
                 $order:4,
-                color:'#000',
+                cursor:'pointer',
                 'text-align':'left',
                 overflow:'hidden'
+            },
+            'KEY-upload BORDER, KEY-cmdbox BORDER, KEY-listbox BORDER':{
+                $order:1,
+                background:linb.UI.$bg('inputbgb.gif', '#fff left bottom repeat-x',"Input")
+            },
+            'KEY-upload BOX, KEY-cmdbox BOX, KEY-listbox BOX':{
+                $order:4,
+                background:'none'
             },
             'RBTN,SBTN,BTN':{
                 display:'block',
@@ -543,6 +553,8 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
             ClickEffected:{BTN:'BTN',SBTN:'SBTN',R1:'R1',R2:'R2'},
             FILE:{
                 onClick : function(profile, e, src){
+                    var prop=profile.properties;
+                    if(prop.disabled || prop.readonly)return;
                     if(profile.onFileDlgOpen)profile.boxing().onFileDlgOpen(profile,src);
                 },
                 onChange:function(profile, e, src){
@@ -551,11 +563,15 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
             },
             BTN:{
                 onClick : function(profile, e, src){
+                    var prop=profile.properties;
+                    if(prop.disabled || prop.readonly)return;
                     profile.boxing()._drop(e,src);
                 }
             },
             SBTN:{
                 onClick : function(profile, e, src){
+                    var prop=profile.properties;
+                    if(prop.disabled || prop.readonly)return;
                     if(profile.onSave)profile.boxing().onSave(profile,src);
                 }
             },
@@ -639,9 +655,10 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                     var prop=profile.properties,
                         m=prop.multiLines,
                         key=linb.Event.getKey(e);
+                    if(prop.disabled || prop.readonly)return;
 
                     //fire onchange first
-                    if(key[0]=='enter' && (!m||key[3]) && !prop.readonly)
+                    if(key[0]=='enter' && (!m||key[3]) && !prop.inputReadonly && !profile.$inputReadonly)
                         linb.use(src).onChange();
                     if(key[0]=='down'|| key[0]=='up'){
                         if(prop.type=='spin'){
@@ -654,17 +671,20 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                     }
                 },
                 onClick : function(profile, e, src){
-                    var p=profile.properties;
-                    if(p.type=='cmdbox'){
+                    var prop=profile.properties;
+                    if(prop.disabled || prop.readonly)return;
+                    if(prop.type=='cmdbox'){
                         if(profile.onClick)
-                            profile.boxing().onClick(profile, e, src, p.$UIvalue);
+                            profile.boxing().onClick(profile, e, src, prop.$UIvalue);
                     //DOM node's readOnly
-                    }else if(linb.use(src).get(0).readOnly)
+                    }else if(prop.inputReadonly || profile.$inputReadonly)
                         profile.boxing()._drop(e, src);
                 }
             },
             R1:{
                 onMousedown:function(profile){
+                    var prop=profile.properties;
+                    if(prop.disabled || prop.readonly)return;
                     profile.box._spin(profile, true);
                 },
                 onMouseout:function(profile){
@@ -676,6 +696,8 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
             },
             R2:{
                 onMousedown:function(profile){
+                    var prop=profile.properties;
+                    if(prop.disabled || prop.readonly)return;
                     profile.box._spin(profile, false);
                 },
                 onMouseout:function(profile){
@@ -754,7 +776,6 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                 set:function(value){
                     var pro=this;
                     pro.properties.type=value;
-                    pro.box._iniType(pro);
                     if(pro.renderId)
                         pro.boxing().refresh();
                 }
@@ -769,6 +790,31 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                     this.boxing().refresh();
                 }
             },
+            inputReadonly:{
+                ini:false,
+                action: function(v){
+                    var n=this.getSubNode('INPUT'),
+                        cls=this.getClass('KEY','-readonly');
+
+                    if(!v && (this.properties.readonly||this.$inputReadonly))
+                        v=true;
+                    n.attr('readonly',v).css('cursor',v?'pointer':'');
+                }
+            },
+            readonly:{
+                ini:false,
+                action: function(v){
+                    var n=this.getSubNode('INPUT'),
+                        cls=this.getClass('KEY','-readonly');                    
+                    if(v)this.getRoot().addClass(cls);
+                    else this.getRoot().removeClass(cls);
+
+                    if(!v && (this.properties.inputReadonly||this.$inputReadonly))
+                        v=true;
+                    n.attr('readonly',v).css('cursor',v?'pointer':'');
+                        
+                }
+            },
             // caption is for readonly comboinput(listbox/cmdbox are readonly)
             caption:{
                 ini:null,
@@ -776,7 +822,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                     var p=this.properties;
                     p.caption=v;
                     if(_.isSet(p.caption) && this.renderId){
-                        if(this.properties.readonly){
+                        if(this.$inputreadonly || p.inputReadonly){
                             this.getSubNode('INPUT').attr("value",this.boxing().getShowValue());
                         }
                     }
@@ -791,8 +837,11 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                 instance=self.boxing(),
                 p=self.properties;
             self.box._iniType(self);
+
             if(p.readonly)
                 instance.setReadonly(true,true);
+            else if(p.inputReadonly)
+                instance.setInputReadonly(true,true);
         },
         _spin:function(profile, flag){
             var id=profile.$linbid+':spin';

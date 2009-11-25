@@ -403,34 +403,43 @@ Class("linb.DataBinder","linb.absObj",{
             return linb.absValue.pack(this.get(0)._n,false).checkValid();
         },
         getValue:function(dirtyOnly, reset, withCaption){
-            var ns=this,o=ns.get(0);
-            if(ns.checkValid()){
-                var hash={};
-                _.arr.each(o._n,function(profile){
-                    var p=profile.properties,
-                    b = profile.boxing(),
-                    v = b.getValue();
-                    uv = b.getUIValue();
+            var ns=this,o=ns.get(0),bDirty=false;
+            // check dirty
+            _.arr.each(o._n,function(profile){
+                var p=profile.properties;
+                if(p.value!==p.$UIvalue){
+                    bDirty=true;
+                    return false;
+                }
+            });
+            // if dirty, check valid
+            if(bDirty && !ns.checkValid())
+                return null;
 
-                    if(!dirtyOnly || (dirtyOnly && uv!==v)){
-                        if(withCaption && b.getCaption){
-                            hash[p.dataField]={value:uv,caption:b.getCaption()};
-                        }else{
-                            hash[p.dataField]=uv;
-                        }
-                        if(reset!==false && profile.renderId){
-                            b.updateValue();
-                        }
+            var hash={};
+            _.arr.each(o._n,function(profile){
+                var p=profile.properties,
+                b = profile.boxing(),
+                v = b.getValue(),
+                uv = b.getUIValue();
+
+                if(!dirtyOnly || (dirtyOnly && uv!==v)){
+                    if(withCaption && b.getCaption){
+                        hash[p.dataField]={value:uv,caption:b.getCaption()};
+                    }else{
+                        hash[p.dataField]=uv;
                     }
-                });
+                    if(reset!==false && profile.renderId){
+                        b.updateValue();
+                    }
+                }
+            });
 
-                if(!dirtyOnly)
-                    _.merge(hash,o._valuesMap,'without');
-                if(reset!==false)
-                    _.merge(o._valuesMap,hash,'all');
-                return hash;
-
-            }else return null;
+            if(!dirtyOnly)
+                _.merge(hash,o._valuesMap,'without');
+            if(reset!==false)
+                _.merge(o._valuesMap,hash,'all');
+            return hash;
         },
         host:function(value, alias){
             var self=this;
@@ -479,7 +488,8 @@ Class("linb.DataBinder","linb.absObj",{
                         c=linb.DataBinder,
                         _p=c._pool,
                         to=_p[ovalue],
-                        t=_p[value];
+                        t=_p[value],
+                        ui;
 
                     //if it exitst, overwrite it dir
                     //if(to && t)
@@ -487,9 +497,10 @@ Class("linb.DataBinder","linb.absObj",{
 
                     _p[o.properties.name=value]=o;
                     //modify name
-                    if(to && !t){
-                        linb.absValue.pack(o._n).setDataBinder(value);
+                    if(to && !t && o._n.length){
+                        ui=linb.absValue.pack(_.copy(o._n));
                         _.arr.each(o._n, function(v){c._unBind(ovalue,v)});
+                        ui.setDataBinder(value);
                     }
                     //pointer to the old one
                     if(t && !to) o._n=t._n;
@@ -1075,7 +1086,25 @@ Class("linb.UI",  "linb.absObj", {
             });
             return rtnString===false?a:a.length==1?" new "+a[0].key+"("+_.serialize(a[0])+")":"linb.UI.unserialize("+_.serialize(a)+")";
         },
-
+        setProperties:function(key, value){
+            return this.each(function(o){
+                var ins=o.boxing();
+                _.each(prop=typeof key=="object"?key:{key:value}, function(v,k){
+                    var funName="set"+_.str.initial(k);
+                    if(typeof ins[funName]=='function')
+                        ins[funName].call(ins, v);
+                });
+            });
+        },
+        setEvents:function(key, value){
+            return this.each(function(o){
+                var ins=o.boxing();
+                _.each(prop=typeof key=="object"?key:{key:value}, function(v,k){
+                    if(typeof ins[k]=='function')
+                        ins[k].call(ins, v);
+                });
+            });
+        },
         _toDomElems:function(){
             var arr=[];
             //collect those need to be rendered
@@ -2628,7 +2657,7 @@ Class("linb.UI",  "linb.absObj", {
                             item,
                             cid = profile.getSubId(id),
                             prop = profile.properties,nodes,funs,box;
-                        if(prop.disabled)return;
+                        if(prop.disabled || prop.readonly)return;
                         item = profile.SubSerialIdMapItem && profile.SubSerialIdMapItem[cid];
                         if(item && item.disabled)return;
                         switch(typeof arr){

@@ -232,7 +232,6 @@ Class('App', 'linb.Com',{
                 .setLeft(130)
                 .setTop(80)
                 .setWidth(140)
-                .setReadonly(true)
                 .setType("listbox")
                 .setItems([{"id":"a", "caption":"Cok,Oliver"}, {"id":"b", "caption":"Jimi,Larry"}, {"id":"c", "caption":"Steven, Du"}, {"id":"d", "caption":"Tracy, Tang"}])
                 .setValue(null)
@@ -245,7 +244,6 @@ Class('App', 'linb.Com',{
                 .setLeft(130)
                 .setTop(50)
                 .setWidth(140)
-                .setReadonly(true)
                 .setType("listbox")
                 .setItems([{"id":"1", "caption":"Federal Express"}, {"id":"2", "caption":"UPS Ground"}, {"id":"3", "caption":"UPS Mail"}])
                 .setValue(null)
@@ -258,7 +256,6 @@ Class('App', 'linb.Com',{
                 .setLeft(130)
                 .setTop(20)
                 .setWidth(140)
-                .setReadonly(true)
                 .setType("listbox")
                 .setItems([{"id":"1", "caption":"Mike,Silla"}, {"id":"2", "caption":"Rose,Kim"}, {"id":"3", "caption":"Betty,Jin"}])
             );

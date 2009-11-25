@@ -133,10 +133,6 @@ Class("linb.UI.Input", ["linb.UI.Widget","linb.absValue"] ,{
                 'border':'solid 1px #B5B8C8',
                 'z-index':10
             },
-            "KEY-readonly BORDER":{
-                $order:1,
-                background:linb.UI.$bg('inputbgb.gif', '#fff left bottom repeat-x',"Input")
-            },
             "KEY-readonly input":{
                 $order:2,
                 color:'#909090'

@@ -38,7 +38,6 @@ Class('App', 'linb.Com',{
                 .host(host,"comboinput8")
                 .setLeft(170)
                 .setTop(214)
-                .setReadonly(true)
                 .setType("popbox")
                 .beoforeComboPop("_comboinput8_beoforeComboPop")
             );
@@ -47,7 +46,6 @@ Class('App', 'linb.Com',{
                 .host(host,"comboinput4")
                 .setLeft(170)
                 .setTop(60)
-                .setReadonly(true)
                 .setType("popbox")
                 .beoforeComboPop("_comboinput4_beoforeComboPop")
             );
@@ -56,7 +54,6 @@ Class('App', 'linb.Com',{
                 .host(host,"comboinput9")
                 .setLeft(170)
                 .setTop(140)
-                .setReadonly(true)
                 .setType("popbox")
                 .beoforeComboPop("_comboinput9_beoforeComboPop")
             );
@@ -65,7 +62,6 @@ Class('App', 'linb.Com',{
                 .host(host,"comboinput10")
                 .setLeft(170)
                 .setTop(294)
-                .setReadonly(true)
                 .setType("popbox")
                 .beoforeComboPop("_comboinput10_beoforeComboPop")
             );

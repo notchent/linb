@@ -16,7 +16,6 @@ Class('App', 'linb.Com',{
                 .setLeft(140)
                 .setTop(40)
                 .setWidth(140)
-                .setReadonly(true)
                 .setType("upload")
                 .setValue("Select a file ...")
             );

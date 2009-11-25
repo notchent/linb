@@ -82,7 +82,6 @@ Class('VisualJS.AddFile', 'linb.Com',{
             .setLeft(300)
             .setTop(150)
             .setWidth(110)
-            .setReadonly(true)
             .setType("listbox")
             .setItems([{"id":"/","caption":"$VisualJS.addfile.iDir"},{"id":".html","caption":"$VisualJS.addfile.iHtml"},{"id":".css","caption":"$VisualJS.addfile.iCSS"},{"id":".js","caption":"$VisualJS.addfile.iJs"},{"id":".php","caption":"$VisualJS.addfile.iPhp"}])
             .afterUIValueSet("_refresh")

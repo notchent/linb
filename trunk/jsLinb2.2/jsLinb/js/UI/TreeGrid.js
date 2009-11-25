@@ -2889,8 +2889,8 @@ sortby [for column only]
                 if(editor.setCaption)editor.setCaption(cell.$tag);
                 else if(editor.setValue)editor.setValue(cell.$tag);
             }
-            if(editor.setReadonly && editorReadonly){
-                editor.setReadonly(true);
+            if(editor.setInputReadonly && editorReadonly){
+                editor.setInputReadonly(true);
             }
             if(editor.setDropListWidth && editorDropListWidth){
                 editor.setDropListWidth(editorDropListWidth);
