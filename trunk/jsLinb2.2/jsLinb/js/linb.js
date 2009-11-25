@@ -1338,6 +1338,10 @@ Class('linb.absIO',null,{
 
         self.query = self.customQS(self.query);
 
+        // remove all undifiend item
+        if(typeof self.query=='object' && self.reqType!="xml")
+            self.query=_.clone(self.query, function(o){return o!==undefined});
+
         if(!self._useForm && typeof self.query!='string' && self.reqType!="xml")
             self.query = con._buildQS(self.query, self.reqType=="json",self.method=='POST');
 
