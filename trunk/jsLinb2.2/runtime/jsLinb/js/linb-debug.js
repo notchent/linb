@@ -18770,7 +18770,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                     var p=this.properties;
                     p.caption=v;
                     if(_.isSet(p.caption) && this.renderId){
-                        if(this.$inputreadonly || p.inputReadonly){
+                        if(this.$inputReadonly || p.inputReadonly){
                             this.getSubNode('INPUT').attr("value",this.boxing().getShowValue());
                         }
                     }
