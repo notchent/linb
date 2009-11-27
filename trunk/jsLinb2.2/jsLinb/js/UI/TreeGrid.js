@@ -167,7 +167,16 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                         self.toggleRow(o.id, true);
                 });
         },
-
+        isDirtied:function(){
+            var dirty=false;
+            _.each(this.get(0).cellMap,function(v){
+                if(v._value!==v.value){
+                    dirty=true;
+                    return false;
+                }
+            });
+            return dirty;
+        },
 
         /*rows related*/
         //type: 'original', 'data', 'min'

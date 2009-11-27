@@ -9601,7 +9601,11 @@ Class('linb.UIProfile','linb.Profile', {
         __gc:function(){
             var ns=this, t;
             if(ns.$destroyed)return;
-
+            // try to undock
+            if(ns.properties.dock && ns.properties.dock!='none'){
+                ns.properties.dock='none';
+                linb.UI.$dock(ns,true,true);
+            }
             _.tryF(ns.$ondestory,[],ns);
             if(ns.onDestroy)ns.boxing().onDestroy();
             if(ns.destroyTrigger)ns.destroyTrigger();
@@ -10760,7 +10764,7 @@ Class("linb.UI",  "linb.absObj", {
         self.setDataModel(hash);
 
         linb.UI.$cache_css += linb.UI.buildCSSText({
-            '.linb-viewport, .linb-viewport BODY':{
+            '.linb-noscroll, .linb-noscroll BODY, .linb-viewport, .linb-viewport BODY':{
                 overflow:'hidden',
                 height:'100%',
                 border:'0 none',
@@ -12577,7 +12581,8 @@ Class("linb.UI",  "linb.absObj", {
                 margin=prop.dockMargin,
                 node = profile.getRoot(),
                 value = prop.dock || 'none',
-                p= node.parent(),
+                //
+                p=linb((node.get(0) && node.get(0).parentNode)||profile.$dockParent),
                 auto = 'auto',
                 pid=linb.Event.getId(p.get(0)),
                 order=function(x,y){
@@ -12591,7 +12596,7 @@ Class("linb.UI",  "linb.absObj", {
                 _adjust=function(v){return linb.browser.ie6?v-v%2:v}
 
 
-            if(p.get(0)===document.body){
+            if(p.get(0)===document.body || p.get(0)===document || p.get(0)===window){
                 pid='!document';
                 isWin=true;
             }
@@ -12605,6 +12610,7 @@ Class("linb.UI",  "linb.absObj", {
                 profile.$dockType = value;
 
                 //unlink first
+                profile.unLink('$dockall');
                 profile.unLink('$dock');
                 profile.unLink('$dock1');
                 profile.unLink('$dock2');
@@ -12652,7 +12658,8 @@ Class("linb.UI",  "linb.absObj", {
                         region={left:prop.left, top:prop.top, width:prop.width||'',height:prop.height||''};
                         break;
                 }
-                node.cssRegion(region,true);
+                if(node.get(0))
+                    node.cssRegion(region,true);
                 //if in body, set to window
                 if(isWin){
                     p=linb.win;
@@ -12735,6 +12742,7 @@ Class("linb.UI",  "linb.absObj", {
                         _.arr.each(linb.UI.$dock_args,function(key){
                             f[key]=[];
                         });
+                        f.dockall=[];
                         f.rePos=function(profile, obj, value, id, w, h){
                             //if $dockid input, and not the specific node, return
                             var flag=false;
@@ -12874,6 +12882,7 @@ Class("linb.UI",  "linb.absObj", {
                         profile.link(f[value], '$dock');
                         f[value].sort(order);
                     }
+                    profile.link(f.dockall, '$dockall');
 
                     //
                     linb.$cache._resizeTime=1;
@@ -12881,10 +12890,17 @@ Class("linb.UI",  "linb.absObj", {
                     //set shortuct
                     profile.$dockFun=f;
 
-                    if(isWin){
+                }
+                if(isWin){
+                    var f=linb.win.$getEvent('onSize','dock');
+                    if(f.dockall && f.dockall.length){
                         linb('html').addClass('linb-viewport');
                         if(t=linb('body').get(0))
                             t.scroll='no';
+                    }else{
+                        linb('html').removeClass('linb-viewport');
+                        if(t=linb('body').get(0))
+                            t.scroll='';
                     }
                 }
             }
@@ -27205,7 +27221,16 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                         self.toggleRow(o.id, true);
                 });
         },
-
+        isDirtied:function(){
+            var dirty=false;
+            _.each(this.get(0).cellMap,function(v){
+                if(v._value!==v.value){
+                    dirty=true;
+                    return false;
+                }
+            });
+            return dirty;
+        },
 
         /*rows related*/
         //type: 'original', 'data', 'min'
@@ -31488,18 +31513,22 @@ if(linb.browser.ie){
             var s=profile.getRoot(),temp,p=s.parent(),cover;
             if(!p.isEmpty()){
                 if(!profile.$inModal){
-                    if(!profile.$modalDiv)
-                        profile.$modalDiv=new linb.UI.Div({
-                            position:'absolute'
-                        }).setCustomStyle({
-                            KEY:'overflow:hidden;display:block;z-index:0;cursor:wait;background-image:url('+linb.ini.path+'bg.gif)'
-                        });
-
                     cover = profile.$modalDiv;
+                    if(!cover || !cover.get(0) || !cover.get(0).parentNode)
+                        cover = profile.$modalDiv = linb.create("<div style='left:0;top:0;position:absolute;overflow:hidden;display:block;z-index:0;cursor:wait;background-image:url("+linb.ini.file_bg+")'></div>");
                     p.append(cover);
-                    cover.setDock('cover',true);
-                    cover=cover.reBoxing();
-                    cover.css('display','block').onMousedown(function(){return false}).topZindex(true);
+                    cover.css({
+                        display:'block',width:linb.win.scrollWidth()+'px',height:linb.win.scrollHeight()+'px'
+                    })
+                    .onMousedown(function(){return false})
+                    .topZindex(true);
+                    // attach onresize event
+                    p.onSize(function(p,e,src){
+                        var n=linb.use(src);
+                        cover.width(n.scrollWidth());
+                        cover.height(n.scollHeight());
+                    },"dialog:"+profile.serialId);
+                    
                     s.css('zIndex',(parseInt(cover.css('zIndex'))||0)+1);
 
                     /*
@@ -31546,9 +31575,11 @@ if(linb.browser.ie){
         },
         _unModal:function(profile){
             if(profile.$inModal){
-                profile.$modalDiv.setDock('none');
+                // detach onresize event
+                profile.$modalDiv.parent().onSize(null, "dialog:"+profile.serialId);
+
                 profile.getRoot().css('zIndex',0);
-                profile.getSubNode('BORDER').append(profile.$modalDiv.reBoxing().css('display','none'));
+                profile.getSubNode('BORDER').append(profile.$modalDiv.css('display','none'));
 
                 profile.$inModal=false;
                 /*
