@@ -645,7 +645,7 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
                                     subNs.append(item.sub=sub.render(true));
 
                                 //set checked items
-                                b._setCtrlValue(b.getUIValue(), true);
+                                b.setUIValue(b.getValue(), true);
                             }
 
                             if(p.singleOpen)
