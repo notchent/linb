@@ -752,18 +752,27 @@ if(linb.browser.ie){
                     if(!cover || !cover.get(0) || !cover.get(0).parentNode)
                         cover = profile.$modalDiv = linb.create("<div style='left:0;top:0;position:absolute;overflow:hidden;display:block;z-index:0;cursor:wait;background-image:url("+linb.ini.file_bg+")'></div>");
                     p.append(cover);
+
+                    // attach onresize event
+                    if(p.get(0)===document.body || p.get(0)===document || p.get(0)===window)
+                        p=linb.win;
+
                     cover.css({
-                        display:'block',width:linb.win.scrollWidth()+'px',height:linb.win.scrollHeight()+'px'
+                        display:'block',width:Math.max(p.width(),p.scrollWidth())+'px',height:Math.max(p.height(),p.scrollHeight())+'px'
                     })
                     .onMousedown(function(){return false})
                     .topZindex(true);
-                    // attach onresize event
-                    p.onSize(function(p,e,src){
-                        var n=linb.use(src);
-                        cover.width(n.scrollWidth());
-                        cover.height(n.scollHeight());
+
+                    p.onSize(function(p){
+                        p=linb(p);
+                        // set widht/height first
+                        cover.width(p.width()).height(p.height());
+                        _.asyRun(function(){
+                            cover.width(Math.max(p.width(),p.scrollWidth()));
+                            cover.height(Math.max(p.height(),p.scrollHeight()));
+                        });
                     },"dialog:"+profile.serialId);
-                    
+
                     s.css('zIndex',(parseInt(cover.css('zIndex'))||0)+1);
 
                     /*
@@ -811,7 +820,11 @@ if(linb.browser.ie){
         _unModal:function(profile){
             if(profile.$inModal){
                 // detach onresize event
-                profile.$modalDiv.parent().onSize(null, "dialog:"+profile.serialId);
+                var p=profile.$modalDiv.parent();
+                if(p.get(0)===document.body || p.get(0)===document || p.get(0)===window)
+                    p=linb.win;
+
+                p.onSize(null, "dialog:"+profile.serialId);
 
                 profile.getRoot().css('zIndex',0);
                 profile.getSubNode('BORDER').append(profile.$modalDiv.css('display','none'));

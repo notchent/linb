@@ -448,7 +448,7 @@ Class('linb.Dom','linb.absBox',{
                          o.innerHTML=content;
                         //if(triggerGC)
                         //    linb.UI.$addEventsHanlder(o);
-    
+
                     }
                     o=null;
                 }
@@ -597,7 +597,7 @@ Class('linb.Dom','linb.absBox',{
             input.focus();
             //set caret
             if(type=='number'){
-                
+
                 if(ie){
                     var r = input.createTextRange();
                     r.collapse(true);
@@ -1439,7 +1439,7 @@ type:4
                 }
             }else
                 target=ns;
-            
+
             if(!doc.onmousedown)doc.onmousedown=linb.Event.$eventhandler;
             target.each(function(o){if(!o.id)o.id=linb.Dom._pickDomId()});
             //remove this trigger
@@ -1501,7 +1501,7 @@ type:4
                         bgmatch = bgimg.match(/^url[("']+(.*\.png[^\)"']*)[\)"']+[^\)]*$/i);
                     if(bgmatch){
                         n.style.backgroundImage = 'url(' + linb.ini.file_bg + ')';
-                        n.style.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(enabled=true, src=" + bgmatch[1] + ", sizingMethod="+type+")";                        
+                        n.style.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(enabled=true, src=" + bgmatch[1] + ", sizingMethod="+type+")";
                     }
                 });
             }
@@ -1559,11 +1559,11 @@ type:4
                             ? '!window'
                             : t===document
                             ? '!document'
-                            : typeof (t=arr[i])=='string'
-                            ? t.charAt(0)=='!'
-                                ?  t
-                                : this._getTag( map[t] ? document.getElementsByTagName(t)[0] : document.getElementById(t))
-                            : (t['linb.UIProfile']||t['linb.Template'])
+                            : (typeof t=='string' || (t['linb.DomProfile'] && (t=t.domId)))
+                                ? t.charAt(0)=='!'
+                                    ?  t
+                                    : this._getTag( map[t] ? document.getElementsByTagName(t)[0] : document.getElementById(t))
+                            : ((t=arr[i])['linb.UIProfile']||t['linb.Template'])
                             ? t.renderId ? t.renderId : (t.boxing().render() && t.renderId)
                             : this._getTag(t)
                   )

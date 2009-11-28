@@ -5008,7 +5008,7 @@ Class('linb.Dom','linb.absBox',{
                          o.innerHTML=content;
                         //if(triggerGC)
                         //    linb.UI.$addEventsHanlder(o);
-    
+
                     }
                     o=null;
                 }
@@ -5157,7 +5157,7 @@ Class('linb.Dom','linb.absBox',{
             input.focus();
             //set caret
             if(type=='number'){
-                
+
                 if(ie){
                     var r = input.createTextRange();
                     r.collapse(true);
@@ -5999,7 +5999,7 @@ type:4
                 }
             }else
                 target=ns;
-            
+
             if(!doc.onmousedown)doc.onmousedown=linb.Event.$eventhandler;
             target.each(function(o){if(!o.id)o.id=linb.Dom._pickDomId()});
             //remove this trigger
@@ -6061,7 +6061,7 @@ type:4
                         bgmatch = bgimg.match(/^url[("']+(.*\.png[^\)"']*)[\)"']+[^\)]*$/i);
                     if(bgmatch){
                         n.style.backgroundImage = 'url(' + linb.ini.file_bg + ')';
-                        n.style.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(enabled=true, src=" + bgmatch[1] + ", sizingMethod="+type+")";                        
+                        n.style.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(enabled=true, src=" + bgmatch[1] + ", sizingMethod="+type+")";
                     }
                 });
             }
@@ -6119,11 +6119,11 @@ type:4
                             ? '!window'
                             : t===document
                             ? '!document'
-                            : typeof (t=arr[i])=='string'
-                            ? t.charAt(0)=='!'
-                                ?  t
-                                : this._getTag( map[t] ? document.getElementsByTagName(t)[0] : document.getElementById(t))
-                            : (t['linb.UIProfile']||t['linb.Template'])
+                            : (typeof t=='string' || (t['linb.DomProfile'] && (t=t.domId)))
+                                ? t.charAt(0)=='!'
+                                    ?  t
+                                    : this._getTag( map[t] ? document.getElementsByTagName(t)[0] : document.getElementById(t))
+                            : ((t=arr[i])['linb.UIProfile']||t['linb.Template'])
                             ? t.renderId ? t.renderId : (t.boxing().render() && t.renderId)
                             : this._getTag(t)
                   )
@@ -31517,18 +31517,26 @@ if(linb.browser.ie){
                     if(!cover || !cover.get(0) || !cover.get(0).parentNode)
                         cover = profile.$modalDiv = linb.create("<div style='left:0;top:0;position:absolute;overflow:hidden;display:block;z-index:0;cursor:wait;background-image:url("+linb.ini.file_bg+")'></div>");
                     p.append(cover);
+
+                    // attach onresize event
+                    if(p.get(0)===document.body || p.get(0)===document || p.get(0)===window)
+                        p=linb.win;
+
                     cover.css({
-                        display:'block',width:linb.win.scrollWidth()+'px',height:linb.win.scrollHeight()+'px'
+                        display:'block',width:Math.max(p.width(),p.scrollWidth())+'px',height:Math.max(p.height(),p.scrollHeight())+'px'
                     })
                     .onMousedown(function(){return false})
                     .topZindex(true);
-                    // attach onresize event
-                    p.onSize(function(p,e,src){
-                        var n=linb.use(src);
-                        cover.width(n.scrollWidth());
-                        cover.height(n.scollHeight());
+                    p.onSize(function(p){
+                        p=linb(p);
+                        // set widht/height first
+                        cover.width(p.width()).height(p.height());
+                        _.asyRun(function(){
+                            cover.width(Math.max(p.width(),p.scrollWidth()));
+                            cover.height(Math.max(p.height(),p.scrollHeight()));
+                        });
                     },"dialog:"+profile.serialId);
-                    
+
                     s.css('zIndex',(parseInt(cover.css('zIndex'))||0)+1);
 
                     /*
@@ -31576,7 +31584,11 @@ if(linb.browser.ie){
         _unModal:function(profile){
             if(profile.$inModal){
                 // detach onresize event
-                profile.$modalDiv.parent().onSize(null, "dialog:"+profile.serialId);
+                var p=profile.$modalDiv.parent();
+                if(p.get(0)===document.body || p.get(0)===document || p.get(0)===window)
+                    p=linb.win;
+
+                p.onSize(null, "dialog:"+profile.serialId);
 
                 profile.getRoot().css('zIndex',0);
                 profile.getSubNode('BORDER').append(profile.$modalDiv.css('display','none'));
