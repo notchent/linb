@@ -579,11 +579,6 @@ Class('linb.UIProfile','linb.Profile', {
         __gc:function(){
             var ns=this, t;
             if(ns.$destroyed)return;
-            // try to undock
-            if(ns.properties.dock && ns.properties.dock!='none'){
-                ns.properties.dock='none';
-                linb.UI.$dock(ns,true,true);
-            }
             _.tryF(ns.$ondestory,[],ns);
             if(ns.onDestroy)ns.boxing().onDestroy();
             if(ns.destroyTrigger)ns.destroyTrigger();
@@ -3555,13 +3550,14 @@ Class("linb.UI",  "linb.absObj", {
         $dock_args:['top','bottom','left','right','center','middle','width','height'],
         $dock_map:{middle:1,center:1},
         $dock:function(profile, force, trigger){
+            var node = profile.getRoot(),
+                p=linb((node.get(0) && node.get(0).parentNode)||profile.$dockParent);
+            if(!p.get(0))
+                return;                
             var prop = profile.properties,
                 margin=prop.dockMargin,
-                node = profile.getRoot(),
-                value = prop.dock || 'none',
-                //
-                p=linb((node.get(0) && node.get(0).parentNode)||profile.$dockParent),
                 auto = 'auto',
+                value = prop.dock || 'none',
                 pid=linb.Event.getId(p.get(0)),
                 order=function(x,y){
                     x=parseInt(x.properties.dockOrder)||0;y=parseInt(y.properties.dockOrder)||0;
@@ -3655,10 +3651,14 @@ Class("linb.UI",  "linb.absObj", {
                                 rePos=me.rePos,
                                 // the dock parent is window
                                 win= me.pid=="!window" || me.pid=="!document",
-                                node=win?linb.win:linb(me.pid),
-                                style=node.get(0).style,
-                                obj,i,k,o,key,target
-                            ;
+                                node=win?linb.win:linb(me.pid);
+
+                             if(!node.get(0))
+                                return;
+                             
+                             var style=node.get(0).style,
+                                obj,i,k,o,key,target;
+
                             //window resize: check time span, for window resize in firefox
                             //force call when input $dockid
                             //any node resize
@@ -3871,7 +3871,7 @@ Class("linb.UI",  "linb.absObj", {
                 }
                 if(isWin){
                     var f=linb.win.$getEvent('onSize','dock');
-                    if(f.dockall && f.dockall.length){
+                    if(f && f.dockall && f.dockall.length){
                         linb('html').addClass('linb-viewport');
                         if(t=linb('body').get(0))
                             t.scroll='no';
