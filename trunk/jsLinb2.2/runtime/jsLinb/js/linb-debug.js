@@ -5840,7 +5840,9 @@ Class('linb.Dom','linb.absBox',{
             pos={left :0, top :0};
 
             //window edge
-            var t=linb.win, box = {};
+            var t=(parent.get(0)===document.body || parent.get(0)===document || parent.get(0)===window)?linb.win:parent, 
+                box = {};
+
             box.left=t.scrollLeft();
             box.top=t.scrollTop();
             box.width =t.width()+box.left;
@@ -5937,7 +5939,8 @@ type:4
             target.cssPos(pos).css({visibility:'visible',display:'block'});
 
             //ensure show target on the top of the other elements with the same zindex
-            parent.get(0).appendChild(target.get(0))
+            //parent.get(0).appendChild(target.get(0));
+            parent.append(target);
 
             return this;
         },
