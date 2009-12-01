@@ -6277,7 +6277,12 @@ type:4
         target: uri target: _blank etc.
         */
         submit:function(action, data, method, target, enctype){
-            data=_.isHash(data)?data:{};method=method||'get';action=action||'';target=target||'_blank';
+            data=_.isHash(data)?data:{};
+            data=_.clone(data, function(o){return o!==undefined});
+
+            method=method||'get';
+            action=action||'';
+            target=target||'_blank';
             var _t=[];
             _.each(data,function(o,i){
                 if(_.isDefined(o))
