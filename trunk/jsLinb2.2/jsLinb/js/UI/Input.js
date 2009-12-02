@@ -1,5 +1,21 @@
 Class("linb.UI.Input", ["linb.UI.Widget","linb.absValue"] ,{
     Instance:{
+        getValue:function(){
+            var n=this.get(0),
+                p=n.properties,
+                v = arguments.callee.upper.apply(this,arguments);
+            if(n.$isNumber||p.isNumber)
+                v = _.isNumb(parseFloat(v))?parseFloat(v):null;
+            return v;
+        },
+        getUIValue:function(){
+            var n=this.get(0),
+                p=n.properties,
+                v = arguments.callee.upper.apply(this,arguments);
+            if(n.$isNumber||p.isNumber)
+                v = _.isNumb(parseFloat(v))?parseFloat(v):null;
+            return v;
+        },
         _setTB:function(type){
             var profile=this.get(0), p=profile.properties, o, t;
             if(!profile.host|| !p.tipsBinder)return;
@@ -43,6 +59,24 @@ Class("linb.UI.Input", ["linb.UI.Widget","linb.absValue"] ,{
                     d=linb.UI.$css_tag_dirty,
                     v=linb.UI.$css_tag_invalid,
                     flag=properties.value !== properties.$UIvalue;
+
+                if(profile.inValid==2){
+                    //display tips
+                    profile.tips = properties.tipsErr || properties.tips;
+                    if(properties.mask){
+                        _.asyRun(function(){
+                            box.setUIValue(o.get(0).value=profile.$Mask)
+                        });
+                        profile.inValid=1;
+                        flag=false;
+                    }
+                }else{
+                    if(profile.inValid==1)
+                        profile.tips = properties.tips;
+                    else{
+                        profile.tips = properties.tipsOK || properties.tips;
+                    }
+                }
                 //dirty mark
                 if(profile.beforeDirtyMark && false===box.beforeDirtyMark(profile,flag)){}
                 else{
@@ -51,6 +85,7 @@ Class("linb.UI.Input", ["linb.UI.Widget","linb.absValue"] ,{
                     else
                         o.removeClass(d);
                 }
+                
                 //format statux
                 if(profile.beforeFormatMark && false===box.beforeFormatMark(profile, profile.inValid==2)){}
                 else{
@@ -61,20 +96,6 @@ Class("linb.UI.Input", ["linb.UI.Widget","linb.absValue"] ,{
                     }else{
                         o.removeClass(v);
                         err.css('display','none');
-                    }
-                }
-                if(profile.inValid==2){
-                    //display tips
-                    profile.tips = properties.tipsErr || properties.tips;
-                    if(properties.mask)
-                        _.asyRun(function(){
-                            box.setUIValue(o.get(0).value=profile.$Mask)
-                        });
-                }else{
-                    if(profile.inValid==1)
-                        profile.tips = properties.tips;
-                    else{
-                        profile.tips = properties.tipsOK || properties.tips;
                     }
                 }
                 box._setTB(profile.inValid);
@@ -342,6 +363,7 @@ Class("linb.UI.Input", ["linb.UI.Widget","linb.absValue"] ,{
                     //onblur check it
                     if(p.$UIvalue==value)
                         profile.box._checkValid(profile, value);
+
                     profile.boxing()._setDirtyMark();
 
                     b._asyCheck(profile);
@@ -436,6 +458,7 @@ Class("linb.UI.Input", ["linb.UI.Widget","linb.absValue"] ,{
                     this.boxing().refresh();
                 }
             },
+            isNumber:false,
             tipsBinder:{
                 ini:'',
                 set:function(value){
@@ -630,12 +653,17 @@ Class("linb.UI.Input", ["linb.UI.Widget","linb.absValue"] ,{
             _.resetRun(profile.$linbid+":asycheck",function(){
                 if(!profile.renderId)return;
 
-                var src=profile.getSubNode("INPUT").get(0);
+                var input=profile.getSubNode("INPUT"),
+                    src=input.get(0);
                 if(!src)return;
 
                 //for onchange event
-                if(profile.properties.dynCheck)
+                if(profile.properties.dynCheck){
+                    caret = input.caret();
                     profile.boxing().setUIValue(src.value);
+                    if(caret)
+                        input.caret(caret[0],caret[0]);
+                }
 
                 //for mask
                 if(profile.properties.mask){

@@ -1,6 +1,22 @@
 Class("linb.UI.ComboInput", "linb.UI.Input",{
     /*Instance*/
     Instance:{
+        getValue:function(){
+            var n=this.get(0),
+                p=n.properties,
+                v = arguments.callee.upper.apply(this,arguments);
+            if(p.type=='datepicker')
+                v = v?new Date(parseInt(v)):null;
+            return v;
+        },
+        getUIValue:function(){
+            var n=this.get(0),
+                p=n.properties,
+                v = arguments.callee.upper.apply(this,arguments);
+            if(p.type=='datepicker')
+                v = v?new Date(parseInt(v)):null;
+            return v;
+        },
         _getCtrlValue:function(){
             return this.get(0).properties.$UIvalue;
             //return this._fromEditValue(this.getSubNode('INPUT').attr('value'));
@@ -136,7 +152,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                 if(pro.disabled)return;
                 if(pro.readonly)return;
 
-                if(type=='upload'||type=='none'||type=='spin')return;
+                if(type=='upload'||type=='none'||type=='spin'||type=='currency')return;
                 //open already
                 if(profile.$poplink)return;
 
@@ -337,7 +353,15 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
     },
     Static:{
         _iniType:function(profile){
-            var pro=profile.properties, value=pro.type;
+            var pro=profile.properties, value=pro.type, c=profile.box;
+            delete profile.$inputReadonly;
+            delete profile.$isNumber;
+            delete profile.$compareValue;
+            delete profile.$getShowValue;
+            delete profile.$getEditValue;
+            delete profile.$fromEditValue;
+            delete profile.$typeOK;
+
             if(value=='listbox'||value=='upload'||value=='cmdbox')
                 profile.$inputReadonly=true;
 
@@ -362,7 +386,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                 var date=linb.Date;
                 _.merge(profile,{
                     $compareValue : function(p,a,b){
-                        return String(a)==String(b)
+                        return (!a&&!b) || (String(a)==String(b))
                     },
                     $getShowValue : function(profile,value){
                         return value?date.getText(new Date(parseInt(value)), 'ymd'):'';
@@ -375,7 +399,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                         //parse from local text mm/dd/yyyy
                         var v=linb.Date.parse(value);
                         if(v)v=linb.Date.getTimSpanStart(v,'d',1);
-                        return v?String(v.getTime()):'0';
+                        return v?String(v.getTime()):'';
                     }
                 },'all');
 
@@ -388,11 +412,24 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                 }
                 if(d)
                     pro.$UIvalue=pro.value=String(date.getTimSpanStart(d,'d',1).getTime());
+            }else if(value=='currency'){
+                profile.$isNumber=1;
+                _.merge(profile,{
+                    $compareValue : function(p,a,b){
+                        return p.box._currency(a)==p.box._currency(b)
+                    },
+                    $getShowValue : function(p,v){
+                        return (_.isSet(v)&&v!=="")?p.box._currency(v):"";
+                    },
+                    $fromEditValue : function(p,v){
+                        return (_.isSet(v)&&v!=="")?p.box._currency(v).replace(/,/g,''):"";
+                    }
+                },'all');
+                if(pro.value)
+                    pro.$UIvalue=pro.value=c._currency(pro.value);
             }else{
-                delete profile.$compareValue;
-                delete profile.$getShowValue;
-                delete profile.$getEditValue;
-                delete profile.$fromEditValue;
+                if(value=='spin')
+                    profile.$isNumber=1;
                 if(_.isDate(pro.value))
                     pro.$UIvalue=pro.value=String(pro.value);
             }
@@ -716,6 +753,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
         },
         _posMap:{
             none:'',
+            currency:'',
             combobox:'left top',
             listbox:'left top',
             upload:'-16px top',
@@ -772,7 +810,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
             },
             type:{
                 ini:'combobox',
-                listbox:_.toArr('none,combobox,listbox,upload,getter,helpinput,cmdbox,popbox,timepicker,datepicker,colorpicker,spin'),
+                listbox:_.toArr('none,combobox,listbox,upload,getter,helpinput,cmdbox,popbox,timepicker,datepicker,colorpicker,spin,currency'),
                 set:function(value){
                     var pro=this;
                     pro.properties.type=value;
@@ -877,6 +915,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
 
                 switch(properties.type){
                 case 'none':
+                case 'currency':
                 break;
                 case 'spin':
                     t.RBTN={
@@ -945,6 +984,8 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                     return '#'+linb.UI.ColorPicker._ensureValue(null,value);
                 case 'timepicker':
                     return linb.UI.TimePicker._ensureValue(null,value);
+                case 'currency':
+                    return this._currency(value);
                 case 'spin':
                     var n=Math.pow(10,prop.scale);
                     value=(+value||0);
@@ -953,6 +994,13 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                 default:
                     return typeof value=='string'?value:(value||value===0)?String(value):'';
             }
+        },
+        _currency:function(value){
+            value=parseFloat((value+"").replace(/,/g,''))||0;
+            value=value.toFixed(2);
+            value= (""+value).split(".");
+            value[0] = value[0].split("").reverse().join("").replace(/(\d{3})(?=\d)/g, "$1,").split("").reverse().join("");
+            return value.join(".");
         },
         _onresize:function(profile,width,height){
             var $hborder=1, $vborder=1,
