@@ -8825,7 +8825,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","ComboInput"], {
             $desc:"设置下拉框类型, 并刷新界面.",
             $rtn:"[self]",
             $paras:[
-                "value [必需参数] : 'none'代表是普通的输入框,'combobox'代表下拉框,'listbox'代表列表框,'upload'代表上传框,'getter'代表获取框,'helpinput'代表帮助框,'cmdbox'代表命令框,'popbox'代表弹出框,'timepicker'代表时间选择框,'datepicker'代表日期选择框,'colorpicker'代表颜色选择框,'spin'代表是spin输入框. 默认为 'combobox'.",
+                "value [必需参数] : 'none'代表是普通的输入框,'combobox'代表下拉框,'listbox'代表列表框,'upload'代表上传框,'getter'代表获取框,'helpinput'代表帮助框,'cmdbox'代表命令框,'popbox'代表弹出框,'timepicker'代表时间选择框,'datepicker'代表日期选择框,'colorpicker'代表颜色选择框,'currency'代表货币,'number'代表数字,'spin'代表是spin输入框. 默认为 'combobox'.",
                 "force [可选参数] : Boolean, 强制设置该属性值，即使属性已经设置为该值. 默认为 [false]."
             ],
             $snippet:[
@@ -8948,18 +8948,18 @@ _.set(linb.Locale,["cn","doc","linb","UI","ComboInput"], {
                 "}"
             ]
         },
-        getScale:{
-            $desc:"获取scle值。只对 'spin' 类型有效。",
+        getPrecision:{
+            $desc:"获取precision值。只对 'spin' 类型有效。",
             $rtn:"Number",
             $snippet:[
                 "var id='linb.temp.ci11'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var o1,o2;linb(id).prepend(o1=new linb.UI.ComboInput({position:'relative',type:'spin'}));"+
-                "_.asyRun(function(){o1.setScale(2);alert(o1.getScale())},1000)"+
+                "_.asyRun(function(){o1.setPrecision(2);alert(o1.getPrecision())},1000)"+
                 "}"
             ]
         },
-        setScale:{
-            $desc:"设置scale值。只对 'spin' 类型有效。",
+        setPrecision:{
+            $desc:"设置precision值。只对 'spin' 类型有效。",
             $rtn:"[self]",
             $paras:[
                 "value [Required] : Number.",
@@ -8968,7 +8968,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","ComboInput"], {
             $snippet:[
                 "var id='linb.temp.ci12'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var o1,o2;linb(id).prepend(o1=new linb.UI.ComboInput({position:'relative',type:'spin'}));"+
-                "_.asyRun(function(){o1.setScale(2);alert(o1.getScale())},1000)"+
+                "_.asyRun(function(){o1.setPrecision(2);alert(o1.getPrecision())},1000)"+
                 "}"
             ]
         },
@@ -12466,7 +12466,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","Poll"], {
             $desc:"设置编辑器的种类.",
             $rtn:"[self]",
             $paras:[
-                "value [必需参数] : 'none','combobox','listbox','upload','getter','helpinput','cmdbox','popbox','timepicker','datepicker' or 'colorpicker'. 默认为 'none'.",
+                "value [必需参数] : 'none','combobox','listbox','upload','getter','helpinput','cmdbox','currency','number','popbox','timepicker','datepicker' or 'colorpicker'. 默认为 'none'.",
                 "force [可选参数] : Boolean, 强制设置该属性值，即使属性已经设置为该值. 默认为[false]."
             ],
             $snippet:[

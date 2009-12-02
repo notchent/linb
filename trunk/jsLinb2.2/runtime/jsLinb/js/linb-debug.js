@@ -9478,8 +9478,8 @@ Class("linb.DataBinder","linb.absObj",{
                 b = profile.boxing(),
                 v = b.getValue(),
                 uv = b.getUIValue();
-
-                if(!dirtyOnly || (dirtyOnly && uv!==v)){
+                // v and uv can be object(Date,Number)
+                if(!dirtyOnly || (dirtyOnly && (uv+" ")!==(v+" "))){
                     if(withCaption && b.getCaption){
                         hash[p.dataField]={value:uv,caption:b.getCaption()};
                     }else{
@@ -9529,7 +9529,8 @@ Class("linb.DataBinder","linb.absObj",{
                 // set control value 1
                 if(t=pro.properties.dataField)
                     if(_.isSet(t=map[t]))
-                        pro.properties.value=t;
+                        pro.boxing().setValue(t,true);
+                        //pro.properties.value=t;
             }
             map
         },
@@ -13411,7 +13412,7 @@ Class("linb.absValue", "linb.absObj",{
             self.each(function(profile){
                 var r,pro=profile.properties;
                 if(typeof (r=profile.box._ensureValue)=='function')
-                    value = r.call(profile.box, profile, value);
+                    value=r.call(profile.box, profile, value);
                 if(pro.value !== value || pro.$UIvalue!==value){
                     // _setCtrlValue maybe use $UIvalue
                     profile.boxing()._setCtrlValue(pro.value = value);
@@ -13460,7 +13461,8 @@ Class("linb.absValue", "linb.absObj",{
                 if(prop.value!==prop.$UIvalue){
                     var ins=profile.boxing();
                     if(ins.checkValid()){
-                        prop.value = ins.getUIValue();
+                        // prop.value = ins.getUIValue();
+                        ins.setValue(ins.getUIValue(),true);
                         ins._setDirtyMark();
                     }
                 }
@@ -13509,7 +13511,8 @@ Class("linb.absValue", "linb.absObj",{
                     // set control value 2
                     var db=linb.DataBinder.getFromName(p.dataBinder);
                     if(db && (t=db.get(0)) && (t=t._valuesMap) && _.isSet(t=t[value]))
-                        p.value=t;
+                        //p.value=t;
+                        profile.boxing().setValue(t,true);
                 }
             },
 
@@ -16737,22 +16740,6 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
     }
 });Class("linb.UI.Input", ["linb.UI.Widget","linb.absValue"] ,{
     Instance:{
-        getValue:function(){
-            var n=this.get(0),
-                p=n.properties,
-                v = arguments.callee.upper.apply(this,arguments);
-            if(n.$isNumber||p.isNumber)
-                v = _.isNumb(parseFloat(v))?parseFloat(v):null;
-            return v;
-        },
-        getUIValue:function(){
-            var n=this.get(0),
-                p=n.properties,
-                v = arguments.callee.upper.apply(this,arguments);
-            if(n.$isNumber||p.isNumber)
-                v = _.isNumb(parseFloat(v))?parseFloat(v):null;
-            return v;
-        },
         _setTB:function(type){
             var profile=this.get(0), p=profile.properties, o, t;
             if(!profile.host|| !p.tipsBinder)return;
@@ -17011,9 +16998,9 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
                     var p=profile.properties,b=profile.box,
                         o=profile.inValid,
                         value=linb.use(src).get(0).value;
-
+                    // trigger events
                     profile.boxing().setUIValue(value);
-                    //input/textarea is special, ctrl value will be set before the $UIvalue
+                    // input/textarea is special, ctrl value will be set before the $UIvalue
                     p.$UIvalue=value;
                     if(o!==profile.inValid) if(profile.renderId)profile.boxing()._setDirtyMark();
 
@@ -17065,7 +17052,8 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
                 onKeyup:function(profile, e, src){
                     var p=profile.properties,b=profile.box;
                     if(p.dynCheck){
-                        profile.box._checkValid(profile, linb.use(src).get(0).value);
+                        var value=linb.use(src).get(0).value;
+                        profile.box._checkValid(profile, value);
                         profile.boxing()._setDirtyMark();
                     }
 
@@ -17195,7 +17183,6 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
                     this.boxing().refresh();
                 }
             },
-            isNumber:false,
             tipsBinder:{
                 ini:'',
                 set:function(value){
@@ -17243,7 +17230,8 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
             profile.template = template;
         },
         _ensureValue:function(profile, value){
-            return _.isSet(value)?(""+value):"";
+            // ensure return string
+            return ""+(_.isSet(value)?value:"");
         },
         RenderTrigger:function(){
             var ns=this,p=ns.properties;
@@ -18031,7 +18019,9 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
             var n=this.get(0),
                 p=n.properties,
                 v = arguments.callee.upper.apply(this,arguments);
-            if(p.type=='datepicker')
+            if(n.$isNumber)
+                v = _.isNumb(parseFloat(v))?parseFloat(v):null;
+            else if(p.type=='datepicker')
                 v = v?new Date(parseInt(v)):null;
             return v;
         },
@@ -18039,7 +18029,9 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
             var n=this.get(0),
                 p=n.properties,
                 v = arguments.callee.upper.apply(this,arguments);
-            if(p.type=='datepicker')
+            if(n.$isNumber)
+                v = _.isNumb(parseFloat(v))?parseFloat(v):null;
+            else if(p.type=='datepicker')
                 v = v?new Date(parseInt(v)):null;
             return v;
         },
@@ -18178,7 +18170,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                 if(pro.disabled)return;
                 if(pro.readonly)return;
 
-                if(type=='upload'||type=='none'||type=='spin'||type=='currency')return;
+                if(type=='upload'||type=='none'||type=='spin'||type=='currency'||type=='number')return;
                 //open already
                 if(profile.$poplink)return;
 
@@ -18442,17 +18434,32 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                 profile.$isNumber=1;
                 _.merge(profile,{
                     $compareValue : function(p,a,b){
-                        return p.box._currency(a)==p.box._currency(b)
+                        return p.box._currency(profile, a)==p.box._currency(profile, b)
                     },
                     $getShowValue : function(p,v){
-                        return (_.isSet(v)&&v!=="")?p.box._currency(v):"";
+                        return (_.isSet(v)&&v!=="")?p.box._currency(profile, v):"";
                     },
                     $fromEditValue : function(p,v){
-                        return (_.isSet(v)&&v!=="")?p.box._currency(v).replace(/,/g,''):"";
+                        return (_.isSet(v)&&v!=="")?p.box._currency(profile, v).replace(/,/g,''):"";
                     }
                 },'all');
                 if(pro.value)
-                    pro.$UIvalue=pro.value=c._currency(pro.value);
+                    pro.$UIvalue=pro.value=c._currency(profile, pro.value);
+            }else if(value=='number'){
+                profile.$isNumber=1;
+                _.merge(profile,{
+                    $compareValue : function(p,a,b){
+                        return p.box._number(profile, a)==p.box._number(profile, b)
+                    },
+                    $getShowValue : function(p,v){
+                        return (_.isSet(v)&&v!=="")?p.box._number(profile, v):"";
+                    },
+                    $fromEditValue : function(p,v){
+                        return (_.isSet(v)&&v!=="")?p.box._number(profile, v):"";
+                    }
+                },'all');
+                if(pro.value)
+                    pro.$UIvalue=pro.value=c._number(profile, pro.value);
             }else{
                 if(value=='spin')
                     profile.$isNumber=1;
@@ -18653,8 +18660,9 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                         if(v===null)
                             instance._setCtrlValue(uiv);
                         else{
+                            // trigger events
                             instance.setUIValue(v);
-                            //input/textarea is special, ctrl value will be set before the $UIvalue
+                            // input/textarea is special, ctrl value will be set before the $UIvalue
                             profile.properties.$UIvalue=v;
                             if(o!==profile.inValid) if(profile.renderId)instance._setDirtyMark();
                         }
@@ -18780,6 +18788,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
         _posMap:{
             none:'',
             currency:'',
+            'number':'',
             combobox:'left top',
             listbox:'left top',
             upload:'-16px top',
@@ -18836,7 +18845,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
             },
             type:{
                 ini:'combobox',
-                listbox:_.toArr('none,combobox,listbox,upload,getter,helpinput,cmdbox,popbox,timepicker,datepicker,colorpicker,spin,currency'),
+                listbox:_.toArr('none,combobox,listbox,upload,getter,helpinput,cmdbox,popbox,timepicker,datepicker,colorpicker,spin,currency,number'),
                 set:function(value){
                     var pro=this;
                     pro.properties.type=value;
@@ -18844,10 +18853,10 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                         pro.boxing().refresh();
                 }
             },
-            scale:2,
+            precision:2,
             increment:0.01,
             min:0,
-            max:1,
+            max:Math.pow(10,10),
             saveBtn:{
                 ini:false,
                 action:function(v){
@@ -18942,6 +18951,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                 switch(properties.type){
                 case 'none':
                 case 'currency':
+                case 'number':
                 break;
                 case 'spin':
                     t.RBTN={
@@ -19011,19 +19021,29 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                 case 'timepicker':
                     return linb.UI.TimePicker._ensureValue(null,value);
                 case 'currency':
-                    return this._currency(value);
+                    return this._currency(profile, profile, value);
+                case 'number':
                 case 'spin':
-                    var n=Math.pow(10,prop.scale);
-                    value=(+value||0);
-                    value=Math.ceil((value-0.0000000000003)*n)/n;
-                    return String(value>prop.max?prop.max:value<prop.min?prop.min:value);
+                    return this._number(profile, value);                
                 default:
                     return typeof value=='string'?value:(value||value===0)?String(value):'';
             }
         },
-        _currency:function(value){
+        _number:function(profile, value){
+            var prop=profile.properties;
+            value=parseFloat(value+"")||0;
+            value=value>prop.max?prop.max:value<prop.min?prop.min:value;
+            value=value.toFixed(prop.precision);
+            return value+"";
+            //var n=Math.pow(10,Math.max(parseInt(prop.precision)||0,0));
+            //value=(+value||0);
+            //value=Math.ceil((value-0.0000000000003)*n)/n;
+        },
+        _currency:function(profile, value){
+            var prop=profile.properties;
             value=parseFloat((value+"").replace(/,/g,''))||0;
-            value=value.toFixed(2);
+            value=value>prop.max?prop.max:value<prop.min?prop.min:value
+            value=value.toFixed(prop.precision);
             value= (""+value).split(".");
             value[0] = value[0].split("").reverse().join("").replace(/(\d{3})(?=\d)/g, "$1,").split("").reverse().join("");
             return value.join(".");
@@ -29558,6 +29578,7 @@ editorListKey
 editorListItems
 editorFormat
 editorMask
+editorProperties
 editorReadonly
 editorDropListWidth
 editorDropListHeight
@@ -30053,7 +30074,8 @@ sortby [for column only]
             editor.setValue(cell.$editorValue||cell.value,true);
             delete cell.$editorValue;
 
-            var editorFormat = getPro('editorFormat'),
+            var editorProperties= getPro('editorProperties'),
+                editorFormat = getPro('editorFormat'),
                 editorMask =  getPro('editorMask'),
                 editorReadonly = getPro('editorReadonly'),
                 editorDropListWidth = getPro('editorDropListWidth'),
@@ -30081,6 +30103,9 @@ sortby [for column only]
             }
             if(editorMask && editor.setMask){
                 editor.setMask(editorMask);
+            }
+            if(editorProperties){
+                editor.setProperties(editorProperties);
             }
 
             //give a reference

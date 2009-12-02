@@ -422,8 +422,8 @@ Class("linb.DataBinder","linb.absObj",{
                 b = profile.boxing(),
                 v = b.getValue(),
                 uv = b.getUIValue();
-
-                if(!dirtyOnly || (dirtyOnly && uv!==v)){
+                // v and uv can be object(Date,Number)
+                if(!dirtyOnly || (dirtyOnly && (uv+" ")!==(v+" "))){
                     if(withCaption && b.getCaption){
                         hash[p.dataField]={value:uv,caption:b.getCaption()};
                     }else{
@@ -473,7 +473,8 @@ Class("linb.DataBinder","linb.absObj",{
                 // set control value 1
                 if(t=pro.properties.dataField)
                     if(_.isSet(t=map[t]))
-                        pro.properties.value=t;
+                        pro.boxing().setValue(t,true);
+                        //pro.properties.value=t;
             }
             map
         },
@@ -4355,7 +4356,7 @@ Class("linb.absValue", "linb.absObj",{
             self.each(function(profile){
                 var r,pro=profile.properties;
                 if(typeof (r=profile.box._ensureValue)=='function')
-                    value = r.call(profile.box, profile, value);
+                    value=r.call(profile.box, profile, value);
                 if(pro.value !== value || pro.$UIvalue!==value){
                     // _setCtrlValue maybe use $UIvalue
                     profile.boxing()._setCtrlValue(pro.value = value);
@@ -4404,7 +4405,8 @@ Class("linb.absValue", "linb.absObj",{
                 if(prop.value!==prop.$UIvalue){
                     var ins=profile.boxing();
                     if(ins.checkValid()){
-                        prop.value = ins.getUIValue();
+                        // prop.value = ins.getUIValue();
+                        ins.setValue(ins.getUIValue(),true);
                         ins._setDirtyMark();
                     }
                 }
@@ -4453,7 +4455,8 @@ Class("linb.absValue", "linb.absObj",{
                     // set control value 2
                     var db=linb.DataBinder.getFromName(p.dataBinder);
                     if(db && (t=db.get(0)) && (t=t._valuesMap) && _.isSet(t=t[value]))
-                        p.value=t;
+                        //p.value=t;
+                        profile.boxing().setValue(t,true);
                 }
             },
 

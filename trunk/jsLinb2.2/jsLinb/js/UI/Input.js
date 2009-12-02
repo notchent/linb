@@ -1,21 +1,5 @@
 Class("linb.UI.Input", ["linb.UI.Widget","linb.absValue"] ,{
     Instance:{
-        getValue:function(){
-            var n=this.get(0),
-                p=n.properties,
-                v = arguments.callee.upper.apply(this,arguments);
-            if(n.$isNumber||p.isNumber)
-                v = _.isNumb(parseFloat(v))?parseFloat(v):null;
-            return v;
-        },
-        getUIValue:function(){
-            var n=this.get(0),
-                p=n.properties,
-                v = arguments.callee.upper.apply(this,arguments);
-            if(n.$isNumber||p.isNumber)
-                v = _.isNumb(parseFloat(v))?parseFloat(v):null;
-            return v;
-        },
         _setTB:function(type){
             var profile=this.get(0), p=profile.properties, o, t;
             if(!profile.host|| !p.tipsBinder)return;
@@ -274,9 +258,9 @@ Class("linb.UI.Input", ["linb.UI.Widget","linb.absValue"] ,{
                     var p=profile.properties,b=profile.box,
                         o=profile.inValid,
                         value=linb.use(src).get(0).value;
-
+                    // trigger events
                     profile.boxing().setUIValue(value);
-                    //input/textarea is special, ctrl value will be set before the $UIvalue
+                    // input/textarea is special, ctrl value will be set before the $UIvalue
                     p.$UIvalue=value;
                     if(o!==profile.inValid) if(profile.renderId)profile.boxing()._setDirtyMark();
 
@@ -328,7 +312,8 @@ Class("linb.UI.Input", ["linb.UI.Widget","linb.absValue"] ,{
                 onKeyup:function(profile, e, src){
                     var p=profile.properties,b=profile.box;
                     if(p.dynCheck){
-                        profile.box._checkValid(profile, linb.use(src).get(0).value);
+                        var value=linb.use(src).get(0).value;
+                        profile.box._checkValid(profile, value);
                         profile.boxing()._setDirtyMark();
                     }
 
@@ -458,7 +443,6 @@ Class("linb.UI.Input", ["linb.UI.Widget","linb.absValue"] ,{
                     this.boxing().refresh();
                 }
             },
-            isNumber:false,
             tipsBinder:{
                 ini:'',
                 set:function(value){
@@ -506,7 +490,8 @@ Class("linb.UI.Input", ["linb.UI.Widget","linb.absValue"] ,{
             profile.template = template;
         },
         _ensureValue:function(profile, value){
-            return _.isSet(value)?(""+value):"";
+            // ensure return string
+            return ""+(_.isSet(value)?value:"");
         },
         RenderTrigger:function(){
             var ns=this,p=ns.properties;

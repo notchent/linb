@@ -5,7 +5,9 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
             var n=this.get(0),
                 p=n.properties,
                 v = arguments.callee.upper.apply(this,arguments);
-            if(p.type=='datepicker')
+            if(n.$isNumber)
+                v = _.isNumb(parseFloat(v))?parseFloat(v):null;
+            else if(p.type=='datepicker')
                 v = v?new Date(parseInt(v)):null;
             return v;
         },
@@ -13,7 +15,9 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
             var n=this.get(0),
                 p=n.properties,
                 v = arguments.callee.upper.apply(this,arguments);
-            if(p.type=='datepicker')
+            if(n.$isNumber)
+                v = _.isNumb(parseFloat(v))?parseFloat(v):null;
+            else if(p.type=='datepicker')
                 v = v?new Date(parseInt(v)):null;
             return v;
         },
@@ -152,7 +156,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                 if(pro.disabled)return;
                 if(pro.readonly)return;
 
-                if(type=='upload'||type=='none'||type=='spin'||type=='currency')return;
+                if(type=='upload'||type=='none'||type=='spin'||type=='currency'||type=='number')return;
                 //open already
                 if(profile.$poplink)return;
 
@@ -416,17 +420,32 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                 profile.$isNumber=1;
                 _.merge(profile,{
                     $compareValue : function(p,a,b){
-                        return p.box._currency(a)==p.box._currency(b)
+                        return p.box._currency(profile, a)==p.box._currency(profile, b)
                     },
                     $getShowValue : function(p,v){
-                        return (_.isSet(v)&&v!=="")?p.box._currency(v):"";
+                        return (_.isSet(v)&&v!=="")?p.box._currency(profile, v):"";
                     },
                     $fromEditValue : function(p,v){
-                        return (_.isSet(v)&&v!=="")?p.box._currency(v).replace(/,/g,''):"";
+                        return (_.isSet(v)&&v!=="")?p.box._currency(profile, v).replace(/,/g,''):"";
                     }
                 },'all');
                 if(pro.value)
-                    pro.$UIvalue=pro.value=c._currency(pro.value);
+                    pro.$UIvalue=pro.value=c._currency(profile, pro.value);
+            }else if(value=='number'){
+                profile.$isNumber=1;
+                _.merge(profile,{
+                    $compareValue : function(p,a,b){
+                        return p.box._number(profile, a)==p.box._number(profile, b)
+                    },
+                    $getShowValue : function(p,v){
+                        return (_.isSet(v)&&v!=="")?p.box._number(profile, v):"";
+                    },
+                    $fromEditValue : function(p,v){
+                        return (_.isSet(v)&&v!=="")?p.box._number(profile, v):"";
+                    }
+                },'all');
+                if(pro.value)
+                    pro.$UIvalue=pro.value=c._number(profile, pro.value);
             }else{
                 if(value=='spin')
                     profile.$isNumber=1;
@@ -627,8 +646,9 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                         if(v===null)
                             instance._setCtrlValue(uiv);
                         else{
+                            // trigger events
                             instance.setUIValue(v);
-                            //input/textarea is special, ctrl value will be set before the $UIvalue
+                            // input/textarea is special, ctrl value will be set before the $UIvalue
                             profile.properties.$UIvalue=v;
                             if(o!==profile.inValid) if(profile.renderId)instance._setDirtyMark();
                         }
@@ -754,6 +774,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
         _posMap:{
             none:'',
             currency:'',
+            'number':'',
             combobox:'left top',
             listbox:'left top',
             upload:'-16px top',
@@ -810,7 +831,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
             },
             type:{
                 ini:'combobox',
-                listbox:_.toArr('none,combobox,listbox,upload,getter,helpinput,cmdbox,popbox,timepicker,datepicker,colorpicker,spin,currency'),
+                listbox:_.toArr('none,combobox,listbox,upload,getter,helpinput,cmdbox,popbox,timepicker,datepicker,colorpicker,spin,currency,number'),
                 set:function(value){
                     var pro=this;
                     pro.properties.type=value;
@@ -818,10 +839,10 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                         pro.boxing().refresh();
                 }
             },
-            scale:2,
+            precision:2,
             increment:0.01,
             min:0,
-            max:1,
+            max:Math.pow(10,10),
             saveBtn:{
                 ini:false,
                 action:function(v){
@@ -916,6 +937,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                 switch(properties.type){
                 case 'none':
                 case 'currency':
+                case 'number':
                 break;
                 case 'spin':
                     t.RBTN={
@@ -985,19 +1007,29 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                 case 'timepicker':
                     return linb.UI.TimePicker._ensureValue(null,value);
                 case 'currency':
-                    return this._currency(value);
+                    return this._currency(profile, profile, value);
+                case 'number':
                 case 'spin':
-                    var n=Math.pow(10,prop.scale);
-                    value=(+value||0);
-                    value=Math.ceil((value-0.0000000000003)*n)/n;
-                    return String(value>prop.max?prop.max:value<prop.min?prop.min:value);
+                    return this._number(profile, value);                
                 default:
                     return typeof value=='string'?value:(value||value===0)?String(value):'';
             }
         },
-        _currency:function(value){
+        _number:function(profile, value){
+            var prop=profile.properties;
+            value=parseFloat(value+"")||0;
+            value=value>prop.max?prop.max:value<prop.min?prop.min:value;
+            value=value.toFixed(prop.precision);
+            return value+"";
+            //var n=Math.pow(10,Math.max(parseInt(prop.precision)||0,0));
+            //value=(+value||0);
+            //value=Math.ceil((value-0.0000000000003)*n)/n;
+        },
+        _currency:function(profile, value){
+            var prop=profile.properties;
             value=parseFloat((value+"").replace(/,/g,''))||0;
-            value=value.toFixed(2);
+            value=value>prop.max?prop.max:value<prop.min?prop.min:value
+            value=value.toFixed(prop.precision);
             value= (""+value).split(".");
             value[0] = value[0].split("").reverse().join("").replace(/(\d{3})(?=\d)/g, "$1,").split("").reverse().join("");
             return value.join(".");

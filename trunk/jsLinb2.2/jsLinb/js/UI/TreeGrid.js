@@ -2392,6 +2392,7 @@ editorListKey
 editorListItems
 editorFormat
 editorMask
+editorProperties
 editorReadonly
 editorDropListWidth
 editorDropListHeight
@@ -2887,7 +2888,8 @@ sortby [for column only]
             editor.setValue(cell.$editorValue||cell.value,true);
             delete cell.$editorValue;
 
-            var editorFormat = getPro('editorFormat'),
+            var editorProperties= getPro('editorProperties'),
+                editorFormat = getPro('editorFormat'),
                 editorMask =  getPro('editorMask'),
                 editorReadonly = getPro('editorReadonly'),
                 editorDropListWidth = getPro('editorDropListWidth'),
@@ -2915,6 +2917,9 @@ sortby [for column only]
             }
             if(editorMask && editor.setMask){
                 editor.setMask(editorMask);
+            }
+            if(editorProperties){
+                editor.setProperties(editorProperties);
             }
 
             //give a reference

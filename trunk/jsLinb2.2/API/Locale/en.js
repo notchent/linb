@@ -8805,7 +8805,7 @@ _.set(linb.Locale,["en","doc","linb","UI","ComboInput"], {
             $desc:"Sets the type property value on the each UIProfile, and reflects the value to UI.",
             $rtn:"[self]",
             $paras:[
-                "value [Required] : 'none','combobox','listbox','upload','getter','helpinput','cmdbox','popbox','timepicker','datepicker', 'colorpicker' or 'spin'. Default is 'combobox'.",
+                "value [Required] : 'none','combobox','listbox','upload','getter','currency','number','helpinput','cmdbox','popbox','timepicker','datepicker', 'colorpicker' or 'spin'. Default is 'combobox'.",
                 "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
@@ -8928,18 +8928,18 @@ _.set(linb.Locale,["en","doc","linb","UI","ComboInput"], {
                 "}"
             ]
         },
-        getScale:{
-            $desc:"Gets scale length. For style is 'spin' only.",
+        getPrecision:{
+            $desc:"Gets Precision. For style is 'spin' only.",
             $rtn:"Number",
             $snippet:[
                 "var id='linb.temp.ci11'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var o1,o2;linb(id).prepend(o1=new linb.UI.ComboInput({position:'relative',type:'spin'}));"+
-                "_.asyRun(function(){o1.setScale(2);alert(o1.getScale())},1000)"+
+                "_.asyRun(function(){o1.setPrecision(2);alert(o1.getPrecision())},1000)"+
                 "}"
             ]
         },
-        setScale:{
-            $desc:"Sets scale length. For style is 'spin' only.",
+        setPrecision:{
+            $desc:"Sets Precision. For style is 'spin' only.",
             $rtn:"[self]",
             $paras:[
                 "value [Required] : Number.",
@@ -8948,7 +8948,7 @@ _.set(linb.Locale,["en","doc","linb","UI","ComboInput"], {
             $snippet:[
                 "var id='linb.temp.ci12'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var o1,o2;linb(id).prepend(o1=new linb.UI.ComboInput({position:'relative',type:'spin'}));"+
-                "_.asyRun(function(){o1.setScale(2);alert(o1.getScale())},1000)"+
+                "_.asyRun(function(){o1.setPrecision(2);alert(o1.getPrecision())},1000)"+
                 "}"
             ]
         },
@@ -12446,7 +12446,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Poll"], {
             $desc:"Sets the editorType property value on the each UIProfile, and reflects the value to UI.",
             $rtn:"[self]",
             $paras:[
-                "value [Required] : 'none','combobox','listbox','upload','getter','helpinput','cmdbox','popbox','timepicker','datepicker' or 'colorpicker'. Default is 'none'.",
+                "value [Required] : 'none','combobox','listbox','upload','getter','currency','number','helpinput','cmdbox','popbox','timepicker','datepicker' or 'colorpicker'. Default is 'none'.",
                 "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ],
             $snippet:[
