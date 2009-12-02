@@ -1691,6 +1691,13 @@ _.set(linb.Locale,["en","doc","linb","SC"], {
 });
 
 _.set(linb.Locale,["en","doc","linb","Event"], {
+    getWheelDelta:{
+        $desc:"Gets mouse's wheel delta value.",
+        $rtn:"Integer",
+        $paras:[
+            "event [Required] : DOM event Object."
+        ]
+    },
     getBtn :{
         $desc:"Gets mouse button name from event Object.",
         $rtn:"String",
@@ -2997,6 +3004,7 @@ _.set(linb.Locale,["en","doc","linb","Dom"], {
         afterMouseout:$eo,
         afterMouseover:$eo,
         afterMouseup:$eo,
+        afterMousewheel:$eo,
         afterScroll:$eo,
         afterSelect:$eo,
         afterSize:$eo,
@@ -3026,6 +3034,7 @@ _.set(linb.Locale,["en","doc","linb","Dom"], {
         beforeMouseout:$eo,
         beforeMouseover:$eo,
         beforeMouseup:$eo,
+        beforeMousewheel:$eo,
         beforeScroll:$eo,
         beforeSelect:$eo,
         beforeSize:$eo,
@@ -3055,6 +3064,7 @@ _.set(linb.Locale,["en","doc","linb","Dom"], {
         onMouseout:$eo,
         onMouseover:$eo,
         onMouseup:$eo,
+        onMousewheel:$eo,
         onScroll:$eo,
         onSelect:$eo,
         onSize:$eo,

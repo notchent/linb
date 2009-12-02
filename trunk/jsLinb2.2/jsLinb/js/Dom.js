@@ -961,7 +961,8 @@ Class('linb.Dom','linb.absBox',{
                 else
                     ari(m,label, index);
 
-                if(c.clearCache)c.clearCache();
+                if(linb.Event && (c=linb.Event._getProfile(id)) && c.clearCache)
+                    c.clearCache();
             });
 
             return self;
@@ -998,7 +999,9 @@ Class('linb.Dom','linb.absBox',{
                     }else
                         delete t[name];
                 }
-                if(c.clearCache)c.clearCache();
+
+                if(linb.Event && (c=linb.Event._getProfile(id)) && c.clearCache)
+                    c.clearCache();
             });
 
             return self;
@@ -2081,6 +2084,12 @@ type:4
 
         //free memory
         linb.win.afterUnload(function(){
+            window.onresize=null;
+
+            if(window.removeEventListener)
+                window.removeEventListener('DOMMouseScroll', linb.Event.$eventhandler3, false);
+            document.onmousewheel=window.onmousewheel=null;
+
             //unlink link 'App'
             linb.SC.__gc();
             linb.Thread.__gc();

@@ -45,11 +45,13 @@ Class('linb.Event',null,{
         id = tid||self.getId(src);
         //get profile from dom cache
         if(obj = self._getProfile(id)){
+            if(type=="DOMMouseScroll")
+                type="mousewheel";
             //for setBlurTrigger
-            if(type=='mousedown'){
+            if(type=='mousedown' || type=="mousewheel")
                 _.tryF(linb.Dom._blurTrigger,[obj,event]);
             //for resize
-            }else if(type=="resize"){
+            else if(type=="resize"){
                 type='size';
                 //for IE, always fire window onresize event after any innerHTML action
                 if(linb.browser.ie && window===src){
@@ -144,8 +146,9 @@ Class('linb.Event',null,{
         _reg:/(-[\w]+)|([\w]+$)/g,
         $eventhandler:function(){return linb.Event(arguments[0],this)},
         $eventhandler2:function(){return linb.Event(arguments[0],this,1)},
+        $eventhandler3:function(){return linb.Event(arguments[0],linb.Event.getSrc(arguments[0]||window.event))},
         //collection
-        _events : ("mouseover,mouseout,mousedown,mouseup,mousemove,click,dblclick,contextmenu," +
+        _events : ("mouseover,mouseout,mousedown,mouseup,mousemove,mousewheel,click,dblclick,contextmenu," +
                 "keydown,keypress,keyup,scroll,"+
                 "blur,focus,"+
                 "load,unload,"+
@@ -383,6 +386,13 @@ Class('linb.Event',null,{
                 else p[k]=[fun,args,scope];
              }
             return this;
+        },
+        getWheelDelta:function(e){
+            return e.wheelDelta
+            // ie/opr/kde
+            ?e.wheelDelta/120
+            // gek
+            :-e.detail/3
         }
     },
     Initialize:function(){
@@ -394,6 +404,8 @@ Class('linb.Event',null,{
                 drag:null,
                 dragstop:null,
                 dragover:null,
+
+                mousewheel:null,
     
                 dragbegin:'onmousedown',
                 dragenter:'onmouseover',
@@ -419,5 +431,10 @@ Class('linb.Event',null,{
         
         //add the root resize handler
         window.onresize=ns.$eventhandler;
+
+        if (window.addEventListener)
+            window.addEventListener('DOMMouseScroll', ns.$eventhandler3, false);
+
+        document.onmousewheel=window.onmousewheel =ns.$eventhandler3;
     }
 });

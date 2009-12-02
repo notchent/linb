@@ -315,7 +315,7 @@ Class("linb.UI.Panel", "linb.UI.Div",{
             var nodisplay='display:none';
 
             data.panelDisplay = data.toggle?'':nodisplay;
-            data.toggleCls = data.toggle?'':profile.getClass('TOGGLE','-checked');
+            data.toggleCls = data.toggle?profile.getClass('TOGGLE','-checked'):'';
 
             data.toggleDisplay = data.toggleBtn?'':nodisplay;
             data.optDisplay = data.optBtn?'':nodisplay;
@@ -366,7 +366,7 @@ Class("linb.UI.Panel", "linb.UI.Div",{
             profile.getSubNode('PANEL').css('display',value?'':'none');
             //chang toggle button
             if(p.toggleBtn)
-                profile.getSubNode('TOGGLE').tagClass('-checked', !value);
+                profile.getSubNode('TOGGLE').tagClass('-checked', !!value);
         }
     }
 });

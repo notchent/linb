@@ -188,8 +188,10 @@ Class("linb.UI.Group", "linb.UI.Div",{
             //show/hide/panel
             profile.getSubNode('PANEL').css('display',value?'':'none');
             //chang toggle button
+            if(p.toggleBtn)
+                profile.getSubNode('TOGGLE').tagClass('-checked', !!value);
 
-            profile.getSubNodes(['TOGGLE','FIELDSET']).tagClass('-checked', !value);
+            profile.getSubNode('FIELDSET').tagClass('-checked',!value);
         }
     }
 });

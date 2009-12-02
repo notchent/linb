@@ -2562,11 +2562,13 @@ Class('linb.Event',null,{
         id = tid||self.getId(src);
         //get profile from dom cache
         if(obj = self._getProfile(id)){
+            if(type=="DOMMouseScroll")
+                type="mousewheel";
             //for setBlurTrigger
-            if(type=='mousedown'){
+            if(type=='mousedown' || type=="mousewheel")
                 _.tryF(linb.Dom._blurTrigger,[obj,event]);
             //for resize
-            }else if(type=="resize"){
+            else if(type=="resize"){
                 type='size';
                 //for IE, always fire window onresize event after any innerHTML action
                 if(linb.browser.ie && window===src){
@@ -2661,8 +2663,9 @@ Class('linb.Event',null,{
         _reg:/(-[\w]+)|([\w]+$)/g,
         $eventhandler:function(){return linb.Event(arguments[0],this)},
         $eventhandler2:function(){return linb.Event(arguments[0],this,1)},
+        $eventhandler3:function(){return linb.Event(arguments[0],linb.Event.getSrc(arguments[0]||window.event))},
         //collection
-        _events : ("mouseover,mouseout,mousedown,mouseup,mousemove,click,dblclick,contextmenu," +
+        _events : ("mouseover,mouseout,mousedown,mouseup,mousemove,mousewheel,click,dblclick,contextmenu," +
                 "keydown,keypress,keyup,scroll,"+
                 "blur,focus,"+
                 "load,unload,"+
@@ -2900,6 +2903,13 @@ Class('linb.Event',null,{
                 else p[k]=[fun,args,scope];
              }
             return this;
+        },
+        getWheelDelta:function(e){
+            return e.wheelDelta
+            // ie/opr/kde
+            ?e.wheelDelta/120
+            // gek
+            :-e.detail/3
         }
     },
     Initialize:function(){
@@ -2911,6 +2921,8 @@ Class('linb.Event',null,{
                 drag:null,
                 dragstop:null,
                 dragover:null,
+
+                mousewheel:null,
     
                 dragbegin:'onmousedown',
                 dragenter:'onmouseover',
@@ -2936,6 +2948,11 @@ Class('linb.Event',null,{
         
         //add the root resize handler
         window.onresize=ns.$eventhandler;
+
+        if (window.addEventListener)
+            window.addEventListener('DOMMouseScroll', ns.$eventhandler3, false);
+
+        document.onmousewheel=window.onmousewheel =ns.$eventhandler3;
     }
 });Class('linb.Date',null,{
     Initialize:function(){
@@ -5521,7 +5538,8 @@ Class('linb.Dom','linb.absBox',{
                 else
                     ari(m,label, index);
 
-                if(c.clearCache)c.clearCache();
+                if(linb.Event && (c=linb.Event._getProfile(id)) && c.clearCache)
+                    c.clearCache();
             });
 
             return self;
@@ -5558,7 +5576,9 @@ Class('linb.Dom','linb.absBox',{
                     }else
                         delete t[name];
                 }
-                if(c.clearCache)c.clearCache();
+
+                if(linb.Event && (c=linb.Event._getProfile(id)) && c.clearCache)
+                    c.clearCache();
             });
 
             return self;
@@ -6641,6 +6661,12 @@ type:4
 
         //free memory
         linb.win.afterUnload(function(){
+            window.onresize=null;
+
+            if(window.removeEventListener)
+                window.removeEventListener('DOMMouseScroll', linb.Event.$eventhandler3, false);
+            document.onmousewheel=window.onmousewheel=null;
+
             //unlink link 'App'
             linb.SC.__gc();
             linb.Thread.__gc();
@@ -19175,8 +19201,10 @@ Class("linb.UI.Group", "linb.UI.Div",{
             //show/hide/panel
             profile.getSubNode('PANEL').css('display',value?'':'none');
             //chang toggle button
+            if(p.toggleBtn)
+                profile.getSubNode('TOGGLE').tagClass('-checked', !!value);
 
-            profile.getSubNodes(['TOGGLE','FIELDSET']).tagClass('-checked', !value);
+            profile.getSubNode('FIELDSET').tagClass('-checked',!value);
         }
     }
 });Class('linb.UI.ColorPicker', ['linb.UI',"linb.absValue"], {
@@ -22263,7 +22291,7 @@ Class("linb.UI.Panel", "linb.UI.Div",{
             var nodisplay='display:none';
 
             data.panelDisplay = data.toggle?'':nodisplay;
-            data.toggleCls = data.toggle?'':profile.getClass('TOGGLE','-checked');
+            data.toggleCls = data.toggle?profile.getClass('TOGGLE','-checked'):'';
 
             data.toggleDisplay = data.toggleBtn?'':nodisplay;
             data.optDisplay = data.optBtn?'':nodisplay;
@@ -22314,7 +22342,7 @@ Class("linb.UI.Panel", "linb.UI.Div",{
             profile.getSubNode('PANEL').css('display',value?'':'none');
             //chang toggle button
             if(p.toggleBtn)
-                profile.getSubNode('TOGGLE').tagClass('-checked', !value);
+                profile.getSubNode('TOGGLE').tagClass('-checked', !!value);
         }
     }
 });

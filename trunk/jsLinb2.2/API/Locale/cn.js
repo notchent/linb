@@ -1707,6 +1707,13 @@ _.set(linb.Locale,["cn","doc","linb","SC"], {
 });
 
 _.set(linb.Locale,["cn","doc","linb","Event"], {
+    getWheelDelta:{
+        $desc:"获取鼠标滚轮的移动值.",
+        $rtn:"Integer",
+        $paras:[
+            "event [必需参数] : DOM事件对象."
+        ]
+    },
     getBtn :{
         $desc:"获取鼠标的哪个键被按下了.",
         $rtn:"String",
@@ -3013,6 +3020,7 @@ _.set(linb.Locale,["cn","doc","linb","Dom"], {
         afterMouseout:$eo,
         afterMouseover:$eo,
         afterMouseup:$eo,
+        afterMousewheel:$eo,
         afterScroll:$eo,
         afterSelect:$eo,
         afterSize:$eo,
@@ -3042,6 +3050,7 @@ _.set(linb.Locale,["cn","doc","linb","Dom"], {
         beforeMouseout:$eo,
         beforeMouseover:$eo,
         beforeMouseup:$eo,
+        beforeMousewheel:$eo,
         beforeScroll:$eo,
         beforeSelect:$eo,
         beforeSize:$eo,
@@ -3071,6 +3080,7 @@ _.set(linb.Locale,["cn","doc","linb","Dom"], {
         onMouseout:$eo,
         onMouseover:$eo,
         onMouseup:$eo,
+        onMousewheel:$eo,
         onScroll:$eo,
         onSelect:$eo,
         onSize:$eo,
