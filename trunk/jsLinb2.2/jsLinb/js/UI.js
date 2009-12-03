@@ -459,12 +459,13 @@ Class("linb.DataBinder","linb.absObj",{
             return o && o.boxing();
         },
         _bind:function(name, pro){
-            var t,o=this._pool[name],map=o._valuesMap;
+            var t,o=this._pool[name];
             if(!o){
                 o=new linb.DataBinder();
                 o.setName(name);
                 o=o.get(0);
             }
+            var map=o._valuesMap;
             if(pro){
                 if(_.arr.indexOf(o._n,pro)==-1)
                     //use link for 'destroy UIProfile' trigger 'auto unbind function '
