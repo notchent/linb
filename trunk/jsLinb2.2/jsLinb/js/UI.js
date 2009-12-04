@@ -2793,16 +2793,18 @@ Class("linb.UI",  "linb.absObj", {
             if(hash.KeyHook){
                 _.merge(hash,{
                     afterKeydown:function(profile, e, src){
-                        if(profile.onHotKeydown){
-                            var key = linb.Event.getKey(e);
+                        var key = linb.Event.getKey(e);
+                        if(key[0].length>1)
+                            profile.$keyD=key[0];
+                        if(profile.onHotKeydown)
                             return false !== profile.boxing().onHotKeydown(profile,key[0], !!key[1], !!key[2], !!key[3], e, src);
-                        }
                     },
                     afterKeypress:function(profile, e, src){
-                        if(profile.onHotKeypress){
-                            var key = linb.Event.getKey(e);
+                        var key = linb.Event.getKey(e);
+                        if(profile.$keyD)
+                            key[0].length=profile.$keyD;
+                        if(profile.onHotKeypress)
                             return false !== profile.boxing().onHotKeypress(profile,key[0], !!key[1], !!key[2], !!key[3], e, src);
-                        }
                     },
                     afterKeyup: function(profile, e, src){
                         if(profile.onHotKeyup){

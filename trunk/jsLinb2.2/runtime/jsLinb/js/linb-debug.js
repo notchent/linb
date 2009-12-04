@@ -11849,16 +11849,18 @@ Class("linb.UI",  "linb.absObj", {
             if(hash.KeyHook){
                 _.merge(hash,{
                     afterKeydown:function(profile, e, src){
-                        if(profile.onHotKeydown){
-                            var key = linb.Event.getKey(e);
+                        var key = linb.Event.getKey(e);
+                        if(key[0].length>1)
+                            profile.$keyD=key[0];
+                        if(profile.onHotKeydown)
                             return false !== profile.boxing().onHotKeydown(profile,key[0], !!key[1], !!key[2], !!key[3], e, src);
-                        }
                     },
                     afterKeypress:function(profile, e, src){
-                        if(profile.onHotKeypress){
-                            var key = linb.Event.getKey(e);
+                        var key = linb.Event.getKey(e);
+                        if(profile.$keyD)
+                            key[0].length=profile.$keyD;
+                        if(profile.onHotKeypress)
                             return false !== profile.boxing().onHotKeypress(profile,key[0], !!key[1], !!key[2], !!key[3], e, src);
-                        }
                     },
                     afterKeyup: function(profile, e, src){
                         if(profile.onHotKeyup){
@@ -18402,10 +18404,10 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                         return k.length!=1 || /[0-9:]/.test(k);
                     },
                     $getShowValue : function(profile,value){
-                        return value?o._ensureValue(profile,value):'';
+                        return value?linb.UI.TimePicker._ensureValue(profile,value):'';
                     },
                     $fromEditor : function(profile,value){
-                        return o._ensureValue(profile,value);
+                        return linb.UI.TimePicker._ensureValue(profile,value);
                     }
                 },'all');
             }else if(value=='datepicker'){
@@ -18775,10 +18777,10 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                     }
 
                     if(k[0]=='down'|| k[0]=='up'){
-                        if(prop.type=='spin'){
+                        if(p.type=='spin'){
                             profile.box._spin(profile, k[0]=='up');
                             return false;
-                        }if(k[1] && prop.type){
+                        }if(k[1] && p.type){
                             profile.boxing()._drop(e,src);
                             return false;
                         }
@@ -19061,7 +19063,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                     var d;
                     if(value){
                         if(_.isDate(value))
-                            d=pro.value;
+                            d=value;
                         else if(isFinite(value))
                             d=new Date(parseInt(value));
                     }
