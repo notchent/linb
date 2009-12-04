@@ -272,9 +272,14 @@ Class("linb.UI.Input", ["linb.UI.Widget","linb.absValue"] ,{
                         m=p.multiLines,
                         evt=linb.Event,
                         k=evt.getKey(e);
+                    if(p.disabled || p.readonly)return;
+
                     //fire onchange first
                     if(k[0]=='enter'&& (!m||k[3]))
                         linb.use(src).onChange();
+
+                    if(k[0].length>1)
+                        profile.$keyD=k[0];
 
                     b._asyCheck(profile);
 
@@ -292,7 +297,21 @@ Class("linb.UI.Input", ["linb.UI.Widget","linb.absValue"] ,{
                     }
                 },
                 onKeypress:function(profile, e, src){
-                    var p=profile.properties,b=profile.box,cls=profile.box,map=cls._maskMap;
+                    var p=profile.properties,
+                    b=profile.box,
+                    cls=profile.box,
+                    map=cls._maskMap,
+                    k=linb.Event.getKey(e),
+                    caret=linb.use(src).caret();
+                    
+                    if(profile.$keyD)
+                        k[0]=profile.$keyD;
+                    delete profile.$keyD;
+
+                    if(profile.beforeKeypress && false===box.beforeKeypress(profile,caret, k[0],k[1],k[2],k[3],e,src))
+                        return false;
+                    if(profile.$beforeKeypress && false===profile.$beforeKeypress(profile,caret,k[0],k[1],k[2],k[3],e,src))
+                        return false;
 
                     b._asyCheck(profile);
 
@@ -301,8 +320,6 @@ Class("linb.UI.Input", ["linb.UI.Widget","linb.absValue"] ,{
                             delete profile.$ignore;
                             return true;
                         }
-                        var evt=linb.Event,
-                            k=evt.getKey(e);
                         if(k[1]||k[3])return true;
 
                         cls._changeMask(profile,linb.use(src).get(0),k[0],true);
@@ -316,7 +333,6 @@ Class("linb.UI.Input", ["linb.UI.Widget","linb.absValue"] ,{
                         profile.box._checkValid(profile, value);
                         profile.boxing()._setDirtyMark();
                     }
-
                     b._asyCheck(profile);
                 },
                 onFocus:function(profile, e, src){
@@ -342,7 +358,6 @@ Class("linb.UI.Input", ["linb.UI.Widget","linb.absValue"] ,{
                     var p=profile.properties,b=profile.box;
                     if(p.disabled)return false;
                     if(profile.onBlur)profile.boxing().onBlur(profile);
-
                     profile.getSubNode('BORDER').tagClass('-focus',false);
                     var value=linb.use(src).get(0).value;
                     //onblur check it
@@ -458,7 +473,8 @@ Class("linb.UI.Input", ["linb.UI.Widget","linb.absValue"] ,{
             onFocus:function(profile){},
             onBlur:function(profile){},
             beforeFormatCheck:function(profile, value){},
-            beforeFormatMark:function(profile, formatErr){}
+            beforeFormatMark:function(profile, formatErr){},
+            beforeKeypress:function(profile,caret,kb,ctrl,shift,alt,e,src){}
         },
         _prepareData:function(profile){
             var d=arguments.callee.upper.call(this, profile);
