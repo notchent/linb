@@ -17384,12 +17384,8 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
                 if(!src)return;
 
                 //for onchange event
-                if(profile.properties.dynCheck){
-                    caret = input.caret();
+                if(profile.properties.dynCheck)
                     profile.boxing().setUIValue(src.value);
-                    if(caret)
-                        input.caret(caret[0],caret[0]);
-                }
 
                 //for mask
                 if(profile.properties.mask){
