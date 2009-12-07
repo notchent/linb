@@ -1044,7 +1044,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                 case 'timepicker':
                     return linb.UI.TimePicker._ensureValue(null,value);
                 case 'currency':
-                    return this._currency(profile, profile, value);
+                    return this._currency(profile, value);
                 case 'number':
                 case 'spin':
                     return this._number(profile, value);                
