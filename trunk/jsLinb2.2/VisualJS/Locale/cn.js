@@ -11,6 +11,7 @@
     en:'英文',
     cn:'中文',
     ja:'日语',
+    tw:'中文繁体',
     langTips:'改变语言',
     
     builder:{

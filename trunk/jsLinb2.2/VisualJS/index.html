@@ -26,7 +26,9 @@
             <p>Please choose your prefer language: <span id='lang'></span></p>
             <div id="prgList">
                 <a id="en" href="javascript:;" onclick="document.cookie='lang=en';document.getElementById('lang').innerHTML=this.innerHTML;return false">English</a>
-                <a id="cn" href="javascript:;" onclick="document.cookie='lang=cn';document.getElementById('lang').innerHTML=this.innerHTML;return false">中文(Chinese)</a>
+                <a id="cn" href="javascript:;" onclick="document.cookie='lang=cn';document.getElementById('lang').innerHTML=this.innerHTML;return false">中文简体</a>
+                <a id="tw" href="javascript:;" onclick="document.cookie='lang=tw';document.getElementById('lang').innerHTML=this.innerHTML;return false">中文繁體</a>
+                <a id="ja" href="javascript:;" onclick="document.cookie='lang=ja';document.getElementById('lang').innerHTML=this.innerHTML;return false">日本语</a>
             </div>
             <div id="loading"><img src="../runtime/loading.gif" alt="Loading..." /></div>
         </div>
@@ -46,7 +48,8 @@
                         map={
                             'en-us':'en',
                             'zh-cn':'cn',
-                            'ja-jp':'ja'
+                            'ja-jp':'ja',
+                            'zh-tw':'tw'
                         },
                         n=navigator,
                         l=(n.language || n.userLanguage || n.systemLanguage || n.browserLanguage || '').toLowerCase();

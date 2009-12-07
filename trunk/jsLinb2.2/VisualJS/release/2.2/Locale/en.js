@@ -11,6 +11,7 @@
     en:'English',
     cn:'Chinese',
     ja:"Japanese",
+    tw:'Traditional Chinese',
     langTips:'Switch Locale',
     
     builder:{
