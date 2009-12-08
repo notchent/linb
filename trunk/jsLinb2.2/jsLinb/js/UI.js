@@ -43,6 +43,8 @@ Class('linb.Profile','linb.absProfile',{
         boxing:function(){
             //cache boxing
             var self=this, t;
+            //for destroyed UIProfile
+            if(!self.box)return null;
             if(!((t=self.object) && t.get(0)==self && t._nodes.length==1))
                 t = self.object = self.box.pack([self],false);
             return t;

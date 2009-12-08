@@ -638,13 +638,19 @@ Class('VisualJS', 'linb.Com',{
                     break;
                 case 'ec':
                     if(!this.$dropmenulang){
-                        this.$dropmenulang=new linb.UI.PopMenu({items:[{id:'en',caption:linb.getRes('VisualJS.en')},{id:'cn',caption:linb.getRes('VisualJS.cn')},{id:'tw',caption:linb.getRes('VisualJS.tw')},{id:'ja',caption:linb.getRes('VisualJS.ja')}]},{
+                        this.$dropmenulang=new linb.UI.PopMenu({
+                            items:[
+                            {id:'en',caption:linb.getRes('VisualJS.en')},
+                            {id:'cn',caption:linb.getRes('VisualJS.cn')},
+                            {id:'tw',caption:linb.getRes('VisualJS.tw')},
+                            {id:'ja',caption:linb.getRes('VisualJS.ja')}
+                            ]},{
                             onMenuSelected:function(p,item){
                                 if(linb.getLang()!=item.id)
                                     linb.setLang(item.id,function(){
-                                        self.menubar.clearPopCache();
-                                        self.$dropmenulang.destroy();
-                                        delete self.$dropmenulang;
+                                      //  self.menubar.clearPopCache();
+                                       // self.$dropmenulang.destroy();
+                                      //  delete self.$dropmenulang;
                                         self.toolbar.updateItem('ec',{'caption':linb.getRes('VisualJS.'+item.id)});
                                     });
                             }

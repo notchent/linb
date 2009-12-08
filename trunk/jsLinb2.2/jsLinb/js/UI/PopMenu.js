@@ -117,8 +117,11 @@ Class("linb.UI.PopMenu",["linb.UI.Widget","linb.absList"],{
 
             var f=function(){
                 var p=arguments.callee.profile;
-                p.boxing().hide();
-                p.$popGrp.length=0;
+                // maybe destroyed here
+                if(p.box){
+                    p.boxing().hide();
+                    p.$popGrp.length=0;
+                }
             };
             f.profile=profile;
 
@@ -515,6 +518,7 @@ Class("linb.UI.PopMenu",["linb.UI.Widget","linb.absList"],{
                             //hide all parent pop
                             _.asyRun(function(){
                                 var p=profile,q;
+                                if(!p.renderId)return;
                                 while(p){
                                     p.boxing().hide();
                                     p=(q=p).$parentPopMenu;
