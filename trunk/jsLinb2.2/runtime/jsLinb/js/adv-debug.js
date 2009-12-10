@@ -2218,9 +2218,9 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
             bg.top(b?-scroll.scrollTop():0);
         },
         _showTips:function(profile, node, pos){
+            if(profile.properties.disableTips)return;
             if(profile.onShowTips)
                 return profile.boxing().onShowTips(profile, node, pos);
-
             if(!linb.Tips)return;
 
              var t=profile.properties,

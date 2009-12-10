@@ -9438,7 +9438,7 @@ Class("linb.DataBinder","linb.absObj",{
                     // set value
                     b.resetValue(v);
                     // set caption
-                    if(b.setCaption && c!==null)
+                    if(!_.isSet(p.caption) && b.setCaption && c!==null)
                         _.tryF(b.setCaption,[c,true],b);
 
                 });
@@ -13103,8 +13103,10 @@ Class("linb.UI",  "linb.absObj", {
             return result;
         },
         _showTips:function(profile, node, pos){
+            if(profile.properties.disableTips)return;
             if(profile.onShowTips)
                 return profile.boxing().onShowTips(profile, node, pos);
+            //if(!linb.Tips)return;
         }
     }
 });
@@ -13371,6 +13373,7 @@ Class("linb.absList", "linb.absObj",{
         },
         //
         _showTips:function(profile, node, pos){
+            if(profile.properties.disableTips)return;
             if(profile.onShowTips)
                 return profile.boxing().onShowTips(profile, node, pos);
             if(!linb.Tips)return;
@@ -13381,8 +13384,6 @@ Class("linb.absList", "linb.absObj",{
                 map=profile.SubSerialIdMapItem,
                 item=map&&map[sid];
 
-            if(t.disabled)return;
-            if(item && item.disabled)return;
             if(item && item.tips){
                 linb.Tips.show(pos, item);
                 return true;
@@ -23691,16 +23692,17 @@ Class("linb.UI.Tabs", ["linb.UI", "linb.absList","linb.absValue"],{
             return profile.properties[profile.getKey(linb.use(node).id())==profile.keys.PANEL?'dropKeys':'dropKeysPanel'];
         },
         _showTips:function(profile, node, pos){
+            if(profile.properties.disableTips)return;
+            if(profile.onShowTips)
+                return profile.boxing().onShowTips(profile, node, pos);
+            if(!linb.Tips)return;
+
             var id=node.id,
                 p=profile.properties,
                 keys=profile.keys,
                 key=profile.getKey(id);
             if(!id)return false;
-
-            if(profile.onShowTips)
-                return profile.boxing().onShowTips(profile, node, pos);
-            else
-                return arguments.callee.upper.apply(this,arguments);
+            return arguments.callee.upper.apply(this,arguments);
         },
         //for tabs only
         _onresize:function(profile,width,height,force,key){
@@ -30350,6 +30352,7 @@ sortby [for column only]
         },
 
         _showTips:function(profile, node, pos){
+            if(profile.properties.disableTips)return;
             if(profile.onShowTips)
                 return profile.boxing().onShowTips(profile, node, pos);
             if(!linb.Tips)return;

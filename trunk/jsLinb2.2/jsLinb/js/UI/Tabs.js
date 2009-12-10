@@ -828,16 +828,17 @@ Class("linb.UI.Tabs", ["linb.UI", "linb.absList","linb.absValue"],{
             return profile.properties[profile.getKey(linb.use(node).id())==profile.keys.PANEL?'dropKeys':'dropKeysPanel'];
         },
         _showTips:function(profile, node, pos){
+            if(profile.properties.disableTips)return;
+            if(profile.onShowTips)
+                return profile.boxing().onShowTips(profile, node, pos);
+            if(!linb.Tips)return;
+
             var id=node.id,
                 p=profile.properties,
                 keys=profile.keys,
                 key=profile.getKey(id);
             if(!id)return false;
-
-            if(profile.onShowTips)
-                return profile.boxing().onShowTips(profile, node, pos);
-            else
-                return arguments.callee.upper.apply(this,arguments);
+            return arguments.callee.upper.apply(this,arguments);
         },
         //for tabs only
         _onresize:function(profile,width,height,force,key){

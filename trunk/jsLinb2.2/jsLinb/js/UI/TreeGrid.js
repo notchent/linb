@@ -3093,6 +3093,7 @@ sortby [for column only]
         },
 
         _showTips:function(profile, node, pos){
+            if(profile.properties.disableTips)return;
             if(profile.onShowTips)
                 return profile.boxing().onShowTips(profile, node, pos);
             if(!linb.Tips)return;
