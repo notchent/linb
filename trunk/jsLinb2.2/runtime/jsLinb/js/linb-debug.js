@@ -24294,7 +24294,7 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
                 o=profile.getItemByItemId(id);
             if(o && o.sub)
                 profile.box._setSub(profile, o, typeof expend=="boolean"?expend:!o._checked, recursive);
-            return self;
+            return this;
         },
         /*
         *open to deep node
@@ -26000,7 +26000,7 @@ Class("linb.UI.ToolBar",["linb.UI","linb.absList"],{
                     box=profile.box,
                     items=profile.properties.items,
                     rst=profile.queryItems(items,function(o){return typeof o=='object'?o.id===subId:o==subId},true,true,true),
-                    item,n1,n2,t;
+                    item,n1,n2,n3,t;
                 if(_.isStr(options))options={caption:options};
                 //ensure the original id
                 delete options.id;
@@ -26011,6 +26011,7 @@ Class("linb.UI.ToolBar",["linb.UI","linb.absList"],{
                         //in dom already?
                         n1=profile.getSubNodeByItemId('ICON',subId);
                         n2=profile.getSubNodeByItemId('CAPTION',subId);
+                        n3=profile.getSubNodeByItemId('ITEM',subId);
     
                         if('value' in options && options.value!=item.value)
                             profile.getSubNodeByItemId('BTN',subId).tagClass('-checked', !!options.value);
@@ -26032,6 +26033,18 @@ Class("linb.UI.ToolBar",["linb.UI","linb.absList"],{
                             if(options.imageClass)
                                 n1.addClass(options.imageClass);
                         }
+                        if('hidden' in options){
+                            var  b = !!options.hidden;
+                            if(b){
+                                if(item.hidden!==true){
+                                    n3.css('display','none');
+                                }
+                            }else{
+                                if(item.hidden===true){
+                                    n3.css('display','');
+                                }
+                            }
+                        }
     
                         //merge options
                         _.merge(item, options, 'all');
@@ -26042,7 +26055,7 @@ Class("linb.UI.ToolBar",["linb.UI","linb.absList"],{
         },
         showItem:function(itemId, value){
             return this.each(function(profile){
-                profile.getItemByItemId(itemId).visible=value!==false;
+                profile.getItemByItemId(itemId).hidden=value===false;
                 profile.getSubNodeByItemId('ITEM', itemId).css('display',value===false?'none':'');
             });
         },
@@ -26050,7 +26063,7 @@ Class("linb.UI.ToolBar",["linb.UI","linb.absList"],{
             return this.each(function(profile){
                 _.arr.each(profile.properties.items,function(o){
                     if(o.id==grpId){
-                        o.visible=value!==false;
+                        o.hidden=value===false;
                         return false;
                     }
                 });
@@ -26349,7 +26362,7 @@ Class("linb.UI.ToolBar",["linb.UI","linb.absList"],{
                         dataItem.dropDisplay=item.dropButton?'':dn;
                         dataItem.boxDisplay= (!dataItem.split && (dataItem.caption || dataItem.image || dataItem.imageClass))?'':dn;
                     }
-                    dataItem.itemDisplay=item.visible===false?dn:'';
+                    dataItem.itemDisplay=item.hidden?dn:'';
                     item._pid=pid;
                 };
 
@@ -26362,7 +26375,7 @@ Class("linb.UI.ToolBar",["linb.UI","linb.absList"],{
 
                 pid=sitem.id;
                 oitem.mode2 = profile.properties.handler ? '' : dn;
-                oitem.grpDisplay=sitem.visible===false?dn:'';
+                oitem.grpDisplay=sitem.hidden?dn:'';
                 oitem.sub = arr;
                 _.arr.each(a,function(item){
                     dataItem={id: item.id};
@@ -27403,12 +27416,11 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
             });
             profile.$cache_editor={};
         },
-        _expendRows:function(rows){
+        _toggleRows:function(rows, expend){
             var self=this;
             if(rows && rows.length)
                 _.arr.each(rows,function(o){
-                    if(o.sub && o.sub.length && !o.iniFold && !o._checked)
-                        self.toggleRow(o.id, true);
+                    self.toggleRow(o.id, expend);
                 });
         },
         isDirtied:function(){
@@ -27444,6 +27456,8 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
             row = profile.rowMap[profile.rowMap2[id]];
             if(row && row.sub)
                 profile.box._setSub(profile, row, typeof expend=="boolean"?expend:!row._checked);
+            return this;
+
         },
         getRowbyRowId:function(rowId){
             var profile=this.get(0),v=profile.rowMap2[rowId];
@@ -27556,7 +27570,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                 this._insertRowsToDom(profile, rows, pid, base, before);
 
             if(!pro.iniFold)
-                profile.boxing()._expendRows(rows);
+                profile.boxing()._toggleRows(rows,true);
 
             profile.box._asy(profile);
             return this;
@@ -29330,7 +29344,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
             };
             ns.$cache_editor={};
             if(!pro.iniFold)
-                ins._expendRows(pro.rows);
+                ins._toggleRows(pro.rows,true);
             ns.box._asy(ns);
             ns.box._ajdustBody(ns);
         },

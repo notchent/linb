@@ -118,7 +118,7 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
                 o=profile.getItemByItemId(id);
             if(o && o.sub)
                 profile.box._setSub(profile, o, typeof expend=="boolean"?expend:!o._checked, recursive);
-            return self;
+            return this;
         },
         /*
         *open to deep node

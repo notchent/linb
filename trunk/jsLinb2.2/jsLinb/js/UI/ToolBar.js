@@ -9,7 +9,7 @@ Class("linb.UI.ToolBar",["linb.UI","linb.absList"],{
                     box=profile.box,
                     items=profile.properties.items,
                     rst=profile.queryItems(items,function(o){return typeof o=='object'?o.id===subId:o==subId},true,true,true),
-                    item,n1,n2,t;
+                    item,n1,n2,n3,t;
                 if(_.isStr(options))options={caption:options};
                 //ensure the original id
                 delete options.id;
@@ -20,6 +20,7 @@ Class("linb.UI.ToolBar",["linb.UI","linb.absList"],{
                         //in dom already?
                         n1=profile.getSubNodeByItemId('ICON',subId);
                         n2=profile.getSubNodeByItemId('CAPTION',subId);
+                        n3=profile.getSubNodeByItemId('ITEM',subId);
     
                         if('value' in options && options.value!=item.value)
                             profile.getSubNodeByItemId('BTN',subId).tagClass('-checked', !!options.value);
@@ -41,6 +42,18 @@ Class("linb.UI.ToolBar",["linb.UI","linb.absList"],{
                             if(options.imageClass)
                                 n1.addClass(options.imageClass);
                         }
+                        if('hidden' in options){
+                            var  b = !!options.hidden;
+                            if(b){
+                                if(item.hidden!==true){
+                                    n3.css('display','none');
+                                }
+                            }else{
+                                if(item.hidden===true){
+                                    n3.css('display','');
+                                }
+                            }
+                        }
     
                         //merge options
                         _.merge(item, options, 'all');
@@ -51,7 +64,7 @@ Class("linb.UI.ToolBar",["linb.UI","linb.absList"],{
         },
         showItem:function(itemId, value){
             return this.each(function(profile){
-                profile.getItemByItemId(itemId).visible=value!==false;
+                profile.getItemByItemId(itemId).hidden=value===false;
                 profile.getSubNodeByItemId('ITEM', itemId).css('display',value===false?'none':'');
             });
         },
@@ -59,7 +72,7 @@ Class("linb.UI.ToolBar",["linb.UI","linb.absList"],{
             return this.each(function(profile){
                 _.arr.each(profile.properties.items,function(o){
                     if(o.id==grpId){
-                        o.visible=value!==false;
+                        o.hidden=value===false;
                         return false;
                     }
                 });
@@ -358,7 +371,7 @@ Class("linb.UI.ToolBar",["linb.UI","linb.absList"],{
                         dataItem.dropDisplay=item.dropButton?'':dn;
                         dataItem.boxDisplay= (!dataItem.split && (dataItem.caption || dataItem.image || dataItem.imageClass))?'':dn;
                     }
-                    dataItem.itemDisplay=item.visible===false?dn:'';
+                    dataItem.itemDisplay=item.hidden?dn:'';
                     item._pid=pid;
                 };
 
@@ -371,7 +384,7 @@ Class("linb.UI.ToolBar",["linb.UI","linb.absList"],{
 
                 pid=sitem.id;
                 oitem.mode2 = profile.properties.handler ? '' : dn;
-                oitem.grpDisplay=sitem.visible===false?dn:'';
+                oitem.grpDisplay=sitem.hidden?dn:'';
                 oitem.sub = arr;
                 _.arr.each(a,function(item){
                     dataItem={id: item.id};

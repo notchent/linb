@@ -159,12 +159,11 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
             });
             profile.$cache_editor={};
         },
-        _expendRows:function(rows){
+        _toggleRows:function(rows, expend){
             var self=this;
             if(rows && rows.length)
                 _.arr.each(rows,function(o){
-                    if(o.sub && o.sub.length && !o.iniFold && !o._checked)
-                        self.toggleRow(o.id, true);
+                    self.toggleRow(o.id, expend);
                 });
         },
         isDirtied:function(){
@@ -200,6 +199,8 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
             row = profile.rowMap[profile.rowMap2[id]];
             if(row && row.sub)
                 profile.box._setSub(profile, row, typeof expend=="boolean"?expend:!row._checked);
+            return this;
+
         },
         getRowbyRowId:function(rowId){
             var profile=this.get(0),v=profile.rowMap2[rowId];
@@ -312,7 +313,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                 this._insertRowsToDom(profile, rows, pid, base, before);
 
             if(!pro.iniFold)
-                profile.boxing()._expendRows(rows);
+                profile.boxing()._toggleRows(rows,true);
 
             profile.box._asy(profile);
             return this;
@@ -2086,7 +2087,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
             };
             ns.$cache_editor={};
             if(!pro.iniFold)
-                ins._expendRows(pro.rows);
+                ins._toggleRows(pro.rows,true);
             ns.box._asy(ns);
             ns.box._ajdustBody(ns);
         },
