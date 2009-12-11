@@ -3,6 +3,8 @@
 */
 Class('{className}', 'linb.Com',{
     Instance:{
+        autoDestroy:true,
+
         iniComponents:function(com, threadid){
         },
         events:{},

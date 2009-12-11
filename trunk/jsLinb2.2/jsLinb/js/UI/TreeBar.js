@@ -338,6 +338,11 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
                 }
             },
             BAR:{
+                onDblclick:function(profile, e, src){
+                    var properties = profile.properties,
+                        item = profile.getItemByDom(src);
+                    profile.boxing().onDblclick(profile, item, src);
+                },
                 onClick:function(profile, e, src){
                     var properties = profile.properties,
                         domId=linb.use(src).id(),
@@ -466,6 +471,7 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
             }
         },
         EventHandlers:{
+            onDblclick:function(profile, item, src){},
             onGetContent:function(profile, item, callback){},
             onItemSelected:function(profile, item, src){}
         },

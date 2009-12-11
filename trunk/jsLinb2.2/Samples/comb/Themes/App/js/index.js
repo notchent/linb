@@ -215,7 +215,7 @@ Class('App', 'linb.Com',{
                 .setTop(200)
                 .setWidth(80)
                 .setItems([{"id":"a", "caption":"item a", "image":"img/demo.gif"}, {"id":"b", "caption":"item b", "image":"img/demo.gif"}, {"id":"c", "caption":"item c", "image":"img/demo.gif"}, {"id":"d", "caption":"item d", "image":"img/demo.gif"}])
-                .setSaveBtn(true)
+                .setCommandBtn('save')
                 .setValue("a")
             , '2');
             

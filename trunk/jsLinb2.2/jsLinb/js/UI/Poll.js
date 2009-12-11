@@ -183,11 +183,11 @@ Class("linb.UI.Poll", "linb.UI.List",{
             if(!useC){
                 o=profile._bind;
                 if(!o){
-                    var pp={type:prop.editorType,saveBtn:true,left:-10000,top:-10000};
+                    var pp={type:prop.editorType,commandBtn:'save',left:-10000,top:-10000};
                     profile._bind=o=linb.create('ComboInput', pp);
                     o.onHotKeydown(function(p,key){
                         if(key=='enter'){
-                            p.boxing().onSave(p);
+                            p.boxing().onCommand(p);
                             return false;
                         }else if(key=='esc'){
                             o.hide();
@@ -206,7 +206,7 @@ Class("linb.UI.Poll", "linb.UI.List",{
 
                 o.setValue(value||'',true)
                 .setWidth(r.width + (parseInt(node.css('paddingLeft'))||0)+ (parseInt(node.css('paddingRight'))||0))
-                .onSave(function(p){
+                .onCommand(function(p){
                     var pro=p.properties,v=pro.$UIvalue, ov=pro.value;
                     if(v!=ov)
                         callback(v);

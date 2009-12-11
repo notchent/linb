@@ -27,6 +27,8 @@ Class('linb.Com',null,{
             _.merge(self.events, events, 'all');
     },
     Instance:{
+        autoDestroy:true,
+
         setHost:function(value, alias){
             this.host=value;
             if(value && alias)
@@ -158,16 +160,17 @@ Class('linb.Com',null,{
                     if(false===self._fireEvent('beforeIniComponents'))return;
                     Array.prototype.push.apply(self._nodes, self._innerCall('iniComponents')||[]);
                     // attach destroy to the first UI control
-                    _.arr.each(self._nodes,function(o){
-                        if(o.box && o.box["linb.UI"] && !o.box.$noDomRoot){
-                            o.$afterdestory=function(){
-                                if(!self.$destroyed)
-                                    self.destroy();
-                                self=null;
-                            };
-                            return false;
-                        }
-                    });
+                    if(self.autoDestroy)
+                        _.arr.each(self._nodes,function(o){
+                            if(o.box && o.box["linb.UI"] && !o.box.$noDomRoot){
+                                o.$afterdestory=function(){
+                                    if(!self.$destroyed)
+                                        self.destroy();
+                                    self=null;
+                                };
+                                return false;
+                            }
+                        });
                     self._fireEvent('afterIniComponents');
                 });
             //Outer components

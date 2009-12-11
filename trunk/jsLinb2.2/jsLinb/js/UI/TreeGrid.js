@@ -2840,7 +2840,7 @@ sortby [for column only]
                         editor.setType('none');
                         break;
                     case 'textarea':
-                        editor.setType('none').setMultiLines(true).setSaveBtn(true).onSave(function(p){
+                        editor.setType('none').setMultiLines(true).setCommandBtn('save').onCommand(function(p){
                             p.boxing().hide();
                         });
                         _.tryF(editor.setResizer,[true],editor);

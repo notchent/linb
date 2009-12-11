@@ -338,10 +338,12 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
         var t = this.getTemplate();
         _.merge(t.FRAME.BORDER,{
             SBTN:{
-                $order:5,
+                $order:10,
                 style:"{_saveDisplay}",
                 STOP:{},
-                SMID:{}
+                SMID:{
+                    className:"{_commandCls}"
+                }
             }
         },'all');
         t.FRAME.POOL={};
@@ -352,6 +354,9 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
         this._adjustItems=linb.absList._adjustItems;
     },
     Static:{
+        _beforeResetValue:function(profile){
+            profile.properties.caption=undefined;
+        },
         _iniType:function(profile){
             var pro=profile.properties, value=pro.type, c=profile.box;
             delete profile.$beforeKeypress;
@@ -505,7 +510,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
             'R1, R2, BTN, SBTN, STOP, TOP, R1T, R2T, R1B, R2B, SMID,MID':{
                 background: linb.UI.$bg('bg.gif')
             },
-            'SBTN,BTN':{
+            'SBTN, BTN':{
                 $order:1,
                 'background-position':'left bottom'
             },
@@ -585,12 +590,27 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                 position:'absolute',
                 bottom:'0',
                 left:0,
-                height:'16px',
-                'background-position':'0 0'
+                height:'16px'
             },
-            SMID:{
+            'SMID':{
                 $order:3,
-                'background-position': '-14px -16px'
+                'background-position':'-16px -16px'
+            },
+            'SMID-save':{
+                $order:8,
+                'background-position': '-32px 0'
+            },
+            'SMID-delete':{
+                $order:8,
+                'background-position': '-32px -16px'
+            },
+            'SMID-add':{
+                $order:8,
+                'background-position': '-32px -32px'
+            },
+            'SMID-remove':{
+                $order:8,
+                'background-position': '-32px -48px'
             },
             '.setting-linb-comboinput':{
                 'border-style':'solid',
@@ -624,7 +644,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                 onClick : function(profile, e, src){
                     var prop=profile.properties;
                     if(prop.disabled || prop.readonly)return;
-                    if(profile.onSave)profile.boxing().onSave(profile,src);
+                    if(profile.onCommand)profile.boxing().onCommand(profile,src);
                 }
             },
             INPUT:{
@@ -719,14 +739,15 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                     b._asyCheck(profile);
                 },
                 onKeydown : function(profile, e, src){
-                   var  p=profile.properties,b=profile.box,
+                   var  p=profile.properties,
+                    b=profile.box,
                         m=p.multiLines,
                         evt=linb.Event,
                         k=evt.getKey(e);
                     if(p.disabled || p.readonly)return;
 
                     //fire onchange first
-                    if(k[0]=='enter' && (!m||k[3]) && !prop.inputReadonly && !profile.$inputReadonly)
+                    if(k[0]=='enter' && (!m||k[3]) && !p.inputReadonly && !profile.$inputReadonly)
                         linb.use(src).onChange();
 
                     if(k[0].length>1)
@@ -797,7 +818,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
         },
         EventHandlers:{
             onFileDlgOpen:function(profile, node){},
-            onSave:function(profile, node){},
+            onCommand:function(profile, node){},
             beoforeComboPop:function(profile, pos, e, src){},
             onClick:function(profile, e, src, value){}
         },
@@ -873,8 +894,9 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
             increment:0.01,
             min:0,
             max:Math.pow(10,10),
-            saveBtn:{
-                ini:false,
+            commandBtn:{
+                ini:"none",
+                listbox:_.toArr("none,save,delete,add,remove,custom"),
                 action:function(v){
                     this.boxing().refresh();
                 }
@@ -971,7 +993,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                 break;
                 case 'spin':
                     t.RBTN={
-                        $order:5,
+                        $order:20,
                         style:"{rDisplay}",
                         R1:{
                             R1T:{},
@@ -985,7 +1007,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                 break;
                 case 'upload':
                     t.FILE={
-                        $order:2,
+                        $order:20,
                         tagName:'input',
                         type:'file',
                         hidefocus:linb.browser.ie?"hidefocus":null,
@@ -997,7 +1019,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                     t.BOX.WRAP.INPUT.type='button';
                 default:
                     t.BTN={
-                        $order:4,
+                        $order:20,
                         style:"{_popbtnDisplay}",
                         TOP:{},
                         MID:{
@@ -1019,7 +1041,9 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
 
             data._type="text";
 
-            data._saveDisplay = data.saveBtn?'':'display:none';
+            data._saveDisplay = data.commandBtn!='none'?'':'display:none';
+            data._commandCls = profile.getClass("SMID","-"+data.commandBtn);
+
             data._popbtnDisplay = data.type!='none'?'':'display:none';
             data.typecls=profile.getClass('KEY','-'+data.type);
             return data;
@@ -1081,7 +1105,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                 px='px',
                 f=function(k){return k?profile.getSubNode(k).get(0):null},
                 v1=f('INPUT'),
-                save=f(t.saveBtn?'SBTN':null),
+                save=f(t.commandBtn!='none'?'SBTN':null),
                 btn=f(t.type=='spin'?'RBTN':t.type=='none'?null:'BTN'),
                 ww=width,
                 hh=height,
@@ -1109,8 +1133,8 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
             if(null!==hh)
                 v1.style.height=(hh-toff)+px;
             if(height-2>0){
-                if(save)save.style.height=(height-2)+px;
                 if(btn)btn.style.height=(height-2)+px;
+                if(save)save.style.height=(height-2)+px;
             }
             if(t.type=='spin'){
                 if(height/2-2>0){

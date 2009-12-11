@@ -8924,27 +8924,27 @@ _.set(linb.Locale,["cn","doc","linb","UI","ComboInput"], {
                 "force [可选参数] : Boolean, 强制设置该属性值，即使属性已经设置为该值. 默认为 [false]."
             ]
         },
-        getSaveBtn:{
-            $desc:"判断多选框是否带有保存按钮.",
-            $rtn:"Boolean",
+        getCommandBtn:{
+            $desc:"得到命令按钮显示关键字.",
+            $rtn:"String",
             $snippet:[
                 "var id='linb.temp.ci8'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var o1,o2;linb(id).prepend(o1=new linb.UI.ComboInput({position:'relative'})).prepend(o2=new linb.UI.ComboInput({position:'relative',type:'none'}));"+
-                "_.asyRun(function(){o1.setSaveBtn(true);o2.setSaveBtn(true); alert(o1.getSaveBtn())},1000)"+
+                "_.asyRun(function(){o1.setCommandBtn('save');o2.setCommandBtn('add'); alert(o1.getCommandBtn())},1000)"+
                 "}"
             ]
         },
-        setSaveBtn:{
-            $desc:"设置多选框是否带有保存按钮.",
+        setCommandBtn:{
+            $desc:"设置命令按钮",
             $rtn:"[self]",
             $paras:[
-                "value [必需参数] : Boolean.",
+                "value [必需参数] : String.",
                 "force [可选参数] : Boolean, 强制设置该属性值，即使属性已经设置为该值. 默认为 [false]."
             ],
             $snippet:[
                 "var id='linb.temp.ci9'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var o1,o2;linb(id).prepend(o1=new linb.UI.ComboInput({position:'relative'})).prepend(o2=new linb.UI.ComboInput({position:'relative',type:'none'}));"+
-                "_.asyRun(function(){o1.setSaveBtn(true);o2.setSaveBtn(true); alert(o1.getSaveBtn())},1000)"+
+                "_.asyRun(function(){o1.setCommandBtn('remove');o2.setCommandBtn('delete'); alert(o1.getCommandBtn())},1000)"+
                 "}"
             ]
         },
@@ -9120,7 +9120,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","ComboInput"], {
                 "}"
             ]
         },
-        onSave:{
+        onCommand:{
             $desc:"当保存按钮按下时调用. 只对带有保存按钮的多选框有效",
             $paras:[
                 "profile : linb.UIProfile.",
@@ -9128,8 +9128,8 @@ _.set(linb.Locale,["cn","doc","linb","UI","ComboInput"], {
             ],
             $snippet:[
                 "var id='linb.temp.ci11'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
-                "var o1,o2;linb(id).prepend(o1=new linb.UI.ComboInput({position:'relative',saveBtn:true}));"+
-                "o1.onSave(function(p){alert( p.boxing().getUIValue() )});"+
+                "var o1,o2;linb(id).prepend(o1=new linb.UI.ComboInput({position:'relative',commandBtn:'save'}));"+
+                "o1.onCommand(function(p){alert( p.boxing().getUIValue() )});"+
                 "}"
             ]
         }

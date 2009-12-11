@@ -254,8 +254,8 @@ Class('App', 'linb.Com',{
                 .setTabindex("10")
                 .setType("helpinput")
                 .setItems([{"id":"id a", "caption":"caption a"}, {"id":"id b", "caption":"caption b"}, {"id":"id c", "caption":"caption c"}])
-                .setSaveBtn(true)
-                .onSave("_comboinput28_onsave")
+                .setCommandBtn('save')
+                .onCommand("_comboinput28_onsave")
             );
             
             append((new linb.UI.ComboInput)
@@ -264,8 +264,8 @@ Class('App', 'linb.Com',{
                 .setTop(110)
                 .setTabindex("11")
                 .setType("getter")
-                .setSaveBtn(true)
-                .onSave("_comboinput28_onsave")
+                .setCommandBtn('save')
+                .onCommand("_comboinput28_onsave")
                 .beoforeComboPop("_comboinput13_beoforeComboPop")
             );
             
@@ -275,8 +275,8 @@ Class('App', 'linb.Com',{
                 .setTop(140)
                 .setTabindex("12")
                 .setType("popbox")
-                .setSaveBtn(true)
-                .onSave("_comboinput28_onsave")
+                .setCommandBtn('save')
+                .onCommand("_comboinput28_onsave")
                 .beoforeComboPop("_comboinput14_beoforeComboPop")
             );
             
@@ -286,8 +286,8 @@ Class('App', 'linb.Com',{
                 .setTop(170)
                 .setTabindex("13")
                 .setType("none")
-                .setSaveBtn(true)
-                .onSave("_comboinput28_onsave")
+                .setCommandBtn('save')
+                .onCommand("_comboinput28_onsave")
             );
             
             append((new linb.UI.ComboInput)

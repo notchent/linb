@@ -4378,6 +4378,7 @@ Class("linb.absValue", "linb.absObj",{
                 if(typeof (r=profile.box._ensureValue)=='function')
                     value=r.call(profile.box, profile, value);
                 if(pro.value !== value || pro.$UIvalue!==value){
+                    if(profile.box._beforeResetValue)profile.box._beforeResetValue(profile);
                     // _setCtrlValue maybe use $UIvalue
                     profile.boxing()._setCtrlValue(pro.value = value);
                     // So, maintain $UIvalue during _setCtrlValue call
