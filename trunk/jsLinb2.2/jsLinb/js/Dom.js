@@ -1696,7 +1696,7 @@ type:4
                 if(typeof label=='string')me._label=label;
                 var t = linb.win;
                 if(!me._showed){
-                    o1.css({zIndex:linb.Dom.TOP_ZINDEX*2,display:'',width:t.scrollWidth()+'px',height:t.scrollHeight()+'px',cursor:'wait'});
+                    o1.css({zIndex:linb.Dom.TOP_ZINDEX*2,display:'',width:t.scrollWidth()+'px',height:t.scrollHeight()+'px',cursor:'progress'});
                     me._showed=true;
                 }
                 //show content

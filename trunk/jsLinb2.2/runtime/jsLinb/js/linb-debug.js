@@ -6273,7 +6273,7 @@ type:4
                 if(typeof label=='string')me._label=label;
                 var t = linb.win;
                 if(!me._showed){
-                    o1.css({zIndex:linb.Dom.TOP_ZINDEX*2,display:'',width:t.scrollWidth()+'px',height:t.scrollHeight()+'px',cursor:'wait'});
+                    o1.css({zIndex:linb.Dom.TOP_ZINDEX*2,display:'',width:t.scrollWidth()+'px',height:t.scrollHeight()+'px',cursor:'progress'});
                     me._showed=true;
                 }
                 //show content
@@ -11290,20 +11290,6 @@ Class("linb.UI",  "linb.absObj", {
                 top:0,
                 width:'100%',
                 height:'100%'
-            },
-            '.ui-dirty':{
-                $order:1,
-                background: linb.UI.$bg('icons.gif', 'no-repeat', true),
-                'background-position':'-390px -290px'
-            },
-            '.ui-disabled, .ui-disabled *':{
-                color: '#808080'
-            },
-            '.ui-invalid, .ui-invalid *':{
-                'background-color': '#FFEBCD'
-            },
-            '#linblangkey':{
-                'vertical-align':'baseline'
             }
         })
         + linb.UI.buildCSSText({
@@ -11325,12 +11311,36 @@ Class("linb.UI",  "linb.absObj", {
                 'border-color':'#c8e1fa #648cb4 #648cb4 #c8e1fa'
             }
         });
+
+        linb.UI.$cache_css2 += linb.UI.buildCSSText({
+            '.ui-dirty':{
+                $order:1,
+                background: linb.UI.$bg('icons.gif', 'no-repeat', true),
+                'background-position':'-390px -290px'
+            },
+            '.ui-disabled':{
+                $order:2,
+                cursor:'not-allowed'
+            },
+            '.ui-disabled, .ui-disabled *':{
+                $order:2,
+                color: '#808080'
+            },
+            '.ui-invalid, .ui-invalid *':{
+                $order:1,
+                'background-color': '#FFEBCD'
+            },
+            '#linblangkey':{
+                'vertical-align':'baseline'
+            }
+        });
     },
     $End:function(){
         linb.UI.$cache_css += this.buildCSSText(this.$Appearances);
     },
     Static:{
         $cache_css:'',
+        $cache_css2:'',
         $css_tag_dirty: "ui-dirty",
         $css_tag_invalid: "ui-invalid",
         $tag_left:"{",
@@ -12159,7 +12169,7 @@ Class("linb.UI",  "linb.absObj", {
             return this.$Behaviors;
         },
         $applyCSS:function( ){
-            var self=linb.UI, cache=self.$cache_css;
+            var self=linb.UI, cache1=self.$cache_css, cache2=self.$cache_css2;
             if(!self.$cssNo){
                 self.$cssNo=1;
                 var b=linb.browser;
@@ -12173,9 +12183,13 @@ Class("linb.UI",  "linb.absObj", {
                 );
                 linb('html').addClass(b.isStrict?"linb-strict":"");
             }
-            if(cache){
-                linb.CSS.addStyleSheet(cache, 'linb.UI-CSS'+(self.$cssNo++));
+            if(cache1){
+                linb.CSS.addStyleSheet(cache1, 'linb.UI-CSS'+(self.$cssNo++));
                 linb.UI.$cache_css='';
+            }
+            if(cache2){
+                linb.CSS.addStyleSheet(cache2, 'linb.UI-CSS'+(self.$cssNo++),true);
+                linb.UI.$cache_css2='';
             }
         },
         buildCSSText:function(hash){
