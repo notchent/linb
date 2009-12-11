@@ -315,7 +315,7 @@ Class("linb.UI.Panel", "linb.UI.Div",{
             var nodisplay='display:none';
 
             data.panelDisplay = data.toggle?'':nodisplay;
-            data.toggleCls = data.toggle?profile.getClass('TOGGLE','-checked'):'';
+            data.toggleCls = data.toggle?'uicmd-toggle-checked':'';
 
             data.toggleDisplay = data.toggleBtn?'':nodisplay;
             data.optDisplay = data.optBtn?'':nodisplay;

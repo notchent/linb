@@ -19242,7 +19242,7 @@ Class("linb.UI.Group", "linb.UI.Div",{
                         href :linb.$href,
                         tabindex: '{tabindex}',
                         TOGGLE:{
-                            className: 'uicmd-toggle2 {toggleCls}',
+                            className: 'uicmd-toggle2 {toggleCls2}',
                             style:"{toggleDispplay}"
                         },
                         ICON:{
@@ -19363,7 +19363,7 @@ Class("linb.UI.Group", "linb.UI.Div",{
 
             data.panelDisplay = data.toggleBtn&&!data.toggle?nodisplay:'';
             data.toggleCls = data.toggleBtn&&!data.toggle?profile.getClass('FIELDSET','-checked'):'';
-            data.toggleCls2 = data.toggleBtn&&!data.toggle?profile.getClass('TOGGLE','-checked'):'';
+            data.toggleCls2 = data.toggleBtn&&!data.toggle?'uicmd-toggle2-checked':'';
             return data;
         },
         _onresize:function(profile,width,height){
@@ -22484,7 +22484,7 @@ Class("linb.UI.Panel", "linb.UI.Div",{
             var nodisplay='display:none';
 
             data.panelDisplay = data.toggle?'':nodisplay;
-            data.toggleCls = data.toggle?profile.getClass('TOGGLE','-checked'):'';
+            data.toggleCls = data.toggle?'uicmd-toggle-checked':'';
 
             data.toggleDisplay = data.toggleBtn?'':nodisplay;
             data.optDisplay = data.optBtn?'':nodisplay;
