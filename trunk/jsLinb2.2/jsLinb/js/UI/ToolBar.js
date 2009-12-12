@@ -21,7 +21,7 @@ Class("linb.UI.ToolBar",["linb.UI","linb.absList"],{
                         n1=profile.getSubNodeByItemId('ICON',subId);
                         n2=profile.getSubNodeByItemId('CAPTION',subId);
                         n3=profile.getSubNodeByItemId('ITEM',subId);
-    
+
                         if('value' in options && options.value!=item.value)
                             profile.getSubNodeByItemId('BTN',subId).tagClass('-checked', !!options.value);
                         if('caption' in options&& options.caption!=item.caption)
@@ -54,7 +54,7 @@ Class("linb.UI.ToolBar",["linb.UI","linb.absList"],{
                                 }
                             }
                         }
-    
+
                         //merge options
                         _.merge(item, options, 'all');
                     }
@@ -132,7 +132,7 @@ Class("linb.UI.ToolBar",["linb.UI","linb.absList"],{
                                     className:'ui-btni',
                                     BTNC:{
                                         className:'ui-btnc',
-                                        BOX:{ 
+                                        BOX:{
                                             tagName:'a',
                                             href:linb.$href,
                                             tabindex: '{_tabindex}',
@@ -170,6 +170,10 @@ Class("linb.UI.ToolBar",["linb.UI","linb.absList"],{
                 position:'absolute',
                 left:0,
                 top:0
+            },
+            'ITEM-object':{
+                'vertical-align':'middle',
+                'margin-left':'4px'
             },
             ICON:{
                 margin:0,
@@ -330,24 +334,26 @@ Class("linb.UI.ToolBar",["linb.UI","linb.absList"],{
             return d;
         },
         _prepareItem:function(profile, oitem, sitem, pid,  mapCache, serialId){
-            var dn='display:none', 
+            var dn='display:none',
                 fun=function(profile, dataItem, item, pid, mapCache,serialId){
                     var id=dataItem[linb.UI.$tag_subId]=typeof serialId=='string'?serialId:('a_'+profile.pickSubId('aitem')), t;
                     if(typeof item=='string')
                         item={caption:item};
-    
+
                     if(false!==mapCache){
                         profile.ItemIdMapSubSerialId[item.id] = id;
                         profile.SubSerialIdMapItem[id] = item;
                     }
-    
+
                     if(t=item.object){
                         t=dataItem.object=t['linb.absBox']?t.get(0):t;
                         //relative it.
                         if(t['linb.UIProfile']){
                             t.properties.position='relative';
-                            if(!t.CS.KEY)t.CS.KEY='';
-                            t.CS.KEY ='vertical-align:middle;margin-left:4px;' + t.CS.KEY;
+                            var addcls=profile.getClass('ITEM','-object'),
+                                cck = t.CC.KEY || (cck=t.CC.KEY='');
+                            if(cck.indexOf(addcls)===-1)
+                                t.CC.KEY = cck + " " + addcls;
                         }
                         item.$linbid=t.$linbid;
                         t.$item=item;
@@ -361,9 +367,9 @@ Class("linb.UI.ToolBar",["linb.UI","linb.absList"],{
                             if(!item.caption)
                                 item.caption="";
                         }
-                        
+
                         linb.UI.adjustData(profile,item, dataItem);
-    
+
 
                         dataItem.splitDisplay=dataItem.split?'':dn;
                         dataItem.labelDisplay=dataItem.label?'':dn;

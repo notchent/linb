@@ -3573,7 +3573,7 @@ Class("linb.UI",  "linb.absObj", {
             var node = profile.getRoot(),
                 p=linb((node.get(0) && node.get(0).parentNode)||profile.$dockParent);
             if(!p.get(0))
-                return;                
+                return;
             var prop = profile.properties,
                 margin=prop.dockMargin,
                 auto = 'auto',
@@ -3675,7 +3675,7 @@ Class("linb.UI",  "linb.absObj", {
 
                              if(!node.get(0))
                                 return;
-                             
+
                              var style=node.get(0).style,
                                 obj,i,k,o,key,target;
 
@@ -4103,6 +4103,15 @@ Class("linb.absList", "linb.absObj",{
                     data = box._prepareItems(profile, arr2, base);
 
                     r=profile._buildItems('items', data);
+
+                    // try to render inner linb.UI
+                    if(profile.$attached){
+                        for(var i=0,v;v=profile.$attached[i++];)
+                            if(v._render)
+                                v._render(true);
+                        delete profile.$attached;
+                    }
+
                     if(index==-1){
                         //if no base specified
                         node = profile.getSubNode(box._ITEMSKEY || profile.keys.ITEMS || profile.keys.KEY);
