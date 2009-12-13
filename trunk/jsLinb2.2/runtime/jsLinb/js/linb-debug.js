@@ -21673,7 +21673,7 @@ Class("linb.UI.Group", "linb.UI.Div",{
                     if(properties.disabled|| item.disabled)return false;
 
                     linb.use(src).focus();
-                    
+
                     switch(properties.selMode){
                     case 'none':
                         rt=box.onItemSelected(profile, item, src);
@@ -21724,7 +21724,9 @@ Class("linb.UI.Group", "linb.UI.Div",{
                         }
                         break;
                     }
-                    return rt;
+                    var node=linb.use(src).get(0),href=node&&node.href;
+                    node=null;
+                    return (!href || href.indexOf('javascript:')==0)?false:rt;
                 },
                 onKeydown:function(profile, e, src){
                     var keys=linb.Event.getKey(e), key = keys[0], shift=keys[2],
@@ -24642,7 +24644,9 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
                         }
                         break;
                     }
-                    return rt;
+                    var node=linb.use(src).get(0),href=node&&node.href;
+                    node=null;
+                    return (!href || href.indexOf('javascript:')==0)?false:rt;
                 },
                 onKeydown:function(profile, e, src){
                     var keys=linb.Event.getKey(e), key = keys[0], shift=keys[2],
