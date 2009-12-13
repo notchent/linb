@@ -8031,7 +8031,7 @@ Class('linb.DragDrop',null,{
             }
 
             if(target){
-                //never create, or be destroyed region 
+                //never create, or be destroyed region
                 if(!region || !region.get(0)){
                     region=d._Region=linb.create(s1+'top'+s2+'left:0;top:0;width:100%;height:0;"></div>'+s1+'right'+s2+'right:0;top:0;height:100%;width:0;"></div>'+s1+'bottom'+s2+'bottom:0;left:0;width:100%;height:0;"></div>'+s1+'left:solid 2px #ff6600;width:0;left:0;top:0;height:100%;"></div>');
                     rh=d._rh=linb([region.get(1),region.get(3)]);
@@ -8064,7 +8064,7 @@ Class('linb.DragDrop',null,{
             if(!dom.byId(d._id))
                 linb('body').prepend(
                     //&nbsp; for IE6
-                    linb.create('<div id="' + d._id + '" style="left:0;top:0;border:0;font-size:0;line-height:0;padding:'+d.$proxySize+'px; position: absolute;"><div style="font-size:0;line-height:0;" id="' +d._idi+ '">'+(linb.browser.ie6?'&nbsp;':'')+'</div></div>')
+                    linb.create('<div id="' + d._id + '" style="left:0;top:0;border:0;font-size:0;line-height:0;padding:'+d.$proxySize+'px;position:absolute;background:url('+linb.ini.file_bg+') repeat;"><div style="font-size:0;line-height:0;" id="' +d._idi+ '">'+(linb.browser.ie6?'&nbsp;':'')+'</div></div>')
                 );
             t=linb(d._id);
             if(p.dragKey){
@@ -12529,7 +12529,7 @@ Class("linb.UI",  "linb.absObj", {
             if(self.box._onresize){
                 var style=self.getRootNode().style,t
                 if((t=style.visibility)!='hidden'){
-                   self._$v=t;
+                   self._$visibility=t;
                    style.visibility='hidden';
                 }
                 linb.UI.$tryResize(self,p.width,p.height);
@@ -12554,10 +12554,17 @@ Class("linb.UI",  "linb.absObj", {
                 if(profile.onResize)
                     profile.boxing().onResize(profile,w,h);
             }
-            //to prevent the functioin in $tryResize
-            if(profile._$resizetimer){
-                clearTimeout(profile._$resizetimer);
-                delete profile._$resizetimer;
+
+            //some control will set visible to recover the css class
+            if('_$visibility' in profile){
+                var style=profile.getRootNode().style;
+                if(style.visibility!='visible')
+                    style.visibility=profile._$visibility;
+                style=null;
+                clearTimeout(profile._$rs_timer);
+                delete profile._$rs_timer;
+                delete profile._$rs_args;
+                delete profile._$visibility;
             }
         },
         $tryResize:function(profile,w,h,force,key){
@@ -12568,24 +12575,14 @@ Class("linb.UI",  "linb.absObj", {
                 h=((h===""||h=='auto')?"auto":parseInt(h))||null;
 
                 //if it it has delay resize, overwrite arguments
-                if('_$v' in profile){
-                    var args=profile.$rs_args;
+                if('_$visibility' in profile){
+                    var args=profile._$rs_args;
+                    // asyrun once only
                     if(!args){
-                        args=profile.$rs_args=[profile,null,null];
-                        profile._$resizetimer=_.asyRun(function(){
-//for performance checking
-//console.log('delay resize',profile.$rs_args);
-                            //for refresh:
-                            if(profile && profile.$rs_args)
-                                if(false!==linb.UI.$doResize.apply(null,profile.$rs_args)){
-                                    var style=profile.getRootNode().style;
-                                    //some control will set visible to recover the css class
-                                    if(style.visibility!='visible')
-                                        style.visibility=profile._$v;
-                                    delete profile.$rs_args;
-                                    delete profile._$v;
-                                    style=null;
-                                }
+                        args=profile._$rs_args=[profile,null,null];
+                        profile._$rs_timer=_.asyRun(function(){
+                            if(profile && profile._$rs_args)
+                                linb.UI.$doResize.apply(null,profile._$rs_args);
                         });
                     }
                     //keep the last one, neglect zero and 'auto'

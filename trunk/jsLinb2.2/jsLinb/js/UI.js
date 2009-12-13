@@ -3470,7 +3470,7 @@ Class("linb.UI",  "linb.absObj", {
             if(self.box._onresize){
                 var style=self.getRootNode().style,t
                 if((t=style.visibility)!='hidden'){
-                   self._$v=t;
+                   self._$visibility=t;
                    style.visibility='hidden';
                 }
                 linb.UI.$tryResize(self,p.width,p.height);
@@ -3495,10 +3495,17 @@ Class("linb.UI",  "linb.absObj", {
                 if(profile.onResize)
                     profile.boxing().onResize(profile,w,h);
             }
-            //to prevent the functioin in $tryResize
-            if(profile._$resizetimer){
-                clearTimeout(profile._$resizetimer);
-                delete profile._$resizetimer;
+
+            //some control will set visible to recover the css class
+            if('_$visibility' in profile){
+                var style=profile.getRootNode().style;
+                if(style.visibility!='visible')
+                    style.visibility=profile._$visibility;
+                style=null;
+                clearTimeout(profile._$rs_timer);
+                delete profile._$rs_timer;
+                delete profile._$rs_args;
+                delete profile._$visibility;
             }
         },
         $tryResize:function(profile,w,h,force,key){
@@ -3509,24 +3516,14 @@ Class("linb.UI",  "linb.absObj", {
                 h=((h===""||h=='auto')?"auto":parseInt(h))||null;
 
                 //if it it has delay resize, overwrite arguments
-                if('_$v' in profile){
-                    var args=profile.$rs_args;
+                if('_$visibility' in profile){
+                    var args=profile._$rs_args;
+                    // asyrun once only
                     if(!args){
-                        args=profile.$rs_args=[profile,null,null];
-                        profile._$resizetimer=_.asyRun(function(){
-//for performance checking
-//console.log('delay resize',profile.$rs_args);
-                            //for refresh:
-                            if(profile && profile.$rs_args)
-                                if(false!==linb.UI.$doResize.apply(null,profile.$rs_args)){
-                                    var style=profile.getRootNode().style;
-                                    //some control will set visible to recover the css class
-                                    if(style.visibility!='visible')
-                                        style.visibility=profile._$v;
-                                    delete profile.$rs_args;
-                                    delete profile._$v;
-                                    style=null;
-                                }
+                        args=profile._$rs_args=[profile,null,null];
+                        profile._$rs_timer=_.asyRun(function(){
+                            if(profile && profile._$rs_args)
+                                linb.UI.$doResize.apply(null,profile._$rs_args);
                         });
                     }
                     //keep the last one, neglect zero and 'auto'

@@ -540,7 +540,7 @@ Class('linb.DragDrop',null,{
             }
 
             if(target){
-                //never create, or be destroyed region 
+                //never create, or be destroyed region
                 if(!region || !region.get(0)){
                     region=d._Region=linb.create(s1+'top'+s2+'left:0;top:0;width:100%;height:0;"></div>'+s1+'right'+s2+'right:0;top:0;height:100%;width:0;"></div>'+s1+'bottom'+s2+'bottom:0;left:0;width:100%;height:0;"></div>'+s1+'left:solid 2px #ff6600;width:0;left:0;top:0;height:100%;"></div>');
                     rh=d._rh=linb([region.get(1),region.get(3)]);
@@ -573,7 +573,7 @@ Class('linb.DragDrop',null,{
             if(!dom.byId(d._id))
                 linb('body').prepend(
                     //&nbsp; for IE6
-                    linb.create('<div id="' + d._id + '" style="left:0;top:0;border:0;font-size:0;line-height:0;padding:'+d.$proxySize+'px; position: absolute;"><div style="font-size:0;line-height:0;" id="' +d._idi+ '">'+(linb.browser.ie6?'&nbsp;':'')+'</div></div>')
+                    linb.create('<div id="' + d._id + '" style="left:0;top:0;border:0;font-size:0;line-height:0;padding:'+d.$proxySize+'px;position:absolute;background:url('+linb.ini.file_bg+') repeat;"><div style="font-size:0;line-height:0;" id="' +d._idi+ '">'+(linb.browser.ie6?'&nbsp;':'')+'</div></div>')
                 );
             t=linb(d._id);
             if(p.dragKey){
