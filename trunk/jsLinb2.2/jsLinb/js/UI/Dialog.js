@@ -1103,8 +1103,8 @@ if(linb.browser.ie){
                 },
                 {
                     onClick:function(){
-                        _.tryF(me.onYes,[me.$inp.getUIValue()]);
-                        return close();
+                        if(false!==_.tryF(me.onYes,[me.$inp.getUIValue()]))
+                            return close();
                     }
                 }));
 
