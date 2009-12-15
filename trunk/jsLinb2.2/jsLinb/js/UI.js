@@ -1091,9 +1091,8 @@ Class("linb.UI",  "linb.absObj", {
         },
         setProperties:function(key, value){
             return this.each(function(o){
-                var ins=o.boxing();
                 _.each(prop=typeof key=="object"?key:{key:value}, function(v,k){
-                    var funName="set"+_.str.initial(k);
+                    var funName="set"+_.str.initial(k),ins=o.boxing();
                     if(typeof ins[funName]=='function')
                         ins[funName].call(ins, v);
                 });
@@ -1472,7 +1471,7 @@ Class("linb.UI",  "linb.absObj", {
             return this.each(function(o){
                 var c=_.copy(o.children);
                 _.arr.each(c,function(v){
-                    if(subId?typeof subId=='string'?(v[1]==subId):(v[0]==(subId["linb.UI"]?subId.get(0):subId)):1){
+                    if(subId===true?1:subId?typeof subId=='string'?(v[1]==subId):(v[0]==(subId["linb.UI"]?subId.get(0):subId)):1){
                         if(o.beforeRemove && false===o.boxing().beforeRemove(o,v[0],v[1],bDestroy))
                             return;
 

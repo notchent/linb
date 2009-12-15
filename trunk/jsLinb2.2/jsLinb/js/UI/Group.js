@@ -4,6 +4,19 @@ Class("linb.UI.Group", "linb.UI.Div",{
             var profile = this.get(0);
             profile.getSubNode('HANDLE').focus();
             return this;
+        },
+        resetPanelView:function(destroyChildren){
+            if(!_.isSet(destroyChildren))destroyChildren=true;
+            var ins;
+            return this.each(function(profile){
+                if(profile.renderId){
+                    delete profile.$ini;
+                    ins=profile.boxing();
+                    ins.removeChildren(true,destroyChildren)
+                    if(profile.properties.toggle)
+                        ins.setToggle(false);
+                }
+            });
         }
     },
     Static:{

@@ -12,6 +12,19 @@ Class("linb.UI.Panel", "linb.UI.Div",{
                 profile.getSubNode('CAPTION').focus();
                 cls.activeWndId=profile.$linbid;
             }
+        },
+        resetPanelView:function(destroyChildren){
+            if(!_.isSet(destroyChildren))destroyChildren=true;
+            var ins;
+            return this.each(function(profile){
+                if(profile.renderId){
+                    delete profile.$ini;
+                    ins=profile.boxing();
+                    ins.removeChildren(true,destroyChildren)
+                    if(profile.properties.toggle)
+                        ins.setToggle(false);
+                }
+            });
         }
     },
     Static:{

@@ -1490,6 +1490,11 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                     linb(src).onMouseout(true,{$force:true}).onMouseup(true);
                 },
                 beforeMouseover:function(profile, e, src){
+                    var p=profile.properties,
+                    id = profile.getSubId(src),
+                    col = profile.colMap[id];
+                    if(p.disabled || col.disabled)return false;
+
                     if(false===profile.box._colDragCheck(profile,src))return;
                     linb.DragDrop.setDropElement(src).setDropFace(src,'move');
                     profile.getSubNode("ARROW")
@@ -1498,17 +1503,26 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                     .css("display","block");
                 },
                 beforeMouseout:function(profile, e, src){
+                    var p=profile.properties,
+                    id = profile.getSubId(src),
+                    col = profile.colMap[id];
+                    if(p.disabled || col.disabled)return false;
+
                     linb.DragDrop.setDropElement(null).setDropFace(null,'none');
                     if(false===profile.box._colDragCheck(profile,src))return;
                     profile.getSubNode("ARROW").css("display","none");
                 },
                 onDrop:function(profile, e, src){
+                    var p=profile.properties,
+                    id = profile.getSubId(src),
+                    col = profile.colMap[id];
+                    if(p.disabled || col.disabled)return false;
+
                     profile.getSubNode("ARROW").css("display","none");
                     if(false===profile.box._colDragCheck(profile,src))return;
 
                     //check dragData
-                    var p=profile.properties,
-                    data=linb.DragDrop.getProfile().dragData,
+                    var data=linb.DragDrop.getProfile().dragData,
                     fromId = data && profile.getSubId(data),
                     toId = profile.getSubId(src);
 
@@ -1565,9 +1579,11 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                     delete profile.$allrowscache;
                 },
                 onMouseover:function(profile,e,src){
-                    var p=profile.properties;
-                    if(p.disabled)return;
-                    var col=profile.colMap[profile.getSubId(src)];
+                    var p=profile.properties,
+                    id = profile.getSubId(src),
+                    col = profile.colMap[id];
+                    if(p.disabled || col.disabled)return false;
+
                     if(!(col.hasOwnProperty('colHidable')?col.colHidable:p.colHidable))return;
 
                     _.resetRun(profile.$linbid+':collist',null);
@@ -1582,9 +1598,10 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                     profile.getSubNode('COLLIST').cssRegion(region).css('visibility','visible');
                 },
                 onMouseout:function(profile,e,src){
-                    var p=profile.properties;
-                    if(p.disabled)return;
-                    var col=profile.colMap[profile.getSubId(src)];
+                    var p=profile.properties,
+                    id = profile.getSubId(src),
+                    col = profile.colMap[id];
+                    if(p.disabled || col.disabled)return false;
                     if(!(col.hasOwnProperty('colHidable')?col.colHidable:p.colHidable))return;
 
                     _.resetRun(profile.$linbid+':collist',function(){
@@ -1632,13 +1649,17 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
             },
             CELLS:{
                 afterMouseover:function(profile, e, src){
-                    if(profile.properties.disableHover)return;
-                    if(profile.properties.activeMode=='row')
+                    var p=profile.properties;
+                    if(p.disabled)return;
+                    if(p.disableHover)return;
+                    if(p.activeMode=='row')
                         linb.use(src).tagClass('-mouseover');
                 },
                 afterMouseout:function(profile, e, src){
-                    if(profile.properties.disableHover)return;
-                    if(profile.properties.activeMode=='row')
+                    var p=profile.properties;
+                    if(p.disabled)return;
+                    if(p.disableHover)return;
+                    if(p.activeMode=='row')
                         linb.use(src).tagClass('-mouseover',false);
                 },
                 onDblclick:function(profile, e, src){
@@ -1657,13 +1678,17 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
             },
             CELL:{
                 afterMouseover:function(profile, e, src){
-                    if(profile.properties.disableHover)return;
-                    if(profile.properties.activeMode=='cell')
+                    var p=profile.properties;
+                    if(p.disabled)return;
+                    if(p.disableHover)return;
+                    if(p.activeMode=='cell')
                         linb.use(src).tagClass('-mouseover');
                 },
                 afterMouseout:function(profile, e, src){
-                    if(profile.properties.disableHover)return;
-                    if(profile.properties.activeMode=='cell')
+                    var p=profile.properties;
+                    if(p.disabled)return;
+                    if(p.disableHover)return;
+                    if(p.activeMode=='cell')
                         linb.use(src).tagClass('-mouseover',false);
                 }
             },
@@ -1671,6 +1696,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                 onDblclick:function(profile, e, src){
                     var cell = profile.cellMap[profile.getSubId(src)];
                     if(!cell)return;
+                    if(profile.properties.disabled)return;
                     var box=profile.box,
                         getPro=box.getCellPro,
                         type=getPro(profile, cell, 'type'),
@@ -1683,6 +1709,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                 onClick:function(profile, e, src){
                     var cell = profile.cellMap[profile.getSubId(src)];
                     if(!cell)return;
+                    if(profile.properties.disabled)return;
                     var p = profile.properties,
                         box=profile.box,
                         getPro=box.getCellPro,
@@ -1721,6 +1748,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                     return false;
                 },
                 onFocus:function(profile, e, src){
+                    if(profile.properties.disabled)return;
                     var p = profile.properties,
                         box=profile.box,
                         getPro=box.getCellPro,
@@ -2310,13 +2338,13 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                 reg1=/</g,
                 me=arguments.callee,
                 dcls=me._dcls||(me._dcls=profile.getClass('CELL', '-disabled')),
-                //1. $caption in cell (for special set)
+                //1. _$caption in cell (for special set)
                 //2. caption in ncell(if [ncell] is not [cell], the [caption] maybe is the result of cell.renderer)
                 //3. renderer in cell
                 //4. default caption function
                 //5. value in cell
                 //6. ""
-                ren=me._ren||(me._ren=function(profile,cell,ncell,fun){return typeof cell.$caption=='string'? cell.$caption: typeof ncell.caption =='string'?ncell.caption: typeof (cell.renderer||cell._renderer)=='function'? (cell.renderer||cell._renderer).call(profile,cell) : typeof fun=='function'?fun(cell.value):(_.isSet(cell.value)?String(cell.value):"") || ""}),
+                ren=me._ren||(me._ren=function(profile,cell,ncell,fun){return typeof cell._$caption=='string'? cell._$caption: typeof ncell.caption =='string'?ncell.caption: typeof (cell.renderer||cell._renderer)=='function'? (cell.renderer||cell._renderer).call(profile,cell) : typeof fun=='function'?fun(cell.value):(_.isSet(cell.value)?String(cell.value):"") || ""}),
                 f1=me._f1=(me._f1=function(v){return v?linb.Date.getText(new Date(parseInt(v)), 'ymd'):""}),
                 f2=me._f2=(me._f2=function(v){return (v.split('\n')[0]||"").replace(/ /g,'&nbsp;').replace(reg1,'&lt;')}),
                 f3=me._f3=(me._f3=function(v){return v*1000/10+'%'})
@@ -2634,7 +2662,7 @@ sortby [for column only]
             if(!cell)return;
 
             if(!_.isObj(options))options={value:options};
-            options=_.filter(options,function(o,i){return !sc[i.charAt(0)] || i=='$caption' });
+            options=_.filter(options,function(o,i){return !sc[i.charAt(0)] || i=='_$caption' });
 
             if(false === profile.boxing().beforeCellUpdated(profile, cell, options))
                 return;
@@ -2947,7 +2975,7 @@ sortby [for column only]
             //editor change value, update cell value
             editor
             .afterUIValueSet(function(pro,oV,nV){
-                var type=getPro('type'),$caption;
+                var type=getPro('type'),_$caption;
                 switch(type){
                     case 'number':
                         nV=parseFloat(nV);
@@ -2955,10 +2983,10 @@ sortby [for column only]
                     case 'combobox':
                     case 'listbox':
                     case 'helpinput':
-                        $caption=pro.boxing().getShowValue();
+                        _$caption=pro.boxing().getShowValue();
                         break;
                 }
-                grid._updCell(profile, cellId, {value:nV, $caption:$caption}, profile.properties.dirtyMark);
+                grid._updCell(profile, cellId, {value:nV, _$caption:_$caption}, profile.properties.dirtyMark);
             })
             .beforeNextFocus(function(pro, e){
                 if(editor){
