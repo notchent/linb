@@ -170,7 +170,7 @@ Class("linb.UI.Group", "linb.UI.Div",{
 
             data.panelDisplay = data.toggleBtn&&!data.toggle?nodisplay:'';
             data.toggleCls = data.toggleBtn&&!data.toggle?profile.getClass('FIELDSET','-checked'):'';
-            data.toggleCls2 = data.toggleBtn&&!data.toggle?'uicmd-toggle2-checked':'';
+            data.toggleCls2 = data.toggleBtn&&data.toggle?'uicmd-toggle2-checked':'';
             return data;
         },
         _onresize:function(profile,width,height){
