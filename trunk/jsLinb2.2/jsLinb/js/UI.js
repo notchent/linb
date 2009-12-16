@@ -1724,6 +1724,7 @@ Class("linb.UI",  "linb.absObj", {
                 listbox:['','visible','hidden'],
                 action:function(value){
                     this.getRoot().css('visibility',value);
+                    linb.setNodeData(this.getRootNode(),'_setVisibility',1);
                 }
             },
             display:{
@@ -3497,10 +3498,11 @@ Class("linb.UI",  "linb.absObj", {
 
             //some control will set visible to recover the css class
             if('_$visibility' in profile){
-                var style=profile.getRootNode().style;
-                if(style.visibility!='visible')
+                var node=profile.getRootNode(),
+                    style=node.style;
+                if(style.visibility!='visible' && !linb.getNodeData(node,'_setVisibility'))
                     style.visibility=profile._$visibility;
-                style=null;
+                node=style=null;
                 clearTimeout(profile._$rs_timer);
                 delete profile._$rs_timer;
                 delete profile._$rs_args;
