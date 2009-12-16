@@ -144,7 +144,7 @@ Class('App', 'linb.Com',{
                 .setColHidable(true)
                 .setDropKeys("abc")
                 .setDragKey("abc")
-                .beoforeComboPop("_tg1_beoforeComboPop")
+                .beforeComboPop("_tg1_beforeComboPop")
                 .onClickCell("_tg1_onClickcell")
             , 'a');
 
@@ -174,7 +174,7 @@ Class('App', 'linb.Com',{
                 .setLeft(230)
                 .setTop(30)
                 .setType("popbox")
-                .beoforeComboPop("_comboinput8_beoforeComboPop")
+                .beforeComboPop("_comboinput8_beforeComboPop")
             , 'c');
 
             host.tabs.append((new linb.UI.ComboInput)
@@ -182,7 +182,7 @@ Class('App', 'linb.Com',{
                 .setLeft(80)
                 .setTop(30)
                 .setType("popbox")
-                .beoforeComboPop("_comboinput4_beoforeComboPop")
+                .beforeComboPop("_comboinput4_beforeComboPop")
             , 'c');
 
             host.tabs.append((new linb.UI.ComboInput)
@@ -190,7 +190,7 @@ Class('App', 'linb.Com',{
                 .setLeft(80)
                 .setTop(100)
                 .setType("popbox")
-                .beoforeComboPop("_comboinput9_beoforeComboPop")
+                .beforeComboPop("_comboinput9_beforeComboPop")
             , 'c');
 
             host.tabs.append((new linb.UI.ComboInput)
@@ -198,7 +198,7 @@ Class('App', 'linb.Com',{
                 .setLeft(230)
                 .setTop(100)
                 .setType("popbox")
-                .beoforeComboPop("_comboinput10_beoforeComboPop")
+                .beforeComboPop("_comboinput10_beforeComboPop")
             , 'c');
 
             return children;
@@ -273,7 +273,7 @@ Class('App', 'linb.Com',{
         _tg1_onClickcell:function(profile, cell){
             linb.message(cell._row.id+'/'+cell._col.id+' clicked!');
         },
-        _tg1_beoforeComboPop:function(profile, cell, proEditor){
+        _tg1_beforeComboPop:function(profile, cell, proEditor){
             switch(profile.box.getCellPro(profile, cell, 'type')){
                 case 'getter':
                     proEditor.boxing().setUIValue(_());
@@ -435,7 +435,7 @@ Class('App', 'linb.Com',{
                 linb.Event.keyboardHook('esc');
             });
         },
-        _comboinput4_beoforeComboPop:function (profile, pos, e, src) {
+        _comboinput4_beforeComboPop:function (profile, pos, e, src) {
             this._poptg(profile,pos,'cell','single',function(p, oldValue, newValue) {
                 var a=(newValue||'').split('|');
                 newValue=p.boxing().getCellbyRowCol(a[0],a[1]);
@@ -444,7 +444,7 @@ Class('App', 'linb.Com',{
              });
              return false;
         },
-        _comboinput8_beoforeComboPop:function (profile, pos, e, src) {
+        _comboinput8_beforeComboPop:function (profile, pos, e, src) {
             this._poptg(profile,pos,'cell','multi',function(p, oldValue, newValue) {
                 newValue=newValue||'';
                 var a=[];
@@ -457,14 +457,14 @@ Class('App', 'linb.Com',{
              });
              return false;
         },
-        _comboinput9_beoforeComboPop:function (profile, pos, e, src) {//
+        _comboinput9_beforeComboPop:function (profile, pos, e, src) {//
             this._poptg(profile,pos,'row','single',function(p, oldValue, newValue) {
                 profile.boxing().setUIValue(newValue);
                 SPA.popTg.hide();
              });
              return false;
         },
-        _comboinput10_beoforeComboPop:function (profile, pos, e, src) {
+        _comboinput10_beforeComboPop:function (profile, pos, e, src) {
              this._poptg(profile,pos,'row','multi',function(p, oldValue, newValue) {
                 profile.boxing().setUIValue(newValue);
              });

@@ -17,7 +17,7 @@ append((new linb.UI.TreeGrid)
                 .setColHidable(true)
                 .setDropKeys("abc")
                 .setDragKey("abc")
-                .beoforeComboPop("_tg1_beoforeComboPop")
+                .beforeComboPop("_tg1_beforeComboPop")
                 .onClickCell("_tg1_onClickcell")
             );
             
@@ -27,7 +27,7 @@ append((new linb.UI.TreeGrid)
         _tg1_onClickcell:function(profile, cell){
             linb.message(cell._row.id+'/'+cell._col.id+' clicked!');
         },
-        _tg1_beoforeComboPop:function(profile, cell, proEditor){
+        _tg1_beforeComboPop:function(profile, cell, proEditor){
             switch(profile.box.getCellPro(profile, cell, 'type')){
                 case 'getter':
                     proEditor.boxing().setUIValue(_());

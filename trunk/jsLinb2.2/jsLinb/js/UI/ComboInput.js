@@ -171,7 +171,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
 
 
                 //special cmd type: getter, 'cmdbox' and 'popbox'
-                if((profile.beoforeComboPop && false===box.beoforeComboPop(profile, pos, e, src))||type=='getter'||type=='cmdbox'||type=='popbox')
+                if((profile.beforeComboPop && false===box.beforeComboPop(profile, pos, e, src))||type=='getter'||type=='cmdbox'||type=='popbox')
                     return;
 
                 //get cache key
@@ -819,7 +819,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
         EventHandlers:{
             onFileDlgOpen:function(profile, node){},
             onCommand:function(profile, node){},
-            beoforeComboPop:function(profile, pos, e, src){},
+            beforeComboPop:function(profile, pos, e, src){},
             onClick:function(profile, e, src, value){}
         },
         _posMap:{

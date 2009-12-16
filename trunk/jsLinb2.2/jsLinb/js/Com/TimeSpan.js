@@ -200,7 +200,7 @@ Class('linb.Com.TimeSpan', 'linb.Com',{
                 .setLeft(60)
                 .setTop(30)
                 .setWidth(340)
-                .beoforeComboPop("_clc")
+                .beforeComboPop("_clc")
             );
             
             host.panel61.append((new linb.UI.ComboInput)

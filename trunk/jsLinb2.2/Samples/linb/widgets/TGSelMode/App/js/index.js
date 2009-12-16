@@ -39,7 +39,7 @@ Class('App', 'linb.Com',{
                 .setLeft(170)
                 .setTop(214)
                 .setType("popbox")
-                .beoforeComboPop("_comboinput8_beoforeComboPop")
+                .beforeComboPop("_comboinput8_beforeComboPop")
             );
             
             append((new linb.UI.ComboInput)
@@ -47,7 +47,7 @@ Class('App', 'linb.Com',{
                 .setLeft(170)
                 .setTop(60)
                 .setType("popbox")
-                .beoforeComboPop("_comboinput4_beoforeComboPop")
+                .beforeComboPop("_comboinput4_beforeComboPop")
             );
             
             append((new linb.UI.ComboInput)
@@ -55,7 +55,7 @@ Class('App', 'linb.Com',{
                 .setLeft(170)
                 .setTop(140)
                 .setType("popbox")
-                .beoforeComboPop("_comboinput9_beoforeComboPop")
+                .beforeComboPop("_comboinput9_beforeComboPop")
             );
             
             append((new linb.UI.ComboInput)
@@ -63,7 +63,7 @@ Class('App', 'linb.Com',{
                 .setLeft(170)
                 .setTop(294)
                 .setType("popbox")
-                .beoforeComboPop("_comboinput10_beoforeComboPop")
+                .beforeComboPop("_comboinput10_beforeComboPop")
             );
             
             return children;
@@ -92,7 +92,7 @@ Class('App', 'linb.Com',{
                 linb.Event.keyboardHook('esc');
             });
         }, 
-        _comboinput4_beoforeComboPop:function (profile, pos, e, src) {
+        _comboinput4_beforeComboPop:function (profile, pos, e, src) {
             this._poptg(profile,pos,'cell','single',function(p, oldValue, newValue) {
                 var a=(newValue||'').split('|');
                 newValue=p.boxing().getCellbyRowCol(a[0],a[1]);
@@ -101,7 +101,7 @@ Class('App', 'linb.Com',{
              });
              return false;
         }, 
-        _comboinput8_beoforeComboPop:function (profile, pos, e, src) {
+        _comboinput8_beforeComboPop:function (profile, pos, e, src) {
             this._poptg(profile,pos,'cell','multi',function(p, oldValue, newValue) {
                 newValue=newValue||'';
                 var a=[];
@@ -114,14 +114,14 @@ Class('App', 'linb.Com',{
              });
              return false;
         }, 
-        _comboinput9_beoforeComboPop:function (profile, pos, e, src) {//
+        _comboinput9_beforeComboPop:function (profile, pos, e, src) {//
             this._poptg(profile,pos,'row','single',function(p, oldValue, newValue) {
                 profile.boxing().setUIValue(newValue);
                 SPA.popTg.hide();
              });
              return false;
         }, 
-        _comboinput10_beoforeComboPop:function (profile, pos, e, src) {
+        _comboinput10_beforeComboPop:function (profile, pos, e, src) {
              this._poptg(profile,pos,'row','multi',function(p, oldValue, newValue) {
                 profile.boxing().setUIValue(newValue);
              });

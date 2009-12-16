@@ -2100,7 +2100,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
             afterCellUpdated:function(profile, cell, options){},
 
             onDblclickRow:function(profile, row, e, src){},
-            beoforeComboPop:function(profile, cell, proEditor, pos, e, src){},
+            beforeComboPop:function(profile, cell, proEditor, pos, e, src){},
             onClickCell:function(profile, cell, e, src){},
             onDblclickCell:function(profile, cell, e, src){},
             onClickGridHandler:function(profile, e, src){}
@@ -2882,14 +2882,14 @@ sortby [for column only]
                     case 'getter':
                     case 'popbox':
                     case 'cmdbox':
-                        editor.setType(type).beoforeComboPop(function(pro, pos, e, src){
+                        editor.setType(type).beforeComboPop(function(pro, pos, e, src){
                             var cell=pro.$cell,event=profile.box.getCellPro(profile, cell, 'event');
                             if(profile.box.getCellPro(profile, cell,'disabled'))
                                 return false;
                             if(typeof event == 'function')
                                 return event.call(profile._host||profile, profile, cell, pro, pos,e,src);
                             else
-                                return profile.boxing().beoforeComboPop(profile, cell, pro, pos, e, src);
+                                return profile.boxing().beforeComboPop(profile, cell, pro, pos, e, src);
                         });
                         break;
                 }

@@ -2461,7 +2461,7 @@ Class('VisualJS.Designer', 'linb.Com',{
             .setType("popbox")
             .setInputReadonly(true)
             .setDirtyMark(false)
-            .beoforeComboPop("$listobject_onlistshow")
+            .beforeComboPop("$listobject_onlistshow")
             );
 
             t.panelRigth.append(
