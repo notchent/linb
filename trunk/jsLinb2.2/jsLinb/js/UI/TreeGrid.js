@@ -2407,7 +2407,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
 
             cell._$tips=caption;
 
-            var t2=getPro(profile, cell, 'disabled');
+            var t2=cell.disabled || cell._row.disabled || cell._col.disabled;
             if(!dom){
 /*
 cellStyle

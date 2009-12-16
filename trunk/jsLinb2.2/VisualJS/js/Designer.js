@@ -1873,7 +1873,7 @@ Class('VisualJS.Designer', 'linb.Com',{
                 var getCode=function(o){
                     var code;
                     //get from profile:o.profile[o.funName]
-                    var funName = typeof o.profile[o.funName] == 'string'? o.profile[o.funName] : ('_'+o.widgetName.toLowerCase()+'_'+o.funName.toLowerCase());
+                    var funName = typeof o.profile[o.funName] == 'string'? o.profile[o.funName] : ('_'+o.widgetName.toLowerCase().replace(/\./g,'_')+'_'+o.funName.toLowerCase());
                     var item = _.get(o.clsStruct, ['sub','Instance', 'sub', funName]);
                     var comments = (item? (item.comments || '') :'');
                     if(comments)comments = comments.replace(/^[\r\n]*/, '');
@@ -1887,7 +1887,7 @@ Class('VisualJS.Designer', 'linb.Com',{
                         code = _.str.repeat(' ',8) + o.ini.toString().replace(/\n/g,'\n'+_.str.repeat(' ',8));
 
                         //new em
-                        o.mapName = '_'+o.widgetName.toLowerCase()+'_'+o.funName.toLowerCase();
+                        o.mapName = '_'+o.widgetName.toLowerCase().replace(/\./g,'_')+'_'+o.funName.toLowerCase();
                         //avoid name conflict
                         var pool = _.get(o.clsStruct, ['sub','Instance', 'sub']);
                         if(pool[o.mapName]){
