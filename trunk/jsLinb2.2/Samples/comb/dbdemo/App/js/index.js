@@ -6,10 +6,6 @@ Class('App', 'linb.Com',{
         required:["linb.UI.Block", "linb.UI.TreeGrid", "linb.UI.Group", "linb.UI.Input", "linb.UI.Button", "linb.UI.Label"], 
         properties:{}, 
         events:{"onReady":"_onready", "onRender":"_onrender"}, 
-        iniResource:function(com, threadid){
-        }, 
-        iniExComs:function(com, hreadid){
-        }, 
         iniComponents:function(){
             // [[code created by jsLinb UI Builder
             var host=this, children=[], append=function(child){children.push(child.get(0))};

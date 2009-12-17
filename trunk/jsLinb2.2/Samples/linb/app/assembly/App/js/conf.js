@@ -1,7 +1,6 @@
 CONF={
     //Dynamic Injector Mechanism for linb.ComFactory
     ComFactoryProfile:{
-        //_iniMethod:'create',
         port:{
             cls:'App',
             children:{

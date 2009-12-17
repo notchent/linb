@@ -88,13 +88,17 @@ Class('linb.Com',null,{
             var self=this;
             return _.tryF(self[name],[self, self.threadid],self);
         },
-        customAppend:function(parent,subId,left,top){
+        customAppend:function(parent,subId,left,top,threadid){
             return false;
         },
         show:function(onEnd,parent,subId,threadid,left,top){
             var self=this,f=function(){
-                self.render();
-                if(false===_.tryF(self.customAppend,[parent,subId,left,top], self))
+                // if it's an ui object without rendered
+                if(parent && parent['linb.UI'] && !parent.get(0).renderId){
+                }else{
+                    self.render();
+                }
+                if(false===_.tryF(self.customAppend,[parent,subId,left,top,threadid], self))
                     (parent||linb('body')).append(self.getUIComponents(),subId);
                 _.tryF(onEnd,[self, threadid],self.host);
             };

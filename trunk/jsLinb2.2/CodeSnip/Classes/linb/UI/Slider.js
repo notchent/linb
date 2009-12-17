@@ -144,9 +144,6 @@ Class('App.linb_UI_Slider', 'linb.Com',{
             return children;
             // ]]code created by jsLinb UI Builder
         }, 
-        iniExComs:function(com, hreadid){
-        }, 
-
         _slider1_afteruivalueset:function (profile, oldValue, newValue) {
             this.div14.setHtml(newValue)
         }, 

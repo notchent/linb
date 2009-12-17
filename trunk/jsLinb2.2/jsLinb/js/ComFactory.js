@@ -38,43 +38,50 @@ Class('linb.ComFactory',null,{
         //singleton:false->don't get it from cache, and don't cache the result.
         getCom:function(id, onEnd, threadid, singleton, properties, events){
             singleton=singleton!==false;
-            var c=this._cache,p=this._pro,ini=p._iniMethod;
+            var c=this._cache,
+                p=this._pro,
+                config,
+                clsPath;
+
             if(singleton && c[id]){
                 _.tryF(onEnd, [threadid,c[id]], c[id]);
                 return c[id];
             }else{
-                if(!(p=p[id]))
-                    p={cls:id};
+                // if no configure
+                if(!(config=p[id])){
+                    config={
+                        cls:id,
+                        singleton:singleton,
+                        properties:properties,
+                        events:events
+                    };
+                    clsPath=id;
+                }else
+                    clsPath=config.cls || config;
 
-                var self=arguments.callee, me=this, children=p.children;
-                //ensure array
-                var iniMethod = p.iniMethod || ini || 'create',
-                    clsPath = p.cls || p,
-                    properties = properties || p.properties,
-                    events = events || p.events,
-                    singleton=p.singleton!==false,
-                    cls,
-                    task=function(cls,properties,threadid){
+                var self=arguments.callee, 
+                    me=this,
+                    task=function(cls,config,threadid){
                         var o = new cls();
-                        if(properties)
-                            _.merge(o.properties,properties,'all');
-                        if(events)
-                            _.merge(o.events,events,'all');
 
-                        if(singleton)
+                        if(config.properties)
+                            _.merge(o.properties,config.properties,'all');
+                        if(config.events)
+                            _.merge(o.events,config.events,'all');
+                        if(config.singleton!==false)
                             linb.ComFactory.setCom(id, o);
 
                         var args = [function(com){
                             var arr = com.getUIComponents().get(),
-                                fun=function(arr,firstlayer){
+                                fun=function(arr,subcfg,firstlayer){
                                     var self1 = arguments.callee;
                                     _.arr.each(arr,function(v,i){
                                         //if tag exists, replace tag with com from linb.ComFactory
                                         if(v.key=='linb.UI.Tag'){
                                             var tag=v, cid=tag.properties.tagKey;
 
-                                            if(cid && children && children[cid])
-                                                self.apply(me, [children[cid], function(){
+                                            if(cid && subcfg && subcfg[cid])
+                                                self.apply(me, [subcfg[cid], function(){
                                                     //set link to parent com(linb.Com)
                                                     com[cid]=this;
                                                     //set com parent
@@ -93,12 +100,12 @@ Class('linb.ComFactory',null,{
                                             _.arr.each(v.children,function(o){
                                                 a[a.length]=o[0];
                                             });
-                                            self1(a);
+                                            self1(a, subcfg);
                                         }
                                     });
                                 };
                             //handle tag sub from com
-                            fun(arr,1);
+                            fun(arr,config.children,1);
                         }];
                         args.push(threadid||null);
 
@@ -110,27 +117,25 @@ Class('linb.ComFactory',null,{
                                 scope:o
                             });
                         //latter
-                        _.tryF(o[iniMethod], args, o);
+                        _.tryF(o[config.iniMethod ||'create'], args, o);
                     };
                 linb.Thread.observableRun(function(threadid){
-                        var f=function(a,b,threadid){
-                            var cls;
-                            if(cls=linb.SC.get(clsPath)){
-                                linb.Thread(threadid).insert({
-                                    task:task,
-                                    args:[cls, properties, threadid]
-                                });
-                            }
-                        };
-                        linb.SC(clsPath, function(path){
-                            if(path)
-                                f(0,0,threadid);
-                            else
-                                throw new Error(clsPath+' doesnt exists!');
-                        }, true,threadid);
-
-                    },null,threadid
-                );
+                    var f=function(a,b,threadid){
+                        var cls;
+                        if(cls=linb.SC.get(clsPath)){
+                            linb.Thread(threadid).insert({
+                                task:task,
+                                args:[cls, config,threadid]
+                            });
+                        }
+                    };
+                    linb.SC(clsPath, function(path){
+                        if(path)
+                            f(0,0,threadid);
+                        else
+                            throw new Error(clsPath+' doesnt exists!');
+                    }, true,threadid);
+                },null,threadid);
             }
         },
         newCom:function(cls, onEnd, threadid, properties, events){
