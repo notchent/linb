@@ -80,7 +80,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
             //if parent not open, return
             if(pid){
                 var parent = profile.rowMap[pid];
-                if(parent && !parent._created)return;
+                if(parent && !parent._inited)return;
             }
             if(!arr)
                 arr=[];
@@ -282,40 +282,54 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
         },
         //pid,base are id
         insertRows:function(arr, pid, base ,before){
-            var c=this.constructor, profile=this.get(0), pro=profile.properties, row_m=profile.rowMap2, t;
+            if(!arr || !_.isArr(arr) || arr.length<1)return this;
+
+            var c=this.constructor, 
+                profile=this.get(0), 
+                pro=profile.properties, 
+                row_m=profile.rowMap2, 
+                b=profile.rowMap,
+                tar, t, k;
+
             base = row_m[base];
             if(base){
                 t=profile.rowMap[base];
                 if(t)pid=t._pid;
             }
-
             arr=c._adjustRows(arr);
-
-            //prepareData(add links)
-            var rows = c._prepareItems(profile, arr, pid),
-                tar,
-                b=profile.rowMap;
-
             pid = row_m[pid];
             if(!pid)
                 tar = (pro.rows || (pro.rows=[]));
-            else
-                tar = _.isArr(b[pid].sub)?b[pid].sub:(b[pid].sub=[]);
+            else{
+                k=b[pid];
+                tar = _.isArr(k.sub)?k.sub:(k.sub=[]);
+            }
+
+            //1
+            var rows;
+            if(profile.renderId){
+                // if insert to root, or the parent node is inited
+                if(!pid || k._inited){
+                    //prepareData(add links)
+                    rows = c._prepareItems(profile, arr, pid);
+                    this._insertRowsToDom(profile, rows, pid, base, before);
+                }
+            }
+            //2
+            //must be here
             if(!base)
-                _.arr.insertAny(tar,arr, before?0:-1);
+                _.arr.insertAny(tar, arr, before?0:-1);
             else{
                 var index = _.arr.subIndexOf(tar,'_serialId', base);
                 _.arr.insertAny(tar,arr, before?index:(index+1));
             }
+            //3
+            if(profile.renderId){
+                if(!pro.iniFold)
+                    profile.boxing()._toggleRows(rows,true);
+                profile.box._asy(profile);
+            }
 
-            //insert
-            if(rows.length)
-                this._insertRowsToDom(profile, rows, pid, base, before);
-
-            if(!pro.iniFold)
-                profile.boxing()._toggleRows(rows,true);
-
-            profile.box._asy(profile);
             return this;
         },
         //delete row according to id
@@ -1400,7 +1414,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                             rows = root.sub;
                             parent = profile.getSubNode('SUB', root._serialId).get(0);
                         }else{
-                            root={_created:true};
+                            root={_inited:true};
                             rows = profile.properties.rows;
                             parent = profile.getSubNode('BODY').get(0);
                         }
@@ -1433,7 +1447,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
 
                         //sort memory array
                         //sort dom node
-                        var b = root._created, bak=_.copy(rows), c;
+                        var b = root._inited, bak=_.copy(rows), c;
                         if(b)
                             a1=parent.childNodes;
                         _.arr.each(a2,function(o,i){
@@ -2464,26 +2478,28 @@ sortby [for column only]
                 NONE='display:none';
 
             for(var i=0,l=arr.length;i<l;i++){
-                temp='r_'+profile.pickSubId('row');
-
-                //make sure the row id
+                // give id (avoid conflicts)
                 if(!arr[i].id || a[arr[i].id]){
                     while(a[t=ider.next()]);
                     arr[i].id=t;
                 }
 
                 row = arr[i];
+
+                // give _serialId
+                temp='r_'+profile.pickSubId('row');
+                row[SubID]=temp;
+                b[temp]=row;
+
                 //#
                 row._pid = pid;
                 row._cells={};
                 row._layer=_layer;
 
-
-                row[SubID]=temp;
                 row._tabindex=pro.tabindex;
                 row._rowMarkDisplay=pro.selMode=="multi"?"":NONE;
 
-                b[temp]=row;
+                
 
                 t={id: row.id};
 
@@ -2598,10 +2614,10 @@ sortby [for column only]
                         var b=profile.boxing(),
                             p = profile.properties;
                         //created
-                        if(!item._created){
+                        if(!item._inited){
                             delete item.sub;
                             //before insertRows
-                            item._created=true;
+                            item._inited=true;
                             //subNs.css('display','none');
 
                             if(typeof sub=='string')
@@ -2636,7 +2652,7 @@ sortby [for column only]
                         if(r){
                             //return true: continue UI changing
                             if(r===true)
-                                item._created=true;
+                                item._inited=true;
                             callback(r);
                         }
                     }

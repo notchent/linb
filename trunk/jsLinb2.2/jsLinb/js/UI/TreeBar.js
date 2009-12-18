@@ -44,6 +44,7 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
             });
         },
         insertItems:function(arr, pid, base ,before){
+            if(!arr || !_.isArr(arr) || arr.length<1)return this;
             var node,arr2;
             return this.each(function(profile){
                 // prepare properties format
@@ -58,11 +59,12 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
                     k=profile.getItemByItemId(pid);
                     tar = _.isArr(k.sub)?k.sub:(k.sub= []);
                 }
+                //1
                 if(profile.renderId){
                     if(!base){
                         if(!pid)
                             node=profile.getSubNode('ITEMS');
-                        else if(pid && k._created)
+                        else if(pid && k._inited)
                             node=profile.getSubNodeByItemId('SUB', pid);
                         if(node){
                             r=profile._buildItems('items', profile.box._prepareItems(profile, arr2, pid));
@@ -82,6 +84,7 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
                         }
                     }
                 }
+                //2
                 //must be here
                 if(!base)
                     _.arr.insertAny(tar,arr2, before?0:-1);
@@ -89,17 +92,18 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
                     var index = _.arr.subIndexOf(tar, 'id', base);
                     _.arr.insertAny(tar,arr2, before?index:(index+1));
                 }
-
-                var obj;
-                if(pid)
-                    if((obj=profile.getSubNodeByItemId('TOGGLE', pid)).css('display')=='none')
-                        obj.setInlineBlock();
-
-                //open parent node
-                if(!(('iniFold' in k)?k.iniFold:profile.properties.iniFold))
-                    if(!pid || profile.getItemByItemId(pid)._created)
-                        profile.boxing()._toggleNodes(arr2, true);
-
+                //3
+                if(profile.renderId){
+                    var obj;
+                    if(pid)
+                        if((obj=profile.getSubNodeByItemId('TOGGLE', pid)).css('display')=='none')
+                            obj.setInlineBlock();
+    
+                    //open parent node
+                    if(!(('iniFold' in k)?k.iniFold:profile.properties.iniFold))
+                        if(!pid || profile.getItemByItemId(pid)._inited)
+                            profile.boxing()._toggleNodes(arr2, true);
+                }
             });
         },
         _toggleNodes:function(items, expend, recursive){
@@ -624,7 +628,7 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
                             arr.push(s[i].id);
                         profile.boxing().removeItems(arr);
                         item.sub=true;
-                        delete item._created;
+                        delete item._inited;
                     }
                 }
                 if(recursive && item.sub && !properties.dynDestory){
@@ -640,10 +644,10 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
                             var b=profile.boxing(),
                                 p=profile.properties;
                             //created
-                            if(!item._created){
+                            if(!item._inited){
                                 delete item.sub;
                                 //before insertRows
-                                item._created=true;
+                                item._inited=true;
                                 //subNs.css('display','none');
                                 if(typeof sub=='string')
                                     subNs.html(item.sub=sub,false);
@@ -686,7 +690,7 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
                         if(r){
                             //return true: continue UI changing
                             if(r===true)
-                                item._created=true;
+                                item._inited=true;
                             callback(r);
                         }                                                              }
                 }
