@@ -2110,7 +2110,7 @@ Class('VisualJS.Designer', 'linb.Com',{
             var page = this,t,arr=[];
             arr.push('// [[code created by jsLinb UI Builder\n');
             arr.push('var host=this, children=[], append=function(child){children.push(child.get(0))};');
-            fun = function(v, pName, argsStr, arr){
+            var fun = function(v, pName, argsStr, arr){
                 var self=arguments.callee, ui=v.box['linb.UI'], o=v.serialize(false), name=o.alias, b,t,ins=v.boxing();
 
                 delete o.id;
