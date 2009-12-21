@@ -926,6 +926,9 @@ new function(){
         isLinux:/linux/.test(u),
         isSecure:location.href.toLowerCase().indexOf("https")==0
     },v=function(k,s){return k + (b.ver=u.split(s)[1].split('.')[0])};
+    
+    linb.$secureurl=b.isSecure&&b.ie?'javascript:""':'about:blank';
+    
     _.filter(b,function(o){return !!o});
     if(b.ie){
         b[v('ie','msie ')]=true;
@@ -964,7 +967,7 @@ new function(){
     }
     _.merge(ini,{
         appPath:location.href.split('?')[0].replace(/[^\\\/]+$/,''),
-        file_bg:ini.path+'bg.gif',
+        file_bg: b.ie&&b.ver<=7?(ini.path+'bg.gif'):"data:image/gif;base64,R0lGODlhAQABAID/AMDAwAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==",
         dummy_tag:'$_dummy_$'
     });
     if(!ini.path)

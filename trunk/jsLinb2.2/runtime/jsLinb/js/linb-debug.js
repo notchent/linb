@@ -926,6 +926,9 @@ new function(){
         isLinux:/linux/.test(u),
         isSecure:location.href.toLowerCase().indexOf("https")==0
     },v=function(k,s){return k + (b.ver=u.split(s)[1].split('.')[0])};
+    
+    linb.$secureurl=b.isSecure&&b.ie?'javascript:""':'about:blank';
+    
     _.filter(b,function(o){return !!o});
     if(b.ie){
         b[v('ie','msie ')]=true;
@@ -964,7 +967,7 @@ new function(){
     }
     _.merge(ini,{
         appPath:location.href.split('?')[0].replace(/[^\\\/]+$/,''),
-        file_bg:ini.path+'bg.gif',
+        file_bg: b.ie&&b.ver<=7?(ini.path+'bg.gif'):"data:image/gif;base64,R0lGODlhAQABAID/AMDAwAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==",
         dummy_tag:'$_dummy_$'
     });
     if(!ini.path)
@@ -6152,6 +6155,17 @@ type:4
                   )
                     a[a.length]=t;
             return a.length<=1?a:this._unique(a);
+        },
+        _scrollBarSize:0,
+        getScrollBarSize: function(force){
+            var ns=this;
+            if(force||!ns._scrollBarSize){
+                var div;
+                linb('body').append(div=linb.create('<div style="width:50px;height:50px;visibility:hidden;position:absolute;margin:0;padding:0;left:-10000px;overflow:scroll;"></div>'));
+                ns._scrollBarSize=50-div.get(0).clientWidth+2;
+                div.remove();
+            }
+            return ns._scrollBarSize;
         },
         getStyle:function(node, name){
             if(!node || node.nodeType!=1)return '';

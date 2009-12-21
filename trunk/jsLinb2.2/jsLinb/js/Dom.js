@@ -1576,6 +1576,17 @@ type:4
                     a[a.length]=t;
             return a.length<=1?a:this._unique(a);
         },
+        _scrollBarSize:0,
+        getScrollBarSize: function(force){
+            var ns=this;
+            if(force||!ns._scrollBarSize){
+                var div;
+                linb('body').append(div=linb.create('<div style="width:50px;height:50px;visibility:hidden;position:absolute;margin:0;padding:0;left:-10000px;overflow:scroll;"></div>'));
+                ns._scrollBarSize=50-div.get(0).clientWidth+2;
+                div.remove();
+            }
+            return ns._scrollBarSize;
+        },
         getStyle:function(node, name){
             if(!node || node.nodeType!=1)return '';
 
