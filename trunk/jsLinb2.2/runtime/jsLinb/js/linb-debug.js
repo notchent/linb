@@ -23281,7 +23281,7 @@ Class("linb.UI.Tabs", ["linb.UI", "linb.absList","linb.absValue"],{
                 items:{
                     ITEM:{
                         className:'{itemClass} {disabled}',
-                        style:'{itemStyle}',
+                        style:'{itemDisplay} {itemStyle}',
                         ITEMI:{
                             ITEMC:{
                                 HANDLE:{
@@ -23787,6 +23787,7 @@ Class("linb.UI.Tabs", ["linb.UI", "linb.absList","linb.absValue"],{
             item.landDisplay = item.landBtn?'':dpn;
             item._opt = item.optBtn?'':dpn;
             item.href = item.href || linb.$href;
+            item.itemDisplay = item.hidden?dpn:'';
         },
         getDropKeys:function(profile,node){
             return profile.properties[profile.getKey(linb.use(node).id())==profile.keys.PANEL?'dropKeys':'dropKeysPanel'];
