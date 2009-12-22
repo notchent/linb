@@ -967,7 +967,8 @@ new function(){
     }
     _.merge(ini,{
         appPath:location.href.split('?')[0].replace(/[^\\\/]+$/,''),
-        file_bg: b.ie&&b.ver<=7?(ini.path+'bg.gif'):"data:image/gif;base64,R0lGODlhAQABAID/AMDAwAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==",
+        file_bg: ini.path+'bg.gif',
+        blank_image:b.ie&&b.ver<=7?(ini.path+'bg.gif'):"data:image/gif;base64,R0lGODlhAQABAID/AMDAwAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==",
         dummy_tag:'$_dummy_$'
     });
     if(!ini.path)
