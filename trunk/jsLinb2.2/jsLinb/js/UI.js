@@ -280,12 +280,19 @@ Class('linb.absObj',"linb.absBox",{
             var self=this,pro=this.get(0),old;
             if(str){
                 if(old=pro.alias){
-                    if(pro.host){try{delete pro.host[old]}catch(e){pro.host[old]=undefined}}
+                    if(pro.host){
+                        try{delete pro.host[old]}catch(e){pro.host[old]=undefined}
+                        if(pro.host._ctrlpool)
+                            delete pro.host._ctrlpool[old];
+                    }
                     delete self.constructor._namePool[old];
                 }
                 self.constructor._namePool[pro.alias=str]=1;
-                if(pro.host)
+                if(pro.host){
                     pro.host[str]=self;
+                    if(pro.host._ctrlpool)
+                        pro.host._ctrlpool[old]=self.get(0);
+                }
                 return self;
             }else
                 return pro.alias;
@@ -294,10 +301,8 @@ Class('linb.absObj',"linb.absBox",{
             var self=this;
             if(value){
                 self.get(0).host=value;
-                if(alias){
+                if(alias)
                     self.alias(alias);
-                    value[alias]=self;
-                }
                 return self;
             }else
                 return self.get(0).host;

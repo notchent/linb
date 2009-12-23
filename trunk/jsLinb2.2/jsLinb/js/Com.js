@@ -25,6 +25,7 @@ Class('linb.Com',null,{
         self.events = _.copy(self.events) || {};
         if(events)
             _.merge(self.events, events, 'all');
+        self._ctrlpool={};
     },
     Instance:{
         autoDestroy:true,
@@ -202,6 +203,13 @@ Class('linb.Com',null,{
         },
 
         iniComponents:function(){},
+        getAllCtrls:function(){
+            var arr=[];
+            _.each(this._ctrlpool,function(o){
+                arr.push(o);
+            });
+            return linb.absObj.pack(arr,false);
+        },
         getUIComponents:function(){
             var nodes = _.copy(this._nodes),t,k='linb.UI';
             _.filter(nodes,function(o){
@@ -236,6 +244,7 @@ Class('linb.Com',null,{
                 },null,true);
             if(ns && ns.length)
                 self._nodes.length=0;
+            self._ctrlpool=null;
             _.breakO(self);
             //set again
             self.$destroyed=true;

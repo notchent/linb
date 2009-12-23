@@ -7045,6 +7045,7 @@ Class('linb.Com',null,{
         self.events = _.copy(self.events) || {};
         if(events)
             _.merge(self.events, events, 'all');
+        self._ctrlpool={};
     },
     Instance:{
         autoDestroy:true,
@@ -7222,6 +7223,13 @@ Class('linb.Com',null,{
         },
 
         iniComponents:function(){},
+        getAllCtrls:function(){
+            var arr=[];
+            _.each(this._ctrlpool,function(o){
+                arr.push(o);
+            });
+            return linb.absObj.pack(arr,false);
+        },
         getUIComponents:function(){
             var nodes = _.copy(this._nodes),t,k='linb.UI';
             _.filter(nodes,function(o){
@@ -7256,6 +7264,7 @@ Class('linb.Com',null,{
                 },null,true);
             if(ns && ns.length)
                 self._nodes.length=0;
+            self._ctrlpool=null;
             _.breakO(self);
             //set again
             self.$destroyed=true;
@@ -9363,12 +9372,19 @@ Class('linb.absObj',"linb.absBox",{
             var self=this,pro=this.get(0),old;
             if(str){
                 if(old=pro.alias){
-                    if(pro.host){try{delete pro.host[old]}catch(e){pro.host[old]=undefined}}
+                    if(pro.host){
+                        try{delete pro.host[old]}catch(e){pro.host[old]=undefined}
+                        if(pro.host._ctrlpool)
+                            delete pro.host._ctrlpool[old];
+                    }
                     delete self.constructor._namePool[old];
                 }
                 self.constructor._namePool[pro.alias=str]=1;
-                if(pro.host)
+                if(pro.host){
                     pro.host[str]=self;
+                    if(pro.host._ctrlpool)
+                        pro.host._ctrlpool[old]=self.get(0);
+                }
                 return self;
             }else
                 return pro.alias;
@@ -9377,10 +9393,8 @@ Class('linb.absObj',"linb.absBox",{
             var self=this;
             if(value){
                 self.get(0).host=value;
-                if(alias){
+                if(alias)
                     self.alias(alias);
-                    value[alias]=self;
-                }
                 return self;
             }else
                 return self.get(0).host;
@@ -17225,7 +17239,6 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
             disabled:{
                 ini:false,
                 action: function(v){
-                    this.getRoot().css('opacity',v?0.5:1);
                     this.getSubNode('INPUT').attr('disabled',v);
                 }
             },

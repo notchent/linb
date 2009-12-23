@@ -430,7 +430,6 @@ Class("linb.UI.Input", ["linb.UI.Widget","linb.absValue"] ,{
             disabled:{
                 ini:false,
                 action: function(v){
-                    this.getRoot().css('opacity',v?0.5:1);
                     this.getSubNode('INPUT').attr('disabled',v);
                 }
             },
