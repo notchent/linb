@@ -67,8 +67,8 @@ Class('VisualJS.OpenFile', 'linb.Com',{
                 .setCaption("Open from samples")
                 .setToggle(false)
                 .onIniPanelView("_grp_iniview")
-                .onFold("_grp_onfold")
-                .onExpend("_grp_onexpend")
+                .beforeFold("_grp_onfold")
+                .beforeExpend("_grp_onexpend")
             );
             
             host.group1.append((new linb.UI.TreeBar)

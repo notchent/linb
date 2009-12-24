@@ -8698,31 +8698,37 @@ _.set(linb.Locale,["en","doc","linb","UI","Group"], {
         },
 
 
-        onExpend:{
-            $desc:"Fired when group expends.",
+        beforeExpend:{
+            $desc:"Fired before group expends. If returns false, function will be ignored.",
             $paras:[
                 "profile : linb.UIProfile."
             ],
             $snippet:[
                 "var id='linb.temp.fs5'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var o=new linb.UI.Group;"+
-                "o.onExpend(function(){alert('onExpend')}).onFold(function(){alert('onFold')}).onIniPanelView(function(){alert('onIniPanelView')});"+
+                "o.beforeExpend(function(){alert('beforeExpend')}).beforeFold(function(){alert('beforeFold')}).onIniPanelView(function(){alert('onIniPanelView')});"+
                 "linb(id).prepend(o);"+
                 "}"
             ]
         },
-        onFold:{
-            $desc:"Fired when group collapses.",
+        beforeFold:{
+            $desc:"Fired before group collapses. If returns false, function will be ignored.",
             $paras:[
                 "profile : linb.UIProfile."
             ],
             $snippet:[
                 "var id='linb.temp.fs6'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var o=new linb.UI.Group;"+
-                "o.onExpend(function(){alert('onExpend')}).onFold(function(){alert('onFold')}).onIniPanelView(function(){alert('onIniPanelView')});"+
+                "o.beforeExpend(function(){alert('beforeExpend')}).beforeFold(function(){alert('beforeFold')}).onIniPanelView(function(){alert('onIniPanelView')});"+
                 "linb(id).prepend(o);"+
                 "}"
             ]
+        },
+        afterExpend:{
+            $desc:"Fired after group expends."
+        },
+        afterFold:{
+            $desc:"Fired after group collapses."
         },
         onIniPanelView:{
             $desc:"Fired on panel is initialized.",
@@ -8732,7 +8738,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Group"], {
             $snippet:[
                 "var id='linb.temp.fs7'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var o=new linb.UI.Group;"+
-                "o.onExpend(function(){alert('onExpend')}).onFold(function(){alert('onFold')}).onIniPanelView(function(){alert('onIniPanelView')});"+
+                "o.beforeExpend(function(){alert('beforeExpend')}).beforeFold(function(){alert('beforeFold')}).onIniPanelView(function(){alert('onIniPanelView')});"+
                 "linb(id).prepend(o);"+
                 "}"
             ]
@@ -10458,31 +10464,37 @@ _.set(linb.Locale,["en","doc","linb","UI","Panel"], {
             ]
         },
 
-        onExpend:{
-            $desc:"Fired when panel expends.",
+        beforeExpend:{
+            $desc:"Fired before panel expends. If returns false, function will be ignored.",
             $paras:[
                 "profile : linb.UIProfile."
             ],
             $snippet:[
                 "var id='linb.temp.panel9'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var o=new linb.UI.Panel({toggleBtn:true,html:'content'});"+
-                "o.onExpend(function(){alert('onExpend')}).onFold(function(){alert('onFold')}).onIniPanelView(function(){alert('onIniPanelView')});"+
+                "o.beforeExpend(function(){alert('beforeExpend')}).beforeFold(function(){alert('beforeFold')}).onIniPanelView(function(){alert('onIniPanelView')});"+
                 "linb(id).prepend(o);"+
                 "}"
             ]
         },
-        onFold:{
-            $desc:"Fired when panel collapses.",
+        beforeFold:{
+            $desc:"Fired before panel collapses. If returns false, function will be ignored.",
             $paras:[
                 "profile : linb.UIProfile."
             ],
             $snippet:[
                 "var id='linb.temp.panel10'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var o=new linb.UI.Panel({toggleBtn:true,html:'content'});"+
-                "o.onExpend(function(){alert('onExpend')}).onFold(function(){alert('onFold')}).onIniPanelView(function(){alert('onIniPanelView')});"+
+                "o.beforeExpend(function(){alert('beforeExpend')}).beforeFold(function(){alert('beforeFold')}).onIniPanelView(function(){alert('onIniPanelView')});"+
                 "linb(id).prepend(o);"+
                 "}"
             ]
+        },
+        afterExpend:{
+            $desc:"Fired after panel expends."
+        },
+        afterFold:{
+            $desc:"Fired after panel collapses."
         },
         onIniPanelView:{
             $desc:"Fired when panel is initialized.",
@@ -10492,7 +10504,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Panel"], {
             $snippet:[
                 "var id='linb.temp.panel11'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var o=new linb.UI.Panel({toggleBtn:true,html:'content'});"+
-                "o.onExpend(function(){alert('onExpend')}).onFold(function(){alert('onFold')}).onIniPanelView(function(){alert('onIniPanelView')});"+
+                "o.beforeExpend(function(){alert('beforeExpend')}).beforeFold(function(){alert('beforeFold')}).onIniPanelView(function(){alert('onIniPanelView')});"+
                 "linb(id).prepend(o);"+
                 "}"
             ]
@@ -13004,6 +13016,26 @@ _.set(linb.Locale,["en","doc","linb","UI","TreeBar"], {
                 "linb(id).prepend(o);"+
                 "}"
             ]
+        },
+        beforeExpend:{
+            $desc:"Fired before a node expends. If returns false, function will be ignored.",
+            $paras:[
+                "profile : linb.UIProfile.",
+                "item: Object, list item Object."
+            ]
+        },
+        beforeFold:{
+            $desc:"Fired before a node collapses. If returns false, function will be ignored.",
+            $paras:[
+                "profile : linb.UIProfile.",
+                "item: Object, list item Object."
+            ]
+        },
+        afterExpend:{
+            $desc:"Fired after a node expends."
+        },
+        afterFold:{
+            $desc:"Fired after a node collapses."
         }
     }
 });

@@ -159,8 +159,10 @@ Class("linb.UI.Group", "linb.UI.Div",{
         },        
         EventHandlers:{
             onIniPanelView:function(profile){},
-            onFold:function(profile){},
-            onExpend:function(profile){}
+            beforeFold:function(profile){},
+            beforeExpend:function(profile){},
+            afterFold:function(profile){},
+            afterExpend:function(profile){}
         },
         _prepareData:function(profile){
             var data=arguments.callee.upper.call(this, profile),
@@ -193,9 +195,9 @@ Class("linb.UI.Group", "linb.UI.Div",{
                         profile.$ini=true;
 
             if(value){
-                if(false===b.onExpend(profile))return;
+                if(b.beforeExpend && false===b.beforeExpend(profile))return;
             }else{
-                if(false===b.onFold(profile))return;
+                if(b.beforeFold && false===b.beforeFold(profile))return;
             }
 
             //show/hide/panel
@@ -205,6 +207,14 @@ Class("linb.UI.Group", "linb.UI.Div",{
                 profile.getSubNode('TOGGLE').tagClass('-checked', !!value);
 
             profile.getSubNode('FIELDSET').tagClass('-checked',!value);
+            
+            if(value){
+                if(b.afterExpend)
+                    b.afterExpend(profile);
+            }else{
+                if(b.afterFold)
+                    b.afterFold(profile);
+            }
         }
     }
 });

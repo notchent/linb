@@ -8718,31 +8718,37 @@ _.set(linb.Locale,["cn","doc","linb","UI","Group"], {
         },
 
 
-        onExpend:{
-            $desc:"当编组框收缩时调用.",
+        beforeExpend:{
+            $desc:"在编组框打开前调用.如返回 false, 编组框不会打开.",
             $paras:[
                 "profile : linb.UIProfile."
             ],
             $snippet:[
                 "var id='linb.temp.fs5'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var o=new linb.UI.Group;"+
-                "o.onExpend(function(){alert('onExpend')}).onFold(function(){alert('onFold')}).onIniPanelView(function(){alert('onIniPanelView')});"+
+                "o.beforeExpend(function(){alert('beforeExpend')}).beforeFold(function(){alert('beforeFold')}).onIniPanelView(function(){alert('onIniPanelView')});"+
                 "linb(id).prepend(o);"+
                 "}"
             ]
         },
-        onFold:{
-            $desc:"当编组框收缩时调用.",
+        beforeFold:{
+            $desc:"当编组框收缩前调用.如返回 false, 编组框不会收缩.",
             $paras:[
                 "profile : linb.UIProfile."
             ],
             $snippet:[
                 "var id='linb.temp.fs6'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var o=new linb.UI.Group;"+
-                "o.onExpend(function(){alert('onExpend')}).onFold(function(){alert('onFold')}).onIniPanelView(function(){alert('onIniPanelView')});"+
+                "o.beforeExpend(function(){alert('beforeExpend')}).beforeFold(function(){alert('beforeFold')}).onIniPanelView(function(){alert('onIniPanelView')});"+
                 "linb(id).prepend(o);"+
                 "}"
             ]
+        },
+        afterExpend:{
+            $desc:"在编组框打开后调用."
+        },
+        afterFold:{
+            $desc:"在编组框收缩后调用."
         },
         onIniPanelView:{
             $desc:"当Panel初始化时调用.",
@@ -8752,7 +8758,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","Group"], {
             $snippet:[
                 "var id='linb.temp.fs7'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var o=new linb.UI.Group;"+
-                "o.onExpend(function(){alert('onExpend')}).onFold(function(){alert('onFold')}).onIniPanelView(function(){alert('onIniPanelView')});"+
+                "o.beforeExpend(function(){alert('beforeExpend')}).beforeFold(function(){alert('beforeFold')}).onIniPanelView(function(){alert('onIniPanelView')});"+
                 "linb(id).prepend(o);"+
                 "}"
             ]
@@ -10478,31 +10484,37 @@ _.set(linb.Locale,["cn","doc","linb","UI","Panel"], {
             ]
         },
 
-        onExpend:{
-            $desc:"当面板打开时调用.",
+        beforeExpend:{
+            $desc:"在面板打开前调用.如返回 false, 面板不会打开.",
             $paras:[
                 "profile : linb.UIProfile."
             ],
             $snippet:[
                 "var id='linb.temp.panel9'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var o=new linb.UI.Panel({toggleBtn:true,html:'content'});"+
-                "o.onExpend(function(){alert('onExpend')}).onFold(function(){alert('onFold')}).onIniPanelView(function(){alert('onIniPanelView')});"+
+                "o.beforeExpend(function(){alert('beforeExpend')}).beforeFold(function(){alert('beforeFold')}).onIniPanelView(function(){alert('onIniPanelView')});"+
                 "linb(id).prepend(o);"+
                 "}"
             ]
         },
-        onFold:{
-            $desc:"当面板收缩时调用.",
+        beforeFold:{
+            $desc:"当面板收缩时调用.如返回 false, 面板不会打开.",
             $paras:[
                 "profile : linb.UIProfile."
             ],
             $snippet:[
                 "var id='linb.temp.panel10'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var o=new linb.UI.Panel({toggleBtn:true,html:'content'});"+
-                "o.onExpend(function(){alert('onExpend')}).onFold(function(){alert('onFold')}).onIniPanelView(function(){alert('onIniPanelView')});"+
+                "o.beforeExpend(function(){alert('beforeExpend')}).beforeFold(function(){alert('beforeFold')}).onIniPanelView(function(){alert('onIniPanelView')});"+
                 "linb(id).prepend(o);"+
                 "}"
             ]
+        },
+        afterExpend:{
+            $desc:"在面板打开后调用."
+        },
+        afterFold:{
+            $desc:"在面板收缩后调用."
         },
         onIniPanelView:{
             $desc:"当面板初始化时调用.",
@@ -10512,7 +10524,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","Panel"], {
             $snippet:[
                 "var id='linb.temp.panel11'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var o=new linb.UI.Panel({toggleBtn:true,html:'content'});"+
-                "o.onExpend(function(){alert('onExpend')}).onFold(function(){alert('onFold')}).onIniPanelView(function(){alert('onIniPanelView')});"+
+                "o.beforeExpend(function(){alert('beforeExpend')}).beforeFold(function(){alert('beforeFold')}).onIniPanelView(function(){alert('onIniPanelView')});"+
                 "linb(id).prepend(o);"+
                 "}"
             ]
@@ -13024,6 +13036,26 @@ _.set(linb.Locale,["cn","doc","linb","UI","TreeBar"], {
                 "linb(id).prepend(o);"+
                 "}"
             ]
+        },
+        beforeExpend:{
+            $desc:"在某个节点展开前调用. 如返回 false，节点将不会展开.",
+            $paras:[
+                "profile : linb.UIProfile.",
+                "item: Object, 项对象."
+            ]
+        },
+        beforeFold:{
+            $desc:"在某个节点折叠前调用. 如返回 false，节点将不会展开.",
+            $paras:[
+                "profile : linb.UIProfile.",
+                "item: Object, 项对象."
+            ]
+        },
+        afterExpend:{
+            $desc:"在某个节点展开后调用."
+        },
+        afterFold:{
+            $desc:"在某个节点折叠后调用."
         }
     }
 });

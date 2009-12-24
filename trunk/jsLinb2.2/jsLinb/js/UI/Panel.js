@@ -313,8 +313,10 @@ Class("linb.UI.Panel", "linb.UI.Div",{
         EventHandlers:{
             beforeClose:function(profile, src){},
             onIniPanelView:function(profile){},
-            onFold:function(profile){},
-            onExpend:function(profile){},
+            beforeFold:function(profile){},
+            beforeExpend:function(profile){},
+            afterFold:function(profile){},
+            afterExpend:function(profile){},
             onShowOptions:function(profile, e, src){},
             onClickBar:function(profile, src){}
         },
@@ -370,9 +372,9 @@ Class("linb.UI.Panel", "linb.UI.Div",{
                         profile.$ini=true;
 
             if(value){
-                if(false===b.onExpend(profile))return;
+                if(b.beforeExpend && false===b.beforeExpend(profile))return;
             }else{
-                if(false===b.onFold(profile))return;
+                if(b.beforeFold && false===b.beforeFold(profile))return;
             }
 
             //show/hide/panel
@@ -380,6 +382,14 @@ Class("linb.UI.Panel", "linb.UI.Div",{
             //chang toggle button
             if(p.toggleBtn)
                 profile.getSubNode('TOGGLE').tagClass('-checked', !!value);
+
+            if(value){
+                if(b.afterExpend)
+                    b.afterExpend(profile);
+            }else{
+                if(b.afterFold)
+                    b.afterFold(profile);
+            }
         }
     }
 });

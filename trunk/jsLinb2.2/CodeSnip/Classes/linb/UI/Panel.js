@@ -98,8 +98,8 @@ Class('App.linb_UI_Panel', 'linb.Com',{
                 .setCloseBtn(true)
                 .setLandBtn(true)
                 .onIniPanelView("_panelbar7_oninipanelview")
-                .onFold("_panelbar7_onfold")
-                .onExpend("_panelbar7_onexpend")
+                .beforeFold("_panelbar7_onfold")
+                .beforeExpend("_panelbar7_onexpend")
                 .onShowOptions("_panelbar7_onshowoptions")
             );
             

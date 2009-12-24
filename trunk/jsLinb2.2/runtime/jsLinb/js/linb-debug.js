@@ -19409,8 +19409,10 @@ Class("linb.UI.Group", "linb.UI.Div",{
         },        
         EventHandlers:{
             onIniPanelView:function(profile){},
-            onFold:function(profile){},
-            onExpend:function(profile){}
+            beforeFold:function(profile){},
+            beforeExpend:function(profile){},
+            afterFold:function(profile){},
+            afterExpend:function(profile){}
         },
         _prepareData:function(profile){
             var data=arguments.callee.upper.call(this, profile),
@@ -19443,9 +19445,9 @@ Class("linb.UI.Group", "linb.UI.Div",{
                         profile.$ini=true;
 
             if(value){
-                if(false===b.onExpend(profile))return;
+                if(b.beforeExpend && false===b.beforeExpend(profile))return;
             }else{
-                if(false===b.onFold(profile))return;
+                if(b.beforeFold && false===b.beforeFold(profile))return;
             }
 
             //show/hide/panel
@@ -19455,6 +19457,14 @@ Class("linb.UI.Group", "linb.UI.Div",{
                 profile.getSubNode('TOGGLE').tagClass('-checked', !!value);
 
             profile.getSubNode('FIELDSET').tagClass('-checked',!value);
+            
+            if(value){
+                if(b.afterExpend)
+                    b.afterExpend(profile);
+            }else{
+                if(b.afterFold)
+                    b.afterFold(profile);
+            }
         }
     }
 });Class('linb.UI.ColorPicker', ['linb.UI',"linb.absValue"], {
@@ -22541,8 +22551,10 @@ Class("linb.UI.Panel", "linb.UI.Div",{
         EventHandlers:{
             beforeClose:function(profile, src){},
             onIniPanelView:function(profile){},
-            onFold:function(profile){},
-            onExpend:function(profile){},
+            beforeFold:function(profile){},
+            beforeExpend:function(profile){},
+            afterFold:function(profile){},
+            afterExpend:function(profile){},
             onShowOptions:function(profile, e, src){},
             onClickBar:function(profile, src){}
         },
@@ -22598,9 +22610,9 @@ Class("linb.UI.Panel", "linb.UI.Div",{
                         profile.$ini=true;
 
             if(value){
-                if(false===b.onExpend(profile))return;
+                if(b.beforeExpend && false===b.beforeExpend(profile))return;
             }else{
-                if(false===b.onFold(profile))return;
+                if(b.beforeFold && false===b.beforeFold(profile))return;
             }
 
             //show/hide/panel
@@ -22608,6 +22620,14 @@ Class("linb.UI.Panel", "linb.UI.Div",{
             //chang toggle button
             if(p.toggleBtn)
                 profile.getSubNode('TOGGLE').tagClass('-checked', !!value);
+
+            if(value){
+                if(b.afterExpend)
+                    b.afterExpend(profile);
+            }else{
+                if(b.afterFold)
+                    b.afterFold(profile);
+            }
         }
     }
 });
@@ -24401,9 +24421,10 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
         },
         _toggleNodes:function(items, expend, recursive){
             var self=this;
-            _.arr.each(items,function(o){
-                self.toggleNode(o.id, expend, recursive)
-            });
+            if(_.isArr(items))
+                _.arr.each(items,function(o){
+                    self.toggleNode(o.id, expend, recursive)
+                });
             return self;
         },
         /*
@@ -24772,7 +24793,11 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
         EventHandlers:{
             onDblclick:function(profile, item, src){},
             onGetContent:function(profile, item, callback){},
-            onItemSelected:function(profile, item, src){}
+            onItemSelected:function(profile, item, src){},
+            beforeFold:function(profile,item){},
+            beforeExpend:function(profile,item){},
+            afterFold:function(profile,item){},
+            afterExpend:function(profile,item){}
         },
         DataModel:{
             listKey:null,
@@ -24892,6 +24917,7 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
         },
         _setSub:function(profile, item, flag, recursive){
             var id=profile.domId,
+                ins=profile.boxing(),
                 itemId = profile.getSubIdByItemId(item.id),
                 properties = profile.properties,
                 barNode = profile.getSubNode('BAR', itemId),
@@ -24903,7 +24929,10 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
             //close
             if(item._checked){
                 if(!flag){
-                    var h=subNs.height()
+                    if(ins.beforeFold && false===ins.beforeFold(profile,item)){
+                        return;
+                    }
+                    var h=subNs.height();
 
                     if(properties.animCollapse)
                         subNs.animate({'height':[h,0]},null,null, 100, 5, 'expoIn', profile.key+profile.id).start();
@@ -24924,6 +24953,9 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
                         delete item._inited;
                     }
                 }
+                if(ins.afterFold)
+                    ins.afterFold(profile,item);
+                    
                 if(recursive && item.sub && !properties.dynDestory){
                     _.arr.each(item.sub,function(o){
                         if(o.sub && o.sub.length)
@@ -24933,6 +24965,10 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
             }else{
                 //open
                 if(flag){
+                    if(ins.beforeExpend && false===ins.beforeExpend(profile,item)){
+                        return;
+                    }
+
                     var openSub = function(profile, item, id, markNode, subNs, barNode, sub, recursive){
                             var b=profile.boxing(),
                                 p=profile.properties;
@@ -24950,7 +24986,7 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
                                     subNs.append(item.sub=sub.render(true));
 
                                 //set checked items
-                                b.setUIValue(b.getValue(), true);
+                                b.setUIValue(b.getUIValue(), true);
                             }
 
                             if(p.singleOpen)
@@ -24987,6 +25023,9 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
                             callback(r);
                         }                                                              }
                 }
+                if(ins.afterExpend)
+                    ins.afterExpend(profile,item);
+
                 if(recursive && item.sub){
                     _.arr.each(item.sub,function(o){
                         if(o.sub && o.sub.length && !o._checked)
