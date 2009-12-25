@@ -132,7 +132,21 @@ Class("linb.Coder", null,{
             SQ_STRING : /'(\\.|[^'\\])*'/,
             NUMBER : /-?(\d*\.?\d+|\d+\.?\d*)([eE][+-]?\d+|%)?\b/
         },
-
+        isSafeJSON:function(s){
+            return ""===this.replace(s, [
+                [this.$COM_REG.BLOCK_COMMENT,''],
+                [/\\["\\\/bfnrtu]/,''],
+                [this.$COM_REG.LINE_COMMENT,''],
+                [this.$COM_REG.DQ_STRING,''],
+                [this.$COM_REG.SQ_STRING,''],
+                [this.$COM_REG.REG,''],
+                [this.$COM_REG.NUMBER,''],
+                [/true|false|null|undefined/,''],
+                [/[\s\u2028\u2029]/,''],
+                [/[^{,]+:/,''],
+                [/[\[\]\{\}\,]/,'']
+            ]);
+        },
       /*
        A wrapper for lots regExp string.replace to only once iterator replace
        You can use it, when
