@@ -425,10 +425,10 @@ _.merge(_,{
             return str.replace(/^[\s\xa0]+|[\s\xa0]+$/g, '');
         },
         ltrim:function(str){
-            return str.replace(/^[\s\xa0]+/,"");
+            return str.replace(/^[\s\xa0]+/,'');
         },
         rtrim:function(str){
-            return str.replace(/[\s\xa0]+$/,"");
+            return str.replace(/[\s\xa0]+$/,'');
         },
 /*
         blen : function(s){
@@ -550,7 +550,8 @@ _.merge(_.fun,{
 
 _.merge(Class, {
     _reg:{$key:1,$parent:1,$children:1,KEY:1,Static:1,Instance:1,Constructor:1,Initialize:1},
-    _reg2:{'constructor':1,'prototype':1,'toString':1,'valueOf':1,'hasOwnProperty':1,'isPrototypeOf':1,'propertyIsEnumerable':1,'toLocaleString':1},
+    // give nodeType to avoid breakO
+    _reg2:{'nodeType':1,'constructor':1,'prototype':1,'toString':1,'valueOf':1,'hasOwnProperty':1,'isPrototypeOf':1,'propertyIsEnumerable':1,'toLocaleString':1},
 
     /*envelop a function by some keys
     */
@@ -2063,7 +2064,7 @@ new function(){
     Z=(function(a,b){a=-(new Date).getTimezoneOffset()/60; b=a>0?'+':'-'; a=''+Math.abs(a); return b+(a.length==1?'0':'')+a+'00'})();
     T['undefined']=function(){return 'null'};
     T[L]=function(x){return String(x)};
-    T[N]=function(x){return isFinite(n)&&!isNaN(n)?String(n):'null'};
+    T[N]=function(x){return isFinite(x)&&!isNaN(x)?String(x):'null'};
     T[S]=function(x){
         return H[x] ||
             '"' +
