@@ -31868,6 +31868,9 @@ if(linb.browser.ie){
                 box=profile.box,
                 t=profile.properties;
             if(!status)status=t.status;
+
+            t.status='normal';
+
             // if from max
             if(status=='max')box._unMax(profile);
             if(status=='min')box._unMin(profile);
@@ -31875,7 +31878,6 @@ if(linb.browser.ie){
             // hide restore button
             profile.getSubNode('RESTORE').css('display','none');
 
-            t.status='normal';
         },
         _unMax:function(profile){
             var t=profile.properties,
@@ -32342,6 +32344,9 @@ if(linb.browser.ie){
         },
         //
         _onresize:function(profile,width,height,force){
+        		if(width && profile.properties.status=='min')
+        			width=profile.properties.minWidth;
+
             var size = arguments.callee.upper.apply(this,arguments),
                 isize={},
                 v1=profile.getSubNode('TBAR'),
