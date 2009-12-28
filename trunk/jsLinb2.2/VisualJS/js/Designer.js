@@ -2194,7 +2194,7 @@ Class('VisualJS.Designer', 'linb.Com',{
             arr.push('\n\n');
             arr.push('return children;\n');
             arr.push('// ]]code created by jsLinb UI Builder');
-            return arr.join('');
+            return _.fromUTF8(arr.join(''));
         },
         getClassList:function(nodes){
             var page = this,t,hash={};

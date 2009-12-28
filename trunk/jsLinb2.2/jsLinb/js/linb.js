@@ -366,8 +366,7 @@ _.merge(_,{
     },
     toUTF8:function(str){
         return str.replace(/[^\x00-\xff]/g, function(a,b) {
-            b=a.charCodeAt();
-            return '\\u' + Math.floor(b/16).toString(16)+(b%16).toString(16);
+            return '\\u' + ((b=a.charCodeAt())<16?'000':b<256?'00':b<4096?'0':'')+b.toString(16)
         })
     },
     fromUTF8:function(str){
@@ -2073,7 +2072,7 @@ new function(){
             ?
             x.replace(A, function(a,b) {
                 if(b=M[a])return b;
-                return '\\u' + ((b=a.charCodeAt(0))<16?'000':b<256?'00':b<4096?'0':'')+b.toString(16)
+                return '\\u' + ((b=a.charCodeAt())<16?'000':b<256?'00':b<4096?'0':'')+b.toString(16)
             })
             :
             x
