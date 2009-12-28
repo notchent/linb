@@ -2093,12 +2093,12 @@ Class('VisualJS.Designer', 'linb.Com',{
             },fun=function(arr){
                 arr.sort(f);
                 for(var i=0;i<arr.length;i++)
-                    if((arr[i][0]||arr[i]).children.length)
+                    if((arr[i][0]||arr[i]).children && (arr[i][0]||arr[i]).children.length)
                         (arr[i][0]||arr[i]).children.sort(f);
             };
             fun(nodes);
 
-            return 'return linb.create(' + _.serialize(nodes) + ').get();'
+            return 'return linb.create(' + _.fromUTF8(_.serialize(nodes)) + ').get();'
         },
         getJSCode:function(nodes){
             //sort by tabindex
