@@ -22,6 +22,11 @@ Class("linb.Cookies", null,{
         },
         remove:function(name){
         	return this.set(name,"",-1).set(name,"/",-1);
+        },
+        clear:function(){
+            _.arr.each(document.cookie.split(";"),function(o){
+                linb.Cookies.remove(_.str.trim(o.split("=")[0]));
+            });
         }
     }
 });
