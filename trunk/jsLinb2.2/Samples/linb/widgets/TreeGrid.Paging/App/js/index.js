@@ -57,8 +57,9 @@ Class('App', 'linb.Com',{
                 .setWidth(40)
                 .setType("spin")
                 .setIncrement("1")
-                .setMin("10")
-                .setMax("20")
+                .setPrecision(0)
+                .setMin(10)
+                .setMax(20)
                 .afterUIValueSet("_comboinput19_afteruivalueset")
             );
             

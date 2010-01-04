@@ -622,9 +622,14 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
                     var h=subNs.height();
 
                     if(properties.animCollapse)
-                        subNs.animate({'height':[h,0]},null,null, 100, 5, 'expoIn', profile.key+profile.id).start();
+                        subNs.animate({'height':[h,0]},null,function(){
+                            subNs.css({display:'none'})
+                        }, 100, 5, 'expoIn', profile.key+profile.id).start();
                     else
-                        subNs.height(0);
+                        subNs.css({
+                            display:'none',
+                            height:0
+                        });
 
                     markNode.tagClass('-checked', false);
                     item._checked = false;
@@ -682,11 +687,15 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
                             if(!recursive){
                                 var h = subNs.height(true);
                                 if(p.animCollapse)
-                                    subNs.animate({'height':[0,h]},null,function(){subNs.height('auto')}, 100, 5, 'expoOut', profile.key+profile.id).start();
+                                    subNs.animate({'height':[0,h]},function(){
+                                            subNs.css({display:''})
+                                        },function(){
+                                            subNs.css({height:'auto'})
+                                        },100, 5, 'expoOut', profile.key+profile.id).start();
                                 else
-                                    subNs.height('auto');
+                                    subNs.css({display:'',height:'auto'});
                             }else
-                                subNs.height('auto');
+                                subNs.css({display:'',height:'auto'});
 
                             markNode.tagClass('-checked');
                             if(item.group || properties.group)
