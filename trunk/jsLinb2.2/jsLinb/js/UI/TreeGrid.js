@@ -785,9 +785,9 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                         className:'{cellCls}',
                         CELLA:{
 //                            tagName:'a',
+//                            href :linb.$href,
                             className:'{cellClass}',
                             style:'{bgcolor};{color};{cellStyle}',
-                            href :linb.$href,
                             tabindex: '{_tabindex}',
                             text:"{caption}"
                         }
@@ -812,9 +812,9 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                         className:'{cellCls}',
                         CELLA:{
 //                            tagName:'a',
+//                            href :linb.$href,
                             className:'{cellClass}',
                             style:'{cellStyle}',
-                            href :linb.$href,
                             tabindex: '{_tabindex}',
                             CHECKBOX:{
                                 className:'{checkboxCls}'
@@ -828,9 +828,9 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                         className:'{cellCls}',
                         CELLA:{
 //                            tagName:'a',
+//                            href :linb.$href,
                             className:'{cellClass}',
                             style:'{cellStyle}',
-                            href :linb.$href,
                             tabindex: '{_tabindex}',
                             PROGRESS:{
                                 tagName:'div',

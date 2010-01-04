@@ -26198,8 +26198,15 @@ Class("linb.UI.ToolBar",["linb.UI","linb.absList"],{
 
                         if('value' in options && options.value!=item.value)
                             profile.getSubNodeByItemId('BTN',subId).tagClass('-checked', !!options.value);
-                        if('caption' in options&& options.caption!=item.caption)
+                        if('caption' in options&& options.caption!=item.caption){
                             n2.html(options.caption);
+                            if(options.caption && !item.caption){
+                                profile.getSubNode("CAPTION").css('display','');
+                            }
+                            if(!options.caption && item.caption){
+                                profile.getSubNode("CAPTION").css('display','none');
+                            }
+                        }
                         if('disabled' in options && options.disabled!=item.disabled){
                             if(options.disabled)
                                 n2.addClass('ui-disabled');
@@ -28231,9 +28238,9 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                         className:'{cellCls}',
                         CELLA:{
 //                            tagName:'a',
+//                            href :linb.$href,
                             className:'{cellClass}',
                             style:'{bgcolor};{color};{cellStyle}',
-                            href :linb.$href,
                             tabindex: '{_tabindex}',
                             text:"{caption}"
                         }
@@ -28258,9 +28265,9 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                         className:'{cellCls}',
                         CELLA:{
 //                            tagName:'a',
+//                            href :linb.$href,
                             className:'{cellClass}',
                             style:'{cellStyle}',
-                            href :linb.$href,
                             tabindex: '{_tabindex}',
                             CHECKBOX:{
                                 className:'{checkboxCls}'
@@ -28274,9 +28281,9 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                         className:'{cellCls}',
                         CELLA:{
 //                            tagName:'a',
+//                            href :linb.$href,
                             className:'{cellClass}',
                             style:'{cellStyle}',
-                            href :linb.$href,
                             tabindex: '{_tabindex}',
                             PROGRESS:{
                                 tagName:'div',
