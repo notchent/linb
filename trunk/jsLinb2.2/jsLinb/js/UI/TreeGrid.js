@@ -1572,9 +1572,10 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                     //HCELL position
                     //keep refrence, and remove
                     var temp=p.header[fromIndex];
-                    _.arr.removeFrom(p.header,fromIndex);
-                    //insert to right pos
+                    // 1. insert to right pos
                     _.arr.insertAny(p.header,temp,toIndex);
+                    // 2. then, remove
+                    _.arr.removeFrom(p.header,fromIndex);
                     //cell position rowMap
                     var allitems = profile.queryItems(p.rows, true, true);
                     _.arr.each(allitems,function(o){
@@ -2469,7 +2470,7 @@ sortby [for column only]
                 a = profile.rowMap2,
                 b = profile.rowMap,
                 d = profile.cellMap,
-                _layer=pid?b[a[pid]]?(b[a[pid]]._layer+1):0:0,
+                _layer=pid?b[pid]?(b[pid]._layer+1):0:0,
                 SubID=linb.UI.$tag_subId,
                 me=arguments.callee,
                 ider = me._id||(me._id=new _.id()),
