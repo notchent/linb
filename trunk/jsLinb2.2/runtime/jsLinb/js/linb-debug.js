@@ -4729,6 +4729,9 @@ Class('linb.Dom','linb.absBox',{
             });
             return "linb(['"+a.join("','")+"'])";
         },
+        linbid:function(){
+            return linb.getId(this.get(0));
+        },
         //Need to consider the cache in linb.$cache.profileMap
         id:function(value, ignoreCache){
             var t,i,cache=linb.$cache.profileMap;
@@ -28381,7 +28384,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                 'text-align': 'left',
                 'padding-left':'4px'
             },
-            HFCELLA:{
+            "HFCELL HCELLA":{
                 'text-align': 'center',
                 'padding-left':'2px'
             },
@@ -28458,13 +28461,13 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                 $order:5,
                 'background-color':'#DFE8F6'
             },
-            'HFCELLA, FCELL CELLA, HCELLA':{
+            'FCELL CELLA, HCELLA':{
                 position:'relative'
             },
             HCELLA:{
                 'text-align': 'center'
             },
-            'HCELLA, HFCELLA, CELLA':{
+            'HCELLA, CELLA':{
                 display:'block',
                 overflow:'hidden',
                 '-moz-box-flex':'1',
@@ -28870,18 +28873,19 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
 
                     o.startDrag(e,{
                         dragType:'icon',
-                        shadowFrom:src,
+                        shadowFrom:o.parent(),
                         dragCursor:'pointer',
                         targetLeft:pos.left+12,
                         targetTop:pos.top+12,
                         targetReposition:false,
                         dragDefer: 2,
                         dragKey:profile.$linbid + ":col",
-                        dragData:o.id()
+                        dragData:o.parent().id()
                     });
                 },
                 onDragbegin:function(profile, e, src){
-                    linb(src).onMouseout(true,{$force:true}).onMouseup(true);
+                    linb(src).parent().onMouseout(true,{$force:true});
+                    linb(src).onMouseup(true);
                 },
                 beforeMouseover:function(profile, e, src){
                     var p=profile.properties,
@@ -28890,11 +28894,12 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                     if(!col)return;
                     if(p.disabled || col.disabled)return false;
 
-                    if(false===profile.box._colDragCheck(profile,src))return;
+                    var psrc=linb.use(src).parent().linbid();
+                    if(false===profile.box._colDragCheck(profile,psrc))return;
                     linb.DragDrop.setDropElement(src).setDropFace(src,'move');
                     profile.getSubNode("ARROW")
-                    .left(linb.use(src).get(0).offsetLeft-8)
-                    .top(linb.use(src).get(0).offsetHeight)
+                    .left(linb.use(psrc).get(0).offsetLeft-8)
+                    .top(linb.use(psrc).get(0).offsetHeight)
                     .css("display","block");
                 },
                 beforeMouseout:function(profile, e, src){
@@ -28904,8 +28909,9 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                     if(!col)return;
                     if(p.disabled || col.disabled)return false;
 
+                    var psrc=linb.use(src).parent().linbid();
                     linb.DragDrop.setDropElement(null).setDropFace(null,'none');
-                    if(false===profile.box._colDragCheck(profile,src))return;
+                    if(false===profile.box._colDragCheck(profile, psrc))return;
                     profile.getSubNode("ARROW").css("display","none");
                 },
                 onDrop:function(profile, e, src){
@@ -28915,13 +28921,14 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                     if(!col)return;
                     if(p.disabled || col.disabled)return false;
 
+                    var psrc=linb.use(src).parent().linbid();
                     profile.getSubNode("ARROW").css("display","none");
-                    if(false===profile.box._colDragCheck(profile,src))return;
+                    if(false===profile.box._colDragCheck(profile, psrc))return;
 
                     //check dragData
                     var data=linb.DragDrop.getProfile().dragData,
-                    fromId = data && profile.getSubId(data),
-                    toId = profile.getSubId(src);
+                        fromId = data && profile.getSubId(data),
+                        toId = profile.getSubId(psrc);
 
                     //get properties
                     var
@@ -28934,7 +28941,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                     if(false === profile.boxing().beforeColMoved(profile,fromTh.id, toTh.id))return;
 
                     //remove dragover appearance
-                    linb.DragDrop.setDropFace(src,'none');
+                    linb.DragDrop.setDropFace(psrc,'none');
 
                     //get index in HCELL array
                     var fromIndex = _.arr.subIndexOf(p.header,'_serialId',fromId),

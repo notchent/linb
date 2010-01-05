@@ -147,6 +147,9 @@ Class('linb.Dom','linb.absBox',{
             });
             return "linb(['"+a.join("','")+"'])";
         },
+        linbid:function(){
+            return linb.getId(this.get(0));
+        },
         //Need to consider the cache in linb.$cache.profileMap
         id:function(value, ignoreCache){
             var t,i,cache=linb.$cache.profileMap;
