@@ -4733,9 +4733,7 @@ new function(){
                         BTNC:{
                             className:'ui-btnc',
                             FOCUS:{
-                                tagName:'a',
                                 tabindex: '{tabindex}',
-                                href:linb.$href,
                                 style:"{_align}",
                                 text:'{caption}'
                             }
@@ -4859,9 +4857,7 @@ new function(){
                 className:'{_clsName}',
                 style:'{_style}',
                 FOCUS:{
-                    tagName:'a',
                     tabindex: '{tabindex}',
-                    href:linb.$href,
                     MARK:{
                         className:'uicmd-check'
                     },

@@ -95,14 +95,10 @@ Class('linb.UI.DatePicker', ['linb.UI',"linb.absValue"], {
                         className:'uibar-cmdl',
                         PRE2:{
                             $order:0,
-                            tagName:'a',
-                            href:linb.$href,
                             tabindex: '{tabindex}'
                         },
                         PRE:{
                             $order:1,
-                            tagName:'a',
-                            href:linb.$href,
                             tabindex: '{tabindex}'
                         },
                         YEAR:{$order:2,unselectable:'on',
@@ -113,14 +109,10 @@ Class('linb.UI.DatePicker', ['linb.UI',"linb.absValue"], {
                         MTXT:{$order:5,style:'display:inline'},
                         NEXT:{
                             $order:6,
-                            tagName:'a',
-                            href:linb.$href,
                             tabindex: '{tabindex}'
                         },
                         NEXT2:{
                             $order:7,
-                            tagName:'a',
-                            href:linb.$href,
                             tabindex: '{tabindex}'
                         }
                     },
@@ -172,8 +164,6 @@ Class('linb.UI.DatePicker', ['linb.UI',"linb.absValue"], {
                                 TODAYC:{
                                     className:'ui-btnc',
                                     TODAYA:{
-                                        tagName:'a',
-                                        href:linb.$href,
                                         tabindex: '{tabindex}',
                                         text:linb.wrapRes('inline.today')
                                     }

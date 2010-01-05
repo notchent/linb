@@ -2501,8 +2501,6 @@ Class("linb.UI.Poll", "linb.UI.List",{
                         style:'{_togdisplay}'
                     },
                     ITEM:{
-                        tagName: 'a',
-                        href :linb.$href,
                         tabindex: '{_tabindex}',
                         className:'{itemClass} {disabled}',
                         style:'{itemStyle}',
@@ -2566,8 +2564,6 @@ Class("linb.UI.Poll", "linb.UI.List",{
                         CMDC:{
                             className:'ui-btnc',
                             CMDA:{
-                                tagName:'a',
-                                href:linb.$href,
                                 tabindex: '{_tabindex}',
                                 text:'{caption}'
                             }
@@ -3067,8 +3063,6 @@ Class("linb.UI.FoldingList", ["linb.UI.List"],{
                         HL:{tagName : 'div'},
                         HR:{tagName : 'div'},
                         TITLE:{
-                            tagName : 'a',
-                            href:linb.$href,
                             tabindex: '{_tabindex}',
                             TLEFT:{
                                 $order:0,
@@ -3134,8 +3128,6 @@ Class("linb.UI.FoldingList", ["linb.UI.List"],{
                         CMDC:{
                             className:'ui-btnc',
                             CMDA:{
-                                tagName:'a',
-                                href:linb.$href,
                                 tabindex: '{_tabindex}',
                                 text:'{caption}'
                             }
@@ -3467,15 +3459,11 @@ Class("linb.UI.Range", ["linb.UI","linb.absValue"],{
                 RULER:{
                     tagName:'div',
                     IND1:{
-                        tagName:'a',
-                        href:linb.$href,
-                        tabindex:'{tabIndex}',
+                        tabindex:'{tabindex}',
                         style:'{_single}'
                     },
                     IND2:{
-                        tagName:'a',
-                        href:linb.$href,
-                        tabindex:'{tabIndex}'
+                        tabindex:'{tabindex}'
                     },
                     RULER1:{
                         $order:2,
@@ -3754,7 +3742,7 @@ Class("linb.UI.Range", ["linb.UI","linb.absValue"],{
         _keydown:function(profile, e, src,type){
             var key=linb.Event.getKey(e);
             if(key[0]=='left' || key[0]=='right'){
-                var s=src.style, left=parseInt(s.left), pro=profile.properties, steps=pro.steps, span=300/steps, v,f=function(key){
+                var s=linb.use(src).get(0).style, left=parseInt(s.left), pro=profile.properties, steps=pro.steps, span=300/steps, v,f=function(key){
                     return parseInt(profile.getSubNode(key).get(0).style.left);
                 };
                 left += key[0]=='left'?-1:1;
@@ -3776,7 +3764,7 @@ Class("linb.UI.Range", ["linb.UI","linb.absValue"],{
                 
                 s.left=left+'px';
 
-                profile.box._ondrag.apply(profile.box,[profile,left,src,1]);
+                profile.box._ondrag.apply(profile.box,[profile,left,src,type]);
 
                 var  rate = profile._rate,
                     arr = pro.$UIvalue.split(':');

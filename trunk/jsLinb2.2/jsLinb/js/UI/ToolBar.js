@@ -140,8 +140,6 @@ Class("linb.UI.ToolBar",["linb.UI","linb.absList"],{
                                     BTNC:{
                                         className:'ui-btnc',
                                         BOX:{
-                                            tagName:'a',
-                                            href:linb.$href,
                                             tabindex: '{_tabindex}',
                                             BOXWRAP:{
                                                 tagName:'div',

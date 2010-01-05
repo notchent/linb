@@ -55,29 +55,21 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
                 IND:{
                     $order:2,
                     IND1:{
-                        tagName:'a',
                         style:'{_showD}',
-                        href:linb.$href,
-                        tabindex:'{tabIndex}'
+                        tabindex:'{tabindex}'
                     },
                     IND2:{
-                        tagName:'a',
-                        href:linb.$href,
-                        tabindex:'{tabIndex}',
-                        style:'{_showD2}'
+                        style:'{_showD2}',
+                        tabindex:'{tabindex}'
                     }
                 },
                 DECREASE:{
-                    tagName:'a',
                     style:'{_showDes}',
-                    href:linb.$href,
-                    tabindex:'{tabIndex}'
+                    tabindex:'{tabindex}'
                 },
                 INCREASE:{
-                    tagName:'a',
                     style:'{_showIns}',
-                    href:linb.$href,
-                    tabindex:'{tabIndex}'
+                    tabindex:'{tabindex}'
                 }
             }
         },

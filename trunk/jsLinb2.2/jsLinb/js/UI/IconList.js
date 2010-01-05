@@ -11,8 +11,6 @@ Class("linb.UI.IconList", "linb.UI.List",{
         t.$submap={
             items:{
                 ITEM:{
-                    tagName : 'a',
-                    href :linb.$href,
                     tabindex:'{_tabindex}',
                     className:'{itemClass} {disabled}',
                     style:'padding:{itemPadding}px;margin:{itemMargin}px;{itemStyle}',

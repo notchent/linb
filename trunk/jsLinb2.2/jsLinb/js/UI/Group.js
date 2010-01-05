@@ -33,6 +33,10 @@ Class("linb.UI.Group", "linb.UI.Div",{
                         profile.box._toggle(profile, !profile.properties.toggle);
                         return false;
                     }
+                },
+                onKeydown : function(profile, e, src){
+                    if(linb.Event.getKey(e)[0]=='enter')
+                        linb(src).onClick();
                 }
             }
         },
@@ -45,8 +49,6 @@ Class("linb.UI.Group", "linb.UI.Div",{
                 LEGEND:{
                     tagName : 'legend',
                     HANDLE:{
-                        tagName: 'a',
-                        href :linb.$href,
                         tabindex: '{tabindex}',
                         TOGGLE:{
                             className: 'uicmd-toggle2 {toggleCls2}',

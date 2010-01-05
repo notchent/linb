@@ -61,7 +61,7 @@ Class('linb.UI.ColorPicker', ['linb.UI',"linb.absValue"], {
 
         //simple list
         for(i=0;i<l;i++)
-            arr.push('<a  '+'id="'+key+'-SC:'+id+':'+list[i]+'" href='+linb.$href+'  style="background-color:#'+list[i]+'">'+list[i]+'</a>');
+            arr.push('<span  '+'id="'+key+'-SC:'+id+':'+list[i]+'" style="background-color:#'+list[i]+'">'+list[i]+'</span>');
 
         //data
         data = '<div><span class="'+cls+'-txt">R: </span><span '+'id="'+key+'-R:'+id+':" class="'+cls+'-dd2 ui-dragable #DD2_CC#" '+evs+'>R</span><span style="width:8px;height:8px"  unselectable="on" ></span><span class="'+cls+'-txt">H: </span><span '+'id="'+key+'-HH:'+id+':" class="'+cls+'-dd2 ui-dragable #DD2_CC#" '+evs+'>H</span><span>\xB0</span></div>' +
@@ -194,8 +194,7 @@ Class('linb.UI.ColorPicker', ['linb.UI',"linb.absValue"], {
                                 SETC:{
                                     className:'ui-btnc',
                                     SETA:{
-                                        tagName:'a',
-                                        href:linb.$href,
+                                        tabindex: '{tabindex}',
                                         text:linb.wrapRes('inline.set')
                                     }
                                 }
@@ -208,8 +207,6 @@ Class('linb.UI.ColorPicker', ['linb.UI',"linb.absValue"], {
                                 TOGGLEC:{
                                     className:'ui-btnc',
                                     TOGGLEA:{
-                                        tagName:'a',
-                                        href:linb.$href,
                                         tabindex: '{tabindex}',
                                         text:'>>'
                                     }
@@ -414,7 +411,7 @@ Class('linb.UI.ColorPicker', ['linb.UI',"linb.absValue"], {
                 overflow:'hidden',
                 width:'17px'
             },
-            'LIST a':{
+            'LIST span':{
                 height: '12px',
                 width: '10px',
                 'font-size':linb.browser.ie6?'0':null,
@@ -426,9 +423,6 @@ Class('linb.UI.ColorPicker', ['linb.UI',"linb.absValue"], {
                 cursor: 'pointer',
                 border: '1px solid #000',
                 margin:'0 -1px -1px 0'
-            },
-            'LIST a:hover':{
-                border: '1px solid black'
             },
             SET:{
                 position:'absolute',

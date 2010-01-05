@@ -72,8 +72,6 @@ Class("linb.UI.FoldingList", ["linb.UI.List"],{
                         HL:{tagName : 'div'},
                         HR:{tagName : 'div'},
                         TITLE:{
-                            tagName : 'a',
-                            href:linb.$href,
                             tabindex: '{_tabindex}',
                             TLEFT:{
                                 $order:0,
@@ -139,8 +137,6 @@ Class("linb.UI.FoldingList", ["linb.UI.List"],{
                         CMDC:{
                             className:'ui-btnc',
                             CMDA:{
-                                tagName:'a',
-                                href:linb.$href,
                                 tabindex: '{_tabindex}',
                                 text:'{caption}'
                             }

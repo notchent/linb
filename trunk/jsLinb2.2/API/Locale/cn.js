@@ -8019,30 +8019,6 @@ _.set(linb.Locale,["cn","doc","linb","UI","Button"], {
                 "}"
             ]
         },
-        getHref :{
-            $desc:"获取按钮的href属性",
-            $rtn:"String",
-            $snippet:[
-                "var id='linb.temp.btn3'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
-                "var btn;linb(id).prepend(btn=new linb.UI.Button);"+
-                "_.asyRun(function(){btn.setHref ('#'); alert(btn.getHref ())},1000)"+
-                "}"
-            ]
-        },
-        setHref :{
-            $desc:"设置按钮的href属性, 并刷新界面.",
-            $rtn:"[self]",
-            $paras:[
-                "value [必需参数] : corresponding CSS value.",
-                "force [可选参数] : Boolean, 强制设置该属性值，即使属性已经设置为该值 默认为 [false]."
-            ],
-            $snippet:[
-                "var id='linb.temp.btn4'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
-                "var btn;linb(id).prepend(btn=new linb.UI.Button);"+
-                "_.asyRun(function(){btn.setHref ('#'); alert(btn.getHref ())},1000)"+
-                "}"
-            ]
-        },
         getType:{
             $desc:"得到按钮的类型.",
             $rtn:"String",
@@ -10264,30 +10240,6 @@ _.set(linb.Locale,["cn","doc","linb","UI","Panel"], {
                 "var id='linb.temp.panel01'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var btn;linb(id).prepend(btn=new linb.UI.Panel);"+
                 "_.asyRun(function(){btn.activate();},500); _.asyRun(function(){btn.activate(false);},1000);"+
-                "}"
-            ]
-        },
-        getHref :{
-            $desc:"获取面板的href",
-            $rtn:"String",
-            $snippet:[
-                "var id='linb.temp.panel33'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
-                "var btn;linb(id).prepend(btn=new linb.UI.Panel);"+
-                "_.asyRun(function(){btn.setHref('#'); alert(btn.getHref ())},1000)"+
-                "}"
-            ]
-        },
-        setHref :{
-            $desc:"设置面板的href, 并刷新界面.",
-            $rtn:"[self]",
-            $paras:[
-                "value [必需参数] : String.",
-                "force [可选参数] : Boolean, 强制设置该属性值，即使属性已经设置为该值. 默认为 [false]."
-            ],
-            $snippet:[
-                "var id='linb.temp.panel34'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
-                "var btn;linb(id).prepend(btn=new linb.UI.Panel);"+
-                "_.asyRun(function(){btn.setHref('#'); alert(btn.getHref ())},1000)"+
                 "}"
             ]
         },

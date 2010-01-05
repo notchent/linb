@@ -11,8 +11,6 @@ Class("linb.UI.Gallery", "linb.UI.List",{
         t.$submap={
             items:{
                 ITEM:{
-                    tagName : 'a',
-                    href :linb.$href,
                     tabindex:'{_tabindex}',
                     className:'{itemClass} {disabled}',
                     style:'padding:{itemPadding}px;margin:{itemMargin}px;{itemStyle}',
@@ -189,7 +187,6 @@ Class("linb.UI.Gallery", "linb.UI.List",{
             _.arr.each(_.toArr('itemWidth,itemHeight,imgWidth,imgHeight,itemPadding,itemMargin'),function(i){
                 item[i] = item[i] || p[i];
             });
-            item.href = item.href||linb.$href;
             item.capition = item.capition || '';
             item.comment = item.comment || '';
             item._tabindex = p.tabindex;

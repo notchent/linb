@@ -71,8 +71,6 @@ Class("linb.UI.Poll", "linb.UI.List",{
                         style:'{_togdisplay}'
                     },
                     ITEM:{
-                        tagName: 'a',
-                        href :linb.$href,
                         tabindex: '{_tabindex}',
                         className:'{itemClass} {disabled}',
                         style:'{itemStyle}',
@@ -136,8 +134,6 @@ Class("linb.UI.Poll", "linb.UI.List",{
                         CMDC:{
                             className:'ui-btnc',
                             CMDA:{
-                                tagName:'a',
-                                href:linb.$href,
                                 tabindex: '{_tabindex}',
                                 text:'{caption}'
                             }

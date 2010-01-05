@@ -77,8 +77,6 @@ Class("linb.UI.Panel", "linb.UI.Div",{
                             style:'{backgroundImage} {backgroundPosition} {backgroundRepeat} {imageDisplay}'
                         },
                         CAPTION:{
-                            tagName: 'a',
-                            href :"{href}",
                             tabindex: '{tabindex}',
                             text : '{caption}',
                             $order:1
@@ -266,12 +264,6 @@ Class("linb.UI.Panel", "linb.UI.Div",{
                 action: function(value){
                     this.getSubNode('ICON')
                         .css('backgroundPosition', value);
-                }
-            },
-            href:{
-                ini:linb.$href,
-                action:function(v){
-                    this.getSubNode('CAPTION').attr('href',v);
                 }
             },
             html:{

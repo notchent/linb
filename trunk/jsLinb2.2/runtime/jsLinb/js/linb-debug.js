@@ -4568,7 +4568,7 @@ Class("linb.CSS", null,{
             (b.gek?"a:focus{-moz-outline-offset:-1px !important}":"")+
             "div{font-size:12px;}"+
             "span{"+
-            (b.gek?"display:-moz-inline-block;display:-moz-inline-box;display:inline-block;":
+            (b.gek?"-moz-outline-offset:-1px !important;display:-moz-inline-block;display:-moz-inline-box;display:inline-block;":
                 b.ie6?"display:inline-box;display:inline;":"display:inline-block;")+
             (b.ie?"zoom:1;":"")+
             "}"+
@@ -13831,9 +13831,7 @@ new function(){
                         BTNC:{
                             className:'ui-btnc',
                             FOCUS:{
-                                tagName:'a',
                                 tabindex: '{tabindex}',
-                                href:linb.$href,
                                 style:"{_align}",
                                 text:'{caption}'
                             }
@@ -13957,9 +13955,7 @@ new function(){
                 className:'{_clsName}',
                 style:'{_style}',
                 FOCUS:{
-                    tagName:'a',
                     tabindex: '{tabindex}',
-                    href:linb.$href,
                     MARK:{
                         className:'uicmd-check'
                     },
@@ -15790,8 +15786,6 @@ Class("linb.UI.Button", ["linb.UI.Widget","linb.absValue"],{
         _.merge(t.FRAME,{
             FOCUS:{
                 $order:2,
-                tagName:'a',
-                href :"{href}",
                 tabindex: '{tabindex}',
                 TB:{
                     cellpadding:"0",
@@ -16061,7 +16055,6 @@ Class("linb.UI.Button", ["linb.UI.Widget","linb.absValue"],{
                     this.getSubNode('TD').attr('valign',v);
                 }
             },
-            href:linb.$href,
             value:false,
             type:{
                 ini:'normal',
@@ -16286,29 +16279,21 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
                 IND:{
                     $order:2,
                     IND1:{
-                        tagName:'a',
                         style:'{_showD}',
-                        href:linb.$href,
-                        tabindex:'{tabIndex}'
+                        tabindex:'{tabindex}'
                     },
                     IND2:{
-                        tagName:'a',
-                        href:linb.$href,
-                        tabindex:'{tabIndex}',
-                        style:'{_showD2}'
+                        style:'{_showD2}',
+                        tabindex:'{tabindex}'
                     }
                 },
                 DECREASE:{
-                    tagName:'a',
                     style:'{_showDes}',
-                    href:linb.$href,
-                    tabindex:'{tabIndex}'
+                    tabindex:'{tabindex}'
                 },
                 INCREASE:{
-                    tagName:'a',
                     style:'{_showIns}',
-                    href:linb.$href,
-                    tabindex:'{tabIndex}'
+                    tabindex:'{tabindex}'
                 }
             }
         },
@@ -19289,6 +19274,10 @@ Class("linb.UI.Group", "linb.UI.Div",{
                         profile.box._toggle(profile, !profile.properties.toggle);
                         return false;
                     }
+                },
+                onKeydown : function(profile, e, src){
+                    if(linb.Event.getKey(e)[0]=='enter')
+                        linb(src).onClick();
                 }
             }
         },
@@ -19301,8 +19290,6 @@ Class("linb.UI.Group", "linb.UI.Div",{
                 LEGEND:{
                     tagName : 'legend',
                     HANDLE:{
-                        tagName: 'a',
-                        href :linb.$href,
                         tabindex: '{tabindex}',
                         TOGGLE:{
                             className: 'uicmd-toggle2 {toggleCls2}',
@@ -19536,7 +19523,7 @@ Class("linb.UI.Group", "linb.UI.Div",{
 
         //simple list
         for(i=0;i<l;i++)
-            arr.push('<a  '+'id="'+key+'-SC:'+id+':'+list[i]+'" href='+linb.$href+'  style="background-color:#'+list[i]+'">'+list[i]+'</a>');
+            arr.push('<span  '+'id="'+key+'-SC:'+id+':'+list[i]+'" style="background-color:#'+list[i]+'">'+list[i]+'</span>');
 
         //data
         data = '<div><span class="'+cls+'-txt">R: </span><span '+'id="'+key+'-R:'+id+':" class="'+cls+'-dd2 ui-dragable #DD2_CC#" '+evs+'>R</span><span style="width:8px;height:8px"  unselectable="on" ></span><span class="'+cls+'-txt">H: </span><span '+'id="'+key+'-HH:'+id+':" class="'+cls+'-dd2 ui-dragable #DD2_CC#" '+evs+'>H</span><span>\xB0</span></div>' +
@@ -19669,8 +19656,7 @@ Class("linb.UI.Group", "linb.UI.Div",{
                                 SETC:{
                                     className:'ui-btnc',
                                     SETA:{
-                                        tagName:'a',
-                                        href:linb.$href,
+                                        tabindex: '{tabindex}',
                                         text:linb.wrapRes('inline.set')
                                     }
                                 }
@@ -19683,8 +19669,6 @@ Class("linb.UI.Group", "linb.UI.Div",{
                                 TOGGLEC:{
                                     className:'ui-btnc',
                                     TOGGLEA:{
-                                        tagName:'a',
-                                        href:linb.$href,
                                         tabindex: '{tabindex}',
                                         text:'>>'
                                     }
@@ -19889,7 +19873,7 @@ Class("linb.UI.Group", "linb.UI.Div",{
                 overflow:'hidden',
                 width:'17px'
             },
-            'LIST a':{
+            'LIST span':{
                 height: '12px',
                 width: '10px',
                 'font-size':linb.browser.ie6?'0':null,
@@ -19901,9 +19885,6 @@ Class("linb.UI.Group", "linb.UI.Div",{
                 cursor: 'pointer',
                 border: '1px solid #000',
                 margin:'0 -1px -1px 0'
-            },
-            'LIST a:hover':{
-                border: '1px solid black'
             },
             SET:{
                 position:'absolute',
@@ -20553,14 +20534,10 @@ Class("linb.UI.Group", "linb.UI.Div",{
                         className:'uibar-cmdl',
                         PRE2:{
                             $order:0,
-                            tagName:'a',
-                            href:linb.$href,
                             tabindex: '{tabindex}'
                         },
                         PRE:{
                             $order:1,
-                            tagName:'a',
-                            href:linb.$href,
                             tabindex: '{tabindex}'
                         },
                         YEAR:{$order:2,unselectable:'on',
@@ -20571,14 +20548,10 @@ Class("linb.UI.Group", "linb.UI.Div",{
                         MTXT:{$order:5,style:'display:inline'},
                         NEXT:{
                             $order:6,
-                            tagName:'a',
-                            href:linb.$href,
                             tabindex: '{tabindex}'
                         },
                         NEXT2:{
                             $order:7,
-                            tagName:'a',
-                            href:linb.$href,
                             tabindex: '{tabindex}'
                         }
                     },
@@ -20630,8 +20603,6 @@ Class("linb.UI.Group", "linb.UI.Div",{
                                 TODAYC:{
                                     className:'ui-btnc',
                                     TODAYA:{
-                                        tagName:'a',
-                                        href:linb.$href,
                                         tabindex: '{tabindex}',
                                         text:linb.wrapRes('inline.today')
                                     }
@@ -21147,8 +21118,6 @@ Class("linb.UI.Group", "linb.UI.Div",{
                         className:'uibar-cmdl',
                         PRE:{
                             $order:0,
-                            tagName:'a',
-                            href:linb.$href,
                             tabindex: '{tabindex}'
                         },
                         HOUR:{
@@ -21159,8 +21128,6 @@ Class("linb.UI.Group", "linb.UI.Div",{
 //                        HOURTXT:{$order:2,style:'display:inline'},
                         NEXT:{
                             $order:3,
-                            tagName:'a',
-                            href:linb.$href,
                             tabindex: '{tabindex}'
                         }
                     },
@@ -21205,8 +21172,6 @@ Class("linb.UI.Group", "linb.UI.Div",{
                                 SETC:{
                                     className:'ui-btnc',
                                     SETA:{
-                                        tagName:'a',
-                                        href:linb.$href,
                                         tabindex: '{tabindex}',
                                         text:linb.wrapRes('inline.set')
                                     }
@@ -21662,8 +21627,6 @@ Class("linb.UI.Group", "linb.UI.Div",{
                     ITEM:{
                         className:'{itemClass} {disabled}',
                         style:'{itemStyle}',
-                        tagName : 'a',
-                        href :linb.$href,
                         tabindex:'{_tabindex}',
                         ICON:{
                             $order:10,
@@ -21835,7 +21798,6 @@ Class("linb.UI.Group", "linb.UI.Div",{
                             break;
                         case 'enter':
                             cur.onClick();
-                            return false;
                             break;
                     }
                 }
@@ -21922,8 +21884,6 @@ Class("linb.UI.Gallery", "linb.UI.List",{
         t.$submap={
             items:{
                 ITEM:{
-                    tagName : 'a',
-                    href :linb.$href,
                     tabindex:'{_tabindex}',
                     className:'{itemClass} {disabled}',
                     style:'padding:{itemPadding}px;margin:{itemMargin}px;{itemStyle}',
@@ -22100,7 +22060,6 @@ Class("linb.UI.Gallery", "linb.UI.List",{
             _.arr.each(_.toArr('itemWidth,itemHeight,imgWidth,imgHeight,itemPadding,itemMargin'),function(i){
                 item[i] = item[i] || p[i];
             });
-            item.href = item.href||linb.$href;
             item.capition = item.capition || '';
             item.comment = item.comment || '';
             item._tabindex = p.tabindex;
@@ -22122,8 +22081,6 @@ Class("linb.UI.IconList", "linb.UI.List",{
         t.$submap={
             items:{
                 ITEM:{
-                    tagName : 'a',
-                    href :linb.$href,
                     tabindex:'{_tabindex}',
                     className:'{itemClass} {disabled}',
                     style:'padding:{itemPadding}px;margin:{itemMargin}px;{itemStyle}',
@@ -22321,8 +22278,6 @@ Class("linb.UI.Panel", "linb.UI.Div",{
                             style:'{backgroundImage} {backgroundPosition} {backgroundRepeat} {imageDisplay}'
                         },
                         CAPTION:{
-                            tagName: 'a',
-                            href :"{href}",
                             tabindex: '{tabindex}',
                             text : '{caption}',
                             $order:1
@@ -22510,12 +22465,6 @@ Class("linb.UI.Panel", "linb.UI.Div",{
                 action: function(value){
                     this.getSubNode('ICON')
                         .css('backgroundPosition', value);
-                }
-            },
-            href:{
-                ini:linb.$href,
-                action:function(v){
-                    this.getSubNode('CAPTION').attr('href',v);
                 }
             },
             html:{
@@ -23325,8 +23274,6 @@ Class("linb.UI.Tabs", ["linb.UI", "linb.absList","linb.absValue"],{
                         ITEMI:{
                             ITEMC:{
                                 HANDLE:{
-                                    tagName: 'a',
-                                    href :"{href}",
                                     tabindex: '{_tabindex}',
                                     IBWRAP:{
                                         tagName:'div',
@@ -23826,7 +23773,6 @@ Class("linb.UI.Tabs", ["linb.UI", "linb.absList","linb.absValue"],{
             item.closeDisplay = item.closeBtn?'':dpn;
             item.landDisplay = item.landBtn?'':dpn;
             item._opt = item.optBtn?'':dpn;
-            item.href = item.href || linb.$href;
             item.itemDisplay = item.hidden?dpn:'';
         },
         getDropKeys:function(profile,node){
@@ -24263,8 +24209,6 @@ Class("linb.UI.ButtonViews", "linb.UI.Tabs",{
                 ITEM:{
                     className:'{itemClass}  {disabled}',
                     style:'{itemStyle}',
-                    tagName: 'a',
-                    href :linb.$href,
                     tabindex: '{_tabindex}',
                     MARK:{
                         $order:0,
@@ -24516,8 +24460,6 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
                         unselectable:'on',
                         BAR:{
                             $order:0,
-                            tagName: 'a',
-                            href :"{href}",
                             tabindex: '{_tabindex}',
                             className:'{cls_group} ',
                             onselectstart:'return false',
@@ -24579,6 +24521,7 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
                'font-size':'12px',
                padding:'2px 4px',
                border: '1px solid',
+               '-moz-outline-offset':'-1px !important',
                'border-color':'#EDF4FC #698AB3 #698AB3 #EDF4FC',
                'background-color':'#CCE4FC'
             },
@@ -24673,8 +24616,7 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
                         item = profile.getItemByDom(domId),
                         itemId =profile.getSubId(domId),
                         box = profile.boxing(),
-                        ks=linb.Event.getKey(e),
-                        rt,rt2;
+                        ks=linb.Event.getKey(e);
 
                     if(properties.disabled|| item.disabled)return false;
                     //group not fire event
@@ -24687,7 +24629,7 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
 
                     switch(properties.selMode){
                     case 'none':
-                        rt=box.onItemSelected(profile, item, src);
+                        box.onItemSelected(profile, item, src);
                         break;
                     case 'multi':
                         if(profile.getKey(linb.Event.getSrc(e).id)!=profile.keys.MARK2)return;
@@ -24695,8 +24637,6 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
                         var value = box.getUIValue(),
                             arr = value?value.split(';'):[];
                         if(arr.length&&(ks[1]||ks[2]||properties.noCtrlKey)){
-                            //for select
-                            rt2=false;
                             if(ks[2]){
                                 if(profile.$firstV._pid!=item._pid)return false;
                                 var items=properties.items;
@@ -24720,29 +24660,22 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
                             value = arr.join(';');
 
                             //update string value only for _setCtrlValue
-                            if(box.getUIValue() == value)
-                                rt=false;
-                            else{
+                            if(box.getUIValue() != value){
                                 box.setUIValue(value);
                                 if(box.get(0) && box.getUIValue() == value)
-                                    rt=box.onItemSelected(profile, item, src)||rt2;
+                                    box.onItemSelected(profile, item, src);
                             }
                             break;
                         }
                     case 'single':
-                        if(box.getUIValue() == item.id)
-                            rt=false;
-                        else{
+                        if(box.getUIValue() != item.id){
                             profile.$firstV=item;
                             box.setUIValue(item.id);
                             if(box.get(0) && box.getUIValue() == item.id)
-                                rt=box.onItemSelected(profile, item, src);
+                                box.onItemSelected(profile, item, src);
                         }
                         break;
                     }
-                    var node=linb.use(src).get(0),href=node&&node.href;
-                    node=null;
-                    return (!href || href.indexOf('javascript:')==0)?false:rt;
                 },
                 onKeydown:function(profile, e, src){
                     var keys=linb.Event.getKey(e), key = keys[0], shift=keys[2],
@@ -24752,6 +24685,9 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
                         last = root.nextFocus(false, true, false);
 
                     switch(linb.Event.getKey(e)[0]){
+                        case 'enter':
+                            linb(src).onClick();
+                            break;
                         case 'tab':
                             if(shift){
                                 if(cur.get(0)!=first.get(0)){
@@ -24914,7 +24850,6 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
             item.disabled = item.disabled?profile.getClass('KEY', '-disabled'):'';
             item.mark2Display = (p.selMode=='multi')?'':'display:none';
             item._tabindex = p.tabindex;
-            item.href = item.href || linb.$href;
             //change css class
             if(item.sub && (item.hasOwnProperty('group')?item.group:p.group)){
                 item.cls_group = profile.getClass('BAR', '-group');
@@ -25262,13 +25197,10 @@ Class("linb.UI.PopMenu",["linb.UI.Widget","linb.absList"],{
              },
             'items.split':{
                 ITEMSPLIT:{
-                    tagName : 'a'
                 }
             },
             'items.button':{
                 ITEM:{
-                    tagName : 'a',
-                    href :linb.$href,
                     tabindex: 1,
                     className: '{itemClass} {disabled}',
                     style:'{itemStyle}',
@@ -25296,8 +25228,6 @@ Class("linb.UI.PopMenu",["linb.UI.Widget","linb.absList"],{
             },
             'items.checkbox':{
                 ITEM:{
-                    tagName : 'a',
-                    href :linb.$href,
                     tabindex: 1,
                     className: '{itemClass} {disabled}',
                     style:'{itemStyle}',
@@ -25607,6 +25537,9 @@ Class("linb.UI.PopMenu",["linb.UI.Widget","linb.absList"],{
                         flag,r,tid,node,t;
 
                     switch(key){
+                        case 'enter':
+                            linb(src).onClick();
+                            break;
                         case 'up':
                             r=true;
                             flag=false;
@@ -25894,8 +25827,6 @@ Class("linb.UI.MenuBar",["linb.UI","linb.absList" ],{
                         ITEMI:{
                             ITEMC:{
                                 ITEMA:{
-                                    tagName:'a',
-                                    href :linb.$href,
                                     tabindex: '{_tabindex}',
                                     className:' {typeCls} {disabled}',
                                     ICON:{
@@ -26118,7 +26049,6 @@ Class("linb.UI.MenuBar",["linb.UI","linb.absList" ],{
                             break;
                         case 'enter':
                             cur.onMousedown();
-                            return false;
                             break;
                     }
                 },
@@ -26314,8 +26244,6 @@ Class("linb.UI.ToolBar",["linb.UI","linb.absList"],{
                                     BTNC:{
                                         className:'ui-btnc',
                                         BOX:{
-                                            tagName:'a',
-                                            href:linb.$href,
                                             tabindex: '{_tabindex}',
                                             BOXWRAP:{
                                                 tagName:'div',
@@ -28237,8 +28165,6 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                         style:'width:{width}px;{cellDisplay};',
                         className:'{cellCls}',
                         CELLA:{
-//                            tagName:'a',
-//                            href :linb.$href,
                             className:'{cellClass}',
                             style:'{bgcolor};{color};{cellStyle}',
                             tabindex: '{_tabindex}',
@@ -28264,8 +28190,6 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                         style:'width:{width}px;{cellDisplay}',
                         className:'{cellCls}',
                         CELLA:{
-//                            tagName:'a',
-//                            href :linb.$href,
                             className:'{cellClass}',
                             style:'{cellStyle}',
                             tabindex: '{_tabindex}',
@@ -28280,8 +28204,6 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                         style:'width:{width}px;{cellDisplay}',
                         className:'{cellCls}',
                         CELLA:{
-//                            tagName:'a',
-//                            href :linb.$href,
                             className:'{cellClass}',
                             style:'{cellStyle}',
                             tabindex: '{_tabindex}',
@@ -28557,6 +28479,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
             'CELLA-inline':{
                 $order:5,
                 display:'inline',
+                width:'auto',
                 '-moz-box-flex':0
             },
             PROGRESS:{
@@ -28935,6 +28858,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                     if(p.disabled)return;
                     var col=profile.colMap[profile.getSubId(src)];
                     if(!col)return;
+                    if(p.disabled || col.disabled)return false;
                     if(!(col.hasOwnProperty('colMovable')?col.colMovable:p.colMovable))return;
 
                     //fire before event
@@ -29199,7 +29123,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                         id;
                     if(cell){
                         if(profile.properties.disabled)return;
-                            type=getPro(profile, cell, 'type'),
+                        var type=getPro(profile, cell, 'type'),
                             disabled=getPro(profile, cell, 'disabled'),
                             event=getPro(profile, cell, 'event'),
                             mode = p.activeMode,
@@ -30225,18 +30149,15 @@ sortby [for column only]
                 targetItem=map[targetId],
                 ks=linb.Event.getKey(e),
                 sid=type=='cell'?(targetItem._row.id+'|'+targetItem._col.id):targetItem.id,
-                mode=properties.selMode,
-                rt,rt2;
+                mode=properties.selMode;
             switch(mode){
             case 'none':
-                rt=box.onRowSelected(profile, targetItem, src);
+                box.onRowSelected(profile, targetItem, src);
                 break;
             case 'multi':
                 var value = box.getUIValue(),
                     arr = value?value.split(';'):[];
                 if(arr.length&&(ks[1]||ks[2]||properties.noCtrlKey)){
-                    //for select
-                    rt2=false;
                     //todo: give cell multi selection function
                     if(ks[2] && type=='row'){
                         if(profile.$firstV._pid!=targetItem._pid)return false;
@@ -30262,28 +30183,22 @@ sortby [for column only]
                     value = arr.join(';');
 
                     //update string value only for setCtrlValue
-                    if(box.getUIValue() == value)
-                        rt=false;
-                    else{
+                    if(box.getUIValue() != value){
                         box.setUIValue(value);
                         if(box.get(0) && box.getUIValue() == value)
-                            rt=box.onRowSelected(profile, targetItem, src);
+                            box.onRowSelected(profile, targetItem, src);
                     }
                     break;
                 }
             case 'single':
-                if(box.getUIValue() == sid)
-                    rt=false;
-                else{
+                if(box.getUIValue() != sid){
                     profile.$firstV=targetItem;
                     box.setUIValue(sid);
                     if(box.get(0) && box.getUIValue() == sid)
-                        rt=box.onRowSelected(profile, targetItem, src)||rt2;
+                        box.onRowSelected(profile, targetItem, src);
                 }
                 break;
             }
-            return rt;
-
         },
         _activeCell:function(profile, id){
             if(profile.properties.activeMode!='cell')return;
@@ -30725,29 +30640,21 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
                 IND:{
                     $order:2,
                     IND1:{
-                        tagName:'a',
                         style:'{_showD}',
-                        href:linb.$href,
-                        tabindex:'{tabIndex}'
+                        tabindex:'{tabindex}'
                     },
                     IND2:{
-                        tagName:'a',
-                        href:linb.$href,
-                        tabindex:'{tabIndex}',
-                        style:'{_showD2}'
+                        style:'{_showD2}',
+                        tabindex:'{tabindex}'
                     }
                 },
                 DECREASE:{
-                    tagName:'a',
                     style:'{_showDes}',
-                    href:linb.$href,
-                    tabindex:'{tabIndex}'
+                    tabindex:'{tabindex}'
                 },
                 INCREASE:{
-                    tagName:'a',
                     style:'{_showIns}',
-                    href:linb.$href,
-                    tabindex:'{tabIndex}'
+                    tabindex:'{tabindex}'
                 }
             }
         },

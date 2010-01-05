@@ -81,8 +81,6 @@ Class('linb.UI.TimePicker', ['linb.UI',"linb.absValue"], {
                         className:'uibar-cmdl',
                         PRE:{
                             $order:0,
-                            tagName:'a',
-                            href:linb.$href,
                             tabindex: '{tabindex}'
                         },
                         HOUR:{
@@ -93,8 +91,6 @@ Class('linb.UI.TimePicker', ['linb.UI',"linb.absValue"], {
 //                        HOURTXT:{$order:2,style:'display:inline'},
                         NEXT:{
                             $order:3,
-                            tagName:'a',
-                            href:linb.$href,
                             tabindex: '{tabindex}'
                         }
                     },
@@ -139,8 +135,6 @@ Class('linb.UI.TimePicker', ['linb.UI',"linb.absValue"], {
                                 SETC:{
                                     className:'ui-btnc',
                                     SETA:{
-                                        tagName:'a',
-                                        href:linb.$href,
                                         tabindex: '{tabindex}',
                                         text:linb.wrapRes('inline.set')
                                     }

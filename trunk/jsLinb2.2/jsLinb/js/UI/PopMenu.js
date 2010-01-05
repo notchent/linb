@@ -205,13 +205,10 @@ Class("linb.UI.PopMenu",["linb.UI.Widget","linb.absList"],{
              },
             'items.split':{
                 ITEMSPLIT:{
-                    tagName : 'a'
                 }
             },
             'items.button':{
                 ITEM:{
-                    tagName : 'a',
-                    href :linb.$href,
                     tabindex: 1,
                     className: '{itemClass} {disabled}',
                     style:'{itemStyle}',
@@ -239,8 +236,6 @@ Class("linb.UI.PopMenu",["linb.UI.Widget","linb.absList"],{
             },
             'items.checkbox':{
                 ITEM:{
-                    tagName : 'a',
-                    href :linb.$href,
                     tabindex: 1,
                     className: '{itemClass} {disabled}',
                     style:'{itemStyle}',
@@ -550,6 +545,9 @@ Class("linb.UI.PopMenu",["linb.UI.Widget","linb.absList"],{
                         flag,r,tid,node,t;
 
                     switch(key){
+                        case 'enter':
+                            linb(src).onClick();
+                            break;
                         case 'up':
                             r=true;
                             flag=false;

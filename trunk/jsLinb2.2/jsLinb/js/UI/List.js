@@ -113,8 +113,6 @@ Class("linb.UI.List", ["linb.UI", "linb.absList","linb.absValue" ],{
                     ITEM:{
                         className:'{itemClass} {disabled}',
                         style:'{itemStyle}',
-                        tagName : 'a',
-                        href :linb.$href,
                         tabindex:'{_tabindex}',
                         ICON:{
                             $order:10,
@@ -286,7 +284,6 @@ Class("linb.UI.List", ["linb.UI", "linb.absList","linb.absValue" ],{
                             break;
                         case 'enter':
                             cur.onClick();
-                            return false;
                             break;
                     }
                 }

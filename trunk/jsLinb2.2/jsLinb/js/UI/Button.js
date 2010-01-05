@@ -57,8 +57,6 @@ Class("linb.UI.Button", ["linb.UI.Widget","linb.absValue"],{
         _.merge(t.FRAME,{
             FOCUS:{
                 $order:2,
-                tagName:'a',
-                href :"{href}",
                 tabindex: '{tabindex}',
                 TB:{
                     cellpadding:"0",
@@ -328,7 +326,6 @@ Class("linb.UI.Button", ["linb.UI.Widget","linb.absValue"],{
                     this.getSubNode('TD').attr('valign',v);
                 }
             },
-            href:linb.$href,
             value:false,
             type:{
                 ini:'normal',

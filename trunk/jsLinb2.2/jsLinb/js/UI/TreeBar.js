@@ -197,8 +197,6 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
                         unselectable:'on',
                         BAR:{
                             $order:0,
-                            tagName: 'a',
-                            href :"{href}",
                             tabindex: '{_tabindex}',
                             className:'{cls_group} ',
                             onselectstart:'return false',
@@ -260,6 +258,7 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
                'font-size':'12px',
                padding:'2px 4px',
                border: '1px solid',
+               '-moz-outline-offset':'-1px !important',
                'border-color':'#EDF4FC #698AB3 #698AB3 #EDF4FC',
                'background-color':'#CCE4FC'
             },
@@ -354,8 +353,7 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
                         item = profile.getItemByDom(domId),
                         itemId =profile.getSubId(domId),
                         box = profile.boxing(),
-                        ks=linb.Event.getKey(e),
-                        rt,rt2;
+                        ks=linb.Event.getKey(e);
 
                     if(properties.disabled|| item.disabled)return false;
                     //group not fire event
@@ -368,7 +366,7 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
 
                     switch(properties.selMode){
                     case 'none':
-                        rt=box.onItemSelected(profile, item, src);
+                        box.onItemSelected(profile, item, src);
                         break;
                     case 'multi':
                         if(profile.getKey(linb.Event.getSrc(e).id)!=profile.keys.MARK2)return;
@@ -376,8 +374,6 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
                         var value = box.getUIValue(),
                             arr = value?value.split(';'):[];
                         if(arr.length&&(ks[1]||ks[2]||properties.noCtrlKey)){
-                            //for select
-                            rt2=false;
                             if(ks[2]){
                                 if(profile.$firstV._pid!=item._pid)return false;
                                 var items=properties.items;
@@ -401,29 +397,22 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
                             value = arr.join(';');
 
                             //update string value only for _setCtrlValue
-                            if(box.getUIValue() == value)
-                                rt=false;
-                            else{
+                            if(box.getUIValue() != value){
                                 box.setUIValue(value);
                                 if(box.get(0) && box.getUIValue() == value)
-                                    rt=box.onItemSelected(profile, item, src)||rt2;
+                                    box.onItemSelected(profile, item, src);
                             }
                             break;
                         }
                     case 'single':
-                        if(box.getUIValue() == item.id)
-                            rt=false;
-                        else{
+                        if(box.getUIValue() != item.id){
                             profile.$firstV=item;
                             box.setUIValue(item.id);
                             if(box.get(0) && box.getUIValue() == item.id)
-                                rt=box.onItemSelected(profile, item, src);
+                                box.onItemSelected(profile, item, src);
                         }
                         break;
                     }
-                    var node=linb.use(src).get(0),href=node&&node.href;
-                    node=null;
-                    return (!href || href.indexOf('javascript:')==0)?false:rt;
                 },
                 onKeydown:function(profile, e, src){
                     var keys=linb.Event.getKey(e), key = keys[0], shift=keys[2],
@@ -433,6 +422,9 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
                         last = root.nextFocus(false, true, false);
 
                     switch(linb.Event.getKey(e)[0]){
+                        case 'enter':
+                            linb(src).onClick();
+                            break;
                         case 'tab':
                             if(shift){
                                 if(cur.get(0)!=first.get(0)){
@@ -595,7 +587,6 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
             item.disabled = item.disabled?profile.getClass('KEY', '-disabled'):'';
             item.mark2Display = (p.selMode=='multi')?'':'display:none';
             item._tabindex = p.tabindex;
-            item.href = item.href || linb.$href;
             //change css class
             if(item.sub && (item.hasOwnProperty('group')?item.group:p.group)){
                 item.cls_group = profile.getClass('BAR', '-group');

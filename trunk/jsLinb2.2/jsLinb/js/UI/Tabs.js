@@ -321,8 +321,6 @@ Class("linb.UI.Tabs", ["linb.UI", "linb.absList","linb.absValue"],{
                         ITEMI:{
                             ITEMC:{
                                 HANDLE:{
-                                    tagName: 'a',
-                                    href :"{href}",
                                     tabindex: '{_tabindex}',
                                     IBWRAP:{
                                         tagName:'div',
@@ -822,7 +820,6 @@ Class("linb.UI.Tabs", ["linb.UI", "linb.absList","linb.absValue"],{
             item.closeDisplay = item.closeBtn?'':dpn;
             item.landDisplay = item.landBtn?'':dpn;
             item._opt = item.optBtn?'':dpn;
-            item.href = item.href || linb.$href;
             item.itemDisplay = item.hidden?dpn:'';
         },
         getDropKeys:function(profile,node){

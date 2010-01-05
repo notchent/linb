@@ -8,8 +8,6 @@ Class("linb.UI.RadioBox", "linb.UI.List",{
                 ITEM:{
                     className:'{itemClass}  {disabled}',
                     style:'{itemStyle}',
-                    tagName: 'a',
-                    href :linb.$href,
                     tabindex: '{_tabindex}',
                     MARK:{
                         $order:0,

@@ -125,8 +125,6 @@ Class("linb.UI.MenuBar",["linb.UI","linb.absList" ],{
                         ITEMI:{
                             ITEMC:{
                                 ITEMA:{
-                                    tagName:'a',
-                                    href :linb.$href,
                                     tabindex: '{_tabindex}',
                                     className:' {typeCls} {disabled}',
                                     ICON:{
@@ -349,7 +347,6 @@ Class("linb.UI.MenuBar",["linb.UI","linb.absList" ],{
                             break;
                         case 'enter':
                             cur.onMousedown();
-                            return false;
                             break;
                     }
                 },

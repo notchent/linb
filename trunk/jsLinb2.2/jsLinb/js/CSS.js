@@ -287,7 +287,7 @@ Class("linb.CSS", null,{
             (b.gek?"a:focus{-moz-outline-offset:-1px !important}":"")+
             "div{font-size:12px;}"+
             "span{"+
-            (b.gek?"display:-moz-inline-block;display:-moz-inline-box;display:inline-block;":
+            (b.gek?"-moz-outline-offset:-1px !important;display:-moz-inline-block;display:-moz-inline-box;display:inline-block;":
                 b.ie6?"display:inline-box;display:inline;":"display:inline-block;")+
             (b.ie?"zoom:1;":"")+
             "}"+

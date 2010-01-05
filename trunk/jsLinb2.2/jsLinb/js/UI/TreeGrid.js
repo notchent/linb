@@ -784,8 +784,6 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                         style:'width:{width}px;{cellDisplay};',
                         className:'{cellCls}',
                         CELLA:{
-//                            tagName:'a',
-//                            href :linb.$href,
                             className:'{cellClass}',
                             style:'{bgcolor};{color};{cellStyle}',
                             tabindex: '{_tabindex}',
@@ -811,8 +809,6 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                         style:'width:{width}px;{cellDisplay}',
                         className:'{cellCls}',
                         CELLA:{
-//                            tagName:'a',
-//                            href :linb.$href,
                             className:'{cellClass}',
                             style:'{cellStyle}',
                             tabindex: '{_tabindex}',
@@ -827,8 +823,6 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                         style:'width:{width}px;{cellDisplay}',
                         className:'{cellCls}',
                         CELLA:{
-//                            tagName:'a',
-//                            href :linb.$href,
                             className:'{cellClass}',
                             style:'{cellStyle}',
                             tabindex: '{_tabindex}',
@@ -1104,6 +1098,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
             'CELLA-inline':{
                 $order:5,
                 display:'inline',
+                width:'auto',
                 '-moz-box-flex':0
             },
             PROGRESS:{
@@ -1482,6 +1477,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                     if(p.disabled)return;
                     var col=profile.colMap[profile.getSubId(src)];
                     if(!col)return;
+                    if(p.disabled || col.disabled)return false;
                     if(!(col.hasOwnProperty('colMovable')?col.colMovable:p.colMovable))return;
 
                     //fire before event
@@ -1746,7 +1742,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                         id;
                     if(cell){
                         if(profile.properties.disabled)return;
-                            type=getPro(profile, cell, 'type'),
+                        var type=getPro(profile, cell, 'type'),
                             disabled=getPro(profile, cell, 'disabled'),
                             event=getPro(profile, cell, 'event'),
                             mode = p.activeMode,
@@ -2772,18 +2768,15 @@ sortby [for column only]
                 targetItem=map[targetId],
                 ks=linb.Event.getKey(e),
                 sid=type=='cell'?(targetItem._row.id+'|'+targetItem._col.id):targetItem.id,
-                mode=properties.selMode,
-                rt,rt2;
+                mode=properties.selMode;
             switch(mode){
             case 'none':
-                rt=box.onRowSelected(profile, targetItem, src);
+                box.onRowSelected(profile, targetItem, src);
                 break;
             case 'multi':
                 var value = box.getUIValue(),
                     arr = value?value.split(';'):[];
                 if(arr.length&&(ks[1]||ks[2]||properties.noCtrlKey)){
-                    //for select
-                    rt2=false;
                     //todo: give cell multi selection function
                     if(ks[2] && type=='row'){
                         if(profile.$firstV._pid!=targetItem._pid)return false;
@@ -2809,28 +2802,22 @@ sortby [for column only]
                     value = arr.join(';');
 
                     //update string value only for setCtrlValue
-                    if(box.getUIValue() == value)
-                        rt=false;
-                    else{
+                    if(box.getUIValue() != value){
                         box.setUIValue(value);
                         if(box.get(0) && box.getUIValue() == value)
-                            rt=box.onRowSelected(profile, targetItem, src);
+                            box.onRowSelected(profile, targetItem, src);
                     }
                     break;
                 }
             case 'single':
-                if(box.getUIValue() == sid)
-                    rt=false;
-                else{
+                if(box.getUIValue() != sid){
                     profile.$firstV=targetItem;
                     box.setUIValue(sid);
                     if(box.get(0) && box.getUIValue() == sid)
-                        rt=box.onRowSelected(profile, targetItem, src)||rt2;
+                        box.onRowSelected(profile, targetItem, src);
                 }
                 break;
             }
-            return rt;
-
         },
         _activeCell:function(profile, id){
             if(profile.properties.activeMode!='cell')return;

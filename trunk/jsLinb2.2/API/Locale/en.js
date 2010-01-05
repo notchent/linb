@@ -7985,30 +7985,6 @@ _.set(linb.Locale,["en","doc","linb","UI","Button"], {
                 "}"
             ]
         },
-        getHref :{
-            $desc:"Gets the Href property value on the first UIProfile",
-            $rtn:"String",
-            $snippet:[
-                "var id='linb.temp.btn3'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
-                "var btn;linb(id).prepend(btn=new linb.UI.Button);"+
-                "_.asyRun(function(){btn.setHref ('#'); alert(btn.getHref ())},1000)"+
-                "}"
-            ]
-        },
-        setHref :{
-            $desc:"Sets the Href property value on the each UIProfile, and reflects the value to UI.",
-            $rtn:"[self]",
-            $paras:[
-                "value [Required] : String.",
-                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
-            ],
-            $snippet:[
-                "var id='linb.temp.btn4'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
-                "var btn;linb(id).prepend(btn=new linb.UI.Button);"+
-                "_.asyRun(function(){btn.setHref ('#'); alert(btn.getHref ())},1000)"+
-                "}"
-            ]
-        },
         getType:{
             $desc:"Gets button type.",
             $rtn:"String",
@@ -10244,30 +10220,6 @@ _.set(linb.Locale,["en","doc","linb","UI","Panel"], {
                 "var id='linb.temp.panel01'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                 "var btn;linb(id).prepend(btn=new linb.UI.Panel);"+
                 "_.asyRun(function(){btn.activate();},500); _.asyRun(function(){btn.activate(false);},1000);"+
-                "}"
-            ]
-        },
-        getHref :{
-            $desc:"Gets panel href",
-            $rtn:"String",
-            $snippet:[
-                "var id='linb.temp.panel33'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
-                "var btn;linb(id).prepend(btn=new linb.UI.Panel);"+
-                "_.asyRun(function(){btn.setHref('#'); alert(btn.getHref ())},1000)"+
-                "}"
-            ]
-        },
-        setHref :{
-            $desc:"Sets panel href, and reflects the value to UI.",
-            $rtn:"[self]",
-            $paras:[
-                "value [Required] : String.",
-                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
-            ],
-            $snippet:[
-                "var id='linb.temp.panel34'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
-                "var btn;linb(id).prepend(btn=new linb.UI.Panel);"+
-                "_.asyRun(function(){btn.setHref('#'); alert(btn.getHref ())},1000)"+
                 "}"
             ]
         },
