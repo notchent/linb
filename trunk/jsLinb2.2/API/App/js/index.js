@@ -292,6 +292,7 @@ Class('App', 'linb.Com',{
             host.mainLayout.append((new linb.UI.TreeBar)
                 .host(host,"objTree")
                 .onRender("_objtree_aftercreated")
+                .onItemSelected("__itemsel")
             , 'before');
             
             host.mainLayout.append((new linb.UI.Div)
@@ -801,6 +802,9 @@ Class('App', 'linb.Com',{
         }, 
         base:[], 
         required:["linb.UI.PopMenu", "linb.UI.Layout", "linb.UI.Block", "linb.UI.Pane", "linb.UI.SLabel", "linb.UI.Input", "linb.UI.ComboInput", "linb.UI.Label", "linb.UI.Button", "linb.UI.Div", "linb.UI.List", "linb.UI.TreeBar", "linb.UI.PageBar", "linb.UI.Dialog"], 
+        __itemsel:function(profile, item, src){
+            linb.History.setFI(item.href);
+        },
         _listq_onitemselected:function (profile, item) {
             linb.History.setFI(item.id);
         }, 
