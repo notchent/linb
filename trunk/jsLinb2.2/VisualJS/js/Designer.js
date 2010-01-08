@@ -681,7 +681,7 @@ Class('VisualJS.Designer', 'linb.Com',{
                                 id,profile;
 
                             //for lang span, or inner renderer
-                            while((!esrc.id || esrc.id==linb.$langId) && esrc.parentNode!==document&& esrc.parentNode!==window)
+                            while((!esrc.id || esrc.id==linb.LOCALEID) && esrc.parentNode!==document&& esrc.parentNode!==window)
                                 esrc=esrc.parentNode;
 
                             id=esrc.id;
@@ -1133,7 +1133,7 @@ Class('VisualJS.Designer', 'linb.Com',{
                                         if(em){
                                             em=_.unserialize(em);
                                             delete em[tagVar.funName];
-                                            _.set(tagVar.clsStruct,['sub','Instance', 'sub','events', 'code'], _.serialize(em));
+                                            _.set(tagVar.clsStruct,['sub','Instance', 'sub','events', 'code'], _.stringify(em));
                                         }
 
                                         profile.boxing().updateCell(cell,{value:''});
@@ -1186,7 +1186,7 @@ Class('VisualJS.Designer', 'linb.Com',{
                                 image:CONF.img_app,
                                 imagePos:obj.constructor==Array?'-128px -32px':'-16px -32px',
                                 text:linb.Coder.formatText(
-                                    _.serialize(
+                                    _.stringify(
                                         _.clone(obj, function(o,i){return (i+'').charAt(0)!='_'})
                                     )
                                 ),
@@ -1486,7 +1486,7 @@ Class('VisualJS.Designer', 'linb.Com',{
                                 var em = _.get(page.$data.clsStruct,['sub','Instance', 'sub','events', 'code']);
                                 if(em)em=_.unserialize(em);else em={};
                                 em[property] = hash.value;
-                                _.set(page.$data.clsStruct,['sub','Instance', 'sub','events', 'code'], _.serialize(em));
+                                _.set(page.$data.clsStruct,['sub','Instance', 'sub','events', 'code'], _.stringify(em));
                                 _.set(page.$data.clsStruct,['sub','Instance', 'sub','events', 'comments'],
                                     _.get(page.$data.clsStruct,['sub','Instance', 'sub','events', 'comments']) || ('\n'+_.str.repeat(' ',8)) );
 
@@ -1805,7 +1805,7 @@ Class('VisualJS.Designer', 'linb.Com',{
                                         image:CONF.img_app,
                                         imagePos:obj.constructor==Array?'-128px -32px':'-16px -32px',
                                         text:linb.Coder.formatText(
-                                            _.serialize(
+                                            _.stringify(
                                                 _.clone(obj, function(o,i){return (i+'').charAt(0)!='_'})
                                             )
                                         ),
@@ -1853,7 +1853,7 @@ Class('VisualJS.Designer', 'linb.Com',{
                     }
                     cv = cv || target.properties[i];
                     if(_.isStr(cv)){
-                        //cv=_.serialize(cv);
+                        //cv=_.stringify(cv);
                         //for serialized string
                         //cv = cv.replace(/^\"/,'').replace(/\"$/,'');
                     }
@@ -2098,7 +2098,7 @@ Class('VisualJS.Designer', 'linb.Com',{
             };
             fun(nodes);
 
-            return 'return linb.create(' + _.fromUTF8(_.serialize(nodes)) + ').get();'
+            return 'return linb.create(' + _.stringify(nodes) + ').get();'
         },
         getJSCode:function(nodes){
             //sort by tabindex
@@ -2142,25 +2142,25 @@ Class('VisualJS.Designer', 'linb.Com',{
                         if(i=='value')return;
                         t='set' + _.str.initial(i);
                         if(typeof ins[t] =='function')
-                            arr.push('\n    .' + t + '(' + _.serialize(o) +')');
+                            arr.push('\n    .' + t + '(' + _.stringify(o) +')');
                     });
                     if(typeof ins.setValue=='function' && 'value' in o.properties)
-                        arr.push('\n    .setValue(' + _.serialize(o.properties.value) +')');
+                        arr.push('\n    .setValue(' + _.stringify(o.properties.value) +')');
                 }
 
                 if(o.events){
                     _.each(o.events,function(o,i){
-                        arr.push('\n    .' + i + '('+ _.serialize(o) +')');
+                        arr.push('\n    .' + i + '('+ _.stringify(o) +')');
                     });
                 }
                 if(o.CS)
-                    arr.push('\n    .setCustomStyle('+ _.serialize(o.CS) +')');
+                    arr.push('\n    .setCustomStyle('+ _.stringify(o.CS) +')');
                 if(o.CC)
-                    arr.push('\n    .setCustomClass('+ _.serialize(o.CC) +')');
+                    arr.push('\n    .setCustomClass('+ _.stringify(o.CC) +')');
                 if(o.CB)
-                    arr.push('\n    .setCustomBehavior('+ _.serialize(o.CB) +')');
+                    arr.push('\n    .setCustomBehavior('+ _.stringify(o.CB) +')');
                 if(o.CF)
-                    arr.push('\n    .setCustomFunction('+ _.serialize(o.CF) +')');
+                    arr.push('\n    .setCustomFunction('+ _.stringify(o.CF) +')');
 
                 if(pName)
                     arr.push('\n'+(argsStr?(', '+argsStr):'')+');');
@@ -2358,12 +2358,12 @@ Class('VisualJS.Designer', 'linb.Com',{
                     }
                 });
                 if(_.get(ins,['sub','base'])){
-                    _.set(ins,['sub','base','code'],_.serialize(base));
+                    _.set(ins,['sub','base','code'],_.stringify(base));
                     if(!_.get(ins,['sub','base','comments']))
                         _.set(ins,['sub','base','comments'],'\n'+_.str.repeat(' ',8));
                 }
                 if(_.get(ins,['sub','required'])){
-                    _.set(ins,['sub','required','code'],_.serialize(arr));
+                    _.set(ins,['sub','required','code'],_.stringify(arr));
                     if(!_.get(ins,['sub','required','comments']))
                         _.set(ins,['sub','required','comments'],'\n'+_.str.repeat(' ',8));
                 }

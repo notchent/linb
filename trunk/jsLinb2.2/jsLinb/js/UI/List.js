@@ -112,7 +112,7 @@ Class("linb.UI.List", ["linb.UI", "linb.absList","linb.absValue" ],{
                 items:{
                     ITEM:{
                         className:'{itemClass} {disabled}',
-                        style:'{itemStyle}',
+                        style:'{itemStyle}{itemDisplay}',
                         tabindex:'{_tabindex}',
                         ICON:{
                             $order:10,

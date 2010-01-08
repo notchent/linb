@@ -1000,7 +1000,7 @@ _.set(linb.Locale,["en","doc","linb"], {
             "// if does't exist, return the last word \n alert(linb.wrapRes('doesnt.exist'))"
 
         ],
-        $memo:"All the resource string is in [linb.Locale]. <br \> [<a href='#linb.setLang'>linb.setLang</a>], [<a href='#linb.getRes'>linb.getRes</a>/<a href='#linb.wrapRes'>linb.wrapRes</a>] often used together. <br \> [linb.setLang] works only with [linb.wrapRes] format HTML(id=[linb.$langId]) only."
+        $memo:"All the resource string is in [linb.Locale]. <br \> [<a href='#linb.setLang'>linb.setLang</a>], [<a href='#linb.getRes'>linb.getRes</a>/<a href='#linb.wrapRes'>linb.wrapRes</a>] often used together. <br \> [linb.setLang] works only with [linb.wrapRes] format HTML(id=[linb.$localeDomId]) only."
     }
 });
 

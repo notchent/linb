@@ -1,38 +1,39 @@
 Class("linb.UI.PopMenu",["linb.UI.Widget","linb.absList"],{
     Instance:{
-        _adjustSize:function(){
+        adjustSize:function(){
             this.each(function(profile){
-                var
-                root = profile.getRoot(),
-                items = profile.getSubNode('ITEMS'),
-                border = profile.getSubNode('BORDER'),
-                size1 = root.cssSize(),
-                size2 = border.cssSize(),
-                pro=profile.properties,
-                h = Math.min(pro._maxHeight, items.height() + size1.height - size2.height+1),
-                w = Math.min(pro._maxWidth, items.width() + size1.width - size2.width+1)
-                ;
-
-                pro.width=w;
-                pro.height=h;
-                //set size first, for adding shadow later
-                root.cssSize({width:w,height:h});
-
-                //avoid blazing(shadow elements) when resize the border
-                linb.UI.$doResize(profile,w,h,true);
+                if(profile.renderId){
+                    var root = profile.getRoot(),
+                        items = profile.getSubNode('ITEMS'),
+                        border = profile.getSubNode('BORDER'),
+                        size1 = root.cssSize(),
+                        size2 = border.cssSize(),
+                        pro=profile.properties,
+                        h = Math.min(pro._maxHeight, items.height() + size1.height - size2.height+1),
+                        w = Math.min(pro._maxWidth, items.width() + size1.width - size2.width+1);
+    
+                    pro.width=w;
+                    pro.height=h;
+                    //set size first, for adding shadow later
+                    root.cssSize({width:w,height:h});
+    
+                    //avoid blazing(shadow elements) when resize the border
+                    linb.UI.$doResize(profile,w,h,true);
+                }
             });
             return this._setScroll();
         },
         _setScroll:function(){
             return this.each(function(profile){
-                var
-                o=profile.getSubNode('ITEMS'),
-                t=o.offsetTop(),
-                h=o.offsetHeight(),
-                b = profile.getSubNode('BORDER'),
-                hh=b.offsetHeight();
-                profile.getSubNode('TOP').css('display',t===0?'none':'block');
-                profile.getSubNode('BOTTOM').css('display',(hh>h+t)?'none':'block');
+                if(profile.renderId){
+                    var o=profile.getSubNode('ITEMS'),
+                        t=o.offsetTop(),
+                        h=o.offsetHeight(),
+                        b = profile.getSubNode('BORDER'),
+                        hh=b.offsetHeight();
+                    profile.getSubNode('TOP').css('display',t===0?'none':'block');
+                    profile.getSubNode('BOTTOM').css('display',(hh>h+t)?'none':'block');
+                }
             })
         },
         _scrollToBottom:function(){
@@ -205,17 +206,18 @@ Class("linb.UI.PopMenu",["linb.UI.Widget","linb.absList"],{
              },
             'items.split':{
                 ITEMSPLIT:{
+                    style:"{itemDisplay}"
                 }
             },
             'items.button':{
                 ITEM:{
                     tabindex: 1,
                     className: '{itemClass} {disabled}',
-                    style:'{itemStyle}',
+                    style:'{itemStyle}{itemDisplay}',
                     ICON:{
                         $order:0,
                         className:'ui-icon {imageClass}',
-                        style:'{backgroundImage} {backgroundPosition} {backgroundRepeat} {imageDisplay}'
+                        style:'{backgroundImage} {backgroundPosition} {backgroundRepeat}'
                     },
                     CAPTION:{
                         text : '{caption}',
@@ -231,14 +233,14 @@ Class("linb.UI.PopMenu",["linb.UI.Widget","linb.absList"],{
                         text : '{add}',
                         $order:2
                     },
-                    SUB:{style:'{tagClass}'}
+                    SUB:{style:'{displaySub}'}
                 }
             },
             'items.checkbox':{
                 ITEM:{
                     tabindex: 1,
                     className: '{itemClass} {disabled}',
-                    style:'{itemStyle}',
+                    style:'{itemStyle}{itemDisplay}',
                     CHECKBOX:{
                         $order:0,
                          className:'ui-icon {checkboxCls}'
@@ -669,7 +671,7 @@ Class("linb.UI.PopMenu",["linb.UI.Widget","linb.absList"],{
             onMenuSelected:function(profile, item, src){}
         },
         RenderTrigger:function(){
-            this.boxing()._adjustSize();
+            this.boxing().adjustSize();
         },
         _mouseout:function(profile, e){
             if(profile.properties.autoHide){
@@ -690,11 +692,11 @@ Class("linb.UI.PopMenu",["linb.UI.Widget","linb.absList"],{
             }
         },
         _prepareItem:function(profile, item){
+            var none='display:none;';
             item.add = item.add || '';
-            item.displayAdd = item.add?'':'display:none';
-            item.tagClass = item.sub?'':'display:none';
-
-            item.imageDisplay=true;
+            item.displayAdd = item.add?'':none;
+            item.displaySub = item.sub?'':none;
+            item.itemDisplay=item.hidden?none:'';
 
             item.type=item.type||'button';
             if(item.type=='checkbox'){

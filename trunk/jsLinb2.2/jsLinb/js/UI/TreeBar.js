@@ -191,7 +191,7 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
                 items:{
                     ITEM:{
                         className:'{itemClass} {disabled}',
-                        style:'{itemStyle}',
+                        style:'{itemStyle}{itemDisplay}',
                         tagName : 'div',
                         onselectstart:'return false',
                         unselectable:'on',
@@ -585,7 +585,8 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
             // set 'visible' will show when parent call .height()
             item.mark = item.sub?'':'display:none';
             item.disabled = item.disabled?profile.getClass('KEY', '-disabled'):'';
-            item.mark2Display = (p.selMode=='multi')?'':'display:none';
+            item.itemDisplay=item.hidden?'display:none;':'';
+            item.mark2Display = (p.selMode=='multi')?'':'display:none;';
             item._tabindex = p.tabindex;
             //change css class
             if(item.sub && (item.hasOwnProperty('group')?item.group:p.group)){

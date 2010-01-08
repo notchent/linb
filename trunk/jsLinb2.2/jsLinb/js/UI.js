@@ -4003,7 +4003,7 @@ Class("linb.UI",  "linb.absObj", {
 
             data._style = ';'+a.join(';')+';';
 
-            if('href' in dm)data.href = prop.href || linb.$href;
+            if('href' in dm)data.href = prop.href || linb.DEFAULTHREF;
             if('tabindex' in dm)data.tabindex = prop.tabindex || '-1';
             if('items' in dm){
                 profile.ItemIdMapSubSerialId = {};
@@ -4053,6 +4053,7 @@ Class("linb.UI",  "linb.absObj", {
                     profile.$attached.push(t);
                 }else{
                     dataItem._tabindex=tabindex;
+                    item.itemDisplay=item.hidden?'display:none;':'';
                     //others
                     ajd(profile, item, dataItem);
                     if(this._prepareItem)
@@ -4240,13 +4241,13 @@ Class("linb.absList", "linb.absObj",{
                 //merge options
                 _.merge(item, options, 'all');
 
-                //prepared already?
-                serialId=_.get(profile,['ItemIdMapSubSerialId',subId]);
-                arr=box._prepareItems(profile, [item],item._pid,false, serialId);
-
                 //in dom already?
                 node=profile.getSubNodeByItemId('ITEM',subId);
-                if(!node.isEmpty()){
+                if(!node.isEmpty()){                    
+                    //prepared already?
+                    serialId=_.get(profile,['ItemIdMapSubSerialId',subId]);
+                    arr=box._prepareItems(profile, [item],item._pid,false, serialId);
+
                     //for the sub node
                     if(options.sub){
                         delete item._created;
@@ -4671,7 +4672,7 @@ new function(){
                     }
                 },
                 href:{
-                    ini:linb.$href,
+                    ini:linb.DEFAULTHREF,
                     action:function(v){
                         this.getRoot().attr('href',v);
                     }

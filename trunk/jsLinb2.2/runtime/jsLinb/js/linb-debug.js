@@ -638,6 +638,14 @@ _.merge(Class, {
 
 //function dependency: linb.Dom linb.Thread
 _.merge(linb,{
+    DEFAULTHREF:'javascript:;',
+    SERIALIZEMAXLAYER:99,
+    SERIALIZEMAXSIZE:9999,
+
+    $localeKey:'en',
+    $localeDomId:'linblid',
+    $dateFormat:'',
+
     Locale:{en:{}},
     $cache:{
         thread:{},
@@ -659,21 +667,17 @@ _.merge(linb,{
         //cache [key]=>[event handler] map for UIProfile
         UIKeyMapEvents:{}
     },
-    $dateFormat:'',
-    $lang:'en',
-    $href:'javascript:;',
-    $langId:'linblangkey',
     setDateFormat:function(format){linb.$dateFormat=format},
     getDateFormat:function(){return linb.$dateFormat},
 
     setAppLangKey:function(key){linb.$appLangKey=key},
     getAppLangKey:function(key){return linb.$appLangKey},
-    getLang:function(){return linb.$lang},
+    getLang:function(){return linb.$localeKey},
     setLang:function(key,callback){
         var l=linb.Locale,g=linb.getRes,t,v,i,j,f,m,z,a=[];
-        linb.$lang=key;
+        linb.$localeKey=key;
         v = linb.browser.ie ? document.all.tags('span') : document.getElementsByTagName('span');
-        for(i=0;t=v[i];i++)if(t.id==linb.$langId)a[a.length]=t;
+        for(i=0;t=v[i];i++)if(t.id==linb.$localeDomId)a[a.length]=t;
         f=function(){
             (function(){
                 j=a.splice(0,100);
@@ -697,7 +701,7 @@ _.merge(linb,{
     getRes:function(id){
         var d,
             b= id.indexOf('-')!=-1?((d=id.split('-'))&&(id=d[0])&&d):arguments ,
-            c=_.get(linb.Locale[linb.$lang], id.split('.'));
+            c=_.get(linb.Locale[linb.$localeKey], id.split('.'));
         return (d=typeof c)=='string'
                ? c.replace(linb._r,function(z,id){return b[parseInt(id)+1]||z})
                : d=='function'
@@ -710,7 +714,7 @@ _.merge(linb,{
         s=id;
         r= linb.getRes.apply(null,arguments);
         if(s==r)r=i;
-        return '<span id="'+linb.$langId+'" class="'+s+'">'+r+'</span>';
+        return '<span id="'+linb.$localeDomId+'" class="'+s+'">'+r+'</span>';
     },
     request:function(uri, query, onSuccess, onFail, threadid, options){
         return (
@@ -928,7 +932,7 @@ new function(){
         isSecure:location.href.toLowerCase().indexOf("https")==0
     },v=function(k,s){return k + (b.ver=u.split(s)[1].split('.')[0])};
     
-    linb.$secureurl=b.isSecure&&b.ie?'javascript:""':'about:blank';
+    linb.$secureUrl=b.isSecure&&b.ie?'javascript:""':'about:blank';
     
     _.filter(b,function(o){return !!o});
     if(b.ie){
@@ -2023,7 +2027,6 @@ Class('linb.SC',null,{
 */
 new function(){
     var
-    max,
     M ={
         '\b': '\\b',
         '\t': '\\t',
@@ -2079,10 +2082,11 @@ new function(){
             )
             + '"'
     };
-    T[O]=function(x,filter,dateformat,deep){
+    T[O]=function(x,filter,dateformat,deep,max){
         var me=arguments.callee, map = me.map || (me.map={prototype:1,constructor:1,toString:1,valueOf:1});
         deep=deep||1;
-        if(deep>99||max>9999)return '"too much recursion!"';
+        max=max||0;
+        if(deep>linb.SERIALIZEMAXLAYER||max>linb.SERIALIZEMAXSIZE)return '"too much recursion!"';
         max++;
         if (x){
             var a=[], b=[], c=x.constructor, f, i, l, v;
@@ -2098,7 +2102,7 @@ new function(){
                     if(typeof filter=='function' && false==filter.call(x,x[i],i))continue;
 
                     if(f=T[typeof (v=x[i])])
-                        if(typeof (v=f(v,filter,dateformat,deep+1))==S)
+                        if(typeof (v=f(v,filter,dateformat,deep+1,max))==S)
                             b[b.length]=v;
                 }
                 a[2]=']';
@@ -2138,7 +2142,7 @@ new function(){
                                 (filter===true?i.charAt(0)=='_':typeof filter=='function'?false===filter.call(x,x[i],i):0))
                                 continue;
                             if (f=T[typeof (v=x[i])])
-                                if (typeof (v=f(v,filter,dateformat,deep+1))==S)
+                                if (typeof (v=f(v,filter,dateformat,deep+1,max))==S)
                                     b[b.length] = T.string(i) + ':' + v;
                         }
                         a[2]='}';
@@ -2151,11 +2155,13 @@ new function(){
         return 'null'
     };
     T[F]=function(x){return x.$path?x.$path:String(x)};
-
+    
     //serialize object to string (bool/string/number/array/hash/simple function)
     _.serialize = function (obj,filter,dateformat){
-        max=0;
         return T[typeof obj](obj,filter,dateformat||(linb&&linb.$dateFormat))||'';
+    };
+    _.stringify = function(obj,filter,dateformat){
+        return _.fromUTF8(_.serialize(obj,filter,dateformat));
     };
     //unserialize string to object
     _.unserialize = function(str, dateformat){
@@ -8376,7 +8382,7 @@ Class("linb.Tips", null,{
                 return rt;
             try{
                 //for inner renderer
-                while((!node.id || node.id==linb.$langId) && node.parentNode!==document && index++<10)
+                while((!node.id || node.id==linb.LOCALEID) && node.parentNode!==document && index++<10)
                     node=node.parentNode;
                 if(!(id=node.id)){
                     node=null;
@@ -8436,7 +8442,7 @@ Class("linb.Tips", null,{
                     //for firefox wearing anynomous div in input/textarea
                     try{
                         //for inner renderer
-                        while((!node.id || node.id==linb.$langId) && node.parentNode!==document && index++<10)
+                        while((!node.id || node.id==linb.LOCALEID) && node.parentNode!==document && index++<10)
                             node=node.parentNode;
                         if(!(id=node.id)){
                             node=null;
@@ -13104,7 +13110,7 @@ Class("linb.UI",  "linb.absObj", {
 
             data._style = ';'+a.join(';')+';';
 
-            if('href' in dm)data.href = prop.href || linb.$href;
+            if('href' in dm)data.href = prop.href || linb.DEFAULTHREF;
             if('tabindex' in dm)data.tabindex = prop.tabindex || '-1';
             if('items' in dm){
                 profile.ItemIdMapSubSerialId = {};
@@ -13154,6 +13160,7 @@ Class("linb.UI",  "linb.absObj", {
                     profile.$attached.push(t);
                 }else{
                     dataItem._tabindex=tabindex;
+                    item.itemDisplay=item.hidden?'display:none;':'';
                     //others
                     ajd(profile, item, dataItem);
                     if(this._prepareItem)
@@ -13341,13 +13348,13 @@ Class("linb.absList", "linb.absObj",{
                 //merge options
                 _.merge(item, options, 'all');
 
-                //prepared already?
-                serialId=_.get(profile,['ItemIdMapSubSerialId',subId]);
-                arr=box._prepareItems(profile, [item],item._pid,false, serialId);
-
                 //in dom already?
                 node=profile.getSubNodeByItemId('ITEM',subId);
-                if(!node.isEmpty()){
+                if(!node.isEmpty()){                    
+                    //prepared already?
+                    serialId=_.get(profile,['ItemIdMapSubSerialId',subId]);
+                    arr=box._prepareItems(profile, [item],item._pid,false, serialId);
+
                     //for the sub node
                     if(options.sub){
                         delete item._created;
@@ -13772,7 +13779,7 @@ new function(){
                     }
                 },
                 href:{
-                    ini:linb.$href,
+                    ini:linb.DEFAULTHREF,
                     action:function(v){
                         this.getRoot().attr('href',v);
                     }
@@ -21629,7 +21636,7 @@ Class("linb.UI.Group", "linb.UI.Div",{
                 items:{
                     ITEM:{
                         className:'{itemClass} {disabled}',
-                        style:'{itemStyle}',
+                        style:'{itemStyle}{itemDisplay}',
                         tabindex:'{_tabindex}',
                         ICON:{
                             $order:10,
@@ -24457,7 +24464,7 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
                 items:{
                     ITEM:{
                         className:'{itemClass} {disabled}',
-                        style:'{itemStyle}',
+                        style:'{itemStyle}{itemDisplay}',
                         tagName : 'div',
                         onselectstart:'return false',
                         unselectable:'on',
@@ -24851,7 +24858,8 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
             // set 'visible' will show when parent call .height()
             item.mark = item.sub?'':'display:none';
             item.disabled = item.disabled?profile.getClass('KEY', '-disabled'):'';
-            item.mark2Display = (p.selMode=='multi')?'':'display:none';
+            item.itemDisplay=item.hidden?'display:none;':'';
+            item.mark2Display = (p.selMode=='multi')?'':'display:none;';
             item._tabindex = p.tabindex;
             //change css class
             if(item.sub && (item.hasOwnProperty('group')?item.group:p.group)){
@@ -24995,39 +25003,40 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
 });
 Class("linb.UI.PopMenu",["linb.UI.Widget","linb.absList"],{
     Instance:{
-        _adjustSize:function(){
+        adjustSize:function(){
             this.each(function(profile){
-                var
-                root = profile.getRoot(),
-                items = profile.getSubNode('ITEMS'),
-                border = profile.getSubNode('BORDER'),
-                size1 = root.cssSize(),
-                size2 = border.cssSize(),
-                pro=profile.properties,
-                h = Math.min(pro._maxHeight, items.height() + size1.height - size2.height+1),
-                w = Math.min(pro._maxWidth, items.width() + size1.width - size2.width+1)
-                ;
-
-                pro.width=w;
-                pro.height=h;
-                //set size first, for adding shadow later
-                root.cssSize({width:w,height:h});
-
-                //avoid blazing(shadow elements) when resize the border
-                linb.UI.$doResize(profile,w,h,true);
+                if(profile.renderId){
+                    var root = profile.getRoot(),
+                        items = profile.getSubNode('ITEMS'),
+                        border = profile.getSubNode('BORDER'),
+                        size1 = root.cssSize(),
+                        size2 = border.cssSize(),
+                        pro=profile.properties,
+                        h = Math.min(pro._maxHeight, items.height() + size1.height - size2.height+1),
+                        w = Math.min(pro._maxWidth, items.width() + size1.width - size2.width+1);
+    
+                    pro.width=w;
+                    pro.height=h;
+                    //set size first, for adding shadow later
+                    root.cssSize({width:w,height:h});
+    
+                    //avoid blazing(shadow elements) when resize the border
+                    linb.UI.$doResize(profile,w,h,true);
+                }
             });
             return this._setScroll();
         },
         _setScroll:function(){
             return this.each(function(profile){
-                var
-                o=profile.getSubNode('ITEMS'),
-                t=o.offsetTop(),
-                h=o.offsetHeight(),
-                b = profile.getSubNode('BORDER'),
-                hh=b.offsetHeight();
-                profile.getSubNode('TOP').css('display',t===0?'none':'block');
-                profile.getSubNode('BOTTOM').css('display',(hh>h+t)?'none':'block');
+                if(profile.renderId){
+                    var o=profile.getSubNode('ITEMS'),
+                        t=o.offsetTop(),
+                        h=o.offsetHeight(),
+                        b = profile.getSubNode('BORDER'),
+                        hh=b.offsetHeight();
+                    profile.getSubNode('TOP').css('display',t===0?'none':'block');
+                    profile.getSubNode('BOTTOM').css('display',(hh>h+t)?'none':'block');
+                }
             })
         },
         _scrollToBottom:function(){
@@ -25200,17 +25209,18 @@ Class("linb.UI.PopMenu",["linb.UI.Widget","linb.absList"],{
              },
             'items.split':{
                 ITEMSPLIT:{
+                    style:"{itemDisplay}"
                 }
             },
             'items.button':{
                 ITEM:{
                     tabindex: 1,
                     className: '{itemClass} {disabled}',
-                    style:'{itemStyle}',
+                    style:'{itemStyle}{itemDisplay}',
                     ICON:{
                         $order:0,
                         className:'ui-icon {imageClass}',
-                        style:'{backgroundImage} {backgroundPosition} {backgroundRepeat} {imageDisplay}'
+                        style:'{backgroundImage} {backgroundPosition} {backgroundRepeat}'
                     },
                     CAPTION:{
                         text : '{caption}',
@@ -25226,14 +25236,14 @@ Class("linb.UI.PopMenu",["linb.UI.Widget","linb.absList"],{
                         text : '{add}',
                         $order:2
                     },
-                    SUB:{style:'{tagClass}'}
+                    SUB:{style:'{displaySub}'}
                 }
             },
             'items.checkbox':{
                 ITEM:{
                     tabindex: 1,
                     className: '{itemClass} {disabled}',
-                    style:'{itemStyle}',
+                    style:'{itemStyle}{itemDisplay}',
                     CHECKBOX:{
                         $order:0,
                          className:'ui-icon {checkboxCls}'
@@ -25664,7 +25674,7 @@ Class("linb.UI.PopMenu",["linb.UI.Widget","linb.absList"],{
             onMenuSelected:function(profile, item, src){}
         },
         RenderTrigger:function(){
-            this.boxing()._adjustSize();
+            this.boxing().adjustSize();
         },
         _mouseout:function(profile, e){
             if(profile.properties.autoHide){
@@ -25685,11 +25695,11 @@ Class("linb.UI.PopMenu",["linb.UI.Widget","linb.absList"],{
             }
         },
         _prepareItem:function(profile, item){
+            var none='display:none;';
             item.add = item.add || '';
-            item.displayAdd = item.add?'':'display:none';
-            item.tagClass = item.sub?'':'display:none';
-
-            item.imageDisplay=true;
+            item.displayAdd = item.add?'':none;
+            item.displaySub = item.sub?'':none;
+            item.itemDisplay=item.hidden?none:'';
 
             item.type=item.type||'button';
             if(item.type=='checkbox'){

@@ -638,6 +638,14 @@ _.merge(Class, {
 
 //function dependency: linb.Dom linb.Thread
 _.merge(linb,{
+    DEFAULTHREF:'javascript:;',
+    SERIALIZEMAXLAYER:99,
+    SERIALIZEMAXSIZE:9999,
+
+    $localeKey:'en',
+    $localeDomId:'linblid',
+    $dateFormat:'',
+
     Locale:{en:{}},
     $cache:{
         thread:{},
@@ -659,21 +667,17 @@ _.merge(linb,{
         //cache [key]=>[event handler] map for UIProfile
         UIKeyMapEvents:{}
     },
-    $dateFormat:'',
-    $lang:'en',
-    $href:'javascript:;',
-    $langId:'linblangkey',
     setDateFormat:function(format){linb.$dateFormat=format},
     getDateFormat:function(){return linb.$dateFormat},
 
     setAppLangKey:function(key){linb.$appLangKey=key},
     getAppLangKey:function(key){return linb.$appLangKey},
-    getLang:function(){return linb.$lang},
+    getLang:function(){return linb.$localeKey},
     setLang:function(key,callback){
         var l=linb.Locale,g=linb.getRes,t,v,i,j,f,m,z,a=[];
-        linb.$lang=key;
+        linb.$localeKey=key;
         v = linb.browser.ie ? document.all.tags('span') : document.getElementsByTagName('span');
-        for(i=0;t=v[i];i++)if(t.id==linb.$langId)a[a.length]=t;
+        for(i=0;t=v[i];i++)if(t.id==linb.$localeDomId)a[a.length]=t;
         f=function(){
             (function(){
                 j=a.splice(0,100);
@@ -697,7 +701,7 @@ _.merge(linb,{
     getRes:function(id){
         var d,
             b= id.indexOf('-')!=-1?((d=id.split('-'))&&(id=d[0])&&d):arguments ,
-            c=_.get(linb.Locale[linb.$lang], id.split('.'));
+            c=_.get(linb.Locale[linb.$localeKey], id.split('.'));
         return (d=typeof c)=='string'
                ? c.replace(linb._r,function(z,id){return b[parseInt(id)+1]||z})
                : d=='function'
@@ -710,7 +714,7 @@ _.merge(linb,{
         s=id;
         r= linb.getRes.apply(null,arguments);
         if(s==r)r=i;
-        return '<span id="'+linb.$langId+'" class="'+s+'">'+r+'</span>';
+        return '<span id="'+linb.$localeDomId+'" class="'+s+'">'+r+'</span>';
     },
     request:function(uri, query, onSuccess, onFail, threadid, options){
         return (
@@ -928,7 +932,7 @@ new function(){
         isSecure:location.href.toLowerCase().indexOf("https")==0
     },v=function(k,s){return k + (b.ver=u.split(s)[1].split('.')[0])};
     
-    linb.$secureurl=b.isSecure&&b.ie?'javascript:""':'about:blank';
+    linb.$secureUrl=b.isSecure&&b.ie?'javascript:""':'about:blank';
     
     _.filter(b,function(o){return !!o});
     if(b.ie){
@@ -2023,7 +2027,6 @@ Class('linb.SC',null,{
 */
 new function(){
     var
-    max,
     M ={
         '\b': '\\b',
         '\t': '\\t',
@@ -2079,10 +2082,11 @@ new function(){
             )
             + '"'
     };
-    T[O]=function(x,filter,dateformat,deep){
+    T[O]=function(x,filter,dateformat,deep,max){
         var me=arguments.callee, map = me.map || (me.map={prototype:1,constructor:1,toString:1,valueOf:1});
         deep=deep||1;
-        if(deep>99||max>9999)return '"too much recursion!"';
+        max=max||0;
+        if(deep>linb.SERIALIZEMAXLAYER||max>linb.SERIALIZEMAXSIZE)return '"too much recursion!"';
         max++;
         if (x){
             var a=[], b=[], c=x.constructor, f, i, l, v;
@@ -2098,7 +2102,7 @@ new function(){
                     if(typeof filter=='function' && false==filter.call(x,x[i],i))continue;
 
                     if(f=T[typeof (v=x[i])])
-                        if(typeof (v=f(v,filter,dateformat,deep+1))==S)
+                        if(typeof (v=f(v,filter,dateformat,deep+1,max))==S)
                             b[b.length]=v;
                 }
                 a[2]=']';
@@ -2138,7 +2142,7 @@ new function(){
                                 (filter===true?i.charAt(0)=='_':typeof filter=='function'?false===filter.call(x,x[i],i):0))
                                 continue;
                             if (f=T[typeof (v=x[i])])
-                                if (typeof (v=f(v,filter,dateformat,deep+1))==S)
+                                if (typeof (v=f(v,filter,dateformat,deep+1,max))==S)
                                     b[b.length] = T.string(i) + ':' + v;
                         }
                         a[2]='}';
@@ -2151,11 +2155,13 @@ new function(){
         return 'null'
     };
     T[F]=function(x){return x.$path?x.$path:String(x)};
-
+    
     //serialize object to string (bool/string/number/array/hash/simple function)
     _.serialize = function (obj,filter,dateformat){
-        max=0;
         return T[typeof obj](obj,filter,dateformat||(linb&&linb.$dateFormat))||'';
+    };
+    _.stringify = function(obj,filter,dateformat){
+        return _.fromUTF8(_.serialize(obj,filter,dateformat));
     };
     //unserialize string to object
     _.unserialize = function(str, dateformat){
