@@ -222,17 +222,22 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                     'cells' in options ||
                     ('sub' in options && !((!options.sub && orow.sub && orow.sub.length==0) || (options.sub && options.sub.length==0 && !orow.sub)))
                 ){
-                    var id="__special",pid=orow._pid,profile=ns.get(0);
+                    var id="__special",profile=ns.get(0),pid=profile.rowMap[orow._pid].id;
+                    // change id in rowMap
                     orow.id=id;
+                    // change link in rowMap2
                     profile.rowMap2[id]=profile.rowMap2[rowId];
                     delete profile.rowMap2[rowId];
+                    // remove cells link
                     _.each(profile.colMap,function(o){
                         if(o._cells)
                             delete o._cells[rowId];
                     });
+                    // make sure data
                     orow=_.clone(orow,true);
                     _.merge(orow, options, 'all');
                     if('sub' in options && !options.sub)delete orow.sub;
+                    
                     ns.insertRows([orow],pid,id,true);
                     ns.removeRows([id]);
                 }else{
@@ -277,6 +282,10 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
 
                     _.merge(orow, options, 'all');
                 }
+            }else{
+                var rst=ns.get(0).queryItems(ns.getRows(),function(o){return typeof o=='object'?o.id===rowId:o==rowId},true,true,true);
+                if(rst.length)
+                    _.merge(rst[0][0], options, 'all');
             }
             return ns;
         },
@@ -291,13 +300,14 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                 b=profile.rowMap,
                 tar, t, k;
 
+            pid = row_m[pid];
+
             base = row_m[base];
             if(base){
                 t=profile.rowMap[base];
                 if(t)pid=t._pid;
             }
             arr=c._adjustRows(arr);
-            pid = row_m[pid];
             if(!pid)
                 tar = (pro.rows || (pro.rows=[]));
             else{
