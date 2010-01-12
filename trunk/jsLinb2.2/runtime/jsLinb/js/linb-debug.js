@@ -11563,10 +11563,10 @@ Class("linb.UI",  "linb.absObj", {
                                     if(template[s=tag+n] && t)
                                         self(profile, template, t, s, result);
                                     else
-                                        result[result.length]=t;
+                                        result[result.length]=_.isSet(t)?t:'';
                                 }
                             }else
-                                result[result.length]=a0[i];
+                                result[result.length]=_.isSet(a0[i])?a0[i]:'';
                         }
                     }
                 }
@@ -13160,7 +13160,9 @@ Class("linb.UI",  "linb.absObj", {
                     profile.$attached.push(t);
                 }else{
                     dataItem._tabindex=tabindex;
-                    item.itemDisplay=item.hidden?'display:none;':'';
+                    if(item.hidden)
+                        item.itemDisplay='display:none;';
+
                     //others
                     ajd(profile, item, dataItem);
                     if(this._prepareItem)
