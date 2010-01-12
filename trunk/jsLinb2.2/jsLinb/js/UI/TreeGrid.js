@@ -220,9 +220,11 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                 options.id=rowId;
                 if(('group' in options && options.group!=orow.group) ||
                     'cells' in options ||
-                    ('sub' in options && !((!options.sub && orow.sub && orow.sub.length==0) || (options.sub && options.sub.length==0 && !orow.sub)))
+                    ('sub' in options && 
+                    // only try to show/hide toggle icon
+                    !((options.sub===true && !orow.sub) || (!options.sub && orow.sub===true)))
                 ){
-                    var id="__special",profile=ns.get(0),pid=profile.rowMap[orow._pid].id;
+                    var id="__special",profile=ns.get(0),pid=orow._pid?profile.rowMap[orow._pid].id:null;
                     // change id in rowMap
                     orow.id=id;
                     // change link in rowMap2
@@ -247,7 +249,6 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                             t.removeClass('uicmd-empty').addClass('uicmd-toggle2')
                         else
                             t.removeClass('uicmd-toggle2').addClass('uicmd-empty')
-
                     }
 
                     if(t=options.height)
