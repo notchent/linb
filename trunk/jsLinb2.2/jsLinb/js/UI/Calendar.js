@@ -1,4 +1,18 @@
 Class('linb.UI.Calendar', 'linb.UI.DatePicker', {
+    Instance:{
+        setDayInfo:function(key,index,value){
+            var node=this.getSubNode(key, ""+index);
+            if(node.get(0)){
+                node.get(0).innerHTML=value;
+            }
+        },
+        addContents : function(index,node){
+            this.getSubNode('DC',""+index).append(node);
+        },
+        clearContents : function(index){
+            this.getSubNode('DC',""+index).empty();
+        }
+    },
     Initialize:function(){
         var self=this,
             id=linb.UI.$ID,
@@ -6,7 +20,7 @@ Class('linb.UI.Calendar', 'linb.UI.DatePicker', {
             cls2=cls+'-td-free',
             key=self.KEY;
 
-        self.addTemplateKeys(['H', 'W','DH','DAY','DC','TBODY', 'TD']);
+        self.addTemplateKeys(['H', 'W','DH','DAY','DC','TBODY', 'TD','DF1','DF2','DF3']);
         var colgroup = '<colgroup><col width="2%"/><col width="14%"/><col width="14%"/><col width="14%"/><col width="14%"/><col width="14%"/><col width="14%"/><col width="14%"/></colgroup>',
             thead1='<thead><tr height="1%"><th id="'+key+'-H:'+id+':7" class="'+cls+'-h #H_CC#"></th>',
             thead2='</tr></thead>',
@@ -19,6 +33,10 @@ Class('linb.UI.Calendar', 'linb.UI.DatePicker', {
             td2='<td id="'+key+'-TD:'+id+':@" class="'+cls+'-td ! #TD_CC#"  unselectable="on"  >'+
                 '<div id="'+key+'-DAY:'+id+':@" class="'+cls+'-day #DAY_CC#" unselectable="on" >'+
                     '<div id="'+key+'-DH:'+id+':@" class="'+cls+'-dh #DH_CC#" ></div>'+
+                    '<div id="'+key+'-DF1:'+id+':@" class="'+cls+'-df1 #DF1_CC#" ></div>'+
+                    '<div id="'+key+'-DF2:'+id+':@" class="'+cls+'-df2 #DF2_CC#" ></div>'+
+                    '<div id="'+key+'-DF3:'+id+':@" class="'+cls+'-df3 #DF3_CC#" ></div>'+
+                    '<div id="'+key+'-DF4:'+id+':@" class="'+cls+'-df4 #DF4_CC#" ></div>'+
                     '<div id="'+key+'-DC:'+id+':@" class="'+cls+'-dc #DC_CC#" ></div>'+
                 '</div>'+
                 '</td>',
@@ -75,7 +93,7 @@ Class('linb.UI.Calendar', 'linb.UI.DatePicker', {
             height:200
         },
         _getLabelNodes:function(profile){
-            return profile.$day1 || (profile.$day1=profile.getSubNode('DH',true));
+            return profile.$day1 || (profile.$day1=profile.getSubNode('DF1',true));
         },
         _getDayNodes:function(profile){
             return profile.$day2 || (profile.$day2=profile.getSubNode('DAY',true));
@@ -83,6 +101,26 @@ Class('linb.UI.Calendar', 'linb.UI.DatePicker', {
         Appearances:{
             'DAY, DC':{
                 position:'relative'
+            },
+            'DF1, DF2, DF3, DF4':{
+                position:'absolute',
+                'white-space':'nowrap'
+            },
+            DF1:{
+                left:'2px',
+                top:'2px'
+            },
+            DF2:{
+                right:'2px',
+                top:'2px'
+            },
+            DF3:{
+                left:'2px',
+                bottom:'2px'
+            },
+            DF4:{
+                right:'2px',
+                bottom:'2px'
             },
             DAY:{
                 overflow:'hidden'

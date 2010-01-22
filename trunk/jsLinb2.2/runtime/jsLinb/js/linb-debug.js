@@ -3944,7 +3944,7 @@ Class('linb.Event',null,{
             return this.$UNIT[datepart]?datepart:'d';
         },
         _isDate:function(target)  {return !!target && target.constructor == Date},
-        _date:function(value,df){return this._isDate(value)?value:this._isDate(df)?df:new Date},
+        _date:function(value,df){return this._isDate(value) ? value : isFinite(value) ? new Date(parseInt(value)) : this._isDate(df) ? df : new Date},
         _isNumb:function(target)  {return typeof target == 'number' && isFinite(target)},
         _numb:function(value,df){return this._isNumb(value)?value:this._isNumb(df)?df:0},
         //time Zone like: -8
@@ -10202,8 +10202,13 @@ Class("linb.UI",  "linb.absObj", {
             return rtnString===false?a:a.length==1?" new "+a[0].key+"("+_.serialize(a[0])+")":"linb.UI.unserialize("+_.serialize(a)+")";
         },
         setProperties:function(key, value){
+            if(typeof key=="string"){
+                var h={};
+                h[key]=value;
+                key=h;
+            }
             return this.each(function(o){
-                _.each(prop=typeof key=="object"?key:{key:value}, function(v,k){
+                _.each(key, function(v,k){
                     var funName="set"+_.str.initial(k),ins=o.boxing();
                     if(typeof ins[funName]=='function')
                         ins[funName].call(ins, v);
@@ -10211,9 +10216,14 @@ Class("linb.UI",  "linb.absObj", {
             });
         },
         setEvents:function(key, value){
+            if(typeof key=="string"){
+                var h={};
+                h[key]=value;
+                key=h;
+            }
             return this.each(function(o){
                 var ins=o.boxing();
-                _.each(prop=typeof key=="object"?key:{key:value}, function(v,k){
+                _.each(key, function(v,k){
                     if(typeof ins[k]=='function')
                         ins[k].call(ins, v);
                 });
@@ -18479,8 +18489,12 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                     $getShowValue : function(profile,value){
                         return value?linb.UI.TimePicker._ensureValue(profile,value):'';
                     },
-                    $fromEditor : function(profile,value){
-                        return linb.UI.TimePicker._ensureValue(profile,value);
+                    $fromEditor : function(profile,v){
+                        if(v){
+                            v = linb.UI.TimePicker._ensureValue(profile,v);
+                            if(v=='00:00')v=profile.properties.$UIvalue;
+                        }
+                        return v;
                     }
                 },'all');
             }else if(value=='datepicker'){
@@ -18499,10 +18513,18 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                         var v=new Date(parseInt(value));
                         return value?(date.get(v,'m')+1)+'/'+date.get(v,'d')+'/'+date.get(v,'y'):'';
                     },
-                    $fromEditor : function(profile,value){
+                    $fromEditor : function(profile,v){
                         //parse from local text mm/dd/yyyy
-                        var v=linb.Date.parse(value);
-                        if(v)v=linb.Date.getTimSpanStart(v,'d',1);
+                        if(v){
+                            v=linb.Date.parse(v);
+                            if(!v)v=profile.properties.$UIvalue;
+                            v=linb.Date.getTimSpanStart(v,'d',1);
+                            // min/max year
+                            if(v.getFullYear()<profile.properties.min)
+                                v.setFullYear(profile.properties.min);
+                            if(v.getFullYear()>profile.properties.max)
+                                v.setFullYear(profile.properties.max);
+                        }
                         return v?String(v.getTime()):'';
                     }
                 },'all');
@@ -18522,7 +18544,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                         return (_.isSet(v)&&v!=="")?p.box._currency(profile, v).replace(/,/g,''):"";
                     }
                 },'all');
-            }else if(value=='number'){
+            }else if(value=='number' || value=='spin'){
                 profile.$isNumber=1;
                 _.merge(profile,{
                     $beforeKeypress : function(profile,c,k){
@@ -18538,13 +18560,6 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                         return (_.isSet(v)&&v!=="")?p.box._number(profile, v):"";
                     }
                 },'all');
-            }else if(value=='spin'){
-                _.merge(profile,{
-                    $beforeKeypress : function(profile,c,k){
-                        return k.length!=1 || /[0-9.]/.test(k);
-                    }
-                });
-                profile.$isNumber=1;
             }
 
             if(pro.value)
