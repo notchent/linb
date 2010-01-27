@@ -34,7 +34,7 @@ Class("linb.UI.Image", "linb.UI",{
             onDblclick:function(profile, e, src){
                 var p=profile.properties;
                 if(p.disabled)return false;
-                if(profile.onClick)
+                if(profile.onDblclick)
                     profile.boxing().onDblclick(profile, e, src);
             }
         },

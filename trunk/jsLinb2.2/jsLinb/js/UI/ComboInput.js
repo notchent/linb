@@ -153,8 +153,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
         _drop:function(e,src){
             return this.each(function(profile){
                 var pro = profile.properties, type=pro.type, cacheDrop=pro.cachePopWnd;
-                if(pro.disabled)return;
-                if(pro.readonly)return;
+                if(pro.disabled||pro.readonly)return;
 
                 if(type=='upload'||type=='none'||type=='spin'||type=='currency'||type=='number')return;
                 //open already
@@ -484,6 +483,10 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                 'font-size':'12px',
                 overflow:'hidden'
             },
+            'KEY-number INPUT, KEY-spin INPUT, KEY-currency INPUT':{
+                $order:4,
+                'text-align':'right'
+            },
             'KEY-upload INPUT, KEY-cmdbox INPUT, KEY-listbox INPUT':{
                 $order:4,
                 cursor:'pointer',
@@ -697,8 +700,9 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                 },
                 onFocus:function(profile, e, src){
                     var p=profile.properties,b=profile.box;
-                    if(p.disabled)return false;
+                    if(p.disabled || p.readonly)return false;
                     if(profile.onFocus)profile.boxing().onFocus(profile);
+                    if(profile.$inputReadonly || p.inputReadonly)return;
                     profile.getSubNode('BORDER').tagClass('-focus');
                     
                     var instance=profile.boxing(),
@@ -725,14 +729,16 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                     //show tips color
                     profile.boxing()._setTB(3);                },
                 onBlur:function(profile, e, src){
-                    var p=profile.properties,
-                        b=profile.box,
+                    var p=profile.properties;
+                    if(p.disabled || p.readonly)return false;
+                    if(profile.onBlur)profile.boxing().onBlur(profile);
+                    if(profile.$inputReadonly || p.inputReadonly)return;
+
+                    var b=profile.box,
                         instance=profile.boxing(),
                         uiv=p.$UIvalue,
                         v = instance._fromEditor(linb.use(src).get(0).value);
 
-                    if(p.disabled)return false;
-                    if(profile.onBlur)profile.boxing().onBlur(profile);
                     profile.getSubNode('BORDER').tagClass('-focus',false);
 
                     //onblur check it

@@ -1075,7 +1075,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
             },
             'CELL-input':{
             },
-            'CELL-number':{
+            'CELL-number, CELL-spin, CELL-currency':{
                 'text-align':'right'
             },
             'CELL-checkbox':{
@@ -1438,6 +1438,8 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                         if(typeof sortby!='function'){
                             switch(type){
                                 case 'number':
+                                case 'spin':
+                                case 'currency':
                                     ff=function(n){return parseFloat(n)||0};
                                     break;
                                 case 'date':
@@ -2411,6 +2413,8 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
 
             switch(type){
                 case 'number':
+                case 'spin':
+                case 'currency':
                     var v=parseFloat(cell.value);
                     cell.value=(v||v===0)?v:"";
                     caption= capOut ||ren(profile,cell,ncell);
@@ -2916,10 +2920,12 @@ sortby [for column only]
                     editor=new linb.UI.ComboInput({dirtyMark:false,cachePopWnd:false,left:-1000,top:-1000,position:'absolute',visibility:'hidden',zIndex:100});
                 switch(type){
                     case 'number':
-                        editor.setType('none').setCustomStyle('INPUT',"text-align:right;").setValueFormat("(^$)|(^-?(\\d\\d*\\.\\d*$)|(^-?\\d\\d*$)|(^-?\\.\\d\\d*$))");
+                    case 'spin':
+                    case 'currency':
+                        editor.setType(type);
                         break;
                     case 'progress':
-                        editor.setType('none').setValueFormat("^(0([\\.]\\d*[0-9]+)|0|1)$").setCustomStyle('INPUT',"text-align:right;");
+                        editor.setType('spin').setMax(1).setMin(0).setPrecision(4).setIncrement(0.01);
                         break;
                     case 'input':
                         editor.setType('none');
@@ -3035,6 +3041,8 @@ sortby [for column only]
                 var type=getPro('type'),_$caption;
                 switch(type){
                     case 'number':
+                    case 'spin':
+                    case 'currency':
                         nV=parseFloat(nV);
                         break;
                     case 'combobox':
