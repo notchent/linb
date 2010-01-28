@@ -403,7 +403,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                     },
                     $toEditor : function(profile,value){
                         var v=new Date(parseInt(value));
-                        return value?(date.get(v,'m')+1)+'/'+date.get(v,'d')+'/'+date.get(v,'y'):'';
+                        return value?(date.get(v,'y')+'-'+(date.get(v,'m')+1)+'-'+date.get(v,'d')):'';
                     },
                     $fromEditor : function(profile,v){
                         //parse from local text mm/dd/yyyy

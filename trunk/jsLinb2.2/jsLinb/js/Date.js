@@ -1299,6 +1299,8 @@ Class('linb.Date',null,{
                 }
                 return date;
             }else{
+                if(/^((-\d+|\d{4,})(-(\d{1,2})(-(\d{1,2}))))/.test(str))
+                    str = str.replace(/-/g,'/');
                 var r=Date.parse(str);
                 return r?date.setTime(r) && date:null;
             }

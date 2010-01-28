@@ -892,7 +892,7 @@ if(linb.browser.ie){
             dialog.setCaption(caption).setWidth(w).setHeight(h);
             dialog.$cmd.reBoxing().left((size.width + 30 - dialog.$cmd.reBoxing().width())/2);
         },
-        alert:function(title, content, onClose, left, top){
+        alert:function(title, content, onClose, btnCap, left, top){
             var me=arguments.callee, dialog;
             if(!(dialog=me.dialog) || (!dialog.get(0).renderId)){
                 dialog = me.dialog = new linb.UI.Dialog({
@@ -918,7 +918,6 @@ if(linb.browser.ie){
                 }),
 
                 btn = dialog.$btn = new linb.UI.SButton({
-                    caption:'$inline.ok',
                     width: 60,
                     tabindex:1
                 },
@@ -938,6 +937,9 @@ if(linb.browser.ie){
                 dialog.append(cmd).append(div).render();
             }
             me.onClose=onClose;
+            
+            dialog.$btn.setCaption(btnCap || linb.wrapRes('$inline.ok'));
+
             linb.UI.Dialog._adjust(dialog,title, content);
             dialog.show(linb('body'),true, left, top);
             _.resetRun("dlg_focus:"+dialog.get(0).$linbid,function(){
@@ -945,7 +947,7 @@ if(linb.browser.ie){
             });
             return dialog;
         },
-        confirm:function(title, caption, onYes, onNo, left, top){
+        confirm:function(title, caption, onYes, onNo, btnCapYes, btnCapNo, left, top){
             var me=arguments.callee, dialog;
 
             if(!(dialog=me.dialog) || (!dialog.get(0).renderId)){
@@ -970,8 +972,7 @@ if(linb.browser.ie){
                     width:140,
                     height:24
                 }),
-                btn = new linb.UI.SButton({
-                    caption:'$inline.yes',
+                btn = dialog.$btn1 = new linb.UI.SButton({
                     width: 60,
                     tabindex:1,
                     left:0
@@ -985,8 +986,7 @@ if(linb.browser.ie){
                 });
                 cmd.append(btn);
 
-                btn = dialog.$btn=new linb.UI.SButton({
-                    caption:'$inline.no',
+                btn = dialog.$btn2=new linb.UI.SButton({
                     tabindex:1,
                     width: 60,
                     left:80
@@ -1008,14 +1008,16 @@ if(linb.browser.ie){
             }
             me.onYes=onYes;
             me.onNo=onNo;
+            dialog.$btn1.setCaption(btnCapYes || linb.wrapRes('$inline.yes'));
+            dialog.$btn2.setCaption(btnCapNo || linb.wrapRes('$inline.no'));
             linb.UI.Dialog._adjust(dialog, title, caption);
             dialog.show(linb('body'), true, left, top);
             _.resetRun("dlg_focus:"+dialog.get(0).$linbid,function(){
-                dialog.$btn.activate();
+                dialog.$btn2.activate();
             });
             return dialog;
         },
-        pop:function(title, content, cmdStr, left, top){
+        pop:function(title, content, btnCap, left, top){
             var dialog = new linb.UI.Dialog({
                 minBtn:false,
                 maxBtn:false,
@@ -1032,7 +1034,7 @@ if(linb.browser.ie){
                 CS:'text-align:center;'
             })
             .append( dialog.$btn = new linb.UI.SButton({
-                caption: cmdStr || '$inline.ok',
+                caption: btnCap || '$inline.ok',
                 tabindex:1,
                 position:'relative'
             },
@@ -1060,7 +1062,7 @@ if(linb.browser.ie){
             });
             return dialog;
         },
-        prompt:function(title, caption, content, onYes, onNo, left, top){
+        prompt:function(title, caption, content, onYes, onNo, btnCapYes, btnCapNo, left, top){
             var dialog,
                 me=arguments.callee;
             if(!(dialog=me.dialog) || (!dialog.get(0).renderId)){
@@ -1097,8 +1099,7 @@ if(linb.browser.ie){
                     height:24
                 })
                 .setCustomStyle('KEY',"text-align:center;")
-                .append(new linb.UI.SButton({
-                    caption:'$inline.ok',
+                .append(dialog.$btn1 = new linb.UI.SButton({
                     width: 60,
                     left:70,
                     tabindex:1
@@ -1110,8 +1111,7 @@ if(linb.browser.ie){
                     }
                 }));
 
-                cmd.append(new linb.UI.SButton({
-                    caption:'$inline.cancel',
+                cmd.append(dialog.$btn2 = new linb.UI.SButton({
                     tabindex:1,
                     left:140,
                     width: 60
@@ -1136,7 +1136,8 @@ if(linb.browser.ie){
             me.$inp.setValue(content||"",true);
             me.onYes=onYes;
             me.onNo=onNo;
-
+            dialog.$btn1.setCaption(btnCapYes || linb.wrapRes('$inline.ok'));
+            dialog.$btn2.setCaption(btnCapNo || linb.wrapRes('$inline.cancel'));
             dialog.show(linb('body'), true, left, top);
             _.resetRun("dlg_focus:"+dialog.get(0).$linbid,function(){
                 me.$inp.activate();
