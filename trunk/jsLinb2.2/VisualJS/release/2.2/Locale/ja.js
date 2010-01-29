@@ -77,7 +77,7 @@
         spy:'ウィジェットスパイウインドウを開く',
         debug:'現在のプロジェクトを実行',
         release:'現在のプロジェクトをパッケージ化して保存',
-        ec:'言語を中国語に翻訳',
+        ec:'言語に翻訳',
         manual:'Visual Builderマニュアル',
         api:'Components APIリファレンス',              
         demo:'サンプル',

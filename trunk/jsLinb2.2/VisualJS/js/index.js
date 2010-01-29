@@ -84,6 +84,8 @@ Class('VisualJS', 'linb.Com',{
                     {split:true},
                     {id:'ec', dropButton:true, image:CONF.img_app, imagePos:'-98px -16px', tips:'$VisualJS.tool.ec'},
                     {split:true},
+                    {id:'theme', dropButton:true, image:CONF.img_app, imagePos:'-208px -48px', tips:'$VisualJS.builder.dftThemeTips'},
+                    {split:true},
                     {id:'info', label:'$VisualJS.noMessage', tips:'$VisualJS.message'}
                 ]}]);
                 this.floatLogo.setCustomStyle({"KEY":"background-image:url("+linb.getPath('img/','logo.gif')+");position:absolute;top:0px;right:0px;width:120px;height:60px;z-index:100;cursor:pointer;"})
@@ -124,7 +126,8 @@ Class('VisualJS', 'linb.Com',{
 
                 //linb.Dom.addHeadNode('js','','',{id:'linb:msg',src:'http://www.linb.net/message?ver='+_.version+'&rnd='+_()});
 
-                page.toolbar.updateItem('ec',{'caption':linb.getRes('VisualJS.'+linb.getLang())});
+                // page.toolbar.updateItem('ec',{'caption':linb.getRes('VisualJS.'+linb.getLang())});
+                
             }
         },
         _addfile:function(id, path, name, type){
@@ -648,15 +651,34 @@ Class('VisualJS', 'linb.Com',{
                             onMenuSelected:function(p,item){
                                 if(linb.getLang()!=item.id)
                                     linb.setLang(item.id,function(){
-                                      //  self.menubar.clearPopCache();
-                                       // self.$dropmenulang.destroy();
-                                      //  delete self.$dropmenulang;
-                                        self.toolbar.updateItem('ec',{'caption':linb.getRes('VisualJS.'+item.id)});
+                                        self.$dropmenulang.destroy();
+                                        delete self.$dropmenulang;
+                                      // self.toolbar.updateItem('ec',{'caption':linb.getRes('VisualJS.'+item.id)});
                                     });
                             }
                         });
                     }
                     this.$dropmenulang.pop(src);
+                    break;
+                case 'theme':
+                    if(!this.$dropmenutheme){
+                        this.$dropmenutheme=new linb.UI.PopMenu({
+                            items:[
+                            {id:'default',caption:linb.getRes('VisualJS.builder.themeDft')},
+                            {id:'vista',caption:linb.getRes('VisualJS.builder.themeVista')},
+                            {id:'aqua',caption:linb.getRes('VisualJS.builder.themeAqua')}
+                            ]},{
+                            onMenuSelected:function(p,item){
+                                if(linb.getLang()!=item.id)
+                                    linb.UI.setTheme(item.id,function(){
+                                        self.$dropmenutheme.destroy();
+                                        delete self.$dropmenutheme;
+                                      // self.toolbar.updateItem('ec',{'caption':linb.getRes('VisualJS.'+item.id)});
+                                    });
+                            }
+                        });
+                    }
+                    this.$dropmenutheme.pop(src);
                     break;
 //                case 'flash':
 //                    linb.Dom.submit(CONF.path_video);

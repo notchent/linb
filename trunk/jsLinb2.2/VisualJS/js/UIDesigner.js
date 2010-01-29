@@ -116,7 +116,7 @@ Class('UIDesigner', 'linb.Com',{
                 self.$btnTheme=new linb.UI.Button({
                     type:'drop',
                     caption:linb.wrapRes('VisualJS.builder.dftTheme'),
-                    tips:linb.getRes('VisualJS.builder.dftThemeTips'),
+                    tips:linb.wrapRes('VisualJS.builder.dftThemeTips'),
                     position:'absolute',
                     top:38,
                     right:4,

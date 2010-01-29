@@ -8384,7 +8384,7 @@ Class("linb.Tips", null,{
                 return rt;
             try{
                 //for inner renderer
-                while((!node.id || node.id==linb.LOCALEID) && node.parentNode!==document && index++<10)
+                while((!node.id || node.id==linb.$localeDomId) && node.parentNode!==document && index++<10)
                     node=node.parentNode;
                 if(!(id=node.id)){
                     node=null;
@@ -8444,7 +8444,7 @@ Class("linb.Tips", null,{
                     //for firefox wearing anynomous div in input/textarea
                     try{
                         //for inner renderer
-                        while((!node.id || node.id==linb.LOCALEID) && node.parentNode!==document && index++<10)
+                        while((!node.id || node.id==linb.$localeDomId) && node.parentNode!==document && index++<10)
                             node=node.parentNode;
                         if(!(id=node.id)){
                             node=null;

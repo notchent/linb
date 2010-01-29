@@ -77,7 +77,7 @@
         spy:'Open Widget Spy Window',
         debug:'Run the Current Project',
         release:'Package and download the Current Project',
-        ec:'Translate Language to Chinese',
+        ec:'Translate Language',
         manual:'Visual Builder Manual...',
         api:'Components API Reference...',              
         demo:'Samples',
