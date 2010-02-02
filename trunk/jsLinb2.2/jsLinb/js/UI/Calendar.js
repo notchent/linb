@@ -29,15 +29,15 @@ Class('linb.UI.Calendar', 'linb.UI.DatePicker', {
             tbody2 = '</tbody>',
             tr1='<tr>',
             tr2='</tr>',
-            td1='<th id="'+key+'-W:'+id+':@"  class="'+cls+'-w #W_CC#">@</th>',
-            td2='<td id="'+key+'-TD:'+id+':@" class="'+cls+'-td ! #TD_CC#"  unselectable="on"  >'+
-                '<div id="'+key+'-DAY:'+id+':@" class="'+cls+'-day #DAY_CC#" unselectable="on" >'+
-                    '<div id="'+key+'-DH:'+id+':@" class="'+cls+'-dh #DH_CC#" ></div>'+
-                    '<div id="'+key+'-DF1:'+id+':@" class="'+cls+'-df1 #DF1_CC#" ></div>'+
-                    '<div id="'+key+'-DF2:'+id+':@" class="'+cls+'-df2 #DF2_CC#" ></div>'+
-                    '<div id="'+key+'-DF3:'+id+':@" class="'+cls+'-df3 #DF3_CC#" ></div>'+
-                    '<div id="'+key+'-DF4:'+id+':@" class="'+cls+'-df4 #DF4_CC#" ></div>'+
-                    '<div id="'+key+'-DC:'+id+':@" class="'+cls+'-dc #DC_CC#" ></div>'+
+            td1='<th id="'+key+'-W:'+id+':@"  class="'+cls+'-w #W_CC#" style="#W_CS#">@</th>',
+            td2='<td id="'+key+'-TD:'+id+':@" class="'+cls+'-td ! #TD_CC#"  style="#TD_CS#" unselectable="on"  >'+
+                '<div id="'+key+'-DAY:'+id+':@" class="'+cls+'-day #DAY_CC#"  style="#DAY_CS#" unselectable="on" >'+
+                    '<div id="'+key+'-DH:'+id+':@" class="'+cls+'-dh #DH_CC#"  style="#DH_CS#"></div>'+
+                    '<div id="'+key+'-DF1:'+id+':@" class="'+cls+'-df1 #DF1_CC#" style="#DF1_CS#"></div>'+
+                    '<div id="'+key+'-DF2:'+id+':@" class="'+cls+'-df2 #DF2_CC#" style="#DF2_CS#"></div>'+
+                    '<div id="'+key+'-DF3:'+id+':@" class="'+cls+'-df3 #DF3_CC#" style="#DF3_CS#"></div>'+
+                    '<div id="'+key+'-DF4:'+id+':@" class="'+cls+'-df4 #DF4_CC#"  style="#DF4_CS#"></div>'+
+                    '<div id="'+key+'-DC:'+id+':@" class="'+cls+'-dc #DC_CC#"  style="#DC_CS#"></div>'+
                 '</div>'+
                 '</td>',
             body,i,j,k,l,a=[],b=[];

@@ -378,7 +378,7 @@ Class("linb.DataBinder","linb.absObj",{
                     v=(hash && p.dataField in hash)?hash[p.dataField]:'';
                     c="";
                     b=profile.boxing();
-                    if(v && typeof v=="object"){
+                    if(_.isHash(v)){
                         // catch caption at first
                         c=_.isSet(v.caption)?v.caption:null;
                         // reset v at last
