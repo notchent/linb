@@ -27676,6 +27676,12 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                         (tt=ns.getSubNode('CELLS',rid)).attr('style',tt.attr('style')+";"+t);
                     if(t=options.rowClass)
                         ns.getSubNode('CELLS',rid).addClass(t);
+                    if(options.hasOwnProperty('disabled')){
+                        if(options.disabled)
+                            ns.getSubNode('CELLS',rid).addClass('ui-disabled');
+                        else
+                            ns.getSubNode('CELLS',rid).removeClass('ui-disabled');
+                    }
                     if(t=options.firstCellStyle)
                         (tt=ns.getSubNode('FCELL',rid)).attr('style',tt.attr('style')+";"+t);
                     if(t=options.firstCellClass)
@@ -28155,7 +28161,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                         CELLS:{
                             $order:2,
                             tagName:'div',
-                            className:'{rowCls} {rowClass}',
+                            className:'{rowCls} {rowClass} {_disabled}',
                             style:'height:{rowHeight}px;{rowStyle}',
                             FCELL:{
                                 $order:0,
@@ -29212,7 +29218,8 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                     // handler CELL
                     }else{
                         var row = profile.rowMap[profile.getSubId(src)];
-                        if(!row.group){
+                        // click mark, or not a group row
+                        if(profile.getKey(linb.Event.getSrc(e).id||"")==profile.keys.MARK || !row.group){
                             if(p.disabled || row.disabled)
                                 return false;
                             if(p.activeMode=='row'){
@@ -29975,6 +29982,8 @@ sortby [for column only]
 
                 if(row.group)
                     t.rowCls = profile.getClass('CELLS','-group');
+                
+                t._disabled=row.disalbed?'ui-disabled':'';
 
                 if(row.summary)
                     t.summaryDisplay='display:block;';
@@ -30004,7 +30013,7 @@ sortby [for column only]
 
                 if(row.caption && !row.tips)
                     row._$tips=row.caption;
-
+                
                 if(v=row.cells)
                     _.arr.each(pro.header,function(headCell,j){
                         g=v[j]||(v[j]={});
