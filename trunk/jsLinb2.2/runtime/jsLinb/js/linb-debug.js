@@ -27876,6 +27876,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
             _.arr.each(row.cells,function(o){
                 if(o._value!==o.value){
                     o._value=o.value;
+                    delete o.dirty;
                     arr.push(profile.getSubNode('CELLA',o._serialId).get(0));
                 }
             });
@@ -28034,6 +28035,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
             return this.each(function(profile){
                 _.each(profile.cellMap,function(v){
                     v._value=v.value;
+                    delete v.dirty;
                 });
                 profile.getSubNode('CELLA',true).removeClass('ui-dirty');
             })
@@ -30181,10 +30183,13 @@ sortby [for column only]
                 if(dirtyMark===false)
                     cell._value=cell.value;
                 else{
-                    if(cell.value===cell._value)
+                    if(cell.value===cell._value){
                         node.removeClass('ui-dirty');
-                    else
+                        delete cell.dirty;
+                    }else{
                         node.addClass('ui-dirty');
+                        cell.dirty=true;
+                    }
                 }
             }
         },
