@@ -6595,7 +6595,7 @@ type:4
                 if(type=='undefined'||type=='boolean'){
                     if((o=='width' && (t='Width'))||(o=='height' && (t='Height'))){
                         if(doc===node)return Math.max( doc.body['scroll'+t], doc.body['offset'+t], doc.documentElement['scroll'+t], doc.documentElement['offset'+t]);
-                        if(window===node)return b.opr?(doc.body['client'+t]||window['inner'+t]):b.kde?window['inner'+t]:(linb.browser.contentBox && doc.documentElement['client'+t]) ||doc.body['client'+t];
+                        if(window===node)return b.opr?Math.max(doc.body['client'+t],window['inner'+t]):b.kde?window['inner'+t]:(linb.browser.contentBox && doc.documentElement['client'+t]) ||doc.body['client'+t];
                     }
                     //give shortcut
                     if(o=='width')value=parseInt(node.style.width)||self._W(node,1,value);
