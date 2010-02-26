@@ -395,11 +395,6 @@ Class("linb.UI.TextEditor", ["linb.UI.Widget","linb.absValue"] ,{
         }
     }
 });
-/*
-*to do: background div
-*to do: special div
-*/
-
 Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
     Dependency:['linb.Date'],
     Instance:{
@@ -415,8 +410,9 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
                 pxStart=box._getX(profile,from),
                 pxEnd=box._getX(profile,to),
                 task;
+
             if(p.items.length===0)
-                this.insertItems([{id:'$', caption:p.dftTaskName, from:from, to:to}],null,true);
+                this.insertItems([{id:'$', caption:p.dftTaskName, from:parseInt(a[0]), to:parseInt(a[1])}],null,true);
             else
                 box._resetItem(profile,{left:pxStart,width:pxEnd-pxStart},profile.getSubNodeByItemId('ITEM',p.items[0].id)._get(0));
         },
@@ -484,6 +480,49 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
                     }
                 }
             });
+        },
+        scrollToLeft:function(callback){
+            var profile=this.get(0);
+            if(profile.pauseA||profile.pause)return;
+
+            var t=profile.properties,
+                date=linb.Date,
+                rate=t._rate,
+                o=profile.box._getMoveNodes(profile),
+                x1=t._band_left,
+                x2=0;
+            ;
+            if(t.minDate && t._smallLabelStart<t.minDate)
+                x2-=date.diff(t._smallLabelStart,t.minDate,'ms')/rate;
+
+            profile.pause=true;
+            o.animate({left:[x1,x2]}, null, function(){
+                if(typeof callback=='function')
+                    callback();
+                profile.pause=false;
+            },200,Math.max(5,(x2-x1)/100),'sineInOut').start();
+        },
+        scrollToRight:function(callback){
+            var profile=this.get(0);                    
+            if(profile.pauseA||profile.pause)return;
+            var t=profile.properties,
+                date=linb.Date,
+                rate=t._rate,
+                o=profile.box._getMoveNodes(profile),
+                x1=t._band_left,
+                x2=t.width-t._band_width;
+            ;
+            if(t.maxDate && t._smallLabelEnd>t.maxDate)
+               x2+=date.diff(t.maxDate,t._smallLabelEnd,'ms')/rate;
+
+            if(x1>x2){
+                profile.pause=true;
+                o.animate({left:[x1,x2]}, null, function(){
+                    if(typeof callback=='function')
+                        callback();
+                    profile.pause=false;
+                },200,Math.max(5,(x1-x2)/100),'sineInOut').start();
+            }
         }
     },
     Static:{
@@ -563,47 +602,55 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
                         MAINC:{
                             tagName:'div',
                             MAINP:{
-                            tagName:'div',
-                                BAND:{
-                                    $order:2,
-                                    tagName:'div',
-                                    tabindex: '{tabindex}',
-                                    style:'left:{_band_left}px;width:{_band_width}px;',
-                                    BIGLABEL:{
-                                        tagName:'div',
-                                        style:'{_showBigLabel}',
-                                        text:"{_bigMarks}"
-                                    },
-                                    SMALLLABEL:{
-                                        $order:1,
-                                        tagName:'div',
-                                        text:"{_smallMarks}"
-                                    }
-                                },
+                                tagName:'div',
                                 VIEW:{
-                                    $order:3,
+                                    tagName:'div',
+                                    style:'left:{_band_left}px;width:{_band_width}px;',
+                                    BAND:{
+                                        $order:2,
+                                        tagName:'div',
+                                        tabindex: '{tabindex}',
+                                        BIGLABEL:{
+                                            tagName:'div',
+                                            style:'{_showBigLabel}',
+                                            text:"{_bigMarks}"
+                                        },
+                                        SMALLLABEL:{
+                                            $order:1,
+                                            tagName:'div',
+                                            text:"{_smallMarks}"
+                                        }
+                                    },
+                                    CON:{
+                                        $order:3,
                                         tagName:'div',
                                         style:'height:{_viewHeight}px;',
                                         BG:{
                                             tagName:'div',
-                                            style:'left:{_band_left}px;width:{_band_width}px;',
-                                            text:'{bgitems}'
+                                            style:'height:{_viewHeight}px;'
+                                        },
+                                        LINES:{
+                                            $order:1,
+                                            tagName:'div'
                                         },
                                         ITEMS:{
+                                            $order:2,
                                             tagName:'div',
-                                            style:'left:{_band_left}px;width:{_band_width}px;',
-                                            text:'{items}',
-                                            ACTIVE:{
-                                                $order:3,
-                                                tagName:'div'
-                                            }
-                                        },
-                                        SCROLL:{
-                                            tagName:'div',
-                                            SCROLLI:{
-                                                tagName:'div'
-                                            }
+                                            style:'height:{_viewHeight}px;',
+                                            text:'{items}'
                                         }
+                                    },
+                                    ACTIVE:{
+                                        $order:4,
+                                        tagName:'div'
+                                    }
+                                },
+                                SCROLL:{
+                                    $order:2,
+                                    tagName:'div',
+                                    SCROLLI:{
+                                        tagName:'div'
+                                    }
                                 }
                             }
                         }
@@ -684,33 +731,33 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
                 items:{
                     ITEM:{
                         tagName:'div',
-                        className:'{itemClass} {disabled}',
-                        style:'left:{_left}px;width:{_width}px;{_top};{_height};{itemStyle}',
-                        MIN:{
-                            $order:0,
+                        className:'{itemClass} {disabled} {_excls}',
+                        style:'left:{_left}px;width:{_width}px;{_top};{_zindex}{itemStyle}',
+                        HEAD:{
                             tagName:'div',
-                            style:'{_minDisplay}'
+                            TSKBAR:{
+                                tagName:'div',
+                                style:'width:{_perw}%;'
+                            },
+                            HANDLER:{
+                                $order:2,
+                                tagName:'div',
+                                LEFT:{
+                                    tagName:'div'
+                                },
+                                RIGHT:{
+                                    tagName:'div'
+                                }
+                            }
                         },
-                        NORMAL:{
+                        BODY:{
                             $order:1,
                             tagName:'div',
-                            style:'{_normalDisplay};{_height};{_border}{_background}',
-                            LEFT:{
-                                $order:1,
-                                tagName:'div'
-                            },
-                            HEAD:{
-                                $order:2,
-                                tagName:'div'
-                            },
+                            style:'{_background}',
                             CON:{
                                 $order:3,
                                 tagName:'div',
                                 text:'{caption}'
-                            },
-                            RIGHT:{
-                                $order:4,
-                                tagName:'div'
                             }
                         }
                     }
@@ -718,9 +765,9 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
             }
         },
         Behaviors:{
-            DropableKeys:['ITEMS'],
-            HoverEffected:{PRE:'PRE',NEXT:'NEXT',ZOOMIN:'ZOOMIN',ZOOMOUT:'ZOOMOUT',DATE:'DATE',OPT:'OPT',CLOSE:'CLOSE',MIN:'MIN',NORMAL:'NORMAL'},
-            ClickEffected:{PRE:'PRE',NEXT:'NEXT',ZOOMIN:'ZOOMIN',ZOOMOUT:'ZOOMOUT',DATE:'DATE',OPT:'OPT',CLOSE:'CLOSE',MIN:'MIN'},
+            DropableKeys:['VIEW'],
+            HoverEffected:{PRE:'PRE',NEXT:'NEXT',ZOOMIN:'ZOOMIN',ZOOMOUT:'ZOOMOUT',DATE:'DATE',OPT:'OPT',CLOSE:'CLOSE'},
+            ClickEffected:{PRE:'PRE',NEXT:'NEXT',ZOOMIN:'ZOOMIN',ZOOMOUT:'ZOOMOUT',DATE:'DATE',OPT:'OPT',CLOSE:'CLOSE'},
             onSize:linb.UI.$onSize,
             CLOSE:{
                 onClick:function(profile, e, src){
@@ -787,6 +834,7 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
                     profile.box._rePosition(profile);
                 },
                 onMousedown:function(profile, e, src){
+                    if(linb.Event.getBtn(e)!="left")return;
                     if(profile.pauseA||profile.pause)return;
                     var t=profile.properties,
                         r=-t._band_left,
@@ -821,14 +869,17 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
                     var ns=profile.box._getMoveNodes(profile),
                         dd=linb.DragDrop.getProfile();
                     ns.left(profile.properties._band_left +  dd.offset.x);
+                },
+                onContextmenu:function(profile, e, src){
+                    return profile.boxing().onContextmenu(profile, e, src)!==false;
                 }
             },
             SCROLL:{
                 onScroll:function(profile, e, src){
-                    profile.getSubNode('ITEMS').top(-linb.use(src).scrollTop() );
+                    profile.getSubNodes(['ITEMS','LINES']).top(-linb.use(src).scrollTop() );
                 }
             },
-            ITEMS:{
+            VIEW:{
                 onMouseover:function(profile,e,src){
                     if(linb.DragDrop.getProfile().isWorking)return;
                     profile.$itemspos = linb.use(src).offset();
@@ -838,7 +889,7 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
                     if(ddd.isWorking){
                         //ondrag add here, for performance of 'dont-use-dropable situation'.
                         if(profile.$$ondrag)
-                            profile.box._moveActive(profile, profile.$active, ddd.x-profile.$dd_ox, profile.properties._unitPixs);
+                            profile.box._moveActive(profile, profile.$active, ddd.x-profile.$dd_ox, profile.properties._unitPixs, 'move');
                     }else{
                         var t=profile.properties,
                             date=linb.Date,
@@ -856,21 +907,28 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
                     if(linb.DragDrop.getProfile().isWorking)return;
                     if(profile.properties.showTips)
                         profile.box._setTips(profile, '');
-                },
+                }
+            },
+            ITEMS:{
                 onMousedown:function(profile, e, src){
+                    if(linb.Event.getBtn(e)!="left")return;
                     var pro=profile.properties;
                     if(pro.disabled || pro.readonly)return;
                     if(profile.pauseA||profile.pause)return;
                     if(linb.Event.getSrc(e)!=linb.use(src).get(0))return;
 
-                    var o = profile.getSubNode('ACTIVE'),
-                        x = linb.Event.getPos(e).left;
-                    o.css({
-                        display:'block',
-                        width:'0'
-                    })
-                    .offset({left :x,  top :null});
-                    o.startDrag(e, {dragType:'none'});
+                    var o = profile.getSubNode('ACTIVE');
+                    o.css({width:0,visibility:'hidden'}).offset({left :linb.Event.getPos(e).left,  top :null});
+
+                    profile.__actives=1;
+                    o.startDrag(e, {
+                        dragDefer:1,
+                        dragType:'none'
+                     });
+                },
+                onMouseup:function(profile){
+                    if(profile.__actives)
+                        delete profile.__actives;
                 }
             },
             ACTIVE:{
@@ -883,19 +941,17 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
                 onDrag:function(profile, e, src){
                     var x=profile.$dd_oleft,
                         ddx=linb.DragDrop.getProfile().x,
-                        w,
-                        offset;
+                        w,offset;
                     if((offset =ddx-profile.$dd_ox)>=0){
                         w = offset;
                     }else{
                         x = x+offset; w = -offset;
                     }
-                    profile.box._moveActive(profile, linb.use(src).get(0), x, w);
+                    profile.box._moveActive(profile, linb.use(src).get(0), x, w, 'all');
                 },
                 onDragstop:function(profile, e, src){
-                    var r = profile.box._deActive(profile)
-                    linb.use(src).css('cursor','')
-                    .parent().css('cursor','');
+                    var r = profile.box._deActive(profile);
+                    linb.use(src).css('cursor','').parent().css('cursor','');
 
                     var box=profile.box,
                         from=box._getTime(profile, r.left),
@@ -916,45 +972,16 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
             },
             PRE:{
                 onClick:function(profile, e){
-                    if(profile.pauseA||profile.pause)return;
-
-                    var t=profile.properties,
-                        date=linb.Date,
-                        rate=t._rate,
-                        o=profile.box._getMoveNodes(profile),
-                        x1=t._band_left,
-                        x2=0;
-                    ;
-                    if(t.minDate && t._smallLabelStart<t.minDate)
-                        x2-=date.diff(t._smallLabelStart,t.minDate,'ms')/rate;
-
-                    profile.pause=true;
-                    o.animate({left:[x1,x2]}, null, function(){
+                    profile.boxing().scrollToLeft(function(){
                         profile.box._rePosition(profile);
-                        profile.pause=false;
-                    },200,Math.max(5,(x2-x1)/100),'sineInOut').start();
-                }
+                    });
+                 }
             },
             NEXT:{
                 onClick:function(profile, e){
-                    if(profile.pauseA||profile.pause)return;
-                    var t=profile.properties,
-                        date=linb.Date,
-                        rate=t._rate,
-                        o=profile.box._getMoveNodes(profile),
-                        x1=t._band_left,
-                        x2=t.width-t._band_width;
-                    ;
-                    if(t.maxDate && t._smallLabelEnd>t.maxDate)
-                       x2+=date.diff(t.maxDate,t._smallLabelEnd,'ms')/rate;
-
-                    if(x1>x2){
-                        profile.pause=true;
-                        o.animate({left:[x1,x2]}, null, function(){
-                            profile.box._rePosition(profile);
-                            profile.pause=false;
-                        },200,Math.max(5,(x1-x2)/100),'sineInOut').start();
-                    }
+                    profile.boxing().scrollToRight(function(){
+                        profile.box._rePosition(profile);
+                    });
                 }
             },
             ZOOMIN:{
@@ -968,8 +995,6 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
                     if(index > 0){
                         //profile.pause=true;
                         p.timeSpanKey =  z[index- 1][0];
-
-                        //o = profile.getSubNodes(['VIEW','BAND']);
                         box._refresh(profile,true);
                     }
                 }
@@ -985,8 +1010,6 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
                     if(index < z.length -1){
                         //profile.pause=true;
                         p.timeSpanKey = z[index + 1][0];
-
-                        //o = profile.getSubNodes(['VIEW','BAND']);
                         box._refresh(profile,true);
                     }
                 }
@@ -1010,7 +1033,6 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
                         })
                         .beforeUIValueSet(function(p, ov, v){
                             var profile=this,
-                                obj = profile.getSubNodes(['VIEW','BAND']),
                                 box=profile.boxing(),
                                 p=profile.properties;
                             p.dateStart=v;
@@ -1050,7 +1072,7 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
                         ac=profile.$active;
                     profile.$dd_ox = linb.DragDrop.getProfile().x;
                     profile.$dd_oleft = parseInt(linb.use(src).get(0).style.left);
-                    profile.$dd_owidth = parseInt(linb.use(src).get(0).style.width);
+                    profile.$dd_owidth = Math.min(t._realwidth, parseInt(linb.use(src).get(0).style.width));
                     linb([ac]).css('display','block').cssPos({left :profile.$dd_oleft,  top :null}).width(profile.$dd_owidth-2);
                     linb([ac,ac.parentNode]).css('cursor',cursor);
                 },
@@ -1059,12 +1081,14 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
                         offset =linb.DragDrop.getProfile().x-profile.$dd_ox,
                         ddl=profile.$dd_oleft,
                         ddw=profile.$dd_owidth,
-                        type=profile.$dd_type;
+                        type=profile.$dd_type,
+                        mtype=type;
                     if(type=="left"){
                         if(offset < ddw){
                             x = ddl + offset;
                             w = ddl + ddw - x;
                         }else{
+                            mtype='right';
                             x = ddl + ddw;
                             w = offset - ddw;
                         }
@@ -1073,14 +1097,16 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
                             x = ddl;
                             w = ddw + offset;
                         }else{
+                            mtype='left';
                             x = ddl + offset + ddw;
                             w = -offset - ddw;
                         }
                     }else{
+                        mtype='move';
                         x = ddl + offset;
                         w = ddw;
                     }
-                    profile.box._moveActive(profile, profile.$active, x, w);
+                    profile.box._moveActive(profile, profile.$active, x, w, mtype);
                 },
                 onDragstop:function(profile, e, src){
                     var box=profile.box,
@@ -1098,27 +1124,35 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
                     profile.$dd_type = null;
 
                     linb([ac,ac.parentNode]).css('cursor','');
+                },
+                onContextmenu:function(profile, e, src){
+                    return profile.boxing().onContextmenu(profile, e, src)!==false;
                 }
             },
             HEAD:{
                 onMousedown:function(profile, e, src){
+                    if(linb.Event.getBtn(e)!="left")return;
                     var ps=profile.properties, item=profile.getItemByDom(src);
                     if(ps.disabled  || item.disabled)return;
                     if(profile.beforeDragTask && false===profile.boxing().beforeDragTask(profile, item, e, src))
                         return;
                     if(ps.readonly||item.readonly)return;
-                    linb.use(src).parent(2).startDrag(e, {
+                    linb.use(src).parent().startDrag(e, {
                         dragDefer:1,
                         dragType:'none'
                     });
+                },
+                onClick:function(){
+                    return false;
                 }
             },
             LEFT:{
                 onMousedown:function(profile, e, src){
+                    if(linb.Event.getBtn(e)!="left")return;
                     var ps=profile.properties, item=profile.getItemByDom(src);
                     if(ps.disabled || ps.readonly || item.readonly || item.disabled)return;
                     profile.$dd_type='left';
-                    linb.use(src).parent(2).startDrag(e, {
+                    linb.use(src).parent(3).startDrag(e, {
                         dragDefer:1,
                         dragType:'none'
                     });
@@ -1126,10 +1160,11 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
             },
             RIGHT:{
                 onMousedown:function(profile, e, src){
+                    if(linb.Event.getBtn(e)!="left")return;
                     var ps=profile.properties, item=profile.getItemByDom(src);
                     if(ps.disabled || ps.readonly || item.readonly || item.disabled)return;
                     profile.$dd_type='right';
-                    linb.use(src).parent(2).startDrag(e, {
+                    linb.use(src).parent(3).startDrag(e, {
                         dragDefer:1,
                         dragType:'none'
                     });
@@ -1161,7 +1196,7 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
             },
             dftTaskName:'task',
             taskHeight:{
-                ini:16,
+                ini:25,
                 action:function(v){
                     this.getSubNode('ITEM',true).height(v);
                 }
@@ -1258,23 +1293,13 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
                     this.box._refresh(this,true);
                 }
             },
-
+            taskMinSize:60,
             minDate:{
-                ini:null,
-                action:function(value){
-                    if(value>this.properties.dateStart)
-                        this.box._refresh(this,true);
-                }
+                ini:null
             },
             maxDate:{
-                ini:null,
-                action:function(value){
-                    var p=this.properties;
-                    if(value<linb.Date.add(p.dateStart,'ms',p.width*p._rate))
-                        this.box._refresh(this,true);
-                }
+                ini:null
             },
-
             dateBtn:{
                 ini:true,
                 action:function(v){
@@ -1309,7 +1334,6 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
             onStartDateChanged:function(profile, odate, date){},
             beforeTaskUpdated:function(profile, task, from, to){},
             beforeNewTask:function(profile, task){},
-            beforeDelTask:function(profile, id){},
             beforeDragTask:function(profile, task, e, src){},
             onClickTask:function(profile, task, e, src){},
             onDblclickTask:function(profile, task, e, src){}
@@ -1332,12 +1356,14 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
                 cursor:'default'
             },
             BAND:{
-                "-moz-outline-offset":"-1px"
+                "-moz-outline-offset":"-1px",
+                'font-size':'0',
+                'line-height':'0'                
             },
-            'MAINP, BAND, VIEW, BIGLABEL, SMALLLABEL':{
+            'MAINP, VIEW, BAND, CON, BIGLABEL, SMALLLABEL':{
                 position:'relative'
             },
-            'VIEW, MAINP':{
+            'MAINP, VIEW':{
                 width:linb.browser.ie6?'100%':null,
                 overflow:'hidden'
             },
@@ -1347,8 +1373,6 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
                 'font-size':'0',
                 'line-height':'0',
                 right:0,
-                top:0,
-                height:'100%',
                 width:'18px',
                 overflow:'auto',
                 'overflow-x':linb.browser.opr?null:'hidden'
@@ -1357,38 +1381,47 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
                 height:'1000px',
                 width:'1px'
             },
-            BIGLABEL:{
+            BG:{
+                'z-index':2,
+                position:'absolute',
+                left:0,
+                top:0,
+                width:'100%'
+            },
+            LINES:{
                 'z-index':3,
+                position:'absolute',
+                left:0,
+                top:0,
+                width:'100%'
+            },
+            ITEMS:{
+                'z-index':4,
+                position:'absolute',
+                left:0,
+                top:0,
+                width:'100%',
+                overflow:'hidden'
+            },
+            'LINES div':{
+                position:'relative',
+                'border-bottom':'solid 1px #7BA3CB'
+            },
+            'BIGLABEL, SMALLLABEL':{
                 height:'16px',
                 'background-color':'#C8E2FC',
                 cursor:'move',
                 'border-bottom':'solid 1px #7BA3CB'
             },
-            SMALLLABEL:{
-                'z-index':4,
-                height:'14px',
-                'background-color':'#C8E2FC',
-                cursor:'move',
-                'border-bottom':'solid 1px #648CB4'
-            },
-            BG:{
-                'z-index':0,
-                position:'absolute'
-            },
-            ITEMS:{
-                'z-index':4,
-                position:'absolute',
-                background: linb.UI.$bg('bars.gif',' left top')
-            },
             'BIGLABEL div, SMALLLABEL div':{
+                height:'16px',
                 'border-left':'solid 1px #7BA3CB',
                 'text-align':'center',
                 position:'absolute',
                 cursor:'move',
                 "-moz-user-select":linb.browser.gek?'none':'',
                 top:0,
-                overflow:'visible',
-                height:'100%'
+                overflow:'visible'
             },
             'BIGLABEL div':{
                 $order:2,
@@ -1404,15 +1437,17 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
             },
             ACTIVE:{
                 'z-index':300,
-                position:'relative',
                 'border-left': '1px dashed',
                 'border-right': '1px dashed',
-                left:'-100px',
-                width:'0',
+                position:'absolute',
+                top:0,
+                left:'-1000px',
+                width:0,
                 background:0,
+                visibility:'hidden',
                 height:'100%'
             },
-            'ZOOMIN, ZOOMOUT, DATE, PRE, NEXT, MIN':{
+            'ZOOMIN, ZOOMOUT, DATE, PRE, NEXT':{
                 background: linb.UI.$bg('icons.gif', 'no-repeat', true)
             },
             ZOOMIN:{
@@ -1485,66 +1520,69 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
             },
             ITEM:{
                 position:'absolute',
-                overflow:'visible'
+                overflow:'hidden'
             },
-            'MIN, NORMAL':{
-                //position:'absolute',
-                //top:0,
-                //left:0,
+            'HEAD, BODY':{
                 position:'relative',
-                height:'16px',
                 overflow:'hidden',
-                'z-index':'1'
-            },
-            MIN:{
-                width:'16px',
-                'background-position':'-320px -70px',
-                cursor:'pointer'
-            },
-            'MIN-mouseover':{
-                'background-position': '-320px -90px'
-            },
-            'MIN-mousedown':{
-                'background-position': '-320px -110px'
-            },
-            NORMAL:{
-                cursor:'pointer',
-                'background-color': '#B3D7FB',
+                'z-index':'1',
                 border:'solid 1px #648CB4'
             },
-            'NORMAL-mouseover':{
+            BODY:{
                 $order:2,
-                'border-color': 'red'
+                cursor:'pointer',
+                'background-color': '#F9F7D1',
+                'border-top':'none'
             },
-            'LEFT, HEAD, RIGHT':{
-                position:'absolute',
-                top:0,
-                height:'100%'
+            'HEAD, HANDLER, TSKBAR, LEFT, RIGHT':{
+                'font-size':'1px',
+                'line-height':'1px'
             },
             HEAD:{
-                background: linb.UI.$bg('handler.gif', ' left top', true),
-                width:'6px',
-                left:'3px',
                 cursor:'move',
-                'z-index':5
+                'background-color': '#FFF'
+            },
+            HANDLER:{
+                position:'relative',
+                height:'7px',
+                background:linb.UI.$bg('handler.gif', 'repeat #E8EEF7', true),
+                'border-top':'solid 1px #648CB4'
+            },
+            TSKBAR:{
+                position:'relative',
+                height:'1px',
+                'background-color': '#648CB4',
+                width:'100%'
             },
             'LEFT, RIGHT':{
-                width:'2px',
+                position:'absolute',
+                top:0,
+                height:'100%',
+                width:'6px',
                 'z-index':10
             },
             'LEFT':{
                 cursor:'e-resize',
-                left:0
+                left:'-1px'
             },
             'RIGHT':{
                 cursor:'w-resize',
-                right:0
+                right:'-1px'
             },
             CON:{
-                'padding-left':'12px',
                 position:'relative',
-                height:'100%',
                 overflow:'hidden'
+            },
+            'ITEM-readonly HANDLER, ITEM-disabled HANDLER, ITEM-readonly LEFT, ITEM-disabled LEFT, ITEM-readonly RIGHT, ITEM-disabled RIGHT':{
+                $order:2,
+                display:'none'
+            },
+            'ITEM-readonly HEAD, ITEM-disabled HEAD':{
+                cursor:'default'
+            },
+            'ITEM-readonly CON, ITEM-disabled CON':{
+                $order:2,
+                'background-color':'#E8EEF7'
             }
         },
         RenderTrigger:function(){
@@ -1563,7 +1601,7 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
                 ep=linb.Event.getPos(e),
                 _left = t._unitPixs/2
             ;
-            linb(profile.$active).css('display','block');
+            linb(profile.$active).css('visibility','visible');
             profile.$dd_ox =linb.use(src).offset().left+_left;
 
             profile.$$ondrag=true;
@@ -1735,28 +1773,32 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
                 index;
             if(!item.id)item.id=_.id();
             if(!item.caption)item.caption=t.dftTaskName;
-            item._min=false;
             // caculate left and width
-            item._left = self._getX(profile, item.from);
-            item._width=Math.max(self._getX(profile, item.to) - item._left, 0);
-            if(t.multiTasks){
-                if(item._width<=16){
-                    item._width=16;
-                    item._min=true;
-                }
+            item._realleft=item._left=self._getX(profile, item.from);
+            item._realwidth=item._width=Math.max(self._getX(profile, item.to) - item._left, 0);
+            if(item._width<=t.taskMinSize){
+                item._width=t.taskMinSize;
             }
-            item._minDisplay=item._min?'':'display:none';
-            item._normalDisplay=item._min?'display:none':'';
+            // if too long, cut left
+            if(item._left<0){
+                item._left=0;
+            }
+            // if too long, cut right
+            if(item._left+item._width>t._band_width){
+                item._width=t._band_width-item._left;
+            }
+            item._perw=+(item._realwidth/item._width*100).toFixed(2);
+            if(item._perw>=100)item._perw=100;
 
             // caculate top and set task to lines cache
             index = self._getLinePos(profile, item);
-//min region is alway 16 + 3
-            item._top = t.multiTasks? 'top:' + (item._min?0:((t.taskHeight+3) * (index-1) + 16 + 3)) + 'px' : '';
 
-            item._height = 'height:' + (t.multiTasks?item._min?'16px':t.taskHeight+'px':'100%');
-            item._border = t.multiTasks?'':'border-top:0;border-bottom:0';
+            item._top = 'top:' + (t.taskHeight+1) * (index-1) + 'px';
+            item._zindex = 'z-index:'+index;
 
             item._background = item.background?'background:'+item.background+';':'';
+            
+            item._excls=item.disabled?profile.getClass('ITEM','-disabled'):item.readonly?profile.getClass('ITEM','-readonly'):'';
 
             t._lines = t._lines || [{}];
 
@@ -1764,9 +1806,11 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
             t._lines[index][item.id]=item;
             item._line = index;
 
+            oitem._realleft=item._realleft;
             oitem._left=item._left;
             oitem._width=item._width;
-            oitem._min=item._min;
+            oitem._realwidth=item._realwidth;
+            oitem._perw=item._perw;
             oitem._line=item._line;
         },
         $zoom:[
@@ -1831,7 +1875,7 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
             t = linb.Date.add(t._smallLabelStart, 'ms', x*t._rate);
             return flag?t:t.getTime();
         },
-        _moveActive:function(profile, src, x, w){
+        _moveActive:function(profile, src, x, w, mtype){
             var p=Math.ceil,
                 t=profile.properties,
                 d=linb.Date,
@@ -1844,12 +1888,22 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
                 m,n,increment,
                 xx=x
                 ww=w;
+            if(y.visibility=='hidden')
+                y.visibility='visible';
 
             if(increment=t.increment){
-                x=Math.floor(xx/increment)*increment;
-                w=ww-(x-xx);
-                m=Math.floor((w+increment-1)/increment);
-                w=m*increment;
+                if(mtype=='move'){
+                    x=Math.floor(xx/increment)*increment;
+                }else{
+                    if(mtype=='left'||mtype=='all'){
+                        x=Math.floor(xx/increment)*increment;
+                        w=ww-(x-xx);
+                    }
+                    if(mtype=='right'||mtype=='all'){
+                        m=Math.floor((w+increment-1)/increment);
+                        w=m*increment;
+                    }                    
+                }
             }
 
             m = (p(x)||0);
@@ -1864,10 +1918,14 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
                         + d.getText(d.add(s, ms, (x+w)*r),u)
                     )
             }
+            y=src=null;
         },
         _deActive:function(profile){
             var t=profile.$active.style, x=parseInt(t.left)||0, w=(parseInt(t.width)||0)+2;
-            t.left='-1000px';
+            t.visibility='hidden';
+            t.left=linb.Dom.HIDE_VALUE;
+            t.width=0;
+            t=null;
             if(profile.properties.showTips)
                 profile.box._setTips(profile, '');
             return {left :x, width :w};
@@ -1948,7 +2006,7 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
             _.arr.insertAny(marks,addLb,-1);
         },
         _getMoveNodes:function(profile){
-            return profile.$moveban = profile.$moveban || profile.getSubNodes(['BAND','ITEMS','BG']);
+            return profile.$moveban = profile.$moveban || profile.getSubNode('VIEW');
         },
         //if left is numb, force to move
         _rePosition:function(profile, left){
@@ -1986,6 +2044,7 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
                 //reset tasks position var
                 _.arr.each(t.items,function(o){
                     o._left += offsetPxs;
+                    o._realleft += offsetPxs;
                     profile.box._trimTask(profile,o);
                 });
                 labelsBottom.children().each(function(o){
@@ -2079,32 +2138,44 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
         _trimTask:function(profile, o){
             //****
             // if too long, cut left
-            var l=-12,
-                x=o._left,
-                w=o._width,
-                bw=profile.properties._band_width;
-            if(x < l){
-                if(x+w<l)
+            var x=o._realleft,
+                w=o._realwidth,
+                pro=profile.properties,
+                bw=pro._band_width;
+
+            if(w<=pro.taskMinSize){
+                w=pro.taskMinSize;
+            }
+            if(x < 0){
+                if(x+w<0)
                     w=0;
                 else
-                    w = w + x - l;
-                x = l;
+                    w = w + x;
+                x = 0;
             }
-            if(x>bw+12)x=bw+12;
+            if(x>bw)x=bw;
             this._setItemNode(profile, o,'left',x+'px');
+
+            // 直接设置            
+            o._left=x;
+
             // if too long, cut right
-            if(x + w > bw - l)
-                w = bw - l - x;
-            if(w>=0)
-                this._setItemNode(profile, o,'width',w+'px');
+            if(x + w > bw)
+                w = bw - x;
+            // 只有改变才设置
+            if(w>=0){
+                if(o._width!=w){
+                    o._width=w;
+                    this._setItemNode(profile, o,'width',w+'px');
+                }
+            }
+
         },
         _setItemNode:function(profile, item, key, value){
             var t=profile.getSubNodeByItemId('ITEM',item.id).get(0);
             t.style[key]=value;
         },
         _getLinePos:function(profile,o){
-            if(o._min)return 0;
-
             var t=profile.properties,
                 b=false,
                 index=0;
@@ -2142,56 +2213,52 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
                     // reset double link
                     v._line = index;
                     // set top
-                    if(t.multiTasks)
-                        self._setItemNode(profile, v,'top',((t.taskHeight+3) * (index-1) + 16 + 3) +'px');
+                    if(t.multiTasks){
+                        self._setItemNode(profile, v, 'top', (t.taskHeight+1) * (index-1) +'px');
+                        self._setItemNode(profile, v, 'zIndex', index);
+                    }
                 };
             });
 
-            h = t._linesHeight = t._lines.length * (t.taskHeight+3);
+            h = t._linesHeight = t._lines.length * (t.taskHeight+1);
 
             self._ajustHeight(profile);
         },
         _resetItem:function(profile,o,src){
             var p=profile.properties,
                 t=profile.getItemByDom(src),
-                bandW=p._band_width + 12,
+                bandW=p._band_width,
                 f=function(k,i){return profile.getSubNodeByItemId(k,i)},
                 timeline=profile.box,
-                max=Math.max;
+                max=Math.max,
+                temp;
 
             if(o.left){
-                t._left=o.left;
+                t._realleft=t._left=o.left;
                 t.from = timeline._getTime(profile,o.left);
-                linb.use(src).get(0).style.left=o.left+'px';
+
+                linb.use(src).get(0).style.left=t._left+'px';
             }
             if(o.width){
-                t._width=max(o.width, 0);
                 t.to = timeline._getTime(profile,o.left+o.width);
-                if(p.multiTasks){
-                    // if too small, show min
-                    if(t._width<=16){
-                        t._width=o.width=16;
-                        if(!t._min){
-                            t._min=true;
-                            f('NORMAL',t.id).css('display','none');
-                            f('MIN',t.id).css('display','block');
-                        }
-                    // else show normal
-                    }else{
-                        if(t._min){
-                            delete t._line;
-                            t._min=false;
-                            f('NORMAL',t.id).css('display','block');
-                            f('MIN',t.id).css('display','none');
-                        }
-                        // if too long ,cut right
-                        if(o.left + o.width > bandW)
-                            o.width = bandW - o.left;
-                    }
+
+                t._realwidth=t._width=o.width;
+
+                if(t._width<=p.taskMinSize){
+                    t._width=p.taskMinSize;
+                }else{
+                    // if too long ,cut right
+                    if(o.left + o.width > bandW)
+                        t._width = bandW - o.left;
+                }                
+                linb.use(src).get(0).style.width=t._width+'px';
+
+                temp=+(t._realwidth/t._width*100).toFixed(2);
+                if(temp>=100)temp=100;                
+                if(temp!=t._perw){
+                    t._perw=temp;
+                    linb.use(src).first(2).get(0).style.width=temp+'%';
                 }
-                linb.use(src).get(0).style.width=o.width+'px';
-                if(linb.browser.ie && !p.multiTasks)
-                    linb.use(src).parent().ieRemedy();
             }
             // _reArrage top position
             timeline._reArrage(profile);
@@ -2199,23 +2266,28 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
         _ajustHeight:function(profile){
             var p=profile.properties,
                 f=function(p){return profile.getSubNode(p)},
-                view = f('VIEW'),
+                view = f('CON'),
                 items = f('ITEMS'),
-                bg = f('BG'),
-                scroll = f('SCROLL'),
-                scrolli= f('SCROLLI'),
+                lines = f('LINES'),
                 h,b,
                 ih=p._linesHeight||0,
                 vh=view.height();
 
             h=Math.max(ih,vh);
-            items.height(h);
-            bg.height(h);
-            scrolli.height(h);
+
             b=ih>vh;
-            scroll.css('display',b?'block':'none');
-            items.top(b?-scroll.scrollTop():0);
-            bg.top(b?-scroll.scrollTop():0);
+            f('SCROLLI').height(h);
+            f('SCROLL').css('display',b?'block':'none');
+            items.height(h);
+            lines.height(h);
+            items.top(b?-f('SCROLL').scrollTop():0);
+            lines.top(b?-f('SCROLL').scrollTop():0);
+            
+            var len=parseInt(h/p.taskHeight)+1, 
+                size=f('LINES').get(0).childNodes.length;
+            if(size<len){
+                f('LINES').append(linb.create(_.str.repeat('<div style="height:'+p.taskHeight+'px;"></div>',len-size)));
+            }
         },
         _showTips:function(profile, node, pos){
             if(profile.properties.disableTips)return;
@@ -2251,14 +2323,18 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
                 f=function(k){return profile.getSubNode(k)},
                 _bbarH=f('BBAR').height(),
                 _tipsH=f('TAIL').height(),
-                off2=f('VIEW').offset(null, profile.getRoot()),
-                off3=2,
+                off2=f('CON').offset(null, profile.getRoot()),
+                off3=2,h2,
                 t;
 
             //for border, view and items
             if(height && profile._$h != height){
                 f('BORDER').height(profile._$h = t = height);
-                f('VIEW').height(t=t - (pro.showTips?_tipsH:0) -off2.top - (pro.showBar?_bbarH:0) -off3);
+                f('CON').height(t=t - (pro.showTips?_tipsH:0) -off2.top - (pro.showBar?_bbarH:0) -off3);
+                h2=f('BAND').height();
+
+                f('SCROLL').top(h2).height(t+h2);
+                profile.getSubNodes(['BG','ITEMS','SCROLL']).height(t);
                 this._ajustHeight(profile);
             }
             if(pro.fixWidth)return;
@@ -2319,7 +2395,7 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
             }
 
             //view/band set left
-            profile.getSubNodes(['BAND','ITEMS','BG']).left(pro._band_left).width(pro._band_width);
+            profile.getSubNode('VIEW').left(pro._band_left).width(pro._band_width);
 
             //if singleTask, setUIValue
             if(!pro.multiTasks)
@@ -3887,7 +3963,14 @@ Class("linb.UI.Range", ["linb.UI","linb.absValue"],{
             HoverEffected:{},
             ClickEffected:{},
             onSize:linb.UI.$onSize,
-            TD:{onClick:null}
+            TD:{onClick:null,
+                onDblclick:function(profile, e, src){
+                    var p=profile.properties,
+                        index=profile.getSubId(src);
+                    if(p.disabled)return false;
+                    profile.boxing().onDblclick(profile, index, src);
+                }
+            }
         },
         DataModel:{
             handleHeight : null,
@@ -3899,6 +3982,9 @@ Class("linb.UI.Range", ["linb.UI","linb.absValue"],{
             dock:'fill',
             width:200,
             height:200
+        },
+        EventHandlers:{
+            onDblclick:function(profile, item, src){}
         },
         _getLabelNodes:function(profile){
             return profile.$day1 || (profile.$day1=profile.getSubNode('DF1',true));
@@ -3936,9 +4022,16 @@ Class("linb.UI.Range", ["linb.UI","linb.absValue"],{
             DC:{
                 'text-align':'left'
             },
+            TD:{
+                "background-color":"#F9F7D1"
+            },
             'TD-checked':{
                 $order:1,
-                "background-color":"#D9E8FB"
+                "background-color":"#F9F7D1"
+            },
+            'TD-free':{
+                $order:1,
+                "background-color":"#FFF"
             }
         },
         _onresize:function(profile,width,height){

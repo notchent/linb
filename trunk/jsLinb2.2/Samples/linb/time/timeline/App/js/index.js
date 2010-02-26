@@ -97,7 +97,7 @@ Class('App', 'linb.Com',{
         events:{"onReady":"_onready"}, 
         _timeline1_beforeNewTask:function (profile, task) {
             var o=task;
-            if(linb.Date.diff(new Date(o.to), new Date(o.from),  'h')<3)
+            if(linb.Date.diff(new Date(o.from), new Date(o.to),  'h')<3)
                 o.to=linb.Date.add(new Date(o.from),'h',6).getTime();
             o.renderer=function(){return (o._dropData?"<img class='linb-task' src='img/"+o._dropData+".gif'>":"")+o.caption;}
         }

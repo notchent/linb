@@ -711,6 +711,10 @@ _.set(linb.Locale,["en","doc","linb"], {
             "alert(linb.getId('btnLang'))"
         ]
     },
+    getNode:{
+        $desc:"Gets DOM element from linbid.",
+        $rtn:'Object'
+    },
     setNodeData:{
         $desc:"Sets data to a dom element",
         $rtn:"Object",
@@ -893,6 +897,7 @@ _.set(linb.Locale,["en","doc","linb"], {
             "title [Optional] : String, the title string.",
             "content [Optional] : String, the content string.",
             "onOK [Optional] : Function, the OK callback function.",
+            "btnCap [Optional] : String, the command button's caption.",
             "left [Optional] : Number, left value.",
             "top [Optional] : Number, top value."
         ],
@@ -909,6 +914,8 @@ _.set(linb.Locale,["en","doc","linb"], {
             "content [Optional] : String, the content string.",
             "onYes [Optional] : Function, the Yes callback function.",
             "onNo [Optional] : Function, the No callback function.",
+            "btnCapYes [Optional] : String, the Yes button's caption.",
+            "btnCapNo [Optional] : String, the No button's caption.",
             "left [Optional] : Number, left value.",
             "top [Optional] : Number, top value."
         ],
@@ -923,7 +930,7 @@ _.set(linb.Locale,["en","doc","linb"], {
         $paras:[
             "title [Optional] : String, the title string.",
             "content [Optional] : String, the content string.",
-            "cmdStr [Optional] : String, the command button string.",
+            "btnCap [Optional] : String, the command button's caption.",
             "left [Optional] : Number, left value.",
             "top [Optional] : Number, top value."
         ],
@@ -941,6 +948,8 @@ _.set(linb.Locale,["en","doc","linb"], {
             "content [Optional] : String, the content string.",
             "onYes [Optional] : Function, the Yes callback function.",
             "onNo [Optional] : Function, the No callback function.",
+            "btnCapYes [Optional] : String, the Yes button's caption.",
+            "btnCapNo [Optional] : String, the No button's caption.",
             "left [Optional] : Number, left value.",
             "top [Optional] : Number, top value."
         ],
@@ -11139,6 +11148,14 @@ _.set(linb.Locale,["en","doc","linb","UI","Calendar"], {
                 "value [Required] : nonnegative Number.",
                 "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ]
+        },
+        onDblclick:{
+            $desc:"Fired when image is dblclicked.",
+            $paras:[
+                "profile : linb.UIProfile.",
+                "index: Nubmer, day index.",
+                "src : Element."
+            ]
         }
     }
 });
@@ -11595,7 +11612,7 @@ _.set(linb.Locale,["en","doc","linb","UI","Dialog"], {
         $paras:[
             "title [Optional] : String, the title string.",
             "content [Optional] : String, the content string.",
-            "cmdStr [Optional] : String, the command button string.",
+            "btnCap [Optional] : String, the command button string.",
             "left [Optional] : Number, left value.",
             "top [Optional] : Number, top value."
         ],
@@ -14259,6 +14276,33 @@ _.set(linb.Locale,["en","doc","linb","UI","TimeLine"], {
         $desc:"Creates a linb.UI.TimeLine Object."
     },
     prototype:{
+        scrollToLeft:{
+            $desc:"Scrolls timeline to the left side",
+            $rtn:"Boolean",
+            $paras:[
+                "callback [Optional] : Function, the callback function."
+            ]
+        },
+        scrollToRight:{
+            $desc:"Scrolls timeline to the right side",
+            $rtn:"Boolean",
+            $paras:[
+                "callback [Optional] : Function, the callback function."
+            ]
+        },
+        getTaskMinSize:{
+            $desc:"Gets the task's min size(min width)",
+            $rtn:"Nubmer"
+        },
+        setTaskMinSize:{
+            $desc:"Sets the task's min size(min width)",
+            $rtn:"[self]",
+            $paras:[
+                "value [Required] : Boolean.",
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
+            ],
+            $memo:"Setting this property cant trigger UI refreshing. So, set it before the UI was rendered."
+        },
         getTimeRange:{
             $desc:"Gets the current time range of the timeline .",
             $rtn:"Array",
@@ -14862,13 +14906,6 @@ _.set(linb.Locale,["en","doc","linb","UI","TimeLine"], {
                 "o.onGetContent(function(p,from,to,minMs,type){linb.message(from.getTime()+':'+to.getTime()+':'+minMs+':'+type);});"+
                 "linb(id).prepend(o);"+
                 "}"
-            ]
-        },
-        beforeDelTask:{
-            $desc:"Fired before a specified task is deleted. If returns false, the action will be ignored.",
-            $paras:[
-                "profile : linb.UIProfile.",
-                "id : String, id string."
             ]
         },
         beforeNewTask:{

@@ -811,6 +811,9 @@ _.merge(linb,{
         if(typeof node=='string')node=document.getElementById(node);
         return node ? window===node?"!window":document===node?"!document":(node.$linbid||'') : '';
     },
+    getNode:function(linbid){
+        return linb.use(linbid).get(0);
+    },
     getNodeData:function(node,path){
         if(!node)return;
         return _.get(linb.$cache.domPurgeData[typeof node=='string'?node:linb.getId(node)],path);

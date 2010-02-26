@@ -47,8 +47,7 @@ Class('App', 'linb.Com',{
                 .setHeight(260)
                 .setReadonly(true)
                 .setDftTaskName("course")
-                .setTaskHeight(54)
-                .setUnitPixs(48)
+                .setTaskHeight(50)
                 .setMultiTasks(true)
                 .setDateBtn(false)
                 .onGetContent("_timeline1_ongetcontent")
@@ -167,7 +166,7 @@ Class('App', 'linb.Com',{
                 d=linb.Date.getTimSpanStart(new Date(),'d'),
                 renderer=function(v){
                     v.caption="<strong>"+v.value+"</strong><p>"+v.location+"</p>";
-                    return v.caption + "<button onclick='SPA._selectFromNode(this.parentNode)' style='position:absolute;bottom:2px;right:2px;'>select it</button>";
+                    return "<strong>"+v.value+"</strong><button onclick='SPA._selectFromNode(this.parentNode)' >select</button><p>"+v.location+"</p>";
                 };
             arr.push({
                 id:_.id(),

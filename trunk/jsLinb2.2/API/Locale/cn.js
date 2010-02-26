@@ -712,6 +712,10 @@ _.set(linb.Locale,["cn","doc","linb"], {
             "alert(linb.getId('btnLang'))"
         ]
     },
+    getNode:{
+        $desc:"从一个linbid得到它对应的dom元素.",
+        $rtn:'Object'
+    },
     setNodeData:{
         $desc:"为一个dom元素设置数据",
         $rtn:"Object",
@@ -894,6 +898,7 @@ _.set(linb.Locale,["cn","doc","linb"], {
             "title [可选参数] : String, 警告框标题.",
             "content [可选参数] : String, 警告语句.",
             "onOK [可选参数] : Function, 用户单击OK的回调函数.",
+            "btnCap [可选参数] : String, 按钮的文字.",
             "left [可选参数] : Number, 对话框左边坐标.",
             "top [可选参数] : Number, 对话框上边坐标."
         ],
@@ -910,6 +915,8 @@ _.set(linb.Locale,["cn","doc","linb"], {
             "content [可选参数] : String, 确认的提示语句.",
             "onYes [可选参数] : Function, the Yes 回调函数.",
             "onNo [可选参数] : Function, the No 回调函数.",
+            "btnCapYes [可选参数] : String, Yes按钮的文字.",
+            "btnCapNo [可选参数] : String, No按钮的文字.",
             "left [可选参数] : Number, 对话框左边坐标.",
             "top [可选参数] : Number, 对话框上边坐标."
         ],
@@ -924,7 +931,7 @@ _.set(linb.Locale,["cn","doc","linb"], {
         $paras:[
             "title [可选参数] : String, 简易对话框标题文字.",
             "content [可选参数] : String, 窗体内容输入文字",
-            "cmdStr [可选参数] : String, OK按钮文字.",
+            "btnCap [可选参数] : String, OK按钮文字.",
             "left [可选参数] : Number, 对话框左边坐标.",
             "top [可选参数] : Number, 对话框上边坐标."
         ],
@@ -942,6 +949,8 @@ _.set(linb.Locale,["cn","doc","linb"], {
             "content [可选参数] : String, 默认输入文字.",
             "onYes [可选参数] : Function, 用户单击Yes 回调函数.",
             "onNo [可选参数] : Function, 用户单击 No 回调函数.",
+            "btnCapYes [可选参数] : String, Yes按钮的文字.",
+            "btnCapNo [可选参数] : String, No按钮的文字.",
             "left [可选参数] : Number, 对话框左边坐标.",
             "top [可选参数] : Number, 对话框上边坐标."
         ],
@@ -11159,6 +11168,14 @@ _.set(linb.Locale,["cn","doc","linb","UI","Calendar"], {
                 "value [必需参数] : 非负 Number.",
                 "force [可选参数] : Boolean, 强制设置该属性值，即使属性已经设置为该值. 默认为 [false]."
             ]
+        },
+        onDblclick:{
+            $desc:"在双击Calendar的时候触发该事件.",
+            $paras:[
+                "profile : linb.UIProfile.",
+                "index: Nubmer, calendar天的序号.",
+                "src: String, 事件所属DOM元素的linbid."
+            ]
         }
     }
 });
@@ -11616,7 +11633,7 @@ _.set(linb.Locale,["cn","doc","linb","UI","Dialog"], {
         $paras:[
             "title [可选参数] : String, 简易对话框标题文字.",
             "content [可选参数] : String, 窗体内容输入文字",
-            "cmdStr [可选参数] : String, OK按钮文字.",
+            "btnCap [可选参数] : String, OK按钮文字.",
             "left [可选参数] : Number, 对话框左边坐标.",
             "top [可选参数] : Number, 对话框上边坐标."
         ],
@@ -14279,6 +14296,33 @@ _.set(linb.Locale,["cn","doc","linb","UI","TimeLine"], {
         $desc:"生成一个linb.UI.TimeLine对象."
     },
     prototype:{
+        scrollToLeft:{
+            $desc:"滚动时间线到最左边",
+            $rtn:"Boolean",
+            $paras:[
+                "callback [可选参数] : Function, 滚动完毕后要调用的回调函数."
+            ]
+        },
+        scrollToRight:{
+            $desc:"滚动时间线到最左边",
+            $rtn:"Boolean",
+            $paras:[
+                "callback [可选参数] : Function, 滚动完毕后要调用的回调函数."
+            ]
+        },
+        getTaskMinSize:{
+            $desc:"得到任务的最小显示大小",
+            $rtn:"Nubmer"
+        },
+        setTaskMinSize:{
+            $desc:"设置任务的最小显示大小",
+            $rtn:"[self]",
+            $paras:[
+                "value [必需参数] : Number.",
+                "force [可选参数] : Boolean, 强制设置该属性值，即使属性已经设置为该值. 默认为[false]."
+            ],
+            $memo:"设置此项不会自动刷新界面，应该在界面显示以前调用。"
+        },
         getTimeRange:{
             $desc:"获取日程表当前显示的时间范围.",
             $rtn:"Array",
@@ -14882,13 +14926,6 @@ _.set(linb.Locale,["cn","doc","linb","UI","TimeLine"], {
                 "o.onGetContent(function(p,from,to,minMs,type){linb.message(from.getTime()+':'+to.getTime()+':'+minMs+':'+type);});"+
                 "linb(id).prepend(o);"+
                 "}"
-            ]
-        },
-        beforeDelTask:{
-            $desc:"再删除任务之前触发。如果返回false，任务不会被删除。",
-            $paras:[
-                "profile : 控件概要对象.",
-                "id : String, 的id字符串."
             ]
         },
         beforeNewTask:{

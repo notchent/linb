@@ -811,6 +811,9 @@ _.merge(linb,{
         if(typeof node=='string')node=document.getElementById(node);
         return node ? window===node?"!window":document===node?"!document":(node.$linbid||'') : '';
     },
+    getNode:function(linbid){
+        return linb.use(linbid).get(0);
+    },
     getNodeData:function(node,path){
         if(!node)return;
         return _.get(linb.$cache.domPurgeData[typeof node=='string'?node:linb.getId(node)],path);
@@ -10613,6 +10616,7 @@ Class("linb.UI",  "linb.absObj", {
             return this.each(function(o){
                 o.getSubNode(o.keys[key] || 'KEY', true)
                 .beforeMousedown(dragKey?function(pro,e,src){
+                    if(linb.Event.getBtn(e)!="left")return;
                     if(pro.properties.disabled)return;
                     options=options||{};
                     options.dragKey=dragKey;
@@ -12429,6 +12433,7 @@ Class("linb.UI",  "linb.absObj", {
             //attach Behaviors
             _.merge(v, {
                 beforeMousedown:function(profile, e, src){
+                    if(linb.Event.getBtn(e)!="left")return;
                     if(profile.properties.disabled)return;
                     //not resizable or drag
                     if(!profile.properties.dragKey)return;
@@ -18521,10 +18526,10 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                             if(!v)v=profile.properties.$UIvalue;
                             v=linb.Date.getTimSpanStart(v,'d',1);
                             // min/max year
-                            if(v.getFullYear()<profile.properties.min)
-                                v.setFullYear(profile.properties.min);
-                            if(v.getFullYear()>profile.properties.max)
-                                v.setFullYear(profile.properties.max);
+                            if(v.getTime()<profile.properties.min)
+                                v.setTime(profile.properties.min);
+                            if(v.getTime()>profile.properties.max)
+                                v.setTime(profile.properties.max);
                         }
                         return v?String(v.getTime()):'';
                     }
@@ -19200,8 +19205,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
             var prop=profile.properties;
             value=parseFloat(value+"")||0;
             value=value>prop.max?prop.max:value<prop.min?prop.min:value;
-            value=value.toFixed(prop.precision);
-            return value+"";
+            return value.toFixed(prop.precision);
             //var n=Math.pow(10,Math.max(parseInt(prop.precision)||0,0));
             //value=(+value||0);
             //value=Math.ceil((value-0.0000000000003)*n)/n;
@@ -19211,7 +19215,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
             value=parseFloat((value+"").replace(/,/g,''))||0;
             value=value>prop.max?prop.max:value<prop.min?prop.min:value
             value=value.toFixed(prop.precision);
-            value= (""+value).split(".");
+            value= value.split(".");
             value[0] = value[0].split("").reverse().join("").replace(/(\d{3})(?=\d)/g, "$1,").split("").reverse().join("");
             return value.join(".");
         },

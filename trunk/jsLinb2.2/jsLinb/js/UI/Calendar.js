@@ -79,7 +79,14 @@ Class('linb.UI.Calendar', 'linb.UI.DatePicker', {
             HoverEffected:{},
             ClickEffected:{},
             onSize:linb.UI.$onSize,
-            TD:{onClick:null}
+            TD:{onClick:null,
+                onDblclick:function(profile, e, src){
+                    var p=profile.properties,
+                        index=profile.getSubId(src);
+                    if(p.disabled)return false;
+                    profile.boxing().onDblclick(profile, index, src);
+                }
+            }
         },
         DataModel:{
             handleHeight : null,
@@ -91,6 +98,9 @@ Class('linb.UI.Calendar', 'linb.UI.DatePicker', {
             dock:'fill',
             width:200,
             height:200
+        },
+        EventHandlers:{
+            onDblclick:function(profile, item, src){}
         },
         _getLabelNodes:function(profile){
             return profile.$day1 || (profile.$day1=profile.getSubNode('DF1',true));
@@ -128,9 +138,16 @@ Class('linb.UI.Calendar', 'linb.UI.DatePicker', {
             DC:{
                 'text-align':'left'
             },
+            TD:{
+                "background-color":"#F9F7D1"
+            },
             'TD-checked':{
                 $order:1,
-                "background-color":"#D9E8FB"
+                "background-color":"#F9F7D1"
+            },
+            'TD-free':{
+                $order:1,
+                "background-color":"#FFF"
             }
         },
         _onresize:function(profile,width,height){

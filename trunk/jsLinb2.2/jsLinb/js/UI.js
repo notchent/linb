@@ -1504,6 +1504,7 @@ Class("linb.UI",  "linb.absObj", {
             return this.each(function(o){
                 o.getSubNode(o.keys[key] || 'KEY', true)
                 .beforeMousedown(dragKey?function(pro,e,src){
+                    if(linb.Event.getBtn(e)!="left")return;
                     if(pro.properties.disabled)return;
                     options=options||{};
                     options.dragKey=dragKey;
@@ -3320,6 +3321,7 @@ Class("linb.UI",  "linb.absObj", {
             //attach Behaviors
             _.merge(v, {
                 beforeMousedown:function(profile, e, src){
+                    if(linb.Event.getBtn(e)!="left")return;
                     if(profile.properties.disabled)return;
                     //not resizable or drag
                     if(!profile.properties.dragKey)return;
