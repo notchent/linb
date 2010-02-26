@@ -29256,15 +29256,14 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                                           .parent().onMouseout(true,{$force:true});
                             });
                         }
-                    }
-                    if(!p.editable){
                         if(cell && mode=='cell'){
                             id = linb.use(src).parent().id();
                             box._activeCell(profile, id);
-                        }else if(mode=='row'){
-                            id = linb.use(src).parent(2).id();
-                            box._activeRow(profile, id);
                         }
+                    }
+                    if(mode=='row'){
+                        id = linb.use(src).parent(2).id();
+                        box._activeRow(profile, id);
                     }
                 },
                 onKeydown:function(profile, e, src){
@@ -30169,7 +30168,7 @@ sortby [for column only]
             }
             if(!cell)return;
 
-            if(!_.isObj(options))options={value:options};
+            if(!_.isHash(options))options={value:options};
             options=_.filter(options,function(o,i){return !sc[i.charAt(0)] || i=='_$caption' });
 
             if(false === profile.boxing().beforeCellUpdated(profile, cell, options))
