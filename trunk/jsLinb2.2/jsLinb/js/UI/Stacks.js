@@ -31,10 +31,7 @@ Class("linb.UI.Stacks", "linb.UI.Tabs",{
                 width:'100%',
                 left:0
             },
-            ITEMC:{
-                display:'block'
-            },
-            ITEMI:{
+            "ITEMC, ITEMI":{
                 display:'block'
             },
             'ITEM-mouseover':{

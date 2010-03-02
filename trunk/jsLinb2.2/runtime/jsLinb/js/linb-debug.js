@@ -23950,10 +23950,7 @@ Class("linb.UI.Tabs", ["linb.UI", "linb.absList","linb.absValue"],{
                 width:'100%',
                 left:0
             },
-            ITEMC:{
-                display:'block'
-            },
-            ITEMI:{
+            "ITEMC, ITEMI":{
                 display:'block'
             },
             'ITEM-mouseover':{
