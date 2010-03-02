@@ -260,13 +260,14 @@ Class("linb.CSS", null,{
     Initialize:function(){
         var b=linb.browser;
         this.addStyleSheet(""+
+// cross browser reset
             "html{color:#000;background:#FFF;}"+
             "body{cursor:default;font:13px/1.231 arial,helvetica,clean,sans-serif;}"+
             (linb.browser.ie?"body{font-size:small;font:x-small;}":"")+
             "body *{line-height:1.22em;}"+
             "body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input,textarea,p,blockquote,th,td{margin:0;padding:0;}"+
             "table{border-collapse:collapse;border-spacing:0;empty-cells:show;font-size:inherit;font:100%;}"+
-            "fieldset,img{border:0;}"+
+            "fieldset,img,body,html{border:0;}"+
             "address,caption,cite,code,dfn,em,strong,th,var{font-style:normal;font-weight:normal;}"+
             "ol,ul,li{list-style:none;}"+
             "caption,th{text-align:left;}"+
@@ -281,7 +282,7 @@ Class("linb.CSS", null,{
             "del,ins{text-decoration:none;}"+
             "pre,code,kbd,samp,tt{font-family:monospace;"+(b.ie?"font-size:108%;":"")+"line-height:100%;}"+
             "select,input,button,textarea{font:99% arial,helvetica,clean,sans-serif;border-width:1px;}"+
-
+// base setting
             "a{color:#0000ee;text-decoration:none;"+(b.gek?"-moz-user-select:none;":"")+"}"+
             "a:hover{color:red}"+
             (b.gek?"a:focus{-moz-outline-offset:-1px !important}":"")+

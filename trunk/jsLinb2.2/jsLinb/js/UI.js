@@ -1757,7 +1757,7 @@ Class("linb.UI",  "linb.absObj", {
         self.setDataModel(hash);
 
         linb.UI.$cache_css += linb.UI.buildCSSText({
-            '.linb-noscroll, .linb-noscroll BODY, .linb-viewport, .linb-viewport BODY':{
+            '.linbcss-noscroll, .linbcss-noscroll BODY, .linbcss-viewport, .linbcss-viewport BODY':{
                 overflow:'hidden',
                 height:'100%',
                 border:'0 none',
@@ -3134,14 +3134,14 @@ Class("linb.UI",  "linb.absObj", {
                 self.$cssNo=1;
                 var b=linb.browser;
                 linb('body').addClass(
-                          (b.ie ? ("linb-ie linb-ie" + b.ver + " ") :
-                           b.gek ? ("linb-gek linb-gek" + b.ver + " ") :
-                           b.kde ? ("linb-kde linb-kde" + b.ver + " ") :
-                           b.opr ? ("linb-opr linb-opr" + b.ver + " ") : "")
-                        + (b.isSafari ? "linb-safari ": b.isChrome ? "linb-chrome " :"")
-                        + (b.isMac ? "linb-mac": b.isLinux ? "linb-linux " :"")
+                          (b.ie ? ("linbcss-ie linbcss-ie" + b.ver + " ") :
+                           b.gek ? ("linbcss-gek linbcss-gek" + b.ver + " ") :
+                           b.kde ? ("linbcss-kde linbcss-kde" + b.ver + " ") :
+                           b.opr ? ("linbcss-opr linbcss-opr" + b.ver + " ") : "")
+                        + (b.isSafari ? "linbcss-safari ": b.isChrome ? "linbcss-chrome " :"")
+                        + (b.isMac ? "linbcss-mac": b.isLinux ? "linbcss-linux " :"")
                 );
-                linb('html').addClass(b.isStrict?"linb-strict":"");
+                linb('html').addClass(b.isStrict?"linbcss-base linbcss-strict":"linbcss-base ");
             }
             if(cache1){
                 linb.CSS.addStyleSheet(cache1, 'linb.UI-CSS'+(self.$cssNo++));
@@ -3907,11 +3907,11 @@ Class("linb.UI",  "linb.absObj", {
                 if(isWin){
                     var f=linb.win.$getEvent('onSize','dock');
                     if(f && f.dockall && f.dockall.length){
-                        linb('html').addClass('linb-viewport');
+                        linb('html').addClass('linbcss-viewport');
                         if(t=linb('body').get(0))
                             t.scroll='no';
                     }else{
-                        linb('html').removeClass('linb-viewport');
+                        linb('html').removeClass('linbcss-viewport');
                         if(t=linb('body').get(0))
                             t.scroll='';
                     }
