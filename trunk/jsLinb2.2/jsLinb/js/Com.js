@@ -76,7 +76,7 @@ Class('linb.Com',null,{
         },
         _fireEvent:function(name, args){
             var t, self=this;
-            if(t=self.events[name]){
+            if(self.events && (t=self.events[name])){
                 if(typeof t=='string')t=self.host[t];
                 args=args||[];
                 args.splice(0,0,self,self.threadid);

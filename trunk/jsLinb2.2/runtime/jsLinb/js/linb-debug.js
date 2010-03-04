@@ -4575,6 +4575,7 @@ Class("linb.CSS", null,{
             "pre,code,kbd,samp,tt{font-family:monospace;"+(b.ie?"font-size:108%;":"")+"line-height:100%;}"+
             "select,input,button,textarea{font:99% arial,helvetica,clean,sans-serif;border-width:1px;}"+
 // base setting
+            (linb.browser.ie6?("#"+linb.$localeDomId+"{vertical-align:baseline;}"):"")+
             "a{color:#0000ee;text-decoration:none;"+(b.gek?"-moz-user-select:none;":"")+"}"+
             "a:hover{color:red}"+
             (b.gek?"a:focus{-moz-outline-offset:-1px !important}":"")+
@@ -7112,7 +7113,7 @@ Class('linb.Com',null,{
         },
         _fireEvent:function(name, args){
             var t, self=this;
-            if(t=self.events[name]){
+            if(self.events && (t=self.events[name])){
                 if(typeof t=='string')t=self.host[t];
                 args=args||[];
                 args.splice(0,0,self,self.threadid);
@@ -10752,6 +10753,11 @@ Class("linb.UI",  "linb.absObj", {
                 }
                 o.clearCache();
             });
+        },
+        adjustDock:function(){
+            return this.each(function(o){
+                linb.UI.$dock(o,true,true);
+            });
         }
     },
     Initialize:function(){
@@ -11393,6 +11399,9 @@ Class("linb.UI",  "linb.absObj", {
                 $order:1,
                 background: linb.UI.$bg('icons.gif', 'no-repeat', true),
                 'background-position':'-390px -290px'
+            },
+            '.ui-inputdisabled':{
+                color:'#808080'
             },
             '.ui-disabled':{
                 $order:2,
@@ -12886,6 +12895,8 @@ Class("linb.UI",  "linb.absObj", {
                                 y = parseInt(prop._dockBorderHeight) || 0,
                                 region={}
                                 ;
+                            if(style.display=='none')
+                                return;
                             //top/bottom/left/right must be set by order first
                             switch(value){
                                 case 'middle':
@@ -14010,7 +14021,7 @@ new function(){
                     'line-height':'14px'
                 },
                 CAPTION:{
-                    'vertical-align': 'middle'
+                    'vertical-align':linb.browser.ie6?'baseline':'middle'
                 }
             },
             Behaviors:{
@@ -15997,7 +16008,7 @@ Class("linb.UI.Button", ["linb.UI.Widget","linb.absValue"],{
             },
             CAPTION:{
                 cursor:'pointer',
-                'vertical-align':'middle',
+                'vertical-align':linb.browser.ie6?'baseline':'middle',
                 display:'inline',
                 'font-size':'12px',
                 'line-height':'14px'
@@ -16213,7 +16224,7 @@ Class("linb.UI.Button", ["linb.UI.Widget","linb.absValue"],{
             CAPTION:{
                 display:'inline',
                 'white-space':'normal',
-                'vertical-align':'middle',
+                'vertical-align':linb.browser.ie6?'baseline':'middle',
                 cursor:'pointer',
                 zoom:linb.browser.ie?0:null
             }
@@ -17263,7 +17274,13 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
             disabled:{
                 ini:false,
                 action: function(v){
-                    this.getSubNode('INPUT').attr('disabled',v);
+                    var i=this.getSubNode('INPUT');
+                    if(v)
+                        i.addClass('ui-inputdisabled');
+                    else
+                        i.removeClass('ui-inputdisabled');
+                    if((""+i.get(0).type).toLowerCase()!='button')
+                        i.attr('disabled',v);
                 }
             },
             readonly:{
@@ -18762,8 +18779,13 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
             BTN:{
                 onClick : function(profile, e, src){
                     var prop=profile.properties;
-                    if(prop.disabled || prop.readonly)return;
-                    profile.boxing()._drop(e,src);
+                    if(prop.type=='cmdbox'){
+                        if(profile.onClick)
+                            profile.boxing().onClick(profile, e, src, prop.$UIvalue);
+                    }else{
+                        if(prop.disabled || prop.readonly)return;
+                        profile.boxing()._drop(e, src);
+                    }
                 }
             },
             SBTN:{
@@ -18845,7 +18867,8 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                             });
                     }
                     //show tips color
-                    profile.boxing()._setTB(3);                },
+                    profile.boxing()._setTB(3);                
+                },
                 onBlur:function(profile, e, src){
                     var p=profile.properties;
                     if(p.disabled || p.readonly)return false;
@@ -18909,13 +18932,14 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                 },
                 onClick : function(profile, e, src){
                     var prop=profile.properties;
-                    if(prop.disabled || prop.readonly)return;
                     if(prop.type=='cmdbox'){
                         if(profile.onClick)
                             profile.boxing().onClick(profile, e, src, prop.$UIvalue);
                     //DOM node's readOnly
-                    }else if(prop.inputReadonly || profile.$inputReadonly)
+                    }else if(prop.inputReadonly || profile.$inputReadonly){
+                        if(prop.disabled || prop.readonly)return;
                         profile.boxing()._drop(e, src);
+                    }
                 }
             },
             R1:{
@@ -19392,7 +19416,7 @@ Class("linb.UI.Group", "linb.UI.Div",{
                 display:'none'
             },
             CAPTION:{
-                'vertical-align':'middle',
+                'vertical-align':linb.browser.ie6?'baseline':'middle',
                 'font-family': '"Verdana", "Helvetica", "sans-serif"',
                 'font-size':'12px',
                 'line-height':'18px'
@@ -19825,7 +19849,7 @@ Class("linb.UI.Group", "linb.UI.Div",{
             },
             CAPTION:{
                 'font-size':'12px',
-                'vertical-align':'middle'
+                'vertical-align':linb.browser.ie6?'baseline':'middle'
             },
             EXAM:{
                 'float':'left',
@@ -20794,7 +20818,7 @@ Class("linb.UI.Group", "linb.UI.Div",{
             },
             CAPTION:{
                 'font-size':'12px',
-                'vertical-align':'middle'
+                'vertical-align':linb.browser.ie6?'baseline':'middle'
             },
             MAINI:{
                 'padding-top':'4px',
@@ -21365,7 +21389,7 @@ Class("linb.UI.Group", "linb.UI.Div",{
             },
             CAPTION:{
                 'font-size':'12px',
-                'vertical-align':'middle'
+                'vertical-align':linb.browser.ie6?'baseline':'middle'
             },
             '.linbex-timepicker2':{
                 $order:1,
@@ -22415,7 +22439,7 @@ Class("linb.UI.Panel", "linb.UI.Div",{
             CAPTION:{
                 'font-size':'12px',
                 display:'inline',
-                'vertical-align':'middle'
+                'vertical-align':linb.browser.ie6?'baseline':'middle'
             }
         },
         Behaviors:{
@@ -23475,7 +23499,7 @@ Class("linb.UI.Tabs", ["linb.UI", "linb.absList","linb.absValue"],{
                 overflow:'auto'
             },
             CAPTION:{
-                'vertical-align':'middle'
+                'vertical-align':linb.browser.ie6?'baseline':'middle'
             },
             CMDS:{
                 'vertical-align':'middle',
@@ -24285,7 +24309,7 @@ Class("linb.UI.ButtonViews", "linb.UI.Tabs",{
                'font-size':'12px'
             },
             CAPTION:{
-                'vertical-align':'middle'
+                'vertical-align':linb.browser.ie6?'baseline':'middle'
             },
             ITEMS:{
                 overflow:'auto',
@@ -24443,7 +24467,7 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
                                 res=true;
                                 return false;
                             }
-                            if(o.sub){
+                            if(o.sub && _.isArr(o.sub)){
                                 res = me.call(me, o.sub, catId, ++layer)
                                 if(res){
                                     a.push(o);
@@ -24615,7 +24639,7 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
                 'background-position': '0 -70px'
             },
             ITEMCAPTION:{
-                'vertical-align':'middle',
+                'vertical-align':linb.browser.ie6?'baseline':'middle',
                 padding:'2px'
             }
         },
@@ -24672,8 +24696,6 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
                         box.onItemSelected(profile, item, src);
                         break;
                     case 'multi':
-                        if(profile.getKey(linb.Event.getSrc(e).id)!=profile.keys.MARK2)return;
-
                         var value = box.getUIValue(),
                             arr = value?value.split(';'):[];
                         if(arr.length&&(ks[1]||ks[2]||properties.noCtrlKey)){
@@ -25399,7 +25421,7 @@ Class("linb.UI.PopMenu",["linb.UI.Widget","linb.absList"],{
                 height:'16px'
             },
             CAPTION:{
-                'vertical-align':'middle',
+                'vertical-align':linb.browser.ie6?'baseline':'middle',
                 'padding-left':'6px'
             },
             RULER:{
@@ -25984,7 +26006,7 @@ Class("linb.UI.MenuBar",["linb.UI","linb.absList" ],{
             CAPTION:{
                 'font-size':'12px',
                 'line-height':'14px',
-                'vertical-align':'middle'
+                'vertical-align':linb.browser.ie6?'baseline':'middle'
             }
         },
         Behaviors:{
@@ -26218,8 +26240,11 @@ Class("linb.UI.ToolBar",["linb.UI","linb.absList"],{
         },
         showItem:function(itemId, value){
             return this.each(function(profile){
-                profile.getItemByItemId(itemId).hidden=value===false;
-                profile.getSubNodeByItemId('ITEM', itemId).css('display',value===false?'none':'');
+                var item=profile.getItemByItemId(itemId);
+                if(item){
+                    item.hidden=value===false;
+                    profile.getSubNodeByItemId('ITEM', itemId).css('display',value===false?'none':'');
+                }
             });
         },
         showGroup:function(grpId, value){
@@ -31497,7 +31522,7 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
             CAPTION:{
                 'font-size':'12px',
                 display:'inline',
-                'vertical-align':'middle'
+                'vertical-align':linb.browser.ie6?'baseline':'middle'
             },
             BORDER:{
                 position:'relative',

@@ -79,7 +79,7 @@ Class("linb.UI.CheckBox", "linb.UI.Button",{
             CAPTION:{
                 display:'inline',
                 'white-space':'normal',
-                'vertical-align':'middle',
+                'vertical-align':linb.browser.ie6?'baseline':'middle',
                 cursor:'pointer',
                 zoom:linb.browser.ie?0:null
             }

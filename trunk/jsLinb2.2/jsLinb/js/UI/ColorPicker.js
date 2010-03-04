@@ -320,7 +320,7 @@ Class('linb.UI.ColorPicker', ['linb.UI',"linb.absValue"], {
             },
             CAPTION:{
                 'font-size':'12px',
-                'vertical-align':'middle'
+                'vertical-align':linb.browser.ie6?'baseline':'middle'
             },
             EXAM:{
                 'float':'left',

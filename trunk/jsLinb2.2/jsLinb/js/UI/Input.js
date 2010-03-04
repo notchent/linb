@@ -430,7 +430,13 @@ Class("linb.UI.Input", ["linb.UI.Widget","linb.absValue"] ,{
             disabled:{
                 ini:false,
                 action: function(v){
-                    this.getSubNode('INPUT').attr('disabled',v);
+                    var i=this.getSubNode('INPUT');
+                    if(v)
+                        i.addClass('ui-inputdisabled');
+                    else
+                        i.removeClass('ui-inputdisabled');
+                    if((""+i.get(0).type).toLowerCase()!='button')
+                        i.attr('disabled',v);
                 }
             },
             readonly:{

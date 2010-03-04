@@ -6878,6 +6878,10 @@ _.set(linb.Locale,["en","doc","linb","UI"], {
                 "}"
             ]
         },
+        adjustDock:{
+            $desc:"Adjusts docking.",
+            $rtn:"[self]"
+        },
         setCustomBehavior:{
             $desc:"Sets customized behavior function to the set of UIProfiles.",
             $rtn:"[self]",

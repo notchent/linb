@@ -644,8 +644,13 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
             BTN:{
                 onClick : function(profile, e, src){
                     var prop=profile.properties;
-                    if(prop.disabled || prop.readonly)return;
-                    profile.boxing()._drop(e,src);
+                    if(prop.type=='cmdbox'){
+                        if(profile.onClick)
+                            profile.boxing().onClick(profile, e, src, prop.$UIvalue);
+                    }else{
+                        if(prop.disabled || prop.readonly)return;
+                        profile.boxing()._drop(e, src);
+                    }
                 }
             },
             SBTN:{
@@ -727,7 +732,8 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                             });
                     }
                     //show tips color
-                    profile.boxing()._setTB(3);                },
+                    profile.boxing()._setTB(3);                
+                },
                 onBlur:function(profile, e, src){
                     var p=profile.properties;
                     if(p.disabled || p.readonly)return false;
@@ -791,13 +797,14 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                 },
                 onClick : function(profile, e, src){
                     var prop=profile.properties;
-                    if(prop.disabled || prop.readonly)return;
                     if(prop.type=='cmdbox'){
                         if(profile.onClick)
                             profile.boxing().onClick(profile, e, src, prop.$UIvalue);
                     //DOM node's readOnly
-                    }else if(prop.inputReadonly || profile.$inputReadonly)
+                    }else if(prop.inputReadonly || profile.$inputReadonly){
+                        if(prop.disabled || prop.readonly)return;
                         profile.boxing()._drop(e, src);
+                    }
                 }
             },
             R1:{

@@ -235,7 +235,7 @@ Class("linb.UI.Button", ["linb.UI.Widget","linb.absValue"],{
             },
             CAPTION:{
                 cursor:'pointer',
-                'vertical-align':'middle',
+                'vertical-align':linb.browser.ie6?'baseline':'middle',
                 display:'inline',
                 'font-size':'12px',
                 'line-height':'14px'

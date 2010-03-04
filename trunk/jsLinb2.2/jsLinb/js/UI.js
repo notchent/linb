@@ -1639,6 +1639,11 @@ Class("linb.UI",  "linb.absObj", {
                 }
                 o.clearCache();
             });
+        },
+        adjustDock:function(){
+            return this.each(function(o){
+                linb.UI.$dock(o,true,true);
+            });
         }
     },
     Initialize:function(){
@@ -2280,6 +2285,9 @@ Class("linb.UI",  "linb.absObj", {
                 $order:1,
                 background: linb.UI.$bg('icons.gif', 'no-repeat', true),
                 'background-position':'-390px -290px'
+            },
+            '.ui-inputdisabled':{
+                color:'#808080'
             },
             '.ui-disabled':{
                 $order:2,
@@ -3773,6 +3781,8 @@ Class("linb.UI",  "linb.absObj", {
                                 y = parseInt(prop._dockBorderHeight) || 0,
                                 region={}
                                 ;
+                            if(style.display=='none')
+                                return;
                             //top/bottom/left/right must be set by order first
                             switch(value){
                                 case 'middle':
@@ -4897,7 +4907,7 @@ new function(){
                     'line-height':'14px'
                 },
                 CAPTION:{
-                    'vertical-align': 'middle'
+                    'vertical-align':linb.browser.ie6?'baseline':'middle'
                 }
             },
             Behaviors:{

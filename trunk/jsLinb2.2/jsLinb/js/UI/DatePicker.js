@@ -312,7 +312,7 @@ Class('linb.UI.DatePicker', ['linb.UI',"linb.absValue"], {
             },
             CAPTION:{
                 'font-size':'12px',
-                'vertical-align':'middle'
+                'vertical-align':linb.browser.ie6?'baseline':'middle'
             },
             MAINI:{
                 'padding-top':'4px',

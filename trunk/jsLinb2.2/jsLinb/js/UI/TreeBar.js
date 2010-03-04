@@ -140,7 +140,7 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
                                 res=true;
                                 return false;
                             }
-                            if(o.sub){
+                            if(o.sub && _.isArr(o.sub)){
                                 res = me.call(me, o.sub, catId, ++layer)
                                 if(res){
                                     a.push(o);
@@ -312,7 +312,7 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
                 'background-position': '0 -70px'
             },
             ITEMCAPTION:{
-                'vertical-align':'middle',
+                'vertical-align':linb.browser.ie6?'baseline':'middle',
                 padding:'2px'
             }
         },
@@ -369,8 +369,6 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
                         box.onItemSelected(profile, item, src);
                         break;
                     case 'multi':
-                        if(profile.getKey(linb.Event.getSrc(e).id)!=profile.keys.MARK2)return;
-
                         var value = box.getUIValue(),
                             arr = value?value.split(';'):[];
                         if(arr.length&&(ks[1]||ks[2]||properties.noCtrlKey)){

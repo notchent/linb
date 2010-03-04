@@ -6912,6 +6912,10 @@ _.set(linb.Locale,["cn","doc","linb","UI"], {
                 "}"
             ]
         },
+        adjustDock:{
+            $desc:"调整停靠.",
+            $rtn:"[self]"
+        },
         setCustomBehavior:{
             $desc:"设置自定义行为函数.",
             $rtn:"[self]",

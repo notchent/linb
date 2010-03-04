@@ -44,7 +44,7 @@ Class("linb.UI.RadioBox", "linb.UI.List",{
                'font-size':'12px'
             },
             CAPTION:{
-                'vertical-align':'middle'
+                'vertical-align':linb.browser.ie6?'baseline':'middle'
             },
             ITEMS:{
                 overflow:'auto',

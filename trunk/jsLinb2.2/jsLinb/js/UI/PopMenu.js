@@ -366,7 +366,7 @@ Class("linb.UI.PopMenu",["linb.UI.Widget","linb.absList"],{
                 height:'16px'
             },
             CAPTION:{
-                'vertical-align':'middle',
+                'vertical-align':linb.browser.ie6?'baseline':'middle',
                 'padding-left':'6px'
             },
             RULER:{

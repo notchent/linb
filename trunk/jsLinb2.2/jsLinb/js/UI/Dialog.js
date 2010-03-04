@@ -257,7 +257,7 @@ Class("linb.UI.Dialog","linb.UI.Widget",{
             CAPTION:{
                 'font-size':'12px',
                 display:'inline',
-                'vertical-align':'middle'
+                'vertical-align':linb.browser.ie6?'baseline':'middle'
             },
             BORDER:{
                 position:'relative',

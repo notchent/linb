@@ -71,8 +71,11 @@ Class("linb.UI.ToolBar",["linb.UI","linb.absList"],{
         },
         showItem:function(itemId, value){
             return this.each(function(profile){
-                profile.getItemByItemId(itemId).hidden=value===false;
-                profile.getSubNodeByItemId('ITEM', itemId).css('display',value===false?'none':'');
+                var item=profile.getItemByItemId(itemId);
+                if(item){
+                    item.hidden=value===false;
+                    profile.getSubNodeByItemId('ITEM', itemId).css('display',value===false?'none':'');
+                }
             });
         },
         showGroup:function(grpId, value){

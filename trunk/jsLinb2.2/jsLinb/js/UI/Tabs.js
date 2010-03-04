@@ -479,7 +479,7 @@ Class("linb.UI.Tabs", ["linb.UI", "linb.absList","linb.absValue"],{
                 overflow:'auto'
             },
             CAPTION:{
-                'vertical-align':'middle'
+                'vertical-align':linb.browser.ie6?'baseline':'middle'
             },
             CMDS:{
                 'vertical-align':'middle',

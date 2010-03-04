@@ -171,7 +171,7 @@ Class("linb.UI.Panel", "linb.UI.Div",{
             CAPTION:{
                 'font-size':'12px',
                 display:'inline',
-                'vertical-align':'middle'
+                'vertical-align':linb.browser.ie6?'baseline':'middle'
             }
         },
         Behaviors:{

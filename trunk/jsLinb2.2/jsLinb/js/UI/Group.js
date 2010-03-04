@@ -108,7 +108,7 @@ Class("linb.UI.Group", "linb.UI.Div",{
                 display:'none'
             },
             CAPTION:{
-                'vertical-align':'middle',
+                'vertical-align':linb.browser.ie6?'baseline':'middle',
                 'font-family': '"Verdana", "Helvetica", "sans-serif"',
                 'font-size':'12px',
                 'line-height':'18px'

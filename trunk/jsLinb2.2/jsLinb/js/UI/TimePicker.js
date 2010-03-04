@@ -285,7 +285,7 @@ Class('linb.UI.TimePicker', ['linb.UI',"linb.absValue"], {
             },
             CAPTION:{
                 'font-size':'12px',
-                'vertical-align':'middle'
+                'vertical-align':linb.browser.ie6?'baseline':'middle'
             },
             '.linbex-timepicker2':{
                 $order:1,

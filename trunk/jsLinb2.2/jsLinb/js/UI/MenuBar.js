@@ -239,7 +239,7 @@ Class("linb.UI.MenuBar",["linb.UI","linb.absList" ],{
             CAPTION:{
                 'font-size':'12px',
                 'line-height':'14px',
-                'vertical-align':'middle'
+                'vertical-align':linb.browser.ie6?'baseline':'middle'
             }
         },
         Behaviors:{
