@@ -372,10 +372,12 @@ Class("linb.DataBinder","linb.absObj",{
         resetValue:function(hash){
             var p,v,c,b;
             return this.each(function(o,i){
-                o._valuesMap=hash;
+                var vs={};
                 _.arr.each(o._n,function(profile){
                     p=profile.properties;
                     v=(hash && p.dataField in hash)?hash[p.dataField]:'';
+                    // real value
+                    vs[p.dataField]=v;
                     c="";
                     b=profile.boxing();
                     if(_.isHash(v)){
@@ -391,6 +393,7 @@ Class("linb.DataBinder","linb.absObj",{
                         _.tryF(b.setCaption,[c,true],b);
 
                 });
+                o._valuesMap=vs;
             })
         },
         getUI:function(key){
