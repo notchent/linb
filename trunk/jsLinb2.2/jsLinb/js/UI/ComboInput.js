@@ -440,7 +440,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                 profile.$isNumber=1;
                 _.merge(profile,{
                     $beforeKeypress : function(profile,c,k){
-                        return k.length!=1 || /[0-9.]/.test(k);
+                        return k.length!=1 || /[-0-9.]/.test(k);
                     },
                     $compareValue : function(p,a,b){
                         return p.box._number(profile, a)==p.box._number(profile, b)
@@ -910,7 +910,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
             },
             precision:2,
             increment:0.01,
-            min:0,
+            min:-Math.pow(10,10),
             max:Math.pow(10,10),
             commandBtn:{
                 ini:"none",
@@ -1104,9 +1104,9 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
             //value=Math.ceil((value-0.0000000000003)*n)/n;
         },
         _currency:function(profile, value){
-            var prop=profile.properties;
+            var prop=profile.properties,min=Math.max(prop.min,0);
             value=parseFloat((value+"").replace(/,/g,''))||0;
-            value=value>prop.max?prop.max:value<prop.min?prop.min:value
+            value=value>prop.max?prop.max:value<min?min:value
             value=value.toFixed(prop.precision);
             value= value.split(".");
             value[0] = value[0].split("").reverse().join("").replace(/(\d{3})(?=\d)/g, "$1,").split("").reverse().join("");
