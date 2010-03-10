@@ -24481,7 +24481,7 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
                 if(res){
                     a.reverse();
                     _.arr.each(a,function(o){
-                        if(o.sub){
+                        if(o.sub && (o.hasOwnProperty('group')?o.group:profile.properties.group)){
                             profile.boxing().toggleNode(o.id,true);
                         }else
                             profile.boxing().fireItemClickEvent(o.id);
