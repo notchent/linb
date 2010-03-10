@@ -23977,7 +23977,11 @@ Class("linb.UI.Tabs", ["linb.UI", "linb.absList","linb.absValue"],{
                 width:'100%',
                 left:0
             },
-            "ITEMC, ITEMI":{
+            // to cover Tab's setting, must use ITEMC/ITEMI separately
+            ITEMC:{
+                display:'block'
+            },
+            ITEMI:{
                 display:'block'
             },
             'ITEM-mouseover':{
