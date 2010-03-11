@@ -2289,9 +2289,10 @@ Class("linb.UI",  "linb.absObj", {
             '.ui-inputdisabled':{
                 color:'#808080'
             },
-            '.ui-disabled':{
+            '.ui-cmddisabled':{
                 $order:2,
-                cursor:'not-allowed'
+                cursor:'not-allowed',
+                color: '#808080'
             },
             '.ui-disabled, .ui-disabled *':{
                 $order:2,
@@ -3395,7 +3396,7 @@ Class("linb.UI",  "linb.absObj", {
             }
 
             if('disabled' in hashOut)
-                hashOut.disabled=hashOut.disabled?'ui-disabled':'';
+                hashOut.disabled=hashOut.disabled?'ui-itemdisabled':'';
 
             //todo:remove the extra para
             hashOut.imageDisplay = (hashOut.imageClass||hashOut.image)?'':'display:none';
@@ -3438,7 +3439,12 @@ Class("linb.UI",  "linb.absObj", {
             disabled:{
                 ini:false,
                 action: function(v){
-                    this.getRoot().css('opacity',v?0.5:1);
+                    var i=this.getRoot();
+                    if(v)
+                        i.addClass('ui-disabled');
+                    else
+                        i.removeClass('ui-disabled');
+                    i.css('opacity',v?0.5:1);
                 }
             },
             dock:{
@@ -4975,7 +4981,6 @@ new function(){
                 text:'{html}'+linb.UI.$childTag
             },
             DataModel:{
-                disabled:null,
                 width:'100',
                 height:'100',
                 html:{

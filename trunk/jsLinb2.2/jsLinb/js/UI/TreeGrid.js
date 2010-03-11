@@ -259,9 +259,9 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                         ns.getSubNode('CELLS',rid).addClass(t);
                     if(options.hasOwnProperty('disabled')){
                         if(options.disabled)
-                            ns.getSubNode('CELLS',rid).addClass('ui-disabled');
+                            ns.getSubNode('CELLS',rid).addClass('ui-itemdisabled');
                         else
-                            ns.getSubNode('CELLS',rid).removeClass('ui-disabled');
+                            ns.getSubNode('CELLS',rid).removeClass('ui-itemdisabled');
                     }
                     if(t=options.firstCellStyle)
                         (tt=ns.getSubNode('FCELL',rid)).attr('style',tt.attr('style')+";"+t);
@@ -2562,7 +2562,7 @@ sortby [for column only]
                 if(row.group)
                     t.rowCls = profile.getClass('CELLS','-group');
                 
-                t._disabled=row.disalbed?'ui-disabled':'';
+                t._disabled=row.disalbed?'ui-itemdisabled':'';
 
                 if(row.summary)
                     t.summaryDisplay='display:block;';

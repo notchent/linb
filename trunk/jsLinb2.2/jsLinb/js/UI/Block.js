@@ -42,18 +42,22 @@ Class("linb.UI.Block", "linb.UI.Widget",{
             },
             borderType:{
                 ini:'outset',
-                listbox:['none','inset','outset','groove','ridge'],
+                listbox:['none','flat','inset','outset','groove','ridge'],
                 action:function(v){
                     var ns=this,
                         p=ns.properties,
                         n1=ns.getSubNode('BORDER'), n2=ns.getSubNode('PANEL'),
                         reg=/^uiborder-/,
+                        flat='uiborder-flat',
                         ins='uiborder-inset',
                         outs='uiborder-outset',
                         root=ns.getRoot();
                     n1.removeClass(reg);
                     n2.removeClass(reg);
                     switch(v){
+                        case 'flat':
+                        n1.addClass(flat);
+                        break;
                         case 'inset':
                         n1.addClass(ins);
                         break;
@@ -87,7 +91,7 @@ Class("linb.UI.Block", "linb.UI.Widget",{
         _setB:function(profile){
             var p=profile.properties,type=p.borderType;
             p.$hborder=p.$vborder=p.$iborder=0;
-            if(type=='inset'||type=='outset'){p.$hborder=p.$vborder=1;p.$iborder=0;}
+            if(type=='flat'||type=='inset'||type=='outset'){p.$hborder=p.$vborder=1;p.$iborder=0;}
             else if(type=='groove'||type=='ridge'){p.$hborder=p.$vborder=p.$iborder=1;}
         },
         LayoutTrigger:function(){

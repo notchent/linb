@@ -11420,9 +11420,10 @@ Class("linb.UI",  "linb.absObj", {
             '.ui-inputdisabled':{
                 color:'#808080'
             },
-            '.ui-disabled':{
+            '.ui-cmddisabled':{
                 $order:2,
-                cursor:'not-allowed'
+                cursor:'not-allowed',
+                color: '#808080'
             },
             '.ui-disabled, .ui-disabled *':{
                 $order:2,
@@ -12526,7 +12527,7 @@ Class("linb.UI",  "linb.absObj", {
             }
 
             if('disabled' in hashOut)
-                hashOut.disabled=hashOut.disabled?'ui-disabled':'';
+                hashOut.disabled=hashOut.disabled?'ui-itemdisabled':'';
 
             //todo:remove the extra para
             hashOut.imageDisplay = (hashOut.imageClass||hashOut.image)?'':'display:none';
@@ -12569,7 +12570,12 @@ Class("linb.UI",  "linb.absObj", {
             disabled:{
                 ini:false,
                 action: function(v){
-                    this.getRoot().css('opacity',v?0.5:1);
+                    var i=this.getRoot();
+                    if(v)
+                        i.addClass('ui-disabled');
+                    else
+                        i.removeClass('ui-disabled');
+                    i.css('opacity',v?0.5:1);
                 }
             },
             dock:{
@@ -14106,7 +14112,6 @@ new function(){
                 text:'{html}'+linb.UI.$childTag
             },
             DataModel:{
-                disabled:null,
                 width:'100',
                 height:'100',
                 html:{
@@ -15450,18 +15455,22 @@ Class("linb.UI.Resizer","linb.UI",{
             },
             borderType:{
                 ini:'outset',
-                listbox:['none','inset','outset','groove','ridge'],
+                listbox:['none','flat','inset','outset','groove','ridge'],
                 action:function(v){
                     var ns=this,
                         p=ns.properties,
                         n1=ns.getSubNode('BORDER'), n2=ns.getSubNode('PANEL'),
                         reg=/^uiborder-/,
+                        flat='uiborder-flat',
                         ins='uiborder-inset',
                         outs='uiborder-outset',
                         root=ns.getRoot();
                     n1.removeClass(reg);
                     n2.removeClass(reg);
                     switch(v){
+                        case 'flat':
+                        n1.addClass(flat);
+                        break;
                         case 'inset':
                         n1.addClass(ins);
                         break;
@@ -15495,7 +15504,7 @@ Class("linb.UI.Resizer","linb.UI",{
         _setB:function(profile){
             var p=profile.properties,type=p.borderType;
             p.$hborder=p.$vborder=p.$iborder=0;
-            if(type=='inset'||type=='outset'){p.$hborder=p.$vborder=1;p.$iborder=0;}
+            if(type=='flat'||type=='inset'||type=='outset'){p.$hborder=p.$vborder=1;p.$iborder=0;}
             else if(type=='groove'||type=='ridge'){p.$hborder=p.$vborder=p.$iborder=1;}
         },
         LayoutTrigger:function(){
@@ -18805,13 +18814,8 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
             BTN:{
                 onClick : function(profile, e, src){
                     var prop=profile.properties;
-                    if(prop.type=='cmdbox'){
-                        if(profile.onClick)
-                            profile.boxing().onClick(profile, e, src, prop.$UIvalue);
-                    }else{
-                        if(prop.disabled || prop.readonly)return;
-                        profile.boxing()._drop(e, src);
-                    }
+                    if(prop.disabled || prop.readonly)return;
+                    profile.boxing()._drop(e, src);
                 }
             },
             SBTN:{
@@ -26221,9 +26225,9 @@ Class("linb.UI.ToolBar",["linb.UI","linb.absList"],{
                         }
                         if('disabled' in options && options.disabled!=item.disabled){
                             if(options.disabled)
-                                n2.addClass('ui-disabled');
+                                n2.addClass('ui-itemdisabled');
                             else
-                                n2.removeClass('ui-disabled');
+                                n2.removeClass('ui-itemdisabled');
                         }
                         if('image' in options&& options.image!=item.image)
                             n1.css('background-image',options.image);
@@ -27725,9 +27729,9 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                         ns.getSubNode('CELLS',rid).addClass(t);
                     if(options.hasOwnProperty('disabled')){
                         if(options.disabled)
-                            ns.getSubNode('CELLS',rid).addClass('ui-disabled');
+                            ns.getSubNode('CELLS',rid).addClass('ui-itemdisabled');
                         else
-                            ns.getSubNode('CELLS',rid).removeClass('ui-disabled');
+                            ns.getSubNode('CELLS',rid).removeClass('ui-itemdisabled');
                     }
                     if(t=options.firstCellStyle)
                         (tt=ns.getSubNode('FCELL',rid)).attr('style',tt.attr('style')+";"+t);
@@ -30028,7 +30032,7 @@ sortby [for column only]
                 if(row.group)
                     t.rowCls = profile.getClass('CELLS','-group');
                 
-                t._disabled=row.disalbed?'ui-disabled':'';
+                t._disabled=row.disalbed?'ui-itemdisabled':'';
 
                 if(row.summary)
                     t.summaryDisplay='display:block;';

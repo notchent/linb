@@ -35,9 +35,9 @@ Class("linb.UI.ToolBar",["linb.UI","linb.absList"],{
                         }
                         if('disabled' in options && options.disabled!=item.disabled){
                             if(options.disabled)
-                                n2.addClass('ui-disabled');
+                                n2.addClass('ui-itemdisabled');
                             else
-                                n2.removeClass('ui-disabled');
+                                n2.removeClass('ui-itemdisabled');
                         }
                         if('image' in options&& options.image!=item.image)
                             n1.css('background-image',options.image);
