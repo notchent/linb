@@ -193,14 +193,10 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
                         className:'{itemClass} {disabled}',
                         style:'{itemStyle}{itemDisplay}',
                         tagName : 'div',
-                        onselectstart:'return false',
-                        unselectable:'on',
                         BAR:{
                             $order:0,
                             tabindex: '{_tabindex}',
                             className:'{cls_group} ',
-                            onselectstart:'return false',
-                            unselectable:'on',
                             MARK2:{
                                 $order:0,
                                 style:'{mark2Display}'

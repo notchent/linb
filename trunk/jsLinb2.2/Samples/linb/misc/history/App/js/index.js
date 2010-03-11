@@ -18,13 +18,6 @@ Class('App', 'linb.Com',{
                 .onClick("_pagebar1_onclick")
             );
             
-            append((new linb.UI.Button)
-                .host(host,"button3")
-                .setLeft(160)
-                .setTop(90)
-                .setCaption("button3")
-                .setHref("#button3")
-            );
             
             append((new linb.UI.LinkList)
                 .host(host,"linklist1")

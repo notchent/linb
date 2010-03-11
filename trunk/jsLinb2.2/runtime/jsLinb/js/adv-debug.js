@@ -578,8 +578,6 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
                     BARCMDR:{
                         tagName: 'div',
                         className:'uibar-cmdr',
-                        onselectstart:'return false',
-                        unselectable:'on',
                         OPT:{
                             className:'uicmd-opt',
                             style:'{optDisplay}',
@@ -705,8 +703,6 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
                         id:null,
                         className:null,
                         tagName:'div',
-                        onselectstart:'return false',
-                        unselectable:'on',
                         style:'width:{width}px;left:{left}px;',
                         text:'{text}'
                     }
@@ -716,8 +712,6 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
                         id:null,
                         className:null,
                         tagName:'div',
-                        onselectstart:'return false',
-                        unselectable:'on',
                         style:'width:{width}px;left:{left}px;',
                         text:'{text}'
                     }
@@ -1419,7 +1413,6 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
                 'text-align':'center',
                 position:'absolute',
                 cursor:'move',
-                "-moz-user-select":linb.browser.gek?'none':'',
                 top:0,
                 overflow:'visible'
             },

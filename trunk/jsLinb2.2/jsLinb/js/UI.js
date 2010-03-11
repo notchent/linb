@@ -2116,7 +2116,6 @@ Class("linb.UI",  "linb.absObj", {
                 'background-position': 'right -150px'
             },
             '.uibar-top .uibar-cmdl':{
-                '-moz-user-select':'none',
                 overflow:'hidden',
                 position:'absolute',
                 left:0,
@@ -2127,7 +2126,6 @@ Class("linb.UI",  "linb.absObj", {
                 'white-space': 'nowrap'
             },
             '.uibar-top .uibar-cmdr':{
-                '-moz-user-select':'none',
                 position:'absolute',
                 top:'6px',
                 right:'8px',
@@ -2221,6 +2219,8 @@ Class("linb.UI",  "linb.absObj", {
         })
         + linb.UI.buildCSSText({
             '.ui-ctrl':{
+                // disable all selectable
+                '-moz-user-select':linb.browser.gek?'-moz-none':null,
                 'vertical-align':'middle'
             },
             '.uiw-shell':{
@@ -2514,6 +2514,7 @@ Class("linb.UI",  "linb.absObj", {
                 behavior = profile.behavior?key?profile.behavior[key]:profile.behavior:null,
                 map1 = self.map1 ||(self.map1={tagName:1,text:1}),
                 map2 = self.map2 ||(self.map2={image:1,input:1,br:1,meta:1,hr:1,abbr:1,embed:1}),
+                map3 = self.map3 ||(self.map3={input:1,textarea:1,pre:1,code:1}),
                 r2=self.r2||(self.r2=/[a-z]/),
                 r3=self.r3 || (self.r3=/^(on|before|after)/),
                 r7=self.r7 || (self.r7=/([^{}]*)\{([\w]+)\}([^{}]*)/g),
@@ -2555,7 +2556,11 @@ Class("linb.UI",  "linb.absObj", {
 
             template.style = (template.style||'')+';'+ u.$tag_special + (key||'KEY') + '_CS'+u.$tag_special;
 
-            var a=[], b={}, tagName=template.tagName, text= template.text, sc=linb.absObj.$specialChars;
+            var a=[], b={}, 
+                tagName=template.tagName.toLowerCase(), 
+                text= template.text, 
+                sc=linb.absObj.$specialChars;
+
             for(var i in template){
                 if(!template[i])continue;
                 if(!sc[i.charAt(0)] && !map1[i]){
@@ -2584,6 +2589,11 @@ Class("linb.UI",  "linb.absObj", {
             }
             //<span id="" style="">
             arr[arr.length]='<'+tagName+' ';
+
+            // add "unselectable" to node
+            if(!b.unselectable && !map3[tagName])
+                b.unselectable='on';
+
             for(var i in b)
                 if(b[i])
                     arr[arr.length]=i+'="'+b[i]+'" ';
@@ -2594,7 +2604,7 @@ Class("linb.UI",  "linb.absObj", {
 
             delete template['class'];
 
-            arr[arr.length]='{attributes}>';
+            arr[arr.length]=' {attributes}>';
 
             if(!map2[tagName] && text)
                 arr[arr.length]=text;
@@ -2604,7 +2614,6 @@ Class("linb.UI",  "linb.absObj", {
                 o=a[i++];
                 self(profile, o, o.$key, obj, arr)
             }
-
             if(!map2[tagName])
                 arr[arr.length]='</'+tagName+'>';
 

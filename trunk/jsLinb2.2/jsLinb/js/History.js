@@ -13,15 +13,19 @@ Class("linb.History",null,{
         		if(linb.browser.ie) {
         			if(self._lastFI=='')self._lastFI = '#';
     
-                    var n=document.createElement("div");
-                    n.style.display = "none";
-                    document.body.appendChild(n);
-        			n.innerHTML = '<iframe id="'+this._fid+'" style="display: none;"></iframe>';
-        			var ihistory = document.getElementById(this._fid), iframe = ihistory.contentWindow.document;
-        			iframe.open();
-        			iframe.close();
-        			iframe.location.hash = hash;
-        			n=null;
+                    if(parseInt(linb.browser.ver)<8) {
+                        var n=document.createElement("div");
+                        n.style.display = "none";
+                        document.body.appendChild(n);
+            			n.innerHTML = '<iframe id="'+this._fid+'" style="display: none;"></iframe>';
+            			var ihistory = document.getElementById(this._fid), iframe = ihistory.contentWindow.document;
+            			iframe.open();
+            			iframe.close();
+            			iframe.location.hash = hash;
+            			n=null;
+            		}else{
+            		    location.hash = hash;
+            		}
         		}else if(linb.browser.kde) {
         			// etablish back/forward stacks
         			self.backStack = [];
@@ -41,19 +45,28 @@ Class("linb.History",null,{
 	    //  2: back to another url, and forward
         //check location.hash change periodically
     	_timer: function(){
-    	    var self=linb.History;
+    	    var self=linb.History,hash;
     	    if(typeof self._callback!='function'){
     	        clearInterval(self._itimer);
     	        return;
     	    }
 
     		if(linb.browser.ie) {
-    		    var ihistory = document.getElementById(self._fid), iframe = ihistory.contentWindow.document;
-    			hash = iframe.location.hash;
-    			if(hash != self._lastFI) {
-    				self._lastFI = location.hash = hash;
-    				self._callback(hash.replace(/^#/, ''));
-    			}
+		        if(parseInt(linb.browser.ver)<8) {
+        		    var ihistory = document.getElementById(self._fid), 
+        		        iframe = ihistory.contentWindow.document;
+        		    hash = iframe.location.hash;
+        			if(hash != self._lastFI) {
+        				self._lastFI = location.hash = hash;
+        				self._callback(hash.replace(/^#/, ''));
+        			}
+		        }else{
+		            hash=location.hash;
+        			if(hash != self._lastFI) {
+        				self._lastFI = hash;
+        				self._callback(hash.replace(/^#/, ''));
+        			}
+		        }    			
     		}else if(linb.browser.kde) {
     			if(!self.dontCheck) {
     			    var backStack=self.backStack,
@@ -85,7 +98,7 @@ Class("linb.History",null,{
     			}
     		}else{
     			// otherwise, check for location.hash
-    			var hash = location.hash;
+    			hash = location.hash;
     			if(hash != self._lastFI) {
     				self._lastFI = hash;
     				self._callback(hash.replace(/^#/, ''));
@@ -104,10 +117,14 @@ Class("linb.History",null,{
             if(self._lastFI == '#' + fi)return false;
 
     		if(linb.browser.ie) {
-    			var ihistory = document.getElementById(self._fid), iframe = ihistory.contentWindow.document;
-                iframe.open();
-    			iframe.close();
-    			iframe.location.hash = location.hash = self._lastFI = '#' + fi;
+    		    if(parseInt(linb.browser.ver)<8) {
+        			var ihistory = document.getElementById(self._fid), iframe = ihistory.contentWindow.document;
+                    iframe.open();
+        			iframe.close();
+        			iframe.location.hash = location.hash = self._lastFI = '#' + fi;
+    		    }else{
+    		        location.hash=self._lastFI = '#' + fi;
+        		}
     		}else if(linb.browser.kde) {
     			self.dontCheck = true;
         		self.backStack.push(fi);

@@ -344,7 +344,7 @@ Class("linb.UI.RichEditor", ["linb.UI","linb.absValue"],{
                                 _.arr.each(items,function(o){
                                     o=o.split(',');
                                     t=o[0]=='...'?'1':o[0];
-                                    items2.push({id:o[0], caption:'<font size="'+o[0]+'">'+o[1]+'</font>'})
+                                    items2.push({id:o[0], caption:'<font size="'+o[0]+'" unselectable="on">'+o[1]+'</font>'})
                                 });
                                 editor.$fontsizeList=(new linb.UI.List({height:'auto',items:items2,width:150})).render(true);
                             }
@@ -358,7 +358,7 @@ Class("linb.UI.RichEditor", ["linb.UI","linb.absValue"],{
                                 var t;
                                 _.arr.each(items,function(o){
                                     t=o=='...'?'':o;
-                                    items2.push({id:o, caption:'<span style="font-family:'+o+'">'+o+'</span>'})
+                                    items2.push({id:o, caption:'<span style="font-family:'+o+'" unselectable="on">'+o+'</span>'})
                                 });
                                 editor.$fontnameList=(new linb.UI.List({height:'auto',items:items2})).render(true);
                             }
@@ -373,7 +373,7 @@ Class("linb.UI.RichEditor", ["linb.UI","linb.absValue"],{
                                 _.arr.each(items,function(o){
                                     o=o.split(',');
                                     t=o[0]=='...'?'span':o[0];
-                                    items2.push({id:o[0], caption:'<'+t+' style="display:inline;padding:0;margin:0">'+o[1]+'</'+t+'>'})
+                                    items2.push({id:o[0], caption:'<'+t+' style="display:inline;padding:0;margin:0" unselectable="on">'+o[1]+'</'+t+'>'})
                                 });
 
                                 editor.$formatblockList=(new linb.UI.List({height:'auto',items:items2})).render(true);

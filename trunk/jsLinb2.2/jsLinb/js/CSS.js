@@ -284,7 +284,7 @@ Class("linb.CSS", null,{
             "select,input,button,textarea{font:99% arial,helvetica,clean,sans-serif;border-width:1px;}"+
 // base setting
             (linb.browser.ie6?("#"+linb.$localeDomId+"{vertical-align:baseline;}"):"")+
-            "a{color:#0000ee;text-decoration:none;"+(b.gek?"-moz-user-select:none;":"")+"}"+
+            "a{color:#0000ee;text-decoration:none;}"+
             "a:hover{color:red}"+
             (b.gek?"a:focus{-moz-outline-offset:-1px !important}":"")+
             "div{font-size:12px;}"+

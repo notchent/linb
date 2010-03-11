@@ -77,8 +77,7 @@ Class("linb.UI.Gallery", "linb.UI.List",{
                 margin:0,
                 width:'100%',
                 height:'100%',
-                '-moz-box-flex':'1',
-                '-moz-user-select':'none'
+                '-moz-box-flex':'1'
             },
             IBWRAP:{
                 'font-size':0,

@@ -101,11 +101,15 @@ Class('linb.UI.DatePicker', ['linb.UI',"linb.absValue"], {
                             $order:1,
                             tabindex: '{tabindex}'
                         },
-                        YEAR:{$order:2,unselectable:'on',
-                            className:'ui-dragable'},
+                        YEAR:{
+                            $order:2,
+                            className:'ui-dragable'
+                        },
 //                        YTXT:{$order:3,style:'display:inline'},
-                        MONTH:{$order:4,unselectable:'on',
-                            className:'ui-dragable'},
+                        MONTH:{
+                            $order:4,
+                            className:'ui-dragable'
+                        },
                         MTXT:{$order:5,style:'display:inline'},
                         NEXT:{
                             $order:6,
@@ -119,8 +123,6 @@ Class('linb.UI.DatePicker', ['linb.UI',"linb.absValue"], {
                     BARCMDR:{
                         tagName: 'div',
                         className:'uibar-cmdr',
-                        onselectstart:'return false',
-                        unselectable:'on',
                         CLOSE:{
                             className:'uicmd-close ',
                             style:'{closeDisplay}'
@@ -209,8 +211,7 @@ Class('linb.UI.DatePicker', ['linb.UI',"linb.absValue"], {
     Static:{
         Appearances:{
             KEY:{
-                overflow:'visible',
-                '-moz-user-select': 'none'
+                overflow:'visible'
             },
             BORDER:{
                 overflow: 'visible',

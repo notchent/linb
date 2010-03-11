@@ -61,13 +61,13 @@ Class('linb.UI.ColorPicker', ['linb.UI',"linb.absValue"], {
 
         //simple list
         for(i=0;i<l;i++)
-            arr.push('<span  '+'id="'+key+'-SC:'+id+':'+list[i]+'" style="background-color:#'+list[i]+'">'+list[i]+'</span>');
+            arr.push('<span  '+'id="'+key+'-SC:'+id+':'+list[i]+'" style="background-color:#'+list[i]+'" '+evs+'>'+list[i]+'</span>');
 
         //data
-        data = '<div><span class="'+cls+'-txt">R: </span><span '+'id="'+key+'-R:'+id+':" class="'+cls+'-dd2 ui-dragable #DD2_CC#" '+evs+'>R</span><span style="width:8px;height:8px"  unselectable="on" ></span><span class="'+cls+'-txt">H: </span><span '+'id="'+key+'-HH:'+id+':" class="'+cls+'-dd2 ui-dragable #DD2_CC#" '+evs+'>H</span><span>\xB0</span></div>' +
-               '<div><span class="'+cls+'-txt">G: </span><span '+'id="'+key+'-G:'+id+':" class="'+cls+'-dd2 ui-dragable #DD2_CC#" '+evs+'>G</span><span style="width:8px;height:8px"  unselectable="on" ></span><span class="'+cls+'-txt">S: </span><span '+'id="'+key+'-S:'+id+':" class="'+cls+'-dd2 ui-dragable #DD2_CC#"  '+evs+'>S</span><span>%</span></div>' +
-               '<div><span class="'+cls+'-txt">B: </span><span '+'id="'+key+'-B:'+id+':" class="'+cls+'-dd2 ui-dragable #DD2_CC#" '+evs+'>B</span><span style="width:8px;height:8px"  unselectable="on" ></span><span class="'+cls+'-txt">V: </span><span '+'id="'+key+'-V:'+id+':" class="'+cls+'-dd2 ui-dragable #DD2_CC#" '+evs+'>V</span><span>%</span></div>' +
-               '<div><span style="width:38px">HEX: #</span><span '+'id="'+key+'-H:'+id+':" class="'+cls+'-dd3 ui-dragable #DD3_CC#" '+evs+'>H</span><span '+'id="'+key+'-E:'+id+':" class="'+cls+'-dd3 ui-dragable #DD3_CC#" '+evs+'>E</span><span '+'id="'+key+'-X:'+id+':" class="'+cls+'-dd1 ui-dragable #DD1_CC#" '+evs+'>X</span></div>'
+        data = '<div '+evs+'><span class="'+cls+'-txt"'+evs+'>R: </span><span '+'id="'+key+'-R:'+id+':" class="'+cls+'-dd2 ui-dragable #DD2_CC#" '+evs+'>R</span><span style="width:8px;height:8px" '+evs+' ></span><span class="'+cls+'-txt"'+evs+'>H: </span><span '+'id="'+key+'-HH:'+id+':" class="'+cls+'-dd2 ui-dragable #DD2_CC#" '+evs+'>H</span><span '+evs+'>\xB0</span></div>' +
+               '<div '+evs+'><span class="'+cls+'-txt"'+evs+'>G: </span><span '+'id="'+key+'-G:'+id+':" class="'+cls+'-dd2 ui-dragable #DD2_CC#" '+evs+'>G</span><span style="width:8px;height:8px" '+evs+' ></span><span class="'+cls+'-txt"'+evs+'>S: </span><span '+'id="'+key+'-S:'+id+':" class="'+cls+'-dd2 ui-dragable #DD2_CC#"  '+evs+'>S</span><span '+evs+'>%</span></div>' +
+               '<div '+evs+'><span class="'+cls+'-txt"'+evs+'>B: </span><span '+'id="'+key+'-B:'+id+':" class="'+cls+'-dd2 ui-dragable #DD2_CC#" '+evs+'>B</span><span style="width:8px;height:8px" '+evs+' ></span><span class="'+cls+'-txt"'+evs+'>V: </span><span '+'id="'+key+'-V:'+id+':" class="'+cls+'-dd2 ui-dragable #DD2_CC#" '+evs+'>V</span><span '+evs+'>%</span></div>' +
+               '<div '+evs+'><span style="width:38px"'+evs+'>HEX: #</span><span '+'id="'+key+'-H:'+id+':" class="'+cls+'-dd3 ui-dragable #DD3_CC#" '+evs+'>H</span><span '+'id="'+key+'-E:'+id+':" class="'+cls+'-dd3 ui-dragable #DD3_CC#" '+evs+''+evs+'>E</span><span '+'id="'+key+'-X:'+id+':" class="'+cls+'-dd1 ui-dragable #DD1_CC#" '+evs+'>X</span></div>'
         ns.setTemplate({
             style:'{_style};height:auto;width:{_width}px;',
             tagName : 'div',
@@ -110,8 +110,6 @@ Class('linb.UI.ColorPicker', ['linb.UI',"linb.absValue"], {
                     BARCMDR:{
                         tagName: 'div',
                         className:'uibar-cmdr',
-                        onselectstart:'return false',
-                        unselectable:'on',
                         CLOSE:{
                             className:'uicmd-close ',
                             style:'{closeDisplay}'
@@ -292,7 +290,6 @@ Class('linb.UI.ColorPicker', ['linb.UI',"linb.absValue"], {
         },
         Appearances:{
             KEY:{
-                '-moz-user-select': 'none'
             },
             MAINI:{
                 padding:'4px 5px 4px 0'

@@ -85,7 +85,6 @@ Class('linb.UI.TimePicker', ['linb.UI',"linb.absValue"], {
                         },
                         HOUR:{
                             $order:1,
-                            unselectable:'on',
                             className:'ui-dragable'
                         },
 //                        HOURTXT:{$order:2,style:'display:inline'},
@@ -97,8 +96,6 @@ Class('linb.UI.TimePicker', ['linb.UI',"linb.absValue"], {
                     BARCMDR:{
                         tagName: 'div',
                         className:'uibar-cmdr',
-                        onselectstart:'return false',
-                        unselectable:'on',
                         CLOSE:{
                             className:'uicmd-close ',
                             style:'{closeDisplay}'
@@ -209,7 +206,6 @@ Class('linb.UI.TimePicker', ['linb.UI',"linb.absValue"], {
         },
         Appearances:{
             KEY:{
-                '-moz-user-select': 'none'
             },
             MAINI:{
                 'padding-top':'4px'

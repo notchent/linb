@@ -1106,7 +1106,6 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                 display:'block',
                 overflow:'hidden',
                 '-moz-box-flex':'1',
-                '-moz-user-select':'none',
                 '-moz-outline-offset':'-1px !important',
                 height:'100%',
                 color:'#000',

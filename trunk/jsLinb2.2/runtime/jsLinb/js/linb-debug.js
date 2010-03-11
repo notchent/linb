@@ -714,7 +714,7 @@ _.merge(linb,{
         s=id;
         r= linb.getRes.apply(null,arguments);
         if(s==r)r=i;
-        return '<span id="'+linb.$localeDomId+'" class="'+s+'">'+r+'</span>';
+        return '<span id="'+linb.$localeDomId+'" class="'+s+'" unselectable="on">'+r+'</span>';
     },
     request:function(uri, query, onSuccess, onFail, threadid, options){
         return (
@@ -4576,7 +4576,7 @@ Class("linb.CSS", null,{
             "select,input,button,textarea{font:99% arial,helvetica,clean,sans-serif;border-width:1px;}"+
 // base setting
             (linb.browser.ie6?("#"+linb.$localeDomId+"{vertical-align:baseline;}"):"")+
-            "a{color:#0000ee;text-decoration:none;"+(b.gek?"-moz-user-select:none;":"")+"}"+
+            "a{color:#0000ee;text-decoration:none;}"+
             "a:hover{color:red}"+
             (b.gek?"a:focus{-moz-outline-offset:-1px !important}":"")+
             "div{font-size:12px;}"+
@@ -8666,15 +8666,19 @@ Class("linb.Tips", null,{
         		if(linb.browser.ie) {
         			if(self._lastFI=='')self._lastFI = '#';
     
-                    var n=document.createElement("div");
-                    n.style.display = "none";
-                    document.body.appendChild(n);
-        			n.innerHTML = '<iframe id="'+this._fid+'" style="display: none;"></iframe>';
-        			var ihistory = document.getElementById(this._fid), iframe = ihistory.contentWindow.document;
-        			iframe.open();
-        			iframe.close();
-        			iframe.location.hash = hash;
-        			n=null;
+                    if(parseInt(linb.browser.ver)<8) {
+                        var n=document.createElement("div");
+                        n.style.display = "none";
+                        document.body.appendChild(n);
+            			n.innerHTML = '<iframe id="'+this._fid+'" style="display: none;"></iframe>';
+            			var ihistory = document.getElementById(this._fid), iframe = ihistory.contentWindow.document;
+            			iframe.open();
+            			iframe.close();
+            			iframe.location.hash = hash;
+            			n=null;
+            		}else{
+            		    location.hash = hash;
+            		}
         		}else if(linb.browser.kde) {
         			// etablish back/forward stacks
         			self.backStack = [];
@@ -8694,19 +8698,28 @@ Class("linb.Tips", null,{
 	    //  2: back to another url, and forward
         //check location.hash change periodically
     	_timer: function(){
-    	    var self=linb.History;
+    	    var self=linb.History,hash;
     	    if(typeof self._callback!='function'){
     	        clearInterval(self._itimer);
     	        return;
     	    }
 
     		if(linb.browser.ie) {
-    		    var ihistory = document.getElementById(self._fid), iframe = ihistory.contentWindow.document;
-    			hash = iframe.location.hash;
-    			if(hash != self._lastFI) {
-    				self._lastFI = location.hash = hash;
-    				self._callback(hash.replace(/^#/, ''));
-    			}
+		        if(parseInt(linb.browser.ver)<8) {
+        		    var ihistory = document.getElementById(self._fid), 
+        		        iframe = ihistory.contentWindow.document;
+        		    hash = iframe.location.hash;
+        			if(hash != self._lastFI) {
+        				self._lastFI = location.hash = hash;
+        				self._callback(hash.replace(/^#/, ''));
+        			}
+		        }else{
+		            hash=location.hash;
+        			if(hash != self._lastFI) {
+        				self._lastFI = hash;
+        				self._callback(hash.replace(/^#/, ''));
+        			}
+		        }    			
     		}else if(linb.browser.kde) {
     			if(!self.dontCheck) {
     			    var backStack=self.backStack,
@@ -8738,7 +8751,7 @@ Class("linb.Tips", null,{
     			}
     		}else{
     			// otherwise, check for location.hash
-    			var hash = location.hash;
+    			hash = location.hash;
     			if(hash != self._lastFI) {
     				self._lastFI = hash;
     				self._callback(hash.replace(/^#/, ''));
@@ -8757,10 +8770,14 @@ Class("linb.Tips", null,{
             if(self._lastFI == '#' + fi)return false;
 
     		if(linb.browser.ie) {
-    			var ihistory = document.getElementById(self._fid), iframe = ihistory.contentWindow.document;
-                iframe.open();
-    			iframe.close();
-    			iframe.location.hash = location.hash = self._lastFI = '#' + fi;
+    		    if(parseInt(linb.browser.ver)<8) {
+        			var ihistory = document.getElementById(self._fid), iframe = ihistory.contentWindow.document;
+                    iframe.open();
+        			iframe.close();
+        			iframe.location.hash = location.hash = self._lastFI = '#' + fi;
+    		    }else{
+    		        location.hash=self._lastFI = '#' + fi;
+        		}
     		}else if(linb.browser.kde) {
     			self.dontCheck = true;
         		self.backStack.push(fi);
@@ -11230,7 +11247,6 @@ Class("linb.UI",  "linb.absObj", {
                 'background-position': 'right -150px'
             },
             '.uibar-top .uibar-cmdl':{
-                '-moz-user-select':'none',
                 overflow:'hidden',
                 position:'absolute',
                 left:0,
@@ -11241,7 +11257,6 @@ Class("linb.UI",  "linb.absObj", {
                 'white-space': 'nowrap'
             },
             '.uibar-top .uibar-cmdr':{
-                '-moz-user-select':'none',
                 position:'absolute',
                 top:'6px',
                 right:'8px',
@@ -11335,6 +11350,8 @@ Class("linb.UI",  "linb.absObj", {
         })
         + linb.UI.buildCSSText({
             '.ui-ctrl':{
+                // disable all selectable
+                '-moz-user-select':linb.browser.gek?'-moz-none':null,
                 'vertical-align':'middle'
             },
             '.uiw-shell':{
@@ -11628,6 +11645,7 @@ Class("linb.UI",  "linb.absObj", {
                 behavior = profile.behavior?key?profile.behavior[key]:profile.behavior:null,
                 map1 = self.map1 ||(self.map1={tagName:1,text:1}),
                 map2 = self.map2 ||(self.map2={image:1,input:1,br:1,meta:1,hr:1,abbr:1,embed:1}),
+                map3 = self.map3 ||(self.map3={input:1,textarea:1,pre:1,code:1}),
                 r2=self.r2||(self.r2=/[a-z]/),
                 r3=self.r3 || (self.r3=/^(on|before|after)/),
                 r7=self.r7 || (self.r7=/([^{}]*)\{([\w]+)\}([^{}]*)/g),
@@ -11669,7 +11687,11 @@ Class("linb.UI",  "linb.absObj", {
 
             template.style = (template.style||'')+';'+ u.$tag_special + (key||'KEY') + '_CS'+u.$tag_special;
 
-            var a=[], b={}, tagName=template.tagName, text= template.text, sc=linb.absObj.$specialChars;
+            var a=[], b={}, 
+                tagName=template.tagName.toLowerCase(), 
+                text= template.text, 
+                sc=linb.absObj.$specialChars;
+
             for(var i in template){
                 if(!template[i])continue;
                 if(!sc[i.charAt(0)] && !map1[i]){
@@ -11698,6 +11720,11 @@ Class("linb.UI",  "linb.absObj", {
             }
             //<span id="" style="">
             arr[arr.length]='<'+tagName+' ';
+
+            // add "unselectable" to node
+            if(!b.unselectable && !map3[tagName])
+                b.unselectable='on';
+
             for(var i in b)
                 if(b[i])
                     arr[arr.length]=i+'="'+b[i]+'" ';
@@ -11708,7 +11735,7 @@ Class("linb.UI",  "linb.absObj", {
 
             delete template['class'];
 
-            arr[arr.length]='{attributes}>';
+            arr[arr.length]=' {attributes}>';
 
             if(!map2[tagName] && text)
                 arr[arr.length]=text;
@@ -11718,7 +11745,6 @@ Class("linb.UI",  "linb.absObj", {
                 o=a[i++];
                 self(profile, o, o.$key, obj, arr)
             }
-
             if(!map2[tagName])
                 arr[arr.length]='</'+tagName+'>';
 
@@ -17900,7 +17926,7 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
                                 _.arr.each(items,function(o){
                                     o=o.split(',');
                                     t=o[0]=='...'?'1':o[0];
-                                    items2.push({id:o[0], caption:'<font size="'+o[0]+'">'+o[1]+'</font>'})
+                                    items2.push({id:o[0], caption:'<font size="'+o[0]+'" unselectable="on">'+o[1]+'</font>'})
                                 });
                                 editor.$fontsizeList=(new linb.UI.List({height:'auto',items:items2,width:150})).render(true);
                             }
@@ -17914,7 +17940,7 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
                                 var t;
                                 _.arr.each(items,function(o){
                                     t=o=='...'?'':o;
-                                    items2.push({id:o, caption:'<span style="font-family:'+o+'">'+o+'</span>'})
+                                    items2.push({id:o, caption:'<span style="font-family:'+o+'" unselectable="on">'+o+'</span>'})
                                 });
                                 editor.$fontnameList=(new linb.UI.List({height:'auto',items:items2})).render(true);
                             }
@@ -17929,7 +17955,7 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
                                 _.arr.each(items,function(o){
                                     o=o.split(',');
                                     t=o[0]=='...'?'span':o[0];
-                                    items2.push({id:o[0], caption:'<'+t+' style="display:inline;padding:0;margin:0">'+o[1]+'</'+t+'>'})
+                                    items2.push({id:o[0], caption:'<'+t+' style="display:inline;padding:0;margin:0" unselectable="on">'+o[1]+'</'+t+'>'})
                                 });
 
                                 editor.$formatblockList=(new linb.UI.List({height:'auto',items:items2})).render(true);
@@ -19590,13 +19616,13 @@ Class("linb.UI.Group", "linb.UI.Div",{
 
         //simple list
         for(i=0;i<l;i++)
-            arr.push('<span  '+'id="'+key+'-SC:'+id+':'+list[i]+'" style="background-color:#'+list[i]+'">'+list[i]+'</span>');
+            arr.push('<span  '+'id="'+key+'-SC:'+id+':'+list[i]+'" style="background-color:#'+list[i]+'" '+evs+'>'+list[i]+'</span>');
 
         //data
-        data = '<div><span class="'+cls+'-txt">R: </span><span '+'id="'+key+'-R:'+id+':" class="'+cls+'-dd2 ui-dragable #DD2_CC#" '+evs+'>R</span><span style="width:8px;height:8px"  unselectable="on" ></span><span class="'+cls+'-txt">H: </span><span '+'id="'+key+'-HH:'+id+':" class="'+cls+'-dd2 ui-dragable #DD2_CC#" '+evs+'>H</span><span>\xB0</span></div>' +
-               '<div><span class="'+cls+'-txt">G: </span><span '+'id="'+key+'-G:'+id+':" class="'+cls+'-dd2 ui-dragable #DD2_CC#" '+evs+'>G</span><span style="width:8px;height:8px"  unselectable="on" ></span><span class="'+cls+'-txt">S: </span><span '+'id="'+key+'-S:'+id+':" class="'+cls+'-dd2 ui-dragable #DD2_CC#"  '+evs+'>S</span><span>%</span></div>' +
-               '<div><span class="'+cls+'-txt">B: </span><span '+'id="'+key+'-B:'+id+':" class="'+cls+'-dd2 ui-dragable #DD2_CC#" '+evs+'>B</span><span style="width:8px;height:8px"  unselectable="on" ></span><span class="'+cls+'-txt">V: </span><span '+'id="'+key+'-V:'+id+':" class="'+cls+'-dd2 ui-dragable #DD2_CC#" '+evs+'>V</span><span>%</span></div>' +
-               '<div><span style="width:38px">HEX: #</span><span '+'id="'+key+'-H:'+id+':" class="'+cls+'-dd3 ui-dragable #DD3_CC#" '+evs+'>H</span><span '+'id="'+key+'-E:'+id+':" class="'+cls+'-dd3 ui-dragable #DD3_CC#" '+evs+'>E</span><span '+'id="'+key+'-X:'+id+':" class="'+cls+'-dd1 ui-dragable #DD1_CC#" '+evs+'>X</span></div>'
+        data = '<div '+evs+'><span class="'+cls+'-txt"'+evs+'>R: </span><span '+'id="'+key+'-R:'+id+':" class="'+cls+'-dd2 ui-dragable #DD2_CC#" '+evs+'>R</span><span style="width:8px;height:8px" '+evs+' ></span><span class="'+cls+'-txt"'+evs+'>H: </span><span '+'id="'+key+'-HH:'+id+':" class="'+cls+'-dd2 ui-dragable #DD2_CC#" '+evs+'>H</span><span '+evs+'>\xB0</span></div>' +
+               '<div '+evs+'><span class="'+cls+'-txt"'+evs+'>G: </span><span '+'id="'+key+'-G:'+id+':" class="'+cls+'-dd2 ui-dragable #DD2_CC#" '+evs+'>G</span><span style="width:8px;height:8px" '+evs+' ></span><span class="'+cls+'-txt"'+evs+'>S: </span><span '+'id="'+key+'-S:'+id+':" class="'+cls+'-dd2 ui-dragable #DD2_CC#"  '+evs+'>S</span><span '+evs+'>%</span></div>' +
+               '<div '+evs+'><span class="'+cls+'-txt"'+evs+'>B: </span><span '+'id="'+key+'-B:'+id+':" class="'+cls+'-dd2 ui-dragable #DD2_CC#" '+evs+'>B</span><span style="width:8px;height:8px" '+evs+' ></span><span class="'+cls+'-txt"'+evs+'>V: </span><span '+'id="'+key+'-V:'+id+':" class="'+cls+'-dd2 ui-dragable #DD2_CC#" '+evs+'>V</span><span '+evs+'>%</span></div>' +
+               '<div '+evs+'><span style="width:38px"'+evs+'>HEX: #</span><span '+'id="'+key+'-H:'+id+':" class="'+cls+'-dd3 ui-dragable #DD3_CC#" '+evs+'>H</span><span '+'id="'+key+'-E:'+id+':" class="'+cls+'-dd3 ui-dragable #DD3_CC#" '+evs+''+evs+'>E</span><span '+'id="'+key+'-X:'+id+':" class="'+cls+'-dd1 ui-dragable #DD1_CC#" '+evs+'>X</span></div>'
         ns.setTemplate({
             style:'{_style};height:auto;width:{_width}px;',
             tagName : 'div',
@@ -19639,8 +19665,6 @@ Class("linb.UI.Group", "linb.UI.Div",{
                     BARCMDR:{
                         tagName: 'div',
                         className:'uibar-cmdr',
-                        onselectstart:'return false',
-                        unselectable:'on',
                         CLOSE:{
                             className:'uicmd-close ',
                             style:'{closeDisplay}'
@@ -19821,7 +19845,6 @@ Class("linb.UI.Group", "linb.UI.Div",{
         },
         Appearances:{
             KEY:{
-                '-moz-user-select': 'none'
             },
             MAINI:{
                 padding:'4px 5px 4px 0'
@@ -20607,11 +20630,15 @@ Class("linb.UI.Group", "linb.UI.Div",{
                             $order:1,
                             tabindex: '{tabindex}'
                         },
-                        YEAR:{$order:2,unselectable:'on',
-                            className:'ui-dragable'},
+                        YEAR:{
+                            $order:2,
+                            className:'ui-dragable'
+                        },
 //                        YTXT:{$order:3,style:'display:inline'},
-                        MONTH:{$order:4,unselectable:'on',
-                            className:'ui-dragable'},
+                        MONTH:{
+                            $order:4,
+                            className:'ui-dragable'
+                        },
                         MTXT:{$order:5,style:'display:inline'},
                         NEXT:{
                             $order:6,
@@ -20625,8 +20652,6 @@ Class("linb.UI.Group", "linb.UI.Div",{
                     BARCMDR:{
                         tagName: 'div',
                         className:'uibar-cmdr',
-                        onselectstart:'return false',
-                        unselectable:'on',
                         CLOSE:{
                             className:'uicmd-close ',
                             style:'{closeDisplay}'
@@ -20715,8 +20740,7 @@ Class("linb.UI.Group", "linb.UI.Div",{
     Static:{
         Appearances:{
             KEY:{
-                overflow:'visible',
-                '-moz-user-select': 'none'
+                overflow:'visible'
             },
             BORDER:{
                 overflow: 'visible',
@@ -21189,7 +21213,6 @@ Class("linb.UI.Group", "linb.UI.Div",{
                         },
                         HOUR:{
                             $order:1,
-                            unselectable:'on',
                             className:'ui-dragable'
                         },
 //                        HOURTXT:{$order:2,style:'display:inline'},
@@ -21201,8 +21224,6 @@ Class("linb.UI.Group", "linb.UI.Div",{
                     BARCMDR:{
                         tagName: 'div',
                         className:'uibar-cmdr',
-                        onselectstart:'return false',
-                        unselectable:'on',
                         CLOSE:{
                             className:'uicmd-close ',
                             style:'{closeDisplay}'
@@ -21313,7 +21334,6 @@ Class("linb.UI.Group", "linb.UI.Div",{
         },
         Appearances:{
             KEY:{
-                '-moz-user-select': 'none'
             },
             MAINI:{
                 'padding-top':'4px'
@@ -22017,8 +22037,7 @@ Class("linb.UI.Gallery", "linb.UI.List",{
                 margin:0,
                 width:'100%',
                 height:'100%',
-                '-moz-box-flex':'1',
-                '-moz-user-select':'none'
+                '-moz-box-flex':'1'
             },
             IBWRAP:{
                 'font-size':0,
@@ -22353,8 +22372,6 @@ Class("linb.UI.Panel", "linb.UI.Div",{
                     BARCMDR:{
                         tagName: 'div',
                         className:'uibar-cmdr',
-                        onselectstart:'return false',
-                        unselectable:'on',
                         OPT:{
                             className:'uicmd-opt',
                             style:'{optDisplay}',
@@ -24524,14 +24541,10 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
                         className:'{itemClass} {disabled}',
                         style:'{itemStyle}{itemDisplay}',
                         tagName : 'div',
-                        onselectstart:'return false',
-                        unselectable:'on',
                         BAR:{
                             $order:0,
                             tabindex: '{_tabindex}',
                             className:'{cls_group} ',
-                            onselectstart:'return false',
-                            unselectable:'on',
                             MARK2:{
                                 $order:0,
                                 style:'{mark2Display}'
@@ -28559,7 +28572,6 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                 display:'block',
                 overflow:'hidden',
                 '-moz-box-flex':'1',
-                '-moz-user-select':'none',
                 '-moz-outline-offset':'-1px !important',
                 height:'100%',
                 color:'#000',
@@ -31413,8 +31425,6 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
                 BARCMDR:{
                     tagName: 'div',
                     className:'uibar-cmdr',
-                    onselectstart:'return false',
-                    unselectable:'on',
                     OPT:{
                         className:'uicmd-opt',
                         style:'{optDisplay}',

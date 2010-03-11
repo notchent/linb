@@ -85,8 +85,6 @@ Class("linb.UI.Panel", "linb.UI.Div",{
                     BARCMDR:{
                         tagName: 'div',
                         className:'uibar-cmdr',
-                        onselectstart:'return false',
-                        unselectable:'on',
                         OPT:{
                             className:'uicmd-opt',
                             style:'{optDisplay}',

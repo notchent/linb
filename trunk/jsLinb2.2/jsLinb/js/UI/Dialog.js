@@ -144,8 +144,6 @@ Class("linb.UI.Dialog","linb.UI.Widget",{
                 BARCMDR:{
                     tagName: 'div',
                     className:'uibar-cmdr',
-                    onselectstart:'return false',
-                    unselectable:'on',
                     OPT:{
                         className:'uicmd-opt',
                         style:'{optDisplay}',

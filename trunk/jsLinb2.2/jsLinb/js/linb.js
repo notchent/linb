@@ -714,7 +714,7 @@ _.merge(linb,{
         s=id;
         r= linb.getRes.apply(null,arguments);
         if(s==r)r=i;
-        return '<span id="'+linb.$localeDomId+'" class="'+s+'">'+r+'</span>';
+        return '<span id="'+linb.$localeDomId+'" class="'+s+'" unselectable="on">'+r+'</span>';
     },
     request:function(uri, query, onSuccess, onFail, threadid, options){
         return (
