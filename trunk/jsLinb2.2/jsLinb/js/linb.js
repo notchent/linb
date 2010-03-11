@@ -639,6 +639,7 @@ _.merge(Class, {
 //function dependency: linb.Dom linb.Thread
 _.merge(linb,{
     DEFAULTHREF:'javascript:;',
+    IEUNSELECTABLE:' unselectable="on" ',
     SERIALIZEMAXLAYER:99,
     SERIALIZEMAXSIZE:9999,
 
@@ -714,7 +715,7 @@ _.merge(linb,{
         s=id;
         r= linb.getRes.apply(null,arguments);
         if(s==r)r=i;
-        return '<span id="'+linb.$localeDomId+'" class="'+s+'" unselectable="on">'+r+'</span>';
+        return '<span id="'+linb.$localeDomId+'" class="'+s+'" '+linb.IEUNSELECTABLE+'>'+r+'</span>';
     },
     request:function(uri, query, onSuccess, onFail, threadid, options){
         return (

@@ -1093,10 +1093,8 @@ Class('linb.Dom','linb.absBox',{
              return this.each(function(o){
                 if(linb.browser.gek)
                     o.style.MozUserSelect=value?"all":"none"
-                else{
+                else
                     o.unselectable=value?"off":"on";
-                    o.onselectstart=value?null:_f;
-                }
             })
         },
         setInlineBlock:function(){
@@ -2096,6 +2094,18 @@ type:4
                 }
             },'hookA',0);
 
+        if(linb.browser.ie)
+            document.onselectstart=function(){
+                try {
+                    var n = event.srcElement ;
+                    if(n.tagName== "INPUT" || n.tagName== "TEXTAREA" || n.tagName== "PRE" || n.tagName== "CODE" )
+                        return event.srcElement.unselectable!='on';
+                    return false;
+                }catch(e) {
+                    return false;
+                };
+            };
+
         //free memory
         linb.win.afterUnload(function(){
             window.onresize=null;
@@ -2103,6 +2113,9 @@ type:4
             if(window.removeEventListener)
                 window.removeEventListener('DOMMouseScroll', linb.Event.$eventhandler3, false);
             document.onmousewheel=window.onmousewheel=null;
+
+            if(linb.browser.ie)
+                document.onselectstart=null;
 
             //unlink link 'App'
             linb.SC.__gc();

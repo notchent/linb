@@ -32,7 +32,7 @@ Class('linb.UI.TimePicker', ['linb.UI',"linb.absValue"], {
             cls=this._excls,
             cls2=this._excls2,
             id=linb.UI.$ID,
-            t='<span id="'+this.KEY+'-MI:'+id+':@" class="'+cls+' !" unselectable="on" >@</span>',
+            t='<span id="'+this.KEY+'-MI:'+id+':@" class="'+cls+' !" '+linb.IEUNSELECTABLE+' >@</span>',
             i,m;
 
         for(i=0;i<60;i++)

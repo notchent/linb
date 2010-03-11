@@ -38,7 +38,7 @@ Class('linb.UI.DatePicker', ['linb.UI',"linb.absValue"], {
             tr1='<tr>',
             tr2='</tr>',
             td1='<th id="'+key+'-W:'+id+':@"  class="'+cls+'-w #W_CC#">@</th>',
-            td2='<td id="'+key+'-TD:'+id+':@" class="'+cls+'-td ! #TD_CC#"  unselectable="on" >'+
+            td2='<td id="'+key+'-TD:'+id+':@" class="'+cls+'-td ! #TD_CC#"  '+linb.IEUNSELECTABLE+' >'+
                 '</td>',
             body,i,j,k,l,a=[],b=[];
         for(i=0;i<7;i++)

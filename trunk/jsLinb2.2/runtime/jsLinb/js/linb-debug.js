@@ -639,6 +639,7 @@ _.merge(Class, {
 //function dependency: linb.Dom linb.Thread
 _.merge(linb,{
     DEFAULTHREF:'javascript:;',
+    IEUNSELECTABLE:' unselectable="on" ',
     SERIALIZEMAXLAYER:99,
     SERIALIZEMAXSIZE:9999,
 
@@ -714,7 +715,7 @@ _.merge(linb,{
         s=id;
         r= linb.getRes.apply(null,arguments);
         if(s==r)r=i;
-        return '<span id="'+linb.$localeDomId+'" class="'+s+'" unselectable="on">'+r+'</span>';
+        return '<span id="'+linb.$localeDomId+'" class="'+s+'" '+linb.IEUNSELECTABLE+'>'+r+'</span>';
     },
     request:function(uri, query, onSuccess, onFail, threadid, options){
         return (
@@ -5688,10 +5689,8 @@ Class('linb.Dom','linb.absBox',{
              return this.each(function(o){
                 if(linb.browser.gek)
                     o.style.MozUserSelect=value?"all":"none"
-                else{
+                else
                     o.unselectable=value?"off":"on";
-                    o.onselectstart=value?null:_f;
-                }
             })
         },
         setInlineBlock:function(){
@@ -6691,6 +6690,18 @@ type:4
                 }
             },'hookA',0);
 
+        if(linb.browser.ie)
+            document.onselectstart=function(){
+                try {
+                    var n = event.srcElement ;
+                    if(n.tagName== "INPUT" || n.tagName== "TEXTAREA" || n.tagName== "PRE" || n.tagName== "CODE" )
+                        return event.srcElement.unselectable!='on';
+                    return false;
+                }catch(e) {
+                    return false;
+                };
+            };
+
         //free memory
         linb.win.afterUnload(function(){
             window.onresize=null;
@@ -6698,6 +6709,9 @@ type:4
             if(window.removeEventListener)
                 window.removeEventListener('DOMMouseScroll', linb.Event.$eventhandler3, false);
             document.onmousewheel=window.onmousewheel=null;
+
+            if(linb.browser.ie)
+                document.onselectstart=null;
 
             //unlink link 'App'
             linb.SC.__gc();
@@ -17935,7 +17949,7 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
                                 _.arr.each(items,function(o){
                                     o=o.split(',');
                                     t=o[0]=='...'?'1':o[0];
-                                    items2.push({id:o[0], caption:'<font size="'+o[0]+'" unselectable="on">'+o[1]+'</font>'})
+                                    items2.push({id:o[0], caption:'<font size="'+o[0]+'" '+linb.IEUNSELECTABLE+'>'+o[1]+'</font>'});
                                 });
                                 editor.$fontsizeList=(new linb.UI.List({height:'auto',items:items2,width:150})).render(true);
                             }
@@ -17949,7 +17963,7 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
                                 var t;
                                 _.arr.each(items,function(o){
                                     t=o=='...'?'':o;
-                                    items2.push({id:o, caption:'<span style="font-family:'+o+'" unselectable="on">'+o+'</span>'})
+                                    items2.push({id:o, caption:'<span style="font-family:'+o+'" '+linb.IEUNSELECTABLE+'>'+o+'</span>'});
                                 });
                                 editor.$fontnameList=(new linb.UI.List({height:'auto',items:items2})).render(true);
                             }
@@ -17964,7 +17978,7 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
                                 _.arr.each(items,function(o){
                                     o=o.split(',');
                                     t=o[0]=='...'?'span':o[0];
-                                    items2.push({id:o[0], caption:'<'+t+' style="display:inline;padding:0;margin:0" unselectable="on">'+o[1]+'</'+t+'>'})
+                                    items2.push({id:o[0], caption:'<'+t+' style="display:inline;padding:0;margin:0" '+linb.IEUNSELECTABLE+'>'+o[1]+'</'+t+'>'});
                                 });
 
                                 editor.$formatblockList=(new linb.UI.List({height:'auto',items:items2})).render(true);
@@ -19614,7 +19628,7 @@ Class("linb.UI.Group", "linb.UI.Div",{
             l=list.length,
             i,data,
             arr=[],
-            evs=' unselectable="on" ';
+            evs=linb.IEUNSELECTABLE;
 
         ns.addTemplateKeys(['TXT', 'DD1', 'DD2', 'DD3','R','G','B','HH','S','V','H','E','X']);
 
@@ -20571,7 +20585,7 @@ Class("linb.UI.Group", "linb.UI.Div",{
             tr1='<tr>',
             tr2='</tr>',
             td1='<th id="'+key+'-W:'+id+':@"  class="'+cls+'-w #W_CC#">@</th>',
-            td2='<td id="'+key+'-TD:'+id+':@" class="'+cls+'-td ! #TD_CC#"  unselectable="on" >'+
+            td2='<td id="'+key+'-TD:'+id+':@" class="'+cls+'-td ! #TD_CC#"  '+linb.IEUNSELECTABLE+' >'+
                 '</td>',
             body,i,j,k,l,a=[],b=[];
         for(i=0;i<7;i++)
@@ -21164,7 +21178,7 @@ Class("linb.UI.Group", "linb.UI.Div",{
             cls=this._excls,
             cls2=this._excls2,
             id=linb.UI.$ID,
-            t='<span id="'+this.KEY+'-MI:'+id+':@" class="'+cls+' !" unselectable="on" >@</span>',
+            t='<span id="'+this.KEY+'-MI:'+id+':@" class="'+cls+' !" '+linb.IEUNSELECTABLE+' >@</span>',
             i,m;
 
         for(i=0;i<60;i++)
