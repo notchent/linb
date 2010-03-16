@@ -10787,7 +10787,8 @@ Class("linb.UI",  "linb.absObj", {
         },
         adjustDock:function(){
             return this.each(function(o){
-                linb.UI.$dock(o,true,true);
+                if(o.properties.dock && o.properties.dock!='none')
+                    linb.UI.$dock(o,true,true);
             });
         }
     },

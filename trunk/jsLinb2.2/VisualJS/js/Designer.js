@@ -2305,7 +2305,10 @@ Class('VisualJS.Designer', 'linb.Com',{
                         t.css('display','block');
                         t.parent().css('background','');
                     }
-
+                    
+                    _.asyRun(function(){
+                        linb.UI.pack(nodes, false).adjustDock();
+                    });
 
                 }catch(e){
                     self.iconlist.clearItems();
