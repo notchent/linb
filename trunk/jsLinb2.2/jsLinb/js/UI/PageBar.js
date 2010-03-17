@@ -168,7 +168,7 @@ Class("linb.UI.PageBar",["linb.UI","linb.absValue"] ,{
                 }
             },
             LAST:{
-                $order:6,
+                $order:7,
                 className:'ui-btn',
                 LASTI:{
                     className:'ui-btni',
