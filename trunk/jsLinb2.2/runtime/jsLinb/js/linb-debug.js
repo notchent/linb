@@ -22652,7 +22652,7 @@ Class("linb.UI.Panel", "linb.UI.Div",{
                 }
             }
             if(width)
-                isize.width=width-(parseInt(v6.css('paddingRight'))||0)-(parseInt(v5.css('paddingLeft'))||0);
+                isize.width=width-(parseInt(v6.css('paddingRight'))||0)-(parseInt(v5.css('paddingLeft'))||0)-v2._borderW();
             v2.cssSize(isize, true);
         },
 
@@ -24520,9 +24520,12 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
                 fun(profile.properties.items, id);
                 if(res){
                     a.reverse();
-                    _.arr.each(a,function(o){
-                        if(o.sub && (o.hasOwnProperty('group')?o.group:profile.properties.group)){
+                    _.arr.each(a,function(o,i){
+                        if(o.sub){
                             profile.boxing().toggleNode(o.id,true);
+                            // for the last one, trigger its onclick event
+                            if(i==a.length-1 && !(o.hasOwnProperty('group')?o.group:profile.properties.group))
+                                profile.boxing().fireItemClickEvent(o.id);
                         }else
                             profile.boxing().fireItemClickEvent(o.id);
                     });
