@@ -17202,7 +17202,7 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
                         k[0]=profile.$keyD;
                     delete profile.$keyD;
 
-                    if(profile.beforeKeypress && false===box.beforeKeypress(profile,caret, k[0],k[1],k[2],k[3],e,src))
+                    if(profile.beforeKeypress && false===profile.boxing().beforeKeypress(profile,caret, k[0],k[1],k[2],k[3],e,src))
                         return false;
                     if(profile.$beforeKeypress && false===profile.$beforeKeypress(profile,caret,k[0],k[1],k[2],k[3],e,src))
                         return false;
@@ -17438,7 +17438,8 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
                 }
             }else{
                 src.addEventListener("input",f,false);
-                //firefox drop
+                src.addEventListener("drop",f,false);
+                //Firefox earlier than version 3.5
                 if(linb.browser.gek)
                     src.addEventListener("dragdrop",f,false);
 
@@ -17446,6 +17447,7 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
                     var ns=this,
                         src=ns.getSubNode('INPUT').get(0);
                     src.removeEventListener("input",f,false);
+                    src.removeEventListener("drop",f,false);
                     if(linb.browser.gek)
                         src.removeEventListener("dragdrop",f,false);
                     src=null;
