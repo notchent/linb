@@ -1337,7 +1337,7 @@ Class('linb.absIO',null,{
             asy : options.asy!==false,
             method : 'POST'==(options.method||con.method).toUpperCase()?'POST':'GET'
         },'all');
-        var a='retry,timeout,reqType,rspType,customQS'.split(',');
+        var a='retry,timeout,reqType,rspType,optimized,customQS'.split(',');
         for(var i=0,l=a.length;i<l;i++)
             options[a[i]] = (a[i] in options)?options[a[i]]:con[a[i]];
 
@@ -1365,7 +1365,6 @@ Class('linb.absIO',null,{
         _flag:0,
         _response:'',
         _retryNo:0,
-        inProcessing:false,
 
         _time:function() {
             var self=this,c=self.constructor;
@@ -1426,6 +1425,8 @@ Class('linb.absIO',null,{
         reqType:'form',
         //text or xml
         rspType:'text',
+        
+        optimized:false,
 
         //paras in request object
         type:'type',
@@ -1510,15 +1511,37 @@ Class('linb.Ajax','linb.absIO',{
 
                     self._XML.open(method, uri, asy);
 
-                    if(method=="POST")
-                        self._XML.setRequestHeader("Content-type", "application/x-www-form-urlencoded; charset=UTF-8");
+                self._XML.setRequestHeader("Content-type", method=="POST" ? "application/x-www-form-urlencoded;charset=UTF-8" : "text/plain;charset=UTF-8");
+                self._XML.setRequestHeader("X-Requested-With", "XMLHttpRequest");
 
-                    self._XML.setRequestHeader("X-Requested-With", "XMLHttpRequest");
+                    var cookie='',ac;
+                    if(optimized){
+                        try {
+                            self._XML.setRequestHeader("User-Agent", null);
+                            self._XML.setRequestHeader("Accept", null);
+                            self._XML.setRequestHeader("Accept-Language", null);
+                            self._XML.setRequestHeader("Connection", "keep-alive");
+                            self._XML.setRequestHeader("Keep-Alive", null);
+                        } catch(e) {}
+                        
+                        cookie=document.cookie;
+                        _.arr.each(document.cookie.split(";"),function(o){
+                            ac=escape(_.str.trim(o.split("=")[0])) + '=;expires=' + new Date(0).toGMTString();
+                            document.cookie=ac;
+                        });
+                    }
 
-
+                    if(false===_.tryF(self.beforeSend,[self._XML],self)){
+                        self._onEnd();
+                        return;
+                    }
 
                     //for firefox syc GET bug
                     try{self._XML.send(query);}catch(e){}
+
+                    if(optimized){
+                        document.cookie=cookie;
+                    }
 
                     if(asy){
                       if(self._XML&&timeout > 0)

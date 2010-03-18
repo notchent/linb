@@ -2284,7 +2284,8 @@ Class("linb.UI",  "linb.absObj", {
         linb.UI.$cache_css2 += linb.UI.buildCSSText({
             '.ui-dirty':{
                 $order:1,
-                background: linb.UI.$bg('icons.gif', 'no-repeat', true),
+                'background-image': linb.UI.$bg('icons.gif', '', true),
+                'background-repeat': 'no-repeat',
                 'background-position':'-390px -290px'
             },
             '.ui-inputdisabled':{
