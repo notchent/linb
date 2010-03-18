@@ -5689,8 +5689,10 @@ Class('linb.Dom','linb.absBox',{
              return this.each(function(o){
                 if(linb.browser.gek)
                     o.style.MozUserSelect=value?"all":"none"
-                else
+                else{
                     o.unselectable=value?"off":"on";
+                    o.onselectstart=value?null:_f;
+                }
             })
         },
         setInlineBlock:function(){
@@ -6690,7 +6692,7 @@ type:4
                 }
             },'hookA',0);
 
-        if(linb.browser.ie)
+        if(linb.browser.ie || linb.browser.kde)
             document.onselectstart=function(){
                 try {
                     var n = event.srcElement ;
@@ -6710,7 +6712,7 @@ type:4
                 window.removeEventListener('DOMMouseScroll', linb.Event.$eventhandler3, false);
             document.onmousewheel=window.onmousewheel=null;
 
-            if(linb.browser.ie)
+            if(linb.browser.ie|| linb.browser.kde)
                 document.onselectstart=null;
 
             //unlink link 'App'
