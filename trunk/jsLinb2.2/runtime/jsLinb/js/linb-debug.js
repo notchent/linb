@@ -29326,18 +29326,18 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                         if(p.selMode=='none')
                             profile.getSubNode('FCELLCMD',row._serialId).onClick();
                     }
-                    profile.box._activecell(profile, e, src); 
+                    profile.box._focuscell(profile, e, src); 
                     
                     //in some browsers: if CELLA has a child 'span', you click 'span' will not tigger to focus CELLA
-                    profile.$_forcefocus=1;
+                    profile.$_focusbyclick=1;
                     linb.use(src).focus();
                 },
                 onFocus:function(profile, e, src){
-                    // ensure call it once when click
-                    if(profile.$_forcefocus)
-                        delete profile.$_forcefocus;
+                    // ensure call _focuscell once when click
+                    if(profile.$_focusbyclick)
+                        delete profile.$_focusbyclick;
                     else
-                        profile.box._activecell(profile, e, src); 
+                        profile.box._focuscell(profile, e, src); 
                 },
                 onKeydown:function(profile, e, src){
                     var keys=linb.Event.getKey(e),
@@ -30693,7 +30693,7 @@ sortby [for column only]
             });
             return a;
         },
-         _activecell:function(profile, e, src){
+         _focuscell:function(profile, e, src){
             if(profile.properties.disabled)return;
             var p = profile.properties,
                 box=profile.box,
