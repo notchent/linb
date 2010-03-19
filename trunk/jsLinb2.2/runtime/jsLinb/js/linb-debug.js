@@ -29326,37 +29326,18 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                         if(p.selMode=='none')
                             profile.getSubNode('FCELLCMD',row._serialId).onClick();
                     }
-                    //ie6: if 'a' has a child 'span', you click 'span' will not tigger to focus 'a'
+                    profile.box._activecell(profile, e, src); 
+                    
+                    //in some browsers: if CELLA has a child 'span', you click 'span' will not tigger to focus CELLA
+                    profile.$_forcefocus=1;
                     linb.use(src).focus();
-                    return false;
                 },
                 onFocus:function(profile, e, src){
-                    if(profile.properties.disabled)return;
-                    var p = profile.properties,
-                        box=profile.box,
-                        getPro=box.getCellPro,
-                        cell = profile.cellMap[profile.getSubId(src)],
-                        mode = p.activeMode, id;
-                    
-                    if(cell){
-                        if(getPro(profile, cell, 'editable')){
-                            if(getPro(profile, cell, 'disabled'))
-                                return false;
-                            box._editCell(profile, cell._serialId);
-                            _.asyRun(function(){
-                                linb.use(src).parent().onMouseout(true,{$force:true})
-                                          .parent().onMouseout(true,{$force:true});
-                            });
-                        }
-                        if(cell && mode=='cell'){
-                            id = linb.use(src).parent().id();
-                            box._activeCell(profile, id);
-                        }
-                    }
-                    if(mode=='row'){
-                        id = linb.use(src).parent(2).id();
-                        box._activeRow(profile, id);
-                    }
+                    // ensure call it once when click
+                    if(profile.$_forcefocus)
+                        delete profile.$_forcefocus;
+                    else
+                        profile.box._activecell(profile, e, src); 
                 },
                 onKeydown:function(profile, e, src){
                     var keys=linb.Event.getKey(e),
@@ -30712,7 +30693,34 @@ sortby [for column only]
             });
             return a;
         },
-
+         _activecell:function(profile, e, src){
+            if(profile.properties.disabled)return;
+            var p = profile.properties,
+                box=profile.box,
+                getPro=box.getCellPro,
+                cell = profile.cellMap[profile.getSubId(src)],
+                mode = p.activeMode, id;
+            
+            if(cell){
+                if(getPro(profile, cell, 'editable')){
+                    if(getPro(profile, cell, 'disabled'))
+                        return false;
+                    box._editCell(profile, cell._serialId);
+                    _.asyRun(function(){
+                        linb.use(src).parent().onMouseout(true,{$force:true})
+                                  .parent().onMouseout(true,{$force:true});
+                    });
+                }
+                if(cell && mode=='cell'){
+                    id = linb.use(src).parent().id();
+                    box._activeCell(profile, id);
+                }
+            }
+            if(mode=='row'){
+                id = linb.use(src).parent(2).id();
+                box._activeRow(profile, id);
+            }
+        },
         _showTips:function(profile, node, pos){
             if(profile.properties.disableTips)return;
             if(profile.onShowTips)
