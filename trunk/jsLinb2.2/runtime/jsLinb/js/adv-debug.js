@@ -3509,9 +3509,12 @@ Class("linb.UI.Range", ["linb.UI","linb.absValue"],{
                     o=profile.getSubNode('BOX'),
                     flag=properties.value !== properties.$UIvalue,
                     cls=linb.UI.$css_tag_dirty;
-
+                
+                if(profile._dirtyFlag==flag)return;
+                
                 if(profile.beforeDirtyMark && false===profile.boxing().beforeDirtyMark(profile,flag))
                     return;
+                profile._dirtyFlag=flag;
 
                 if(flag)
                     o.addClass(cls);

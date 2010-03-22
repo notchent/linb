@@ -83,10 +83,14 @@ Class("linb.UI.List", ["linb.UI", "linb.absList","linb.absValue" ],{
                     p=profile.properties,
                     flag=p.value !== p.$UIvalue,
                     d=linb.UI.$css_tag_dirty;
-
+                
+                if(profile._dirtyFlag==flag)return;
+                
                 //dirty mark
                 if(profile.beforeDirtyMark && false===profile.boxing().beforeDirtyMark(profile,flag)){}
                 else{
+                    profile._dirtyFlag=flag;
+
                     var o = profile.getSubNode('ITEMS');
                     if(flag)
                         o.addClass(d);

@@ -2291,7 +2291,7 @@ Class("linb.UI",  "linb.absObj", {
             '.ui-inputdisabled':{
                 color:'#808080'
             },
-            '.ui-cmddisabled':{
+            '.ui-itemdisabled':{
                 $order:2,
                 cursor:'not-allowed',
                 color: '#808080'
@@ -4491,8 +4491,16 @@ Class("linb.absValue", "linb.absObj",{
             });
         },
         isDirtied:function(){
-            var p = this.get(0).properties;
-            return p.value !== p.$UIvalue;
+            var dirtied=false;
+            this.each(function(profile){
+                var p=profile.properties;
+
+                // inner value is alway string
+                dirtied = (p.value+" ") !== (p.$UIvalue+" ");
+                if(dirtied)
+                    return false;
+            });
+            return dirtied
         },
         checkValid:function(){
             var r=true;
@@ -4886,9 +4894,12 @@ new function(){
                         o=profile.getSubNode('CAPTION'),
                         flag=properties.value !== properties.$UIvalue,
                         d = linb.UI.$css_tag_dirty;
-
+                    
+                    if(profile._dirtyFlag==flag)return;
+                    
                     if(o.beforeDirtyMark && false===o.boxing().beforeDirtyMark(profile,flag))
                         return;
+                    profile._dirtyFlag=flag;
 
                     if(flag)
                         o.addClass(d);

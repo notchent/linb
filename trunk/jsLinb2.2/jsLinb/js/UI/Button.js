@@ -24,9 +24,12 @@ Class("linb.UI.Button", ["linb.UI.Widget","linb.absValue"],{
                     o=profile.getSubNode('FOCUS'),
                     d=linb.UI.$css_tag_dirty,
                     flag=properties.value !== properties.$UIvalue;
+                if(profile._dirtyFlag==flag)return;
+                
                 //dirty mark
                 if(profile.beforeDirtyMark && false===box.beforeDirtyMark(profile,flag)){}
                 else{
+                    profile._dirtyFlag=flag;
                     if(flag)
                         o.addClass(d);
                     else

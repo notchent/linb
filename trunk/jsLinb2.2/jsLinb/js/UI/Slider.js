@@ -22,13 +22,14 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
                     flag=properties.value !== properties.$UIvalue;
 
                 if(profile._dirtyFlag==flag)return;
-                profile._dirtyFlag=flag;
-                    
+
                 var o=profile.getSubNode('BOX'),
                     cls=linb.UI.$css_tag_dirty;
 
                 if(profile.beforeDirtyMark && false===profile.boxing().beforeDirtyMark(profile,flag))
                     return;
+                
+                profile._dirtyFlag=flag;
 
                 if(flag)
                     o.addClass(cls);
