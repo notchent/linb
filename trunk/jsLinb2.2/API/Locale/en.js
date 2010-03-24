@@ -11531,8 +11531,30 @@ _.set(linb.Locale,["en","doc","linb","UI","MenuBar"], {
                 "}"
             ]
         },
-
-
+        onGetPopMenu:{
+            $desc:"Fired before the drop menu was popped.",
+            $paras:[
+                "profile : linb.UIProfile",
+                "item : Object, ",
+                "callback : Function, callback function."
+            ]
+        },
+        onMenuBtnClick:{
+            $desc:"Fired when a menu item was clicked. only for those 'non-sub' items.",
+            $paras:[
+                "profile : linb.UIProfile",
+                "item : Object, ",
+                "src: String,  Element's linbid."
+            ]
+        },
+        beforePopMenu:{
+            $desc:"Fired before a menu pop. If returns false, the default pop function will be ignored.",
+            $paras:[
+                "profile : linb.UIProfile",
+                "item : Object, ",
+                "src: String, Element's linbid."
+            ]
+        },
         onMenuSelected:{
             $desc:"Fired when a menu item is selected.",
             $paras:[

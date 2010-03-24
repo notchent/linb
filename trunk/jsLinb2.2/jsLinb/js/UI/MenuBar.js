@@ -32,43 +32,60 @@ Class("linb.UI.MenuBar",["linb.UI","linb.absList" ],{
             }
             return self;
         },
-        _pop:function(id,src){
-            var menu, 
-                self=this,
-                profile=self.get(0),
-                pro=profile.properties,
-                all='$allPops';
+        _pop:function(item,src){
+            var self=this,
+                profile=self.get(0);
             //hide first
             if(profile.$curPop)self.hide();
 
-            linb.use(src).tagClass('-mousedown');
+            if(!item.sub)return ;
 
-            profile[all] = profile[all] || {};
-            if(!(menu = profile[all][id])){
-                var item=profile.getItemByItemId(id),
-                    sub = item.sub;
-                sub  = sub ||[];
+            if(profile.beforePopMenu && false==profile.boxing().beforePopMenu(profile, item, src)){
+                return;
+            }else{
+                
+                linb.use(src).tagClass('-mousedown');
+                
+                var menu, 
+                    id=item.id,
+                    pro=profile.properties,
+                    all='$allPops';
+                
+                profile.$curPop=id;
+                profile.$curElem=src;
+                profile.$menuPop = id;
 
-                menu = linb.create('PopMenu',{position:'absolute', items:sub, autoHide:!!pro.autoShowTime});
-                profile.getSubNode('POOL').append(menu);
+                profile[all] = profile[all] || {};
+                if(!profile[all][id]){
+                    var callback=function(sub){
+                        var menu = linb.create('PopMenu',{position:'absolute', items:sub, autoHide:!!pro.autoShowTime});
+                        profile.getSubNode('POOL').append(menu);
+                        menu.onHide(function(pro){
+                            self.hide(false);
+                        }).onMenuSelected(function(pro, item, src){
+                            return profile.boxing().onMenuSelected(profile, pro, item, src);
+                        }).onShowSubMenu(function(pro, item, src){
+                            return profile.boxing().onShowSubMenu(profile, pro, item, src);
+                        });
+                        menu.get(0).$hideMenuPool = profile.getSubNode('POOL');
+                        menu.get(0)[all] = profile[all];
+                        profile[all][id] = menu;
+                    }
 
-                menu.onHide(function(pro){
-                    self.hide(false);
-                }).onMenuSelected(function(pro, item, src){
-                    return profile.boxing().onMenuSelected(profile, pro, item, src);
-                }).onShowSubMenu(function(pro, item, src){
-                    return profile.boxing().onShowSubMenu(profile, pro, item, src);
-                });
-                menu.get(0).$hideMenuPool = profile.getSubNode('POOL');
-                menu.get(0)[all] = profile[all];
+                    if(_.isArr(item.sub) && item.sub.length)
+                        callback(item.sub);
+                    else if(profile.onGetPopMenu){
+                        var r=profile.boxing().onGetPopMenu(profile, item, callback);
+                        if(_.isArr(r) && r.length)
+                            callback(item.sub=r);
+                    }
+                }
+                // popmenu
+                if(profile[all][id])
+                    profile[all][id].pop(linb(src), 1, linb(pro.parentID));
 
-                profile[all][id] = menu;
+                return false;
             }
-            var target = linb(src);
-            menu.pop(target, 1, linb(pro.parentID));
-
-            profile.$curPop=id;
-            profile.$curElem=src;
         },
         _afterInsertItems:function(){
             this.clearPopCache();
@@ -250,20 +267,19 @@ Class("linb.UI.MenuBar",["linb.UI","linb.absList" ],{
                     var item = profile.getItemByDom(src),
                         itemId = item.id;
                     if(item.disabled)return;
+                    linb.use(ns).tagClass('-mouseover');
+
                     if(profile.$menuPop){
                         if(profile.$menuPop != itemId){
-                            linb.use(ns).tagClass('-mousedown');
                             //show current popmenu
-                            profile.boxing()._pop(itemId, ns);
-                            profile.$menuPop = itemId;
+                            profile.boxing()._pop(item, ns);
                         }
                     }else{
-                        linb.use(ns).tagClass('-mouseover');
-
-                        if(p.autoShowTime)
+                        if(p.autoShowTime){
                             _.resetRun(profile.$linbid+':autoShowTime', function(){
-                                profile.boxing()._pop(itemId, ns);
+                                profile.boxing()._pop(item, ns);
                             },p.autoShowTime);
+                        }
                     }
                 },
                 onMouseout:function(profile, e, src){
@@ -271,7 +287,6 @@ Class("linb.UI.MenuBar",["linb.UI","linb.absList" ],{
                     if(p.disabled)return;
                     var item = profile.getItemByDom(src);
                     if(item.disabled)return;
-
                     linb.use(src).tagClass('-mouseover',false);
 
                     if(p.autoShowTime){
@@ -295,17 +310,16 @@ Class("linb.UI.MenuBar",["linb.UI","linb.absList" ],{
                     var item = profile.getItemByDom(src),
                         itemId = item.id;
                     if(item.disabled)return;
-                    if(profile.$menuPop){
-                        profile.$menuPop=null;
-                        profile.boxing().hide(itemId);
-                     }else{
-                        profile.$menuPop=itemId;
-                        profile.boxing()._pop(itemId, src);
 
-                        //stop bubble to document.body
-                        //popmenu will add blue trigger to document.body.beforeMousedown
-                        return false;
-                     }
+                    linb.use(src).tagClass('-mousedown');
+                    
+                    // if poped, stop to trigger document.body's onmousedown event
+                    return profile.boxing()._pop(item, src);                    
+                },
+                onMouseup:function(profile,e,src){
+                    var item = profile.getItemByDom(src);
+                    if(profile.$menuPop != item.id)
+                        linb.use(src).tagClass('-mousedown',false);
                 },
                 onKeydown:function(profile, e, src){
                     var keys=linb.Event.getKey(e), key = keys[0], shift=keys[2],
@@ -350,8 +364,11 @@ Class("linb.UI.MenuBar",["linb.UI","linb.absList" ],{
                             break;
                     }
                 },
-                onClick:function(){
-                    return false;
+                onClick:function(profile, e, src){
+                    var item = profile.getItemByDom(src);
+                    if(profile.$menuPop != item.id)
+                        if(profile.onMenuBtnClick)
+                            profile.boxing().onMenuBtnClick(profile, item, src);
                 }
             }
         },
@@ -386,6 +403,9 @@ Class("linb.UI.MenuBar",["linb.UI","linb.absList" ],{
             }
         },
         EventHandlers:{
+            onGetPopMenu:function(profile, item, callback){},
+            onMenuBtnClick:function(profile, item, src){},
+            beforePopMenu:function(profile, item, src){},
             onShowSubMenu:function(profile, popProfile, item, src){},
             onMenuSelected:function(profile, popProfile, item, src){}
         },

@@ -11552,8 +11552,30 @@ _.set(linb.Locale,["cn","doc","linb","UI","MenuBar"], {
                 "}"
             ]
         },
-
-
+        onGetPopMenu:{
+            $desc:"在下拉菜单pop调用.",
+            $paras:[
+                "profile : 菜单条的linb.UIProfile",
+                "item : Object, ",
+                "callback: String, callback函数."
+            ]
+        },
+        onMenuBtnClick:{
+            $desc:"在菜单项被点击时调用.只有sub为空的item才会有这个事件.",
+            $paras:[
+                "profile : 菜单条的linb.UIProfile",
+                "item : Object, ",
+                "src: String, 事件所属DOM元素的linbid."
+            ]
+        },
+        beforePopMenu:{
+            $desc:"在菜单项被点击前调用,如果返回false,默认的下拉菜单将不会显示.",
+            $paras:[
+                "profile : 菜单条的linb.UIProfile",
+                "item : Object, ",
+                "src: String, 事件所属DOM元素的linbid."
+            ]
+        },
         onMenuSelected:{
             $desc:"在菜单项被选择时调用.",
             $paras:[
