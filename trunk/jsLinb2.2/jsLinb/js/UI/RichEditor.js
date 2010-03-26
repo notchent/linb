@@ -37,17 +37,15 @@ Class("linb.UI.RichEditor", ["linb.UI","linb.absValue"],{
                 ini:'font1;font2;align;list;font4;font3;insert;clear;html',
                 action:function(v){
                     var ns=this;
-                    ns.box._iniToolBar(ns);
+                    if(!ns.properties.disabled)
+                        ns.box._iniToolBar(ns);
                 }
             },
             disabled:{
                 ini:false,
                 action: function(v){
-                    var ns=this;
-                    if(ns.$toolbar)
-                        ns.$toolbar.boxing().setDisabled(v);
-                    if(ns.$doc)
-                        ns.$doc.designMode=v?'off':'on';
+                    if(this.properties.disabled!=v)
+                        this.boxing().refresh();
                 }
             }
         },
@@ -69,7 +67,6 @@ Class("linb.UI.RichEditor", ["linb.UI","linb.absValue"],{
                 padding:0,
                 margin:0,
                 border:'1px solid #648CB4',
-                'border-top':'none',
                 'background-color':'#fff',
                 'z-index':'0'
             }
@@ -119,12 +116,14 @@ Class("linb.UI.RichEditor", ["linb.UI","linb.absValue"],{
             clear:[
                 {id:'removeformat',command:'removeformat',imagePos:"-198px 0"}
             ],
-            html:[    
+            html:[
                 {id:'html',command:'custom', imagePos:"-234px 0"}
             ]
         },
         _updateToolbar:function(domId, clear){
             var profile=linb.$cache.profileMap[domId],toolbar;
+            if(profile.properties.disabled || profile.properties.readonly)return;
+
             if(profile && (toolbar=profile.$toolbar)){
                 var doc=profile.$doc,
                     bold=clear?false:doc.queryCommandState('bold'),
@@ -148,7 +147,9 @@ Class("linb.UI.RichEditor", ["linb.UI","linb.absValue"],{
         },
         RenderTrigger:function(){
             var self=this;
-            self.box._iniToolBar(self);
+
+            if(!self.properties.disabled)
+                self.box._iniToolBar(self);
 
             if(!self.$inDesign){
                 var div=self.getSubNode('EDITOR').get(0),
@@ -157,6 +158,7 @@ Class("linb.UI.RichEditor", ["linb.UI","linb.absValue"],{
                     iframe=document.createElement("iframe"),
                     //_updateToolbar event
                     event=self._event=function(e){
+                        if(this._pro && this._pro.properties.disabled)return;
 
                         _.resetRun('RichEditor:'+domId, function(){
                             linb.UI.RichEditor._updateToolbar(domId)
@@ -166,74 +168,93 @@ Class("linb.UI.RichEditor", ["linb.UI","linb.absValue"],{
                         if(e.type=='mousedown')
                             linb.doc.onMousedown(true);
                     },
-                    doc,
+                    gekfix=self._gekfix=function(e){
+                        // to fix firefox appendChid's bug: refresh iframe's document
+                        if(this._pro)
+                            this._pro.boxing().refresh();
+                    },
+                    doc,win,
                     checkF = function(){
                         if(frames[id].document!=doc || doc.readyState=='complete'){
-                            self.$win=frames[id];
+                            win=self.$win=frames[id];
+
                             self.$doc=doc=frames[id].document;
 
                             doc.open();
                             doc.write('<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><style type="text/css">body{border:0;margin:0;padding:0;margin:0;cursor:text;background:#fff;color:#000;padding:3px;}p{margin:0;padding:0;} div{margin:0;padding:0;}</style></head><body>'+self.properties.value+'</body></html>');
                             doc.close();
 
-                            doc.designMode=self.properties.disabled?'off':"on";
                             try{doc.execCommand("styleWithCSS", 0, false)}catch(e){
                                 try {doc.execCommand("useCSS", 0, true)}catch(e){}
                             }
+                            doc._pro=win._pro=self;
+
+                            var disabled=self.properties.disabled;
+                            doc.designMode=disabled?"off":"on";
 
                             if(linb.browser.ie){
-                                doc.attachEvent("onmousedown",event);
-                                doc.attachEvent("ondblclick",event);
-                                doc.attachEvent("onclick",event);
-                                doc.attachEvent("onkeyup",event);
-                                doc.attachEvent("onkeydown",event);
-                                self.$beforeDestroy=function(){
-                                    var doc=this.$doc,
-                                        event=this._event;
+                                if(!disabled){
+                                    doc.attachEvent("onmousedown",event);
+                                    doc.attachEvent("ondblclick",event);
+                                    doc.attachEvent("onclick",event);
+                                    doc.attachEvent("onkeyup",event);
+                                    doc.attachEvent("onkeydown",event);
+                                    self.$beforeDestroy=function(){
+                                        var doc=this.$doc,
+                                            event=this._event;
 
-                                    doc.detachEvent("onmousedown",event);
-                                    doc.detachEvent("ondblclick",event);
-                                    doc.detachEvent("onclick",event);
-                                    doc.detachEvent("onkeyup",event);
-                                    doc.detachEvent("onkeydown",event);
-                                    doc=null;
+                                        doc.detachEvent("onmousedown",event);
+                                        doc.detachEvent("ondblclick",event);
+                                        doc.detachEvent("onclick",event);
+                                        doc.detachEvent("onkeyup",event);
+                                        doc.detachEvent("onkeydown",event);
+                                        doc=event=null;
+                                    }
                                 }
                             }else{
-                                doc.addEventListener("mousedown",event,false);
-                                doc.addEventListener("dblclick",event,false);
-                                doc.addEventListener("click",event,false);
-                                doc.addEventListener("keyup",event,false);
-
                                 if(linb.browser.gek)
-                                    doc.addEventListener("keypress",event,false);
-                                else
-                                    doc.addEventListener("keydown",event,false);
+                                    win.addEventListener("unload",gekfix,false);
+
+                                if(!disabled){
+                                    doc.addEventListener("mousedown",event,false);
+                                    doc.addEventListener("dblclick",event,false);
+                                    doc.addEventListener("click",event,false);
+                                    doc.addEventListener("keyup",event,false);
+                                    if(linb.browser.gek)
+                                        doc.addEventListener("keypress",event,false);
+                                    else
+                                        doc.addEventListener("keydown",event,false);
+                                }
 
                                 //don't ues $ondestory, opera will set doc to null
                                 self.$beforeDestroy=function(){
-                                    var doc=this.$doc,
-                                        event=this._event;
+                                    var win=this.$win,
+                                        doc=this.$doc,
+                                        event=this._event,
+                                        gekfix=this._gekfix;
 
+                                    delete win._pro;
+                                    delete doc._pro;
                                     //for firefox
-                                    if(linb.browser.gek)
+                                    if(linb.browser.gek){
                                         delete frames[this.$frameId];
-                                    doc.removeEventListener("mousedown",event,false);
-                                    doc.removeEventListener("dblclick",event,false);
-                                    doc.removeEventListener("click",event,false);
-                                    doc.removeEventListener("keyup",event,false);
-                                    if(linb.browser.gek)
-                                        doc.removeEventListener("keypress",event,false);
-                                    else
-                                        doc.removeEventListener("keydown",event,false);
-                                    doc=null;
+                                        win.removeEventListener("unload",gekfix,false);
+                                    }
+                                    if(!this.properties.disabled){
+                                        doc.removeEventListener("mousedown",event,false);
+                                        doc.removeEventListener("dblclick",event,false);
+                                        doc.removeEventListener("click",event,false);
+                                        doc.removeEventListener("keyup",event,false);
+                                        if(linb.browser.gek)
+                                            doc.removeEventListener("keypress",event,false);
+                                        else
+                                            doc.removeEventListener("keydown",event,false);
+                                    }
+                                    gekfix=event=win=doc=null;
                                 }
                             }
 
                             iframe.style.visibility='';
-
-                            //for disabled
-                            if(self.properties.disabled)
-                                self.boxing().setDisabled(true,true);
 
                             event=self=checkF=doc=null;
 
@@ -252,7 +273,6 @@ Class("linb.UI.RichEditor", ["linb.UI","linb.absValue"],{
                 iframe.allowTransparency="allowtransparency";
                 iframe.style.visibility='hidden';
 
-
                 //replace the original one
                 linb.$cache.domPurgeData[iframe.$linbid=div.$linbid].element=iframe;
                 div.parentNode.replaceChild(iframe,div);
@@ -260,7 +280,6 @@ Class("linb.UI.RichEditor", ["linb.UI","linb.absValue"],{
                 doc=frames[frames.length-1].document;
 
                 linb.Thread.repeat(checkF,50);
-
                 div=null;
             }
         },
@@ -303,7 +322,7 @@ Class("linb.UI.RichEditor", ["linb.UI","linb.absValue"],{
             v[t.$linbid]=t;
             self.$toolbar=t;
             t.$hostage=self;
-            
+
             linb.UI.$tryResize(profile, pro.width, pro.height,true);
         },
         _toolbarclick:function(profile,item,group,e,src){
@@ -556,6 +575,13 @@ Class("linb.UI.RichEditor", ["linb.UI","linb.absValue"],{
                     linb.UI.RichEditor._updateToolbar(editor.$domId,true)
             }
         },
+        _ensureValue:function(profile, value){
+            var p=linb.$getGhostDiv();
+            p.innerHTML=value;
+            v=p.innerHTML;
+            p=null;
+            return v;
+        },
         _onresize:function(profile,width,height){
             var size={};
             if(width)
@@ -565,7 +591,7 @@ Class("linb.UI.RichEditor", ["linb.UI","linb.absValue"],{
 
             if(width || height){
                 var itb=profile._$tb,
-                    _top=(itb?itb.getRoot().offsetHeight():0);
+                    _top=(itb?(itb.getRoot().offsetHeight()-1):0);
                 if(!height)
                     height=profile.properties.height;
                 size.height=height-_top-1;

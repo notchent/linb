@@ -369,15 +369,18 @@ Class("linb.DataBinder","linb.absObj",{
                 });
             })
         },
-        resetValue:function(hash){
-            var p,v,c,b;
+        resetValue:function(map){
+            var t,p,v,c,b;
             return this.each(function(o,i){
-                var vs={};
+                // set default value to map. For those no-rendered controls
+                var vs=map||{};
                 _.arr.each(o._n,function(profile){
                     p=profile.properties;
-                    v=(hash && p.dataField in hash)?hash[p.dataField]:'';
-                    // real value
-                    vs[p.dataField]=v;
+                    t=p.dataField;
+                    // #45
+                    v=(map && t in map)?map[t]:'';
+                    // reset real value
+                    vs[t]=v;
                     c="";
                     b=profile.boxing();
                     if(_.isHash(v)){
@@ -468,30 +471,44 @@ Class("linb.DataBinder","linb.absObj",{
             var o=this._pool[name];
             return o && o.boxing();
         },
-        _bind:function(name, pro){
-            var t,o=this._pool[name];
+        _bind:function(name, profile){
+            var t,v,o=this._pool[name];
             if(!o){
                 o=new linb.DataBinder();
                 o.setName(name);
                 o=o.get(0);
             }
             var map=o._valuesMap;
-            if(pro){
-                if(_.arr.indexOf(o._n,pro)==-1)
+            if(profile){
+                if(_.arr.indexOf(o._n,profile)==-1)
                     //use link for 'destroy UIProfile' trigger 'auto unbind function '
-                    pro.link(o._n, 'databinder.'+name);
-
+                    profile.link(o._n, 'databinder.'+name);
+                var p=profile.properties,c,b;
                 // set control value 1
-                if(t=pro.properties.dataField)
-                    if(_.isSet(t=map[t]))
-                        pro.boxing().setValue(t,true);
-                        //pro.properties.value=t;
+                if(t=p.dataField){
+                    // #45
+                    v=(map && t in map)?map[t]:'';
+                    // reset real value
+                    map[t]=v;
+                    c="";
+                    b=profile.boxing();
+                    if(_.isHash(v)){
+                        // catch caption at first
+                        c=_.isSet(v.caption)?v.caption:null;
+                        // reset v at last
+                        v=v.value;
+                    }
+                    // set value
+                    b.resetValue(v);
+                    // set caption
+                    if(!_.isSet(p.caption) && b.setCaption && c!==null)
+                        _.tryF(b.setCaption,[c,true],b);
+                }
             }
-            map
         },
-        _unBind:function(name, pro){
-            if(pro && pro.box && this._pool[name])
-                pro.unLink('databinder.'+name);
+        _unBind:function(name, profile){
+            if(profile && profile.box && this._pool[name])
+                profile.unLink('databinder.'+name);
         },
         DataModel:{
             name:{
