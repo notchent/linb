@@ -427,7 +427,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                         return k.length!=1 || /[0-9,.]/.test(k);
                     },
                     $compareValue : function(p,a,b){
-                        return p.box._currency(profile, a)==p.box._currency(profile, b)
+                        return ((a===''&&b!=='')||(b===''&&a!==''))?false:p.box._currency(profile, a)==p.box._currency(profile, b)
                     },
                     $getShowValue : function(p,v){
                         return (_.isSet(v)&&v!=="")?p.box._currency(profile, v):"";
@@ -443,7 +443,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                         return k.length!=1 || /[-0-9.]/.test(k);
                     },
                     $compareValue : function(p,a,b){
-                        return p.box._number(profile, a)==p.box._number(profile, b)
+                        return ((a===''&&b!=='')||(b===''&&a!==''))?false:p.box._number(profile, a)==p.box._number(profile, b)
                     },
                     $getShowValue : function(p,v){
                         return (_.isSet(v)&&v!=="")?p.box._number(profile, v):"";
