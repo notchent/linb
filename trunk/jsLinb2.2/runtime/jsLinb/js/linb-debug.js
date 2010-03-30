@@ -17258,7 +17258,7 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
                     b=profile.box,
                     cls=profile.box,
                     map=cls._maskMap,
-                    k=linb.Event.getKey(e),
+                    k=linb.Event.getKey(e),t,
                     caret=linb.use(src).caret();
                     
                     if(profile.$keyD)
@@ -17267,7 +17267,8 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
 
                     if(profile.beforeKeypress && false===profile.boxing().beforeKeypress(profile,caret, k[0],k[1],k[2],k[3],e,src))
                         return false;
-                    if(profile.$beforeKeypress && false===profile.$beforeKeypress(profile,caret,k[0],k[1],k[2],k[3],e,src))
+                    t=profile.CF.beforeKeypress||profile.$beforeKeypress;
+                    if(t && false===t(profile,caret,k[0],k[1],k[2],k[3],e,src))
                         return false;
 
                     b._asyCheck(profile);
