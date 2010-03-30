@@ -13631,7 +13631,7 @@ Class("linb.absValue", "linb.absObj",{
                 var properties = profile.properties,
                     flag=properties.value !== properties.$UIvalue,
                     o=profile.getSubNode(key||"KEY"),
-                    cls=linb.UI.$css_tag_dirty;
+                    d=linb.UI.$css_tag_dirty;
                 if(profile._dirtyFlag!==flag){
                     if(o.beforeDirtyMark && false===o.boxing().beforeDirtyMark(profile,flag)){}
                     else{
