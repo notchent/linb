@@ -10284,6 +10284,19 @@ Class("linb.UI",  "linb.absObj", {
             });
             return rtnString===false?a:a.length==1?" new "+a[0].key+"("+_.serialize(a[0])+")":"linb.UI.unserialize("+_.serialize(a)+")";
         },
+        getProperties:function(all){
+            var h={},pro=this.get(0),prop=pro.properties,funName;
+            if(all)
+                return _.copy(prop);
+            else{
+                for(var k in prop){
+                    funName="get"+_.str.initial(k);
+                    if(typeof this[funName]=='function')
+                        h[k]=this[funName].call(this);
+                }
+                return h;
+            }
+        },
         setProperties:function(key, value){
             if(typeof key=="string"){
                 var h={};
@@ -13611,7 +13624,23 @@ Class("linb.absValue", "linb.absObj",{
         */
         _getCtrlValue:function(){return this.get(0).properties.$UIvalue},
         _setCtrlValue:function(value){return this},
-        _setDirtyMark:function(){return this},
+        _setDirtyMark:function(key){
+          return this.each(function(profile){
+                if(!profile.properties.dirtyMark)return;
+                if(!profile.renderId)return;
+                var properties = profile.properties,
+                    flag=properties.value !== properties.$UIvalue,
+                    o=profile.getSubNode(key||"KEY"),
+                    cls=linb.UI.$css_tag_dirty;
+                if(profile._dirtyFlag!==flag){
+                    if(o.beforeDirtyMark && false===o.boxing().beforeDirtyMark(profile,flag)){}
+                    else{
+                        if(profile._dirtyFlag=flag) o.addClass(d);
+                        else o.removeClass(d);
+                    }
+                }
+            });
+        },
 
         getValue:function(){return this.get(0).properties.value},
         getUIValue:function(){return this.get(0).properties.$UIvalue=this._getCtrlValue()},
@@ -14074,25 +14103,7 @@ new function(){
             },
             //update UI face
             _setDirtyMark:function(){
-                return this.each(function(profile){
-                    if(!profile.properties.dirtyMark)return;
-                    if(!profile.renderId)return;
-                    var properties = profile.properties,
-                        o=profile.getSubNode('CAPTION'),
-                        flag=properties.value !== properties.$UIvalue,
-                        d = linb.UI.$css_tag_dirty;
-                    
-                    if(profile._dirtyFlag==flag)return;
-                    
-                    if(o.beforeDirtyMark && false===o.boxing().beforeDirtyMark(profile,flag))
-                        return;
-                    profile._dirtyFlag=flag;
-
-                    if(flag)
-                        o.addClass(d);
-                    else
-                        o.removeClass(d);
-                });
+                return arguments.callee.upper.apply(this,['CAPTION']);
             }
         },
         Static:{
@@ -15895,24 +15906,7 @@ Class("linb.UI.Button", ["linb.UI.Widget","linb.absValue"],{
             });
         },
         _setDirtyMark:function(){
-            return this.each(function(profile){
-                if(!profile.properties.dirtyMark)return;
-                var properties = profile.properties,
-                    o=profile.getSubNode('FOCUS'),
-                    d=linb.UI.$css_tag_dirty,
-                    flag=properties.value !== properties.$UIvalue;
-                if(profile._dirtyFlag==flag)return;
-                
-                //dirty mark
-                if(profile.beforeDirtyMark && false===box.beforeDirtyMark(profile,flag)){}
-                else{
-                    profile._dirtyFlag=flag;
-                    if(flag)
-                        o.addClass(d);
-                    else
-                        o.removeClass(d);
-                }
-            });
+            return arguments.callee.upper.apply(this,['FOCUS']);
         },
         resetValue:function(value){
             this.each(function(p){
@@ -16259,25 +16253,7 @@ Class("linb.UI.Button", ["linb.UI.Widget","linb.absValue"],{
         },
         //update UI face
         _setDirtyMark:function(){
-            return this.each(function(profile){
-                if(!profile.properties.dirtyMark)return;
-                if(!profile.renderId)return;
-                var properties = profile.properties,
-                    o=profile.getSubNode('CAPTION'),
-                    flag=properties.value !== properties.$UIvalue,
-                    d = linb.UI.$css_tag_dirty;
-                
-                if(profile._dirtyFlag==flag)return;
-                
-                if(o.beforeDirtyMark && false===o.boxing().beforeDirtyMark(profile,flag))
-                    return;
-                profile._dirtyFlag=flag;
-                
-                if(flag)
-                    o.addClass(d);
-                else
-                    o.removeClass(d);
-            });
+            return arguments.callee.upper.apply(this,['CAPTION']);
         }
     },
     Initialize:function(){
@@ -16393,27 +16369,7 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
             });
         },
         _setDirtyMark:function(){
-            return this.each(function(profile){
-                if(!profile.properties.dirtyMark)return;
-                if(!profile.renderId)return;
-                var properties = profile.properties,
-                    flag=properties.value !== properties.$UIvalue;
-
-                if(profile._dirtyFlag==flag)return;
-
-                var o=profile.getSubNode('BOX'),
-                    cls=linb.UI.$css_tag_dirty;
-
-                if(profile.beforeDirtyMark && false===profile.boxing().beforeDirtyMark(profile,flag))
-                    return;
-                
-                profile._dirtyFlag=flag;
-
-                if(flag)
-                    o.addClass(cls);
-                else
-                    o.removeClass(cls);
-            });
+            return arguments.callee.upper.apply(this,['BOX']);
         }
     },
     Static:{
@@ -17016,15 +16972,12 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
                         profile.tips = properties.tipsOK || properties.tips;
                     }
                 }
-                if(profile._dirtyFlag==flag)return;
-                //dirty mark
-                if(profile.beforeDirtyMark && false===box.beforeDirtyMark(profile,flag)){}
-                else{
-                    profile._dirtyFlag=flag;
-                    if(flag)
-                        o.addClass(d);
-                    else
-                        o.removeClass(d);
+                if(profile._dirtyFlag!==flag){
+                    if(o.beforeDirtyMark && false===o.boxing().beforeDirtyMark(profile,flag)){}
+                    else{
+                        if(profile._dirtyFlag=flag) o.addClass(d);
+                        else o.removeClass(d);
+                    }
                 }
                 
                 //format statux
@@ -21789,27 +21742,7 @@ Class("linb.UI.Group", "linb.UI.Div",{
             return v;
         },
         _setDirtyMark:function(){
-            return this.each(function(profile){
-                if(!profile.properties.dirtyMark)return;
-                var id=profile.domId,
-                    p=profile.properties,
-                    flag=p.value !== p.$UIvalue,
-                    d=linb.UI.$css_tag_dirty;
-                
-                if(profile._dirtyFlag==flag)return;
-                
-                //dirty mark
-                if(profile.beforeDirtyMark && false===profile.boxing().beforeDirtyMark(profile,flag)){}
-                else{
-                    profile._dirtyFlag=flag;
-
-                    var o = profile.getSubNode('ITEMS');
-                    if(flag)
-                        o.addClass(d);
-                    else
-                        o.removeClass(d);
-                }
-            });
+            return arguments.callee.upper.apply(this,['ITEMS']);
         }
     },
     Static:{
@@ -30866,27 +30799,7 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
             });
         },
         _setDirtyMark:function(){
-            return this.each(function(profile){
-                if(!profile.properties.dirtyMark)return;
-                if(!profile.renderId)return;
-                var properties = profile.properties,
-                    flag=properties.value !== properties.$UIvalue;
-
-                if(profile._dirtyFlag==flag)return;
-
-                var o=profile.getSubNode('BOX'),
-                    cls=linb.UI.$css_tag_dirty;
-
-                if(profile.beforeDirtyMark && false===profile.boxing().beforeDirtyMark(profile,flag))
-                    return;
-                
-                profile._dirtyFlag=flag;
-
-                if(flag)
-                    o.addClass(cls);
-                else
-                    o.removeClass(cls);
-            });
+            return arguments.callee.upper.apply(this,['BOX']);
         }
     },
     Static:{

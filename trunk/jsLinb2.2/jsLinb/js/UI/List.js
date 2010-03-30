@@ -77,27 +77,7 @@ Class("linb.UI.List", ["linb.UI", "linb.absList","linb.absValue" ],{
             return v;
         },
         _setDirtyMark:function(){
-            return this.each(function(profile){
-                if(!profile.properties.dirtyMark)return;
-                var id=profile.domId,
-                    p=profile.properties,
-                    flag=p.value !== p.$UIvalue,
-                    d=linb.UI.$css_tag_dirty;
-                
-                if(profile._dirtyFlag==flag)return;
-                
-                //dirty mark
-                if(profile.beforeDirtyMark && false===profile.boxing().beforeDirtyMark(profile,flag)){}
-                else{
-                    profile._dirtyFlag=flag;
-
-                    var o = profile.getSubNode('ITEMS');
-                    if(flag)
-                        o.addClass(d);
-                    else
-                        o.removeClass(d);
-                }
-            });
+            return arguments.callee.upper.apply(this,['ITEMS']);
         }
     },
     Static:{

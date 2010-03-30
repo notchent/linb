@@ -1114,6 +1114,19 @@ Class("linb.UI",  "linb.absObj", {
             });
             return rtnString===false?a:a.length==1?" new "+a[0].key+"("+_.serialize(a[0])+")":"linb.UI.unserialize("+_.serialize(a)+")";
         },
+        getProperties:function(all){
+            var h={},pro=this.get(0),prop=pro.properties,funName;
+            if(all)
+                return _.copy(prop);
+            else{
+                for(var k in prop){
+                    funName="get"+_.str.initial(k);
+                    if(typeof this[funName]=='function')
+                        h[k]=this[funName].call(this);
+                }
+                return h;
+            }
+        },
         setProperties:function(key, value){
             if(typeof key=="string"){
                 var h={};
@@ -4441,7 +4454,23 @@ Class("linb.absValue", "linb.absObj",{
         */
         _getCtrlValue:function(){return this.get(0).properties.$UIvalue},
         _setCtrlValue:function(value){return this},
-        _setDirtyMark:function(){return this},
+        _setDirtyMark:function(key){
+          return this.each(function(profile){
+                if(!profile.properties.dirtyMark)return;
+                if(!profile.renderId)return;
+                var properties = profile.properties,
+                    flag=properties.value !== properties.$UIvalue,
+                    o=profile.getSubNode(key||"KEY"),
+                    cls=linb.UI.$css_tag_dirty;
+                if(profile._dirtyFlag!==flag){
+                    if(o.beforeDirtyMark && false===o.boxing().beforeDirtyMark(profile,flag)){}
+                    else{
+                        if(profile._dirtyFlag=flag) o.addClass(d);
+                        else o.removeClass(d);
+                    }
+                }
+            });
+        },
 
         getValue:function(){return this.get(0).properties.value},
         getUIValue:function(){return this.get(0).properties.$UIvalue=this._getCtrlValue()},
@@ -4904,25 +4933,7 @@ new function(){
             },
             //update UI face
             _setDirtyMark:function(){
-                return this.each(function(profile){
-                    if(!profile.properties.dirtyMark)return;
-                    if(!profile.renderId)return;
-                    var properties = profile.properties,
-                        o=profile.getSubNode('CAPTION'),
-                        flag=properties.value !== properties.$UIvalue,
-                        d = linb.UI.$css_tag_dirty;
-                    
-                    if(profile._dirtyFlag==flag)return;
-                    
-                    if(o.beforeDirtyMark && false===o.boxing().beforeDirtyMark(profile,flag))
-                        return;
-                    profile._dirtyFlag=flag;
-
-                    if(flag)
-                        o.addClass(d);
-                    else
-                        o.removeClass(d);
-                });
+                return arguments.callee.upper.apply(this,['CAPTION']);
             }
         },
         Static:{

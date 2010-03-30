@@ -7,25 +7,7 @@ Class("linb.UI.CheckBox", "linb.UI.Button",{
         },
         //update UI face
         _setDirtyMark:function(){
-            return this.each(function(profile){
-                if(!profile.properties.dirtyMark)return;
-                if(!profile.renderId)return;
-                var properties = profile.properties,
-                    o=profile.getSubNode('CAPTION'),
-                    flag=properties.value !== properties.$UIvalue,
-                    d = linb.UI.$css_tag_dirty;
-                
-                if(profile._dirtyFlag==flag)return;
-                
-                if(o.beforeDirtyMark && false===o.boxing().beforeDirtyMark(profile,flag))
-                    return;
-                profile._dirtyFlag=flag;
-                
-                if(flag)
-                    o.addClass(d);
-                else
-                    o.removeClass(d);
-            });
+            return arguments.callee.upper.apply(this,['CAPTION']);
         }
     },
     Initialize:function(){

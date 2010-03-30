@@ -61,15 +61,12 @@ Class("linb.UI.Input", ["linb.UI.Widget","linb.absValue"] ,{
                         profile.tips = properties.tipsOK || properties.tips;
                     }
                 }
-                if(profile._dirtyFlag==flag)return;
-                //dirty mark
-                if(profile.beforeDirtyMark && false===box.beforeDirtyMark(profile,flag)){}
-                else{
-                    profile._dirtyFlag=flag;
-                    if(flag)
-                        o.addClass(d);
-                    else
-                        o.removeClass(d);
+                if(profile._dirtyFlag!==flag){
+                    if(o.beforeDirtyMark && false===o.boxing().beforeDirtyMark(profile,flag)){}
+                    else{
+                        if(profile._dirtyFlag=flag) o.addClass(d);
+                        else o.removeClass(d);
+                    }
                 }
                 
                 //format statux

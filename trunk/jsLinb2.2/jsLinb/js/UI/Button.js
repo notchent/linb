@@ -18,24 +18,7 @@ Class("linb.UI.Button", ["linb.UI.Widget","linb.absValue"],{
             });
         },
         _setDirtyMark:function(){
-            return this.each(function(profile){
-                if(!profile.properties.dirtyMark)return;
-                var properties = profile.properties,
-                    o=profile.getSubNode('FOCUS'),
-                    d=linb.UI.$css_tag_dirty,
-                    flag=properties.value !== properties.$UIvalue;
-                if(profile._dirtyFlag==flag)return;
-                
-                //dirty mark
-                if(profile.beforeDirtyMark && false===box.beforeDirtyMark(profile,flag)){}
-                else{
-                    profile._dirtyFlag=flag;
-                    if(flag)
-                        o.addClass(d);
-                    else
-                        o.removeClass(d);
-                }
-            });
+            return arguments.callee.upper.apply(this,['FOCUS']);
         },
         resetValue:function(value){
             this.each(function(p){
