@@ -139,15 +139,24 @@ Class("linb.UI.ButtonViews", "linb.UI.Tabs",{
                 action:function(v){
                     var self=this,
                         t=self.properties,
+                        noPanel=t.noPanel,
                         hs = self.getSubNode('LIST'),
                         hl = self.getSubNode('ITEMS');
                     if(t.barLocation=='left'||t.barLocation=='right'){
-                        hs.merge(hl).width(v);
+                        if(!noPanel)
+                            hs.merge(hl).width(v);
                     }else{
-                        hs.height(v);
+                        if(!noPanel)
+                            hs.height(v);
                     }
                     var t=self.getRootNode().style;
                     linb.UI.$tryResize(self,t.width, t.height,true);
+                }
+            },
+            noPanel:{
+                ini:false,
+                action:function(v){
+                    this.boxing().setBarSize(this.properties.barSize,true);
                 }
             }
         },
@@ -159,6 +168,7 @@ Class("linb.UI.ButtonViews", "linb.UI.Tabs",{
         },
         _onresize:function(profile,width,height,force,key){
             var t=profile.properties,
+                noPanel=t.noPanel,
                 item = profile.getItemByItemId(key);
             if(!item)
                 key=t.$UIvalue;
@@ -172,6 +182,10 @@ Class("linb.UI.ButtonViews", "linb.UI.Tabs",{
                 if(width){
                     hs.width(width-2);
                     hl.width(width-2);
+                    // for nopanel:
+                    if(noPanel)
+                        hs.height(height-2);
+                 
                     left = 0;
                     wc=width;
                 }
@@ -179,7 +193,13 @@ Class("linb.UI.ButtonViews", "linb.UI.Tabs",{
                 top = t.barLocation=='top'?2- -t.barSize:0;
             }else{
                 if(height){
+                    // for nopanel:
+                    if(noPanel){
+                        hs.width(width-2);
+                        hl.width(width-2);
+                    }
                     hs.height(height-2);
+
                     top=0;
                     hc=height;
                 }
@@ -188,7 +208,9 @@ Class("linb.UI.ButtonViews", "linb.UI.Tabs",{
                     wc=width-t.barSize-2;
                 }
             }
-            if(o && !o.isEmpty())o.cssRegion({width:wc?wc:null,height:hc?hc:null,left:left,top:top},true);
+
+            if(!noPanel)
+                if(o && !o.isEmpty())o.cssRegion({width:wc?wc:null,height:hc?hc:null,left:left,top:top},true);
         },
         _adjustScroll:null
     }
