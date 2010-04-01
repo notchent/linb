@@ -860,7 +860,7 @@ Class("linb.UI.Tabs", ["linb.UI", "linb.absList","linb.absValue"],{
                         //for opear 9.0 get height bug, get offsetheight in firefox is slow
                         l.offsetHeight();
 
-                    height = height-listH+(linb.browser.ie6?2:1);
+                    height = height-listH;
                     if(height>0)hc=height;
                 }else hc=height;
             }
