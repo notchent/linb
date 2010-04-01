@@ -29965,7 +29965,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                     var v=parseFloat(cell.value);
                     cell.value=(v||v===0)?v:"";
                     caption= capOut ||ren(profile,cell,ncell);
-                    if(dom)node.html(""+(caption===null||caption===undefined)?cell.value:caption,false);
+                    if(dom)node.html(""+((caption===null||caption===undefined)?cell.value:caption),false);
                 break;
                 case 'datepicker':
                     cell.value=(parseInt(cell.value)?new Date(parseInt(cell.value)).getTime():"");
