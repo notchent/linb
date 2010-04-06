@@ -136,12 +136,23 @@ class VisualJS extends Unit
 
             if(!$io->exists($hash->path))
                 $io->dirMake($hash->path, true);
+                
 
             if($hash->type == 'file'){
                 $template = " ";
                 if(substr($file,-3,3)==self::FILE_JS){
+
+$className="==>specify_class_name_here";
+try{
+// Get js class name
+$farr=explode('/js/',$file);
+$farr1=explode('/',$farr[0]);
+$farr2=explode(".",$farr[1]);
+$className = $farr1[sizeof($farr1)-1] . '.' . implode('.',explode('/',$farr2[0]));
+}catch(Exception $e){}
+                    
                     $template = $io->getString(self::TEMPLATE_JS);
-                    $template = LINB::parseTemplate($template, array("className" => "Specify_Class_Name_Here"));
+                    $template = LINB::parseTemplate($template, array("className" => $className));
                 }
                 $io->setString($io->absPath($file), $template);
             }
@@ -161,7 +172,7 @@ class VisualJS extends Unit
                 throw new LINB_E("Error: Can\'t handle parent path!");
             break;
         case 'release':
-            $arr = explode('/', $hash->path);
+            $arr = explode(DIRECTORY_SEPARATOR, $hash->path);
             $name = array_pop($arr);
             $io->zipDir4Download($hash->path ,$name.'.zip');
             return;
