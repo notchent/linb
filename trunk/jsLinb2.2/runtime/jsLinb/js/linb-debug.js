@@ -24383,7 +24383,7 @@ Class("linb.UI.ButtonViews", "linb.UI.Tabs",{
     Initialize:function(){
         //modify default template for shell
         var t = this.getTemplate();
-        t.ITEMS.className='';
+        t.className=t.ITEMS.className='';
         t.$submap={
             items:{
                 ITEM:{

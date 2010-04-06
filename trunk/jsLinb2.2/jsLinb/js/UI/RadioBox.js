@@ -2,7 +2,7 @@ Class("linb.UI.RadioBox", "linb.UI.List",{
     Initialize:function(){
         //modify default template for shell
         var t = this.getTemplate();
-        t.ITEMS.className='';
+        t.className=t.ITEMS.className='';
         t.$submap={
             items:{
                 ITEM:{
