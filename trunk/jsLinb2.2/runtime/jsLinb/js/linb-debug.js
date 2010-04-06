@@ -19380,10 +19380,10 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                 if(linb.browser.ie6&&null===width)o.ieRemedy();
             }
 
-            if(null!==ww)
+            if(null!==ww && ww-loff>0)
                 v1.style.width=(ww-loff)+px;
 
-            if(null!==hh)
+            if(null!==hh && hh-toff>0)
                 v1.style.height=(hh-toff)+px;
             if(height-2>0){
                 if(btn)btn.style.height=(height-2)+px;
