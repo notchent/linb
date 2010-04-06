@@ -767,7 +767,7 @@ Class('linb.UIProfile','linb.Profile', {
                 }
             }
         },
-        _cacheR2:/<!--([^>^\s]*)-->/g,
+        _cacheR2:/<!--\x03([^>^\s]*)\x04-->/g,
         toHtml:function(force){
             var self=this,
                 c = self.box,
@@ -2349,12 +2349,18 @@ Class("linb.UI",  "linb.absObj", {
         $css_tag_invalid: "ui-invalid",
         $tag_left:"{",
         $tag_right:"}",
-        $tag_special:'#',
-        $ID:"#id#",
-        $DOMID:'#domid#',
-        $CLS:"#cls#",
         $tag_subId:"_serialId",
-        $childTag:"<!--{id}-->",
+        
+        
+        $x01:/\x01/img,
+        $x01r:/ \x01 /img,
+
+        $tag_special:'\x01',
+        $ID:"\x01id\x01",
+        $DOMID:'\x01domid\x01',
+        $CLS:"\x01cls\x01",
+        $childTag:"<!--\x03{id}\x04-->",
+        
         $onSize:function(profile,e){
             var style = profile.getRootNode().style;
             if(e.width||e.height)
@@ -2485,6 +2491,9 @@ Class("linb.UI",  "linb.absObj", {
         $doTemplate:function(profile, template, properties, tag, result){
             var self=arguments.callee,
                 s,t,n,
+                x01=linb.UI.$x01,
+                x01r=' \x01 ',
+                str='',
                 isA = properties.constructor == Array,
                 temp = template[tag||''],
                 r = !result,
@@ -2511,10 +2520,10 @@ Class("linb.UI",  "linb.absObj", {
                                     if(template[s=tag+n] && t)
                                         self(profile, template, t, s, result);
                                     else
-                                        result[result.length]=_.isSet(t)?t:'';
+                                        result[result.length]= (t===undefined || t===null || t===NaN)?str:typeof t=='string'?t.replace(x01,x01r):t;
                                 }
                             }else
-                                result[result.length]=_.isSet(a0[i])?a0[i]:'';
+                                result[result.length]=(a0[i]===undefined || a0[i]===null || a0[i]===NaN)?str:a0[i];
                         }
                     }
                 }
@@ -2662,7 +2671,8 @@ Class("linb.UI",  "linb.absObj", {
         },
         _rpt:function(profile,temp){
             var me=arguments.callee,
-                tag=linb.UI.$tag_special,
+                ui=linb.UI,
+                tag=ui.$tag_special,
                 r=me._r||(me._r=new RegExp( tag+'([0-9A-Z_]+)_C([SCT])'+tag + '|'+ tag+'([\\w_\\-\\.]*)'+tag, 'img')),
                 h1={
                     id:profile.serialId,
@@ -2674,7 +2684,7 @@ Class("linb.UI",  "linb.absObj", {
                     C:profile.CC,
                     T:profile._CT
                 };
-            return temp.replace(r, function(a,b,c,d){return h1[d] || (h2[c]?(h2[c][b]||""):'')});
+            return temp.replace(r, function(a,b,c,d){return h1[d] || (h2[c]?(h2[c][b]||""):'')}).replace(ui.$x01r,'\x01');
         },
         _build:function(profile, data){
             var template, t, m,

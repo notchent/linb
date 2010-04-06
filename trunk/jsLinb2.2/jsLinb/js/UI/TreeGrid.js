@@ -1016,12 +1016,10 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                 color:'#fff'
             },
             "FCELL CELLA":{
-                'text-align': 'left',
-                'padding-left':'4px'
+                'text-align': 'left'
             },
             "HFCELL HCELLA":{
-                'text-align': 'center',
-                'padding-left':'2px'
+                'text-align': 'center'
             },
             FHANDLER:{
                 position:'absolute',
@@ -1034,8 +1032,9 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                 'font-size':0,
                 'line-height':0
             },
-            FCELLINN:{
-                'vertical-align':'middle'
+            'FCELLCAPTION, FCELLINN':{
+                'vertical-align':'middle',
+                overflow:'hidden'
             },
             'HFCELL, HCELL':{
                background:  linb.UI.$bg('head.gif', '#CAE3FF repeat-x left top'),
@@ -2200,7 +2199,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                     profile.getSubNode('FCELL',true).width(w);
                     profile.getSubNode('FCELLRULER',true).each(function(o){
                         n=map[profile.getSubId(o.id)];
-                        o.style.width=n._layer*ww+'px';
+                        o.style.width=(4+n._layer*ww)+'px';
                     });
                     profile.box._ajdustBody(profile);
                 }
@@ -2551,7 +2550,7 @@ sortby [for column only]
                     t.previewDisplay='display:block;';
 
                 t._row0DfW=pro.rowHandlerWidth?('width:'+pro.rowHandlerWidth+'px'):'';
-                t._rulerW=_layer*mm;
+                t._rulerW=4+_layer*mm;
 
                 t.rowHeight=row.height||pro.rowHeight;
                 t.rowHandlerDisplay=pro.rowHandler?'':NONE;

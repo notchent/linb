@@ -6098,18 +6098,19 @@ type:4
         //IE not trigger dimension change, when change height only in overflow=visible.
         ieRemedy:function(){
             if(linb.browser.ie){
-                var dom=linb.Dom;
-                if(!dom.$_ie)dom.$_ie=linb();
-                dom.$_ie.merge(this);
+                var a1=this.get(),a2=[],l=a1.length;
                 _.asyRun(function(){
-                    if(!dom.$_ie.isEmpty())
-                        dom.$_ie.css('wordWrap','break-word')
+                    for(var i=0;i<l;i++){
+                        if((a2[i]=a1[i].style.WordWrap)=='break-word')
+                            a1[i].style.WordWrap='normal';
+                        else
+                            a1[i].style.WordWrap='break-word';
+                    }
                 });
                 _.asyRun(function(){
-                    if(!dom.$_ie.isEmpty()){
-                        dom.$_ie.css('wordWrap','');
-                        dom.$_ie._nodes.length=0;
-                    }
+                    for(var i=0;i<l;i++)
+                        a1[i].style.WordWrap=a2[i];
+                    a1.length=a2.length=0;
                 });
             }
             return this;
@@ -9937,7 +9938,7 @@ Class('linb.UIProfile','linb.Profile', {
                 }
             }
         },
-        _cacheR2:/<!--([^>^\s]*)-->/g,
+        _cacheR2:/<!--\x03([^>^\s]*)\x04-->/g,
         toHtml:function(force){
             var self=this,
                 c = self.box,
@@ -11519,12 +11520,18 @@ Class("linb.UI",  "linb.absObj", {
         $css_tag_invalid: "ui-invalid",
         $tag_left:"{",
         $tag_right:"}",
-        $tag_special:'#',
-        $ID:"#id#",
-        $DOMID:'#domid#',
-        $CLS:"#cls#",
         $tag_subId:"_serialId",
-        $childTag:"<!--{id}-->",
+        
+        
+        $x01:/\x01/img,
+        $x01r:/ \x01 /img,
+
+        $tag_special:'\x01',
+        $ID:"\x01id\x01",
+        $DOMID:'\x01domid\x01',
+        $CLS:"\x01cls\x01",
+        $childTag:"<!--\x03{id}\x04-->",
+        
         $onSize:function(profile,e){
             var style = profile.getRootNode().style;
             if(e.width||e.height)
@@ -11655,6 +11662,9 @@ Class("linb.UI",  "linb.absObj", {
         $doTemplate:function(profile, template, properties, tag, result){
             var self=arguments.callee,
                 s,t,n,
+                x01=linb.UI.$x01,
+                x01r=' \x01 ',
+                str='',
                 isA = properties.constructor == Array,
                 temp = template[tag||''],
                 r = !result,
@@ -11681,10 +11691,10 @@ Class("linb.UI",  "linb.absObj", {
                                     if(template[s=tag+n] && t)
                                         self(profile, template, t, s, result);
                                     else
-                                        result[result.length]=_.isSet(t)?t:'';
+                                        result[result.length]= (t===undefined || t===null || t===NaN)?str:typeof t=='string'?t.replace(x01,x01r):t;
                                 }
                             }else
-                                result[result.length]=_.isSet(a0[i])?a0[i]:'';
+                                result[result.length]=(a0[i]===undefined || a0[i]===null || a0[i]===NaN)?str:a0[i];
                         }
                     }
                 }
@@ -11832,7 +11842,8 @@ Class("linb.UI",  "linb.absObj", {
         },
         _rpt:function(profile,temp){
             var me=arguments.callee,
-                tag=linb.UI.$tag_special,
+                ui=linb.UI,
+                tag=ui.$tag_special,
                 r=me._r||(me._r=new RegExp( tag+'([0-9A-Z_]+)_C([SCT])'+tag + '|'+ tag+'([\\w_\\-\\.]*)'+tag, 'img')),
                 h1={
                     id:profile.serialId,
@@ -11844,7 +11855,7 @@ Class("linb.UI",  "linb.absObj", {
                     C:profile.CC,
                     T:profile._CT
                 };
-            return temp.replace(r, function(a,b,c,d){return h1[d] || (h2[c]?(h2[c][b]||""):'')});
+            return temp.replace(r, function(a,b,c,d){return h1[d] || (h2[c]?(h2[c][b]||""):'')}).replace(ui.$x01r,'\x01');
         },
         _build:function(profile, data){
             var template, t, m,
@@ -24158,6 +24169,18 @@ Class("linb.UI.ButtonViews", "linb.UI.Tabs",{
                 left:0,
                 top:0
             },
+            'ITEMS-left, ITEMS-left ITEMC':{
+                $order:1,
+                'text-align': 'left'
+            },
+            'ITEMS-center, ITEMS-center ITEMC':{
+                $order:1,
+                'text-align': 'center'
+            },
+            'ITEMS-right, ITEMS-right ITEMC':{
+                $order:1,
+                'text-align': 'right'
+            },
             ITEM:{
                 $order:0,
                 margin:'2px',
@@ -24181,7 +24204,6 @@ Class("linb.UI.ButtonViews", "linb.UI.Tabs",{
                 'padding-left':'4px',
                 //keep this same with ITEM
                 'vertical-align':'top',
-                'text-align': 'center',
                 background: linb.UI.$bg('button.gif', 'no-repeat left -330px', true)
             },
             'ITEM-mouseover ITEMI':{
@@ -24196,11 +24218,14 @@ Class("linb.UI.ButtonViews", "linb.UI.Tabs",{
                 $order:0,
                 //keep this same with ITEM
                 'vertical-align':'top',
-                'text-align': 'center',
                 height:'20px',
                 padding:'2px 0',
                 background: linb.UI.$bg('button.gif', 'repeat-x left -300px', true)
             },
+            'ITEMS-block ITEM, ITEMS-block ITEMI, ITEMS-block ITEMC':{
+                $order:2,
+                display:'block'
+            }, 
             'ITEM-mouseover ITEMC':{
                 $order:1,
                 'background-position' : 'left -390px'
@@ -24226,7 +24251,7 @@ Class("linb.UI.ButtonViews", "linb.UI.Tabs",{
                 action:function(v){
                     var self=this,
                         hs = self.getSubNode('LIST'),
-                        h = self.getSubNodes(['ITEM','ITEMI','ITEMC'],true);
+                        h = self.getSubNode('ITEMS');
                     switch(v){
                         case 'left':
                             hs.cssRegion({left:0,top:0,right:'auto',bottom:0});
@@ -24244,11 +24269,11 @@ Class("linb.UI.ButtonViews", "linb.UI.Tabs",{
                     switch(v){
                         case 'left':
                         case 'right':
-                            h.css('display','block');
+                            h.tagClass('-block',true);
                             break;
                         case 'top':
                         case 'bottom':
-                            h.setInlineBlock();
+                            h.tagClass('-block',false);
                             hs.height('auto');
                             break;
                     }
@@ -24259,8 +24284,8 @@ Class("linb.UI.ButtonViews", "linb.UI.Tabs",{
                 ini:'left',
                 listbox:['left','center', 'right'],
                 action:function(v){
-                    var hl = this.getSubNode('ITEMS');
-                    hl.css('textAlign',v);
+                    var hl=this.getSubNode('ITEMS');
+                    hl.tagClass('(-left|-right|-center)',false).tagClass('-'+v, true);
                 }
             },
             barVAlign:{
@@ -28575,12 +28600,10 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                 color:'#fff'
             },
             "FCELL CELLA":{
-                'text-align': 'left',
-                'padding-left':'4px'
+                'text-align': 'left'
             },
             "HFCELL HCELLA":{
-                'text-align': 'center',
-                'padding-left':'2px'
+                'text-align': 'center'
             },
             FHANDLER:{
                 position:'absolute',
@@ -28593,8 +28616,9 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                 'font-size':0,
                 'line-height':0
             },
-            FCELLINN:{
-                'vertical-align':'middle'
+            'FCELLCAPTION, FCELLINN':{
+                'vertical-align':'middle',
+                overflow:'hidden'
             },
             'HFCELL, HCELL':{
                background:  linb.UI.$bg('head.gif', '#CAE3FF repeat-x left top'),
@@ -29759,7 +29783,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                     profile.getSubNode('FCELL',true).width(w);
                     profile.getSubNode('FCELLRULER',true).each(function(o){
                         n=map[profile.getSubId(o.id)];
-                        o.style.width=n._layer*ww+'px';
+                        o.style.width=(4+n._layer*ww)+'px';
                     });
                     profile.box._ajdustBody(profile);
                 }
@@ -30110,7 +30134,7 @@ sortby [for column only]
                     t.previewDisplay='display:block;';
 
                 t._row0DfW=pro.rowHandlerWidth?('width:'+pro.rowHandlerWidth+'px'):'';
-                t._rulerW=_layer*mm;
+                t._rulerW=4+_layer*mm;
 
                 t.rowHeight=row.height||pro.rowHeight;
                 t.rowHandlerDisplay=pro.rowHandler?'':NONE;

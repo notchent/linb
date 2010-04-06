@@ -1479,18 +1479,19 @@ type:4
         //IE not trigger dimension change, when change height only in overflow=visible.
         ieRemedy:function(){
             if(linb.browser.ie){
-                var dom=linb.Dom;
-                if(!dom.$_ie)dom.$_ie=linb();
-                dom.$_ie.merge(this);
+                var a1=this.get(),a2=[],l=a1.length;
                 _.asyRun(function(){
-                    if(!dom.$_ie.isEmpty())
-                        dom.$_ie.css('wordWrap','break-word')
+                    for(var i=0;i<l;i++){
+                        if((a2[i]=a1[i].style.WordWrap)=='break-word')
+                            a1[i].style.WordWrap='normal';
+                        else
+                            a1[i].style.WordWrap='break-word';
+                    }
                 });
                 _.asyRun(function(){
-                    if(!dom.$_ie.isEmpty()){
-                        dom.$_ie.css('wordWrap','');
-                        dom.$_ie._nodes.length=0;
-                    }
+                    for(var i=0;i<l;i++)
+                        a1[i].style.WordWrap=a2[i];
+                    a1.length=a2.length=0;
                 });
             }
             return this;

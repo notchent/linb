@@ -18,6 +18,18 @@ Class("linb.UI.ButtonViews", "linb.UI.Tabs",{
                 left:0,
                 top:0
             },
+            'ITEMS-left, ITEMS-left ITEMC':{
+                $order:1,
+                'text-align': 'left'
+            },
+            'ITEMS-center, ITEMS-center ITEMC':{
+                $order:1,
+                'text-align': 'center'
+            },
+            'ITEMS-right, ITEMS-right ITEMC':{
+                $order:1,
+                'text-align': 'right'
+            },
             ITEM:{
                 $order:0,
                 margin:'2px',
@@ -41,7 +53,6 @@ Class("linb.UI.ButtonViews", "linb.UI.Tabs",{
                 'padding-left':'4px',
                 //keep this same with ITEM
                 'vertical-align':'top',
-                'text-align': 'center',
                 background: linb.UI.$bg('button.gif', 'no-repeat left -330px', true)
             },
             'ITEM-mouseover ITEMI':{
@@ -56,11 +67,14 @@ Class("linb.UI.ButtonViews", "linb.UI.Tabs",{
                 $order:0,
                 //keep this same with ITEM
                 'vertical-align':'top',
-                'text-align': 'center',
                 height:'20px',
                 padding:'2px 0',
                 background: linb.UI.$bg('button.gif', 'repeat-x left -300px', true)
             },
+            'ITEMS-block ITEM, ITEMS-block ITEMI, ITEMS-block ITEMC':{
+                $order:2,
+                display:'block'
+            }, 
             'ITEM-mouseover ITEMC':{
                 $order:1,
                 'background-position' : 'left -390px'
@@ -86,7 +100,7 @@ Class("linb.UI.ButtonViews", "linb.UI.Tabs",{
                 action:function(v){
                     var self=this,
                         hs = self.getSubNode('LIST'),
-                        h = self.getSubNodes(['ITEM','ITEMI','ITEMC'],true);
+                        h = self.getSubNode('ITEMS');
                     switch(v){
                         case 'left':
                             hs.cssRegion({left:0,top:0,right:'auto',bottom:0});
@@ -104,11 +118,11 @@ Class("linb.UI.ButtonViews", "linb.UI.Tabs",{
                     switch(v){
                         case 'left':
                         case 'right':
-                            h.css('display','block');
+                            h.tagClass('-block',true);
                             break;
                         case 'top':
                         case 'bottom':
-                            h.setInlineBlock();
+                            h.tagClass('-block',false);
                             hs.height('auto');
                             break;
                     }
@@ -119,8 +133,8 @@ Class("linb.UI.ButtonViews", "linb.UI.Tabs",{
                 ini:'left',
                 listbox:['left','center', 'right'],
                 action:function(v){
-                    var hl = this.getSubNode('ITEMS');
-                    hl.css('textAlign',v);
+                    var hl=this.getSubNode('ITEMS');
+                    hl.tagClass('(-left|-right|-center)',false).tagClass('-'+v, true);
                 }
             },
             barVAlign:{
