@@ -1350,7 +1350,8 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
                 cursor:'default'
             },
             BAND:{
-                "-moz-outline-offset":"-1px",
+                'outline-offset':'-1px',
+                '-moz-outline-offset':'-1px !important',
                 'font-size':'0',
                 'line-height':'0'                
             },

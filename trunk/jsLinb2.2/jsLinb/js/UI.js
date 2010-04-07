@@ -4473,7 +4473,7 @@ Class("linb.absValue", "linb.absObj",{
                     o=profile.getSubNode(key||"KEY"),
                     d=linb.UI.$css_tag_dirty;
                 if(profile._dirtyFlag!==flag){
-                    if(o.beforeDirtyMark && false===o.boxing().beforeDirtyMark(profile,flag)){}
+                    if(profile.beforeDirtyMark && false===profile.boxing().beforeDirtyMark(profile,flag)){}
                     else{
                         if(profile._dirtyFlag=flag) o.addClass(d);
                         else o.removeClass(d);

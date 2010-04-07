@@ -195,6 +195,7 @@ Class("linb.UI.PageBar",["linb.UI","linb.absValue"] ,{
                 overflow:'visible'
             },
             'KEY a:focus, POP a:focus':{
+                'outline-offset':'',
                 '-moz-outline-offset': ''
             },
             'KEY .ui-btn, POP .ui-btn':{

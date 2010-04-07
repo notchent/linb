@@ -40,6 +40,7 @@ Class("linb.UI.CheckBox", "linb.UI.Button",{
                 'z-index':'200',
                 width:'100%',
                 height:'100%',
+                'outline-offset':'-1px',
                 '-moz-outline-offset':'-1px !important'
             },
             /*span*/

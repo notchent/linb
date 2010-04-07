@@ -212,6 +212,7 @@ Class("linb.UI.Button", ["linb.UI.Widget","linb.absValue"],{
                 width:'100%',
                 height:'100%',
                 position:'absolute',
+                'outline-offset':'-1px',
                 '-moz-outline-offset':'-1px !important'
             },
             /*span*/

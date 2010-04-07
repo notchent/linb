@@ -62,7 +62,7 @@ Class("linb.UI.Input", ["linb.UI.Widget","linb.absValue"] ,{
                     }
                 }
                 if(profile._dirtyFlag!==flag){
-                    if(o.beforeDirtyMark && false===o.boxing().beforeDirtyMark(profile,flag)){}
+                    if(profile.beforeDirtyMark && false===box.beforeDirtyMark(profile,flag)){}
                     else{
                         if(profile._dirtyFlag=flag) o.addClass(d);
                         else o.removeClass(d);

@@ -4602,9 +4602,9 @@ Class("linb.CSS", null,{
             (linb.browser.ie6?("#"+linb.$localeDomId+"{vertical-align:baseline;}"):"")+
             "a{color:#0000ee;text-decoration:none;}"+
             "a:hover{color:red}"+
-            (b.gek?"a:focus{-moz-outline-offset:-1px !important}":"")+
+            (b.gek?"a:focus{outline-offset:-1px;-moz-outline-offset:-1px !important}":"")+
             "div{font-size:12px;}"+
-            "span{"+
+            "span{outline-offset:-1px;"+
             (b.gek?"-moz-outline-offset:-1px !important;display:-moz-inline-block;display:-moz-inline-box;display:inline-block;":
                 b.ie6?"display:inline-box;display:inline;":"display:inline-block;")+
             (b.ie?"zoom:1;":"")+
@@ -13644,7 +13644,7 @@ Class("linb.absValue", "linb.absObj",{
                     o=profile.getSubNode(key||"KEY"),
                     d=linb.UI.$css_tag_dirty;
                 if(profile._dirtyFlag!==flag){
-                    if(o.beforeDirtyMark && false===o.boxing().beforeDirtyMark(profile,flag)){}
+                    if(profile.beforeDirtyMark && false===profile.boxing().beforeDirtyMark(profile,flag)){}
                     else{
                         if(profile._dirtyFlag=flag) o.addClass(d);
                         else o.removeClass(d);
@@ -16111,6 +16111,7 @@ Class("linb.UI.Button", ["linb.UI.Widget","linb.absValue"],{
                 width:'100%',
                 height:'100%',
                 position:'absolute',
+                'outline-offset':'-1px',
                 '-moz-outline-offset':'-1px !important'
             },
             /*span*/
@@ -16297,6 +16298,7 @@ Class("linb.UI.Button", ["linb.UI.Widget","linb.absValue"],{
                 'z-index':'200',
                 width:'100%',
                 height:'100%',
+                'outline-offset':'-1px',
                 '-moz-outline-offset':'-1px !important'
             },
             /*span*/
@@ -16984,7 +16986,7 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
                     }
                 }
                 if(profile._dirtyFlag!==flag){
-                    if(o.beforeDirtyMark && false===o.boxing().beforeDirtyMark(profile,flag)){}
+                    if(profile.beforeDirtyMark && false===box.beforeDirtyMark(profile,flag)){}
                     else{
                         if(profile._dirtyFlag=flag) o.addClass(d);
                         else o.removeClass(d);
@@ -22926,6 +22928,7 @@ Class("linb.UI.PageBar",["linb.UI","linb.absValue"] ,{
                 overflow:'visible'
             },
             'KEY a:focus, POP a:focus':{
+                'outline-offset':'',
                 '-moz-outline-offset': ''
             },
             'KEY .ui-btn, POP .ui-btn':{
@@ -24700,6 +24703,7 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
                'font-size':'12px',
                padding:'2px 4px',
                border: '1px solid',
+               'outline-offset':'-1px',
                '-moz-outline-offset':'-1px !important',
                'border-color':'#EDF4FC #698AB3 #698AB3 #EDF4FC',
                'background-color':'#CCE4FC'
@@ -28689,6 +28693,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                 display:'block',
                 overflow:'hidden',
                 '-moz-box-flex':'1',
+                'outline-offset':'-1px',
                 '-moz-outline-offset':'-1px !important',
                 height:'100%',
                 color:'#000',
