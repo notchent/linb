@@ -1478,6 +1478,9 @@ Class('linb.absIO',null,{
 Class('linb.Ajax','linb.absIO',{
     Instance:{
         _XML:null,
+        _header:function(n,v){
+            if(this._XML)this._XML.setRequestHeader(n,v);
+        },
         start:function() {
             var self=this;
             if(false===_.tryF(self.beforeStart,[],self)){
@@ -1510,29 +1513,20 @@ Class('linb.Ajax','linb.absIO',{
                     }
 
                     self._XML.open(method, uri, asy);
-
-                self._XML.setRequestHeader("Content-type", method=="POST" ? "application/x-www-form-urlencoded;charset=UTF-8" : "text/plain;charset=UTF-8");
-                self._XML.setRequestHeader("X-Requested-With", "XMLHttpRequest");
+                self._header("Content-type", method=="POST" ? "application/x-www-form-urlencoded;charset=UTF-8" : "text/plain;charset=UTF-8");
+                self._header("X-Requested-With", "XMLHttpRequest");
 
                     var cookie='',ac;
                     if(optimized){
                         try {
-                            self._XML.setRequestHeader("User-Agent", null);
-                            self._XML.setRequestHeader("Accept", null);
-                            self._XML.setRequestHeader("Accept-Language", null);
-                            self._XML.setRequestHeader("Connection", "keep-alive");
-                            self._XML.setRequestHeader("Keep-Alive", null);
-                        } catch(e) {}
-                        
-                        cookie=document.cookie;
-                        _.arr.each(document.cookie.split(";"),function(o){
-                            ac=escape(_.str.trim(o.split("=")[0])) + '=;expires=' + new Date(0).toGMTString();
-                            
-                            // clear cookie here
-                            document.cookie=ac;
-
-                            // dont use cookie in syn ajax response function
-                        });
+                            self._header("User-Agent", null);
+                            self._header("Accept", null);
+                            self._header("Accept-Language", null);
+                            self._header("Connection", "keep-alive");
+                            self._header("Keep-Alive", null);
+                            self._header("Cookie", null);
+                            self._header("Cookie", "");
+                        } catch(e) {}                        
                     }
 
                     if(false===_.tryF(self.beforeSend,[self._XML],self)){
@@ -1542,11 +1536,6 @@ Class('linb.Ajax','linb.absIO',{
 
                     //for firefox syc GET bug
                     try{self._XML.send(query);}catch(e){}
-
-                    if(optimized){
-                        // reset cookie = new + old
-                        document.cookie = document.cookie+"; "+cookie;
-                    }
 
                     if(asy){
                       if(self._XML&&timeout > 0)
