@@ -1,5 +1,8 @@
 Class("linb.UI.Dialog","linb.UI.Widget",{
     Instance:{
+        showModal:function(parent, left, top){
+            this.show(parent, true, left, top);
+        },
         show:function(parent, modal, left, top){
             parent = parent || linb('body');
             return this.each(function(profile){

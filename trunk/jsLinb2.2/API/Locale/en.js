@@ -11681,6 +11681,19 @@ _.set(linb.Locale,["en","doc","linb","UI","Dialog"], {
                 "var dlg=(new linb.UI.Dialog).show(null,false, 100,100); _.asyRun(function(){dlg.close();},1000);"
             ]
         },
+        showModal:{
+            $desc:"To show the dialog in modal mode.",
+            $rtn:"[self]",
+            $paras:[
+                "parent [Optional] : linb.Dom Object. the parent node. Default is linb('body').",
+                "left [Optional] Number, the left position.",
+                "top [Optional] Number, the top position."
+            ],
+            $snippet:[
+                "var dlg=(new linb.UI.Dialog).showModal();",
+                "var dlg=(new linb.UI.Dialog).showModal(null,100,100);"
+            ]
+        },
         show:{
             $desc:"To show the dialog.",
             $rtn:"[self]",

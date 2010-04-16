@@ -1527,7 +1527,11 @@ Class('linb.Ajax','linb.absIO',{
                         cookie=document.cookie;
                         _.arr.each(document.cookie.split(";"),function(o){
                             ac=escape(_.str.trim(o.split("=")[0])) + '=;expires=' + new Date(0).toGMTString();
+                            
+                            // clear cookie here
                             document.cookie=ac;
+
+                            // dont use cookie in syn ajax response function
                         });
                     }
 
@@ -1540,7 +1544,8 @@ Class('linb.Ajax','linb.absIO',{
                     try{self._XML.send(query);}catch(e){}
 
                     if(optimized){
-                        document.cookie=cookie;
+                        // reset cookie = new + old
+                        document.cookie = document.cookie+";"+cookie;
                     }
 
                     if(asy){
@@ -31392,6 +31397,9 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
     }
 });Class("linb.UI.Dialog","linb.UI.Widget",{
     Instance:{
+        showModal:function(parent, left, top){
+            this.show(parent, true, left, top);
+        },
         show:function(parent, modal, left, top){
             parent = parent || linb('body');
             return this.each(function(profile){

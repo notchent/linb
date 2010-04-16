@@ -11702,6 +11702,19 @@ _.set(linb.Locale,["cn","doc","linb","UI","Dialog"], {
                 "var dlg=(new linb.UI.Dialog).show(null,false, 100,100); _.asyRun(function(){dlg.close();},1000);"
             ]
         },
+        showModal:{
+            $desc:"显示模式对话框.",
+            $rtn:"[self]",
+            $paras:[
+                "parent [可选参数] : linb.Dom, 父对象. 默认为linb('body').",
+                "left [可选参数] Number, 对话框左边坐标.",
+                "top [可选参数] Number, 对话框上边坐标."
+            ],
+            $snippet:[
+                "var dlg=(new linb.UI.Dialog).showModal();",
+                "var dlg=(new linb.UI.Dialog).showModal(null,100,100);"
+            ]
+        },
         show:{
             $desc:"显示对话框.",
             $rtn:"[self]",
