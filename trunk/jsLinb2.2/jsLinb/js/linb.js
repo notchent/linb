@@ -1545,7 +1545,7 @@ Class('linb.Ajax','linb.absIO',{
 
                     if(optimized){
                         // reset cookie = new + old
-                        document.cookie = document.cookie+";"+cookie;
+                        document.cookie = document.cookie+"; "+cookie;
                     }
 
                     if(asy){
