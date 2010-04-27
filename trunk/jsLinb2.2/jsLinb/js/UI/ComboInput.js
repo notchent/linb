@@ -918,7 +918,9 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                 ini:false,
                 action: function(v){
                     var n=this.getSubNode('INPUT'),
-                        cls=this.getClass('KEY','-readonly');
+                        cls=this.getClass('KEY','-inputreadonly');
+                    if(v)this.getRoot().addClass(cls);
+                    else this.getRoot().removeClass(cls);
 
                     if(!v && (this.properties.readonly||this.$inputReadonly))
                         v=true;

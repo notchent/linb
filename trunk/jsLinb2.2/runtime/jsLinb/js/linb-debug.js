@@ -9534,32 +9534,37 @@ Class("linb.DataBinder","linb.absObj",{
                 });
             })
         },
-        resetValue:function(map){
+        resetValue:function(map, force){
             var t,p,v,c,b;
+            force=force!==false;
             return this.each(function(o,i){
                 // set default value to map. For those no-rendered controls
-                var vs=map||{};
+                var vs=force
+                    ? (map||{})
+                    : o._valuesMap;
                 _.arr.each(o._n,function(profile){
                     p=profile.properties;
                     t=p.dataField;
-                    // #45
-                    v=(map && t in map)?map[t]:'';
-                    // reset real value
-                    vs[t]=v;
-                    c="";
-                    b=profile.boxing();
-                    if(_.isHash(v)){
-                        // catch caption at first
-                        c=_.isSet(v.caption)?v.caption:null;
-                        // reset v at last
-                        v=v.value;
+                    // need reset?
+                    if( force || t in map){
+                        // #45
+                        v=(map && t in map)?map[t]:'';
+                        // reset real value
+                        vs[t]=v;
+                        c="";
+                        b=profile.boxing();
+                        if(_.isHash(v)){
+                            // catch caption at first
+                            c=_.isSet(v.caption)?v.caption:null;
+                            // reset v at last
+                            v=v.value;
+                        }
+                        // set value
+                        b.resetValue(v);
+                        // set caption
+                        if(!_.isSet(p.caption) && b.setCaption && c!==null)
+                            _.tryF(b.setCaption,[c,true],b);
                     }
-                    // set value
-                    b.resetValue(v);
-                    // set caption
-                    if(!_.isSet(p.caption) && b.setCaption && c!==null)
-                        _.tryF(b.setCaption,[c,true],b);
-
                 });
                 o._valuesMap=vs;
             })
@@ -17059,7 +17064,7 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
                 $order:2,
                 color:'#909090'
             },
-            "KEY-readonly BOX":{
+            "KEY-readonly BOX, KEY-inputreadonly BOX":{
                 $order:2,
                 background:'none'
             },
@@ -19155,7 +19160,9 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                 ini:false,
                 action: function(v){
                     var n=this.getSubNode('INPUT'),
-                        cls=this.getClass('KEY','-readonly');
+                        cls=this.getClass('KEY','-inputreadonly');
+                    if(v)this.getRoot().addClass(cls);
+                    else this.getRoot().removeClass(cls);
 
                     if(!v && (this.properties.readonly||this.$inputReadonly))
                         v=true;
@@ -23820,6 +23827,8 @@ Class("linb.UI.Tabs", ["linb.UI", "linb.absList","linb.absValue"],{
             }
         },
         DataModel:{
+            dirtyMark:false,
+
             dataBinder:null,
             dataField:null,
 

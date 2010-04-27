@@ -141,7 +141,7 @@ Class("linb.UI.Input", ["linb.UI.Widget","linb.absValue"] ,{
                 $order:2,
                 color:'#909090'
             },
-            "KEY-readonly BOX":{
+            "KEY-readonly BOX, KEY-inputreadonly BOX":{
                 $order:2,
                 background:'none'
             },
