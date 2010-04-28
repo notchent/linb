@@ -65,24 +65,26 @@ Class('linb.Com',null,{
         getEvents:function(key){
             return key?this.events[key]:this.events;
         },
-        fireEvent:function(event, args, host){
+        // for outter events
+        fireEvent:function(name, args, host){
             var t, self=this;
-            if(t=self.events[event]){
-                if(typeof t=='string')
-                    t=self.host[t];
+            if(self.events && (t=self.events[name])){
+                if(typeof t=='string')t=self[t];
                 if(typeof t=='function')
-                    return t.apply(host || self.host, args||[]);
+                    return t.apply(host || self.host||self, args||[]);
             }
         },
+        // for inner events
         _fireEvent:function(name, args){
             var t, self=this;
             if(self.events && (t=self.events[name])){
-                if(typeof t=='string')t=self.host[t];
-                args=args||[];
-                args.splice(0,0,self,self.threadid);
+                if(typeof t=='string')t=self[t];
                 self.$lastEvent=name;
-                if(typeof t=='function')
-                    return t.apply(self.host, args);
+                if(typeof t=='function'){
+                    args=args||[];
+                    args.splice(0,0,self,self.threadid);
+                    return t.apply(self.host||self, args);
+                }
             }
         },
         _innerCall:function(name){
