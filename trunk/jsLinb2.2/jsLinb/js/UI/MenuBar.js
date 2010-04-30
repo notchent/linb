@@ -21,7 +21,7 @@ Class("linb.UI.MenuBar",["linb.UI","linb.absList" ],{
                 item.id=subId;
 
                 //the root
-                if(items.indexOf(item)!=-1)
+                if(_.arr.indexOf(items,item)!=-1)
                     arguments.callee.upper.apply(this,arguments);
                 //try each sub popmenu
                 else{
