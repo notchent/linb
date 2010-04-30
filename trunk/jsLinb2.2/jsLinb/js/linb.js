@@ -1405,7 +1405,7 @@ Class('linb.absIO',null,{
         _onError:function(e){
             var self=this;
             if(false!==_.tryF(self.beforeFail,[e, self.threadid],self))
-                _.tryF(self.onFail,[String(e), self.rspType, self.threadid], self);
+                _.tryF(self.onFail,[e.name + ": " + e.message, self.rspType, self.threadid], self);
             self._onEnd();
         },
         isAlive:function(){
@@ -1926,7 +1926,7 @@ Class('linb.SC',null,{
                             (self.$cache || ct)[self.$tag]=text;
                         else
                             //for sy xmlhttp ajax
-                            try{_.exec(text)}catch(e){throw new Error('errInEval:"'+e + self.$tag)}
+                            try{_.exec(text)}catch(e){throw new Error(e.name + ": " + e.message+ " " + self.$tag)}
                     }
                 }
                 _.tryF(self.$cb,[self.$tag,text,threadid],ep(s)||{});
@@ -2014,7 +2014,7 @@ Class('linb.SC',null,{
         execSnips:function(cache){
             var i,h=cache||linb.$cache.snipScript;
             for(i in h)
-                try{_.exec(h[i])}catch(e){throw new Error('errInEval:"'+e)}
+                try{_.exec(h[i])}catch(e){throw e}
             h={};
         },
         //asy load multi js file, whatever dependency
