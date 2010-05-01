@@ -96,6 +96,7 @@ Class("linb.UI.Input", ["linb.UI.Widget","linb.absValue"] ,{
                     INPUT:{
                         tagName : 'input',
                         type : '{_type}',
+                        maxlength:'{maxlength}',
                         tabindex:'{tabindex}',
                         cursor:'{cursor}',
                         style:'{_css}'
@@ -456,6 +457,12 @@ Class("linb.UI.Input", ["linb.UI.Widget","linb.absValue"] ,{
                 action: function(value){
                     this.getSubNode('INPUT').attr('type',value);
                 }
+            },
+            maxlength:{
+            	ini:'',
+            	action: function(value){
+                  this.getSubNode('INPUT').attr('maxlength',value);
+              }
             },
             multiLines:{
                 ini:false,

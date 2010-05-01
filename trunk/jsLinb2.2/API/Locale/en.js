@@ -8427,7 +8427,18 @@ _.set(linb.Locale,["en","doc","linb","UI","Input"], {
                 "}"
             ]
         },
-
+        getMaxlength:{
+            $desc:"Gets input's maxlength. Only for html input type='text' or type='password'.",
+            $rtn:"Number"
+        },
+        setMaxlength:{
+            $desc:"Sets input's maxlength. Only for html input type='text' or type='password'.",
+            $rtn:"[self]",
+            $paras:[
+                "value [Required] : the maxlength number.",
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
+            ]
+        },
         onBlur:{
             $desc:"Fired when input box loses focus.",
             $paras:[

@@ -8460,7 +8460,18 @@ _.set(linb.Locale,["cn","doc","linb","UI","Input"], {
                 "}"
             ]
         },
-
+        getMaxlength:{
+            $desc:"获取输入框的工最大长度. 只有multiline为false的时候有效(for html input type='text' or type='password').",
+            $rtn:"Number"
+        },
+        setMaxlength:{
+            $desc:"设置输入框的工最大长度. 只有multiline为false的时候有效(for html input type='text' or type='password').",
+            $rtn:"[self]",
+            $paras:[
+                "value [必需参数] : 最大长度.",
+                "force [可选参数] : Boolean, 强制设置该属性值，即使属性已经设置为该值 默认为 [false]."
+            ]
+        },
         onBlur:{
             $desc:"当输入框失去焦点时调用.",
             $paras:[
