@@ -1446,8 +1446,10 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                             switch(type){
                                 case 'number':
                                 case 'spin':
-                                case 'currency':
                                     ff=function(n){return parseFloat(n)||0};
+                                    break;
+                                case 'currency':
+                                    ff=function(n){return parseFloat(n.replace(/,/g,''))||0};
                                     break;
                                 case 'date':
                                     ff=function(n){return new Date(n).getTime()||0};
@@ -2393,20 +2395,42 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                 //4. default caption function
                 //5. value in cell
                 //6. ""
-                ren=me._ren||(me._ren=function(profile,cell,ncell,fun){return typeof cell._$caption=='string'? cell._$caption: typeof ncell.caption =='string'?ncell.caption: typeof (cell.renderer||cell._renderer)=='function'? (cell.renderer||cell._renderer).call(profile,cell) : typeof fun=='function'?fun(cell.value):(_.isSet(cell.value)?String(cell.value):"") || ""}),
+                ren=me._ren||(me._ren=function(profile,cell,ncell,fun){return (
+                        // priority 1
+                        typeof cell._$caption=='string'? cell._$caption: 
+                        // priority 2
+                        typeof ncell.caption =='string'? ncell.caption: 
+                        // priority 3
+                        typeof (cell.renderer||cell._renderer)=='function'? (cell.renderer||cell._renderer).call(profile,cell) : 
+                        // priority 4
+                        typeof fun=='function'?fun(cell.value):
+                        // priority 5
+                        (_.isSet(cell.value)?String(cell.value):
+                        // priority 6
+                        "")
+                    // default value
+                    ) || ""}),
                 f1=me._f1=(me._f1=function(v){return v?linb.Date.getText(new Date(parseInt(v)), 'ymd'):""}),
                 f2=me._f2=(me._f2=function(v){return (v.split('\n')[0]||"").replace(/ /g,'&nbsp;').replace(reg1,'&lt;')}),
-                f3=me._f3=(me._f3=function(v){return v*1000/10+'%'})
+                f3=me._f3=(me._f3=function(v){return v*1000/10+'%'}),
+                f4=me._f4=(me._f4=function(v){v=v.toFixed(2);v= v.split(".");v[0]=v[0].split("").reverse().join("").replace(/(\d{3})(?=\d)/g, "$1,").split("").reverse().join(""); return v.join(".")})
             ;
 
             switch(type){
                 case 'number':
                 case 'spin':
-                case 'currency':
                     var v=parseFloat(cell.value);
                     cell.value=(v||v===0)?v:"";
                     caption= capOut ||ren(profile,cell,ncell);
-                    if(dom)node.html(""+((caption===null||caption===undefined)?cell.value:caption),false);
+                    if(dom)
+                        node.html(caption,false);
+                break;
+                case 'currency':
+                    var v=parseFloat((cell.value+"").replace(/,/,''));
+                    cell.value=(v||v===0)?v:"";
+                    caption= capOut ||ren(profile,cell,ncell,f4);
+                    if(dom)
+                        node.html(caption,false);
                 break;
                 case 'datepicker':
                     cell.value=(parseInt(cell.value)?new Date(parseInt(cell.value)).getTime():"");
@@ -3035,9 +3059,13 @@ sortby [for column only]
                 switch(type){
                     case 'number':
                     case 'spin':
-                    case 'currency':
                         nV=parseFloat(nV);
                         break;
+                    case 'currency':
+                        nV=parseFloat(nV.replace(/,/g,''));
+                        break;
+                    case 'cmdbox':
+                    case 'popbox':
                     case 'combobox':
                     case 'listbox':
                     case 'helpinput':
