@@ -9540,10 +9540,9 @@ Class("linb.DataBinder","linb.absObj",{
             var t,p,v,c,b;
             force=force!==false;
             return this.each(function(o,i){
+                if(!map)map={};
                 // set default value to map. For those no-rendered controls
-                var vs=force
-                    ? (map||{})
-                    : o._valuesMap;
+                var vs=force ? map : o._valuesMap;
                 _.arr.each(o._n,function(profile){
                     p=profile.properties;
                     t=p.dataField;
@@ -18657,7 +18656,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                         return value?(date.get(v,'y')+'-'+(date.get(v,'m')+1)+'-'+date.get(v,'d')):'';
                     },
                     $fromEditor : function(profile,v){
-                        //parse from local text mm/dd/yyyy
+                        //parse from local text yyyy-m-d
                         if(v){
                             v=linb.Date.parse(v);
                             if(!v)v=profile.properties.$UIvalue;
@@ -19156,8 +19155,9 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
             },
             precision:2,
             increment:0.01,
-            min:-Math.pow(10,10),
-            max:Math.pow(10,10),
+            min:-Math.pow(10,15),
+            // big number for date
+            max:Math.pow(10,15),
             commandBtn:{
                 ini:"none",
                 listbox:_.toArr("none,save,delete,add,remove,custom"),

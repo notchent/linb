@@ -406,7 +406,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                         return value?(date.get(v,'y')+'-'+(date.get(v,'m')+1)+'-'+date.get(v,'d')):'';
                     },
                     $fromEditor : function(profile,v){
-                        //parse from local text mm/dd/yyyy
+                        //parse from local text yyyy-m-d
                         if(v){
                             v=linb.Date.parse(v);
                             if(!v)v=profile.properties.$UIvalue;
@@ -905,8 +905,9 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
             },
             precision:2,
             increment:0.01,
-            min:-Math.pow(10,10),
-            max:Math.pow(10,10),
+            min:-Math.pow(10,15),
+            // big number for date
+            max:Math.pow(10,15),
             commandBtn:{
                 ini:"none",
                 listbox:_.toArr("none,save,delete,add,remove,custom"),

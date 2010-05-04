@@ -373,10 +373,9 @@ Class("linb.DataBinder","linb.absObj",{
             var t,p,v,c,b;
             force=force!==false;
             return this.each(function(o,i){
+                if(!map)map={};
                 // set default value to map. For those no-rendered controls
-                var vs=force
-                    ? (map||{})
-                    : o._valuesMap;
+                var vs=force ? map : o._valuesMap;
                 _.arr.each(o._n,function(profile){
                     p=profile.properties;
                     t=p.dataField;
