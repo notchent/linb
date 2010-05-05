@@ -207,8 +207,10 @@ Class('linb.DragDrop',null,{
                 d._proxyLeft = d._pre.left = d._cssPos.left;
                 d._proxyTop = d._pre.top = d._cssPos.top;
 
-                if("move" !== p.dragType)
+                if("move" !== p.dragType){
                     d._proxy.css('zIndex',linb.Dom.TOP_ZINDEX*10);
+                    linb.setNodeData(d._proxy.get(0),'zIndexIgnore', 1);
+                }
             }
 
         },
@@ -547,6 +549,7 @@ Class('linb.DragDrop',null,{
                 }target=linb(target);
                 if(linb.browser.ie6)rh.height('100%');
                 if(target.css('display')=='block'){
+                    linb.setNodeData(region.get(0),'zIndexIgnore', 1);
                     target.append(region);
                     if(linb.browser.ie6 && !rh.get(0).offsetHeight)
                         rh.height(target.get(0).offsetHeight);
@@ -594,6 +597,7 @@ Class('linb.DragDrop',null,{
             }else
                 p.proxyNode = linb(d._idi);
             t.css({display:'',zIndex:dom.TOP_ZINDEX*10,cursor:p.dragCursor}).offset(pos, temp);
+            linb.setNodeData(t.get(0),'zIndexIgnore', 1);
 
             return t;
         },
