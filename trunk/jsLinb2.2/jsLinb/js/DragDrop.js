@@ -242,6 +242,9 @@ Class('linb.DragDrop',null,{
 
             //reset profile
             d._profile={
+                // the unqiue id for dd
+                $id:_()+"",
+
                 dragType:'shape',
                 dragCursor:'move',
                 targetReposition:true,

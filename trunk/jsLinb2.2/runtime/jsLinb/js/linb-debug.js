@@ -2905,6 +2905,7 @@ Class('linb.Event',null,{
             return res;
         },
         getEventPara:function(event, mousePos){
+            if(!mousePos)mousePos=linb.Event.getPos(event);
             var keys = this.getKey(event), h={
                 pageX:mousePos&&mousePos.left,
                 pageY:mousePos&&mousePos.top,
@@ -7819,6 +7820,9 @@ Class('linb.DragDrop',null,{
 
             //reset profile
             d._profile={
+                // the unqiue id for dd
+                $id:_()+"",
+
                 dragType:'shape',
                 dragCursor:'move',
                 targetReposition:true,
