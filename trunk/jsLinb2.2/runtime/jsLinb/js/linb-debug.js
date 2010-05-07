@@ -25483,6 +25483,31 @@ Class("linb.UI.PopMenu",["linb.UI.Widget","linb.absList"],{
                         $order:2
                     }
                 }
+            },
+            'items.radiobox':{
+                ITEM:{
+                    tabindex: 1,
+                    className: '{itemClass} {disabled}',
+                    style:'{itemStyle}{itemDisplay}',
+                    RADIOBOX:{
+                        $order:0,
+                         className:'ui-icon {radioboxCls}'
+                    },
+                    CAPTION:{
+                        text : '{caption}',
+                        $order:1
+                    },
+                    RULER:{
+                        style:'{displayAdd}',
+                        $order:2
+                    },
+                    ADD:{
+                        tagName : 'div',
+                        style:'{displayAdd}',
+                        text : '{add}',
+                        $order:2
+                    }
+                }
             }
         };
         this.setTemplate(t);
@@ -25547,16 +25572,8 @@ Class("linb.UI.PopMenu",["linb.UI.Widget","linb.absList"],{
                 border:'solid 1px #94A3A8',
                 padding:'1px 19px 1px 1px'
             },
-            CHECKBOX:{
-               background: linb.UI.$bg('icons.gif', 'no-repeat -20px -70px', true),
-               margin:0
-            },
             ICON:{
                 margin:0
-            },
-            'CHECKBOX-checked':{
-               $order:1,
-               background: linb.UI.$bg('icons.gif', 'no-repeat -0px -70px', true)
             },
             TOP:{
                 cursor:'pointer',
@@ -25582,11 +25599,27 @@ Class("linb.UI.PopMenu",["linb.UI.Widget","linb.absList"],{
                 bottom:0,
                 background: linb.UI.$bg('icons.gif', 'no-repeat -66px -244px', true)
             },
-            'CHECKBOX, CHECKBOX-checked':{
+            'RADIOBOX, CHECKBOX, RADIOBOX-checked, CHECKBOX-checked':{
                 cursor:'pointer',
                 'vertical-align':'middle',
                 width:'16px',
                 height:'16px'
+            },
+            CHECKBOX:{
+               background: linb.UI.$bg('icons.gif', 'no-repeat -20px -70px', true),
+               margin:0
+            },
+            'CHECKBOX-checked':{
+               $order:1,
+               background: linb.UI.$bg('icons.gif', 'no-repeat -0px -70px', true)
+            },
+            RADIOBOX:{
+               background: linb.UI.$bg('icons.gif', 'no-repeat -60px -70px', true),
+               margin:0
+            },
+            'RADIOBOX-checked':{
+               $order:1,
+               background: linb.UI.$bg('icons.gif', 'no-repeat -40px -70px', true)
             },
             CAPTION:{
                 'vertical-align':linb.browser.ie6?'baseline':'middle',
@@ -25730,6 +25763,14 @@ Class("linb.UI.PopMenu",["linb.UI.Widget","linb.absList"],{
                     if(!item.sub){
                         if(item.type=='checkbox')
                             profile.getSubNodeByItemId('CHECKBOX',item.id).tagClass('-checked', item.value = !item.value);
+                        else if(item.type=='radiobox'){
+                            profile.getSubNode('RADIOBOX',true).tagClass('-checked', false);
+                            _.arr.each(prop.items,function(o){
+                                if(o.type=='radiobox')
+                                    o.value=false;
+                            });
+                            profile.getSubNodeByItemId('RADIOBOX',item.id).tagClass('-checked', item.value = true);
+                        }
 
                         if(profile.onMenuSelected)profile.boxing().onMenuSelected(profile, item, src);
 
@@ -25922,9 +25963,10 @@ Class("linb.UI.PopMenu",["linb.UI.Widget","linb.absList"],{
             item.itemDisplay=item.hidden?none:'';
 
             item.type=item.type||'button';
-            if(item.type=='checkbox'){
+            if(item.type=='checkbox')
                 item.checkboxCls =profile.getClass('CHECKBOX', item.value?'-checked':'');
-            }
+            else if(item.type=='radiobox')
+                item.radioboxCls =profile.getClass('RADIOBOX', item.value?'-checked':'');
         },
 
         _onresize:function(profile,width,height){
