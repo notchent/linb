@@ -3037,6 +3037,9 @@ sortby [for column only]
             //undo function is a must
             editor.undo=function(){
                 var editor=this;
+                // for ie's setBlurTrigger doesn't trigger onchange event
+                editor.getSubNode('INPUT').onBlur(true);
+
                 profile.$curEditor=null;
 
                 editor.getRoot().setBlurTrigger(profile.$linbid);

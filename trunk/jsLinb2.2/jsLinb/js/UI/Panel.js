@@ -168,6 +168,7 @@ Class("linb.UI.Panel", "linb.UI.Div",{
 
             CAPTION:{
                 'font-size':'12px',
+                cursor:'pointer',
                 display:'inline',
                 'vertical-align':linb.browser.ie6?'baseline':'middle'
             }
@@ -175,6 +176,7 @@ Class("linb.UI.Panel", "linb.UI.Div",{
         Behaviors:{
             DropableKeys:['PANEL'],
             DragableKeys:['TBAR'],
+            NoDragableKeys:['OPT','CLOSE','LAND','TOGGLE','CAPTION'],
             HoverEffected:{OPT:'OPT', CLOSE:'CLOSE',LAND:'LAND', TOGGLE:'TOGGLE'},
             ClickEffected:{CLOSE:'CLOSE', OPT:'OPT', LAND:'LAND', TOGGLE:'TOGGLE'},
             onSize:linb.UI.$onSize,
@@ -352,8 +354,6 @@ Class("linb.UI.Panel", "linb.UI.Div",{
 
         _toggle:function(profile, value){
             var p=profile.properties, b=profile.boxing();
-            //set toggle mark
-            p.toggle = value;
 
             //event
             if(value &&!profile.$ini)
@@ -361,24 +361,29 @@ Class("linb.UI.Panel", "linb.UI.Div",{
                     if(b.onIniPanelView(profile)!==false)
                         profile.$ini=true;
 
-            if(value){
-                if(b.beforeExpend && false===b.beforeExpend(profile))return;
-            }else{
-                if(b.beforeFold && false===b.beforeFold(profile))return;
-            }
-
-            //show/hide/panel
-            profile.getSubNode('PANEL').css('display',value?'':'none');
-            //chang toggle button
-            if(p.toggleBtn)
-                profile.getSubNode('TOGGLE').tagClass('-checked', !!value);
-
-            if(value){
-                if(b.afterExpend)
-                    b.afterExpend(profile);
-            }else{
-                if(b.afterFold)
-                    b.afterFold(profile);
+            if(p.toggle != value){
+                //set toggle mark
+                p.toggle = value;
+    
+                if(value){
+                    if(b.beforeExpend && false===b.beforeExpend(profile))return;
+                }else{
+                    if(b.beforeFold && false===b.beforeFold(profile))return;
+                }
+    
+                //show/hide/panel
+                profile.getSubNode('PANEL').css('display',value?'':'none');
+                //chang toggle button
+                if(p.toggleBtn)
+                    profile.getSubNode('TOGGLE').tagClass('-checked', !!value);
+    
+                if(value){
+                    if(b.afterExpend)
+                        b.afterExpend(profile);
+                }else{
+                    if(b.afterFold)
+                        b.afterFold(profile);
+                }
             }
         }
     }

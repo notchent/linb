@@ -3003,6 +3003,13 @@ Class("linb.UI",  "linb.absObj", {
                 self.$DataModel.dragKey=self.$DataStruct.dragKey='';
                 hls.onGetDragData=hls.onStartDrag=hls.onDragStop=src._e5;
             }
+            if((t=hash.NoDragableKeys)&& t.length){
+                self.NoDragableKeys=t;
+            }
+            if((t=hash.NoDropableKeys) && t.length){
+                self.NoDropableKeys=t;
+            }
+            
             self.setEventHandlers(hls);
         },
 
@@ -3291,6 +3298,13 @@ Class("linb.UI",  "linb.absObj", {
             _.merge(v, {
                 beforeMouseover:function(profile, e, src){
                     if(profile.properties.disabled||profile.properties.readonly)return;
+
+                    // avoid no dropable keys
+                    if(profile.box.NoDropableKeys){
+                        var sk = profile.getKey(linb.Event.getSrc(e).id || "").split('-')[1];
+                        if(sk && _.arr.indexOf(profile.box.NoDropableKeys, sk)!=-1)return;
+                    }
+                    
                     var ns=src,
                         dd = linb.DragDrop,
                         pp = dd.getProfile(),
@@ -3390,8 +3404,16 @@ Class("linb.UI",  "linb.absObj", {
                 beforeMousedown:function(profile, e, src){
                     if(linb.Event.getBtn(e)!="left")return;
                     if(profile.properties.disabled)return;
-                    //not resizable or drag
+                    // not resizable or drag
                     if(!profile.properties.dragKey)return;
+
+                    // avoid nodragable keys
+                    if(profile.box.NoDragableKeys){
+                        var sk = profile.getKey(linb.Event.getSrc(e).id || "").split('-')[1];
+                        if(sk && _.arr.indexOf(profile.box.NoDragableKeys, sk)!=-1)return;
+                    }
+
+                    
                     var pos=linb.Event.getPos(e),box=profile.boxing(),args=[profile,e,src],t;
                     if(profile.onStartDrag && (false===box.onStartDrag.apply(box,args))){}
                     else if((t=profile.box._onStartDrag) && (false===t.apply(profile.host||profile, args))){}

@@ -187,35 +187,37 @@ Class("linb.UI.Group", "linb.UI.Div",{
         },
         _toggle:function(profile, value){
             var p=profile.properties, b=profile.boxing();
-            //set toggle mark
-            p.toggle = value;
 
             //event
             if(value &&!profile.$ini)
                 if(b.onIniPanelView)
                     if(b.onIniPanelView(profile)!==false)
                         profile.$ini=true;
-
-            if(value){
-                if(b.beforeExpend && false===b.beforeExpend(profile))return;
-            }else{
-                if(b.beforeFold && false===b.beforeFold(profile))return;
-            }
-
-            //show/hide/panel
-            profile.getSubNode('PANEL').css('display',value?'':'none');
-            //chang toggle button
-            if(p.toggleBtn)
-                profile.getSubNode('TOGGLE').tagClass('-checked', !!value);
-
-            profile.getSubNode('FIELDSET').tagClass('-checked',!value);
-            
-            if(value){
-                if(b.afterExpend)
-                    b.afterExpend(profile);
-            }else{
-                if(b.afterFold)
-                    b.afterFold(profile);
+            if(p.toggle != value){
+                //set toggle mark
+                p.toggle = value;
+    
+                if(value){
+                    if(b.beforeExpend && false===b.beforeExpend(profile))return;
+                }else{
+                    if(b.beforeFold && false===b.beforeFold(profile))return;
+                }
+    
+                //show/hide/panel
+                profile.getSubNode('PANEL').css('display',value?'':'none');
+                //chang toggle button
+                if(p.toggleBtn)
+                    profile.getSubNode('TOGGLE').tagClass('-checked', !!value);
+    
+                profile.getSubNode('FIELDSET').tagClass('-checked',!value);
+                
+                if(value){
+                    if(b.afterExpend)
+                        b.afterExpend(profile);
+                }else{
+                    if(b.afterFold)
+                        b.afterFold(profile);
+                }
             }
         }
     }
