@@ -25684,14 +25684,46 @@ Class("linb.UI.PopMenu",["linb.UI.Widget","linb.absList"],{
                     }
 
                     if(!Cancel && item.sub){
+                        // if no sub arrays
+                        if(!(_.isArr(item.sub) && item.sub.length)){
+                            if(profile.onShowSubMenu){
+                                var r=profile['$sub:'+item.id];
+                                if(r && r['linb.UI'] && !r.isEmpty()){}
+                                else
+                                    r=profile.boxing().onShowSubMenu(profile, item, src);
+                                
+                                // return UI control
+                                if(r && r['linb.UI'] && !r.isEmpty()){
+                                    profile[sms] = r;
+                                    r=r.reBoxing();
+                                    r.onMouseout(function(p,e,src){
+                                        profile.box._mouseout(profile, e, src);
+                                    },null,-1);
+                                    profile[popgrp].push(r._get(0));
+
+                                    r.popToTop(src,2,profile._conainer);
+                                    
+                                    return;
+                                }
+                                // return items array
+                                else if(r && _.isArr(r) && r.length){
+                                    item.sub=r;
+                                }
+                            }                            
+                        }
+                        
+                        // show items
                         if(_.isArr(item.sub) && item.sub.length){
                             profile[all] = profile[all] || {};
 
                             //no create
                             if(!(pop = profile[all][itemId])){
                                 pop = (new linb.UI.PopMenu({position:'absolute', items:item.sub, autoHide:profile.properties.autoHide})).render(true);
+                                pop.onShowSubMenu(function(pro, item, src){
+                                    return profile.boxing().onShowSubMenu(profile, item, src);
+                                });
                                 pop.onMenuSelected(function(pro, item, src){
-                                    profile.boxing().onMenuSelected(profile, item, src);
+                                    return profile.boxing().onMenuSelected(profile, item, src);
                                 });
                                 popp=pop.get(0);
                                 //set pool to parent
@@ -25715,23 +25747,7 @@ Class("linb.UI.PopMenu",["linb.UI.Widget","linb.absList"],{
 
                             pop.pop(src, 2);
                             profile[sms] = pop;
-                        }else
-                            if(profile.onShowSubMenu){
-                                var r=profile['$sub:'+item.id];
-                                if(r && r['linb.UI'] && !r.isEmpty()){}
-                                else
-                                    r=profile.boxing().onShowSubMenu(profile, item, src);
-                                if(r && r['linb.UI'] && !r.isEmpty()){
-                                    profile[sms] = r;
-                                    r=r.reBoxing();
-                                    r.onMouseout(function(p,e,src){
-                                        profile.box._mouseout(profile, e, src);
-                                    },null,-1);
-                                    profile[popgrp].push(r._get(0));
-
-                                    r.popToTop(src,2,profile._conainer);
-                                }
-                            }
+                        }
                     }
                 },
                 onMouseout:function(profile, e, src){

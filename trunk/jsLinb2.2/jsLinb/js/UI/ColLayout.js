@@ -1,7 +1,7 @@
 Class("linb.UI.ColLayout",["linb.UI","linb.absList"],{
     Dependency:['linb.UI.Panel'],
     Instance:{
-        addPanel:function(prop, events, col, basePrf, before){
+        addPanel:function(args, col, basePrf, before){
             var profile=this.get(0),items=profile.properties.items;
             if(!col)
                 col=items[0].id;
@@ -9,9 +9,9 @@ Class("linb.UI.ColLayout",["linb.UI","linb.absList"],{
             if(_.arr.subIndexOf(items, 'id',col)==-1)
                 return this;
             
-            if(!prop)prop={};
+            if(!args.properties)args.properties={};
             var ns=this, profile=ns.get(0);
-            _.merge(prop,{
+            _.merge(args.properties,{
                 dragKey: profile.box.KEY+":"+profile.$linbid,
     
                 dock:'none',
@@ -25,8 +25,7 @@ Class("linb.UI.ColLayout",["linb.UI","linb.absList"],{
                 toggleBtn:true,
                 closeBtn:true 
             });
-            var panel=new linb.UI.Panel(prop, events);
-            panel.setCustomStyle({KEY:'margin-top:10px;'});
+            var panel=new linb.UI.Panel(args.properties, args.events, args.host, args.theme, args.CS, args.CC, args.CB, args.CF);
 
             return this.movePanel(panel.get(0), col, basePrf, before);
         },
@@ -140,7 +139,6 @@ Class("linb.UI.ColLayout",["linb.UI","linb.absList"],{
                 position:'relative',
                 'float':'right',
                 width:'4px',
-                margin:'0 4px',
                 height:'200px',
                 cursor:'e-resize',
                 'background-color':'#f4f4f4',
@@ -376,7 +374,7 @@ Class("linb.UI.ColLayout",["linb.UI","linb.absList"],{
         _checkDropable:function(profile, type, node, height, dragid){
             var self=this,
                 candrop=false,
-                proxy= profile._proxy || (profile._proxy=linb.create('<div style="border:1px dashed #FF0000;margin-top:10px;">'));
+                proxy= profile._proxy || (profile._proxy=linb.create('<div style="border:1px dashed #FF0000;">'));
 
             proxy.height(height||20);
             if(node.isEmpty())return;
