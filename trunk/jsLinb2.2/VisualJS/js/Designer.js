@@ -1168,102 +1168,101 @@ Class('VisualJS.Designer', 'linb.Com',{
                 page.profileGrid.insertRows(rows);
                 page.profileGrid.get(0).$widget=page.canvas;
             }else{
-                var t,len,uis = page.getByCacheId(ids);
-                //if exists, give grid info
-                if(len = uis._nodes.length){
-                    var pro = uis.get(this.SelectedFocus),
-                        cache =[0,0,0,0,0,0,0,0],
-                        cache2=0,
-                    $fun = function(profile, cell){
-                        var o = cell.$tagVar;
-                        if(!o)return;
-                        var node = profile.getSubNode('CELL', cell._serialId),
-                            obj =o.profile[o.name];
-                        linb.ComFactory.getCom('objEditor',function(){
-                            this.host = page;
-                            this.setProperties({
-                                caption:o.widgetName+" => "+o.name,
-                                image:CONF.img_app,
-                                imagePos:obj.constructor==Array?'-128px -32px':'-16px -32px',
-                                text:linb.Coder.formatText(
-                                    _.stringify(
-                                        _.clone(obj, function(o,i){return (i+'').charAt(0)!='_'})
-                                    )
-                                ),
-                                fromRegion:node.cssRegion(true),
-                                tagVar:o,
-                                onOK:function(page){
-                                    this._change();
-                                    var tagVar = page.properties.tagVar;
-                                    tagVar.profile.boxing()[tagVar.funName](page.properties.object);
-                                    node.focus();
-                                }
-                            });
-                            this.show();
-                        });
-                    };
+                var t,len,
+                  uis = page.getByCacheId(ids),
+                  pro,
+                  rows=[],
+                  $fun = function(profile, cell){
+                      var o = cell.$tagVar;
+                      if(!o)return;
+                      var node = profile.getSubNode('CELL', cell._serialId),
+                          obj =o.profile[o.name];
+                      linb.ComFactory.getCom('objEditor',function(){
+                          this.host = page;
+                          this.setProperties({
+                              caption:o.widgetName+" => "+o.name,
+                              image:CONF.img_app,
+                              imagePos:obj.constructor==Array?'-128px -32px':'-16px -32px',
+                              text:linb.Coder.formatText(
+                                  _.stringify(
+                                      _.clone(obj, function(o,i){return (i+'').charAt(0)!='_'})
+                                  )
+                              ),
+                              fromRegion:node.cssRegion(true),
+                              tagVar:o,
+                              onOK:function(page){
+                                  this._change();
+                                  var tagVar = page.properties.tagVar;
+                                  tagVar.profile.boxing()[tagVar.funName](page.properties.object);
+                                  node.focus();
+                              }
+                          });
+                          this.show();
+                      });
+                  };
 
-                    var rows=[
-                            {id:'key', tipk:'class', caption:'class', tips:linb.getRes('VisualJS.designer.openapi'), cells:[{disabled:true, value:'<strong>'+pro.key+'</strong>',type:'label', tips:linb.getRes('VisualJS.designer.openapi')}] },
-                            {id:'alias',tipk:'fun', tipv:'alias',caption:'alias',cells:[{value:pro.alias,type:uis._nodes.length===1?'input':'label'}] },
-                            {id:'domId',tipk:'fun', tipv:'setDomId',value:'setDomId',caption:'domId',cells:[{value:pro.domId,type:uis._nodes.length===1?'input':'label'}] },
-                            {id:'properties',  group:true, caption:'properties', sub:true},
-                            {id:'UIE', group:true, caption:'events', sub:true},
-                            {id:'CS', tipk:'fun', tipv:'setCustomStyle', value:'setCustomStyle',caption:'Custom Style', cells:[{value:'[<strong> key/value pairs</strong>]', event:$fun, $tagVar:{
-                                widgetName:pro.alias,
-                                name:'CS',
-                                funName:'setCustomStyle',
-                                profile:pro
-                            }, type:'popbox', editorReadonly:true}] },
-                            {id:'CC',tipk:'fun', tipv:'setCustomClass',value:'setCustomClass',caption:'Custom Class', cells:[{value:'[<strong> key/value pairs</strong>]', event:$fun, $tagVar:{
-                                widgetName:pro.alias,
-                                name:'CC',
-                                funName:'setCustomClass',
-                                profile:pro
-                            }, type:'popbox', editorReadonly:true}] },
-                            {id:'CB',tipk:'fun', tipv:'setCustomBehavior',value:'setCustomBehavior',caption:'Custom Behaviors', cells:[{value:'[<strong> key/value pairs</strong>]', event:$fun, $tagVar:{
-                                widgetName:pro.alias,
-                                name:'CB',
-                                funName:'setCustomBehavior',
-                                profile:pro
-                            }, type:'popbox', editorReadonly:true}] },
-                            {id:'CF',tipk:'fun', tipv:'setCustomFunction',value:'setCustomFunction',caption:'Custom Functions',cells:[{value:'[<strong> key/value pairs</strong>]', event:$fun, $tagVar:{
-                                widgetName:pro.alias,
-                                name:'CF',
-                                funName:'setCustomFunction',
-                                profile:pro
-                            }, type:'popbox', editorReadonly:true}] }
-                    ];
-                    //if selected more than one
-                    if(uis._nodes.length>1)
-                        rows=rows.slice(0,4);
-                    else{
-                        //get the important properties:
-                        var arr=page.__buildSubRows(uis,'special',true);
-                        _.arr.each(arr,function(o){
-                            o.cells[0].caption='<strong>'+o.cells[0].value+'</strong>';
-                        });
-                        _.arr.insertAny(rows, arr, 3);
-                    }
-                    this.profileGrid.insertRows(rows);
+                  if(len = uis._nodes.length){
+                      pro = uis.get(this.SelectedFocus);
+                  }else{
+                      pro= linb.getObject(ids[0]);
+                      uis = pro.boxing();
+                  }
 
-                    //set target
-                    this.profileGrid.get(0).$widget=uis;
+                  rows.push({id:'key', tipk:'class', caption:'<strong>class</strong>', tips:linb.getRes('VisualJS.designer.openapi'), cells:[{disabled:true, value:'<strong>'+pro.key+'</strong>',type:'label', tips:linb.getRes('VisualJS.designer.openapi')}] });
+                  rows.push({id:'alias',tipk:'fun', tipv:'alias',caption:'<strong>alias</strong>',cells:[{value:pro.alias,type:uis._nodes.length===1?'input':'label'}] });
+                  if(pro.domId){
+                      rows.push({id:'theme',tipk:'fun', tipv:'theme',caption:'<strong>theme</strong>',cells:[{value:pro.theme, type:'input'}] });
+                      rows.push({id:'domId',tipk:'fun', tipv:'setDomId',value:'setDomId',caption:'<strong>domId</strong>',cells:[{value:pro.domId,type:uis._nodes.length===1?'input':'label'}] });
+                  }
 
-                }else{
-                    pro= linb.getObject(ids[0]);
-                    uis = pro.boxing();
-                    var rows=[
-                            {id:'key',  caption:'class', cells:[{value: pro.key, type:'label'}] },
-                            {id:'alias',tipk:'fun',tipv:'alias', caption:'alias', cells:[{value:pro.alias, type:'input'}] },
-                            {id:'properties',  group:true, caption:'properties', sub:true},
-                            {id:'UIE', group:true, caption:'events', sub:true}
-                    ];
-                    if(pro.domId)_.arr.insertAny(rows,{id:'domId', cells:[{value:'domId', type:'label'},{value:pro.domId, type:'label'}] },1);
-                    this.profileGrid.insertRows(rows);
+                  //if single selected
+                  if(uis._nodes.length==1){
+                      //get the important properties:
+                      var arr=page.__buildSubRows(uis,'special',true);
+                      _.arr.each(arr,function(o){
+                          o.cells[0].caption= o.cells[0].value ;
 
-                    this.profileGrid.get(0).$widget=uis;
-                }
+                          rows.push(o);
+                      });
+                  }
+                  rows.push({id:'properties',  group:true, caption:'properties', sub:true});
+
+                  //if single selected
+                  if(uis._nodes.length==1){
+                        rows.push({id:'UIE', group:true, caption:'events', sub:true});
+
+                      if(pro.domId){
+                          rows.push({id:'CS', tipk:'fun', tipv:'setCustomStyle', value:'setCustomStyle',caption:'Custom Style', cells:[{value:'[<strong> key/value pairs</strong>]', event:$fun, $tagVar:{
+                              widgetName:pro.alias,
+                              name:'CS',
+                              funName:'setCustomStyle',
+                              profile:pro
+                          }, type:'popbox', editorReadonly:true}] });
+                          rows.push({id:'CC',tipk:'fun', tipv:'setCustomClass',value:'setCustomClass',caption:'Custom Class', cells:[{value:'[<strong> key/value pairs</strong>]', event:$fun, $tagVar:{
+                              widgetName:pro.alias,
+                              name:'CC',
+                              funName:'setCustomClass',
+                              profile:pro
+                          }, type:'popbox', editorReadonly:true}] });
+                          rows.push({id:'CB',tipk:'fun', tipv:'setCustomBehavior',value:'setCustomBehavior',caption:'Custom Behaviors', cells:[{value:'[<strong> key/value pairs</strong>]', event:$fun, $tagVar:{
+                              widgetName:pro.alias,
+                              name:'CB',
+                              funName:'setCustomBehavior',
+                              profile:pro
+                          }, type:'popbox', editorReadonly:true}] });
+                          rows.push({id:'CF',tipk:'fun', tipv:'setCustomFunction',value:'setCustomFunction',caption:'Custom Functions',cells:[{value:'[<strong> key/value pairs</strong>]', event:$fun, $tagVar:{
+                              widgetName:pro.alias,
+                              name:'CF',
+                              funName:'setCustomFunction',
+                              profile:pro
+                          }, type:'popbox', editorReadonly:true}] });
+                      }
+                  }
+
+                  this.profileGrid.insertRows(rows);
+
+                  //set target
+                  this.profileGrid.get(0).$widget=uis;
             }
         },
         _change:function(){
@@ -1283,17 +1282,17 @@ Class('VisualJS.Designer', 'linb.Com',{
                         case 'format':
                         case 'json':
                             _.observableRun(function(){
-                    	        var dialog = page.$codeDlg || (page.$codeDlg=new linb.UI.Dialog({left:100,top:100,width:600,height:400,minBtn:false,caption:'$VisualJS.pageEditor.formatted'},{beforeClose:function(p){p.boxing().hide();return false}})),
-                    	            t,
-                    	            nodes,
-                    	            code;
-                    	        if(page.tempSelected && page.tempSelected.length){
-                    	            nodes=[];
-                    	            _.arr.each(page.tempSelected,function(i){
-                    	                nodes.push(linb.getObject(i));
-                    	            });
-                    	        }else
-                    	            nodes = page.getWidgets();
+                              var dialog = page.$codeDlg || (page.$codeDlg=new linb.UI.Dialog({left:100,top:100,width:600,height:400,minBtn:false,caption:'$VisualJS.pageEditor.formatted'},{beforeClose:function(p){p.boxing().hide();return false}})),
+                                  t,
+                                  nodes,
+                                  code;
+                              if(page.tempSelected && page.tempSelected.length){
+                                  nodes=[];
+                                  _.arr.each(page.tempSelected,function(i){
+                                      nodes.push(linb.getObject(i));
+                                  });
+                              }else
+                                  nodes = page.getWidgets();
 
                                 switch(id){
                                     case 'format':
@@ -1303,10 +1302,10 @@ Class('VisualJS.Designer', 'linb.Com',{
                                         code=linb.Coder.formatAll(page.getJSONCode(nodes),'js',['plain']);
                                         break;
                                 }
-                    	        dialog.setHtml(code);
-                    	        dialog.show(linb('body'), true);
-                    	    });
-                    	break;
+                              dialog.setHtml(code);
+                              dialog.show(linb('body'), true);
+                          });
+                      break;
                     }
                     break;
                 case 'align':
@@ -1529,6 +1528,24 @@ Class('VisualJS.Designer', 'linb.Com',{
                                 b=1;
                             }
                             target.setDomId(value);
+                            if(b)return false;
+                        }else if(property=='theme'){
+                            if(value)
+                                value=(""+value).replace(/[^a-zA-Z0-9-]/g,"");
+                            var b;
+                            //if the value changed in the process
+                            if(value!==hash.value){
+                                profile.boxing().updateCell(cell,{value:value});
+                                b=1;
+                            }
+                            if(!value)value=null;
+
+                            target.each(function(o){
+                               if(value!=o.theme){
+                                  if(value) o.theme=value;
+                                  else delete o.theme;
+                               }
+                            });
                             if(b)return false;
                         }else{
                             if(property=='alias'){
@@ -2120,8 +2137,13 @@ Class('VisualJS.Designer', 'linb.Com',{
                         delete o.properties.dropKeys;
                 }
 
+                if(o.theme){
+                  o.theme=(""+o.theme).replace(/[^a-zA-Z0-9-]/g,'');
+                }
+
                 if(_.isEmpty(o.properties))delete o.properties;
                 if(_.isEmpty(o.events))delete o.events;
+                if(!o.theme)delete o.theme;
                 if(_.isEmpty(o.CS))delete o.CS;
                 if(_.isEmpty(o.CC))delete o.CC;
                 if(_.isEmpty(o.CB))delete o.CB;
@@ -2135,6 +2157,9 @@ Class('VisualJS.Designer', 'linb.Com',{
                     arr.push('append(');
                 arr.push('(new ' + o.key + ')');
                 arr.push('\n    .host(host,"'+name+'")');
+                if(o.theme){
+                  arr.push('\n    .setTheme("'+o.theme+'")');
+                }
                 if(o.domId!=o.$domId)
                     arr.push('\n    .setDomId("'+o.domId+'")');
                 if(o.properties){
@@ -2305,7 +2330,7 @@ Class('VisualJS.Designer', 'linb.Com',{
                         t.css('display','block');
                         t.parent().css('background','');
                     }
-                    
+
                     _.asyRun(function(){
                         linb.UI.pack(nodes, false).adjustDock();
                     });

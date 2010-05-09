@@ -67,6 +67,8 @@ Class('linb.Profile','linb.absProfile',{
                 else
                     delete r.host;
             }
+            if(typeof o.theme=="string")
+              r.theme=o.theme;
 
             //properties
             var c={}, p=o.box.$DataStruct, map=linb.absObj.$specialChars;
@@ -825,6 +827,8 @@ Class('linb.UIProfile','linb.Profile', {
                 else
                     delete r.host;
             }
+            if(typeof o.theme=="string")
+              r.theme=o.theme;
 
             //domId
             if(o.$domId!=o.domId)r.domId=o.domId;
@@ -2354,8 +2358,8 @@ Class("linb.UI",  "linb.absObj", {
         $tag_left:"{",
         $tag_right:"}",
         $tag_subId:"_serialId",
-        
-        
+
+
         $x01:/\x01/img,
         $x01r:/ \x01 /img,
 
@@ -2364,7 +2368,7 @@ Class("linb.UI",  "linb.absObj", {
         $DOMID:'\x01domid\x01',
         $CLS:"\x01cls\x01",
         $childTag:"<!--\x03{id}\x04-->",
-        
+
         $onSize:function(profile,e){
             var style = profile.getRootNode().style;
             if(e.width||e.height)
@@ -2602,9 +2606,9 @@ Class("linb.UI",  "linb.absObj", {
 
             template.style = (template.style||'')+';'+ u.$tag_special + (key||'KEY') + '_CS'+u.$tag_special;
 
-            var a=[], b={}, 
-                tagName=template.tagName.toLowerCase(), 
-                text= template.text, 
+            var a=[], b={},
+                tagName=template.tagName.toLowerCase(),
+                text= template.text,
                 sc=linb.absObj.$specialChars;
 
             for(var i in template){
@@ -3009,7 +3013,7 @@ Class("linb.UI",  "linb.absObj", {
             if((t=hash.NoDropableKeys) && t.length){
                 self.NoDropableKeys=t;
             }
-            
+
             self.setEventHandlers(hls);
         },
 
@@ -3304,7 +3308,7 @@ Class("linb.UI",  "linb.absObj", {
                         var sk = profile.getKey(linb.Event.getSrc(e).id || "").split('-')[1];
                         if(sk && _.arr.indexOf(profile.box.NoDropableKeys, sk)!=-1)return;
                     }
-                    
+
                     var ns=src,
                         dd = linb.DragDrop,
                         pp = dd.getProfile(),
@@ -3413,7 +3417,7 @@ Class("linb.UI",  "linb.absObj", {
                         if(sk && _.arr.indexOf(profile.box.NoDragableKeys, sk)!=-1)return;
                     }
 
-                    
+
                     var pos=linb.Event.getPos(e),box=profile.boxing(),args=[profile,e,src],t;
                     if(profile.onStartDrag && (false===box.onStartDrag.apply(box,args))){}
                     else if((t=profile.box._onStartDrag) && (false===t.apply(profile.host||profile, args))){}
@@ -4353,7 +4357,7 @@ Class("linb.absList", "linb.absObj",{
 
                 //in dom already?
                 node=profile.getSubNodeByItemId('ITEM',subId);
-                if(!node.isEmpty()){                    
+                if(!node.isEmpty()){
                     //prepared already?
                     serialId=_.get(profile,['ItemIdMapSubSerialId',subId]);
                     arr=box._prepareItems(profile, [item],item._pid,false, serialId);
