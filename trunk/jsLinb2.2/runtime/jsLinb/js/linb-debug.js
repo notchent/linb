@@ -5660,24 +5660,21 @@ Class('linb.Dom','linb.absBox',{
             f2=me.f2||(me.f2=function(){this.cancelBubble=true});
             return this.each(function(o){
                 if(!(handler=linb.getNodeData(o,['eHandlers', s])))return;
-
-                hash=_.copy(args);
-                _.merge(hash,{
-                    type: type,
-                    target: o,
-                    button : 1,
-                    $e:true,
-                    $name:name,
-                    preventDefault:f1,
-                    stopPropagation:f2
-                },'all');
-
-                if('blur'==type || 'focus'==type)
-                    //try{
-                        o[type].call(o,hash);
-                    //}catch(e){}
-                else
+                if('blur'==type || 'focus'==type){
+                    try{o[type]()}catch(e){}
+                }else{
+	                  hash=_.copy(args);
+	                  _.merge(hash,{
+	                    type: type,
+	                    target: o,
+	                    button : 1,
+	                    $e:true,
+	                    $name:name,
+	                    preventDefault:f1,
+	                    stopPropagation:f2
+	                  },'all');                	
                     handler.call(o,hash);
+                }
             });
         },
 
