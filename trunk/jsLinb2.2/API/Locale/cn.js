@@ -9887,6 +9887,18 @@ _.set(linb.Locale,["cn","doc","linb","UI","List"], {
                 "force [可选参数] : Boolean, 强制设置该属性值，即使属性已经设置为该值. 默认为 [false]."
             ]
         },
+        getBorderType:{
+            $desc:"获取块控件的边框种类.",
+            $rtn:"String"
+        },
+        setBorderType:{
+            $desc:"设置块控件的边框种类.",
+            $rtn:"[self]",
+            $paras:[
+                "value [必需参数] : String, 'none','inset','outset','groove' 或 'ridge'.",
+                "force [可选参数] : 强制设置该属性值，即使属性已经设置为该值 默认为 [false]."
+            ]
+        },
         onItemSelected:{
             $desc:"当列表项被选择时调用.",
             $paras:[
@@ -10459,7 +10471,18 @@ _.set(linb.Locale,["cn","doc","linb","UI","Panel"], {
                 "}"
             ]
         },
-
+        getBorderType:{
+            $desc:"获取块控件PANEL的边框种类.",
+            $rtn:"String"
+        },
+        setBorderType:{
+            $desc:"设置块控件PANEL的边框种类.",
+            $rtn:"[self]",
+            $paras:[
+                "value [必需参数] : String, 'none','inset','outset','groove' 或 'ridge'.",
+                "force [可选参数] : 强制设置该属性值，即使属性已经设置为该值 默认为 [false]."
+            ]
+        },
         beforeExpend:{
             $desc:"在面板打开前调用.如返回 false, 面板不会打开.",
             $paras:[

@@ -89,7 +89,7 @@ Class("linb.UI.List", ["linb.UI", "linb.absList","linb.absValue" ],{
             ITEMS:{
                $order:10,
                tagName:'div',
-               className:'uiborder-flat',
+               className:'{_bordertype}',
                text:"{items}"
             },
             $submap:{
@@ -278,6 +278,23 @@ Class("linb.UI.List", ["linb.UI", "linb.absList","linb.absValue" ],{
                 ini:'single',
                 listbox:['single','none','multi']
             },
+            borderType:{
+                ini:'flat',
+                listbox:['none','flat','inset','outset'],
+                action:function(v){
+                    var ns=this,
+                        p=ns.properties,
+                        node=ns.getSubNode('ITEMS'),
+                        reg=/^uiborder-/,
+                        pretag='uiborder-',
+                        root=ns.getRoot();
+                    node.removeClass(reg);
+                    node.addClass(pretag+v);
+
+                    //force to resize
+                    linb.UI.$tryResize(ns,root.get(0).style.width,root.get(0).style.height,true);
+                }
+            },
             noCtrlKey:true,
             width:120,
             height:150,
@@ -335,9 +352,18 @@ Class("linb.UI.List", ["linb.UI", "linb.absList","linb.absValue" ],{
 
             return false;
         },
+        _prepareData:function(profile){
+            var data=arguments.callee.upper.call(this, profile);
+            data._bordertype='uiborder-'+data.borderType;
+            return data;
+        },
         _onresize:function(profile,width,height){
-            if(height)
-                profile.getSubNode('ITEMS').height(height=='auto'?height:(height-2));
+            if(height){
+                var size=0;
+                if(profile.properties.borderType!='none')
+                    size=2;
+                profile.getSubNode('ITEMS').height(height=='auto'?height:(height-size));
+            }
         }
     }
 });

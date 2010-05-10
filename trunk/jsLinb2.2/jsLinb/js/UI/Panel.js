@@ -111,7 +111,7 @@ Class("linb.UI.Panel", "linb.UI.Div",{
                         className:'uicon-maini',
                         PANEL:{
                             tagName:'div',
-                            className:'uiborder-inset',
+                            className:'{_bordertype}',
                             style:'{panelDisplay}',
                             text:'{html}'+linb.UI.$childTag
                         }
@@ -300,6 +300,23 @@ Class("linb.UI.Panel", "linb.UI.Div",{
                 action:function(v){
                     this.getSubNode('LAND').css('display',v?'':'none');
                 }
+            },
+            borderType:{
+                ini:'inset',
+                listbox:['none','flat','inset','outset'],
+                action:function(v){
+                    var ns=this,
+                        p=ns.properties,
+                        node=ns.getSubNode('PANEL'),
+                        reg=/^uiborder-/,
+                        pretag='uiborder-',
+                        root=ns.getRoot();
+                    node.removeClass(reg);
+                    node.addClass(pretag+v);
+
+                    //force to resize
+                    linb.UI.$tryResize(ns,root.get(0).style.width,root.get(0).style.height,true);
+                }
             }
         },
         EventHandlers:{
@@ -328,6 +345,8 @@ Class("linb.UI.Panel", "linb.UI.Div",{
             data.optDisplay = data.optBtn?'':nodisplay;
             data.closeDisplay = data.closeBtn?'':nodisplay;
             data.landDisplay = data.landBtn?'':nodisplay;
+            
+            data._bordertype='uiborder-'+data.borderType;
             return data;
         },
         _onresize:function(profile,width,height){
@@ -337,6 +356,7 @@ Class("linb.UI.Panel", "linb.UI.Div",{
                 v4=profile.getSubNode('BBAR'),
                 v5=profile.getSubNode('MAIN'),
                 v6=profile.getSubNode('MAINI'),
+                size=profile.properties.borderType=='none'?0:2,
                 h1,h4,t;
             if(height){
                 if(height=='auto')
@@ -344,7 +364,7 @@ Class("linb.UI.Panel", "linb.UI.Div",{
                 else{
                     h1=v1.height(), h4=v4.height();
                     if((t=height-h1-h4)>0)
-                        isize.height=t-2;
+                        isize.height=t-size;
                 }
             }
             if(width)

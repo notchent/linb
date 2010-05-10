@@ -9867,6 +9867,18 @@ _.set(linb.Locale,["en","doc","linb","UI","List"], {
                 "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
             ]
         },
+        getBorderType:{
+            $desc:"Gets border type from the current UI Object.",
+            $rtn:"String"
+        },
+        setBorderType:{
+            $desc:"Sets border type to the current UI Object.",
+            $rtn:"[self]",
+            $paras:[
+                "value [Required] : String, 'none','inset','outset','groove'or 'ridge'.",
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
+            ]
+        },
         onItemSelected:{
             $desc:"Fired when list item is selected.",
             $paras:[
@@ -10439,7 +10451,18 @@ _.set(linb.Locale,["en","doc","linb","UI","Panel"], {
                 "}"
             ]
         },
-
+        getBorderType:{
+            $desc:"Gets border type from the panel.",
+            $rtn:"String"
+        },
+        setBorderType:{
+            $desc:"Sets border type to the panel.",
+            $rtn:"[self]",
+            $paras:[
+                "value [Required] : String, 'none','inset','outset','groove'or 'ridge'.",
+                "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
+            ]
+        },
         beforeExpend:{
             $desc:"Fired before panel expends. If returns false, function will be ignored.",
             $paras:[

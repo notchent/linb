@@ -21810,7 +21810,7 @@ Class("linb.UI.Group", "linb.UI.Div",{
             ITEMS:{
                $order:10,
                tagName:'div',
-               className:'uiborder-flat',
+               className:'{_bordertype}',
                text:"{items}"
             },
             $submap:{
@@ -21999,6 +21999,23 @@ Class("linb.UI.Group", "linb.UI.Div",{
                 ini:'single',
                 listbox:['single','none','multi']
             },
+            borderType:{
+                ini:'flat',
+                listbox:['none','flat','inset','outset'],
+                action:function(v){
+                    var ns=this,
+                        p=ns.properties,
+                        node=ns.getSubNode('ITEMS'),
+                        reg=/^uiborder-/,
+                        pretag='uiborder-',
+                        root=ns.getRoot();
+                    node.removeClass(reg);
+                    node.addClass(pretag+v);
+
+                    //force to resize
+                    linb.UI.$tryResize(ns,root.get(0).style.width,root.get(0).style.height,true);
+                }
+            },
             noCtrlKey:true,
             width:120,
             height:150,
@@ -22056,9 +22073,18 @@ Class("linb.UI.Group", "linb.UI.Div",{
 
             return false;
         },
+        _prepareData:function(profile){
+            var data=arguments.callee.upper.call(this, profile);
+            data._bordertype='uiborder-'+data.borderType;
+            return data;
+        },
         _onresize:function(profile,width,height){
-            if(height)
-                profile.getSubNode('ITEMS').height(height=='auto'?height:(height-2));
+            if(height){
+                var size=0;
+                if(profile.properties.borderType!='none')
+                    size=2;
+                profile.getSubNode('ITEMS').height(height=='auto'?height:(height-size));
+            }
         }
     }
 });
@@ -22502,7 +22528,7 @@ Class("linb.UI.Panel", "linb.UI.Div",{
                         className:'uicon-maini',
                         PANEL:{
                             tagName:'div',
-                            className:'uiborder-inset',
+                            className:'{_bordertype}',
                             style:'{panelDisplay}',
                             text:'{html}'+linb.UI.$childTag
                         }
@@ -22691,6 +22717,23 @@ Class("linb.UI.Panel", "linb.UI.Div",{
                 action:function(v){
                     this.getSubNode('LAND').css('display',v?'':'none');
                 }
+            },
+            borderType:{
+                ini:'inset',
+                listbox:['none','flat','inset','outset'],
+                action:function(v){
+                    var ns=this,
+                        p=ns.properties,
+                        node=ns.getSubNode('PANEL'),
+                        reg=/^uiborder-/,
+                        pretag='uiborder-',
+                        root=ns.getRoot();
+                    node.removeClass(reg);
+                    node.addClass(pretag+v);
+
+                    //force to resize
+                    linb.UI.$tryResize(ns,root.get(0).style.width,root.get(0).style.height,true);
+                }
             }
         },
         EventHandlers:{
@@ -22719,6 +22762,8 @@ Class("linb.UI.Panel", "linb.UI.Div",{
             data.optDisplay = data.optBtn?'':nodisplay;
             data.closeDisplay = data.closeBtn?'':nodisplay;
             data.landDisplay = data.landBtn?'':nodisplay;
+            
+            data._bordertype='uiborder-'+data.borderType;
             return data;
         },
         _onresize:function(profile,width,height){
@@ -22728,6 +22773,7 @@ Class("linb.UI.Panel", "linb.UI.Div",{
                 v4=profile.getSubNode('BBAR'),
                 v5=profile.getSubNode('MAIN'),
                 v6=profile.getSubNode('MAINI'),
+                size=profile.properties.borderType=='none'?0:2,
                 h1,h4,t;
             if(height){
                 if(height=='auto')
@@ -22735,7 +22781,7 @@ Class("linb.UI.Panel", "linb.UI.Div",{
                 else{
                     h1=v1.height(), h4=v4.height();
                     if((t=height-h1-h4)>0)
-                        isize.height=t-2;
+                        isize.height=t-size;
                 }
             }
             if(width)
