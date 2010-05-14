@@ -19645,9 +19645,9 @@ Class("linb.UI.Group", "linb.UI.Div",{
                 if(b.onIniPanelView)
                     if(b.onIniPanelView(profile)!==false)
                         profile.$ini=true;
-            if(p._toggle != !!value){
+            if(profile._toggle !== !!value){
                 //set toggle mark
-                p._toggle = !!value;
+                profile._toggle = p.toggle = !!value;
     
                 if(value){
                     if(b.beforeExpend && false===b.beforeExpend(profile))return;
@@ -22798,9 +22798,9 @@ Class("linb.UI.Panel", "linb.UI.Div",{
                     if(b.onIniPanelView(profile)!==false)
                         profile.$ini=true;
 
-            if(p._toggle != !!value){
+            if(profile._toggle !== !!value){
                 //set toggle mark
-                p._toggle = !!value;
+                profile._toggle = p.toggle = !!value;
 
     
                 if(value){
