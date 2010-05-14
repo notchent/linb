@@ -193,9 +193,9 @@ Class("linb.UI.Group", "linb.UI.Div",{
                 if(b.onIniPanelView)
                     if(b.onIniPanelView(profile)!==false)
                         profile.$ini=true;
-            if(p.toggle != value){
+            if(p._toggle != !!value){
                 //set toggle mark
-                p.toggle = value;
+                p._toggle = !!value;
     
                 if(value){
                     if(b.beforeExpend && false===b.beforeExpend(profile))return;
