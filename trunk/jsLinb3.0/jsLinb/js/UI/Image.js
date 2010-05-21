@@ -97,6 +97,7 @@ Class("linb.UI.Image", "linb.UI",{
             },
 
             src:{
+                ini:linb.ini.file_bg,
                 //use asyn mode
                 action:function(v){
                     var self=this;
