@@ -13512,7 +13512,7 @@ Class("linb.absList", "linb.absObj",{
                 box=profile.box,
                 items=profile.properties.items,
                 rst=profile.queryItems(items,function(o){return typeof o=='object'?o.id===subId:o==subId},true,true,true),
-                item,serialId,node,sub,t;
+                item,serialId,arr,node,sub,t;
             if(!_.isHash(options))options={caption:options+''};
             //ensure the original id
             delete options.id;
@@ -31895,7 +31895,7 @@ if(linb.browser.ie){
             },
             TABSTOP1:{
                 onFocus:function(profile,e,src){
-                    tabindex = parseInt(linb.use(src).get(0).tabIndex||1 +"")-1;
+                    var tabindex = parseInt(linb.use(src).get(0).tabIndex||1 +"")-1;
                     var children = profile.getRoot().get(0).getElementsByTagName('*'),t,n;
                     for(var i=0,l=children.length,o;o=children[i];i++){
                         if(o.nodeType==1){
