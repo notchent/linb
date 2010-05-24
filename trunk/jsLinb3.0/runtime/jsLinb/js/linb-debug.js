@@ -1746,14 +1746,20 @@ Class('linb.IAjax','linb.absIO',{
                 if(linb.browser.opr)try{if(w.location=='about:blank')return}catch(e){}
                 self.OK=1;
 
-                w.location=c._getDummy()+'#'+linb.ini.dummy_tag;
+                w.location.replace(c._getDummy()+'#'+linb.ini.dummy_tag);
                 // for in firefox3, we have to asyRun to get the window.name
                 _.asyRun(function(){
-                    try{w.name}catch(e){
+                    // "w.name" cant throw exception in chrome
+                    if(linb.browser.isChrome && w.name===undefined){
                         _.asyRun(arguments.callee);
                         return;
-                    }
-                    var data;
+                    }else{
+                        // for in firefox3, we have to asyRun to get the window.name
+                        try{w.name}catch(e){
+                            _.asyRun(arguments.callee);
+                            return;
+                        }
+                    }                    var data;
                     if(self.id==w.name){
                         //clear first
                         self._clear();
@@ -32262,6 +32268,7 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
                     }
                 },
                 BARCMDL:{
+                    $order:1,
                     tagName: 'div',
                     className:'uibar-cmdl',
                     ICON:{
@@ -32275,6 +32282,7 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
                     }
                 },
                 BARCMDR:{
+                    $order:2,
                     tagName: 'div',
                     className:'uibar-cmdr',
                     OPT:{

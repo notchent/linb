@@ -132,6 +132,7 @@ Class("linb.UI.Dialog","linb.UI.Widget",{
                     }
                 },
                 BARCMDL:{
+                    $order:1,
                     tagName: 'div',
                     className:'uibar-cmdl',
                     ICON:{
@@ -145,6 +146,7 @@ Class("linb.UI.Dialog","linb.UI.Widget",{
                     }
                 },
                 BARCMDR:{
+                    $order:2,
                     tagName: 'div',
                     className:'uibar-cmdr',
                     OPT:{
