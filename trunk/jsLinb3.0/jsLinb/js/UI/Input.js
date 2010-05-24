@@ -462,7 +462,7 @@ Class("linb.UI.Input", ["linb.UI.Widget","linb.absValue"] ,{
             	ini:'',
             	action: function(value){
                   this.getSubNode('INPUT').attr('maxlength',value);
-              }
+                }
             },
             multiLines:{
                 ini:false,

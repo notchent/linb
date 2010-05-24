@@ -4352,7 +4352,7 @@ Class("linb.absList", "linb.absObj",{
                 box=profile.box,
                 items=profile.properties.items,
                 rst=profile.queryItems(items,function(o){return typeof o=='object'?o.id===subId:o==subId},true,true,true),
-                item,serialId,node,sub,t;
+                item,serialId,arr,node,sub,t;
             if(!_.isHash(options))options={caption:options+''};
             //ensure the original id
             delete options.id;

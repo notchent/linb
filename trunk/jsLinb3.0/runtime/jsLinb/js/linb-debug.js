@@ -698,16 +698,25 @@ _.merge(linb,{
         };
         linb.include(z,linb.getPath(z, '.js'),m,m);
     },
-    _r:/\x24(\d+)/g,
-    getRes:function(id){
-        var d,
-            b= id.indexOf('-')!=-1?((d=id.split('-'))&&(id=d[0])&&d):arguments ,
-            c=_.get(linb.Locale[linb.$localeKey], id.split('.'));
-        return (d=typeof c)=='string'
-               ? c.replace(linb._r,function(z,id){return b[parseInt(id)+1]||z})
-               : d=='function'
-               ? c.apply(null,b) :
-               c ? c : id.substr(id.lastIndexOf('.')+1)
+    _langParamReg:/\x24(\d+)/g,
+    getRes:function(path){
+        var arr,conf,tmp,params=arguments;
+        if(typeof path=='string'){
+            if(path.indexOf('-')!=-1){
+                tmp=path.split('-');
+                path=tmp[0];
+                params=tmp;
+            }
+            arr=path.split(".");
+        }else{
+            arr=path;
+        }
+        conf=_.get(linb.Locale[linb.$localeKey], arr);
+        return (tmp=typeof conf)=='string'
+               ? ( params.length>1 ? conf.replace(linb._langParamReg,function(z,id){return params[1+id]||z}) : conf)
+               : tmp=='function'
+               ? conf.apply(null,params) :
+               conf ? conf : arr[arr.length-1]
     },
     wrapRes:function(id){
         var i=id, s,r;
@@ -13524,7 +13533,7 @@ Class("linb.absList", "linb.absObj",{
                 box=profile.box,
                 items=profile.properties.items,
                 rst=profile.queryItems(items,function(o){return typeof o=='object'?o.id===subId:o==subId},true,true,true),
-                item,serialId,node,sub,t;
+                item,serialId,arr,node,sub,t;
             if(!_.isHash(options))options={caption:options+''};
             //ensure the original id
             delete options.id;
@@ -17430,7 +17439,7 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
             	ini:'',
             	action: function(value){
                   this.getSubNode('INPUT').attr('maxlength',value);
-              }
+                }
             },
             multiLines:{
                 ini:false,
@@ -32436,7 +32445,7 @@ if(linb.browser.ie){
             },
             TABSTOP1:{
                 onFocus:function(profile,e,src){
-                    tabindex = parseInt(linb.use(src).get(0).tabIndex||1 +"")-1;
+                    var tabindex = parseInt(linb.use(src).get(0).tabIndex||1 +"")-1;
                     var children = profile.getRoot().get(0).getElementsByTagName('*'),t,n;
                     for(var i=0,l=children.length,o;o=children[i];i++){
                         if(o.nodeType==1){
