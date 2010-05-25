@@ -2433,7 +2433,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                         node.html(caption,false);
                 break;
                 case 'datepicker':
-                    cell.value=(parseInt(cell.value)?new Date(parseInt(cell.value)).getTime():"");
+                    cell.value= +linb.Date.parse(cell.value) +"";
                     caption= capOut || ren(profile,cell,ncell,f1);
                     if(dom)
                         node.html(caption, false);
