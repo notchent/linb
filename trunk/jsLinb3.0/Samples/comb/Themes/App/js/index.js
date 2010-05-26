@@ -673,7 +673,7 @@ Class('App', 'linb.Com',{
                 .setCmds([])
             , '5');
             
-            host.tabs2.append((new linb.UI.LinkList)
+            host.tabs2.append((new linb.UI.StatusButtons)
                 .host(host,"linklist1")
                 .setItems([{"id":"a", "caption":"link list a"}, {"id":"b", "caption":"link list v"}, {"id":"c", "caption":"link list c"}])
                 .setLeft(440)
@@ -781,8 +781,6 @@ Class('App', 'linb.Com',{
         }, 
         _sbutton14_onclick:function (profile, e, src, value) {
             linb.UI.Dialog.pop('pop message', 'pop');
-        }, 
-        base:[], 
-        required:["linb.UI.Tabs", "linb.UI.Calendar", "linb.UI.TimeLine", "linb.UI.Range", "linb.UI.Poll", "linb.UI.LinkList", "linb.UI.FoldingList", "linb.UI.Pane", "linb.UI.Link", "linb.UI.Panel", "linb.UI.Block", "linb.UI.Layout", "linb.UI.Label", "linb.UI.Stacks", "linb.UI.ComboInput", "linb.UI.ButtonViews", "linb.UI.Group", "linb.UI.Button", "linb.UI.TextEditor", "linb.UI.Div", "linb.UI.CheckBox", "linb.UI.Input", "linb.UI.ProgressBar", "linb.UI.TimePicker", "linb.UI.DatePicker", "linb.UI.ColorPicker", "linb.UI.List", "linb.UI.Slider", "linb.UI.SLabel", "linb.UI.SButton", "linb.UI.SCheckBox", "linb.UI.PageBar", "linb.UI.Gallery", "linb.UI.MenuBar", "linb.UI.ToolBar", "linb.UI.IconList", "linb.UI.RadioBox", "linb.UI.Dialog", "linb.UI.TreeGrid", "linb.UI.TreeBar"]
+        }
     }
 });

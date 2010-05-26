@@ -372,7 +372,7 @@ Class('linb.UI.DatePicker', ['linb.UI',"linb.absValue"], {
                         id=profile.getSubId(src),
                         map=profile.$daymap,
                         v=map[id];
-                    if(p.disabled)return false;
+                    if(p.disabled||p.readonly)return false;
 
                     linb.use(src).onMouseout(true,{$force:true});
                     //onClick event
@@ -386,9 +386,9 @@ Class('linb.UI.DatePicker', ['linb.UI',"linb.absValue"], {
             },
             CLOSE:{
                 onClick:function(profile, e, src){
-                    var properties = profile.properties,
+                    var p = profile.properties,
                         instance = profile.boxing();
-                    if(properties.disabled)return;
+                    if(p.disabled||p.readonly)return;
                     if(false===instance.beforeClose(profile, src)) return;
                     instance.destroy();
                     //for design mode in firefox
@@ -398,28 +398,28 @@ Class('linb.UI.DatePicker', ['linb.UI',"linb.absValue"], {
             PRE:{
                 onClick:function(profile, e, src){
                     var p = profile.properties;
-                    if(p.disabled)return;
+                    if(p.disabled||p.readonly)return;
                     profile.box._to(profile, linb.Date.add(profile.$mfirst,'m',-1,p.WEEK_FIRST));
                 }
             },
             NEXT:{
                 onClick:function(profile, e, src){
                     var p = profile.properties;
-                    if(p.disabled)return;
+                    if(p.disabled||p.readonly)return;
                     profile.box._to(profile, linb.Date.add(profile.$mfirst,'m',1,p.WEEK_FIRST));
                 }
             },
             PRE2:{
                 onClick:function(profile, e, src){
                     var p = profile.properties;
-                    if(p.disabled)return;
+                    if(p.disabled||p.readonly)return;
                     profile.box._to(profile, linb.Date.add(profile.$mfirst,'y',-1,p.WEEK_FIRST));
                 }
             },
             NEXT2:{
                 onClick:function(profile, e, src){
                     var p = profile.properties;
-                    if(p.disabled)return;
+                    if(p.disabled||p.readonly)return;
                     profile.box._to(profile, linb.Date.add(profile.$mfirst,'y',1,p.WEEK_FIRST));
                 }
             },

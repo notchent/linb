@@ -3,7 +3,6 @@ Class('App.linb_UI_Gallery', 'linb.Com',{
         //base Class for linb.Com
         base:["linb.UI"],
         //requried class for the App
-        required:["linb.UI.Gallery","linb.UI.LinkList","linb.UI.FoldingList","linb.UI.RadioBox"],
         iniComponents:function(){
             // [[code created by jsLinb UI Builder
             var host = this,

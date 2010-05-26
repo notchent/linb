@@ -2341,6 +2341,14 @@ Class("linb.UI",  "linb.absObj", {
             '.ui-inputdisabled':{
                 color:'#808080'
             },
+            '.ui-itemreadonly':{
+                $order:2,
+                color: '#808080'
+            },
+            '.ui-readonly, .ui-readonly *':{
+                $order:2,
+                color: '#808080'
+            },            
             '.ui-itemdisabled':{
                 $order:2,
                 cursor:'not-allowed',
@@ -2772,6 +2780,7 @@ Class("linb.UI",  "linb.absObj", {
                         if(prop.disabled || prop.readonly)return;
                         item = profile.SubSerialIdMapItem && profile.SubSerialIdMapItem[cid];
                         if(item && item.disabled)return;
+                        if(item && item.readonly)return;
                         switch(typeof arr){
                             case 'string':
                                 nodes=profile.getSubNode(arr,cid)._get();
@@ -3468,6 +3477,10 @@ Class("linb.UI",  "linb.absObj", {
         */
         adjustData:function(profile, hashIn, hashOut){
             if(!hashOut)hashOut={};
+            
+            var dm = profile.box.$DataModel,
+                prop=profile.properties;
+            
             var i,o,w=linb.wrapRes,me=arguments.callee,r=me._r||(me._r=/\B\$([\w]+[\.][\w\.]+[\w])/g);
             for(i in hashIn){
                 if(i.charAt(0)=='$')continue;
@@ -3479,8 +3492,11 @@ Class("linb.UI",  "linb.absObj", {
                               ) : o;
             }
 
-            if('disabled' in hashOut)
-                hashOut.disabled=hashOut.disabled?'ui-itemdisabled':'';
+
+            if('disabled' in dm)
+                hashOut.disabled= ((_.isSet(hashOut.disabled) && hashOut.disabled) || (_.isSet(prop.disabled) && prop.disabled)) ?'ui-itemdisabled':'';
+            if('readonly' in dm)
+                hashOut.readonly= ((_.isSet(hashOut.readonly) && hashOut.readonly) || (_.isSet(prop.readonly) && prop.readonly)) ?'ui-itemreadonly':'';
 
             //todo:remove the extra para
             hashOut.imageDisplay = (hashOut.imageClass||hashOut.image)?'':'display:none';
@@ -4094,7 +4110,7 @@ Class("linb.UI",  "linb.absObj", {
                 me = arguments.callee,
                 map = me.map || (me.map=_.toArr('left,top,bottom,right,width,height')),
                 a=[],
-                ajd=linb.UI.adjustData,
+                ajd=profile.box.adjustData,
                 t
                 ;
             data = data||{};
@@ -4104,6 +4120,7 @@ Class("linb.UI",  "linb.absObj", {
             //give default caption
             if('caption' in dm && prop.caption!==null)
                 prop.caption = prop.caption===undefined ? profile.alias : prop.caption;
+
 
             //give border width
             if('$hborder' in dm)
@@ -4127,6 +4144,7 @@ Class("linb.UI",  "linb.absObj", {
 
             data._style = ';'+a.join(';')+';';
 
+            if('readonly' in dm)data.readonly=prop.readonly?"ui-readonly":"";
             if('href' in dm)data.href = prop.href || linb.DEFAULTHREF;
             if('tabindex' in dm)data.tabindex = prop.tabindex || '-1';
             if('items' in dm){
@@ -4148,7 +4166,7 @@ Class("linb.UI",  "linb.absObj", {
                 item,dataItem,t,
                 SubID=linb.UI.$tag_subId,id ,
                 tabindex = profile.properties.tabindex,
-                ajd=linb.UI.adjustData;
+                ajd=profile.box.adjustData;
             //set map
             for(var i=0,l=items.length;i<l;i++){
                 if(typeof items[i]!='object')
@@ -4643,7 +4661,16 @@ Class("linb.absValue", "linb.absObj",{
                         profile.boxing().setValue(t,true);
                 }
             },
-
+            readonly:{
+                ini:false,
+                action: function(v){
+                    var i=this.getRoot();
+                    if(v)
+                        i.addClass('ui-readonly');
+                    else
+                        i.removeClass('ui-readonly');
+                }
+            },
             // setValue and getValue
             value:{
                 ini:null,
@@ -5025,6 +5052,7 @@ new function(){
                 onClick:function(profile, e, src){
                     var p=profile.properties,b=profile.boxing();
                     if(p.disabled)return false;
+                    if(p.readonly)return false;
                     b.setUIValue(!p.$UIvalue);
                     if(profile.onChecked)b.onChecked(profile, e, p.$UIvalue);
                     profile.getSubNode('FOCUS').focus();

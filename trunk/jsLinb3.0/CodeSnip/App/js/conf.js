@@ -28,6 +28,7 @@
                     {id:'linb.UI.DatePicker', caption:'DatePicker', image:_img_widgets, imagePos:'-256px top'},
                     {id:'linb.UI.ColorPicker', caption:'ColorPicker', image:_img_widgets, imagePos:'-272px top'},
                     {id:'linb.UI.RadioBox', caption:'RadioBox', image:_img_widgets, imagePos:'-208px top'},
+                    {id:'linb.UI.StatusButtons', caption:'StatusButtons', image:_img_widgets, imagePos:'-16px -16px'},
                     {id:'linb.UI.Group', caption:'Group', image:_img_widgets, imagePos:'-224px top'}
                 ]},
                 {id:'linb.UI.absContainer',caption:'Containers',group:true, image:_img_app, imagePos:'-48px -48px',sub:[
@@ -55,7 +56,6 @@
                     {id:'linb.UI.TextEditor', caption:'TextEditor', image:_img_widgets, imagePos:'-128px top'},
                     {id:'linb.UI.Range', caption:'Range', image:_img_widgets, imagePos:'left -16px'},
                     {id:'linb.UI.Poll', caption:'Poll', image:_img_widgets, imagePos:'-208px -16px'},
-                    {id:'linb.UI.LinkList', caption:'LinkList', image:_img_widgets, imagePos:'-16px -16px'},
                     {id:'linb.UI.FoldingList', caption:'FoldingList', image:_img_widgets, imagePos:'-32px -16px'},
                     {id:'linb.UI.Calendar', caption:'Calendar', image:_img_widgets, imagePos:'-496px top'},
                     {id:'linb.UI.TimeLine', caption:'TimeLine', image:_img_widgets, imagePos:'-528px top'}

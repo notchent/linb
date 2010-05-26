@@ -1264,7 +1264,11 @@ Class('linb.Date',null,{
             return self.diff(date2, date, 'ww')+1;
         },
         parse:function(str){
+            if(_.isDate(str))return str;
+            // avoid null
             str+="";
+            if(isFinite(str))return new Date(parseInt(str));
+            
             var self=this,utc,
                 me=arguments.callee,
                 dp=me.dp||(me.dp={

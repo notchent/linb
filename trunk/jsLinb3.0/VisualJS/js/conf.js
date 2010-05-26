@@ -52,6 +52,7 @@ new function(){
                 {id:'linb.UI.DatePicker', caption:'DatePicker', image:_img_widgets, imagePos:'-256px top', dragable:true},
                 {id:'linb.UI.ColorPicker', caption:'ColorPicker', image:_img_widgets, imagePos:'-272px top', dragable:true},
                 {id:'linb.UI.RadioBox', caption:'RadioBox', image:_img_widgets, imagePos:'-208px top', dragable:true},
+                {id:'linb.UI.StatusButtons', caption:'StatusButtons', image:_img_widgets, imagePos:'-16px -16px', dragable:true},
                 {id:'linb.UI.Group', caption:'Group', image:_img_widgets, imagePos:'-224px top', dragable:true}
             ]},
             {id:'linb.UI.absContainer',caption:'Containers',group:true, image:_img_app, imagePos:'-48px -48px',sub:[
@@ -90,7 +91,6 @@ new function(){
                 {id:'linb.UI.TextEditor', caption:'TextEditor', image:_img_widgets, imagePos:'-128px top', dragable:true},
                 {id:'linb.UI.Range', caption:'Range', image:_img_widgets, imagePos:'left -16px', dragable:true},
                 {id:'linb.UI.Poll', caption:'Poll', image:_img_widgets, imagePos:'-208px -16px', dragable:true},
-                {id:'linb.UI.LinkList', caption:'LinkList', image:_img_widgets, imagePos:'-16px -16px', dragable:true},
                 {id:'linb.UI.FoldingList', caption:'FoldingList', image:_img_widgets, imagePos:'-32px -16px', dragable:true},
                 {id:'linb.UI.Calendar', caption:'Calendar', image:_img_widgets, imagePos:'-496px top', dragable:true},
                 {id:'linb.UI.TimeLine', caption:'TimeLine', image:_img_widgets, imagePos:'-528px top', dragable:true}
@@ -122,7 +122,7 @@ new function(){
             'linb.UI.Tabs':['items','value','onItemSelected','tabindex'],
             'linb.UI.Stacks':['items','value','onItemSelected','tabindex'],
             'linb.UI.ButtonViews':['items','value','onItemSelected','tabindex'],
-            'linb.UI.LinkList':['items','value','onItemClick','tabindex'],
+            'linb.UI.StatusButtons':['items','value','onItemClick','tabindex'],
             'linb.UI.FoldingList':['items','onGetContent','tabindex'],
             'linb.UI.IconList':['items','value','onItemSelected','tabindex'],
             'linb.UI.Dialog':['caption','tabindex'],

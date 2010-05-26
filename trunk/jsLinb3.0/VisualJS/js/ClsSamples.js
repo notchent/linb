@@ -42,7 +42,7 @@
             {id:'linb.UI.PopMenu', caption:'PopMenu', value:'../CodeSnip/Classes/linb/UI/PopMenu.js'},
             {id:'linb.UI.MenuBar', caption:'MenuBar', value:'../CodeSnip/Classes/linb/UI/MenuBar.js'},
             {id:'linb.UI.ToolBar', caption:'ToolBar', value:'../CodeSnip/Classes/linb/UI/ToolBar.js'},
-            {id:'linb.UI.LinkList', caption:'LinkList', value:'../CodeSnip/Classes/linb/UI/LinkList.js'},
+            {id:'linb.UI.StatusButtons', caption:'StatusButtons', value:'../CodeSnip/Classes/linb/UI/StatusButtons.js'},
             {id:'linb.UI.FoldingList', caption:'FoldingList', value:'../CodeSnip/Classes/linb/UI/FoldingList.js'},
             {id:'linb.UI.Gallery', caption:'Gallery', value:'../CodeSnip/Classes/linb/UI/Gallery.js'},
             {id:'linb.UI.TreeBar', caption:'TreeBar', value:'../CodeSnip/Classes/linb/UI/TreeBar.js'},

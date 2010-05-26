@@ -242,6 +242,8 @@ Class("linb.UI.Button", ["linb.UI.Widget","linb.absValue"],{
                 var b=profile.boxing();
 
                 if(p.type=='status'){
+                    if(p.readonly)return false;
+                    
                     b.setUIValue(!p.$UIvalue);
                     if(profile.onChecked)
                         b.onChecked(profile, e, p.$UIvalue);

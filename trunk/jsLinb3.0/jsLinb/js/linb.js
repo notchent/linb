@@ -1759,7 +1759,8 @@ Class('linb.IAjax','linb.absIO',{
                             _.asyRun(arguments.callee);
                             return;
                         }
-                    }                    var data;
+                    }
+                    var data;
                     if(self.id==w.name){
                         //clear first
                         self._clear();

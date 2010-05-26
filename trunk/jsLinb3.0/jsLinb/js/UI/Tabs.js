@@ -316,7 +316,7 @@ Class("linb.UI.Tabs", ["linb.UI", "linb.absList","linb.absValue"],{
             $submap:{
                 items:{
                     ITEM:{
-                        className:'{itemClass} {disabled}',
+                        className:'{itemClass} {disabled} {readonly}',
                         style:'{itemDisplay} {itemStyle}',
                         ITEMI:{
                             ITEMC:{
@@ -509,6 +509,7 @@ Class("linb.UI.Tabs", ["linb.UI", "linb.absList","linb.absValue"],{
                         box = profile.boxing();
 
                     if(properties.disabled || item.disabled)return false;
+                    if(properties.readonly || item.readonly)return false;
                     if(box.getUIValue() == item.id){
                          if(profile.onCaptionActive)
                             profile.boxing().onCaptionActive(profile, profile.getItemByDom(src), src);
@@ -529,6 +530,7 @@ Class("linb.UI.Tabs", ["linb.UI", "linb.absList","linb.absValue"],{
                         box = profile.boxing();
 
                     if(properties.disabled || item.disabled)return false;
+                    if(properties.readonly || item.readonly)return false;
                     if(box.getUIValue() == item.id)return;
 
                     //for some input onblur event
@@ -605,6 +607,7 @@ Class("linb.UI.Tabs", ["linb.UI", "linb.absList","linb.absValue"],{
                         bak;
 
                     if(properties.disabled || item.disabled)return;
+                    if(properties.readonly || item.readonly)return false;
                     var instance = profile.boxing();
 
                     if(false===instance.beforePageClose(profile, item, src)) return;
@@ -643,6 +646,7 @@ Class("linb.UI.Tabs", ["linb.UI", "linb.absList","linb.absValue"],{
                         id=item.id;
 
                     if(properties.disabled || item.disabled)return;
+                    if(properties.readonly || item.readonly)return false;
 
                      if(profile.beforePagePop && false==profile.boxing().beforePagePop(profile,item))
                         return false;

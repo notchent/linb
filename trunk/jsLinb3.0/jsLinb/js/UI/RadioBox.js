@@ -6,7 +6,7 @@ Class("linb.UI.RadioBox", "linb.UI.List",{
         t.$submap={
             items:{
                 ITEM:{
-                    className:'{itemClass}  {disabled}',
+                    className:'{itemClass}  {disabled} {readonly}',
                     style:'{itemStyle}',
                     tabindex: '{_tabindex}',
                     MARK:{
@@ -32,7 +32,6 @@ Class("linb.UI.RadioBox", "linb.UI.List",{
         Appearances:{
             ITEM:{
                display:linb.$inlineBlock,
-               zoom:linb.browser.ie6?1:null,
                'font-family':' "Verdana", "Helvetica", "sans-serif"',
                border:0,
                padding:'4px',

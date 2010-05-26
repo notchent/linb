@@ -12,7 +12,7 @@ Class("linb.UI.IconList", "linb.UI.List",{
             items:{
                 ITEM:{
                     tabindex:'{_tabindex}',
-                    className:'{itemClass} {disabled}',
+                    className:'{itemClass} {disabled}  {readonly}',
                     style:'padding:{itemPadding}px;margin:{itemMargin}px;{itemStyle}',
                     //for firefox2 image in -moz-inline-box cant change height bug
                     IBWRAP:{

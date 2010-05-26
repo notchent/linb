@@ -65,7 +65,7 @@ Class("linb.UI.FoldingList", ["linb.UI.List"],{
             items:{
                 ITEM:{
                     tagName : 'div',
-                    className:'{_checked} {_precheked} {itemClass} {disabled}',
+                    className:'{_checked} {_precheked} {itemClass} {disabled} {readonly}',
                     style:'{itemStyle}',
                     HEAD:{
                         tagName : 'div',

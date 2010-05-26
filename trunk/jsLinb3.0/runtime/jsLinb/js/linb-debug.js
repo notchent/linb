@@ -1759,7 +1759,8 @@ Class('linb.IAjax','linb.absIO',{
                             _.asyRun(arguments.callee);
                             return;
                         }
-                    }                    var data;
+                    }
+                    var data;
                     if(self.id==w.name){
                         //clear first
                         self._clear();
@@ -4268,7 +4269,11 @@ Class('linb.Event',null,{
             return self.diff(date2, date, 'ww')+1;
         },
         parse:function(str){
+            if(_.isDate(str))return str;
+            // avoid null
             str+="";
+            if(isFinite(str))return new Date(parseInt(str));
+            
             var self=this,utc,
                 me=arguments.callee,
                 dp=me.dp||(me.dp={
@@ -11528,6 +11533,14 @@ Class("linb.UI",  "linb.absObj", {
             '.ui-inputdisabled':{
                 color:'#808080'
             },
+            '.ui-itemreadonly':{
+                $order:2,
+                color: '#808080'
+            },
+            '.ui-readonly, .ui-readonly *':{
+                $order:2,
+                color: '#808080'
+            },            
             '.ui-itemdisabled':{
                 $order:2,
                 cursor:'not-allowed',
@@ -11959,6 +11972,7 @@ Class("linb.UI",  "linb.absObj", {
                         if(prop.disabled || prop.readonly)return;
                         item = profile.SubSerialIdMapItem && profile.SubSerialIdMapItem[cid];
                         if(item && item.disabled)return;
+                        if(item && item.readonly)return;
                         switch(typeof arr){
                             case 'string':
                                 nodes=profile.getSubNode(arr,cid)._get();
@@ -12655,6 +12669,10 @@ Class("linb.UI",  "linb.absObj", {
         */
         adjustData:function(profile, hashIn, hashOut){
             if(!hashOut)hashOut={};
+            
+            var dm = profile.box.$DataModel,
+                prop=profile.properties;
+            
             var i,o,w=linb.wrapRes,me=arguments.callee,r=me._r||(me._r=/\B\$([\w]+[\.][\w\.]+[\w])/g);
             for(i in hashIn){
                 if(i.charAt(0)=='$')continue;
@@ -12666,8 +12684,11 @@ Class("linb.UI",  "linb.absObj", {
                               ) : o;
             }
 
-            if('disabled' in hashOut)
-                hashOut.disabled=hashOut.disabled?'ui-itemdisabled':'';
+
+            if('disabled' in dm)
+                hashOut.disabled= ((_.isSet(hashOut.disabled) && hashOut.disabled) || (_.isSet(prop.disabled) && prop.disabled)) ?'ui-itemdisabled':'';
+            if('readonly' in dm)
+                hashOut.readonly= ((_.isSet(hashOut.readonly) && hashOut.readonly) || (_.isSet(prop.readonly) && prop.readonly)) ?'ui-itemreadonly':'';
 
             //todo:remove the extra para
             hashOut.imageDisplay = (hashOut.imageClass||hashOut.image)?'':'display:none';
@@ -13281,7 +13302,7 @@ Class("linb.UI",  "linb.absObj", {
                 me = arguments.callee,
                 map = me.map || (me.map=_.toArr('left,top,bottom,right,width,height')),
                 a=[],
-                ajd=linb.UI.adjustData,
+                ajd=profile.box.adjustData,
                 t
                 ;
             data = data||{};
@@ -13291,6 +13312,7 @@ Class("linb.UI",  "linb.absObj", {
             //give default caption
             if('caption' in dm && prop.caption!==null)
                 prop.caption = prop.caption===undefined ? profile.alias : prop.caption;
+
 
             //give border width
             if('$hborder' in dm)
@@ -13314,6 +13336,7 @@ Class("linb.UI",  "linb.absObj", {
 
             data._style = ';'+a.join(';')+';';
 
+            if('readonly' in dm)data.readonly=prop.readonly?"ui-readonly":"";
             if('href' in dm)data.href = prop.href || linb.DEFAULTHREF;
             if('tabindex' in dm)data.tabindex = prop.tabindex || '-1';
             if('items' in dm){
@@ -13335,7 +13358,7 @@ Class("linb.UI",  "linb.absObj", {
                 item,dataItem,t,
                 SubID=linb.UI.$tag_subId,id ,
                 tabindex = profile.properties.tabindex,
-                ajd=linb.UI.adjustData;
+                ajd=profile.box.adjustData;
             //set map
             for(var i=0,l=items.length;i<l;i++){
                 if(typeof items[i]!='object')
@@ -13830,7 +13853,16 @@ Class("linb.absValue", "linb.absObj",{
                         profile.boxing().setValue(t,true);
                 }
             },
-
+            readonly:{
+                ini:false,
+                action: function(v){
+                    var i=this.getRoot();
+                    if(v)
+                        i.addClass('ui-readonly');
+                    else
+                        i.removeClass('ui-readonly');
+                }
+            },
             // setValue and getValue
             value:{
                 ini:null,
@@ -14212,6 +14244,7 @@ new function(){
                 onClick:function(profile, e, src){
                     var p=profile.properties,b=profile.boxing();
                     if(p.disabled)return false;
+                    if(p.readonly)return false;
                     b.setUIValue(!p.$UIvalue);
                     if(profile.onChecked)b.onChecked(profile, e, p.$UIvalue);
                     profile.getSubNode('FOCUS').focus();
@@ -16200,6 +16233,8 @@ Class("linb.UI.Button", ["linb.UI.Widget","linb.absValue"],{
                 var b=profile.boxing();
 
                 if(p.type=='status'){
+                    if(p.readonly)return false;
+                    
                     b.setUIValue(!p.$UIvalue);
                     if(profile.onChecked)
                         b.onChecked(profile, e, p.$UIvalue);
@@ -16392,7 +16427,7 @@ Class("linb.UI.Button", ["linb.UI.Widget","linb.absValue"],{
             ClickEffected:{KEY:'MARK'},
             onClick:function(profile, e, src){
                 var p=profile.properties,b=profile.boxing();
-                if(p.disabled)return false;
+                if(p.disabled || p.readonly)return false;
                 //onClick event
                 b.setUIValue(!p.$UIvalue);
 
@@ -17741,11 +17776,18 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
                 ini:'font1;font2;align;list;font4;font3;insert;clear;html',
                 action:function(v){
                     var ns=this;
-                    if(!ns.properties.disabled)
+                    if(!ns.properties.disabled && !ns.properties.readonly)
                         ns.box._iniToolBar(ns);
                 }
             },
             disabled:{
+                ini:false,
+                action: function(v){
+                    if(this.properties.disabled!=v)
+                        this.boxing().refresh();
+                }
+            },
+            readonly:{
                 ini:false,
                 action: function(v){
                     if(this.properties.disabled!=v)
@@ -17852,7 +17894,7 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
         RenderTrigger:function(){
             var self=this;
 
-            if(!self.properties.disabled)
+            if(!self.properties.disabled && !self.properties.readonly)
                 self.box._iniToolBar(self);
 
             if(!self.$inDesign){
@@ -17862,7 +17904,7 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
                     iframe=document.createElement("iframe"),
                     //_updateToolbar event
                     event=self._event=function(e){
-                        if(this._pro && this._pro.properties.disabled)return;
+                        if(this._pro && (this._pro.properties.disabled||this._pro.properties.readonly))return;
 
                         _.resetRun('RichEditor:'+domId, function(){
                             linb.UI.RichEditor._updateToolbar(domId)
@@ -17893,7 +17935,7 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
                             }
                             doc._pro=win._pro=self;
 
-                            var disabled=self.properties.disabled;
+                            var disabled=self.properties.disabled||self.properties.readonly;
                             doc.designMode=disabled?"off":"on";
 
                             if(linb.browser.ie){
@@ -17944,7 +17986,7 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
                                         delete frames[this.$frameId];
                                         win.removeEventListener("unload",gekfix,false);
                                     }
-                                    if(!this.properties.disabled){
+                                    if(!this.properties.disabled && !this.properties.readonly){
                                         doc.removeEventListener("mousedown",event,false);
                                         doc.removeEventListener("dblclick",event,false);
                                         doc.removeEventListener("click",event,false);
@@ -18016,7 +18058,7 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
 
             //compose
             self.getRoot().prepend(
-                t=new linb.UI.ToolBar({handler:false,items:items,disabled:pro.disabled})
+                t=new linb.UI.ToolBar({handler:false,items:items,disabled:pro.disabled||pro.readonly})
             );
             t.render(true);
             t = self._$tb = t.get(0);
@@ -20288,7 +20330,7 @@ Class("linb.UI.Group", "linb.UI.Div",{
                 onClick:function(profile, e, src){
                     var properties = profile.properties,
                         instance = profile.boxing();
-                    if(properties.disabled)return;
+                    if(properties.disabled||properties.readonly)return;
                     if(false===instance.beforeClose(profile)) return;
                     instance.destroy();
                     //for design mode in firefox
@@ -21053,7 +21095,7 @@ Class("linb.UI.Group", "linb.UI.Div",{
                         id=profile.getSubId(src),
                         map=profile.$daymap,
                         v=map[id];
-                    if(p.disabled)return false;
+                    if(p.disabled||p.readonly)return false;
 
                     linb.use(src).onMouseout(true,{$force:true});
                     //onClick event
@@ -21067,9 +21109,9 @@ Class("linb.UI.Group", "linb.UI.Div",{
             },
             CLOSE:{
                 onClick:function(profile, e, src){
-                    var properties = profile.properties,
+                    var p = profile.properties,
                         instance = profile.boxing();
-                    if(properties.disabled)return;
+                    if(p.disabled||p.readonly)return;
                     if(false===instance.beforeClose(profile, src)) return;
                     instance.destroy();
                     //for design mode in firefox
@@ -21079,28 +21121,28 @@ Class("linb.UI.Group", "linb.UI.Div",{
             PRE:{
                 onClick:function(profile, e, src){
                     var p = profile.properties;
-                    if(p.disabled)return;
+                    if(p.disabled||p.readonly)return;
                     profile.box._to(profile, linb.Date.add(profile.$mfirst,'m',-1,p.WEEK_FIRST));
                 }
             },
             NEXT:{
                 onClick:function(profile, e, src){
                     var p = profile.properties;
-                    if(p.disabled)return;
+                    if(p.disabled||p.readonly)return;
                     profile.box._to(profile, linb.Date.add(profile.$mfirst,'m',1,p.WEEK_FIRST));
                 }
             },
             PRE2:{
                 onClick:function(profile, e, src){
                     var p = profile.properties;
-                    if(p.disabled)return;
+                    if(p.disabled||p.readonly)return;
                     profile.box._to(profile, linb.Date.add(profile.$mfirst,'y',-1,p.WEEK_FIRST));
                 }
             },
             NEXT2:{
                 onClick:function(profile, e, src){
                     var p = profile.properties;
-                    if(p.disabled)return;
+                    if(p.disabled||p.readonly)return;
                     profile.box._to(profile, linb.Date.add(profile.$mfirst,'y',1,p.WEEK_FIRST));
                 }
             },
@@ -21646,7 +21688,7 @@ Class("linb.UI.Group", "linb.UI.Div",{
             PRE:{
                 onClick:function(profile, e, src){
                     var p = profile.properties;
-                    if(p.disabled)return;
+                    if(p.disabled||p.readonly)return;
                     var v=profile.$hour;
                     v=(parseFloat(v)||0)-1;
                     v=(v%24+24)%24;
@@ -21658,7 +21700,7 @@ Class("linb.UI.Group", "linb.UI.Div",{
             NEXT:{
                 onClick:function(profile, e, src){
                     var p = profile.properties;
-                    if(p.disabled)return;
+                    if(p.disabled||p.readonly)return;
                     var v=profile.$hour;
                     v=(parseFloat(v)||0)+1;
                     v=(v%24+24)%24;
@@ -21671,7 +21713,7 @@ Class("linb.UI.Group", "linb.UI.Div",{
                 onClick:function(profile, e, src){
                     var properties = profile.properties,
                         instance = profile.boxing();
-                    if(properties.disabled)return;
+                    if(properties.disabled||properties.readonly)return;
                     if(false===instance.beforeClose(profile, src)) return;
                     instance.destroy();
                     //for design mode in firefox
@@ -21848,7 +21890,7 @@ Class("linb.UI.Group", "linb.UI.Div",{
             $submap:{
                 items:{
                     ITEM:{
-                        className:'{itemClass} {disabled}',
+                        className:'{itemClass} {disabled} {readonly}',
                         style:'{itemStyle}{itemDisplay}',
                         tabindex:'{_tabindex}',
                         ICON:{
@@ -21932,6 +21974,8 @@ Class("linb.UI.Group", "linb.UI.Div",{
                         rt=box.onItemSelected(profile, item, src);
                         break;
                     case 'multi':
+                        if(properties.readonly|| item.readonly)return false;
+
                         var value = box.getUIValue(),
                             arr = value?value.split(';'):[];
 
@@ -21967,6 +22011,8 @@ Class("linb.UI.Group", "linb.UI.Div",{
                             break;
                         }
                     case 'single':
+                        if(properties.readonly|| item.readonly)return false;
+
                         if(box.getUIValue() == item.id)
                             rt=false;
                         else{
@@ -22026,7 +22072,7 @@ Class("linb.UI.Group", "linb.UI.Div",{
                 }
             }
         },
-        DataModel:({
+        DataModel:{
             selMode:{
                 ini:'single',
                 listbox:['single','none','multi']
@@ -22052,7 +22098,7 @@ Class("linb.UI.Group", "linb.UI.Div",{
             width:120,
             height:150,
             maxHeight:300
-        }),
+        },
         EventHandlers:{
             onDblclick:function(profile, item, src){},
             onItemSelected:function(profile, item, src){}
@@ -22134,7 +22180,7 @@ Class("linb.UI.Gallery", "linb.UI.List",{
             items:{
                 ITEM:{
                     tabindex:'{_tabindex}',
-                    className:'{itemClass} {disabled}',
+                    className:'{itemClass} {disabled} {readonly}',
                     style:'padding:{itemPadding}px;margin:{itemMargin}px;{itemStyle}',
                     ITEMFRAME:{
                         style:'width:{itemWidth}px;height:{itemHeight}px;',
@@ -22330,7 +22376,7 @@ Class("linb.UI.IconList", "linb.UI.List",{
             items:{
                 ITEM:{
                     tabindex:'{_tabindex}',
-                    className:'{itemClass} {disabled}',
+                    className:'{itemClass} {disabled}  {readonly}',
                     style:'padding:{itemPadding}px;margin:{itemMargin}px;{itemStyle}',
                     //for firefox2 image in -moz-inline-box cant change height bug
                     IBWRAP:{
@@ -23566,7 +23612,7 @@ Class("linb.UI.Tabs", ["linb.UI", "linb.absList","linb.absValue"],{
             $submap:{
                 items:{
                     ITEM:{
-                        className:'{itemClass} {disabled}',
+                        className:'{itemClass} {disabled} {readonly}',
                         style:'{itemDisplay} {itemStyle}',
                         ITEMI:{
                             ITEMC:{
@@ -23759,6 +23805,7 @@ Class("linb.UI.Tabs", ["linb.UI", "linb.absList","linb.absValue"],{
                         box = profile.boxing();
 
                     if(properties.disabled || item.disabled)return false;
+                    if(properties.readonly || item.readonly)return false;
                     if(box.getUIValue() == item.id){
                          if(profile.onCaptionActive)
                             profile.boxing().onCaptionActive(profile, profile.getItemByDom(src), src);
@@ -23779,6 +23826,7 @@ Class("linb.UI.Tabs", ["linb.UI", "linb.absList","linb.absValue"],{
                         box = profile.boxing();
 
                     if(properties.disabled || item.disabled)return false;
+                    if(properties.readonly || item.readonly)return false;
                     if(box.getUIValue() == item.id)return;
 
                     //for some input onblur event
@@ -23855,6 +23903,7 @@ Class("linb.UI.Tabs", ["linb.UI", "linb.absList","linb.absValue"],{
                         bak;
 
                     if(properties.disabled || item.disabled)return;
+                    if(properties.readonly || item.readonly)return false;
                     var instance = profile.boxing();
 
                     if(false===instance.beforePageClose(profile, item, src)) return;
@@ -23893,6 +23942,7 @@ Class("linb.UI.Tabs", ["linb.UI", "linb.absList","linb.absValue"],{
                         id=item.id;
 
                     if(properties.disabled || item.disabled)return;
+                    if(properties.readonly || item.readonly)return false;
 
                      if(profile.beforePagePop && false==profile.boxing().beforePagePop(profile,item))
                         return false;
@@ -24547,7 +24597,7 @@ Class("linb.UI.ButtonViews", "linb.UI.Tabs",{
         t.$submap={
             items:{
                 ITEM:{
-                    className:'{itemClass}  {disabled}',
+                    className:'{itemClass}  {disabled} {readonly}',
                     style:'{itemStyle}',
                     tabindex: '{_tabindex}',
                     MARK:{
@@ -24573,7 +24623,6 @@ Class("linb.UI.ButtonViews", "linb.UI.Tabs",{
         Appearances:{
             ITEM:{
                display:linb.$inlineBlock,
-               zoom:linb.browser.ie6?1:null,
                'font-family':' "Verdana", "Helvetica", "sans-serif"',
                border:0,
                padding:'4px',
@@ -24599,6 +24648,172 @@ Class("linb.UI.ButtonViews", "linb.UI.Tabs",{
             ClickEffected:{ITEM:'MARK'}
         },
         _onresize:function(){}
+    }
+});
+Class("linb.UI.StatusButtons", ["linb.UI.List"],{
+    Initialize:function(){
+        //modify default template fro shell
+        var t = this.getTemplate();
+        t.className='';
+        t.$submap={
+            items:{
+                ITEM:{
+                    className:'{itemClass} {_endsClass} {disabled} {readonly}',
+                    style:'{itemMargin};{itemWidth};{itemAlign};{itemStyle}',
+                    tabindex: '{_tabindex}',
+                    CAPTION:{
+                        $order:1,
+                        text:'{caption}'
+                    }
+                }
+            }
+        };
+        this.setTemplate(t);
+    },
+    Static:{
+        Appearances:{
+            ITEMS:{
+                position:'relative',
+                overflow:'auto',
+                'overflow-x': (linb.browser.ie || linb.browser.gek)?'hidden':''
+            },
+            ITEM:{
+                'vertical-align':'middle',
+                position:'relative',
+                height:'16px',
+                padding:'3px',
+                'font-size':0,
+                'line-height':0,
+                'white-space':'nowrap'
+            },
+            "ITEM-none":{
+                background: linb.UI.$bg('icons.gif', 'no-repeat -12px -130px', true),
+                'border-left':'solid 1px #7C9CBC',
+                'border-right':'solid 1px #7C9CBC'
+            },
+            "ITEM-left":{
+                background: linb.UI.$bg('icons.gif', 'no-repeat left -130px', true),
+                'border-right':'solid 1px #7C9CBC'
+            },
+            "ITEM-right":{
+                background: linb.UI.$bg('icons.gif', 'no-repeat right -130px', true),
+                'border-left':'solid 1px #7C9CBC'
+            },
+            // ignore linb.UI.List setting
+            'ITEM-mouseover, ITEM-mousedown, ITEM-checked':{
+            },
+            'ITEM-mouseover':{},
+            'ITEM-mousedown':{},
+            'ITEM-checked':{},
+            
+            'ITEM-left-mouseover':{
+                $order:1,
+                'background-position': 'left -153px'
+            },
+            'ITEM-left-mousedown':{
+                $order:2,
+                'background-position': 'left -176px'
+            },
+            'ITEM-left-checked':{
+                $order:3,
+                'background-position': 'left -176px'
+            },
+            'ITEM-none-mouseover':{
+                $order:1,
+                'background-position': '-20px -153px'
+            },
+            'ITEM-none-mousedown':{
+                $order:2,
+                'background-position': '-20px -176px'
+            },
+            'ITEM-none-checked':{
+                $order:3,
+                'background-position': '-20px -176px'
+            },
+            'ITEM-right-mouseover':{
+                $order:1,
+                'background-position': 'right -153px'
+            },
+            'ITEM-right-mousedown':{
+                $order:2,
+                'background-position': 'right -176px'
+            },
+            'ITEM-right-checked':{
+                $order:3,
+                'background-position': 'right -176px'
+            },
+            CAPTION:{
+                display:linb.$inlineBlock,
+                zoom:linb.browser.ie6?1:null,
+                'vertical-align':'middle',
+                'font-size':'12px',
+                'line-height':'14px'
+            },
+            "ITEM-none CAPTION":{
+                padding:'1px 4px'
+            },
+            "ITEM-left CAPTION":{
+                padding:'1px 4px 1px 12px'
+            },
+            "ITEM-right CAPTION":{
+                padding:'1px 12px 1px 1px',
+            }
+        },
+        DataModel:({
+            maxHeight:null,
+            
+            itemMargin:{
+                ini:"",
+                action:function(value){
+                    this.getSubNode('ITEM',true).css('margin',value);
+                }
+            },
+            itemWidth:{
+                ini:0,
+                action:function(value){
+                    this.getSubNode('ITEM',true).width(value);
+                }
+            },
+            itemAlign:{
+                ini:"",
+                listbox:['','left','center','right'],
+                action:function(value){
+                    this.getSubNode('ITEM',true).css('text-align',value);
+                }
+            },
+            itemLinker:{
+                ini:'left',
+                listbox:['none','left','right'],
+                action:function(value){
+                    this.getSubNode('ITEM',true)
+                    .tagClass('-none', false)
+                    .tagClass('-left', false)
+                    .tagClass('-right', false)
+                    .tagClass('-'+value, true);
+                }
+            }
+        }),
+        Behaviors:{
+            DropableKeys:["ITEMS"]
+        },
+        EventHandlers:{
+        },
+        _prepareItem:function(profile, item){
+            var p = profile.properties, t;
+            item._tabindex = p.tabindex;
+
+            if(t = item.itemMargin || p.itemMargin)
+                item.itemMargin = "margin:" + t;
+
+            if(t = item.itemWidth || p.itemWidth)
+                item.itemWidth = "width:"+ ( t=='auto'?t:(t+'px'));
+
+            if(t = item.itemAlign || p.itemAlign)
+                item.itemAlign = "text-align:"+ t;
+
+            if(t = item.itemLinker || p.itemLinker)
+               item._endsClass = profile.getClass('ITEM', '-'+t);
+        }
     }
 });
 Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
@@ -24796,7 +25011,7 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
             $submap:{
                 items:{
                     ITEM:{
-                        className:'{itemClass} {disabled}',
+                        className:'{itemClass} {disabled}  {readonly}',
                         style:'{itemStyle}{itemDisplay}',
                         tagName : 'div',
                         BAR:{
@@ -24819,7 +25034,7 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
                             },
                             ITEMCAPTION:{
                                 text : '&nbsp;{caption}',
-                                className:"{disabled} ",
+                                className:"{disabled}  {readonly}",
                                 $order:3
                             }
                         },
@@ -24972,6 +25187,7 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
                         box.onItemSelected(profile, item, src);
                         break;
                     case 'multi':
+                    if(properties.readonly|| item.readonly)return false;
                         var value = box.getUIValue(),
                             arr = value?value.split(';'):[];
                         if(arr.length&&(ks[1]||ks[2]||properties.noCtrlKey)){
@@ -30734,7 +30950,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                         node.html(caption,false);
                 break;
                 case 'datepicker':
-                    cell.value=(parseInt(cell.value)?new Date(parseInt(cell.value)).getTime():"");
+                    cell.value= +linb.Date.parse(cell.value) + "";
                     caption= capOut || ren(profile,cell,ncell,f1);
                     if(dom)
                         node.html(caption, false);
@@ -31070,8 +31286,6 @@ sortby [for column only]
             }else
                 box._renderCell(profile, cell, node, options);
 
-            profile.boxing().afterCellUpdated(profile,cell, options);
-
             //if update value
             if('value' in options){
                 if(dirtyMark===false)
@@ -31086,6 +31300,8 @@ sortby [for column only]
                     }
                 }
             }
+
+            profile.boxing().afterCellUpdated(profile,cell, options);
         },
         _ensureValue:function(profile,value){
             if(profile.properties.selMode=='multi'){

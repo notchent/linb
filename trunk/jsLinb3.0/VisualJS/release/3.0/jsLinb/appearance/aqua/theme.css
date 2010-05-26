@@ -634,8 +634,8 @@ html, .uibg-base{
 *
 **/
 
-/*linb.UI.LinkList*/
-.linb-linklist-item{
+/*linb.UI.StatusButtons*/
+.linb-statusbuttons-item{
     background-image: url(Public/icons.gif);
 }
 

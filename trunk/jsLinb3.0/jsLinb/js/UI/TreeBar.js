@@ -193,7 +193,7 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
             $submap:{
                 items:{
                     ITEM:{
-                        className:'{itemClass} {disabled}',
+                        className:'{itemClass} {disabled}  {readonly}',
                         style:'{itemStyle}{itemDisplay}',
                         tagName : 'div',
                         BAR:{
@@ -216,7 +216,7 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
                             },
                             ITEMCAPTION:{
                                 text : '&nbsp;{caption}',
-                                className:"{disabled} ",
+                                className:"{disabled}  {readonly}",
                                 $order:3
                             }
                         },
@@ -369,6 +369,7 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
                         box.onItemSelected(profile, item, src);
                         break;
                     case 'multi':
+                    if(properties.readonly|| item.readonly)return false;
                         var value = box.getUIValue(),
                             arr = value?value.split(';'):[];
                         if(arr.length&&(ks[1]||ks[2]||properties.noCtrlKey)){

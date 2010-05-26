@@ -95,7 +95,7 @@ Class("linb.UI.List", ["linb.UI", "linb.absList","linb.absValue" ],{
             $submap:{
                 items:{
                     ITEM:{
-                        className:'{itemClass} {disabled}',
+                        className:'{itemClass} {disabled} {readonly}',
                         style:'{itemStyle}{itemDisplay}',
                         tabindex:'{_tabindex}',
                         ICON:{
@@ -179,6 +179,8 @@ Class("linb.UI.List", ["linb.UI", "linb.absList","linb.absValue" ],{
                         rt=box.onItemSelected(profile, item, src);
                         break;
                     case 'multi':
+                        if(properties.readonly|| item.readonly)return false;
+
                         var value = box.getUIValue(),
                             arr = value?value.split(';'):[];
 
@@ -214,6 +216,8 @@ Class("linb.UI.List", ["linb.UI", "linb.absList","linb.absValue" ],{
                             break;
                         }
                     case 'single':
+                        if(properties.readonly|| item.readonly)return false;
+
                         if(box.getUIValue() == item.id)
                             rt=false;
                         else{
@@ -273,7 +277,7 @@ Class("linb.UI.List", ["linb.UI", "linb.absList","linb.absValue" ],{
                 }
             }
         },
-        DataModel:({
+        DataModel:{
             selMode:{
                 ini:'single',
                 listbox:['single','none','multi']
@@ -299,7 +303,7 @@ Class("linb.UI.List", ["linb.UI", "linb.absList","linb.absValue" ],{
             width:120,
             height:150,
             maxHeight:300
-        }),
+        },
         EventHandlers:{
             onDblclick:function(profile, item, src){},
             onItemSelected:function(profile, item, src){}

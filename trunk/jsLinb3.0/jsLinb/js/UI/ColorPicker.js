@@ -581,7 +581,7 @@ Class('linb.UI.ColorPicker', ['linb.UI',"linb.absValue"], {
                 onClick:function(profile, e, src){
                     var properties = profile.properties,
                         instance = profile.boxing();
-                    if(properties.disabled)return;
+                    if(properties.disabled||properties.readonly)return;
                     if(false===instance.beforeClose(profile)) return;
                     instance.destroy();
                     //for design mode in firefox

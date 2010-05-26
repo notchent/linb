@@ -1,7 +1,5 @@
- Class('App.linb_UI_LinkList', 'linb.Com',{
+ Class('App.linb_UI_StatusButtons', 'linb.Com',{
     Instance:{
-        base:["linb.UI"],
-        required:["linb.UI.LinkList"],
         iniComponents:function(){
             // [[code created by jsLinb UI Builder
             var host = this,
@@ -10,7 +8,7 @@
                     children.push(child.get(0))
                 };
             
-            append((new linb.UI.LinkList)
+            append((new linb.UI.StatusButtons)
                 .host(host,"linklist1")
                 .setItems([{"id":"a","caption":"itema","tips":"item a"},{"id":"b","caption":"itemb","tips":"item b"},{"id":"c","caption":"itemc","tips":"item c"}])
                 .setLeft(40)
@@ -19,7 +17,7 @@
                 .setHeight(50)
             );
             
-            append((new linb.UI.LinkList)
+            append((new linb.UI.StatusButtons)
                 .host(host,"linklist2")
                 .setItems([{"id":"a","caption":"itema","tips":"item a"},{"id":"b","caption":"itemb","tips":"item b"},{"id":"c","caption":"itemc","tips":"item c"}])
                 .setLeft(40)

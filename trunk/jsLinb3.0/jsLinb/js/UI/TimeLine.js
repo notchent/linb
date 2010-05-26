@@ -328,7 +328,7 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
                 items:{
                     ITEM:{
                         tagName:'div',
-                        className:'{itemClass} {disabled} {_excls}',
+                        className:'{itemClass} {disabled} {readonly} {_excls}',
                         style:'left:{_left}px;width:{_width}px;{_top};{_zindex}{itemStyle}',
                         HEAD:{
                             tagName:'div',
@@ -368,7 +368,7 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
             onSize:linb.UI.$onSize,
             CLOSE:{
                 onClick:function(profile, e, src){
-                    if(profile.properties.disabled)return;
+                    if(profile.properties.disabled||profile.properties.readonly)return;
                     var instance = profile.boxing();
 
                     if(false===instance.beforeClose(profile, src)) return;
@@ -381,7 +381,7 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
             },
             OPT:{
                 onClick:function(profile, e, src){
-                    if(profile.properties.disabled)return;
+                    if(profile.properties.disabled||profile.properties.readonly)return;
                     profile.boxing().onShowOptions(profile, e, src);
                 }
             },
@@ -731,6 +731,7 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
                     if(linb.Event.getBtn(e)!="left")return;
                     var ps=profile.properties, item=profile.getItemByDom(src);
                     if(ps.disabled  || item.disabled)return;
+                    if(ps.readonly  || item.readonly)return;
                     if(profile.beforeDragTask && false===profile.boxing().beforeDragTask(profile, item, e, src))
                         return;
                     if(ps.readonly||item.readonly)return;

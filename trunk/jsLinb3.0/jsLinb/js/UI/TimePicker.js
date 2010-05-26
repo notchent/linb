@@ -366,7 +366,7 @@ Class('linb.UI.TimePicker', ['linb.UI',"linb.absValue"], {
             PRE:{
                 onClick:function(profile, e, src){
                     var p = profile.properties;
-                    if(p.disabled)return;
+                    if(p.disabled||p.readonly)return;
                     var v=profile.$hour;
                     v=(parseFloat(v)||0)-1;
                     v=(v%24+24)%24;
@@ -378,7 +378,7 @@ Class('linb.UI.TimePicker', ['linb.UI',"linb.absValue"], {
             NEXT:{
                 onClick:function(profile, e, src){
                     var p = profile.properties;
-                    if(p.disabled)return;
+                    if(p.disabled||p.readonly)return;
                     var v=profile.$hour;
                     v=(parseFloat(v)||0)+1;
                     v=(v%24+24)%24;
@@ -391,7 +391,7 @@ Class('linb.UI.TimePicker', ['linb.UI',"linb.absValue"], {
                 onClick:function(profile, e, src){
                     var properties = profile.properties,
                         instance = profile.boxing();
-                    if(properties.disabled)return;
+                    if(properties.disabled||properties.readonly)return;
                     if(false===instance.beforeClose(profile, src)) return;
                     instance.destroy();
                     //for design mode in firefox

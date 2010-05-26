@@ -1,11 +1,6 @@
 
 Class('App', 'linb.Com',{
     Instance:{
-        //base Class for linb.Com
-        base:["linb.UI"], 
-        //requried class for the App
-        //"linb.Tips","linb.UI.Resizer","linb.UI.Border","linb.UI.Shadow"
-        required:["linb.UI.List", "linb.UI.Button", "linb.UI.PageBar", "linb.UI.LinkList", "linb.UI.Link", "linb.UI.TreeBar", "linb.UI.Div"], 
         iniComponents:function(){
             // [[code created by jsLinb UI Builder
             var host=this, children=[], append=function(child){children.push(child.get(0))};
@@ -18,14 +13,6 @@ Class('App', 'linb.Com',{
                 .onClick("_pagebar1_onclick")
             );
             
-            
-            append((new linb.UI.LinkList)
-                .host(host,"linklist1")
-                .setItems([{"id":"a", "caption":"itema", "href":"item a"}, {"id":"b", "caption":"itemb", "href":"item b"}, {"id":"c", "caption":"itemc", "href":"item c"}])
-                .setLeft(40)
-                .setTop(150)
-                .onItemClick("_linklist1_onitemclick")
-            );
             
             append((new linb.UI.Div)
                 .host(host,"divInfo")
@@ -94,11 +81,6 @@ Class('App', 'linb.Com',{
                 //set history, for back/forword button in browser
                 SPA.divInfo.setHtml(str);
             })
-        }, 
-        _linklist1_onitemclick:function (profile, item, src) {
-            //set history
-            SPA.fakeHreflick(item.href);
-            return false;
         }, 
         _list2_onitemselected:function (profile, item, src) {
             //set history

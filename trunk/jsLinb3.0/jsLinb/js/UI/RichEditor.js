@@ -37,11 +37,18 @@ Class("linb.UI.RichEditor", ["linb.UI","linb.absValue"],{
                 ini:'font1;font2;align;list;font4;font3;insert;clear;html',
                 action:function(v){
                     var ns=this;
-                    if(!ns.properties.disabled)
+                    if(!ns.properties.disabled && !ns.properties.readonly)
                         ns.box._iniToolBar(ns);
                 }
             },
             disabled:{
+                ini:false,
+                action: function(v){
+                    if(this.properties.disabled!=v)
+                        this.boxing().refresh();
+                }
+            },
+            readonly:{
                 ini:false,
                 action: function(v){
                     if(this.properties.disabled!=v)
@@ -148,7 +155,7 @@ Class("linb.UI.RichEditor", ["linb.UI","linb.absValue"],{
         RenderTrigger:function(){
             var self=this;
 
-            if(!self.properties.disabled)
+            if(!self.properties.disabled && !self.properties.readonly)
                 self.box._iniToolBar(self);
 
             if(!self.$inDesign){
@@ -158,7 +165,7 @@ Class("linb.UI.RichEditor", ["linb.UI","linb.absValue"],{
                     iframe=document.createElement("iframe"),
                     //_updateToolbar event
                     event=self._event=function(e){
-                        if(this._pro && this._pro.properties.disabled)return;
+                        if(this._pro && (this._pro.properties.disabled||this._pro.properties.readonly))return;
 
                         _.resetRun('RichEditor:'+domId, function(){
                             linb.UI.RichEditor._updateToolbar(domId)
@@ -189,7 +196,7 @@ Class("linb.UI.RichEditor", ["linb.UI","linb.absValue"],{
                             }
                             doc._pro=win._pro=self;
 
-                            var disabled=self.properties.disabled;
+                            var disabled=self.properties.disabled||self.properties.readonly;
                             doc.designMode=disabled?"off":"on";
 
                             if(linb.browser.ie){
@@ -240,7 +247,7 @@ Class("linb.UI.RichEditor", ["linb.UI","linb.absValue"],{
                                         delete frames[this.$frameId];
                                         win.removeEventListener("unload",gekfix,false);
                                     }
-                                    if(!this.properties.disabled){
+                                    if(!this.properties.disabled && !this.properties.readonly){
                                         doc.removeEventListener("mousedown",event,false);
                                         doc.removeEventListener("dblclick",event,false);
                                         doc.removeEventListener("click",event,false);
@@ -312,7 +319,7 @@ Class("linb.UI.RichEditor", ["linb.UI","linb.absValue"],{
 
             //compose
             self.getRoot().prepend(
-                t=new linb.UI.ToolBar({handler:false,items:items,disabled:pro.disabled})
+                t=new linb.UI.ToolBar({handler:false,items:items,disabled:pro.disabled||pro.readonly})
             );
             t.render(true);
             t = self._$tb = t.get(0);

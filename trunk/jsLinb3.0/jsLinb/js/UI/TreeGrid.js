@@ -2433,7 +2433,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                         node.html(caption,false);
                 break;
                 case 'datepicker':
-                    cell.value=(parseInt(cell.value)?new Date(parseInt(cell.value)).getTime():"");
+                    cell.value= +linb.Date.parse(cell.value) + "";
                     caption= capOut || ren(profile,cell,ncell,f1);
                     if(dom)
                         node.html(caption, false);
@@ -2769,8 +2769,6 @@ sortby [for column only]
             }else
                 box._renderCell(profile, cell, node, options);
 
-            profile.boxing().afterCellUpdated(profile,cell, options);
-
             //if update value
             if('value' in options){
                 if(dirtyMark===false)
@@ -2785,6 +2783,8 @@ sortby [for column only]
                     }
                 }
             }
+
+            profile.boxing().afterCellUpdated(profile,cell, options);
         },
         _ensureValue:function(profile,value){
             if(profile.properties.selMode=='multi'){

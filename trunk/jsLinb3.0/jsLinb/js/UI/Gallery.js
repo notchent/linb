@@ -12,7 +12,7 @@ Class("linb.UI.Gallery", "linb.UI.List",{
             items:{
                 ITEM:{
                     tabindex:'{_tabindex}',
-                    className:'{itemClass} {disabled}',
+                    className:'{itemClass} {disabled} {readonly}',
                     style:'padding:{itemPadding}px;margin:{itemMargin}px;{itemStyle}',
                     ITEMFRAME:{
                         style:'width:{itemWidth}px;height:{itemHeight}px;',

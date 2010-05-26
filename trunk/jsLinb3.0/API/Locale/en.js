@@ -9910,9 +9910,9 @@ _.set(linb.Locale,["en","doc","linb","UI","List"], {
     }
 });
 
-_.set(linb.Locale,["en","doc","linb","UI","LinkList"], {
+_.set(linb.Locale,["en","doc","linb","UI","StatusButtons"], {
     constructor:{
-        $desc:"Creates a linb.UI.LinkList Object."
+        $desc:"Creates a linb.UI.StatusButtons Object."
     },
     prototype:{
         getItemMargin:{
@@ -9920,7 +9920,7 @@ _.set(linb.Locale,["en","doc","linb","UI","LinkList"], {
             $rtn:"Number",
             $snippet:[
                 "var id='linb.temp.llist1'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
-                "var o;linb(id).prepend(o=new linb.UI.LinkList({height:'auto',items:[{id:'a',caption:'a a'},{id:'b',caption:'b b'},{id:'c',caption:'c c'}]}));"+
+                "var o;linb(id).prepend(o=new linb.UI.StatusButtons({height:'auto',items:[{id:'a',caption:'a a'},{id:'b',caption:'b b'},{id:'c',caption:'c c'}]}));"+
                 "_.asyRun(function(){alert(o.setItemMargin(10).getItemMargin());},1000)"+
                 "}"
             ]
@@ -9934,7 +9934,7 @@ _.set(linb.Locale,["en","doc","linb","UI","LinkList"], {
             ],
             $snippet:[
                 "var id='linb.temp.llist2'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
-                "var o;linb(id).prepend(o=new linb.UI.LinkList({height:'auto',items:[{id:'a',caption:'a a'},{id:'b',caption:'b b'},{id:'c',caption:'c c'}]}));"+
+                "var o;linb(id).prepend(o=new linb.UI.StatusButtons({height:'auto',items:[{id:'a',caption:'a a'},{id:'b',caption:'b b'},{id:'c',caption:'c c'}]}));"+
                 "_.asyRun(function(){alert(o.setItemMargin(10).getItemMargin());},1000)"+
                 "}"
             ]
@@ -9949,7 +9949,7 @@ _.set(linb.Locale,["en","doc","linb","UI","LinkList"], {
             ],
             $snippet:[
                 "var id='linb.temp.llist8'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
-                "var o;linb(id).prepend(o=new linb.UI.LinkList({height:'auto',items:[{id:'a',caption:'a a'},{id:'b',caption:'b b'},{id:'c',caption:'c c'}]}));"+
+                "var o;linb(id).prepend(o=new linb.UI.StatusButtons({height:'auto',items:[{id:'a',caption:'a a'},{id:'b',caption:'b b'},{id:'c',caption:'c c'}]}));"+
                 "o.onItemClick(function(p,item,s){alert(item.id);});"+
                 "}"
             ]

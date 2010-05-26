@@ -75,7 +75,7 @@ Class("linb.UI.CheckBox", "linb.UI.Button",{
             ClickEffected:{KEY:'MARK'},
             onClick:function(profile, e, src){
                 var p=profile.properties,b=profile.boxing();
-                if(p.disabled)return false;
+                if(p.disabled || p.readonly)return false;
                 //onClick event
                 b.setUIValue(!p.$UIvalue);
 
