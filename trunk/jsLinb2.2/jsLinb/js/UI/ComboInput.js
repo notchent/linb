@@ -412,9 +412,9 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                             if(!v)v=profile.properties.$UIvalue;
                             v=linb.Date.getTimSpanStart(v,'d',1);
                             // min/max year
-                            if(v.getTime()<profile.properties.min)
+                            if(v.getFullYear()<profile.properties.min)
                                 v.setTime(profile.properties.min);
-                            if(v.getTime()>profile.properties.max)
+                            if(v.getFullYear()>profile.properties.max)
                                 v.setTime(profile.properties.max);
                         }
                         return v?String(v.getTime()):'';
