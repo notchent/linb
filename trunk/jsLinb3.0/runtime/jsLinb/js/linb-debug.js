@@ -713,7 +713,7 @@ _.merge(linb,{
         }
         conf=_.get(linb.Locale[linb.$localeKey], arr);
         return (tmp=typeof conf)=='string'
-               ? ( params.length>1 ? conf.replace(linb._langParamReg,function(z,id){return params[1+id]||z}) : conf)
+               ? ( params.length>1 ? conf.replace(linb._langParamReg,function(z,id){return params[1+ +id]||z}) : conf)
                : tmp=='function'
                ? conf.apply(null,params) :
                conf ? conf : arr[arr.length-1]
@@ -10474,12 +10474,14 @@ Class("linb.UI",  "linb.absObj", {
                     o.boxing()._border(null,false);
 
                 if(p.dock && p.dock!='none'){
-                    //set 0 to force resize
-                    o.getRootNode().style.width=0;
-                    o.getRootNode().style.height=0;
-                    linb.UI.$dock(o,true,true);
-                }else
+                    o.boxing().adjustDock(force);
+                }else{
+                    if(force){
+                        o._resize_h=-1;
+                        o._resize_w=-1;
+                    }                    
                     linb.UI.$tryResize(o,p.width,p.height,force);
+                }
             });
         },
         toHtml:function(force){
@@ -10870,10 +10872,19 @@ Class("linb.UI",  "linb.absObj", {
                 o.clearCache();
             });
         },
-        adjustDock:function(){
+        adjustDock:function(force){
             return this.each(function(o){
-                if(o.properties.dock && o.properties.dock!='none')
+                if(o.properties.dock && o.properties.dock!='none'){
+                    if(force){
+                        // ensure force 1
+                        o.getRootNode().style.width=0;
+                        o.getRootNode().style.height=0;
+                        // ensure force 2
+                        o._resize_h=-1;
+                        o._resize_w=-1;
+                    }
                     linb.UI.$dock(o,true,true);
+                }
             });
         }
     },
@@ -12736,7 +12747,6 @@ Class("linb.UI",  "linb.absObj", {
                         i.addClass('ui-disabled');
                     else
                         i.removeClass('ui-disabled');
-                    i.css('opacity',v?0.5:1);
                 }
             },
             dock:{
@@ -16604,6 +16614,7 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
                 width:'8px',
                 left:0,
                 top:0,
+                cursor:'e-resize',
                 'margin-top':'-6px'
             },
             'BOX-h IND1-mouseover,BOX-h IND2-mouseover':{
@@ -16692,6 +16703,7 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
                 height:'8px',
                 left:0,
                 top:0,
+                cursor:'n-resize',
                 'margin-left':'-6px'
             },
             'BOX-v IND1-mouseover,BOX-v IND2-mouseover':{
@@ -16929,7 +16941,7 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
                 if(p.isRange)
                     b[1]=Math.ceil(b[1]/value);
             }
-            return b.join(':');
+            return p.isRange?b.join(':'):(b[0]+'');
         },
         _ensureValue:function(profile, value){
             var p = profile.properties,
@@ -22071,6 +22083,7 @@ Class("linb.UI.Group", "linb.UI.Div",{
                     }
                 }
             }
+            
         },
         DataModel:{
             selMode:{
@@ -31938,6 +31951,7 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
                 width:'8px',
                 left:0,
                 top:0,
+                cursor:'e-resize',
                 'margin-top':'-6px'
             },
             'BOX-h IND1-mouseover,BOX-h IND2-mouseover':{
@@ -32026,6 +32040,7 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
                 height:'8px',
                 left:0,
                 top:0,
+                cursor:'n-resize',
                 'margin-left':'-6px'
             },
             'BOX-v IND1-mouseover,BOX-v IND2-mouseover':{
@@ -32263,7 +32278,7 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
                 if(p.isRange)
                     b[1]=Math.ceil(b[1]/value);
             }
-            return b.join(':');
+            return p.isRange?b.join(':'):(b[0]+'');
         },
         _ensureValue:function(profile, value){
             var p = profile.properties,

@@ -143,6 +143,7 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
                 width:'8px',
                 left:0,
                 top:0,
+                cursor:'e-resize',
                 'margin-top':'-6px'
             },
             'BOX-h IND1-mouseover,BOX-h IND2-mouseover':{
@@ -231,6 +232,7 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
                 height:'8px',
                 left:0,
                 top:0,
+                cursor:'n-resize',
                 'margin-left':'-6px'
             },
             'BOX-v IND1-mouseover,BOX-v IND2-mouseover':{
@@ -468,7 +470,7 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
                 if(p.isRange)
                     b[1]=Math.ceil(b[1]/value);
             }
-            return b.join(':');
+            return p.isRange?b.join(':'):(b[0]+'');
         },
         _ensureValue:function(profile, value){
             var p = profile.properties,

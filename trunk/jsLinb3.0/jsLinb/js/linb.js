@@ -713,7 +713,7 @@ _.merge(linb,{
         }
         conf=_.get(linb.Locale[linb.$localeKey], arr);
         return (tmp=typeof conf)=='string'
-               ? ( params.length>1 ? conf.replace(linb._langParamReg,function(z,id){return params[1+id]||z}) : conf)
+               ? ( params.length>1 ? conf.replace(linb._langParamReg,function(z,id){return params[1+ +id]||z}) : conf)
                : tmp=='function'
                ? conf.apply(null,params) :
                conf ? conf : arr[arr.length-1]

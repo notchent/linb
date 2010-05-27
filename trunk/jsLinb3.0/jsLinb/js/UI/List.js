@@ -276,6 +276,7 @@ Class("linb.UI.List", ["linb.UI", "linb.absList","linb.absValue" ],{
                     }
                 }
             }
+            
         },
         DataModel:{
             selMode:{
