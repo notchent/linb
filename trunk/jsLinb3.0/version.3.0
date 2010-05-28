@@ -1,0 +1,30 @@
+
+Function added:
+    linb.UI.prototyep + setTheme
+
+Properties added:
+    linb.absValue + readonly
+    linb.UI.Panel/linb.UI.Dialog + refreshBtn
+
+Properties Changed:
+    linb.UI.Panel/linb.UI.Tabs from landBtn to popBtn
+
+Events added:
+    linb.UI.Panel/linb.UI.Dialog + onRefresh
+
+Com Removed:
+    linb.UI.LinkList
+
+Com Added:
+    linb.UI.StatusButtons
+    linb.UI.ColLayout
+    
+Others:
+    linb.UI.PageBar use number to replace '>' or '...' when pages is less then 6
+    
+------------------------
+
+
+linb.UI.ProgressBar
+add direction:forward, backward, up, down
+add hAlign,vAlign
