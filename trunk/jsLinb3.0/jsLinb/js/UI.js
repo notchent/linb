@@ -1100,7 +1100,8 @@ Class("linb.UI",  "linb.absObj", {
                     arr.push(o);
                 }
             });
-            return linb.UI.pack(arr,false).refresh();
+            linb.UI.pack(arr,false).refresh();
+            return this;
         },
         getTheme:function(){
             return this.get(0) && this.get(0).theme;

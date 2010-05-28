@@ -144,7 +144,7 @@ Class("linb.UI.Input", ["linb.UI.Widget","linb.absValue"] ,{
             },
             "KEY-readonly BOX, KEY-inputreadonly BOX":{
                 $order:2,
-                background:'none'
+                background:'#eee'
             },
             'BOX-focus, BOX-mouseover':{
                 'border-color':'#7EADD9'

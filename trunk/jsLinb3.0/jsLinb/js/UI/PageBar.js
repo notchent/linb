@@ -20,16 +20,23 @@ Class("linb.UI.PageBar",["linb.UI","linb.absValue"] ,{
                     nexthide = fun(profile, 'NEXTM'),
                     last = fun(profile, 'LAST'),
 
-                    change = function(n,i,j){if(i)n.first(3).attr('href',prop.uriTpl.replace('*',i));if(j)n.first(3).text(prop.textTpl.replace('*',j))},
+                    change = function(n,i,j,k){
+                        if(i)n.first(3).attr('href',prop.uriTpl.replace('*',i));
+                        if(_.isSet(j))
+                            n.first(3).text(prop.textTpl.replace('*',j));
+                        
+                        if(_.isSet(k))
+                            n.get(0)._real_page=k;
+                    },
                     display = function(n,f){n.css('display',f?'':'none')}
                     ;
                 //change href and text
                 change(first, min, min);
-                change(prehide, '','..' + _.str.repeat('.',String(cur-1-min).length) );
+                change(prehide, '','..' + _.str.repeat('.',String(cur-1-min).length) , 1);
                 change(prev, cur-1);
                 change(current, cur, cur);
                 change(next, cur+1);
-                change(nexthide, '','..' + _.str.repeat('.',String(max-cur-1).length) );
+                change(nexthide, '','..' + _.str.repeat('.',String(max-cur-1).length) , 1);
                 change(last, max, max);
 
                 //show or hide
@@ -39,8 +46,13 @@ Class("linb.UI.PageBar",["linb.UI","linb.absValue"] ,{
                     display(first,1);display(prehide,0);display(prev,0);
                 }else if(t==2){
                     display(first,1);display(prehide,0);display(prev,1);
+                    change(prev, cur-1, cur-1);
                 }else{
                     display(first,1);display(prehide,1);display(prev,1);
+                    if(t==3){
+                        change(prev, cur-1, cur-1);
+                        change(prehide, cur-2, cur-2, 0);
+                    }
                 }
                 if((t=max-cur)<=0){
                     display(last,0);display(nexthide,0);display(next,0);
@@ -48,8 +60,13 @@ Class("linb.UI.PageBar",["linb.UI","linb.absValue"] ,{
                     display(last,1);display(nexthide,0);display(next,0);
                 }else if(t==2){
                     display(last,1);display(nexthide,0);display(next,1);
+                    change(next, cur+1, cur+1);
                 }else{
                     display(last,1);display(nexthide,1);display(next,1);
+                    if(t==3){
+                        change(next, cur+1, cur+1);
+                        change(nexthide, cur+2, cur+2, 0);
+                    }
                 }
             });
         },
@@ -235,10 +252,13 @@ Class("linb.UI.PageBar",["linb.UI","linb.absValue"] ,{
                 }
             },
             PREM:{
-                onClick:function(profile, e){return !!linb.Event.getKey(e)[2]},
-                onMousedown:function(profile, e, src){
-                    profile.box._show(profile,e,src,0);
-                    return false;
+                onClick:function(profile, e, src){
+                    if(linb.use(src).get(0)._real_page){
+                        profile.box._show(profile,e,src,0);
+                        return false;
+                    }else{
+                        return profile.box._click(profile,src);
+                    }
                 }
             },
             PREV:{
@@ -257,10 +277,13 @@ Class("linb.UI.PageBar",["linb.UI","linb.absValue"] ,{
                 }
             },
             NEXTM:{
-                onClick:function(profile, e){return !!linb.Event.getKey(e)[2]},
-                onMousedown:function(profile, e, src){
-                    profile.box._show(profile,e,src,1);
-                    return false;
+                onClick:function(profile, e, src){
+                    if(linb.use(src).get(0)._real_page){
+                        profile.box._show(profile,e,src,1);
+                        return false;
+                    }else{
+                        return profile.box._click(profile,src);
+                    }
                 }
             },
             LAST:{
