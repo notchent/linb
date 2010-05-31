@@ -1383,8 +1383,8 @@ Class('linb.absIO',null,{
                 _.tryF(self.onRetry,[self._retryNo],self);
                 self.start();
             }else{
-                _.tryF(self.onTimeout,[],self);
-                self._onError(new Error("Request timeout"));
+                if(false!==_.tryF(self.onTimeout,[],self))
+                    self._onError(new Error("Request timeout"));
             }
         },
         _onEnd:function(){
@@ -1428,7 +1428,7 @@ Class('linb.absIO',null,{
         $abstract:true,
         _id:1,
         method:'GET',
-        retry:2,
+        retry:0,
         timeout:60000,
         //form, xml, or json
         reqType:'form',
