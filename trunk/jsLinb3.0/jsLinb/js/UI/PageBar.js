@@ -23,7 +23,7 @@ Class("linb.UI.PageBar",["linb.UI","linb.absValue"] ,{
                     change = function(n,i,j,k){
                         if(i)n.first(3).attr('href',prop.uriTpl.replace('*',i));
                         if(_.isSet(j))
-                            n.first(3).text(prop.textTpl.replace('*',j));
+                            n.first(3).html(prop.textTpl.replace('*',j),false);
                         
                         if(_.isSet(k))
                             n.get(0)._real_page=k;
@@ -33,9 +33,9 @@ Class("linb.UI.PageBar",["linb.UI","linb.absValue"] ,{
                 //change href and text
                 change(first, min, min);
                 change(prehide, '','..' + _.str.repeat('.',String(cur-1-min).length) , 1);
-                change(prev, cur-1);
+                change(prev, cur-1, prop.prevMark);
                 change(current, cur, cur);
-                change(next, cur+1);
+                change(next, cur+1, prop.nextMark);
                 change(nexthide, '','..' + _.str.repeat('.',String(max-cur-1).length) , 1);
                 change(last, max, max);
 

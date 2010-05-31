@@ -74,6 +74,7 @@ Class('linb.absBox',null, {
         },
         reBoxing:function(key,ensureValue){
             var self=this, t=linb.absBox.$type[key||'Dom'];
+            if(!t)return linb.UI.pack([]);
             if(t==self.KEY)return self;
             if(t=linb.SC(t))return t.pack(self._nodes, ensureValue);
         }
