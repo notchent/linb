@@ -22,6 +22,9 @@ Com Added:
 Others:
     linb.UI.PageBar use number to replace '>' or '...' when pages is less then 6
     
+    
+Change default Ajax retry time to 0
+
 ------------------------
 
 
