@@ -28355,8 +28355,14 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
             return self;
         },
         updateCell:function(cellId, options, dirtyMark){
-            var self=this;
-            self.constructor._updCell(self.get(0),cellId,options, dirtyMark);
+            var self=this,prf=this.get(0);
+            _.each(prf.cellMap,function(o){
+                if(o.id && o.id===cellId){
+                    cellId=o._serialId;
+                    return false;
+                }
+            });
+            self.constructor._updCell(prf,cellId,options, dirtyMark);
             return self;
         },
         editCellbyRowCol:function(rowId, colId){
