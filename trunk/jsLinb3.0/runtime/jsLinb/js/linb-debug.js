@@ -33373,7 +33373,7 @@ if(linb.browser.ie){
                 },{
                     beforeClose:function(){
                         dialog.hide();
-                        _.tryF(me.onNo);
+                        _.tryF(me.onNo,['close']);
                         me.onYest=me.onNo=null;
                         return false;
                     }
@@ -33406,7 +33406,7 @@ if(linb.browser.ie){
                 {
                     onClick:function(){
                         dialog.hide();
-                        _.tryF(me.onNo);
+                        _.tryF(me.onNo,['no']);
                         me.onYest=me.onNo=null;
                     }
                 });
