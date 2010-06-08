@@ -16989,7 +16989,7 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
                 var node=profile.getSubNode('INPUT').get(0);
                 node.focus();
                 //DOM node's readOnly
-                if(!node.readOnly && node.select)node.select();
+                if(!node.readOnly && node.select)try{node.select()}catch(e){}
             }
             return this;
         },
