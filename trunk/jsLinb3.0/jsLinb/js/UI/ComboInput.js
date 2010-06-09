@@ -374,9 +374,10 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                 pro.items=[];
 
             if(value=='timepicker'){
+                var keymap={a:1,c:1,v:1,x:1};
                 _.merge(profile,{
-                    $beforeKeypress : function(profile,c,k){
-                        return k.length!=1 || /[0-9:]/.test(k);
+                    $beforeKeypress : function(profile,c,k,ctrl){
+                        return k.length!=1 || /[0-9:]/.test(k)|| (!!ctrl && !!keymap[k]);
                     },
                     $getShowValue : function(profile,value){
                         return value?linb.UI.TimePicker._ensureValue(profile,value):'';
@@ -391,9 +392,10 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                 },'all');
             }else if(value=='datepicker'){
                 var date=linb.Date;
+                var keymap={a:1,c:1,v:1,x:1};
                 _.merge(profile,{
-                    $beforeKeypress : function(profile,c,k){
-                        return k.length!=1 || /[0-9/\-_ ]/.test(k);
+                    $beforeKeypress : function(profile,c,k,ctrl){
+                        return k.length!=1 || /[0-9/\-_ ]/.test(k) ||(!!ctrl && !!keymap[k]);
                     },
                     $compareValue : function(p,a,b){
                         return (!a&&!b) || (String(a)==String(b))
@@ -422,9 +424,10 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                 },'all');
             }else if(value=='currency'){
                 profile.$isNumber=1;
+                var keymap={a:1,c:1,v:1,x:1};
                 _.merge(profile,{
-                    $beforeKeypress : function(profile,c,k){
-                        return k.length!=1 || /[0-9,.]/.test(k);
+                    $beforeKeypress : function(profile,c,k,ctrl){
+                        return k.length!=1 || /[0-9,.]/.test(k) ||(!!ctrl && !!keymap[k]);
                     },
                     $compareValue : function(p,a,b){
                         return ((a===''&&b!=='')||(b===''&&a!==''))?false:p.box._currency(profile, a)==p.box._currency(profile, b)
@@ -438,9 +441,10 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                 },'all');
             }else if(value=='number' || value=='spin'){
                 profile.$isNumber=1;
+                var keymap={a:1,c:1,v:1,x:1};
                 _.merge(profile,{
-                    $beforeKeypress : function(profile,c,k){
-                        return k.length!=1 || /[-0-9.]/.test(k);
+                    $beforeKeypress : function(profile,c,k,ctrl){
+                        return k.length!=1 || /[-0-9.]/.test(k)|| (!!ctrl && !!keymap[k]);
                     },
                     $compareValue : function(p,a,b){
                         return ((a===''&&b!=='')||(b===''&&a!==''))?false:p.box._number(profile, a)==p.box._number(profile, b)
@@ -683,6 +687,8 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                 },
                 onKeyup:function(profile, e, src){
                     var p=profile.properties,b=profile.box;
+                    if(profile.$keyD)
+                        delete profile.$keyD;
                     if(p.dynCheck){
                         var value=linb.use(src).get(0).value;
                         profile.box._checkValid(profile, value);
@@ -764,7 +770,8 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
 
                     if(k[0].length>1)
                         profile.$keyD=k[0];
-
+                    else
+                        delete profile.$keyD;
                     b._asyCheck(profile);
 
                     if(p.mask){
@@ -1104,8 +1111,11 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
         _currency:function(profile, value){
             var prop=profile.properties,min=Math.max(prop.min,0);
             value=parseFloat((value+"").replace(/,/g,''))||0;
-            value=value>prop.max?prop.max:value<min?min:value
-            value=value.toFixed(prop.precision);
+            value=value>prop.max?prop.max:value<min?min:value;
+            return this.formatCurrency(value);
+        },
+        formatCurrency:function(value){
+            value=value.toFixed(2);
             value= value.split(".");
             value[0] = value[0].split("").reverse().join("").replace(/(\d{3})(?=\d)/g, "$1,").split("").reverse().join("");
             return value.join(".");

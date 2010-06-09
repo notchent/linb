@@ -516,10 +516,10 @@ html, .uibg-base{
     border-bottom:1px solid #f1f1f1;
 }
 .linb-treegrid-preview{
-    border-bottom:1px dashed #f1f1f1;
+    border-bottom:1px solid #f1f1f1;
 }
 .linb-treegrid-summary{
-    border-bottom:2px solid #f1f1f1;
+    border-bottom:1px solid #f1f1f1;
 }
 
 .linb-treegrid-cell-mouseover{

@@ -17052,7 +17052,7 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
                 var node=profile.getSubNode('INPUT').get(0);
                 node.focus();
                 //DOM node's readOnly
-                if(!node.readOnly && node.select)node.select();
+                if(!node.readOnly && node.select)try{node.select()}catch(e){}
             }
             return this;
         },
@@ -17312,6 +17312,8 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
 
                     if(k[0].length>1)
                         profile.$keyD=k[0];
+                    else
+                        delete profile.$keyD;
 
                     b._asyCheck(profile);
 
@@ -17361,6 +17363,8 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
                 },
                 onKeyup:function(profile, e, src){
                     var p=profile.properties,b=profile.box;
+                    if(profile.$keyD)
+                        delete profile.$keyD;
                     if(p.dynCheck){
                         var value=linb.use(src).get(0).value;
                         profile.box._checkValid(profile, value);
@@ -18739,9 +18743,10 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                 pro.items=[];
 
             if(value=='timepicker'){
+                var keymap={a:1,c:1,v:1,x:1};
                 _.merge(profile,{
-                    $beforeKeypress : function(profile,c,k){
-                        return k.length!=1 || /[0-9:]/.test(k);
+                    $beforeKeypress : function(profile,c,k,ctrl){
+                        return k.length!=1 || /[0-9:]/.test(k)|| (!!ctrl && !!keymap[k]);
                     },
                     $getShowValue : function(profile,value){
                         return value?linb.UI.TimePicker._ensureValue(profile,value):'';
@@ -18756,9 +18761,10 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                 },'all');
             }else if(value=='datepicker'){
                 var date=linb.Date;
+                var keymap={a:1,c:1,v:1,x:1};
                 _.merge(profile,{
-                    $beforeKeypress : function(profile,c,k){
-                        return k.length!=1 || /[0-9/\-_ ]/.test(k);
+                    $beforeKeypress : function(profile,c,k,ctrl){
+                        return k.length!=1 || /[0-9/\-_ ]/.test(k) ||(!!ctrl && !!keymap[k]);
                     },
                     $compareValue : function(p,a,b){
                         return (!a&&!b) || (String(a)==String(b))
@@ -18787,9 +18793,10 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                 },'all');
             }else if(value=='currency'){
                 profile.$isNumber=1;
+                var keymap={a:1,c:1,v:1,x:1};
                 _.merge(profile,{
-                    $beforeKeypress : function(profile,c,k){
-                        return k.length!=1 || /[0-9,.]/.test(k);
+                    $beforeKeypress : function(profile,c,k,ctrl){
+                        return k.length!=1 || /[0-9,.]/.test(k) ||(!!ctrl && !!keymap[k]);
                     },
                     $compareValue : function(p,a,b){
                         return ((a===''&&b!=='')||(b===''&&a!==''))?false:p.box._currency(profile, a)==p.box._currency(profile, b)
@@ -18803,9 +18810,10 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                 },'all');
             }else if(value=='number' || value=='spin'){
                 profile.$isNumber=1;
+                var keymap={a:1,c:1,v:1,x:1};
                 _.merge(profile,{
-                    $beforeKeypress : function(profile,c,k){
-                        return k.length!=1 || /[-0-9.]/.test(k);
+                    $beforeKeypress : function(profile,c,k,ctrl){
+                        return k.length!=1 || /[-0-9.]/.test(k)|| (!!ctrl && !!keymap[k]);
                     },
                     $compareValue : function(p,a,b){
                         return ((a===''&&b!=='')||(b===''&&a!==''))?false:p.box._number(profile, a)==p.box._number(profile, b)
@@ -19048,6 +19056,8 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                 },
                 onKeyup:function(profile, e, src){
                     var p=profile.properties,b=profile.box;
+                    if(profile.$keyD)
+                        delete profile.$keyD;
                     if(p.dynCheck){
                         var value=linb.use(src).get(0).value;
                         profile.box._checkValid(profile, value);
@@ -19129,7 +19139,8 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
 
                     if(k[0].length>1)
                         profile.$keyD=k[0];
-
+                    else
+                        delete profile.$keyD;
                     b._asyCheck(profile);
 
                     if(p.mask){
@@ -19469,8 +19480,11 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
         _currency:function(profile, value){
             var prop=profile.properties,min=Math.max(prop.min,0);
             value=parseFloat((value+"").replace(/,/g,''))||0;
-            value=value>prop.max?prop.max:value<min?min:value
-            value=value.toFixed(prop.precision);
+            value=value>prop.max?prop.max:value<min?min:value;
+            return this.formatCurrency(value);
+        },
+        formatCurrency:function(value){
+            value=value.toFixed(2);
             value= value.split(".");
             value[0] = value[0].split("").reverse().join("").replace(/(\d{3})(?=\d)/g, "$1,").split("").reverse().join("");
             return value.join(".");
@@ -23241,7 +23255,12 @@ Class("linb.UI.PageBar",["linb.UI","linb.absValue"] ,{
             dataField:null,
             dataBinder:null,
 
-            caption:' Page: ',
+            caption:{
+                ini:' Page: ',
+                action:function(v){
+                    this.getSubNode("LABEL").html(v);
+                }
+            },
             value:"1:1:1",
             uriTpl:"#*",
             textTpl:"*",
@@ -24794,7 +24813,7 @@ Class("linb.UI.StatusButtons", ["linb.UI.List"],{
                 padding:'1px 4px 1px 12px'
             },
             "ITEM-right CAPTION":{
-                padding:'1px 12px 1px 1px',
+                padding:'1px 12px 1px 1px'
             }
         },
         DataModel:({
@@ -28808,15 +28827,26 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
 
                     if(t=options.height)
                         ns.getSubNode('CELLS',rid).height(t);
+                        
                     if(t=options.rowStyle)
                         (tt=ns.getSubNode('CELLS',rid)).attr('style',tt.attr('style')+";"+t);
+                        
                     if(t=options.rowClass)
                         ns.getSubNode('CELLS',rid).addClass(t);
+                        
                     if(options.hasOwnProperty('disabled')){
+                        var cls=profile.getClass('CELLS', '-disabled');
                         if(options.disabled)
-                            ns.getSubNode('CELLS',rid).addClass('ui-itemdisabled');
+                            ns.getSubNode('CELLS',rid).addClass(cls);
                         else
-                            ns.getSubNode('CELLS',rid).removeClass('ui-itemdisabled');
+                            ns.getSubNode('CELLS',rid).removeClass(cls);
+                    }
+                    if(options.hasOwnProperty('readonly')){
+                        var cls=profile.getClass('CELLS', '-readonly');
+                        if(options.readonly)
+                            ns.getSubNode('CELLS',rid).addClass(cls);
+                        else
+                            ns.getSubNode('CELLS',rid).removeClass(cls);
                     }
                     if(t=options.firstCellStyle)
                         (tt=ns.getSubNode('FCELL',rid)).attr('style',tt.attr('style')+";"+t);
@@ -29140,15 +29170,21 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
             v=_.get(profile.rowMap,[profile.rowMap2[rowId], '_cells',colId]);
             return v?profile.cellMap[v]:null;
         },
-        updateCellByRowCol:function(rowId, colId, options, dirtyMark){
+        updateCellByRowCol:function(rowId, colId, options, dirtyMark, triggerEvent){
             var t,self=this,con=self.constructor;
             if(t=con._getCellId(self.get(0), rowId, colId))
-                con._updCell(self.get(0), t, options, dirtyMark);
+                con._updCell(self.get(0), t, options, dirtyMark, triggerEvent);
             return self;
         },
-        updateCell:function(cellId, options, dirtyMark){
-            var self=this;
-            self.constructor._updCell(self.get(0),cellId,options, dirtyMark);
+        updateCell:function(cellId, options, dirtyMark, triggerEvent){
+            var self=this,prf=this.get(0);
+            _.each(prf.cellMap,function(o){
+                if(o.id && o.id===cellId){
+                    cellId=o._serialId;
+                    return false;
+                }
+            });
+            self.constructor._updCell(prf,cellId,options, dirtyMark, triggerEvent);
             return self;
         },
         editCellbyRowCol:function(rowId, colId){
@@ -29215,6 +29251,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                                 HFCELL:{
                                     $order:0,
                                     style:'{rowHandlerDisplay};{_row0DfW};',
+                                    className:'{cellCls}',
                                     HCELLA:{
                                         HHANDLER:{
                                             tagName:'div',
@@ -29268,6 +29305,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                 header:{
                     HCELL:{
                         style:"width:{width}px;{colDisplay};",
+                        className:'{cellCls}',
                         HCELLA:{
                             className:'{headerClass}',
                             style:"{headerStyle}",
@@ -29297,11 +29335,12 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                         CELLS:{
                             $order:2,
                             tagName:'div',
-                            className:'{rowCls} {rowClass} {_disabled}',
+                            className:'{rowCls} {rowClass}',
                             style:'height:{rowHeight}px;{rowStyle}',
                             FCELL:{
                                 $order:0,
                                 style:'{rowHandlerDisplay};{_row0DfW};',
+                                className:'{cellCls}',
                                 CELLA:{
                                     tabindex: '{_tabindex}',
                                     style:'{cellStyle}{firstCellStyle}',
@@ -29528,9 +29567,10 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
             },
             'CELLS-group FCELL':{
                 'border-right':0,
-                'padding-right':'1px'
+                'padding-right':'1px',
+                overflow:'visible'
             },
-            'CELLS-group FCELLCAPTION, CELLS-group FCELL CELLA':{
+            'CELLS-group FCELLCAPTION, CELLS-group CELLA, CELLS-group FCELLIN':{
                 'font-weight':'bold',
                 color:'#3764A0',
                 overflow:'visible'
@@ -29543,15 +29583,32 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
             },
             PREVIEW:{
                 $order:4,
-                'border-bottom': '1px dashed #A2BBD9'
+                'border-bottom': '1px solid #A2BBD9'
             },
             SUMMARY:{
                 $order:4,
-                'border-bottom': '2px solid #A2BBD9'
+                'border-bottom': '1px solid #A2BBD9'
             },
            'CELLS-mouseover':{
                 $order:4,
                 'background-color':'#DFE8F6'
+            },
+            
+            'CELLS-readonly CELLA':{
+                 $order:5,
+                 color:'#808080'
+            },            
+            'CELL-readonly CELLA':{
+                 $order:6,
+                 color:'#808080'
+            },
+            'CELLS-disabled':{
+                 $order:7,
+                 'background-color':'#EBEADB'
+            },
+            'CELLS-disabled CELLA':{
+                 $order:7,
+                 color:'#808080'
             },
             'CELL-disabled':{
                  $order:8,
@@ -29559,8 +29616,9 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
             },
             'CELL-disabled CELLA':{
                  $order:8,
-                 color:'#999'
+                 color:'#808080'
             },
+            
             'CELLS-active, CELL-active':{
                  $order:5,
                  'background-color':'#A3BAE9'
@@ -30325,6 +30383,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                         if(profile.properties.disabled)return;
                         var type=getPro(profile, cell, 'type'),
                             disabled=getPro(profile, cell, 'disabled'),
+                            readonly=getPro(profile, cell, 'readonly'),
                             event=getPro(profile, cell, 'event'),
                             mode = p.activeMode,
                             editable=getPro(profile, cell, 'editable');
@@ -30336,9 +30395,10 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                             if(type=='button')
                                 return false;
                         }
-                        if(!disabled &&type=='checkbox')
+                        // checkbox is special for editor
+                        if(!disabled && !readonly && type=='checkbox')
                             if(editable)
-                                box._updCell(profile, cell, !cell.value, p.dirtyMark);
+                                box._updCell(profile, cell, !cell.value, p.dirtyMark, true);
                         if(!p.editable){
                             if(mode=='cell'){
                                 if(getPro(profile, cell, 'disabled'))
@@ -30372,6 +30432,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                     //in some browsers: if CELLA has a child 'span', you click 'span' will not tigger to focus CELLA
                     profile.$_focusbyclick=1;
                     linb.use(src).focus();
+                    delete profile.$_focusbyclick;
                 },
                 onFocus:function(profile, e, src){
                     // ensure call _focuscell once when click
@@ -30944,6 +31005,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                 reg1=/</g,
                 me=arguments.callee,
                 dcls=me._dcls||(me._dcls=profile.getClass('CELL', '-disabled')),
+                rcls=me._rcls||(me._rcls=profile.getClass('CELL', '-readonly')),
                 //1. _$caption in cell (for special set)
                 //2. caption in ncell(if [ncell] is not [cell], the [caption] maybe is the result of cell.renderer)
                 //3. renderer in cell
@@ -31037,7 +31099,8 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
 
             cell._$tips=caption;
 
-            var t2=cell.disabled || cell._row.disabled || cell._col.disabled;
+            var t2=cell.disabled || cell._row.disabled || cell._col.disabled,
+                t3=cell.readonly || cell._row.readonly || cell._col.readonly;
             if(!dom){
 /*
 cellStyle
@@ -31046,6 +31109,7 @@ cellClass
 renderer
 type
 disabled
+readonly
 editable
 editorListKey
 editorListItems
@@ -31060,7 +31124,7 @@ caption
 
 sortby [for column only]
 */
-                node.cellCls=profile.getClass('CELL', '-'+type) + (t2?(' '+dcls):'');
+                node.cellCls=profile.getClass('CELL', '-'+type) + (t2?(' '+dcls):'') + (t3?(' '+rcls):'');
                 node.type=type;
                 node.value=cell.value;
                 node.caption=caption;
@@ -31115,14 +31179,17 @@ sortby [for column only]
                 row._tabindex=pro.tabindex;
                 row._rowMarkDisplay=pro.selMode=="multi"?"":NONE;
 
-                
+
 
                 t={id: row.id};
 
+                t.rowCls = ""
+                if(row.disabled)
+                    t.rowCls += profile.getClass('CELLS', '-disabled');
+                if(row.readonly)
+                    t.rowCls += profile.getClass('CELLS', '-readonly');
                 if(row.group)
-                    t.rowCls = profile.getClass('CELLS','-group');
-                
-                t._disabled=row.disalbed?'ui-itemdisabled':'';
+                    t.rowCls += profile.getClass('CELLS','-group');
 
                 if(row.summary)
                     t.summaryDisplay='display:block;';
@@ -31163,6 +31230,8 @@ sortby [for column only]
                         //cell/cell link to header
                         g._col=headCell;
                         g[SubID]='c_'+profile.pickSubId('cell');
+                        // give default id
+                        g.id=g.id||g[SubID];
 
                         self._adjustCell(profile, g, n);
 
@@ -31291,8 +31360,9 @@ sortby [for column only]
         _getCellId:function(profile, rowId, colId){
             return _.get(profile.rowMap,[profile.rowMap2[rowId], '_cells',colId]);
         },
-        _updCell:function(profile, cellId, options, dirtyMark){
+        _updCell:function(profile, cellId, options, dirtyMark, triggerEvent){
             var box=profile.box,
+                pdm=profile.properties.dirtyMark,
                 sc=linb.absObj.$specialChars,
                 cell,node;
 
@@ -31307,7 +31377,7 @@ sortby [for column only]
             if(!_.isHash(options))options={value:options};
             options=_.filter(options,function(o,i){return !sc[i.charAt(0)] || i=='_$caption' });
 
-            if(false === profile.boxing().beforeCellUpdated(profile, cell, options))
+            if(triggerEvent && false === profile.boxing().beforeCellUpdated(profile, cell, options))
                 return;
 
             // * remove cell's caption first
@@ -31326,7 +31396,7 @@ sortby [for column only]
 
             //if update value
             if('value' in options){
-                if(dirtyMark===false)
+                if(!pdm || dirtyMark===false)
                     cell._value=cell.value;
                 else{
                     if(cell.value===cell._value){
@@ -31339,7 +31409,8 @@ sortby [for column only]
                 }
             }
 
-            profile.boxing().afterCellUpdated(profile,cell, options);
+            if(triggerEvent)
+                profile.boxing().afterCellUpdated(profile,cell, options);
         },
         _ensureValue:function(profile,value){
             if(profile.properties.selMode=='multi'){
@@ -31413,35 +31484,41 @@ sortby [for column only]
         _activeCell:function(profile, id){
             if(profile.properties.activeMode!='cell')return;
 
-            var targetId = profile.getSubId(id),
-                map = profile.cellMap,
-                targetCell=map[targetId];
-
-            if(profile.beforeCellActive && (false===profile.boxing().beforeCellActive(profile, targetCell)))return;
+            if(id!==false){
+                var targetId = profile.getSubId(id),
+                    map = profile.cellMap,
+                    targetCell=map[targetId];
+    
+                if(profile.beforeCellActive && (false===profile.boxing().beforeCellActive(profile, targetCell)))return;
+            }
 
             if(profile.$activeCell)
                 linb(profile.$activeCell).tagClass('-active', false);
             linb(profile.$activeCell=id).tagClass('-active');
 
-            profile.boxing().afterCellActive(profile, targetCell);
+            if(id!==false)
+                profile.boxing().afterCellActive(profile, targetCell);
         },
         _activeRow:function(profile, id){
             if(profile.properties.activeMode!='row')return;
 
-            var targetId = profile.getSubId(id),
-                map = profile.rowMap,
-                targetRow=map[targetId];
-
-            //before event
-            if(profile.beforeRowActive && (false===profile.boxing().beforeRowActive(profile, targetRow)))return;
+            if(id!==false){
+                var targetId = profile.getSubId(id),
+                    map = profile.rowMap,
+                    targetRow=map[targetId];
+    
+                //before event
+                if(profile.beforeRowActive && (false===profile.boxing().beforeRowActive(profile, targetRow)))return;
+            }
 
             if(profile.$activeRow)
                linb(profile.$activeRow).tagClass('-active', false);
             linb(profile.$activeRow = id).tagClass('-active');
 
             //after event
-            profile.boxing().afterRowActive(profile, targetRow);
-
+            if(id!==false){
+                profile.boxing().afterRowActive(profile, targetRow);
+            }
         },
         getCellPro:function(profile, cell, key){
             var t=cell;
@@ -31450,7 +31527,8 @@ sortby [for column only]
         _editCell:function(profile, cellId){
             var cell = typeof cellId=='string'?profile.cellMap[cellId]:cellId;
             if(!cell)return;
-
+            if(profile.box.getCellPro(profile, cell,'disabled') || profile.box.getCellPro(profile, cell,'readonly'))return ;
+                
             var cellNode = profile.getSubNode('CELL', cellId),
                 colId = cell._col.id,
                 editor = profile.$curEditor;
@@ -31617,10 +31695,10 @@ sortby [for column only]
                 switch(type){
                     case 'number':
                     case 'spin':
-                        nV=parseFloat(nV);
+                        nV=parseFloat(nV)||0;
                         break;
                     case 'currency':
-                        nV=parseFloat(nV.replace(/,/g,''));
+                        nV=parseFloat(nV.replace(/,/g,''))||0;
                         break;
                     case 'cmdbox':
                     case 'popbox':
@@ -31630,7 +31708,7 @@ sortby [for column only]
                         _$caption=pro.boxing().getShowValue();
                         break;
                 }
-                grid._updCell(profile, cellId, {value:nV, _$caption:_$caption}, profile.properties.dirtyMark);
+                grid._updCell(profile, cellId, {value:nV, _$caption:_$caption}, profile.properties.dirtyMark, true);
             })
             .beforeNextFocus(function(pro, e){
                 if(editor){
@@ -31764,7 +31842,8 @@ sortby [for column only]
             return a;
         },
          _focuscell:function(profile, e, src){
-            if(profile.properties.disabled)return;
+            if(profile.properties.disabled||profile.properties.readonly)return;
+                        
             var p = profile.properties,
                 box=profile.box,
                 getPro=box.getCellPro,
@@ -31772,18 +31851,29 @@ sortby [for column only]
                 mode = p.activeMode, id;
             
             if(cell){
+                var edit=false;
                 if(getPro(profile, cell, 'editable')){
-                    if(getPro(profile, cell, 'disabled'))
-                        return false;
-                    box._editCell(profile, cell._serialId);
-                    _.asyRun(function(){
-                        linb.use(src).parent().onMouseout(true,{$force:true})
-                                  .parent().onMouseout(true,{$force:true});
-                    });
+                    if(getPro(profile, cell, 'disabled')||getPro(profile, cell, 'readonly')){
+                        edit=false;
+                    }else{
+                        edit=true;
+                        box._editCell(profile, cell._serialId);
+                        _.asyRun(function(){
+                            linb.use(src).parent().onMouseout(true,{$force:true})
+                                      .parent().onMouseout(true,{$force:true});
+                        });
+                    }
                 }
-                if(cell && mode=='cell'){
-                    id = linb.use(src).parent().id();
-                    box._activeCell(profile, id);
+                // if not in edit mode
+                if(!edit){
+                    if(cell && mode=='cell'){
+                        id = linb.use(src).parent().id();
+                        box._activeCell(profile, id);
+                    }
+                }else{
+                    if(cell && mode=='cell'){
+                        box._activeCell(profile, false);
+                    }
                 }
             }
             if(mode=='row'){

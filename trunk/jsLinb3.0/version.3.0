@@ -31,3 +31,9 @@ Change default Ajax retry time to 0
 linb.UI.ProgressBar
 add direction:forward, backward, up, down
 add hAlign,vAlign
+
+
+------------------------
+updateCell  加 triggerEvent 参数
+
+linb.UI.ComboInput 加 formatCurrency 函数

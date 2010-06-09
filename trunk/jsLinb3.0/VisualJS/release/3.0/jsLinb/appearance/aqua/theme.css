@@ -599,11 +599,11 @@ html, .uibg-base{
 
 .linb-treegrid-preview{
     border-right:solid 1px #929292;
-    border-bottom:1px dashed #929292;
+    border-bottom:1px solid #929292;
 }
 .linb-treegrid-summary{
     border-right:solid 1px #929292;
-    border-bottom:2px solid #929292;
+    border-bottom:1px solid #929292;
 }
 
 .linb-treegrid-cell-mouseover{

@@ -20,7 +20,7 @@ Class("linb.UI.Input", ["linb.UI.Widget","linb.absValue"] ,{
                 var node=profile.getSubNode('INPUT').get(0);
                 node.focus();
                 //DOM node's readOnly
-                if(!node.readOnly && node.select)node.select();
+                if(!node.readOnly && node.select)try{node.select()}catch(e){}
             }
             return this;
         },
@@ -280,6 +280,8 @@ Class("linb.UI.Input", ["linb.UI.Widget","linb.absValue"] ,{
 
                     if(k[0].length>1)
                         profile.$keyD=k[0];
+                    else
+                        delete profile.$keyD;
 
                     b._asyCheck(profile);
 
@@ -329,6 +331,8 @@ Class("linb.UI.Input", ["linb.UI.Widget","linb.absValue"] ,{
                 },
                 onKeyup:function(profile, e, src){
                     var p=profile.properties,b=profile.box;
+                    if(profile.$keyD)
+                        delete profile.$keyD;
                     if(p.dynCheck){
                         var value=linb.use(src).get(0).value;
                         profile.box._checkValid(profile, value);

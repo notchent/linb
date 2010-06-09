@@ -296,7 +296,12 @@ Class("linb.UI.PageBar",["linb.UI","linb.absValue"] ,{
             dataField:null,
             dataBinder:null,
 
-            caption:' Page: ',
+            caption:{
+                ini:' Page: ',
+                action:function(v){
+                    this.getSubNode("LABEL").html(v);
+                }
+            },
             value:"1:1:1",
             uriTpl:"#*",
             textTpl:"*",

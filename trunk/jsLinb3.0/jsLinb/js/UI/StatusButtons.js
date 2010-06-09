@@ -104,7 +104,7 @@ Class("linb.UI.StatusButtons", ["linb.UI.List"],{
                 padding:'1px 4px 1px 12px'
             },
             "ITEM-right CAPTION":{
-                padding:'1px 12px 1px 1px',
+                padding:'1px 12px 1px 1px'
             }
         },
         DataModel:({
