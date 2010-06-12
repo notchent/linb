@@ -300,6 +300,23 @@ Class('VisualJS', 'linb.Com',{
                 if(item.$obj)item.$obj.activate();
             });
         },
+        _treebarprj_onGetContent:function(profile, item, callback){
+            var ns=this;
+            linb.request(CONF.phpPath,({
+                key:CONF.requestKey,
+                para:{
+                    action:'open',
+                    hashCode:_.id(),
+                    path:item.id
+                }
+            }),function(txt){
+                var obj = typeof txt=='string'?_.unserialize(txt):txt;
+                if(obj && !obj.error){
+                    var root = ns.buildFileItems(item.id, obj.data);
+                    callback(root.sub);
+                }else linb.message(obj.error.message);
+            });
+        },
         _treebarprj_onitemselected:function(profile, item, src){
             if(!item.id)return;
             var page=this,
@@ -460,9 +477,9 @@ Class('VisualJS', 'linb.Com',{
             .setWidth('auto')
             .setHeight('auto')
             .setItems([])
-            .setIniFold(false)
             .setGroup(true)
             .onItemSelected("_treebarprj_onitemselected")
+            .onGetContent("_treebarprj_onGetContent")
             );
 
             t.layout.append(
@@ -502,9 +519,14 @@ Class('VisualJS', 'linb.Com',{
         },
         _toolbar_onclick: function(profile,item, group, e, src){
             this._menubar_onclick(this.menubar.get(0), null, item, src);
-        },_openproject: function(pm, obj){
-            this.curProject = pm;
-            var tb = this.treebarPrj;
+        },
+        buildFileItems:function(path, obj){
+            //root
+            var names=path.split('/'), name=names[names.length-1], imagePos,
+            hash={
+                '*':{id:path, caption: name , image:CONF.img_app, imagePos:'-128px -48px', value:path, sub:[]}
+            };
+
             //sort to appropriate order
             obj.sort(function(x,y){
                 return x.layer<y.layer?1:x.layer==y.layer?(
@@ -513,12 +535,6 @@ Class('VisualJS', 'linb.Com',{
                     ):-1
                 ):-1;
             });
-            //root
-            var names=pm.split('/'), name=names[names.length-1], imagePos,
-            hash={
-                '*':{id:pm, caption: name , image:CONF.img_app, imagePos:'-128px -48px', value:pm, sub:[]}
-            },
-            arr=[hash['*']];
             //add sub
             _.arr.each(obj,function(o){
                 if(!o.type)
@@ -541,12 +557,23 @@ Class('VisualJS', 'linb.Com',{
                 }
                 hash[o.id] = {id:o.location, caption: o.name , image:CONF.img_app, imagePos:imagePos, value:o.location};
                 if(!o.type)
-                    hash[o.id].sub=[];
+                    hash[o.id].sub=true;
 
                 hash[o.pid].sub.push(hash[o.id]);
             });
+            
+            return hash['*'];
+        },
+        _openproject: function(pm, obj){
+            this.curProject = pm;
+            
+            var root=this.buildFileItems(pm, obj);
+            
+            var tb = this.treebarPrj;
             tb.clearItems();
-            tb.insertItems(arr);
+            tb.insertItems([root]);
+            tb.toggleNode(root.id,true);
+            
             this.curPrjFiles=tb.getItems();
             this.projecttool.setDisabled(false);
         },

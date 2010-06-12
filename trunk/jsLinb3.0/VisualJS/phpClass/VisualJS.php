@@ -142,14 +142,14 @@ class VisualJS extends Unit
                 $template = " ";
                 if(substr($file,-3,3)==self::FILE_JS){
 
-$className="==>specify_class_name_here";
-try{
-// Get js class name
-$farr=explode('/js/',$file);
-$farr1=explode('/',$farr[0]);
-$farr2=explode(".",$farr[1]);
-$className = $farr1[sizeof($farr1)-1] . '.' . implode('.',explode('/',$farr2[0]));
-}catch(Exception $e){}
+                $className="==>specify_class_name_here";
+                try{
+                // Get js class name
+                $farr=explode('/js/',$file);
+                $farr1=explode('/',$farr[0]);
+                $farr2=explode(".",$farr[1]);
+                $className = $farr1[sizeof($farr1)-1] . '.' . implode('.',explode('/',$farr2[0]));
+                }catch(Exception $e){}
                     
                     $template = $io->getString(self::TEMPLATE_JS);
                     $template = LINB::parseTemplate($template, array("className" => $className));
@@ -170,6 +170,18 @@ $className = $farr1[sizeof($farr1)-1] . '.' . implode('.',explode('/',$farr2[0])
             $prjpath=$hash->path;
             if($prjpath{0}=='.')
                 throw new LINB_E("Error: Can\'t handle parent path!");
+            $prjpath = str_replace("/", "\\", $prjpath);
+            //$b = $io->dirList($prjpath);
+            $b = $io->search("[a-zA-Z0-9].*", $prjpath, -1, isset($hash->deep)?$hash->deep:0);
+            $root=str_replace("\\", "/", realpath('.')).'/';
+            //ensure to return relative url format: '/'
+            foreach($b as &$v){
+                $v['location'] = str_replace("\\", "/", $v['location']);
+                $v['location'] = str_replace($root, "", $v['location']);
+            }
+            unset($io);
+            return $b;
+                
             break;
         case 'release':
             $arr = explode(DIRECTORY_SEPARATOR, $hash->path);
@@ -189,17 +201,6 @@ $className = $farr1[sizeof($farr1)-1] . '.' . implode('.',explode('/',$farr2[0])
             return $r;
             break;
         }
-        $prjpath = str_replace("/", "\\", $prjpath);
-        //$b = $io->dirList($prjpath);
-        $b = $io->search("[a-zA-Z0-9].*", $prjpath, -1, isset($hash->deep)?$hash->deep:5);
-        $root=str_replace("\\", "/", realpath('.')).'/';
-        //ensure to return relative url format: '/'
-        foreach($b as &$v){
-            $v['location'] = str_replace("\\", "/", $v['location']);
-            $v['location'] = str_replace($root, "", $v['location']);
-        }
-        unset($io);
-        return $b;
     }
 }
 
