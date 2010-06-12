@@ -1754,7 +1754,7 @@ Class('linb.IAjax','linb.absIO',{
                 // for in firefox3, we have to asyRun to get the window.name
                 _.asyRun(function(){
                     // "w.name" cant throw exception in chrome
-                    if(linb.browser.isChrome && w.name===undefined){
+                    if(linb.browser.kde && w.name===undefined){
                         _.asyRun(arguments.callee);
                         return;
                     }else{
