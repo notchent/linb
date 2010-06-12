@@ -17249,6 +17249,8 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
 
                     if(k[0].length>1)
                         profile.$keyD=k[0];
+                    else
+                        delete profile.$keyD;
 
                     b._asyCheck(profile);
 
@@ -17298,6 +17300,8 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
                 },
                 onKeyup:function(profile, e, src){
                     var p=profile.properties,b=profile.box;
+                    if(profile.$keyD)
+                        delete profile.$keyD;
                     if(p.dynCheck){
                         var value=linb.use(src).get(0).value;
                         profile.box._checkValid(profile, value);
@@ -18978,6 +18982,8 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                 },
                 onKeyup:function(profile, e, src){
                     var p=profile.properties,b=profile.box;
+                    if(profile.$keyD)
+                        delete profile.$keyD;
                     if(p.dynCheck){
                         var value=linb.use(src).get(0).value;
                         profile.box._checkValid(profile, value);
@@ -19059,6 +19065,8 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
 
                     if(k[0].length>1)
                         profile.$keyD=k[0];
+                    else
+                        delete profile.$keyD;
 
                     b._asyCheck(profile);
 
@@ -30831,10 +30839,10 @@ sortby [for column only]
                 switch(type){
                     case 'number':
                     case 'spin':
-                        nV=parseFloat(nV);
+                        nV=parseFloat(nV)||0;
                         break;
                     case 'currency':
-                        nV=parseFloat(nV.replace(/,/g,''));
+                        nV=parseFloat(nV.replace(/,/g,''))||0;
                         break;
                     case 'cmdbox':
                     case 'popbox':

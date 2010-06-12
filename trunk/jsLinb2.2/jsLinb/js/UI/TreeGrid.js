@@ -3068,10 +3068,10 @@ sortby [for column only]
                 switch(type){
                     case 'number':
                     case 'spin':
-                        nV=parseFloat(nV);
+                        nV=parseFloat(nV)||0;
                         break;
                     case 'currency':
-                        nV=parseFloat(nV.replace(/,/g,''));
+                        nV=parseFloat(nV.replace(/,/g,''))||0;
                         break;
                     case 'cmdbox':
                     case 'popbox':
