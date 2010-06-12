@@ -385,7 +385,11 @@ _.merge(_,{
         for(var i=0,l=a.length;i<l;i++){
             o=a[i];
             arr=o.split('=');
-            hash[decodeURIComponent(arr[0])]=decodeURIComponent(arr[1]);
+            try{
+                hash[decodeURIComponent(arr[0])]=decodeURIComponent(arr[1]);
+            }catch(e){
+                hash[arr[0]]=arr[1];
+            }
         }
         return key?hash[key]:hash;
     },

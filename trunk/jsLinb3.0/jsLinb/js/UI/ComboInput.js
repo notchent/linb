@@ -648,6 +648,11 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
             BTN:{
                 onClick : function(profile, e, src){
                     var prop=profile.properties;
+
+                    if(prop.type=='popbox' || prop.type=='getter')
+                        if(profile.onClick)
+                            profile.boxing().onClick(profile, e, src, prop.$UIvalue);
+
                     if(prop.disabled || prop.readonly)return;
                     profile.boxing()._drop(e, src);
                 }

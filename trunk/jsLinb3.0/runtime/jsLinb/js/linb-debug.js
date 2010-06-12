@@ -385,7 +385,11 @@ _.merge(_,{
         for(var i=0,l=a.length;i<l;i++){
             o=a[i];
             arr=o.split('=');
-            hash[decodeURIComponent(arr[0])]=decodeURIComponent(arr[1]);
+            try{
+                hash[decodeURIComponent(arr[0])]=decodeURIComponent(arr[1]);
+            }catch(e){
+                hash[arr[0]]=arr[1];
+            }
         }
         return key?hash[key]:hash;
     },
@@ -19017,6 +19021,11 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
             BTN:{
                 onClick : function(profile, e, src){
                     var prop=profile.properties;
+
+                    if(prop.type=='popbox' || prop.type=='getter')
+                        if(profile.onClick)
+                            profile.boxing().onClick(profile, e, src, prop.$UIvalue);
+
                     if(prop.disabled || prop.readonly)return;
                     profile.boxing()._drop(e, src);
                 }
