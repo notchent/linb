@@ -11,7 +11,11 @@ Properties Changed:
 
 Events added:
     linb.UI.Panel/linb.UI.Dialog + onRefresh
-
+    linb.UI.TreeGrid. + onNewLineTriggerred + afterCellFocused
+    
+Method added:
+    linb.UI.TreeGrid. + editCell + focusCell + focusCellbyRowCol
+    
 Com Removed:
     linb.UI.LinkList
 
