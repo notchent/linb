@@ -156,6 +156,7 @@ Class('VisualJS.Designer', 'linb.Com',{
                 .setCustomBehavior({
                     BAR:{
                         beforeMousedown : function(profile, e, src){
+                            if(linb.Event.getBtn(e)!="left")return;
                             var id=linb.use(src).id(),
                                 itemId = profile.getSubId(id),
                                 properties = profile.properties,
@@ -882,6 +883,7 @@ Class('VisualJS.Designer', 'linb.Com',{
                     }
                 },
                 onMousedown:function(profile, e, src){
+                    if(linb.Event.getBtn(e)!="left")return;
                     if(linb.Event.getSrc(e).$linbid !== src)return;
                     var o =linb(src),
                     pos = linb.Event.getPos(e),

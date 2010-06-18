@@ -190,6 +190,7 @@ Class("linb.UI.AdvResizer","linb.UI.Resizer",{
             onRegionClick:function(profile,e){}
         },
         _onMousedown:function(profile, e, src, ddparas){
+            if(linb.Event.getBtn(e)!="left")return;
             var ck=linb.Event.$keyboard;
              // begin drag use blank
             if(ck && (ck[1] || (linb.browser.kde&&ck[0]==' '))){
