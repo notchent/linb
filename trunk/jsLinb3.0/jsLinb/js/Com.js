@@ -1,4 +1,5 @@
 /*
+    initialize
 beforeCreated
 onCreated
 onLoadBaseClass
@@ -26,6 +27,8 @@ Class('linb.Com',null,{
         if(events)
             _.merge(self.events, events, 'all');
         self._ctrlpool={};
+        
+        self._innerCall('initialize');
     },
     Instance:{
         autoDestroy:true,

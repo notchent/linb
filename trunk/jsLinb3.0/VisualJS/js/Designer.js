@@ -156,6 +156,7 @@ Class('VisualJS.Designer', 'linb.Com',{
                 .setCustomBehavior({
                     BAR:{
                         beforeMousedown : function(profile, e, src){
+                            if(linb.Event.getBtn(e)!="left")return;
                             var id=linb.use(src).id(),
                                 itemId = profile.getSubId(id),
                                 properties = profile.properties,
