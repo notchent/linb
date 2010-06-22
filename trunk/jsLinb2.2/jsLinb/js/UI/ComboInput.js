@@ -121,6 +121,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                     return null;
 
                 var c=o.cloneNode(false);
+                c.value="";
                 //inner replace
                 linb.setNodeData(c.$linbid=o.$linbid,'element',c);
                 c.onclick=o.onclick;
