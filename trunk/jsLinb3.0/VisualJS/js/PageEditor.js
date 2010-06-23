@@ -25,41 +25,42 @@ Class('VisualJS.PageEditor', 'linb.Com',{
                 "parent.sandbox=MSIE?this:{eval:function(s){return eval(s)}}"+
                 "<\/script>"
             );
+            var str=txt;
+            var reg = new RegExp("^(\\s*\\/\\*[^*@]*\\*+([^\\/][^*]*\\*+)*\\/\\s*)|^(\\s*\\/\\/[^\\n]*\\s*)");
+            while(reg.test(str))
+                str = str.replace(reg,'');
+            var isjson=/^\s*{/.test(str);
             try{
-                sandbox.eval(txt);
+                sandbox.eval(isjson?("("+txt+")"):txt);
             }catch(e){
-                try{
-                    sandbox.eval("("+txt+")");
-                }catch(e){
-                    var line=e.line||e.lineNumber;
-                    alert((e.name?e.name+' : ':'') + (e.description||e.message||'') + (line?'\n line : '+line:'') );
-    
-                    if(_.isNumb(line=parseInt(line))){
-                        var inp=this.texteditor.getSubNode('INPUT').get(0),
-                        str=inp.value,
-                        l=str.length,
-                        count=0,
-                        from=0,
-                        to=l;
-                    	for(var i=0;i<l;i++){
-                    		if(str.charAt(i)=='\n')
-                    		    count++;
-                    		if(count==line-1){
-                    		    count++;
-                    		    from=i;
-                    		}
-                    		if(count==line+1){
-                    		    to=i;
-                    		    break;
-                    		}
-                    	}
-                    	_.asyRun(function(){
-                    	    linb([inp]).caret(from+1,to);
-                    	    inp.scrollTop = (line+1)*14-inp.offsetHeight;
-                        });
-                    }
-                    r=false;
+                var line=e.line||e.lineNumber;
+                alert((e.name?e.name+' : ':'') + (e.description||e.message||'') + (line?'\n line : '+line:'') );
+
+                if(_.isNumb(line=parseInt(line))){
+                    var inp=this.texteditor.getSubNode('INPUT').get(0),
+                    str=inp.value,
+                    l=str.length,
+                    count=0,
+                    from=0,
+                    to=l;
+                	for(var i=0;i<l;i++){
+                		if(str.charAt(i)=='\n')
+                		    count++;
+                		if(count==line-1){
+                		    count++;
+                		    from=i;
+                		}
+                		if(count==line+1){
+                		    to=i;
+                		    break;
+                		}
+                	}
+                	_.asyRun(function(){
+                	    linb([inp]).caret(from+1,to);
+                	    inp.scrollTop = (line+1)*14-inp.offsetHeight;
+                    });
                 }
+                r=false;
             }finally{
                 document.body.removeChild(iframe);
             }
