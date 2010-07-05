@@ -1,18 +1,18 @@
 <?php
 class MYSQL{
     // server host
-    var $host;
+    public $host;
     // log in user
-    var $user;
+    public $user;
     // password
-    var $pass;
+    public $pass;
     // target db name
-    var $dbname;
+    public $dbname;
 
     //connect id
-    var $link_id = 0;
+    public $link_id = 0;
     //is in a transaction process
-    var $in_transaction=0;
+    public $in_transaction=0;
 
    /**
    * connect and select database
