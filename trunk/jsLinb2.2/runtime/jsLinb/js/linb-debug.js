@@ -9799,6 +9799,7 @@ Class('linb.UIProfile','linb.Profile', {
         __gc:function(){
             var ns=this, t;
             if(ns.$destroyed)return;
+            _.tryF(ns.$beforeDestroy,[],ns);
             _.tryF(ns.$ondestory,[],ns);
             if(ns.onDestroy)ns.boxing().onDestroy();
             if(ns.destroyTrigger)ns.destroyTrigger();
@@ -10294,7 +10295,6 @@ Class("linb.UI",  "linb.absObj", {
         destroy:function(){
             this.each(function(o){
                 if(o.$destroyed)return;
-                _.tryF(o.$beforeDestroy,[],o);
                 if(o.beforeDestroy && false===o.boxing().beforeDestroy())return;
                 if(o.renderId)o.getRoot().remove();
                 else o.__gc();
@@ -17888,6 +17888,8 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
 
                             if(linb.browser.ie){
                                 if(!disabled){
+                                    doc.attachEvent("unload",gekfix);
+                                    
                                     doc.attachEvent("onmousedown",event);
                                     doc.attachEvent("ondblclick",event);
                                     doc.attachEvent("onclick",event);
@@ -17896,6 +17898,8 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
                                     self.$beforeDestroy=function(){
                                         var doc=this.$doc,
                                             event=this._event;
+
+                                        doc.detachEvent("unload",gekfix);
 
                                         doc.detachEvent("onmousedown",event);
                                         doc.detachEvent("ondblclick",event);
@@ -17906,8 +17910,7 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
                                     }
                                 }
                             }else{
-                                if(linb.browser.gek)
-                                    win.addEventListener("unload",gekfix,false);
+                                win.addEventListener("unload",gekfix,false);
 
                                 if(!disabled){
                                     doc.addEventListener("mousedown",event,false);
@@ -17930,10 +17933,11 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
                                     delete win._pro;
                                     delete doc._pro;
                                     //for firefox
-                                    if(linb.browser.gek){
+                                    if(linb.browser.gek)
                                         delete frames[this.$frameId];
-                                        win.removeEventListener("unload",gekfix,false);
-                                    }
+
+                                    win.removeEventListener("unload",gekfix,false);
+
                                     if(!this.properties.disabled){
                                         doc.removeEventListener("mousedown",event,false);
                                         doc.removeEventListener("dblclick",event,false);

@@ -194,6 +194,8 @@ Class("linb.UI.RichEditor", ["linb.UI","linb.absValue"],{
 
                             if(linb.browser.ie){
                                 if(!disabled){
+                                    doc.attachEvent("unload",gekfix);
+                                    
                                     doc.attachEvent("onmousedown",event);
                                     doc.attachEvent("ondblclick",event);
                                     doc.attachEvent("onclick",event);
@@ -202,6 +204,8 @@ Class("linb.UI.RichEditor", ["linb.UI","linb.absValue"],{
                                     self.$beforeDestroy=function(){
                                         var doc=this.$doc,
                                             event=this._event;
+
+                                        doc.detachEvent("unload",gekfix);
 
                                         doc.detachEvent("onmousedown",event);
                                         doc.detachEvent("ondblclick",event);
@@ -212,8 +216,7 @@ Class("linb.UI.RichEditor", ["linb.UI","linb.absValue"],{
                                     }
                                 }
                             }else{
-                                if(linb.browser.gek)
-                                    win.addEventListener("unload",gekfix,false);
+                                win.addEventListener("unload",gekfix,false);
 
                                 if(!disabled){
                                     doc.addEventListener("mousedown",event,false);
@@ -236,10 +239,11 @@ Class("linb.UI.RichEditor", ["linb.UI","linb.absValue"],{
                                     delete win._pro;
                                     delete doc._pro;
                                     //for firefox
-                                    if(linb.browser.gek){
+                                    if(linb.browser.gek)
                                         delete frames[this.$frameId];
-                                        win.removeEventListener("unload",gekfix,false);
-                                    }
+
+                                    win.removeEventListener("unload",gekfix,false);
+
                                     if(!this.properties.disabled){
                                         doc.removeEventListener("mousedown",event,false);
                                         doc.removeEventListener("dblclick",event,false);

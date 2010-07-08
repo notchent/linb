@@ -614,6 +614,7 @@ Class('linb.UIProfile','linb.Profile', {
         __gc:function(){
             var ns=this, t;
             if(ns.$destroyed)return;
+            _.tryF(ns.$beforeDestroy,[],ns);
             _.tryF(ns.$ondestory,[],ns);
             if(ns.onDestroy)ns.boxing().onDestroy();
             if(ns.destroyTrigger)ns.destroyTrigger();
@@ -1109,7 +1110,6 @@ Class("linb.UI",  "linb.absObj", {
         destroy:function(){
             this.each(function(o){
                 if(o.$destroyed)return;
-                _.tryF(o.$beforeDestroy,[],o);
                 if(o.beforeDestroy && false===o.boxing().beforeDestroy())return;
                 if(o.renderId)o.getRoot().remove();
                 else o.__gc();
