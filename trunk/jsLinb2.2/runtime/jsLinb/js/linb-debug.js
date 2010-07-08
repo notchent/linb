@@ -9799,7 +9799,10 @@ Class('linb.UIProfile','linb.Profile', {
         __gc:function(){
             var ns=this, t;
             if(ns.$destroyed)return;
-            _.tryF(ns.$beforeDestroy,[],ns);
+            if(ns.$beforeDestroy){
+                _.tryF(ns.$beforeDestroy,[],ns);
+                delete ns.$beforeDestroy;
+            }
             _.tryF(ns.$ondestory,[],ns);
             if(ns.onDestroy)ns.boxing().onDestroy();
             if(ns.destroyTrigger)ns.destroyTrigger();
@@ -10295,6 +10298,10 @@ Class("linb.UI",  "linb.absObj", {
         destroy:function(){
             this.each(function(o){
                 if(o.$destroyed)return;
+                if(o.$beforeDestroy){
+                    _.tryF(o.$beforeDestroy,[],ns);
+                    delete o.$beforeDestroy;
+                }
                 if(o.beforeDestroy && false===o.boxing().beforeDestroy())return;
                 if(o.renderId)o.getRoot().remove();
                 else o.__gc();
@@ -17887,26 +17894,31 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
                             doc.designMode=disabled?"off":"on";
 
                             if(linb.browser.ie){
+                                doc.attachEvent("unload",gekfix);
+                                
                                 if(!disabled){
-                                    doc.attachEvent("unload",gekfix);
-                                    
                                     doc.attachEvent("onmousedown",event);
                                     doc.attachEvent("ondblclick",event);
                                     doc.attachEvent("onclick",event);
                                     doc.attachEvent("onkeyup",event);
                                     doc.attachEvent("onkeydown",event);
                                     self.$beforeDestroy=function(){
-                                        var doc=this.$doc,
+                                        var win=this.$win,
+                                            doc=this.$doc,
                                             event=this._event;
+                                            
+                                        doc._pro=win._pro=undefined;
 
                                         doc.detachEvent("unload",gekfix);
 
-                                        doc.detachEvent("onmousedown",event);
-                                        doc.detachEvent("ondblclick",event);
-                                        doc.detachEvent("onclick",event);
-                                        doc.detachEvent("onkeyup",event);
-                                        doc.detachEvent("onkeydown",event);
-                                        doc=event=null;
+                                        if(!this.properties.disabled){
+                                            doc.detachEvent("onmousedown",event);
+                                            doc.detachEvent("ondblclick",event);
+                                            doc.detachEvent("onclick",event);
+                                            doc.detachEvent("onkeyup",event);
+                                            doc.detachEvent("onkeydown",event);
+                                        }
+                                        win=doc=event=null;
                                     }
                                 }
                             }else{
@@ -17930,8 +17942,8 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
                                         event=this._event,
                                         gekfix=this._gekfix;
 
-                                    delete win._pro;
-                                    delete doc._pro;
+                                    doc._pro=win._pro=undefined;
+
                                     //for firefox
                                     if(linb.browser.gek)
                                         delete frames[this.$frameId];

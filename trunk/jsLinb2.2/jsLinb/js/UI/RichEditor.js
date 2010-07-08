@@ -175,6 +175,7 @@ Class("linb.UI.RichEditor", ["linb.UI","linb.absValue"],{
                     },
                     doc,win,
                     checkF = function(){
+                        if(!frames[id])return false;
                         if(frames[id].document!=doc || doc.readyState=='complete'){
                             win=self.$win=frames[id];
 
@@ -193,26 +194,31 @@ Class("linb.UI.RichEditor", ["linb.UI","linb.absValue"],{
                             doc.designMode=disabled?"off":"on";
 
                             if(linb.browser.ie){
+                                doc.attachEvent("unload",gekfix);
+                                
                                 if(!disabled){
-                                    doc.attachEvent("unload",gekfix);
-                                    
                                     doc.attachEvent("onmousedown",event);
                                     doc.attachEvent("ondblclick",event);
                                     doc.attachEvent("onclick",event);
                                     doc.attachEvent("onkeyup",event);
                                     doc.attachEvent("onkeydown",event);
                                     self.$beforeDestroy=function(){
-                                        var doc=this.$doc,
+                                        var win=this.$win,
+                                            doc=this.$doc,
                                             event=this._event;
+                                            
+                                        doc._pro=win._pro=undefined;
 
                                         doc.detachEvent("unload",gekfix);
 
-                                        doc.detachEvent("onmousedown",event);
-                                        doc.detachEvent("ondblclick",event);
-                                        doc.detachEvent("onclick",event);
-                                        doc.detachEvent("onkeyup",event);
-                                        doc.detachEvent("onkeydown",event);
-                                        doc=event=null;
+                                        if(!this.properties.disabled){
+                                            doc.detachEvent("onmousedown",event);
+                                            doc.detachEvent("ondblclick",event);
+                                            doc.detachEvent("onclick",event);
+                                            doc.detachEvent("onkeyup",event);
+                                            doc.detachEvent("onkeydown",event);
+                                        }
+                                        win=doc=event=null;
                                     }
                                 }
                             }else{
@@ -236,8 +242,8 @@ Class("linb.UI.RichEditor", ["linb.UI","linb.absValue"],{
                                         event=this._event,
                                         gekfix=this._gekfix;
 
-                                    delete win._pro;
-                                    delete doc._pro;
+                                    doc._pro=win._pro=undefined;
+
                                     //for firefox
                                     if(linb.browser.gek)
                                         delete frames[this.$frameId];
