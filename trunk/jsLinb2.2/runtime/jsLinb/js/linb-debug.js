@@ -10299,7 +10299,7 @@ Class("linb.UI",  "linb.absObj", {
             this.each(function(o){
                 if(o.$destroyed)return;
                 if(o.$beforeDestroy){
-                    _.tryF(o.$beforeDestroy,[],ns);
+                    _.tryF(o.$beforeDestroy,[],o);
                     delete o.$beforeDestroy;
                 }
                 if(o.beforeDestroy && false===o.boxing().beforeDestroy())return;
@@ -17876,6 +17876,7 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
                     },
                     doc,win,
                     checkF = function(){
+                        if(!frames[id])return false;
                         if(frames[id].document!=doc || doc.readyState=='complete'){
                             win=self.$win=frames[id];
 

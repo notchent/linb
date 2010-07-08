@@ -1114,7 +1114,7 @@ Class("linb.UI",  "linb.absObj", {
             this.each(function(o){
                 if(o.$destroyed)return;
                 if(o.$beforeDestroy){
-                    _.tryF(o.$beforeDestroy,[],ns);
+                    _.tryF(o.$beforeDestroy,[],o);
                     delete o.$beforeDestroy;
                 }
                 if(o.beforeDestroy && false===o.boxing().beforeDestroy())return;
