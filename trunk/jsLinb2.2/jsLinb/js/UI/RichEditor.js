@@ -168,7 +168,7 @@ Class("linb.UI.RichEditor", ["linb.UI","linb.absValue"],{
                         if(e.type=='mousedown')
                             linb.doc.onMousedown(true);
                     },
-                    gekfix=self._gekfix=function(e){
+                    gekfix=self._gekfix=function(e){
                         // to fix firefox appendChid's bug: refresh iframe's document
                         if(this._pro)
                             this._pro.boxing().refresh();
@@ -191,10 +191,7 @@ Class("linb.UI.RichEditor", ["linb.UI","linb.absValue"],{
 
                             var disabled=self.properties.disabled;
 
-                            if (doc.body.contentEditable != undefined && linb.browser.ie)
-                               doc.body.contentEditable = disabled?"false":"true";
-                            else
-                               doc.designMode=disabled?"off":"on";
+                            doc.designMode=disabled?"off":"on";
 
                             doc._pro=win._pro=self;
 
@@ -211,7 +208,10 @@ Class("linb.UI.RichEditor", ["linb.UI","linb.absValue"],{
                                         var win=this.$win,
                                             doc=this.$doc,
                                             event=this._event;
-                                            
+
+                                        if(doc.designMode)
+                                            doc.designMode="off";
+
                                         doc._pro=win._pro=undefined;
 
                                         doc.detachEvent("unload",gekfix);
