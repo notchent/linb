@@ -17892,7 +17892,10 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
 
                             var disabled=self.properties.disabled;
 
-                            doc.designMode=disabled?"off":"on";
+                            if (doc.body.contentEditable != undefined && linb.browser.ie)
+                               doc.body.contentEditable = disabled?"false":"true";
+                            else
+                               doc.designMode=disabled?"off":"on";
 
                             doc._pro=win._pro=self;
 
@@ -17910,8 +17913,7 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
                                             doc=this.$doc,
                                             event=this._event;
 
-                                        if(doc.designMode)
-                                            doc.designMode="off";
+                                        doc.body.contentEditable = "false";
 
                                         doc._pro=win._pro=undefined;
 
