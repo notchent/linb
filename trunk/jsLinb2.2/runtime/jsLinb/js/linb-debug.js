@@ -17889,10 +17889,15 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
                             try{doc.execCommand("styleWithCSS", 0, false)}catch(e){
                                 try {doc.execCommand("useCSS", 0, true)}catch(e){}
                             }
-                            doc._pro=win._pro=self;
 
                             var disabled=self.properties.disabled;
-                            doc.designMode=disabled?"off":"on";
+
+                            if (doc.body.contentEditable != undefined && linb.browser.ie)
+                               doc.body.contentEditable = disabled?"false":"true";
+                            else
+                               doc.designMode=disabled?"off":"on";
+
+                            doc._pro=win._pro=self;
 
                             if(linb.browser.ie){
                                 doc.attachEvent("unload",gekfix);
