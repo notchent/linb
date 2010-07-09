@@ -17744,9 +17744,14 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
             },
             disabled:{
                 ini:false,
-                action: function(v){
-                    if(this.properties.disabled!=v)
-                        this.boxing().refresh();
+                action: function(disabled){
+                    var doc=this.$doc;
+                    if(doc){
+                        if (doc.body.contentEditable != undefined && linb.browser.ie)
+                           doc.body.contentEditable = disabled?"false":"true";
+                        else
+                           doc.designMode=disabled?"off":"on";
+                    }
                 }
             }
         },
@@ -17913,7 +17918,11 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
                                             doc=this.$doc,
                                             event=this._event;
 
-                                        doc.body.contentEditable = "false";
+                                        // crack for ie7/8 eat focus
+                                        var status=doc.designMode;
+                                        doc.designMode="off";
+                                        doc.designMode="on";
+                                        doc.designMode=status;
 
                                         doc._pro=win._pro=undefined;
 
