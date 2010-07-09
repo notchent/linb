@@ -17745,13 +17745,22 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
             disabled:{
                 ini:false,
                 action: function(disabled){
-                    var doc=this.$doc;
+                    var disabled=this.properties.disabled||this.properties.readonly,
+                        doc=this.$doc;
                     if(doc){
                         if (doc.body.contentEditable != undefined && linb.browser.ie)
                            doc.body.contentEditable = disabled?"false":"true";
                         else
                            doc.designMode=disabled?"off":"on";
+                        
+                        this.box._iniToolBar(this, !disabled);
                     }
+                    }
+            },
+            readonly:{
+                ini:false,
+                action: function(v){
+                    this.boxing().setDisabled(v);
                 }
             }
         },
@@ -17860,166 +17869,183 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
             if(!self.$inDesign){
                 var div=self.getSubNode('EDITOR').get(0),
                     domId=self.$domId,
-                    id=div.id,
-                    iframe=document.createElement("iframe"),
-                    //_updateToolbar event
-                    event=self._event=function(e){
-                        if(this._pro && this._pro.properties.disabled)return;
-
-                        _.resetRun('RichEditor:'+domId, function(){
-                            linb.UI.RichEditor._updateToolbar(domId)
-                        },100);
-
-                        //for BlurTrigger
-                        if(e.type=='mousedown')
-                            linb.doc.onMousedown(true);
-                    },
-                    gekfix=self._gekfix=function(e){
+                    id=div.id;
+                    // rendered already
+                    if(!self.$once){
+                        self.$once=true;
+                        var iframe=document.createElement("iframe"),
+                        //_updateToolbar event
+                        event=self._event=function(e){
+                                if(this._pro && (this._pro.properties.disabled||this._pro.properties.readonly))return;
+    
+                            _.resetRun('RichEditor:'+domId, function(){
+                                linb.UI.RichEditor._updateToolbar(domId)
+                            },100);
+    
+                            //for BlurTrigger
+                            if(e.type=='mousedown')
+                                linb.doc.onMousedown(true);
+                        },
+                        gekfix=function(e){
                         // to fix firefox appendChid's bug: refresh iframe's document
-                        if(this._pro)
-                            this._pro.boxing().refresh();
-                    },
-                    doc,win,
-                    checkF = function(){
-                        if(!frames[id])return false;
-                        if(frames[id].document!=doc || doc.readyState=='complete'){
-                            win=self.$win=frames[id];
-
-                            self.$doc=doc=frames[id].document;
-
-                            doc.open();
-                            doc.write('<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><style type="text/css">body{border:0;margin:0;padding:0;margin:0;cursor:text;background:#fff;color:#000;padding:3px;}p{margin:0;padding:0;} div{margin:0;padding:0;}</style></head><body>'+self.properties.value+'</body></html>');
-                            doc.close();
-
-                            try{doc.execCommand("styleWithCSS", 0, false)}catch(e){
-                                try {doc.execCommand("useCSS", 0, true)}catch(e){}
+                            var ns=this;
+                            if(ns._pro){
+                                var ins=ns._pro.boxing();
+                                _.asyRun(function(){
+                                    ins.refresh(); 
+                                });
                             }
-
-                            var disabled=self.properties.disabled;
-
-                            if (doc.body.contentEditable != undefined && linb.browser.ie)
-                               doc.body.contentEditable = disabled?"false":"true";
-                            else
-                               doc.designMode=disabled?"off":"on";
-
-                            doc._pro=win._pro=self;
-
-                            if(linb.browser.ie){
-                                doc.attachEvent("unload",gekfix);
+                        },
+                        doc,win,
+                        checkF = function(){
+                                // removed from DOM already
+                            if(!frames[id])return false;
+                                // not ready
+                                if(!frames[id].document)return;
                                 
-                                if(!disabled){
-                                    doc.attachEvent("onmousedown",event);
-                                    doc.attachEvent("ondblclick",event);
-                                    doc.attachEvent("onclick",event);
-                                    doc.attachEvent("onkeyup",event);
-                                    doc.attachEvent("onkeydown",event);
+                            if(frames[id].document!=doc || doc.readyState=='complete'){
+                                win=self.$win=frames[id];
+    
+                                self.$doc=doc=frames[id].document;
+    
+                                doc.open();
+                                    doc.write('<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><style type="text/css">body{border:0;margin:0;padding:0;margin:0;cursor:text;background:#fff;color:#000;padding:3px;}p{margin:0;padding:0;} div{margin:0;padding:0;}</style></head><body>'+(self.properties.$UIvalue||"")+'</body></html>');
+                                doc.close();
+    
+                                try{doc.execCommand("styleWithCSS", 0, false)}catch(e){
+                                    try {doc.execCommand("useCSS", 0, true)}catch(e){}
+                                }
+                                    doc._pro=win._pro=self;
+    
+                                    var disabled=self.properties.disabled||self.properties.readonly;
+    
+                                if (doc.body.contentEditable != undefined && linb.browser.ie)
+                                   doc.body.contentEditable = disabled?"false":"true";
+                                else
+                                   doc.designMode=disabled?"off":"on";
+    
+                                doc._pro=win._pro=self;
+                                    win._gekfix=gekfix;
+    
+                                if(linb.browser.ie){
+                                    doc.attachEvent("unload",gekfix);
+                                    
+                                    if(!disabled){
+                                        doc.attachEvent("onmousedown",event);
+                                        doc.attachEvent("ondblclick",event);
+                                        doc.attachEvent("onclick",event);
+                                        doc.attachEvent("onkeyup",event);
+                                        doc.attachEvent("onkeydown",event);
+                                        self.$beforeDestroy=function(){
+                                            var win=this.$win,
+                                                doc=this.$doc,
+                                                event=this._event;
+    
+                                            // crack for ie7/8 eat focus
+                                            var status=doc.designMode;
+                                            doc.designMode="off";
+                                            doc.designMode="on";
+                                            doc.designMode=status;
+
+                                                win._gekfix=doc._pro=win._pro=undefined;
+    
+                                                try{doc.detachEvent("unload",win._gekfix);}catch(e){}
+    
+                                                if(!this.properties.disabled && !this.properties.readonly){
+                                                doc.detachEvent("onmousedown",event);
+                                                doc.detachEvent("ondblclick",event);
+                                                doc.detachEvent("onclick",event);
+                                                doc.detachEvent("onkeyup",event);
+                                                doc.detachEvent("onkeydown",event);
+                                            }
+                                            win=doc=event=null;
+                                        }
+                                    }
+                                }else{
+                                    win.addEventListener("unload",gekfix,false);
+    
+                                    if(!disabled){
+                                        doc.addEventListener("mousedown",event,false);
+                                        doc.addEventListener("dblclick",event,false);
+                                        doc.addEventListener("click",event,false);
+                                        doc.addEventListener("keyup",event,false);
+                                        if(linb.browser.gek)
+                                            doc.addEventListener("keypress",event,false);
+                                        else
+                                            doc.addEventListener("keydown",event,false);
+                                    }
+    
+                                    //don't ues $ondestory, opera will set doc to null
                                     self.$beforeDestroy=function(){
                                         var win=this.$win,
                                             doc=this.$doc,
-                                            event=this._event;
-
-                                        // crack for ie7/8 eat focus
-                                        var status=doc.designMode;
-                                        doc.designMode="off";
-                                        doc.designMode="on";
-                                        doc.designMode=status;
-
-                                        doc._pro=win._pro=undefined;
-
-                                        doc.detachEvent("unload",gekfix);
-
-                                        if(!this.properties.disabled){
-                                            doc.detachEvent("onmousedown",event);
-                                            doc.detachEvent("ondblclick",event);
-                                            doc.detachEvent("onclick",event);
-                                            doc.detachEvent("onkeyup",event);
-                                            doc.detachEvent("onkeydown",event);
+                                                event=this._event;
+        
+                                            try{win.removeEventListener("unload",win._gekfix,false);}catch(e){}
+    
+                                            win._gekfix=doc._pro=win._pro=undefined;
+    
+                                        //for firefox
+                                            delete frames[this.$frameId];
+    
+                                            if(!this.properties.disabled && !this.properties.readonly){
+                                            doc.removeEventListener("mousedown",event,false);
+                                            doc.removeEventListener("dblclick",event,false);
+                                            doc.removeEventListener("click",event,false);
+                                            doc.removeEventListener("keyup",event,false);
+                                            if(linb.browser.gek)
+                                                doc.removeEventListener("keypress",event,false);
+                                            else
+                                                doc.removeEventListener("keydown",event,false);
                                         }
-                                        win=doc=event=null;
+                                        gekfix=event=win=doc=null;
                                     }
                                 }
-                            }else{
-                                win.addEventListener("unload",gekfix,false);
-
-                                if(!disabled){
-                                    doc.addEventListener("mousedown",event,false);
-                                    doc.addEventListener("dblclick",event,false);
-                                    doc.addEventListener("click",event,false);
-                                    doc.addEventListener("keyup",event,false);
-                                    if(linb.browser.gek)
-                                        doc.addEventListener("keypress",event,false);
-                                    else
-                                        doc.addEventListener("keydown",event,false);
-                                }
-
-                                //don't ues $ondestory, opera will set doc to null
-                                self.$beforeDestroy=function(){
-                                    var win=this.$win,
-                                        doc=this.$doc,
-                                        event=this._event,
-                                        gekfix=this._gekfix;
-
-                                    doc._pro=win._pro=undefined;
-
-                                    //for firefox
-                                    if(linb.browser.gek)
-                                        delete frames[this.$frameId];
-
-                                    win.removeEventListener("unload",gekfix,false);
-
-                                    if(!this.properties.disabled){
-                                        doc.removeEventListener("mousedown",event,false);
-                                        doc.removeEventListener("dblclick",event,false);
-                                        doc.removeEventListener("click",event,false);
-                                        doc.removeEventListener("keyup",event,false);
-                                        if(linb.browser.gek)
-                                            doc.removeEventListener("keypress",event,false);
-                                        else
-                                            doc.removeEventListener("keydown",event,false);
-                                    }
-                                    gekfix=event=win=doc=null;
-                                }
+    
+                                iframe.style.visibility='';
+    
+                                event=self=checkF=doc=null;
+    
+                                return false;
                             }
-
-                            iframe.style.visibility='';
-
-                            event=self=checkF=doc=null;
-
-                            return false;
-                        }
-                    };
-                self.$frameId=id;
-                iframe.id=iframe.name=id;
-                iframe.className=div.className;
-                iframe.src="javascript:false;";
-                iframe.frameBorder=0;
-                iframe.border=0;
-                iframe.marginWidth=0;
-                iframe.marginHeight=0;
-                iframe.tabIndex=-1;
-                iframe.allowTransparency="allowtransparency";
-                iframe.style.visibility='hidden';
-
-                //replace the original one
-                linb.$cache.domPurgeData[iframe.$linbid=div.$linbid].element=iframe;
-                div.parentNode.replaceChild(iframe,div);
-
-                doc=frames[frames.length-1].document;
-
-                linb.Thread.repeat(checkF,50);
-                div=null;
+                        };
+                    self.$frameId=id;
+                    iframe.id=iframe.name=id;
+                    iframe.className=div.className;
+                    iframe.src="javascript:false;";
+                    iframe.frameBorder=0;
+                    iframe.border=0;
+                    iframe.marginWidth=0;
+                    iframe.marginHeight=0;
+                    iframe.tabIndex=-1;
+                    iframe.allowTransparency="allowtransparency";
+                    iframe.style.visibility='hidden';
+    
+                    //replace the original one
+                    linb.$cache.domPurgeData[iframe.$linbid=div.$linbid].element=iframe;
+                    div.parentNode.replaceChild(iframe,div);
+    
+                    doc=frames[frames.length-1].document;
+    
+                    linb.Thread.repeat(checkF,50);
+                    div=null;
+                }
             }
         },
         _clearPool:function(profile){
             profile.getSubNode('POOL').empty();
             profile.$colorPicker=profile.$fontsizeList=profile.$fontnameList=profile.$formatblockList=profile.$htmlEditor=null;
         },
-        _iniToolBar:function(profile){
+        _iniToolBar:function(profile, flag){
             var self=profile,
                 pro=self.properties;
-            if(self.$toolbar)
+            if(self.$toolbar){
                 self.$toolbar.boxing().destroy();
+                delete self._$tb;
+                delete self.$toolbar;
+            }
 
+            if(flag!==false){
             var t,v,o,items=[],
                 imageClass=self.getClass('TOOLBARBTN'),
                 arr=pro.cmdList.split(';'),
@@ -18049,7 +18075,7 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
             v[t.$linbid]=t;
             self.$toolbar=t;
             t.$hostage=self;
-
+            }
             linb.UI.$tryResize(profile, pro.width, pro.height,true);
         },
         _toolbarclick:function(profile,item,group,e,src){
@@ -18328,9 +18354,7 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
             profile.getSubNode('EDITOR').top(_top).cssSize(size,true);
         }
     }
-});
-
-Class("linb.UI.ComboInput", "linb.UI.Input",{
+});Class("linb.UI.ComboInput", "linb.UI.Input",{
     /*Instance*/
     Instance:{
         getValue:function(){
