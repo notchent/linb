@@ -261,7 +261,19 @@ Class("linb.UI.RichEditor", ["linb.UI","linb.absValue"],{
                                         }
                                     }
                                 }else{
-                                    win.addEventListener("unload",gekfix,false);
+                                    var prf=self;
+                                    // for opera
+                                    if(linb.browser.opr){
+                                        prf.$repeatT=linb.Thread.repeat(function(){
+                                            if(!frames[id])
+                                                return false;
+                                            else{
+                                                if(!prf.$win.focus)
+                                                    prf.boxing().refresh(); 
+                                            }
+                                        }, 200);
+                                    }else
+                                        win.addEventListener("unload",gekfix,false);
     
                                     if(!disabled){
                                         doc.addEventListener("mousedown",event,false);
@@ -279,7 +291,11 @@ Class("linb.UI.RichEditor", ["linb.UI","linb.absValue"],{
                                         var win=this.$win,
                                             doc=this.$doc,
                                                 event=this._event;
-        
+
+                                            // for opera
+                                            if(linb.browser.opr)
+                                                if(prf.$repeatT)prf.$repeatT.abort();
+                                        
                                             try{win.removeEventListener("unload",win._gekfix,false);}catch(e){}
     
                                             win._gekfix=doc._pro=win._pro=undefined;
@@ -297,7 +313,7 @@ Class("linb.UI.RichEditor", ["linb.UI","linb.absValue"],{
                                             else
                                                 doc.removeEventListener("keydown",event,false);
                                         }
-                                        gekfix=event=win=doc=null;
+                                        prf=gekfix=event=win=doc=null;
                                     }
                                 }
     
