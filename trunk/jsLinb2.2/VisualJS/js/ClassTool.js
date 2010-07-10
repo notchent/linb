@@ -7,6 +7,12 @@ Class('VisualJS.ClassTool',null,{
             var match=/^\s*Class\s*\(\s*[\'\"]([^\'\"]+)[\'\"]\s*\,/.exec(str);
             return (match && match[1]);
         },
+        isJson:function(txt){
+            var reg = new RegExp("^(\\s*\\/\\*[^*@]*\\*+([^\\/][^*]*\\*+)*\\/\\s*)|^(\\s*\\/\\/[^\\n]*\\s*)");
+            while(reg.test(txt))
+            txt = txt.replace(reg,'');
+            return /^\s*(\{|\[|function)/.test(txt);
+        }, 
         //get class object from a Class declare, include comments words
         getClassObject : function(str){
 //set try out

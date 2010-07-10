@@ -25,13 +25,8 @@ Class('VisualJS.PageEditor', 'linb.Com',{
                 "parent.sandbox=MSIE?this:{eval:function(s){return eval(s)}}"+
                 "<\/script>"
             );
-            var str=txt;
-            var reg = new RegExp("^(\\s*\\/\\*[^*@]*\\*+([^\\/][^*]*\\*+)*\\/\\s*)|^(\\s*\\/\\/[^\\n]*\\s*)");
-            while(reg.test(str))
-                str = str.replace(reg,'');
-            var isjson=/^\s*{/.test(str);
-            try{
-                sandbox.eval(isjson?("("+txt+")"):txt);
+            try{                
+                sandbox.eval(VisualJS.ClassTool.isJson(txt)?("("+txt+")"):txt);
             }catch(e){
                 var line=e.line||e.lineNumber;
                 alert((e.name?e.name+' : ':'') + (e.description||e.message||'') + (line?'\n line : '+line:'') );
