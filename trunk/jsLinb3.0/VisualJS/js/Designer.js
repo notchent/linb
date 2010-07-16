@@ -32,7 +32,7 @@ Class('VisualJS.Designer', 'linb.Com',{
                 ap.setHeader(['col1','col2', 'col3', 'col4'])
                 .setRowNumbered(true)
                 .setRows([['row1 col1','row1 col2','row1 col3','row1 col4'],['row2 col1','row2 col2','row2 col3','row2 col4'],{cells:['row3 col1','row3 col2','row3 col3','row3 col4'],sub:[['sub1','sub2','sub3','sub4']]}]);
-            }else if(key=='linb.UI.ToolBar'||key=='linb.UI.MenuBar'||key=='linb.UI.TreeBar'){
+            }else if(key=='linb.UI.ToolBar'||key=='linb.UI.MenuBar'||key=='linb.UI.TreeBar'||key=='linb.UI.TreeView'){
                 ap.setItems([{id:'item a',sub:['sub a1', 'sub a2', 'sub a3', 'sub a4']}, {id:'item b',sub:['sub b1', 'sub b2', 'sub b3', 'sub b4']}]);
             }else if(key=='linb.UI.Layout'){
                 ap.setItems([{id:'before',pos:'before'},{id:'main'},{id:'after',pos:'after'}]);
