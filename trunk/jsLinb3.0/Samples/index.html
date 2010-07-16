@@ -1,0 +1,1149 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <meta name="keywords" content="javascript framework, RIA, SPA, client SOA, linb, jsLinb, RAD, IDE, Web IDE, widgets, javascript OOP, opensource, open-source, Ajax, cross-browser, prototype, web2.0, platform-independent, language-independent" />
+    <meta name="description" content="Web application powered by LINB framework" />
+    <meta name="copyright" content="copyright@www.linb.net" />
+    <meta http-equiv="imagetoolbar" content="no" />
+    <title>jsLINB 3.0 Samples</title>
+
+    <style type="text/css">
+a, a *{
+    text-decoration:none;
+}
+a:hover, a:hover *{
+    text-decoration:underline;
+}
+#layout{
+    margin:0 auto;
+    text-align:left;
+    width:1080px;
+}
+#head{
+    position:relative;
+    text-align:center;
+}
+#body{
+    font-family:verdana,geneva,lucida,'lucida grande',arial,helvetica,sans-serif;
+    font-size:12px;
+    line-height:18px;
+    color:#333;
+}
+#tail{
+    text-align:center;
+}
+#list1 div{
+    border-bottom:solid 1px #eee;
+}
+#list td{
+    padding:2px;
+    margin:0;
+}
+#list td h4{
+    padding:0;
+    margin:0;
+    color:#D80808;
+    padding-bottom:2px;
+}
+#list td p{
+    padding:0;
+    margin:0;
+    color:#5C5C5C;
+    font-size:12px;
+}
+#list img{
+    padding:3px;
+    border:solid 1px #666;
+}
+.title{
+    text-align:center;
+    color:#716F64;
+    font-family:'Trebuchet MS',Arial,Helvetica,sans-serif;
+    font-size:1.2em;
+
+    font-weight:bold;
+    font-size:15px;
+}
+.title a{
+    padding:2px;
+    margin-right:3px;
+}
+.content {
+    padding:10px;
+}
+.linklist{
+    margin:5px;
+    font-weight:bold;
+}
+.block{
+    text-align:left;
+    padding-left:10px;
+    font-size:15px;
+    font-weight:bold;
+}
+.block .b2, .block .b3, .block .bi{
+    background-color:#F0F0F0;
+}
+.b1, .b2, .b3{
+    font-size:1px;
+    height:1px;
+    line-height:1px;
+    overflow:hidden;
+    display:block;
+}
+.b1{
+    background-color:#D8D8D8;
+    margin:0 4px;
+}
+.b2{
+    margin:0 2px;
+    border-left:2px solid #D8D8D8;
+    border-right:2px solid #D8D8D8;
+}
+.b3{
+    margin:0 1px;
+    border-left:1px solid #D8D8D8;
+    border-right:1px solid #D8D8D8;
+}
+.bi{
+    border-left:1px solid #D8D8D8;
+    border-right:1px solid #D8D8D8;
+    padding:2px 4px;
+    display:block;
+}
+    </style>
+</head>
+<body>
+    <div id="layout">
+        <div id="head">
+            <h2>jsLINB 3.0 Samples</h2>
+        </div>
+        <div id="body">
+
+            <div class="block">
+<div><div class="b1"></div><div class="b2"></div><div class="b3"></div></div><div class="bi">
+                    Highlights
+</div><div><div class="b3"></div><div class="b2"></div><div class="b1"></div></div>
+            </div>
+            <table id="list" cellpadding="0" cellspacing="6" width="100%">
+                <tr>
+                    <td width="33%" valign="top">
+<div><div class="b1"></div><div class="b2"></div><div class="b3"></div></div><div class="bi">                        
+                        <table height="110"><tr><td>
+                            <a target="_blank" href="../VisualJS/UIBuilder.html">
+                                <img src="img/hl.uibuilder.jpg"/>
+                            </a>
+                        </td><td valign="top">
+                            <a target="_blank" href="../VisualJS/UIBuilder.html">
+                                <h4>jsLinb UI Builder</h4>
+                                <p>Web based tool for AJAX UI rapid design. Developers can create your web app just like what you do in VB or Delphi.</p>
+                            </a>
+                        </td></tr></table>
+</div><div><div class="b3"></div><div class="b2"></div><div class="b1"></div></div>
+                    </td>
+                    <td width="33%" valign="top">
+<div><div class="b1"></div><div class="b2"></div><div class="b3"></div></div><div class="bi">
+                        <table height="110"><tr><td>
+                            <a target="_blank" href="../API/index.html">
+                                <img src="img/hl.api.jpg"/>
+                            </a>
+                        </td><td valign="top">
+                            <a target="_blank" href="../API/index.html">
+                                <h4>jsLinb API</h4>
+                                <p>jsLinb API documentation. Almost every API has the sample code.</p>
+                            </a>
+                        </td></tr></table>
+</div><div><div class="b3"></div><div class="b2"></div><div class="b1"></div></div>
+                    </td>
+                    <td valign="top">
+<div><div class="b1"></div><div class="b2"></div><div class="b3"></div></div><div class="bi">
+                        <table height="110"><tr><td>
+                            <a target="_blank" href="../CodeSnip/index.html">
+                                <img src="img/hl.codesnip.jpg"/>
+                            </a>
+                        </td><td valign="top">
+                            <a target="_blank" href="../CodeSnip/index.html">
+                                <h4>jsLinb Code Snippets</h4>
+                                <p>Code snippets for jsLinb developers.</p>
+                            </a>
+                        </td></tr></table>
+</div><div><div class="b3"></div><div class="b2"></div><div class="b1"></div></div>
+                    </td>
+                </tr>
+            </table>
+            
+
+            <div class="block">
+<div><div class="b1"></div><div class="b2"></div><div class="b3"></div></div><div class="bi">
+                    Combination Samples
+</div><div><div class="b3"></div><div class="b2"></div><div class="b1"></div></div>
+            </div>
+            <table id="list" cellpadding="0" cellspacing="6" width="100%">
+                <tr>
+                    <td width="33%" valign="top">
+<div><div class="b1"></div><div class="b2"></div><div class="b3"></div></div><div class="bi">                        
+                        <table height="110"><tr><td>
+                            <a target="_blank" href="app/PicEditor/index.html">
+                                <img src="img/combo.piceditor.jpg"/>
+                            </a>
+                        </td><td valign="top">
+                            <a target="_blank" href="app/PicEditor/index.html">
+                                <h4>PicEditor</h4>
+                                <p>Online Image processing photo editor, lets you edit images just in your browser.(server code: php>5.2)</p>
+                            </a>
+                        </td></tr></table>
+</div><div><div class="b3"></div><div class="b2"></div><div class="b1"></div></div>
+                    </td>
+                    <td width="33%" valign="top">
+<div><div class="b1"></div><div class="b2"></div><div class="b3"></div></div><div class="bi">
+                        <table height="110"><tr><td>
+                            <a target="_blank" href="app/JSONEditor/index.html">
+                                <img src="img/comb.jsoneditor.jpg"/>
+                            </a>
+                        </td><td valign="top">
+                            <a target="_blank" href="app/JSONEditor/index.html">
+                                <h4>JSON Editor</h4>
+                                <p>This editor allows for easy editing of json strings in a Tree Grid view. (Web developers' dream!)</p>
+                            </a>
+                        </td></tr></table>
+</div><div><div class="b3"></div><div class="b2"></div><div class="b1"></div></div>
+                    </td>
+                    <td valign="top">
+<div><div class="b1"></div><div class="b2"></div><div class="b3"></div></div><div class="bi">
+                        <table height="110"><tr><td>
+                            <a target="_blank" href="comb/GoogleCalendar/index.html">
+                                <img src="img/combo.googlecalendar.jpg"/>
+                            </a>
+                        </td><td valign="top">
+                            <a target="_blank" href="comb/GoogleCalendar/index.html">
+                                <h4>Google Calendar</h4>
+                                <p>Using linb.UI.TimeLine to build a google calendar UI. (You have to have a Google account!)</p>
+                            </a>
+                        </td></tr></table>
+</div><div><div class="b3"></div><div class="b2"></div><div class="b1"></div></div>
+                    </td>
+                </tr>
+            </table>
+            <table id="list" cellpadding="0" cellspacing="6" width="100%">
+                <tr>
+                    <td width="33%" valign="top">
+<div><div class="b1"></div><div class="b2"></div><div class="b3"></div></div><div class="bi">                        
+                        <table height="110"><tr><td>
+                            <a target="_blank" href="comb/Themes/index.html">
+                                <img src="img/comb.themes.jpg"/>
+                            </a>
+                        </td><td valign="top">
+                            <a target="_blank" href="comb/Themes/index.html">
+                                <h4>Themes</h4>
+                                <p>Switches application theme dynamically.</p>
+                            </a>
+                        </td></tr></table>
+</div><div><div class="b3"></div><div class="b2"></div><div class="b1"></div></div>
+                    </td>
+                    <td width="33%" valign="top">
+<div><div class="b1"></div><div class="b2"></div><div class="b3"></div></div><div class="bi">
+                        <table height="110"><tr><td>
+                            <a target="_blank" href="comb/OutLook/index.html">
+                                <img src="img/comb.outlook.jpg"/>
+                            </a>
+                        </td><td valign="top">
+                            <a target="_blank" href="comb/OutLook/index.html">
+                                <h4>Outlook</h4>
+                                <p></p>
+                            </a>
+                        </td></tr></table>
+</div><div><div class="b3"></div><div class="b2"></div><div class="b1"></div></div>
+                    </td>
+                    <td valign="top">
+<div><div class="b1"></div><div class="b2"></div><div class="b3"></div></div><div class="bi">
+                        <table height="110"><tr><td>
+                            <a target="_blank" href="comb/OrderManagement/index.html">
+                                <img src="img/comb.ordermanagement.jpg"/>
+                            </a>
+                        </td><td valign="top">
+                            <a target="_blank" href="comb/OrderManagement/index.html">
+                                <h4>Order Management</h4>
+                                <p></p>
+                            </a>
+                        </td></tr></table>
+</div><div><div class="b3"></div><div class="b2"></div><div class="b1"></div></div>
+                    </td>
+                </tr>
+            </table>
+            <table id="list" cellpadding="0" cellspacing="6" width="100%">
+                <tr>
+                    <td width="33%" valign="top">
+<div><div class="b1"></div><div class="b2"></div><div class="b3"></div></div><div class="bi">
+                        <table height="110"><tr><td>
+                            <a target="_blank" href="comb/survey/index.html">
+                                <img src="img/combo.survey.jpg"/>
+                            </a>
+                        </td><td valign="top">
+                            <a target="_blank" href="comb/survey/index.html">
+                                <h4>Survey</h4>
+                                <p></p>
+                            </a>
+                        </td></tr></table>
+</div><div><div class="b3"></div><div class="b2"></div><div class="b1"></div></div>
+                    </td>
+                    <td valign="top">
+<div><div class="b1"></div><div class="b2"></div><div class="b3"></div></div><div class="bi">
+                        <table height="110"><tr><td>
+                            <a target="_blank" href="comb/GridEditor/index.html">
+                                <img src="img/combo.grideditor.jpg"/>
+                            </a>
+                        </td><td valign="top">
+                            <a target="_blank" href="comb/GridEditor/index.html">
+                                <h4>GridEditor</h4>
+                                <p></p>
+                            </a>
+                        </td></tr></table>
+</div><div><div class="b3"></div><div class="b2"></div><div class="b1"></div></div>
+                    </td>
+                    <td width="33%" valign="top">
+                    </td>
+                </tr>
+            </table>
+
+            <div class="block">
+<div><div class="b1"></div><div class="b2"></div><div class="b3"></div></div><div class="bi">
+                    Interact with DB
+</div><div><div class="b3"></div><div class="b2"></div><div class="b1"></div></div>
+            </div>
+            <table id="list" cellpadding="0" cellspacing="6" width="100%">
+                <tr>
+                    <td width="33%" valign="top">
+<div><div class="b1"></div><div class="b2"></div><div class="b3"></div></div><div class="bi">                        
+                        <table height="110"><tr><td>
+                            <a target="_blank" href="comb/dbdemo/index.html">
+                                <img src="img/combo.dbdemo.jpg"/>
+                            </a>
+                        </td><td valign="top">
+                            <a target="_blank" href="comb/dbdemo/index.html">
+                                <h4>Interact with MYSQL</h4>
+                                <p>Interact (Select, insert, update, delete) with MYSQL. The backend is phpLinb.</p>
+                            </a>
+                        </td></tr></table>
+</div><div><div class="b3"></div><div class="b2"></div><div class="b1"></div></div>
+                    </td>
+                    <td width="33%" valign="top">
+<div><div class="b1"></div><div class="b2"></div><div class="b3"></div></div><div class="bi">
+                        <table height="110"><tr><td>
+                            <a target="_blank" href="comb/MySQLAdmin/index.html">
+                                <img src="img/combo.mysqladmin.jpg"/>
+                            </a>
+                        </td><td valign="top">
+                            <a target="_blank" href="comb/MySQLAdmin/index.html">
+                                <h4>A simple MySQL Admin</h4>
+                                <p>Browses databases and tables of a given mysql instance.</p>
+                            </a>
+                        </td></tr></table>
+</div><div><div class="b3"></div><div class="b2"></div><div class="b1"></div></div>
+                    </td>
+                    <td valign="top">
+<!--div><div class="b1"></div><div class="b2"></div><div class="b3"></div></div><div class="bi">
+                        <table height="110"><tr><td>
+                            <a target="_blank" href="">
+                                <img src=""/>
+                            </a>
+                        </td><td valign="top">
+                            <a target="_blank" href="">
+                                <h4></h4>
+                                <p></p>
+                            </a>
+                        </td></tr></table>
+</div><div><div class="b3"></div><div class="b2"></div><div class="b1"></div></div-->
+                    </td>
+                </tr>
+            </table>
+
+
+            <div class="block">
+<div><div class="b1"></div><div class="b2"></div><div class="b3"></div></div><div class="bi">
+                    Application related
+</div><div><div class="b3"></div><div class="b2"></div><div class="b1"></div></div>
+            </div>
+            <table id="list" cellpadding="0" cellspacing="6" width="100%">
+                <tr>
+                    <td width="33%" valign="top">
+<div><div class="b1"></div><div class="b2"></div><div class="b3"></div></div><div class="bi">                        
+                        <table height="110"><tr><td>
+                            <a target="_blank" href="linb/app/distributed/index.html">
+                                <img src="img/linb.app.distributed.jpg"/>
+                            </a>
+                        </td><td valign="top">
+                            <a target="_blank" href="linb/app/distributed/index.html">
+                                <h4>Distributed UI</h4>
+                                <p>Loading js code from remote server, and render it as an UI component.</p>
+                            </a>
+                        </td></tr></table>
+</div><div><div class="b3"></div><div class="b2"></div><div class="b1"></div></div>
+                    </td>
+                    <td width="33%" valign="top">
+<div><div class="b1"></div><div class="b2"></div><div class="b3"></div></div><div class="bi">
+                        <table height="110"><tr><td>
+                            <a target="_blank" href="linb/misc/lang/index.html">
+                                <img src="img/linb.misc.lang.jpg"/>
+                            </a>
+                        </td><td valign="top">
+                            <a target="_blank" href="linb/misc/lang/index.html">
+                                <h4>Localization</h4>
+                                <p>Apply different languages on the fly, no need to reload page. </p>
+                            </a>
+                        </td></tr></table>
+</div><div><div class="b3"></div><div class="b2"></div><div class="b1"></div></div>
+                    </td>
+                    <td valign="top">
+<div><div class="b1"></div><div class="b2"></div><div class="b3"></div></div><div class="bi">
+                        <table height="110"><tr><td>
+                            <a target="_blank" href="linb/appearance/Skin/index.html">
+                                <img src="img/linb.CSS.skin.jpg"/>
+                            </a>
+                        </td><td valign="top">
+                            <a target="_blank" href="linb/appearance/Skin/index.html">
+                                <h4>Application Skin</h4>
+                                <p>Define your own application skin base on one of the jsLINB theme.</p>
+                            </a>
+                        </td></tr></table>
+</div><div><div class="b3"></div><div class="b2"></div><div class="b1"></div></div>
+                    </td>
+                </tr>
+            </table>
+            <table id="list" cellpadding="0" cellspacing="6" width="100%">
+                <tr>
+                    <td width="33%" valign="top">
+<div><div class="b1"></div><div class="b2"></div><div class="b3"></div></div><div class="bi">                        
+                        <table height="80"><tr><td>
+                        </td><td valign="top">
+                            <a target="_blank" href="linb/app/tooltips/index.html">
+                                <h4>Tooltips UI</h4>
+                                <p>Shows tooltips in you web application</p>
+                            </a>
+                        </td></tr></table>
+</div><div><div class="b3"></div><div class="b2"></div><div class="b1"></div></div>
+                    </td>
+                    <td width="33%" valign="top">
+<div><div class="b1"></div><div class="b2"></div><div class="b3"></div></div><div class="bi">
+                        <table height="80"><tr><td>
+                        </td><td valign="top">
+                            <a target="_blank" href="linb/misc/history/index.html">
+                                <h4>Browser History</h4>
+                                <p>How to make a markable web application.</p>
+                            </a>
+                        </td></tr></table>
+</div><div><div class="b3"></div><div class="b2"></div><div class="b1"></div></div>
+                    </td>
+                    <td valign="top">
+<div><div class="b1"></div><div class="b2"></div><div class="b3"></div></div><div class="bi">
+                        <table height="80"><tr><td>
+                        </td><td valign="top">
+                            <a target="_blank" href="linb/app/assembly/index.html">
+                                <h4>Component assembly process</h4>
+                                <p>Monitors component assembly (using linb.ComFactory and linb.UI.Tag) process  in <b>"slow motion"</b>.</p>
+                            </a>
+                        </td></tr></table>
+</div><div><div class="b3"></div><div class="b2"></div><div class="b1"></div></div>
+                    </td>
+                </tr>
+            </table>
+
+
+            <div class="block">
+<div><div class="b1"></div><div class="b2"></div><div class="b3"></div></div><div class="bi">
+                    Template
+</div><div><div class="b3"></div><div class="b2"></div><div class="b1"></div></div>
+            </div>
+            <table id="list" cellpadding="0" cellspacing="6" width="100%">
+                <tr>
+                    <td width="33%" valign="top">
+<div><div class="b1"></div><div class="b2"></div><div class="b3"></div></div><div class="bi">                        
+                        <table height="110"><tr><td>
+                            <a target="_blank" href="linb/Template/basic.html">
+                                <img src="img/linb.Template.basic.jpg"/>
+                            </a>
+                        </td><td valign="top">
+                            <a target="_blank" href="linb/Template/basic.html">
+                                <h4>Multi-nested</h4>
+                                <p>Using linb.Template to create multi-nested html with events supported</p>
+                            </a>
+                        </td></tr></table>
+</div><div><div class="b3"></div><div class="b2"></div><div class="b1"></div></div>
+                    </td>
+                    <td width="33%" valign="top">
+<div><div class="b1"></div><div class="b2"></div><div class="b3"></div></div><div class="bi">
+                        <table height="110"><tr><td>
+                            <a target="_blank" href="linb/Template/gallery1.html">
+                                <img src="img/linb.Template.gallery1.jpg"/>
+                            </a>
+                        </td><td valign="top">
+                            <a target="_blank" href="linb/Template/gallery1.html">
+                                <h4>Product Gallery</h4>
+                                <p>Using linb.Template to create a product gallery application.</p>
+                            </a>
+                        </td></tr></table>
+</div><div><div class="b3"></div><div class="b2"></div><div class="b1"></div></div>
+                    </td>
+                    <td valign="top">
+<div><div class="b1"></div><div class="b2"></div><div class="b3"></div></div><div class="bi">
+                        <table height="110"><tr><td>
+                            <a target="_blank" href="linb/Template/gallery2.html">
+                                <img src="img/linb.Template.gallery2.jpg"/>
+                            </a>
+                        </td><td valign="top">
+                            <a target="_blank" href="linb/Template/gallery2.html">
+                                <h4>Product Gallery 2</h4>
+                                <p>Wraps Sample "Gallery 1" to a Class, and get template data from Ajax</p>
+                            </a>
+                        </td></tr></table>
+</div><div><div class="b3"></div><div class="b2"></div><div class="b1"></div></div>
+                    </td>
+                </tr>
+            </table>
+            
+
+            <div class="block">
+<div><div class="b1"></div><div class="b2"></div><div class="b3"></div></div><div class="bi">
+                    IO
+</div><div><div class="b3"></div><div class="b2"></div><div class="b1"></div></div>
+            </div>
+            <table id="list" cellpadding="0" cellspacing="6" width="100%">
+                <tr>
+                    <td width="33%" valign="top">
+<div><div class="b1"></div><div class="b2"></div><div class="b3"></div></div><div class="bi">                        
+                        <table height="110"><tr><td>
+                            <a target="_blank" href="linb/IO/basic/index.html">
+                                <img src="img/linb.IO.basic.jpg"/>
+                            </a>
+                        </td><td valign="top">
+                            <a target="_blank" href="linb/IO/basic/index.html">
+                                <h4>Basic</h4>
+                                <p>Using linb.Ajax/Sajax/Iajax to interact with json service</p>
+                            </a>
+                        </td></tr></table>
+</div><div><div class="b3"></div><div class="b2"></div><div class="b1"></div></div>
+                    </td>
+                    <td width="33%" valign="top">
+<div><div class="b1"></div><div class="b2"></div><div class="b3"></div></div><div class="bi">
+                        <table height="110"><tr><td>
+                            <a target="_blank" href="linb/IO/monitor/index.html">
+                                <img src="img/linb.IO.basic.jpg"/>
+                            </a>
+                        </td><td valign="top">
+                            <a target="_blank" href="linb/IO/monitor/index.html">
+                               <h4>Interaction Monitor</h4>
+                                <p>To monitor the IO request process.</p>
+                            </a>
+                        </td></tr></table>
+</div><div><div class="b3"></div><div class="b2"></div><div class="b1"></div></div>
+                    </td>
+                    <td valign="top">
+<div><div class="b1"></div><div class="b2"></div><div class="b3"></div></div><div class="bi">
+                        <table height="110"><tr><td>
+                            <a target="_blank" href="linb/IO/complicated/index.html">
+                                <img src="img/linb.IO.complicated.jpg"/>
+                            </a>
+                        </td><td valign="top">
+                            <a target="_blank" href="linb/IO/complicated/index.html">
+                                <h4>Complicated Interaction</h4>
+                                <p>"bi"nding several Ajax requests into one thread.</p>
+                            </a>
+                        </td></tr></table>
+</div><div><div class="b3"></div><div class="b2"></div><div class="b1"></div></div>
+                    </td>
+                </tr>
+            </table>
+
+
+            <div class="block">
+<div><div class="b1"></div><div class="b2"></div><div class="b3"></div></div><div class="bi">
+                    Appearances
+</div><div><div class="b3"></div><div class="b2"></div><div class="b1"></div></div>
+            </div>
+            <table id="list" cellpadding="0" cellspacing="6" width="100%">
+                <tr>
+                    <td width="33%" valign="top">
+<div><div class="b1"></div><div class="b2"></div><div class="b3"></div></div><div class="bi">                        
+                        <table height="65"><tr><td>
+                        </td><td valign="top">
+                            <a target="_blank" href="linb/appearance/way1.html">
+                                <h4>Change CSS class for all</h4>
+                                <p>Use CSS class like 'linb-list-item' to modify the all widgets' appearances.</p>
+                            </a>
+                        </td></tr></table>
+</div><div><div class="b3"></div><div class="b2"></div><div class="b1"></div></div>
+                    </td>
+                    <td width="33%" valign="top">
+<div><div class="b1"></div><div class="b2"></div><div class="b3"></div></div><div class="bi">
+                        <table height="65"><tr><td>
+                        </td><td valign="top">
+                            <a target="_blank" href="linb/appearance/way2.html">
+                                <h4>Use domId for individual</h4>
+                                <p>Use DOM id CSS to modify a specified widget's appearances.</p>
+                            </a>
+                        </td></tr></table>
+</div><div><div class="b3"></div><div class="b2"></div><div class="b1"></div></div>
+                    </td>
+                    <td valign="top">
+<div><div class="b1"></div><div class="b2"></div><div class="b3"></div></div><div class="bi">
+                        <table height="65"><tr><td>
+                        </td><td valign="top">
+                            <a target="_blank" href="linb/appearance/way4.html">
+                                <h4>Use setCustom[xxx] for individual</h4>
+                                <p>Use setCustomClass/setCustomStyle to modify a specified widget's appearances.</p>
+                            </a>
+                        </td></tr></table>
+</div><div><div class="b3"></div><div class="b2"></div><div class="b1"></div></div>
+                    </td>
+                </tr>
+            </table>
+            <table id="list" cellpadding="0" cellspacing="6" width="100%">
+                <tr>
+                    <td width="33%" valign="top">
+<div><div class="b1"></div><div class="b2"></div><div class="b3"></div></div><div class="bi">                        
+                        <table height="65"><tr><td>
+                        </td><td valign="top">
+                            <a target="_blank" href="linb/appearance/way5.html">
+                                <h4>Use getSubNode for individual</h4>
+                                <p>Use getSubNode function to modify a specified widget's appearances.</p>
+                            </a>
+                        </td></tr></table>
+</div><div><div class="b3"></div><div class="b2"></div><div class="b1"></div></div>
+                    </td>
+                    <td width="33%" valign="top">
+<div><div class="b1"></div><div class="b2"></div><div class="b3"></div></div><div class="bi">
+                        <table height="65"><tr><td>
+                        </td><td valign="top">
+                            <a target="_blank" href="linb/appearance/way6.html">
+                                <h4>Use itemClass or itemStyle for individual</h4>
+                                <p>Use itemClass or itemStyle to modify a specified list node in a widget.</p>
+                            </a>
+                        </td></tr></table>
+</div><div><div class="b3"></div><div class="b2"></div><div class="b1"></div></div>
+                    </td>
+                    <td valign="top">
+<div><div class="b1"></div><div class="b2"></div><div class="b3"></div></div><div class="bi">
+                        <table height="65"><tr><td>
+                        </td><td valign="top">
+                            <a target="_blank" href="linb/appearance/way3.html">
+                                <h4>Use setTheme for individual</h4>
+                                <p>Use setTheme to modify a specified widget's appearances.
+                            </a>
+                        </td></tr></table>
+</div><div><div class="b3"></div><div class="b2"></div><div class="b1"></div></div>
+                    </td>
+                </tr>
+            </table>
+
+
+            <div class="block">
+<div><div class="b1"></div><div class="b2"></div><div class="b3"></div></div><div class="bi">
+                    Drag and Drop
+</div><div><div class="b3"></div><div class="b2"></div><div class="b1"></div></div>
+            </div>
+            <table id="list" cellpadding="0" cellspacing="6" width="100%">
+                <tr>
+                    <td width="33%" valign="top">
+<div><div class="b1"></div><div class="b2"></div><div class="b3"></div></div><div class="bi">                        
+                        <table height="110"><tr><td>
+                            <a target="_blank" href="linb/dd/ddpanel/index.html">
+                                <img src="img/linb.dd.ddpanel.jpg"/>
+                            </a>
+                        </td><td valign="top">
+                            <a target="_blank" href="linb/dd/ddpanel/index.html">
+                                <h4>DD child between widgets</h4>
+                                <p>Drag a child widget from a widget, and drop it into another widget.</p>
+                            </a>
+                        </td></tr></table>
+</div><div><div class="b3"></div><div class="b2"></div><div class="b1"></div></div>
+                    </td>
+                    <td width="33%" valign="top">
+<div><div class="b1"></div><div class="b2"></div><div class="b3"></div></div><div class="bi">
+                        <table height="110"><tr><td>
+                            <a target="_blank" href="linb/dd/ddpage/index.html">
+                                <img src="img/linb.dd.ddpage.jpg"/>
+                            </a>
+                        </td><td valign="top">
+                            <a target="_blank" href="linb/dd/ddpage/index.html">
+                               <h4>DD panel between widgets</h4>
+                                <p>Drag a panel from a widget, and drop it into another widget.</p>
+                            </a>
+                        </td></tr></table>
+</div><div><div class="b3"></div><div class="b2"></div><div class="b1"></div></div>
+                    </td>
+                    <td valign="top">
+<div><div class="b1"></div><div class="b2"></div><div class="b3"></div></div><div class="bi">
+                        <table height="110"><tr><td>
+                            <a target="_blank" href="linb/dd/ddinlist/index.html">
+                                <img src="img/linb.dd.ddinlist.jpg"/>
+                            </a>
+                        </td><td valign="top">
+                            <a target="_blank" href="linb/dd/ddinlist/index.html">
+                                <h4>DD between widgets</h4>
+                                <p>Drag&Drop between List, RadioBox, TreeBar and ...</p>
+                            </a>
+                        </td></tr></table>
+</div><div><div class="b3"></div><div class="b2"></div><div class="b1"></div></div>
+                    </td>
+                </tr>
+            </table>
+
+
+            <div class="block">
+<div><div class="b1"></div><div class="b2"></div><div class="b3"></div></div><div class="bi">
+                    serialize and unserialize
+</div><div><div class="b3"></div><div class="b2"></div><div class="b1"></div></div>
+            </div>
+            <table id="list" cellpadding="0" cellspacing="6" width="100%">
+                <tr>
+                    <td width="33%" valign="top">
+<div><div class="b1"></div><div class="b2"></div><div class="b3"></div></div><div class="bi">                        
+                        <table height="110"><tr><td>
+                            <a target="_blank" href="linb/serialize/linbui/index.html">
+                                <img src="img/linb.serialize.linbui.jpg"/>
+                            </a>
+                        </td><td valign="top">
+                            <a target="_blank" href="linb/serialize/linbui/index.html">
+                                <h4>serialize linb.UI</h4>
+                                <p>Serialize/Unserialize linb.UI object</p>
+                            </a>
+                        </td></tr></table>
+</div><div><div class="b3"></div><div class="b2"></div><div class="b1"></div></div>
+                    </td>
+                    <td width="33%" valign="top">
+<div><div class="b1"></div><div class="b2"></div><div class="b3"></div></div><div class="bi">
+                        <table height="110"><tr><td>
+                            <a target="_blank" href="linb/serialize/Form/index.html">
+                                <img src="img/linb.serialize.form.jpg"/>
+                            </a>
+                        </td><td valign="top">
+                            <a target="_blank" href="linb/serialize/Form/index.html">
+                               <h4>Form Builder</h4>
+                                <p>Build form from JSON string.</p>
+                            </a>
+                        </td></tr></table>
+</div><div><div class="b3"></div><div class="b2"></div><div class="b1"></div></div>
+                    </td>
+                    <td width="33%" valign="top">
+<div><div class="b1"></div><div class="b2"></div><div class="b3"></div></div><div class="bi">                        
+                        <table height="110"><tr><td>
+                            <a target="_blank" href="linb/forms/DataBinder/index.html">
+                                <img src="img/linb.forms.databinder.jpg"/>
+                            </a>
+                        </td><td valign="top">
+                            <a target="_blank" href="linb/forms/DataBinder/index.html">
+                                <h4>The Databinder</h4>
+                                <p>Uses databinder to get/set a group of controls' value.</p>
+                            </a>
+                        </td></tr></table>
+</div><div><div class="b3"></div><div class="b2"></div><div class="b1"></div></div>
+                    </td>
+                </tr>
+            </table>
+
+            <div class="block">
+<div><div class="b1"></div><div class="b2"></div><div class="b3"></div></div><div class="bi">
+                    Time Management
+</div><div><div class="b3"></div><div class="b2"></div><div class="b1"></div></div>
+            </div>
+            <table id="list" cellpadding="0" cellspacing="6" width="100%">
+                <tr>
+                    <td width="33%" valign="top">
+<div><div class="b1"></div><div class="b2"></div><div class="b3"></div></div><div class="bi">                        
+                        <table height="110"><tr><td>
+                            <a target="_blank" href="linb/time/timeline/index.html">
+                                <img src="img/linb.time.timeline.jpg"/>
+                            </a>
+                        </td><td valign="top">
+                            <a target="_blank" href="linb/time/timeline/index.html">
+                                <h4>TimeLine and Calendar</h4>
+                                <p></p>
+                            </a>
+                        </td></tr></table>
+</div><div><div class="b3"></div><div class="b2"></div><div class="b1"></div></div>
+                    </td>
+                    <td width="33%" valign="top">
+<div><div class="b1"></div><div class="b2"></div><div class="b3"></div></div><div class="bi">
+                        <table height="110"><tr><td>
+                            <a target="_blank" href="linb/time/course/index.html">
+                                <img src="img/linb.time.course.jpg"/>
+                            </a>
+                        </td><td valign="top">
+                            <a target="_blank" href="linb/time/course/index.html">
+                               <h4>online course planning and registration</h4>
+                                <p></p>
+                            </a>
+                        </td></tr></table>
+</div><div><div class="b3"></div><div class="b2"></div><div class="b1"></div></div>
+                    </td>
+                    <td valign="top">
+<div><div class="b1"></div><div class="b2"></div><div class="b3"></div></div><div class="bi">
+                        <table height="110"><tr><td>
+                            <a target="_blank" href="linb/time/TimeRange.html">
+                                <img src="img/linb.time.timerange.jpg"/>
+                            </a>
+                        </td><td valign="top">
+                            <a target="_blank" href="linb/time/TimeRange.html">
+                                <h4>Time Range Selector</h4>
+                                <p></p>
+                            </a>
+                        </td></tr></table>
+</div><div><div class="b3"></div><div class="b2"></div><div class="b1"></div></div>
+                    </td>
+                </tr>
+            </table>
+
+ 
+            <div class="block">
+<div><div class="b1"></div><div class="b2"></div><div class="b3"></div></div><div class="bi">
+                    Toolbars and Menus
+</div><div><div class="b3"></div><div class="b2"></div><div class="b1"></div></div>
+            </div>
+            <table id="list" cellpadding="0" cellspacing="6" width="100%">
+                <tr>
+                    <td width="33%" valign="top">
+<div><div class="b1"></div><div class="b2"></div><div class="b3"></div></div><div class="bi">                        
+                        <table height="110"><tr><td>
+                            <a target="_blank" href="linb/widgets/ToolBar/index.html">
+                                <img src="img/linb.widgets.toolbar.jpg"/>
+                            </a>
+                        </td><td valign="top">
+                            <a target="_blank" href="linb/widgets/ToolBar/index.html">
+                                <h4>Advanced ToolBar</h4>
+                                <p>Advanced ToolBar with DatePicker, ColorPikcer, ProgressBar ...</p>
+                            </a>
+                        </td></tr></table>
+</div><div><div class="b3"></div><div class="b2"></div><div class="b1"></div></div>
+                    </td>
+                    <td width="33%" valign="top">
+<div><div class="b1"></div><div class="b2"></div><div class="b3"></div></div><div class="bi">
+                        <table height="110"><tr><td>
+                            <a target="_blank" href="linb/widgets/MenuBar/index.html">
+                                <img src="img/linb.widgets.menubar.jpg"/>
+                            </a>
+                        </td><td valign="top">
+                            <a target="_blank" href="linb/widgets/MenuBar/index.html">
+                                <h4>Advanced Menu</h4>
+                                <p>Advanced Menu with DatePicker, TimePicker, ColorPikcer ...</p>
+                            </a>
+                        </td></tr></table>
+</div><div><div class="b3"></div><div class="b2"></div><div class="b1"></div></div>
+                    </td>
+                    <td valign="top">
+<div><div class="b1"></div><div class="b2"></div><div class="b3"></div></div><div class="bi">
+                        <table height="110"><tr><td>
+                        </td><td valign="top">
+                        </td></tr></table>
+</div><div><div class="b3"></div><div class="b2"></div><div class="b1"></div></div>
+                    </td>
+                </tr>
+            </table>
+
+ 
+
+            <div class="block">
+<div><div class="b1"></div><div class="b2"></div><div class="b3"></div></div><div class="bi">
+                    TreeGrid
+</div><div><div class="b3"></div><div class="b2"></div><div class="b1"></div></div>
+            </div>
+            <table id="list" cellpadding="0" cellspacing="6" width="100%">
+                <tr>
+                    <td width="33%" valign="top">
+<div><div class="b1"></div><div class="b2"></div><div class="b3"></div></div><div class="bi">                        
+                        <table height="110"><tr><td>
+                            <a target="_blank" href="linb/widgets/TreeGrid/index.html">
+                                <img src="img/linb.widgets.treegrid.jpg"/>
+                            </a>
+                        </td><td valign="top">
+                            <a target="_blank" href="linb/widgets/TreeGrid/index.html">
+                                <h4>TreeGrid Overall</h4>
+                                <p>linb.UI.TreeGrid overall.</p>
+                            </a>
+                        </td></tr></table>
+</div><div><div class="b3"></div><div class="b2"></div><div class="b1"></div></div>
+                    </td>
+                    <td width="33%" valign="top">
+<div><div class="b1"></div><div class="b2"></div><div class="b3"></div></div><div class="bi">
+                        <table height="110"><tr><td>
+                            <a target="_blank" href="linb/widgets/TreeGrid.Paging/index.html">
+                                <img src="img/linb.treegrid.paging.jpg"/>
+                            </a>
+                        </td><td valign="top">
+                            <a target="_blank" href="linb/widgets/TreeGrid.Paging/index.html">
+                                <h4>Paging</h4>
+                                <p> </p>
+                            </a>
+                        </td></tr></table>
+</div><div><div class="b3"></div><div class="b2"></div><div class="b1"></div></div>
+                    </td>
+                    <td valign="top">
+<div><div class="b1"></div><div class="b2"></div><div class="b3"></div></div><div class="bi">
+                        <table height="110"><tr><td>
+                            <a target="_blank" href="linb/widgets/TGDynamic/index.html">
+                                <img src="img/linb.treegrid.dynamic.jpg"/>
+                            </a>
+                        </td><td valign="top">
+                            <a target="_blank" href="linb/widgets/TGDynamic/index.html">
+                                <h4>Update TreeGrid dynamically!</h4>
+                                <p> </p>
+                            </a>
+                        </td></tr></table>
+</div><div><div class="b3"></div><div class="b2"></div><div class="b1"></div></div>
+                    </td>
+                </tr>
+            </table>
+
+            <table id="list" cellpadding="0" cellspacing="6" width="100%">
+                <tr>
+                    <td width="33%" valign="top">
+<div><div class="b1"></div><div class="b2"></div><div class="b3"></div></div><div class="bi">                        
+                        <table height="60"><tr><td>
+                        </td><td valign="top">
+                            <a target="_blank" href="linb/widgets/TGJson/index.html">
+                                <h4>JSON data</h4>
+                                <p>Load data from JSON.</p>
+                            </a>
+                        </td></tr></table>
+</div><div><div class="b3"></div><div class="b2"></div><div class="b1"></div></div>
+                    </td>
+                    <td width="33%" valign="top">
+<div><div class="b1"></div><div class="b2"></div><div class="b3"></div></div><div class="bi">
+                        <table height="60"><tr><td>
+                        </td><td valign="top">
+                            <a target="_blank" href="linb/widgets/TGXml/index.html">
+                                <h4>XML data</h4>
+                                <p>Load data from XML.</p>
+                            </a>
+                        </td></tr></table>
+</div><div><div class="b3"></div><div class="b2"></div><div class="b1"></div></div>
+                    </td>
+                    <td valign="top">
+<div><div class="b1"></div><div class="b2"></div><div class="b3"></div></div><div class="bi">
+                        <table height="60"><tr><td>
+                        </td><td valign="top">
+                            <a target="_blank" href="linb/widgets/TGCusCellType/index.html">
+                                <h4>Custom cell type</h4>
+                                <p>Each cell in treegrid can be customized to any type.</p>
+                            </a>
+                        </td></tr></table>
+</div><div><div class="b3"></div><div class="b2"></div><div class="b1"></div></div>
+                    </td>
+                </tr>
+            </table>
+
+            <table id="list" cellpadding="0" cellspacing="6" width="100%">
+                <tr>
+                    <td width="33%" valign="top">
+<div><div class="b1"></div><div class="b2"></div><div class="b3"></div></div><div class="bi">                        
+                        <table height="60"><tr><td>
+                        </td><td valign="top">
+                            <a target="_blank" href="linb/widgets/TGAltNumb/index.html">
+                                <h4>Numbered rows</h4>
+                                <p>Numbered rows; Alt rows' background color.</p>
+                            </a>
+                        </td></tr></table>
+</div><div><div class="b3"></div><div class="b2"></div><div class="b1"></div></div>
+                    </td>
+                    <td width="33%" valign="top">
+<div><div class="b1"></div><div class="b2"></div><div class="b3"></div></div><div class="bi">
+                        <table height="60"><tr><td>
+                        </td><td valign="top">
+                            <a target="_blank" href="linb/widgets/TGBinder/index.html">
+                                <h4>Binder</h4>
+                                <p>Binder a row to a form for editor.</p>
+                            </a>
+                        </td></tr></table>
+</div><div><div class="b3"></div><div class="b2"></div><div class="b1"></div></div>
+                    </td>
+                    <td valign="top">
+<div><div class="b1"></div><div class="b2"></div><div class="b3"></div></div><div class="bi">
+                        <table height="60"><tr><td>
+                        </td><td valign="top">
+                            <a target="_blank" href="linb/widgets/TGDD/index.html">
+                                <h4>Drag&Drop rows</h4>
+                                <p>Move rows by Drag&Drop.</p>
+                            </a>
+                        </td></tr></table>
+</div><div><div class="b3"></div><div class="b2"></div><div class="b1"></div></div>
+                    </td>
+                </tr>
+            </table>
+
+
+            <table id="list" cellpadding="0" cellspacing="6" width="100%">
+                <tr>
+                    <td width="33%" valign="top">
+<div><div class="b1"></div><div class="b2"></div><div class="b3"></div></div><div class="bi">                        
+                        <table height="60"><tr><td>
+                        </td><td valign="top">
+                            <a target="_blank" href="linb/widgets/TGGridInGrid/index.html">
+                                <h4>Grid in Grid</h4>
+                                <p>Inserts a treegrid to a treegrid.</p>
+                            </a>
+                        </td></tr></table>
+</div><div><div class="b3"></div><div class="b2"></div><div class="b1"></div></div>
+                    </td>
+                    <td width="33%" valign="top">
+<div><div class="b1"></div><div class="b2"></div><div class="b3"></div></div><div class="bi">
+                        <table height="60"><tr><td>
+                        </td><td valign="top">
+                            <a target="_blank" href="linb/widgets/TGGroupPreVSum/index.html">
+                                <h4>Group, Preview, Summery</h4>
+                                <p>Sets a row as a group; Row with preview and summery areas.</p>
+                            </a>
+                        </td></tr></table>
+</div><div><div class="b3"></div><div class="b2"></div><div class="b1"></div></div>
+                    </td>
+                    <td valign="top">
+<div><div class="b1"></div><div class="b2"></div><div class="b3"></div></div><div class="bi">
+                        <table height="60"><tr><td>
+                        </td><td valign="top">
+                            <a target="_blank" href="linb/widgets/TGSelMode/index.html">
+                                <h4>Row selection mode</h4>
+                                <p>Single/Multi row selection; Single/Multi cell selection.</p>
+                            </a>
+                        </td></tr></table>
+</div><div><div class="b3"></div><div class="b2"></div><div class="b1"></div></div>
+                    </td>
+                </tr>
+            </table>
+
+            <div class="block">
+<div><div class="b1"></div><div class="b2"></div><div class="b3"></div></div><div class="bi">
+                    Miscellaneous
+</div><div><div class="b3"></div><div class="b2"></div><div class="b1"></div></div>
+            </div>
+            <table id="list" cellpadding="0" cellspacing="6" width="100%">
+                <tr>
+                    <td width="33%" valign="top">
+<div><div class="b1"></div><div class="b2"></div><div class="b3"></div></div><div class="bi">                        
+                        <table height="110"><tr><td>
+                            <a target="_blank" href="linb/misc/loadconasy/index.html">
+                                <img src="img/linb.list.loadconasy.jpg"/>
+                            </a>
+                        </td><td valign="top">
+                            <a target="_blank" href="linb/misc/loadconasy/index.html">
+                                <h4>Load content asyn</h4>
+                                <p>Load HTML string, Template, linb.UI or linb.Com into TreeBar asyn.</p>
+                            </a>
+                        </td></tr></table>
+</div><div><div class="b3"></div><div class="b2"></div><div class="b1"></div></div>
+                    </td>
+                    <td width="33%" valign="top">
+<div><div class="b1"></div><div class="b2"></div><div class="b3"></div></div><div class="bi">
+                        <table height="110"><tr><td>
+                            <a target="_blank" href="linb/misc/renderer/index.html">
+                                <img src="img/linb.misc.renderer.jpg"/>
+                            </a>
+                        </td><td valign="top">
+                            <a target="_blank" href="linb/misc/renderer/index.html">
+                                <h4>Renderer</h4>
+                                <p></p>
+                            </a>
+                        </td></tr></table>
+</div><div><div class="b3"></div><div class="b2"></div><div class="b1"></div></div>
+                    </td>
+                    <td valign="top">
+<div><div class="b1"></div><div class="b2"></div><div class="b3"></div></div><div class="bi">
+                        <table height="110"><tr><td>
+                            <a target="_blank" href="linb/misc/uiintpl.html">
+                                <img src="img/linb.misc.uiintpl.jpg"/>
+                            </a>
+                        </td><td valign="top">
+                            <a target="_blank" href="linb/misc/uiintpl.html">
+                                <h4>linb.UI in linb.Template</h4>
+                                <p></p>
+                            </a>
+                        </td></tr></table>
+</div><div><div class="b3"></div><div class="b2"></div><div class="b1"></div></div>
+                    </td>
+                </tr>
+            </table>
+            <table id="list" cellpadding="0" cellspacing="6" width="100%">
+                <tr>
+                    <td width="33%" valign="top">
+<div><div class="b1"></div><div class="b2"></div><div class="b3"></div></div><div class="bi">                        
+                        <table height="60"><tr><td>
+                        </td><td valign="top">
+                            <a target="_blank" href="linb/misc/Behavior/index.html">
+                                <h4>Behavior</h4>
+                                <p>Widget events, setCustomBehavior and DOM attached events.</p>
+                            </a>
+                        </td></tr></table>
+</div><div><div class="b3"></div><div class="b2"></div><div class="b1"></div></div>
+                    </td>
+                    <td width="33%" valign="top">
+<div><div class="b1"></div><div class="b2"></div><div class="b3"></div></div><div class="bi">
+                        <table height="60"><tr><td>
+                        </td><td valign="top">
+                            <a target="_blank" href="linb/misc/Debugger.html">
+                                <h4>Debugger</h4>
+                                <p>The debugger window in jsLinb.</p>
+                            </a>
+                        </td></tr></table>
+</div><div><div class="b3"></div><div class="b2"></div><div class="b1"></div></div>
+                    </td>
+                    <td valign="top">
+<div><div class="b1"></div><div class="b2"></div><div class="b3"></div></div><div class="bi">
+                        <table height="60"><tr><td>
+                        </td><td valign="top">
+                            <a target="_blank" href="linb/misc/hotkey.html">
+                                <h4>Hot Keys</h4>
+                                <p>How to use a global hot key</p>
+                            </a>
+                        </td></tr></table>
+</div><div><div class="b3"></div><div class="b2"></div><div class="b1"></div></div>
+                    </td>
+                </tr>
+            </table>
+            <table id="list" cellpadding="0" cellspacing="6" width="100%">
+                <tr>
+                    <td width="33%" valign="top">
+<div><div class="b1"></div><div class="b2"></div><div class="b3"></div></div><div class="bi">                        
+                        <table height="60"><tr><td>
+                        </td><td valign="top">
+                            <a target="_blank" href="linb/misc/keyHook/index.html">
+                                <h4>Keyboard Monitor</h4>
+                                <p>Keyboard monitor for linb.UI.Input.</p>
+                            </a>
+                        </td></tr></table>
+</div><div><div class="b3"></div><div class="b2"></div><div class="b1"></div></div>
+                    </td>
+                    <td width="33%" valign="top">
+<div><div class="b1"></div><div class="b2"></div><div class="b3"></div></div><div class="bi">
+                        <table height="60"><tr><td>
+                        </td><td valign="top">
+                            <a target="_blank" href="linb/misc/renderto/index.html">
+                                <h4>linb.UI renderonto</h4>
+                                <p>Render linb.UI widget to an existing DOM Element.</p>
+                            </a>
+                        </td></tr></table>
+</div><div><div class="b3"></div><div class="b2"></div><div class="b1"></div></div>
+                    </td>
+                    <td valign="top">
+<div><div class="b1"></div><div class="b2"></div><div class="b3"></div></div><div class="bi">
+                        <table height="60"><tr><td>
+                        </td><td valign="top">
+                            <a target="_blank" href="linb/misc/dock/index.html">
+                               <h4>Docking</h4>
+                                <p>Docking widgets sample.</p>
+                            </a>
+                        </td></tr></table>
+</div><div><div class="b3"></div><div class="b2"></div><div class="b1"></div></div>
+                    </td>
+                </tr>
+            </table>
+
+
+        </div>
+        <div id="tail">
+            <img border=0 src="../img/sign.gif" />
+        </div>
+    </div>
+
+<style>#linbar a, #linbar span{font-size:12px;margin-right:2px;padding:2px;}#linbar a{text-decoration:underline;}#linbar_more a,#linbar_auth a{text-decoration:none;padding:3px;font-size:12px;text-decoration:none;display:block;}#linbar a:hover, #linbar_more a:hover, #linbar_auth a:hover{text-decoration:none;color:#fff!important;background:#598EDD;}#linbar small{font-size:9px;}#linbar_more, #linbar_auth{position:absolute;display:none;top:19px;z-index:6000;border:solid 1px;border-color:#E4F1FD #598EDD #598EDD #598EDD; background:#E4F1FD;}#linbar_more{width:70px;}#linbar_auth{width:100px;}</style><script>var linbar={byId:function(id){return document.getElementById(id).style},get1:function(){return this.byId('linbar')},get2:function(id){return this.byId(id)},get3:function(){return this.byId('linbar_l')},show:function(){var n=this;if(n._t1){clearTimeout(n._t1);delete n._t1;}var s=n.get1();s.height='19px';s.backgroundColor='#E4F1FD';n.get3().display='block';},hide:function(){var n=this;if(n._t1){clearTimeout(n._t1);delete n._t1;}n._t1=setTimeout(function(){var s=n.get1();s.height='3px';s.backgroundColor='#598EDD';n.get3().display='none';if(n.showed)n.get2(n.showed).display='none';},600);},showPop:function(ele){var n=this,id=ele.id.replace(/.*:/,'');if(n.showed&&id!=n.showed)n.get2(n.showed).display='none';if(n._t1){clearTimeout(n._t1);delete n._t1;}if(n._t2){clearTimeout(n._t2);delete n._t2;}n.showed=id;if(ele.id.indexOf('pop:')==0){var s=n.get2(id);s.left=(ele.offsetLeft-4)+'px';s.display='block';}},hidePop:function(){var n=this;if(n._t2){clearTimeout(n._t2);delete n._t2;}n._t2=setTimeout(function(){n.get2('linbar_more').display='none';n.get2('linbar_auth').display='none';},100);n.hide();}};</script><div id='linbar' onmouseout="linbar.hide()"  onmouseover="linbar.show()" style='position:absolute;width:100%;left:0;top:0;height:3px;z-index:5000;background:#598EDD;line-height:19px;overflow:hidden;'><nobr><a target=_blank href='http://www.linb.net'><strong>jsLinb Home</strong></a><a target=_blank href="mailto:&#108;&#105;&#110;&#98;&#46;&#110;&#101;&#116;&#64;&#103;&#109;&#97;&#105;&#108;&#46;&#99;&#111;&#109;">Contact</a><a target=_blank href='http://groups.google.com/group/linb/files' >Download</a><a target=_blank href='http://linb.googlecode.com/svn/trunk/' >SVN</a><a target=_blank href='http://groups.google.com/group/linb' >forum</a><a target=_blank href='http://www.linb.net/API'>API</a><a target=_blank href='http://www.linb.net/CodeSnip'>CodeSnip</a><a target=_blank href='http://www.linb.net/VisualJS/UIBuilder.html'>UI Builder</a><a target=_blank href='http://www.linb.net/VisualJS'>IDE</a><a target=_blank href='http://www.linb.net/Samples' id="pop:linbar_more" onmouseout="linbar.hidePop()"  onmouseover="linbar.showPop(this)">Samples</a><small style="margin-left:-3px;">&#9660;</small><span target=_blank href='http://www.linb.net/Samples' id="pop:linbar_auth" onmouseout="linbar.hidePop()"  onmouseover="linbar.showPop(this)">Authorized OEM</span><small style="margin-left:-3px;">&#9660;</small></nobr></div><div id='linbar_l' style="left:0;position:absolute;top:19px;display:none;border-top:1px solid #598EDD;font-size:0;line-height:0;width:100%;z-index:5500;"></div><div id='linbar_more' onmouseout="linbar.hidePop()"  onmouseover="linbar.showPop(this)"><a target=_blank href='http://jsoneditor.appspot.com'>JSONEditor</a><a target=_blank href='http://www.linb.net/Samples/comb/Themes'>Themes</a><a target=_blank href='http://www.linb.net/Samples'>more ...</a></div><div id='linbar_auth' onmouseout="linbar.hidePop()"  onmouseover="linbar.showPop(this)"><a target=_blank href='http://www.sigmawidgets.com/' >sigmawidgets</a><a target=_blank href='http://www.longboo.com/' >longboo</a></div>
+<script type="text/javascript">var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));</script><script type="text/javascript">var pageTracker = _gat._getTracker("UA-414967-1");pageTracker._initData();pageTracker._trackPageview();</script>
+
+</body>
+</html>

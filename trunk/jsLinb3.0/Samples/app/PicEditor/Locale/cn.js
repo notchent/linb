@@ -1,0 +1,83 @@
+(linb.Locale.cn||(linb.Locale.cn={})).app={
+    info:"<br />Web application created by 'Visual JS', goto <a href='http://www.linb.net'>http://www.linb.net</a>",
+    imageErr:"该图片不存在!",
+    message:{
+        uploadOK:"您刚刚成功地上传了一个图片!"
+    },
+    caption:{
+        logo:"LINB 在线图片编辑",
+        upload:"上传图片",
+        upload_short:"上传图片",
+        openweb:"打开网络图片",
+        save:"保存图片",
+        applyIcon:"应用万能贴",
+        applyFrm:"应用边框",
+        applyCrop:'应用裁剪',
+        applyResize:'改变尺寸',
+        addtext:"应用文字",
+        history:"操作历史",
+        demos:"示例图片",
+        demos_short:"示例图片",
+        width:'宽 : ',
+        height:'高 : ',
+        frmbg:'背景颜色'
+    },
+    tasks:{
+        basic:"基本处理",
+        basicTips:"基本处理命令页",
+        crop:"裁剪",
+        cropTips:"裁剪命令页",
+        frm:"边框",
+        frmTips:"边框命令页",
+        frm2:"万能贴",
+        frm2Tips:"非主流命令页2",
+        text:"加文字",
+        textTips:"加文字命令页",
+        resize:"改尺寸",
+        resizeTips:"改尺寸命令页",
+        mag:"杂志封面",
+        magTips:"杂志封面命令页"
+    },
+    basic:{
+        bri:"亮度",
+        con:"对比度",
+        rot:"旋转图像",
+        mir:"镜像处理",
+        one:"单色处理",
+        filter:"推荐滤镜"
+    },
+
+    upload:{
+        txtUp:'上传图片',
+        txtWeb:'打开网络图片'
+    },    
+    addtext:{
+        font:'选择字体：',
+        fontsize:'字号：',
+        fontcolor:'颜色：'
+    },
+    filter:{
+        filter_grayscale:'灰度',
+        filter_negate:'反色',
+        filter_edgedetect:'图片边缘强化',
+        filter_embosses:'浮雕',
+        filter_gaussian_blur:'高斯模糊',
+        filter_selective_blur:'一般模糊',
+        filter_mean_removal:'图片轮廓化',
+        filter_smooth:'柔和处理'
+    },
+    onecolor:{
+        onecolor_red:'红色',
+        onecolor_green:'绿色',
+        onecolor_blue:'蓝色'
+    },
+    rotation:{
+        rotate_90:'90度',
+        rotate_180:'180度',
+        rotate_270:'270度'
+    },
+    mirror:{
+        mirror_v:'垂直镜像',
+        mirror_h:'水平镜像'
+    }
+};
