@@ -1455,7 +1455,7 @@ _.set(linb.Locale,["cn","app"], {
             $snippet:["alert(linb.Ajax.method)"]
         },
         optimized:{
-            $desc:"Boolean, 默认的是否优化选项. <strong>会设置一些优化的header.</strong>.",
+            $desc:"Boolean, 默认的是否优化选项. <strong>会设置一些优化的header.</strong>",
             $snippet:["alert(linb.Ajax.optimized)"]
         },
         randkey:{
@@ -1557,7 +1557,7 @@ _.set(linb.Locale,["cn","app"], {
             $snippet:["alert(linb.SAjax.method)"]
         },
         optimized:{
-            $desc:"Boolean, 默认的是否优化选项. <strong>会设置一些优化的header.</strong>.",
+            $desc:"Boolean, 默认的是否优化选项. <strong>会设置一些优化的header.</strong>",
             $snippet:["alert(linb.Ajax.optimized)"]
         },
         randkey:{
@@ -1672,7 +1672,7 @@ _.set(linb.Locale,["cn","app"], {
             $snippet:["alert(linb.IAjax.method)"]
         },
         optimized:{
-            $desc:"Boolean, 默认的是否优化选项. <strong>会设置一些优化的header.</strong>.",
+            $desc:"Boolean, 默认的是否优化选项. <strong>会设置一些优化的header.</strong>",
             $snippet:["alert(linb.Ajax.optimized)"]
         },
         randkey:{
@@ -1853,7 +1853,7 @@ _.set(linb.Locale,["cn","app"], {
             ],
             $snippet:[
                 "//'Run' the code, and press any keyboars please!\n"+
-                "linb('body').onKeypress(function(p,e){linb('body').onKeypress(null); linb.log(linb.Event.getKey(e))});"
+                "linb('body').onKeypress(function(p,e){linb('body').onKeypress(null); var kb=linb.Event.getKey(e);linb.log(kb.key,kb.type,kb.ctrlKey,kb.shiftKey,kb.altKey,kb)});"
             ]
         },
         getPos:{
@@ -2111,6 +2111,10 @@ _.set(linb.Locale,["cn","app"], {
                 "var m1=linb.Dom.getEmptyDiv(), m2=linb.Dom.getEmptyDiv(2); alert(m1.id());alert(m2.id()) "
             ],
             $memo:"当你不再需要一个matrix div, 请清空它，以便 [linb.Dom.getEmptyDiv]可再次利用. "
+        },
+        getScrollBarSize:{
+            $desc:"获取当前浏览器滚动条的宽度.",
+            $rtn:"Number"
         },
         getStyle:{
             $desc:"获取DOM元素的CSS样式中某一个项的值.",
@@ -3891,21 +3895,31 @@ _.set(linb.Locale,["cn","app"], {
                     "alert(linb.UIProfile.getFromDom('btnLang').serialize(false))"
                 ]
             },
-            getEvents:{
-                $desc:"获取该对象的所有事件.",
-                $rtn:"Array",
-                $snippet:[
-                    "var p=linb.UIProfile.getFromDom('btnLang'); p.setEvents({onA:_.fun(), onShowTips:function(){return false}}); alert(_.serialize(p.getEvents()))"
+            getProperties:{
+                $desc:"取得所有的属性或某个指定的属性.",
+                $rtn:"Object",
+                $paras:[
+                    "key [可选参数] : String, 属性名称。"
                 ]
             },
-            setEvents:{
-                $desc:"设置一系列的事件.",
+            setProperties:{
+                $desc:"设置一系列的属性或某个指定的属性.",
                 $rtn:"[self]",
                 $paras:[
-                    "events [必需参数] : key/value(Function) pairs. A set of event functions."
-                ],
-                $snippet:[
-                    "var p=linb.UIProfile.getFromDom('btnLang'); p.setEvents({onA:_.fun(), onShowTips:function(){return false}}); alert(_.serialize(p.getEvents()))"
+                    "key [必需参数] : Object/String, 属性键/值对或属性关键字.",
+                    "value [可选参数] : Object, 属性值."
+                ]
+            },
+            getEvents:{
+                $desc:"获取该对象的所有事件或某个指定的事件.",
+                $rtn:"Object"
+            },
+            setEvents:{
+                $desc:"设置一系列的事件或某个指定的事件.",
+                $rtn:"[self]",
+                $paras:[
+                    "key [必需参数] : Object, 事件键/值对或事件关键字.",
+                    "value [可选参数] : Object, 事件函数."
                 ]
             },
             boxing:{
@@ -4656,7 +4670,7 @@ _.set(linb.Locale,["cn","app"], {
                 $desc:"使用异步方式生成Com对象.",
                 $paras:[
                     "onEnd [Optiona] : Function. 回调函数，在Com对象成功生成后执行。",
-                    "threadid [可选参数] : String, 内部线程id.  如本参数为 true, 表示生成Com的过程不会异步调用函数（不用linb.Thread）。"
+                    "threadid [可选参数] : String, 内部线程id.  如本参数为 false, 表示生成Com的过程不会异步调用函数（不用linb.Thread）。"
                 ],
                 $snippet:[
                     "linb.SC('App.Test1',function(){var com=new this; com.create(function(com){alert('created!')});},false);"
@@ -4691,7 +4705,7 @@ _.set(linb.Locale,["cn","app"], {
                     "onEnd [Optiona] : Function. 回调函数，在Com对象成功显示后执行。",
                     "parent [可选参数] : String/Element/linb.Dom, 父DOM节点或linb.UI对象.",
                     "subId [可选参数] : String, 该参数在parent为linb.UI对象时有效。该子id. The sub id that Determines the [target] will be added to which sub DOM node. 该参数也可以设置成[false], that means the [target] will be appended to DOM only, no link created between the [target] UIProfiles and the parent UIProfile.",
-                    "threadid [可选参数] : String, 内部线程id. 如本参数为 true, 表示显示Com的过程不会异步调用函数（不用linb.Thread）。
+                    "threadid [可选参数] : String, 内部线程id. 如本参数为 false, 表示显示Com的过程不会异步调用函数（不用linb.Thread）。"
                 ],
                 $snippet:[
                     "linb.SC('App.Test1',function(){var com=new this; com.show(function(){});},false);"
@@ -5006,6 +5020,18 @@ _.set(linb.Locale,["cn","app"], {
         },
         prototype:{
             KEY:{$desc:"本类名"},
+            setHost:{
+                $desc:"设置借宿对象和别名.",
+                $rtn:'[self]',
+                $paras:[
+                    "host [Optional : Object, 宿主.",
+                    "alias [Optional : String, 别名字符串."
+                ]
+            },
+            updateValue:{
+                $desc:"将内部的UI控件值更新到DataBinder",
+                $rtn:"[self]"
+            },
             checkValid:{
                 $desc:"检查所有绑定值是否有效. 例如: 用户输入了字符到数字框里面，而数字框又绑定了databinder, 这个函数就会返回[false].",
                 $rtn:"linb.absValue"

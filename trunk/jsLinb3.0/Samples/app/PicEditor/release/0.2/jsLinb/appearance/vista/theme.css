@@ -82,9 +82,7 @@ html, .uibg-base{
 .uicmd-close, .uicmd-opt, .uicmd-pin, .uicmd-refresh,
 .uicmd-pop, .uicmd-land, .uicmd-min, .uicmd-max, .uicmd-restore,
 .uicmd-check, .uicmd-radio, .uicmd-add,
-.linb-treebar-mark2, .linb-treegrid-mark{
-    background-image: url(Public/icons.gif);
-}
+
 
 .uicmd-close, .uicmd-opt, .uicmd-pin, .uicmd-refresh,
 .uicmd-pop, .uicmd-land, .uicmd-min, .uicmd-max, .uicmd-restore{
@@ -334,7 +332,20 @@ html, .uibg-base{
 .linb-treebar-checked{
     background-image: url(Public/icons.gif);
 }
+.linb-treebar-mark2, .linb-treegrid-mark{
+    background-image: url(Public/icons.gif);
+}
 
+/*linb.UI.TreeView*/
+.linb-treeview-image-vertical, 
+.linb-treeview-image-path-1, 
+.linb-treeview-image-path-2, 
+.linb-treeview-image-path-3, 
+.linb-treeview-image-fold-1, 
+.linb-treeview-image-fold-2, 
+.linb-treeview-image-fold-3{
+    background-image: url(Public/icons.gif);
+}
 
 /*linb.UI.Tabs*/
 .linb-tabs-items{

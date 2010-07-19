@@ -1843,7 +1843,7 @@ _.set(linb.Locale,["en","app"], {
             ],
             $snippet:[
                 "//'Run' the code, and press any keyboars please!\n"+
-                "linb('body').onKeypress(function(p,e){linb('body').onKeypress(null); linb.log(linb.Event.getKey(e))});"
+                "linb('body').onKeypress(function(p,e){linb('body').onKeypress(null); var kb=linb.Event.getKey(e);linb.log(kb.key,kb.type,kb.ctrlKey,kb.shiftKey,kb.altKey,kb)});"
             ]
         },
         getPos:{
@@ -2101,6 +2101,10 @@ _.set(linb.Locale,["en","app"], {
                 "var m1=linb.Dom.getEmptyDiv(), m2=linb.Dom.getEmptyDiv(2); alert(m1.id());alert(m2.id()) "
             ],
             $memo:"When you on longer need the matrix div, empty the matrix div to let it 'available for [linb.Dom.getEmptyDiv]'. "
+        },
+        getScrollBarSize:{
+            $desc:"To get browser's scroll bar size.",
+            $rtn:"Number"
         },
         getStyle:{
             $desc:"To get the specified css property from the target DOM element.",
@@ -3882,18 +3886,34 @@ _.set(linb.Locale,["en","app"], {
                     "alert(linb.UIProfile.getFromDom('btnLang').serialize(false))"
                 ]
             },
+            getProperties:{
+                $desc:"Gets all Properties or a specified Properties.",
+                $rtn:"Object",
+                $paras:[
+                    "key [Optional] : String"
+                ]
+            },
+            setProperties:{
+                $desc:"Sets a set of Properties(or a specified Property with a key).",
+                $rtn:"[self]",
+                $paras:[
+                    "key [Required] : Object/String, A set of event or key.",
+                    "value [Optional] : Object, a property value."
+                ]
+            },
             getEvents:{
-                $desc:"Collects all the event functions in the current profile, and returns it.",
-                $rtn:"Array",
+                $desc:"Collects all the event(or a specified event) functions in the current profile, and returns it.",
+                $rtn:"Object",
                 $snippet:[
                     "var p=linb.UIProfile.getFromDom('btnLang'); p.setEvents({onA:_.fun(), onShowTips:function(){return false}}); alert(_.serialize(p.getEvents()))"
                 ]
             },
             setEvents:{
-                $desc:"Sets a set of event functions to the current profile.",
+                $desc:"Sets a set of event functions(or a specified event fucntion with a key ) to the current profile.",
                 $rtn:"[self]",
                 $paras:[
-                    "events [Required] : key/value(Function) pairs. A set of event functions."
+                    "key [Required] : Object/String, A set of Properties or key.",
+                    "value [Optional] : Object, a property value."
                 ],
                 $snippet:[
                     "var p=linb.UIProfile.getFromDom('btnLang'); p.setEvents({onA:_.fun(), onShowTips:function(){return false}}); alert(_.serialize(p.getEvents()))"
@@ -4511,7 +4531,11 @@ _.set(linb.Locale,["en","app"], {
             autoDestroy:{
                 $desc:"Determines whether the first inner UI control's detory will trigger com's destroy or not.",
                 $rtn:"Boolean"
-            }
+            },
+            updateValue:{
+                $desc:"Copies the inner UI controls' value to Databinder",
+                $rtn:"[self]"
+            },
             fireEvent:{
                 $desc:"Fires event.",
                 $rtn:"Object",
@@ -4989,6 +5013,14 @@ _.set(linb.Locale,["en","app"], {
         },
         prototype:{
             KEY:{$desc:"Class Name"},
+            setHost:{
+                $desc:"Sets the host Object and alias.",
+                $rtn:'[self]',
+                $paras:[
+                    "host [Optional : Object, the host Object.",
+                    "alias [Optional : String, the alias value."
+                ]
+            },
             checkValid:{
                 $desc:"To checks if all the bound linb.absValue profiles are valid. For example: if user input some chars into a 'number only' linb.UI.Input(it is bound to the current databinder), this function will return [false].",
                 $rtn:"linb.absValue"

@@ -602,7 +602,7 @@
                 oitem._pid=pid;
 
             // set 'visible' will show when parent call .height()
-            item.togglemark = item.sub?'uicmd-toggle':'uicmd-empty';
+            item.togglemark = item.sub?'uicmd-toggle':'uicmd-none';
 
             item.disabled = item.disabled?profile.getClass('KEY', '-disabled'):'';
             item.itemDisplay=item.hidden?'display:none;':'';
@@ -746,7 +746,7 @@
         },
         _tofold:function(profile,item,pid){
             profile.getSubNodeByItemId('BAR', pid).addClass(profile.getClass('BAR','-fold'));
-            profile.getSubNodeByItemId('TOGGLE', pid).replaceClass(new RegExp("\\buicmd-empty\\b"), "uicmd-toggle");
+            profile.getSubNodeByItemId('TOGGLE', pid).replaceClass(new RegExp("\\buicmd-none\\b"), "uicmd-toggle");
         },
         _onresize:function(profile,width,height){
             profile.getSubNode('BORDER').cssSize({ width :width?width:null, height :height?height:null});

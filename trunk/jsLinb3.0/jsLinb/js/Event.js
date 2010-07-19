@@ -357,9 +357,9 @@ Class('linb.Event',null,{
             res[0]=res[0];
             res.key=res[0];
             res.type=type;
-            if(res[1])res.ctrlKey=true;
-            if(res[2])res.shiftKey=true;
-            if(res[3])res.altKey=true;
+            res.ctrlKey=!!res[1];
+            res.shiftKey=!!res[2];
+            res.altKey=!!res[3];
 
             if(type=='keypress'){
                 if(this.$keydownchar && this.$keydownchar.length>1)

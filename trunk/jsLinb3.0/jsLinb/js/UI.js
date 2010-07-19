@@ -18,16 +18,25 @@ Class('linb.Profile','linb.absProfile',{
         self._links={};
     },
     Instance:{
-        setEvents:function(events){
+        setEvents:function(key, value){
             var evs=this.box.$EventHandlers;
-            return _.merge(this,events,'all',function(o,i){return evs[i]});
+            if(_.isHash(key)){
+                return _.merge(this,key,'all',function(o,i){return evs[i]});
+            }else{
+                if(evs[key])
+                    this[key]=value;
+            }
         },
-        getEvents:function(){
-            var self=this, t,hash={};
-            _.each(self.box.$EventHandlers,function(o,i){
-                if(self[i])hash[i]=self[i];
-            });
-            return hash;
+        getEvents:function(key){
+            if(key){
+                return this[key];
+            }else{
+                var self=this, t,hash={};
+                _.each(self.box.$EventHandlers,function(o,i){
+                    if(self[i])hash[i]=self[i];
+                });
+                return hash;
+            }
         },
         getProperties:function(key){
             var prop=this.properties;
@@ -478,7 +487,7 @@ Class("linb.DataBinder","linb.absObj",{
                 _.merge(o._valuesMap,hash,'all');
             return hash;
         },
-        host:function(value, alias){
+        setHost:function(value, alias){
             var self=this;
             if(value && alias)
                 self.setName(alias);
@@ -2184,6 +2193,9 @@ Class("linb.UI",  "linb.absObj", {
             '.uicmd-toggle2-checked-mousedown':{
                 $order:6,
                 'background-position': '-220px -110px'
+            },
+            '.uicmd-none':{
+                display:'none'
             },
             '.uicmd-empty':{
                 $order:1000,
