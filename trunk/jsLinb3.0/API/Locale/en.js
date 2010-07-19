@@ -1443,6 +1443,10 @@ _.set(linb.Locale,["en","app"], {
             $desc:"String, default request method name('GET' or 'POST') for instance.",
             $snippet:["alert(linb.Ajax.method)"]
         },
+        optimized:{
+            $desc:"Boolean, default optimized option.",
+            $snippet:["alert(linb.Ajax.optimized)"]
+        },
         randkey:{
             $desc:"String, default randkey name. <strong>Server needs to match it in the response struct.</strong>.",
             $snippet:["alert(linb.Ajax.randkey)"]
@@ -1540,6 +1544,10 @@ _.set(linb.Locale,["en","app"], {
         method:{
             $desc:"String, default request method name('GET' or 'POST') for instance.",
             $snippet:["alert(linb.SAjax.method)"]
+        },
+        optimized:{
+            $desc:"Boolean, default optimized option.",
+            $snippet:["alert(linb.Ajax.optimized)"]
         },
         randkey:{
             $desc:"String, default randkey name. <strong>Server needs to match it in the response struct.</strong>.",
@@ -1651,6 +1659,10 @@ _.set(linb.Locale,["en","app"], {
         method:{
             $desc:"String, default request method name('GET' or 'POST') for instance.",
             $snippet:["alert(linb.IAjax.method)"]
+        },
+        optimized:{
+            $desc:"Boolean, default optimized option.",
+            $snippet:["alert(linb.Ajax.optimized)"]
         },
         randkey:{
             $desc:"String, default randkey name. <strong>Server needs to match it in the response struct.</strong>.",
@@ -3443,6 +3455,9 @@ _.set(linb.Locale,["en","app"], {
             $snippet:[
                 "var o=linb.Cookies; o.set('a','b',1); alert(o.get('a')); o.remove('a'); alert(o.get('a')); "
             ]
+        },
+        clear:{
+            $desc:"Removes all cookie."
         }
     });
     _.set(linb.Locale,["en","doc","linb","Debugger"], {
@@ -3781,7 +3796,7 @@ _.set(linb.Locale,["en","app"], {
             },
             getAlias:{
                 $desc:"Gets an alias to the first profile.",
-                $rtn:'Object',
+                $rtn:'String',
                 $snippet:[
                     "var o=linb.UIProfile.getFromDom('btnLang'); alert(o.alias); alert(o.host[o.alias].get(0)===o)",
                     "var host={},o=new linb.UI.Button; o.setHost(host, 'aBtn'); alert(host.aBtn.KEY); o.setAlias('bBtn'); alert(host.aBtn);  alert(host.bBtn.KEY); "
@@ -4493,6 +4508,10 @@ _.set(linb.Locale,["en","app"], {
         },
         prototype:{
             KEY:{$desc:"Class Name"},
+            autoDestroy:{
+                $desc:"Determines whether the first inner UI control's detory will trigger com's destroy or not.",
+                $rtn:"Boolean"
+            }
             fireEvent:{
                 $desc:"Fires event.",
                 $rtn:"Object",
@@ -4510,6 +4529,24 @@ _.set(linb.Locale,["en","app"], {
                 $desc:'To render the inner UI Components',
                 $rtn:"[self]",
                 $demo:"You have to call this function after the com was created. And linb.Com.show will trigger this function automatically."
+            },
+            getAlias:{
+                $desc:"Gets alias.",
+                $rtn:'String'
+            },
+            setAlias:{
+                $desc:"Sets alias.",
+                $rtn:'[self]',
+                $paras:[
+                    "str [Optional] : String, the alias value."
+                ]
+            },
+            AddComponents:{
+                $desc:"Adds components to the current Com.",
+                $rtn:"[self]",
+                $paras:[
+                    "obj [Reqired] : linb.absObj Object."
+                ]
             },
             setComponents:{
                 $desc:"Sets the current Com's Components.",
@@ -4601,7 +4638,7 @@ _.set(linb.Locale,["en","app"], {
                 $desc:"Creates the Com Object in async mode.",
                 $paras:[
                     "onEnd [Optiona] : Function, the callback function, it will be executed once when the Com is created successfully.",
-                    "threadid [Optional] : String, the inner thread id."
+                    "threadid [Optional] : String, the inner thread id. If is 'false', system will create the Com in sync mode."
                 ],
                 $snippet:[
                     "linb.SC('App.Test1',function(){var com=new this; com.create(function(com){alert('created!')});},false);"
@@ -4636,7 +4673,7 @@ _.set(linb.Locale,["en","app"], {
                     "onEnd [Optiona] : Function, the callback function, it will be executed once when the Com is created successfully.",
                     "parent [Optional] : String/Element/linb.Dom, the parent DOM node or linb.UI Object.",
                     "subId [Optional] : String, this parameter valid when parent is linb.UI only. The sub id that Determines the [target] will be added to which sub DOM node. This parameter can be [false] too, that means the [target] will be appended to DOM only, no link created between the [target] UIProfiles and the parent UIProfile.",
-                    "threadid [Optional] : String, the inner thread id."
+                    "threadid [Optional] : String, the inner thread id. If is 'false', system will show the Com in sync mode."
                 ],
                 $snippet:[
                     "linb.SC('App.Test1',function(){var com=new this; com.show(function(){});},false);"
@@ -5069,6 +5106,13 @@ _.set(linb.Locale,["en","app"], {
     _.set(linb.Locale,["en","doc","linb","Coder"], {
         KEY:{$desc:"Class Name"},
         $desc:"linb.Coder Class(static)",
+        isSafeJSON:{
+            $desc:"Checks string is safe JSON or not.",
+            $rtn:"Boolean",
+            $paras:[
+                "s [Required] : String."
+            ]
+        },
         formatText:{
             $desc:"Converts a snippet of js/css/php/html code to more readable text format.",
             $rtn:"String",

@@ -306,7 +306,8 @@
                 'font-size':'1px',
                 //1px for ie8
                 'line-height':'1px',
-                position:'relative'
+                position:'relative',
+                'margin-left':'16px'
             },
 
             MARK2:{
@@ -597,16 +598,8 @@
                 map2=profile.SubSerialIdMapItem,
                 pitem;
 
-            if(pid){
+            if(pid)
                 oitem._pid=pid;
-                if(pitem=map2[map1[pid]]){
-                    oitem._deep=pitem._deep+1;
-                    item.rulerStyle='width:'+(oitem._deep*16)+'px;';
-                }
-            }else{
-                oitem._deep=0;
-                item.rulerStyle='';
-            }
 
             // set 'visible' will show when parent call .height()
             item.togglemark = item.sub?'uicmd-toggle':'uicmd-empty';

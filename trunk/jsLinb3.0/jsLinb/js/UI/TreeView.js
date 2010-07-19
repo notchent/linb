@@ -28,6 +28,9 @@ Class("linb.UI.TreeView","linb.UI.TreeBar",{
                padding:'0',
                border: '0'
             },
+            SUB:{
+                'margin-left':'0'
+            },
             BOX:{
                 'background-color':'#FFF'
             },

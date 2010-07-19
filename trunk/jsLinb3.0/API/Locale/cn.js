@@ -1454,6 +1454,10 @@ _.set(linb.Locale,["cn","app"], {
             $desc:"String, 默认的method名称('GET' or 'POST').",
             $snippet:["alert(linb.Ajax.method)"]
         },
+        optimized:{
+            $desc:"Boolean, 默认的是否优化选项. <strong>会设置一些优化的header.</strong>.",
+            $snippet:["alert(linb.Ajax.optimized)"]
+        },
         randkey:{
             $desc:"String, 默认的随机键值. <strong>服务器需要在返回结构中匹配它.</strong>.",
             $snippet:["alert(linb.Ajax.randkey)"]
@@ -1551,6 +1555,10 @@ _.set(linb.Locale,["cn","app"], {
         method:{
             $desc:"String, 默认的method('GET' 或 'POST').",
             $snippet:["alert(linb.SAjax.method)"]
+        },
+        optimized:{
+            $desc:"Boolean, 默认的是否优化选项. <strong>会设置一些优化的header.</strong>.",
+            $snippet:["alert(linb.Ajax.optimized)"]
         },
         randkey:{
             $desc:"String, 默认的随机字符串关键字. 该串的主要目的是防止浏览器缓存数据. <strong>服务器需要在返回的内容中用相同的关键字.</strong>",
@@ -1662,6 +1670,10 @@ _.set(linb.Locale,["cn","app"], {
         method:{
             $desc:"String, 默认的method('GET' 或 'POST')..",
             $snippet:["alert(linb.IAjax.method)"]
+        },
+        optimized:{
+            $desc:"Boolean, 默认的是否优化选项. <strong>会设置一些优化的header.</strong>.",
+            $snippet:["alert(linb.Ajax.optimized)"]
         },
         randkey:{
             $desc:"String, 默认的随机字符串关键字. 该串的主要目的是防止浏览器缓存数据. <strong>服务器需要在返回的内容中用相同的关键字.</strong>",
@@ -3454,6 +3466,9 @@ _.set(linb.Locale,["cn","app"], {
             $snippet:[
                 "var o=linb.Cookies; o.set('a','b',1); alert(o.get('a')); o.remove('a'); alert(o.get('a')); "
             ]
+        },
+        clear:{
+            $desc:"移除当前域名下的所有cookie."
         }
     });
     _.set(linb.Locale,["cn","doc","linb","Debugger"], {
@@ -4511,6 +4526,10 @@ _.set(linb.Locale,["cn","app"], {
         },
         prototype:{
             KEY:{$desc:"本类名"},
+            autoDestroy:{
+                $desc:"本Com是否随着第一个内UI控件的销毁而销毁.",
+                $rtn:"Boolean"
+            },
             fireEvent:{
                 $desc:"触发自定义的事件",
                 $rtn:"Object",
@@ -4528,6 +4547,24 @@ _.set(linb.Locale,["cn","app"], {
                 $desc:'渲染内部的 UI 组件。',
                 $rtn:"[self]",
                 $demo:"You have to call this function after the com was created. And linb.Com.show will trigger this function automatically."
+            },
+            getAlias:{
+                $desc:"得到别名.",
+                $rtn:'String'
+            },
+            setAlias:{
+                $desc:"设置别名.",
+                $rtn:'[self]',
+                $paras:[
+                    "str [Optional] : String, the alias value."
+                ]
+            },
+            AddComponents:{
+                $desc:"向当前 Com 中添加控件.",
+                $rtn:"[self]",
+                $paras:[
+                    "obj [Reqired] : linb.absObj Object."
+                ]
             },
             setComponents:{
                 $desc:"设置目前COM的内部组件.",
@@ -4619,7 +4656,7 @@ _.set(linb.Locale,["cn","app"], {
                 $desc:"使用异步方式生成Com对象.",
                 $paras:[
                     "onEnd [Optiona] : Function. 回调函数，在Com对象成功生成后执行。",
-                    "threadid [可选参数] : String, 内部线程id."
+                    "threadid [可选参数] : String, 内部线程id.  如本参数为 true, 表示生成Com的过程不会异步调用函数（不用linb.Thread）。"
                 ],
                 $snippet:[
                     "linb.SC('App.Test1',function(){var com=new this; com.create(function(com){alert('created!')});},false);"
@@ -4654,7 +4691,7 @@ _.set(linb.Locale,["cn","app"], {
                     "onEnd [Optiona] : Function. 回调函数，在Com对象成功显示后执行。",
                     "parent [可选参数] : String/Element/linb.Dom, 父DOM节点或linb.UI对象.",
                     "subId [可选参数] : String, 该参数在parent为linb.UI对象时有效。该子id. The sub id that Determines the [target] will be added to which sub DOM node. 该参数也可以设置成[false], that means the [target] will be appended to DOM only, no link created between the [target] UIProfiles and the parent UIProfile.",
-                    "threadid [可选参数] : String, 内部线程id."
+                    "threadid [可选参数] : String, 内部线程id. 如本参数为 true, 表示显示Com的过程不会异步调用函数（不用linb.Thread）。
                 ],
                 $snippet:[
                     "linb.SC('App.Test1',function(){var com=new this; com.show(function(){});},false);"
@@ -5086,6 +5123,13 @@ _.set(linb.Locale,["cn","app"], {
     _.set(linb.Locale,["cn","doc","linb","Coder"], {
         KEY:{$desc:"本类名"},
         $desc:"linb.Coder 类(静态类)",
+        isSafeJSON:{
+            $desc:"检测一个字符串是否是一个安全的 JSON 文本.",
+            $rtn:"Boolean",
+            $paras:[
+                "s [必需参数] : String."
+            ]
+        },
         formatText:{
             $desc:"将js/css/php/html代码片段格式化为更加可读的格式.",
             $rtn:"String",
