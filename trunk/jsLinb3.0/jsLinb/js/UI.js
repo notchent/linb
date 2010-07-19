@@ -4223,7 +4223,7 @@ Class("linb.UI",  "linb.absObj", {
             data._style = ';'+a.join(';')+';';
 
             if('readonly' in dm)data.readonly=prop.readonly?"ui-readonly":"";
-            if('href' in dm)data.href = prop.href || linb.DEFAULTHREF;
+            if('href' in dm)data.href = prop.href || linb.$DEFAULTHREF;
             if('tabindex' in dm)data.tabindex = prop.tabindex || '-1';
             if('items' in dm){
                 profile.ItemIdMapSubSerialId = {};
@@ -4932,7 +4932,7 @@ new function(){
                     }
                 },
                 href:{
-                    ini:linb.DEFAULTHREF,
+                    ini:linb.$DEFAULTHREF,
                     action:function(v){
                         this.getRoot().attr('href',v);
                     }

@@ -53,7 +53,7 @@ var tokenizeJavaScript = (function() {
 
       // added by linb
       "this": result("variable", "keyword"), 
-      "linb":linbglobal, "_":linbglobal,"Class":linbglobal
+      "linb":linbglobal, "_":linbglobal,"Class":linbglobal,"NameSpace":linbglobal
     };
   }();
 

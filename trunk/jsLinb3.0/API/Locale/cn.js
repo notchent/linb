@@ -55,7 +55,7 @@ _.set(linb.Locale,["cn","app"], {
             $memo:"名字空间的命名规则：[A-Z][0-9a-zA-Z]+"
         },
         Class:{
-            $desc:"申明一个类.",
+            $desc:"类的操作方法集合。<br />当做函数用是申明一个类。",
             $rtn:"Object",
             $paras:[
                 "key [必需参数]: String, 名字空间+类名字.",
@@ -63,14 +63,18 @@ _.set(linb.Locale,["cn","app"], {
                 "obj [可选参数]: Object,  类对象. 默认为 {}."
             ],
             $snippet:["// 申明命名空间 'Test.NS' 然后申明一个类 'Test.NS.Cls'; \n  Class('Test.NS.Cls'); Class('Test.NS.Cls.Subcls1', 'Test.NS.Cls', {}); Class('Test.NS.Cls.Subcls2', null, {});  alert(typeof Test.NS); alert(typeof Test.NS.Cls); alert(typeof Test.NS.Cls.Subcls1);alert(typeof Test.NS.Cls.Subcls2);"],
-            $memo:"类的命名规则：[A-Z][0-9a-zA-Z]+"
+            $memo:"类的命名规则：[A-Z][0-9a-zA-Z]+",
+            destroy:{
+                $desc:"销毁一个类"
+            }
         },
         _:{
-            $desc:"得到本地的时间戳.",
+            $desc:"工具方法的集合。<br />当做函数用是得到本地的时间戳.",
             $rtn:"Number",
             $snippet:["alert(_()); linb.message(_())"],
     
             arr:{
+                $desc:"数组的功能函数集合.",
                 each:{
                     $desc:"将函数应用于数组中的每一个元素.",
                     $rtn:'Array',
@@ -123,6 +127,18 @@ _.set(linb.Locale,["cn","app"], {
                         "var a=[1,2,3,4,5]; _.arr.removeFrom(a, 2,2 ); alert(a);"
                     ]
                 },
+                removeDuplicate:{
+                    $desc:"移除数组的重复元素.",
+                    $rtn:'Array',
+                    $paras: [
+                        "arr [必需参数] : Array, 目标数组.",
+                        "subKey [可选参数]: String, 判断数组中值是否重复的子键（针对数组中的值为对象的情况）."
+                    ],
+                    $snippet:[
+                        "var a=[1,2,3,4,5,3,4,5]; _.arr.removeDuplicate(a); alert(a);",
+                        "var a=[{id:1,value:'1'},{id:1,value:'2'},{id:1,value:'3'}]; _.arr.removeDuplicate(a, 'id'); alert(_.serialize(a));"
+                    ]
+                },
                 removeValue:{
                     $desc:"移除数组中值为”给定值“的元素.",
                     $rtn:'Array',
@@ -146,6 +162,16 @@ _.set(linb.Locale,["cn","app"], {
                         "var a=[1,2,{k:'v'},4]; var i=_.arr.subIndexOf(a,'k','v'); alert(i);"
                     ]
                 }
+            },
+            asyHTML:{
+                $desc:"异步生成html的函数.",
+                $rtn:"Interger",
+                $paras:[
+                    "content [必需参数]: String, 要生成html的字符串.",
+                    "callback [必需参数]: Function, 回调函数.",
+                    "defer [可选参数]: Number, 每组执行前的时间延迟. 默认为 0",
+                    "size [可选参数]: Number, 每组生成的DOM节点数. 默认为 10"
+                ]
             },
             asyRun:{
                 $desc:"异步执行一个函数.",
@@ -242,11 +268,7 @@ _.set(linb.Locale,["cn","app"], {
                 ]
             },
             fun:{
-                $desc:"获取一个空函数.",
-                $rtn:"Function",
-                $snippet:[
-                    "alert(_.serialize(_.fun()));"
-                ],
+                $desc:"函数的功能函数集合。<br />也可以作为函数用来获取一个空函数.",
                 args:{
                     $desc:"获取指定函数的参数.",
                     $rtn:"Array",
@@ -279,10 +301,10 @@ _.set(linb.Locale,["cn","app"], {
                 }
             },
             get:{
-                $desc:"获取多重hash的给定路径的值.",
+                $desc:"获取多层hash的给定路径的值.",
                 $rtn:"Object",
                 $paras:[
-                    "hash [必需参数]: Object, 多重hash.",
+                    "hash [必需参数]: Object, 多层hash.",
                     "path [必需参数]: Array, 路径数组, 例如['a','b','c'] 表示{a:{b:{c:[variable]}}}中的variable."
                 ],
                 $snippet:[
@@ -292,7 +314,7 @@ _.set(linb.Locale,["cn","app"], {
                     "alert(_.get({a:{b:{c:1}}},['a','b','c','d']))"
                 ]
             },
-            id:{
+            "id":{
                 $desc:"获取一个a-z组成的唯一id编号.",
                 $rtn:"String",
                 $snippet:[
@@ -411,6 +433,16 @@ _.set(linb.Locale,["cn","app"], {
                     "alert(_.isReg('s')+':'+_.isReg(new RegExp())+':'+_.isReg(function(){})+':'+_.isReg(1)+':'+_.isReg(NaN)+':'+_.isReg({})+':'+_.isReg(new Date)+':'+_.isReg(null)+':'+_.isReg(undefined)+':'+_.isReg(true)+':'+_.isReg([]));"
                 ]
             },
+            isSet:{
+                $desc:"判断目标是否已经定义.",
+                $rtn:"Boolean",
+                $paras:[
+                    "target [必需参数]: any"
+                ],
+                $snippet:[
+                    "alert(_.isSet('s')+':'+_.isSet(new RegExp())+':'+_.isSet(function(){})+':'+_.isSet(1)+':'+_.isSet(NaN)+':'+_.isSet({})+':'+_.isSet(new Date)+':'+_.isSet(null)+':'+_.isSet(undefined)+':'+_.isSet(true)+':'+_.isSet([]));"
+                ]
+            },
             isStr :{
                 $desc:"判断目标是否是一个字符串.",
                 $rtn:"Boolean",
@@ -447,7 +479,8 @@ _.set(linb.Locale,["cn","app"], {
                 ],
                 $snippet:[
                     "_.resetRun('id',function(){alert(1)},200);_.resetRun('id',function(){alert(2)},200);_.resetRun('id',function(){alert(3)},200);"
-                ]
+                ],
+                $memo:"可以用_.resetRun.exists(id)来判断是否存在名字为id的异步执行函数。"
             },
             observableRun:{
                 $desc:"将函数包装成一个可在界面上看到反馈(例如，可以看到鼠标的形状变化)的线程并且执行这个线程. ",
@@ -462,8 +495,30 @@ _.set(linb.Locale,["cn","app"], {
                     "_.observableRun(function(threadid){linb.Thread(threadid).suspend(); _.asyRun(function(){linb.Thread(threadid).resume()},1000)});"
                 ]
             },
+            stringify:{
+                $desc: "将对象序列化为一个JSON字符串(不强制转换成UTF8编码).",
+                $rtn: "String",
+                $paras:[
+                    "obj [必需参数]: Object, 目标对象. ",
+                    "filter [可选参数]: Function, 参数: [值, 键]. 判断是否序列化该项. 也可以是 [true]，表示会忽略以'_'开头的项",
+                    "dateformat  [可选参数]: String, 'utc' or 'gmt'. 强行将[Date]类型转化为ISO UTC字符串, ISO GMT 字符串, 或默认格式( new Date(yyyy,mm,dd,hh,nn,ss,ms) )."
+                ],
+                $snippet:[
+                    "alert(_.stringify('a'));"+
+                    "alert(_.stringify({a:1}));"+
+                    "alert(_.stringify([1,2,{a:1}]));"+
+                    "alert(_.stringify([1,2,{_a:1}],true));"+
+                    "alert(_.stringify({d:new Date}));"+
+                    "alert(_.stringify({d:new Date},'utc'))",
+                    "alert(_.stringify({d:new Date},'gmt'))",
+                    "alert(_.stringify(linb('btnLang')))",
+                    "alert(_.stringify(linb.Dom.byId('btnLang')))",
+                    "alert(_.stringify(linb.UIProfile.getFromDom('btnLang')))",
+                    "alert(_.stringify(linb.UIProfile.getFromDom('btnLang').boxing()))"
+                ]
+            },
             serialize:{
-                $desc: "将对象序列化为一个JSON字符串.",
+                $desc: "将对象序列化为一个JSON字符串(强制转换成UTF8编码).",
                 $rtn: "String",
                 $paras:[
                     "obj [必需参数]: Object, 目标对象. ",
@@ -485,7 +540,7 @@ _.set(linb.Locale,["cn","app"], {
                 ]
             },
             set:{
-                $desc:"设置或取消设置多重hash中的某个项.",
+                $desc:"设置或取消设置多层hash中的某个项.",
                 $rtn:"Object",
                 $paras:[
                     "hash [必需参数]: Object, 多重键值对.",
@@ -542,6 +597,7 @@ _.set(linb.Locale,["cn","app"], {
                 ]
             },
             str:{
+                $desc:"字符串的功能函数集合.",
                 endWith :{
                     $desc:"测试字符串是否以另一个串结尾.",
                     $rtn:'Boolean',
@@ -674,9 +730,9 @@ _.set(linb.Locale,["cn","app"], {
             }
          }
     });
-    
+     
     _.set(linb.Locale,["cn","doc","linb"], {
-        $desc:"将一系列的DOM元素包装成linb.Dom对象的快捷函数.",
+        $desc:"linb的根部命名空间。<br />当做函数用是将一系列的DOM元素包装成linb.Dom对象的快捷函数.",
         $rtn:"linb.Dom",
         $paras:[
             "nodes [可选参数]: Element/Element[]/String/String[]/Function, 代表一个或一组DOM元素的字符串、变量或函数，可以是一个[DOM元素], 一个[DOM元素]数组, 一个[DOM元素id], 一个[DOM元素id]数组, 一个[linbid], 或一个[linbid]数组，等等。 默认为 [].",
@@ -693,6 +749,12 @@ _.set(linb.Locale,["cn","app"], {
             "//输入一个 linbid 字符串\n var linbid=linb.getId('btnLang'), n=linb(linbid); alert(linbid);alert(n.get(0).id);",
             "//输入一个 linbid 字符串数组\n var linbid=linb.getId('btnLang'), n=linb([linbid],false); alert(linbid);alert(n.get(0).id);"
         ],
+        SERIALIZEMAXLAYER:{
+             $desc:"序列化限制的的最深层数"
+        },
+        SERIALIZEMAXSIZE:{
+            $desc:"序列化限制的最大对象数"
+        },
         use:{
             $desc:"用一个linbid(每个linbid都会对应一个dom元素)来实现对一个dom元素的快速引用。本操作不会有新的linb.Dom对象产生。",
             $rtn:"linb.Dom",
@@ -1016,7 +1078,8 @@ _.set(linb.Locale,["cn","app"], {
     });
     
     _.set(linb.Locale,["cn","doc","linb","Thread"], {
-        $desc:"获取或生成一个异步线程对象. <br /> linb.Thread 的运行模式: <strong>[onStart function]--delay 1-->[task function 1][回调函数 1]--delay 2-->[task function 2][回调函数 2]--delay 3-->[task function ...n][回调函数 ...n][onEnd function]</strong>",
+        KEY:{$desc:"本类名"},
+        $desc:"linb.Thread类。用函数调用的方式（不要使用 new linb.Thread ）来创造linb.Thread<br />函数调用：直接获取或生成一个异步线程对象. <br /> linb.Thread 的运行模式: <strong>[onStart function]--delay 1-->[task function 1][回调函数 1]--delay 2-->[task function 2][回调函数 2]--delay 3-->[task function ...n][回调函数 ...n][onEnd function]</strong>",
         $rtn:"linb.Thread",
         $paras:[
             "id [必需参数]: String, 线程的识别号. 如果已经存在这个识别号，该函数将返回对应的线程对象; 如果不存在,或函数没有指定, 系统将产生一个新的linb.Thread对象, 并给它分配一个唯一的id. 如果程序员不想指定它，可以用null.",
@@ -1042,7 +1105,6 @@ _.set(linb.Locale,["cn","app"], {
             "var a=[];linb.Thread(null, [function(threadid){a.push(threadid+' task1')},{task:function(threadid){a.push(threadid+' task2')},callback:function(threadid){a.push(threadid+' not the default callback')}}],null,function(threadid){a.push(threadid+' callback')},function(threadid){a.push(threadid+' start')},function(threadid){a.push(threadid+' end'); alert(a);}).start()",
             "var a=[],i=3; linb.Thread(null, [function(){a.push(1)},function(){a.push(2)}],0,function(){i--;if(!i)return false;},null,function(){alert(a);},true).start()"
         ],
-        $memo:"不要使用[new linb.tread]去创造一个[linb.tread]对象.",
         group:{
             $desc:"将一系列的linb.Thread对象(或线程id)编组, 打包到一个可执行的线程. 程序员可并行的执行他们.",
             $rtn:"linb.Thread",
@@ -1150,6 +1212,7 @@ _.set(linb.Locale,["cn","app"], {
             ]
         },
         prototype:{
+            KEY:{$desc:"本类名"},
             links:{
                 $desc:"将另一个线程链接到本线程, 并在本线程的回调函数[onEnd]结束后开始执行另一个线程. ",
                 $rtn:"[self]",
@@ -1282,6 +1345,7 @@ _.set(linb.Locale,["cn","app"], {
             ]
         },
         prototype:{
+            KEY:{$desc:"本类名"},
             start:{
                 $desc:"开始执行linb.absIO对象",
                 $rtn:"[self]",
@@ -1303,6 +1367,8 @@ _.set(linb.Locale,["cn","app"], {
     });
     
     _.set(linb.Locale,["cn","doc","linb","XML"], {
+        KEY:{$desc:"本类名"},
+        $desc:"linb.XML 类(静态类)",
         json2xml:{
             $desc:"实现 XML 向 JSON 的转换。输入json Object,输出转换后的 xml 文本。",
             $rtn:"String",
@@ -1330,7 +1396,8 @@ _.set(linb.Locale,["cn","app"], {
     });
     
     _.set(linb.Locale,["cn","doc","linb","Ajax"], {
-        $desc:"生成一个linb.Ajax对象. <strong>linb.Ajax对象可以处理当前域的GET/POST请求; linb.Ajax 也是唯一一个能够处理同步请求的Ajax类.</strong>",
+        KEY:{$desc:"本类名"},
+        $desc:"linb.Ajax类。用函数调用的方式（不要使用 new linb.Ajax ）来创造linb.Ajax对象。<br />函数调用：生成一个linb.Ajax对象. <strong>linb.Ajax对象可以处理当前域的GET/POST请求; linb.Ajax 也是唯一一个能够处理同步请求的Ajax类.</strong>",
         $rtn:"linb.Ajax",
         $paras:[
             "uri [必需参数]: String/Object, String -- 请求服务的 URL 地址; Object(这时候uri参数等同于 options ) -- 一组用来配置request的键值对. 如果这个参数是Object, 后续的其他参数会被忽略.",
@@ -1412,6 +1479,7 @@ _.set(linb.Locale,["cn","app"], {
             $snippet:["alert(linb.Ajax.type)"]
         },
         prototype:{
+            KEY:{$desc:"本类名"},
             start:{
                 $desc:"开始执行本次请求。",
                 $rtn:"[self]",
@@ -1429,7 +1497,8 @@ _.set(linb.Locale,["cn","app"], {
     });
     
     _.set(linb.Locale,["cn","doc","linb","SAjax"], {
-        $desc:"生成一个 linb.SAjax 对象. <strong>linb.SAjax 用来处理跨域的 GET 数据请求.</strong>.",
+        KEY:{$desc:"本类名"},
+        $desc:"linb.SAjax类。用函数调用的方式（不要使用 new linb.SAjax ）来创造linb.SAjax对象。<br />函数调用：生成一个 linb.SAjax 对象. <strong>linb.SAjax 用来处理跨域的 GET 数据请求.</strong>.",
         $rtn:"linb.SAjax",
         $paras:[
             "uri [必需参数]: String/Object, String -- 请求服务的 URL 地址; Object(这时候uri参数等同于 options ) -- 一组用来配置request的键值对. 如果这个参数是Object, 后续的其他参数会被忽略.",
@@ -1517,6 +1586,7 @@ _.set(linb.Locale,["cn","app"], {
         },
     
         prototype:{
+            KEY:{$desc:"本类名"},
             start:{
                 $desc:"开始执行一个linb.SAjax对象",
                 $rtn:"[self]",
@@ -1528,7 +1598,8 @@ _.set(linb.Locale,["cn","app"], {
     });
     
     _.set(linb.Locale,["cn","doc","linb","IAjax"], {
-        $desc:"生成一个linb.IAjax对象. <strong>linb.IAjax 可以处理跨域的GET/POST请求, 而且可以向服务器提交文件(上传内容).</strong>",
+        KEY:{$desc:"本类名"},
+        $desc:"linb.IAjax类。用函数调用的方式（不要使用 new linb.IAjax ）来创造linb.IAjax对象。<br />函数调用：生成一个linb.IAjax对象. <strong>linb.IAjax 可以处理跨域的GET/POST请求, 而且可以向服务器提交文件(上传内容).</strong>",
         $rtn:"linb.IAjax",
         $paras:[
             "uri [必需参数]: String/Object, String -- 请求服务的 URL 地址; Object(这时候uri参数等同于 options ) -- 一组用来配置request的键值对. 如果这个参数是Object, 后续的其他参数会被忽略.",
@@ -1625,6 +1696,7 @@ _.set(linb.Locale,["cn","app"], {
             ]
         },
         prototype:{
+            KEY:{$desc:"本类名"},
             start:{
                 $desc:"开始执行一个linb.IAjax请求",
                 $rtn:"[self]",
@@ -1636,7 +1708,8 @@ _.set(linb.Locale,["cn","app"], {
     });
     
     _.set(linb.Locale,["cn","doc","linb","SC"], {
-        $desc:"直接调用. 用字符串路径名去直接掉用一个类或对象。如果特定路径名的类或对象存在，直接返回；如果不存在, linb.SC会从内存或远程代码文件中加载这个类或对象.",
+        KEY:{$desc:"本类名"},
+        $desc:"linb.SC类（静态类）。<br />以作为函数来进行直接调用：用字符串路径名去直接掉用一个类或对象。如果特定路径名的类或对象存在，直接返回；如果不存在, linb.SC会从内存或远程代码文件中加载这个类或对象.",
         $rtn:"Object/undefined, 类或对象[同步模式下]/ undefined[异步模式下]",
         $paras:[
             "path [必需参数]: String, 路径名(例如：'linb.UI.Button').",
@@ -1717,6 +1790,8 @@ _.set(linb.Locale,["cn","app"], {
     });
     
     _.set(linb.Locale,["cn","doc","linb","Event"], {
+        KEY:{$desc:"本类名"},
+        $desc:"linb.Event 类（静态类）",
         getWheelDelta:{
             $desc:"获取鼠标滚轮的移动值.",
             $rtn:"Integer",
@@ -1876,6 +1951,7 @@ _.set(linb.Locale,["cn","app"], {
             ]
         },
         prototype:{
+            KEY:{$desc:"本类名"},
             each:{
                 $desc:"将函数应用于数组中的每一个箱内元素.",
                 $rtn:'[self]',
@@ -1928,6 +2004,8 @@ _.set(linb.Locale,["cn","app"], {
     });
     
     _.set(linb.Locale,["cn","doc","linb","Dom"], {
+        KEY:{$desc:"本类名"},
+        $desc:"linb.Dom 类",
         constructor:{
             $desc:"一般情况下, 不要使用[new linb.Dom()]创造一个新实例, 而是使用[linb(nodes, flag)]一个新linb.Dom实例对象."
         },
@@ -2072,6 +2150,7 @@ _.set(linb.Locale,["cn","app"], {
             ]
         },
         prototype:{
+            KEY:{$desc:"本类名"},
             each:{
                 $desc:"将函数应用于数组中的每一个箱内元素.",
                 $rtn:'[self]',
@@ -2848,7 +2927,7 @@ _.set(linb.Locale,["cn","app"], {
                     "}"
                 ]
             },
-            id:{
+            "id":{
                 $desc:"获取(第一个元素)或设置(所有元素)的DOM id.",
                 $rtn:"String/[self]",
                 $paras:[
@@ -3100,6 +3179,8 @@ _.set(linb.Locale,["cn","app"], {
     });
     
     _.set(linb.Locale,["cn","doc","linb","DragDrop"], {
+        KEY:{$desc:"本类名"},
+        $desc:"linb.DragDrop 类(静态类)",
         abort:{
             $desc:"取消当前的D&D(Drag & Drop)操作.",
             $snippet:[
@@ -3222,6 +3303,8 @@ _.set(linb.Locale,["cn","app"], {
     });
     
     _.set(linb.Locale,["cn","doc","linb","CSS"], {
+        KEY:{$desc:"本类名"},
+        $desc:"linb.CSS 类(静态类)",
         addStyleSheet:{
             $desc:"添加一个&lt;style>元素到&lt;head>区域中.",
             $rtn:"Element",
@@ -3299,6 +3382,8 @@ _.set(linb.Locale,["cn","app"], {
     });
     
     _.set(linb.Locale,["cn","doc","linb","History"], {
+        KEY:{$desc:"本类名"},
+        $desc:"linb.History 类(静态类)",
         setCallback:{
             $desc:"设置回调函数。 该函数会在片段标志符(Fragement Identifier)改变时被调用.",
             $rtn:"linb.History",
@@ -3333,6 +3418,8 @@ _.set(linb.Locale,["cn","app"], {
     });
     
     _.set(linb.Locale,["cn","doc","linb","Cookies"], {
+        KEY:{$desc:"本类名"},
+        $desc:"linb.Cookies 类(静态类)",
         get:{
             $desc:"获取指定名字的cookie值.",
             $rtn:"String",
@@ -3370,6 +3457,8 @@ _.set(linb.Locale,["cn","app"], {
         }
     });
     _.set(linb.Locale,["cn","doc","linb","Debugger"], {
+        KEY:{$desc:"本类名"},
+        $desc:"linb.Debugger 类(静态)",
         'log':{
             $desc:"在Debugger窗口中打印日志信息.",
             $snippet:[
@@ -3395,6 +3484,8 @@ _.set(linb.Locale,["cn","app"], {
     });
     
     _.set(linb.Locale,["cn","doc","linb","Date"], {
+        KEY:{$desc:"本类名"},
+        $desc:"linb.Date 类(静态类)",
         add:{
             $desc:"在基准时间戳加上一个时间段.",
             $rtn:"Object, the result Date Object.",
@@ -3670,6 +3761,7 @@ _.set(linb.Locale,["cn","app"], {
             ]
         },
         prototype:{
+            KEY:{$desc:"本类名"},
             host:{
                 $desc:"@Deprecated.(请用 setHost/getHost)"
             },
@@ -3764,11 +3856,14 @@ _.set(linb.Locale,["cn","app"], {
     });
     
     _.set(linb.Locale,["cn","doc","linb","Profile"], {
+        KEY:{$desc:"本类名"},
+        $desc:"linb.Profile 类",
         constructor:{
             $desc:"生成一个概要对象",
             $memo:"一般情况下，程序员无需直接调用该函数."
         },
         prototype:{
+            KEY:{$desc:"本类名"},
             serialize:{
                 $desc:"将一个控件概要对象(profile)序列化为一个JSON字符串或一个JSON对象.",
                 $rtn:"String",
@@ -3809,6 +3904,8 @@ _.set(linb.Locale,["cn","app"], {
     });
     
     _.set(linb.Locale,["cn","doc","linb","UIProfile"], {
+        KEY:{$desc:"本类名"},
+        $desc:"linb.UIProfile 类",
         constructor:{
             $desc:"生成一个控件概要对象(profile)",
             $memo:"一般情况下，程序员无需直接调用该函数."
@@ -3825,6 +3922,7 @@ _.set(linb.Locale,["cn","app"], {
             ]
         },
         prototype:{
+            KEY:{$desc:"本类名"},
             renderId:{
                 $desc:"String, 指示一个控件概要对象(profile)是否被渲染(生成了对应的Dom节点)."
             },
@@ -4054,6 +4152,8 @@ _.set(linb.Locale,["cn","app"], {
     });
     
     _.set(linb.Locale,["cn","doc","linb","Template"], {
+        KEY:{$desc:"本类名"},
+        $desc:"linb.Template 类",
         getFromDom:{
             $desc:"从一个DOM元素中获取一个模板(template)对象.",
             $rtn:"linb.Template",
@@ -4083,6 +4183,7 @@ _.set(linb.Locale,["cn","app"], {
             ]
         },
         prototype:{
+            KEY:{$desc:"本类名"},
             renderId:{
                 $desc:"String, 指示模板是否被渲染(生成了DOM)."
             },
@@ -4239,6 +4340,8 @@ _.set(linb.Locale,["cn","app"], {
     
     
     _.set(linb.Locale,["cn","doc","linb","Com"], {
+        KEY:{$desc:"本类名"},
+        $desc:"linb.Com 类",
         constructor:{
             $desc:"linb.Com的构造函数",
             $paras:[
@@ -4407,6 +4510,7 @@ _.set(linb.Locale,["cn","app"], {
             ]
         },
         prototype:{
+            KEY:{$desc:"本类名"},
             fireEvent:{
                 $desc:"触发自定义的事件",
                 $rtn:"Object",
@@ -4705,6 +4809,8 @@ _.set(linb.Locale,["cn","app"], {
     
     
     _.set(linb.Locale,["cn","doc","linb","ComFactory"], {
+        KEY:{$desc:"本类名"},
+        $desc:"linb.ComFactory 类(静态类)",
         setProfile:{
             $desc:"设置应用模块工厂(ComFatory)的profile.",
             $rtn:'linb.ComFactory',
@@ -4833,9 +4939,12 @@ _.set(linb.Locale,["cn","app"], {
     });
     
     _.set(linb.Locale,["cn","doc","linb","DomProfile"], {
+        KEY:{$desc:"本类名"},
     });
     
     _.set(linb.Locale,["cn","doc","linb","DataBinder"], {
+        KEY:{$desc:"本类名"},
+        $desc:"linb.DataBinder 类",
         constructor:{
             $desc:"生成一个databinder对象."
         },
@@ -4859,6 +4968,7 @@ _.set(linb.Locale,["cn","app"], {
             ]
         },
         prototype:{
+            KEY:{$desc:"本类名"},
             checkValid:{
                 $desc:"检查所有绑定值是否有效. 例如: 用户输入了字符到数字框里面，而数字框又绑定了databinder, 这个函数就会返回[false].",
                 $rtn:"linb.absValue"
@@ -4923,6 +5033,8 @@ _.set(linb.Locale,["cn","app"], {
     });
     
     _.set(linb.Locale,["cn","doc","linb","Tips"], {
+        KEY:{$desc:"本类名"},
+        $desc:"linb.DataBinder 类(静态类)",
         AUTOHIDETIME:{
             $desc:"Number, 指示多少毫秒后tip自动隐藏. 该参数在MOABLE设置为[false]时才有效.",
             $snippet:["alert(linb.Tips.AUTOHIDETIME)"]
@@ -4972,6 +5084,8 @@ _.set(linb.Locale,["cn","app"], {
     });
     
     _.set(linb.Locale,["cn","doc","linb","Coder"], {
+        KEY:{$desc:"本类名"},
+        $desc:"linb.Coder 类(静态类)",
         formatText:{
             $desc:"将js/css/php/html代码片段格式化为更加可读的格式.",
             $rtn:"String",
@@ -5887,6 +6001,8 @@ _.set(linb.Locale,["cn","app"], {
     });
     
     _.set(linb.Locale,["cn","doc","linb","UI"], {
+        KEY:{$desc:"本类名"},
+        $desc:"linb.UI 类",
         getFromDom:{
             $desc:"从一个指定的DOM元素的id上获取一个UI Object.",
             $rtn:"linb.UI",
@@ -6059,6 +6175,7 @@ _.set(linb.Locale,["cn","app"], {
             ]
         },
         prototype:{
+            KEY:{$desc:"本类名"},
            getTheme:{
                 $desc:"获取当前控件的皮肤关键字.",
                 $rtn:"String"
@@ -7212,10 +7329,13 @@ _.set(linb.Locale,["cn","app"], {
         }
     });
     _.set(linb.Locale,["cn","doc","linb","UI","Widget"], {
+        KEY:{$desc:"本类名"},
+        $desc:"linb.UI.Widget 类",
         constructor:{
             $desc:"生成一个linb.UI.Widget对象."
         },
         prototype:{
+            KEY:{$desc:"本类名"},
             getBorder:{
                 $desc:"判断控件是否显示边缘线.",
                 $rtn:"Boolean",
@@ -7292,10 +7412,13 @@ _.set(linb.Locale,["cn","app"], {
     });
     
     _.set(linb.Locale,["cn","doc","linb","UI","Div"], {
+        KEY:{$desc:"本类名"},
+        $desc:"linb.UI.Div 类",
         constructor:{
             $desc:"生成一个linb.UI.Div对象."
         },
         prototype:{
+            KEY:{$desc:"本类名"},
             getHtml:{
                 $desc:"获取当前层对象(linb.UI.Div)的内部html代码.",
                 $rtn:"String",
@@ -7324,12 +7447,16 @@ _.set(linb.Locale,["cn","app"], {
     });
     
     _.set(linb.Locale,["cn","doc","linb","UI","Pane"], {
+        KEY:{$desc:"本类名"},
+        $desc:"linb.UI.Pane 类",
         constructor:{
             $desc:"生成一个linb.UI.Pane对象."
         }
     });
     
     _.set(linb.Locale,["cn","doc","linb","UI","Tag"], {
+        KEY:{$desc:"本类名"},
+        $desc:"linb.UI.Tag 类",
         constructor:{
             $desc:"生成一个linb.UI.Tag对象. linb.UI.Tag is a proxy UI class for 'Inversion of Control' in jsLinb.",
             $memo:"linb.UI.Tag is for embedding a target UI Object(from linb.Com Object) into an existing UI dynamically.",
@@ -7347,6 +7474,7 @@ _.set(linb.Locale,["cn","app"], {
             $demo:"Generally, you don't need to use this function manually."
         },
         prototype:{
+            KEY:{$desc:"本类名"},
             getTagKey:{
                 $desc:"得到 tagKey 字符串.",
                 $rtn:"String",
@@ -7365,10 +7493,13 @@ _.set(linb.Locale,["cn","app"], {
     });
     
     _.set(linb.Locale,["cn","doc","linb","UI","Link"], {
+        KEY:{$desc:"本类名"},
+        $desc:"linb.UI.Link 类",
         constructor:{
             $desc:"生成一个linb.UI.Link对象."
         },
         prototype:{
+            KEY:{$desc:"本类名"},
             getCaption:{
                 $desc:"获取超链接的文本内容.",
                 $rtn:"String",
@@ -7457,17 +7588,20 @@ _.set(linb.Locale,["cn","app"], {
         }
     });
     
-    _.set(linb.Locale,["cn","doc","linb","UI","Border"], {});
+    _.set(linb.Locale,["cn","doc","linb","UI","Border"], {$desc:"linb.UI.Border 类",KEY:{$desc:"类关键字"}});
     
-    _.set(linb.Locale,["cn","doc","linb","UI","Shadow"], {});
+    _.set(linb.Locale,["cn","doc","linb","UI","Shadow"], {$desc:"linb.UI.Shadow 类",KEY:{$desc:"类关键字"}});
     
-    _.set(linb.Locale,["cn","doc","linb","UI","Resizer"], {});
+    _.set(linb.Locale,["cn","doc","linb","UI","Resizer"], {$desc:"linb.UI.Resizer 类",KEY:{$desc:"类关键字"}});
     
     _.set(linb.Locale,["cn","doc","linb","UI","Block"], {
+        KEY:{$desc:"本类名"},
+        $desc:"linb.UI.Block 类",
         constructor:{
             $desc:"生成一个linb.UI.Block 对象."
         },
         prototype:{
+            KEY:{$desc:"本类名"},
             getHtml:{
                 $desc:"获取块控件的内部html.",
                 $rtn:"String",
@@ -7544,10 +7678,13 @@ _.set(linb.Locale,["cn","app"], {
     });
     
     _.set(linb.Locale,["cn","doc","linb","UI","Label"], {
+        KEY:{$desc:"本类名"},
+        $desc:"linb.UI.Label 类",
         constructor:{
             $desc:"生成一个linb.UI.Label对象."
         },
         prototype:{
+            KEY:{$desc:"本类名"},
             getCaption :{
                 $desc:"获取标签的标题文字",
                 $rtn:"String",
@@ -7743,10 +7880,13 @@ _.set(linb.Locale,["cn","app"], {
         }
     });
     _.set(linb.Locale,["cn","doc","linb","UI","ProgressBar"], {
+        KEY:{$desc:"本类名"},
+        $desc:"linb.UI.ProgressBar 类",
         constructor:{
             $desc:"Creates a linb.UI.ProgressBar Object."
         },
         prototype:{
+            KEY:{$desc:"本类名"},
             getCaptionTpl :{
                 $desc:"得到标题模板字符串.",
                 $rtn:"String",
@@ -7803,10 +7943,13 @@ _.set(linb.Locale,["cn","app"], {
     });
     
     _.set(linb.Locale,["cn","doc","linb","UI","SLabel"], {
+        KEY:{$desc:"本类名"},
+        $desc:"linb.UI.SLabel 类",
         constructor:{
             $desc:"生成一个linb.UI.SLabel."
         },
         prototype:{
+            KEY:{$desc:"本类名"},
             getCaption :{
                 $desc:"获取文字.",
                 $rtn:"String",
@@ -7860,10 +8003,13 @@ _.set(linb.Locale,["cn","app"], {
     
     
     _.set(linb.Locale,["cn","doc","linb","UI","SButton"], {
+        KEY:{$desc:"本类名"},
+        $desc:"linb.UI.SButton 类",
         constructor:{
             $desc:"生成一个linb.UI.SButton对象."
         },
         prototype:{
+            KEY:{$desc:"本类名"},
             activate:{
                 $desc:"激活按钮(获取焦点状态).",
                 $rtn:"[self]",
@@ -7939,10 +8085,13 @@ _.set(linb.Locale,["cn","app"], {
     });
     
     _.set(linb.Locale,["cn","doc","linb","UI","RichEditor"], {
+        KEY:{$desc:"本类名"},
+        $desc:"linb.UI.RichEditor 类",
         constructor:{
             $desc:"生成一个 linb.UI.RichEditor 对象."
         },
         prototype:{
+            KEY:{$desc:"本类名"},
             getCmdList :{
                 $desc:"得到控件中命令按钮的出现和排列方式.",
                 $rtn:"String",
@@ -7971,10 +8120,13 @@ _.set(linb.Locale,["cn","app"], {
     });
     
     _.set(linb.Locale,["cn","doc","linb","UI","SCheckBox"], {
+        KEY:{$desc:"本类名"},
+        $desc:"linb.UI.SCheckBox 类",
         constructor:{
             $desc:"生成一个linb.UI.Button对象."
         },
         prototype:{
+            KEY:{$desc:"本类名"},
             activate:{
                 $desc:"激活(获取焦点状态).",
                 $rtn:"[self]",
@@ -8028,10 +8180,13 @@ _.set(linb.Locale,["cn","app"], {
     
     
     _.set(linb.Locale,["cn","doc","linb","UI","Button"], {
+        KEY:{$desc:"本类名"},
+        $desc:"linb.UI.Button 类",
         constructor:{
             $desc:"生成一个linb.UI.Button对象."
         },
         prototype:{
+            KEY:{$desc:"本类名"},
             activate:{
                 $desc:"激活按钮(获取焦点状态).",
                 $rtn:"[self]",
@@ -8231,10 +8386,13 @@ _.set(linb.Locale,["cn","app"], {
     });
     
     _.set(linb.Locale,["cn","doc","linb","UI","CheckBox"], {
+        KEY:{$desc:"本类名"},
+        $desc:"linb.UI.CheckBox 类",
         constructor:{
             $desc:"生成一个linb.UI.CheckBox对象."
         },
         prototype:{
+            KEY:{$desc:"本类名"},
             onChecked:{
                 $desc:"Fired when CheckBox is checked.",
                 $paras:[
@@ -8252,10 +8410,13 @@ _.set(linb.Locale,["cn","app"], {
     });
     
     _.set(linb.Locale,["cn","doc","linb","UI","Input"], {
+        KEY:{$desc:"本类名"},
+        $desc:"linb.UI.Input 类",
         constructor:{
             $desc:"生成一个linb.UI.Input对象."
         },
         prototype:{
+            KEY:{$desc:"本类名"},
             activate:{
                 $desc:"激活编辑框(获取焦点状态).",
                 $rtn:"[self]",
@@ -8561,10 +8722,13 @@ _.set(linb.Locale,["cn","app"], {
         }
     });
     _.set(linb.Locale,["cn","doc","linb","UI","TextEditor"], {
+        KEY:{$desc:"本类名"},
+        $desc:"linb.UI.TextEditor 类",
         constructor:{
             $desc:"生成一个linb.UI.TextEditor对象."
         },
         prototype:{
+            KEY:{$desc:"本类名"},
             activate:{
                 $desc:"激活文本编辑器.",
                 $rtn:"[self]",
@@ -8618,10 +8782,13 @@ _.set(linb.Locale,["cn","app"], {
         }
     });
     _.set(linb.Locale,["cn","doc","linb","UI","Group"], {
+        KEY:{$desc:"本类名"},
+        $desc:"linb.UI.Group 类",
         constructor:{
             $desc:"生成一个linb.UI.Group对象."
         },
         prototype:{
+            KEY:{$desc:"本类名"},
             activate:{
                 $desc:"激活编组框对象.",
                 $rtn:"[self]",
@@ -8803,10 +8970,13 @@ _.set(linb.Locale,["cn","app"], {
     });
     
     _.set(linb.Locale,["cn","doc","linb","UI","ComboInput"], {
+        KEY:{$desc:"本类名"},
+        $desc:"linb.UI.ComboInput 类",
         constructor:{
             $desc:"生成一个linb.UI.ComboInput对象."
         },
         prototype:{
+            KEY:{$desc:"本类名"},
             getCaption:{
                 $desc:"获取显示的文本内容.",
                 $rtn:"String"
@@ -9180,16 +9350,21 @@ _.set(linb.Locale,["cn","app"], {
     
     
     _.set(linb.Locale,["cn","doc","linb","UI","Stacks"], {
+        KEY:{$desc:"本类名"},
+        $desc:"linb.UI.Stacks 类",
         constructor:{
             $desc:"生成一个linb.UI.Stacks对象."
         }
     });
     
     _.set(linb.Locale,["cn","doc","linb","UI","ButtonViews"], {
+        KEY:{$desc:"本类名"},
+        $desc:"linb.UI.ButtonViews 类",
         constructor:{
             $desc:"生成一个linb.UI.ButtonViews对象."
         },
         prototype:{
+            KEY:{$desc:"本类名"},
             setBarLocation:{
                 $desc:"设置按钮条的位置, 并刷新界面.",
                 $rtn:"[self]",
@@ -9292,6 +9467,8 @@ _.set(linb.Locale,["cn","app"], {
     });
     
     _.set(linb.Locale,["cn","doc","linb","UI","RadioBox"], {
+        KEY:{$desc:"本类名"},
+        $desc:"linb.UI.RadioBox 类",
         constructor:{
             $desc:"生成linb.UI.RadioBox对象."
         }
@@ -9299,6 +9476,8 @@ _.set(linb.Locale,["cn","app"], {
     
     
     _.set(linb.Locale,["cn","doc","linb","UI","ColorPicker"], {
+        KEY:{$desc:"本类名"},
+        $desc:"linb.UI.ColorPicker 类",
         constructor:{
             $desc:"生成一个linb.UI.ColorPicker对象."
         },
@@ -9359,6 +9538,7 @@ _.set(linb.Locale,["cn","app"], {
             ]
         },
         prototype:{
+            KEY:{$desc:"本类名"},
             activate:{
                  $desc:"激活该控件，使它获得焦点.",
                 $rtn:"[self]"
@@ -9450,10 +9630,13 @@ _.set(linb.Locale,["cn","app"], {
     });
     
     _.set(linb.Locale,["cn","doc","linb","UI","DatePicker"], {
+        KEY:{$desc:"本类名"},
+        $desc:"linb.UI.DatePicker 类",
         constructor:{
             $desc:"生成一个linb.UI.DatePicker对象."
         },
         prototype:{
+            KEY:{$desc:"本类名"},
             activate:{
                  $desc:"激活该控件，使它获得焦点.",
                 $rtn:"[self]"
@@ -9505,10 +9688,13 @@ _.set(linb.Locale,["cn","app"], {
     });
     
     _.set(linb.Locale,["cn","doc","linb","UI","TimePicker"], {
+        KEY:{$desc:"本类名"},
+        $desc:"linb.UI.TimePicker 类",
         constructor:{
             $desc:"生成一个linb.UI.TimePicker对象."
         },
         prototype:{
+            KEY:{$desc:"本类名"},
             activate:{
                  $desc:"激活该控件，使它获得焦点.",
                 $rtn:"[self]"
@@ -9549,10 +9735,13 @@ _.set(linb.Locale,["cn","app"], {
     });
     
     _.set(linb.Locale,["cn","doc","linb","UI","Slider"], {
+        KEY:{$desc:"本类名"},
+        $desc:"linb.UI.Slider 类",
         constructor:{
             $desc:"生成一个linb.UI.Slider对象."
         },
         prototype:{
+            KEY:{$desc:"本类名"},
             getType:{
                 $desc:"获取Slider的显示类型. 可以是'vertical'(垂直) 或 'horizontal'(水平) ",
                 $rtn:"String",
@@ -9677,10 +9866,13 @@ _.set(linb.Locale,["cn","app"], {
     });
     
     _.set(linb.Locale,["cn","doc","linb","UI","Range"], {
+        KEY:{$desc:"本类名"},
+        $desc:"linb.UI.Range 类",
         constructor:{
             $desc:"生成一个linb.UI.Range对象."
         },
         prototype:{
+            KEY:{$desc:"本类名"},
             getCaptionTpl :{
                 $desc:"获取标题栏文本模板.",
                 $rtn:"String",
@@ -9829,10 +10021,13 @@ _.set(linb.Locale,["cn","app"], {
     });
     
     _.set(linb.Locale,["cn","doc","linb","UI","List"], {
+        KEY:{$desc:"本类名"},
+        $desc:"linb.UI.List 类",
         constructor:{
             $desc:"生成一个linb.UI.List对象."
         },
         prototype:{
+            KEY:{$desc:"本类名"},
             getShowValue:{
                 $desc:"获取控件的显示值.",
                 $rtn:"String",
@@ -9967,10 +10162,13 @@ _.set(linb.Locale,["cn","app"], {
     });
     
     _.set(linb.Locale,["cn","doc","linb","UI","StatusButtons"], {
+        KEY:{$desc:"本类名"},
+        $desc:"linb.UI.StatusButtons 类",
         constructor:{
             $desc:"生成一个linb.UI.StatusButtons对象."
         },
         prototype:{
+            KEY:{$desc:"本类名"},
             getItemMargin:{
                 $desc:"获取超链接队列的外补丁",
                 $rtn:"Number",
@@ -10014,10 +10212,13 @@ _.set(linb.Locale,["cn","app"], {
     });
     
     _.set(linb.Locale,["cn","doc","linb","UI","Gallery"], {
+        KEY:{$desc:"本类名"},
+        $desc:"linb.UI.Gallery 类",
         constructor:{
             $desc:"生成一个linb.UI.Gallery (画廊)对象."
         },
         prototype:{
+            KEY:{$desc:"本类名"},
             getStatus:{
                 $desc:"获取某个画廊项的状态.",
                 $paras:[
@@ -10180,10 +10381,13 @@ _.set(linb.Locale,["cn","app"], {
     });
     
     _.set(linb.Locale,["cn","doc","linb","UI","IconList"], {
+        KEY:{$desc:"本类名"},
+        $desc:"linb.UI.IconList 类",
         constructor:{
             $desc:"生成linb.UI.IconList 对象."
         },
         prototype:{
+            KEY:{$desc:"本类名"},
             getStatus:{
                 $desc:"获取指定图标项状态.",
                 $paras:[
@@ -10298,10 +10502,13 @@ _.set(linb.Locale,["cn","app"], {
     });
     
     _.set(linb.Locale,["cn","doc","linb","UI","Panel"], {
+        KEY:{$desc:"本类名"},
+        $desc:"linb.UI.Panel 类",
         constructor:{
             $desc:"生辰一个linb.UI.Panel对象."
         },
         prototype:{
+            KEY:{$desc:"本类名"},
             activate:{
                 $desc:"激活这个Panel.",
                 $rtn:"[self]",
@@ -10632,10 +10839,13 @@ _.set(linb.Locale,["cn","app"], {
     });
     
     _.set(linb.Locale,["cn","doc","linb","UI","PageBar"], {
+        KEY:{$desc:"本类名"},
+        $desc:"linb.UI.PageBar 类",
         constructor:{
             $desc:"Creates a linb.UI.PageBar Object."
         },
         prototype:{
+            KEY:{$desc:"本类名"},
             setPage:{
                 $desc:"设置目前页.",
                 $rtn:"[self]",
@@ -10787,10 +10997,13 @@ _.set(linb.Locale,["cn","app"], {
     });
     
     _.set(linb.Locale,["cn","doc","linb","UI","Layout"], {
+        KEY:{$desc:"本类名"},
+        $desc:"linb.UI.Layout 类",
         constructor:{
             $desc:"生成一个linb.UI.Layout对象."
         },
         prototype:{
+            KEY:{$desc:"本类名"},
             append:{
                 $desc:"将一系列的linb.UIProfile添加到布局的内部.",
                 $rtn:"[self]",
@@ -10908,7 +11121,14 @@ _.set(linb.Locale,["cn","app"], {
         }
     });
     
+    _.set(linb.Locale,["en","doc","linb","UI","ColLayout"], {
+        KEY:{$desc:"本类名"},
+        $desc:"linb.UI.ColLayout 类"
+    });
+    
     _.set(linb.Locale,["cn","doc","linb","UI","Tabs"], {
+        KEY:{$desc:"本类名"},
+        $desc:"linb.UI.Tabs 类",
         constructor:{
             $desc:"生成一个linb.UI.Tabs对象."
         },
@@ -10922,6 +11142,7 @@ _.set(linb.Locale,["cn","app"], {
             $memo:"一般情况下，程序员不需要调用该函数. 该函数可能被子类覆盖."
         },
         prototype:{
+            KEY:{$desc:"本类名"},
             append:{
                 $desc:"将一系列linb.UIProfile概要对象添加到标签中.",
                 $rtn:"[self]",
@@ -11252,10 +11473,13 @@ _.set(linb.Locale,["cn","app"], {
     });
     
     _.set(linb.Locale,["cn","doc","linb","UI","Calendar"], {
+        KEY:{$desc:"本类名"},
+        $desc:"linb.UI.Calendar 类",
         constructor:{
             $desc:"生成一个linb.UI.Calendar对象."
         },
         prototype:{
+            KEY:{$desc:"本类名"},
             setWidth:{
                 $desc:"设置控件的宽度。（单位px）.",
                 $rtn:"[self]",
@@ -11284,10 +11508,13 @@ _.set(linb.Locale,["cn","app"], {
     });
     
     _.set(linb.Locale,["cn","doc","linb","UI","ToolBar"], {
+        KEY:{$desc:"本类名"},
+        $desc:"linb.UI.ToolBar 类",
         constructor:{
             $desc:"生成一个linb.UI.ToolBar对象."
         },
         prototype:{
+            KEY:{$desc:"本类名"},
             updateItem:{
                 $desc:"更新一个tool项，并刷新对应的DOM界面.",
                 $rtn:"[self]",
@@ -11402,10 +11629,13 @@ _.set(linb.Locale,["cn","app"], {
     
     
     _.set(linb.Locale,["cn","doc","linb","UI","PopMenu"], {
+        KEY:{$desc:"本类名"},
+        $desc:"linb.UI.PopMenu 类",
         constructor:{
             $desc:"生成一个linb.UI.PopMenu对象."
         },
         prototype:{
+            KEY:{$desc:"本类名"},
             pop:{
                 $desc:"弹出菜单.",
                 $rtn:"[self]",
@@ -11558,10 +11788,13 @@ _.set(linb.Locale,["cn","app"], {
     
     
     _.set(linb.Locale,["cn","doc","linb","UI","MenuBar"], {
+        KEY:{$desc:"本类名"},
+        $desc:"linb.UI.MenuBar 类",
         constructor:{
             $desc:"生成一个linb.UI.MenuBar对象."
         },
         prototype:{
+            KEY:{$desc:"本类名"},
             clearPopCache:{
                 $desc:"清除所有的缓存菜单项."
             },
@@ -11718,6 +11951,8 @@ _.set(linb.Locale,["cn","app"], {
     
     
     _.set(linb.Locale,["cn","doc","linb","UI","Dialog"], {
+        KEY:{$desc:"本类名"},
+        $desc:"linb.UI.Dialog 类",
         constructor:{
             $desc:"生成一个linb.UI.Dialog对象."
         },
@@ -11784,6 +12019,7 @@ _.set(linb.Locale,["cn","app"], {
             ]
         },
         prototype:{
+            KEY:{$desc:"本类名"},
             activate:{
                 $desc:"激活对话框窗口.",
                 $rtn:"[self]",
@@ -12180,10 +12416,13 @@ _.set(linb.Locale,["cn","app"], {
     });
     
     _.set(linb.Locale,["cn","doc","linb","UI","Image"], {
+        KEY:{$desc:"本类名"},
+        $desc:"linb.UI.Image 类",
         constructor:{
             $desc:"生成一个linb.UI.Image对象."
         },
         prototype:{
+            KEY:{$desc:"本类名"},
             getMaxHeight:{
                 $desc:"获取图片的最大高度",
                 $rtn:"Number",
@@ -12355,10 +12594,13 @@ _.set(linb.Locale,["cn","app"], {
     });
     
     _.set(linb.Locale,["cn","doc","linb","UI","FoldingList"], {
+        KEY:{$desc:"本类名"},
+        $desc:"linb.UI.FoldingList 类",
         constructor:{
             $desc:"生成一个linb.UI.FoldingList对象."
         },
         prototype:{
+            KEY:{$desc:"本类名"},
             getCmds:{
                 $desc:"获取指令数组",
                 $rtn:"Array",
@@ -12501,10 +12743,13 @@ _.set(linb.Locale,["cn","app"], {
     
     
     _.set(linb.Locale,["cn","doc","linb","UI","Poll"], {
+        KEY:{$desc:"本类名"},
+        $desc:"linb.UI.Poll 类",
         constructor:{
             $desc:"生成一个投票对象."
         },
         prototype:{
+            KEY:{$desc:"本类名"},
             getCmds:{
                 $desc:"得到命令项",
                 $rtn:"Array",
@@ -12884,10 +13129,13 @@ _.set(linb.Locale,["cn","app"], {
     });
     
     _.set(linb.Locale,["cn","doc","linb","UI","TreeBar"], {
+        KEY:{$desc:"本类名"},
+        $desc:"linb.UI.TreeBar 类",
         constructor:{
             $desc:"生成一个linb.UI.TreeBar对象."
         },
         prototype:{
+            KEY:{$desc:"本类名"},
             fireItemClickEvent:{
                 $desc:"模拟鼠标点击，以选中TreeBar中的某一项.",
                 $rtn:"[self]",
@@ -13184,8 +13432,14 @@ _.set(linb.Locale,["cn","app"], {
             }
         }
     });
+    _.set(linb.Locale,["cn","doc","linb","UI","TreeView"], {
+        KEY:{$desc:"本类名"},
+        $desc:"linb.UI.TreeView 类"
+    });
     
     _.set(linb.Locale,["cn","doc","linb","UI","TreeGrid"], {
+        KEY:{$desc:"本类名"},
+        $desc:"linb.UI.TreeGrid 类",
         constructor:{
             $desc:"生成linb.UI.TreeGrid对象."
         },
@@ -13207,6 +13461,7 @@ _.set(linb.Locale,["cn","app"], {
             ]
         },
         prototype:{
+            KEY:{$desc:"本类名"},
             getActiveMode :{
                 $desc:"获取表格的选取模式.",
                 $rtn:"String, 'cell', 'row' 或 'none'.",
@@ -14448,10 +14703,13 @@ _.set(linb.Locale,["cn","app"], {
     });
     
     _.set(linb.Locale,["cn","doc","linb","UI","TimeLine"], {
+        KEY:{$desc:"本类名"},
+        $desc:"linb.UI.TimeLine 类",
         constructor:{
             $desc:"生成一个linb.UI.TimeLine对象."
         },
         prototype:{
+            KEY:{$desc:"本类名"},
             scrollToLeft:{
                 $desc:"滚动时间线到最左边",
                 $rtn:"Boolean",

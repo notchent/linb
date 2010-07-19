@@ -235,7 +235,7 @@ _.merge(_,{
             fragment = document.createDocumentFragment();
         div.innerHTML = content;
         (function(){
-            var i=step||10;
+            var i=size||10;
             while(--i && div.firstChild)
                 fragment.appendChild(div.firstChild);
             if(div.firstChild)
@@ -557,12 +557,13 @@ _.merge(_,{
             return arr;
         },
         removeDuplicate:function(arr,subKey){
-            var l=arr.length,a=[];
+            var l=arr.length,a=arr.concat();
+            arr.length=0;
             for(var i=l-1;i>=0;i--){
-                if(subKey? this.subIndexOf(arr, subKey, arr[i][subKey])===i: this.indexOf(arr, arr[i])===i)
-                    a.push(arr[i]);
+                if(subKey? this.subIndexOf(a, subKey, a[i][subKey])===i: this.indexOf(a, a[i])===i)
+                    arr.push(a[i]);
             }
-            return a.reverse();
+            return arr.reverse();
         }
     }
 });
@@ -670,8 +671,8 @@ _.merge(Class, {
 
 //function dependency: linb.Dom linb.Thread
 _.merge(linb,{
-    DEFAULTHREF:'javascript:;',
-    IEUNSELECTABLE:' unselectable="on" ',
+    $DEFAULTHREF:'javascript:;',
+    $IEUNSELECTABLE:' unselectable="on" ',
     SERIALIZEMAXLAYER:99,
     SERIALIZEMAXSIZE:9999,
 
@@ -756,7 +757,7 @@ _.merge(linb,{
         s=id;
         r= linb.getRes.apply(null,arguments);
         if(s==r)r=i;
-        return '<span id="'+linb.$localeDomId+'" class="'+s+'" '+linb.IEUNSELECTABLE+'>'+r+'</span>';
+        return '<span id="'+linb.$localeDomId+'" class="'+s+'" '+linb.$IEUNSELECTABLE+'>'+r+'</span>';
     },
     request:function(uri, query, onSuccess, onFail, threadid, options){
         return (
@@ -13558,7 +13559,7 @@ Class("linb.UI",  "linb.absObj", {
             data._style = ';'+a.join(';')+';';
 
             if('readonly' in dm)data.readonly=prop.readonly?"ui-readonly":"";
-            if('href' in dm)data.href = prop.href || linb.DEFAULTHREF;
+            if('href' in dm)data.href = prop.href || linb.$DEFAULTHREF;
             if('tabindex' in dm)data.tabindex = prop.tabindex || '-1';
             if('items' in dm){
                 profile.ItemIdMapSubSerialId = {};
@@ -14267,7 +14268,7 @@ new function(){
                     }
                 },
                 href:{
-                    ini:linb.DEFAULTHREF,
+                    ini:linb.$DEFAULTHREF,
                     action:function(v){
                         this.getRoot().attr('href',v);
                     }
@@ -18405,7 +18406,7 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
                                 _.arr.each(items,function(o){
                                     o=o.split(',');
                                     t=o[0]=='...'?'1':o[0];
-                                    items2.push({id:o[0], caption:'<font size="'+o[0]+'" '+linb.IEUNSELECTABLE+'>'+o[1]+'</font>'});
+                                    items2.push({id:o[0], caption:'<font size="'+o[0]+'" '+linb.$IEUNSELECTABLE+'>'+o[1]+'</font>'});
                                 });
                                 editor.$fontsizeList=(new linb.UI.List({height:'auto',items:items2,width:150})).render(true);
                             }
@@ -18419,7 +18420,7 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
                                 var t;
                                 _.arr.each(items,function(o){
                                     t=o=='...'?'':o;
-                                    items2.push({id:o, caption:'<span style="font-family:'+o+'" '+linb.IEUNSELECTABLE+'>'+o+'</span>'});
+                                    items2.push({id:o, caption:'<span style="font-family:'+o+'" '+linb.$IEUNSELECTABLE+'>'+o+'</span>'});
                                 });
                                 editor.$fontnameList=(new linb.UI.List({height:'auto',items:items2})).render(true);
                             }
@@ -18434,7 +18435,7 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
                                 _.arr.each(items,function(o){
                                     o=o.split(',');
                                     t=o[0]=='...'?'span':o[0];
-                                    items2.push({id:o[0], caption:'<'+t+' style="display:inline;padding:0;margin:0" '+linb.IEUNSELECTABLE+'>'+o[1]+'</'+t+'>'});
+                                    items2.push({id:o[0], caption:'<'+t+' style="display:inline;padding:0;margin:0" '+linb.$IEUNSELECTABLE+'>'+o[1]+'</'+t+'>'});
                                 });
 
                                 editor.$formatblockList=(new linb.UI.List({height:'auto',items:items2})).render(true);
@@ -20111,7 +20112,7 @@ Class("linb.UI.Group", "linb.UI.Div",{
             l=list.length,
             i,data,
             arr=[],
-            evs=linb.IEUNSELECTABLE;
+            evs=linb.$IEUNSELECTABLE;
 
         ns.addTemplateKeys(['TXT', 'DD1', 'DD2', 'DD3','R','G','B','HH','S','V','H','E','X']);
 
@@ -21069,7 +21070,7 @@ Class("linb.UI.Group", "linb.UI.Div",{
             tr1='<tr>',
             tr2='</tr>',
             td1='<th id="'+key+'-W:'+id+':@"  class="'+cls+'-w '+tag+'W_CC'+tag+'"  style="'+tag+'W_CS'+tag+'">@</th>',
-            td2='<td id="'+key+'-TD:'+id+':@" class="'+cls+'-td ! '+tag+'TD_CC'+tag+'"  style="'+tag+'TD_CS'+tag+'" '+linb.IEUNSELECTABLE+' >'+
+            td2='<td id="'+key+'-TD:'+id+':@" class="'+cls+'-td ! '+tag+'TD_CC'+tag+'"  style="'+tag+'TD_CS'+tag+'" '+linb.$IEUNSELECTABLE+' >'+
                 '</td>',
             body,i,j,k,l,a=[],b=[];
         for(i=0;i<7;i++)
@@ -21662,7 +21663,7 @@ Class("linb.UI.Group", "linb.UI.Div",{
             cls=this._excls,
             cls2=this._excls2,
             id=linb.UI.$ID,
-            t='<span id="'+this.KEY+'-MI:'+id+':@" class="'+cls+' !" '+linb.IEUNSELECTABLE+' >@</span>',
+            t='<span id="'+this.KEY+'-MI:'+id+':@" class="'+cls+' !" '+linb.$IEUNSELECTABLE+' >@</span>',
             i,m;
 
         for(i=0;i<60;i++)
@@ -24483,7 +24484,8 @@ Class("linb.UI.Tabs", ["linb.UI", "linb.absList","linb.absValue"],{
         _prepareData:function(profile){
             var data = arguments.callee.upper.call(this, profile);
             data.panels = data.items;
-            data.HAlign = 'text-align:'+data.HAlign+';';
+            if(data.HAlign)
+                data.HAlign = 'text-align:'+data.HAlign+';';
             return data;
         },
         _prepareItem:function(profile, item){

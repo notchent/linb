@@ -2,6 +2,8 @@ Class("VisualJS.EditorTool",null,{
     Static:{
         getDoc:function(key){
             if(!key)return '';
+            if(key.indexOf('(')!=-1)
+                key=key.replace(/[()]/g,'');
             var o = linb.getRes("doc."+key);
             try{
                 if(typeof o == 'string'){

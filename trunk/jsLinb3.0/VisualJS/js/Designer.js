@@ -710,7 +710,7 @@ Class('VisualJS.Designer', 'linb.Com',{
                                 id,profile;
 
                             //for lang span, or inner renderer
-                            while((!esrc.id || esrc.id==linb.LOCALEID) && esrc.parentNode!==document&& esrc.parentNode!==window)
+                            while((!esrc.id || esrc.id==linb.$localeDomId) && esrc.parentNode!==document&& esrc.parentNode!==window)
                                 esrc=esrc.parentNode;
 
                             id=esrc.id;

@@ -12,14 +12,14 @@ Class('App.Upload', 'linb.Com',{
             var host=this, children=[], append=function(child){children.push(child.get(0))};
             
             append((new linb.UI.Block)
-                .host(host,"block1")
+                .setHost(host,"block1")
                 .setWidth(520)
                 .setHeight(80)
                 .setShadow(true)
             );
             
             host.block1.append((new linb.UI.Div)
-                .host(host,"vUpload")
+                .setHost(host,"vUpload")
                 .setLeft(10)
                 .setTop(10)
                 .setWidth(100)
@@ -29,7 +29,7 @@ Class('App.Upload', 'linb.Com',{
             );
             
             host.block1.append((new linb.UI.Div)
-                .host(host,"vFromWeb")
+                .setHost(host,"vFromWeb")
                 .setLeft(10)
                 .setTop(40)
                 .setWidth(100)
@@ -39,7 +39,7 @@ Class('App.Upload', 'linb.Com',{
             );
             
             host.block1.append((new linb.UI.ComboInput)
-                .host(host,"iUploader")
+                .setHost(host,"iUploader")
                 .setLeft(120)
                 .setTop(9)
                 .setWidth(230)
@@ -47,7 +47,7 @@ Class('App.Upload', 'linb.Com',{
             );
             
             host.block1.append((new linb.UI.Input)
-                .host(host,"iWeb")
+                .setHost(host,"iWeb")
                 .setLeft(120)
                 .setTop(40)
                 .setWidth(230)
@@ -55,7 +55,7 @@ Class('App.Upload', 'linb.Com',{
             );
             
             host.block1.append((new linb.UI.Button)
-                .host(host,"btnUp")
+                .setHost(host,"btnUp")
                 .setLeft(358)
                 .setTop(8)
                 .setWidth(142)
@@ -65,7 +65,7 @@ Class('App.Upload', 'linb.Com',{
             );
             
             host.block1.append((new linb.UI.Button)
-                .host(host,"btnWeb")
+                .setHost(host,"btnWeb")
                 .setLeft(358)
                 .setTop(39)
                 .setWidth(142)

@@ -1527,7 +1527,10 @@ var Editor = (function(){
 })();
 
 addEventHandler(window, window.opera?"DOMContentLoaded":"load", function() {
-  var CodeMirror = window.frameElement.CodeMirror;
-  var e = CodeMirror.editor = new Editor(CodeMirror.options);
-  this.parent.setTimeout(method(CodeMirror, "init"), 0);
+  // for opera
+  if(window.frameElement){
+      var CodeMirror = window.frameElement.CodeMirror;
+      var e = CodeMirror.editor = new Editor(CodeMirror.options);
+      this.parent.setTimeout(method(CodeMirror, "init"), 0);
+    }
 });

@@ -235,7 +235,7 @@ _.merge(_,{
             fragment = document.createDocumentFragment();
         div.innerHTML = content;
         (function(){
-            var i=step||10;
+            var i=size||10;
             while(--i && div.firstChild)
                 fragment.appendChild(div.firstChild);
             if(div.firstChild)
@@ -557,12 +557,13 @@ _.merge(_,{
             return arr;
         },
         removeDuplicate:function(arr,subKey){
-            var l=arr.length,a=[];
+            var l=arr.length,a=arr.concat();
+            arr.length=0;
             for(var i=l-1;i>=0;i--){
-                if(subKey? this.subIndexOf(arr, subKey, arr[i][subKey])===i: this.indexOf(arr, arr[i])===i)
-                    a.push(arr[i]);
+                if(subKey? this.subIndexOf(a, subKey, a[i][subKey])===i: this.indexOf(a, a[i])===i)
+                    arr.push(a[i]);
             }
-            return a.reverse();
+            return arr.reverse();
         }
     }
 });
@@ -670,8 +671,8 @@ _.merge(Class, {
 
 //function dependency: linb.Dom linb.Thread
 _.merge(linb,{
-    DEFAULTHREF:'javascript:;',
-    IEUNSELECTABLE:' unselectable="on" ',
+    $DEFAULTHREF:'javascript:;',
+    $IEUNSELECTABLE:' unselectable="on" ',
     SERIALIZEMAXLAYER:99,
     SERIALIZEMAXSIZE:9999,
 
@@ -756,7 +757,7 @@ _.merge(linb,{
         s=id;
         r= linb.getRes.apply(null,arguments);
         if(s==r)r=i;
-        return '<span id="'+linb.$localeDomId+'" class="'+s+'" '+linb.IEUNSELECTABLE+'>'+r+'</span>';
+        return '<span id="'+linb.$localeDomId+'" class="'+s+'" '+linb.$IEUNSELECTABLE+'>'+r+'</span>';
     },
     request:function(uri, query, onSuccess, onFail, threadid, options){
         return (

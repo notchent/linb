@@ -239,11 +239,11 @@ Class("VisualJS.CodeEditor", ["linb.UI.Widget","linb.absValue"] ,{
                     if(linb.browser.opr && prf.$repeatT)
                         prf.$repeatT.abort();
 
-                    if(linb.browser.ie){
-                        win.document.detachEvent("unload",prf._gekfix);
-                    }else{
-                        win.removeEventListener("unload",prf._gekfix,false);
-                    }
+                    //if(linb.browser.ie){
+                    //    win.document.detachEvent("unload",prf._gekfix);
+                    //}else{
+                    //    win.removeEventListener("unload",prf._gekfix,false);
+                    //}
                 }
                 win._prop=undefined;
 
@@ -406,10 +406,10 @@ Class("VisualJS.CodeEditor", ["linb.UI.Widget","linb.absValue"] ,{
                 case ' variables ':{
                     list=[
                     // global
-                        buildItem("linb()",0,0,0,"linb()","linb()",2,"font-weight:bold;color:#ff0000;"),
-                        buildItem("_() ",0,0,0,"_()","_()",2,"font-weight:bold;color:#ff0000;"),
+                        buildItem("_",0,0,0,0,0,2,"font-weight:bold;color:#ff0000;"),
+                        buildItem("_()",0,0,0,"_()","_()",2,"font-weight:bold;color:#ff0000;"),
                         buildItem("linb",0,0,0,0,0,2,"font-weight:bold;color:#ff0000;"),
-                        buildItem("_ ",0,0,0,0,0,2,"font-weight:bold;color:#ff0000;"),
+                        buildItem("linb()",0,0,0,"linb()","linb()",2,"font-weight:bold;color:#ff0000;"),
 
                         buildItem("top",0,0,0,0,0,3,"font-weight:bold;"),
                         buildItem("parent",0,0,0,0,0,3,"font-weight:bold;"),
@@ -2398,7 +2398,6 @@ codeType=='js'?["codemirror/css/jscolors.css"]
                             // for code suggestion
                             if(!(k.key=='1' && k.ctrlKey)){
                                 editor.editor.$keyInput=k.key;
-console.log(k.key);
                             }
     
                             $inputDotChar=(k.type=='keypress' && k.key=='.');
@@ -2592,7 +2591,7 @@ console.log(k.key);
                     }
                     win._prop=undefined;
                     _.asyRun(function(){
-                        if(prop.box)
+                        if(prop.box && linb.Dom.byId(prop.domId))
                             prop.box._reLoadEditor(prop);
                         prop=null;
                     });
@@ -2604,9 +2603,11 @@ console.log(k.key);
                 // for opera
                 if(linb.browser.opr)
                     profile.$repeatT=linb.Thread.repeat(function(){
-                        //unload
-                        if(!profile.$codemirror.win.document.defaultView){
-                            profile.box._reLoadEditor(profile);
+                        if(profile.$codemirror){
+                            //unload
+                            if(!profile.$codemirror.win.document.defaultView){
+                                profile.box._reLoadEditor(profile);
+                            }
                         }
                     }, 200);
                 else

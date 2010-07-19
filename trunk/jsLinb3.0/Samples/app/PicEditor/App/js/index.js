@@ -16,7 +16,7 @@ Class('App', 'linb.Com',{
             var host=this, children=[], append=function(child){children.push(child.get(0))};
 
             append((new linb.UI.Pane)
-                .host(host,"paneTop")
+                .setHost(host,"paneTop")
                 .setDomId("paneTop")
                 .setWidth("auto")
                 .setHeight(36)
@@ -24,7 +24,7 @@ Class('App', 'linb.Com',{
             );
 
             host.paneTop.append((new linb.UI.Pane)
-                .host(host,"paneTopRight")
+                .setHost(host,"paneTopRight")
                 .setDomId("paneTopRight")
                 .setTop(6)
                 .setWidth("auto")
@@ -33,7 +33,7 @@ Class('App', 'linb.Com',{
             );
 
             host.paneTopRight.append((new linb.UI.Link)
-                .host(host,"linkLangEn")
+                .setHost(host,"linkLangEn")
                 .setLeft(15)
                 .setTop(0)
                 .setWidth(66)
@@ -44,7 +44,7 @@ Class('App', 'linb.Com',{
             );
 
             host.paneTopRight.append((new linb.UI.Link)
-                .host(host,"linkLangCn")
+                .setHost(host,"linkLangCn")
                 .setLeft(10)
                 .setTop(0)
                 .setPosition("relative")
@@ -54,7 +54,7 @@ Class('App', 'linb.Com',{
             );
 
             host.paneTop.append((new linb.UI.Div)
-                .host(host,"vLogo")
+                .setHost(host,"vLogo")
                 .setDomId("vLogo")
                 .setLeft(8)
                 .setTop(4)
@@ -63,7 +63,7 @@ Class('App', 'linb.Com',{
             );
 
             host.paneTop.append((new linb.UI.Pane)
-                .host(host,"panelTopLeft")
+                .setHost(host,"panelTopLeft")
                 .setDomId("panelTopLeft")
                 .setLeft(50)
                 .setTop(10)
@@ -73,7 +73,7 @@ Class('App', 'linb.Com',{
             );
 
             append((new linb.UI.Pane)
-                .host(host,"paneMain")
+                .setHost(host,"paneMain")
                 .setDomId("paneMain")
                 .setWidth("auto")
                 .setHeight("auto")
@@ -82,7 +82,7 @@ Class('App', 'linb.Com',{
             );
 
             host.paneMain.append((new linb.UI.Tabs)
-                .host(host,"tabsCmds")
+                .setHost(host,"tabsCmds")
                 .setDomId("tabsCmds")
                 .setItems([{"id":"basic", "caption":"$app.tasks.basic", "tips":"$app.tasks.basicTips"}, {"id":"crop", "caption":"$app.tasks.crop", "tips":"$app.tasks.cropTips"}, {"id":"frm", "caption":"$app.tasks.frm", "tips":"$app.tasks.frmTips"}, {"id":"frm2", "caption":"$app.tasks.frm2", "tips":"$app.tasks.frm2Tips"}, {"id":"text", "caption":"$app.tasks.text", "tips":"$app.tasks.textTips"}, {"id":"resize", "caption":"$app.tasks.resize", "tips":"$app.tasks.resizeTips"}])
                 .setDock("none")
@@ -95,7 +95,7 @@ Class('App', 'linb.Com',{
             );
 
             host.tabsCmds.append((new linb.UI.Button)
-                .host(host,"btnRot")
+                .setHost(host,"btnRot")
                 .setLeft(661)
                 .setTop(6)
                 .setWidth(110)
@@ -104,7 +104,7 @@ Class('App', 'linb.Com',{
             , 'basic');
 
             host.tabsCmds.append((new linb.UI.Button)
-                .host(host,"btnMir")
+                .setHost(host,"btnMir")
                 .setLeft(781)
                 .setTop(6)
                 .setWidth(110)
@@ -113,7 +113,7 @@ Class('App', 'linb.Com',{
             , 'basic');
 
             host.tabsCmds.append((new linb.UI.Button)
-                .host(host,"btnOne")
+                .setHost(host,"btnOne")
                 .setLeft(661)
                 .setTop(36)
                 .setWidth(110)
@@ -122,7 +122,7 @@ Class('App', 'linb.Com',{
             , 'basic');
 
             host.tabsCmds.append((new linb.UI.Button)
-                .host(host,"btnFilter")
+                .setHost(host,"btnFilter")
                 .setLeft(781)
                 .setTop(36)
                 .setWidth(110)
@@ -131,7 +131,7 @@ Class('App', 'linb.Com',{
             , 'basic');
 
             host.tabsCmds.append((new linb.UI.Button)
-                .host(host,"btnApply")
+                .setHost(host,"btnApply")
                 .setLeft(11)
                 .setTop(36)
                 .setCaption("$app.caption.applyCrop")
@@ -139,7 +139,7 @@ Class('App', 'linb.Com',{
             , 'crop');
 
             host.tabsCmds.append((new linb.UI.Button)
-                .host(host,"btnResizeApply")
+                .setHost(host,"btnResizeApply")
                 .setLeft(10)
                 .setTop(36)
                 .setCaption("$app.caption.applyResize")
@@ -147,7 +147,7 @@ Class('App', 'linb.Com',{
             , 'resize');
 
             host.tabsCmds.append((new linb.UI.Div)
-                .host(host,"vFont")
+                .setHost(host,"vFont")
                 .setLeft(351)
                 .setTop(21)
                 .setHeight(20)
@@ -156,7 +156,7 @@ Class('App', 'linb.Com',{
             , 'text');
 
             host.tabsCmds.append((new linb.UI.Div)
-                .host(host,"vFontSize")
+                .setHost(host,"vFontSize")
                 .setLeft(141)
                 .setTop(8)
                 .setWidth(80)
@@ -166,7 +166,7 @@ Class('App', 'linb.Com',{
             , 'text');
 
             host.tabsCmds.append((new linb.UI.Div)
-                .host(host,"vFontColor")
+                .setHost(host,"vFontColor")
                 .setLeft(121)
                 .setTop(41)
                 .setHeight(20)
@@ -175,7 +175,7 @@ Class('App', 'linb.Com',{
             , 'text');
 
             host.tabsCmds.append((new linb.UI.Button)
-                .host(host,"btnAddText")
+                .setHost(host,"btnAddText")
                 .setLeft(11)
                 .setTop(34)
                 .setWidth(100)
@@ -184,7 +184,7 @@ Class('App', 'linb.Com',{
             , 'text');
 
             host.tabsCmds.append((new linb.UI.ComboInput)
-                .host(host,"ciFontSize")
+                .setHost(host,"ciFontSize")
                 .setLeft(231)
                 .setTop(7)
                 .setWidth(101)
@@ -195,7 +195,7 @@ Class('App', 'linb.Com',{
             , 'text');
 
             host.tabsCmds.append((new linb.UI.ComboInput)
-                .host(host,"ciFontColor")
+                .setHost(host,"ciFontColor")
                 .setLeft(231)
                 .setTop(40)
                 .setWidth(101)
@@ -206,7 +206,7 @@ Class('App', 'linb.Com',{
             , 'text');
 
             host.tabsCmds.append((new linb.UI.Range)
-                .host(host,"rangeCon")
+                .setHost(host,"rangeCon")
                 .setLeft(10)
                 .setTop(11)
                 .setZIndex("10")
@@ -217,7 +217,7 @@ Class('App', 'linb.Com',{
             , 'basic');
 
             host.tabsCmds.append((new linb.UI.Range)
-                .host(host,"rangeBri")
+                .setHost(host,"rangeBri")
                 .setLeft(331)
                 .setTop(11)
                 .setZIndex("10")
@@ -228,7 +228,7 @@ Class('App', 'linb.Com',{
             , 'basic');
 
             host.tabsCmds.append((new linb.UI.Div)
-                .host(host,"div39")
+                .setHost(host,"div39")
                 .setLeft(21)
                 .setTop(3)
                 .setWidth(180)
@@ -237,7 +237,7 @@ Class('App', 'linb.Com',{
             , 'basic');
 
             host.tabsCmds.append((new linb.UI.Div)
-                .host(host,"div40")
+                .setHost(host,"div40")
                 .setLeft(347)
                 .setTop(3)
                 .setWidth(180)
@@ -246,7 +246,7 @@ Class('App', 'linb.Com',{
             , 'basic');
 
             host.tabsCmds.append((new linb.UI.Button)
-                .host(host,"button12")
+                .setHost(host,"button12")
                 .setLeft(21)
                 .setTop(36)
                 .setZIndex("10")
@@ -255,7 +255,7 @@ Class('App', 'linb.Com',{
             , 'frm2');
 
             host.tabsCmds.append((new linb.UI.Button)
-                .host(host,"button25")
+                .setHost(host,"button25")
                 .setLeft(171)
                 .setTop(38)
                 .setZIndex("10")
@@ -264,7 +264,7 @@ Class('App', 'linb.Com',{
             , 'frm');
 
             host.tabsCmds.append((new linb.UI.Div)
-                .host(host,"div46")
+                .setHost(host,"div46")
                 .setLeft(11)
                 .setTop(43)
                 .setWidth(80)
@@ -275,7 +275,7 @@ Class('App', 'linb.Com',{
             , 'frm');
 
             host.tabsCmds.append((new linb.UI.ComboInput)
-                .host(host,"iBGFrm")
+                .setHost(host,"iBGFrm")
                 .setDomId("iBGFrm")
                 .setLeft(97)
                 .setTop(43)
@@ -287,7 +287,7 @@ Class('App', 'linb.Com',{
             , 'frm');
 
             host.tabsCmds.append((new linb.UI.Div)
-                .host(host,"divFont")
+                .setHost(host,"divFont")
                 .setLeft(455)
                 .setTop(10)
                 .setWidth("auto")
@@ -296,7 +296,7 @@ Class('App', 'linb.Com',{
             , 'text');
 
             host.paneMain.append((new linb.UI.Pane)
-                .host(host,"paneInfo")
+                .setHost(host,"paneInfo")
                 .setDomId("paneInfo")
                 .setWidth("auto")
                 .setHeight("40")
@@ -304,7 +304,7 @@ Class('App', 'linb.Com',{
             );
 
             host.paneInfo.append((new linb.UI.Div)
-                .host(host,"vInfo")
+                .setHost(host,"vInfo")
                 .setDomId("vInfo")
                 .setLeft(12)
                 .setWidth("auto")
@@ -313,7 +313,7 @@ Class('App', 'linb.Com',{
             );
 
             host.paneInfo.append((new linb.UI.Div)
-                .host(host,"vInfo2")
+                .setHost(host,"vInfo2")
                 .setDomId("vInfo2")
                 .setLeft(12)
                 .setWidth("auto")
@@ -322,7 +322,7 @@ Class('App', 'linb.Com',{
             );
 
             host.paneMain.append((new linb.UI.Pane)
-                .host(host,"panePic")
+                .setHost(host,"panePic")
                 .setDomId("panePic")
                 .setWidth("auto")
                 .setHeight("auto")
@@ -330,7 +330,7 @@ Class('App', 'linb.Com',{
             );
 
             host.panePic.append((new linb.UI.Pane)
-                .host(host,"paneImageBorder")
+                .setHost(host,"paneImageBorder")
                 .setDomId("paneImageBorder")
                 .setWidth("auto")
                 .setHeight("auto")
@@ -338,7 +338,7 @@ Class('App', 'linb.Com',{
             );
 
             host.paneImageBorder.append((new linb.UI.Image)
-                .host(host,"imgBig")
+                .setHost(host,"imgBig")
                 .setDomId("imgBig")
                 .setPosition("relative")
                 .onError("_imgbig_onerror")
@@ -347,7 +347,7 @@ Class('App', 'linb.Com',{
             );
 
             host.paneMain.append((new linb.UI.Pane)
-                .host(host,"paneBottom")
+                .setHost(host,"paneBottom")
                 .setDomId("paneBottom")
                 .setWidth("auto")
                 .setHeight("auto")
@@ -355,7 +355,7 @@ Class('App', 'linb.Com',{
             );
 
             append((new linb.UI.Dialog)
-                .host(host,"dlgHistory")
+                .setHost(host,"dlgHistory")
                 .setDomId("dlgHistory")
                 .setTop(132)
                 .setWidth(200)
@@ -368,7 +368,7 @@ Class('App', 'linb.Com',{
             );
 
             host.dlgHistory.append((new linb.UI.IconList)
-                .host(host,"ilHistory")
+                .setHost(host,"ilHistory")
                 .setDomId("ilHistory")
                 .setDock("fill")
                 .setItemWidth(32)
@@ -377,7 +377,7 @@ Class('App', 'linb.Com',{
             );
 
             append((new linb.UI.Pane)
-                .host(host,"paneDemo")
+                .setHost(host,"paneDemo")
                 .setDomId("paneDemo")
                 .setLeft(4)
                 .setTop(155)
@@ -386,13 +386,13 @@ Class('App', 'linb.Com',{
             );
 
             host.paneDemo.append((new linb.UI.Stacks)
-                .host(host,"stack")
+                .setHost(host,"stack")
                 .setItems([{"id":"files", "caption":"$app.caption.upload_short"}, {"id":"demos", "caption":"$app.caption.demos_short"}])
                 .setValue("demos")
             );
 
             host.stack.append((new linb.UI.IconList)
-                .host(host,"ilDemo")
+                .setHost(host,"ilDemo")
                 .setDock("fill")
                 .setSelMode("none")
                 .setItemWidth(50)
@@ -401,7 +401,7 @@ Class('App', 'linb.Com',{
             , 'demos');
 
             host.stack.append((new linb.UI.IconList)
-                .host(host,"ilPhoto")
+                .setHost(host,"ilPhoto")
                 .setDock("fill")
                 .setSelMode("none")
                 .setItemWidth(50)
@@ -410,7 +410,7 @@ Class('App', 'linb.Com',{
             , 'files');
 
             append((new linb.UI.Button)
-                .host(host,"btnUpload")
+                .setHost(host,"btnUpload")
                 .setLeft(7)
                 .setTop(70)
                 .setWidth(85)
@@ -421,7 +421,7 @@ Class('App', 'linb.Com',{
             );
 
             append((new linb.UI.Button)
-                .host(host,"btnSave")
+                .setHost(host,"btnSave")
                 .setDomId("btnSave")
                 .setLeft(7)
                 .setTop(116)
@@ -433,7 +433,7 @@ Class('App', 'linb.Com',{
             );
 
             append((new linb.UI.ComboInput)
-                .host(host,"iBGC")
+                .setHost(host,"iBGC")
                 .setDomId("iBGC")
                 .setLeft(4)
                 .setTop(40)

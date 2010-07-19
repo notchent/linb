@@ -850,7 +850,8 @@ Class("linb.UI.Tabs", ["linb.UI", "linb.absList","linb.absValue"],{
         _prepareData:function(profile){
             var data = arguments.callee.upper.call(this, profile);
             data.panels = data.items;
-            data.HAlign = 'text-align:'+data.HAlign+';';
+            if(data.HAlign)
+                data.HAlign = 'text-align:'+data.HAlign+';';
             return data;
         },
         _prepareItem:function(profile, item){
