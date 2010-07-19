@@ -1167,10 +1167,12 @@ Class("linb.UI",  "linb.absObj", {
             });
             return rtnString===false?a:a.length==1?" new "+a[0].key+"("+_.serialize(a[0])+")":"linb.UI.unserialize("+_.serialize(a)+")";
         },
-        getProperties:function(all){
-            var h={},pro=this.get(0),prop=pro.properties,funName;
-            if(all)
+        getProperties:function(key){
+            var h={},prf=this.get(0),prop=prf.properties,funName;
+            if(key===true)
                 return _.copy(prop);
+            else if(typeof key=='string')
+                return prop[key];
             else{
                 for(var k in prop){
                     funName="get"+_.str.initial(k);
@@ -1193,6 +1195,9 @@ Class("linb.UI",  "linb.absObj", {
                         ins[funName].call(ins, v);
                 });
             });
+        },
+        getEvents:function(key){
+            return this.get(0).getEvents(key);
         },
         setEvents:function(key, value){
             if(typeof key=="string"){
@@ -4514,10 +4519,9 @@ Class("linb.absList", "linb.absObj",{
                 return v;
         },
         fireItemClickEvent:function(subId){
-            this.getSubNodeByItemId('ITEM', subId).onClick();
+            this.getSubNodeByItemId(this.constructor._focusNodeKey, subId).onClick();
             return this;
         }
-
     },
     Initialize:function(){
         var o=this.prototype;
@@ -4530,6 +4534,7 @@ Class("linb.absList", "linb.absObj",{
         });
     },
     Static:{
+        _focusNodeKey:'ITEM',
         $abstract:true,
         DataModel:{
             listKey:{

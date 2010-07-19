@@ -169,17 +169,13 @@
                     });
                 }
             });
-        },
-        fireItemClickEvent:function(subId){
-            this.getSubNodeByItemId(this.constructor.FOCUSNODE, subId).onClick();
-            return this;
         }
     },
     Initialize:function(){
         this.addTemplateKeys(['DISABLED']);
     },
     Static:{
-        FOCUSNODE:'BAR',
+        _focusNodeKey:'BAR',
         Templates:{
             tagName : 'div',
             style:'{_style}',
@@ -442,7 +438,7 @@
                 return false;
             }
     
-            profile.getSubNode(profile.box.FOCUSNODE, itemId).focus();
+            profile.getSubNode(profile.box._focusNodeKey, itemId).focus();
     
             switch(properties.selMode){
             case 'none':

@@ -17,7 +17,7 @@ Class("linb.UI.TreeView","linb.UI.TreeBar",{
         this.setTemplate(t);
     },
     Static:{
-        FOCUSNODE:'ITEMCAPTION',
+        _focusNodeKey:'ITEMCAPTION',
         Appearances:{
             BAR:{
                zoom:linb.browser.ie?1:null,

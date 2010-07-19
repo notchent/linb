@@ -10503,10 +10503,12 @@ Class("linb.UI",  "linb.absObj", {
             });
             return rtnString===false?a:a.length==1?" new "+a[0].key+"("+_.serialize(a[0])+")":"linb.UI.unserialize("+_.serialize(a)+")";
         },
-        getProperties:function(all){
-            var h={},pro=this.get(0),prop=pro.properties,funName;
-            if(all)
+        getProperties:function(key){
+            var h={},prf=this.get(0),prop=prf.properties,funName;
+            if(key===true)
                 return _.copy(prop);
+            else if(typeof key=='string')
+                return prop[key];
             else{
                 for(var k in prop){
                     funName="get"+_.str.initial(k);
@@ -10529,6 +10531,9 @@ Class("linb.UI",  "linb.absObj", {
                         ins[funName].call(ins, v);
                 });
             });
+        },
+        getEvents:function(key){
+            return this.get(0).getEvents(key);
         },
         setEvents:function(key, value){
             if(typeof key=="string"){
@@ -13850,10 +13855,9 @@ Class("linb.absList", "linb.absObj",{
                 return v;
         },
         fireItemClickEvent:function(subId){
-            this.getSubNodeByItemId('ITEM', subId).onClick();
+            this.getSubNodeByItemId(this.constructor._focusNodeKey, subId).onClick();
             return this;
         }
-
     },
     Initialize:function(){
         var o=this.prototype;
@@ -13866,6 +13870,7 @@ Class("linb.absList", "linb.absObj",{
         });
     },
     Static:{
+        _focusNodeKey:'ITEM',
         $abstract:true,
         DataModel:{
             listKey:{
@@ -25362,17 +25367,13 @@ Class("linb.UI.StatusButtons", ["linb.UI.List"],{
                     });
                 }
             });
-        },
-        fireItemClickEvent:function(subId){
-            this.getSubNodeByItemId(this.constructor.FOCUSNODE, subId).onClick();
-            return this;
         }
     },
     Initialize:function(){
         this.addTemplateKeys(['DISABLED']);
     },
     Static:{
-        FOCUSNODE:'BAR',
+        _focusNodeKey:'BAR',
         Templates:{
             tagName : 'div',
             style:'{_style}',
@@ -25635,7 +25636,7 @@ Class("linb.UI.StatusButtons", ["linb.UI.List"],{
                 return false;
             }
     
-            profile.getSubNode(profile.box.FOCUSNODE, itemId).focus();
+            profile.getSubNode(profile.box._focusNodeKey, itemId).focus();
     
             switch(properties.selMode){
             case 'none':
@@ -25966,7 +25967,7 @@ Class("linb.UI.TreeView","linb.UI.TreeBar",{
         this.setTemplate(t);
     },
     Static:{
-        FOCUSNODE:'ITEMCAPTION',
+        _focusNodeKey:'ITEMCAPTION',
         Appearances:{
             BAR:{
                zoom:linb.browser.ie?1:null,
@@ -27547,13 +27548,10 @@ Class("linb.UI.ToolBar",["linb.UI","linb.absList"],{
                 if(profile.renderId && profile.getRootNode().offsetWidth)
                     linb.UI.$dock(profile,true,true);
             });
-        },
-        fireItemClickEvent:function(subId){
-            this.getSubNodeByItemId('BTN', subId).onClick();
-            return this;
         }
     },
     Static:{
+        _focusNodeKey:'BTN',
         _ITEMKEY:'GROUP',
         Templates:{
             tagName:'div',

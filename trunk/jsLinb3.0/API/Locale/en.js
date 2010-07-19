@@ -3903,10 +3903,7 @@ _.set(linb.Locale,["en","app"], {
             },
             getEvents:{
                 $desc:"Collects all the event(or a specified event) functions in the current profile, and returns it.",
-                $rtn:"Object",
-                $snippet:[
-                    "var p=linb.UIProfile.getFromDom('btnLang'); p.setEvents({onA:_.fun(), onShowTips:function(){return false}}); alert(_.serialize(p.getEvents()))"
-                ]
+                $rtn:"Object"
             },
             setEvents:{
                 $desc:"Sets a set of event functions(or a specified event fucntion with a key ) to the current profile.",
@@ -3914,9 +3911,6 @@ _.set(linb.Locale,["en","app"], {
                 $paras:[
                     "key [Required] : Object/String, A set of Properties or key.",
                     "value [Optional] : Object, a property value."
-                ],
-                $snippet:[
-                    "var p=linb.UIProfile.getFromDom('btnLang'); p.setEvents({onA:_.fun(), onShowTips:function(){return false}}); alert(_.serialize(p.getEvents()))"
                 ]
             },
             boxing:{
@@ -5486,7 +5480,7 @@ _.set(linb.Locale,["en","app"], {
             },
     
             updateValue:{
-                $desc:"Copies the 'UI value' to 'value' on the first UIProfile",
+                $desc:"Copies the 'UI value' to 'value'",
                 $rtn:"[self]",
                 $snippet:[
                     "var id='linb.temp.absv82'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -6234,6 +6228,39 @@ _.set(linb.Locale,["en","app"], {
                 $rtn:"[self]",
                 $paras:[
                     "key [Optional] : String, the theme key."
+                ]
+            },
+            getProperties:{
+                $desc:"Gets all Properties or a specified Properties from the first UIProfile.",
+                $rtn:"Object",
+                $paras:[
+                    "key [Optional] : String"
+                ]
+            },
+            setProperties:{
+                $desc:"Sets a set of Properties(or a specified Property with a key) to all inner UIProfiles.",
+                $rtn:"[self]",
+                $paras:[
+                    "key [Required] : Object/String, A set of event or key.",
+                    "value [Optional] : Object, a property value."
+                ]
+            },
+            getEvents:{
+                $desc:"Collects all the event(or a specified event) functions from the first UIProfile, and returns it.",
+                $rtn:"Object",
+                $snippet:[
+                    "var p=linb.UIProfile.getFromDom('btnLang'); p.setEvents({onA:_.fun(), onShowTips:function(){return false}}); alert(_.serialize(p.getEvents()))"
+                ]
+            },
+            setEvents:{
+                $desc:"Sets a set of event functions(or a specified event fucntion with a key ) to all inner UIProfiles.",
+                $rtn:"[self]",
+                $paras:[
+                    "key [Required] : Object/String, A set of Properties or key.",
+                    "value [Optional] : Object, a property value."
+                ],
+                $snippet:[
+                    "var p=linb.UIProfile.getFromDom('btnLang'); p.setEvents({onA:_.fun(), onShowTips:function(){return false}}); alert(_.serialize(p.getEvents()))"
                 ]
             },
             busy:{
@@ -8235,6 +8262,21 @@ _.set(linb.Locale,["en","app"], {
         },
         prototype:{
             KEY:{$desc:"Class Name"},
+            resetValue:{
+                $desc:"To reset value, UI value and Control value, no event will be triggered in this process.",
+                $rtn:'[self]',
+                $paras:[
+                    "value [Optional] : Boolean, the reset value. Default to false."
+                ]
+            },
+            setUIValue:{
+                $desc:"Sets the 'UI value' and the 'Control value' on the first UIProfile",
+                $rtn:"[self]",
+                $paras:[
+                    "value [Required] : Boolean.",
+                    "force [Optional] : Boolean, Force to execute the function even if the same UI value already exists. Default to [false]."
+                ]
+            },
             activate:{
                 $desc:"Activates this button.",
                 $rtn:"[self]",
@@ -8851,6 +8893,13 @@ _.set(linb.Locale,["en","app"], {
         },
         prototype:{
             KEY:{$desc:"Class Name"},
+            resetPanelView:{
+                $desc:"Resets the group's panel view -- removes all children and fold it.",
+                $rtn:"[self]",
+                $paras:[
+                    "destroyChildren [Optional] : Boolean, determines whether children will be destroyed or not."
+                ]
+            },
             activate:{
                 $desc:"Activates the current UI Object.",
                 $rtn:"[self]",
@@ -9394,8 +9443,17 @@ _.set(linb.Locale,["en","app"], {
                     "}"
                 ]
             },
+            onClick:{
+                $desc:"Fired when the control's pop button is clicked. (Only for 'popbox' or 'getter' type).",
+                $paras:[
+                    "profile : linb.UIProfile.",
+                    "e: Event, DOM event Object.",
+                    "src : String, the event source DOM element's linbid."
+                    "value: String, control's UI value."
+                ]
+            }
             onCommand:{
-                $desc:"Fired when the save button is clicked.",
+                $desc:"Fired when the command button is clicked.",
                 $paras:[
                     "profile : linb.UIProfile.",
                     "src : String, the event source DOM element's linbid."
@@ -10571,6 +10629,13 @@ _.set(linb.Locale,["en","app"], {
         },
         prototype:{
             KEY:{$desc:"Class Name"},
+            resetPanelView:{
+                $desc:"Resets the group's panel view -- removes all children and fold it.",
+                $rtn:"[self]",
+                $paras:[
+                    "destroyChildren [Optional] : Boolean, determines whether children will be destroyed or not."
+                ]
+            },
             activate:{
                 $desc:"Activates Panel.",
                 $rtn:"[self]",
@@ -11296,6 +11361,18 @@ _.set(linb.Locale,["en","app"], {
                     "}"
                 ]
             },
+            getLazyAppend:{
+                $desc:"Gets the 'lazy append' property value on the first UIProfile",
+                $rtn:"Boolean"
+            },
+            setLayAppend :{
+                $desc:"Sets the 'lazy append' value on the each UIProfile.",
+                $rtn:"[self]",
+                $paras:[
+                    "value [Required] : Boolean.",
+                    "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default to [false]."
+                ]
+            },
             getNoPanel :{
                 $desc:"Gets the NoPanel property value on the first UIProfile",
                 $rtn:"Boolean",
@@ -11543,6 +11620,30 @@ _.set(linb.Locale,["en","app"], {
         },
         prototype:{
             KEY:{$desc:"Class Name"},
+        setDayInfo:{
+                $desc:"Sets html text to specified Node of a certain day.",
+                $rtn:"[self]",
+                $paras:[
+                 "key [Required] : String, UI template Key.",
+                 "index [Required] : Number, 0-41, day index.",
+                 "value [Required] : String, html text."
+                ]
+            },
+            clearContents:{
+                $desc:"Clears a certain day's content.",
+                $rtn:"[self]",
+                $paras:[
+                 "index [Required] : Number, 0-41, day index."
+                ]
+            },
+            addContents:{
+                $desc:"Appends Dom/UI control to the certain day's content Noded.",
+                $rtn:"[self]",
+                $paras:[
+                 "index [Required] : Number, 0-41, day index."
+                 "node [Required] : linb.absBox, linb.Dom/linb.UI object."
+                ]
+            },
             setWidth:{
                 $desc:"Sets the width(corresponding to the CSS value of the root DOM element) property value on the each UIProfile, and reflects the value to UI.",
                 $rtn:"[self]",
@@ -11698,6 +11799,10 @@ _.set(linb.Locale,["en","app"], {
         },
         prototype:{
             KEY:{$desc:"Class Name"},
+            adjustSize:{
+                $desc:"To adjust pop menu width automatically.",
+                $rtn:"[self]"
+            },
             pop:{
                 $desc:"Pops this menu.",
                 $rtn:"[self]",
@@ -15421,6 +15526,14 @@ _.set(linb.Locale,["en","app"], {
                     "task: Object, task Object.",
                     "from : Date, the 'from' time.",
                     "to: Date, the 'to' time."
+                ]
+            },
+            onStartDateChanged:{
+                $desc:"Fired when start date is updated.",
+                $paras:[
+                    "profile : linb.UIProfile.",
+                    "odate: Date, the old date.",
+                    "date : Date, the new date."
                 ]
             }
         }
