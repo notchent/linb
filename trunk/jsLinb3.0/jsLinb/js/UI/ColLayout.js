@@ -84,6 +84,7 @@ Class("linb.UI.ColLayout",["linb.UI","linb.absList"],{
         Templates:{
             tagName:'div',
             style:'{_style}',
+            className:'{_className}',
             ITEMS:{
                $order:10,
                tagName:'div',

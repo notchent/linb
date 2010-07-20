@@ -72,7 +72,7 @@ _.set(linb.Locale,["cn","app"], {
             $desc:"工具方法的集合。<br />当做函数用是得到本地的时间戳.",
             $rtn:"Number",
             $snippet:["alert(_()); linb.message(_())"],
-    
+
             arr:{
                 $desc:"数组的功能函数集合.",
                 each:{
@@ -730,9 +730,9 @@ _.set(linb.Locale,["cn","app"], {
             }
          }
     });
-     
+
      var $me=linb.Locale.cn.doc;
-     
+
     _.set(linb.Locale,["cn","doc","linb"], {
         $desc:"linb的根部命名空间。<br />当做函数用是将一系列的DOM元素包装成linb.Dom对象的快捷函数.",
         $rtn:"linb.Dom",
@@ -845,7 +845,7 @@ _.set(linb.Locale,["cn","app"], {
             $desc:"linb([document])的快捷访问.",
             $rtn:"linb.Dom"
         },
-    
+
         create:{
             $desc:"生成一个DOM element 或 linb.UI 对象.",
             $rtn:"linb.Dom/linb.UI",
@@ -890,7 +890,7 @@ _.set(linb.Locale,["cn","app"], {
                 "alert(linb.getRes('doc.Namespace.$desc')); alert(linb.Locale[linb.getLang()].doc.Namespace.$desc); ",
                 "alert(linb.getRes('color.LIST.E1FFFF')); alert(linb.Locale[linb.getLang()].color.LIST.E1FFFF); ",
                 "//如果不存在，返回最后一个关键字 \n alert(linb.getRes('doesnt.exist'))"
-    
+
             ],
             $memo:"所有的资源字符串都位于 [linb.Locale] <br \> [<a href='#linb.setLang'>linb.setLang</a>], [<a href='#linb.getRes'>linb.getRes</a>/<a href='#linb.wrapRes'>linb.wrapRes</a>] 通常一起使用."
         },
@@ -1073,12 +1073,12 @@ _.set(linb.Locale,["cn","app"], {
                 "alert(linb.wrapRes('doc.Namespace.$desc')); alert(linb.Locale[linb.getLang()].doc.Namespace.$desc); ",
                 "alert(linb.wrapRes('color.LIST.E1FFFF')); alert(linb.Locale[linb.getLang()].color.LIST.E1FFFF); ",
                 "//如果不存在，返回最后一个关键字\n alert(linb.wrapRes('doesnt.exist'))"
-    
+
             ],
             $memo:"所有的资源字符串都位于 [linb.Locale]. <br \> [<a href='#linb.setLang'>linb.setLang</a>], [<a href='#linb.getRes'>linb.getRes</a>/<a href='#linb.wrapRes'>linb.wrapRes</a>] 通常一起使用."
         }
     });
-    
+
     _.set(linb.Locale,["cn","doc","linb","Thread"], {
         KEY:{$desc:"本类名"},
         $desc:"linb.Thread类。用函数调用的方式（不要使用 new linb.Thread ）来创造linb.Thread<br />函数调用：直接获取或生成一个异步线程对象. <br /> linb.Thread 的运行模式: <strong>[onStart function]--delay 1-->[task function 1][回调函数 1]--delay 2-->[task function 2][回调函数 2]--delay 3-->[task function ...n][回调函数 ...n][onEnd function]</strong>",
@@ -1302,7 +1302,7 @@ _.set(linb.Locale,["cn","app"], {
             }
         }
     });
-    
+
     _.set(linb.Locale,["cn","doc","linb","absIO"], {
         /*buildQS:{
             $desc:"To build query string.",
@@ -1367,7 +1367,7 @@ _.set(linb.Locale,["cn","app"], {
             }
         }
     });
-    
+
     _.set(linb.Locale,["cn","doc","linb","XML"], {
         KEY:{$desc:"本类名"},
         $desc:"linb.XML 类(静态类)",
@@ -1396,7 +1396,7 @@ _.set(linb.Locale,["cn","app"], {
             $snippet:["alert(_.serialize(linb.XML.xml2json(linb.XML.parseXML('<a attr=\"1\"><b>v</b></a>'))))"]
         }
     });
-    
+
     _.set(linb.Locale,["cn","doc","linb","Ajax"], {
         KEY:{$desc:"本类名"},
         $desc:"linb.Ajax类。用函数调用的方式（不要使用 new linb.Ajax ）来创造linb.Ajax对象。<br />函数调用：生成一个linb.Ajax对象. <strong>linb.Ajax对象可以处理当前域的GET/POST请求; linb.Ajax 也是唯一一个能够处理同步请求的Ajax类.</strong>",
@@ -1501,7 +1501,7 @@ _.set(linb.Locale,["cn","app"], {
             }
         }
     });
-    
+
     _.set(linb.Locale,["cn","doc","linb","SAjax"], {
         KEY:{$desc:"本类名"},
         $desc:"linb.SAjax类。用函数调用的方式（不要使用 new linb.SAjax ）来创造linb.SAjax对象。<br />函数调用：生成一个 linb.SAjax 对象. <strong>linb.SAjax 用来处理跨域的 GET 数据请求.</strong>.",
@@ -1586,7 +1586,7 @@ _.set(linb.Locale,["cn","app"], {
             $desc:"Number, 默认的类型关键字. <strong>服务器需要在返回的内容中用相同的关键字.</strong>",
             $snippet:["alert(linb.SAjax.type)"]
         },
-    
+
         customQS: {
             $desc:"自定义的请求字符串. 子类可覆盖该函数，以添加自定义的参数等等.",
             $rtn:"Object",
@@ -1594,7 +1594,7 @@ _.set(linb.Locale,["cn","app"], {
                 "obj [必需参数]: Object, original Object."
             ]
         },
-    
+
         prototype:{
             KEY:{$desc:"本类名"},
             start:{
@@ -1606,7 +1606,7 @@ _.set(linb.Locale,["cn","app"], {
             }
         }
     });
-    
+
     _.set(linb.Locale,["cn","doc","linb","IAjax"], {
         KEY:{$desc:"本类名"},
         $desc:"linb.IAjax类。用函数调用的方式（不要使用 new linb.IAjax ）来创造linb.IAjax对象。<br />函数调用：生成一个linb.IAjax对象. <strong>linb.IAjax 可以处理跨域的GET/POST请求, 而且可以向服务器提交文件(上传内容).</strong>",
@@ -1664,7 +1664,7 @@ _.set(linb.Locale,["cn","app"], {
              "   },{method:'GET'}]);*/"
         ],
         $memo:"程序员只能使用linb.IAjax向跨域的服务器post数据, 或上传upload文件等等.",
-    
+
         callback:{
             $desc:"String, 默认的回调函数名关键字. <strong>服务器需要在返回的内容中用相同的关键字.</strong>",
             $snippet:["alert(linb.IAjax.callback)"]
@@ -1701,7 +1701,7 @@ _.set(linb.Locale,["cn","app"], {
             $desc:"Number, 默认的类型名关键字. <strong>服务器需要在返回的内容中用相同的关键字.</strong>",
             $snippet:["alert(linb.IAjax.type)"]
         },
-    
+
         customQS: {
             $desc:"自定义的请求字符串. 子类可覆盖该函数，以添加自定义的参数等等.",
             $rtn:"Object",
@@ -1720,7 +1720,7 @@ _.set(linb.Locale,["cn","app"], {
             }
         }
     });
-    
+
     _.set(linb.Locale,["cn","doc","linb","SC"], {
         KEY:{$desc:"本类名"},
         $desc:"linb.SC类（静态类）。<br />以作为函数来进行直接调用：用字符串路径名去直接掉用一个类或对象。如果特定路径名的类或对象存在，直接返回；如果不存在, linb.SC会从内存或远程代码文件中加载这个类或对象.",
@@ -1802,7 +1802,7 @@ _.set(linb.Locale,["cn","app"], {
             ]
         }
     });
-    
+
     _.set(linb.Locale,["cn","doc","linb","Event"], {
         KEY:{$desc:"本类名"},
         $desc:"linb.Event 类（静态类）",
@@ -1940,7 +1940,7 @@ _.set(linb.Locale,["cn","app"], {
             ]
         }
     });
-    
+
     _.set(linb.Locale,["cn","doc","linb","absBox"],{
         pack:{
             $desc: "打包装箱一组元素，并生成一个 [linb.absBox] 对象. ",
@@ -2016,7 +2016,7 @@ _.set(linb.Locale,["cn","app"], {
             }
         }
     });
-    
+
     _.set(linb.Locale,["cn","doc","linb","Dom"], {
         KEY:{$desc:"本类名"},
         $desc:"linb.Dom 类",
@@ -2028,15 +2028,15 @@ _.set(linb.Locale,["cn","app"], {
                     "<ul>"+
                         "<li><strong>linb(/**/).onClick([function], 'label')</strong> => 为 [onclick] 事件函数组添加一个标签为'label'的事件函数.</li>"+
                         "<li><strong>linb(/**/).onClick([function]) </strong> => 先清空 [onclick] 事件函数组，再重新加入一个[function]函数.</li>"+
-    
+
                         "<li><strong>linb(/**/).onClick(null, 'label') </strong> => 从 [onclick] 事件函数组中删除标签为'label'的事件函数.</li>"+
                         "<li><strong>linb(/**/).onClick(null) </strong> => 清空 [onclick] 事件函数组.</li>"+
                         "<li><strong>linb(/**/).onClick(null,null,true) </strong> => 清空 [beforeclick]、[onclick]和[afterclick] 事件函数组.</li>"+
-    
+
                         "<li><strong>linb(/**/).onClick() </strong> => 触发事件，会按照顺序执行所有[onclick]事件函数组里面的事件函数。<strong>如果其间任何一个事件函数返回[false]，余下的事件函数将不被执行。</strong></li>"+
                         "<li><strong>linb(/**/).onClick(true) </strong> => 触发事件，会按照顺序执行所有[beforeclick]、[onclick]和[afterclick]事件函数组里面的事件函数。<strong>如果其间任何一个事件函数返回[false]，余下的事件函数将不被执行。</strong></li>"+
                     "</ul>"+
-    
+
                     "<p><strong>Returns</strong>: 添加事件:[self]; 删除事件: return [self]; 触发事件: void.</p>"+
                     "<p><strong>Parameters</strong>: </p>"+
                     "<ul>"+
@@ -2511,7 +2511,7 @@ _.set(linb.Locale,["cn","app"], {
                     "}"
                 ]
             },
-    
+
             height:{
                 $desc:"获取(第一个元素)或设置(所有元素)CSS高度值.",
                 $rtn:"Number/[self]",
@@ -2600,7 +2600,7 @@ _.set(linb.Locale,["cn","app"], {
                 $paras:[
                     "pos [可选参数] : {left:Number or String,top:Number or String}.",
                     "triggerEvent [可选参数] : Boolean, 指示是否触发事件."
-    
+
                 ],
                 $snippet:[
                     "var n=linb('btnLang'); n.cssPos({left:100,top:100}); alert(_.serialize(n.cssPos())); n.cssPos({left:'auto',top:'auto'})"
@@ -2926,7 +2926,7 @@ _.set(linb.Locale,["cn","app"], {
                     "content [可选参数] : String, innerHTML的值.",
                     "triggerGC [可选参数] : Boolean, 是否触发GC(垃圾回收). 默认是true",
                     "loadScripts [可选参数] : Boolean, 是否执行内部的script. 默认是 false."
-                    
+
                 ],
                 $snippet:[
                     "var id='linb.temp.html1'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div style=\"border:solid 1px;padding:10px;\"><div style=\"padding:5px;border:solid 1px;\" id='+id+' ></div>' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -2993,7 +2993,7 @@ _.set(linb.Locale,["cn","app"], {
                     "}"
                 ]
             },
-    
+
             left:{
                 $desc:"获取(第一个元素)或设置(所有元素)CSS样式中的left值.",
                 $rtn:"Number/[self]",
@@ -3092,7 +3092,7 @@ _.set(linb.Locale,["cn","app"], {
                     "}"
                 ]
             },
-    
+
             afterBlur:$eo,
             afterChange:$eo,
             afterClick:{
@@ -3197,7 +3197,7 @@ _.set(linb.Locale,["cn","app"], {
             onUnload:$eo
         }
     });
-    
+
     _.set(linb.Locale,["cn","doc","linb","DragDrop"], {
         KEY:{$desc:"本类名"},
         $desc:"linb.DragDrop 类(静态类)",
@@ -3270,7 +3270,7 @@ _.set(linb.Locale,["cn","app"], {
                 "<li><strong>dragType</strong>: 'move','copy','deep_copy','shape','icon', 'blank' 或 'none', 设置拖拽类型，默认为 'shape';</li>"+
                 "<li><strong>shadowFrom</strong>: Element/linb.Dom, 设置拖拽的时候要显示哪个dom的影子。当 dragType 为 'icon' 的时候有效。</li>"+
                 "<li><strong>targetReposition</strong>: Boolean, 设置是否最后要重置拖拽目标的位置, 默认为 [true];</li>"+
-    
+
                 "<li><strong>dragIcon</strong>: String, 设置拖拽的时候显示图标的图片路径, 默认为 [linb.ini.path+'ondrag.gif'].</li>"+
                 "<li><strong>magneticDistance</strong>: Number, 设置磁性距离, 默认为 0;</li>"+
                 "<li><strong>xMagneticLines</strong>: Array of Number, 设置水平方向的磁性线数组, 默认为 [];</li>"+
@@ -3278,14 +3278,14 @@ _.set(linb.Locale,["cn","app"], {
                 "<li><strong>widthIncrement</strong>: Number, 设置水平方向的最小增量值, 默认为 0;</li>"+
                 "<li><strong>heightIncrement</strong>: Number, 设置垂直方向的最小增量值, 默认为 0;</li>"+
                 "<li><strong>dragDefer</strong>: Number, 设置拖拽的延迟值。表示在[document.onmousemove]几次后拖拽才真正开始, 默认为 0;</li>"+
-    
+
                 "<li><strong>horizontalOnly</strong>:Boolean, 设置是否要只在水平方向拖拽, 默认为 [false];</li>"+
                 "<li><strong>verticalOnly</strong>: Boolean, 设置是否要只在垂直方向拖拽, 默认为 [false];</li>"+
                 "<li><strong>maxBottomOffset</strong>:Number, 设置下方向的最大拖拽距离, 默认为 [null];</li>"+
                 "<li><strong>maxLeftOffset</strong>:Number, 设置左方向的最大拖拽距离, 默认为 [null];</li>"+
                 "<li><strong>maxRightOffset</strong>:Number, 设置右方向的最大拖拽距离, 默认为 [null];</li>"+
                 "<li><strong>maxTopOffset</strong>: Number, 设置上方向的最大拖拽距离, 默认为 [null];</li>"+
-    
+
                 "<li><strong>targetNode</strong>: Element/linb.Dom, 设置拖拽的目标;</li>"+
                 "<li><strong>targetCSS</strong>: Number, 设置拖拽目标的CSS键值对, 默认为 [null];</li>"+
                 "<li><strong>dragKey</strong>: String, 设置拖拽的数据键, 默认为 [null];</li>"+
@@ -3295,7 +3295,7 @@ _.set(linb.Locale,["cn","app"], {
                 "<li><strong>targetWidth</strong>: Number, 设置拖拽目标的宽, 默认为 [null];</li>"+
                 "<li><strong>targetHeight</strong>: Number, 设置拖拽目标的高, 默认为 [null];</li>"+
                 "<li><strong>targetOffsetParent</strong>: linb.Dom, 设置拖拽目标的定位父元素(offsetParent), 默认为 [null];</li>"+
-    
+
                 "<li><strong>dragCursor</strong>:  'none', 'move', 'link', 或 'add', 得到鼠标当前的形状; <strong>只读</strong></li>"+
                 "<li><strong>x</strong>: Number, 得到鼠标当前的 X 值; <strong>只读</strong></li>"+
                 "<li><strong>y</strong>: Number, 得到鼠标当前的 Y 值; <strong>只读</strong></li>"+
@@ -3321,7 +3321,7 @@ _.set(linb.Locale,["cn","app"], {
             ]
         }
     });
-    
+
     _.set(linb.Locale,["cn","doc","linb","CSS"], {
         KEY:{$desc:"本类名"},
         $desc:"linb.CSS 类(静态类)",
@@ -3400,7 +3400,7 @@ _.set(linb.Locale,["cn","app"], {
             ]
         }
     });
-    
+
     _.set(linb.Locale,["cn","doc","linb","History"], {
         KEY:{$desc:"本类名"},
         $desc:"linb.History 类(静态类)",
@@ -3436,7 +3436,7 @@ _.set(linb.Locale,["cn","app"], {
             ]
         }
     });
-    
+
     _.set(linb.Locale,["cn","doc","linb","Cookies"], {
         KEY:{$desc:"本类名"},
         $desc:"linb.Cookies 类(静态类)",
@@ -3505,7 +3505,7 @@ _.set(linb.Locale,["cn","app"], {
             ]
         }
     });
-    
+
     _.set(linb.Locale,["cn","doc","linb","Date"], {
         KEY:{$desc:"本类名"},
         $desc:"linb.Date 类(静态类)",
@@ -3747,7 +3747,7 @@ _.set(linb.Locale,["cn","app"], {
             ]
         }
     });
-    
+
     _.set(linb.Locale,["cn","doc","linb","absObj"], {
         getAll:{
             $desc:"获取该类的所有对象实例.",
@@ -3832,7 +3832,7 @@ _.set(linb.Locale,["cn","app"], {
             }
         }
     });
-    
+
     _.set(linb.Locale,["cn","doc","linb","absProfile"], {
         prototype:{
             getId:{
@@ -3854,7 +3854,7 @@ _.set(linb.Locale,["cn","app"], {
                     "var profile=new linb.Profile(), a1=[],a2=[],a3=[]; profile.link(a1,'a').link(a2,'b').link(a3,'c'); alert(a1+':'+a2+':'+a3); profile.unLink('a'); alert(a1+':'+a2+':'+a3); profile.unLinkAll(); alert(a1+':'+a2+':'+a3); "
                 ],
                 $memo:"一般情况下，程序员无需直接调用该函数."
-    
+
             },
             unLink:{
                 $desc:"移除指定的识别字符串[id]的到对象或数组的链接.",
@@ -3877,7 +3877,7 @@ _.set(linb.Locale,["cn","app"], {
             }
         }
     });
-    
+
     _.set(linb.Locale,["cn","doc","linb","Profile"], {
         KEY:{$desc:"本类名"},
         $desc:"linb.Profile 类",
@@ -3935,7 +3935,7 @@ _.set(linb.Locale,["cn","app"], {
             }
         }
     });
-    
+
     _.set(linb.Locale,["cn","doc","linb","UIProfile"], {
         KEY:{$desc:"本类名"},
         $desc:"linb.UIProfile 类",
@@ -4033,7 +4033,7 @@ _.set(linb.Locale,["cn","app"], {
                 $snippet:[
                     "var profile=linb.UIProfile.getFromDom('linb.UI.TreeBar:a:'), items=[{id:'a'},{id:'.b',sub:[{id:'aa'},{id:'.bb'}]}], filter=function(o,i){return o.id.indexOf('.')!=-1},results= profile.queryItems(items,filter);alert(results.length);results= profile.queryItems(items,filter,true);alert(results.length);results= profile.queryItems(items,filter,true,true);alert(results.length);results= profile.queryItems(items,filter,false,true);alert(results.length);",
                     "var profile=linb.UIProfile.getFromDom('linb.UI.TreeBar:a:'), items=profile.properties.items, filter=function(o,i){return o.id.indexOf('.')!=-1},results= profile.queryItems(items,filter);alert(results.length);results= profile.queryItems(items,filter,true);alert(results.length);results= profile.queryItems(items,filter,true,true);alert(results.length);results= profile.queryItems(items,filter,false,true);alert(results.length);"
-    
+
                 ]
             },
             getItemByDom:{
@@ -4183,7 +4183,7 @@ _.set(linb.Locale,["cn","app"], {
             }
         }
     });
-    
+
     _.set(linb.Locale,["cn","doc","linb","Template"], {
         KEY:{$desc:"本类名"},
         $desc:"linb.Template 类",
@@ -4370,8 +4370,8 @@ _.set(linb.Locale,["cn","app"], {
             }
         }
     });
-    
-    
+
+
     _.set(linb.Locale,["cn","doc","linb","Com"], {
         KEY:{$desc:"本类名"},
         $desc:"linb.Com 类",
@@ -4402,15 +4402,15 @@ _.set(linb.Locale,["cn","app"], {
                 "com.iniComponents=function(){order.push('iniComponents'); return (new linb.UI.Dialog()).setHost(this, 'dialog2').setWidth(150).setHeight(150).get() };"+
                 "com.iniResource=function(){order.push('iniResource'); };"+
                 "com.iniExComs=function(){order.push('iniExComs'); };"+
-    
+
                 "var abox=com.getComponents();"+
                 "abox.merge((new linb.UI.Dialog()).setHost(com, 'dialog1'));"+
                 "com.setComponents(abox);"+
-    
+
                 "com.show(function(com){"+
                 "   order.push('onEnd'); "+
                 "});",
-    
+
                 "Class('App1','linb.Com',{" +
                 "    Instance:{" +
                 "        base : ['linb.UI', 'linb.Date']," +
@@ -4480,7 +4480,7 @@ _.set(linb.Locale,["cn","app"], {
                 "});" +
                 "var com = new App1;" +
                 "com.show();",
-    
+
                 "Class('App2','linb.Com',{" +
                 "    Instance:{" +
                 "        base : ['linb.UI']," +
@@ -4784,7 +4784,7 @@ _.set(linb.Locale,["cn","app"], {
                     "linb.SC('App.Test1',function(){var com=new this; com.create(function(com){com.setHost(window,'com_alias'); alert(com.getHost()===window); alert(window.com_alias)});},false);"
                 ]
             },
-    
+
             beforeCreated:{
                 $desc:'在COM生成之前触发。如果返回false，当前COM对象将不会生成。',
                 $paras:[
@@ -4861,8 +4861,8 @@ _.set(linb.Locale,["cn","app"], {
             }
         }
     });
-    
-    
+
+
     _.set(linb.Locale,["cn","doc","linb","ComFactory"], {
         KEY:{$desc:"本类名"},
         $desc:"linb.ComFactory 类(静态类)",
@@ -4939,7 +4939,7 @@ _.set(linb.Locale,["cn","app"], {
             ],
             $snippet:[
                 "linb.ComFactory.getCom('App.Test1',function(){alert('The Com loaded successfully.')});",
-    
+
                 "linb.ComFactory.destroyAll();"+
                 "linb.ComFactory.setProfile({test1:{cls:'App.Test1',properties:{key1:1},events:{ev1:function(){alert(2)}}},test2:'App.Test2'});"+
                 "linb.ComFactory.getCom('test1',function(){alert('The Com loaded successfully.');alert(this.properties.key1); this.events.ev1();});"
@@ -4992,11 +4992,11 @@ _.set(linb.Locale,["cn","app"], {
             ]
         }
     });
-    
+
     _.set(linb.Locale,["cn","doc","linb","DomProfile"], {
         KEY:{$desc:"本类名"},
     });
-    
+
     _.set(linb.Locale,["cn","doc","linb","DataBinder"], {
         KEY:{$desc:"本类名"},
         $desc:"linb.DataBinder 类",
@@ -5098,7 +5098,7 @@ _.set(linb.Locale,["cn","app"], {
             }
         }
     });
-    
+
     _.set(linb.Locale,["cn","doc","linb","Tips"], {
         KEY:{$desc:"本类名"},
         $desc:"linb.DataBinder 类(静态类)",
@@ -5149,7 +5149,7 @@ _.set(linb.Locale,["cn","app"], {
             ]
         }
     });
-    
+
     _.set(linb.Locale,["cn","doc","linb","Coder"], {
         KEY:{$desc:"本类名"},
         $desc:"linb.Coder 类(静态类)",
@@ -5240,8 +5240,8 @@ _.set(linb.Locale,["cn","app"], {
             $memo:"该函数仅用于突出显示."
         }
     });
-    
-    
+
+
     _.set(linb.Locale,["cn","doc","linb","absList"], {
         prototype:{
             activate:{
@@ -5282,7 +5282,7 @@ _.set(linb.Locale,["cn","app"], {
                     "}"
                 ]
             },
-    
+
             getItems:{
                 $desc:"获取所有项.",
                 $rtn:"Array",
@@ -5422,7 +5422,7 @@ _.set(linb.Locale,["cn","app"], {
             }
         }
     });
-    
+
     _.set(linb.Locale,["cn","doc","linb","absValue"], {
         prototype:{
             getDirtyMark:{
@@ -5483,7 +5483,7 @@ _.set(linb.Locale,["cn","app"], {
                     "}"
                 ]
             },
-    
+
             getUIValue:{
                 $desc:"获取用户界面值",
                 $rtn:"Object",
@@ -5509,7 +5509,7 @@ _.set(linb.Locale,["cn","app"], {
                 ],
                 $memo:"调用该函数时，以下两个事件将被触发beforeUIValueSet and afterUIValueSet."
             },
-    
+
             updateValue:{
                 $desc:"将内部值更新为界面值",
                 $rtn:"[self]",
@@ -5578,7 +5578,7 @@ _.set(linb.Locale,["cn","app"], {
                     "}"
                 ]
             },
-    
+
             beforeUIValueSet:{
                 $desc:"在setUIValue调用之前被调用. 返回false会阻止setUIValue被调用.",
                 $paras:[
@@ -5659,8 +5659,8 @@ _.set(linb.Locale,["cn","app"], {
                     "}"
                 ]
             },
-    
-    
+
+
             beforeDirtyMark:{
                 $desc:"在_setDirtyMark调用之前被调用. 返回false将阻止设置脏标志.",
                 $paras:[
@@ -5678,7 +5678,7 @@ _.set(linb.Locale,["cn","app"], {
             }
         }
     });
-    
+
     _.set(linb.Locale,["cn","doc","linb","absComposed"], {
         prototype:{
             getDragKey:{
@@ -5776,7 +5776,7 @@ _.set(linb.Locale,["cn","app"], {
                     "}"
                 ]
             },
-    
+
             onHotKeydown:{
                 $desc:"当热键按下时被调用.",
                 $paras:[
@@ -5880,7 +5880,7 @@ _.set(linb.Locale,["cn","app"], {
                     "block.onDropTest(function(p,e,n,k,d,i){return d!='abc';});"+
                     "}"
                 ]
-    
+
             },
             onDrop:{
                 $desc:"当用户拖动某个对象在该对象上空放下时.",
@@ -6078,7 +6078,7 @@ _.set(linb.Locale,["cn","app"], {
             }
         }
     });
-    
+
     _.set(linb.Locale,["cn","doc","linb","UI"], {
         KEY:{$desc:"本类名"},
         $desc:"linb.UI 类",
@@ -6255,6 +6255,18 @@ _.set(linb.Locale,["cn","app"], {
         },
         prototype:{
             KEY:{$desc:"本类名"},
+            getClassName:{
+              $desc:"得到css类.",
+              $rtn:"String"
+            },
+            setClassName:{
+                $desc:"设置css类.",
+                $rtn:"[self]",
+                $paras:[
+                    "value [必需参数] : String.",
+                    "force [可选参数] : Boolean, 强制设置该属性值，即使属性已经设置为该值. 默认为[false]."
+                ]
+            },
             getTheme:{
                 $desc:"获取当前控件的皮肤关键字.",
                 $rtn:"String"
@@ -7516,7 +7528,7 @@ _.set(linb.Locale,["cn","app"], {
             }
         }
     });
-    
+
     _.set(linb.Locale,["cn","doc","linb","UI","Div"], {
         KEY:{$desc:"本类名"},
         $desc:"linb.UI.Div 类",
@@ -7551,7 +7563,7 @@ _.set(linb.Locale,["cn","app"], {
             }
         }
     });
-    
+
     _.set(linb.Locale,["cn","doc","linb","UI","Pane"], {
         KEY:{$desc:"本类名"},
         $desc:"linb.UI.Pane 类",
@@ -7559,7 +7571,7 @@ _.set(linb.Locale,["cn","app"], {
             $desc:"生成一个linb.UI.Pane对象."
         }
     });
-    
+
     _.set(linb.Locale,["cn","doc","linb","UI","Tag"], {
         KEY:{$desc:"本类名"},
         $desc:"linb.UI.Tag 类",
@@ -7597,7 +7609,7 @@ _.set(linb.Locale,["cn","app"], {
             }
         }
     });
-    
+
     _.set(linb.Locale,["cn","doc","linb","UI","Link"], {
         KEY:{$desc:"本类名"},
         $desc:"linb.UI.Link 类",
@@ -7678,8 +7690,8 @@ _.set(linb.Locale,["cn","app"], {
                     "}"
                 ]
             },
-    
-    
+
+
             onClick:{
                 $desc:"当用户单击超链接时调用.",
                 $paras:[
@@ -7693,13 +7705,13 @@ _.set(linb.Locale,["cn","app"], {
             }
         }
     });
-    
+
     _.set(linb.Locale,["cn","doc","linb","UI","Border"], {$desc:"linb.UI.Border 类",KEY:{$desc:"类关键字"}});
-    
+
     _.set(linb.Locale,["cn","doc","linb","UI","Shadow"], {$desc:"linb.UI.Shadow 类",KEY:{$desc:"类关键字"}});
-    
+
     _.set(linb.Locale,["cn","doc","linb","UI","Resizer"], {$desc:"linb.UI.Resizer 类",KEY:{$desc:"类关键字"}});
-    
+
     _.set(linb.Locale,["cn","doc","linb","UI","Block"], {
         KEY:{$desc:"本类名"},
         $desc:"linb.UI.Block 类",
@@ -7782,7 +7794,7 @@ _.set(linb.Locale,["cn","app"], {
             }
         }
     });
-    
+
     _.set(linb.Locale,["cn","doc","linb","UI","Label"], {
         KEY:{$desc:"本类名"},
         $desc:"linb.UI.Label 类",
@@ -8047,7 +8059,7 @@ _.set(linb.Locale,["cn","app"], {
             }
         }
     });
-    
+
     _.set(linb.Locale,["cn","doc","linb","UI","SLabel"], {
         KEY:{$desc:"本类名"},
         $desc:"linb.UI.SLabel 类",
@@ -8106,8 +8118,8 @@ _.set(linb.Locale,["cn","app"], {
             }
         }
     });
-    
-    
+
+
     _.set(linb.Locale,["cn","doc","linb","UI","SButton"], {
         KEY:{$desc:"本类名"},
         $desc:"linb.UI.SButton 类",
@@ -8189,7 +8201,7 @@ _.set(linb.Locale,["cn","app"], {
             }
         }
     });
-    
+
     _.set(linb.Locale,["cn","doc","linb","UI","RichEditor"], {
         KEY:{$desc:"本类名"},
         $desc:"linb.UI.RichEditor 类",
@@ -8224,7 +8236,7 @@ _.set(linb.Locale,["cn","app"], {
             }
         }
     });
-    
+
     _.set(linb.Locale,["cn","doc","linb","UI","SCheckBox"], {
         KEY:{$desc:"本类名"},
         $desc:"linb.UI.SCheckBox 类",
@@ -8267,7 +8279,7 @@ _.set(linb.Locale,["cn","app"], {
                     "}"
                 ]
             },
-    
+
             onChecked:{
                 $desc:"Fired when SCheckBox is checked.",
                 $paras:[
@@ -8283,8 +8295,8 @@ _.set(linb.Locale,["cn","app"], {
             }
         }
     });
-    
-    
+
+
     _.set(linb.Locale,["cn","doc","linb","UI","Button"], {
         KEY:{$desc:"本类名"},
         $desc:"linb.UI.Button 类",
@@ -8463,7 +8475,7 @@ _.set(linb.Locale,["cn","app"], {
                     "}"
                 ]
             },
-    
+
             onClick:{
                 $desc:"当终端用户单击按钮时调用.",
                 $paras:[
@@ -8506,7 +8518,7 @@ _.set(linb.Locale,["cn","app"], {
             }
         }
     });
-    
+
     _.set(linb.Locale,["cn","doc","linb","UI","CheckBox"], {
         KEY:{$desc:"本类名"},
         $desc:"linb.UI.CheckBox 类",
@@ -8530,7 +8542,7 @@ _.set(linb.Locale,["cn","app"], {
             }
         }
     });
-    
+
     _.set(linb.Locale,["cn","doc","linb","UI","Input"], {
         KEY:{$desc:"本类名"},
         $desc:"linb.UI.Input 类",
@@ -8897,8 +8909,8 @@ _.set(linb.Locale,["cn","app"], {
                     "}"
                 ]
             },
-    
-    
+
+
             onChange:{
                 $desc:"当终端用户改变文字时调用.",
                 $paras:[
@@ -9084,8 +9096,8 @@ _.set(linb.Locale,["cn","app"], {
                     "}"
                 ]
             },
-    
-    
+
+
             beforeExpend:{
                 $desc:"在编组框打开前调用.如返回 false, 编组框不会打开.",
                 $paras:[
@@ -9133,7 +9145,7 @@ _.set(linb.Locale,["cn","app"], {
             }
         }
     });
-    
+
     _.set(linb.Locale,["cn","doc","linb","UI","ComboInput"], {
         KEY:{$desc:"本类名"},
         $desc:"linb.UI.ComboInput 类",
@@ -9521,8 +9533,8 @@ _.set(linb.Locale,["cn","app"], {
             }
         }
     });
-    
-    
+
+
     _.set(linb.Locale,["cn","doc","linb","UI","Stacks"], {
         KEY:{$desc:"本类名"},
         $desc:"linb.UI.Stacks 类",
@@ -9530,7 +9542,7 @@ _.set(linb.Locale,["cn","app"], {
             $desc:"生成一个linb.UI.Stacks对象."
         }
     });
-    
+
     _.set(linb.Locale,["cn","doc","linb","UI","ButtonViews"], {
         KEY:{$desc:"本类名"},
         $desc:"linb.UI.ButtonViews 类",
@@ -9639,7 +9651,7 @@ _.set(linb.Locale,["cn","app"], {
             }
         }
     });
-    
+
     _.set(linb.Locale,["cn","doc","linb","UI","RadioBox"], {
         KEY:{$desc:"本类名"},
         $desc:"linb.UI.RadioBox 类",
@@ -9647,8 +9659,8 @@ _.set(linb.Locale,["cn","app"], {
             $desc:"生成linb.UI.RadioBox对象."
         }
     });
-    
-    
+
+
     _.set(linb.Locale,["cn","doc","linb","UI","ColorPicker"], {
         KEY:{$desc:"本类名"},
         $desc:"linb.UI.ColorPicker 类",
@@ -9787,7 +9799,7 @@ _.set(linb.Locale,["cn","app"], {
                     "}"
                 ]
             },
-    
+
             beforeClose:{
                 $desc:"在颜色框关闭前调用. 返回false可以阻止颜色框关闭.",
                 $paras:[
@@ -9802,7 +9814,7 @@ _.set(linb.Locale,["cn","app"], {
             }
         }
     });
-    
+
     _.set(linb.Locale,["cn","doc","linb","UI","DatePicker"], {
         KEY:{$desc:"本类名"},
         $desc:"linb.UI.DatePicker 类",
@@ -9845,7 +9857,7 @@ _.set(linb.Locale,["cn","app"], {
                     "}"
                 ]
             },
-    
+
             beforeClose:{
                 $desc:"当用户单击关闭或取消按钮时调用. 返回false可阻止日期选择器被关闭.",
                 $paras:[
@@ -9860,7 +9872,7 @@ _.set(linb.Locale,["cn","app"], {
             }
         }
     });
-    
+
     _.set(linb.Locale,["cn","doc","linb","UI","TimePicker"], {
         KEY:{$desc:"本类名"},
         $desc:"linb.UI.TimePicker 类",
@@ -9907,7 +9919,7 @@ _.set(linb.Locale,["cn","app"], {
             }
         }
     });
-    
+
     _.set(linb.Locale,["cn","doc","linb","UI","Slider"], {
         KEY:{$desc:"本类名"},
         $desc:"linb.UI.Slider 类",
@@ -10038,7 +10050,7 @@ _.set(linb.Locale,["cn","app"], {
             }
         }
     });
-    
+
     _.set(linb.Locale,["cn","doc","linb","UI","Range"], {
         KEY:{$desc:"本类名"},
         $desc:"linb.UI.Range 类",
@@ -10193,7 +10205,7 @@ _.set(linb.Locale,["cn","app"], {
             }
         }
     });
-    
+
     _.set(linb.Locale,["cn","doc","linb","UI","List"], {
         KEY:{$desc:"本类名"},
         $desc:"linb.UI.List 类",
@@ -10334,7 +10346,7 @@ _.set(linb.Locale,["cn","app"], {
             }
         }
     });
-    
+
     _.set(linb.Locale,["cn","doc","linb","UI","StatusButtons"], {
         KEY:{$desc:"本类名"},
         $desc:"linb.UI.StatusButtons 类",
@@ -10419,7 +10431,7 @@ _.set(linb.Locale,["cn","app"], {
             }
         }
     });
-    
+
     _.set(linb.Locale,["cn","doc","linb","UI","Gallery"], {
         KEY:{$desc:"本类名"},
         $desc:"linb.UI.Gallery 类",
@@ -10588,7 +10600,7 @@ _.set(linb.Locale,["cn","app"], {
             }
         }
     });
-    
+
     _.set(linb.Locale,["cn","doc","linb","UI","IconList"], {
         KEY:{$desc:"本类名"},
         $desc:"linb.UI.IconList 类",
@@ -10709,7 +10721,7 @@ _.set(linb.Locale,["cn","app"], {
             }
         }
     });
-    
+
     _.set(linb.Locale,["cn","doc","linb","UI","Panel"], {
         KEY:{$desc:"本类名"},
         $desc:"linb.UI.Panel 类",
@@ -11074,10 +11086,10 @@ _.set(linb.Locale,["cn","app"], {
                     "}"
                 ]
             }
-    
+
         }
     });
-    
+
     _.set(linb.Locale,["cn","doc","linb","UI","PageBar"], {
         KEY:{$desc:"本类名"},
         $desc:"linb.UI.PageBar 类",
@@ -11219,8 +11231,8 @@ _.set(linb.Locale,["cn","app"], {
                     "}"
                 ]
             },
-    
-    
+
+
             onClick:{
                 $desc:"当鼠标单击一个按钮时触发.",
                 $paras:[
@@ -11235,7 +11247,7 @@ _.set(linb.Locale,["cn","app"], {
             }
         }
     });
-    
+
     _.set(linb.Locale,["cn","doc","linb","UI","Layout"], {
         KEY:{$desc:"本类名"},
         $desc:"linb.UI.Layout 类",
@@ -11360,7 +11372,7 @@ _.set(linb.Locale,["cn","app"], {
             }
         }
     });
-    
+
     _.set(linb.Locale,["cn","doc","linb","UI","ColLayout"], {
         KEY:{$desc:"本类名"},
         $desc:"linb.UI.ColLayout 类",
@@ -11422,7 +11434,7 @@ _.set(linb.Locale,["cn","app"], {
             }
         }
     });
-    
+
     _.set(linb.Locale,["cn","doc","linb","UI","Tabs"], {
         KEY:{$desc:"本类名"},
         $desc:"linb.UI.Tabs 类",
@@ -11541,7 +11553,7 @@ _.set(linb.Locale,["cn","app"], {
                     "value [必需参数] : Boolean.",
                     "force [可选参数] : Boolean, 强制设置该属性值，即使属性已经设置为该值. 默认为 [false]."
                 ]
-            },            
+            },
             getNoPanel :{
                 $desc:"判断标签是否带有面板",
                 $rtn:"Boolean",
@@ -11628,7 +11640,7 @@ _.set(linb.Locale,["cn","app"], {
                     "}"
                 ]
             },
-    
+
             addPanel:{
                 $desc:"添加一个面板到标签中.",
                 $rtn:"[self]",
@@ -11780,7 +11792,7 @@ _.set(linb.Locale,["cn","app"], {
             }
         }
     });
-    
+
     _.set(linb.Locale,["cn","doc","linb","UI","Calendar"], {
         KEY:{$desc:"本类名"},
         $desc:"linb.UI.Calendar 类",
@@ -11839,7 +11851,7 @@ _.set(linb.Locale,["cn","app"], {
             }
         }
     });
-    
+
     _.set(linb.Locale,["cn","doc","linb","UI","ToolBar"], {
         KEY:{$desc:"本类名"},
         $desc:"linb.UI.ToolBar 类",
@@ -11862,7 +11874,7 @@ _.set(linb.Locale,["cn","app"], {
                     "}"
                 ]
             },
-    
+
             getHAlign :{
                 $desc:"获取水平对齐方式",
                 $rtn:"String",
@@ -11938,7 +11950,7 @@ _.set(linb.Locale,["cn","app"], {
                     "_.asyRun(function(){o.showItem('ga2',false)},1000);"+
                     "}"
                 ]
-    
+
             },
             onClick:{
                 $desc:"在工具栏按钮项被单击时调用.",
@@ -11956,11 +11968,11 @@ _.set(linb.Locale,["cn","app"], {
                     "}"
                 ]
             }
-    
+
         }
     });
-    
-    
+
+
     _.set(linb.Locale,["cn","doc","linb","UI","PopMenu"], {
         KEY:{$desc:"本类名"},
         $desc:"linb.UI.PopMenu 类",
@@ -12057,7 +12069,7 @@ _.set(linb.Locale,["cn","app"], {
                     "}"
                 ]
             },
-    
+
             beforeHide:{
                 $desc:"在菜单隐藏前被调用. 返回false可以阻止菜单隐藏.",
                 $paras:[
@@ -12122,8 +12134,8 @@ _.set(linb.Locale,["cn","app"], {
             }
         }
     });
-    
-    
+
+
     _.set(linb.Locale,["cn","doc","linb","UI","MenuBar"], {
         KEY:{$desc:"本类名"},
         $desc:"linb.UI.MenuBar 类",
@@ -12285,8 +12297,8 @@ _.set(linb.Locale,["cn","app"], {
             }
         }
     });
-    
-    
+
+
     _.set(linb.Locale,["cn","doc","linb","UI","Dialog"], {
         KEY:{$desc:"本类名"},
         $desc:"linb.UI.Dialog 类",
@@ -12469,7 +12481,7 @@ _.set(linb.Locale,["cn","app"], {
                     "var dlg=(new linb.UI.Dialog).show(null,false, 100,100); alert(dlg.getCloseBtn());_.asyRun(function(){dlg.setCloseBtn(false);},1000);_.asyRun(function(){dlg.close();},2000);"
                 ]
             },
-    
+
             getMinBtn:{
                 $desc:"判断对话框右上角是否带有最小化按钮",
                 $rtn:"Boolean",
@@ -12772,10 +12784,33 @@ _.set(linb.Locale,["cn","app"], {
                     "dlg.show(null,false, 100,100);"
                 ]
             }
-    
+
         }
     });
-    
+
+    _.set(linb.Locale,["cn","doc","linb","UI","Span"], {
+        KEY:{$desc:"本类名"},
+        $desc:"linb.UI.Span 类",
+        constructor:{
+            $desc:"生成一个linb.UI.Span对象."
+        },
+        prototype:{
+            KEY:{$desc:"本类名"},
+            getHtml:{
+                $desc:"获取对象的内部html代码.",
+                $rtn:"String"
+            },
+            setHtml:{
+                $desc:"设置对象的内部html代码.",
+                $rtn:"[self]",
+                $paras:[
+                    "value [必需参数] : String.",
+                    "force [可选参数] : Boolean, 强制设置该属性值，即使属性已经设置为该值. 默认为[false]."
+                ]
+            }
+        }
+    });
+
     _.set(linb.Locale,["cn","doc","linb","UI","Image"], {
         KEY:{$desc:"本类名"},
         $desc:"linb.UI.Image 类",
@@ -12892,7 +12927,7 @@ _.set(linb.Locale,["cn","app"], {
                     "}"
                 ]
             },
-    
+
             onError:{
                 $desc:"当图像文件无法获取（文件地址不存在等情况）调用.",
                 $paras:[
@@ -12953,7 +12988,7 @@ _.set(linb.Locale,["cn","app"], {
             }
         }
     });
-    
+
     _.set(linb.Locale,["cn","doc","linb","UI","FoldingList"], {
         KEY:{$desc:"本类名"},
         $desc:"linb.UI.FoldingList 类",
@@ -13047,7 +13082,7 @@ _.set(linb.Locale,["cn","app"], {
                     "}"
                 ]
             },
-    
+
             onShowOptions :{
                 $desc:"当用户单击选项按钮时调用.",
                 $paras:[
@@ -13064,7 +13099,7 @@ _.set(linb.Locale,["cn","app"], {
                     "}"
                 ]
             },
-    
+
             onClickButton:{
                 $desc:"当用户单击内部按钮的时候调用.",
                 $paras:[
@@ -13082,7 +13117,7 @@ _.set(linb.Locale,["cn","app"], {
                     "}"
                 ]
             },
-    
+
             onGetContent:{
                 $desc:"当某个文件夹项需要填充内容时调用.",
                 $paras:[
@@ -13101,8 +13136,8 @@ _.set(linb.Locale,["cn","app"], {
             }
         }
     });
-    
-    
+
+
     _.set(linb.Locale,["cn","doc","linb","UI","Poll"], {
         KEY:{$desc:"本类名"},
         $desc:"linb.UI.Poll 类",
@@ -13140,7 +13175,7 @@ _.set(linb.Locale,["cn","app"], {
                 ],
                 $memo:"You have to use this function before the UIProfile is rendered."
             },
-    
+
             fillContent:{
                 $desc:"填充内容到指定项.",
                 $rtn:"[self]",
@@ -13362,7 +13397,7 @@ _.set(linb.Locale,["cn","app"], {
                     "}"
                 ]
             },
-    
+
             onGetContent:{
                 $desc:"在需要内容填充的时候调用.",
                 $paras:[
@@ -13395,7 +13430,7 @@ _.set(linb.Locale,["cn","app"], {
                     "}"
                 ]
             },
-    
+
             beforeOptionAdded:{
                 $desc:"在添加选项之前触发.",
                 $paras:[
@@ -13427,7 +13462,7 @@ _.set(linb.Locale,["cn","app"], {
                     "o.beforeOptionChanged(function(p,i,s){linb.message('beforeOptionChanged'+':'+s)});"+
                     "o.beforeOptionRemoved(function(p){linb.message('beforeOptionRemoved')});"+
                     "o.beforeTitleChanged(function(p,s){linb.message('beforeTitleChanged'+':'+s)});"+
-    
+
                     "linb(id).prepend(o);"+
                     "}"
                 ]
@@ -13444,7 +13479,7 @@ _.set(linb.Locale,["cn","app"], {
                     "o.beforeOptionChanged(function(p,i,s){linb.message('beforeOptionChanged'+':'+s)});"+
                     "o.beforeOptionRemoved(function(p){linb.message('beforeOptionRemoved')});"+
                     "o.beforeTitleChanged(function(p,s){linb.message('beforeTitleChanged'+':'+s)});"+
-    
+
                     "linb(id).prepend(o);"+
                     "}"
                 ]
@@ -13462,7 +13497,7 @@ _.set(linb.Locale,["cn","app"], {
                     "o.beforeOptionChanged(function(p,i,s){linb.message('beforeOptionChanged'+':'+s)});"+
                     "o.beforeOptionRemoved(function(p){linb.message('beforeOptionRemoved')});"+
                     "o.beforeTitleChanged(function(p,s){linb.message('beforeTitleChanged'+':'+s)});"+
-    
+
                     "linb(id).prepend(o);"+
                     "}"
                 ]
@@ -13488,7 +13523,7 @@ _.set(linb.Locale,["cn","app"], {
             }
         }
     });
-    
+
     _.set(linb.Locale,["cn","doc","linb","UI","TreeBar"], {
         KEY:{$desc:"本类名"},
         $desc:"linb.UI.TreeBar 类",
@@ -13511,7 +13546,7 @@ _.set(linb.Locale,["cn","app"], {
                     "}"
                 ]
             },
-    
+
             getAnimCollapse :{
                 $desc:"判断在父节点打开时，是否显示动画.",
                 $rtn:"Boolean",
@@ -13738,8 +13773,8 @@ _.set(linb.Locale,["cn","app"], {
                     "}"
                 ]
             },
-    
-    
+
+
             onGetContent:{
                 $desc:"在父节点展开时，需要子节点数据时调用.",
                 $paras:[
@@ -13797,7 +13832,7 @@ _.set(linb.Locale,["cn","app"], {
         KEY:{$desc:"本类名"},
         $desc:"linb.UI.TreeView 类"
     });
-    
+
     _.set(linb.Locale,["cn","doc","linb","UI","TreeGrid"], {
         KEY:{$desc:"本类名"},
         $desc:"linb.UI.TreeGrid 类",
@@ -14765,7 +14800,7 @@ _.set(linb.Locale,["cn","app"], {
                     "colId [必需参数] : String, 列id值."
                 ]
             },
-            
+
             resetRowValue:{
                 $desc:"重新设置某行的所有单元格的值, 并清除脏标志.",
                 $rtn:"[self]",
@@ -14826,7 +14861,7 @@ _.set(linb.Locale,["cn","app"], {
                     "}"
                 ]
             },
-    
+
             beforeCellActive:{
                 $desc:"在单元格激活前被调用. 返回false将阻止单元格被激活.",
                 $paras:[
@@ -14974,7 +15009,7 @@ _.set(linb.Locale,["cn","app"], {
                ],
                 $memo:"Equals to set 'colMovable' to false in the specified column in header array."
             },
-    
+
             onGetContent:{
                 $desc:"在父行被展开，需要子行数据是被调用.",
                 $paras:[
@@ -15139,7 +15174,7 @@ _.set(linb.Locale,["cn","app"], {
             }
         }
     });
-    
+
     _.set(linb.Locale,["cn","doc","linb","UI","TimeLine"], {
         KEY:{$desc:"本类名"},
         $desc:"linb.UI.TimeLine 类",
@@ -15690,7 +15725,7 @@ _.set(linb.Locale,["cn","app"], {
                     "}"
                 ]
             },
-    
+
             beforeDragTask:{
                 $desc:"在用户拖动任务前触发. 返回false可以阻止用户拖动.",
                 $paras:[
@@ -15806,7 +15841,7 @@ _.set(linb.Locale,["cn","app"], {
             }
         }
     });
-    
+
 var cah=$me.linb.UI.TreeGrid.prototype;
 cah.setCols = cah.setHeader;
 cah.getCols = cah.getHeader;

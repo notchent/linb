@@ -45,6 +45,7 @@ Class("linb.UI.Range", ["linb.UI","linb.absValue"],{
     Static:{
         Templates:{
             style:'{_style}',
+            className:'{_className}',
             BOX:{
                 tagName:'div',
                 RULER:{

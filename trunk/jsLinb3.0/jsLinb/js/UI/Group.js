@@ -43,6 +43,7 @@ Class("linb.UI.Group", "linb.UI.Div",{
         Templates:{
             tagName : 'div',
             style:'{_style}',
+            className:'{_className}',
             FIELDSET:{
                 tagName : 'fieldset',
                 className: ' {toggleCls}',

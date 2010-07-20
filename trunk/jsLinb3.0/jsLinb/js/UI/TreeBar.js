@@ -179,6 +179,7 @@
         Templates:{
             tagName : 'div',
             style:'{_style}',
+            className:'{_className}',
             ondrag:'return false',
             onselectstart:'return false',
             BORDER:{

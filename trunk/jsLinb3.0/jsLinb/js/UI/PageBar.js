@@ -82,6 +82,7 @@ Class("linb.UI.PageBar",["linb.UI","linb.absValue"] ,{
     Static:{
         Templates:{
             style:'{_style}',
+            className:'{_className}',
             POOL:{
                 style:'position:absolute;display:none;',
                 POP:{

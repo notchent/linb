@@ -24,6 +24,7 @@ Class("linb.UI.RichEditor", ["linb.UI","linb.absValue"],{
         Templates:{
             tagName:'div',
             style:'{_style}',
+            className:'{_className}',
             EDITOR:{
                 tagName:'div'
             },

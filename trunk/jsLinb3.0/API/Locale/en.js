@@ -51,7 +51,7 @@ _.set(linb.Locale,["en","app"], {
                 "key [Required]: String, namespace string."
             ],
             $snippet:["Namespace('Test.NS'); alert(typeof Test.NS)"],
-            $memo:"	Namespace naming rules: [A-Z][0-9a-zA-Z]+"
+            $memo:" Namespace naming rules: [A-Z][0-9a-zA-Z]+"
         },
         Class:{
             $desc:"Class Namespace. <br />Can be used as a function to declare a class too.",
@@ -71,7 +71,7 @@ _.set(linb.Locale,["en","app"], {
             $desc:"Tools functions' Namespace. <br />Can be used as a function to get local time stamp too.",
             $rtn:"Integer",
             $snippet:["alert(_()); linb.message(_())"],
-    
+
             arr:{
                 $desc:"A functions collection for Array.",
                 each:{
@@ -733,7 +733,7 @@ _.set(linb.Locale,["en","app"], {
             }
          }
     });
-    
+
     var $me=linb.Locale.en.doc;
 
     _.set(linb.Locale,["en","doc","linb"], {
@@ -848,7 +848,7 @@ _.set(linb.Locale,["en","app"], {
             $desc:"The shortcut of linb([document]).",
             $rtn:"linb.Dom"
         },
-    
+
         create:{
             $desc:"To create DOM element or linb.UI Object.",
             $rtn:"linb.Dom/linb.UI",
@@ -893,7 +893,7 @@ _.set(linb.Locale,["en","app"], {
                 "alert(linb.getRes('doc.Namespace.$desc')); alert(linb.Locale[linb.getLang()].doc.Namespace.$desc); ",
                 "alert(linb.getRes('color.LIST.E1FFFF')); alert(linb.Locale[linb.getLang()].color.LIST.E1FFFF); ",
                 "// if does't exist, return the last word \n alert(linb.getRes('doesnt.exist'))"
-    
+
             ],
             $memo:"All the resource string is in [linb.Locale] <br \> [<a href='#linb.setLang'>linb.setLang</a>], [<a href='#linb.getRes'>linb.getRes</a>/<a href='#linb.wrapRes'>linb.wrapRes</a>] often used together."
         },
@@ -1076,12 +1076,12 @@ _.set(linb.Locale,["en","app"], {
                 "alert(linb.wrapRes('doc.Namespace.$desc')); alert(linb.Locale[linb.getLang()].doc.Namespace.$desc); ",
                 "alert(linb.wrapRes('color.LIST.E1FFFF')); alert(linb.Locale[linb.getLang()].color.LIST.E1FFFF); ",
                 "// if does't exist, return the last word \n alert(linb.wrapRes('doesnt.exist'))"
-    
+
             ],
             $memo:"All the resource string is in [linb.Locale]. <br \> [<a href='#linb.setLang'>linb.setLang</a>], [<a href='#linb.getRes'>linb.getRes</a>/<a href='#linb.wrapRes'>linb.wrapRes</a>] often used together. <br \> [linb.setLang] works only with [linb.wrapRes] format HTML(id=[linb.$localeDomId]) only."
         }
     });
-    
+
     _.set(linb.Locale,["en","doc","linb","Thread"], {
         KEY:{$desc:"Class Name"},
         $desc:"linb.Thread Class. Dont use 'new' but 'function call' to create an instance. <br />Call function: to Get/Create a linb.Thread Object. <br /> linb.Thread model: <strong>[onStart function]--delay 1-->[task function 1][callback function 1]--delay 2-->[task function 2][callback function 2]--delay 3-->[task function ...n][callback function ...n][onEnd function]</strong>",
@@ -1290,7 +1290,7 @@ _.set(linb.Locale,["en","app"], {
             }
         }
     });
-    
+
     _.set(linb.Locale,["en","doc","linb","absIO"], {
         /*buildQS:{
             $desc:"To build query string.",
@@ -1355,7 +1355,7 @@ _.set(linb.Locale,["en","app"], {
             }
         }
     });
-    
+
     _.set(linb.Locale,["en","doc","linb","XML"], {
         KEY:{$desc:"Class Name"},
         $desc:"linb.XML Class(static)",
@@ -1384,7 +1384,7 @@ _.set(linb.Locale,["en","app"], {
             $snippet:["alert(_.serialize(linb.XML.xml2json(linb.XML.parseXML('<a attr=\"1\"><b>v</b></a>'))))"]
         }
     });
-    
+
     _.set(linb.Locale,["en","doc","linb","Ajax"], {
         KEY:{$desc:"Class Name"},
         $desc:"linb.Ajax Class. Dont use 'new' but 'function call' to create an instance. <br />Call function : to Create a linb.Ajax Object. <strong>linb.Ajax can handle GET/POST request in the current domain; linb.Ajax is the only one can handle the synchronous request.</strong>",
@@ -1489,7 +1489,7 @@ _.set(linb.Locale,["en","app"], {
             }
         }
     });
-    
+
     _.set(linb.Locale,["en","doc","linb","SAjax"], {
         KEY:{$desc:"Class Name"},
         $desc:"linb.SAjax Class. Dont use 'new' but 'function call' to create an instance. <br />Call function : to Create a linb.SAjax Object. <strong>linb.SAjax can handle GET request cross domain, but cant POST data.</strong>.",
@@ -1574,7 +1574,7 @@ _.set(linb.Locale,["en","app"], {
             $desc:"Number, default type name. <strong>Server needs to match it in the response struct.</strong>.",
             $snippet:["alert(linb.SAjax.type)"]
         },
-    
+
         customQS: {
             $desc:"To customize query string Object. Subclass can overwrite it for adding extra variables or something.",
             $rtn:"Object",
@@ -1582,7 +1582,7 @@ _.set(linb.Locale,["en","app"], {
                 "obj [Required]: Object, original Object."
             ]
         },
-    
+
         prototype:{
             KEY:{$desc:"Class Name"},
             start:{
@@ -1594,7 +1594,7 @@ _.set(linb.Locale,["en","app"], {
             }
         }
     });
-    
+
     _.set(linb.Locale,["en","doc","linb","IAjax"], {
         KEY:{$desc:"Class Name"},
         $desc:"linb.IAjax Class. Dont use 'new' but 'function call' to create an instance. <br />Call function : to Create a linb.IAjax Object. <strong>linb.IAjax can handle GET/POST request cross domain, and can post binary file to server too.</strong>",
@@ -1652,7 +1652,7 @@ _.set(linb.Locale,["en","app"], {
              "   },{method:'GET'});*/"
         ],
         $memo:"You have to use linb.IAjax to post cross domain data, or to upload an iamge file.",
-    
+
         callback:{
             $desc:"String, default callback function name. <strong>Server needs to match it in the response struct.</strong>.",
             $snippet:["alert(linb.IAjax.callback)"]
@@ -1689,7 +1689,7 @@ _.set(linb.Locale,["en","app"], {
             $desc:"Number, default type name. <strong>Server needs to match it in the response struct.</strong>.",
             $snippet:["alert(linb.IAjax.type)"]
         },
-    
+
         customQS: {
             $desc:"To customize query string Object. Subclass can overwrite it for adding extra variables or something.",
             $rtn:"Object",
@@ -1708,7 +1708,7 @@ _.set(linb.Locale,["en","app"], {
             }
         }
     });
-    
+
     _.set(linb.Locale,["en","doc","linb","SC"], {
         KEY:{$desc:"Class Name"},
         $desc:"linb.Ajax Class(static).<br />Call function : Straight Call. Uses path name to call a specified class/Object. If the target class/Object exists, returns it directly, but if the target class/Object does not exist, loads it from code(in memory or in the remote file[linb.Ajax/linb.SAjax]) first, returns it, and executes the callback function(if it exists).",
@@ -1791,7 +1791,7 @@ _.set(linb.Locale,["en","app"], {
             ]
         }
     });
-    
+
     _.set(linb.Locale,["en","doc","linb","Event"], {
         KEY:{$desc:"Class Name"},
         $desc:"linb.Event Class",
@@ -1929,7 +1929,7 @@ _.set(linb.Locale,["en","app"], {
             ]
         }
     });
-    
+
     _.set(linb.Locale,["en","doc","linb","absBox"],{
         pack:{
             $desc: "To create a [linb.absBox] Object, and pack a set of value to this Object. ",
@@ -2005,7 +2005,7 @@ _.set(linb.Locale,["en","app"], {
             }
         }
     });
-    
+
     _.set(linb.Locale,["en","doc","linb","Dom"], {
         KEY:{$desc:"Class Name"},
         $desc:"linb.Dom Class",
@@ -2017,15 +2017,15 @@ _.set(linb.Locale,["en","app"], {
                     "<ul>"+
                         "<li><strong>linb(/**/).onClick([function], 'label')</strong> =>adds the [function] to  [onclick]group?</li>"+
                         "<li><strong>linb(/**/).onClick([function]) </strong> => removes all event functions in [onclick] group, and adds the [function] to [onclick] group?</li>"+
-    
+
                         "<li><strong>linb(/**/).onClick(null, 'label') </strong> => removes the event function labelled with 'label' from the [onclick] group.</li>"+
                         "<li><strong>linb(/**/).onClick(null) </strong> => removes all event functions in [onclick] group.</li>"+
                         "<li><strong>linb(/**/).onClick(null,null,true) </strong> => removes all event functions in [beforeclick] group, [onclick] group and [afterclick] group.</li>"+
-    
+
                         "<li><strong>linb(/**/).onClick() </strong> => fire event, executes all event functions in [onclick] group in order. <strong>If any of those functions returns [false], the remaining functions will be ignored.</strong></li>"+
                         "<li><strong>linb(/**/).onClick(true) </strong> => fire event, executes all event functions in [beforeclick] group, [onclick] group and [afterclick] group in order.</li>"+
                     "</ul>"+
-    
+
                     "<p><strong>Returns</strong>: Add: return [self]; Remove: return [self]; Fire: no return.</p>"+
                     "<p><strong>Parameters</strong>: </p>"+
                     "<ul>"+
@@ -2500,7 +2500,7 @@ _.set(linb.Locale,["en","app"], {
                     "}"
                 ]
             },
-    
+
             height:{
                 $desc:"Gets(the first element) or sets(all elements) the css height value.",
                 $rtn:"Number/[self]",
@@ -2589,7 +2589,7 @@ _.set(linb.Locale,["en","app"], {
                 $paras:[
                     "pos [Optional] : {left:Number or String,top:Number or String}.",
                     "triggerEvent [Optional] : Boolean, indicates if the 'set' action trigger related event or not."
-    
+
                 ],
                 $snippet:[
                     "var n=linb('btnLang'); n.cssPos({left:100,top:100}); alert(_.serialize(n.cssPos())); n.cssPos({left:'auto',top:'auto'})"
@@ -2981,7 +2981,7 @@ _.set(linb.Locale,["en","app"], {
                     "}"
                 ]
             },
-    
+
             left:{
                 $desc:"Gets(the first element) or sets(all elements) the css left value.",
                 $rtn:"Number/[self]",
@@ -3080,7 +3080,7 @@ _.set(linb.Locale,["en","app"], {
                     "}"
                 ]
             },
-    
+
             afterBlur:$eo,
             afterChange:$eo,
             afterClick:{
@@ -3185,7 +3185,7 @@ _.set(linb.Locale,["en","app"], {
             onUnload:$eo
         }
     });
-    
+
     _.set(linb.Locale,["en","doc","linb","DragDrop"], {
         KEY:{$desc:"Class Name"},
         $desc:"linb.DragDrop Class(static)",
@@ -3257,7 +3257,7 @@ _.set(linb.Locale,["en","app"], {
                 "<li><strong>dragType</strong>: 'move','copy','deep_copy','shape','icon', 'blank' or 'none', Default is 'shape';</li>"+
                 "<li><strong>shadowFrom</strong>: DOM element or linb.Dom Object. It's valid when dragType=='icon';</li>"+
                 "<li><strong>targetReposition</strong>: Boolean, does dd reset the target position, Default is [true];</li>"+
-    
+
                 "<li><strong>dragIcon</strong>: String, the drag icon image path, Default is [linb.ini.path+'ondrag.gif'].</li>"+
                 "<li><strong>magneticDistance</strong>: Number, the magnetic distance, Default is 0;</li>"+
                 "<li><strong>xMagneticLines</strong>: Array of Number, the magnetic line vlaues in horizontal dir, Default is [];</li>"+
@@ -3265,14 +3265,14 @@ _.set(linb.Locale,["en","app"], {
                 "<li><strong>widthIncrement</strong>: Number, the width increment in horizontal dir, Default is 0;</li>"+
                 "<li><strong>heightIncrement</strong>: Number, the height increment in vertical dir, Default is 0;</li>"+
                 "<li><strong>dragDefer</strong>: Number, when [linb.DragDrop.startDrag] is called, the real drag action will be triggered after [document.onmousemove] runs [dragDefer] times, Default is 0;</li>"+
-    
+
                 "<li><strong>horizontalOnly</strong>:Boolean, drag horizontal dir only, Default is [false];</li>"+
                 "<li><strong>verticalOnly</strong>: Boolean, drag vertical dir only, Default is [false];</li>"+
                 "<li><strong>maxBottomOffset</strong>:Number, the offset between [the restricted bottom] and [the current mouse Y], for mouse restricted region, Default is [null];</li>"+
                 "<li><strong>maxLeftOffset</strong>:Number, the offset between [the restricted left] and [the current mouse X], for mouse restricted region, Default is [null];</li>"+
                 "<li><strong>maxRightOffset</strong>:Number, the offset between [the restricted right] and [the current mouse X], for mouse restricted region, Default is [null];</li>"+
                 "<li><strong>maxTopOffset</strong>: Number, the offset between [the restricted top] and [the current mouse Y], for mouse restricted region, Default is [null];</li>"+
-    
+
                 "<li><strong>targetNode</strong>: DOM element or linb.Dom Object, the drag target node;</li>"+
                 "<li><strong>targetCSS</strong>: Number, the drag target node's css key/value Object, Default is [null];</li>"+
                 "<li><strong>dragKey</strong>: String, the drag key, Default is [null];</li>"+
@@ -3282,7 +3282,7 @@ _.set(linb.Locale,["en","app"], {
                 "<li><strong>targetWidth</strong>: Number, the drag target node's css width, Default is [null];</li>"+
                 "<li><strong>targetHeight</strong>: Number, the drag target node's css height, Default is [null];</li>"+
                 "<li><strong>targetOffsetParent</strong>: linb.Dom Object, the drag target node offsetParent node, Default is [null];</li>"+
-    
+
                 "<li><strong>dragCursor</strong>:  'none', 'move', 'link', or 'add', the drag cursor key; <strong>[readonly]</strong></li>"+
                 "<li><strong>x</strong>: Number, current X value of mouse; <strong>[readonly]</strong></li>"+
                 "<li><strong>y</strong>: Number, current Y value of mouse; <strong>[readonly]</strong></li>"+
@@ -3308,7 +3308,7 @@ _.set(linb.Locale,["en","app"], {
             ]
         }
     });
-    
+
     _.set(linb.Locale,["en","doc","linb","CSS"], {
         KEY:{$desc:"Class Name"},
         $desc:"linb.CSS Class(static)",
@@ -3387,7 +3387,7 @@ _.set(linb.Locale,["en","app"], {
             ]
         }
     });
-    
+
     _.set(linb.Locale,["en","doc","linb","History"], {
         KEY:{$desc:"Class Name"},
         $desc:"linb.History Class(static)",
@@ -3423,7 +3423,7 @@ _.set(linb.Locale,["en","app"], {
             ]
         }
     });
-    
+
     _.set(linb.Locale,["en","doc","linb","Cookies"], {
         KEY:{$desc:"Class Name"},
         $desc:"linb.Cookies Class(static)",
@@ -3492,7 +3492,7 @@ _.set(linb.Locale,["en","app"], {
             ]
         }
     });
-    
+
     _.set(linb.Locale,["en","doc","linb","Date"], {
         KEY:{$desc:"Class Name"},
         $desc:"linb.Date Class(static)",
@@ -3655,8 +3655,8 @@ _.set(linb.Locale,["en","app"], {
                 "arr.push(date.format(d,'yyyy-mm-dd hh:nn:ss ms'));"+
                 "alert(arr.join('\\n'))"
             ]
-    
-    
+
+
         },
         getText:{
             $desc:"Converts the specified date to a string representation.",
@@ -3736,7 +3736,7 @@ _.set(linb.Locale,["en","app"], {
             ]
         }
     });
-    
+
     _.set(linb.Locale,["en","doc","linb","absObj"], {
         getAll:{
             $desc:"Gets all instances of the current Class.",
@@ -3821,7 +3821,7 @@ _.set(linb.Locale,["en","app"], {
             }
         }
     });
-    
+
     _.set(linb.Locale,["en","doc","linb","absProfile"], {
         prototype:{
             getId:{
@@ -3843,7 +3843,7 @@ _.set(linb.Locale,["en","app"], {
                     "var profile=new linb.Profile(), a1=[],a2=[],a3=[]; profile.link(a1,'a').link(a2,'b').link(a3,'c'); alert(a1+':'+a2+':'+a3); profile.unLink('a'); alert(a1+':'+a2+':'+a3); profile.unLinkAll(); alert(a1+':'+a2+':'+a3); "
                 ],
                 $memo:"Usually, we do not need to  call this function manually."
-    
+
             },
             unLink:{
                 $desc:"To unlink the linked Object or Array according to a given [id].",
@@ -3866,7 +3866,7 @@ _.set(linb.Locale,["en","app"], {
             }
         }
     });
-    
+
     _.set(linb.Locale,["en","doc","linb","Profile"], {
         KEY:{$desc:"Class Name"},
         $desc:"linb.Profile Class",
@@ -3924,7 +3924,7 @@ _.set(linb.Locale,["en","app"], {
             }
         }
     });
-    
+
     _.set(linb.Locale,["en","doc","linb","UIProfile"], {
         KEY:{$desc:"Class Name"},
         $desc:"linb.UIProfile Class",
@@ -4022,7 +4022,7 @@ _.set(linb.Locale,["en","app"], {
                 $snippet:[
                     "var profile=linb.UIProfile.getFromDom('linb.UI.TreeBar:a:'), items=[{id:'a'},{id:'.b',sub:[{id:'aa'},{id:'.bb'}]}], filter=function(o,i){return o.id.indexOf('.')!=-1},results= profile.queryItems(items,filter);alert(results.length);results= profile.queryItems(items,filter,true);alert(results.length);results= profile.queryItems(items,filter,true,true);alert(results.length);results= profile.queryItems(items,filter,false,true);alert(results.length);",
                     "var profile=linb.UIProfile.getFromDom('linb.UI.TreeBar:a:'), items=profile.properties.items, filter=function(o,i){return o.id.indexOf('.')!=-1},results= profile.queryItems(items,filter);alert(results.length);results= profile.queryItems(items,filter,true);alert(results.length);results= profile.queryItems(items,filter,true,true);alert(results.length);results= profile.queryItems(items,filter,false,true);alert(results.length);"
-    
+
                 ]
             },
             getItemByDom:{
@@ -4095,7 +4095,7 @@ _.set(linb.Locale,["en","app"], {
                     "alert(profile.getSubNodes(['ITEM','BAR'],'a').get().length);"+
                     "alert(profile.getSubNodes(['ITEM','BAR'],true).get().length);"
                 ],
-    
+
                 $memo:"The [subId] parameter is for those [linb.absList] profiles only"
             },
             getSubNodeByItemId:{
@@ -4173,7 +4173,7 @@ _.set(linb.Locale,["en","app"], {
             }
         }
     });
-    
+
     _.set(linb.Locale,["en","doc","linb","Template"], {
         KEY:{$desc:"Class Name"},
         $desc:"linb.Template Class",
@@ -4351,7 +4351,7 @@ _.set(linb.Locale,["en","app"], {
             }
         }
     });
-    
+
     _.set(linb.Locale,["en","doc","linb","Com"], {
         KEY:{$desc:"Class Name"},
         $desc:"linb.Com Class",
@@ -4382,15 +4382,15 @@ _.set(linb.Locale,["en","app"], {
                 "com.iniComponents=function(){order.push('iniComponents'); return (new linb.UI.Dialog()).setHost(this, 'dialog2').setWidth(150).setHeight(150).get() };"+
                 "com.iniResource=function(){order.push('iniResource'); };"+
                 "com.iniExComs=function(){order.push('iniExComs'); };"+
-    
+
                 "var abox=com.getComponents();"+
                 "abox.merge((new linb.UI.Dialog()).setHost(com, 'dialog1'));"+
                 "com.setComponents(abox);"+
-    
+
                 "com.show(function(com){"+
                 "   order.push('onEnd'); "+
                 "});",
-    
+
                 "Class('App1','linb.Com',{" +
                 "    Instance:{" +
                 "        base : ['linb.UI', 'linb.Date']," +
@@ -4460,7 +4460,7 @@ _.set(linb.Locale,["en","app"], {
                 "});" +
                 "var com = new App1;" +
                 "com.show();",
-    
+
                 "Class('App2','linb.Com',{" +
                 "    Instance:{" +
                 "        base : ['linb.UI']," +
@@ -4768,7 +4768,7 @@ _.set(linb.Locale,["en","app"], {
                     "linb.SC('App.Test1',function(){var com=new this; com.create(function(com){com.setHost(window,'com_alias'); alert(com.getHost()===window); alert(window.com_alias)});},false);"
                 ]
             },
-    
+
             beforeCreated:{
                 $desc:'Fired before com is created.',
                 $paras:[
@@ -4846,8 +4846,8 @@ _.set(linb.Locale,["en","app"], {
             }
         }
     });
-    
-    
+
+
     _.set(linb.Locale,["en","doc","linb","ComFactory"], {
         KEY:{$desc:"Class Name"},
         $desc:"linb.ComFactory Class(static)",
@@ -4924,7 +4924,7 @@ _.set(linb.Locale,["en","app"], {
             ],
             $snippet:[
                 "linb.ComFactory.getCom('App.Test1',function(){alert('The Com loaded successfully.')});",
-    
+
                 "linb.ComFactory.destroyAll();"+
                 "linb.ComFactory.setProfile({test1:{cls:'App.Test1',properties:{key1:1},events:{ev1:function(){alert(2)}}},test2:'App.Test2'});"+
                 "linb.ComFactory.getCom('test1',function(){alert('The Com loaded successfully.');alert(this.properties.key1); this.events.ev1();});"
@@ -4977,11 +4977,11 @@ _.set(linb.Locale,["en","app"], {
             ]
         }
     });
-    
+
     _.set(linb.Locale,["en","doc","linb","DomProfile"], {
         KEY:{$desc:"Class Name"},
     });
-    
+
     _.set(linb.Locale,["en","doc","linb","DataBinder"], {
         KEY:{$desc:"Class Name"},
         $desc:"linb.DataBinder Class",
@@ -5079,7 +5079,7 @@ _.set(linb.Locale,["en","app"], {
             }
         }
     });
-    
+
     _.set(linb.Locale,["en","doc","linb","Tips"], {
         KEY:{$desc:"Class Name"},
         $desc:"linb.Tips Class(static)",
@@ -5130,7 +5130,7 @@ _.set(linb.Locale,["en","app"], {
             ]
         }
     });
-    
+
     _.set(linb.Locale,["en","doc","linb","Coder"], {
         KEY:{$desc:"Class Name"},
         $desc:"linb.Coder Class(static)",
@@ -5221,8 +5221,8 @@ _.set(linb.Locale,["en","app"], {
             $memo:"Generally, this function will not be used in a web application, but a HTML page with code to be highlighted."
         }
     });
-    
-    
+
+
     _.set(linb.Locale,["en","doc","linb","absList"], {
         prototype:{
             fireItemClickEvent:{
@@ -5253,7 +5253,7 @@ _.set(linb.Locale,["en","app"], {
                     "}"
                 ]
             },
-    
+
             getItems:{
                 $desc:"Gets the items proerpy from the current UI Object.",
                 $rtn:"Array",
@@ -5393,7 +5393,7 @@ _.set(linb.Locale,["en","app"], {
             }
         }
     });
-    
+
     _.set(linb.Locale,["en","doc","linb","absValue"], {
         prototype:{
             getDirtyMark:{
@@ -5454,7 +5454,7 @@ _.set(linb.Locale,["en","app"], {
                     "}"
                 ]
             },
-    
+
             getUIValue:{
                 $desc:"Gets the 'UI value' on the first UIProfile",
                 $rtn:"Object",
@@ -5480,7 +5480,7 @@ _.set(linb.Locale,["en","app"], {
                 ],
                 $memo:"There are two events will be triggered in this action: beforeUIValueSet and afterUIValueSet."
             },
-    
+
             updateValue:{
                 $desc:"Copies the 'UI value' to 'value'",
                 $rtn:"[self]",
@@ -5549,7 +5549,7 @@ _.set(linb.Locale,["en","app"], {
                     "}"
                 ]
             },
-    
+
             beforeUIValueSet:{
                 $desc:"Fired before setUIValue is called. If returns false, setUIValue function will be ignored.",
                 $paras:[
@@ -5630,8 +5630,8 @@ _.set(linb.Locale,["en","app"], {
                     "}"
                 ]
             },
-    
-    
+
+
             beforeDirtyMark:{
                 $desc:"Fired when before _setDirtyMark is called.If returns false, the inner dirtyMark function will be ignored.",
                 $paras:[
@@ -5649,7 +5649,7 @@ _.set(linb.Locale,["en","app"], {
             }
         }
     });
-    
+
     _.set(linb.Locale,["en","doc","linb","absComposed"], {
         prototype:{
             getDragKey:{
@@ -5747,7 +5747,7 @@ _.set(linb.Locale,["en","app"], {
                     "}"
                 ]
             },
-    
+
             onHotKeydown:{
                 $desc:"Fired when keyboard is down.",
                 $paras:[
@@ -5851,7 +5851,7 @@ _.set(linb.Locale,["en","app"], {
                     "block.onDropTest(function(p,e,n,k,d,i){return d!='abc';});"+
                     "}"
                 ]
-    
+
             },
             onDrop:{
                 $desc:"Fired when the user drop the Object to a valid drop target.",
@@ -6049,7 +6049,7 @@ _.set(linb.Locale,["en","app"], {
             }
         }
     });
-    
+
     _.set(linb.Locale,["en","doc","linb","UI"], {
         KEY:{$desc:"Class Name"},
         $desc:"linb.UI Class",
@@ -6226,6 +6226,18 @@ _.set(linb.Locale,["en","app"], {
         },
         prototype:{
             KEY:{$desc:"Class Name"},
+            getClassName:{
+              $desc:"Gets class name",
+              $rtn:"String"
+            },
+            setClassName:{
+              $desc:"Sets class name",
+              $rtn:"[self]",
+              $paras:[
+                  "value [Required] : String.",
+                  "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
+              ]
+            },
             getTheme:{
                 $desc:"Gets the current control's theme key.",
                 $rtn:"String"
@@ -7492,7 +7504,7 @@ _.set(linb.Locale,["en","app"], {
             }
         }
     });
-    
+
     _.set(linb.Locale,["en","doc","linb","UI","Div"], {
         KEY:{$desc:"Class Name"},
         $desc:"linb.UI.Div Class",
@@ -7527,7 +7539,7 @@ _.set(linb.Locale,["en","app"], {
             }
         }
     });
-    
+
     _.set(linb.Locale,["en","doc","linb","UI","Pane"], {
         KEY:{$desc:"Class Name"},
         $desc:"linb.UI.Pane Class",
@@ -7535,7 +7547,7 @@ _.set(linb.Locale,["en","app"], {
             $desc:"Creates a linb.UI.Pane Object."
         }
     });
-    
+
     _.set(linb.Locale,["en","doc","linb","UI","Tag"], {
         KEY:{$desc:"Class Name"},
         $desc:"linb.UI.Tag Class",
@@ -7573,7 +7585,7 @@ _.set(linb.Locale,["en","app"], {
             }
         }
     });
-    
+
     _.set(linb.Locale,["en","doc","linb","UI","Link"], {
         KEY:{$desc:"Class Name"},
         $desc:"linb.UI.Link Class",
@@ -7654,8 +7666,8 @@ _.set(linb.Locale,["en","app"], {
                     "}"
                 ]
             },
-    
-    
+
+
             onClick:{
                 $desc:"onClick event handler.",
                 $paras:[
@@ -7670,13 +7682,13 @@ _.set(linb.Locale,["en","app"], {
             }
         }
     });
-    
+
     _.set(linb.Locale,["en","doc","linb","UI","Border"], {$desc:"linb.UI.Border Class",KEY:{$desc:"Class Name"}});
-    
+
     _.set(linb.Locale,["en","doc","linb","UI","Shadow"], {$desc:"linb.UI.Shadow Class",KEY:{$desc:"Class Name"}});
-    
+
     _.set(linb.Locale,["en","doc","linb","UI","Resizer"], {$desc:"linb.UI.Resizer Class",KEY:{$desc:"Class Name"}});
-    
+
     _.set(linb.Locale,["en","doc","linb","UI","Resizer"], {
         KEY:{$desc:"Class Name"},
         $desc:"linb.UI.Resizer Class",
@@ -7745,6 +7757,89 @@ _.set(linb.Locale,["en","app"], {
             },
             setBorderType:{
                 $desc:"Sets border type to the current UI Object.",
+                $rtn:"[self]",
+                $paras:[
+                    "value [Required] : String, 'none','inset','outset','groove'or 'ridge'.",
+                    "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
+                ],
+                $snippet:[
+                    "var id='linb.temp.blk6'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                    "var o;linb(id).prepend(o=(new linb.UI.Block).setBorderType('groove'));"+
+                    "_.asyRun(function(){alert(o.getBorderType())},1000);"+
+                    "}"
+                ]
+            }
+        }
+    });
+
+    _.set(linb.Locale,["en","doc","linb","UI","Block"], {
+        
+        $desc:"linb.UI.Block Class",
+        constructor:{
+            $desc:"Creates a linb.UI.Block Object."
+        },
+        prototype:{
+            KEY:{$desc:"Class Name"},
+            getHtml:{
+                $desc:"Gets inner HTML.",
+                $rtn:"String",
+                $snippet:[
+                    "var id='linb.temp.blk1'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                    "var o;linb(id).prepend(o=new linb.UI.Block({border:true,html:'<span>a</span>'}));"+
+                    "_.asyRun(function(){alert(o.getHtml())});"+
+                    "}"
+                ]
+            },
+            setHtml:{
+                $desc:"Sets inner HTML.",
+                $rtn:"[self]",
+                $paras:[
+                    "value [Required] : String.",
+                    "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
+                ],
+                $snippet:[
+                    "var id='linb.temp.blk2'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                    "var o;linb(id).prepend(o=(new linb.UI.Block).setBorder(true).setHtml('<span>a</span>'));"+
+                    "_.asyRun(function(){o.setHtml('<span>b</span>')},1000);"+
+                    "}"
+                ]
+            },
+            getBackground:{
+                $desc:"Gets background style.",
+                $rtn:"String",
+                $snippet:[
+                    "var id='linb.temp.blk3'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                    "var o;linb(id).prepend(o=(new linb.UI.Block).setBackground('red'));"+
+                    "_.asyRun(function(){alert(o.getBackground())},1000);"+
+                    "}"
+                ]
+            },
+            setBackground:{
+                $desc:"Sets background style.",
+                $rtn:"[self]",
+                $paras:[
+                    "value [Required] : String.",
+                    "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
+                ],
+                $snippet:[
+                    "var id='linb.temp.blk4'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                    "var o;linb(id).prepend(o=(new linb.UI.Block).setBackground('red'));"+
+                    "_.asyRun(function(){alert(o.getBackground())},1000);"+
+                    "}"
+                ]
+            },
+            getBorderType:{
+                $desc:"Gets border type.",
+                $rtn:"String",
+                $snippet:[
+                    "var id='linb.temp.blk5'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                    "var o;linb(id).prepend(o=(new linb.UI.Block).setBorderType('inset'));"+
+                    "_.asyRun(function(){alert(o.getBorderType())},1000);"+
+                    "}"
+                ]
+            },
+            setBorderType:{
+                $desc:"Sets border type.",
                 $rtn:"[self]",
                 $paras:[
                     "value [Required] : String, 'none','inset','outset','groove'or 'ridge'.",
@@ -8024,7 +8119,7 @@ _.set(linb.Locale,["en","app"], {
             }
         }
     });
-    
+
     _.set(linb.Locale,["en","doc","linb","UI","SLabel"], {
         KEY:{$desc:"Class Name"},
         $desc:"linb.UI.SLabel Class",
@@ -8083,7 +8178,7 @@ _.set(linb.Locale,["en","app"], {
             }
         }
     });
-    
+
     _.set(linb.Locale,["en","doc","linb","UI","SButton"], {
         KEY:{$desc:"Class Name"},
         $desc:"linb.UI.SButton Class",
@@ -8150,7 +8245,7 @@ _.set(linb.Locale,["en","app"], {
                     "}"
                 ]
             },
-    
+
             onClick:{
                 $desc:"Fired when button is clicked.",
                 $paras:[
@@ -8167,8 +8262,8 @@ _.set(linb.Locale,["en","app"], {
             }
         }
     });
-    
-    _.set(linb.Locale,["cn","doc","linb","UI","RichEditor"], {
+
+    _.set(linb.Locale,["en","doc","linb","UI","RichEditor"], {
         KEY:{$desc:"Class Name"},
         $desc:"linb.UI.RichEditor Class",
         constructor:{
@@ -8202,7 +8297,7 @@ _.set(linb.Locale,["en","app"], {
             }
         }
     });
-    
+
     _.set(linb.Locale,["en","doc","linb","UI","SCheckBox"], {
         KEY:{$desc:"Class Name"},
         $desc:"linb.UI.SCheckBox Class",
@@ -8260,7 +8355,7 @@ _.set(linb.Locale,["en","app"], {
             }
         }
     });
-    
+
     _.set(linb.Locale,["en","doc","linb","UI","Button"], {
         KEY:{$desc:"Class Name"},
         $desc:"linb.UI.Button Class",
@@ -8438,7 +8533,7 @@ _.set(linb.Locale,["en","app"], {
                     "}"
                 ]
             },
-    
+
             onClick:{
                 $desc:"Fired when button is clicked.",
                 $paras:[
@@ -8482,7 +8577,7 @@ _.set(linb.Locale,["en","app"], {
             }
         }
     });
-    
+
     _.set(linb.Locale,["en","doc","linb","UI","CheckBox"], {
         KEY:{$desc:"Class Name"},
         $desc:"linb.UI.CheckBox Class",
@@ -8506,7 +8601,7 @@ _.set(linb.Locale,["en","app"], {
             }
         }
     });
-    
+
     _.set(linb.Locale,["en","doc","linb","UI","Input"], {
         KEY:{$desc:"Class Name"},
         $desc:"linb.UI.Input Class",
@@ -8598,13 +8693,13 @@ _.set(linb.Locale,["en","app"], {
             setMask:{
                 $desc:"Sets the mask property value, and reflects the value to UI. Mark is kind of input pattern/format and can restrict abusive input.<ul>Char represents:"+
                     "<li>'~' : [+-]</li>"+
-            		"<li>'1' : [0-9]</li>"+
-            		"<li>'a' : [A-Za-z]</li>"+
-            		"<li>'u' : [A-Z]</li>"+
-            		"<li>'l' : [a-z]</li>"+
-            		"<li>'*' : [A-Za-z0-9]</li>"+
-            		"<li>other : itself </li>"+
-            		"</ul>",
+                "<li>'1' : [0-9]</li>"+
+                "<li>'a' : [A-Za-z]</li>"+
+                "<li>'u' : [A-Z]</li>"+
+                "<li>'l' : [a-z]</li>"+
+                "<li>'*' : [A-Za-z0-9]</li>"+
+                "<li>other : itself </li>"+
+                "</ul>",
                 $rtn:"[self]",
                 $paras:[
                     "value [Required] : String.",
@@ -8886,8 +8981,8 @@ _.set(linb.Locale,["en","app"], {
                     "}"
                 ]
             },
-    
-    
+
+
             onChange:{
                 $desc:"Fired when end user changes text in this editor.",
                 $paras:[
@@ -9073,8 +9168,8 @@ _.set(linb.Locale,["en","app"], {
                     "}"
                 ]
             },
-    
-    
+
+
             beforeExpend:{
                 $desc:"Fired before group expends. If returns false, function will be ignored.",
                 $paras:[
@@ -9122,7 +9217,7 @@ _.set(linb.Locale,["en","app"], {
             }
         }
     });
-    
+
     _.set(linb.Locale,["en","doc","linb","UI","ComboInput"], {
         KEY:{$desc:"Class Name"},
         $desc:"linb.UI.ComboInput Class",
@@ -9510,8 +9605,8 @@ _.set(linb.Locale,["en","app"], {
             }
         }
     });
-    
-    
+
+
     _.set(linb.Locale,["en","doc","linb","UI","Stacks"], {
         KEY:{$desc:"Class Name"},
         $desc:"linb.UI.Stacks Class",
@@ -9519,7 +9614,7 @@ _.set(linb.Locale,["en","app"], {
             $desc:"Creates a linb.UI.Stacks Object."
         }
     });
-    
+
     _.set(linb.Locale,["en","doc","linb","UI","ButtonViews"], {
         KEY:{$desc:"Class Name"},
         $desc:"linb.UI.ButtonViews Class",
@@ -9628,7 +9723,7 @@ _.set(linb.Locale,["en","app"], {
             }
         }
     });
-    
+
     _.set(linb.Locale,["en","doc","linb","UI","RadioBox"], {
         KEY:{$desc:"Class Name"},
         $desc:"linb.UI.RadioBox Class",
@@ -9636,8 +9731,8 @@ _.set(linb.Locale,["en","app"], {
             $desc:"Creates a linb.UI.RadioBox Object."
         }
     });
-    
-    
+
+
     _.set(linb.Locale,["en","doc","linb","UI","ColorPicker"], {
         KEY:{$desc:"Class Name"},
         $desc:"linb.UI.ColorPicker Class",
@@ -9776,7 +9871,7 @@ _.set(linb.Locale,["en","app"], {
                     "}"
                 ]
             },
-    
+
             beforeClose:{
                 $desc:"Fired before user click close button. If returns false, close function will be ignored.",
                 $paras:[
@@ -9791,7 +9886,7 @@ _.set(linb.Locale,["en","app"], {
             }
         }
     });
-    
+
     _.set(linb.Locale,["en","doc","linb","UI","DatePicker"], {
         KEY:{$desc:"Class Name"},
         $desc:"linb.UI.DatePicker Class",
@@ -9834,7 +9929,7 @@ _.set(linb.Locale,["en","app"], {
                     "}"
                 ]
             },
-    
+
             beforeClose:{
                 $desc:"Fired before user click close button. If returns false, close function will be ignored.",
                 $paras:[
@@ -9849,7 +9944,7 @@ _.set(linb.Locale,["en","app"], {
             }
         }
     });
-    
+
     _.set(linb.Locale,["en","doc","linb","UI","TimePicker"], {
         KEY:{$desc:"Class Name"},
         $desc:"linb.UI.TimePicker Class",
@@ -9896,7 +9991,7 @@ _.set(linb.Locale,["en","app"], {
             }
         }
     });
-    
+
     _.set(linb.Locale,["en","doc","linb","UI","Slider"], {
         KEY:{$desc:"Class Name"},
         $desc:"linb.UI.Slider Class",
@@ -10027,7 +10122,7 @@ _.set(linb.Locale,["en","app"], {
             }
         }
     });
-    
+
     _.set(linb.Locale,["en","doc","linb","UI","Range"], {
         KEY:{$desc:"Class Name"},
         $desc:"linb.UI.Range Class",
@@ -10182,7 +10277,7 @@ _.set(linb.Locale,["en","app"], {
             }
         }
     });
-    
+
     _.set(linb.Locale,["en","doc","linb","UI","List"], {
         KEY:{$desc:"Class Name"},
         $desc:"linb.UI.List Class",
@@ -10323,7 +10418,7 @@ _.set(linb.Locale,["en","app"], {
             }
         }
     });
-    
+
     _.set(linb.Locale,["en","doc","linb","UI","StatusButtons"], {
         KEY:{$desc:"Class Name"},
         $desc:"linb.UI.StatusButtons Class",
@@ -10408,7 +10503,7 @@ _.set(linb.Locale,["en","app"], {
             }
         }
     });
-    
+
     _.set(linb.Locale,["en","doc","linb","UI","Gallery"], {
         KEY:{$desc:"Class Name"},
         $desc:"linb.UI.Gallery Class",
@@ -10577,7 +10672,7 @@ _.set(linb.Locale,["en","app"], {
             }
         }
     });
-    
+
     _.set(linb.Locale,["en","doc","linb","UI","IconList"], {
         KEY:{$desc:"Class Name"},
         $desc:"linb.UI.IconList Class",
@@ -10698,7 +10793,7 @@ _.set(linb.Locale,["en","app"], {
             }
         }
     });
-    
+
     _.set(linb.Locale,["en","doc","linb","UI","Panel"], {
         KEY:{$desc:"Class Name"},
         $desc:"linb.UI.Panel Class",
@@ -11063,10 +11158,10 @@ _.set(linb.Locale,["en","app"], {
                     "}"
                 ]
             }
-    
+
         }
     });
-    
+
     _.set(linb.Locale,["en","doc","linb","UI","PageBar"], {
         KEY:{$desc:"Class Name"},
         $desc:"linb.UI.PageBar Class",
@@ -11208,8 +11303,8 @@ _.set(linb.Locale,["en","app"], {
                     "}"
                 ]
             },
-    
-    
+
+
             onClick:{
                 $desc:"onClick event handler.",
                 $paras:[
@@ -11224,7 +11319,7 @@ _.set(linb.Locale,["en","app"], {
             }
         }
     });
-    
+
     _.set(linb.Locale,["en","doc","linb","UI","Layout"], {
         KEY:{$desc:"Class Name"},
         $desc:"linb.UI.Layout Class",
@@ -11349,8 +11444,8 @@ _.set(linb.Locale,["en","app"], {
             }
         }
     });
-    
-    
+
+
     _.set(linb.Locale,["en","doc","linb","UI","ColLayout"], {
         KEY:{$desc:"Class Name"},
         $desc:"linb.UI.ColLayout Class",
@@ -11412,7 +11507,7 @@ _.set(linb.Locale,["en","app"], {
             }
         }
     });
-    
+
     _.set(linb.Locale,["en","doc","linb","UI","Tabs"], {
         KEY:{$desc:"Class Name"},
         $desc:"linb.UI.Tabs Class",
@@ -11618,7 +11713,7 @@ _.set(linb.Locale,["en","app"], {
                     "}"
                 ]
             },
-    
+
             addPanel:{
                 $desc:"Adds a panel to the current UI.",
                 $rtn:"[self]",
@@ -11770,7 +11865,7 @@ _.set(linb.Locale,["en","app"], {
             }
         }
     });
-    
+
     _.set(linb.Locale,["en","doc","linb","UI","Calendar"], {
         KEY:{$desc:"Class Name"},
         $desc:"linb.UI.Calendar Class",
@@ -11829,7 +11924,7 @@ _.set(linb.Locale,["en","app"], {
             }
         }
     });
-    
+
     _.set(linb.Locale,["en","doc","linb","UI","ToolBar"], {
         KEY:{$desc:"Class Name"},
         $desc:"linb.UI.ToolBar Class",
@@ -11927,7 +12022,7 @@ _.set(linb.Locale,["en","app"], {
                     "_.asyRun(function(){o.showItem('ga2',false)},1000);"+
                     "}"
                 ]
-    
+
             },
             onClick:{
                 $desc:"Fired when an tool bar item is clicked.",
@@ -11945,11 +12040,11 @@ _.set(linb.Locale,["en","app"], {
                     "}"
                 ]
             }
-    
+
         }
     });
-    
-    
+
+
     _.set(linb.Locale,["en","doc","linb","UI","PopMenu"], {
         KEY:{$desc:"Class Name"},
         $desc:"linb.UI.PopMenu Class",
@@ -12046,7 +12141,7 @@ _.set(linb.Locale,["en","app"], {
                     "}"
                 ]
             },
-    
+
             beforeHide:{
                 $desc:"Fired before the menu hides. If returns false, hide function will be ignored.",
                 $paras:[
@@ -12111,8 +12206,8 @@ _.set(linb.Locale,["en","app"], {
             }
         }
     });
-    
-    
+
+
     _.set(linb.Locale,["en","doc","linb","UI","MenuBar"], {
         KEY:{$desc:"Class Name"},
         $desc:"linb.UI.MenuBar Class",
@@ -12274,8 +12369,8 @@ _.set(linb.Locale,["en","app"], {
             }
         }
     });
-    
-    
+
+
     _.set(linb.Locale,["en","doc","linb","UI","Dialog"], {
         KEY:{$desc:"Class Name"},
         $desc:"linb.UI.Dialog Class",
@@ -12458,7 +12553,7 @@ _.set(linb.Locale,["en","app"], {
                     "var dlg=(new linb.UI.Dialog).show(null,false, 100,100); alert(dlg.getCloseBtn());_.asyRun(function(){dlg.setCloseBtn(false);},1000);_.asyRun(function(){dlg.close();},2000);"
                 ]
             },
-    
+
             getMinBtn:{
                 $desc:"Determines whether this control has a min button",
                 $rtn:"Boolean",
@@ -12761,10 +12856,34 @@ _.set(linb.Locale,["en","app"], {
                     "dlg.show(null,false, 100,100);"
                 ]
             }
-    
+
         }
     });
-    
+
+
+    _.set(linb.Locale,["en","doc","linb","UI","Span"], {
+        KEY:{$desc:"Class Name"},
+        $desc:"linb.UI.Span Class",
+        constructor:{
+            desc:"Creates a linb.UI.Span Object."
+        },
+        prototype:{
+            KEY:{$desc:"Class Name"},
+            getHtml:{
+                $desc:"Gets the html string from the first UI Object.",
+                $rtn:"String"
+            },
+            setHtml:{
+              $desc:"Sets the html string to the current UI Object.",
+              $rtn:"[self]",
+              $paras:[
+                  "value [Required] : String.",
+                  "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
+              ]
+            }
+        }
+    });
+
     _.set(linb.Locale,["en","doc","linb","UI","Image"], {
         KEY:{$desc:"Class Name"},
         $desc:"linb.UI.Image Class",
@@ -12881,7 +13000,7 @@ _.set(linb.Locale,["en","app"], {
                     "}"
                 ]
             },
-    
+
             onError:{
                 $desc:"Fired when the image does not exist.",
                 $paras:[
@@ -12940,10 +13059,10 @@ _.set(linb.Locale,["en","app"], {
                     "src : Element."
                 ]
             }
-    
+
         }
     });
-    
+
     _.set(linb.Locale,["en","doc","linb","UI","FoldingList"], {
         KEY:{$desc:"Class Name"},
         $desc:"linb.UI.FoldingList Class",
@@ -13037,7 +13156,7 @@ _.set(linb.Locale,["en","app"], {
                     "}"
                 ]
             },
-    
+
             onShowOptions :{
                 $desc:"Fired when user click the option button.",
                 $paras:[
@@ -13054,7 +13173,7 @@ _.set(linb.Locale,["en","app"], {
                     "}"
                 ]
             },
-    
+
             onClickButton:{
                 $desc:"Fired when an inner command is clicked.",
                 $paras:[
@@ -13072,7 +13191,7 @@ _.set(linb.Locale,["en","app"], {
                     "}"
                 ]
             },
-    
+
             onGetContent:{
                 $desc:"Fired when the UI need to build inner content.",
                 $paras:[
@@ -13091,8 +13210,8 @@ _.set(linb.Locale,["en","app"], {
             }
         }
     });
-    
-    
+
+
     _.set(linb.Locale,["en","doc","linb","UI","Poll"], {
         KEY:{$desc:"Class Name"},
         $desc:"linb.UI.Poll Class",
@@ -13130,7 +13249,7 @@ _.set(linb.Locale,["en","app"], {
                 ],
                 $memo:"You have to use this function before the UIProfile is rendered."
             },
-    
+
             fillContent:{
                 $desc:"Fills the specified item content according to the given item id.",
                 $rtn:"[self]",
@@ -13352,7 +13471,7 @@ _.set(linb.Locale,["en","app"], {
                     "}"
                 ]
             },
-    
+
             onGetContent:{
                 $desc:"Fired when the UI need to build inner content.",
                 $paras:[
@@ -13385,7 +13504,7 @@ _.set(linb.Locale,["en","app"], {
                     "}"
                 ]
             },
-    
+
             beforeOptionAdded:{
                 $desc:"Fired wbefore a new item will be added.",
                 $paras:[
@@ -13417,7 +13536,7 @@ _.set(linb.Locale,["en","app"], {
                     "o.beforeOptionChanged(function(p,i,s){linb.message('beforeOptionChanged'+':'+s)});"+
                     "o.beforeOptionRemoved(function(p){linb.message('beforeOptionRemoved')});"+
                     "o.beforeTitleChanged(function(p,s){linb.message('beforeTitleChanged'+':'+s)});"+
-    
+
                     "linb(id).prepend(o);"+
                     "}"
                 ]
@@ -13434,7 +13553,7 @@ _.set(linb.Locale,["en","app"], {
                     "o.beforeOptionChanged(function(p,i,s){linb.message('beforeOptionChanged'+':'+s)});"+
                     "o.beforeOptionRemoved(function(p){linb.message('beforeOptionRemoved')});"+
                     "o.beforeTitleChanged(function(p,s){linb.message('beforeTitleChanged'+':'+s)});"+
-    
+
                     "linb(id).prepend(o);"+
                     "}"
                 ]
@@ -13452,7 +13571,7 @@ _.set(linb.Locale,["en","app"], {
                     "o.beforeOptionChanged(function(p,i,s){linb.message('beforeOptionChanged'+':'+s)});"+
                     "o.beforeOptionRemoved(function(p){linb.message('beforeOptionRemoved')});"+
                     "o.beforeTitleChanged(function(p,s){linb.message('beforeTitleChanged'+':'+s)});"+
-    
+
                     "linb(id).prepend(o);"+
                     "}"
                 ]
@@ -13478,7 +13597,7 @@ _.set(linb.Locale,["en","app"], {
             }
         }
     });
-    
+
     _.set(linb.Locale,["en","doc","linb","UI","TreeBar"], {
         KEY:{$desc:"Class Name"},
         $desc:"linb.UI.TreeBar Class",
@@ -13501,7 +13620,7 @@ _.set(linb.Locale,["en","app"], {
                     "}"
                 ]
             },
-    
+
             getAnimCollapse :{
                 $desc:"Determines whether to show animate when a tree node collapses.",
                 $rtn:"Boolean",
@@ -13728,8 +13847,8 @@ _.set(linb.Locale,["en","app"], {
                     "}"
                 ]
             },
-    
-    
+
+
             onGetContent:{
                 $desc:"Fired when the UI needs to build a sub items.",
                 $paras:[
@@ -13783,7 +13902,7 @@ _.set(linb.Locale,["en","app"], {
             }
         }
     });
-    
+
     _.set(linb.Locale,["en","doc","linb","UI","TreeView"], {
         KEY:{$desc:"Class Name"},
         $desc:"linb.UI.TreeView Class"
@@ -14817,7 +14936,7 @@ _.set(linb.Locale,["en","app"], {
                     "}"
                 ]
             },
-    
+
             beforeCellActive:{
                 $desc:"Fired before the cell is activated. If returns false, the activation will be ignored.",
                 $paras:[
@@ -14965,7 +15084,7 @@ _.set(linb.Locale,["en","app"], {
                ],
                 $memo:"Equals to set 'colMovable' to false in the specified column in header array."
             },
-    
+
             onGetContent:{
                 $desc:"Fired when treegrid need to get content to build a set of sub rows.",
                 $paras:[
@@ -15130,7 +15249,7 @@ _.set(linb.Locale,["en","app"], {
             }
         }
     });
-    
+
     _.set(linb.Locale,["en","doc","linb","UI","TimeLine"], {
         KEY:{$desc:"Class Name"},
         $desc:"linb.UI.TimeLine Class",
@@ -15681,7 +15800,7 @@ _.set(linb.Locale,["en","app"], {
                     "}"
                 ]
             },
-    
+
             beforeDragTask:{
                 $desc:"Fired before user start to drag a task. If returns false, the defalut drag action will be ignored.",
                 $paras:[
@@ -15797,7 +15916,7 @@ _.set(linb.Locale,["en","app"], {
             }
         }
     });
-    
+
 var cah=$me.linb.UI.TreeGrid.prototype;
 cah.setCols = cah.setHeader;
 cah.getCols = cah.getHeader;

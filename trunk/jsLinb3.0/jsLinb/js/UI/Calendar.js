@@ -58,6 +58,7 @@ Class('linb.UI.Calendar', 'linb.UI.DatePicker', {
         self.setTemplate({
             tagName : 'div',
             style:'{_style}',
+            className:'{_className}',
             onselectstart:'return false',
             BORDER:{
                 tagName : 'div',

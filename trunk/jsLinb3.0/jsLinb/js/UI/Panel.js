@@ -31,6 +31,7 @@ Class("linb.UI.Panel", "linb.UI.Div",{
         Templates:{
             tagName : 'div',
             style:'{_style}',
+            className:'{_className}',
             BORDER:{
                 tagName:'div',
                 TBAR:{

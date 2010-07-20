@@ -10696,7 +10696,7 @@ Class("linb.UI",  "linb.absObj", {
                     if(force){
                         o._resize_h=-1;
                         o._resize_w=-1;
-                    }                    
+                    }
                     linb.UI.$tryResize(o,p.width,p.height,force);
                 }
             });
@@ -10942,7 +10942,7 @@ Class("linb.UI",  "linb.absObj", {
                             pro.exchildren=[];
                         pro.exchildren.push([target,subId]);
                     }
-                }                
+                }
             }
 
             if(pro.afterAppend)
@@ -11338,7 +11338,7 @@ Class("linb.UI",  "linb.absObj", {
             '.ui-busy':{
                 background: linb.UI.$bg('busy.gif', 'no-repeat center center', true)
             },
-            '.uicmd-close, .uicmd-opt, .uicmd-pop, .uicmd-land, .uicmd-refresh, .uicmd-toggle, .uicmd-toggle2, .uicmd-min, .uicmd-max,.uicmd-restore,.uicmd-pin, .uicmd-check, .uicmd-radio, .uicmd-add':{
+            '.uicmd-close, .uicmd-opt, .uicmd-pop, .uicmd-land, .uicmd-refresh, .uicmd-toggle, .uicmd-toggle2, .uicmd-min, .uicmd-max,.uicmd-restore,.uicmd-pin, .uicmd-check, .uicmd-radio, .uicmd-add, .uicmd-remove':{
                 background: linb.UI.$bg('icons.gif', 'no-repeat 0 0', true),
                 width:'16px',
                 height:'16px',
@@ -11508,7 +11508,18 @@ Class("linb.UI",  "linb.absObj", {
                 $order:3,
                 'background-position':'-56px -222px'
            },
-
+            '.uicmd-remove':{
+                $order:1,
+                'background-position': '-72px -222px'
+            },
+            '.uicmd-remove-mouseover':{
+                $order:1,
+                'background-position': '-72px -222px'
+            },
+            '.uicmd-remove-mousedown':{
+                $order:1,
+                'background-position': '-72px -222px'
+            },
 
             '.uicmd-toggle':{
                 $order:1,
@@ -11802,7 +11813,7 @@ Class("linb.UI",  "linb.absObj", {
             '.ui-readonly, .ui-readonly *':{
                 $order:2,
                 color: '#808080'
-            },            
+            },
             '.ui-itemdisabled':{
                 $order:2,
                 cursor:'not-allowed',
@@ -12927,10 +12938,10 @@ Class("linb.UI",  "linb.absObj", {
         */
         adjustData:function(profile, hashIn, hashOut){
             if(!hashOut)hashOut={};
-            
+
             var dm = profile.box.$DataModel,
                 prop=profile.properties;
-            
+
             var i,o,w=linb.wrapRes,me=arguments.callee,r=me._r||(me._r=/\B\$([\w]+[\.][\w\.]+[\w])/g);
             for(i in hashIn){
                 if(i.charAt(0)=='$')continue;
@@ -12956,7 +12967,7 @@ Class("linb.UI",  "linb.absObj", {
                 hashOut.backgroundPosition='background-position:'+hashOut.imagePos+';';
             else if(hashOut.image)
                 hashOut.backgroundPosition='background-position:0 0;';
-                
+
             if(hashOut.imageRepeat)
                 hashOut.backgroundRepeat='background-repeat:'+hashOut.imageRepeat+';';
             else if(hashOut.image)
@@ -12988,6 +12999,12 @@ Class("linb.UI",  "linb.absObj", {
             tag:'',
             tagVar:{
                 ini:{}
+            },
+            "className":{
+                ini:"uicmd-empty",
+                action:function(v,ov){
+                    this.getRoot().removeClass(ov).addClass(v);
+                }
             },
             disableHover:false,
             disableTips:false,
@@ -13598,6 +13615,9 @@ Class("linb.UI",  "linb.absObj", {
 
             data._style = ';'+a.join(';')+';';
 
+            if('className' in dm)
+            	data._className=prop.className||"";
+
             if('readonly' in dm)data.readonly=prop.readonly?"ui-readonly":"";
             if('href' in dm)data.href = prop.href || linb.$DEFAULTHREF;
             if('tabindex' in dm)data.tabindex = prop.tabindex || '-1';
@@ -14207,7 +14227,7 @@ new function(){
                 }
             },
             Templates:{
-                className:'uiw-shell ',
+                className:'uiw-shell {_className}',
                 style:'{_style}',
                 FRAME:{
                     className:'uiw-frame ',
@@ -14361,7 +14381,7 @@ new function(){
         },
         Static:{
             Templates:{
-                className:'{_clsName}',
+                className:'{_clsName} {_className}',
                 style:'{_style}',
                 BTN:{
                     className:'ui-btn',
@@ -14476,7 +14496,7 @@ new function(){
         },
         Static:{
             Templates:{
-                className:'{_clsName}',
+                className:'{_clsName} {_className}',
                 style:'{_style}',
                 FOCUS:{
                     tabindex: '{tabindex}',
@@ -14543,6 +14563,27 @@ new function(){
             }
         }
     });
+    Class(u+".Span", u,{
+        Static:{
+            Templates:{
+                style:'{_style}',
+                className:'{_className}',
+                //for firefox div focus bug: outline:none; tabindex:'-1'
+                tabindex:'-1',
+                text:'{html}'+linb.UI.$childTag
+            },
+            DataModel:{
+                width:'16',
+                height:'16',
+                html:{
+                    action:function(v){
+                        this.getRoot().html(v);
+                    }
+                }
+            }
+        }
+    });
+
     Class(u+".Div", u,{
         Static:{
             Appearances:{
@@ -14556,6 +14597,7 @@ new function(){
             Templates:{
                 tagName:'div',
                 style:'{_style}',
+                className:'{_className}',
                 //for firefox div focus bug: outline:none; tabindex:'-1'
                 tabindex:'-1',
                 text:'{html}'+linb.UI.$childTag
@@ -14643,6 +14685,7 @@ new function(){
         Templates:{
             tagName:'image',
             style:'{_style}',
+            className:'{_className}',
             border:"0",
             width:"{width}",
             height:"{height}",
@@ -14730,7 +14773,6 @@ new function(){
                     src.height=v;
                 }
             },
-
             src:{
                 ini:linb.ini.file_bg,
                 //use asyn mode
@@ -16753,6 +16795,7 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
     Static:{
         Templates:{
             style:'{_style}',
+            className:'{_className}',
             BOX:{
                 tagName:'div',
                 className:'{_cls}',
@@ -18047,6 +18090,7 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
         Templates:{
             tagName:'div',
             style:'{_style}',
+            className:'{_className}',
             EDITOR:{
                 tagName:'div'
             },
@@ -19919,6 +19963,7 @@ Class("linb.UI.Group", "linb.UI.Div",{
         Templates:{
             tagName : 'div',
             style:'{_style}',
+            className:'{_className}',
             FIELDSET:{
                 tagName : 'fieldset',
                 className: ' {toggleCls}',
@@ -22257,7 +22302,7 @@ Class("linb.UI.Group", "linb.UI.Div",{
         Templates:{
             tagName : 'div',
             style:'{_style}',
-            className:'uibg-base',
+            className:'uibg-base {_className}',
             ITEMS:{
                $order:10,
                tagName:'div',
@@ -22904,6 +22949,7 @@ Class("linb.UI.Panel", "linb.UI.Div",{
         Templates:{
             tagName : 'div',
             style:'{_style}',
+            className:'{_className}',
             BORDER:{
                 tagName:'div',
                 TBAR:{
@@ -23412,6 +23458,7 @@ Class("linb.UI.PageBar",["linb.UI","linb.absValue"] ,{
     Static:{
         Templates:{
             style:'{_style}',
+            className:'{_className}',
             POOL:{
                 style:'position:absolute;display:none;',
                 POP:{
@@ -25471,6 +25518,7 @@ Class("linb.UI.StatusButtons", ["linb.UI.List"],{
         Templates:{
             tagName : 'div',
             style:'{_style}',
+            className:'{_className}',
             ondrag:'return false',
             onselectstart:'return false',
             BORDER:{
@@ -28107,6 +28155,7 @@ Class("linb.UI.Layout",["linb.UI", "linb.absList"],{
         Templates:{
             tagName:'div',
             style:'{_style}',
+            className:'{_className}',
             text:"{items}",
             $submap:{
                 items:{
@@ -28916,6 +28965,7 @@ Class("linb.UI.ColLayout",["linb.UI","linb.absList"],{
         Templates:{
             tagName:'div',
             style:'{_style}',
+            className:'{_className}',
             ITEMS:{
                $order:10,
                tagName:'div',
@@ -30064,6 +30114,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
         Templates:{
             tagName : 'div',
             style:'{_style}',
+            className:'{_className}',
             BORDER:{
                 tagName : 'div',
                 BOX:{
@@ -32804,6 +32855,7 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
     Static:{
         Templates:{
             style:'{_style}',
+            className:'{_className}',
             BOX:{
                 tagName:'div',
                 className:'{_cls}',

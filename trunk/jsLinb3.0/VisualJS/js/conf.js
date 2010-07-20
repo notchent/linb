@@ -30,14 +30,15 @@ new function(){
                 {id:'linb.DataBinder', caption:'DataBinder', image:'img/widgets.gif', imagePos:'-640px top', dragable:true}
             ]},
             {id:'linb.UI.absForm1',caption:'Simple Elements',group:true, image:_img_app, imagePos:'-48px -48px',sub:[
+                {id:'linb.UI.Tag', caption:'Tag Element', image:_img_widgets, imagePos:'left top', dragable:true},
+                {id:'linb.UI.Span', caption:'Span Element', image:_img_widgets, imagePos:'-624px -16px', dragable:true},
+                {id:'linb.UI.Div', caption:'Div Element', image:_img_widgets, imagePos:'-624px top', dragable:true},
+
                 {id:'linb.UI.SLabel', caption:'Simple Label', image:_img_widgets, imagePos:'-16px top', dragable:true},
                 {id:'linb.UI.SButton', caption:'Simple Button', image:_img_widgets, imagePos:'-48px top', dragable:true/*, Appearances:['default','link','block']*/},
                 {id:'linb.UI.SCheckBox', caption:'Simple CheckBox', image:_img_widgets, imagePos:'-96px top', dragable:true}
             ]},
             {id:'linb.UI.absForm',caption:'Form Elements',group:true, image:_img_app, imagePos:'-48px -48px',sub:[
-                {id:'linb.UI.Tag', caption:'Tag Element', image:_img_widgets, imagePos:'left top', dragable:true},
-                {id:'linb.UI.Div', caption:'Div Element', image:_img_widgets, imagePos:'-624px top', dragable:true},
-
                 {id:'linb.UI.Label', caption:'Label', image:_img_widgets, imagePos:'-16px top', dragable:true},
                 {id:'linb.UI.Link', caption:'Link', image:_img_widgets, imagePos:'-32px top', dragable:true},
                 {id:'linb.UI.Button', caption:'Button', image:_img_widgets, imagePos:'-48px top', dragable:true/*, Appearances:['default','link','block']*/},

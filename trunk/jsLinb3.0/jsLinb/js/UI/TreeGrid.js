@@ -734,6 +734,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
         Templates:{
             tagName : 'div',
             style:'{_style}',
+            className:'{_className}',
             BORDER:{
                 tagName : 'div',
                 BOX:{

@@ -8,6 +8,7 @@ Class("linb.UI.Image", "linb.UI",{
         Templates:{
             tagName:'image',
             style:'{_style}',
+            className:'{_className}',
             border:"0",
             width:"{width}",
             height:"{height}",
@@ -95,7 +96,6 @@ Class("linb.UI.Image", "linb.UI",{
                     src.height=v;
                 }
             },
-
             src:{
                 ini:linb.ini.file_bg,
                 //use asyn mode

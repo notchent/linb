@@ -85,7 +85,7 @@ Class("linb.UI.List", ["linb.UI", "linb.absList","linb.absValue" ],{
         Templates:{
             tagName : 'div',
             style:'{_style}',
-            className:'uibg-base',
+            className:'uibg-base {_className}',
             ITEMS:{
                $order:10,
                tagName:'div',

@@ -21,6 +21,7 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
     Static:{
         Templates:{
             style:'{_style}',
+            className:'{_className}',
             BOX:{
                 tagName:'div',
                 className:'{_cls}',

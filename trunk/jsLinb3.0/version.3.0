@@ -2,6 +2,7 @@ UI controls Removed:
     linb.UI.LinkList
 
 UI controls Added:
+    linb.UI.Span
     linb.UI.StatusButtons
     linb.UI.ColLayout
     linb.UI.TreeView
@@ -48,6 +49,7 @@ linb.UI
     Added functions: setTheme(for specific controls)
     Added functions: setAlias, getAlias, setHost, getHost. host/alias were deprecated!
     Modified the default alias to 'ctl_' beginning
+		Added properties: className
 
 linb.absValue
     Added properties: readonly

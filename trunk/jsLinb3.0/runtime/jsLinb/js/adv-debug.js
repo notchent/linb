@@ -529,6 +529,7 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
         Templates:{
             tagName:'div',
             style:'{_style}',
+            className:'{_className}',
             BORDER:{
                 tagName:'div',
                 style:'height:{_bHeight}px;width:{_bWidth}px;',
@@ -3415,6 +3416,7 @@ Class("linb.UI.Range", ["linb.UI","linb.absValue"],{
     Static:{
         Templates:{
             style:'{_style}',
+            className:'{_className}',
             BOX:{
                 tagName:'div',
                 RULER:{
@@ -3827,6 +3829,7 @@ Class("linb.UI.Range", ["linb.UI","linb.absValue"],{
         self.setTemplate({
             tagName : 'div',
             style:'{_style}',
+            className:'{_className}',
             onselectstart:'return false',
             BORDER:{
                 tagName : 'div',

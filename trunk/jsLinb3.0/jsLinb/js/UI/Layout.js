@@ -144,6 +144,7 @@ Class("linb.UI.Layout",["linb.UI", "linb.absList"],{
         Templates:{
             tagName:'div',
             style:'{_style}',
+            className:'{_className}',
             text:"{items}",
             $submap:{
                 items:{

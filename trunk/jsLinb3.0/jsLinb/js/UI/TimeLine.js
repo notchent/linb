@@ -132,6 +132,7 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
         Templates:{
             tagName:'div',
             style:'{_style}',
+            className:'{_className}',
             BORDER:{
                 tagName:'div',
                 style:'height:{_bHeight}px;width:{_bWidth}px;',
