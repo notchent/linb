@@ -8543,6 +8543,18 @@ _.set(linb.Locale,["en","app"], {
                     "}"
                 ]
             },
+            getHAlign :{
+                $desc:"Gets horizontal alignment(text-align).",
+                $rtn:"String"
+            },
+            setHAlign :{
+                $desc:"Sets horizontal alignment(text-align), and reflects the value to UI.",
+                $rtn:"[self]",
+                $paras:[
+                    "value [Required] : String, 'left', 'center' or 'right'.",
+                    "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default to [false]."
+                ]
+            },
             getMultiLines:{
                 $desc:"Determines whether input box holds single line or multi line",
                 $rtn:"Boolean",

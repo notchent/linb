@@ -99,7 +99,7 @@ Class("linb.UI.Input", ["linb.UI.Widget","linb.absValue"] ,{
                         maxlength:'{maxlength}',
                         tabindex:'{tabindex}',
                         cursor:'{cursor}',
-                        style:'{_css}'
+                        style:'{_css}text-align:{hAlign};'
                     }
                 }
             }
@@ -433,6 +433,13 @@ Class("linb.UI.Input", ["linb.UI.Widget","linb.absValue"] ,{
                         i.removeClass('ui-inputdisabled');
                     if((""+i.get(0).type).toLowerCase()!='button')
                         i.attr('disabled',v);
+                }
+            },
+            hAlign:{
+                ini:'left',
+                listbox:['left','center','right'],
+                action: function(v){
+                    this.getSubNode("INPUT").css('textAlign',v);
                 }
             },
             readonly:{

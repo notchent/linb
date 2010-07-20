@@ -3,6 +3,7 @@
         customAppend:function(parent){
             var self=this,
                 prop = self.properties,
+                pp = prop.parent,
                 dlg=self.dialog;
             if(prop.fromRegion)
                 dlg.setFromRegion(prop.fromRegion);
@@ -15,17 +16,22 @@
             //asy
             dlg.show(parent, true);
 
-            var arr = _.clone(prop.items, function(o,i){return (i+'').charAt(0)!='_'}),
-                f=function(o){
-                    var self=arguments.callee;
-                    _.filter(o,function(o,i){
-                        delete o.group;
-                        if(o.sub && o.sub.length)
-                           self(o.sub);
-                    });
-                };
-            f(arr);
-            self.treebar.clearItems().insertItems(arr);
+            linb.request(CONF.phpPath,  {
+                key:CONF.requestKey,
+                para:{
+                    action:'open',
+                    hashCode:_.id(),
+                    path:pp.curProject
+                }
+            } ,function(txt){
+                var obj = typeof txt=='string'?_.unserialize(txt):txt;
+                if(!obj || obj.error)
+                    linb.message(_.get(obj,['error','message'])||'on response!');
+                else{
+                    var root=pp.buildFileItems(pp.curProject, obj.data);
+                    self.treebar.setItems([root]).toggleNode(root.id, true);
+                }
+            });
         },
         _dialog_beforeclose:function(profile){
             this.dialog.hide();
@@ -33,77 +39,73 @@
         },
         iniComponents:function(){
             // [[code created by jsLinb UI Builder
-            var t=this, n=[], u=linb.UI, f=function(c){n.push(c.get(0))};
-
-            f(
-            (new u.Dialog)
-            .setHost(t,"dialog")
-            .setLeft(247)
-            .setTop(120)
-            .setWidth(433)
-            .setHeight(220)
-            .setResizer(false)
-            .setMinBtn(false)
-            .setMaxBtn(false)
-            .setPinBtn(false)
-            .setCaption("$VisualJS.tool2.del")
-            .setImage('@CONF.img_app')
-            .setImagePos('-80px -16px')
-            .onHotKeydown("_dialog_onhotkey")
-            .beforeClose("_dialog_beforeclose")
+            var host=this, children=[], append=function(child){children.push(child.get(0))};
+            
+            append(
+                (new linb.UI.Dialog)
+                .setHost(host,"dialog")
+                .setLeft(247)
+                .setTop(120)
+                .setWidth(433)
+                .setHeight(220)
+                .setResizer(false)
+                .setCaption("$VisualJS.tool2.del")
+                .setImage("@CONF.img_app")
+                .setImagePos("-80px -16px")
+                .setMinBtn(false)
+                .setMaxBtn(false)
+                .onHotKeydown("_dialog_onhotkey")
+                .beforeClose("_dialog_beforeclose")
             );
-
-            t.dialog.append(
-            (new u.Button)
-            .setHost(t,"btnCancel")
-            .setLeft(80)
-            .setTop(150)
-            .setWidth(90)
-            .setCaption("$VisualJS.cancel")
-            .setImage('@CONF.img_app')
-            .setImagePos("-16px -16px")
-            .onClick("_btncancel_onclick")
+            
+            host.dialog.append(
+                (new linb.UI.Button)
+                .setHost(host,"btnCancel")
+                .setLeft(80)
+                .setTop(150)
+                .setWidth(90)
+                .setCaption("$VisualJS.cancel")
+                .setImage("@CONF.img_app")
+                .setImagePos("-16px -16px")
+                .onClick("_btncancel_onclick")
             );
-
-            t.dialog.append(
-            (new u.Button)
-            .setHost(t,"btnOK")
-            .setLeft(250)
-            .setTop(150)
-            .setWidth(90)
-            .setCaption("$VisualJS.ok")
-            .setImage('@CONF.img_app')
-            .setImagePos("-64px -16px")
-            .onClick("_btnok_onclick")
+            
+            host.dialog.append(
+                (new linb.UI.Button)
+                .setHost(host,"btnOK")
+                .setLeft(250)
+                .setTop(150)
+                .setWidth(90)
+                .setCaption("$VisualJS.ok")
+                .setImage("@CONF.img_app")
+                .setImagePos("-64px -16px")
+                .onClick("_btnok_onclick")
             );
-
-            t.dialog.append(
-            (new u.Panel)
-            .setHost(t,"panelbar2")
-            .setDock("top")
-            .setHeight(140)
-            .setZIndex(1)
-            .setCaption("$VisualJS.delfile.sel")
-            .setCustomStyle({PANEL:'overflow:auto'})
-            .setCloseBtn(false)
-            .setPopBtn(false)
+            
+            host.dialog.append(
+                (new linb.UI.Group)
+                .setHost(host,"panelbar2")
+                .setDock("top")
+                .setHeight(140)
+                .setCaption("$VisualJS.delfile.sel")
+                .setToggleBtn(false)
+                .setCustomStyle({"PANEL":"overflow:auto"})
             );
-
-            t.panelbar2.append(
-            (new u.TreeBar)
-            .setHost(t,"treebar")
-            .setDock('none')
-            .setPosition('relative')
-            .setWidth('auto')
-            .setHeight('auto')
-            .setItems([])
-            .setIniFold(false)
-            .setSelMode("multi")
-            .beforeUIValueSet("_treebar_beforevalueupdated")
-            .onItemSelected("_treebar_onitemselected")
+            
+            host.panelbar2.append(
+                (new linb.UI.TreeBar)
+                .setHost(host,"treebar")
+                .setDock("none")
+                .setWidth("auto")
+                .setHeight("auto")
+                .setPosition("relative")
+                .setSelMode("multi")
+                .beforeUIValueSet("_treebar_beforevalueupdated")
+                .onGetContent("_treebar_ongetcontent")
+                .onItemSelected("_treebar_onitemselected")
             );
-
-            return n;
+            
+            return children;
             // ]]code created by jsLinb UI Builder
         },
         _btncancel_onclick:function (profile, e, value) {
@@ -126,8 +128,10 @@
             _.filter(arr,function(o,j){
                 for(var i=0,l=this.length;i<l;i++){
                     if(i==j)break;
-                    if(_.str.startWith(this[j],this[i]))
+                    if(_.str.startWith(this[j],this[i])){
+                        linb.message("Upper node has been selected!");
                         return false;
+                    }
                 }
             });
             return arr.join(';');
@@ -135,6 +139,23 @@
         _dialog_onhotkey:function(profile, key){
             if(key.key=='esc')
                 profile.boxing().close();
+        },
+        _treebar_ongetcontent : function (profile, item, callback) {
+            var ns=this;
+            linb.request(CONF.phpPath,({
+                key:CONF.requestKey,
+                para:{
+                    action:'open',
+                    hashCode:_.id(),
+                    path:item.id
+                }
+            }),function(txt){
+                var obj = typeof txt=='string'?_.unserialize(txt):txt;
+                if(obj && !obj.error){
+                    var root = ns.properties.parent.buildFileItems(item.id, obj.data);
+                    callback(root.sub);
+                }else linb.message(obj.error.message);
+            });
         }
     }
 });

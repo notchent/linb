@@ -63,6 +63,7 @@ linb.UI.Dialog
 
 linb.UI.ComboInput
     Added funcitons: formatCurrency(static function)
+    Added properties: hAlign for text-align
 
 linb.UI.Tabs
     Added properties: lazyAppend

@@ -144,11 +144,17 @@ class VisualJS extends Unit
 
                 $className="==>specify_class_name_here";
                 try{
-                // Get js class name
-                $farr=explode('/js/',$file);
-                $farr1=explode('/',$farr[0]);
-                $farr2=explode(".",$farr[1]);
-                $className = $farr1[sizeof($farr1)-1] . '.' . implode('.',explode('/',$farr2[0]));
+                    // Get js class name
+                    $farr=explode('/js/',$file);
+                    if(isset($farr[0])){
+                        $farr1=explode('/',$farr[0]);
+                        if(isset($farr[1])){
+                            $farr2=explode(".",$farr[1]);
+                            if(isset($farr2[0])){
+                                $className = $farr1[sizeof($farr1)-1] . '.' . implode('.',explode('/',$farr2[0]));
+                            }
+                        }
+                    }
                 }catch(Exception $e){}
                     
                     $template = $io->getString(self::TEMPLATE_JS);
@@ -172,7 +178,7 @@ class VisualJS extends Unit
                 throw new LINB_E("Error: Can\'t handle parent path!");
             $prjpath = str_replace("/", "\\", $prjpath);
             //$b = $io->dirList($prjpath);
-            $b = $io->search("[a-zA-Z0-9].*", $prjpath, -1, isset($hash->deep)?$hash->deep:0);
+            $b = $io->search("[a-zA-Z0-9].*", $prjpath, isset($hash->type)?$hash->type:-1, isset($hash->deep)?$hash->deep:0);
             $root=str_replace("\\", "/", realpath('.')).'/';
             //ensure to return relative url format: '/'
             foreach($b as &$v){

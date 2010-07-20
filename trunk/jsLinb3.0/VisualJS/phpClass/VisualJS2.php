@@ -52,7 +52,7 @@ class VisualJS2 extends Unit
                    if(class_exists('WizardBuilder')){
                        $ins = new WizardBuilder();
                        $path = $ins->buildApp($paras);
-                       $r=$this->getFiles($path,-1,5);
+                       $r=$this->getFiles($path,-1,0);
                    }else
                         throw new LINB_E("Class 'WizardBuilder' could not be found."); 
                } else {

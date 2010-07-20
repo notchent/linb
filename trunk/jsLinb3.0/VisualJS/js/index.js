@@ -205,8 +205,8 @@ Class('VisualJS', 'linb.Com',{
                         this.host = self;
                         this.setProperties({
                             onOK: self._addfile,
-                            fromRegion:linb(src).cssRegion(true),
-                            items: self.curPrjFiles
+                            parent:self,
+                            fromRegion:linb(src).cssRegion(true)
                         });
                         this.show(linb('body'));
                     });
@@ -216,7 +216,7 @@ Class('VisualJS', 'linb.Com',{
                         this.host = self;
                         this.setProperties({
                             fromRegion:linb(src).cssRegion(true),
-                            items:self.curPrjFiles,
+                            parent:self,
                             onOK: self._delfile
                         });
                         this.show(linb('body'));
@@ -261,7 +261,6 @@ Class('VisualJS', 'linb.Com',{
                 tb.clearItems();
                 tree.clearItems();
                 self.curProject = null;
-                this.curPrjFiles=[];
                 self.projecttool.setDisabled(true);
                 if(typeof callback=='function')callback();
             };
@@ -570,7 +569,6 @@ Class('VisualJS', 'linb.Com',{
             tb.insertItems([root]);
             tb.toggleNode(root.id,true);
             
-            this.curPrjFiles=tb.getItems();
             this.projecttool.setDisabled(false);
         },
         _menubar_onclick: function(profile, popPro, item, src){

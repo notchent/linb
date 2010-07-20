@@ -327,8 +327,11 @@ Class('VisualJS.Designer', 'linb.Com',{
                 // reset iniComponents code
                 var code = ('{\n' + page.getJSCode(nodes) ).replace(/\n/g, '\n'+_.str.repeat(' ',12))
                     + '\n'+_.str.repeat(' ',8)+ '}';
-                page.resetCode("Instance", "iniComponents", code, syn);
-                
+                if(o.path["iniComponents"])
+                    page.resetCode("Instance", "iniComponents", code, syn);
+                else
+                    page.addCode("Instance", "iniComponents", code, syn);
+
                 if(!syn)
                     page.submitTransaction();
                 page._dirty=false;
@@ -1115,7 +1118,10 @@ Class('VisualJS.Designer', 'linb.Com',{
                         
                         if(!page._cls.Instance[funname]){
                             // reset
-                            page.resetCode("Instance","events",_.stringify(page._cls.Instance.events));
+                            if(page._cls.Instance.events)
+                                page.resetCode("Instance","events",_.stringify(page._cls.Instance.events));
+                            else
+                                page.addCode("Instance","events",_.stringify(page._cls.Instance.events));
 
                             page.addCode("Instance", funname, (funname + " : " + o.ini.toString().replace(/\s*\}$/,'\n\n}')) );
                         }
@@ -1877,7 +1883,10 @@ Class('VisualJS.Designer', 'linb.Com',{
                         // reset iniComponents code
                         var code = ('{\n' + page.getJSCode(nodes) ).replace(/\n/g, '\n'+_.str.repeat(' ',12))
                             + '\n'+_.str.repeat(' ',8)+ '}';
-                        page.resetCode(o.path, "iniComponents", code);
+                        if(o.path["iniComponents"])
+                            page.resetCode(o.path, "iniComponents", code);
+                        else
+                            page.addCode(o.path, "iniComponents", code);
                     }
                     
                     if(!page._cls.Instance[funname]){

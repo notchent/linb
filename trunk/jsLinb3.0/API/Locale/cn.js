@@ -8566,6 +8566,18 @@ _.set(linb.Locale,["cn","app"], {
                     "}"
                 ]
             },
+            getHAlign :{
+                $desc:"获取标签水平对齐方式",
+                $rtn:"String"
+            },
+            setHAlign :{
+                $desc:"设置标签水平对齐方式, 并刷新界面.",
+                $rtn:"[self]",
+                $paras:[
+                    "value [必需参数] : String, 'left', 'center' or 'right'.",
+                    "force [可选参数] : Boolean, 强制设置该属性值，即使属性已经设置为该值 默认为 [false]."
+                ]
+            },
             getMultiLines:{
                 $desc:"判断是否允许输入多行文本",
                 $rtn:"Boolean",
