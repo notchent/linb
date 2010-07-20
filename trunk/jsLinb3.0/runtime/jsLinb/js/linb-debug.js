@@ -1236,10 +1236,11 @@ Class('linb.Thread',null,{
             var self=this,o=self.profile.tasks,l=o.length,a;
             if(arr.constructor!=Array)arr=[arr];
             index= index || self.profile.index;
-            if(index<0 || index>l)index=l;
+            if(index<0)index=-1;
             if(index==-1){
-                o.push.apply(o, arr);
+                Array.prototype.push.apply(o, arr);
             }else{
+                if(index>l)index=l;
                 a=o.splice(index,l-index);
                 o.push.apply(o, arr);
                 o.push.apply(o, a);

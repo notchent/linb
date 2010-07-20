@@ -327,11 +327,8 @@ Class('VisualJS.Designer', 'linb.Com',{
                 // reset iniComponents code
                 var code = ('{\n' + page.getJSCode(nodes) ).replace(/\n/g, '\n'+_.str.repeat(' ',12))
                     + '\n'+_.str.repeat(' ',8)+ '}';
-                if(o.path["iniComponents"])
-                    page.resetCode("Instance", "iniComponents", code, syn);
-                else
-                    page.addCode("Instance", "iniComponents", code, syn);
-
+                page.resetCode("Instance", "iniComponents", code, syn);
+                
                 if(!syn)
                     page.submitTransaction();
                 page._dirty=false;
@@ -479,6 +476,10 @@ Class('VisualJS.Designer', 'linb.Com',{
                 if(arr.length){
                     var o = linb.getObject(arr[0]);
                     page.startTransaction();
+                    // if dirty
+                    if(page._dirty)
+                        page.resetCodeFromDesigner(true);
+                        
                     page.submitTransaction(function(){
                         page.searchInEditor(".setHost(host,\""+o.alias+"\")");
                     });
@@ -1118,17 +1119,15 @@ Class('VisualJS.Designer', 'linb.Com',{
                         
                         if(!page._cls.Instance[funname]){
                             // reset
-                            if(page._cls.Instance.events)
-                                page.resetCode("Instance","events",_.stringify(page._cls.Instance.events));
-                            else
-                                page.addCode("Instance","events",_.stringify(page._cls.Instance.events));
-
+                            page.resetCode("Instance","events",_.stringify(page._cls.Instance.events));
                             page.addCode("Instance", funname, (funname + " : " + o.ini.toString().replace(/\s*\}$/,'\n\n}')) );
                         }
                         
                         page.submitTransaction(function(){
                             page.focusEditor("Instance", funname);
                         });
+                        
+                        page._dirty=false;
                     },
                     $tagVar = {
                          widgetName: 'com',
@@ -1883,10 +1882,7 @@ Class('VisualJS.Designer', 'linb.Com',{
                         // reset iniComponents code
                         var code = ('{\n' + page.getJSCode(nodes) ).replace(/\n/g, '\n'+_.str.repeat(' ',12))
                             + '\n'+_.str.repeat(' ',8)+ '}';
-                        if(o.path["iniComponents"])
-                            page.resetCode(o.path, "iniComponents", code);
-                        else
-                            page.addCode(o.path, "iniComponents", code);
+                        page.resetCode(o.path, "iniComponents", code);
                     }
                     
                     if(!page._cls.Instance[funname]){
@@ -1901,9 +1897,8 @@ Class('VisualJS.Designer', 'linb.Com',{
                     
                     page.submitTransaction(function(){
                         page.focusEditor(o.path, funname);
-                        
-                        page._dirty=false;
                     });
+                    page._dirty=false;
                 };
 
                 _.each(target.box.$EventHandlers,function(o,i){

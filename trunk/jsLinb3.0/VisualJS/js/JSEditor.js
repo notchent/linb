@@ -539,6 +539,8 @@ Class('VisualJS.JSEditor', 'linb.Com',{
                                 ns._buildNameSpace(true);
                             });
                         }
+                    }else{
+                        designer.addCode(pkey, key, key+" : "+code, syn);
                     }
                 };
                 if(syn){
@@ -546,10 +548,15 @@ Class('VisualJS.JSEditor', 'linb.Com',{
                 }else
                     ns.$transThread.insert(fun,-1);
             };
-            designer.addCode=function(pkey, key, code){
-                ns.$transThread.insert(function(){
+            designer.addCode=function(pkey, key, code, syn){
+                var fun=function(){
                     ns.addCodeToInstance(code);
-                },-1);
+                };
+
+                if(syn){
+                    fun();
+                }else
+                    ns.$transThread.insert(fun,-1);
             };
             designer.focusEditor=function(pkey, key){
                 ns.showPage('code');
