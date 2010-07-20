@@ -731,6 +731,8 @@ _.set(linb.Locale,["cn","app"], {
          }
     });
      
+     var $me=linb.Locale.cn.doc;
+     
     _.set(linb.Locale,["cn","doc","linb"], {
         $desc:"linb的根部命名空间。<br />当做函数用是将一系列的DOM元素包装成linb.Dom对象的快捷函数.",
         $rtn:"linb.Dom",
@@ -5614,7 +5616,12 @@ _.set(linb.Locale,["cn","app"], {
                 ]
             },
             onChange:{
-                $desc:"与afterUIValueSet相同"
+                $desc:"当有值的控件值改变时被调用.",
+                $paras:[
+                    "profile : linb.UIProfile.",
+                    "oldValue : String, 旧的界面值.",
+                    "newValue : String, 新的界面值."
+                ]
             },
             beforeValueSet:{
                 $desc:"在setValue调用之前被调用. 返回false会阻止setValue被调用.",
@@ -10360,7 +10367,42 @@ _.set(linb.Locale,["cn","app"], {
                     "}"
                 ]
             },
-    
+            getItemLinker:{
+                $desc:"获取状态按钮的linker类型.",
+                $rtn:"String"
+            },
+            setItemLinker:{
+                $desc:"设置状态按钮的linker类型.",
+                $rtn:"[self]",
+                $paras:[
+                    "value [必需参数] : String. 'none','left','right'",
+                    "force [可选参数] : Boolean, 强制设置该属性值，即使属性已经设置为该值. 默认为 [false]."
+                ]
+            },
+            getItemAlign:{
+                $desc:"获取状态按钮的对齐方式.",
+                $rtn:"String"
+            },
+            setItemAlign:{
+                $desc:"设置状态按钮的对齐方式.",
+                $rtn:"[self]",
+                $paras:[
+                    "value [必需参数] : String. 'left', 'center' or 'right'.",
+                    "force [可选参数] : Boolean, 强制设置该属性值，即使属性已经设置为该值. 默认为 [false]."
+                ]
+            },
+            getItemWidth:{
+                $desc:"获取画状态按钮的宽度.",
+                $rtn:"Number"
+            },
+            setItemWidth:{
+                $desc:"设置状态按钮的宽度, 并刷新界面.",
+                $rtn:"[self]",
+                $paras:[
+                    "value [必需参数] : Number.",
+                    "force [可选参数] : Boolean, 强制设置该属性值，即使属性已经设置为该值. 默认为 [false]."
+                ]
+            },
             onItemClick:{
                 $desc:"当某个超链接队列项被单击时调用.",
                 $paras:[
@@ -11321,7 +11363,64 @@ _.set(linb.Locale,["cn","app"], {
     
     _.set(linb.Locale,["cn","doc","linb","UI","ColLayout"], {
         KEY:{$desc:"本类名"},
-        $desc:"linb.UI.ColLayout 类"
+        $desc:"linb.UI.ColLayout 类",
+        prototype:{
+            getMinWidth:{
+                $desc:"获取最小宽度限制.",
+                $rtn:"Number"
+            },
+            append:{
+                $desc:"添加一系列的控件添加到到当前控件对象上.",
+                $rtn:"[self]",
+                $paras:[
+                    "target [必需参数] : linb.UIProfile[],  子控件的 linb.UI 对象(里面可以包括多个控件概要对象).",
+                    "subId [可选参数] : String, subid会指示子控件加到那个DOM节点上。这个参数可以为 [false] ，表示控件不会做为子控件添加到当前控件对象上，只进行在DOM界面上添加UI的工作。"
+                ],
+            },
+            addPanel:{
+                $desc:"新加入一个Panel对象到ColLayout.",
+                $rtn:"[self]",
+                $paras:[
+                    "args [必需参数] : Object. 用来生成 Panel 的对象参数.",
+                    "col [可选参数] : String. 加入到哪一列. 默认是第一列.",
+                    "basePrf [可选参数] : String. 以哪一个Panel为基准. 默认是加到列的最后.",
+                    "before  [可选参数] : Boolean. 是否加到基准Panel的前面. 默认是true."
+                ]
+            },
+            movePanel:{
+                $desc:"移动一个内部的 Panel 对象到新的位置.",
+                $rtn:"[self]",
+                $paras:[
+                    "pff [必需参数] : linb.UIProfile. 移动哪一个.",
+                    "col [可选参数] : String. 移动到哪一列. 默认是第一列.",
+                    "basePrf [可选参数] : String. 以哪一个Panel为基准. 默认是移动到最后.",
+                    "before  [可选参数] : Boolean. 是否移动到基准Panel的前面. 默认是true."
+                ]
+            },
+            setMinWidth:{
+                $desc:"设置最小宽度限制.",
+                $rtn:"[self]",
+                $paras:[
+                    "value [必需参数] : Number.",
+                    "force [可选参数] : Boolean, 强制设置该属性值，即使属性已经设置为该值. 默认为[false]."
+                ]
+            },
+            onColResize:{
+                $desc:"行改变大小时触发.",
+                $rtn:"[self]",
+                $paras:[
+                    "profile : linb.UIProfile.",
+                    "sizes: Array. 每行的大小.",
+                ]
+            },
+            onRelayout:{
+                $desc:"内部子容器重新排列时触发.",
+                $rtn:"[self]",
+                $paras:[
+                    "profile : linb.UIProfile."
+                ]
+            }
+        }
     });
     
     _.set(linb.Locale,["cn","doc","linb","UI","Tabs"], {
@@ -13752,6 +13851,25 @@ _.set(linb.Locale,["cn","app"], {
                     "}"
                 ]
             },
+            editCell:{
+                $desc:"将单元格绑定到指定的编辑器上.",
+                $paras:[
+                    "cell [必需参数] : String, cell's id值 或 cell 对象."
+                ]
+            },
+            focusCell:{
+                $desc:"单元格获得焦点.",
+                $paras:[
+                    "cell [必需参数] : String, cell's id值 或 cell 对象."
+                ]
+            },
+            focusCellbyRowCol:{
+                $desc:"单元格获得焦点.",
+                $paras:[
+                    "rowId [必需参数] : String, 单元格行id.",
+                    "colId [必需参数] : String, 单元格列id."
+                ]
+            },
             editCellbyRowCol:{
                 $desc:"将单元格绑定到指定的编辑器上.",
                 $paras:[
@@ -13833,6 +13951,25 @@ _.set(linb.Locale,["cn","app"], {
                     "o.setAnimCollapse(true); alert(o.getAnimCollapse());"+
                     "linb(id).prepend(o);"+
                     "}"
+                ]
+            },
+            getCell:{
+                $desc:"由单元格id获取单元格对象。",
+                $rtn:"Ojbect",
+                $paras:[
+                    "cellId : [必需参数] : String."
+                ]
+            },
+            isDirtied:{
+                $desc:"判断界面值已经被修改.",
+                $rtn:"Boolean"
+            },
+            getDirtied:{
+                $desc:"返回所有被更改过的值.",
+                $rtn:"Objcet. {cellId:{rowId:, colId:, oldValue:, newValue}}",
+                $paras:[
+                    "rowId : [可选参数] : String, 只返回本行的.",
+                    "colId : [可选参数] : String, 只返回本列的."
                 ]
             },
             getCellbyRowCol:{
@@ -14518,6 +14655,13 @@ _.set(linb.Locale,["cn","app"], {
                     "cell [必需参数] : Object."
                 ]
             },
+            getHeaderByCell:{
+                $desc:"根据一个单元格得到列对象.",
+                $rtn:"Object",
+                $paras:[
+                    "cell [必需参数] : Object."
+                ]
+            },
             getHeaderbyCell:{
                 $desc:"根据一个单元格得到列头对象.",
                 $rtn:"Object",
@@ -14614,6 +14758,14 @@ _.set(linb.Locale,["cn","app"], {
                     "}"
                 ]
             },
+            resetColValue:{
+                $desc:"重新设置某列的所有单元格的值, 并清除脏标志.",
+                $rtn:"[self]",
+                $paras:[
+                    "colId [必需参数] : String, 列id值."
+                ]
+            },
+            
             resetRowValue:{
                 $desc:"重新设置某行的所有单元格的值, 并清除脏标志.",
                 $rtn:"[self]",
@@ -14721,6 +14873,30 @@ _.set(linb.Locale,["cn","app"], {
                     "linb(id).prepend(o);"+
                     "o.afterCellActive(function(p,c){linb.message(c.value);});" +
                     "}"
+                ]
+            },
+            afterCellFocused:{
+                $desc:"在单元格或得焦点后被调用.",
+                $paras:[
+                    "profile : linb.UIProfile.",
+                    "cell : Object, 单元格对象.",
+                    "row : Object, 单元格的行对象"
+                ]
+            },
+            beforeIniEditor:{
+                $desc:"在单元格编辑之前调用. 如果返回false,默认的功能会被禁止.",
+                $paras:[
+                    "profile : linb.UIProfile.",
+                    "cell : Object, 单元格对象.",
+                    "cellNode : linb.Dom, 单元格的Dom对象"
+                ]
+            },
+            onNewLineTriggerred:{
+                $desc:"当焦点在最后一行的cell上时，用户按下键盘的 'down' 键，会触发此事件.",
+                $paras:[
+                    "profile : linb.UIProfile.",
+                    "cell : Object, 单元格对象.",
+                    "row : Object, 单元格的行对象"
                 ]
             },
             afterRowActive:{
@@ -15630,4 +15806,14 @@ _.set(linb.Locale,["cn","app"], {
             }
         }
     });
+    
+var cah=$me.linb.UI.TreeGrid.prototype;
+cah.setCols = cah.setHeader;
+cah.getCols = cah.getHeader;
+cah.getColByColId = cah.getHeaderByColId;
+cah.getColByCell = cah.getHeaderByCell;
+cah.updateCol = cah.updateHeader;
+
+
 })();
+

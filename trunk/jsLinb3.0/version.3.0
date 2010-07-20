@@ -81,7 +81,7 @@ linb.UI.Panel/linb.UI.Dialog
      Added events:onRefresh
 
 linb.UI.TreeGrid
-     Added functions: editCell, focusCell, focusCellbyRowCol
+     Added functions: getCell, editCell, focusCell, focusCellbyRowCol, getDirtied, setCols, getCols, getColByColId, getColByCell, updateCol
      Added events: onNewLineTriggerred, afterCellFocused
      Modified funcitons: Add triggerEvent parameter to updateCell function.
     

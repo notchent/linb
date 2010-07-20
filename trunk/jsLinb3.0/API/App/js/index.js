@@ -109,6 +109,7 @@ Class('App', 'linb.Com',{
                             ;
                         //build html
                         SPA.divHead.setHtml( SPA._format( SPA._parse(id1) ) );
+                        node.setSelectable(true);
                         //attach event
                         node.query('h2').css('cursor','pointer').onClick(f).first().css('backgroundPosition',ics.close);
                         node.query('h3').css('cursor','pointer').onClick(f).first().css('backgroundPosition',ics.close);
@@ -139,7 +140,7 @@ Class('App', 'linb.Com',{
             txt = linb.Coder.formatAll(txt, 'js', ['plain']);
             var node=linb.create("<div style='visibiliy:hidden;left:-10000px;width:600px;background:#fff;border:solid 1px #aaa;overflow:auto;'>"+txt+"</div>");
             //add first
-            linb('body').append(node);
+            linb('body').append(node.setSelectable(true));
             //adjust height
             if(node.first().height()>400)node.height(400);
             //pop
@@ -375,7 +376,7 @@ Class('App', 'linb.Com',{
             return '<a name="'+okey+'"></a> <div class="p"> <h4 id="'+okey+'_">' +
                     (con?'<span class="linb-custom-icon" style="background-position:' +pos+';"></span>':'') +
                     head +
-//for show original code                    
+//for show original code
 (flag !==false?((t=linb.SC.get(key)) && (t.$linb$||t.$auto$) ?"":'<a href="javascript:;" onclick="return SPA.showCode(event,\''+key+'\');">&nbsp;&nbsp;&nbsp;&nbsp;['+linb.getRes('app.oCode')+']</a>'):"") +
                     '</h4>' +
                     (con?'<div class="con">'+con+'</div>':"") +

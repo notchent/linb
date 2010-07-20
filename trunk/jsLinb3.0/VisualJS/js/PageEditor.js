@@ -89,7 +89,7 @@ Class('VisualJS.PageEditor', 'linb.Com',{
             _.asyRun(function(){
                 linb.Coder.applyById("doc:code",true);
             });
-            return VisualJS.getDoc.getDoc(key);
+            return VisualJS.EditorTool.getDoc(key);
         },
         _codeeditor_onChange:function(profile){
            this._dirty=true;

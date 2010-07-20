@@ -29816,6 +29816,17 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
             });
             linb(arr).removeClass('ui-dirty');
         },
+        resetColValue:function(colId){
+            var profile=this.get(0),col=this.getHeaderByColId(colId),arr=[];
+            _.arr.each(col.cells,function(o){
+                if(o._value!==o.value){
+                    o._value=o.value;
+                    delete o.dirty;
+                    arr.push(profile.getSubNode('CELLA',o._serialId).get(0));
+                }
+            });
+            linb(arr).removeClass('ui-dirty');
+        },
         getActiveRow:function(){
             var ar,profile=this.get(0);
             if(profile.properties.activeMode!='row')return;
@@ -29846,6 +29857,21 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                 return a;
             }else
                 return v;
+        },
+        setCols:function(value, force){
+            return this.setHeader(value, force);
+        },
+        getCols:function(type){
+            return this.getHeader();
+        },
+        getColByColId:function(colId){
+            return this.getHeaderByColId(colId);
+        },
+        getColByCell:function(cell){
+            return this.getHeaderByCell(cell);
+        },
+        updateCol:function(colId,options){
+            return this.updateHeader(colId,options);
         },
         updateHeader:function(colId,options){
             var ns=this, colh=ns.getHeaderByColId(colId);
@@ -29927,6 +29953,16 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
         },
 
         /*cell realted*/
+        getCell:function(cellId){
+            var self=this,prf=this.get(0);
+            _.each(prf.cellMap,function(o){
+                if(o.id && o.id===cellId){
+                    cellId=o._serialId;
+                    return false;
+                }
+            });
+            return profile.cellMap[cellId];
+        },
         getCellbyRowCol:function(rowId, colId){
             var profile=this.get(0),v;
             v=_.get(profile.rowMap,[profile.rowMap2[rowId], '_cells',colId]);
@@ -30002,6 +30038,16 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                 });
                 profile.getSubNode('CELLA',true).removeClass('ui-dirty');
             })
+        },
+        getDirtied:function(rowId, colId){
+            var map={};
+            _.each(this.get(0).cellMap,function(v){
+                if(v._value!==v.value &&(rowId?(rowId==v._row.id):1) &&(colId?(colId==v._col.id):1)){
+                    map[v.id]={rowId:v._row.id, colId:v._col.id, oldValue:v.value, newValue:v._value};
+                }
+            });
+            //dont return inner value
+            return map;
         },
         getSubNodeInGrid:function(key, rowId, colId){
             var ns=this,
