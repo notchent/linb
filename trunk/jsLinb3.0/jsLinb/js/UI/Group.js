@@ -116,6 +116,8 @@ Class("linb.UI.Group", "linb.UI.Div",{
         },
 
         DataModel:{
+            iframeAutoLoad:"",
+            ajaxAutoLoad:"",
             caption:{
                 ini:undefined,
                 // ui update function when setCaption
@@ -189,22 +191,41 @@ Class("linb.UI.Group", "linb.UI.Div",{
                 profile.getSubNode('PANEL').width(width-2);
         },
         _toggle:function(profile, value){
-            var p=profile.properties, b=profile.boxing();
+            var p=profile.properties, ins=profile.boxing();
 
             //event
-            if(value &&!profile.$ini)
-                if(b.onIniPanelView)
-                    if(b.onIniPanelView(profile)!==false)
+            if(value &&!profile.$ini){
+                if(ins.onIniPanelView)
+                    if(ins.onIniPanelView(profile)!==false){
                         profile.$ini=true;
-
+                    }
+                if(p.iframeAutoLoad){
+                    ins.getSubNode("PANEL").css('overflow','hidden');
+                    ins.append(linb.create("<iframe frameborder='0' marginwidth='0' marginheight='0' vspace='0' hspace='0' allowtransparency='true' width='100%' height='100%' src='"+p.iframeAutoLoad+"'></iframe>"));
+                }else if(p.ajaxAutoLoad){
+                    if(typeof p.ajaxAutoLoad=='string')
+                        p.ajaxAutoLoad={url:p.ajaxAutoLoad};
+                    var hash=p.ajaxAutoLoad;
+                    ins.busy();
+                    linb.Ajax(hash.url, hash.query, function(rsp){
+                        var n=linb.create("div");
+                        n.html(rsp,false,true);
+                        ins.append(n.children());
+                        ins.free();
+                    }, function(err){
+                        ins.append("<div>"+err+"</div>");
+                        ins.free();
+                    }, null, hash.options).start();
+                }
+            }
             if(profile._toggle !== !!value){
                 //set toggle mark
                 profile._toggle = p.toggle = !!value;
     
                 if(value){
-                    if(b.beforeExpend && false===b.beforeExpend(profile))return;
+                    if(ins.beforeExpend && false===ins.beforeExpend(profile))return;
                 }else{
-                    if(b.beforeFold && false===b.beforeFold(profile))return;
+                    if(ins.beforeFold && false===ins.beforeFold(profile))return;
                 }
     
                 //show/hide/panel
@@ -216,11 +237,11 @@ Class("linb.UI.Group", "linb.UI.Div",{
                 profile.getSubNode('FIELDSET').tagClass('-checked',!value);
                 
                 if(value){
-                    if(b.afterExpend)
-                        b.afterExpend(profile);
+                    if(ins.afterExpend)
+                        ins.afterExpend(profile);
                 }else{
-                    if(b.afterFold)
-                        b.afterFold(profile);
+                    if(ins.afterFold)
+                        ins.afterFold(profile);
                 }
             }
         }

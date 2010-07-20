@@ -88,9 +88,30 @@ Class("linb.UI.Tabs", ["linb.UI", "linb.absList","linb.absValue"],{
                             }
 
                             if(!item._$ini)
-                                if(box.onIniPanelView)
+                                if(box.onIniPanelView){
                                     if(box.onIniPanelView(profile,item)!==false)
                                         item._$ini=true;
+                                    if(item.iframeAutoLoad){
+                                        box.getPanel(item.id).css('overflow','hidden');
+                                        box.getPanel(item.id).append(linb.create("<iframe frameborder='0' marginwidth='0' marginheight='0' vspace='0' hspace='0' allowtransparency='true' width='100%' height='100%' src='"+item.iframeAutoLoad+"'></iframe>"));
+                                    }else if(item.ajaxAutoLoad){
+                                        if(typeof item.ajaxAutoLoad=='string')
+                                            item.ajaxAutoLoad={url:item.ajaxAutoLoad};
+                                        var hash=item.ajaxAutoLoad;
+                                        box.busy(null,null,"PANEL",item.id);
+                                        linb.Ajax(hash.url, hash.query, function(rsp){
+                                            var n=linb.create("div");
+                                            n.html(rsp,false,true);
+                                            box.getPanel(item.id).append(n.children());
+                                            box.free();
+                                        }, function(err){
+                                            box.getPanel(item.id).append("<div>"+err+"</div>");
+                                            box.free();
+                                        }, null, hash.options).start();
+                                    }else if(item.html){
+                                        box.getPanel(item.id).append(item.html);
+                                    }
+                                }
                         }
                     }
             });

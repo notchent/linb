@@ -4,7 +4,8 @@ Class('App.linb_UI_Group', 'linb.Com',{
             // [[code created by jsLinb UI Builder
             var host=this, children=[], append=function(child){children.push(child.get(0))};
             
-            append((new linb.UI.Group)
+            append(
+                (new linb.UI.Group)
                 .setHost(host,"group2")
                 .setTips("this is group2")
                 .setLeft(40)
@@ -15,20 +16,23 @@ Class('App.linb_UI_Group', 'linb.Com',{
                 .setImage("img/demo.gif")
             );
             
-            host.group2.append((new linb.UI.Input)
+            host.group2.append(
+                (new linb.UI.Input)
                 .setHost(host,"input2")
                 .setLeft(24)
                 .setTop(64)
             );
             
-            host.group2.append((new linb.UI.Button)
+            host.group2.append(
+                (new linb.UI.Button)
                 .setHost(host,"button1")
                 .setLeft(24)
                 .setTop(24)
                 .setCaption("button1")
             );
             
-            append((new linb.UI.Group)
+            append(
+                (new linb.UI.Group)
                 .setHost(host,"group3")
                 .setLeft(270)
                 .setTop(20)
@@ -38,7 +42,8 @@ Class('App.linb_UI_Group', 'linb.Com',{
                 .setToggleBtn(false)
             );
             
-            host.group3.append((new linb.UI.Group)
+            host.group3.append(
+                (new linb.UI.Group)
                 .setHost(host,"group5")
                 .setLeft(170)
                 .setTop(10)
@@ -47,7 +52,8 @@ Class('App.linb_UI_Group', 'linb.Com',{
                 .setCaption("group5")
             );
             
-            host.group3.append((new linb.UI.Group)
+            host.group3.append(
+                (new linb.UI.Group)
                 .setHost(host,"group4")
                 .setLeft(30)
                 .setTop(10)
@@ -57,7 +63,8 @@ Class('App.linb_UI_Group', 'linb.Com',{
                 .setToggleBtn(false)
             );
             
-            append((new linb.UI.Pane)
+            append(
+                (new linb.UI.Pane)
                 .setHost(host,"panel3")
                 .setLeft(40)
                 .setTop(200)
@@ -65,7 +72,8 @@ Class('App.linb_UI_Group', 'linb.Com',{
                 .setHeight(160)
             );
             
-            host.panel3.append((new linb.UI.Group)
+            host.panel3.append(
+                (new linb.UI.Group)
                 .setHost(host,"fieldset1")
                 .setWidth("auto")
                 .setHeight("auto")
@@ -73,7 +81,8 @@ Class('App.linb_UI_Group', 'linb.Com',{
                 .setCaption("height:auto")
             );
             
-            host.fieldset1.append((new linb.UI.Pane)
+            host.fieldset1.append(
+                (new linb.UI.Pane)
                 .setHost(host,"panel12")
                 .setLeft(10)
                 .setWidth(170)
@@ -81,20 +90,36 @@ Class('App.linb_UI_Group', 'linb.Com',{
                 .setPosition("relative")
             );
             
-            host.panel12.append((new linb.UI.Button)
+            host.panel12.append(
+                (new linb.UI.Button)
                 .setHost(host,"button14")
                 .setLeft(30)
                 .setTop(30)
                 .setCaption("button14")
             );
             
-            append((new linb.UI.Group)
+            append(
+                (new linb.UI.Group)
                 .setHost(host,"group9")
                 .setLeft(270)
                 .setTop(200)
                 .setWidth(370)
+                .setHeight(100)
+                .setAjaxAutoLoad("files/block.html")
                 .setCaption("fold")
                 .setToggle(false)
+            );
+            
+            append(
+                (new linb.UI.Group)
+                .setHost(host,"ctl_group13")
+                .setLeft(280)
+                .setTop(320)
+                .setWidth(370)
+                .setHeight(100)
+                .setCaption("fold")
+                .setToggle(false)
+                .setIframeAutoLoad("http://www.linb.net")
             );
             
             return children;

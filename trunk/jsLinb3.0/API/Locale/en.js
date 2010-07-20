@@ -2912,7 +2912,8 @@ _.set(linb.Locale,["en","app"], {
                 $rtn:"String/[self]",
                 $paras:[
                     "content [Optional] : String, innerHTML content.",
-                    "triggerGC [Optional] : Boolean, indicates if trigger GC function."
+                    "triggerGC [Optional] : Boolean, indicates if trigger GC function. Default to true.",
+                    "loadScripts [Optional] : Boolean, indicates if execute inner script. Default to false."
                 ],
                 $snippet:[
                     "var id='linb.temp.html1'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div style=\"border:solid 1px;padding:10px;\"><div style=\"padding:5px;border:solid 1px;\" id='+id+' ></div>' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -8910,6 +8911,30 @@ _.set(linb.Locale,["en","app"], {
                     "}"
                 ]
             },
+            getIframeAutoLoad:{
+                $desc:"Gets auto load(with iframe) iframe src property",
+                $rtn:"String"
+            },
+            setIframeAutoLoad:{
+                $desc:"Sets auto load(with iframe) iframe src property. Set it before control was rendered.",
+                $rtn:"[self]",
+                $paras:[
+                    "value [Required] : String.",
+                    "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default to [false]."
+                ]
+            },
+            getAjaxAutoLoad:{
+                $desc:"Gets auto load(with Ajax, same domain only) html file path property",
+                $rtn:"String"
+            },
+            setAjaxAutoLoad:{
+                $desc:"Sets auto load(with Ajax, same domain only) html file path property. Set it before control was rendered.",
+                $rtn:"[self]",
+                $paras:[
+                    "value [Required] : String.",
+                    "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default to [false]."
+                ]
+            },
             getCaption :{
                 $desc:"Gets caption text of this group",
                 $rtn:"String",
@@ -9448,7 +9473,7 @@ _.set(linb.Locale,["en","app"], {
                 $paras:[
                     "profile : linb.UIProfile.",
                     "e: Event, DOM event Object.",
-                    "src : String, the event source DOM element's linbid."
+                    "src : String, the event source DOM element's linbid.",
                     "value: String, control's UI value."
                 ]
             }
@@ -10755,6 +10780,30 @@ _.set(linb.Locale,["en","app"], {
                     "var btn;linb(id).prepend(btn=new linb.UI.Panel);"+
                     "_.asyRun(function(){btn.setToggleBtn(true); alert(btn.getToggleBtn ())},1000)"+
                     "}"
+                ]
+            },
+            getIframeAutoLoad:{
+                $desc:"Gets auto load(with iframe) iframe src property",
+                $rtn:"String"
+            },
+            setIframeAutoLoad:{
+                $desc:"Sets auto load(with iframe) iframe src property. Set it before control was rendered.",
+                $rtn:"[self]",
+                $paras:[
+                    "value [Required] : String.",
+                    "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default to [false]."
+                ]
+            },
+            getAjaxAutoLoad:{
+                $desc:"Gets auto load(with Ajax, same domain only) html file path property",
+                $rtn:"String"
+            },
+            setAjaxAutoLoad:{
+                $desc:"Sets auto load(with Ajax, same domain only) html file path property. Set it before control was rendered.",
+                $rtn:"[self]",
+                $paras:[
+                    "value [Required] : String.",
+                    "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default to [false]."
                 ]
             },
             getCaption :{
@@ -12237,6 +12286,30 @@ _.set(linb.Locale,["en","app"], {
                 $rtn:"[self]",
                 $snippet:[
                     "var dlg=(new linb.UI.Dialog).show(null,false, 100,100); _.asyRun(function(){dlg.hide();},1000); _.asyRun(function(){dlg.show();},2000);"
+                ]
+            },
+            getIframeAutoLoad:{
+                $desc:"Gets auto load(with iframe) iframe src property",
+                $rtn:"String"
+            },
+            setIframeAutoLoad:{
+                $desc:"Sets auto load(with iframe) iframe src property. Set it before control was rendered.",
+                $rtn:"[self]",
+                $paras:[
+                    "value [Required] : String.",
+                    "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default to [false]."
+                ]
+            },
+            getAjaxAutoLoad:{
+                $desc:"Gets auto load(with Ajax, same domain only) html file path property",
+                $rtn:"String"
+            },
+            setAjaxAutoLoad:{
+                $desc:"Sets auto load(with Ajax, same domain only) html file path property. Set it before control was rendered.",
+                $rtn:"[self]",
+                $paras:[
+                    "value [Required] : String.",
+                    "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default to [false]."
                 ]
             },
             getCaption:{

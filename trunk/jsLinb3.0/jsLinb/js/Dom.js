@@ -443,7 +443,7 @@ Class('linb.Dom','linb.absBox',{
         },
 
         //flag = false: no gc
-        html:function(content,triggerGC){
+        html:function(content,triggerGC,loadScripts){
             var s='',t,o=this.get(0);triggerGC=triggerGC!==false;
             if(content!==undefined){
                 if(o){
@@ -456,6 +456,24 @@ Class('linb.Dom','linb.absBox',{
                          //clear first
                          if(triggerGC)
                             linb.$purgeChildren(o);
+                            
+                         if(loadScripts){
+                                var reg1=/(?:<script([^>]*)?>)((\n|\r|.)*?)(?:<\/script>)/ig,
+                                reg2=/(?:<script.*?>)((\n|\r|.)*?)(?:<\/script>)/ig,
+                                reg3 = /\ssrc=([\'\"])(.*?)\1/i,
+                                matched, attr,src;
+                            while((matched = reg1.exec(content))){
+                                attr = matched[1];
+                                src = attr ? attr.match(reg3) : false;
+                                if(src && src[2]){
+                                   linb.include(null,src[2]);
+                                }else if(matched[2] && matched[2].length > 0){
+                                    _.exec(matched[2]);
+                                }
+                            }
+                            content=content.replace(reg2, '');
+                         }
+                        
                          o.innerHTML=content;
                         //if(triggerGC)
                         //    linb.UI.$addEventsHanlder(o);

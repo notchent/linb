@@ -26,6 +26,25 @@ Class("linb.UI.Dialog","linb.UI.Widget",{
                         linb.UI.$doResize(profile, (tt&&tt[1])||pro.width, (tt&&tt[2])||pro.height);
                         root.show(left?(parseInt(left)||0)+'px':null, top?(parseInt(top)||0)+'px':null);
 
+                        if(pro.iframeAutoLoad){
+                            instance.getSubNode("PANEL").css('overflow','hidden');
+                            instance.append(linb.create("<iframe frameborder='0' marginwidth='0' marginheight='0' vspace='0' hspace='0' allowtransparency='true' width='100%' height='100%' src='"+pro.iframeAutoLoad+"'></iframe>"));
+                        }else if(pro.ajaxAutoLoad){
+                            if(typeof pro.ajaxAutoLoad=='string')
+                                pro.ajaxAutoLoad={url:pro.ajaxAutoLoad};
+                            var hash=pro.ajaxAutoLoad;
+                            instance.busy();
+                            linb.Ajax(hash.url, hash.query, function(rsp){
+                                var n=linb.create("div");
+                                n.html(rsp,false,true);
+                                instance.append(n.children());
+                                instance.free();
+                            }, function(err){
+                                instance.append("<div>"+err+"</div>");
+                                instance.free();
+                            }, null, hash.options).start();
+                        }
+
                         if(modal && !profile.$inModal)
                             box._modal(profile);
 
@@ -452,6 +471,8 @@ if(linb.browser.ie){
             dock:{
                 hidden:true
             },
+            iframeAutoLoad:"",
+            ajaxAutoLoad:"",
             html:{
                 action:function(v){
                     this.getSubNode('PANEL').html(v);

@@ -4,7 +4,8 @@ Class('App.linb_UI_Dialog', 'linb.Com',{
             // [[code created by jsLinb UI Builder
             var host=this, children=[], append=function(child){children.push(child.get(0))};
             
-            append((new linb.UI.Block)
+            append(
+                (new linb.UI.Block)
                 .setHost(host,"Block2")
                 .setDock("top")
                 .setHeight(32)
@@ -12,7 +13,8 @@ Class('App.linb_UI_Dialog', 'linb.Com',{
                 .setBorderType("none")
             );
             
-            host.Block2.append((new linb.UI.Div)
+            host.Block2.append(
+                (new linb.UI.Div)
                 .setHost(host,"Div3")
                 .setLeft(16)
                 .setTop(5)
@@ -21,13 +23,15 @@ Class('App.linb_UI_Dialog', 'linb.Com',{
                 .setHtml("<b>Dialog demo</b>")
             );
             
-            append((new linb.UI.Layout)
+            append(
+                (new linb.UI.Layout)
                 .setHost(host,"layout1")
-                .setItems([{"id":"before", "pos":"before", "locked":false, "size":200, "min":50, "max":400, "cmd":true, "folded":false, "caption":"before"}, {"id":"main", "min":10, "caption":"main"}])
+                .setItems([{"id":"before", "pos":"before", "locked":false, "size":200, "min":50, "max":400, "cmd":true, "folded":false, "hidden":false}, {"id":"main", "min":10}])
                 .setType("horizontal")
             );
             
-            host.layout1.append((new linb.UI.Dialog)
+            host.layout1.append(
+                (new linb.UI.Dialog)
                 .setHost(host,"Dialog1")
                 .setLeft(80)
                 .setTop(70)
@@ -36,13 +40,15 @@ Class('App.linb_UI_Dialog', 'linb.Com',{
                 .setCaption("Dialog")
             , 'main');
             
-            host.Dialog1.append((new linb.UI.Tabs)
+            host.Dialog1.append(
+                (new linb.UI.Tabs)
                 .setHost(host,"Tabs1")
                 .setItems([{"id":"view1", "caption":"view1"}, {"id":"view2", "caption":"view2"}, {"id":"view3", "caption":"view3"}, {"id":"view4", "caption":"view4"}])
                 .setValue("view2")
             );
             
-            host.Tabs1.append((new linb.UI.Group)
+            host.Tabs1.append(
+                (new linb.UI.Group)
                 .setHost(host,"Group1")
                 .setLeft(33)
                 .setTop(25)
@@ -51,7 +57,8 @@ Class('App.linb_UI_Dialog', 'linb.Com',{
                 .setCaption("Group1")
             , 'view1');
             
-            host.Group1.append((new linb.UI.Button)
+            host.Group1.append(
+                (new linb.UI.Button)
                 .setHost(host,"Button16")
                 .setLeft(96)
                 .setTop(56)
@@ -59,69 +66,15 @@ Class('App.linb_UI_Dialog', 'linb.Com',{
                 .onClick("_button16_onclick")
             );
             
-            host.layout1.append((new linb.UI.Stacks)
+            host.layout1.append(
+                (new linb.UI.Stacks)
                 .setHost(host,"Stacks1")
                 .setItems([{"id":"view1", "caption":"alert"}, {"id":"view2", "caption":"MDI"}, {"id":"view3", "caption":"others"}])
                 .setValue("view1")
             , 'before');
             
-            host.Stacks1.append((new linb.UI.Button)
-                .setHost(host,"Button4")
-                .setLeft(40)
-                .setTop(16)
-                .setCaption("min")
-                .onClick("_button4_onclick")
-            , 'view3');
-            
-            host.Stacks1.append((new linb.UI.Button)
-                .setHost(host,"Button5")
-                .setLeft(40)
-                .setTop(56)
-                .setCaption("max")
-                .onClick("_button5_onclick")
-            , 'view3');
-            
-            host.Stacks1.append((new linb.UI.Button)
-                .setHost(host,"Button6")
-                .setLeft(40)
-                .setTop(96)
-                .setCaption("no max button")
-                .onClick("_button6_onclick")
-            , 'view3');
-            
-            host.Stacks1.append((new linb.UI.Button)
-                .setHost(host,"Button9")
-                .setLeft(40)
-                .setTop(136)
-                .setCaption("no min button")
-                .onClick("_button9_onclick")
-            , 'view3');
-            
-            host.Stacks1.append((new linb.UI.Button)
-                .setHost(host,"Button10")
-                .setLeft(40)
-                .setTop(176)
-                .setCaption("with pin button")
-                .onClick("_button10_onclick")
-            , 'view3');
-            
-            host.Stacks1.append((new linb.UI.Button)
-                .setHost(host,"Button11")
-                .setLeft(40)
-                .setTop(216)
-                .setCaption("can't move")
-                .onClick("_button11_onclick")
-            , 'view3');
-            
-            host.Stacks1.append((new linb.UI.Button)
-                .setHost(host,"Button12")
-                .setLeft(40)
-                .setTop(256)
-                .setCaption("can't resize")
-                .onClick("_button12_onclick")
-            , 'view3');
-            
-            host.Stacks1.append((new linb.UI.Button)
+            host.Stacks1.append(
+                (new linb.UI.Button)
                 .setHost(host,"Button8")
                 .setLeft(40)
                 .setTop(16)
@@ -129,7 +82,8 @@ Class('App.linb_UI_Dialog', 'linb.Com',{
                 .onClick("_button8_onclick")
             , 'view2');
             
-            host.Stacks1.append((new linb.UI.Button)
+            host.Stacks1.append(
+                (new linb.UI.Button)
                 .setHost(host,"Button3")
                 .setLeft(40)
                 .setTop(56)
@@ -137,15 +91,8 @@ Class('App.linb_UI_Dialog', 'linb.Com',{
                 .onClick("_button3_onclick")
             , 'view2');
             
-            host.Stacks1.append((new linb.UI.Button)
-                .setHost(host,"Button13")
-                .setLeft(40)
-                .setTop(296)
-                .setCaption("No shadow")
-                .onClick("_button13_onclick")
-            , 'view3');
-            
-            host.Stacks1.append((new linb.UI.Button)
+            host.Stacks1.append(
+                (new linb.UI.Button)
                 .setHost(host,"Button2")
                 .setLeft(24)
                 .setTop(56)
@@ -153,7 +100,8 @@ Class('App.linb_UI_Dialog', 'linb.Com',{
                 .onClick("_button2_onclick")
             , 'view1');
             
-            host.Stacks1.append((new linb.UI.Button)
+            host.Stacks1.append(
+                (new linb.UI.Button)
                 .setHost(host,"Button1")
                 .setLeft(24)
                 .setTop(16)
@@ -161,13 +109,106 @@ Class('App.linb_UI_Dialog', 'linb.Com',{
                 .onClick("_button1_onclick")
             , 'view1');
             
-            host.Stacks1.append((new linb.UI.Button)
+            host.Stacks1.append(
+                (new linb.UI.Button)
                 .setHost(host,"Button7")
                 .setLeft(24)
                 .setTop(96)
                 .setCaption("pop")
                 .onClick("_button7_onclick")
             , 'view1');
+            
+            host.Stacks1.append(
+                (new linb.UI.Button)
+                .setHost(host,"Button4")
+                .setLeft(40)
+                .setTop(16)
+                .setCaption("min")
+                .onClick("_button4_onclick")
+            , 'view3');
+            
+            host.Stacks1.append(
+                (new linb.UI.Button)
+                .setHost(host,"Button5")
+                .setLeft(40)
+                .setTop(56)
+                .setCaption("max")
+                .onClick("_button5_onclick")
+            , 'view3');
+            
+            host.Stacks1.append(
+                (new linb.UI.Button)
+                .setHost(host,"Button6")
+                .setLeft(40)
+                .setTop(96)
+                .setCaption("no max button")
+                .onClick("_button6_onclick")
+            , 'view3');
+            
+            host.Stacks1.append(
+                (new linb.UI.Button)
+                .setHost(host,"Button9")
+                .setLeft(40)
+                .setTop(136)
+                .setCaption("no min button")
+                .onClick("_button9_onclick")
+            , 'view3');
+            
+            host.Stacks1.append(
+                (new linb.UI.Button)
+                .setHost(host,"Button10")
+                .setLeft(40)
+                .setTop(176)
+                .setCaption("with pin button")
+                .onClick("_button10_onclick")
+            , 'view3');
+            
+            host.Stacks1.append(
+                (new linb.UI.Button)
+                .setHost(host,"Button11")
+                .setLeft(40)
+                .setTop(216)
+                .setCaption("can't move")
+                .onClick("_button11_onclick")
+            , 'view3');
+            
+            host.Stacks1.append(
+                (new linb.UI.Button)
+                .setHost(host,"Button12")
+                .setLeft(40)
+                .setTop(256)
+                .setCaption("can't resize")
+                .onClick("_button12_onclick")
+            , 'view3');
+            
+            host.Stacks1.append(
+                (new linb.UI.Button)
+                .setHost(host,"Button13")
+                .setLeft(40)
+                .setTop(296)
+                .setCaption("No shadow")
+                .onClick("_button13_onclick")
+            , 'view3');
+            
+            host.Stacks1.append(
+                (new linb.UI.SButton)
+                .setHost(host,"ctl_sbutton1")
+                .setLeft(40)
+                .setTop(340)
+                .setWidth(120)
+                .setCaption("ifarme autoload")
+                .onClick("_ctl_sbutton1_onclick")
+            , 'view3');
+            
+            host.Stacks1.append(
+                (new linb.UI.SButton)
+                .setHost(host,"ctl_sbutton2")
+                .setLeft(40)
+                .setTop(380)
+                .setWidth(120)
+                .setCaption("ajax autoload")
+                .onClick("_ctl_sbutton2_onclick")
+            , 'view3');
             
             return children;
             // ]]code created by jsLinb UI Builder
@@ -217,6 +258,12 @@ Class('App.linb_UI_Dialog', 'linb.Com',{
         }, 
         _button16_onclick:function (profile, e, value) {
             this.Dialog1.destroy();
+        },
+        _ctl_sbutton2_onclick : function (profile, e, src, value) {
+            new linb.UI.Dialog({ajaxAutoLoad:"files/block.html"}).show(this.layout1.getPanel('main'))
+        },
+        _ctl_sbutton1_onclick : function (profile, e, src, value) {
+            new linb.UI.Dialog({iframeAutoLoad:"http://www.linb.net"}).show(this.layout1.getPanel('main'))
         }
     }
 });

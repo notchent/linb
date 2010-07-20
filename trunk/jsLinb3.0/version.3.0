@@ -66,10 +66,14 @@ linb.UI.ComboInput
 
 linb.UI.Tabs
     Added properties: lazyAppend
+    Added properties to item object: iframeAutoLoad/ajaxAutoLoad/html
 
 linb.UI.Panel/linb.UI.Tabs
      Modified properties: from landBtn to popBtn
 
+linb.UI.Panel/Group/Dialog
+    Added properties: iframeAutoLoad/ajaxAutoLoad
+    
 linb.UI.Panel/linb.UI.Dialog
      Added events:onRefresh
 

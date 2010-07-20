@@ -5152,7 +5152,7 @@ Class('linb.Dom','linb.absBox',{
         },
 
         //flag = false: no gc
-        html:function(content,triggerGC){
+        html:function(content,triggerGC,loadScripts){
             var s='',t,o=this.get(0);triggerGC=triggerGC!==false;
             if(content!==undefined){
                 if(o){
@@ -5165,6 +5165,24 @@ Class('linb.Dom','linb.absBox',{
                          //clear first
                          if(triggerGC)
                             linb.$purgeChildren(o);
+                            
+                         if(loadScripts){
+                                var reg1=/(?:<script([^>]*)?>)((\n|\r|.)*?)(?:<\/script>)/ig,
+                                reg2=/(?:<script.*?>)((\n|\r|.)*?)(?:<\/script>)/ig,
+                                reg3 = /\ssrc=([\'\"])(.*?)\1/i,
+                                matched, attr,src;
+                            while((matched = reg1.exec(content))){
+                                attr = matched[1];
+                                src = attr ? attr.match(reg3) : false;
+                                if(src && src[2]){
+                                   linb.include(null,src[2]);
+                                }else if(matched[2] && matched[2].length > 0){
+                                    _.exec(matched[2]);
+                                }
+                            }
+                            content=content.replace(reg2, '');
+                         }
+                        
                          o.innerHTML=content;
                         //if(triggerGC)
                         //    linb.UI.$addEventsHanlder(o);
@@ -10632,31 +10650,35 @@ Class("linb.UI",  "linb.absObj", {
 
             return self;
         },
-        busy:function(message,html,key){
+        busy:function(message,html,key,subId){
             message=typeof message=='string'?message:'Loading...';
             html=typeof html=='string'?html:'<span style="background:'+ linb.UI.$bg('busy.gif','no-repeat left center')('linb.UI.Public') +';padding-left:16px;">'+message+'</span>';
             return this.each(function(profile){
-                _.resetRun(profile.$linbid+':busy',function(){
+                _.resetRun(profile.$linbid+':busy',function(profile,key,subId){
                     var keys=profile.keys;
                     key=keys[key]||keys['BORDER']||keys['PANEL']||keys['KEY'];
 
-                    var parentNode=profile.getSubNode(key),
+                    var parentNode=profile.getSubNode(key,subId),
                         size=parentNode.cssSize(),
                         node;
-                    if(!(node=profile.$busy)){
-                        node=profile.$busy=linb.create('<div style="left:0;top:0;z-index:10;position:absolute;background-color:#DDD;"></div><div style="left:0;top:0;z-index:20;text-align:center;position:absolute;"><div>'+html+'</div></div>');
-                        linb([node.get(0)]).css({opacity:0.5});
-                        linb(parentNode).append(node);
-                    }
-                    node.css({display:'',width:size.width+'px',height:size.height+'px'});
+                    if(!size.width)size.width=parentNode.offsetWidth();
+                    if(!size.height)size.width=parentNode.offsetHeight();
+
+                    node=profile.$busy=linb.create('<div style="left:0;top:0;z-index:10;position:absolute;background-color:#DDD;"></div><div style="left:0;top:0;z-index:20;text-align:center;position:absolute;"><div>'+html+'</div></div>');
+                    linb([node.get(0)]).css({opacity:0.5});
+                    parentNode.append(node);
+                    node.css({width:size.width+'px',height:size.height+'px'});
                     linb([node.get(1).firstChild]).html(html,false).css('paddingTop',size.height/2+'px');
-                },50);
+                },50,[profile,key,subId]);
             });
         },
         free:function(){
             return this.each(function(profile){
                 _.resetRun(profile.$linbid+':busy');
-                if(profile.$busy)profile.$busy.css('display','none');
+                if(profile.$busy){
+                    profile.$busy.remove();
+                    delete profile.$busy;
+                }
             });
         },
         reLayout:function(force){
@@ -19962,6 +19984,8 @@ Class("linb.UI.Group", "linb.UI.Div",{
         },
 
         DataModel:{
+            iframeAutoLoad:"",
+            ajaxAutoLoad:"",
             caption:{
                 ini:undefined,
                 // ui update function when setCaption
@@ -20035,22 +20059,41 @@ Class("linb.UI.Group", "linb.UI.Div",{
                 profile.getSubNode('PANEL').width(width-2);
         },
         _toggle:function(profile, value){
-            var p=profile.properties, b=profile.boxing();
+            var p=profile.properties, ins=profile.boxing();
 
             //event
-            if(value &&!profile.$ini)
-                if(b.onIniPanelView)
-                    if(b.onIniPanelView(profile)!==false)
+            if(value &&!profile.$ini){
+                if(ins.onIniPanelView)
+                    if(ins.onIniPanelView(profile)!==false){
                         profile.$ini=true;
-
+                    }
+                if(p.iframeAutoLoad){
+                    ins.getSubNode("PANEL").css('overflow','hidden');
+                    ins.append(linb.create("<iframe frameborder='0' marginwidth='0' marginheight='0' vspace='0' hspace='0' allowtransparency='true' width='100%' height='100%' src='"+p.iframeAutoLoad+"'></iframe>"));
+                }else if(p.ajaxAutoLoad){
+                    if(typeof p.ajaxAutoLoad=='string')
+                        p.ajaxAutoLoad={url:p.ajaxAutoLoad};
+                    var hash=p.ajaxAutoLoad;
+                    ins.busy();
+                    linb.Ajax(hash.url, hash.query, function(rsp){
+                        var n=linb.create("div");
+                        n.html(rsp,false,true);
+                        ins.append(n.children());
+                        ins.free();
+                    }, function(err){
+                        ins.append("<div>"+err+"</div>");
+                        ins.free();
+                    }, null, hash.options).start();
+                }
+            }
             if(profile._toggle !== !!value){
                 //set toggle mark
                 profile._toggle = p.toggle = !!value;
     
                 if(value){
-                    if(b.beforeExpend && false===b.beforeExpend(profile))return;
+                    if(ins.beforeExpend && false===ins.beforeExpend(profile))return;
                 }else{
-                    if(b.beforeFold && false===b.beforeFold(profile))return;
+                    if(ins.beforeFold && false===ins.beforeFold(profile))return;
                 }
     
                 //show/hide/panel
@@ -20062,11 +20105,11 @@ Class("linb.UI.Group", "linb.UI.Div",{
                 profile.getSubNode('FIELDSET').tagClass('-checked',!value);
                 
                 if(value){
-                    if(b.afterExpend)
-                        b.afterExpend(profile);
+                    if(ins.afterExpend)
+                        ins.afterExpend(profile);
                 }else{
-                    if(b.afterFold)
-                        b.afterFold(profile);
+                    if(ins.afterFold)
+                        ins.afterFold(profile);
                 }
             }
         }
@@ -23080,6 +23123,8 @@ Class("linb.UI.Panel", "linb.UI.Div",{
             position:'absolute',
             zIndex:0,
             dock:'fill',
+            iframeAutoLoad:"",
+            ajaxAutoLoad:"",
             // setCaption and getCaption
             caption:{
                 ini:undefined,
@@ -23220,22 +23265,42 @@ Class("linb.UI.Panel", "linb.UI.Div",{
         },
 
         _toggle:function(profile, value){
-            var p=profile.properties, b=profile.boxing();
+            var p=profile.properties, ins=profile.boxing();
 
             //event
             if(value &&!profile.$ini)
-                if(b.onIniPanelView)
-                    if(b.onIniPanelView(profile)!==false)
+                if(ins.onIniPanelView){
+                    if(ins.onIniPanelView(profile)!==false){
                         profile.$ini=true;
+                    }
+                if(p.iframeAutoLoad){
+                    ins.getSubNode("PANEL").css('overflow','hidden');
+                    ins.append(linb.create("<iframe frameborder='0' marginwidth='0' marginheight='0' vspace='0' hspace='0' allowtransparency='true' width='100%' height='100%' src='"+p.iframeAutoLoad+"'></iframe>"));
+                }else if(p.ajaxAutoLoad){
+                    if(typeof p.ajaxAutoLoad=='string')
+                        p.ajaxAutoLoad={url:p.ajaxAutoLoad};
+                    var hash=p.ajaxAutoLoad;
+                    ins.busy();
+                    linb.Ajax(hash.url, hash.query, function(rsp){
+                        var n=linb.create("div");
+                        n.html(rsp,false,true);
+                        ins.append(n.children());
+                        ins.free();
+                    }, function(err){
+                        ins.append("<div>"+err+"</div>");
+                        ins.free();
+                    }, null, hash.options).start();
+                }
+            }
 
             if(profile._toggle !== !!value){
                 //set toggle mark
                 profile._toggle = p.toggle = !!value;
 
                 if(value){
-                    if(b.beforeExpend && false===b.beforeExpend(profile))return;
+                    if(ins.beforeExpend && false===ins.beforeExpend(profile))return;
                 }else{
-                    if(b.beforeFold && false===b.beforeFold(profile))return;
+                    if(ins.beforeFold && false===ins.beforeFold(profile))return;
                 }
 
                 //show/hide/panel
@@ -23245,11 +23310,11 @@ Class("linb.UI.Panel", "linb.UI.Div",{
                     profile.getSubNode('TOGGLE').tagClass('-checked', !!value);
 
                 if(value){
-                    if(b.afterExpend)
-                        b.afterExpend(profile);
+                    if(ins.afterExpend)
+                        ins.afterExpend(profile);
                 }else{
-                    if(b.afterFold)
-                        b.afterFold(profile);
+                    if(ins.afterFold)
+                        ins.afterFold(profile);
                 }
             }
         }
@@ -23739,9 +23804,30 @@ Class("linb.UI.Tabs", ["linb.UI", "linb.absList","linb.absValue"],{
                             }
 
                             if(!item._$ini)
-                                if(box.onIniPanelView)
+                                if(box.onIniPanelView){
                                     if(box.onIniPanelView(profile,item)!==false)
                                         item._$ini=true;
+                                    if(item.iframeAutoLoad){
+                                        box.getPanel(item.id).css('overflow','hidden');
+                                        box.getPanel(item.id).append(linb.create("<iframe frameborder='0' marginwidth='0' marginheight='0' vspace='0' hspace='0' allowtransparency='true' width='100%' height='100%' src='"+item.iframeAutoLoad+"'></iframe>"));
+                                    }else if(item.ajaxAutoLoad){
+                                        if(typeof item.ajaxAutoLoad=='string')
+                                            item.ajaxAutoLoad={url:item.ajaxAutoLoad};
+                                        var hash=item.ajaxAutoLoad;
+                                        box.busy(null,null,"PANEL",item.id);
+                                        linb.Ajax(hash.url, hash.query, function(rsp){
+                                            var n=linb.create("div");
+                                            n.html(rsp,false,true);
+                                            box.getPanel(item.id).append(n.children());
+                                            box.free();
+                                        }, function(err){
+                                            box.getPanel(item.id).append("<div>"+err+"</div>");
+                                            box.free();
+                                        }, null, hash.options).start();
+                                    }else if(item.html){
+                                        box.getPanel(item.id).append(item.html);
+                                    }
+                                }
                         }
                     }
             });
@@ -33228,6 +33314,25 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
                         linb.UI.$doResize(profile, (tt&&tt[1])||pro.width, (tt&&tt[2])||pro.height);
                         root.show(left?(parseInt(left)||0)+'px':null, top?(parseInt(top)||0)+'px':null);
 
+                        if(pro.iframeAutoLoad){
+                            instance.getSubNode("PANEL").css('overflow','hidden');
+                            instance.append(linb.create("<iframe frameborder='0' marginwidth='0' marginheight='0' vspace='0' hspace='0' allowtransparency='true' width='100%' height='100%' src='"+pro.iframeAutoLoad+"'></iframe>"));
+                        }else if(pro.ajaxAutoLoad){
+                            if(typeof pro.ajaxAutoLoad=='string')
+                                pro.ajaxAutoLoad={url:pro.ajaxAutoLoad};
+                            var hash=pro.ajaxAutoLoad;
+                            instance.busy();
+                            linb.Ajax(hash.url, hash.query, function(rsp){
+                                var n=linb.create("div");
+                                n.html(rsp,false,true);
+                                instance.append(n.children());
+                                instance.free();
+                            }, function(err){
+                                instance.append("<div>"+err+"</div>");
+                                instance.free();
+                            }, null, hash.options).start();
+                        }
+
                         if(modal && !profile.$inModal)
                             box._modal(profile);
 
@@ -33654,6 +33759,8 @@ if(linb.browser.ie){
             dock:{
                 hidden:true
             },
+            iframeAutoLoad:"",
+            ajaxAutoLoad:"",
             html:{
                 action:function(v){
                     this.getSubNode('PANEL').html(v);

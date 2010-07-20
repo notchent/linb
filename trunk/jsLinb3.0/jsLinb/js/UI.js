@@ -1296,31 +1296,35 @@ Class("linb.UI",  "linb.absObj", {
 
             return self;
         },
-        busy:function(message,html,key){
+        busy:function(message,html,key,subId){
             message=typeof message=='string'?message:'Loading...';
             html=typeof html=='string'?html:'<span style="background:'+ linb.UI.$bg('busy.gif','no-repeat left center')('linb.UI.Public') +';padding-left:16px;">'+message+'</span>';
             return this.each(function(profile){
-                _.resetRun(profile.$linbid+':busy',function(){
+                _.resetRun(profile.$linbid+':busy',function(profile,key,subId){
                     var keys=profile.keys;
                     key=keys[key]||keys['BORDER']||keys['PANEL']||keys['KEY'];
 
-                    var parentNode=profile.getSubNode(key),
+                    var parentNode=profile.getSubNode(key,subId),
                         size=parentNode.cssSize(),
                         node;
-                    if(!(node=profile.$busy)){
-                        node=profile.$busy=linb.create('<div style="left:0;top:0;z-index:10;position:absolute;background-color:#DDD;"></div><div style="left:0;top:0;z-index:20;text-align:center;position:absolute;"><div>'+html+'</div></div>');
-                        linb([node.get(0)]).css({opacity:0.5});
-                        linb(parentNode).append(node);
-                    }
-                    node.css({display:'',width:size.width+'px',height:size.height+'px'});
+                    if(!size.width)size.width=parentNode.offsetWidth();
+                    if(!size.height)size.width=parentNode.offsetHeight();
+
+                    node=profile.$busy=linb.create('<div style="left:0;top:0;z-index:10;position:absolute;background-color:#DDD;"></div><div style="left:0;top:0;z-index:20;text-align:center;position:absolute;"><div>'+html+'</div></div>');
+                    linb([node.get(0)]).css({opacity:0.5});
+                    parentNode.append(node);
+                    node.css({width:size.width+'px',height:size.height+'px'});
                     linb([node.get(1).firstChild]).html(html,false).css('paddingTop',size.height/2+'px');
-                },50);
+                },50,[profile,key,subId]);
             });
         },
         free:function(){
             return this.each(function(profile){
                 _.resetRun(profile.$linbid+':busy');
-                if(profile.$busy)profile.$busy.css('display','none');
+                if(profile.$busy){
+                    profile.$busy.remove();
+                    delete profile.$busy;
+                }
             });
         },
         reLayout:function(force){
