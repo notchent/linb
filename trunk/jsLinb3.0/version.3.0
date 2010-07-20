@@ -61,9 +61,11 @@ linb.UI.Panel/linb.UI.Dialog
 linb.UI.Dialog
     Added functions: showModal
 
+linb.UI.Input/ComboInput
+    Added properties: hAlign for text-align
+
 linb.UI.ComboInput
     Added funcitons: formatCurrency(static function)
-    Added properties: hAlign for text-align
 
 linb.UI.Tabs
     Added properties: lazyAppend
@@ -73,13 +75,10 @@ linb.UI.Panel/linb.UI.Tabs
      Modified properties: from landBtn to popBtn
 
 linb.UI.Panel/Group/Dialog
-    Added properties: iframeAutoLoad/ajaxAutoLoad
+    Added properties: iframeAutoLoad/ajaxAutoLoad for loading outter html/text file
     
 linb.UI.Panel/linb.UI.Dialog
      Added events:onRefresh
-
-linb.UI.TreeBar
-    Modified appearance
 
 linb.UI.TreeGrid
      Added functions: editCell, focusCell, focusCellbyRowCol
