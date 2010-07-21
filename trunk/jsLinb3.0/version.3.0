@@ -112,11 +112,12 @@ JavaScript-based source code editor Integrated(based on codemirror right now)
         press Ctrl + Atl + SPACE
         double click a word
     9. Custom variable types allowed
-    10. Indent, syntax, selected block
-    11. Bracket matching for [], () and {}: 
+    10. quick documentation, and navigation
+    11. Indent, syntax, selected block
+    12. Bracket matching for [], () and {}: 
         Ctrl + [ or ] : looking for the matching character,  flash characters for a moment
         Ctrl + Shift + [ or ] : Jump to the matching character
-    12. WYSIWYG Designer
+    13. WYSIWYG Designer
         Building UI by drag & drop
         Dblclick a control will bring up the code editor and locate to its declaration code.
         Click the event button will bring up the code editor and automatically write the beginning code to handle the click event.
