@@ -4,7 +4,28 @@
             // [[code created by jsLinb UI Builder
             var host=this, children=[], append=function(child){children.push(child.get(0))};
             
-            append((new linb.UI.Div)
+            append(
+                (new linb.UI.Image)
+                .setHost(host,"ctl_image5")
+                .setClassName("uicmd-max")
+                .setLeft(240)
+                .setTop(10)
+                .setZIndex(10)
+            );
+            
+            append(
+                (new linb.UI.Span)
+                .setHost(host,"ctl_span5")
+                .setClassName("uicmd-min")
+                .setLeft(210)
+                .setTop(10)
+                .setWidth(16)
+                .setHeight(16)
+                .setZIndex(10)
+            );
+            
+            append(
+                (new linb.UI.Div)
                 .setHost(host,"div1")
                 .setWidth("auto")
                 .setHeight(68)
@@ -13,7 +34,8 @@
                 .setCustomStyle({"KEY":"border:solid 1px #888"})
             );
             
-            append((new linb.UI.Div)
+            append(
+                (new linb.UI.Div)
                 .setHost(host,"div2")
                 .setWidth("auto")
                 .setHeight("auto")
@@ -23,7 +45,8 @@
                 .setCustomStyle({"KEY":"background:#00ff00;border:solid 1px #888"})
             );
             
-            append((new linb.UI.Div)
+            append(
+                (new linb.UI.Div)
                 .setHost(host,"div3")
                 .setWidth("auto")
                 .setHeight(100)
@@ -34,7 +57,8 @@
                 .setCustomStyle({"KEY":"border:solid 1px #888"})
             );
             
-            append((new linb.UI.SButton)
+            append(
+                (new linb.UI.SButton)
                 .setHost(host,"sbutton1")
                 .setLeft(40)
                 .setTop(30)
