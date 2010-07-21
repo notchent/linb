@@ -13001,9 +13001,11 @@ Class("linb.UI",  "linb.absObj", {
                 ini:{}
             },
             "className":{
-                ini:"uicmd-empty",
+                ini:"",
                 action:function(v,ov){
-                    this.getRoot().removeClass(ov).addClass(v);
+                    if(ov)
+                        this.getRoot().removeClass(ov);
+                    this.getRoot().addClass(v);
                 }
             },
             disableHover:false,
