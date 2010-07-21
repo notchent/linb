@@ -202,7 +202,24 @@ Class("linb.UI.Group", "linb.UI.Div",{
                     }
                 if(p.iframeAutoLoad){
                     ins.getSubNode("PANEL").css('overflow','hidden');
-                    ins.append(linb.create("<iframe frameborder='0' marginwidth='0' marginheight='0' vspace='0' hspace='0' allowtransparency='true' width='100%' height='100%' src='"+p.iframeAutoLoad+"'></iframe>"));
+
+                    if(typeof p.iframeAutoLoad=='string')
+                        p.iframeAutoLoad={url:p.iframeAutoLoad};
+                    var hash=p.iframeAutoLoad,
+                        ifr=document.createElement("iframe");
+                    ifr.name="diframe:"+_();
+                    ifr.id=ifr.name;
+                    ifr.src=hash.url;
+                    ifr.frameBorder='0';
+                    ifr.marginWidth='0';
+                    ifr.marginHeight='0';
+                    ifr.vspace='0';
+                    ifr.hspace='0';
+                    ifr.allowTransparency='true';
+                    ifr.width='100%';
+                    ifr.height='100%';
+                    ins.append(ifr);
+                    linb.Dom.submit(hash.url, hash.query, hash.method, ifr.name, hash.enctype);
                 }else if(p.ajaxAutoLoad){
                     if(typeof p.ajaxAutoLoad=='string')
                         p.ajaxAutoLoad={url:p.ajaxAutoLoad};

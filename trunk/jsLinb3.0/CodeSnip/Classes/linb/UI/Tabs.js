@@ -16,7 +16,7 @@ Class('App.linb_UI_Tabs', 'linb.Com',{
             host.Tabs1.append(
                 (new linb.UI.Tabs)
                 .setHost(host,"tabTest1")
-                .setItems([{"id":"a", "caption":"html", "html":"<strong>I'm html string</strong>"}, {"id":"b", "caption":"src", "src":"http://www.linb.net"}, {"id":"c", "caption":"autoLoad", "autoLoad":"files/block.html"}])
+                .setItems([{"id":"a", "caption":"html", "html":"<strong>I'm html string</strong>"}, {"id":"b", "caption":"src", "iframeAutoLoad":"http://www.linb.net"}, {"id":"c", "caption":"autoLoad", "ajaxAutoLoad":"files/block.html"}])
                 .setDock("none")
                 .setLeft(30)
                 .setTop(20)

@@ -20124,7 +20124,24 @@ Class("linb.UI.Group", "linb.UI.Div",{
                     }
                 if(p.iframeAutoLoad){
                     ins.getSubNode("PANEL").css('overflow','hidden');
-                    ins.append(linb.create("<iframe frameborder='0' marginwidth='0' marginheight='0' vspace='0' hspace='0' allowtransparency='true' width='100%' height='100%' src='"+p.iframeAutoLoad+"'></iframe>"));
+
+                    if(typeof p.iframeAutoLoad=='string')
+                        p.iframeAutoLoad={url:p.iframeAutoLoad};
+                    var hash=p.iframeAutoLoad,
+                        ifr=document.createElement("iframe");
+                    ifr.name="diframe:"+_();
+                    ifr.id=ifr.name;
+                    ifr.src=hash.url;
+                    ifr.frameBorder='0';
+                    ifr.marginWidth='0';
+                    ifr.marginHeight='0';
+                    ifr.vspace='0';
+                    ifr.hspace='0';
+                    ifr.allowTransparency='true';
+                    ifr.width='100%';
+                    ifr.height='100%';
+                    ins.append(ifr);
+                    linb.Dom.submit(hash.url, hash.query, hash.method, ifr.name, hash.enctype);
                 }else if(p.ajaxAutoLoad){
                     if(typeof p.ajaxAutoLoad=='string')
                         p.ajaxAutoLoad={url:p.ajaxAutoLoad};
@@ -23331,7 +23348,24 @@ Class("linb.UI.Panel", "linb.UI.Div",{
                     }
                 if(p.iframeAutoLoad){
                     ins.getSubNode("PANEL").css('overflow','hidden');
-                    ins.append(linb.create("<iframe frameborder='0' marginwidth='0' marginheight='0' vspace='0' hspace='0' allowtransparency='true' width='100%' height='100%' src='"+p.iframeAutoLoad+"'></iframe>"));
+
+                    if(typeof p.iframeAutoLoad=='string')
+                        p.iframeAutoLoad={url:p.iframeAutoLoad};
+                    var hash=p.iframeAutoLoad,
+                        ifr=document.createElement("iframe");
+                    ifr.name="diframe:"+_();
+                    ifr.id=ifr.name;
+                    ifr.src=hash.url;
+                    ifr.frameBorder='0';
+                    ifr.marginWidth='0';
+                    ifr.marginHeight='0';
+                    ifr.vspace='0';
+                    ifr.hspace='0';
+                    ifr.allowTransparency='true';
+                    ifr.width='100%';
+                    ifr.height='100%';
+                    ins.append(ifr);
+                    linb.Dom.submit(hash.url, hash.query, hash.method, ifr.name, hash.enctype);
                 }else if(p.ajaxAutoLoad){
                     if(typeof p.ajaxAutoLoad=='string')
                         p.ajaxAutoLoad={url:p.ajaxAutoLoad};
@@ -23778,7 +23812,7 @@ Class("linb.UI.Tabs", ["linb.UI", "linb.absList","linb.absValue"],{
                 var id=profile.domId,
                     box = profile.boxing(),
                     uiv = box.getUIValue(),
-                    properties = profile.properties,
+                    p = profile.properties,
                     itemId = profile.getSubIdByItemId(uiv),
                     item,
                     temp,t
@@ -23786,7 +23820,7 @@ Class("linb.UI.Tabs", ["linb.UI", "linb.absList","linb.absValue"],{
                     if(uiv && profile.getSubIdByItemId(uiv)){
                         profile.getSubNodes(['ITEM','BOX'],itemId).tagClass('-checked',false);
 
-                        if(!properties.noPanel)
+                        if(!p.noPanel)
                             // hide pane
                             //box.getPanel(uiv).hide();
                             box.getPanel(uiv).css('display','none');
@@ -23799,7 +23833,7 @@ Class("linb.UI.Tabs", ["linb.UI", "linb.absList","linb.absValue"],{
 
                         profile.getSubNodes(['ITEM','BOX'],itemId).tagClass('-checked');
 
-                        if(!properties.noPanel){
+                        if(!p.noPanel){
                             // show pane
                             //box.getPanel(value).css('position','relative').show('auto','auto');
                             box.getPanel(value).css('display','block');
@@ -23810,7 +23844,7 @@ Class("linb.UI.Tabs", ["linb.UI", "linb.absList","linb.absValue"],{
                             t=null;
 
                             //dynamic render
-                            if(properties.lazyAppend){
+                            if(p.lazyAppend){
                                 var arr=profile.children,a=[];
                                 _.arr.each(arr,function(o){
                                     if(o[1]==value && !o[0]['parent:'+profile.$linbid]){
@@ -23866,7 +23900,24 @@ Class("linb.UI.Tabs", ["linb.UI", "linb.absList","linb.absValue"],{
                                         item._$ini=true;
                                     if(item.iframeAutoLoad){
                                         box.getPanel(item.id).css('overflow','hidden');
-                                        box.getPanel(item.id).append(linb.create("<iframe frameborder='0' marginwidth='0' marginheight='0' vspace='0' hspace='0' allowtransparency='true' width='100%' height='100%' src='"+item.iframeAutoLoad+"'></iframe>"));
+
+                                        if(typeof item.iframeAutoLoad=='string')
+                                            item.iframeAutoLoad={url:item.iframeAutoLoad};
+                                        var hash=item.iframeAutoLoad,
+                                            ifr=document.createElement("iframe");
+                                        ifr.name="diframe:"+_();
+                                        ifr.id=ifr.name;
+                                        ifr.src=hash.url;
+                                        ifr.frameBorder='0';
+                                        ifr.marginWidth='0';
+                                        ifr.marginHeight='0';
+                                        ifr.vspace='0';
+                                        ifr.hspace='0';
+                                        ifr.allowTransparency='true';
+                                        ifr.width='100%';
+                                        ifr.height='100%';
+                                        box.getPanel(item.id).append(ifr);
+                                        linb.Dom.submit(hash.url, hash.query, hash.method, ifr.name, hash.enctype);
                                     }else if(item.ajaxAutoLoad){
                                         if(typeof item.ajaxAutoLoad=='string')
                                             item.ajaxAutoLoad={url:item.ajaxAutoLoad};
@@ -33403,8 +33454,8 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
             parent = parent || linb('body');
             return this.each(function(profile){
                 var t,
-                    pro=profile.properties,
-                    instance = profile.boxing(),
+                    p=profile.properties,
+                    ins = profile.boxing(),
                     fun = function(){
                         var ins=profile.boxing();
                         if(left||left===0)
@@ -33419,25 +33470,42 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
                         
                         var tt=profile._$rs_args;
                         // resize immidiately here, maybe max here
-                        linb.UI.$doResize(profile, (tt&&tt[1])||pro.width, (tt&&tt[2])||pro.height);
+                        linb.UI.$doResize(profile, (tt&&tt[1])||p.width, (tt&&tt[2])||p.height);
                         root.show(left?(parseInt(left)||0)+'px':null, top?(parseInt(top)||0)+'px':null);
 
-                        if(pro.iframeAutoLoad){
-                            instance.getSubNode("PANEL").css('overflow','hidden');
-                            instance.append(linb.create("<iframe frameborder='0' marginwidth='0' marginheight='0' vspace='0' hspace='0' allowtransparency='true' width='100%' height='100%' src='"+pro.iframeAutoLoad+"'></iframe>"));
-                        }else if(pro.ajaxAutoLoad){
-                            if(typeof pro.ajaxAutoLoad=='string')
-                                pro.ajaxAutoLoad={url:pro.ajaxAutoLoad};
-                            var hash=pro.ajaxAutoLoad;
-                            instance.busy();
+                        if(p.iframeAutoLoad){
+                            ins.getSubNode("PANEL").css('overflow','hidden');
+
+                            if(typeof p.iframeAutoLoad=='string')
+                                p.iframeAutoLoad={url:p.iframeAutoLoad};
+                            var hash=p.iframeAutoLoad,
+                                ifr=document.createElement("iframe");
+                            ifr.name="diframe:"+_();
+                            ifr.id=ifr.name;
+                            ifr.src=hash.url;
+                            ifr.frameBorder='0';
+                            ifr.marginWidth='0';
+                            ifr.marginHeight='0';
+                            ifr.vspace='0';
+                            ifr.hspace='0';
+                            ifr.allowTransparency='true';
+                            ifr.width='100%';
+                            ifr.height='100%';
+                            ins.append(ifr);
+                            linb.Dom.submit(hash.url, hash.query, hash.method, ifr.name, hash.enctype);
+                        }else if(p.ajaxAutoLoad){
+                            if(typeof p.ajaxAutoLoad=='string')
+                                p.ajaxAutoLoad={url:p.ajaxAutoLoad};
+                            var hash=p.ajaxAutoLoad;
+                            ins.busy();
                             linb.Ajax(hash.url, hash.query, function(rsp){
                                 var n=linb.create("div");
                                 n.html(rsp,false,true);
-                                instance.append(n.children());
-                                instance.free();
+                                ins.append(n.children());
+                                ins.free();
                             }, function(err){
-                                instance.append("<div>"+err+"</div>");
-                                instance.free();
+                                ins.append("<div>"+err+"</div>");
+                                ins.free();
                             }, null, hash.options).start();
                         }
 
@@ -33455,8 +33523,8 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
 
                 if(profile.inShowing)return;
                 profile.inShowing=1;
-                if(t=pro.fromRegion)
-                    linb.Dom.animate({border:'dashed 1px #ff0000'},{left:[t.left,pro.left],top:[t.top,pro.top],width:[t.width,pro.width],height:[t.height,pro.height]}, null,fun,360,12,'expoIn').start();
+                if(t=p.fromRegion)
+                    linb.Dom.animate({border:'dashed 1px #ff0000'},{left:[t.left,p.left],top:[t.top,p.top],width:[t.width,p.width],height:[t.height,p.height]}, null,fun,360,12,'expoIn').start();
                 else
                     fun();
             });

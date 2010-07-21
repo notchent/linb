@@ -5,7 +5,7 @@ Class("linb.UI.Tabs", ["linb.UI", "linb.absList","linb.absValue"],{
                 var id=profile.domId,
                     box = profile.boxing(),
                     uiv = box.getUIValue(),
-                    properties = profile.properties,
+                    p = profile.properties,
                     itemId = profile.getSubIdByItemId(uiv),
                     item,
                     temp,t
@@ -13,7 +13,7 @@ Class("linb.UI.Tabs", ["linb.UI", "linb.absList","linb.absValue"],{
                     if(uiv && profile.getSubIdByItemId(uiv)){
                         profile.getSubNodes(['ITEM','BOX'],itemId).tagClass('-checked',false);
 
-                        if(!properties.noPanel)
+                        if(!p.noPanel)
                             // hide pane
                             //box.getPanel(uiv).hide();
                             box.getPanel(uiv).css('display','none');
@@ -26,7 +26,7 @@ Class("linb.UI.Tabs", ["linb.UI", "linb.absList","linb.absValue"],{
 
                         profile.getSubNodes(['ITEM','BOX'],itemId).tagClass('-checked');
 
-                        if(!properties.noPanel){
+                        if(!p.noPanel){
                             // show pane
                             //box.getPanel(value).css('position','relative').show('auto','auto');
                             box.getPanel(value).css('display','block');
@@ -37,7 +37,7 @@ Class("linb.UI.Tabs", ["linb.UI", "linb.absList","linb.absValue"],{
                             t=null;
 
                             //dynamic render
-                            if(properties.lazyAppend){
+                            if(p.lazyAppend){
                                 var arr=profile.children,a=[];
                                 _.arr.each(arr,function(o){
                                     if(o[1]==value && !o[0]['parent:'+profile.$linbid]){
@@ -93,7 +93,24 @@ Class("linb.UI.Tabs", ["linb.UI", "linb.absList","linb.absValue"],{
                                         item._$ini=true;
                                     if(item.iframeAutoLoad){
                                         box.getPanel(item.id).css('overflow','hidden');
-                                        box.getPanel(item.id).append(linb.create("<iframe frameborder='0' marginwidth='0' marginheight='0' vspace='0' hspace='0' allowtransparency='true' width='100%' height='100%' src='"+item.iframeAutoLoad+"'></iframe>"));
+
+                                        if(typeof item.iframeAutoLoad=='string')
+                                            item.iframeAutoLoad={url:item.iframeAutoLoad};
+                                        var hash=item.iframeAutoLoad,
+                                            ifr=document.createElement("iframe");
+                                        ifr.name="diframe:"+_();
+                                        ifr.id=ifr.name;
+                                        ifr.src=hash.url;
+                                        ifr.frameBorder='0';
+                                        ifr.marginWidth='0';
+                                        ifr.marginHeight='0';
+                                        ifr.vspace='0';
+                                        ifr.hspace='0';
+                                        ifr.allowTransparency='true';
+                                        ifr.width='100%';
+                                        ifr.height='100%';
+                                        box.getPanel(item.id).append(ifr);
+                                        linb.Dom.submit(hash.url, hash.query, hash.method, ifr.name, hash.enctype);
                                     }else if(item.ajaxAutoLoad){
                                         if(typeof item.ajaxAutoLoad=='string')
                                             item.ajaxAutoLoad={url:item.ajaxAutoLoad};
