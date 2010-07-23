@@ -28,6 +28,8 @@ Class('App.linb_UI_TreeView', 'linb.Com',{
                 (new linb.UI.TreeView)
                 .setHost(host,"ctl_treeview1")
                 .setItems([{"id":"folder1", "caption":"folder1", "sub":true}, {"id":"folder2", "caption":"folder2", "sub":true}, {"id":"file1", "caption":"file1"}])
+                .setDropKeys("hihi")
+                .setDragKey("hihi")
                 .onGetContent("_ctl_treeview1_ongetcontent")
                 .onItemSelected("_ctl_treeview1_onitemselected")
                 .afterFold("_ctl_treeview1_afterfold")
