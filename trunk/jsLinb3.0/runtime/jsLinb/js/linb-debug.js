@@ -9241,7 +9241,7 @@ Class("linb.Tips", null,{
             }
 
             if(!linb.Dom.byId(self._id2)){
-                var ns=linb.create('<div id='+self._id1+' style="left:5px;top:'+(linb.win.scrollTop()+5)+'px;" class="linb-dbg-frm"><div class="linb-dbg-box"><div id='+self._id4+' class="linb-dbg-header">&nbsp;&nbsp;:&nbsp;)&nbsp;&nbsp;jsLINB Debug Window <span class="linb-dbg-cmds"><a href="javascript:;" onclick="linb(\''+self._id2+'\').empty(false);">Clear</a><a href="javascript:;" onclick="linb(\''+self._id1+'\').remove();"> &Chi; </a></span></div><div id='+self._id2+' class="linb-dbg-content"></div><div class="linb-dbg-tail"><table><tr><td style="font-family:serif;">&nbsp;>>>&nbsp;</td><td style="width:100%"><input id='+self._id3+' /></td></tr></table></div></div></div>');
+                var ns=linb.create('<div id='+self._id1+' style="left:5px;top:'+(linb.win.scrollTop()+5)+'px;" class="linb-dbg-frm"><div class="linb-dbg-box"><div id='+self._id4+' class="linb-dbg-header">&nbsp;&nbsp;:&nbsp;)&nbsp;&nbsp;jsLINB Monitor window <span class="linb-dbg-cmds"><a href="javascript:;" onclick="linb(\''+self._id2+'\').empty(false);">Clear</a><a href="javascript:;" onclick="linb(\''+self._id1+'\').remove();"> &Chi; </a></span></div><div id='+self._id2+' class="linb-dbg-content"></div><div class="linb-dbg-tail"><table><tr><td style="font-family:serif;">&nbsp;>>>&nbsp;</td><td style="width:100%"><input id='+self._id3+' /></td></tr></table></div></div></div>');
                 linb('body').append(ns);
                 self.$con=linb(self._id2);
                 linb(self._id4).onMousedown(function(p,e,s){

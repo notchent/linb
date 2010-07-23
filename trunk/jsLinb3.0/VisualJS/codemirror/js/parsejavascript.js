@@ -1,4 +1,4 @@
-/* Parse function for JavaScript. Makes use of the tokenizer from
+﻿/* Parse function for JavaScript. Makes use of the tokenizer from
  * tokenizejavascript.js. Note that your parsers do not have to be
  * this complicated -- if you don't want to recognize local variables,
  * in many languages it is enough to just look for braces, semicolons,
@@ -282,7 +282,7 @@ var JSParser = Editor.Parser = (function() {
         if (token.content == "?") cont(expression, expect(":"), expression);  // ternary operator
         else cont(expression);
       }
-      else if (type == "(") cont(pushlex(")"), expression, commasep(expression, ")"), poplex, maybeoperator);
+     else if (type == "(") cont(pushlex(")"), commasep(expression, ")"), poplex, maybeoperator);
       else if (type == ".") cont(property, maybeoperator);
       else if (type == "[") cont(pushlex("]"), expression, expect("]"), poplex, maybeoperator);
     }

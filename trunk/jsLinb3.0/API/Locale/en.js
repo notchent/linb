@@ -929,7 +929,7 @@ _.set(linb.Locale,["en","app"], {
             $memo:"Sees <a href='#linb.Ajax'>linb.Ajax</a>, <a href='#linb.SAjax'>linb.SAjax</a> and <a href='#linb.IAjax'>linb.IAjax</a> please!"
         },
         log:{
-            $desc:"Logs information to Debugger window. If you are in firefox and the firebug is active, it'll log information into firebug too.",
+            $desc:"Logs information to Monitor Window. If you are in firefox and the firebug is active, it'll log information into firebug too.",
             $snippet:[
                 "linb.log(1,'a',[],{});"
             ],
@@ -3260,8 +3260,8 @@ _.set(linb.Locale,["en","app"], {
 
                 "<li><strong>dragIcon</strong>: String, the drag icon image path, Default is [linb.ini.path+'ondrag.gif'].</li>"+
                 "<li><strong>magneticDistance</strong>: Number, the magnetic distance, Default is 0;</li>"+
-                "<li><strong>xMagneticLines</strong>: Array of Number, the magnetic line vlaues in horizontal dir, Default is [];</li>"+
-                "<li><strong>yMagneticLines</strong>: Array of Number, the magnetic line vlaues in vertical dir, Default is [];</li>"+
+                "<li><strong>xMagneticLines</strong>: Array of Number, the magnetic line values in horizontal dir, Default is [];</li>"+
+                "<li><strong>yMagneticLines</strong>: Array of Number, the magnetic line values in vertical dir, Default is [];</li>"+
                 "<li><strong>widthIncrement</strong>: Number, the width increment in horizontal dir, Default is 0;</li>"+
                 "<li><strong>heightIncrement</strong>: Number, the height increment in vertical dir, Default is 0;</li>"+
                 "<li><strong>dragDefer</strong>: Number, when [linb.DragDrop.startDrag] is called, the real drag action will be triggered after [document.onmousemove] runs [dragDefer] times, Default is 0;</li>"+
@@ -3470,14 +3470,14 @@ _.set(linb.Locale,["en","app"], {
         KEY:{$desc:"Class Name"},
         $desc:"linb.Debugger Class(static)",
         'log':{
-            $desc:"Shows log information to a new window(Debugger window).",
+            $desc:"Shows log information to a new window(Monitor Window).",
             $snippet:[
                 "//You can input multi parameters:\n"+
                 "linb.Debugger.log(9,'a',[1,2],{a:1,b:2})"
             ]
         },
         trace:{
-            $desc:"Shows an Object's key/value pairs ,and the current function's trace information to the Debugger window.",
+            $desc:"Shows an Object's key/value pairs ,and the current function's trace information to the Monitor Window.",
             $paras:[
                 "obj [Optional] : Object."
             ],
@@ -3486,7 +3486,7 @@ _.set(linb.Locale,["en","app"], {
             ]
         },
         err:{
-            $desc:"Shows an Error info to the Debugger window. The most common usage : 'window.onerror=linb.Debugger.err;'",
+            $desc:"Shows an Error info to the Monitor Window. The most common usage : 'window.onerror=linb.Debugger.err;'",
             $snippet:[
                 "var old=window.onerror; \n window.onerror=linb.Debugger.err; \n throw new Error('a error!'); window.onerror=old;"
             ]
