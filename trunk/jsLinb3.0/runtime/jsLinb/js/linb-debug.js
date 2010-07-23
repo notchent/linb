@@ -1018,8 +1018,9 @@ new function(){
     }
     _.merge(ini,{
         appPath:location.href.split('?')[0].replace(/[^\\\/]+$/,''),
-        file_bg: ini.path+'bg.gif',
-        blank_image:b.ie&&b.ver<=7?(ini.path+'bg.gif'):"data:image/gif;base64,R0lGODlhAQABAID/AMDAwAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==",
+        img_bg: ini.path+'bg.gif',
+        img_busy: ini.path+'busy.gif',
+        img_blank:b.ie&&b.ver<=7?(ini.path+'bg.gif'):"data:image/gif;base64,R0lGODlhAQABAID/AMDAwAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==",
         dummy_tag:'$_dummy_$'
     });
     if(!ini.path)
@@ -1907,7 +1908,7 @@ Class('linb.IAjax','linb.absIO',{
                 if(!d.getElementById('linb:img:bg')){
                     o=d.createElement('img');
                     o.id='linb:img:bg';
-                    o.src=ini.file_bg;
+                    o.src=ini.img_bg;
                     o.style.display='none';
                     d.body.appendChild(o);
                     o=null;
@@ -6241,12 +6242,12 @@ type:4
                         n.style.height = n.height;
                         n.style.width = n.width;
                         n.style.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(enabled=true, src=" + n.src + ", sizingMethod="+type+")";
-                        n.src = linb.ini.file_bg;
+                        n.src = linb.ini.img_bg;
                     }
                     var bgimg = n.currentStyle.backgroundImage || n.style.backgroundImage,
                         bgmatch = bgimg.match(/^url[("']+(.*\.png[^\)"']*)[\)"']+[^\)]*$/i);
                     if(bgmatch){
-                        n.style.backgroundImage = 'url(' + linb.ini.file_bg + ')';
+                        n.style.backgroundImage = 'url(' + linb.ini.img_bg + ')';
                         n.style.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(enabled=true, src=" + bgmatch[1] + ", sizingMethod="+type+")";
                     }
                 });
@@ -6428,7 +6429,7 @@ type:4
                 o1,o2;
 
             if((o1=linb(id)).isEmpty()){
-                linb('body').prepend(o1=linb.create('<div id="'+ id +'" style="position:absolute;display:none;left:0;top:0;background-image:url('+linb.ini.file_bg+')"><div id="'+id2+'" style="position:absolute;font-size:12px"></div></div>'));
+                linb('body').prepend(o1=linb.create('<div id="'+ id +'" style="position:absolute;display:none;left:0;top:0;background-image:url('+linb.ini.img_bg+')"><div id="'+id2+'" style="position:absolute;font-size:12px"></div></div>'));
                 linb.setNodeData(o1.get(0),'zIndexIgnore',1)
             }
             o2=linb(id2);
@@ -8337,7 +8338,7 @@ Class('linb.DragDrop',null,{
             if(!dom.byId(d._id))
                 linb('body').prepend(
                     //&nbsp; for IE6
-                    linb.create('<div id="' + d._id + '" style="left:0;top:0;border:0;font-size:0;line-height:0;padding:'+d.$proxySize+'px;position:absolute;background:url('+linb.ini.file_bg+') repeat;"><div style="font-size:0;line-height:0;" id="' +d._idi+ '">'+(linb.browser.ie6?'&nbsp;':'')+'</div></div>')
+                    linb.create('<div id="' + d._id + '" style="left:0;top:0;border:0;font-size:0;line-height:0;padding:'+d.$proxySize+'px;position:absolute;background:url('+linb.ini.img_bg+') repeat;"><div style="font-size:0;line-height:0;" id="' +d._idi+ '">'+(linb.browser.ie6?'&nbsp;':'')+'</div></div>')
                 );
             t=linb(d._id);
             if(p.dragKey){
@@ -10653,7 +10654,7 @@ Class("linb.UI",  "linb.absObj", {
         },
         busy:function(message,html,key,subId){
             message=typeof message=='string'?message:'Loading...';
-            html=typeof html=='string'?html:'<span style="background:'+ linb.UI.$bg('busy.gif','no-repeat left center')('linb.UI.Public') +';padding-left:16px;">'+message+'</span>';
+            html=typeof html=='string'?html:'<span style="background:url('+linb.ini.img_busy+') no-repeat left center;padding-left:16px;">'+message+'</span>';
             return this.each(function(profile){
                 _.resetRun(profile.$linbid+':busy',function(profile,key,subId){
                     var keys=profile.keys;
@@ -11333,10 +11334,12 @@ Class("linb.UI",  "linb.absObj", {
                 width:'16px',
                 height:'16px',
                 'background-repeat':'no-repeat',
+                'background-position' : 'center',
                 margin:'0 2px'
             },
             '.ui-busy':{
-                background: linb.UI.$bg('busy.gif', 'no-repeat center center', true)
+                background: 'url('+linb.ini.img_busy+') no-repeat center center',
+                'background-position' : 'center'
             },
             '.uicmd-close, .uicmd-opt, .uicmd-pop, .uicmd-land, .uicmd-refresh, .uicmd-toggle, .uicmd-toggle2, .uicmd-min, .uicmd-max,.uicmd-restore,.uicmd-pin, .uicmd-check, .uicmd-radio, .uicmd-add, .uicmd-remove':{
                 background: linb.UI.$bg('icons.gif', 'no-repeat 0 0', true),
@@ -12966,7 +12969,7 @@ Class("linb.UI",  "linb.absObj", {
             if(hashOut.imagePos)
                 hashOut.backgroundPosition='background-position:'+hashOut.imagePos+';';
             else if(hashOut.image)
-                hashOut.backgroundPosition='background-position:0 0;';
+                hashOut.backgroundPosition='background-position:center;';
 
             if(hashOut.imageRepeat)
                 hashOut.backgroundRepeat='background-repeat:'+hashOut.imageRepeat+';';
@@ -14593,7 +14596,7 @@ new function(){
                    // overflow:(linb.browser.gek && !linb.browser.gek3)?'auto':null,
                     outline:linb.browser.gek?'none':null,
                     zoom:linb.browser.ie6?'1':null,
-                    background:linb.browser.ie?'url('+linb.ini.file_bg+') no-repeat left top':null
+                    background:linb.browser.ie?'url('+linb.ini.img_bg+') no-repeat left top':null
                 }
             },
             Templates:{
@@ -14776,7 +14779,7 @@ new function(){
                 }
             },
             src:{
-                ini:linb.ini.file_bg,
+                ini:linb.ini.img_bg,
                 //use asyn mode
                 action:function(v){
                     var self=this;
@@ -20024,7 +20027,7 @@ Class("linb.UI.Group", "linb.UI.Div",{
             PANEL:{
                 position:'relative',
                 overflow:'auto',
-                 background:linb.browser.ie?'url('+linb.ini.file_bg+') no-repeat left top':null
+                 background:linb.browser.ie?'url('+linb.ini.img_bg+') no-repeat left top':null
             },
             'FIELDSET-checked PANEL':{
                 $order:4,
@@ -26199,6 +26202,10 @@ Class("linb.UI.TreeView","linb.UI.TreeBar",{
                 'margin-left':'0'
             },
             BOX:{
+                left:0,
+                overflow: 'auto',
+                'overflow-x':(linb.browser.ie ||linb.browser.gek)?'hidden':'',
+                position:'relative',
                 'background-color':'#FFF'
             },
             'BAR ITEMICON':{
@@ -29091,7 +29098,7 @@ Class("linb.UI.ColLayout",["linb.UI","linb.absList"],{
                 height:'100%',
                 display:'none',
                 'z-index':10,
-                background: linb.browser.ie?'url('+linb.ini.file_bg+')':null
+                background: linb.browser.ie?'url('+linb.ini.img_bg+')':null
             },
             MOVE:{
                 $order:0,
@@ -30481,7 +30488,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                 position:'absolute',
                 //if set z-index, disappearing in opera
                 //'z-index':'10',
-                background: linb.browser.ie?'url('+linb.ini.file_bg+')':null,
+                background: linb.browser.ie?'url('+linb.ini.img_bg+')':null,
                 width:'4px',
                 top:'0',
                 right:'0',
@@ -34265,7 +34272,7 @@ if(linb.browser.ie){
                 if(!profile.$inModal){
                     cover = profile.$modalDiv;
                     if(!cover || !cover.get(0) || !cover.get(0).parentNode)
-                        cover = profile.$modalDiv = linb.create("<div style='left:0;top:0;position:absolute;overflow:hidden;display:block;z-index:0;cursor:wait;background-image:url("+linb.ini.file_bg+")'></div>");
+                        cover = profile.$modalDiv = linb.create("<div style='left:0;top:0;position:absolute;overflow:hidden;display:block;z-index:0;cursor:wait;background-image:url("+linb.ini.img_bg+")'></div>");
                     p.append(cover);
 
                     // attach onresize event

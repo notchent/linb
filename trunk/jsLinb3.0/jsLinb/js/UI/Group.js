@@ -102,7 +102,7 @@ Class("linb.UI.Group", "linb.UI.Div",{
             PANEL:{
                 position:'relative',
                 overflow:'auto',
-                 background:linb.browser.ie?'url('+linb.ini.file_bg+') no-repeat left top':null
+                 background:linb.browser.ie?'url('+linb.ini.img_bg+') no-repeat left top':null
             },
             'FIELDSET-checked PANEL':{
                 $order:4,

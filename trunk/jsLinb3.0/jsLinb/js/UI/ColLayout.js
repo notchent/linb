@@ -135,7 +135,7 @@ Class("linb.UI.ColLayout",["linb.UI","linb.absList"],{
                 height:'100%',
                 display:'none',
                 'z-index':10,
-                background: linb.browser.ie?'url('+linb.ini.file_bg+')':null
+                background: linb.browser.ie?'url('+linb.ini.img_bg+')':null
             },
             MOVE:{
                 $order:0,

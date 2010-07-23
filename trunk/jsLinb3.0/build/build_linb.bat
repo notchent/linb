@@ -28,6 +28,7 @@ xcopy %relPath%jsLinb\appearance\*.* %outPath%jsLinb\appearance\ /E /Y
 xcopy %relPath%jsLinb\Locale\*.* %outPath%jsLinb\Locale\ /E /Y
 copy  %relPath%jsLinb\ondrag.gif %outPath%jsLinb\ondrag.gif
 copy  %relPath%jsLinb\bg.gif %outPath%jsLinb\bg.gif
+copy  %relPath%jsLinb\busy.gif %outPath%jsLinb\busy.gif
 
 rem ==================
 rem for mini jsLinb code

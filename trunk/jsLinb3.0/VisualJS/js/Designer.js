@@ -811,7 +811,7 @@ Class('VisualJS.Designer', 'linb.Com',{
                                 var o = linb.create(type).get(0);
                                 o.$inDesign=true;
 
-                                page.iconlist.insertItems([{id:o.$linbid, image:linb.ini.file_bg, tips:o.key, imgStyle:'background:url('+image+') '+ imagePos}],null,false);
+                                page.iconlist.insertItems([{id:o.$linbid, image:linb.ini.img_bg, tips:o.key, imgStyle:'background:url('+image+') '+ imagePos}],null,false);
                                 page.iconlist.setUIValue(o.$linbid);
 
                                 if(t['linb.UI'])
@@ -2229,7 +2229,7 @@ Class('VisualJS.Designer', 'linb.Com',{
                         self._designable(o);
                     });
                     _.arr.each(n2,function(target){
-                        self.iconlist.insertItems([{id:target.$linbid, image:linb.ini.file_bg, tips:target.key, imgStyle:'background:url(' + CONF.mapWidgets[target.box.KEY].image + ') '+ CONF.mapWidgets[target.box.KEY].imagePos}],null,false);
+                        self.iconlist.insertItems([{id:target.$linbid, image:linb.ini.img_bg, tips:target.key, imgStyle:'background:url(' + CONF.mapWidgets[target.box.KEY].image + ') '+ CONF.mapWidgets[target.box.KEY].imagePos}],null,false);
                     });
     
                     var t=self.layoutBase.reBoxing();

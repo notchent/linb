@@ -409,12 +409,13 @@ var CodeMirror = (function(){
               return;
             }
           }
+          while (lineNum) setNum(next++);
           commitChanges();
           doScroll();
         }
-        function start() {
+        function start(firstTime) {
           doScroll();
-          ensureEnoughLineNumbers(false);
+          ensureEnoughLineNumbers(firstTime);
           node = body.firstChild;
           lineNum = scroller.firstChild;
           pos = 0;
@@ -422,7 +423,7 @@ var CodeMirror = (function(){
           work();
         }
 
-        start();
+        start(true);
         var pending = null;
         function update() {
           if (pending) clearTimeout(pending);
@@ -518,6 +519,18 @@ var CodeMirror = (function(){
 
     area.style.display = "none";
     var mirror = new CodeMirror(insert, options);
+    mirror.toTextArea = function() {
+      area.parentNode.removeChild(mirror.wrapping);
+      area.style.display = "";
+      if (area.form) {
+        area.form.submit = realSubmit;
+        if (typeof area.form.removeEventListener == "function")
+          area.form.removeEventListener("submit", updateField, false);
+        else
+          area.form.detachEvent("onsubmit", updateField);
+      }
+    };
+
     return mirror;
   };
 

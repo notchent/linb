@@ -26,7 +26,8 @@ rem copy files
 xcopy %libPath%jsLinb\appearance\*.* %releasepath%%version%\jsLinb\appearance\ /E /Y
 xcopy %libPath%jsLinb\Locale\*.* %releasepath%%version%\jsLinb\Locale\ /E /Y
 copy %libPath%jsLinb\bg.gif %releasepath%%version%\jsLinb\bg.gif
-copy %libPath%jsLinb\bg.gif %releasepath%%version%\jsLinb\ondrag.gif
+copy %libPath%jsLinb\ondrag.gif %releasepath%%version%\jsLinb\ondrag.gif
+copy %libPath%jsLinb\busy.gif %releasepath%%version%\jsLinb\busy.gif
 
 
 xcopy %appPath%\css\*.* %releasepath%%version%\css\ /E /Y

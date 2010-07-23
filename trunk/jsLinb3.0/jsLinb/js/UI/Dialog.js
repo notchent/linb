@@ -811,7 +811,7 @@ if(linb.browser.ie){
                 if(!profile.$inModal){
                     cover = profile.$modalDiv;
                     if(!cover || !cover.get(0) || !cover.get(0).parentNode)
-                        cover = profile.$modalDiv = linb.create("<div style='left:0;top:0;position:absolute;overflow:hidden;display:block;z-index:0;cursor:wait;background-image:url("+linb.ini.file_bg+")'></div>");
+                        cover = profile.$modalDiv = linb.create("<div style='left:0;top:0;position:absolute;overflow:hidden;display:block;z-index:0;cursor:wait;background-image:url("+linb.ini.img_bg+")'></div>");
                     p.append(cover);
 
                     // attach onresize event

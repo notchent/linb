@@ -32,6 +32,10 @@ Class("linb.UI.TreeView","linb.UI.TreeBar",{
                 'margin-left':'0'
             },
             BOX:{
+                left:0,
+                overflow: 'auto',
+                'overflow-x':(linb.browser.ie ||linb.browser.gek)?'hidden':'',
+                position:'relative',
                 'background-color':'#FFF'
             },
             'BAR ITEMICON':{

@@ -1298,7 +1298,7 @@ Class("linb.UI",  "linb.absObj", {
         },
         busy:function(message,html,key,subId){
             message=typeof message=='string'?message:'Loading...';
-            html=typeof html=='string'?html:'<span style="background:'+ linb.UI.$bg('busy.gif','no-repeat left center')('linb.UI.Public') +';padding-left:16px;">'+message+'</span>';
+            html=typeof html=='string'?html:'<span style="background:url('+linb.ini.img_busy+') no-repeat left center;padding-left:16px;">'+message+'</span>';
             return this.each(function(profile){
                 _.resetRun(profile.$linbid+':busy',function(profile,key,subId){
                     var keys=profile.keys;
@@ -1978,10 +1978,12 @@ Class("linb.UI",  "linb.absObj", {
                 width:'16px',
                 height:'16px',
                 'background-repeat':'no-repeat',
+                'background-position' : 'center',
                 margin:'0 2px'
             },
             '.ui-busy':{
-                background: linb.UI.$bg('busy.gif', 'no-repeat center center', true)
+                background: 'url('+linb.ini.img_busy+') no-repeat center center',
+                'background-position' : 'center'
             },
             '.uicmd-close, .uicmd-opt, .uicmd-pop, .uicmd-land, .uicmd-refresh, .uicmd-toggle, .uicmd-toggle2, .uicmd-min, .uicmd-max,.uicmd-restore,.uicmd-pin, .uicmd-check, .uicmd-radio, .uicmd-add, .uicmd-remove':{
                 background: linb.UI.$bg('icons.gif', 'no-repeat 0 0', true),
@@ -3611,7 +3613,7 @@ Class("linb.UI",  "linb.absObj", {
             if(hashOut.imagePos)
                 hashOut.backgroundPosition='background-position:'+hashOut.imagePos+';';
             else if(hashOut.image)
-                hashOut.backgroundPosition='background-position:0 0;';
+                hashOut.backgroundPosition='background-position:center;';
 
             if(hashOut.imageRepeat)
                 hashOut.backgroundRepeat='background-repeat:'+hashOut.imageRepeat+';';
@@ -5238,7 +5240,7 @@ new function(){
                    // overflow:(linb.browser.gek && !linb.browser.gek3)?'auto':null,
                     outline:linb.browser.gek?'none':null,
                     zoom:linb.browser.ie6?'1':null,
-                    background:linb.browser.ie?'url('+linb.ini.file_bg+') no-repeat left top':null
+                    background:linb.browser.ie?'url('+linb.ini.img_bg+') no-repeat left top':null
                 }
             },
             Templates:{

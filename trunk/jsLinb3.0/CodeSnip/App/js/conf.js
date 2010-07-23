@@ -50,7 +50,8 @@
                     {id:'linb.UI.MenuBar', caption:'MenuBar', image:_img_widgets, imagePos:'-416px top'},
                     {id:'linb.UI.ToolBar', caption:'ToolBar', image:_img_widgets, imagePos:'-432px top'},
                     {id:'linb.UI.Gallery', caption:'Gallery', image:_img_widgets, imagePos:'-448px top'},
-                    {id:'linb.UI.TreeBar', caption:'TreeBar', image:_img_widgets, imagePos:'-464px top'}
+                    {id:'linb.UI.TreeBar', caption:'TreeBar', image:_img_widgets, imagePos:'-464px top'},
+                    {id:'linb.UI.TreeView', caption:'TreeView', image:_img_widgets, imagePos:'-464px -16px'}
                 ]},
                 {id:'linb.UI.absAdv',caption:'Advanced',group:true, image:_img_app, imagePos:'-48px -48px', sub:[
                     {id:'linb.UI.TextEditor', caption:'TextEditor', image:_img_widgets, imagePos:'-128px top'},

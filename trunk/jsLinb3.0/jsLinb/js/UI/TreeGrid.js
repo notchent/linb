@@ -1026,7 +1026,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                 position:'absolute',
                 //if set z-index, disappearing in opera
                 //'z-index':'10',
-                background: linb.browser.ie?'url('+linb.ini.file_bg+')':null,
+                background: linb.browser.ie?'url('+linb.ini.img_bg+')':null,
                 width:'4px',
                 top:'0',
                 right:'0',

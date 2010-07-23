@@ -19,6 +19,7 @@ xcopy %libPath%jsLinb\appearance\*.* %releasePath%%version%jsLinb\appearance\ /E
 xcopy %libPath%jsLinb\Locale\*.* %releasePath%%version%jsLinb\Locale\ /E /Y
 copy  %libPath%jsLinb\ondrag.gif %releasePath%%version%jsLinb\ondrag.gif
 copy  %libPath%jsLinb\bg.gif %releasePath%%version%jsLinb\bg.gif
+copy  %libPath%jsLinb\busy.gif %releasePath%%version%jsLinb\busy.gif
 
 rem xcopy %appPath%css\*.* %releasePath%%version%%appname%css\ /E /Y
 xcopy %appPath%Locale\*.* %releasePath%%version%Locale\ /E /Y
