@@ -28,7 +28,7 @@
             //hide loading message
             linb('loading').remove();
             //drop
-            linb('drop').dropable(true, 'prd').onDrop(function(p,e,renderId){
+            linb('drop').droppable(true, 'prd').onDrop(function(p,e,renderId){
                 var pro=linb.DragDrop.getProfile();
                 linb(renderId).text(_.serialize(pro.dragData));
             });

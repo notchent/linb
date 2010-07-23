@@ -77,7 +77,7 @@ Class('linb.UI.Calendar', 'linb.UI.DatePicker', {
     },
     Static:{
         Behaviors:{        
-            DropableKeys:['DAY'],
+            DroppableKeys:['DAY'],
             HoverEffected:{},
             ClickEffected:{},
             onSize:linb.UI.$onSize,

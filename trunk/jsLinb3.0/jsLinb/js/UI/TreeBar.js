@@ -326,8 +326,8 @@
         Behaviors:{
             HoverEffected:{TOGGLE:'TOGGLE', BAR:'BAR'},
             ClickEffected:{TOGGLE:'TOGGLE', BAR:'BAR'},
-            DragableKeys:["BAR"],
-            DropableKeys:["BAR","TOGGLE","BOX"],
+            DraggableKeys:["BAR"],
+            DroppableKeys:["BAR","TOGGLE","BOX"],
             onSize:linb.UI.$onSize,
             TOGGLE:{
                 onClick:function(profile, e, src){

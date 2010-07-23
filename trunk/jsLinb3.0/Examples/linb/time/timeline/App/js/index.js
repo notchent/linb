@@ -68,10 +68,10 @@ Class('App', 'linb.Com',{
             // ]]code created by jsLinb UI Builder
         }, 
         _button3_aftercreated:function (profile) {
-            profile.boxing().dragable('iEvent','task');
+            profile.boxing().draggable('iEvent','task');
         }, 
         _button4_aftercreated:function (profile) {
-            profile.boxing().dragable('iEvent','task2');
+            profile.boxing().draggable('iEvent','task2');
         }, 
         _calendar1_ondrop:function (profile, e, node, key, data, item) {
             var subId=profile.getSubId(node),

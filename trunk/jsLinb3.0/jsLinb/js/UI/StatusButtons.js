@@ -142,7 +142,7 @@ Class("linb.UI.StatusButtons", ["linb.UI.List"],{
             }
         }),
         Behaviors:{
-            DropableKeys:["ITEMS"]
+            DroppableKeys:["ITEMS"]
         },
         EventHandlers:{
         },

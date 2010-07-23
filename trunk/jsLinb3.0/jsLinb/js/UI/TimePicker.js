@@ -85,7 +85,7 @@ Class('linb.UI.TimePicker', ['linb.UI',"linb.absValue"], {
                         },
                         HOUR:{
                             $order:1,
-                            className:'ui-dragable'
+                            className:'ui-draggable'
                         },
 //                        HOURTXT:{$order:2,style:'display:inline'},
                         NEXT:{

@@ -326,7 +326,7 @@ Class("linb.UI.Layout",["linb.UI", "linb.absList"],{
             }
         },
         Behaviors:{
-            DropableKeys:['PANEL'],
+            DroppableKeys:['PANEL'],
             HoverEffected:{MOVE:'MOVE',CMD:'CMD'},
             onSize:linb.UI.$onSize,
             MOVE:{

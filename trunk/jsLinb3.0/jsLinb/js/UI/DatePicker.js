@@ -104,12 +104,12 @@ Class('linb.UI.DatePicker', ['linb.UI',"linb.absValue"], {
                         },
                         YEAR:{
                             $order:2,
-                            className:'ui-dragable'
+                            className:'ui-draggable'
                         },
 //                        YTXT:{$order:3,style:'display:inline'},
                         MONTH:{
                             $order:4,
-                            className:'ui-dragable'
+                            className:'ui-draggable'
                         },
                         MTXT:{$order:5,style:'display:inline'},
                         NEXT:{

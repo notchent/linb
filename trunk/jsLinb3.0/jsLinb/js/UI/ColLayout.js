@@ -173,7 +173,7 @@ Class("linb.UI.ColLayout",["linb.UI","linb.absList"],{
         },
         Behaviors:{
             HoverEffected:{MOVE:'MOVE'},
-            DropableKeys:['KEY'],
+            DroppableKeys:['KEY'],
             MOVE:{
                 onMousedown:function(profile, e, src){
                     var pro=profile.properties;
@@ -265,12 +265,12 @@ Class("linb.UI.ColLayout",["linb.UI","linb.absList"],{
                                 rowup=rst[2];
                             if(col){
                                 if(row)
-                                    profile.$$dropable=box._checkDropable(profile, rowup?2:3, linb(row), height, dragid);
+                                    profile.$$droppable=box._checkDroppable(profile, rowup?2:3, linb(row), height, dragid);
                                 else
-                                    profile.$$dropable=box._checkDropable(profile, 1, linb(col), height, dragid);
+                                    profile.$$droppable=box._checkDroppable(profile, 1, linb(col), height, dragid);
                             }else{
-                                box._setNoDropable(profile);
-                                delete profile.$$dropable;
+                                box._setNoDroppable(profile);
+                                delete profile.$$droppable;
                             }
                         }
                     }
@@ -385,7 +385,7 @@ Class("linb.UI.ColLayout",["linb.UI","linb.absList"],{
                     return;
             }
         },
-        _checkDropable:function(profile, type, node, height, dragid){
+        _checkDroppable:function(profile, type, node, height, dragid){
             var self=this,
                 candrop=false,
                 proxy= profile._proxy || (profile._proxy=linb.create('<div style="border:1px dashed #FF0000;">'));
@@ -416,11 +416,11 @@ Class("linb.UI.ColLayout",["linb.UI","linb.absList"],{
                 linb.DragDrop.setDragIcon('add');
                 return true;
             }else{
-                self._setNoDropable(profile);
+                self._setNoDroppable(profile);
                 return false;
             }
         },
-        _setNoDropable:function(profile){
+        _setNoDroppable:function(profile){
             if(profile._proxy){
                 profile._proxy.remove();
                 delete profile._proxy;
@@ -433,7 +433,7 @@ Class("linb.UI.ColLayout",["linb.UI","linb.absList"],{
             return false;
         },
         _onDropMarkClear:function(profile){
-            profile.box._setNoDropable(profile);
+            profile.box._setNoDroppable(profile);
         },
         _onDragEnter:function(profile,e,src){
             var ddId=linb.DragDrop.getProfile().$id;
@@ -461,7 +461,7 @@ Class("linb.UI.ColLayout",["linb.UI","linb.absList"],{
             delete profile.$$ondrag;
         },
         _onDrop:function(profile, e){
-            if(profile.$$dropable){
+            if(profile.$$droppable){
                 var rst=profile.box._checkpos(profile, linb.Event.getPos(e), true),
                     ddd=linb.DragDrop.getProfile().dragData,
                     targetPrf=ddd.profile,
@@ -483,7 +483,7 @@ Class("linb.UI.ColLayout",["linb.UI","linb.absList"],{
                 }
             }
             profile.getSubNode('COVER').css({display:'none'});
-            profile.box._setNoDropable(profile);
+            profile.box._setNoDroppable(profile);
             delete profile._cachePosSizeData;
             delete profile.$$height;
             delete profile.$$ondrag;

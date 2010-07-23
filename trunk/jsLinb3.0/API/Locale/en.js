@@ -2647,7 +2647,7 @@ _.set(linb.Locale,["en","app"], {
                 ],
                 $memo:"Dependency: linb.DragDrop."
             },
-            dragable:{
+            draggable:{
                 $desc:"Enables/Disables the draggable functionality on the set of elements.",
                 $rtn:"[self]",
                 $paras:[
@@ -2659,29 +2659,29 @@ _.set(linb.Locale,["en","app"], {
                 $snippet:[
                     "var id='linb.temp.dd_a'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:80px;\">' + '<div id='+id+'a style=\"background:#ccc;position:absolute;border:solid 1px;padding:15px;left:10px;top:30px;\">1</div>' + '<div id='+id+'b style=\"background:#ccc;position:absolute;border:solid 1px;padding:15px;left:50px;top:30px;\">2</div>'+ '<div id='+id+'c style=\"background:#ccc;position:absolute;border:solid 1px;padding:15px;left:100px;top:30px;\">3</div>'+ '<div id='+id+'d style=\"background:#ccc;position:absolute;border:solid 1px;padding:15px;left:150px;top:30px;\">4</div>'+ '<div id='+id+'e style=\"background:#ccc;position:absolute;border:solid 1px;padding:15px;left:200px;top:30px;\">5</div>'+ '<div id='+id+'f style=\"background:#ccc;position:absolute;border:solid 1px;padding:15px;left:250px;top:30px;\">6</div>'+ '<div id='+id+'g style=\"background:#ccc;position:absolute;border:solid 1px;padding:15px;left:300px;top:30px;\">7</div>'+ '<div id='+id+'h style=\"background:#ccc;position:absolute;border:solid 1px;padding:15px;left:350px;top:30px;\">8</div>'+ '<div id='+id+'i style=\"background:#ccc;position:absolute;border:solid 1px;padding:15px;left:400px;top:30px;\">9</div>'+ ' <button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));" +
                     "var a=[0,200,400,600,800,1000,1200,1400];"+
-                    "linb(id+'a').dragable(true,{dragType:'move'});" +
-                    "linb(id+'b').dragable(true,{dragType:'copy',targetReposition:false});"+
-                    "linb(id+'c').dragable(true,{dragType:'icon',shadowFrom:id+'c'});"+
-                    "linb(id+'d').dragable(true,{dragType:'shape',targetReposition:false});"+
-                    "linb(id+'e').dragable(true,{dragDefer:20,targetReposition:false});"+
-                    "linb(id+'f').dragable(true,{xMagneticLines:a,yMagneticLines:a,magneticDistance:50,targetReposition:false});"+
-                    "linb(id+'g').dragable(true,{widthIncrement:50,heightIncrement:50,targetReposition:false});"+
-                    "linb(id+'h').dragable(true,{verticalOnly:true,targetReposition:false});"+
-                    "linb(id+'i').dragable(true,{maxLeftOffset:50,maxTopOffset:50,maxRightOffset:50,maxBottomOffset:50,targetReposition:false});"+
+                    "linb(id+'a').draggable(true,{dragType:'move'});" +
+                    "linb(id+'b').draggable(true,{dragType:'copy',targetReposition:false});"+
+                    "linb(id+'c').draggable(true,{dragType:'icon',shadowFrom:id+'c'});"+
+                    "linb(id+'d').draggable(true,{dragType:'shape',targetReposition:false});"+
+                    "linb(id+'e').draggable(true,{dragDefer:20,targetReposition:false});"+
+                    "linb(id+'f').draggable(true,{xMagneticLines:a,yMagneticLines:a,magneticDistance:50,targetReposition:false});"+
+                    "linb(id+'g').draggable(true,{widthIncrement:50,heightIncrement:50,targetReposition:false});"+
+                    "linb(id+'h').draggable(true,{verticalOnly:true,targetReposition:false});"+
+                    "linb(id+'i').draggable(true,{maxLeftOffset:50,maxTopOffset:50,maxRightOffset:50,maxBottomOffset:50,targetReposition:false});"+
                     "}"
                 ],
                 $memo:"Dependency: linb.DragDrop."
             },
-            dropable:{
-                $desc:"Enables/Disables the dropable functionality on the set of elements.",
+            droppable:{
+                $desc:"Enables/Disables the droppable functionality on the set of elements.",
                 $rtn:"[self]",
                 $paras:[
-                    "flag [Required] : Boolean, [true]: enables dropable functionality; [false]: disables dropable functionality. Default is [true]",
-                    "key [Required] : String, the [key] for dropable data. Default is 'default'."
+                    "flag [Required] : Boolean, [true]: enables droppable functionality; [false]: disables droppable functionality. Default is [true]",
+                    "key [Required] : String, the [key] for droppable data. Default is 'default'."
                 ],
                 $snippet:[
-                    "var id='linb.temp.dd2'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:150px;\">' + '<div style=\"position:absolute;border:solid 1px;padding:20px;left:10px;top:30px;\">dragable</div>' +'<div style=\"position:absolute;border:solid 1px;left:160px;top:30px;width:100px;height:100px;\">dropable</div>' + ' <button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
-                    "var n=linb(id); n.first().dragable(true,{dragType:'icon'},'key1','data1').next().dropable(true,'key1').onDrop(function(){alert(linb.DragDrop.getProfile().dragData);})"+
+                    "var id='linb.temp.dd2'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:150px;\">' + '<div style=\"position:absolute;border:solid 1px;padding:20px;left:10px;top:30px;\">draggable</div>' +'<div style=\"position:absolute;border:solid 1px;left:160px;top:30px;width:100px;height:100px;\">droppable</div>' + ' <button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                    "var n=linb(id); n.first().draggable(true,{dragType:'icon'},'key1','data1').next().droppable(true,'key1').onDrop(function(){alert(linb.DragDrop.getProfile().dragData);})"+
                     "}"
                 ],
                 $memo:"Dependency: linb.DragDrop."
@@ -3192,8 +3192,8 @@ _.set(linb.Locale,["en","app"], {
         abort:{
             $desc:"to abort the current drag process if linb.DragDrop is working.",
             $snippet:[
-                "var id='linb.temp.ddo1'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:150px;\">' + '<div style=\"position:absolute;border:solid 1px;padding:20px;left:10px;top:30px;\">dragable</div>' +'<div style=\"position:absolute;border:solid 1px;left:160px;top:30px;width:100px;height:100px;\">dropable</div>' + ' <button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
-                "var n=linb(id); n.first().dragable(true,{dragType:'icon'},'key1','data1').next().dropable(true,'key1').onDragenter(function(){linb.DragDrop.abort();linb.message('the current dd is aborted!')})"+
+                "var id='linb.temp.ddo1'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:150px;\">' + '<div style=\"position:absolute;border:solid 1px;padding:20px;left:10px;top:30px;\">draggable</div>' +'<div style=\"position:absolute;border:solid 1px;left:160px;top:30px;width:100px;height:100px;\">droppable</div>' + ' <button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var n=linb(id); n.first().draggable(true,{dragType:'icon'},'key1','data1').next().droppable(true,'key1').onDragenter(function(){linb.DragDrop.abort();linb.message('the current dd is aborted!')})"+
                 "}"
             ]
         },
@@ -3201,8 +3201,8 @@ _.set(linb.Locale,["en","app"], {
             $desc:"Gets the current drag process profile, that includes all the useful information.",
             $rtn:"Object",
             $snippet:[
-                "var id='linb.temp.ddo2'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:150px;\">' + '<div style=\"position:absolute;border:solid 1px;padding:20px;left:10px;top:30px;\">dragable</div>' +'<div style=\"position:absolute;border:solid 1px;left:160px;top:30px;width:100px;height:100px;\">dropable</div>' + ' <button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
-                "var n=linb(id); n.first().dragable(true,{dragType:'icon'},'key1','data1').next().dropable(true,'key1').onDrop(function(){alert(linb.Coder.formatText(_.serialize(linb.DragDrop.getProfile())))})"+
+                "var id='linb.temp.ddo2'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:150px;\">' + '<div style=\"position:absolute;border:solid 1px;padding:20px;left:10px;top:30px;\">draggable</div>' +'<div style=\"position:absolute;border:solid 1px;left:160px;top:30px;width:100px;height:100px;\">droppable</div>' + ' <button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var n=linb(id); n.first().draggable(true,{dragType:'icon'},'key1','data1').next().droppable(true,'key1').onDrop(function(){alert(linb.Coder.formatText(_.serialize(linb.DragDrop.getProfile())))})"+
                 "}"
             ]
         },
@@ -3226,8 +3226,8 @@ _.set(linb.Locale,["en","app"], {
                 "src [Required] : String, the drop target's linbid."
             ],
             $snippet:[
-                "var id='linb.temp.ddo4'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:150px;\">' + '<div style=\"position:absolute;border:solid 1px;padding:20px;left:10px;top:30px;\">dragable</div>' +'<div style=\"position:absolute;border:solid 1px;left:160px;top:30px;width:100px;height:100px;\">dropable</div>' + ' <button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
-                "var n=linb(id); n.first().dragable(true,{dragType:'icon'},'key1','data1');"+
+                "var id='linb.temp.ddo4'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:150px;\">' + '<div style=\"position:absolute;border:solid 1px;padding:20px;left:10px;top:30px;\">draggable</div>' +'<div style=\"position:absolute;border:solid 1px;left:160px;top:30px;width:100px;height:100px;\">droppable</div>' + ' <button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
+                "var n=linb(id); n.first().draggable(true,{dragType:'icon'},'key1','data1');"+
                 "n=n.first().next();"+
                 "n.onDrop(function(){this.style.background='#fff';alert(linb.Coder.formatText(_.serialize(linb.DragDrop.getProfile())))});"+
                 "\n//Must use 'before' here \n n.beforeMouseover(function(){linb.DragDrop.setDropElement(this);this.style.background='#ccc';}).beforeMouseout(function(){linb.DragDrop.setDropElement(null);this.style.background='#fff';});"+
@@ -3235,7 +3235,7 @@ _.set(linb.Locale,["en","app"], {
             ]
         },
         setDropFace:{
-            $desc:"Set dropable appearance on the drop tareget.",
+            $desc:"Set droppable appearance on the drop tareget.",
             $rtn:"linb.DragDrop",
             $paras:[
                 "target [Required] : Element/String/linb.Dom.",
@@ -5816,8 +5816,8 @@ _.set(linb.Locale,["en","app"], {
                     "var id='linb.temp.ab1'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                     "var block,btn1,btn2;linb(id).prepend(block=new linb.UI.Block({position:'relative',width:'200',border:true,dropKeys:['test']})).prepend(btn1=new linb.UI.Button({position:'relative'})).prepend(btn2=new linb.UI.Button({position:'relative'}));"+
                     "btn2.get(0).$noDrop=true;"+
-                    "btn1.dragable('test',btn1.getDomId());"+
-                    "btn2.dragable('test','abc');"+
+                    "btn1.draggable('test',btn1.getDomId());"+
+                    "btn2.draggable('test','abc');"+
                     "block.onDragEnter(function(p,e,n,k,d,i){block.setHtml(k+':'+d+' onDragEnter')});"+
                     "block.onDragLeave(function(p,e,n,k,d,i){block.setHtml(k+':'+d+' onDragLeave')});"+
                     "block.onDrop(function(p,e,n,k,d,i){block.setHtml(k+':'+d+' onDrop')});"+
@@ -5841,8 +5841,8 @@ _.set(linb.Locale,["en","app"], {
                     "var id='linb.temp.ab2'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                     "var block,btn1,btn2;linb(id).prepend(block=new linb.UI.Block({position:'relative',width:'200',border:true,dropKeys:['test']})).prepend(btn1=new linb.UI.Button({position:'relative'})).prepend(btn2=new linb.UI.Button({position:'relative'}));"+
                     "btn2.get(0).$noDrop=true;"+
-                    "btn1.dragable('test',btn1.getDomId());"+
-                    "btn2.dragable('test','abc');"+
+                    "btn1.draggable('test',btn1.getDomId());"+
+                    "btn2.draggable('test','abc');"+
                     "block.onDragEnter(function(p,e,n,k,d,i){block.setHtml(k+':'+d+' onDragEnter')});"+
                     "block.onDragLeave(function(p,e,n,k,d,i){block.setHtml(k+':'+d+' onDragLeave')});"+
                     "block.onDrop(function(p,e,n,k,d,i){block.setHtml(k+':'+d+' onDrop')});"+
@@ -5867,8 +5867,8 @@ _.set(linb.Locale,["en","app"], {
                     "var id='linb.temp.ab3'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                     "var block,btn1,btn2;linb(id).prepend(block=new linb.UI.Block({position:'relative',width:'200',border:true,dropKeys:['test']})).prepend(btn1=new linb.UI.Button({position:'relative'})).prepend(btn2=new linb.UI.Button({position:'relative'}));"+
                     "btn2.get(0).$noDrop=true;"+
-                    "btn1.dragable('test',btn1.getDomId());"+
-                    "btn2.dragable('test','abc');"+
+                    "btn1.draggable('test',btn1.getDomId());"+
+                    "btn2.draggable('test','abc');"+
                     "block.onDragEnter(function(p,e,n,k,d,i){block.setHtml(k+':'+d+' onDragEnter')});"+
                     "block.onDragLeave(function(p,e,n,k,d,i){block.setHtml(k+':'+d+' onDragLeave')});"+
                     "block.onDrop(function(p,e,n,k,d,i){block.setHtml(k+':'+d+' onDrop')});"+
@@ -5892,8 +5892,8 @@ _.set(linb.Locale,["en","app"], {
                     "var id='linb.temp.ab4'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                     "var block,btn1,btn2;linb(id).prepend(block=new linb.UI.Block({position:'relative',width:'200',border:true,dropKeys:['test']})).prepend(btn1=new linb.UI.Button({position:'relative'})).prepend(btn2=new linb.UI.Button({position:'relative'}));"+
                     "btn2.get(0).$noDrop=true;"+
-                    "btn1.dragable('test',btn1.getDomId());"+
-                    "btn2.dragable('test','abc');"+
+                    "btn1.draggable('test',btn1.getDomId());"+
+                    "btn2.draggable('test','abc');"+
                     "block.onDragEnter(function(p,e,n,k,d,i){block.setHtml(k+':'+d+' onDragEnter')});"+
                     "block.onDragLeave(function(p,e,n,k,d,i){block.setHtml(k+':'+d+' onDragLeave')});"+
                     "block.onDrop(function(p,e,n,k,d,i){block.setHtml(k+':'+d+' onDrop')});"+
@@ -5917,8 +5917,8 @@ _.set(linb.Locale,["en","app"], {
                     "var id='linb.temp.ab5'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                     "var block,btn1,btn2;linb(id).prepend(block=new linb.UI.Block({position:'relative',width:'200',border:true,dropKeys:['test']})).prepend(btn1=new linb.UI.Button({position:'relative'})).prepend(btn2=new linb.UI.Button({position:'relative'}));"+
                     "btn2.get(0).$noDrop=true;"+
-                    "btn1.dragable('test',btn1.getDomId());"+
-                    "btn2.dragable('test','abc');"+
+                    "btn1.draggable('test',btn1.getDomId());"+
+                    "btn2.draggable('test','abc');"+
                     "block.onDragEnter(function(p,e,n,k,d,i){block.setHtml(k+':'+d+' onDragEnter')});"+
                     "block.onDragLeave(function(p,e,n,k,d,i){block.setHtml(k+':'+d+' onDragLeave')});"+
                     "block.onDrop(function(p,e,n,k,d,i){block.setHtml(k+':'+d+' onDrop')});"+
@@ -5942,8 +5942,8 @@ _.set(linb.Locale,["en","app"], {
                     "var id='linb.temp.ab61'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                     "var block,btn1,btn2;linb(id).prepend(block=new linb.UI.Block({position:'relative',width:'200',border:true,dropKeys:['test']})).prepend(btn1=new linb.UI.Button({position:'relative'})).prepend(btn2=new linb.UI.Button({position:'relative'}));"+
                     "btn2.get(0).$noDrop=true;"+
-                    "btn1.dragable('test',btn1.getDomId());"+
-                    "btn2.dragable('test','abc');"+
+                    "btn1.draggable('test',btn1.getDomId());"+
+                    "btn2.draggable('test','abc');"+
                     "block.onDragEnter(function(p,e,n,k,d,i){block.setHtml(k+':'+d+' onDragEnter')});"+
                     "block.onDragLeave(function(p,e,n,k,d,i){block.setHtml(k+':'+d+' onDragLeave')});"+
                     "block.onDrop(function(p,e,n,k,d,i){block.setHtml(k+':'+d+' onDrop')});"+
@@ -6430,7 +6430,7 @@ _.set(linb.Locale,["en","app"], {
                     "}"
                 ]
             },
-            dragable:{
+            draggable:{
                 $desc:"Enables/disables the draggable functionality on the specified elements.",
                 $rtn:"[self]",
                 $paras:[
@@ -6442,8 +6442,8 @@ _.set(linb.Locale,["en","app"], {
                 $snippet:[
                     "var id='linb.temp.ui5'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                     "var block,btn;linb(id).prepend(block=new linb.UI.Block({position:'relative',border:true,dropKeys:['test']})).prepend(btn=new linb.UI.Button({position:'relative'}));"+
-                    "block.onDrop(function(profile, e, node, key, data){var btn=linb.UIProfile.getFromDom(data).boxing();profile.boxing().append(btn); btn.dragable(false)});"+
-                    "btn.dragable('test',btn.getDomId());"+
+                    "block.onDrop(function(profile, e, node, key, data){var btn=linb.UIProfile.getFromDom(data).boxing();profile.boxing().append(btn); btn.draggable(false)});"+
+                    "btn.draggable('test',btn.getDomId());"+
                     "}"
                 ]
             },
@@ -14621,20 +14621,20 @@ _.set(linb.Locale,["en","app"], {
                     "}"
                 ]
             },
-            getRowDragable :{
-                $desc:"Determines whether rows are dragable by end user",
+            getRowDraggable :{
+                $desc:"Determines whether rows are draggable by end user",
                 $rtn:"Boolean",
                 $snippet:[
                     "var id='linb.temp.grid32'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                     "var o=new linb.UI.TreeGrid({editable:false, position:'relative'});"+
                     "linb.Ajax('App/js/grid.js','',function(s){var hash=_.unserialize(s);o.setHeader(hash.header).setRows(hash.rows);},null,null,{asy:false}).start();"+
-                    "o.setRowDragable(false); alert(o.getRowDragable());"+
+                    "o.setRowDraggable(false); alert(o.getRowDraggable());"+
                     "linb(id).prepend(o);"+
                     "}"
                 ]
             },
-            setRowDragable :{
-                $desc:"Specifys whether rows are dragable by end user, and reflects the value to UI.",
+            setRowDraggable :{
+                $desc:"Specifys whether rows are draggable by end user, and reflects the value to UI.",
                 $rtn:"[self]",
                 $paras:[
                     "value [Required] : Boolean.",
@@ -14644,7 +14644,7 @@ _.set(linb.Locale,["en","app"], {
                     "var id='linb.temp.grid33'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                     "var o=new linb.UI.TreeGrid({editable:false,position:'relative'});"+
                     "linb.Ajax('App/js/grid.js','',function(s){var hash=_.unserialize(s);o.setHeader(hash.header).setRows(hash.rows);},null,null,{asy:false}).start();"+
-                    "o.setRowDragable(true); alert(o.getRowDragable());"+
+                    "o.setRowDraggable(true); alert(o.getRowDraggable());"+
                     "linb(id).prepend(o);"+
                     "}"
                 ]
@@ -15916,12 +15916,4 @@ _.set(linb.Locale,["en","app"], {
             }
         }
     });
-
-var cah=$me.linb.UI.TreeGrid.prototype;
-cah.setCols = cah.setHeader;
-cah.getCols = cah.getHeader;
-cah.getColByColId = cah.getHeaderByColId;
-cah.getColByCell = cah.getHeaderByCell;
-cah.updateCol = cah.updateHeader;
-
 })();

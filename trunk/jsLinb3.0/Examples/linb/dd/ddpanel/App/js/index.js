@@ -173,7 +173,7 @@ Class('App', 'linb.Com',{
             }
         }, 
         __onRender:function (profile) {
-            profile.boxing().dragable('iAny',profile.$linbid,null,{shadowFrom:profile.getRoot()});
+            profile.boxing().draggable('iAny',profile.$linbid,null,{shadowFrom:profile.getRoot()});
         }
     }
 });

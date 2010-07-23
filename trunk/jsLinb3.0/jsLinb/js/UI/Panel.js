@@ -180,9 +180,9 @@ Class("linb.UI.Panel", "linb.UI.Div",{
             }
         },
         Behaviors:{
-            DropableKeys:['PANEL'],
-            DragableKeys:['TBAR'],
-            NoDragableKeys:['OPT','CLOSE','POP','REFRESH','TOGGLE','CAPTION'],
+            DroppableKeys:['PANEL'],
+            DraggableKeys:['TBAR'],
+            NoDraggableKeys:['OPT','CLOSE','POP','REFRESH','TOGGLE','CAPTION'],
             HoverEffected:{OPT:'OPT', CLOSE:'CLOSE',POP:'POP', REFRESH:'REFRESH',TOGGLE:'TOGGLE'},
             ClickEffected:{CLOSE:'CLOSE', OPT:'OPT', POP:'POP', REFRESH:'REFRESH',TOGGLE:'TOGGLE'},
             onSize:linb.UI.$onSize,

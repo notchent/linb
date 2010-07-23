@@ -48,7 +48,7 @@ Class('App.linb_UI_TimeLine', 'linb.Com',{
             // ]]code created by jsLinb UI Builder
         }, 
         _button3_aftercreated:function (profile) {
-            profile.boxing().dragable('iEvent','data');
+            profile.boxing().draggable('iEvent','data');
         }, 
         _button5_onclick:function (profile, e, value) {
             linb.setLang('cn');

@@ -24,8 +24,8 @@ Class("linb.UI.Group", "linb.UI.Div",{
             NavKeys:{CAPTION:1},
             HoverEffected:{TOGGLE:'TOGGLE'},
             ClickEffected:{TOGGLE:'TOGGLE'},
-            DropableKeys:['PANEL'],
-            DragableKeys:['HANDLE'],
+            DroppableKeys:['PANEL'],
+            DraggableKeys:['HANDLE'],
             onSize:linb.UI.$onSize,
             HANDLE:{
                 onClick:function(profile, e, src){

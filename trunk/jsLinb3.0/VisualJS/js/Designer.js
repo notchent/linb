@@ -162,7 +162,7 @@ Class('VisualJS.Designer', 'linb.Com',{
                                 item = profile.getItemByDom(id),
                                 pos=linb.Event.getPos(e);
 
-                            if(item.dragable){
+                            if(item.draggable){
                                 profile.getSubNode('ITEMICON', itemId).startDrag(e,{
                                     dragType:'icon',
                                     shadowFrom:src,
@@ -632,7 +632,7 @@ Class('VisualJS.Designer', 'linb.Com',{
             //change
             self._giveHandler(profile);
 
-            var t=profile.behavior.DropableKeys;
+            var t=profile.behavior.DroppableKeys;
             if(t && t.length)
                 self._enablePanelDesign(profile);
             if(profile.children && profile.children.length){
@@ -741,7 +741,7 @@ Class('VisualJS.Designer', 'linb.Com',{
                         });
                     }
 
-                    var t=profile.behavior.DropableKeys;
+                    var t=profile.behavior.DroppableKeys;
                     if(t && t.length){
                         profile.getSubNode(t[0], true).addClass('panel')
                         .$addEventHandler('drop')
@@ -761,7 +761,7 @@ Class('VisualJS.Designer', 'linb.Com',{
 
         },
         _enablePanelDesign:function(profile){
-            var t,key = profile.box.KEY,pool=profile.behavior.DropableKeys, page=this,h, k,
+            var t,key = profile.box.KEY,pool=profile.behavior.DroppableKeys, page=this,h, k,
             self=this,
             cb={
                 //overwrite
@@ -1824,7 +1824,7 @@ Class('VisualJS.Designer', 'linb.Com',{
                                                 if(null===page.properties.object)
                                                     b.setItems([]);
 
-                                                if(t=tagVar.profile.behavior.DropableKeys){
+                                                if(t=tagVar.profile.behavior.DroppableKeys){
                                                     deeppage._giveHandler(tagVar.profile);
                                                 }
                                             }

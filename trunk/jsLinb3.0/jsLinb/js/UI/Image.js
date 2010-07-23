@@ -17,7 +17,7 @@ Class("linb.UI.Image", "linb.UI",{
         Behaviors:{
             HoverEffected:{KEY:'KEY'},
             ClickEffected:{KEY:'KEY'},
-            DragableKeys:["KEY"],
+            DraggableKeys:["KEY"],
             onError:function(profile, e, src){
                 profile.boxing().onError(profile);
             },

@@ -41,7 +41,7 @@ Class('App.linb_UI_Calendar', 'linb.Com',{
             // ]]code created by jsLinb UI Builder
         }, 
         _button3_aftercreated:function (profile) {
-            profile.boxing().dragable('iEvent','data');
+            profile.boxing().draggable('iEvent','data');
         }, 
         _calendar1_ondrop:function (profile, e, node, key, data, item) {
             linb.message('drop key="'+key+'" date="'+data+'" at '+profile.getSubId(node))

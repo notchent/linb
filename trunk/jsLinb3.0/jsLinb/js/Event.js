@@ -21,7 +21,7 @@ Class('linb.Event',null,{
         //for correct mouse hover problems;
         if('mouseover'==type || 'mouseout'==type){
             dd=(dragdrop&&dragdrop._profile.isWorking)?1:2;
-            //for dropable
+            //for droppable
             if(dd!=1 && fordrag){
                 src=null;
                 return self.$FALSE;
@@ -108,7 +108,7 @@ Class('linb.Event',null,{
             }
 
             if(dd==1){
-                //From parent dropable node to child dropable node, fire parent node's mouseout manually
+                //From parent droppable node to child droppable node, fire parent node's mouseout manually
                 if('mouseover'==type && dragdrop._dropElement==src.$linbid && pre && pre!=src.$linbid){
                     t=linb.use(pre).get(0);
                     self({
@@ -122,11 +122,11 @@ Class('linb.Event',null,{
                     dragdrop.setDropElement(src.$linbid);
                 }
 
-                //Out of dropable node, 'dragdrop._dropElement' will be set to null in beforeMouseover
-                //set _preDropable flag, for parent node is dropable too
+                //Out of droppable node, 'dragdrop._dropElement' will be set to null in beforeMouseover
+                //set _preDroppable flag, for parent node is droppable too
                 if('mouseout'==type && !dragdrop._dropElement && pre && pre==src.$linbid){
-                    self._preDropable=id;
-                    _.asyRun(function(){delete linb.Event._preDropable});
+                    self._preDroppable=id;
+                    _.asyRun(function(){delete linb.Event._preDroppable});
                 }
 
                 //if fire dd, prevent to fire parent dd
@@ -199,11 +199,11 @@ Class('linb.Event',null,{
             }
             var node = (event.type=='mouseover'?event.fromElement:event.toElement)||event.relatedTarget;
 
-            //When out of dropable node, if the parent node is dropable return true;
-            if(dd && event.type=='mouseover' &&this._preDropable)
+            //When out of droppable node, if the parent node is droppable return true;
+            if(dd && event.type=='mouseover' &&this._preDroppable)
                 try{
                     do{
-                        if(node && node.id && node.id==this._preDropable){
+                        if(node && node.id && node.id==this._preDroppable){
                             target=node=null;
                             return true
                         }

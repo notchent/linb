@@ -11,7 +11,7 @@ Class('App', 'linb.Com',{
 
             append((new linb.UI.Tabs)
                 .setHost(host,"tabs")
-                .setItems([{"id":"a", "caption":"editable,rowDragable,colMovable"}, {"id":"b", "caption":"data binding"}, {"id":"c", "caption":"grid for select"}, {"id":"d", "caption":"others"}])
+                .setItems([{"id":"a", "caption":"editable,rowDraggable,colMovable"}, {"id":"b", "caption":"data binding"}, {"id":"c", "caption":"grid for select"}, {"id":"d", "caption":"others"}])
                 .setLeft(0)
                 .setTop(0)
                 .onItemSelected("_tabs2_onitemselected")

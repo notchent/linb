@@ -310,8 +310,8 @@ Class("linb.UI.Dialog","linb.UI.Widget",{
             }
         },
         Behaviors:{
-            DropableKeys:['PANEL'],
-            DragableKeys:['LAND'],
+            DroppableKeys:['PANEL'],
+            DraggableKeys:['LAND'],
             HoverEffected:{OPT:'OPT', PIN:'PIN',MIN:'MIN',MAX:'MAX',RESTORE:'RESTORE',CLOSE:'CLOSE',REFRESH:'REFRESH',LAND:'LAND'},
             ClickEffected:{OPT:'OPT', PIN:'PIN',MIN:'MIN',MAX:'MAX',RESTORE:'RESTORE',CLOSE:'CLOSE',REFRESH:'REFRESH',LAND:'LAND'},
             onMousedown:function(profile, e){

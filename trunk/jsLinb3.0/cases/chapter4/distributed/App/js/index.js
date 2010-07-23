@@ -16,7 +16,7 @@ Class('App', 'linb.Com',{
         }, 
         _button10_onclick:function (profile, e, value) {
             var host=this;
-            linb.ComFactory.getCom('module2',function(){
+            linb.ComFactory.getCom('App.Module2',function(){
                 var ns=this;
                 host.div17.append(ns.panelMain,false);
             });

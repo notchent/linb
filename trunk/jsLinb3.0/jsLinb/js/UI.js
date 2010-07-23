@@ -1620,7 +1620,7 @@ Class("linb.UI",  "linb.absObj", {
                 });
             });
         },
-        dragable:function(dragKey, dragData, key, options){
+        draggable:function(dragKey, dragData, key, options){
             return this.each(function(o){
                 o.getSubNode(o.keys[key] || 'KEY', true)
                 .beforeMousedown(dragKey?function(pro,e,src){
@@ -1902,7 +1902,7 @@ Class("linb.UI",  "linb.absObj", {
                 padding:'0'
             },
             '.ui-ctr':{},
-            '.ui-dragable':{},
+            '.ui-draggable':{},
             '.ui-btn, .ui-btni, .ui-btnc':{
                 height:'22px',
                 background:linb.UI.$bg('button.gif', 'no-repeat', true)
@@ -3111,9 +3111,9 @@ Class("linb.UI",  "linb.absObj", {
                 });
                 hls.beforeNextFocus=src._e3;
             }
-            if((t=hash.DropableKeys) && t.length){
+            if((t=hash.DroppableKeys) && t.length){
                 _.arr.each(t,function(o){
-                    self._dropable(o)
+                    self._droppable(o)
                 });
 
                 t=self.prototype;
@@ -3123,9 +3123,9 @@ Class("linb.UI",  "linb.absObj", {
                 self.$DataModel.dropKeys=self.$DataStruct.dropKeys='';
                 hls.onDragEnter=hls.onDragLeave=hls.onDrop=hls.onDropTest=hls.onDropMarkShow=hls.onDropMarkClear=src._e4;
             }
-            if((t=hash.DragableKeys)&& t.length){
+            if((t=hash.DraggableKeys)&& t.length){
                 _.arr.each(t,function(o){
-                    self._dragable(o)
+                    self._draggable(o)
                 });
                 t=self.prototype;
                 _.arr.each('getDragKey,setDragKey'.split(','),function(o){
@@ -3134,11 +3134,11 @@ Class("linb.UI",  "linb.absObj", {
                 self.$DataModel.dragKey=self.$DataStruct.dragKey='';
                 hls.onGetDragData=hls.onStartDrag=hls.onDragStop=src._e5;
             }
-            if((t=hash.NoDragableKeys)&& t.length){
-                self.NoDragableKeys=t;
+            if((t=hash.NoDraggableKeys)&& t.length){
+                self.NoDraggableKeys=t;
             }
-            if((t=hash.NoDropableKeys) && t.length){
-                self.NoDropableKeys=t;
+            if((t=hash.NoDroppableKeys) && t.length){
+                self.NoDroppableKeys=t;
             }
 
             self.setEventHandlers(hls);
@@ -3416,7 +3416,7 @@ Class("linb.UI",  "linb.absObj", {
             }
             return r.join('');
         },
-        _dropable:function(key){
+        _droppable:function(key){
             var self=this,
                 h2=linb.Event.$eventhandler2,
                 o=self.$Behaviors,
@@ -3430,10 +3430,10 @@ Class("linb.UI",  "linb.absObj", {
                 beforeMouseover:function(profile, e, src){
                     if(profile.properties.disabled||profile.properties.readonly)return;
 
-                    // avoid no dropable keys
-                    if(profile.box.NoDropableKeys){
+                    // avoid no droppable keys
+                    if(profile.box.NoDroppableKeys){
                         var sk = profile.getKey(linb.Event.getSrc(e).id || "").split('-')[1];
-                        if(sk && _.arr.indexOf(profile.box.NoDropableKeys, sk)!=-1)return;
+                        if(sk && _.arr.indexOf(profile.box.NoDroppableKeys, sk)!=-1)return;
                     }
 
                     var ns=src,
@@ -3522,7 +3522,7 @@ Class("linb.UI",  "linb.absObj", {
             });
             return self;
         },
-        _dragable:function(key){
+        _draggable:function(key){
             var self=this,
                 h2=linb.Event.$eventhandler2,
                 o=self.$Behaviors,
@@ -3538,10 +3538,10 @@ Class("linb.UI",  "linb.absObj", {
                     // not resizable or drag
                     if(!profile.properties.dragKey)return;
 
-                    // avoid nodragable keys
-                    if(profile.box.NoDragableKeys){
+                    // avoid nodraggable keys
+                    if(profile.box.NoDraggableKeys){
                         var sk = profile.getKey(linb.Event.getSrc(e).id || "").split('-')[1];
-                        if(sk && _.arr.indexOf(profile.box.NoDragableKeys, sk)!=-1)return;
+                        if(sk && _.arr.indexOf(profile.box.NoDraggableKeys, sk)!=-1)return;
                     }
 
 
@@ -5318,7 +5318,7 @@ new function(){
     Class(u+".Pane", u+".Div",{
         Static:{
             Behaviors:{
-                DropableKeys:['KEY']
+                DroppableKeys:['KEY']
             }
         }
     });

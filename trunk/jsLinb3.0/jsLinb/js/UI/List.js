@@ -98,6 +98,10 @@ Class("linb.UI.List", ["linb.UI", "linb.absList","linb.absValue" ],{
                         className:'{itemClass} {disabled} {readonly}',
                         style:'{itemStyle}{itemDisplay}',
                         tabindex:'{_tabindex}',
+                        CHECKBOX:{
+                            $order:5,
+                            style:"{_cbDisplay}"
+                        },
                         ICON:{
                             $order:10,
                             className:'ui-icon {imageClass}',
@@ -148,13 +152,25 @@ Class("linb.UI.List", ["linb.UI", "linb.absList","linb.absValue" ],{
                 $order:2,
                 'background-color':'#AAD2FA',
                 'background-position': 'left top'
+            },
+            CHECKBOX:{
+               $order:1,
+               cursor:'pointer',
+               width:'16px',
+               height:'16px',
+               'vertical-align':'middle',
+               background: linb.UI.$bg('icons.gif', 'no-repeat -20px -70px', true)
+            },
+            'ITEM-checked CHECKBOX':{
+                $order:2,
+                'background-position': '0 -70px'
             }
         },
         Behaviors:{
             HoverEffected:{ITEM:'ITEM'},
             ClickEffected:{ITEM:'ITEM'},
-            DragableKeys:["ITEM"],
-            DropableKeys:["ITEM","ITEMS"],
+            DraggableKeys:["ITEM"],
+            DroppableKeys:["ITEM","ITEMS"],
             onSize:linb.UI.$onSize,
             ITEM:{
                 onDblclick:function(profile, e, src){
@@ -281,7 +297,10 @@ Class("linb.UI.List", ["linb.UI", "linb.absList","linb.absValue" ],{
         DataModel:{
             selMode:{
                 ini:'single',
-                listbox:['single','none','multi']
+                listbox:['single','none','multi'],
+                action:function(value){
+                    this.getSubNode('CHECKBOX',true).css('display',value=='multi'?'':'none');
+                }  
             },
             borderType:{
                 ini:'flat',
@@ -361,6 +380,9 @@ Class("linb.UI.List", ["linb.UI", "linb.absList","linb.absValue" ],{
             var data=arguments.callee.upper.call(this, profile);
             data._bordertype='uiborder-'+data.borderType;
             return data;
+        },
+        _prepareItem:function(profile, item){
+            item._cbDisplay = (profile.properties.selMode=='multi')?'':'display:none;';
         },
         _onresize:function(profile,width,height){
             if(height){

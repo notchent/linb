@@ -359,9 +359,9 @@ Class('linb.DragDrop',null,{
 
                 if(d._stop){d._end()._reset();return false}
 
-                //set linb.Event._preDropable at the begining of drag, for a dd from a child in a dropable node
+                //set linb.Event._preDroppable at the begining of drag, for a dd from a child in a droppable node
                 if(linb.Event && (t=d._source.get(0))){
-                    linb.Event._preDropable= t.id;
+                    linb.Event._preDroppable= t.id;
                     t=null;
                 }
 
@@ -567,7 +567,7 @@ Class('linb.DragDrop',null,{
             return d;
         },
         setDragIcon:function(key){
-            //avoid other dropable targetNode's setDropFace disturbing.
+            //avoid other droppable targetNode's setDropFace disturbing.
             _.resetRun('setDropFace', null);
             var d=this,p=d._profile,i=p.proxyNode,ic=d._Icons;
             if(i && p.dragType=='icon')
@@ -762,7 +762,7 @@ Class('linb.DragDrop',null,{
                 linb.DragDrop.startDrag(e, this.get(0), profile, dragKey||'', dragData||null);
                 return this;
             },
-            dragable:function(flag, profile, dragKey, dragData){
+            draggable:function(flag, profile, dragKey, dragData){
                 var self=this, dd=linb.DragDrop;
                 if(flag===undefined)
                     flag=true;
@@ -780,7 +780,7 @@ Class('linb.DragDrop',null,{
 
                 return self;
             },
-            dropable:function(flag, key){
+            droppable:function(flag, key){
                 if(flag===undefined)flag=true;
                 key = key || 'default';
                 var d=linb.DragDrop;

@@ -528,21 +528,6 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
             }else
                 return v;
         },
-        setCols:function(value, force){
-            return this.setHeader(value, force);
-        },
-        getCols:function(type){
-            return this.getHeader();
-        },
-        getColByColId:function(colId){
-            return this.getHeaderByColId(colId);
-        },
-        getColByCell:function(cell){
-            return this.getHeaderByCell(cell);
-        },
-        updateCol:function(colId,options){
-            return this.updateHeader(colId,options);
-        },
         updateHeader:function(colId,options){
             var ns=this, colh=ns.getHeaderByColId(colId);
             if(colh){
@@ -1284,8 +1269,8 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
         Behaviors:{
             HoverEffected:{FCELLCMD:'FCELLCMD', HCELL:'HCELL', HFCELL:'HFCELL'},
             ClickEffected:{FCELLCMD:'FCELLCMD', CELL:'CELL', HCELL:'HCELL'},
-            DropableKeys:['SCROLL','CELLS','FCELLCMD'],
-            DragableKeys:['FCELL'],
+            DroppableKeys:['SCROLL','CELLS','FCELLCMD'],
+            DraggableKeys:['FCELL'],
 
             onSize:linb.UI.$onSize,
             HFMARK:{

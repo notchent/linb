@@ -363,7 +363,7 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
             }
         },
         Behaviors:{
-            DropableKeys:['VIEW'],
+            DroppableKeys:['VIEW'],
             HoverEffected:{PRE:'PRE',NEXT:'NEXT',ZOOMIN:'ZOOMIN',ZOOMOUT:'ZOOMOUT',DATE:'DATE',OPT:'OPT',CLOSE:'CLOSE'},
             ClickEffected:{PRE:'PRE',NEXT:'NEXT',ZOOMIN:'ZOOMIN',ZOOMOUT:'ZOOMOUT',DATE:'DATE',OPT:'OPT',CLOSE:'CLOSE'},
             onSize:linb.UI.$onSize,
@@ -485,7 +485,7 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
                 onMousemove:function(profile,e){
                     var ddd=linb.DragDrop.getProfile();
                     if(ddd.isWorking){
-                        //ondrag add here, for performance of 'dont-use-dropable situation'.
+                        //ondrag add here, for performance of 'dont-use-droppable situation'.
                         if(profile.$$ondrag)
                             profile.box._moveActive(profile, profile.$active, ddd.x-profile.$dd_ox, profile.properties._unitPixs, 'move');
                     }else{

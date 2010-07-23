@@ -2631,7 +2631,7 @@ Class('linb.Event',null,{
         //for correct mouse hover problems;
         if('mouseover'==type || 'mouseout'==type){
             dd=(dragdrop&&dragdrop._profile.isWorking)?1:2;
-            //for dropable
+            //for droppable
             if(dd!=1 && fordrag){
                 src=null;
                 return self.$FALSE;
@@ -2718,7 +2718,7 @@ Class('linb.Event',null,{
             }
 
             if(dd==1){
-                //From parent dropable node to child dropable node, fire parent node's mouseout manually
+                //From parent droppable node to child droppable node, fire parent node's mouseout manually
                 if('mouseover'==type && dragdrop._dropElement==src.$linbid && pre && pre!=src.$linbid){
                     t=linb.use(pre).get(0);
                     self({
@@ -2732,11 +2732,11 @@ Class('linb.Event',null,{
                     dragdrop.setDropElement(src.$linbid);
                 }
 
-                //Out of dropable node, 'dragdrop._dropElement' will be set to null in beforeMouseover
-                //set _preDropable flag, for parent node is dropable too
+                //Out of droppable node, 'dragdrop._dropElement' will be set to null in beforeMouseover
+                //set _preDroppable flag, for parent node is droppable too
                 if('mouseout'==type && !dragdrop._dropElement && pre && pre==src.$linbid){
-                    self._preDropable=id;
-                    _.asyRun(function(){delete linb.Event._preDropable});
+                    self._preDroppable=id;
+                    _.asyRun(function(){delete linb.Event._preDroppable});
                 }
 
                 //if fire dd, prevent to fire parent dd
@@ -2809,11 +2809,11 @@ Class('linb.Event',null,{
             }
             var node = (event.type=='mouseover'?event.fromElement:event.toElement)||event.relatedTarget;
 
-            //When out of dropable node, if the parent node is dropable return true;
-            if(dd && event.type=='mouseover' &&this._preDropable)
+            //When out of droppable node, if the parent node is droppable return true;
+            if(dd && event.type=='mouseover' &&this._preDroppable)
                 try{
                     do{
-                        if(node && node.id && node.id==this._preDropable){
+                        if(node && node.id && node.id==this._preDroppable){
                             target=node=null;
                             return true
                         }
@@ -8117,9 +8117,9 @@ Class('linb.DragDrop',null,{
 
                 if(d._stop){d._end()._reset();return false}
 
-                //set linb.Event._preDropable at the begining of drag, for a dd from a child in a dropable node
+                //set linb.Event._preDroppable at the begining of drag, for a dd from a child in a droppable node
                 if(linb.Event && (t=d._source.get(0))){
-                    linb.Event._preDropable= t.id;
+                    linb.Event._preDroppable= t.id;
                     t=null;
                 }
 
@@ -8325,7 +8325,7 @@ Class('linb.DragDrop',null,{
             return d;
         },
         setDragIcon:function(key){
-            //avoid other dropable targetNode's setDropFace disturbing.
+            //avoid other droppable targetNode's setDropFace disturbing.
             _.resetRun('setDropFace', null);
             var d=this,p=d._profile,i=p.proxyNode,ic=d._Icons;
             if(i && p.dragType=='icon')
@@ -8520,7 +8520,7 @@ Class('linb.DragDrop',null,{
                 linb.DragDrop.startDrag(e, this.get(0), profile, dragKey||'', dragData||null);
                 return this;
             },
-            dragable:function(flag, profile, dragKey, dragData){
+            draggable:function(flag, profile, dragKey, dragData){
                 var self=this, dd=linb.DragDrop;
                 if(flag===undefined)
                     flag=true;
@@ -8538,7 +8538,7 @@ Class('linb.DragDrop',null,{
 
                 return self;
             },
-            dropable:function(flag, key){
+            droppable:function(flag, key){
                 if(flag===undefined)flag=true;
                 key = key || 'default';
                 var d=linb.DragDrop;
@@ -10975,7 +10975,7 @@ Class("linb.UI",  "linb.absObj", {
                 });
             });
         },
-        dragable:function(dragKey, dragData, key, options){
+        draggable:function(dragKey, dragData, key, options){
             return this.each(function(o){
                 o.getSubNode(o.keys[key] || 'KEY', true)
                 .beforeMousedown(dragKey?function(pro,e,src){
@@ -11257,7 +11257,7 @@ Class("linb.UI",  "linb.absObj", {
                 padding:'0'
             },
             '.ui-ctr':{},
-            '.ui-dragable':{},
+            '.ui-draggable':{},
             '.ui-btn, .ui-btni, .ui-btnc':{
                 height:'22px',
                 background:linb.UI.$bg('button.gif', 'no-repeat', true)
@@ -12466,9 +12466,9 @@ Class("linb.UI",  "linb.absObj", {
                 });
                 hls.beforeNextFocus=src._e3;
             }
-            if((t=hash.DropableKeys) && t.length){
+            if((t=hash.DroppableKeys) && t.length){
                 _.arr.each(t,function(o){
-                    self._dropable(o)
+                    self._droppable(o)
                 });
 
                 t=self.prototype;
@@ -12478,9 +12478,9 @@ Class("linb.UI",  "linb.absObj", {
                 self.$DataModel.dropKeys=self.$DataStruct.dropKeys='';
                 hls.onDragEnter=hls.onDragLeave=hls.onDrop=hls.onDropTest=hls.onDropMarkShow=hls.onDropMarkClear=src._e4;
             }
-            if((t=hash.DragableKeys)&& t.length){
+            if((t=hash.DraggableKeys)&& t.length){
                 _.arr.each(t,function(o){
-                    self._dragable(o)
+                    self._draggable(o)
                 });
                 t=self.prototype;
                 _.arr.each('getDragKey,setDragKey'.split(','),function(o){
@@ -12489,11 +12489,11 @@ Class("linb.UI",  "linb.absObj", {
                 self.$DataModel.dragKey=self.$DataStruct.dragKey='';
                 hls.onGetDragData=hls.onStartDrag=hls.onDragStop=src._e5;
             }
-            if((t=hash.NoDragableKeys)&& t.length){
-                self.NoDragableKeys=t;
+            if((t=hash.NoDraggableKeys)&& t.length){
+                self.NoDraggableKeys=t;
             }
-            if((t=hash.NoDropableKeys) && t.length){
-                self.NoDropableKeys=t;
+            if((t=hash.NoDroppableKeys) && t.length){
+                self.NoDroppableKeys=t;
             }
 
             self.setEventHandlers(hls);
@@ -12771,7 +12771,7 @@ Class("linb.UI",  "linb.absObj", {
             }
             return r.join('');
         },
-        _dropable:function(key){
+        _droppable:function(key){
             var self=this,
                 h2=linb.Event.$eventhandler2,
                 o=self.$Behaviors,
@@ -12785,10 +12785,10 @@ Class("linb.UI",  "linb.absObj", {
                 beforeMouseover:function(profile, e, src){
                     if(profile.properties.disabled||profile.properties.readonly)return;
 
-                    // avoid no dropable keys
-                    if(profile.box.NoDropableKeys){
+                    // avoid no droppable keys
+                    if(profile.box.NoDroppableKeys){
                         var sk = profile.getKey(linb.Event.getSrc(e).id || "").split('-')[1];
-                        if(sk && _.arr.indexOf(profile.box.NoDropableKeys, sk)!=-1)return;
+                        if(sk && _.arr.indexOf(profile.box.NoDroppableKeys, sk)!=-1)return;
                     }
 
                     var ns=src,
@@ -12877,7 +12877,7 @@ Class("linb.UI",  "linb.absObj", {
             });
             return self;
         },
-        _dragable:function(key){
+        _draggable:function(key){
             var self=this,
                 h2=linb.Event.$eventhandler2,
                 o=self.$Behaviors,
@@ -12893,10 +12893,10 @@ Class("linb.UI",  "linb.absObj", {
                     // not resizable or drag
                     if(!profile.properties.dragKey)return;
 
-                    // avoid nodragable keys
-                    if(profile.box.NoDragableKeys){
+                    // avoid nodraggable keys
+                    if(profile.box.NoDraggableKeys){
                         var sk = profile.getKey(linb.Event.getSrc(e).id || "").split('-')[1];
-                        if(sk && _.arr.indexOf(profile.box.NoDragableKeys, sk)!=-1)return;
+                        if(sk && _.arr.indexOf(profile.box.NoDraggableKeys, sk)!=-1)return;
                     }
 
 
@@ -14673,7 +14673,7 @@ new function(){
     Class(u+".Pane", u+".Div",{
         Static:{
             Behaviors:{
-                DropableKeys:['KEY']
+                DroppableKeys:['KEY']
             }
         }
     });
@@ -14696,7 +14696,7 @@ new function(){
         Behaviors:{
             HoverEffected:{KEY:'KEY'},
             ClickEffected:{KEY:'KEY'},
-            DragableKeys:["KEY"],
+            DraggableKeys:["KEY"],
             onError:function(profile, e, src){
                 profile.boxing().onError(profile);
             },
@@ -15940,7 +15940,7 @@ Class("linb.UI.Resizer","linb.UI",{
     },
     Static:{
         Behaviors:{
-            DropableKeys:['PANEL']
+            DroppableKeys:['PANEL']
         },
         DataModel:{
             //delete those properties
@@ -17342,7 +17342,7 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
 
             t = profile.tips = profile.tips||p.tips||'';
             o = linb.getObject(p.tipsBinder)|| ((o=profile.host[p.tipsBinder]) &&o.get(0) );
-            if(o && (o.key=='linb.UI.Div'||o.key=='linb.UI.SLabel')){
+            if(o && (o.key=='linb.UI.Span'||o.key=='linb.UI.Div'||o.key=='linb.UI.SLabel')){
                 if(o.renderId){
                     //use innerHTML, not setHtml
                     o.getRootNode().innerHTML =  t.charAt(0)=='$'?linb.wrapRes(t):t;
@@ -19946,8 +19946,8 @@ Class("linb.UI.Group", "linb.UI.Div",{
             NavKeys:{CAPTION:1},
             HoverEffected:{TOGGLE:'TOGGLE'},
             ClickEffected:{TOGGLE:'TOGGLE'},
-            DropableKeys:['PANEL'],
-            DragableKeys:['HANDLE'],
+            DroppableKeys:['PANEL'],
+            DraggableKeys:['HANDLE'],
             onSize:linb.UI.$onSize,
             HANDLE:{
                 onClick:function(profile, e, src){
@@ -20253,10 +20253,10 @@ Class("linb.UI.Group", "linb.UI.Div",{
             arr.push('<span  '+'id="'+key+'-SC:'+id+':'+list[i]+'" style="background-color:#'+list[i]+'" '+evs+'>'+list[i]+'</span>');
 
         //data
-        data = '<div '+evs+'><span class="'+cls+'-txt"'+evs+'>R: </span><span '+'id="'+key+'-R:'+id+':" class="'+cls+'-dd2 ui-dragable '+tag+'DD2_CC'+tag+'" '+evs+'>R</span><span style="width:8px;height:8px" '+evs+' ></span><span class="'+cls+'-txt"'+evs+'>H: </span><span '+'id="'+key+'-HH:'+id+':" class="'+cls+'-dd2 ui-dragable '+tag+'DD2_CC'+tag+'" '+evs+'>H</span><span '+evs+'>\xB0</span></div>' +
-               '<div '+evs+'><span class="'+cls+'-txt"'+evs+'>G: </span><span '+'id="'+key+'-G:'+id+':" class="'+cls+'-dd2 ui-dragable '+tag+'DD2_CC'+tag+'" '+evs+'>G</span><span style="width:8px;height:8px" '+evs+' ></span><span class="'+cls+'-txt"'+evs+'>S: </span><span '+'id="'+key+'-S:'+id+':" class="'+cls+'-dd2 ui-dragable '+tag+'DD2_CC'+tag+'"  '+evs+'>S</span><span '+evs+'>%</span></div>' +
-               '<div '+evs+'><span class="'+cls+'-txt"'+evs+'>B: </span><span '+'id="'+key+'-B:'+id+':" class="'+cls+'-dd2 ui-dragable '+tag+'DD2_CC'+tag+'" '+evs+'>B</span><span style="width:8px;height:8px" '+evs+' ></span><span class="'+cls+'-txt"'+evs+'>V: </span><span '+'id="'+key+'-V:'+id+':" class="'+cls+'-dd2 ui-dragable '+tag+'DD2_CC'+tag+'" '+evs+'>V</span><span '+evs+'>%</span></div>' +
-               '<div '+evs+'><span style="width:38px"'+evs+'>HEX: '+tag+'</span><span '+'id="'+key+'-H:'+id+':" class="'+cls+'-dd3 ui-dragable '+tag+'DD3_CC'+tag+'" '+evs+'>H</span><span '+'id="'+key+'-E:'+id+':" class="'+cls+'-dd3 ui-dragable '+tag+'DD3_CC'+tag+'" '+evs+''+evs+'>E</span><span '+'id="'+key+'-X:'+id+':" class="'+cls+'-dd1 ui-dragable '+tag+'DD1_CC'+tag+'" '+evs+'>X</span></div>'
+        data = '<div '+evs+'><span class="'+cls+'-txt"'+evs+'>R: </span><span '+'id="'+key+'-R:'+id+':" class="'+cls+'-dd2 ui-draggable '+tag+'DD2_CC'+tag+'" '+evs+'>R</span><span style="width:8px;height:8px" '+evs+' ></span><span class="'+cls+'-txt"'+evs+'>H: </span><span '+'id="'+key+'-HH:'+id+':" class="'+cls+'-dd2 ui-draggable '+tag+'DD2_CC'+tag+'" '+evs+'>H</span><span '+evs+'>\xB0</span></div>' +
+               '<div '+evs+'><span class="'+cls+'-txt"'+evs+'>G: </span><span '+'id="'+key+'-G:'+id+':" class="'+cls+'-dd2 ui-draggable '+tag+'DD2_CC'+tag+'" '+evs+'>G</span><span style="width:8px;height:8px" '+evs+' ></span><span class="'+cls+'-txt"'+evs+'>S: </span><span '+'id="'+key+'-S:'+id+':" class="'+cls+'-dd2 ui-draggable '+tag+'DD2_CC'+tag+'"  '+evs+'>S</span><span '+evs+'>%</span></div>' +
+               '<div '+evs+'><span class="'+cls+'-txt"'+evs+'>B: </span><span '+'id="'+key+'-B:'+id+':" class="'+cls+'-dd2 ui-draggable '+tag+'DD2_CC'+tag+'" '+evs+'>B</span><span style="width:8px;height:8px" '+evs+' ></span><span class="'+cls+'-txt"'+evs+'>V: </span><span '+'id="'+key+'-V:'+id+':" class="'+cls+'-dd2 ui-draggable '+tag+'DD2_CC'+tag+'" '+evs+'>V</span><span '+evs+'>%</span></div>' +
+               '<div '+evs+'><span style="width:38px"'+evs+'>HEX: '+tag+'</span><span '+'id="'+key+'-H:'+id+':" class="'+cls+'-dd3 ui-draggable '+tag+'DD3_CC'+tag+'" '+evs+'>H</span><span '+'id="'+key+'-E:'+id+':" class="'+cls+'-dd3 ui-draggable '+tag+'DD3_CC'+tag+'" '+evs+''+evs+'>E</span><span '+'id="'+key+'-X:'+id+':" class="'+cls+'-dd1 ui-draggable '+tag+'DD1_CC'+tag+'" '+evs+'>X</span></div>'
         ns.setTemplate({
             style:'{_style};height:auto;width:{_width}px;',
             tagName : 'div',
@@ -21267,12 +21267,12 @@ Class("linb.UI.Group", "linb.UI.Div",{
                         },
                         YEAR:{
                             $order:2,
-                            className:'ui-dragable'
+                            className:'ui-draggable'
                         },
 //                        YTXT:{$order:3,style:'display:inline'},
                         MONTH:{
                             $order:4,
-                            className:'ui-dragable'
+                            className:'ui-draggable'
                         },
                         MTXT:{$order:5,style:'display:inline'},
                         NEXT:{
@@ -21848,7 +21848,7 @@ Class("linb.UI.Group", "linb.UI.Div",{
                         },
                         HOUR:{
                             $order:1,
-                            className:'ui-dragable'
+                            className:'ui-draggable'
                         },
 //                        HOURTXT:{$order:2,style:'display:inline'},
                         NEXT:{
@@ -22334,6 +22334,10 @@ Class("linb.UI.Group", "linb.UI.Div",{
                         className:'{itemClass} {disabled} {readonly}',
                         style:'{itemStyle}{itemDisplay}',
                         tabindex:'{_tabindex}',
+                        CHECKBOX:{
+                            $order:5,
+                            style:"{_cbDisplay}"
+                        },
                         ICON:{
                             $order:10,
                             className:'ui-icon {imageClass}',
@@ -22384,13 +22388,25 @@ Class("linb.UI.Group", "linb.UI.Div",{
                 $order:2,
                 'background-color':'#AAD2FA',
                 'background-position': 'left top'
+            },
+            CHECKBOX:{
+               $order:1,
+               cursor:'pointer',
+               width:'16px',
+               height:'16px',
+               'vertical-align':'middle',
+               background: linb.UI.$bg('icons.gif', 'no-repeat -20px -70px', true)
+            },
+            'ITEM-checked CHECKBOX':{
+                $order:2,
+                'background-position': '0 -70px'
             }
         },
         Behaviors:{
             HoverEffected:{ITEM:'ITEM'},
             ClickEffected:{ITEM:'ITEM'},
-            DragableKeys:["ITEM"],
-            DropableKeys:["ITEM","ITEMS"],
+            DraggableKeys:["ITEM"],
+            DroppableKeys:["ITEM","ITEMS"],
             onSize:linb.UI.$onSize,
             ITEM:{
                 onDblclick:function(profile, e, src){
@@ -22517,7 +22533,10 @@ Class("linb.UI.Group", "linb.UI.Div",{
         DataModel:{
             selMode:{
                 ini:'single',
-                listbox:['single','none','multi']
+                listbox:['single','none','multi'],
+                action:function(value){
+                    this.getSubNode('CHECKBOX',true).css('display',value=='multi'?'':'none');
+                }  
             },
             borderType:{
                 ini:'flat',
@@ -22597,6 +22616,9 @@ Class("linb.UI.Group", "linb.UI.Div",{
             var data=arguments.callee.upper.call(this, profile);
             data._bordertype='uiborder-'+data.borderType;
             return data;
+        },
+        _prepareItem:function(profile, item){
+            item._cbDisplay = (profile.properties.selMode=='multi')?'':'display:none;';
         },
         _onresize:function(profile,width,height){
             if(height){
@@ -23117,9 +23139,9 @@ Class("linb.UI.Panel", "linb.UI.Div",{
             }
         },
         Behaviors:{
-            DropableKeys:['PANEL'],
-            DragableKeys:['TBAR'],
-            NoDragableKeys:['OPT','CLOSE','POP','REFRESH','TOGGLE','CAPTION'],
+            DroppableKeys:['PANEL'],
+            DraggableKeys:['TBAR'],
+            NoDraggableKeys:['OPT','CLOSE','POP','REFRESH','TOGGLE','CAPTION'],
             HoverEffected:{OPT:'OPT', CLOSE:'CLOSE',POP:'POP', REFRESH:'REFRESH',TOGGLE:'TOGGLE'},
             ClickEffected:{CLOSE:'CLOSE', OPT:'OPT', POP:'POP', REFRESH:'REFRESH',TOGGLE:'TOGGLE'},
             onSize:linb.UI.$onSize,
@@ -24358,8 +24380,8 @@ Class("linb.UI.Tabs", ["linb.UI", "linb.absList","linb.absValue"],{
             }
         },
         Behaviors:{
-            DropableKeys:['PANEL','KEY', 'ITEM'],
-            DragableKeys:['ITEM'],
+            DroppableKeys:['PANEL','KEY', 'ITEM'],
+            DraggableKeys:['ITEM'],
             HoverEffected:{ITEM:'ITEM',OPT:'OPT',CLOSE:'CLOSE',POP:'POP'},
             ClickEffected:{ITEM:'ITEM',OPT:'OPT',CLOSE:'CLOSE',POP:'POP'},
             onSize:linb.UI.$onSize,
@@ -25368,7 +25390,7 @@ Class("linb.UI.StatusButtons", ["linb.UI.List"],{
             }
         }),
         Behaviors:{
-            DropableKeys:["ITEMS"]
+            DroppableKeys:["ITEMS"]
         },
         EventHandlers:{
         },
@@ -25718,8 +25740,8 @@ Class("linb.UI.StatusButtons", ["linb.UI.List"],{
         Behaviors:{
             HoverEffected:{TOGGLE:'TOGGLE', BAR:'BAR'},
             ClickEffected:{TOGGLE:'TOGGLE', BAR:'BAR'},
-            DragableKeys:["BAR"],
-            DropableKeys:["BAR","TOGGLE","BOX"],
+            DraggableKeys:["BAR"],
+            DroppableKeys:["BAR","TOGGLE","BOX"],
             onSize:linb.UI.$onSize,
             TOGGLE:{
                 onClick:function(profile, e, src){
@@ -26283,8 +26305,8 @@ Class("linb.UI.TreeView","linb.UI.TreeBar",{
         Behaviors:{
             HoverEffected:{ITEMCAPTION:'ITEMCAPTION'},
             ClickEffected:{TOGGLE:'TOGGLE', ITEMCAPTION:'ITEMCAPTION'},
-            DragableKeys:["ITEMCAPTION"],
-            DropableKeys:["BAR","TOGGLE","BOX"],
+            DraggableKeys:["ITEMCAPTION"],
+            DroppableKeys:["BAR","TOGGLE","BOX"],
             BAR:{
                 onDblclick:null,
                 onClick:null,
@@ -28390,7 +28412,7 @@ Class("linb.UI.Layout",["linb.UI", "linb.absList"],{
             }
         },
         Behaviors:{
-            DropableKeys:['PANEL'],
+            DroppableKeys:['PANEL'],
             HoverEffected:{MOVE:'MOVE',CMD:'CMD'},
             onSize:linb.UI.$onSize,
             MOVE:{
@@ -29107,7 +29129,7 @@ Class("linb.UI.ColLayout",["linb.UI","linb.absList"],{
         },
         Behaviors:{
             HoverEffected:{MOVE:'MOVE'},
-            DropableKeys:['KEY'],
+            DroppableKeys:['KEY'],
             MOVE:{
                 onMousedown:function(profile, e, src){
                     var pro=profile.properties;
@@ -29199,12 +29221,12 @@ Class("linb.UI.ColLayout",["linb.UI","linb.absList"],{
                                 rowup=rst[2];
                             if(col){
                                 if(row)
-                                    profile.$$dropable=box._checkDropable(profile, rowup?2:3, linb(row), height, dragid);
+                                    profile.$$droppable=box._checkDroppable(profile, rowup?2:3, linb(row), height, dragid);
                                 else
-                                    profile.$$dropable=box._checkDropable(profile, 1, linb(col), height, dragid);
+                                    profile.$$droppable=box._checkDroppable(profile, 1, linb(col), height, dragid);
                             }else{
-                                box._setNoDropable(profile);
-                                delete profile.$$dropable;
+                                box._setNoDroppable(profile);
+                                delete profile.$$droppable;
                             }
                         }
                     }
@@ -29319,7 +29341,7 @@ Class("linb.UI.ColLayout",["linb.UI","linb.absList"],{
                     return;
             }
         },
-        _checkDropable:function(profile, type, node, height, dragid){
+        _checkDroppable:function(profile, type, node, height, dragid){
             var self=this,
                 candrop=false,
                 proxy= profile._proxy || (profile._proxy=linb.create('<div style="border:1px dashed #FF0000;">'));
@@ -29350,11 +29372,11 @@ Class("linb.UI.ColLayout",["linb.UI","linb.absList"],{
                 linb.DragDrop.setDragIcon('add');
                 return true;
             }else{
-                self._setNoDropable(profile);
+                self._setNoDroppable(profile);
                 return false;
             }
         },
-        _setNoDropable:function(profile){
+        _setNoDroppable:function(profile){
             if(profile._proxy){
                 profile._proxy.remove();
                 delete profile._proxy;
@@ -29367,7 +29389,7 @@ Class("linb.UI.ColLayout",["linb.UI","linb.absList"],{
             return false;
         },
         _onDropMarkClear:function(profile){
-            profile.box._setNoDropable(profile);
+            profile.box._setNoDroppable(profile);
         },
         _onDragEnter:function(profile,e,src){
             var ddId=linb.DragDrop.getProfile().$id;
@@ -29395,7 +29417,7 @@ Class("linb.UI.ColLayout",["linb.UI","linb.absList"],{
             delete profile.$$ondrag;
         },
         _onDrop:function(profile, e){
-            if(profile.$$dropable){
+            if(profile.$$droppable){
                 var rst=profile.box._checkpos(profile, linb.Event.getPos(e), true),
                     ddd=linb.DragDrop.getProfile().dragData,
                     targetPrf=ddd.profile,
@@ -29417,7 +29439,7 @@ Class("linb.UI.ColLayout",["linb.UI","linb.absList"],{
                 }
             }
             profile.getSubNode('COVER').css({display:'none'});
-            profile.box._setNoDropable(profile);
+            profile.box._setNoDroppable(profile);
             delete profile._cachePosSizeData;
             delete profile.$$height;
             delete profile.$$ondrag;
@@ -29960,21 +29982,6 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                 return a;
             }else
                 return v;
-        },
-        setCols:function(value, force){
-            return this.setHeader(value, force);
-        },
-        getCols:function(type){
-            return this.getHeader();
-        },
-        getColByColId:function(colId){
-            return this.getHeaderByColId(colId);
-        },
-        getColByCell:function(cell){
-            return this.getHeaderByCell(cell);
-        },
-        updateCol:function(colId,options){
-            return this.updateHeader(colId,options);
         },
         updateHeader:function(colId,options){
             var ns=this, colh=ns.getHeaderByColId(colId);
@@ -30717,8 +30724,8 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
         Behaviors:{
             HoverEffected:{FCELLCMD:'FCELLCMD', HCELL:'HCELL', HFCELL:'HFCELL'},
             ClickEffected:{FCELLCMD:'FCELLCMD', CELL:'CELL', HCELL:'HCELL'},
-            DropableKeys:['SCROLL','CELLS','FCELLCMD'],
-            DragableKeys:['FCELL'],
+            DroppableKeys:['SCROLL','CELLS','FCELLCMD'],
+            DraggableKeys:['FCELL'],
 
             onSize:linb.UI.$onSize,
             HFMARK:{
@@ -33757,8 +33764,8 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
             }
         },
         Behaviors:{
-            DropableKeys:['PANEL'],
-            DragableKeys:['LAND'],
+            DroppableKeys:['PANEL'],
+            DraggableKeys:['LAND'],
             HoverEffected:{OPT:'OPT', PIN:'PIN',MIN:'MIN',MAX:'MAX',RESTORE:'RESTORE',CLOSE:'CLOSE',REFRESH:'REFRESH',LAND:'LAND'},
             ClickEffected:{OPT:'OPT', PIN:'PIN',MIN:'MIN',MAX:'MAX',RESTORE:'RESTORE',CLOSE:'CLOSE',REFRESH:'REFRESH',LAND:'LAND'},
             onMousedown:function(profile, e){

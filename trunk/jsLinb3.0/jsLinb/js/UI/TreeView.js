@@ -138,8 +138,8 @@ Class("linb.UI.TreeView","linb.UI.TreeBar",{
         Behaviors:{
             HoverEffected:{ITEMCAPTION:'ITEMCAPTION'},
             ClickEffected:{TOGGLE:'TOGGLE', ITEMCAPTION:'ITEMCAPTION'},
-            DragableKeys:["ITEMCAPTION"],
-            DropableKeys:["BAR","TOGGLE","BOX"],
+            DraggableKeys:["ITEMCAPTION"],
+            DroppableKeys:["BAR","TOGGLE","BOX"],
             BAR:{
                 onDblclick:null,
                 onClick:null,

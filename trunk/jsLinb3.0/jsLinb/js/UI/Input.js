@@ -6,7 +6,7 @@ Class("linb.UI.Input", ["linb.UI.Widget","linb.absValue"] ,{
 
             t = profile.tips = profile.tips||p.tips||'';
             o = linb.getObject(p.tipsBinder)|| ((o=profile.host[p.tipsBinder]) &&o.get(0) );
-            if(o && (o.key=='linb.UI.Div'||o.key=='linb.UI.SLabel')){
+            if(o && (o.key=='linb.UI.Span'||o.key=='linb.UI.Div'||o.key=='linb.UI.SLabel')){
                 if(o.renderId){
                     //use innerHTML, not setHtml
                     o.getRootNode().innerHTML =  t.charAt(0)=='$'?linb.wrapRes(t):t;
