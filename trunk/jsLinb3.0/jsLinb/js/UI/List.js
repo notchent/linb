@@ -111,6 +111,10 @@ Class("linb.UI.List", ["linb.UI", "linb.absList","linb.absValue" ],{
                             tagName : 'text',
                             text : '{caption}&nbsp;',
                             $order:20
+                        },
+                        EXTRA:{
+                            text : '{ext}',
+                            $order:5
                         }
                     }
                 }

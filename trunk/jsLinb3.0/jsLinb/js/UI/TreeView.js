@@ -164,8 +164,11 @@ Class("linb.UI.TreeView","linb.UI.TreeBar",{
             ITEMCAPTION:{
                 onDblclick:function(profile, e, src){
                     var properties = profile.properties,
-                        item = profile.getItemByDom(src);
-                    profile.boxing().onDblclick(profile, item, src);
+                        item = profile.getItemByDom(src),
+                        rtn=profile.onDblcick && profile.boxing().onDblclick(profile, item, src);
+                    if(item.sub && rtn!==false){
+                        profile.getSubNode('TOGGLE',profile.getSubId(src)).onClick();
+                    }
                 },
                 onClick:function(profile, e, src){
                     return profile.box._onclickbar(profile,e,linb.use(src).parent().linbid());

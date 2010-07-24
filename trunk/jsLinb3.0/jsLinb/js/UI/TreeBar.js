@@ -225,6 +225,10 @@
                                 text : '&nbsp;{caption}',
                                 className:"{disabled}  {readonly}",
                                 $order:4
+                            },
+                            EXTRA:{
+                                text : '{ext}',
+                                $order:5
                             }
                         },
                         SUB:{
@@ -351,8 +355,11 @@
             BAR:{
                 onDblclick:function(profile, e, src){
                     var properties = profile.properties,
-                        item = profile.getItemByDom(src);
-                    profile.boxing().onDblclick(profile, item, src);
+                        item = profile.getItemByDom(src),
+                        rtn=profile.onDblcick && profile.boxing().onDblclick(profile, item, src);
+                    if(item.sub && rtn!==false){
+                        profile.getSubNode('TOGGLE',profile.getSubId(src)).onClick();
+                    }
                 },
                 onClick:function(profile, e, src){
                     return profile.box._onclickbar(profile,e,src);
@@ -492,14 +499,14 @@
         },
         _onkeydownbar:function(profile, e, src){
             var keys=linb.Event.getKey(e), key = keys.key, shift=keys.shiftKey,
-                cur = linb(src),
+                cur = profile.getSubNode(profile.box._focusNodeKey, profile.getSubId(src)),
                 root = profile.getRoot(),
                 first = root.nextFocus(true, true, false),
                 last = root.nextFocus(false, true, false);
 
             switch(key){
                 case 'enter':
-                    linb(src).onClick();
+                    cur.onClick();
                     break;
                 case 'tab':
                     if(shift){
@@ -515,19 +522,17 @@
                     }
                     break;
                 case 'up':
-                    var next = cur.nextFocus(false, true, false);
                     if(cur.get(0)==first.get(0))
                         last.focus();
                     else
-                        cur.nextFocus(false);
+                        cur.nextFocus(false, true, false).focus();
                      return false;
                      break;
                 case 'down':
-                    var next = cur.nextFocus(true, false, false);
                      if(cur.get(0)==last.get(0))
                         first.focus();
                      else
-                        cur.nextFocus();
+                        cur.nextFocus(true, false, false).focus();
                      return false;
                      break;
                 case 'right':
