@@ -22362,7 +22362,7 @@ Class("linb.UI.Group", "linb.UI.Div",{
             ITEMS:{
                 position:'relative',
                 overflow:'auto',
-                'overflow-x': (linb.browser.ie || linb.browser.gek)?'hidden':''
+                'overflow-x': 'hidden'
             },
             ITEM:{
                 display:'block',
@@ -22686,7 +22686,7 @@ Class("linb.UI.Gallery", "linb.UI.List",{
         Appearances:{
             KEY:{
                 overflow:'auto',
-                'overflow-x': (linb.browser.ie || linb.browser.gek)?'hidden':''
+                'overflow-x': 'hidden'
             },
             ITEMS:{
                 position:'relative',
@@ -22865,11 +22865,11 @@ Class("linb.UI.IconList", "linb.UI.List",{
         Appearances:{
             KEY:{
                 overflow:'auto',
-                'overflow-x': (linb.browser.ie || linb.browser.gek)?'hidden':''
+                'overflow-x': 'hidden'
             },
             ITEMS:{
                 overflow:'auto',
-                'overflow-x': (linb.browser.ie || linb.browser.gek)?'hidden':'',
+                'overflow-x': 'hidden',
                 position:'relative',
                 'line-height':'14px',
                 zoom:linb.browser.ie6?1:null
@@ -25237,7 +25237,7 @@ Class("linb.UI.ButtonViews", "linb.UI.Tabs",{
             },
             ITEMS:{
                 overflow:'auto',
-                'overflow-x': (linb.browser.ie || linb.browser.gek)?'hidden':'',
+                'overflow-x': 'hidden',
                 position:'relative',
                 'line-height':'14px'
             }
@@ -25274,7 +25274,7 @@ Class("linb.UI.StatusButtons", ["linb.UI.List"],{
             ITEMS:{
                 position:'relative',
                 overflow:'auto',
-                'overflow-x': (linb.browser.ie || linb.browser.gek)?'hidden':''
+                'overflow-x': 'hidden'
             },
             ITEM:{
                 'vertical-align':'middle',
@@ -25661,7 +25661,7 @@ Class("linb.UI.StatusButtons", ["linb.UI.List"],{
             BOX:{
                 left:0,
                 overflow: 'auto',
-                'overflow-x':(linb.browser.ie ||linb.browser.gek)?'hidden':'',
+                'overflow-x': 'hidden',
                 position:'relative'
             },
             ITEMS:{
@@ -26189,11 +26189,17 @@ Class("linb.UI.TreeView","linb.UI.TreeBar",{
     Static:{
         _focusNodeKey:'ITEMCAPTION',
         Appearances:{
+        		ITEMS:{
+                //overflow: 'visible'
+            },
+        		ITEM:{
+                'white-space': 'nowrap',
+                position:'relative'
+            },
             BAR:{
                zoom:linb.browser.ie?1:null,
                position:'relative',
                display:'block',
-               overflow: 'hidden',
                'font-size':'12px',
                padding:'0',
                border: '0'
@@ -26204,7 +26210,6 @@ Class("linb.UI.TreeView","linb.UI.TreeBar",{
             BOX:{
                 left:0,
                 overflow: 'auto',
-                'overflow-x':(linb.browser.ie ||linb.browser.gek)?'hidden':'',
                 position:'relative',
                 'background-color':'#FFF'
             },
@@ -26348,6 +26353,9 @@ Class("linb.UI.TreeView","linb.UI.TreeBar",{
                 onClick:function(profile, e, src){
                    return profile.box._onclickbar(profile,e,linb.use(src).parent().linbid());
                 }
+            },
+            BOX:{
+            	onScroll:null
             }
         },
         DataModel:{

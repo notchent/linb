@@ -19,11 +19,17 @@ Class("linb.UI.TreeView","linb.UI.TreeBar",{
     Static:{
         _focusNodeKey:'ITEMCAPTION',
         Appearances:{
+        		ITEMS:{
+                //overflow: 'visible'
+            },
+        		ITEM:{
+                'white-space': 'nowrap',
+                position:'relative'
+            },
             BAR:{
                zoom:linb.browser.ie?1:null,
                position:'relative',
                display:'block',
-               overflow: 'hidden',
                'font-size':'12px',
                padding:'0',
                border: '0'
@@ -34,7 +40,6 @@ Class("linb.UI.TreeView","linb.UI.TreeBar",{
             BOX:{
                 left:0,
                 overflow: 'auto',
-                'overflow-x':(linb.browser.ie ||linb.browser.gek)?'hidden':'',
                 position:'relative',
                 'background-color':'#FFF'
             },
@@ -178,6 +183,9 @@ Class("linb.UI.TreeView","linb.UI.TreeBar",{
                 onClick:function(profile, e, src){
                    return profile.box._onclickbar(profile,e,linb.use(src).parent().linbid());
                 }
+            },
+            BOX:{
+            	onScroll:null
             }
         },
         DataModel:{

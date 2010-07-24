@@ -51,7 +51,7 @@ Class("linb.UI.Gallery", "linb.UI.List",{
         Appearances:{
             KEY:{
                 overflow:'auto',
-                'overflow-x': (linb.browser.ie || linb.browser.gek)?'hidden':''
+                'overflow-x': 'hidden'
             },
             ITEMS:{
                 position:'relative',

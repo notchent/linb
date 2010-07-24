@@ -975,7 +975,7 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
                 right:0,
                 width:'18px',
                 overflow:'auto',
-                'overflow-x':linb.browser.opr?null:'hidden'
+                'overflow-x': 'hidden'
             },
             SCROLLI:{
                 height:'1000px',

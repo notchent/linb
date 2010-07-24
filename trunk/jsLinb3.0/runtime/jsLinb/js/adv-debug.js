@@ -1372,7 +1372,7 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
                 right:0,
                 width:'18px',
                 overflow:'auto',
-                'overflow-x':linb.browser.opr?null:'hidden'
+                'overflow-x': 'hidden'
             },
             SCROLLI:{
                 height:'1000px',
@@ -2740,8 +2740,9 @@ Class('linb.UI.TimeLine', ['linb.UI','linb.absList',"linb.absValue"], {
                 padding:'4px'
             },
             ITEMS:{
-                'overflow-x': (linb.browser.ie || linb.browser.gek)?'hidden':'',
-                zoom:linb.browser.ie?1:null            },
+                'overflow-x': 'hidden',
+                zoom:linb.browser.ie?1:null
+            },
             OUTER:{
                 position:'relative',
                 zoom:linb.browser.ie?1:null,

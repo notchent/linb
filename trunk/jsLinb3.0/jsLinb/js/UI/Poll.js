@@ -333,8 +333,9 @@ Class("linb.UI.Poll", "linb.UI.List",{
                 padding:'4px'
             },
             ITEMS:{
-                'overflow-x': (linb.browser.ie || linb.browser.gek)?'hidden':'',
-                zoom:linb.browser.ie?1:null            },
+                'overflow-x': 'hidden',
+                zoom:linb.browser.ie?1:null
+            },
             OUTER:{
                 position:'relative',
                 zoom:linb.browser.ie?1:null,

@@ -244,7 +244,7 @@
             BOX:{
                 left:0,
                 overflow: 'auto',
-                'overflow-x':(linb.browser.ie ||linb.browser.gek)?'hidden':'',
+                'overflow-x': 'hidden',
                 position:'relative'
             },
             ITEMS:{

@@ -47,7 +47,7 @@ Class("linb.UI.RadioBox", "linb.UI.List",{
             },
             ITEMS:{
                 overflow:'auto',
-                'overflow-x': (linb.browser.ie || linb.browser.gek)?'hidden':'',
+                'overflow-x': 'hidden',
                 position:'relative',
                 'line-height':'14px'
             }

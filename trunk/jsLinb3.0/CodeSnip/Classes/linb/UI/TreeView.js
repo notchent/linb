@@ -27,7 +27,7 @@ Class('App.linb_UI_TreeView', 'linb.Com',{
             host.ctl_panel3.append(
                 (new linb.UI.TreeView)
                 .setHost(host,"ctl_treeview1")
-                .setItems([{"id":"folder1", "caption":"folder1", "sub":true}, {"id":"folder2", "caption":"folder2", "sub":true}, {"id":"file1", "caption":"file1"}])
+                .setItems([{"id":"folder1", "caption":"folder1", "image":"img/App.gif", "imagePos":"-32px -32px", "sub":true}, {"id":"folder2", "caption":"folder2", "sub":true}, {"id":"file1", "caption":"file1"}])
                 .setDropKeys("hihi")
                 .setDragKey("hihi")
                 .onGetContent("_ctl_treeview1_ongetcontent")
@@ -52,26 +52,26 @@ Class('App.linb_UI_TreeView', 'linb.Com',{
         _ctl_treeview1_ongetcontent : function (profile, item, callback) {
             var ns = this,
                 uictrl = profile.boxing();
-            var id="temp"+_();
+            var id=item.id,tid="temp"+_();
            
             // to simulate asyn ajax loading
             _.asyRun(function(){
                 // remove first
-                uictrl.removeItems([id]);
+                uictrl.removeItems([tid]);
                 var items=[];
                 // two files
-                items.push({id:'file_'+_.id(), caption:'file_'+_.id()});
-                items.push({id:'file_'+_.id(), caption:'file_'+_.id()});
+                items.push({id:'file_'+_.id(), caption:'file_'+_.id(),image:"img/App.gif", imagePos:"-80px -48px"});
+                items.push({id:'file_'+_.id(), caption:'file_'+_.id(),image:"img/App.gif", imagePos:"-16px -48px"});
                 // a folder
-                items.push({id:item.id+'_1', caption:item.id+'_1', sub:true});
-                items.push({id:item.id+'_2', caption:item.id+'_2', sub:true});
-                items.push({id:item.id+'_3', caption:item.id+'_3', sub:true});
+                items.push({id:id+'_1', caption:id+'_1', sub:true});
+                items.push({id:id+'_2', caption:id+'_2', sub:true, image:"img/App.gif", imagePos:"-32px -48px"});
+                items.push({id:id+'_3', caption:id+'_3', sub:true});
                 // add new sub items
-                uictrl.insertItems(items, item.id);
+                uictrl.insertItems(items, id);
             },300);
 
             // for showing loading icon
-            return [{id:id, caption:"Loading...", image:linb.ini.img_busy}];
+            return [{id:tid, caption:"Loading...", image:linb.ini.img_busy}];
         },
         _ctl_treeview1_onitemselected : function (profile, item, src) {
            linb.message(item.id + " was selected!");

@@ -34,11 +34,11 @@ Class("linb.UI.IconList", "linb.UI.List",{
         Appearances:{
             KEY:{
                 overflow:'auto',
-                'overflow-x': (linb.browser.ie || linb.browser.gek)?'hidden':''
+                'overflow-x': 'hidden'
             },
             ITEMS:{
                 overflow:'auto',
-                'overflow-x': (linb.browser.ie || linb.browser.gek)?'hidden':'',
+                'overflow-x': 'hidden',
                 position:'relative',
                 'line-height':'14px',
                 zoom:linb.browser.ie6?1:null

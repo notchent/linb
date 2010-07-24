@@ -23,7 +23,7 @@ Class("linb.UI.StatusButtons", ["linb.UI.List"],{
             ITEMS:{
                 position:'relative',
                 overflow:'auto',
-                'overflow-x': (linb.browser.ie || linb.browser.gek)?'hidden':''
+                'overflow-x': 'hidden'
             },
             ITEM:{
                 'vertical-align':'middle',
