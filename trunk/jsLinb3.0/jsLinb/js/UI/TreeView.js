@@ -19,10 +19,10 @@ Class("linb.UI.TreeView","linb.UI.TreeBar",{
     Static:{
         _focusNodeKey:'ITEMCAPTION',
         Appearances:{
-        		ITEMS:{
+            ITEMS:{
                 //overflow: 'visible'
             },
-        		ITEM:{
+            ITEM:{
                 'white-space': 'nowrap',
                 position:'relative'
             },
@@ -35,7 +35,12 @@ Class("linb.UI.TreeView","linb.UI.TreeBar",{
                border: '0'
             },
             SUB:{
-                'margin-left':'0'
+                '*zoom':1,
+                height:0,
+                'font-size':'1px',
+                //1px for ie8
+                'line-height':'1px',
+                position:'relative'
             },
             BOX:{
                 left:0,
@@ -188,7 +193,7 @@ Class("linb.UI.TreeView","linb.UI.TreeBar",{
                 }
             },
             BOX:{
-            	onScroll:null
+                onScroll:null
             }
         },
         DataModel:{
@@ -198,7 +203,7 @@ Class("linb.UI.TreeView","linb.UI.TreeBar",{
             return "<span class='"+cls+type+"'></span>";
         },
         _getType:function(sub, type){
-            return sub 
+            return sub
                 ? type=='last' ? '-fold-3': type=='first'? '-fold-1' : '-fold-2'
                 : type=='last' ? '-path-3': type=='first'? '-path-1' : '-path-2';
         },
@@ -220,8 +225,8 @@ Class("linb.UI.TreeView","linb.UI.TreeBar",{
                     arr.push(index==len-1?'last':index===0?'first':'middle');
                     oitem._icons=arr;
                     item.rulerStyle='width:'+(oitem._deep*16)+'px;';
-                    
-                    
+
+
                     // build image html
                     html='';
                     ll=arr.length-1;
@@ -230,8 +235,8 @@ Class("linb.UI.TreeView","linb.UI.TreeBar",{
                             html+=buildIcon(cls, o=='last'?'-none':'-vertical');
                     });
                     item.innerIcons=html;
-                    
-                    
+
+
                     // for the last one
                     item.togglemark = cls+getType(item.sub, arr[ll]);
                 }
@@ -240,12 +245,12 @@ Class("linb.UI.TreeView","linb.UI.TreeBar",{
                 oitem._icons=[index==len-1?'last':index===0?'first':'middle'];
                 item.rulerStyle='';
                 item.innerIcons='';
-            
+
                 item.togglemark = cls+getType(item.sub, oitem._icons[0]);
             }
             // show image
             item.imageDisplay='';
-            // 
+            //
             item.cls_fold = item.sub?profile.getClass('BAR','-fold'):'';
 
             item.disabled = item.disabled?profile.getClass('KEY', '-disabled'):'';
@@ -302,7 +307,7 @@ Class("linb.UI.TreeView","linb.UI.TreeBar",{
                             profile.getSubNodeByItemId('TOGGLE', aitem.id)
                                 // "linb-treeview-image-fold-2 linb-treeview-image--fold-2-checked"
                                 // "linb-treeview-image-path-2"
-                                .replaceClass(new RegExp("\\b"+cls+"-[\\w]+-[\\w]+((-[\\w]+)*)\\b", "g"), cls + getType(aitem.sub, nv) + '$1');    
+                                .replaceClass(new RegExp("\\b"+cls+"-[\\w]+-[\\w]+((-[\\w]+)*)\\b", "g"), cls + getType(aitem.sub, nv) + '$1');
                         }
                         // parent's images
                         if(ns.length){
@@ -320,10 +325,10 @@ Class("linb.UI.TreeView","linb.UI.TreeBar",{
                     }
                 }
             });
-            
+
         },
         _tofold:function(profile,item,pid){
-            var cls=profile.getClass('IMAGE');        
+            var cls=profile.getClass('IMAGE');
             profile.getSubNodeByItemId('BAR', pid).addClass(profile.getClass('BAR','-fold'));
             profile.getSubNodeByItemId('TOGGLE', pid).replaceClass(new RegExp("\\b"+cls+"-path([-\\w]+)\\b"), cls + '-fold$1');
         }
