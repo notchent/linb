@@ -13081,7 +13081,7 @@ Class("linb.UI",  "linb.absObj", {
             onDestroy:function(profile){},
             beforeDestroy:function(profile){},
             onShowTips:function(profile, node, pos){},
-            onContextmenu:function(profile, e, node){}
+            onContextmenu:function(profile, e, node, item){}
         },
         RenderTrigger:function(){
             var self=this, b=self.boxing(),p=self.properties;

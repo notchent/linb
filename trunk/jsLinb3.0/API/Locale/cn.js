@@ -7246,7 +7246,8 @@ _.set(linb.Locale,["cn","app"], {
                 $paras:[
                     "profile : linb.UIProfile.",
                     "e : Event, DOM事件元素.",
-                    "src: String, 事件所属DOM元素的linbid."
+                    "src: String, 事件所属DOM元素的linbid.",
+                    "item: Object, 鼠标点击节点所对应的item对象."
                 ],
                 $snippet:[
                     "var id='linb.temp.b2-1'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+

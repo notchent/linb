@@ -7222,7 +7222,8 @@ _.set(linb.Locale,["en","app"], {
                 $paras:[
                     "profile : linb.UIProfile.",
                     "e: Event, DOM event Object.",
-                    "src : String, the event source DOM element's linbid."
+                    "src : String, the event source DOM element's linbid.",
+                    "item: Object, the corresponding item object."
                 ],
                 $snippet:[
                     "var id='linb.temp.b2-1'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
