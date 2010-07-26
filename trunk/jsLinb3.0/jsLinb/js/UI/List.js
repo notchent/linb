@@ -294,6 +294,10 @@ Class("linb.UI.List", ["linb.UI", "linb.absList","linb.absValue" ],{
                             cur.onClick();
                             break;
                     }
+                },
+                onContextmenu:function(profile, e, src){
+                    if(profile.onContextmenu)
+                        return profile.boxing().onContextmenu(profile, e, src,profile.getItemByDom(src))!==false;
                 }
             }
             

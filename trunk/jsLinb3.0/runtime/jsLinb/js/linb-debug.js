@@ -22533,6 +22533,10 @@ Class("linb.UI.Group", "linb.UI.Div",{
                             cur.onClick();
                             break;
                     }
+                },
+                onContextmenu:function(profile, e, src){
+                    if(profile.onContextmenu)
+                        return profile.boxing().onContextmenu(profile, e, src,profile.getItemByDom(src))!==false;
                 }
             }
             
@@ -25787,6 +25791,10 @@ Class("linb.UI.StatusButtons", ["linb.UI.List"],{
                 },
                 onKeydown:function(profile, e, src){
                     return profile.box._onkeydownbar(profile,e,src);
+                },
+                onContextmenu:function(profile, e, src){
+                    if(profile.onContextmenu)
+                        return profile.boxing().onContextmenu(profile, e, src,profile.getItemByDom(src))!==false;
                 }
             },
             BOX:{
@@ -30791,6 +30799,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
             //colomn resizer
             HHANDLER:{
                 onMousedown:function(profile, e, src){
+                    if(linb.Event.getBtn(e)!='left')return;
                     var p=profile.properties,
                     o=linb(src),
                     minW =o.parent(2).width()-p._minColW,
@@ -30896,6 +30905,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
             //row resizer
             FHANDLER:{
                 onMousedown:function(profile, e, src){
+                    if(linb.Event.getBtn(e)!='left')return;
                     var p=profile.properties,
                     row = profile.rowMap[profile.getSubId(src)],
                     o=linb(src),
@@ -31083,6 +31093,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                     return false;
                 },
                 onMousedown:function(profile, e, src){
+                    if(linb.Event.getBtn(e)!='left')return;
                     var p=profile.properties;
                     if(p.disabled)return;
                     var col=profile.colMap[profile.getSubId(src)];
@@ -31249,6 +31260,12 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                     _.resetRun(profile.$linbid+':collist',function(){
                         profile.getSubNode('COLLIST').css({visibility:'hidden',left:0,top:0});
                     });
+                },
+                onContextmenu:function(profile, e, src){
+                    if(profile.onContextmenu){
+                        var sid=profile.getSubId(src);
+                        return profile.boxing().onContextmenu(profile, e, src, sid?profile.colMap[sid]:null)!==false;
+                    }
                 }
             },
             COLLIST:{
@@ -31540,6 +31557,13 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                         
                         return false;
                         break;
+                    }
+                },
+                onContextmenu:function(profile, e, src){
+                    if(profile.onContextmenu){
+                        var sid=profile.getSubId(src);
+                        // cell or row
+                        return profile.boxing().onContextmenu(profile, e, src,sid?(profile.cellMap[sid]||profile.rowMap[sid]):null)!==false;
                     }
                 }
             }
