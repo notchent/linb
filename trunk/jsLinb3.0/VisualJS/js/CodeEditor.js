@@ -57,6 +57,9 @@ Class("VisualJS.CodeEditor", ["linb.UI.Widget","linb.absValue"] ,{
                     cm.focus();
                     cm.selectLines(elem.previousSibling, 0, elem2, 0);
                 }
+                var doc=win.document;
+                if(doc.body.scrollLeft)doc.body.scrollLeft=0;
+                if(doc.documentElement.scrollLeft)doc.documentElement.scrollLeft=0;
             }
         },
         // add code to a hash
@@ -82,6 +85,11 @@ Class("VisualJS.CodeEditor", ["linb.UI.Widget","linb.absValue"] ,{
                     cm.selectLines(elem)
                     var cursor=cm.getSearchCursor("{",true);
                     if(cursor)cursor.select();
+                    
+                    var doc=win.document;
+                    if(doc.body.scrollLeft)doc.body.scrollLeft=0;
+                    if(doc.documentElement.scrollLeft)doc.documentElement.scrollLeft=0;
+
                 }
             }
         },

@@ -1887,10 +1887,7 @@ Class('VisualJS.Designer', 'linb.Com',{
                     
                     if(!page._cls.Instance[funname]){
                          var code = funname + " : " + o.ini.toString().replace(/\s*\}$/,'') + 
-                             '\n'+_.str.repeat(' ',4) + "var ns = this,"+
-                             '\n'+_.str.repeat(' ',8) + "uictrl = profile.boxing(),"+
-                             '\n'+_.str.repeat(' ',8) + "prop = profile.properties,"+
-                             '\n'+_.str.repeat(' ',8) + "uicls = profile.box;" +
+                             '\n'+_.str.repeat(' ',4) + "var ns = this, uictrl = profile.boxing();"+
                              '\n}';
                          page.addCode(o.path, funname, code);
                     }

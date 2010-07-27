@@ -43,9 +43,9 @@ Class('VisualJS.PageEditor', 'linb.Com',{
                 .setHost(host,"toolbar4")
                 .setItems([
                     {"id":"fun","sub":[
-                            {"id":"searchreplace","caption":"$VisualJS.pageEditor.searchreplace","image":'@CONF.img_app',"imagePos":"0 -48px","type":"button","tips":"$VisualJS.pageEditor.replacetips"},
-                            {"id":"jumpto","caption":"$VisualJS.pageEditor.jumpto","image":'@CONF.img_app',"imagePos":"0 -48px","type":"button","tips":"$VisualJS.pageEditor.jumptotips"},
-                            {"id":"indentall","caption":"$VisualJS.pageEditor.indentall","image":'@CONF.img_app',"imagePos":"0 -48px","type":"button","tips":"$VisualJS.pageEditor.indentalltips"},
+                            {"id":"searchreplace","caption":"$VisualJS.pageEditor.searchreplace","image":'@CONF.img_app',"imagePos":"-240px -48px","type":"button","tips":"$VisualJS.pageEditor.replacetips"},
+                            {"id":"jumpto","caption":"$VisualJS.pageEditor.jumpto","image":'@CONF.img_app',"imagePos":"-160px -48px","type":"button","tips":"$VisualJS.pageEditor.jumptotips"},
+                            {"id":"indentall","caption":"$VisualJS.pageEditor.indentall","image":'@CONF.img_app',"imagePos":"-224px -48px","type":"button","tips":"$VisualJS.pageEditor.indentalltips"},
                             {"id":"progress", "object":(new linb.UI.Image({src:'img/progress.gif'})).setHost(host,"imgProgress")}
                         ]
                     }
