@@ -695,6 +695,7 @@ Class('linb.UI.ColorPicker', ['linb.UI',"linb.absValue"], {
         _C16:"0123456789ABCDEF",
         //for drag rgb span
         _dd1:function(profile, e, src, hsv){
+            if(linb.Event.getBtn(e)!="left")return;
             var p=profile.properties,
                 cls=profile.box,
                 f=function(){var rgb = cls.hex2rgb(profile.$tempValue||p.$UIvalue); return hsv?cls.rgb2hsv(rgb):rgb;};

@@ -51,7 +51,7 @@ Class('App', 'linb.Com',{
                 return new linb.Template('<div> <div>{p1} was loaded!</div></div>',{p1:'template'});
             case 'ui':
                 var btn1=new linb.UI.Button({caption:'button 1',position:'relative'}),
-                    btn2=new linb.UI.ComboInput({type:'colorpicker',position:'relative'})
+                    btn2=new linb.UI.ComboInput({type:'color',position:'relative'})
                 return btn1.merge(btn2);
             case 'arr':
                 return [{id:'suba',caption:'sub item a'}, {id:'subb',caption:'sub item b'}];

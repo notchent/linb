@@ -21,18 +21,18 @@
         },
         {
             "id" : "col4",
-            "caption" : "colorpicker",
-            "type" : "colorpicker"
+            "caption" : "color",
+            "type" : "color"
         },
         {
             "id" : "col5",
-            "caption" : "datepicker",
-            "type" : "datepicker"
+            "caption" : "date",
+            "type" : "date"
         },
         {
             "id" : "col6",
-            "caption" : "timepicker",
-            "type" : "timepicker",
+            "caption" : "time",
+            "type" : "time",
             "width" : 50
         },
         {

@@ -47,8 +47,8 @@ Class('App', 'linb.Com',{
                 },
                 {
                     "id" : "col4",
-                    "caption" : "colorpicker",
-                    "type" : "colorpicker"
+                    "caption" : "color",
+                    "type" : "color"
                 }
             ])
             .setRows([
@@ -66,7 +66,7 @@ Class('App', 'linb.Com',{
                     cells:[
                         'type in cell',
                         {value:true,type:'checkbox'},
-                        {value:'#F00FFF',type:'colorpicker'},
+                        {value:'#F00FFF',type:'color'},
                         {value:'def',type:'input'}
                     ]
                 }

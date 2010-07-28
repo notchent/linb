@@ -312,6 +312,7 @@ Class('linb.UI.TimePicker', ['linb.UI',"linb.absValue"], {
             KEY:{onClick:function(){return false}},
             HOUR:{
                 onMousedown:function(profile, e, src){
+                    if(linb.Event.getBtn(e)!="left")return;
                     linb(src).startDrag(e, {
                         dragType:'blank',
                         targetReposition:false,

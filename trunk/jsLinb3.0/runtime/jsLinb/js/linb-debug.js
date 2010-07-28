@@ -218,7 +218,7 @@ _.merge(_,{
     df:default return vale
     */
     tryF:function(fun, args, scope, df){
-        return (fun && typeof fun=='function') ? fun.apply(scope||null, args||[]) : df
+        return (fun && typeof fun=='function') ? fun.apply(scope||{}, args||[]) : df
     },
     /*asynchronous run function
     fun:target function
@@ -1489,7 +1489,7 @@ Class('linb.absIO',null,{
             return obj;
         },
         _if:function(doc,id,onLoad){
-            var e=linb.browser.ie,n = doc.createElement(e?"<iframe name='"+id+"' "+(onLoad?"onload='linb.IAjax._o(\""+id+"\")'":"")+">":"iframe"),w;
+            var e=linb.browser.ie && parseInt(linb.browser.ver)<9,n = doc.createElement(e?"<iframe name='"+id+"' "+(onLoad?"onload='linb.IAjax._o(\""+id+"\")'":"")+">":"iframe"),w;
             if(id)n.id=n.name=id;
             if(!e&&onLoad)n.onload=onLoad;
             n.style.display = "none";
@@ -12415,7 +12415,7 @@ Class("linb.UI",  "linb.absObj", {
                         t.afterKeydown = null;
                     else{
                         t.afterKeydown = function(profile, e, src){
-                            var k=linb.Event.getKey(e), key = k.key, ctrl=k.ctrlKey, shift=k.shiftKey, alt=k.altKey, b=false, smartnav=profile.properties.tag=="smartnav";
+                            var k=linb.Event.getKey(e), key = k.key, ctrl=k.ctrlKey, shift=k.shiftKey, alt=k.altKey, b=false, smartnav=profile._smartnav;
                             if(smartnav){
                                 var node=linb.use(src).get(0);
                                 if(m2[k=node.tagName.toLowerCase()]){
@@ -14049,12 +14049,14 @@ Class("linb.absValue", "linb.absObj",{
                 var prop=profile.properties, r,
                     ovalue = prop.$UIvalue,
                     box = profile.boxing();
+
                 if(ovalue !== value || force){
                     if(
                         false===profile.box._checkValid(profile, value) ||
                         (profile.beforeUIValueSet && false===(r=box.beforeUIValueSet(profile, ovalue, value)))
                       )
                         return;
+
                     //can get return value
                     if(r!==undefined && typeof r!=='boolean')value=r;
                     //before _setCtrlValue
@@ -14063,12 +14065,17 @@ Class("linb.absValue", "linb.absObj",{
                     if(typeof(r=profile.$onValueUpdated)=='function')r.call(profile,value);
                     //before value copy
                     if(profile.renderId)box._setCtrlValue(value);
+                    
                     //value copy
                     prop.$UIvalue = value;
 
                     if(profile.renderId)box._setDirtyMark();
+                    
                     if(profile.afterUIValueSet)box.afterUIValueSet(profile, ovalue, value);
                     if(profile.onChange)box.onChange(profile, ovalue, value);
+
+                    if(!prop.dirtyMark)
+                        box.setValue(value);
                 }
             });
             return this;
@@ -15778,6 +15785,7 @@ Class("linb.UI.Resizer","linb.UI",{
         },
         //
         _onMousedown:function(profile, e, src, ddparas){
+            if(linb.Event.getBtn(e)!="left")return;
             var puip=profile.$parentUIProfile;
             if(puip && puip['linb.UIProfile'] && puip.beforeResizerDrag && false=== _.tryF(puip.beforeResizerDrag,[puip,profile,ddparas],puip.boxing()))
                 return;
@@ -17070,6 +17078,7 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
                     linb.Thread.abort(profile.$linbid+':auto');
                 },
                 onMousedown:function(profile, e, src){
+                    if(linb.Event.getBtn(e)!="left")return;
                     var p=profile.properties,
                         type=p.type=='vertical',
                         k2=type?'offsetTop':'offsetLeft',
@@ -17122,6 +17131,7 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
                     linb.Thread.abort(profile.$linbid+':auto');
                 },
                 onMousedown:function(profile, e, src){
+                    if(linb.Event.getBtn(e)!="left")return;
                     var p=profile.properties,
                         type=p.type=='vertical',
                         k2=type?'offsetTop':'offsetLeft',
@@ -17615,6 +17625,13 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
                         k=evt.getKey(e);
                     if(p.disabled || p.readonly)return;
 
+                    if(k.key=='esc'){
+                        profile.boxing().setUIValue(p.value,true);
+                        if(profile.onCancel)
+                            profile.boxing().onCancel(profile);
+                        return false;
+                    }
+
                     //fire onchange first
                     if(k.key=='enter'&& (!m||k.altKey))
                         linb.use(src).onChange();
@@ -17825,6 +17842,7 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
         EventHandlers:{
             onFocus:function(profile){},
             onBlur:function(profile){},
+            onCancel:function(profile){},
             beforeFormatCheck:function(profile, value){},
             beforeFormatMark:function(profile, formatErr){},
             beforeKeypress:function(profile,caret,keyboard,e,src){}
@@ -17886,9 +17904,11 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
                 ns.$ondestory=function(){
                     var ns=this,
                         src=ns.getSubNode('INPUT').get(0);
-                    src.detachEvent("onpropertychange",f);
-                    src.detachEvent("ondrop",f);
-                    src=null;
+                    if(src){
+                        src.detachEvent("onpropertychange",f);
+                        src.detachEvent("ondrop",f);
+                        src=null;
+                    }
                 }
             }else{
                 src.addEventListener("input",f,false);
@@ -17900,11 +17920,13 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
                 ns.$ondestory=function(){
                     var ns=this,
                         src=ns.getSubNode('INPUT').get(0);
-                    src.removeEventListener("input",f,false);
-                    src.removeEventListener("drop",f,false);
-                    if(linb.browser.gek)
-                        src.removeEventListener("dragdrop",f,false);
-                    src=null;
+                    if(src){
+                        src.removeEventListener("input",f,false);
+                        src.removeEventListener("drop",f,false);
+                        if(linb.browser.gek)
+                            src.removeEventListener("dragdrop",f,false);
+                        src=null;
+                    }
                 }
             }
             src=null;
@@ -18751,7 +18773,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                 v = arguments.callee.upper.apply(this,arguments);
             if(n.$isNumber)
                 v = _.isNumb(parseFloat(v))?parseFloat(v):null;
-            else if(p.type=='datepicker')
+            else if(p.type=='datepicker'||p.type=='date')
                 v = v?new Date(parseInt(v)):null;
             return v;
         },
@@ -18761,7 +18783,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                 v = arguments.callee.upper.apply(this,arguments);
             if(n.$isNumber)
                 v = _.isNumb(parseFloat(v))?parseFloat(v):null;
-            else if(p.type=='datepicker')
+            else if(p.type=='datepicker'||p.type=='date')
                 v = v?new Date(parseInt(v)):null;
             return v;
         },
@@ -18779,7 +18801,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                 value=flag?value:profile.boxing().getShowValue(value);
                 if(type!=='none'&& !profile.properties.multiLines && typeof value=='string' && r1.test(value))value=value.replace(r2,'');
                 o.attr('value',value||'');
-                if(type=='colorpicker')
+                if(type=='colorpicker'||type=='color')
                     o.css({backgroundColor:value, color:linb.UI.ColorPicker.getTextColor(value)});
             })
         },
@@ -18923,8 +18945,11 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                 if(cacheDrop){
                     switch(type){
                         case 'timepicker':
+                        case 'time':
                         case 'datepicker':
+                        case 'date':
                         case 'colorpicker':
+                        case 'color':
                             cachekey=type;
                             break;
                         default:
@@ -18975,6 +19000,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                                 return b2._cache();
                             });
                             break;
+                        case 'time':
                         case 'timepicker':
                             o = linb.create('TimePicker').render();
                             o.setHost(profile);
@@ -18986,6 +19012,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                                 return b2._cache();
                             });
                             break;
+                        case 'date':
                         case 'datepicker':
                             o = linb.create('DatePicker').render();
                             o.setHost(profile);
@@ -18998,7 +19025,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                             });
 
                             break;
-
+                        case 'color':
                         case 'colorpicker':
                             o = linb.create('ColorPicker').render();
                             o.setHost(profile);
@@ -19028,15 +19055,18 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                     case 'listbox':
                     case 'helpinput':
                         o.setWidth(profile.properties.dropListWidth || profile.getRoot().width());
+                    case 'time':
                     case 'timepicker':
                         o.setValue(profile.properties.$UIvalue, true);
                         break;
+                    case 'date':
                     case 'datepicker':
                         var t = profile.$drop.properties;
                         t.WEEK_FIRST=pro.WEEK_FIRST;
                         if(t=profile.properties.$UIvalue)
                             o.setValue(new Date( parseInt(t) ), true);
                         break;
+                    case 'color':
                     case 'colorpicker':
                         o.setValue(profile.properties.$UIvalue.replace('#',''), true);
                         break;
@@ -19118,7 +19148,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
             if(value!='listbox' && value!='combobox' && value!='helpinput')
                 pro.items=[];
 
-            if(value=='timepicker'){
+            if(value=='timepicker' || value=='time'){
                 var keymap={a:1,c:1,v:1,x:1};
                 _.merge(profile,{
                     $beforeKeypress : function(profile,c,k){
@@ -19135,7 +19165,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                         return v;
                     }
                 },'all');
-            }else if(value=='datepicker'){
+            }else if(value=='datepicker' || value=='date'){
                 var date=linb.Date;
                 var keymap={a:1,c:1,v:1,x:1};
                 _.merge(profile,{
@@ -19445,7 +19475,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                     b._asyCheck(profile);
 
                     var key=linb.Event.getKey(e);
-                    if(key.type=='down'|| key.type=='up'){
+                    if(key.key=='down'|| key.key=='up'){
                         if(p.type=='spin'){
                             linb.Thread.abort(profile.$linbid+':spin');
                             return false;
@@ -19505,12 +19535,18 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                     b._asyCheck(profile);
                 },
                 onKeydown : function(profile, e, src){
-                   var  p=profile.properties,
-                    b=profile.box,
+                   var  p=profile.properties;
+                   if(p.disabled || p.readonly)return;
+                   var b=profile.box,
                         m=p.multiLines,
                         evt=linb.Event,
                         k=evt.getKey(e);
-                    if(p.disabled || p.readonly)return;
+                    if(k.key=='esc'){
+                        profile.boxing().setUIValue(p.value,true);
+                        if(profile.onCancel)
+                            profile.boxing().onCancel(profile);
+                        return false;
+                    }
 
                     //fire onchange first
                     if(k.key=='enter' && (!m||k.altKey) && !p.inputReadonly && !profile.$inputReadonly)
@@ -19597,6 +19633,11 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
             helpinput:'-16px -46px',
             cmdbox:'left -16px',
             popbox:'left -46px',
+            time:'left -60px',
+            date:'left -75px',
+            color:'-16px -60px',
+ 
+            // Deprecated
             timepicker:'left -60px',
             datepicker:'left -75px',
             colorpicker:'-16px -60px'
@@ -19646,7 +19687,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
             },
             type:{
                 ini:'combobox',
-                listbox:_.toArr('none,combobox,listbox,upload,getter,helpinput,cmdbox,popbox,timepicker,datepicker,colorpicker,spin,currency,number'),
+                listbox:_.toArr('none,combobox,listbox,upload,getter,helpinput,cmdbox,popbox,date,time,color,spin,currency,number'),
                 set:function(value){
                     var pro=this;
                     pro.properties.type=value;
@@ -19821,6 +19862,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
             if(!_.isSet(value) || value==='')return '';
 
             switch(profile.properties.type){                
+                case 'date':
                 case 'datepicker':
                     var d;
                     if(value){
@@ -19830,8 +19872,10 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                             d=new Date(parseInt(value));
                     }
                     return d?String(linb.Date.getTimSpanStart(d,'d',1).getTime()):"";;
+                case 'color':
                 case 'colorpicker':
                     return '#'+linb.UI.ColorPicker._ensureValue(null,value);
+                case 'time':
                 case 'timepicker':
                     return linb.UI.TimePicker._ensureValue(null,value);
                 case 'currency':
@@ -19846,8 +19890,13 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
         _number:function(profile, value){
             var prop=profile.properties;
             value=parseFloat(value+"")||0;
-            value=value>prop.max?prop.max:value<prop.min?prop.min:value;
-            return value.toFixed(prop.precision);
+            if(_.isSet(prop.max))
+                value=value>prop.max?prop.max:value;
+            if(_.isSet(prop.min))
+                value=value<prop.min?prop.min:value;
+            if(_.isSet(prop.precision))
+                value=value.toFixed(prop.precision);
+            return value;
             //var n=Math.pow(10,Math.max(parseInt(prop.precision)||0,0));
             //value=(+value||0);
             //value=Math.ceil((value-0.0000000000003)*n)/n;
@@ -19855,7 +19904,10 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
         _currency:function(profile, value){
             var prop=profile.properties,min=Math.max(prop.min,0);
             value=parseFloat((value+"").replace(/,/g,''))||0;
-            value=value>prop.max?prop.max:value<min?min:value;
+            if(_.isSet(prop.max))
+                value=value>prop.max?prop.max:value;
+            if(_.isSet(prop.min))
+                value=value<prop.min?prop.min:value;
             return this.formatCurrency(value);
         },
         formatCurrency:function(value){
@@ -20886,6 +20938,7 @@ Class("linb.UI.Group", "linb.UI.Div",{
         _C16:"0123456789ABCDEF",
         //for drag rgb span
         _dd1:function(profile, e, src, hsv){
+            if(linb.Event.getBtn(e)!="left")return;
             var p=profile.properties,
                 cls=profile.box,
                 f=function(){var rgb = cls.hex2rgb(profile.$tempValue||p.$UIvalue); return hsv?cls.rgb2hsv(rgb):rgb;};
@@ -21592,6 +21645,7 @@ Class("linb.UI.Group", "linb.UI.Div",{
             },
             YEAR:{
                 onMousedown:function(profile, e, src){
+                    if(linb.Event.getBtn(e)!="left")return;
                     linb.use(src).startDrag(e, {
                         dragType:'blank',
                         targetReposition:false,
@@ -21619,6 +21673,7 @@ Class("linb.UI.Group", "linb.UI.Div",{
             },
             MONTH:{
                 onMousedown:function(profile, e, src){
+                    if(linb.Event.getBtn(e)!="left")return;
                     linb.use(src).startDrag(e, {
                         dragType:'blank',
                         targetReposition:false,
@@ -22078,6 +22133,7 @@ Class("linb.UI.Group", "linb.UI.Div",{
             KEY:{onClick:function(){return false}},
             HOUR:{
                 onMousedown:function(profile, e, src){
+                    if(linb.Event.getBtn(e)!="left")return;
                     linb(src).startDrag(e, {
                         dragType:'blank',
                         targetReposition:false,
@@ -28457,6 +28513,7 @@ Class("linb.UI.Layout",["linb.UI", "linb.absList"],{
             onSize:linb.UI.$onSize,
             MOVE:{
                 onMousedown:function(profile, e, src){
+                    if(linb.Event.getBtn(e)!="left")return;
                     var itemId = profile.getSubId(src),
                         item = profile.getItemByDom(src);
                     if(item.folded)return;
@@ -28558,6 +28615,7 @@ Class("linb.UI.Layout",["linb.UI", "linb.absList"],{
             },
             CMD:{
                 onMousedown:function(profile, e, src){
+                    if(linb.Event.getBtn(e)!="left")return;
                     var t=profile.properties,
                         itemId = profile.getSubId(src),
                         item = profile.getItemByDom(src),
@@ -29172,6 +29230,7 @@ Class("linb.UI.ColLayout",["linb.UI","linb.absList"],{
             DroppableKeys:['KEY'],
             MOVE:{
                 onMousedown:function(profile, e, src){
+                    if(linb.Event.getBtn(e)!="left")return;
                     var pro=profile.properties;
                     if(pro.disabled)return;
                     
@@ -29664,7 +29723,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
         isDirtied:function(){
             var dirty=false;
             _.each(this.get(0).cellMap,function(v){
-                if(v._value!==v.value){
+                if(v.oValue!==v.value){
                     dirty=true;
                     return false;
                 }
@@ -29697,12 +29756,36 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
             return this;
 
         },
-        getRowbyRowId:function(rowId){
+        getRowbyRowId:function(rowId, type){
             var profile=this.get(0),v=profile.rowMap2[rowId];
-            return v?profile.rowMap[v]:null;
+            v=v?profile.rowMap[v]:null;
+            if(v){
+                if(type=='data')
+                    return _.clone(v,true);
+                else if(type=='min'){
+                    var a=_.clone(v,true),b;
+                    _.each(b=a=a.cells,function(v,j){
+                        b[j] = v.value;
+                    });
+                    return a;
+                }else
+                    return v;
+            }
         },
-        getRowbyCell:function(cell){
-            return cell._row;
+        getRowbyCell:function(cell, type){
+            var v=cell._row;
+            if(v){
+                if(type=='data')
+                    return _.clone(v,true);
+                else if(type=='min'){
+                    var a=_.clone(v,true),b;
+                    _.each(b=a=a.cells,function(v,j){
+                        b[j] = v.value;
+                    });
+                    return a;
+                }else
+                    return v;
+            }          
         },
         updateRow:function(rowId,options){
             var ns=this, orow=ns.getRowbyRowId(rowId);
@@ -29973,24 +30056,28 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
         resetRowValue:function(rowId){
             var profile=this.get(0),row=this.getRowbyRowId(rowId),arr=[];
             _.arr.each(row.cells,function(o){
-                if(o._value!==o.value){
-                    o._value=o.value;
+                if(o.oValue!==o.value){
+                    o.oValue=o.value;
                     delete o.dirty;
-                    arr.push(profile.getSubNode('CELLA',o._serialId).get(0));
+                    if(profile.properties.dirtyMark)
+                        arr.push(profile.getSubNode('CELLA',o._serialId).get(0));
                 }
             });
-            linb(arr).removeClass('ui-dirty');
+            if(profile.properties.dirtyMark)
+                linb(arr).removeClass('ui-dirty');
         },
         resetColValue:function(colId){
             var profile=this.get(0),col=this.getHeaderByColId(colId),arr=[];
             _.arr.each(col.cells,function(o){
-                if(o._value!==o.value){
-                    o._value=o.value;
+                if(o.oValue!==o.value){
+                    o.oValue=o.value;
                     delete o.dirty;
-                    arr.push(profile.getSubNode('CELLA',o._serialId).get(0));
+                    if(profile.properties.dirtyMark)
+                        arr.push(profile.getSubNode('CELLA',o._serialId).get(0));
                 }
             });
-            linb(arr).removeClass('ui-dirty');
+            if(profile.properties.dirtyMark)
+                linb(arr).removeClass('ui-dirty');
         },
         getActiveRow:function(){
             var ar,profile=this.get(0);
@@ -30118,6 +30205,16 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
             v=_.get(profile.rowMap,[profile.rowMap2[rowId], '_cells',colId]);
             return v?profile.cellMap[v]:null;
         },
+        getCells:function(rowId, colId){
+            var map={};
+            _.each(this.get(0).cellMap,function(v){
+                if((rowId?(rowId==v._row.id):1) && (colId?(colId==v._col.id):1)){
+                    map[v.id]={rowId:v._row.id, colId:v._col.id, value:v.value, oValue:v.oValue};
+                }
+            });
+            //dont return inner value
+            return map;
+        },
         updateCellByRowCol:function(rowId, colId, options, dirtyMark, triggerEvent){
             var t,self=this,con=self.constructor;
             if(t=con._getCellId(self.get(0), rowId, colId))
@@ -30183,17 +30280,18 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
         resetGridValue:function(){
             return this.each(function(profile){
                 _.each(profile.cellMap,function(v){
-                    v._value=v.value;
+                    v.oValue=v.value;
                     delete v.dirty;
                 });
-                profile.getSubNode('CELLA',true).removeClass('ui-dirty');
+                if(profile.properties.dirtyMark)
+                    profile.getSubNode('CELLA',true).removeClass('ui-dirty');
             })
         },
         getDirtied:function(rowId, colId){
             var map={};
             _.each(this.get(0).cellMap,function(v){
-                if(v._value!==v.value &&(rowId?(rowId==v._row.id):1) &&(colId?(colId==v._col.id):1)){
-                    map[v.id]={rowId:v._row.id, colId:v._col.id, oldValue:v.value, newValue:v._value};
+                if(v.oValue!==v.value &&(rowId?(rowId==v._row.id):1) &&(colId?(colId==v._col.id):1)){
+                    map[v.id]={rowId:v._row.id, colId:v._col.id, value:v.value, oValue:v.oValue};
                 }
             });
             //dont return inner value
@@ -32049,31 +32147,43 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                         "")
                     // default value
                     ) || ""}),
-                f1=me._f1=(me._f1=function(v){return v?linb.Date.getText(new Date(parseInt(v)), 'ymd'):""}),
-                f2=me._f2=(me._f2=function(v){return (v.split('\n')[0]||"").replace(/ /g,'&nbsp;').replace(reg1,'&lt;')}),
-                f3=me._f3=(me._f3=function(v){return v*1000/10+'%'}),
-                f4=me._f4=(me._f4=function(v){v=v.toFixed(2);v= v.split(".");v[0]=v[0].split("").reverse().join("").replace(/(\d{3})(?=\d)/g, "$1,").split("").reverse().join(""); return v.join(".")})
+                f0=me._f0=(me._f0=function(v){
+                    v=_.isDate(v)?v:(_.isSet(v)&&isFinite(v))?new Date(parseInt(v)):null; 
+                    return v?linb.Date.getText(v,'ymdhn'):""
+                }),
+                f1=me._f1=(me._f1=function(v){v=_.isDate(v)?v:(_.isSet(v)&&isFinite(v))?new Date(parseInt(v)):null; return v?linb.Date.getText(v,'ymd'):""}),
+                f2=me._f2=(me._f2=function(v){return v?(v.split('\n')[0]||"").replace(/ /g,'&nbsp;').replace(reg1,'&lt;'):""}),
+                f3=me._f3=(me._f3=function(v){if(!v&&v!==0)v=0; return (v*1000/10)+'%'}),
+                f5=me._f5=(me._f5=function(v){if(!v&&v!==0)v=0; return v+''}),
+                f4=me._f4=(me._f4=function(v){if(!v&&v!==0)v=0; v=v.toFixed(2);v= v.split(".");v[0]=v[0].split("").reverse().join("").replace(/(\d{3})(?=\d)/g, "$1,").split("").reverse().join(""); return v.join(".")})
             ;
 
             switch(type){
                 case 'number':
                 case 'spin':
                     var v=parseFloat(cell.value);
-                    cell.value=(v||v===0)?v:"";
-                    caption= capOut ||ren(profile,cell,ncell);
+                    cell.value=(v||v===0)?v:0;
+                    caption= capOut ||ren(profile,cell,ncell,f5);
                     if(dom)
                         node.html(caption,false);
                 break;
                 case 'currency':
                     var v=parseFloat((cell.value+"").replace(/,/,''));
-                    cell.value=(v||v===0)?v:"";
+                    cell.value=(v||v===0)?v:0.00;
                     caption= capOut ||ren(profile,cell,ncell,f4);
                     if(dom)
                         node.html(caption,false);
                 break;
+                case 'date':
                 case 'datepicker':
                     cell.value= +linb.Date.parse(cell.value) + "";
                     caption= capOut || ren(profile,cell,ncell,f1);
+                    if(dom)
+                        node.html(caption, false);
+                break;
+                case 'datetime':
+                    cell.value= +linb.Date.parse(cell.value) + "";
+                    caption= capOut || ren(profile,cell,ncell,f0);
                     if(dom)
                         node.html(caption, false);
                 break;
@@ -32083,6 +32193,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                     if(dom)
                         node.html(caption,false);
                 break;
+                case 'color':
                 case 'colorpicker':
                     cell.value="#"+linb.UI.ColorPicker._ensureValue(0,cell.value);
                     caption= capOut ||ren(profile,cell,ncell);
@@ -32138,6 +32249,7 @@ editorListItems
 editorFormat
 editorMask
 editorProperties
+editorEvents
 editorReadonly
 editorDropListWidth
 editorDropListHeight
@@ -32285,7 +32397,7 @@ sortby [for column only]
             //first
             linb.UI.adjustData(profile, cell, uicell);
             //next
-            cell._value=cell.value;
+            cell.oValue=cell.value;
 
             if(!uicell.width)uicell.width=col.width;
             uicell._tabindex=pro.tabindex;
@@ -32419,9 +32531,9 @@ sortby [for column only]
             //if update value
             if('value' in options){
                 if(!pdm || dirtyMark===false)
-                    cell._value=cell.value;
+                    cell.oValue=cell.value;
                 else{
-                    if(cell.value===cell._value){
+                    if(cell.value===cell.oValue){
                         node.removeClass('ui-dirty');
                         delete cell.dirty;
                     }else{
@@ -32546,7 +32658,10 @@ sortby [for column only]
         },
         getCellPro:function(profile, cell, key){
             var t=cell;
-            return (key in t)?t[key]:((t=cell._row)&&(key in t))? t[key]:((t=cell._col)&&(key in t))?t[key]:((t=profile.properties)&&(key in t))?t[key]:null;
+            return (t && t.hasOwnProperty(key)&&_.isSet(t[key]))?t[key]
+                    :((t=cell._row)&&t.hasOwnProperty(key)&&_.isSet(t[key]))? t[key]
+                    :((t=cell._col)&&t.hasOwnProperty(key)&&_.isSet(t[key]))?t[key]
+                    :((t=profile.properties)&&t.hasOwnProperty(key)&&_.isSet(t[key]))?t[key]:null;
         },
         _editCell:function(profile, cellId){
             var cell = typeof cellId=='string'?profile.cellMap[cellId]:cellId;
@@ -32591,6 +32706,9 @@ sortby [for column only]
                     if(editor===false)
                         return;
                 }
+                if(type=='custom'||type=='datetime')
+                    return;
+
                 if(!editor || !editor['linb.UI'])
                     editor=new linb.UI.ComboInput({dirtyMark:false,cachePopWnd:false,left:-1000,top:-1000,position:'absolute',visibility:'hidden',zIndex:100});
                 switch(type){
@@ -32614,8 +32732,11 @@ sortby [for column only]
                     case 'listbox':
                     case 'combobox':
                     case 'helpinput':
+                    case 'time':
                     case 'timepicker':
+                    case 'date':
                     case 'datepicker':
+                    case 'color':
                     case 'colorpicker':
                     case 'getter':
                     case 'popbox':
@@ -32650,23 +32771,22 @@ sortby [for column only]
                         editor.setListKey(t);
                     }
                     break;
+                case 'cmdbox':
+                case 'popbox':
+                    // reset Caption
+                    if(editor.setCaption)
+                        editor.setCaption(cell.caption||"");
             }
-            //$editorValue must be set in beforeIniEditor
-            editor.setValue(cell.$editorValue||cell.value,true);
-            delete cell.$editorValue;
 
-            var editorProperties= getPro('editorProperties'),
+            var editorProperties=getPro('editorProperties'),
+                editorEvents=getPro('editorEvents'),
+            
                 editorFormat = getPro('editorFormat'),
                 editorMask =  getPro('editorMask'),
                 editorReadonly = getPro('editorReadonly'),
                 editorDropListWidth = getPro('editorDropListWidth'),
                 editorDropListHeight = getPro('editorDropListHeight');
 
-            //$tag
-            if(cell.$tag){
-                if(editor.setCaption)editor.setCaption(cell.$tag);
-                else if(editor.setValue)editor.setValue(cell.$tag);
-            }
             if(editor.setInputReadonly && editorReadonly){
                 editor.setInputReadonly(true);
             }
@@ -32685,13 +32805,32 @@ sortby [for column only]
             if(editorMask && editor.setMask){
                 editor.setMask(editorMask);
             }
+            var oldProp;
             if(editorProperties){
+                oldProp={}
+                var h=profile.getProperties();
+                _.each(editorProperties,function(o,i){
+                    oldProp=h[i];
+                });
                 editor.setProperties(editorProperties);
+            }
+            if(editorEvents){
+                editor.setEvents(editorEvents);
+            }
+
+            //$editorValue must be set in beforeIniEditor
+            editor.setValue(cell.$editorValue||cell.value,true);
+            delete cell.$editorValue;
+
+            //$tag
+            if(cell.$tag){
+                if(editor.setCaption)editor.setCaption(cell.$tag);
+                else if(editor.setValue)editor.setValue(cell.$tag);
             }
 
             //give a reference
             editor.get(0).$cell = cell;
-            editor.setTag("smartnav");
+            editor.get(0)._smartnav=true;
             //undo function is a must
             editor.undo=function(){
                 var editor=this;
@@ -32702,13 +32841,36 @@ sortby [for column only]
 
                 editor.getRoot().setBlurTrigger(profile.$linbid);
                 if(!profile.properties.directInput){
-                    editor.afterUIValueSet(null).beforeNextFocus(null);
-                    if(editor.beforeFormatCheck)editor.beforeFormatCheck(null);
-                    if(editor.setValueFormat)editor.setValueFormat('');
-                    if(editor.setMask)editor.setMask('');
+                    editor.afterUIValueSet(null).beforeNextFocus(null).onCancel(null);                    
                     editor.setValue('',true);
                 }
+                // clear those setting
+                if(editorFormat){
+                    if(editor.beforeFormatCheck)editor.beforeFormatCheck(null);
+                    if(editor.setValueFormat)editor.setValueFormat('');
+                }
+                if(editorMask)
+                    if(editor.setMask)editor.setMask('');
+                if(editorReadonly)
+                    if(editor.setInputReadonly)editor.setInputReadonly(false);
+                if(editorDropListWidth)
+                    if(editor.setDropListWidth)editor.setDropListWidth(0);
+                if(editorDropListHeight)
+                    if(editor.setDropListHeight)editor.setDropListHeight(0);
+                if(oldProp){
+                    editor.setProperties(oldProp);
+                    oldProp=null;
+                }
+                if(editorEvents){
+                    var h={};
+                    _.each(editorEvents,function(o,i){
+                        h[i]=null;
+                    });
+                    editor.setEvents(h);
+                }
+                
                 delete editor.get(0).$cell;
+                delete editor.get(0)._smartnav;
                 //don't use disply:none, firfox has many bugs about Caret or renderer
                 editor.reBoxing().hide();
             };
@@ -32733,7 +32895,15 @@ sortby [for column only]
                         _$caption=pro.boxing().getShowValue();
                         break;
                 }
-                grid._updCell(profile, cellId, {value:nV, _$caption:_$caption}, profile.properties.dirtyMark, true);
+                var options={value:nV};
+
+                if(_.isDefined(_$caption))
+                    options.caption=options._$caption=_$caption;
+
+                if(pro.properties.hasOwnProperty("tagVar"))
+                    options.tagVar=pro.properties.tagVar;
+
+                grid._updCell(profile, cellId, options, profile.properties.dirtyMark, true);
             })
             .beforeNextFocus(function(pro, e){
                 if(editor){
@@ -32745,6 +32915,10 @@ sortby [for column only]
                 }
                 //prevent
                 return false;
+            })
+            .onCancel(function(){
+                if(editor)
+                    _.tryF(editor.undo,[],editor);                
             })
             .getRoot().setBlurTrigger(profile.$linbid, function(){
                 if(editor)
@@ -33241,6 +33415,7 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
                     linb.Thread.abort(profile.$linbid+':auto');
                 },
                 onMousedown:function(profile, e, src){
+                    if(linb.Event.getBtn(e)!="left")return;
                     var p=profile.properties,
                         type=p.type=='vertical',
                         k2=type?'offsetTop':'offsetLeft',
@@ -33293,6 +33468,7 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
                     linb.Thread.abort(profile.$linbid+':auto');
                 },
                 onMousedown:function(profile, e, src){
+                    if(linb.Event.getBtn(e)!="left")return;
                     var p=profile.properties,
                         type=p.type=='vertical',
                         k2=type?'offsetTop':'offsetLeft',
@@ -33916,6 +34092,7 @@ if(linb.browser.ie){
             },
             TBAR:{
                 onMousedown:function(profile, e, src){
+                    if(linb.Event.getBtn(e)!="left")return;
                     if(profile.getKey(linb.Event.getSrc(e).parentNode.id)==profile.keys.BARCMDR)return;
 
                     if(profile.properties.movable && !profile._locked){

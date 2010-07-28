@@ -560,6 +560,7 @@ Class("linb.UI.Resizer","linb.UI",{
         },
         //
         _onMousedown:function(profile, e, src, ddparas){
+            if(linb.Event.getBtn(e)!="left")return;
             var puip=profile.$parentUIProfile;
             if(puip && puip['linb.UIProfile'] && puip.beforeResizerDrag && false=== _.tryF(puip.beforeResizerDrag,[puip,profile,ddparas],puip.boxing()))
                 return;

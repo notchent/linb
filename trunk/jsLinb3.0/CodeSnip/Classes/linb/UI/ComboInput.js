@@ -96,7 +96,7 @@ Class('App.linb_UI_ComboInput', 'linb.Com',{
                 .setLeft(32)
                 .setTop(230)
                 .setWidth(104)
-                .setCaption("time picker")
+                .setCaption("time ")
             );
             
             append((new linb.UI.Label)
@@ -104,7 +104,7 @@ Class('App.linb_UI_ComboInput', 'linb.Com',{
                 .setLeft(32)
                 .setTop(260)
                 .setWidth(104)
-                .setCaption("color picker")
+                .setCaption("color ")
             );
             
             append((new linb.UI.Label)
@@ -112,7 +112,7 @@ Class('App.linb_UI_ComboInput', 'linb.Com',{
                 .setLeft(320)
                 .setTop(200)
                 .setWidth(104)
-                .setCaption("date picker")
+                .setCaption("date ")
             );
             
             append((new linb.UI.Label)
@@ -223,7 +223,7 @@ Class('App.linb_UI_ComboInput', 'linb.Com',{
                 .setTop(230)
                 .setTabindex("7")
                 .setBorder(false)
-                .setType("timepicker")
+                .setType("time")
             );
             
             append((new linb.UI.ComboInput)
@@ -232,7 +232,7 @@ Class('App.linb_UI_ComboInput', 'linb.Com',{
                 .setTop(260)
                 .setTabindex("8")
                 .setBorder(false)
-                .setType("colorpicker")
+                .setType("color")
             );
             
             append((new linb.UI.ComboInput)
@@ -295,7 +295,7 @@ Class('App.linb_UI_ComboInput', 'linb.Com',{
                 .setLeft(470)
                 .setTop(200)
                 .setTabindex("14")
-                .setType("datepicker")
+                .setType("date")
                 .setValue("-28800000")
             );
             

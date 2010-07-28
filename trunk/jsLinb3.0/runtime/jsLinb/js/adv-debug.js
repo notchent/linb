@@ -271,8 +271,13 @@ Class("linb.UI.TextEditor", ["linb.UI.Widget","linb.absValue"] ,{
                 src.addEventListener("input",f,false);
                 src.addEventListener("dragdrop",f,false);
                 ns.$ondestory=function(){
-                    src.removeEventListener("input",f,false);
-                    src.addEventListener("dragdrop",f,false);
+                    var ns=this,
+                        src=ns.getSubNode('INPUT').get(0);
+                    if(src){
+                        src.removeEventListener("input",f,false);
+                        src.addEventListener("dragdrop",f,false);
+                        src=null;
+                    }
                 }
                 ns.getSubNode('BOX').$firfox2();
             }
@@ -3536,6 +3541,7 @@ Class("linb.UI.Range", ["linb.UI","linb.absValue"],{
                     profile.box._keydown.apply(profile.box,[profile, e, src,0]);
                 },
                 onMousedown:function(profile, e, src){
+                    if(linb.Event.getBtn(e)!="left")return;
                     var p=profile.properties,
                         box=profile.box,
                         arr = box._v2a(p.$UIvalue);
@@ -3578,6 +3584,7 @@ Class("linb.UI.Range", ["linb.UI","linb.absValue"],{
                     profile.box._keydown.apply(profile.box,[profile, e, src,1]);
                 },
                 onMousedown:function(profile, e, src){
+                    if(linb.Event.getBtn(e)!="left")return;
                     var p=profile.properties,
                         box=profile.box,
                         arr = box._v2a(p.$UIvalue);

@@ -13,17 +13,17 @@
             );
             
             append((new linb.UI.DatePicker)
-                .setHost(host,"datepicker1")
+                .setHost(host,"date1")
                 .setLeft(100)
                 .setTop(100)
                 .setCloseBtn(false)
-                .afterUIValueSet("_datepicker1_aftervalueupdated")
+                .afterUIValueSet("_date1_aftervalueupdated")
             );
             
             return children;
             // ]]code created by jsLinb UI Builder
         }, 
-        _datepicker1_aftervalueupdated:function (profile, oldValue, newValue) {
+        _date1_aftervalueupdated:function (profile, oldValue, newValue) {
             this.div.setHtml(newValue)
         }
     }

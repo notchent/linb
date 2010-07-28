@@ -200,7 +200,7 @@ Class('App', 'linb.Com',{
                 .setTop(40)
                 .setWidth(101)
                 .setInputReadonly(true)
-                .setType("colorpicker")
+                .setType("color")
                 .setValue("#000000")
                 .beforeUIValueSet("_cifontcolor_beforeuivalueset")
             , 'text');
@@ -281,7 +281,7 @@ Class('App', 'linb.Com',{
                 .setTop(43)
                 .setWidth(70)
                 .setZIndex("10")
-                .setType("colorpicker")
+                .setType("color")
                 .setValue("#FFFFFF")
                 .afterUIValueSet("_btnbgfrm_onclick")
             , 'frm');
@@ -438,7 +438,7 @@ Class('App', 'linb.Com',{
                 .setLeft(4)
                 .setTop(40)
                 .setWidth(91)
-                .setType("colorpicker")
+                .setType("color")
                 .afterUIValueSet("_btnbgc_onclick")
             );
 

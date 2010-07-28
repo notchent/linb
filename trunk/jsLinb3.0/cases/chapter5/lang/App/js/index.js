@@ -36,19 +36,19 @@ Class('App', 'linb.Com',{
             );
             
             append((new linb.UI.DatePicker)
-                .setHost(host,"datepicker1")
+                .setHost(host,"date1")
                 .setLeft(500)
                 .setTop(230)
             );
             
             append((new linb.UI.TimePicker)
-                .setHost(host,"timepicker1")
+                .setHost(host,"time1")
                 .setLeft(260)
                 .setTop(230)
             );
             
             append((new linb.UI.ColorPicker)
-                .setHost(host,"colorpicker1")
+                .setHost(host,"color1")
                 .setLeft(40)
                 .setTop(140)
                 .setValue("A0532D")

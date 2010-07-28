@@ -152,9 +152,9 @@ Class('App', 'linb.Com',{
                             else if(t=o.editorListItems)
                                 widget.setItems(t);
                             break;
-                        case 'timepicker':
-                        case 'datepicker':
-                        case 'colorpicker':
+                        case 'time':
+                        case 'date':
+                        case 'color':
                             widget.setType(type);
                             break;
                         case 'getter':

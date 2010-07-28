@@ -7,8 +7,8 @@ header:[
 {"caption":"indoor", "width":50,type:"checkbox"},
 {"caption":"bill2008", "type":"number", "width":50, cellRenderer : function(cell){return '$'+(parseFloat(cell.value)||0)}},
 {"caption":"bill2009", "type":"number", "width":50, cellRenderer : function(cell){return '$'+(parseFloat(cell.value)||0)}},
-{"caption":"orderDate", "type":"datepicker",  "width":70},
-{"caption":"color", "type":"colorpicker",  "width":70},
+{"caption":"orderDate", "type":"date",  "width":70},
+{"caption":"color", "type":"color",  "width":70},
 {"caption":"progress", "type":"progress",  "width":120}
 ],
 

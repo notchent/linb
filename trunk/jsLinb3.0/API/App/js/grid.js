@@ -24,7 +24,7 @@
         {
             "id" : "col4",
             "caption" : "col4",
-            "type" : "colorpicker",
+            "type" : "color",
             "width" : 60
         }
     ],

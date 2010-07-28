@@ -227,8 +227,8 @@ Class('App', 'linb.Com',{
                         },
                         {
                             "id" : "col4",
-                            "caption" : "colorpicker",
-                            "type" : "colorpicker"
+                            "caption" : "color",
+                            "type" : "color"
                         }]
                     ).setRows([{
                         id:'row1',
@@ -239,7 +239,7 @@ Class('App', 'linb.Com',{
                         cells:[{type:'label',value:'type in row'},true,false,true]
                     },{
                         id:'row3',
-                        cells:['type in cell',{value:true,type:'checkbox'},{value:'#F00FFF',type:'colorpicker'},{value:'def',type:'input'}]
+                        cells:['type in cell',{value:true,type:'checkbox'},{value:'#F00FFF',type:'color'},{value:'def',type:'input'}]
                     }]);
                     SPA.tg4.setHeader(['col1','col2','col3','col4'])
                     .setRows([{cells:['11','12','13','14'],sub:new linb.UI.Button({position:'relative'})},{id:'row2',cells:['21','22','23','24'],sub:true},['31','32','33','34'],['41','42','43','44']]);
@@ -329,9 +329,9 @@ Class('App', 'linb.Com',{
                             else if(t=o.editorListItems)
                                 widget.setItems(t);
                             break;
-                        case 'timepicker':
-                        case 'datepicker':
-                        case 'colorpicker':
+                        case 'time':
+                        case 'date':
+                        case 'color':
                             widget.setType(type);
                             break;
                         case 'getter':

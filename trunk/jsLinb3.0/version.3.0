@@ -1,4 +1,4 @@
-UI controls Removed:
+	UI controls Removed:
     linb.UI.LinkList
 
 UI controls Added:
@@ -65,6 +65,7 @@ linb.UI.Dialog
 
 linb.UI.Input/ComboInput
     Added properties: hAlign for text-align
+    Added events: onCancel
 
 linb.UI.ComboInput
     Added funcitons: formatCurrency(static function)
@@ -83,7 +84,7 @@ linb.UI.Panel/linb.UI.Dialog
      Added events:onRefresh
 
 linb.UI.TreeGrid
-     Added functions: getCell, editCell, focusCell, focusCellbyRowCol, getDirtied
+     Added functions: getCell, editCell, focusCell, focusCellbyRowCol, getDirtied, getCells
      Added events: onNewLineTriggerred, afterCellFocused
      Modified funcitons: Add triggerEvent parameter to updateCell function.
     

@@ -3059,7 +3059,7 @@ Class("linb.UI",  "linb.absObj", {
                         t.afterKeydown = null;
                     else{
                         t.afterKeydown = function(profile, e, src){
-                            var k=linb.Event.getKey(e), key = k.key, ctrl=k.ctrlKey, shift=k.shiftKey, alt=k.altKey, b=false, smartnav=profile.properties.tag=="smartnav";
+                            var k=linb.Event.getKey(e), key = k.key, ctrl=k.ctrlKey, shift=k.shiftKey, alt=k.altKey, b=false, smartnav=profile._smartnav;
                             if(smartnav){
                                 var node=linb.use(src).get(0);
                                 if(m2[k=node.tagName.toLowerCase()]){
@@ -4693,12 +4693,14 @@ Class("linb.absValue", "linb.absObj",{
                 var prop=profile.properties, r,
                     ovalue = prop.$UIvalue,
                     box = profile.boxing();
+
                 if(ovalue !== value || force){
                     if(
                         false===profile.box._checkValid(profile, value) ||
                         (profile.beforeUIValueSet && false===(r=box.beforeUIValueSet(profile, ovalue, value)))
                       )
                         return;
+
                     //can get return value
                     if(r!==undefined && typeof r!=='boolean')value=r;
                     //before _setCtrlValue
@@ -4707,12 +4709,17 @@ Class("linb.absValue", "linb.absObj",{
                     if(typeof(r=profile.$onValueUpdated)=='function')r.call(profile,value);
                     //before value copy
                     if(profile.renderId)box._setCtrlValue(value);
+                    
                     //value copy
                     prop.$UIvalue = value;
 
                     if(profile.renderId)box._setDirtyMark();
+                    
                     if(profile.afterUIValueSet)box.afterUIValueSet(profile, ovalue, value);
                     if(profile.onChange)box.onChange(profile, ovalue, value);
+
+                    if(!prop.dirtyMark)
+                        box.setValue(value);
                 }
             });
             return this;

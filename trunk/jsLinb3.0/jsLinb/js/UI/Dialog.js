@@ -406,6 +406,7 @@ if(linb.browser.ie){
             },
             TBAR:{
                 onMousedown:function(profile, e, src){
+                    if(linb.Event.getBtn(e)!="left")return;
                     if(profile.getKey(linb.Event.getSrc(e).parentNode.id)==profile.keys.BARCMDR)return;
 
                     if(profile.properties.movable && !profile._locked){

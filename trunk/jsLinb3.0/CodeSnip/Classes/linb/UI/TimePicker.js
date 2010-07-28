@@ -9,11 +9,11 @@
                 };
             
             append((new linb.UI.TimePicker)
-                .setHost(host,"timepicker1")
+                .setHost(host,"time1")
                 .setLeft(100)
                 .setTop(100)
                 .setCloseBtn(false)
-                .afterUIValueSet("_timepicker1_aftervalueupdated")
+                .afterUIValueSet("_time1_aftervalueupdated")
             );
             
             append((new linb.UI.Div)
@@ -26,7 +26,7 @@
             return children;
             // ]]code created by jsLinb UI Builder
         },
-        _timepicker1_aftervalueupdated:function (profile, oldValue, newValue) {
+        _time1_aftervalueupdated:function (profile, oldValue, newValue) {
             this.div.setHtml(newValue)
         }
     }

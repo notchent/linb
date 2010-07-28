@@ -492,18 +492,18 @@ html, .uibg-base{
 /*linb.UI.DatePicker*/
 /*linb.UI.TimePicker*/
 /*linb.UI.ColorPicker*/
-.linbex-timepicker, .linb-datepicker-body td, .linb-datepicker-body th{
+.linbex-time, .linb-date-body td, .linb-date-body th{
     border-right:1px solid #777778;
     border-bottom:1px solid #777778;
 }
-.linb-datepicker-con, .linb-timepicker-con, .linb-colorpicker-con {
+.linb-date-con, .linb-time-con, .linb-color-con {
     border-left:solid 1px #777778;
     border-top:solid 1px #777778;
 }
-.linb-datepicker-pre, .linb-datepicker-next, .linb-datepicker-pre2, .linb-datepicker-next2{
+.linb-date-pre, .linb-date-next, .linb-date-pre2, .linb-date-next2{
     background-image: url(Public/icons.gif);
 }
-.linb-timepicker-pre, .linb-timepicker-next{
+.linb-time-pre, .linb-time-next{
     background-image: url(Public/icons.gif);
 }
 

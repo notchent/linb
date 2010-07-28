@@ -176,6 +176,7 @@ Class("linb.UI.ColLayout",["linb.UI","linb.absList"],{
             DroppableKeys:['KEY'],
             MOVE:{
                 onMousedown:function(profile, e, src){
+                    if(linb.Event.getBtn(e)!="left")return;
                     var pro=profile.properties;
                     if(pro.disabled)return;
                     

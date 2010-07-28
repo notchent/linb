@@ -175,7 +175,7 @@ Class('App', 'linb.Com',{
                 .setLeft(110)
                 .setTop(140)
                 .setWidth(80)
-                .setType("timepicker")
+                .setType("time")
                 .setItems([{"id":"a", "caption":"item a", "image":"img/demo.gif"}, {"id":"b", "caption":"item b", "image":"img/demo.gif"}, {"id":"c", "caption":"item c", "image":"img/demo.gif"}, {"id":"d", "caption":"item d", "image":"img/demo.gif"}])
                 .setValue("00:00")
             , '2');
@@ -194,7 +194,7 @@ Class('App', 'linb.Com',{
                 .setLeft(110)
                 .setTop(170)
                 .setWidth(80)
-                .setType("colorpicker")
+                .setType("color")
                 .setItems([{"id":"a", "caption":"item a", "image":"img/demo.gif"}, {"id":"b", "caption":"item b", "image":"img/demo.gif"}, {"id":"c", "caption":"item c", "image":"img/demo.gif"}, {"id":"d", "caption":"item d", "image":"img/demo.gif"}])
                 .setValue("#AFFFFF")
             , '2');
@@ -437,7 +437,7 @@ Class('App', 'linb.Com',{
                 .setLeft(20)
                 .setTop(170)
                 .setWidth(80)
-                .setType("datepicker")
+                .setType("date")
                 .setItems([{"id":"a", "caption":"item a", "image":"img/demo.gif"}, {"id":"b", "caption":"item b", "image":"img/demo.gif"}, {"id":"c", "caption":"item c", "image":"img/demo.gif"}, {"id":"d", "caption":"item d", "image":"img/demo.gif"}])
                 .setValue("-28800000")
             , '2');
@@ -492,7 +492,7 @@ Class('App', 'linb.Com',{
             , '1');
             
             host.tabs2.append((new linb.UI.ColorPicker)
-                .setHost(host,"colorpicker1")
+                .setHost(host,"color1")
                 .setLeft(500)
                 .setTop(90)
             , '1');
@@ -519,7 +519,7 @@ Class('App', 'linb.Com',{
                 .setLeft(290)
                 .setTop(100)
                 .setHeight(70)
-                .setType("colorpicker")
+                .setType("color")
                 .setValue("#00FF00")
             , '1');
             
@@ -531,13 +531,13 @@ Class('App', 'linb.Com',{
             , '1');
             
             host.tabs2.append((new linb.UI.TimePicker)
-                .setHost(host,"timepicker1")
+                .setHost(host,"time1")
                 .setLeft(30)
                 .setTop(140)
             , '1');
             
             host.tabs2.append((new linb.UI.DatePicker)
-                .setHost(host,"datepicker1")
+                .setHost(host,"date1")
                 .setLeft(280)
                 .setTop(175)
             , '1');

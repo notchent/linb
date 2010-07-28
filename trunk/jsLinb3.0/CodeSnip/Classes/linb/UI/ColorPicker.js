@@ -9,7 +9,7 @@ Class('App.linb_UI_ColorPicker', 'linb.Com',{
                 .setLeft(30)
                 .setTop(40)
                 .setWidth(170)
-                .setType("colorpicker")
+                .setType("color")
                 .setItems([{"id":"a", "caption":"itema", "tips":"item a"}, {"id":"b", "caption":"itemb", "tips":"item b"}, {"id":"c", "caption":"itemc", "tips":"item c"}])
                 .afterUIValueSet("_comboinput3_aftervalueupdated")
             );
@@ -23,7 +23,7 @@ Class('App.linb_UI_ColorPicker', 'linb.Com',{
             );
             
             append((new linb.UI.ColorPicker)
-                .setHost(host,"colorpicker3")
+                .setHost(host,"color3")
                 .setLeft(440)
                 .setTop(30)
             );

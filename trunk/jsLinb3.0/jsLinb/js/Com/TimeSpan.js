@@ -208,7 +208,7 @@ Class('linb.Com.TimeSpan', 'linb.Com',{
                 .setTop(4)
                 .setWidth(48)
                 .setItems([])
-                .setType("timepicker")
+                .setType("time")
                 .beforeUIValueSet("_3")
             );
             
@@ -217,7 +217,7 @@ Class('linb.Com.TimeSpan', 'linb.Com',{
                 .setLeft(61)
                 .setTop(4)
                 .setItems([])
-                .setType("datepicker")
+                .setType("date")
                 .setWidth(104)
                 .beforeUIValueSet("_4")
             );
@@ -237,7 +237,7 @@ Class('linb.Com.TimeSpan', 'linb.Com',{
                 .setTop(4)
                 .setWidth(48)
                 .setItems([])
-                .setType("timepicker")
+                .setType("time")
                 .beforeUIValueSet("_1")
             );
             
@@ -246,7 +246,7 @@ Class('linb.Com.TimeSpan', 'linb.Com',{
                 .setLeft(247)
                 .setTop(4)
                 .setItems([])
-                .setType("datepicker")
+                .setType("date")
                 .setWidth(104)
                 .beforeUIValueSet("_2")
             );

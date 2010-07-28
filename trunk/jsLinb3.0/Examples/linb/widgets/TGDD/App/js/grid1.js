@@ -43,19 +43,19 @@
         },
         {
             "id" : "col5",
-            "caption" : "colorpicker",
-            "type" : "colorpicker"
+            "caption" : "color",
+            "type" : "color"
         },
         {
             "id" : "col6",
-            "caption" : "datepicker",
-            "type" : "datepicker"
+            "caption" : "date",
+            "type" : "date"
         },
         {
             "id" : "col7",
-            "caption" : "timepicker",
+            "caption" : "time",
             disabled:true,
-            "type" : "timepicker",
+            "type" : "time",
             "width" : 50
         },
         {
@@ -188,7 +188,7 @@
             },false,'a@a.com','#FFFFFF',(new Date).getTime(),'00:00',{value:'a',caption:'cap a'},
             {
                 value:'#00ffff',
-                type:'colorpicker'
+                type:'color'
             },'uneditable','combobox','helpinput','d d','d',0.8,'button'],
             "sub" : [
                 {

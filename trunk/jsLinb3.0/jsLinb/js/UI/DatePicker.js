@@ -426,6 +426,7 @@ Class('linb.UI.DatePicker', ['linb.UI',"linb.absValue"], {
             },
             YEAR:{
                 onMousedown:function(profile, e, src){
+                    if(linb.Event.getBtn(e)!="left")return;
                     linb.use(src).startDrag(e, {
                         dragType:'blank',
                         targetReposition:false,
@@ -453,6 +454,7 @@ Class('linb.UI.DatePicker', ['linb.UI',"linb.absValue"], {
             },
             MONTH:{
                 onMousedown:function(profile, e, src){
+                    if(linb.Event.getBtn(e)!="left")return;
                     linb.use(src).startDrag(e, {
                         dragType:'blank',
                         targetReposition:false,

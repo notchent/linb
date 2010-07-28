@@ -8912,6 +8912,12 @@ _.set(linb.Locale,["en","app"], {
                     ")"
                 ]
             },
+            onCancel:{
+                $desc:"Fired when ESC was pressed.",
+                $paras:[
+                    "profile : linb.UIProfile."
+                ]
+            },
             beforeFormatCheck:{
                 $desc:"Fired before validating value format. If returns false, the inner formatCheck function will be ignored.",
                 $paras:[
@@ -9287,13 +9293,13 @@ _.set(linb.Locale,["en","app"], {
                 $desc:"Sets the type property value on the each UIProfile, and reflects the value to UI.",
                 $rtn:"[self]",
                 $paras:[
-                    "value [Required] : 'none','combobox','listbox','upload','getter','currency','number','helpinput','cmdbox','popbox','timepicker','datepicker', 'colorpicker' or 'spin'. Default is 'combobox'.",
+                    "value [Required] : 'none','combobox','listbox','upload','getter','currency','number','helpinput','cmdbox','popbox','time','date', 'color' or 'spin'. Default is 'combobox'.",
                     "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
                 ],
                 $snippet:[
                     "var id='linb.temp.ci4'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                     "var label,o;linb(id).prepend(o=new linb.UI.ComboInput({position:'relative'})).prepend(label=new linb.UI.Label({position:'relative',width:100}));"+
-                    "var arr=['none','combobox','listbox','upload','getter','helpinput','cmdbox','popbox','timepicker','datepicker','colorpicker'];"+
+                    "var arr=['none','combobox','listbox','upload','getter','helpinput','cmdbox','popbox','time','date','color'];"+
                     "linb.Thread(null,[function(id){if(!arr.length)return linb.Thread.abort(id); var type=arr.shift();o.setType(type);label.setCaption(type)}],1000,null,null,null,true).start();"+
                     "}"
                 ]
@@ -9921,7 +9927,7 @@ _.set(linb.Locale,["en","app"], {
                 ]
             },
             getDateFrom:{
-                $desc:"Gets the from date of the datepicker.",
+                $desc:"Gets the from date of the date.",
                 $rtn:"Object, Date Object",
                 $snippet:[
                     "var id='linb.temp.dp2-1'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -11943,7 +11949,7 @@ _.set(linb.Locale,["en","app"], {
                 ],
                 $snippet:[
                     "var id='linb.temp.tool01'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:200px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
-                    "var o;linb(id).prepend(o=(new linb.UI.ToolBar({items:[{id:'ga', sub:[{id:'ga1',caption:'ga1'},{id:'ga2',caption:'ga2'}]},{id:'gb',sub:[{id:'gb1',caption:'gb1'},{id:'gb2',Object:new linb.UI.ComboInput({type:'colorpicker'})}]}]})));"+
+                    "var o;linb(id).prepend(o=(new linb.UI.ToolBar({items:[{id:'ga', sub:[{id:'ga1',caption:'ga1'},{id:'ga2',caption:'ga2'}]},{id:'gb',sub:[{id:'gb1',caption:'gb1'},{id:'gb2',Object:new linb.UI.ComboInput({type:'color'})}]}]})));"+
                     "_.asyRun(function(){o.updateItem('ga1',{caption:'updated'})},1000);"+
                     "}"
                 ]
@@ -11953,7 +11959,7 @@ _.set(linb.Locale,["en","app"], {
                 $rtn:"String",
                 $snippet:[
                     "var id='linb.temp.tool1'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:200px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
-                    "var o;linb(id).prepend(o=(new linb.UI.ToolBar({items:[{id:'ga', sub:[{id:'ga1',caption:'ga1'},{id:'ga2',caption:'ga2'}]},{id:'gb',sub:[{id:'gb1',caption:'gb1'},{id:'gb2',Object:new linb.UI.ComboInput({type:'colorpicker'})}]}]})));"+
+                    "var o;linb(id).prepend(o=(new linb.UI.ToolBar({items:[{id:'ga', sub:[{id:'ga1',caption:'ga1'},{id:'ga2',caption:'ga2'}]},{id:'gb',sub:[{id:'gb1',caption:'gb1'},{id:'gb2',Object:new linb.UI.ComboInput({type:'color'})}]}]})));"+
                     "alert(o.getHAlign());_.asyRun(function(){o.setHAlign('right')},1000);"+
                     "}"
                 ]
@@ -11967,7 +11973,7 @@ _.set(linb.Locale,["en","app"], {
                 ],
                 $snippet:[
                     "var id='linb.temp.tool2'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:200px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
-                    "var o;linb(id).prepend(o=(new linb.UI.ToolBar({items:[{id:'a',caption:'a a'},{id:'b',caption:'b b'},{id:'c',Object:new linb.UI.ComboInput({type:'colorpicker'})}]})));"+
+                    "var o;linb(id).prepend(o=(new linb.UI.ToolBar({items:[{id:'a',caption:'a a'},{id:'b',caption:'b b'},{id:'c',Object:new linb.UI.ComboInput({type:'color'})}]})));"+
                     "alert(o.getHAlign());_.asyRun(function(){o.setHAlign('right')},1000);"+
                     "}"
                 ]
@@ -11977,7 +11983,7 @@ _.set(linb.Locale,["en","app"], {
                 $rtn:"Boolean",
                 $snippet:[
                     "var id='linb.temp.tool3'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:200px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
-                    "var o;linb(id).prepend(o=(new linb.UI.ToolBar({items:[{id:'ga', sub:[{id:'ga1',caption:'ga1'},{id:'ga2',caption:'ga2'}]},{id:'gb',sub:[{id:'gb1',caption:'gb1'},{id:'gb2',Object:new linb.UI.ComboInput({type:'timepicker'})}]}]})));"+
+                    "var o;linb(id).prepend(o=(new linb.UI.ToolBar({items:[{id:'ga', sub:[{id:'ga1',caption:'ga1'},{id:'ga2',caption:'ga2'}]},{id:'gb',sub:[{id:'gb1',caption:'gb1'},{id:'gb2',Object:new linb.UI.ComboInput({type:'time'})}]}]})));"+
                     "alert(o.getHandler());_.asyRun(function(){o.setHandler(false)},1000);"+
                     "}"
                 ]
@@ -11991,7 +11997,7 @@ _.set(linb.Locale,["en","app"], {
                 ],
                 $snippet:[
                     "var id='linb.temp.tool4'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:200px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
-                    "var o;linb(id).prepend(o=(new linb.UI.ToolBar({items:[{id:'ga', sub:[{id:'ga1',caption:'ga1'},{id:'ga2',caption:'ga2'}]},{id:'gb',sub:[{id:'gb1',caption:'gb1'},{id:'gb2',Object:new linb.UI.ComboInput({type:'timepicker'})}]}]})));"+
+                    "var o;linb(id).prepend(o=(new linb.UI.ToolBar({items:[{id:'ga', sub:[{id:'ga1',caption:'ga1'},{id:'ga2',caption:'ga2'}]},{id:'gb',sub:[{id:'gb1',caption:'gb1'},{id:'gb2',Object:new linb.UI.ComboInput({type:'time'})}]}]})));"+
                     "alert(o.getHandler());_.asyRun(function(){o.setHandler(false)},1000);"+
                     "}"
                 ]
@@ -12005,7 +12011,7 @@ _.set(linb.Locale,["en","app"], {
                 ],
                 $snippet:[
                     "var id='linb.temp.tool5'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:200px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
-                    "var o;linb(id).prepend(o=(new linb.UI.ToolBar({items:[{id:'ga', sub:[{id:'ga1',caption:'ga1'},{id:'ga2',caption:'ga2'}]},{id:'gb',sub:[{id:'gb1',caption:'gb1'},{id:'gb2',Object:new linb.UI.ComboInput({type:'timepicker'})}]}]})));"+
+                    "var o;linb(id).prepend(o=(new linb.UI.ToolBar({items:[{id:'ga', sub:[{id:'ga1',caption:'ga1'},{id:'ga2',caption:'ga2'}]},{id:'gb',sub:[{id:'gb1',caption:'gb1'},{id:'gb2',Object:new linb.UI.ComboInput({type:'time'})}]}]})));"+
                     "_.asyRun(function(){o.showGroup('ga',false)},1000);"+
                     "}"
                 ]
@@ -13310,7 +13316,7 @@ _.set(linb.Locale,["en","app"], {
                     "var id='linb.temp.pool7'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                     "var o=new linb.UI.Poll({width:'auto',height:'auto',editable:true,title:'a survey', toggle:true, position:'relative',items:[{id:'a',caption:'option 1',percent:0.5,message:'50%'},{id:'b',caption:'option 2',percent:0.8,message:'80%'}]});"+
                     "alert(o.getEditorType());"+
-                    "o.setEditorType('colorpicker');"+
+                    "o.setEditorType('color');"+
                     "linb(id).prepend(o);"+
                     "}"
                 ]
@@ -13319,14 +13325,14 @@ _.set(linb.Locale,["en","app"], {
                 $desc:"Sets the editorType property value on the each UIProfile, and reflects the value to UI.",
                 $rtn:"[self]",
                 $paras:[
-                    "value [Required] : 'none','combobox','listbox','upload','getter','currency','number','helpinput','cmdbox','popbox','timepicker','datepicker' or 'colorpicker'. Default is 'none'.",
+                    "value [Required] : 'none','combobox','listbox','upload','getter','currency','number','helpinput','cmdbox','popbox','time','date' or 'color'. Default is 'none'.",
                     "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
                 ],
                 $snippet:[
                     "var id='linb.temp.pool8'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                     "var o=new linb.UI.Poll({width:'auto',height:'auto',editable:true,selMode:'multi',title:'a survey', toggle:true, position:'relative',items:[{id:'a',caption:'option 1',percent:0.5,message:'50%'},{id:'b',caption:'option 2',percent:0.8,message:'80%'}]});"+
                     "alert(o.getEditorType());"+
-                    "o.setEditorType('colorpicker');"+
+                    "o.setEditorType('color');"+
                     "linb(id).prepend(o);"+
                     "}"
                 ],
@@ -14076,9 +14082,17 @@ _.set(linb.Locale,["en","app"], {
                 $desc:"To check whether or not the grid is modified.",
                 $rtn:"Boolean"
             },
+            getCells:{
+                $desc:"Gets all cells.",
+                $rtn:"Objcet. {cellId:{rowId:, colId:, value:, oValue:}}",
+                $paras:[
+                    "rowId : [Optional] : String, return this row's cell only.",
+                    "colId : [Optional] : String, return this col's cell only."
+                ]
+            },
             getDirtied:{
                 $desc:"Gets all dirtied cells value.",
-                $rtn:"Objcet. {cellId:{rowId:, colId:, oldValue:, newValue}}",
+                $rtn:"Objcet. {cellId:{rowId:, colId:, value:, oValue:}}",
                 $paras:[
                     "rowId : [Optional] : String, return this row's cell only.",
                     "colId : [Optional] : String, return this col's cell only."
@@ -14653,7 +14667,7 @@ _.set(linb.Locale,["en","app"], {
             getRows :{
                 $desc:"Gets the all rows of this grid",
                 $paras:[
-                    "type [Optional] : String, 'data': get rows' data; 'min': get rows' min data; else, return the memory one."
+                    "type [Optional] : String, 'data': get rows' data; 'min': get rows' min data; else, return the memory one. Default is 'data'"
                 ],
                 $rtn:"Array",
                 $snippet:[
@@ -14749,7 +14763,8 @@ _.set(linb.Locale,["en","app"], {
                 $desc:"Gets a row item Object according to a given row id.",
                 $rtn:"Object",
                 $paras:[
-                    "rowId [Required] : String."
+                    "rowId [Required] : String.",
+                    "type [Optional] : String, 'data': get rows' data; 'min': get rows' min data; else, return the memory one. Default is 'data'"
                 ],
                 $snippet:[
                     "var id='linb.temp.grid36'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -14764,7 +14779,8 @@ _.set(linb.Locale,["en","app"], {
                 $desc:"Gets a row item Object according to a cell Object.",
                 $rtn:"Object",
                 $paras:[
-                    "cell [Required] : Object."
+                    "cell [Required] : Object.",
+                    "type [Optional] : String, 'data': get rows' data; 'min': get rows' min data; else, return the memory one. Default is 'data'"
                 ]
             },
             getHeaderbyCell:{

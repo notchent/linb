@@ -31,8 +31,8 @@ new function(){
             ]},
             {id:'linb.UI.absForm1',caption:'Simple Elements',group:true, image:_img_app, imagePos:'-48px -48px',sub:[
                 {id:'linb.UI.Tag', caption:'Tag Element', image:_img_widgets, imagePos:'left top', draggable:true},
-                {id:'linb.UI.Span', caption:'Span Element', image:_img_widgets, imagePos:'-624px -16px', draggable:true},
-                {id:'linb.UI.Div', caption:'Div Element', image:_img_widgets, imagePos:'-624px top', draggable:true},
+                {id:'linb.UI.Span', caption:'Span Element', image:_img_widgets, imagePos:'-544px -16px', draggable:true},
+                {id:'linb.UI.Div', caption:'Div Element', image:_img_widgets, imagePos:'-544px top', draggable:true},
 
                 {id:'linb.UI.SLabel', caption:'Simple Label', image:_img_widgets, imagePos:'-16px top', draggable:true},
                 {id:'linb.UI.SButton', caption:'Simple Button', image:_img_widgets, imagePos:'-48px top', draggable:true/*, Appearances:['default','link','block']*/},

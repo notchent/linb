@@ -74,7 +74,7 @@ Class('App', 'linb.Com',{
         },
         _onready:function () {
             SPA=this;
-            SPA.inCode.setValue("{\n \"dbbinder\" : \"db1\",\n \"cols\" : 2,\n \"ctrls\" : [{\n \"id\" : \"label\",\n \"type\" : \"label\"\n },\n {\n \"id\" : \"button\",\n \"type\" : \"button\"\n },\n {\n \"id\" : \"checkbox\",\n \"type\" : \"checkbox\",\n \"value\" : true\n },\n {\n \"id\" : \"number\",\n \"type\" : \"number\",\n \"value\" : 20\n },\n {\n \"id\" : \"spin\",\n \"type\" : \"spin\",\n \"value\" : 20.01\n },\n {\n \"id\" : \"input\",\n \"type\" : \"input\",\n \"value\" : \"input\"\n },\n {\n \"id\" : \"combox\",\n \"type\" : \"combox\",\n \"value\" : \"combobox\"\n },\n {\n \"id\" : \"listbox\",\n \"type\" : \"listbox\"\n },\n {\n \"id\" : \"popbox\",\n \"type\" : \"popbox\",\n \"value\" : \"popbox\"\n },\n {\n \"id\" : \"cmdbox\",\n \"type\" : \"cmdbox\",\n \"value\" : \"cmdbox\"\n },\n {\n \"id\" : \"helpinput\",\n \"type\" : \"helpinput\",\n \"value\" : \"helpinput\"\n },\n {\n \"id\" : \"getter\",\n \"type\" : \"getter\",\n \"value\" : \"getter\"\n },\n {\n \"id\" : \"upload\",\n \"type\" : \"upload\"\n },\n {\n \"id\" : \"datepicker\",\n \"type\" : \"datepicker\",\n \"value\" : new Date(2008,11,9)\n },\n {\n \"id\" : \"timepicker\",\n \"type\" : \"timepicker\",\n \"value\" : \"09:10\"\n },\n {\n \"id\" : \"colorpicker\",\n \"type\" : \"colorpicker\",\n \"value\" : \"#00ff00\"\n },\n {\n \"id\" : \"textarea\",\n \"type\" : \"textarea\",\n \"value\" : \"text \\n area\"\n }]\n}\n");
+            SPA.inCode.setValue("{\n \"dbbinder\" : \"db1\",\n \"cols\" : 2,\n \"ctrls\" : [{\n \"id\" : \"label\",\n \"type\" : \"label\"\n },\n {\n \"id\" : \"button\",\n \"type\" : \"button\"\n },\n {\n \"id\" : \"checkbox\",\n \"type\" : \"checkbox\",\n \"value\" : true\n },\n {\n \"id\" : \"number\",\n \"type\" : \"number\",\n \"value\" : 20\n },\n {\n \"id\" : \"spin\",\n \"type\" : \"spin\",\n \"value\" : 20.01\n },\n {\n \"id\" : \"input\",\n \"type\" : \"input\",\n \"value\" : \"input\"\n },\n {\n \"id\" : \"combox\",\n \"type\" : \"combox\",\n \"value\" : \"combobox\"\n },\n {\n \"id\" : \"listbox\",\n \"type\" : \"listbox\"\n },\n {\n \"id\" : \"popbox\",\n \"type\" : \"popbox\",\n \"value\" : \"popbox\"\n },\n {\n \"id\" : \"cmdbox\",\n \"type\" : \"cmdbox\",\n \"value\" : \"cmdbox\"\n },\n {\n \"id\" : \"helpinput\",\n \"type\" : \"helpinput\",\n \"value\" : \"helpinput\"\n },\n {\n \"id\" : \"getter\",\n \"type\" : \"getter\",\n \"value\" : \"getter\"\n },\n {\n \"id\" : \"upload\",\n \"type\" : \"upload\"\n },\n {\n \"id\" : \"date\",\n \"type\" : \"date\",\n \"value\" : new Date(2008,11,9)\n },\n {\n \"id\" : \"time\",\n \"type\" : \"time\",\n \"value\" : \"09:10\"\n },\n {\n \"id\" : \"color\",\n \"type\" : \"color\",\n \"value\" : \"#00ff00\"\n },\n {\n \"id\" : \"textarea\",\n \"type\" : \"textarea\",\n \"value\" : \"text \\n area\"\n }]\n}\n");
         },
         _button29_onclick:function (profile, e, value) {
             var code=this.inCode.getUIValue();
@@ -143,9 +143,9 @@ Class('App', 'linb.Com',{
                         else if(o.items)
                             widget.setItems(o.items);
                         break;
-                    case 'timepicker':
-                    case 'datepicker':
-                    case 'colorpicker':
+                    case 'time':
+                    case 'date':
+                    case 'color':
                         widget.setType(type);
                         break;
                     case 'spin':

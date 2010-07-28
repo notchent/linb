@@ -276,6 +276,13 @@ Class("linb.UI.Input", ["linb.UI.Widget","linb.absValue"] ,{
                         k=evt.getKey(e);
                     if(p.disabled || p.readonly)return;
 
+                    if(k.key=='esc'){
+                        profile.boxing().setUIValue(p.value,true);
+                        if(profile.onCancel)
+                            profile.boxing().onCancel(profile);
+                        return false;
+                    }
+
                     //fire onchange first
                     if(k.key=='enter'&& (!m||k.altKey))
                         linb.use(src).onChange();
@@ -486,6 +493,7 @@ Class("linb.UI.Input", ["linb.UI.Widget","linb.absValue"] ,{
         EventHandlers:{
             onFocus:function(profile){},
             onBlur:function(profile){},
+            onCancel:function(profile){},
             beforeFormatCheck:function(profile, value){},
             beforeFormatMark:function(profile, formatErr){},
             beforeKeypress:function(profile,caret,keyboard,e,src){}
@@ -547,9 +555,11 @@ Class("linb.UI.Input", ["linb.UI.Widget","linb.absValue"] ,{
                 ns.$ondestory=function(){
                     var ns=this,
                         src=ns.getSubNode('INPUT').get(0);
-                    src.detachEvent("onpropertychange",f);
-                    src.detachEvent("ondrop",f);
-                    src=null;
+                    if(src){
+                        src.detachEvent("onpropertychange",f);
+                        src.detachEvent("ondrop",f);
+                        src=null;
+                    }
                 }
             }else{
                 src.addEventListener("input",f,false);
@@ -561,11 +571,13 @@ Class("linb.UI.Input", ["linb.UI.Widget","linb.absValue"] ,{
                 ns.$ondestory=function(){
                     var ns=this,
                         src=ns.getSubNode('INPUT').get(0);
-                    src.removeEventListener("input",f,false);
-                    src.removeEventListener("drop",f,false);
-                    if(linb.browser.gek)
-                        src.removeEventListener("dragdrop",f,false);
-                    src=null;
+                    if(src){
+                        src.removeEventListener("input",f,false);
+                        src.removeEventListener("drop",f,false);
+                        if(linb.browser.gek)
+                            src.removeEventListener("dragdrop",f,false);
+                        src=null;
+                    }
                 }
             }
             src=null;

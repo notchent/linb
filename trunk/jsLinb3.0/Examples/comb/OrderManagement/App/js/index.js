@@ -312,7 +312,7 @@ Class('App', 'linb.Com',{
                 .setLeft(130)
                 .setTop(320)
                 .setWidth(140)
-                .setType("datepicker")
+                .setType("date")
                 .setItems([{"id":"a", "caption":"itema", "tips":"item a"}, {"id":"b", "caption":"itemb", "tips":"item b"}, {"id":"c", "caption":"itemc", "tips":"item c"}])
             );
             

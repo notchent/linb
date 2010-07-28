@@ -218,7 +218,7 @@ _.merge(_,{
     df:default return vale
     */
     tryF:function(fun, args, scope, df){
-        return (fun && typeof fun=='function') ? fun.apply(scope||null, args||[]) : df
+        return (fun && typeof fun=='function') ? fun.apply(scope||{}, args||[]) : df
     },
     /*asynchronous run function
     fun:target function
@@ -1489,7 +1489,7 @@ Class('linb.absIO',null,{
             return obj;
         },
         _if:function(doc,id,onLoad){
-            var e=linb.browser.ie,n = doc.createElement(e?"<iframe name='"+id+"' "+(onLoad?"onload='linb.IAjax._o(\""+id+"\")'":"")+">":"iframe"),w;
+            var e=linb.browser.ie && parseInt(linb.browser.ver)<9,n = doc.createElement(e?"<iframe name='"+id+"' "+(onLoad?"onload='linb.IAjax._o(\""+id+"\")'":"")+">":"iframe"),w;
             if(id)n.id=n.name=id;
             if(!e&&onLoad)n.onload=onLoad;
             n.style.display = "none";

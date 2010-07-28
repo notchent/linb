@@ -291,6 +291,7 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
                     linb.Thread.abort(profile.$linbid+':auto');
                 },
                 onMousedown:function(profile, e, src){
+                    if(linb.Event.getBtn(e)!="left")return;
                     var p=profile.properties,
                         type=p.type=='vertical',
                         k2=type?'offsetTop':'offsetLeft',
@@ -343,6 +344,7 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
                     linb.Thread.abort(profile.$linbid+':auto');
                 },
                 onMousedown:function(profile, e, src){
+                    if(linb.Event.getBtn(e)!="left")return;
                     var p=profile.properties,
                         type=p.type=='vertical',
                         k2=type?'offsetTop':'offsetLeft',

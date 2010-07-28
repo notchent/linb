@@ -284,6 +284,7 @@ Class("VisualJS.CodeEditor", ["linb.UI.Widget","linb.absValue"] ,{
             document.body.appendChild(iframe);
             wnd=frames[frames.length - 1];
             wnd.document.open();
+            wnd.document.write('<meta http-equiv="content-type" content="text/html; charset=utf-8" />');
             wnd.document.write(""
                 +"<script>"
                 +"_=window._=parent._;"
@@ -297,7 +298,7 @@ Class("VisualJS.CodeEditor", ["linb.UI.Widget","linb.absValue"] ,{
             );
             wnd.document.close();
             try{
-// console.log(code);
+ //console.log(code);
                 result = window[ns.$tempsandbox].eval(isjson?("("+code+")"):code);
 
                 type = (result===wnd || result===wnd.content)? 'window' :
@@ -963,7 +964,7 @@ Class("VisualJS.CodeEditor", ["linb.UI.Widget","linb.absValue"] ,{
                                 if(cls=='js-punctuation' && txt && txt.charAt(0)==e)
                                     deep1--;
 
-                                if(txt)
+                                if(cls!=='js-comment' && txt)
                                     con += txt;
                             }while(handleScope(elem) && (elem=elem.nextSibling) && elem!=tonode && deep1!==0 )
 
@@ -1084,7 +1085,7 @@ Class("VisualJS.CodeEditor", ["linb.UI.Widget","linb.absValue"] ,{
                                                 code.code=con;
                                                 break;
                                             }
-                                        }else{
+                                        }else if(cls!=='js-comment'){
                                             con += txt;
                                         }
                                     }while((elem=elem.nextSibling)&& elem && elem!=tonode)
@@ -2256,7 +2257,7 @@ var t1=_();
                 });
             };
             // show suggestion from text
-            var showSugFromText=function(elem){
+            var showSugFromText=function(elem, propOnly){
                 if(isBr(elem) 
                     || elem.className=='js-string' 
                     || elem.className=='js-regexp'
@@ -2270,6 +2271,11 @@ var t1=_();
                     var key=getSuggestionInfo(elem);
                     if(!key){
                         hideSuggestion();
+                        return;
+                    }
+                    if(propOnly && key.key.indexOf('.')==-1){
+                        hideSuggestion();
+                        return;
                     }
                     //if(elem && elem.previousSibling && isDot(elem.previousSibling)){
                     //    $sugMode='dot';
@@ -2403,8 +2409,8 @@ codeType=='js'?["codemirror/css/jscolors.css"]
                                 }
                             }
     
-                            // for code suggestion
-                            if(!(k.key=='1' && k.ctrlKey)){
+                            // for avoid code suggestion
+                            if(!(k.key.length==1 && k.ctrlKey)){
                                 editor.editor.$keyInput=k.key;
                             }
     
@@ -2464,7 +2470,7 @@ codeType=='js'?["codemirror/css/jscolors.css"]
                             && (start=start.nextSibling));
 
                         if(!isBr(start) && !isWhitespace(start) && start.currentText)
-                            showSugFromText(start);
+                            showSugFromText(start, true);
                     }
                 },
                 onBlur:function(){

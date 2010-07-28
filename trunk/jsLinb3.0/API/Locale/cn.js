@@ -4994,7 +4994,7 @@ _.set(linb.Locale,["cn","app"], {
     });
 
     _.set(linb.Locale,["cn","doc","linb","DomProfile"], {
-        KEY:{$desc:"本类名"},
+        KEY:{$desc:"本类名"}
     });
 
     _.set(linb.Locale,["cn","doc","linb","DataBinder"], {
@@ -8840,6 +8840,12 @@ _.set(linb.Locale,["cn","app"], {
                     "}"
                 ]
             },
+            onCancel:{
+                $desc:"按ESC键触发本事件,表示本次编辑无效.",
+                $paras:[
+                    "profile : linb.UIProfile."
+                ]
+            },
             beforeFormatCheck:{
                 $desc:"在输入框做有效性检查时调用. 返回false可以阻止有效性的检查.",
                 $paras:[
@@ -9215,13 +9221,13 @@ _.set(linb.Locale,["cn","app"], {
                 $desc:"设置下拉框类型, 并刷新界面.",
                 $rtn:"[self]",
                 $paras:[
-                    "value [必需参数] : 'none'代表是普通的输入框,'combobox'代表下拉框,'listbox'代表列表框,'upload'代表上传框,'getter'代表获取框,'helpinput'代表帮助框,'cmdbox'代表命令框,'popbox'代表弹出框,'timepicker'代表时间选择框,'datepicker'代表日期选择框,'colorpicker'代表颜色选择框,'currency'代表货币,'number'代表数字,'spin'代表是spin输入框. 默认为 'combobox'.",
+                    "value [必需参数] : 'none'代表是普通的输入框,'combobox'代表下拉框,'listbox'代表列表框,'upload'代表上传框,'getter'代表获取框,'helpinput'代表帮助框,'cmdbox'代表命令框,'popbox'代表弹出框,'time'代表时间选择框,'date'代表日期选择框,'color'代表颜色选择框,'currency'代表货币,'number'代表数字,'spin'代表是spin输入框. 默认为 'combobox'.",
                     "force [可选参数] : Boolean, 强制设置该属性值，即使属性已经设置为该值. 默认为 [false]."
                 ],
                 $snippet:[
                     "var id='linb.temp.ci4'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                     "var label,o;linb(id).prepend(o=new linb.UI.ComboInput({position:'relative'})).prepend(label=new linb.UI.Label({position:'relative',width:100}));"+
-                    "var arr=['none','combobox','listbox','upload','getter','helpinput','cmdbox','popbox','timepicker','datepicker','colorpicker'];"+
+                    "var arr=['none','combobox','listbox','upload','getter','helpinput','cmdbox','popbox','time','date','color'];"+
                     "linb.Thread(null,[function(id){if(!arr.length)return linb.Thread.abort(id); var type=arr.shift();o.setType(type);label.setCaption(type)}],1000,null,null,null,true).start();"+
                     "}"
                 ]
@@ -11870,7 +11876,7 @@ _.set(linb.Locale,["cn","app"], {
                 ],
                 $snippet:[
                     "var id='linb.temp.tool01'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:200px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
-                    "var o;linb(id).prepend(o=(new linb.UI.ToolBar({items:[{id:'ga', sub:[{id:'ga1',caption:'ga1'},{id:'ga2',caption:'ga2'}]},{id:'gb',sub:[{id:'gb1',caption:'gb1'},{id:'gb2',Object:new linb.UI.ComboInput({type:'colorpicker'})}]}]})));"+
+                    "var o;linb(id).prepend(o=(new linb.UI.ToolBar({items:[{id:'ga', sub:[{id:'ga1',caption:'ga1'},{id:'ga2',caption:'ga2'}]},{id:'gb',sub:[{id:'gb1',caption:'gb1'},{id:'gb2',Object:new linb.UI.ComboInput({type:'color'})}]}]})));"+
                     "alert(o.getHAlign());_.asyRun(function(){o.updateItem('ga1',{caption:'updated'})},1000);"+
                     "}"
                 ]
@@ -11881,7 +11887,7 @@ _.set(linb.Locale,["cn","app"], {
                 $rtn:"String",
                 $snippet:[
                     "var id='linb.temp.tool1'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:200px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
-                    "var o;linb(id).prepend(o=(new linb.UI.ToolBar({items:[{id:'ga', sub:[{id:'ga1',caption:'ga1'},{id:'ga2',caption:'ga2'}]},{id:'gb',sub:[{id:'gb1',caption:'gb1'},{id:'gb2',Object:new linb.UI.ComboInput({type:'colorpicker'})}]}]})));"+
+                    "var o;linb(id).prepend(o=(new linb.UI.ToolBar({items:[{id:'ga', sub:[{id:'ga1',caption:'ga1'},{id:'ga2',caption:'ga2'}]},{id:'gb',sub:[{id:'gb1',caption:'gb1'},{id:'gb2',Object:new linb.UI.ComboInput({type:'color'})}]}]})));"+
                     "alert(o.getHAlign());_.asyRun(function(){o.setHAlign('right')},1000);"+
                     "}"
                 ]
@@ -11895,7 +11901,7 @@ _.set(linb.Locale,["cn","app"], {
                 ],
                 $snippet:[
                     "var id='linb.temp.tool2'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:200px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
-                    "var o;linb(id).prepend(o=(new linb.UI.ToolBar({items:[{id:'a',caption:'a a'},{id:'b',caption:'b b'},{id:'c',Object:new linb.UI.ComboInput({type:'colorpicker'})}]})));"+
+                    "var o;linb(id).prepend(o=(new linb.UI.ToolBar({items:[{id:'a',caption:'a a'},{id:'b',caption:'b b'},{id:'c',Object:new linb.UI.ComboInput({type:'color'})}]})));"+
                     "alert(o.getHAlign());_.asyRun(function(){o.setHAlign('right')},1000);"+
                     "}"
                 ]
@@ -11905,7 +11911,7 @@ _.set(linb.Locale,["cn","app"], {
                 $rtn:"Boolean",
                 $snippet:[
                     "var id='linb.temp.tool3'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:200px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
-                    "var o;linb(id).prepend(o=(new linb.UI.ToolBar({items:[{id:'ga', sub:[{id:'ga1',caption:'ga1'},{id:'ga2',caption:'ga2'}]},{id:'gb',sub:[{id:'gb1',caption:'gb1'},{id:'gb2',Object:new linb.UI.ComboInput({type:'timepicker'})}]}]})));"+
+                    "var o;linb(id).prepend(o=(new linb.UI.ToolBar({items:[{id:'ga', sub:[{id:'ga1',caption:'ga1'},{id:'ga2',caption:'ga2'}]},{id:'gb',sub:[{id:'gb1',caption:'gb1'},{id:'gb2',Object:new linb.UI.ComboInput({type:'time'})}]}]})));"+
                     "alert(o.getHandler());_.asyRun(function(){o.setHandler(false)},1000);"+
                     "}"
                 ]
@@ -11919,7 +11925,7 @@ _.set(linb.Locale,["cn","app"], {
                 ],
                 $snippet:[
                     "var id='linb.temp.tool4'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:200px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
-                    "var o;linb(id).prepend(o=(new linb.UI.ToolBar({items:[{id:'ga', sub:[{id:'ga1',caption:'ga1'},{id:'ga2',caption:'ga2'}]},{id:'gb',sub:[{id:'gb1',caption:'gb1'},{id:'gb2',Object:new linb.UI.ComboInput({type:'timepicker'})}]}]})));"+
+                    "var o;linb(id).prepend(o=(new linb.UI.ToolBar({items:[{id:'ga', sub:[{id:'ga1',caption:'ga1'},{id:'ga2',caption:'ga2'}]},{id:'gb',sub:[{id:'gb1',caption:'gb1'},{id:'gb2',Object:new linb.UI.ComboInput({type:'time'})}]}]})));"+
                     "alert(o.getHandler());_.asyRun(function(){o.setHandler(false)},1000);"+
                     "}"
                 ]
@@ -11933,7 +11939,7 @@ _.set(linb.Locale,["cn","app"], {
                 ],
                 $snippet:[
                     "var id='linb.temp.tool5'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:200px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
-                    "var o;linb(id).prepend(o=(new linb.UI.ToolBar({items:[{id:'ga', sub:[{id:'ga1',caption:'ga1'},{id:'ga2',caption:'ga2'}]},{id:'gb',sub:[{id:'gb1',caption:'gb1'},{id:'gb2',Object:new linb.UI.ComboInput({type:'timepicker'})}]}]})));"+
+                    "var o;linb(id).prepend(o=(new linb.UI.ToolBar({items:[{id:'ga', sub:[{id:'ga1',caption:'ga1'},{id:'ga2',caption:'ga2'}]},{id:'gb',sub:[{id:'gb1',caption:'gb1'},{id:'gb2',Object:new linb.UI.ComboInput({type:'time'})}]}]})));"+
                     "_.asyRun(function(){o.showGroup('ga',false)},1000);"+
                     "}"
                 ]
@@ -13236,7 +13242,7 @@ _.set(linb.Locale,["cn","app"], {
                     "var id='linb.temp.pool7'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                     "var o=new linb.UI.Poll({width:'auto',height:'auto',editable:true,title:'a survey', toggle:true, position:'relative',items:[{id:'a',caption:'option 1',percent:0.5,message:'50%'},{id:'b',caption:'option 2',percent:0.8,message:'80%'}]});"+
                     "alert(o.getEditorType());"+
-                    "o.setEditorType('colorpicker');"+
+                    "o.setEditorType('color');"+
                     "linb(id).prepend(o);"+
                     "}"
                 ]
@@ -13245,14 +13251,14 @@ _.set(linb.Locale,["cn","app"], {
                 $desc:"设置编辑器的种类.",
                 $rtn:"[self]",
                 $paras:[
-                    "value [必需参数] : 'none','combobox','listbox','upload','getter','helpinput','cmdbox','currency','number','popbox','timepicker','datepicker' or 'colorpicker'. 默认为 'none'.",
+                    "value [必需参数] : 'none','combobox','listbox','upload','getter','helpinput','cmdbox','currency','number','popbox','time','date' or 'color'. 默认为 'none'.",
                     "force [可选参数] : Boolean, 强制设置该属性值，即使属性已经设置为该值. 默认为[false]."
                 ],
                 $snippet:[
                     "var id='linb.temp.pool8'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                     "var o=new linb.UI.Poll({width:'auto',height:'auto',editable:true,selMode:'multi',title:'a survey', toggle:true, position:'relative',items:[{id:'a',caption:'option 1',percent:0.5,message:'50%'},{id:'b',caption:'option 2',percent:0.8,message:'80%'}]});"+
                     "alert(o.getEditorType());"+
-                    "o.setEditorType('colorpicker');"+
+                    "o.setEditorType('color');"+
                     "linb(id).prepend(o);"+
                     "}"
                 ],
@@ -14000,9 +14006,17 @@ _.set(linb.Locale,["cn","app"], {
                 $desc:"判断界面值已经被修改.",
                 $rtn:"Boolean"
             },
+            getCells:{
+                $desc:"返回所有单元格的值.",
+                $rtn:"Objcet. {cellId:{rowId:, colId:, value:, oValue:}}",
+                $paras:[
+                    "rowId : [可选参数] : String, 只返回本行的.",
+                    "colId : [可选参数] : String, 只返回本列的."
+                ]
+            },
             getDirtied:{
                 $desc:"返回所有被更改过的值.",
-                $rtn:"Objcet. {cellId:{rowId:, colId:, oldValue:, newValue}}",
+                $rtn:"Objcet. {cellId:{rowId:, colId:, value:, oValue:}}",
                 $paras:[
                     "rowId : [可选参数] : String, 只返回本行的.",
                     "colId : [可选参数] : String, 只返回本列的."
@@ -14577,7 +14591,7 @@ _.set(linb.Locale,["cn","app"], {
             getRows :{
                 $desc:"获取表格的所有行",
                 $paras:[
-                    "type [可选参数] : String, 'data': 得到行数据; 'min': 得到行的最简化数据; 其他值，得到内存中行的原数据."
+                    "type [可选参数] : String, 'data': 得到行数据; 'min': 得到行的最简化数据; 其他值，得到内存中行的原数据.默认是'data'."
                 ],
                 $rtn:"Array",
                 $snippet:[
@@ -14673,7 +14687,8 @@ _.set(linb.Locale,["cn","app"], {
                 $desc:"更新行id为指定值的行.",
                 $rtn:"Object",
                 $paras:[
-                    "rowId [必需参数] : String."
+                    "rowId [必需参数] : String.",
+                    "type [可选参数] : String, 'data': 得到行数据; 'min': 得到行的最简化数据; 其他值，得到内存中行的原数据.默认是'data'."
                 ],
                 $snippet:[
                     "var id='linb.temp.grid36'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -14688,7 +14703,8 @@ _.set(linb.Locale,["cn","app"], {
                 $desc:"根据一个单元格得到行对象.",
                 $rtn:"Object",
                 $paras:[
-                    "cell [必需参数] : Object."
+                    "cell [必需参数] : Object.",
+                    "type [可选参数] : String, 'data': 得到行数据; 'min': 得到行的最简化数据; 其他值，得到内存中行的原数据.默认是'data'."
                 ]
             },
             getHeaderByCell:{

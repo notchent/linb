@@ -331,6 +331,7 @@ Class("linb.UI.Layout",["linb.UI", "linb.absList"],{
             onSize:linb.UI.$onSize,
             MOVE:{
                 onMousedown:function(profile, e, src){
+                    if(linb.Event.getBtn(e)!="left")return;
                     var itemId = profile.getSubId(src),
                         item = profile.getItemByDom(src);
                     if(item.folded)return;
@@ -432,6 +433,7 @@ Class("linb.UI.Layout",["linb.UI", "linb.absList"],{
             },
             CMD:{
                 onMousedown:function(profile, e, src){
+                    if(linb.Event.getBtn(e)!="left")return;
                     var t=profile.properties,
                         itemId = profile.getSubId(src),
                         item = profile.getItemByDom(src),

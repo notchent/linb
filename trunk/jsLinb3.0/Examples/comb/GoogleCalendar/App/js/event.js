@@ -157,7 +157,7 @@ Class('App.event', 'linb.Com',{
                 .setLeft(306)
                 .setTop(40)
                 .setWidth(94)
-                .setType("colorpicker")
+                .setType("color")
                 .setItems([{"id":"a", "caption":"itema", "tips":"item a"}, {"id":"b", "caption":"itemb", "tips":"item b"}, {"id":"c", "caption":"itemc", "tips":"item c"}])
             );
             
@@ -187,7 +187,7 @@ Class('App.event', 'linb.Com',{
                 .setLeft(350)
                 .setTop(16)
                 .setWidth(48)
-                .setType("timepicker")
+                .setType("time")
             , 'simple');
             
             host.tabs3.append((new linb.UI.ComboInput)
@@ -195,7 +195,7 @@ Class('App.event', 'linb.Com',{
                 .setLeft(160)
                 .setTop(16)
                 .setWidth(48)
-                .setType("timepicker")
+                .setType("time")
             , 'simple');
             
             host.tabs3.append((new linb.UI.Div)
@@ -213,7 +213,7 @@ Class('App.event', 'linb.Com',{
                 .setLeft(56)
                 .setTop(16)
                 .setWidth(104)
-                .setType("datepicker")
+                .setType("date")
             , 'simple');
             
             host.tabs3.append((new linb.UI.ComboInput)
@@ -221,7 +221,7 @@ Class('App.event', 'linb.Com',{
                 .setLeft(246)
                 .setTop(16)
                 .setWidth(104)
-                .setType("datepicker")
+                .setType("date")
             , 'simple');
             
             host.tabs3.append((new linb.UI.Div)

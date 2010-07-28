@@ -7,7 +7,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                 v = arguments.callee.upper.apply(this,arguments);
             if(n.$isNumber)
                 v = _.isNumb(parseFloat(v))?parseFloat(v):null;
-            else if(p.type=='datepicker')
+            else if(p.type=='datepicker'||p.type=='date')
                 v = v?new Date(parseInt(v)):null;
             return v;
         },
@@ -17,7 +17,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                 v = arguments.callee.upper.apply(this,arguments);
             if(n.$isNumber)
                 v = _.isNumb(parseFloat(v))?parseFloat(v):null;
-            else if(p.type=='datepicker')
+            else if(p.type=='datepicker'||p.type=='date')
                 v = v?new Date(parseInt(v)):null;
             return v;
         },
@@ -35,7 +35,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                 value=flag?value:profile.boxing().getShowValue(value);
                 if(type!=='none'&& !profile.properties.multiLines && typeof value=='string' && r1.test(value))value=value.replace(r2,'');
                 o.attr('value',value||'');
-                if(type=='colorpicker')
+                if(type=='colorpicker'||type=='color')
                     o.css({backgroundColor:value, color:linb.UI.ColorPicker.getTextColor(value)});
             })
         },
@@ -179,8 +179,11 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                 if(cacheDrop){
                     switch(type){
                         case 'timepicker':
+                        case 'time':
                         case 'datepicker':
+                        case 'date':
                         case 'colorpicker':
+                        case 'color':
                             cachekey=type;
                             break;
                         default:
@@ -231,6 +234,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                                 return b2._cache();
                             });
                             break;
+                        case 'time':
                         case 'timepicker':
                             o = linb.create('TimePicker').render();
                             o.setHost(profile);
@@ -242,6 +246,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                                 return b2._cache();
                             });
                             break;
+                        case 'date':
                         case 'datepicker':
                             o = linb.create('DatePicker').render();
                             o.setHost(profile);
@@ -254,7 +259,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                             });
 
                             break;
-
+                        case 'color':
                         case 'colorpicker':
                             o = linb.create('ColorPicker').render();
                             o.setHost(profile);
@@ -284,15 +289,18 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                     case 'listbox':
                     case 'helpinput':
                         o.setWidth(profile.properties.dropListWidth || profile.getRoot().width());
+                    case 'time':
                     case 'timepicker':
                         o.setValue(profile.properties.$UIvalue, true);
                         break;
+                    case 'date':
                     case 'datepicker':
                         var t = profile.$drop.properties;
                         t.WEEK_FIRST=pro.WEEK_FIRST;
                         if(t=profile.properties.$UIvalue)
                             o.setValue(new Date( parseInt(t) ), true);
                         break;
+                    case 'color':
                     case 'colorpicker':
                         o.setValue(profile.properties.$UIvalue.replace('#',''), true);
                         break;
@@ -374,7 +382,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
             if(value!='listbox' && value!='combobox' && value!='helpinput')
                 pro.items=[];
 
-            if(value=='timepicker'){
+            if(value=='timepicker' || value=='time'){
                 var keymap={a:1,c:1,v:1,x:1};
                 _.merge(profile,{
                     $beforeKeypress : function(profile,c,k){
@@ -391,7 +399,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                         return v;
                     }
                 },'all');
-            }else if(value=='datepicker'){
+            }else if(value=='datepicker' || value=='date'){
                 var date=linb.Date;
                 var keymap={a:1,c:1,v:1,x:1};
                 _.merge(profile,{
@@ -701,7 +709,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                     b._asyCheck(profile);
 
                     var key=linb.Event.getKey(e);
-                    if(key.type=='down'|| key.type=='up'){
+                    if(key.key=='down'|| key.key=='up'){
                         if(p.type=='spin'){
                             linb.Thread.abort(profile.$linbid+':spin');
                             return false;
@@ -761,12 +769,18 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                     b._asyCheck(profile);
                 },
                 onKeydown : function(profile, e, src){
-                   var  p=profile.properties,
-                    b=profile.box,
+                   var  p=profile.properties;
+                   if(p.disabled || p.readonly)return;
+                   var b=profile.box,
                         m=p.multiLines,
                         evt=linb.Event,
                         k=evt.getKey(e);
-                    if(p.disabled || p.readonly)return;
+                    if(k.key=='esc'){
+                        profile.boxing().setUIValue(p.value,true);
+                        if(profile.onCancel)
+                            profile.boxing().onCancel(profile);
+                        return false;
+                    }
 
                     //fire onchange first
                     if(k.key=='enter' && (!m||k.altKey) && !p.inputReadonly && !profile.$inputReadonly)
@@ -853,6 +867,11 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
             helpinput:'-16px -46px',
             cmdbox:'left -16px',
             popbox:'left -46px',
+            time:'left -60px',
+            date:'left -75px',
+            color:'-16px -60px',
+ 
+            // Deprecated
             timepicker:'left -60px',
             datepicker:'left -75px',
             colorpicker:'-16px -60px'
@@ -902,7 +921,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
             },
             type:{
                 ini:'combobox',
-                listbox:_.toArr('none,combobox,listbox,upload,getter,helpinput,cmdbox,popbox,timepicker,datepicker,colorpicker,spin,currency,number'),
+                listbox:_.toArr('none,combobox,listbox,upload,getter,helpinput,cmdbox,popbox,date,time,color,spin,currency,number'),
                 set:function(value){
                     var pro=this;
                     pro.properties.type=value;
@@ -1077,6 +1096,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
             if(!_.isSet(value) || value==='')return '';
 
             switch(profile.properties.type){                
+                case 'date':
                 case 'datepicker':
                     var d;
                     if(value){
@@ -1086,8 +1106,10 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                             d=new Date(parseInt(value));
                     }
                     return d?String(linb.Date.getTimSpanStart(d,'d',1).getTime()):"";;
+                case 'color':
                 case 'colorpicker':
                     return '#'+linb.UI.ColorPicker._ensureValue(null,value);
+                case 'time':
                 case 'timepicker':
                     return linb.UI.TimePicker._ensureValue(null,value);
                 case 'currency':
@@ -1102,8 +1124,13 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
         _number:function(profile, value){
             var prop=profile.properties;
             value=parseFloat(value+"")||0;
-            value=value>prop.max?prop.max:value<prop.min?prop.min:value;
-            return value.toFixed(prop.precision);
+            if(_.isSet(prop.max))
+                value=value>prop.max?prop.max:value;
+            if(_.isSet(prop.min))
+                value=value<prop.min?prop.min:value;
+            if(_.isSet(prop.precision))
+                value=value.toFixed(prop.precision);
+            return value;
             //var n=Math.pow(10,Math.max(parseInt(prop.precision)||0,0));
             //value=(+value||0);
             //value=Math.ceil((value-0.0000000000003)*n)/n;
@@ -1111,7 +1138,10 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
         _currency:function(profile, value){
             var prop=profile.properties,min=Math.max(prop.min,0);
             value=parseFloat((value+"").replace(/,/g,''))||0;
-            value=value>prop.max?prop.max:value<min?min:value;
+            if(_.isSet(prop.max))
+                value=value>prop.max?prop.max:value;
+            if(_.isSet(prop.min))
+                value=value<prop.min?prop.min:value;
             return this.formatCurrency(value);
         },
         formatCurrency:function(value){

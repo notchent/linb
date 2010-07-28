@@ -27,7 +27,7 @@ Class('App', 'linb.Com',{
             host.pane8.append((new linb.UI.TreeGrid)
                 .setHost(host,"treegrid2")
                 .setRowNumbered(true)
-                .setHeader([{"id":"course", "type":"label","width":240}, {"id":"from", "type":"datepicker", "width":100}, {"id":"to", "type":"datepicker", "width":100}, {"type":"button", "id":"remove", "width":45, "cellClass":"gridbutton"}])
+                .setHeader([{"id":"course", "type":"label","width":240}, {"id":"from", "type":"date", "width":100}, {"id":"to", "type":"date", "width":100}, {"type":"button", "id":"remove", "width":45, "cellClass":"gridbutton"}])
                 .setDropKeys("iEvent2")
                 .setRowHandlerWidth(40)
                 .onClickCell("_treegrid2_onclickcell")
@@ -69,10 +69,10 @@ Class('App', 'linb.Com',{
             );
             
             host.pane3.append((new linb.UI.DatePicker)
-                .setHost(host,"datepicker1")
+                .setHost(host,"date1")
                 .setLeft(0)
                 .setTop(87)
-                .afterUIValueSet("_datepicker1_afteruivalueset")
+                .afterUIValueSet("_date1_afteruivalueset")
             );
             
             host.pane3.append((new linb.UI.Label)
@@ -149,7 +149,7 @@ Class('App', 'linb.Com',{
         _button3_onclick:function (profile, e, src, value) {
             alert('This is for manager to approve the current selection.');
         }, 
-        _datepicker1_afteruivalueset:function (profile, oldValue, newValue) {
+        _date1_afteruivalueset:function (profile, oldValue, newValue) {
             this.timeline1.setDateStart(newValue);
         }, 
         _onready:function () {
