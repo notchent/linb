@@ -32185,11 +32185,8 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                         "")
                     // default value
                     ) || ""}),
-                f0=me._f0=(me._f0=function(v){
-                    v=_.isDate(v)?v:(_.isSet(v)&&isFinite(v))?new Date(parseInt(v)):null; 
-                    return v?linb.Date.getText(v,'ymdhn'):""
-                }),
-                f1=me._f1=(me._f1=function(v){v=_.isDate(v)?v:(_.isSet(v)&&isFinite(v))?new Date(parseInt(v)):null; return v?linb.Date.getText(v,'ymd'):""}),
+                f0=me._f0=(me._f0=function(v){return v?linb.Date.getText(v,'ymdhn'):""}),
+                f1=me._f1=(me._f1=function(v){return v?linb.Date.getText(v,'ymd'):""}),
                 f2=me._f2=(me._f2=function(v){return v?(v.split('\n')[0]||"").replace(/ /g,'&nbsp;').replace(reg1,'&lt;'):""}),
                 f3=me._f3=(me._f3=function(v){if(!v&&v!==0)v=0; return (v*1000/10)+'%'}),
                 f5=me._f5=(me._f5=function(v){if(!v&&v!==0)v=0; return v+''}),
@@ -32218,13 +32215,13 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                 break;
                 case 'date':
                 case 'datepicker':
-                    cell.value= +linb.Date.parse(cell.value) + "";
+                    cell.value= _.isDate(cell.value)?cell.value:(_.isSet(cell.value)&&isFinite(cell.value))?new Date(parseInt(cell.value)):null;
                     caption= capOut || ren(profile,cell,ncell,f1);
                     if(dom)
                         node.html(caption, false);
                 break;
                 case 'datetime':
-                    cell.value= +linb.Date.parse(cell.value) + "";
+                    cell.value= _.isDate(cell.value)?cell.value:(_.isSet(cell.value)&&isFinite(cell.value))?new Date(parseInt(cell.value)):null;
                     caption= capOut || ren(profile,cell,ncell,f0);
                     if(dom)
                         node.html(caption, false);
