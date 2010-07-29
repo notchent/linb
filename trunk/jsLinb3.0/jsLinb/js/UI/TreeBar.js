@@ -1,4 +1,4 @@
-﻿Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
+Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
     Instance:{
         _setCtrlValue:function(value, flag){
             return this.each(function(profile){

@@ -644,7 +644,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                     return false;
                 }
             });
-            return profile.cellMap[cellId];
+            return prf.cellMap[cellId];
         },
         getCellbyRowCol:function(rowId, colId){
             var profile=this.get(0),v;

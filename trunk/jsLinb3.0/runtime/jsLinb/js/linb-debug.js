@@ -25479,7 +25479,8 @@ Class("linb.UI.StatusButtons", ["linb.UI.List"],{
         }
     }
 });
-﻿Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
+
+Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
     Instance:{
         _setCtrlValue:function(value, flag){
             return this.each(function(profile){
@@ -30198,7 +30199,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                     return false;
                 }
             });
-            return profile.cellMap[cellId];
+            return prf.cellMap[cellId];
         },
         getCellbyRowCol:function(rowId, colId){
             var profile=this.get(0),v;
