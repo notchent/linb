@@ -677,7 +677,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                 onChange:function(profile, e, src){
                     if(profile.$_onedit||profile.$_inner)return;
 
-                    var o=profile.inValid,
+                    var o=profile._inValid,
                         b=profile.box,
                         instance=profile.boxing(),
                         v = instance._fromEditor(linb.use(src).get(0).value),
@@ -694,7 +694,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                             instance.setUIValue(v);
                             // input/textarea is special, ctrl value will be set before the $UIvalue
                             profile.properties.$UIvalue=v;
-                            if(o!==profile.inValid) if(profile.renderId)instance._setDirtyMark();
+                            if(o!==profile._inValid) if(profile.renderId)instance._setDirtyMark();
                         }
                     }
                     b._asyCheck(profile);

@@ -194,12 +194,17 @@ Class("linb.Tips", null,{
                         }else
                             styleI.width=w+'px';
 
-                        //pop(visible too)
-                        node.popToTop({left:pos.left,top:pos.top,region:{
-                            left:pos.left,
-                            top:pos.top-12,
-                            width:24,height:32
-                        }},1);
+                        if(pos===true){
+                            style.visibility='visible';
+                        }else{
+                            //pop(visible too)
+                            node.popToTop({left:pos.left,top:pos.top,region:{
+                                left:pos.left,
+                                top:pos.top-12,
+                                width:24,height:32
+                            }},1);
+                        }
+                        
                         style=styleI=t1=null;
                     }else
                         node.css('zIndex',0).hide();
@@ -274,6 +279,11 @@ Class("linb.Tips", null,{
         },
         getTips:function(){
             return this._curTips;
+        },
+        setTips:function(s){
+            if(this._curTips && this._tpl&& this._Node){
+                this._tpl.show(s, true);
+            }
         },
         show:function(pos, item, key){
             var self=this,t;

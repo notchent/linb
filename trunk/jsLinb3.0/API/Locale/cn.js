@@ -5123,13 +5123,20 @@ _.set(linb.Locale,["cn","app"], {
             $snippet:["alert(linb.Tips.TIPSKEY)"]
         },
         getTips:{
-            $desc:"String, 获取tips显示的字符串.",
+            $desc:"获取tips显示的字符串.",
+            $rtn:"String",
             $snippet:[
                 "linb.Tips.show({left:100,top:100}, 'a string');"+
                 "alert(linb.Tips.getTips());"+
                 "linb.Tips.hide();"+
                 "alert(linb.Tips.getTips());"
             ]
+        },
+        setTips:{
+            $desc:"设置tips显示的字符串.",
+            $paras:[
+                "s [必需参数] : String"
+            ],
         },
         hide:{
             $desc:"隐藏提示信息.",
@@ -13999,7 +14006,8 @@ _.set(linb.Locale,["cn","app"], {
                 $desc:"由单元格id获取单元格对象。",
                 $rtn:"Ojbect",
                 $paras:[
-                    "cellId : [必需参数] : String."
+                    "cellId : [必需参数] : String.",
+                    "type [可选参数] : String, 'data': 得到行数据; 'min': 得到行的最简化数据; 其他值，得到内存中行的原数据."
                 ]
             },
             isDirtied:{
@@ -14011,7 +14019,8 @@ _.set(linb.Locale,["cn","app"], {
                 $rtn:"Objcet. {cellId:{rowId:, colId:, value:, oValue:}}",
                 $paras:[
                     "rowId : [可选参数] : String, 只返回本行的.",
-                    "colId : [可选参数] : String, 只返回本列的."
+                    "colId : [可选参数] : String, 只返回本列的.",
+                    "type [可选参数] : String, 'data': 得到行数据; 'min': 得到行的最简化数据; 其他值，得到内存中行的原数据."
                 ]
             },
             getDirtied:{
@@ -14027,7 +14036,8 @@ _.set(linb.Locale,["cn","app"], {
                 $rtn:"Ojbect",
                 $paras:[
                     "rowId : [必需参数] : String, 行 id.",
-                    "colId : [必需参数] : String, 列 id."
+                    "colId : [必需参数] : String, 列 id.",
+                    "type [可选参数] : String, 'data': 得到行数据; 'min': 得到行的最简化数据; 其他值，得到内存中行的原数据."
                 ],
                 $snippet:[
                     "var id='linb.temp.grid7.1'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -14591,7 +14601,7 @@ _.set(linb.Locale,["cn","app"], {
             getRows :{
                 $desc:"获取表格的所有行",
                 $paras:[
-                    "type [可选参数] : String, 'data': 得到行数据; 'min': 得到行的最简化数据; 其他值，得到内存中行的原数据.默认是'data'."
+                    "type [可选参数] : String, 'data': 得到行数据; 'min': 得到行的最简化数据; 其他值，得到内存中行的原数据."
                 ],
                 $rtn:"Array",
                 $snippet:[
@@ -14688,7 +14698,7 @@ _.set(linb.Locale,["cn","app"], {
                 $rtn:"Object",
                 $paras:[
                     "rowId [必需参数] : String.",
-                    "type [可选参数] : String, 'data': 得到行数据; 'min': 得到行的最简化数据; 其他值，得到内存中行的原数据.默认是'data'."
+                    "type [可选参数] : String, 'data': 得到行数据; 'min': 得到行的最简化数据; 其他值，得到内存中行的原数据."
                 ],
                 $snippet:[
                     "var id='linb.temp.grid36'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -14704,21 +14714,23 @@ _.set(linb.Locale,["cn","app"], {
                 $rtn:"Object",
                 $paras:[
                     "cell [必需参数] : Object.",
-                    "type [可选参数] : String, 'data': 得到行数据; 'min': 得到行的最简化数据; 其他值，得到内存中行的原数据.默认是'data'."
+                    "type [可选参数] : String, 'data': 得到行数据; 'min': 得到行的最简化数据; 其他值，得到内存中行的原数据."
                 ]
             },
             getHeaderByCell:{
                 $desc:"根据一个单元格得到列对象.",
                 $rtn:"Object",
                 $paras:[
-                    "cell [必需参数] : Object."
+                    "cell [必需参数] : Object.",
+                    "type [可选参数] : String, 'data': 得到行数据; 'min': 得到行的最简化数据; 其他值，得到内存中行的原数据."
                 ]
             },
             getHeaderbyCell:{
                 $desc:"根据一个单元格得到列头对象.",
                 $rtn:"Object",
                 $paras:[
-                    "cell [必需参数] : Object."
+                    "cell [必需参数] : Object.",
+                    "type [可选参数] : String, 'data': 得到行数据; 'min': 得到行的最简化数据; 其他值，得到内存中行的原数据."
                 ]
             },
             getSubNodeInGrid:{

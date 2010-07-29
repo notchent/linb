@@ -8750,12 +8750,17 @@ Class("linb.Tips", null,{
                         }else
                             styleI.width=w+'px';
 
-                        //pop(visible too)
-                        node.popToTop({left:pos.left,top:pos.top,region:{
-                            left:pos.left,
-                            top:pos.top-12,
-                            width:24,height:32
-                        }},1);
+                        if(pos===true){
+                            style.visibility='visible';
+                        }else{
+                            //pop(visible too)
+                            node.popToTop({left:pos.left,top:pos.top,region:{
+                                left:pos.left,
+                                top:pos.top-12,
+                                width:24,height:32
+                            }},1);
+                        }
+                        
                         style=styleI=t1=null;
                     }else
                         node.css('zIndex',0).hide();
@@ -8830,6 +8835,11 @@ Class("linb.Tips", null,{
         },
         getTips:function(){
             return this._curTips;
+        },
+        setTips:function(s){
+            if(this._curTips && this._tpl&& this._Node){
+                this._tpl.show(s, true);
+            }
         },
         show:function(pos, item, key){
             var self=this,t;
@@ -13099,7 +13109,7 @@ Class("linb.UI",  "linb.absObj", {
             if(p.disabled)
                 b.setDisabled(true,true);
 
-            self.inValid=1;
+            self._inValid=1;
         },
         $doResize:function(profile,w,h,force,key){
             if(force || ((w||h) && (profile._resize_w!=w || profile._resize_h!=h))){
@@ -14006,18 +14016,20 @@ Class("linb.absValue", "linb.absObj",{
         _setCtrlValue:function(value){return this},
         _setDirtyMark:function(key){
           return this.each(function(profile){
-                if(!profile.properties.dirtyMark)return;
                 if(!profile.renderId)return;
                 var properties = profile.properties,
                     flag=properties.value !== properties.$UIvalue,
                     o=profile.getSubNode(key||"KEY"),
                     d=linb.UI.$css_tag_dirty;
                 if(profile._dirtyFlag!==flag){
-                    if(profile.beforeDirtyMark && false===profile.boxing().beforeDirtyMark(profile,flag)){}
-                    else{
-                        if(profile._dirtyFlag=flag) o.addClass(d);
-                        else o.removeClass(d);
+                    if(properties.dirtyMark){
+                        if(profile.beforeDirtyMark && false===profile.boxing().beforeDirtyMark(profile,flag)){}
+                        else{
+                            if(flag) o.addClass(d);
+                            else o.removeClass(d);
+                        }
                     }
+                    profile._dirtyFlag=flag;
                 }
             });
         },
@@ -14038,7 +14050,8 @@ Class("linb.absValue", "linb.absObj",{
                     pro.$UIvalue = value;
                     if(typeof(r=profile.$onValueSet)=='function')r.call(profile,value);
                 }
-                profile.inValid=1;
+                profile._dirtyFlag=false;
+                if(!profile._inValid)profile._inValid=1;
             });
             self._setDirtyMark();
             return self;
@@ -14184,7 +14197,7 @@ Class("linb.absValue", "linb.absObj",{
                     //value copy
                     p.value = p.$UIvalue = nv;
 
-                    profile.inValid=1;
+                    if(!profile._inValid)profile._inValid=1;
                     if(profile.renderId)box._setDirtyMark();
                     if(profile.afterValueSet)box.afterValueSet(profile, ovalue, nv);
                 }
@@ -17352,7 +17365,7 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
         _setTB:function(type){
             var profile=this.get(0), p=profile.properties, o, t;
             if(!profile.host|| !p.tipsBinder)return;
-
+            var ot=profile.tips;
             t = profile.tips = profile.tips||p.tips||'';
             o = linb.getObject(p.tipsBinder)|| ((o=profile.host[p.tipsBinder]) &&o.get(0) );
             if(o && (o.key=='linb.UI.Span'||o.key=='linb.UI.Div'||o.key=='linb.UI.SLabel')){
@@ -17362,6 +17375,7 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
                     o.getRoot().css('color', type==1?'gray':type==2?'red':'#000');
                 }
             }
+            if(ot!==profile.tips && linb.Tips && linb.Tips.getTips())linb.Tips.setTips(profile.tips);
         },
         activate:function(){
             var profile = this.get(0);
@@ -17384,7 +17398,6 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
         },
         _setDirtyMark:function(){
             return this.each(function(profile){
-                if(!profile.properties.dirtyMark)return;
                 var properties = profile.properties,
                     o=profile.getSubNode('INPUT'),
                     cls=profile.box,
@@ -17392,37 +17405,42 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
                     d=linb.UI.$css_tag_dirty,
                     v=linb.UI.$css_tag_invalid,
                     flag=properties.value !== properties.$UIvalue;
-
-                if(profile.inValid==2){
+                var ot=profile.tips;
+                if(profile._inValid==2){
                     //display tips
                     profile.tips = properties.tipsErr || properties.tips;
                     if(properties.mask){
                         _.asyRun(function(){
                             box.setUIValue(o.get(0).value=profile.$Mask)
                         });
-                        profile.inValid=1;
+                        profile._inValid=1;
                         flag=false;
                     }
                 }else{
-                    if(profile.inValid==1)
+                    if(profile._inValid==1)
                         profile.tips = properties.tips;
                     else{
                         profile.tips = properties.tipsOK || properties.tips;
                     }
                 }
+                if(ot!==profile.tips && linb.Tips && linb.Tips.getTips())linb.Tips.setTips(profile.tips);
+                
                 if(profile._dirtyFlag!==flag){
-                    if(profile.beforeDirtyMark && false===box.beforeDirtyMark(profile,flag)){}
-                    else{
-                        if(profile._dirtyFlag=flag) o.addClass(d);
-                        else o.removeClass(d);
+                    if(properties.dirtyMark){
+                        if(profile.beforeDirtyMark && false===box.beforeDirtyMark(profile,flag)){}
+                        else{
+                            if(profile._dirtyFlag=flag) o.addClass(d);
+                            else o.removeClass(d);
+                        }
                     }
+                    profile._dirtyFlag=flag
                 }
                 
                 //format statux
-                if(profile.beforeFormatMark && false===box.beforeFormatMark(profile, profile.inValid==2)){}
+                if(profile.beforeFormatMark && false===box.beforeFormatMark(profile, profile._inValid==2)){}
                 else{
                     var err = profile.getSubNode('ERROR');
-                    if(profile.inValid==2){
+                    if(profile._inValid==2){
                         o.addClass(v);
                         err.css('display','block');
                     }else{
@@ -17430,7 +17448,7 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
                         err.css('display','none');
                     }
                 }
-                box._setTB(profile.inValid);
+                box._setTB(profile._inValid);
             });
         }
     },
@@ -17607,13 +17625,13 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
             INPUT:{
                 onChange:function(profile, e, src){
                     var p=profile.properties,b=profile.box,
-                        o=profile.inValid,
+                        o=profile._inValid,
                         value=linb.use(src).get(0).value;
                     // trigger events
                     profile.boxing().setUIValue(value);
                     // input/textarea is special, ctrl value will be set before the $UIvalue
                     p.$UIvalue=value;
-                    if(o!==profile.inValid) if(profile.renderId)profile.boxing()._setDirtyMark();
+                    if(o!==profile._inValid) if(profile.renderId)profile.boxing()._setDirtyMark();
 
                     b._asyCheck(profile);
                 },
@@ -18029,10 +18047,10 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
                 (vf1 && typeof vf1=='string' && !(new RegExp(vf1)).test((value===0?'0':value)||'')) ||
                 (vf2 && typeof vf2=='string' && !(new RegExp(vf2)).test((value===0?'0':value)||''))
             ){
-                profile.inValid=2;
+                profile._inValid=2;
                 return false;
             }{
-                profile.inValid=3;
+                profile._inValid=3;
                 return true;
             }
         },
@@ -19443,7 +19461,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                 onChange:function(profile, e, src){
                     if(profile.$_onedit||profile.$_inner)return;
 
-                    var o=profile.inValid,
+                    var o=profile._inValid,
                         b=profile.box,
                         instance=profile.boxing(),
                         v = instance._fromEditor(linb.use(src).get(0).value),
@@ -19460,7 +19478,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                             instance.setUIValue(v);
                             // input/textarea is special, ctrl value will be set before the $UIvalue
                             profile.properties.$UIvalue=v;
-                            if(o!==profile.inValid) if(profile.renderId)instance._setDirtyMark();
+                            if(o!==profile._inValid) if(profile.renderId)instance._setDirtyMark();
                         }
                     }
                     b._asyCheck(profile);
@@ -29749,14 +29767,6 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
             }else
                 return v;
         },
-        toggleRow:function(id, expend){
-            var profile = this.get(0),
-            row = profile.rowMap[profile.rowMap2[id]];
-            if(row && row.sub)
-                profile.box._setSub(profile, row, typeof expend=="boolean"?expend:!row._checked);
-            return this;
-
-        },
         getRowbyRowId:function(rowId, type){
             var profile=this.get(0),v=profile.rowMap2[rowId];
             v=v?profile.rowMap[v]:null;
@@ -29787,6 +29797,15 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                 }else
                     return v;
             }          
+        },
+
+        toggleRow:function(id, expend){
+            var profile = this.get(0),
+            row = profile.rowMap[profile.rowMap2[id]];
+            if(row && row.sub)
+                profile.box._setSub(profile, row, typeof expend=="boolean"?expend:!row._checked);
+            return this;
+
         },
         updateRow:function(rowId,options){
             var ns=this, orow=ns.getRowbyRowId(rowId);
@@ -30111,6 +30130,22 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
             }else
                 return v;
         },
+        getHeaderByColId:function(colId, type){
+            var v=this.get(0).properties.header,
+                i=_.arr.subIndexOf(v,"id",colId);
+            return i==-1?null:
+                type=='data'?_.clone(v[i],true):
+                type=='min'?v[i].id:
+                v[i];
+        },
+        getHeaderByCell:function(cell, type){
+            var v=cell._col;
+            return !v?null:
+                type=='data'?_.clone(v,true):
+                type=='min'?v.id:
+                v;
+        },
+
         updateHeader:function(colId,options){
             var ns=this, colh=ns.getHeaderByColId(colId);
             if(colh){
@@ -30163,14 +30198,6 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
             }
             return ns;
         },
-        getHeaderByColId:function(colId){
-            var v=this.get(0).properties.header,
-                i=_.arr.subIndexOf(v,"id",colId);
-            return v[i];
-        },
-        getHeaderByCell:function(cell){
-            return cell._col;
-        },
         showColumn:function(colId, flag){
             return this.each(function(profile){
                 var map=profile.colMap2,
@@ -30191,31 +30218,42 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
         },
 
         /*cell realted*/
-        getCell:function(cellId){
-            var self=this,prf=this.get(0);
+        getCell:function(cellId, type){
+            var self=this,prf=this.get(0),v;
             _.each(prf.cellMap,function(o){
                 if(o.id && o.id===cellId){
                     cellId=o._serialId;
                     return false;
                 }
             });
-            return prf.cellMap[cellId];
+            v=prf.cellMap[cellId];
+            return !v?null:
+                    type=='data'? _.merge({rowId:v._row.id, colId:v._col.id},_.clone(v,true)):
+                    type=='min'? v.value:
+                    v;
         },
-        getCellbyRowCol:function(rowId, colId){
+        getCellbyRowCol:function(rowId, colId, type){
             var profile=this.get(0),v;
             v=_.get(profile.rowMap,[profile.rowMap2[rowId], '_cells',colId]);
-            return v?profile.cellMap[v]:null;
+            v=v && prf.cellMap[v];
+            return !v?null:
+                    type=='data'? _.merge({rowId:v._row.id, colId:v._col.id},_.clone(v,true)):
+                    type=='min'? v.value:
+                    v;
         },
-        getCells:function(rowId, colId){
+        getCells:function(rowId, colId, type){
             var map={};
             _.each(this.get(0).cellMap,function(v){
                 if((rowId?(rowId==v._row.id):1) && (colId?(colId==v._col.id):1)){
-                    map[v.id]={rowId:v._row.id, colId:v._col.id, value:v.value, oValue:v.oValue};
+                    map[v.id]= type=='data'?_.merge({rowId:v._row.id, colId:v._col.id},_.clone(v,true)):
+                               type=='min' ? v.value:
+                               v;
                 }
             });
             //dont return inner value
             return map;
         },
+
         updateCellByRowCol:function(rowId, colId, options, dirtyMark, triggerEvent){
             var t,self=this,con=self.constructor;
             if(t=con._getCellId(self.get(0), rowId, colId))
@@ -32239,12 +32277,19 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
 /*
 cellStyle
 cellClass
+cellRenderer
 
 renderer
 type
 disabled
 readonly
 editable
+value
+caption
+sortby [for column only]
+
+customEditor -> an object for custom editor. or the below prop
+
 editorListKey
 editorListItems
 editorFormat
@@ -32254,10 +32299,7 @@ editorEvents
 editorReadonly
 editorDropListWidth
 editorDropListHeight
-value
-caption
 
-sortby [for column only]
 */
                 node.cellCls=profile.getClass('CELL', '-'+type) + (t2?(' '+dcls):'') + (t3?(' '+rcls):'');
                 node.type=type;
@@ -32671,13 +32713,12 @@ sortby [for column only]
             if(profile.box.getCellPro(profile, cell,'disabled') || profile.box.getCellPro(profile, cell,'readonly'))return ;
                 
             var cellNode = profile.getSubNode('CELL', cellId),
-                colId = cell._col.id,
-                editor = profile.$curEditor;
+                colId = cell._col.id;
 
+            var editor = profile.$curEditor;
             //clear the prev editor
             if(editor)
                 _.tryF(editor.undo,[],editor);
-
             editor=null;
 
             //if beforeIniEditor doesn't return an editor
@@ -32688,28 +32729,39 @@ sortby [for column only]
                 type=getPro('type'),
                 t;
 
+            // 1. customEditor in cell/row or header
+            editor = profile.box.getCellPro(profile, cell,'customEditor');
+            if(editor && typeof editor.iniEditor=='function'){
+                editor.iniEditor(profile, cell, cellNode);
+                _.tryF(editor.activate,[],editor);
+                return;
+            }
+            
+            // 2. for checkbox/lable,button type
             if(type=='checkbox'){
                 cellNode.first().focus();
                 return;
             }else if(type=='button'||type=='label')
                 return;
 
-            //try to get editor from cache
+            // 3. for custom, datetime 
+            if(type=='custom'||type=='datetime')
+                return;
+            // 4. try to get editor from cache
             //triggers beforeIniEditor event once only if the editor is a linb.UI.ComboInput/Input.
             if(profile.$cache_editor[type])
                 editor=profile.$cache_editor[type];
             //create editor
             else{
-                //beforeIniEditor, return false or a editor(linb.UI object)
+                // 5. beforeIniEditor, return false or a editor(linb.UI object)
                 if(profile.beforeIniEditor){
                     editor=profile.boxing().beforeIniEditor(profile, cell, cellNode);
                     //handler editor by yourself
                     if(editor===false)
                         return;
                 }
-                if(type=='custom'||type=='datetime')
-                    return;
 
+                // 6. create one
                 if(!editor || !editor['linb.UI'])
                     editor=new linb.UI.ComboInput({dirtyMark:false,cachePopWnd:false,left:-1000,top:-1000,position:'absolute',visibility:'hidden',zIndex:100});
                 switch(type){
@@ -32818,7 +32870,9 @@ sortby [for column only]
             if(editorEvents){
                 editor.setEvents(editorEvents);
             }
-
+            
+            // clear for valueFormat
+            editor.resetValue();
             //$editorValue must be set in beforeIniEditor
             editor.setValue(cell.$editorValue||cell.value,true);
             delete cell.$editorValue;

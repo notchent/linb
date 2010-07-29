@@ -5104,13 +5104,20 @@ _.set(linb.Locale,["en","app"], {
             $snippet:["alert(linb.Tips.TIPSKEY)"]
         },
         getTips:{
-            $desc:"String, To get the tips string.",
+            $desc:"To get the tips string.",
+            $rtn:"String",
             $snippet:[
                 "linb.Tips.show({left:100,top:100}, 'a string');"+
                 "alert(linb.Tips.getTips());"+
                 "linb.Tips.hide();"+
                 "alert(linb.Tips.getTips());"
             ]
+        },
+        setTips:{
+            $desc:"To set the tips string.",
+            $paras:[
+                "s [Required] : String"
+            ],
         },
         hide:{
             $desc:"To hide the tooltips.",
@@ -14075,7 +14082,8 @@ _.set(linb.Locale,["en","app"], {
                 $desc:"Gets the cell Object according to its id.",
                 $rtn:"Ojbect",
                 $paras:[
-                    "cellId : [Required] : String."
+                    "cellId : [Required] : String.",
+                    "type [Optional] : String, 'data': get rows' data; 'min': get rows' min data; else, return the memory one."
                 ]
             },
             isDirtied:{
@@ -14087,7 +14095,8 @@ _.set(linb.Locale,["en","app"], {
                 $rtn:"Objcet. {cellId:{rowId:, colId:, value:, oValue:}}",
                 $paras:[
                     "rowId : [Optional] : String, return this row's cell only.",
-                    "colId : [Optional] : String, return this col's cell only."
+                    "colId : [Optional] : String, return this col's cell only.",
+                    "type [Optional] : String, 'data': get rows' data; 'min': get rows' min data; else, return the memory one."
                 ]
             },
             getDirtied:{
@@ -14103,7 +14112,8 @@ _.set(linb.Locale,["en","app"], {
                 $rtn:"Ojbect",
                 $paras:[
                     "rowId [Required] : String, row id.",
-                    "colId [Requried] : String, column id."
+                    "colId [Requried] : String, column id.",
+                    "type [Optional] : String, 'data': get rows' data; 'min': get rows' min data; else, return the memory one."
                 ],
                 $snippet:[
                     "var id='linb.temp.grid7.1'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -14667,7 +14677,7 @@ _.set(linb.Locale,["en","app"], {
             getRows :{
                 $desc:"Gets the all rows of this grid",
                 $paras:[
-                    "type [Optional] : String, 'data': get rows' data; 'min': get rows' min data; else, return the memory one. Default is 'data'"
+                    "type [Optional] : String, 'data': get rows' data; 'min': get rows' min data; else, return the memory one."
                 ],
                 $rtn:"Array",
                 $snippet:[
@@ -14732,7 +14742,8 @@ _.set(linb.Locale,["en","app"], {
                 $desc:"Gets a specified column's header value.",
                 $rtn:"Ojbect",
                 $paras:[
-                    "colId : [Required] : String, column id."
+                    "colId : [Required] : String, column id.",
+                    "type [Optional] : String, 'data': get rows' data; 'min': get rows' min data; else, return the memory one."
                 ],
                 $snippet:[
                     "var id='linb.temp.grid35-0'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -14764,7 +14775,7 @@ _.set(linb.Locale,["en","app"], {
                 $rtn:"Object",
                 $paras:[
                     "rowId [Required] : String.",
-                    "type [Optional] : String, 'data': get rows' data; 'min': get rows' min data; else, return the memory one. Default is 'data'"
+                    "type [Optional] : String, 'data': get rows' data; 'min': get rows' min data; else, return the memory one."
                 ],
                 $snippet:[
                     "var id='linb.temp.grid36'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -14780,14 +14791,15 @@ _.set(linb.Locale,["en","app"], {
                 $rtn:"Object",
                 $paras:[
                     "cell [Required] : Object.",
-                    "type [Optional] : String, 'data': get rows' data; 'min': get rows' min data; else, return the memory one. Default is 'data'"
+                    "type [Optional] : String, 'data': get rows' data; 'min': get rows' min data; else, return the memory one."
                 ]
             },
             getHeaderbyCell:{
                 $desc:"Gets a header(col) item Object according to a cell Object.",
                 $rtn:"Object",
                 $paras:[
-                    "cell [Required] : Object."
+                    "cell [Required] : Object.",
+                    "type [Optional] : String, 'data': get rows' data; 'min': get rows' min data; else, return the memory one."
                 ]
             },
             getHeaderbyCell:{

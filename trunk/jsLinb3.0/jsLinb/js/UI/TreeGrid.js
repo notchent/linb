@@ -194,14 +194,6 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
             }else
                 return v;
         },
-        toggleRow:function(id, expend){
-            var profile = this.get(0),
-            row = profile.rowMap[profile.rowMap2[id]];
-            if(row && row.sub)
-                profile.box._setSub(profile, row, typeof expend=="boolean"?expend:!row._checked);
-            return this;
-
-        },
         getRowbyRowId:function(rowId, type){
             var profile=this.get(0),v=profile.rowMap2[rowId];
             v=v?profile.rowMap[v]:null;
@@ -232,6 +224,15 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                 }else
                     return v;
             }          
+        },
+
+        toggleRow:function(id, expend){
+            var profile = this.get(0),
+            row = profile.rowMap[profile.rowMap2[id]];
+            if(row && row.sub)
+                profile.box._setSub(profile, row, typeof expend=="boolean"?expend:!row._checked);
+            return this;
+
         },
         updateRow:function(rowId,options){
             var ns=this, orow=ns.getRowbyRowId(rowId);
@@ -556,6 +557,22 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
             }else
                 return v;
         },
+        getHeaderByColId:function(colId, type){
+            var v=this.get(0).properties.header,
+                i=_.arr.subIndexOf(v,"id",colId);
+            return i==-1?null:
+                type=='data'?_.clone(v[i],true):
+                type=='min'?v[i].id:
+                v[i];
+        },
+        getHeaderByCell:function(cell, type){
+            var v=cell._col;
+            return !v?null:
+                type=='data'?_.clone(v,true):
+                type=='min'?v.id:
+                v;
+        },
+
         updateHeader:function(colId,options){
             var ns=this, colh=ns.getHeaderByColId(colId);
             if(colh){
@@ -608,14 +625,6 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
             }
             return ns;
         },
-        getHeaderByColId:function(colId){
-            var v=this.get(0).properties.header,
-                i=_.arr.subIndexOf(v,"id",colId);
-            return v[i];
-        },
-        getHeaderByCell:function(cell){
-            return cell._col;
-        },
         showColumn:function(colId, flag){
             return this.each(function(profile){
                 var map=profile.colMap2,
@@ -636,31 +645,42 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
         },
 
         /*cell realted*/
-        getCell:function(cellId){
-            var self=this,prf=this.get(0);
+        getCell:function(cellId, type){
+            var self=this,prf=this.get(0),v;
             _.each(prf.cellMap,function(o){
                 if(o.id && o.id===cellId){
                     cellId=o._serialId;
                     return false;
                 }
             });
-            return prf.cellMap[cellId];
+            v=prf.cellMap[cellId];
+            return !v?null:
+                    type=='data'? _.merge({rowId:v._row.id, colId:v._col.id},_.clone(v,true)):
+                    type=='min'? v.value:
+                    v;
         },
-        getCellbyRowCol:function(rowId, colId){
+        getCellbyRowCol:function(rowId, colId, type){
             var profile=this.get(0),v;
             v=_.get(profile.rowMap,[profile.rowMap2[rowId], '_cells',colId]);
-            return v?profile.cellMap[v]:null;
+            v=v && prf.cellMap[v];
+            return !v?null:
+                    type=='data'? _.merge({rowId:v._row.id, colId:v._col.id},_.clone(v,true)):
+                    type=='min'? v.value:
+                    v;
         },
-        getCells:function(rowId, colId){
+        getCells:function(rowId, colId, type){
             var map={};
             _.each(this.get(0).cellMap,function(v){
                 if((rowId?(rowId==v._row.id):1) && (colId?(colId==v._col.id):1)){
-                    map[v.id]={rowId:v._row.id, colId:v._col.id, value:v.value, oValue:v.oValue};
+                    map[v.id]= type=='data'?_.merge({rowId:v._row.id, colId:v._col.id},_.clone(v,true)):
+                               type=='min' ? v.value:
+                               v;
                 }
             });
             //dont return inner value
             return map;
         },
+
         updateCellByRowCol:function(rowId, colId, options, dirtyMark, triggerEvent){
             var t,self=this,con=self.constructor;
             if(t=con._getCellId(self.get(0), rowId, colId))
@@ -2684,12 +2704,19 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
 /*
 cellStyle
 cellClass
+cellRenderer
 
 renderer
 type
 disabled
 readonly
 editable
+value
+caption
+sortby [for column only]
+
+customEditor -> an object for custom editor. or the below prop
+
 editorListKey
 editorListItems
 editorFormat
@@ -2699,10 +2726,7 @@ editorEvents
 editorReadonly
 editorDropListWidth
 editorDropListHeight
-value
-caption
 
-sortby [for column only]
 */
                 node.cellCls=profile.getClass('CELL', '-'+type) + (t2?(' '+dcls):'') + (t3?(' '+rcls):'');
                 node.type=type;
@@ -3116,13 +3140,12 @@ sortby [for column only]
             if(profile.box.getCellPro(profile, cell,'disabled') || profile.box.getCellPro(profile, cell,'readonly'))return ;
                 
             var cellNode = profile.getSubNode('CELL', cellId),
-                colId = cell._col.id,
-                editor = profile.$curEditor;
+                colId = cell._col.id;
 
+            var editor = profile.$curEditor;
             //clear the prev editor
             if(editor)
                 _.tryF(editor.undo,[],editor);
-
             editor=null;
 
             //if beforeIniEditor doesn't return an editor
@@ -3133,28 +3156,39 @@ sortby [for column only]
                 type=getPro('type'),
                 t;
 
+            // 1. customEditor in cell/row or header
+            editor = profile.box.getCellPro(profile, cell,'customEditor');
+            if(editor && typeof editor.iniEditor=='function'){
+                editor.iniEditor(profile, cell, cellNode);
+                _.tryF(editor.activate,[],editor);
+                return;
+            }
+            
+            // 2. for checkbox/lable,button type
             if(type=='checkbox'){
                 cellNode.first().focus();
                 return;
             }else if(type=='button'||type=='label')
                 return;
 
-            //try to get editor from cache
+            // 3. for custom, datetime 
+            if(type=='custom'||type=='datetime')
+                return;
+            // 4. try to get editor from cache
             //triggers beforeIniEditor event once only if the editor is a linb.UI.ComboInput/Input.
             if(profile.$cache_editor[type])
                 editor=profile.$cache_editor[type];
             //create editor
             else{
-                //beforeIniEditor, return false or a editor(linb.UI object)
+                // 5. beforeIniEditor, return false or a editor(linb.UI object)
                 if(profile.beforeIniEditor){
                     editor=profile.boxing().beforeIniEditor(profile, cell, cellNode);
                     //handler editor by yourself
                     if(editor===false)
                         return;
                 }
-                if(type=='custom'||type=='datetime')
-                    return;
 
+                // 6. create one
                 if(!editor || !editor['linb.UI'])
                     editor=new linb.UI.ComboInput({dirtyMark:false,cachePopWnd:false,left:-1000,top:-1000,position:'absolute',visibility:'hidden',zIndex:100});
                 switch(type){
@@ -3263,7 +3297,9 @@ sortby [for column only]
             if(editorEvents){
                 editor.setEvents(editorEvents);
             }
-
+            
+            // clear for valueFormat
+            editor.resetValue();
             //$editorValue must be set in beforeIniEditor
             editor.setValue(cell.$editorValue||cell.value,true);
             delete cell.$editorValue;

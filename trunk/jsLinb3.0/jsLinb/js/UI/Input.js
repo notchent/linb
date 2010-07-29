@@ -3,7 +3,7 @@ Class("linb.UI.Input", ["linb.UI.Widget","linb.absValue"] ,{
         _setTB:function(type){
             var profile=this.get(0), p=profile.properties, o, t;
             if(!profile.host|| !p.tipsBinder)return;
-
+            var ot=profile.tips;
             t = profile.tips = profile.tips||p.tips||'';
             o = linb.getObject(p.tipsBinder)|| ((o=profile.host[p.tipsBinder]) &&o.get(0) );
             if(o && (o.key=='linb.UI.Span'||o.key=='linb.UI.Div'||o.key=='linb.UI.SLabel')){
@@ -13,6 +13,7 @@ Class("linb.UI.Input", ["linb.UI.Widget","linb.absValue"] ,{
                     o.getRoot().css('color', type==1?'gray':type==2?'red':'#000');
                 }
             }
+            if(ot!==profile.tips && linb.Tips && linb.Tips.getTips())linb.Tips.setTips(profile.tips);
         },
         activate:function(){
             var profile = this.get(0);
@@ -35,7 +36,6 @@ Class("linb.UI.Input", ["linb.UI.Widget","linb.absValue"] ,{
         },
         _setDirtyMark:function(){
             return this.each(function(profile){
-                if(!profile.properties.dirtyMark)return;
                 var properties = profile.properties,
                     o=profile.getSubNode('INPUT'),
                     cls=profile.box,
@@ -43,37 +43,42 @@ Class("linb.UI.Input", ["linb.UI.Widget","linb.absValue"] ,{
                     d=linb.UI.$css_tag_dirty,
                     v=linb.UI.$css_tag_invalid,
                     flag=properties.value !== properties.$UIvalue;
-
-                if(profile.inValid==2){
+                var ot=profile.tips;
+                if(profile._inValid==2){
                     //display tips
                     profile.tips = properties.tipsErr || properties.tips;
                     if(properties.mask){
                         _.asyRun(function(){
                             box.setUIValue(o.get(0).value=profile.$Mask)
                         });
-                        profile.inValid=1;
+                        profile._inValid=1;
                         flag=false;
                     }
                 }else{
-                    if(profile.inValid==1)
+                    if(profile._inValid==1)
                         profile.tips = properties.tips;
                     else{
                         profile.tips = properties.tipsOK || properties.tips;
                     }
                 }
+                if(ot!==profile.tips && linb.Tips && linb.Tips.getTips())linb.Tips.setTips(profile.tips);
+                
                 if(profile._dirtyFlag!==flag){
-                    if(profile.beforeDirtyMark && false===box.beforeDirtyMark(profile,flag)){}
-                    else{
-                        if(profile._dirtyFlag=flag) o.addClass(d);
-                        else o.removeClass(d);
+                    if(properties.dirtyMark){
+                        if(profile.beforeDirtyMark && false===box.beforeDirtyMark(profile,flag)){}
+                        else{
+                            if(profile._dirtyFlag=flag) o.addClass(d);
+                            else o.removeClass(d);
+                        }
                     }
+                    profile._dirtyFlag=flag
                 }
                 
                 //format statux
-                if(profile.beforeFormatMark && false===box.beforeFormatMark(profile, profile.inValid==2)){}
+                if(profile.beforeFormatMark && false===box.beforeFormatMark(profile, profile._inValid==2)){}
                 else{
                     var err = profile.getSubNode('ERROR');
-                    if(profile.inValid==2){
+                    if(profile._inValid==2){
                         o.addClass(v);
                         err.css('display','block');
                     }else{
@@ -81,7 +86,7 @@ Class("linb.UI.Input", ["linb.UI.Widget","linb.absValue"] ,{
                         err.css('display','none');
                     }
                 }
-                box._setTB(profile.inValid);
+                box._setTB(profile._inValid);
             });
         }
     },
@@ -258,13 +263,13 @@ Class("linb.UI.Input", ["linb.UI.Widget","linb.absValue"] ,{
             INPUT:{
                 onChange:function(profile, e, src){
                     var p=profile.properties,b=profile.box,
-                        o=profile.inValid,
+                        o=profile._inValid,
                         value=linb.use(src).get(0).value;
                     // trigger events
                     profile.boxing().setUIValue(value);
                     // input/textarea is special, ctrl value will be set before the $UIvalue
                     p.$UIvalue=value;
-                    if(o!==profile.inValid) if(profile.renderId)profile.boxing()._setDirtyMark();
+                    if(o!==profile._inValid) if(profile.renderId)profile.boxing()._setDirtyMark();
 
                     b._asyCheck(profile);
                 },
@@ -680,10 +685,10 @@ Class("linb.UI.Input", ["linb.UI.Widget","linb.absValue"] ,{
                 (vf1 && typeof vf1=='string' && !(new RegExp(vf1)).test((value===0?'0':value)||'')) ||
                 (vf2 && typeof vf2=='string' && !(new RegExp(vf2)).test((value===0?'0':value)||''))
             ){
-                profile.inValid=2;
+                profile._inValid=2;
                 return false;
             }{
-                profile.inValid=3;
+                profile._inValid=3;
                 return true;
             }
         },

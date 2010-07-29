@@ -3743,7 +3743,7 @@ Class("linb.UI",  "linb.absObj", {
             if(p.disabled)
                 b.setDisabled(true,true);
 
-            self.inValid=1;
+            self._inValid=1;
         },
         $doResize:function(profile,w,h,force,key){
             if(force || ((w||h) && (profile._resize_w!=w || profile._resize_h!=h))){
@@ -4650,18 +4650,20 @@ Class("linb.absValue", "linb.absObj",{
         _setCtrlValue:function(value){return this},
         _setDirtyMark:function(key){
           return this.each(function(profile){
-                if(!profile.properties.dirtyMark)return;
                 if(!profile.renderId)return;
                 var properties = profile.properties,
                     flag=properties.value !== properties.$UIvalue,
                     o=profile.getSubNode(key||"KEY"),
                     d=linb.UI.$css_tag_dirty;
                 if(profile._dirtyFlag!==flag){
-                    if(profile.beforeDirtyMark && false===profile.boxing().beforeDirtyMark(profile,flag)){}
-                    else{
-                        if(profile._dirtyFlag=flag) o.addClass(d);
-                        else o.removeClass(d);
+                    if(properties.dirtyMark){
+                        if(profile.beforeDirtyMark && false===profile.boxing().beforeDirtyMark(profile,flag)){}
+                        else{
+                            if(flag) o.addClass(d);
+                            else o.removeClass(d);
+                        }
                     }
+                    profile._dirtyFlag=flag;
                 }
             });
         },
@@ -4682,7 +4684,8 @@ Class("linb.absValue", "linb.absObj",{
                     pro.$UIvalue = value;
                     if(typeof(r=profile.$onValueSet)=='function')r.call(profile,value);
                 }
-                profile.inValid=1;
+                profile._dirtyFlag=false;
+                if(!profile._inValid)profile._inValid=1;
             });
             self._setDirtyMark();
             return self;
@@ -4828,7 +4831,7 @@ Class("linb.absValue", "linb.absObj",{
                     //value copy
                     p.value = p.$UIvalue = nv;
 
-                    profile.inValid=1;
+                    if(!profile._inValid)profile._inValid=1;
                     if(profile.renderId)box._setDirtyMark();
                     if(profile.afterValueSet)box.afterValueSet(profile, ovalue, nv);
                 }
