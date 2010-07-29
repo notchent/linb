@@ -4684,7 +4684,6 @@ Class("linb.absValue", "linb.absObj",{
                     pro.$UIvalue = value;
                     if(typeof(r=profile.$onValueSet)=='function')r.call(profile,value);
                 }
-                profile._dirtyFlag=false;
                 if(!profile._inValid)profile._inValid=1;
             });
             self._setDirtyMark();

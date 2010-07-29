@@ -14050,7 +14050,6 @@ Class("linb.absValue", "linb.absObj",{
                     pro.$UIvalue = value;
                     if(typeof(r=profile.$onValueSet)=='function')r.call(profile,value);
                 }
-                profile._dirtyFlag=false;
                 if(!profile._inValid)profile._inValid=1;
             });
             self._setDirtyMark();
@@ -31181,13 +31180,12 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                             switch(type){
                                 case 'number':
                                 case 'spin':
+                                case 'currency':
                                     ff=function(n){return parseFloat(n)||0};
                                     break;
-                                case 'currency':
-                                    ff=function(n){return parseFloat(n.replace(/,/g,''))||0};
-                                    break;
+                                case 'datetime':
                                 case 'date':
-                                    ff=function(n){return new Date(n).getTime()||0};
+                                    ff=function(n){return _.isDate(n)?n.getTime():(_.isSet(n)&&isFinite(n))?parseInt(n):0};
                                     break;
                                 default:
                                     ff=function(n){return n||''};
@@ -31708,6 +31706,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
         DataModel:{
             directInput:true,
             listKey:null,
+            currencyTpl:"",
             selMode:{
                 ini:'none',
                 listbox:['single','none','multi'],
@@ -32210,6 +32209,10 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                     var v=parseFloat((cell.value+"").replace(/,/,''));
                     cell.value=(v||v===0)?v:0.00;
                     caption= capOut ||ren(profile,cell,ncell,f4);
+                    var tpl = getPro(profile, cell, 'currencyTpl');
+                    if(tpl)
+                        caption = tpl.replace("*", caption);
+
                     if(dom)
                         node.html(caption,false);
                 break;
@@ -32937,10 +32940,12 @@ editorDropListHeight
                 switch(type){
                     case 'number':
                     case 'spin':
-                        nV=parseFloat(nV)||0;
+                        //avoid empty string
+                        nV=pro.box._number(pro,nV);
                         break;
                     case 'currency':
-                        nV=parseFloat(nV.replace(/,/g,''))||0;
+                        //avoid empty string
+                        nV=pro.box._currency(pro,nV);
                         break;
                     case 'cmdbox':
                     case 'popbox':

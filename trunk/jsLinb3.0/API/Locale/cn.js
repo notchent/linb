@@ -13934,6 +13934,18 @@ _.set(linb.Locale,["cn","app"], {
                     "}"
                 ]
             },
+            getCurrencyTpl:{
+                $desc:"得到货币的显示模板",
+                $rtn:"String"
+            },
+            setCurrencyTpl:{
+                $desc:"设置货币的显示模板",
+                $rtn:"[self]",
+                $paras:[
+                    "value [必需参数] : String.",
+                    "force [可选参数] : Boolean, 强制设置该属性值，即使属性已经设置为该值. 默认为 [false]."
+                ]
+            },
             getAltRowsBg :{
                 $desc:"判断是否使用不同的背景色区分相邻的两行",
                 $rtn:"Boolean",

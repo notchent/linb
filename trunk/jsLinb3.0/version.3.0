@@ -84,6 +84,7 @@ linb.UI.Panel/linb.UI.Dialog
      Added events:onRefresh
 
 linb.UI.TreeGrid
+     Added properties: currencyTpl
      Added functions: getCell, editCell, focusCell, focusCellbyRowCol, getDirtied, getCells
      Added events: onNewLineTriggerred, afterCellFocused
      Modified funcitons: Add triggerEvent parameter to updateCell function.

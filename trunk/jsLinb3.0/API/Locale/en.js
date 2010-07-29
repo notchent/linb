@@ -14010,6 +14010,18 @@ _.set(linb.Locale,["en","app"], {
                     "}"
                 ]
             },
+            getCurrencyTpl:{
+                $desc:"Gets the currency template",
+                $rtn:"String"
+            },
+            setCurrencyTpl:{
+                $desc:"Sets the currency template",
+                $rtn:"[self]",
+                $paras:[
+                    "value [Required] : String.",
+                    "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
+                ]
+            },
             getAltRowsBg :{
                 $desc:"Determines whether to show rows in stripe.",
                 $rtn:"Boolean",
