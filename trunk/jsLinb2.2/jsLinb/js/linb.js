@@ -2095,7 +2095,7 @@ new function(){
     Z=(function(a,b){a=-(new Date).getTimezoneOffset()/60; b=a>0?'+':'-'; a=''+Math.abs(a); return b+(a.length==1?'0':'')+a+'00'})();
     T['undefined']=function(){return 'null'};
     T[L]=function(x){return String(x)};
-    T[N]=function(x){return isFinite(x)&&!isNaN(x)?String(x):'null'};
+    T[N]=function(x){return ((x||x===0)&&isFinite(x))?String(x):'null'};
     T[S]=function(x){
         return H[x] ||
             '"' +
