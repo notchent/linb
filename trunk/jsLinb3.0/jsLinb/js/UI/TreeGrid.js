@@ -2631,7 +2631,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                         node.html(caption,false);
                 break;
                 case 'currency':
-                    var v=parseFloat((cell.value+"").replace(/,/,''));
+                    var v=parseFloat((cell.value+"").replace(/[^\d.]/g,''));
                     cell.value=(v||v===0)?v:0.00;
                     caption= capOut ||ren(profile,cell,ncell,f4);
                     var tpl = getPro(profile, cell, 'currencyTpl');
