@@ -281,13 +281,6 @@ Class("linb.UI.Input", ["linb.UI.Widget","linb.absValue"] ,{
                         k=evt.getKey(e);
                     if(p.disabled || p.readonly)return;
 
-                    if(k.key=='esc'){
-                        profile.boxing().setUIValue(p.value,true);
-                        if(profile.onCancel)
-                            profile.boxing().onCancel(profile);
-                        return false;
-                    }
-
                     //fire onchange first
                     if(k.key=='enter'&& (!m||k.altKey))
                         linb.use(src).onChange();
@@ -336,6 +329,13 @@ Class("linb.UI.Input", ["linb.UI.Widget","linb.absValue"] ,{
                 },
                 onKeyup:function(profile, e, src){
                     var p=profile.properties,b=profile.box;
+                    // must be key up event
+                    if(linb.Event.getKey(e).key=='esc'){
+                        profile.boxing().setUIValue(p.value,true);
+                        if(profile.onCancel)
+                            profile.boxing().onCancel(profile);
+                    }
+
                     if(p.dynCheck){
                         var value=linb.use(src).get(0).value;
                         profile.box._checkValid(profile, value);

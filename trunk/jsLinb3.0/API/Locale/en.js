@@ -406,6 +406,16 @@ _.set(linb.Locale,["en","app"], {
                     "alert(_.isNull('s')+':'+_.isNull(new RegExp())+':'+_.isNull(function(){})+':'+_.isNull(1)+':'+_.isNull(NaN)+':'+_.isNull({})+':'+_.isNull(new Date)+':'+_.isNull(null)+':'+_.isNull(undefined)+':'+_.isNull(true)+':'+_.isNull([]));"
                 ]
             },
+            isFinite:{
+                $desc:"To Determines whether or not the target is an valid number.",
+                $rtn:"Boolean",
+                $paras:[
+                    "target [Required]: any"
+                ],
+                $snippet:[
+                    "alert(_.isFinite('s')+':'+_.isFinite(new RegExp())+':'+_.isFinite(function(){})+':'+_.isFinite(1)+':'+_.isFinite(NaN)+':'+_.isFinite({})+':'+_.isFinite(new Date)+':'+_.isFinite(null)+':'+_.isFinite(undefined)+':'+_.isFinite(true)+':'+_.isFinite([]));"
+                ]
+            },
             isNumb:{
                 $desc:"To Determines whether or not the target is Number.",
                 $rtn:"Boolean",
@@ -9397,6 +9407,18 @@ _.set(linb.Locale,["en","app"], {
                 $paras:[
                     "value [Required] : Boolean",
                     "force [Optional] : Boolean, Boolean, force to set the property value even if the same property value already exists. Default is [false]."
+                ]
+            },
+            getCurrencyTpl:{
+                $desc:"Gets the currency template",
+                $rtn:"String"
+            },
+            setCurrencyTpl:{
+                $desc:"Sets the currency template",
+                $rtn:"[self]",
+                $paras:[
+                    "value [Required] : String.",
+                    "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
                 ]
             },
             getCommandBtn:{

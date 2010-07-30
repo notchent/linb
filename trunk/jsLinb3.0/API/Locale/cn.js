@@ -403,6 +403,16 @@ _.set(linb.Locale,["cn","app"], {
                     "alert(_.isNull('s')+':'+_.isNull(new RegExp())+':'+_.isNull(function(){})+':'+_.isNull(1)+':'+_.isNull(NaN)+':'+_.isNull({})+':'+_.isNull(new Date)+':'+_.isNull(null)+':'+_.isNull(undefined)+':'+_.isNull(true)+':'+_.isNull([]));"
                 ]
             },
+            isFinite:{
+                $desc:"判断目标是否是一个有效的数字.",
+                $rtn:"Boolean",
+                $paras:[
+                    "target [必需参数]: any"
+                ],
+                $snippet:[
+                    "alert(_.isFinite('s')+':'+_.isFinite(new RegExp())+':'+_.isFinite(function(){})+':'+_.isFinite(1)+':'+_.isFinite(NaN)+':'+_.isFinite({})+':'+_.isFinite(new Date)+':'+_.isFinite(null)+':'+_.isFinite(undefined)+':'+_.isFinite(true)+':'+_.isFinite([]));"
+                ]
+            },
             isNumb:{
                 $desc:"判断目标是否是一个Number(数字).",
                 $rtn:"Boolean",
@@ -9324,6 +9334,18 @@ _.set(linb.Locale,["cn","app"], {
                 $rtn:"[self]",
                 $paras:[
                     "value [必需参数] : Boolean",
+                    "force [可选参数] : Boolean, 强制设置该属性值，即使属性已经设置为该值. 默认为 [false]."
+                ]
+            },
+            getCurrencyTpl:{
+                $desc:"得到货币的显示模板",
+                $rtn:"String"
+            },
+            setCurrencyTpl:{
+                $desc:"设置货币的显示模板",
+                $rtn:"[self]",
+                $paras:[
+                    "value [必需参数] : String.",
                     "force [可选参数] : Boolean, 强制设置该属性值，即使属性已经设置为该值. 默认为 [false]."
                 ]
             },

@@ -1613,7 +1613,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                                     break;
                                 case 'datetime':
                                 case 'date':
-                                    ff=function(n){return _.isDate(n)?n.getTime():(_.isSet(n)&&isFinite(n))?parseInt(n):0};
+                                    ff=function(n){return _.isDate(n)?n.getTime():_.isFinite(n)?parseInt(n):0};
                                     break;
                                 default:
                                     ff=function(n){return n||''};
@@ -2637,19 +2637,18 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                     var tpl = getPro(profile, cell, 'currencyTpl');
                     if(tpl)
                         caption = tpl.replace("*", caption);
-
                     if(dom)
                         node.html(caption,false);
                 break;
                 case 'date':
                 case 'datepicker':
-                    cell.value= _.isDate(cell.value)?cell.value:(_.isSet(cell.value)&&isFinite(cell.value))?new Date(parseInt(cell.value)):null;
+                    cell.value= _.isDate(cell.value)?cell.value:_.isFinite(cell.value)?new Date(parseInt(cell.value)):null;
                     caption= capOut || ren(profile,cell,ncell,f1);
                     if(dom)
                         node.html(caption, false);
                 break;
                 case 'datetime':
-                    cell.value= _.isDate(cell.value)?cell.value:(_.isSet(cell.value)&&isFinite(cell.value))?new Date(parseInt(cell.value)):null;
+                    cell.value= _.isDate(cell.value)?cell.value:_.isFinite(cell.value)?new Date(parseInt(cell.value)):null;
                     caption= capOut || ren(profile,cell,ncell,f0);
                     if(dom)
                         node.html(caption, false);

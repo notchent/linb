@@ -417,6 +417,7 @@ _.merge(_,{
     isObj:function(target)   {return !!target  && (typeof target == 'object' || typeof target == 'function')},
     isBool:function(target)  {return typeof target == 'boolean'},
     isNumb:function(target)  {return typeof target == 'number' && isFinite(target)},
+    isFinite:function(target)  {return (target||target===0) && isFinite(target)},
     isDate:function(target)  {return Object.prototype.toString.call(target)==='[object Date]'},
     isFun:function(target)   {return Object.prototype.toString.call(target)==='[object Function]'},
     isArr:function(target)   {return Object.prototype.toString.call(target)==='[object Array]'},
@@ -2149,7 +2150,7 @@ new function(){
     Z=(function(a,b){a=-(new Date).getTimezoneOffset()/60; b=a>0?'+':'-'; a=''+Math.abs(a); return b+(a.length==1?'0':'')+a+'00'})();
     T['undefined']=function(){return 'null'};
     T[L]=function(x){return String(x)};
-    T[N]=function(x){return isFinite(x)&&!isNaN(x)?String(x):'null'};
+    T[N]=function(x){return ((x||x===0)&&isFinite(x))?String(x):'null'};
     T[S]=function(x){
         return H[x] ||
             '"' +

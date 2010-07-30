@@ -16,12 +16,11 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                 p=n.properties,
                 v = arguments.callee.upper.apply(this,arguments);
             if(n.$isNumber){
-                if(typeof v=='string' && v.indexOf(',')!=-1)
-                    v=v.replace(/,/g,'');
-                v = _.isNumb(parseFloat(v))?parseFloat(v):null;
+                v=v.replace(/[^\d.]/g,'');
+                v=_.isNumb(parseFloat(v))?parseFloat(v):null;
             }
             else if(p.type=='datepicker'||p.type=='date')
-                v = v?new Date(parseInt(v)):null;
+                v=_.isDate(v)?v:_.isFinite(v)?new Date(parseInt(v)):null;                
             return v;
         },
         _getCtrlValue:function(){
@@ -56,7 +55,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                 value=pro.$UIvalue;
 
             // try to give default caption
-            if(t = profile.CF.getShowValue||profile.$getShowValue)
+            if(t = profile.$_onedit?(profile.CF.toEditor||profile.$toEditor):(profile.CF.getShowValue||profile.$getShowValue))
                 v = t(profile, value);
             else{
                 //get from items
@@ -445,10 +444,19 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                         return ((a===''&&b!=='')||(b===''&&a!==''))?false:p.box._currency(profile, a)==p.box._currency(profile, b)
                     },
                     $getShowValue : function(p,v){
-                        return (_.isSet(v)&&v!=="")?p.box._currency(profile, v):"";
+                        if(_.isSet(v)&&v!==""){
+                            v=p.box._currency(profile, v);
+                            if(p.properties.currencyTpl)
+                                v=p.properties.currencyTpl.replace("*", v);
+                        }else
+                            v="";
+                        return v;
+                    },
+                    $toEditor : function(p,v){
+                        return (_.isSet(v)&&v!=="")?p.box._currency(profile, v).replace(/[^\d.]/g,''):"";
                     },
                     $fromEditor : function(p,v){
-                        return (_.isSet(v)&&v!=="")?p.box._currency(profile, v).replace(/,/g,''):"";
+                        return (_.isSet(v)&&v!=="")?p.box._currency(profile, v).replace(/[^\d.]/g,''):"";
                     }
                 },'all');
             }else if(value=='number' || value=='spin'){
@@ -679,7 +687,6 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
             INPUT:{
                 onChange:function(profile, e, src){
                     if(profile.$_onedit||profile.$_inner)return;
-
                     var o=profile._inValid,
                         b=profile.box,
                         instance=profile.boxing(),
@@ -703,7 +710,18 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                     b._asyCheck(profile);
                 },
                 onKeyup:function(profile, e, src){
-                    var p=profile.properties,b=profile.box;
+                    var p=profile.properties,b=profile.box,
+                        key=linb.Event.getKey(e);
+
+                    // must be key up event
+                    if(key.key=='esc'){
+                        profile.$_onedit=true;
+                        profile.boxing().setUIValue(p.value,true);
+                        profile.$_onedit=false;
+                        if(profile.onCancel)
+                            profile.boxing().onCancel(profile);
+                    }
+
                     if(p.dynCheck){
                         var value=linb.use(src).get(0).value;
                         profile.box._checkValid(profile, value);
@@ -711,7 +729,6 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                     }
                     b._asyCheck(profile);
 
-                    var key=linb.Event.getKey(e);
                     if(key.key=='down'|| key.key=='up'){
                         if(p.type=='spin'){
                             linb.Thread.abort(profile.$linbid+':spin');
@@ -730,7 +747,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                         uiv=p.$UIvalue,
                         v=instance._toEditor(uiv);
                     //string compare
-                    if(v!==uiv){
+                    if(linb.use(src).get(0).value!=v){
                         //here, dont use $valueFormat, valueFormat or onValueFormat
                         //use $getShowValue, $toEditor, $fromEditor related functions
                         profile.$_onedit=true;
@@ -778,16 +795,13 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                         m=p.multiLines,
                         evt=linb.Event,
                         k=evt.getKey(e);
-                    if(k.key=='esc'){
-                        profile.boxing().setUIValue(p.value,true);
-                        if(profile.onCancel)
-                            profile.boxing().onCancel(profile);
-                        return false;
-                    }
 
                     //fire onchange first
-                    if(k.key=='enter' && (!m||k.altKey) && !p.inputReadonly && !profile.$inputReadonly)
-                        linb.use(src).onChange();
+                    if(k.key=='enter' && (!m||k.altKey) && !p.inputReadonly && !profile.$inputReadonly){
+                        profile.$_onedit=true;
+                        profile.boxing().setUIValue(linb.use(src).get(0).value,true);
+                        profile.$_onedit=false;
+                    }
 
                     b._asyCheck(profile);
 
@@ -881,6 +895,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
         },
         DataModel:{
             cachePopWnd:true,
+            currencyTpl:"",
             listKey:{
                 set:function(value){
                     var t = linb.UI.getCachedData(value),
@@ -1105,7 +1120,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                     if(value){
                         if(_.isDate(value))
                             d=value;
-                        else if(isFinite(value))
+                        else if(_.isFinite(value))
                             d=new Date(parseInt(value));
                     }
                     return d?String(linb.Date.getTimSpanStart(d,'d',1).getTime()):"";;
@@ -1140,7 +1155,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
         },
         _currency:function(profile, value){
             var prop=profile.properties,min=Math.max(prop.min,0);
-            value=parseFloat((value+"").replace(/,/g,''))||0;
+            value=parseFloat((value+"").replace(/[^\d.]/g,''))||0;
             if(_.isSet(prop.max))
                 value=value>prop.max?prop.max:value;
             if(_.isSet(prop.min))

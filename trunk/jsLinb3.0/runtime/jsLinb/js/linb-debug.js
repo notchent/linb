@@ -417,6 +417,7 @@ _.merge(_,{
     isObj:function(target)   {return !!target  && (typeof target == 'object' || typeof target == 'function')},
     isBool:function(target)  {return typeof target == 'boolean'},
     isNumb:function(target)  {return typeof target == 'number' && isFinite(target)},
+    isFinite:function(target)  {return (target||target===0) && isFinite(target)},
     isDate:function(target)  {return Object.prototype.toString.call(target)==='[object Date]'},
     isFun:function(target)   {return Object.prototype.toString.call(target)==='[object Function]'},
     isArr:function(target)   {return Object.prototype.toString.call(target)==='[object Array]'},
@@ -2149,7 +2150,7 @@ new function(){
     Z=(function(a,b){a=-(new Date).getTimezoneOffset()/60; b=a>0?'+':'-'; a=''+Math.abs(a); return b+(a.length==1?'0':'')+a+'00'})();
     T['undefined']=function(){return 'null'};
     T[L]=function(x){return String(x)};
-    T[N]=function(x){return isFinite(x)&&!isNaN(x)?String(x):'null'};
+    T[N]=function(x){return ((x||x===0)&&isFinite(x))?String(x):'null'};
     T[S]=function(x){
         return H[x] ||
             '"' +
@@ -4054,7 +4055,7 @@ Class('linb.Event',null,{
             return this.$UNIT[datepart]?datepart:'d';
         },
         _isDate:function(target)  {return !!target && target.constructor == Date},
-        _date:function(value,df){return this._isDate(value) ? value : isFinite(value) ? new Date(parseInt(value)) : this._isDate(df) ? df : new Date},
+        _date:function(value,df){return this._isDate(value) ? value : ((value || value===0)&&isFinite(value)) ? new Date(parseInt(value)) : this._isDate(df) ? df : new Date},
         _isNumb:function(target)  {return typeof target == 'number' && isFinite(target)},
         _numb:function(value,df){return this._isNumb(value)?value:this._isNumb(df)?df:0},
         //time Zone like: -8
@@ -12387,28 +12388,24 @@ Class("linb.UI",  "linb.absObj", {
                 });
                 hls.beforeClickEffect=src._e1;
             }
+
             //for onHotKey
-            if(hash.KeyHook){
-                _.merge(hash,{
-                    afterKeydown:function(profile, e, src){
-                        var key = linb.Event.getKey(e);
-                        if(profile.onHotKeydown)
-                            return false !== profile.boxing().onHotKeydown(profile,key,e, src);
-                    },
-                    afterKeypress:function(profile, e, src){
-                        var key = linb.Event.getKey(e);
-                        if(profile.onHotKeypress)
-                            return false !== profile.boxing().onHotKeypress(profile,key,e, src);
-                    },
-                    afterKeyup: function(profile, e, src){
-                        if(profile.onHotKeyup){
-                            var key = linb.Event.getKey(e);
-                            return false !== profile.boxing().onHotKeyup(profile,key,e, src);
-                        }
-                    }
-                },'all');
-                hls.onHotKeydown=hls.onHotKeypress=hls.onHotKeyup=src._e2;
-            }
+            _.merge(hash,{
+                afterKeydown:function(profile, e, src){
+                    if(profile.onHotKeydown)
+                        return false !== profile.boxing().onHotKeydown(profile,linb.Event.getKey(e),e, src);
+                },
+                afterKeypress:function(profile, e, src){
+                    if(profile.onHotKeypress)
+                        return false !== profile.boxing().onHotKeypress(profile,linb.Event.getKey(e),e, src);
+                },
+                afterKeyup: function(profile, e, src){
+                    if(profile.onHotKeyup)
+                        return false !== profile.boxing().onHotKeyup(profile,linb.Event.getKey(e),e, src);
+                }
+            });
+
+            hls.onHotKeydown=hls.onHotKeypress=hls.onHotKeyup=src._e2;
             //for focus action
             if(hash.NavKeys){
                 _.each(hash.NavKeys,function(o,i){
@@ -14262,7 +14259,6 @@ new function(){
                 }
             },
             Behaviors:{
-                KeyHook:true,
                 onSize:linb.UI.$onSize
             },
             DataModel:{
@@ -17642,13 +17638,6 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
                         k=evt.getKey(e);
                     if(p.disabled || p.readonly)return;
 
-                    if(k.key=='esc'){
-                        profile.boxing().setUIValue(p.value,true);
-                        if(profile.onCancel)
-                            profile.boxing().onCancel(profile);
-                        return false;
-                    }
-
                     //fire onchange first
                     if(k.key=='enter'&& (!m||k.altKey))
                         linb.use(src).onChange();
@@ -17697,6 +17686,13 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
                 },
                 onKeyup:function(profile, e, src){
                     var p=profile.properties,b=profile.box;
+                    // must be key up event
+                    if(linb.Event.getKey(e).key=='esc'){
+                        profile.boxing().setUIValue(p.value,true);
+                        if(profile.onCancel)
+                            profile.boxing().onCancel(profile);
+                    }
+
                     if(p.dynCheck){
                         var value=linb.use(src).get(0).value;
                         profile.box._checkValid(profile, value);
@@ -18799,12 +18795,11 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                 p=n.properties,
                 v = arguments.callee.upper.apply(this,arguments);
             if(n.$isNumber){
-                if(typeof v=='string' && v.indexOf(',')!=-1)
-                    v=v.replace(/,/g,'');
-                v = _.isNumb(parseFloat(v))?parseFloat(v):null;
+                v=v.replace(/[^\d.]/g,'');
+                v=_.isNumb(parseFloat(v))?parseFloat(v):null;
             }
             else if(p.type=='datepicker'||p.type=='date')
-                v = v?new Date(parseInt(v)):null;
+                v=_.isDate(v)?v:_.isFinite(v)?new Date(parseInt(v)):null;                
             return v;
         },
         _getCtrlValue:function(){
@@ -18839,7 +18834,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                 value=pro.$UIvalue;
 
             // try to give default caption
-            if(t = profile.CF.getShowValue||profile.$getShowValue)
+            if(t = profile.$_onedit?(profile.CF.toEditor||profile.$toEditor):(profile.CF.getShowValue||profile.$getShowValue))
                 v = t(profile, value);
             else{
                 //get from items
@@ -19228,10 +19223,19 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                         return ((a===''&&b!=='')||(b===''&&a!==''))?false:p.box._currency(profile, a)==p.box._currency(profile, b)
                     },
                     $getShowValue : function(p,v){
-                        return (_.isSet(v)&&v!=="")?p.box._currency(profile, v):"";
+                        if(_.isSet(v)&&v!==""){
+                            v=p.box._currency(profile, v);
+                            if(p.properties.currencyTpl)
+                                v=p.properties.currencyTpl.replace("*", v);
+                        }else
+                            v="";
+                        return v;
+                    },
+                    $toEditor : function(p,v){
+                        return (_.isSet(v)&&v!=="")?p.box._currency(profile, v).replace(/[^\d.]/g,''):"";
                     },
                     $fromEditor : function(p,v){
-                        return (_.isSet(v)&&v!=="")?p.box._currency(profile, v).replace(/,/g,''):"";
+                        return (_.isSet(v)&&v!=="")?p.box._currency(profile, v).replace(/[^\d.]/g,''):"";
                     }
                 },'all');
             }else if(value=='number' || value=='spin'){
@@ -19462,7 +19466,6 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
             INPUT:{
                 onChange:function(profile, e, src){
                     if(profile.$_onedit||profile.$_inner)return;
-
                     var o=profile._inValid,
                         b=profile.box,
                         instance=profile.boxing(),
@@ -19486,7 +19489,18 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                     b._asyCheck(profile);
                 },
                 onKeyup:function(profile, e, src){
-                    var p=profile.properties,b=profile.box;
+                    var p=profile.properties,b=profile.box,
+                        key=linb.Event.getKey(e);
+
+                    // must be key up event
+                    if(key.key=='esc'){
+                        profile.$_onedit=true;
+                        profile.boxing().setUIValue(p.value,true);
+                        profile.$_onedit=false;
+                        if(profile.onCancel)
+                            profile.boxing().onCancel(profile);
+                    }
+
                     if(p.dynCheck){
                         var value=linb.use(src).get(0).value;
                         profile.box._checkValid(profile, value);
@@ -19494,7 +19508,6 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                     }
                     b._asyCheck(profile);
 
-                    var key=linb.Event.getKey(e);
                     if(key.key=='down'|| key.key=='up'){
                         if(p.type=='spin'){
                             linb.Thread.abort(profile.$linbid+':spin');
@@ -19513,7 +19526,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                         uiv=p.$UIvalue,
                         v=instance._toEditor(uiv);
                     //string compare
-                    if(v!==uiv){
+                    if(linb.use(src).get(0).value!=v){
                         //here, dont use $valueFormat, valueFormat or onValueFormat
                         //use $getShowValue, $toEditor, $fromEditor related functions
                         profile.$_onedit=true;
@@ -19561,16 +19574,13 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                         m=p.multiLines,
                         evt=linb.Event,
                         k=evt.getKey(e);
-                    if(k.key=='esc'){
-                        profile.boxing().setUIValue(p.value,true);
-                        if(profile.onCancel)
-                            profile.boxing().onCancel(profile);
-                        return false;
-                    }
 
                     //fire onchange first
-                    if(k.key=='enter' && (!m||k.altKey) && !p.inputReadonly && !profile.$inputReadonly)
-                        linb.use(src).onChange();
+                    if(k.key=='enter' && (!m||k.altKey) && !p.inputReadonly && !profile.$inputReadonly){
+                        profile.$_onedit=true;
+                        profile.boxing().setUIValue(linb.use(src).get(0).value,true);
+                        profile.$_onedit=false;
+                    }
 
                     b._asyCheck(profile);
 
@@ -19664,6 +19674,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
         },
         DataModel:{
             cachePopWnd:true,
+            currencyTpl:"",
             listKey:{
                 set:function(value){
                     var t = linb.UI.getCachedData(value),
@@ -19888,7 +19899,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                     if(value){
                         if(_.isDate(value))
                             d=value;
-                        else if(isFinite(value))
+                        else if(_.isFinite(value))
                             d=new Date(parseInt(value));
                     }
                     return d?String(linb.Date.getTimSpanStart(d,'d',1).getTime()):"";;
@@ -19923,7 +19934,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
         },
         _currency:function(profile, value){
             var prop=profile.properties,min=Math.max(prop.min,0);
-            value=parseFloat((value+"").replace(/,/g,''))||0;
+            value=parseFloat((value+"").replace(/[^\d.]/g,''))||0;
             if(_.isSet(prop.max))
                 value=value>prop.max?prop.max:value;
             if(_.isSet(prop.min))
@@ -31188,7 +31199,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                                     break;
                                 case 'datetime':
                                 case 'date':
-                                    ff=function(n){return _.isDate(n)?n.getTime():(_.isSet(n)&&isFinite(n))?parseInt(n):0};
+                                    ff=function(n){return _.isDate(n)?n.getTime():_.isFinite(n)?parseInt(n):0};
                                     break;
                                 default:
                                     ff=function(n){return n||''};
@@ -32212,19 +32223,18 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                     var tpl = getPro(profile, cell, 'currencyTpl');
                     if(tpl)
                         caption = tpl.replace("*", caption);
-
                     if(dom)
                         node.html(caption,false);
                 break;
                 case 'date':
                 case 'datepicker':
-                    cell.value= _.isDate(cell.value)?cell.value:(_.isSet(cell.value)&&isFinite(cell.value))?new Date(parseInt(cell.value)):null;
+                    cell.value= _.isDate(cell.value)?cell.value:_.isFinite(cell.value)?new Date(parseInt(cell.value)):null;
                     caption= capOut || ren(profile,cell,ncell,f1);
                     if(dom)
                         node.html(caption, false);
                 break;
                 case 'datetime':
-                    cell.value= _.isDate(cell.value)?cell.value:(_.isSet(cell.value)&&isFinite(cell.value))?new Date(parseInt(cell.value)):null;
+                    cell.value= _.isDate(cell.value)?cell.value:_.isFinite(cell.value)?new Date(parseInt(cell.value)):null;
                     caption= capOut || ren(profile,cell,ncell,f0);
                     if(dom)
                         node.html(caption, false);

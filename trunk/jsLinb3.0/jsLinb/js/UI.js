@@ -3021,28 +3021,24 @@ Class("linb.UI",  "linb.absObj", {
                 });
                 hls.beforeClickEffect=src._e1;
             }
+
             //for onHotKey
-            if(hash.KeyHook){
-                _.merge(hash,{
-                    afterKeydown:function(profile, e, src){
-                        var key = linb.Event.getKey(e);
-                        if(profile.onHotKeydown)
-                            return false !== profile.boxing().onHotKeydown(profile,key,e, src);
-                    },
-                    afterKeypress:function(profile, e, src){
-                        var key = linb.Event.getKey(e);
-                        if(profile.onHotKeypress)
-                            return false !== profile.boxing().onHotKeypress(profile,key,e, src);
-                    },
-                    afterKeyup: function(profile, e, src){
-                        if(profile.onHotKeyup){
-                            var key = linb.Event.getKey(e);
-                            return false !== profile.boxing().onHotKeyup(profile,key,e, src);
-                        }
-                    }
-                },'all');
-                hls.onHotKeydown=hls.onHotKeypress=hls.onHotKeyup=src._e2;
-            }
+            _.merge(hash,{
+                afterKeydown:function(profile, e, src){
+                    if(profile.onHotKeydown)
+                        return false !== profile.boxing().onHotKeydown(profile,linb.Event.getKey(e),e, src);
+                },
+                afterKeypress:function(profile, e, src){
+                    if(profile.onHotKeypress)
+                        return false !== profile.boxing().onHotKeypress(profile,linb.Event.getKey(e),e, src);
+                },
+                afterKeyup: function(profile, e, src){
+                    if(profile.onHotKeyup)
+                        return false !== profile.boxing().onHotKeyup(profile,linb.Event.getKey(e),e, src);
+                }
+            });
+
+            hls.onHotKeydown=hls.onHotKeypress=hls.onHotKeyup=src._e2;
             //for focus action
             if(hash.NavKeys){
                 _.each(hash.NavKeys,function(o,i){
@@ -4896,7 +4892,6 @@ new function(){
                 }
             },
             Behaviors:{
-                KeyHook:true,
                 onSize:linb.UI.$onSize
             },
             DataModel:{
