@@ -678,7 +678,7 @@ Class("linb.UI.PopMenu",["linb.UI.Widget","linb.absList"],{
                 }
             },
             ITEMS:{
-                beforeKeydown:function(profile, e){
+                afterKeydown:function(profile, e){
                     var key=linb.Event.getKey(e).key;
                     if(key=='tab' || key=='enter')
                         return true;

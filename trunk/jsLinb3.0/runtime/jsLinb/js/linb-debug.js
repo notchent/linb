@@ -12391,15 +12391,15 @@ Class("linb.UI",  "linb.absObj", {
 
             //for onHotKey
             _.merge(hash,{
-                afterKeydown:function(profile, e, src){
+                beforeKeydown:function(profile, e, src){
                     if(profile.onHotKeydown)
                         return false !== profile.boxing().onHotKeydown(profile,linb.Event.getKey(e),e, src);
                 },
-                afterKeypress:function(profile, e, src){
+                beforeKeypress:function(profile, e, src){
                     if(profile.onHotKeypress)
                         return false !== profile.boxing().onHotKeypress(profile,linb.Event.getKey(e),e, src);
                 },
-                afterKeyup: function(profile, e, src){
+                beforeKeyup: function(profile, e, src){
                     if(profile.onHotKeyup)
                         return false !== profile.boxing().onHotKeyup(profile,linb.Event.getKey(e),e, src);
                 }
@@ -18780,27 +18780,23 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
 Class("linb.UI.ComboInput", "linb.UI.Input",{
     /*Instance*/
     Instance:{
-        getValue:function(){
-            var n=this.get(0),
-                p=n.properties,
-                v = arguments.callee.upper.apply(this,arguments);
-            if(n.$isNumber)
-                v = _.isNumb(parseFloat(v))?parseFloat(v):null;
-            else if(p.type=='datepicker'||p.type=='date')
-                v = v?new Date(parseInt(v)):null;
-            return v;
-        },
-        getUIValue:function(){
-            var n=this.get(0),
-                p=n.properties,
-                v = arguments.callee.upper.apply(this,arguments);
-            if(n.$isNumber){
+        _adjustV:function(v){
+            var profile=this.get(0);
+            if(profile.$isNumber){
                 v=v.replace(/[^\d.]/g,'');
                 v=_.isNumb(parseFloat(v))?parseFloat(v):null;
-            }
-            else if(p.type=='datepicker'||p.type=='date')
+            }else if(profile.properties.type=='datepicker'||profile.properties.type=='date'){
                 v=_.isDate(v)?v:_.isFinite(v)?new Date(parseInt(v)):null;                
+            }
             return v;
+        },
+        getValue:function(){
+            var v = arguments.callee.upper.apply(this,arguments);
+            return this._adjustV(v);
+        },
+        getUIValue:function(){
+            var v = arguments.callee.upper.apply(this,arguments);
+            return this._adjustV(v);
         },
         _getCtrlValue:function(){
             return this.get(0).properties.$UIvalue;
@@ -19674,7 +19670,12 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
         },
         DataModel:{
             cachePopWnd:true,
-            currencyTpl:"",
+            currencyTpl:{
+                ini:"",
+                action: function(){
+                    this.boxing().setUIValue(this.properties.$UIvalue,true);
+                }
+            },
             listKey:{
                 set:function(value){
                     var t = linb.UI.getCachedData(value),
@@ -19920,7 +19921,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
         },
         _number:function(profile, value){
             var prop=profile.properties;
-            value=parseFloat(value+"")||0;
+            value=parseFloat((value+"").replace(/[^\d.]/g,''))||0;
             if(_.isSet(prop.max))
                 value=value>prop.max?prop.max:value;
             if(_.isSet(prop.min))
@@ -27289,7 +27290,7 @@ Class("linb.UI.PopMenu",["linb.UI.Widget","linb.absList"],{
                 }
             },
             ITEMS:{
-                beforeKeydown:function(profile, e){
+                afterKeydown:function(profile, e){
                     var key=linb.Event.getKey(e).key;
                     if(key=='tab' || key=='enter')
                         return true;
@@ -34073,7 +34074,7 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
             onMousedown:function(profile, e){
                 profile.box._active(profile);
             },
-            beforeKeydown:function(profile, e){
+            afterKeydown:function(profile, e){
                 var keys = linb.Event.getKey(e);
                 if((e.$key || e.keyCode || e.charCode)==9){
 // hack for ie tab event

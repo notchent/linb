@@ -1,27 +1,23 @@
 Class("linb.UI.ComboInput", "linb.UI.Input",{
     /*Instance*/
     Instance:{
-        getValue:function(){
-            var n=this.get(0),
-                p=n.properties,
-                v = arguments.callee.upper.apply(this,arguments);
-            if(n.$isNumber)
-                v = _.isNumb(parseFloat(v))?parseFloat(v):null;
-            else if(p.type=='datepicker'||p.type=='date')
-                v = v?new Date(parseInt(v)):null;
-            return v;
-        },
-        getUIValue:function(){
-            var n=this.get(0),
-                p=n.properties,
-                v = arguments.callee.upper.apply(this,arguments);
-            if(n.$isNumber){
+        _adjustV:function(v){
+            var profile=this.get(0);
+            if(profile.$isNumber){
                 v=v.replace(/[^\d.]/g,'');
                 v=_.isNumb(parseFloat(v))?parseFloat(v):null;
-            }
-            else if(p.type=='datepicker'||p.type=='date')
+            }else if(profile.properties.type=='datepicker'||profile.properties.type=='date'){
                 v=_.isDate(v)?v:_.isFinite(v)?new Date(parseInt(v)):null;                
+            }
             return v;
+        },
+        getValue:function(){
+            var v = arguments.callee.upper.apply(this,arguments);
+            return this._adjustV(v);
+        },
+        getUIValue:function(){
+            var v = arguments.callee.upper.apply(this,arguments);
+            return this._adjustV(v);
         },
         _getCtrlValue:function(){
             return this.get(0).properties.$UIvalue;
@@ -895,7 +891,12 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
         },
         DataModel:{
             cachePopWnd:true,
-            currencyTpl:"",
+            currencyTpl:{
+                ini:"",
+                action: function(){
+                    this.boxing().setUIValue(this.properties.$UIvalue,true);
+                }
+            },
             listKey:{
                 set:function(value){
                     var t = linb.UI.getCachedData(value),
@@ -1141,7 +1142,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
         },
         _number:function(profile, value){
             var prop=profile.properties;
-            value=parseFloat(value+"")||0;
+            value=parseFloat((value+"").replace(/[^\d.]/g,''))||0;
             if(_.isSet(prop.max))
                 value=value>prop.max?prop.max:value;
             if(_.isSet(prop.min))

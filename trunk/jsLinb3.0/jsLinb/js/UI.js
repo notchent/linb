@@ -3024,15 +3024,15 @@ Class("linb.UI",  "linb.absObj", {
 
             //for onHotKey
             _.merge(hash,{
-                afterKeydown:function(profile, e, src){
+                beforeKeydown:function(profile, e, src){
                     if(profile.onHotKeydown)
                         return false !== profile.boxing().onHotKeydown(profile,linb.Event.getKey(e),e, src);
                 },
-                afterKeypress:function(profile, e, src){
+                beforeKeypress:function(profile, e, src){
                     if(profile.onHotKeypress)
                         return false !== profile.boxing().onHotKeypress(profile,linb.Event.getKey(e),e, src);
                 },
-                afterKeyup: function(profile, e, src){
+                beforeKeyup: function(profile, e, src){
                     if(profile.onHotKeyup)
                         return false !== profile.boxing().onHotKeyup(profile,linb.Event.getKey(e),e, src);
                 }

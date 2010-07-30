@@ -317,7 +317,7 @@ Class("linb.UI.Dialog","linb.UI.Widget",{
             onMousedown:function(profile, e){
                 profile.box._active(profile);
             },
-            beforeKeydown:function(profile, e){
+            afterKeydown:function(profile, e){
                 var keys = linb.Event.getKey(e);
                 if((e.$key || e.keyCode || e.charCode)==9){
 // hack for ie tab event
