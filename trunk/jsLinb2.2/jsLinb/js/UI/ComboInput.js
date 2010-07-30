@@ -15,8 +15,11 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
             var n=this.get(0),
                 p=n.properties,
                 v = arguments.callee.upper.apply(this,arguments);
-            if(n.$isNumber)
+            if(n.$isNumber){
+                if(typeof v=='string' && v.indexOf(',')!=-1)
+                    v=v.replace(/,/g,'');
                 v = _.isNumb(parseFloat(v))?parseFloat(v):null;
+            }
             else if(p.type=='datepicker')
                 v = v?new Date(parseInt(v)):null;
             return v;
