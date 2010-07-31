@@ -18379,7 +18379,7 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
                 v=v.replace(/[^\d.]/g,'');
                 v=_.isNumb(parseFloat(v))?parseFloat(v):null;
             }else if(profile.properties.type=='datepicker'||profile.properties.type=='date'){
-                v=_.isDate(v)?v:_.isFinite(v)?new Date(parseInt(v)):null;                
+                v=_.isDate(v)?v:((v||v===0)&&isFinite(v))?new Date(parseInt(v)):null;                
             }
             return v;
         },
