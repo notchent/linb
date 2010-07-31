@@ -11244,6 +11244,10 @@ Class("linb.UI",  "linb.absObj", {
                 listbox:['','visible','hidden'],
                 action:function(value){
                     this.getRoot().css('visibility',value);
+                    if(value=='hidden')
+                        this.getRoot().addClass('ui-hidden');
+                    else
+                        this.getRoot().removeClass('ui-hidden');
                     linb.setNodeData(this.getRootNode(),'_setVisibility',1);
                 }
             },
@@ -11788,6 +11792,9 @@ Class("linb.UI",  "linb.absObj", {
                 top:0,
                 width:'100%',
                 height:'100%'
+            },
+            '.ui-hidden, .ui-hidden *, .ui-hidden div, .ui-hidden span':{
+                visibility:'hidden'
             }
         })
         + linb.UI.buildCSSText({
@@ -13629,6 +13636,10 @@ Class("linb.UI",  "linb.absObj", {
 
             if('className' in dm)
             	data._className=prop.className||"";
+            if(prop.visibility=='hidden'){
+                if(!data._className)data._className="";
+                data._className=" ui-hidden";
+            }
 
             if('readonly' in dm)data.readonly=prop.readonly?"ui-readonly":"";
             if('href' in dm)data.href = prop.href || linb.$DEFAULTHREF;
@@ -18805,13 +18816,15 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
         _setCtrlValue:function(value, flag){
             var me=arguments.callee, r1=me._r1||(me._r1=/\</),r2=me._r2||(me._r2=/\<\/?[^>]+\>/g);
             return this.each(function(profile){
-                if(!profile.$typeOK)
-                    profile.box._iniType(profile);
-
-                var o=profile.getSubNode('INPUT'), type=profile.properties.type;
-                value=flag?value:profile.boxing().getShowValue(value);
-                if(type!=='none'&& !profile.properties.multiLines && typeof value=='string' && r1.test(value))value=value.replace(r2,'');
-                o.attr('value',value||'');
+                // for enter/esc key
+                if(!profile.$_onedit){
+                    if(!profile.$typeOK)
+                        profile.box._iniType(profile);
+                    var o=profile.getSubNode('INPUT'), type=profile.properties.type;
+                    value=flag?value:profile.boxing().getShowValue(value);
+                    if(type!=='none'&& !profile.properties.multiLines && typeof value=='string' && r1.test(value))value=value.replace(r2,'');
+                    o.attr('value',value||'');
+                }
                 if(type=='colorpicker'||type=='color')
                     o.css({backgroundColor:value, color:linb.UI.ColorPicker.getTextColor(value)});
             })
@@ -18830,7 +18843,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                 value=pro.$UIvalue;
 
             // try to give default caption
-            if(t = profile.$_onedit?(profile.CF.toEditor||profile.$toEditor):(profile.CF.getShowValue||profile.$getShowValue))
+            if(t = profile.CF.getShowValue||profile.$getShowValue)
                 v = t(profile, value);
             else{
                 //get from items
@@ -19574,7 +19587,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                     //fire onchange first
                     if(k.key=='enter' && (!m||k.altKey) && !p.inputReadonly && !profile.$inputReadonly){
                         profile.$_onedit=true;
-                        profile.boxing().setUIValue(linb.use(src).get(0).value,true);
+                        profile.boxing().setUIValue(profile.boxing()._fromEditor(linb.use(src).get(0).value),true);
                         profile.$_onedit=false;
                     }
 
