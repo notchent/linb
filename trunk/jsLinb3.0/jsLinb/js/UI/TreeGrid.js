@@ -443,16 +443,16 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                 }
                     profile.reclaimSubId(id.slice(2), 'row');
             });
-            // clear value
-            if(v=p.value){
+            // clear UI value
+            if(v=p.$UIvalue){
                 if((v=v.split(';')).length>1){
                     _.filter(v,function(o){
                         return _.arr.indexOf(arr,o)==-1;
                     });
-                    p.value=v.join(';');
+                    p.$UIvalue=v.join(';');
                 }else{
-                    if(_.arr.indexOf(arr,p.value)!=-1)
-                        p.value=null;
+                    if(_.arr.indexOf(arr,p.$UIvalue)!=-1)
+                        p.$UIvalue=null;
                 }
             }
             linb(nodes).remove();
@@ -497,6 +497,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
             }
             //clear rows cache
             delete profile.$allrowscache;
+            profile.properties.$UIvalue=null;
 
             return this;
         },

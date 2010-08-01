@@ -4491,6 +4491,7 @@ Class("linb.absList", "linb.absObj",{
                 profile.SubSerialIdMapItem={};
                 profile.ItemIdMapSubSerialId={};
 
+                profile.properties.$UIvalue=null;
                 //keep the value
                 //profile.properties.value=null;
             });
