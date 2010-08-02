@@ -5146,7 +5146,7 @@ _.set(linb.Locale,["cn","app"], {
             $desc:"设置tips显示的字符串.",
             $paras:[
                 "s [必需参数] : String"
-            ],
+            ]
         },
         hide:{
             $desc:"隐藏提示信息.",
@@ -11423,7 +11423,7 @@ _.set(linb.Locale,["cn","app"], {
                 $paras:[
                     "target [必需参数] : linb.UIProfile[],  子控件的 linb.UI 对象(里面可以包括多个控件概要对象).",
                     "subId [可选参数] : String, subid会指示子控件加到那个DOM节点上。这个参数可以为 [false] ，表示控件不会做为子控件添加到当前控件对象上，只进行在DOM界面上添加UI的工作。"
-                ],
+                ]
             },
             addPanel:{
                 $desc:"新加入一个Panel对象到ColLayout.",

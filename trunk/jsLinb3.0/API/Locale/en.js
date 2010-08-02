@@ -3785,7 +3785,7 @@ _.set(linb.Locale,["en","app"], {
         prototype:{
             KEY:{$desc:"Class Name"},
             host:{
-                $desc:"@Deprecated.(to setHost/getHost)",
+                $desc:"@Deprecated.(to setHost/getHost)"
             },
             alias:{
                 $desc:"@Deprecated.(to setAlias/getAlias)"
@@ -4989,7 +4989,7 @@ _.set(linb.Locale,["en","app"], {
     });
 
     _.set(linb.Locale,["en","doc","linb","DomProfile"], {
-        KEY:{$desc:"Class Name"},
+        KEY:{$desc:"Class Name"}
     });
 
     _.set(linb.Locale,["en","doc","linb","DataBinder"], {
@@ -5127,7 +5127,7 @@ _.set(linb.Locale,["en","app"], {
             $desc:"To set the tips string.",
             $paras:[
                 "s [Required] : String"
-            ],
+            ]
         },
         hide:{
             $desc:"To hide the tooltips.",

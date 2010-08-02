@@ -64,8 +64,8 @@ Class('linb.Profile','linb.absProfile',{
             var self=this, t;
             //for destroyed UIProfile
             if(!self.box)return null;
-            if(!((t=self.object) && t.get(0)==self && t._nodes.length==1))
-                t = self.object = self.box.pack([self],false);
+            if(!((t=self._cacheInstance) && t.get(0)==self && t._nodes.length==1))
+                t = self._cacheInstance = self.box.pack([self],false);
             return t;
         },
         serialize:function(rtnString, keepHost){
@@ -1293,6 +1293,7 @@ Class("linb.UI",  "linb.absObj", {
                 }
             }
             self._nodes.push(profile);
+            profile._cacheInstance=self;
 
             return self;
         },

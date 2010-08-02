@@ -27,6 +27,7 @@ Class('linb.DomProfile', 'linb.absProfile', {
 //linb.absBox
 Class('linb.absBox',null, {
     Constructor:function(){
+    	  arguments.callee.upper.call(this);
         this._nodes=[];
     },
     Before:function(key){

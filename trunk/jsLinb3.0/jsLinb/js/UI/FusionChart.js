@@ -1,7 +1,7 @@
 Class("linb.UI.FusionChart", "linb.UI",{
     Instance:{
         initialize:function(){
-            alert(9);
+            console.log(9);
         },
         refreshChart:function(){
             var html='', cls=this.constructor;
@@ -209,7 +209,7 @@ alert(html);
             
             Funnel:["FCF_Funnel.swf",1],
             
-            Gantt:["FCF_Gantt.swf",4],
+            Gantt:["FCF_Gantt.swf",4]
         }
     }
 });
