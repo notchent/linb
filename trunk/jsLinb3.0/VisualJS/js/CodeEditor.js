@@ -2619,7 +2619,7 @@ codeType=='js'?["codemirror/css/jscolors.css"]
                     profile.$repeatT=linb.Thread.repeat(function(){
                         if(profile.$codemirror){
                             //unload
-                            if(!profile.$codemirror.win.document.defaultView){
+                            if(!profile.$codemirror.win.document || !profile.$codemirror.win.document.defaultView){
                                 profile.box._reLoadEditor(profile);
                             }
                         }
