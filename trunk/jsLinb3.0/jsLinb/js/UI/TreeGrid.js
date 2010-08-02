@@ -647,14 +647,14 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
 
         /*cell realted*/
         getCell:function(cellId, type){
-            var self=this,prf=this.get(0),v;
-            _.each(prf.cellMap,function(o){
+            var self=this,profile=this.get(0),v;
+            _.each(profile.cellMap,function(o){
                 if(o.id && o.id===cellId){
                     cellId=o._serialId;
                     return false;
                 }
             });
-            v=prf.cellMap[cellId];
+            v=profile.cellMap[cellId];
             return !v?null:
                     type=='data'? _.merge({rowId:v._row.id, colId:v._col.id},_.clone(v,true)):
                     type=='min'? v.value:
@@ -663,7 +663,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
         getCellbyRowCol:function(rowId, colId, type){
             var profile=this.get(0),v;
             v=_.get(profile.rowMap,[profile.rowMap2[rowId], '_cells',colId]);
-            v=v && prf.cellMap[v];
+            v=v && profile.cellMap[v];
             return !v?null:
                     type=='data'? _.merge({rowId:v._row.id, colId:v._col.id},_.clone(v,true)):
                     type=='min'? v.value:
@@ -689,14 +689,14 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
             return self;
         },
         updateCell:function(cellId, options, dirtyMark, triggerEvent){
-            var self=this,prf=this.get(0);
-            _.each(prf.cellMap,function(o){
+            var self=this,profile=this.get(0);
+            _.each(profile.cellMap,function(o){
                 if(o.id && o.id===cellId){
                     cellId=o._serialId;
                     return false;
                 }
             });
-            self.constructor._updCell(prf,cellId,options, dirtyMark, triggerEvent);
+            self.constructor._updCell(profile,cellId,options, dirtyMark, triggerEvent);
             return self;
         },
         editCellbyRowCol:function(rowId, colId){

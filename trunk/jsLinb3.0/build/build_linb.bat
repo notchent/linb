@@ -15,6 +15,7 @@ mkdir %outPath%jsLinb
 mkdir %outPath%jsLinb\js
 mkdir %outPath%jsLinb\js\Com
 mkdir %outPath%jsLinb\Locale
+mkdir %outPath%jsLinb\media
 mkdir %outPath%jsLinb\appearance
 
 
@@ -26,6 +27,7 @@ rem xcopy %relPath%jsLinb\js\*.* %outPath%jsLinb\js\ /E /Y
 xcopy %relPath%jsLinb\js\Com\*.* %outPath%jsLinb\js\Com\ /E /Y
 xcopy %relPath%jsLinb\appearance\*.* %outPath%jsLinb\appearance\ /E /Y
 xcopy %relPath%jsLinb\Locale\*.* %outPath%jsLinb\Locale\ /E /Y
+xcopy %relPath%jsLinb\media\*.* %outPath%jsLinb\media\ /E /Y
 copy  %relPath%jsLinb\ondrag.gif %outPath%jsLinb\ondrag.gif
 copy  %relPath%jsLinb\bg.gif %outPath%jsLinb\bg.gif
 copy  %relPath%jsLinb\busy.gif %outPath%jsLinb\busy.gif
@@ -52,7 +54,7 @@ copy linb.js  %outPath%jsLinb\js%debugPath%
 rem ==================
 rem for adv code
 rem ==================
-copy %relPath%jsLinb\js\UI\TextEditor.js /b + %relPath%jsLinb\js\UI\TimeLine.js /b +  %relPath%jsLinb\js\UI\Poll.js /b + %relPath%jsLinb\js\UI\FoldingList.js /b + %relPath%jsLinb\js\UI\Range.js /b  + %relPath%jsLinb\js\UI\Calendar.js /b adv.js
+copy %relPath%jsLinb\js\UI\FusionChart.js /b + %relPath%jsLinb\js\UI\TextEditor.js /b + %relPath%jsLinb\js\UI\TimeLine.js /b +  %relPath%jsLinb\js\UI\Poll.js /b + %relPath%jsLinb\js\UI\FoldingList.js /b + %relPath%jsLinb\js\UI\Range.js /b  + %relPath%jsLinb\js\UI\Calendar.js /b adv.js
 
 java -jar %compressTool% -o  %outPath%jsLinb\js%advAllPath% adv.js
 java -jar %compressTool% -o  %outPath%jsLinb\js%advRawPath%   --nomunge  adv.js

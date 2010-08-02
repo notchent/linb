@@ -81,13 +81,14 @@ new function(){
                 {id:'linb.UI.TreeGrid', caption:'TreeGrid', image:_img_widgets, imagePos:'-480px top', draggable:true}
             ]},
             {id:'linb.UI.absMisc',caption:'Medias',group:true, image:_img_app, imagePos:'-48px -48px', sub:[
-                {id:'linb.UI.Image', caption:'Image Element', image:_img_widgets, imagePos:'-624px top', draggable:true}
+                {id:'linb.UI.Image', caption:'Image Element', image:_img_widgets, imagePos:'-624px top', draggable:true},
 
 /*
                 {id:'linb.UI.Media', caption:'Media', image:_img_widgets, imagePos:'-576px top', draggable:true},
                 {id:'linb.UI.Shape', caption:'Shape', image:_img_widgets, imagePos:'-544px top', draggable:true},
-                {id:'linb.UI.Chart', caption:'Chart', image:_img_widgets, imagePos:'-560px top', draggable:true}
-*/
+*/                
+                {id:'linb.UI.FusionChart', caption:'FusionChart', image:_img_widgets, imagePos:'-560px top', draggable:true}
+
             ]},
             {id:'linb.UI.absAdv',caption:'Advanced',group:true, image:_img_app, imagePos:'-48px -48px', sub:[
                 {id:'linb.UI.TextEditor', caption:'TextEditor', image:_img_widgets, imagePos:'-128px top', draggable:true},
