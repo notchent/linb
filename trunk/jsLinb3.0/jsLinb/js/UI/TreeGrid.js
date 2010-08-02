@@ -3355,7 +3355,7 @@ editorDropListHeight
                 delete editor.get(0).$cell;
                 delete editor.get(0)._smartnav;
                 //don't use disply:none, firfox has many bugs about Caret or renderer
-                editor.reBoxing().hide();
+                editor.setVisibility('hidden');
             };
 
             //editor change value, update cell value
@@ -3423,6 +3423,7 @@ editorDropListHeight
                 editor.setWidth(size.width+3).setHeight(size.height+2).reLayout(true);
                 editor.reBoxing().show((absPos.left-1) + 'px',(absPos.top-1) + 'px');
             }
+            editor.setVisibility("visible");
 
             //give a reference
             profile.$curEditor=editor;
