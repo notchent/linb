@@ -1276,7 +1276,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
             },
             'CELLA-inline':{
                 $order:5,
-                display:'inline',
+                display:linb.$inlineBlock,
                 width:'auto',
                 '-moz-box-flex':0
             },

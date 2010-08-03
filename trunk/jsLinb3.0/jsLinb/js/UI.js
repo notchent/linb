@@ -375,6 +375,8 @@ Class("linb.DataBinder","linb.absObj",{
             if(!profile.name)profile.boxing().setName(alias);
 
             self._nodes.push(profile);
+            profile._cacheInstance=self;
+            
             return self;
         },
         destroy:function(){
@@ -1511,6 +1513,9 @@ Class("linb.UI",  "linb.absObj", {
                 //destroy it
                 //avoid reclaiming serialId
                 o.$noReclaim=1;
+
+                // keep cache refrence
+                var _c=o._cacheInstance;
                 o.boxing().destroy();
 
                 //set back
@@ -1522,6 +1527,12 @@ Class("linb.UI",  "linb.absObj", {
 
                 //create
                 o=new box(o).render();
+                
+                // set cache refrence
+                if(_c){
+                    _.merge(_c,o,'all');
+                    o.get(0)._cacheInstance=_c;
+                }
 
                 //for functions like: UI refresh itself
                 if(fun)

@@ -4,16 +4,35 @@ Class("linb.UI.PopMenu",["linb.UI.Widget","linb.absList"],{
             this.each(function(profile){
                 if(profile.renderId){
                     var root = profile.getRoot(),
-                        items = profile.getSubNode('ITEMS'),
+                        items = profile.getSubNode('ITEMS');
+                        itemNs = profile.getSubNode('ITEM',true),
                         border = profile.getSubNode('BORDER'),
                         size1 = root.cssSize(),
                         size2 = border.cssSize(),
                         pro=profile.properties,
-                        h = Math.min(pro._maxHeight, items.height() + size1.height - size2.height+1),
-                        w = Math.min(pro._maxWidth, items.width() + size1.width - size2.width+1);
-    
+                        ww=0,hh=0;
+
+                        hh = items.height();
+                        if(hh%2==0)hh+=2;else hh+=1;
+
+                        items.addClass(profile.getClass('ITEMS','-inline'));
+                        itemNs.each(function(n){
+                            ww=Math.max(ww, n.offsetWidth);
+                        });
+                        if(ww%2==0)ww+=2;else ww+=1;
+                        
+                        items.removeClass(profile.getClass('ITEMS','-inline'));
+
+                        var h = Math.min(pro._maxHeight, hh + size1.height - size2.height),
+                        w = Math.min(pro._maxWidth, ww + size1.width - size2.width);
+
+
                     pro.width=w;
                     pro.height=h;
+                    
+                    // for IE7
+                    profile.getSubNode('ITEMS').cssSize({width:ww,height:hh});
+
                     //set size first, for adding shadow later
                     root.cssSize({width:w,height:h});
     
@@ -313,8 +332,12 @@ Class("linb.UI.PopMenu",["linb.UI.Widget","linb.absList"],{
                 position:'absolute',
                 top:0,
                 left:0,
-                overflow:'visible',
+                overflow:'hidden',
                 background: linb.UI.$bg('bg.gif', 'repeat-y left top')
+            },
+            'ITEMS-inline ITEM':{
+                $order:5,
+                display:linb.$inlineBlock
             },
             ITEM:{
                 display:'block',
@@ -339,15 +362,11 @@ Class("linb.UI.PopMenu",["linb.UI.Widget","linb.absList"],{
             },
             'ITEM-mouseover':{
                 $order:1,
-                'background-color':'#FFFA9F',
-                border:'solid 1px #94A3A8',
-                padding:'1px 19px 1px 1px'
+                'background-color':'#FFFA9F'
             },
             'ITEM-checked':{
                 $order:2,
-                'background-color':'#FFFA9F',
-                border:'solid 1px #94A3A8',
-                padding:'1px 19px 1px 1px'
+                'background-color':'#FFFA9F'
             },
             ICON:{
                 margin:0
@@ -414,7 +433,8 @@ Class("linb.UI.PopMenu",["linb.UI.Widget","linb.absList"],{
                 width:'80px',
                 'padding-right':'20px',
                 'text-align':'right',
-                'z-index':'10'
+                'z-index':'10',
+                zoom:linb.browser.ie?1:null
             },
             SUB:{
                 position:'absolute',
@@ -763,7 +783,7 @@ Class("linb.UI.PopMenu",["linb.UI.Widget","linb.absList"],{
         },
 
         _onresize:function(profile,width,height){
-            var size = arguments.callee.upper.apply(this,arguments);
+            var size = arguments.callee.upper.apply(this,arguments);            
             profile.getSubNode('BOX').cssSize(size);
         }
     }
