@@ -1263,51 +1263,72 @@ Class('linb.Date',null,{
 
             return self.diff(date2, date, 'ww')+1;
         },
-        parse:function(str){
-            if(_.isDate(str))return str;
-            // avoid null
-            str+="";
-            if(isFinite(str))return new Date(parseInt(str));
-            
-            var self=this,utc,
-                me=arguments.callee,
-                dp=me.dp||(me.dp={
-                  FullYear: 2,
-                  Month: 4,
-                  Date: 6,
-                  Hours: 8,
-                  Minutes: 10,
-                  Seconds: 12,
-                  Milliseconds: 14
-                }),
-                match = str.match(me.iso||(me.iso=/^((-\d+|\d{4,})(-(\d{2})(-(\d{2}))?)?)?T((\d{2})(:(\d{2})(:(\d{2})(\.(\d{1,3})(\d)?\d*)?)?)?)?(([+-])(\d{2})((\d{2}))?|Z)?$/)),
-                date = new Date(0)
-                ;
-            if(match){
-                //month
-                if(match[4])match[4]--;
-                //ms to 3 digits
-                if (match[15]>=5)match[14]++;
-                utc = match[16]||match[18]?"UTC":"";
-                for (var i in dp) {
-                    var v = match[dp[i]];
-                    if(!v)continue;
-                    date["set" + utc + i](v);
-                    if (date["get" + utc + i]() != match[dp[i]])
-                        return null;
-                }
-                if(match[18]){
-                    var h = Number(match[17] + match[18]),
-                        m = Number(match[17] + (match[20] || 0));
-                    date.setUTCMinutes(date.getUTCMinutes() + (h * 60) + m);
-                }
-                return date;
+        parse:function(str, format){
+            var rtn;
+            if(_.isDate(str)){
+                rtn=str;
             }else{
-                if(/^((-\d+|\d{4,})(-(\d{1,2})(-(\d{1,2}))))/.test(str))
-                    str = str.replace(/-/g,'/');
-                var r=Date.parse(str);
-                return r?date.setTime(r) && date:null;
+                // avoid null
+                str+="";
+                if(isFinite(str)){
+                    rtn=new Date(parseInt(str));
+                }else{
+                    if(typeof format=='string'){
+                        var a=format.split(/[^ymdhns]+/),
+                            b=str.split(/[^0-9]+/),
+                            n={y:0,m:0,d:0,h:0,n:0,s:0,ms:0};
+                        if(a.length && a.length===b.length){
+                            for(var i=0;i<a.length;i++)
+                                if(a[i].length)
+                                    n[a[i]=='ms'?'ms':a[i].charAt(0)]=parseInt(b[i].replace(/^0*/,''));
+                            rtn=new Date(n.y,n.m-1,n.d,n.h,n.n,n.s,n.ms);
+                        }else
+                            rtn=null;
+                    }else{
+
+                        var self=this,utc,
+                            me=arguments.callee,
+                            dp=me.dp||(me.dp={
+                              FullYear: 2,
+                              Month: 4,
+                              Date: 6,
+                              Hours: 8,
+                              Minutes: 10,
+                              Seconds: 12,
+                              Milliseconds: 14
+                            }),
+                            match = str.match(me.iso||(me.iso=/^((-\d+|\d{4,})(-(\d{2})(-(\d{2}))?)?)?T((\d{2})(:(\d{2})(:(\d{2})(\.(\d{1,3})(\d)?\d*)?)?)?)?(([+-])(\d{2})((\d{2}))?|Z)?$/)),
+                            date = new Date(0)
+                            ;
+                        if(match){
+                            //month
+                            if(match[4])match[4]--;
+                            //ms to 3 digits
+                            if (match[15]>=5)match[14]++;
+                            utc = match[16]||match[18]?"UTC":"";
+                            for (var i in dp) {
+                                var v = match[dp[i]];
+                                if(!v)continue;
+                                date["set" + utc + i](v);
+                                if (date["get" + utc + i]() != match[dp[i]])
+                                    rtn=null;
+                            }
+                            if(match[18]){
+                                var h = Number(match[17] + match[18]),
+                                    m = Number(match[17] + (match[20] || 0));
+                                date.setUTCMinutes(date.getUTCMinutes() + (h * 60) + m);
+                            }
+                            rtn=date;
+                        }else{
+                            if(/^((-\d+|\d{4,})(-(\d{1,2})(-(\d{1,2}))))/.test(str))
+                                str = str.replace(/-/g,'/');
+                            var r=Date.parse(str);
+                            rtn=r?date.setTime(r) && date:null;
+                        }
+                    }
+                }
             }
+            return rtn===null?null:isFinite(+rtn)?rtn:null;
         },
         getText:function(date, datepart, firstDayOfWeek){
             var self=this, map=self.$TEXTFORMAT;

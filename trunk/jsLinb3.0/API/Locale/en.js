@@ -3723,7 +3723,8 @@ _.set(linb.Locale,["en","app"], {
             $desc:"Converts the specified string representation of a date and time to its [Date] Object equivalent.",
             $rtn:"Object, Date Object",
             $paras:[
-                "str [Required] : String, the given string."
+                "str [Required] : String, the given string.",
+                "foramt [Optional] : String, Date time format(e.g. yyyy-mm-dd; dd/mm/yyyy hh:nn:ss ms)."
             ],
             $snippet:[
                 "alert(linb.Date.parse('1/1/1998'))",
@@ -9407,6 +9408,18 @@ _.set(linb.Locale,["en","app"], {
                 $paras:[
                     "value [Required] : Boolean",
                     "force [Optional] : Boolean, Boolean, force to set the property value even if the same property value already exists. Default is [false]."
+                ]
+            },
+            getDateEditorTpl:{
+                $desc:"Gets the date/datetime editor template.",
+                $rtn:"String"
+            },
+            setDateEditorTpl:{
+                $desc:"Sets the date/datetime editor template.",
+                $rtn:"[self]",
+                $paras:[
+                    "value [Required] : String.",
+                    "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
                 ]
             },
             getCurrencyTpl:{

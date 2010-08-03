@@ -3734,7 +3734,8 @@ _.set(linb.Locale,["cn","app"], {
             $desc:"解析一个字符串，并转化为相应的[Date]对象.",
             $rtn:"Object, Date Object",
             $paras:[
-                "str [必需参数] : String, 表示时间的字符串."
+                "str [必需参数] : String, 表示时间的字符串.",
+                "foramt [可选参数] : String, 可选的日期时间格式(例如，yyyy-mm-dd 或 dd/mm/yyyy hh:nn:ss ms)."
             ],
             $snippet:[
                 "alert(linb.Date.parse('1/1/1998'))",
@@ -9334,6 +9335,18 @@ _.set(linb.Locale,["cn","app"], {
                 $rtn:"[self]",
                 $paras:[
                     "value [必需参数] : Boolean",
+                    "force [可选参数] : Boolean, 强制设置该属性值，即使属性已经设置为该值. 默认为 [false]."
+                ]
+            },
+            getDateEditorTpl:{
+                $desc:"得到 date/datetime 编辑模式下的模板.",
+                $rtn:"String"
+            },
+            setDateEditorTpl:{
+                $desc:"设置 date/datetime 编辑模式下的模板.",
+                $rtn:"[self]",
+                $paras:[
+                    "value [必需参数] : String.",
                     "force [可选参数] : Boolean, 强制设置该属性值，即使属性已经设置为该值. 默认为 [false]."
                 ]
             },

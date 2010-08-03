@@ -6,7 +6,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
             if(profile.$isNumber){
                 v=v.replace(/[^\d.]/g,'');
                 v=_.isNumb(parseFloat(v))?parseFloat(v):null;
-            }else if(profile.properties.type=='datepicker'||profile.properties.type=='date'){
+            }else if(profile.properties.type=='datepicker'||profile.properties.type=='date'||profile.properties.type=='datetime'){
                 v=_.isDate(v)?v:_.isFinite(v)?new Date(parseInt(v)):null;                
             }
             return v;
@@ -182,6 +182,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                         case 'time':
                         case 'datepicker':
                         case 'date':
+                        case 'datetime':
                         case 'colorpicker':
                         case 'color':
                             cachekey=type;
@@ -248,6 +249,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                             break;
                         case 'date':
                         case 'datepicker':
+                        case 'datetime':
                             o = linb.create('DatePicker').render();
                             o.setHost(profile);
                             o.beforeClose(function(){this.boxing().activate()._cache();return false});
@@ -295,6 +297,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                         break;
                     case 'date':
                     case 'datepicker':
+                    case 'datetime':
                         var t = profile.$drop.properties;
                         t.WEEK_FIRST=pro.WEEK_FIRST;
                         if(t=profile.properties.$UIvalue)
@@ -366,7 +369,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
             profile.properties.caption=undefined;
         },
         _iniType:function(profile){
-            var pro=profile.properties, value=pro.type, c=profile.box;
+            var pro=profile.properties, type=pro.type, c=profile.box;
             delete profile.$beforeKeypress;
             delete profile.$inputReadonly;
             delete profile.$isNumber;
@@ -376,20 +379,20 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
             delete profile.$fromEditor;
             delete profile.$typeOK;
 
-            if(value=='listbox'||value=='upload'||value=='cmdbox')
+            if(type=='listbox'||type=='upload'||type=='cmdbox')
                 profile.$inputReadonly=true;
 
-            if(value!='listbox' && value!='combobox' && value!='helpinput')
+            if(type!='listbox' && type!='combobox' && type!='helpinput')
                 pro.items=[];
 
-            if(value=='timepicker' || value=='time'){
+            if(type=='timepicker' || type=='time'){
                 var keymap={a:1,c:1,v:1,x:1};
                 _.merge(profile,{
                     $beforeKeypress : function(profile,c,k){
                         return k.key.length!=1 || /[0-9:]/.test(k.key)|| (k.ctrlKey&& !!keymap[k.key]);
                     },
-                    $getShowValue : function(profile,value){
-                        return value?linb.UI.TimePicker._ensureValue(profile,value):'';
+                    $getShowValue : function(profile,v){
+                        return v?linb.UI.TimePicker._ensureValue(profile,v):'';
                     },
                     $fromEditor : function(profile,v){
                         if(v){
@@ -399,39 +402,60 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                         return v;
                     }
                 },'all');
-            }else if(value=='datepicker' || value=='date'){
+            }else if(type=='datepicker' || type=='date' || type=='datetime'){
                 var date=linb.Date;
                 var keymap={a:1,c:1,v:1,x:1};
                 _.merge(profile,{
                     $beforeKeypress : function(profile,c,k){
-                        return k.key.length!=1 || /[0-9/\-_ ]/.test(k.key) ||(k.ctrlKey && !!keymap[k.key]);
+                        return k.key.length!=1 || /[0-9:/\-_ ]/.test(k.key) ||(k.ctrlKey && !!keymap[k.key]);
                     },
                     $compareValue : function(p,a,b){
                         return (!a&&!b) || (String(a)==String(b))
                     },
-                    $getShowValue : function(profile,value){
-                        return value?date.getText(new Date(parseInt(value)), 'ymd'):'';
+                    $getShowValue : function(profile,v){
+                        if(profile.properties.dateEditorTpl)
+                            return v?date.format(v, profile.properties.dateEditorTpl):'';
+                        else
+                            return v?date.getText(new Date(parseInt(v)), profile.properties.type=='datetime'?'ymdhn':'ymd'):'';
                     },
-                    $toEditor : function(profile,value){
-                        var v=new Date(parseInt(value)),m=(date.get(v,'m')+1)+'',d=date.get(v,'d')+'';
-                        return value?(date.get(v,'y')+'-'+(m.length==1?'0':'')+m+'-'+(d.length==1?'0':'')+d):'';
+                    $toEditor : function(profile,v){
+                        if(!v)return "";
+
+                        v=new Date(parseInt(v)||0);
+                        if(profile.properties.dateEditorTpl)
+                            return date.format(v, profile.properties.dateEditorTpl);
+                        else{
+                            var m=(date.get(v,'m')+1)+'',d=date.get(v,'d')+'',h=date.get(v,'h')+'',n=date.get(v,'n')+'';
+                            return date.get(v,'y')+'-'+(m.length==1?'0':'')+m+'-'+(d.length==1?'0':'')+d 
+                            
+                              +(profile.properties.type=='datetime'?(" "+(h.length==1?'0':'')+h +":" +(n.length==1?'0':'')+n):"");
+                        }
                     },
                     $fromEditor : function(profile,v){
-                        //parse from local text yyyy-m-d
                         if(v){
-                            v=linb.Date.parse(v);
-                            if(!v)v=profile.properties.$UIvalue;
-                            v=linb.Date.getTimSpanStart(v,'d',1);
-                            // min/max year
-                            if(v.getFullYear()<profile.properties.min)
-                                v.setTime(profile.properties.min);
-                            if(v.getFullYear()>profile.properties.max)
-                                v.setTime(profile.properties.max);
+                            if(profile.properties.dateEditorTpl)
+                                v=date.parse(v, profile.properties.dateEditorTpl);
+                            else
+                                v=linb.Date.parse(v);
+                            // set to old UIvalue
+                            if(!v){
+                                v=profile.properties.$UIvalue;
+                                if(_.isFinite(v))v=new Date(parseInt(v));
+                            }
+                            if(v){
+                                if(profile.properties.type!='datetime')
+                                    v=date.getTimSpanStart(v,'d',1);
+                                // min/max year
+                                if(v.getFullYear()<profile.properties.min)
+                                    v.setTime(profile.properties.min);
+                                if(v.getFullYear()>profile.properties.max)
+                                    v.setTime(profile.properties.max);
+                            }
                         }
                         return v?String(v.getTime()):'';
                     }
                 },'all');
-            }else if(value=='currency'){
+            }else if(type=='currency'){
                 profile.$isNumber=1;
                 var keymap={a:1,c:1,v:1,x:1};
                 _.merge(profile,{
@@ -457,7 +481,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                         return (_.isSet(v)&&v!=="")?p.box._currency(profile, v).replace(/[^\d.]/g,''):"";
                     }
                 },'all');
-            }else if(value=='number' || value=='spin'){
+            }else if(type=='number' || type=='spin'){
                 profile.$isNumber=1;
                 var keymap={a:1,c:1,v:1,x:1};
                 _.merge(profile,{
@@ -889,10 +913,15 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
             // Deprecated
             timepicker:'left -60px',
             datepicker:'left -75px',
+            datetime:'left -75px',
             colorpicker:'-16px -60px'
         },
         DataModel:{
             cachePopWnd:true,
+            // allowed: yyyy,mm,dd,y,m,d
+            // yyyy-mm-dd
+            // yyyy/mm/dd
+            dateEditorTpl:"",
             currencyTpl:{
                 ini:"",
                 action: function(){
@@ -1116,9 +1145,10 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
             //if value is empty
             if(!_.isSet(value) || value==='')return '';
 
-            switch(profile.properties.type){                
+            switch(profile.properties.type){
                 case 'date':
                 case 'datepicker':
+                case 'datetime':
                     var d;
                     if(value){
                         if(_.isDate(value))
@@ -1126,7 +1156,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                         else if(_.isFinite(value))
                             d=new Date(parseInt(value));
                     }
-                    return d?String(linb.Date.getTimSpanStart(d,'d',1).getTime()):"";;
+                    return d?String(profile.properties.type=='datetime'?d.getTime():linb.Date.getTimSpanStart(d,'d',1).getTime()):"";
                 case 'color':
                 case 'colorpicker':
                     return '#'+linb.UI.ColorPicker._ensureValue(null,value);

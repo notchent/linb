@@ -413,12 +413,12 @@ _.merge(_,{
     // type detection
     isDefined:function(target)  {return target!==undefined},
     isNull:function(target)  {return target===null},
-    isSet:function(target)   {return target!==undefined && target!==null && target!==NaN},
+    isSet:function(target)   {return target!==undefined && target!==null},
     isObj:function(target)   {return !!target  && (typeof target == 'object' || typeof target == 'function')},
     isBool:function(target)  {return typeof target == 'boolean'},
     isNumb:function(target)  {return typeof target == 'number' && isFinite(target)},
     isFinite:function(target)  {return (target||target===0) && isFinite(target)},
-    isDate:function(target)  {return Object.prototype.toString.call(target)==='[object Date]'},
+    isDate:function(target)  {return Object.prototype.toString.call(target)==='[object Date]' && isFinite(+target)},
     isFun:function(target)   {return Object.prototype.toString.call(target)==='[object Function]'},
     isArr:function(target)   {return Object.prototype.toString.call(target)==='[object Array]'},
     isHash:function(target)  {return !!target && typeof target=='object' && (target.constructor==Object || 

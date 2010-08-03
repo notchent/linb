@@ -413,12 +413,12 @@ _.merge(_,{
     // type detection
     isDefined:function(target)  {return target!==undefined},
     isNull:function(target)  {return target===null},
-    isSet:function(target)   {return target!==undefined && target!==null && target!==NaN},
+    isSet:function(target)   {return target!==undefined && target!==null},
     isObj:function(target)   {return !!target  && (typeof target == 'object' || typeof target == 'function')},
     isBool:function(target)  {return typeof target == 'boolean'},
     isNumb:function(target)  {return typeof target == 'number' && isFinite(target)},
     isFinite:function(target)  {return (target||target===0) && isFinite(target)},
-    isDate:function(target)  {return Object.prototype.toString.call(target)==='[object Date]'},
+    isDate:function(target)  {return Object.prototype.toString.call(target)==='[object Date]' && isFinite(+target)},
     isFun:function(target)   {return Object.prototype.toString.call(target)==='[object Function]'},
     isArr:function(target)   {return Object.prototype.toString.call(target)==='[object Array]'},
     isHash:function(target)  {return !!target && typeof target=='object' && (target.constructor==Object || 
@@ -2427,20 +2427,20 @@ linb.Locale.en.date={
     Y:'y',
     DE:'de',
     C:'c',
-    HN:function(n,a,b){return a+":"+b},
-    DHN:function(n,a,b,c){return a +'th '+ b + ":" +c },
-    MDHN:function(n,a,b,c,d){return b+ 'th ' + linb.getRes('date.MONTHS.'+a) + " " + c + ":" + d},
-    HNS:function(n,a,b,c){return a+":"+b+":"+c},
-    HNSMS:function(n,a,b,c,d){return a+":"+b+":"+c + ' ' +d},
+    HN:function(n,a,b){return (a.length==1?'0':'')+a+":"+(b.length==1?'0':'')+b},
+    DHN:function(n,a,b,c){return a +'th '+ (b.length==1?'0':'')+b + ":" +(c.length==1?'0':'')+c },
+    MDHN:function(n,a,b,c,d){return b+ 'th ' + linb.getRes('date.MONTHS.'+a) + " " + (c.length==1?'0':'')+c + ":" + (d.length==1?'0':'')+d},
+    HNS:function(n,a,b,c){return (a.length==1?'0':'')+a+":"+(b.length==1?'0':'')+b+":"+(c.length==1?'0':'')+c},
+    HNSMS:function(n,a,b,c,d){return (a.length==1?'0':'')+a+":"+(b.length==1?'0':'')+b+":"+(c.length==1?'0':'')+c+ ' ' +(d.length==1?'00':d.length==2?'0':'')+d},
     YM:function(n,a,b){return linb.getRes('date.MONTHS.'+b)+' '+a},
     YQ:function(n,a,b){return b+'Q ' + a},
     YMD:function(n,a,b,c){return a+'-'+(b.length==1?'0':'')+b+'-'+(c.length==1?'0':'')+c},
     YMD2:function(n,a,b,c){return linb.getRes('date.MONTHS.'+b)+' '+c+', '+a},
     MD:function(n,a,b){return linb.getRes('date.MONTHS.'+a) + " "+ b},
-    YMDH:function(n,a,b,c,d){return a+'-'+(b.length==1?'0':'')+b+'-'+(c.length==1?'0':'')+c + ' ' +d+':00'},
-    YMDHN:function(n,a,b,c,d,e){return a+'-'+(b.length==1?'0':'')+b+'-'+(c.length==1?'0':'')+c + ' ' +d+":"+e},
-    YMDHNS:function(n,a,b,c,d,e,f){return a+'-'+(b.length==1?'0':'')+b+'-'+(c.length==1?'0':'')+c + ' ' +d+":"+e+":"+f},
-    ALL:function(n,a,b,c,d,e,f,g){return a+'-'+(b.length==1?'0':'')+b+'-'+(c.length==1?'0':'')+c + ' ' +d+":"+e+":"+f +" " +g}
+    YMDH:function(n,a,b,c,d){return a+'-'+(b.length==1?'0':'')+b+'-'+(c.length==1?'0':'')+c + ' ' +(d.length==1?'0':'')+d+':00'},
+    YMDHN:function(n,a,b,c,d,e){return a+'-'+(b.length==1?'0':'')+b+'-'+(c.length==1?'0':'')+c + ' ' +(d.length==1?'0':'')+d+":"+(e.length==1?'0':'')+e},
+    YMDHNS:function(n,a,b,c,d,e,f){return a+'-'+(b.length==1?'0':'')+b+'-'+(c.length==1?'0':'')+c + ' ' +(d.length==1?'0':'')+d+":"+(e.length==1?'0':'')+e+":"+(f.length==1?'0':'')+f},
+    ALL:function(n,a,b,c,d,e,f,g){return a+'-'+(b.length==1?'0':'')+b+'-'+(c.length==1?'0':'')+c + ' ' +(d.length==1?'0':'')+d+":"+(e.length==1?'0':'')+e+":"+(f.length==1?'0':'')+f +" " +(g.length==1?'00':g.length==2?'0':'')+g}
 };
 linb.Locale.en.color={
   LIST:{
@@ -4345,51 +4345,72 @@ Class('linb.Event',null,{
 
             return self.diff(date2, date, 'ww')+1;
         },
-        parse:function(str){
-            if(_.isDate(str))return str;
-            // avoid null
-            str+="";
-            if(isFinite(str))return new Date(parseInt(str));
-            
-            var self=this,utc,
-                me=arguments.callee,
-                dp=me.dp||(me.dp={
-                  FullYear: 2,
-                  Month: 4,
-                  Date: 6,
-                  Hours: 8,
-                  Minutes: 10,
-                  Seconds: 12,
-                  Milliseconds: 14
-                }),
-                match = str.match(me.iso||(me.iso=/^((-\d+|\d{4,})(-(\d{2})(-(\d{2}))?)?)?T((\d{2})(:(\d{2})(:(\d{2})(\.(\d{1,3})(\d)?\d*)?)?)?)?(([+-])(\d{2})((\d{2}))?|Z)?$/)),
-                date = new Date(0)
-                ;
-            if(match){
-                //month
-                if(match[4])match[4]--;
-                //ms to 3 digits
-                if (match[15]>=5)match[14]++;
-                utc = match[16]||match[18]?"UTC":"";
-                for (var i in dp) {
-                    var v = match[dp[i]];
-                    if(!v)continue;
-                    date["set" + utc + i](v);
-                    if (date["get" + utc + i]() != match[dp[i]])
-                        return null;
-                }
-                if(match[18]){
-                    var h = Number(match[17] + match[18]),
-                        m = Number(match[17] + (match[20] || 0));
-                    date.setUTCMinutes(date.getUTCMinutes() + (h * 60) + m);
-                }
-                return date;
+        parse:function(str, format){
+            var rtn;
+            if(_.isDate(str)){
+                rtn=str;
             }else{
-                if(/^((-\d+|\d{4,})(-(\d{1,2})(-(\d{1,2}))))/.test(str))
-                    str = str.replace(/-/g,'/');
-                var r=Date.parse(str);
-                return r?date.setTime(r) && date:null;
+                // avoid null
+                str+="";
+                if(isFinite(str)){
+                    rtn=new Date(parseInt(str));
+                }else{
+                    if(typeof format=='string'){
+                        var a=format.split(/[^ymdhns]+/),
+                            b=str.split(/[^0-9]+/),
+                            n={y:0,m:0,d:0,h:0,n:0,s:0,ms:0};
+                        if(a.length && a.length===b.length){
+                            for(var i=0;i<a.length;i++)
+                                if(a[i].length)
+                                    n[a[i]=='ms'?'ms':a[i].charAt(0)]=parseInt(b[i].replace(/^0*/,''));
+                            rtn=new Date(n.y,n.m-1,n.d,n.h,n.n,n.s,n.ms);
+                        }else
+                            rtn=null;
+                    }else{
+
+                        var self=this,utc,
+                            me=arguments.callee,
+                            dp=me.dp||(me.dp={
+                              FullYear: 2,
+                              Month: 4,
+                              Date: 6,
+                              Hours: 8,
+                              Minutes: 10,
+                              Seconds: 12,
+                              Milliseconds: 14
+                            }),
+                            match = str.match(me.iso||(me.iso=/^((-\d+|\d{4,})(-(\d{2})(-(\d{2}))?)?)?T((\d{2})(:(\d{2})(:(\d{2})(\.(\d{1,3})(\d)?\d*)?)?)?)?(([+-])(\d{2})((\d{2}))?|Z)?$/)),
+                            date = new Date(0)
+                            ;
+                        if(match){
+                            //month
+                            if(match[4])match[4]--;
+                            //ms to 3 digits
+                            if (match[15]>=5)match[14]++;
+                            utc = match[16]||match[18]?"UTC":"";
+                            for (var i in dp) {
+                                var v = match[dp[i]];
+                                if(!v)continue;
+                                date["set" + utc + i](v);
+                                if (date["get" + utc + i]() != match[dp[i]])
+                                    rtn=null;
+                            }
+                            if(match[18]){
+                                var h = Number(match[17] + match[18]),
+                                    m = Number(match[17] + (match[20] || 0));
+                                date.setUTCMinutes(date.getUTCMinutes() + (h * 60) + m);
+                            }
+                            rtn=date;
+                        }else{
+                            if(/^((-\d+|\d{4,})(-(\d{1,2})(-(\d{1,2}))))/.test(str))
+                                str = str.replace(/-/g,'/');
+                            var r=Date.parse(str);
+                            rtn=r?date.setTime(r) && date:null;
+                        }
+                    }
+                }
             }
+            return rtn===null?null:isFinite(+rtn)?rtn:null;
         },
         getText:function(date, datepart, firstDayOfWeek){
             var self=this, map=self.$TEXTFORMAT;
@@ -18812,7 +18833,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
             if(profile.$isNumber){
                 v=v.replace(/[^\d.]/g,'');
                 v=_.isNumb(parseFloat(v))?parseFloat(v):null;
-            }else if(profile.properties.type=='datepicker'||profile.properties.type=='date'){
+            }else if(profile.properties.type=='datepicker'||profile.properties.type=='date'||profile.properties.type=='datetime'){
                 v=_.isDate(v)?v:_.isFinite(v)?new Date(parseInt(v)):null;                
             }
             return v;
@@ -18988,6 +19009,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                         case 'time':
                         case 'datepicker':
                         case 'date':
+                        case 'datetime':
                         case 'colorpicker':
                         case 'color':
                             cachekey=type;
@@ -19054,6 +19076,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                             break;
                         case 'date':
                         case 'datepicker':
+                        case 'datetime':
                             o = linb.create('DatePicker').render();
                             o.setHost(profile);
                             o.beforeClose(function(){this.boxing().activate()._cache();return false});
@@ -19101,6 +19124,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                         break;
                     case 'date':
                     case 'datepicker':
+                    case 'datetime':
                         var t = profile.$drop.properties;
                         t.WEEK_FIRST=pro.WEEK_FIRST;
                         if(t=profile.properties.$UIvalue)
@@ -19172,7 +19196,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
             profile.properties.caption=undefined;
         },
         _iniType:function(profile){
-            var pro=profile.properties, value=pro.type, c=profile.box;
+            var pro=profile.properties, type=pro.type, c=profile.box;
             delete profile.$beforeKeypress;
             delete profile.$inputReadonly;
             delete profile.$isNumber;
@@ -19182,20 +19206,20 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
             delete profile.$fromEditor;
             delete profile.$typeOK;
 
-            if(value=='listbox'||value=='upload'||value=='cmdbox')
+            if(type=='listbox'||type=='upload'||type=='cmdbox')
                 profile.$inputReadonly=true;
 
-            if(value!='listbox' && value!='combobox' && value!='helpinput')
+            if(type!='listbox' && type!='combobox' && type!='helpinput')
                 pro.items=[];
 
-            if(value=='timepicker' || value=='time'){
+            if(type=='timepicker' || type=='time'){
                 var keymap={a:1,c:1,v:1,x:1};
                 _.merge(profile,{
                     $beforeKeypress : function(profile,c,k){
                         return k.key.length!=1 || /[0-9:]/.test(k.key)|| (k.ctrlKey&& !!keymap[k.key]);
                     },
-                    $getShowValue : function(profile,value){
-                        return value?linb.UI.TimePicker._ensureValue(profile,value):'';
+                    $getShowValue : function(profile,v){
+                        return v?linb.UI.TimePicker._ensureValue(profile,v):'';
                     },
                     $fromEditor : function(profile,v){
                         if(v){
@@ -19205,39 +19229,60 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                         return v;
                     }
                 },'all');
-            }else if(value=='datepicker' || value=='date'){
+            }else if(type=='datepicker' || type=='date' || type=='datetime'){
                 var date=linb.Date;
                 var keymap={a:1,c:1,v:1,x:1};
                 _.merge(profile,{
                     $beforeKeypress : function(profile,c,k){
-                        return k.key.length!=1 || /[0-9/\-_ ]/.test(k.key) ||(k.ctrlKey && !!keymap[k.key]);
+                        return k.key.length!=1 || /[0-9:/\-_ ]/.test(k.key) ||(k.ctrlKey && !!keymap[k.key]);
                     },
                     $compareValue : function(p,a,b){
                         return (!a&&!b) || (String(a)==String(b))
                     },
-                    $getShowValue : function(profile,value){
-                        return value?date.getText(new Date(parseInt(value)), 'ymd'):'';
+                    $getShowValue : function(profile,v){
+                        if(profile.properties.dateEditorTpl)
+                            return v?date.format(v, profile.properties.dateEditorTpl):'';
+                        else
+                            return v?date.getText(new Date(parseInt(v)), profile.properties.type=='datetime'?'ymdhn':'ymd'):'';
                     },
-                    $toEditor : function(profile,value){
-                        var v=new Date(parseInt(value)),m=(date.get(v,'m')+1)+'',d=date.get(v,'d')+'';
-                        return value?(date.get(v,'y')+'-'+(m.length==1?'0':'')+m+'-'+(d.length==1?'0':'')+d):'';
+                    $toEditor : function(profile,v){
+                        if(!v)return "";
+
+                        v=new Date(parseInt(v)||0);
+                        if(profile.properties.dateEditorTpl)
+                            return date.format(v, profile.properties.dateEditorTpl);
+                        else{
+                            var m=(date.get(v,'m')+1)+'',d=date.get(v,'d')+'',h=date.get(v,'h')+'',n=date.get(v,'n')+'';
+                            return date.get(v,'y')+'-'+(m.length==1?'0':'')+m+'-'+(d.length==1?'0':'')+d 
+                            
+                              +(profile.properties.type=='datetime'?(" "+(h.length==1?'0':'')+h +":" +(n.length==1?'0':'')+n):"");
+                        }
                     },
                     $fromEditor : function(profile,v){
-                        //parse from local text yyyy-m-d
                         if(v){
-                            v=linb.Date.parse(v);
-                            if(!v)v=profile.properties.$UIvalue;
-                            v=linb.Date.getTimSpanStart(v,'d',1);
-                            // min/max year
-                            if(v.getFullYear()<profile.properties.min)
-                                v.setTime(profile.properties.min);
-                            if(v.getFullYear()>profile.properties.max)
-                                v.setTime(profile.properties.max);
+                            if(profile.properties.dateEditorTpl)
+                                v=date.parse(v, profile.properties.dateEditorTpl);
+                            else
+                                v=linb.Date.parse(v);
+                            // set to old UIvalue
+                            if(!v){
+                                v=profile.properties.$UIvalue;
+                                if(_.isFinite(v))v=new Date(parseInt(v));
+                            }
+                            if(v){
+                                if(profile.properties.type!='datetime')
+                                    v=date.getTimSpanStart(v,'d',1);
+                                // min/max year
+                                if(v.getFullYear()<profile.properties.min)
+                                    v.setTime(profile.properties.min);
+                                if(v.getFullYear()>profile.properties.max)
+                                    v.setTime(profile.properties.max);
+                            }
                         }
                         return v?String(v.getTime()):'';
                     }
                 },'all');
-            }else if(value=='currency'){
+            }else if(type=='currency'){
                 profile.$isNumber=1;
                 var keymap={a:1,c:1,v:1,x:1};
                 _.merge(profile,{
@@ -19263,7 +19308,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                         return (_.isSet(v)&&v!=="")?p.box._currency(profile, v).replace(/[^\d.]/g,''):"";
                     }
                 },'all');
-            }else if(value=='number' || value=='spin'){
+            }else if(type=='number' || type=='spin'){
                 profile.$isNumber=1;
                 var keymap={a:1,c:1,v:1,x:1};
                 _.merge(profile,{
@@ -19695,10 +19740,15 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
             // Deprecated
             timepicker:'left -60px',
             datepicker:'left -75px',
+            datetime:'left -75px',
             colorpicker:'-16px -60px'
         },
         DataModel:{
             cachePopWnd:true,
+            // allowed: yyyy,mm,dd,y,m,d
+            // yyyy-mm-dd
+            // yyyy/mm/dd
+            dateEditorTpl:"",
             currencyTpl:{
                 ini:"",
                 action: function(){
@@ -19922,9 +19972,10 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
             //if value is empty
             if(!_.isSet(value) || value==='')return '';
 
-            switch(profile.properties.type){                
+            switch(profile.properties.type){
                 case 'date':
                 case 'datepicker':
+                case 'datetime':
                     var d;
                     if(value){
                         if(_.isDate(value))
@@ -19932,7 +19983,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                         else if(_.isFinite(value))
                             d=new Date(parseInt(value));
                     }
-                    return d?String(linb.Date.getTimSpanStart(d,'d',1).getTime()):"";;
+                    return d?String(profile.properties.type=='datetime'?d.getTime():linb.Date.getTimSpanStart(d,'d',1).getTime()):"";
                 case 'color':
                 case 'colorpicker':
                     return '#'+linb.UI.ColorPicker._ensureValue(null,value);
