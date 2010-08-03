@@ -1078,6 +1078,7 @@ cycle: is the thread circular
 */
 Class('linb.Thread',null,{
     Constructor:function(id, tasks, delay, callback, onStart, onEnd, cycle){
+        if(arguments.callee.upper)arguments.callee.upper.call(this);
         //for api call directly
         var self=this,me=arguments.callee,t=linb.$cache.thread;
         // linb.Thread() => self.constructor!==me
@@ -1361,6 +1362,7 @@ iajax   +       +       +                   *                   *           *
 */
 Class('linb.absIO',null,{
     Constructor:function(uri, query, onSuccess, onFail, threadid, options){
+        if(arguments.callee.upper)arguments.callee.upper.call(this);
         //get properties
         if(typeof uri=='object')
             options=uri;
@@ -1948,6 +1950,7 @@ Class('linb.IAjax','linb.absIO',{
 */
 Class('linb.SC',null,{
     Constructor:function(path, callback, isAsy, threadid, options){
+        if(arguments.callee.upper)arguments.callee.upper.call(this);
         var p = linb.$cache.SC,r;
         if(r=p[path]||(p[path]=_.get(window,path.split('.'))))
             _.tryF(callback,[path,null,threadid],r);
@@ -2300,6 +2303,7 @@ _.id.prototype = {
 
 Class('linb.absProfile',null,{
     Constructor:function(){
+        if(arguments.callee.upper)arguments.callee.upper.call(this);
         if(!this.$linbid)this.$linbid=linb.absProfile.$linbid.next();
     },
     Instance:{

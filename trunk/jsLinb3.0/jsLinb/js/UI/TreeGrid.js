@@ -447,11 +447,11 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
             if(v=p.$UIvalue){
                 if((v=v.split(';')).length>1){
                     _.filter(v,function(o){
-                        return _.arr.indexOf(arr,o)==-1;
+                        return _.arr.indexOf(ids,o)==-1;
                     });
                     p.$UIvalue=v.join(';');
                 }else{
-                    if(_.arr.indexOf(arr,p.$UIvalue)!=-1)
+                    if(_.arr.indexOf(ids,p.$UIvalue)!=-1)
                         p.$UIvalue=null;
                 }
             }

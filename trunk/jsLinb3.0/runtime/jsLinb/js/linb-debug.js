@@ -1078,6 +1078,7 @@ cycle: is the thread circular
 */
 Class('linb.Thread',null,{
     Constructor:function(id, tasks, delay, callback, onStart, onEnd, cycle){
+        if(arguments.callee.upper)arguments.callee.upper.call(this);
         //for api call directly
         var self=this,me=arguments.callee,t=linb.$cache.thread;
         // linb.Thread() => self.constructor!==me
@@ -1361,6 +1362,7 @@ iajax   +       +       +                   *                   *           *
 */
 Class('linb.absIO',null,{
     Constructor:function(uri, query, onSuccess, onFail, threadid, options){
+        if(arguments.callee.upper)arguments.callee.upper.call(this);
         //get properties
         if(typeof uri=='object')
             options=uri;
@@ -1948,6 +1950,7 @@ Class('linb.IAjax','linb.absIO',{
 */
 Class('linb.SC',null,{
     Constructor:function(path, callback, isAsy, threadid, options){
+        if(arguments.callee.upper)arguments.callee.upper.call(this);
         var p = linb.$cache.SC,r;
         if(r=p[path]||(p[path]=_.get(window,path.split('.'))))
             _.tryF(callback,[path,null,threadid],r);
@@ -2300,6 +2303,7 @@ _.id.prototype = {
 
 Class('linb.absProfile',null,{
     Constructor:function(){
+        if(arguments.callee.upper)arguments.callee.upper.call(this);
         if(!this.$linbid)this.$linbid=linb.absProfile.$linbid.next();
     },
     Instance:{
@@ -4713,7 +4717,7 @@ Class("linb.CSS", null,{
 });
 Class('linb.DomProfile', 'linb.absProfile', {
     Constructor:function(domId){
-        arguments.callee.upper.call(this);
+        if(arguments.callee.upper)arguments.callee.upper.call(this);
         linb.$cache.profileMap[this.domId=domId]=this;
     },
     Instance:{
@@ -4739,7 +4743,7 @@ Class('linb.DomProfile', 'linb.absProfile', {
 //linb.absBox
 Class('linb.absBox',null, {
     Constructor:function(){
-    	  arguments.callee.upper.call(this);
+        if(arguments.callee.upper)arguments.callee.upper.call(this);
         this._nodes=[];
     },
     Before:function(key){
@@ -30049,11 +30053,11 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
             if(v=p.$UIvalue){
                 if((v=v.split(';')).length>1){
                     _.filter(v,function(o){
-                        return _.arr.indexOf(arr,o)==-1;
+                        return _.arr.indexOf(ids,o)==-1;
                     });
                     p.$UIvalue=v.join(';');
                 }else{
-                    if(_.arr.indexOf(arr,p.$UIvalue)!=-1)
+                    if(_.arr.indexOf(ids,p.$UIvalue)!=-1)
                         p.$UIvalue=null;
                 }
             }
