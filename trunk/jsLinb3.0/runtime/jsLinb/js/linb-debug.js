@@ -11261,10 +11261,14 @@ Class("linb.UI",  "linb.absObj", {
                 listbox:['','visible','hidden'],
                 action:function(value){
                     this.getRoot().css('visibility',value);
-                    if(value=='hidden')
-                        this.getRoot().addClass('ui-hidden');
-                    else
-                        this.getRoot().removeClass('ui-hidden');
+                    // special for resizer
+                    if(this.$resizer){
+                        if(value=='hidden')
+                            this.$resizer.hide();
+                        else
+                            this.$resizer.show();
+                    }
+
                     linb.setNodeData(this.getRootNode(),'_setVisibility',1);
                 }
             },
@@ -11809,9 +11813,6 @@ Class("linb.UI",  "linb.absObj", {
                 top:0,
                 width:'100%',
                 height:'100%'
-            },
-            '.ui-hidden, .ui-hidden *, .ui-hidden div, .ui-hidden span':{
-                visibility:'hidden'
             }
         })
         + linb.UI.buildCSSText({
@@ -13126,7 +13127,6 @@ Class("linb.UI",  "linb.absObj", {
                 linb.UI.$tryResize(self,p.width,p.height);
                 style=null;
             }
-
             if(p.disabled)
                 b.setDisabled(true,true);
 
@@ -13653,10 +13653,6 @@ Class("linb.UI",  "linb.absObj", {
 
             if('className' in dm)
             	data._className=prop.className||"";
-            if(prop.visibility=='hidden'){
-                if(!data._className)data._className="";
-                data._className=" ui-hidden";
-            }
 
             if('readonly' in dm)data.readonly=prop.readonly?"ui-readonly":"";
             if('href' in dm)data.href = prop.href || linb.$DEFAULTHREF;
@@ -15280,7 +15276,7 @@ Class("linb.UI.Resizer","linb.UI",{
         show:function(){
             var self=this;
             self.each(function(o){
-                o.getRoot().css('display',o.$display||'block');
+                o.getRoot().css('display','');
             });
             if(linb.browser.ie)
                 self.reBoxing().ieRemedy();
@@ -15288,9 +15284,6 @@ Class("linb.UI.Resizer","linb.UI",{
         },
         hide:function(){
             var self=this;
-            self.each(function(o){
-                o.$display = o.getRoot().css('display');
-            });
             self.reBoxing().css('display','none');
             return self;
         }
@@ -15380,6 +15373,11 @@ Class("linb.UI.Resizer","linb.UI",{
                     o.$resizer = target.addResizer(args, update);
 
                     o.$resizer.get(0).$parentUIProfile=o;
+                    
+                    // hide resizer
+                    if(d.visibility=='hidden'){
+                        o.$resizer.hide();
+                    }
                 });
             },
             _unResizer:function(){

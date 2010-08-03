@@ -1889,10 +1889,14 @@ Class("linb.UI",  "linb.absObj", {
                 listbox:['','visible','hidden'],
                 action:function(value){
                     this.getRoot().css('visibility',value);
-                    if(value=='hidden')
-                        this.getRoot().addClass('ui-hidden');
-                    else
-                        this.getRoot().removeClass('ui-hidden');
+                    // special for resizer
+                    if(this.$resizer){
+                        if(value=='hidden')
+                            this.$resizer.hide();
+                        else
+                            this.$resizer.show();
+                    }
+
                     linb.setNodeData(this.getRootNode(),'_setVisibility',1);
                 }
             },
@@ -2437,9 +2441,6 @@ Class("linb.UI",  "linb.absObj", {
                 top:0,
                 width:'100%',
                 height:'100%'
-            },
-            '.ui-hidden, .ui-hidden *, .ui-hidden div, .ui-hidden span':{
-                visibility:'hidden'
             }
         })
         + linb.UI.buildCSSText({
@@ -3754,7 +3755,6 @@ Class("linb.UI",  "linb.absObj", {
                 linb.UI.$tryResize(self,p.width,p.height);
                 style=null;
             }
-
             if(p.disabled)
                 b.setDisabled(true,true);
 
@@ -4281,10 +4281,6 @@ Class("linb.UI",  "linb.absObj", {
 
             if('className' in dm)
             	data._className=prop.className||"";
-            if(prop.visibility=='hidden'){
-                if(!data._className)data._className="";
-                data._className=" ui-hidden";
-            }
 
             if('readonly' in dm)data.readonly=prop.readonly?"ui-readonly":"";
             if('href' in dm)data.href = prop.href || linb.$DEFAULTHREF;

@@ -18,7 +18,7 @@ Class("linb.UI.Resizer","linb.UI",{
         show:function(){
             var self=this;
             self.each(function(o){
-                o.getRoot().css('display',o.$display||'block');
+                o.getRoot().css('display','');
             });
             if(linb.browser.ie)
                 self.reBoxing().ieRemedy();
@@ -26,9 +26,6 @@ Class("linb.UI.Resizer","linb.UI",{
         },
         hide:function(){
             var self=this;
-            self.each(function(o){
-                o.$display = o.getRoot().css('display');
-            });
             self.reBoxing().css('display','none');
             return self;
         }
@@ -118,6 +115,11 @@ Class("linb.UI.Resizer","linb.UI",{
                     o.$resizer = target.addResizer(args, update);
 
                     o.$resizer.get(0).$parentUIProfile=o;
+                    
+                    // hide resizer
+                    if(d.visibility=='hidden'){
+                        o.$resizer.hide();
+                    }
                 });
             },
             _unResizer:function(){
