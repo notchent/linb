@@ -1393,7 +1393,9 @@ _.set(linb.Locale,["cn","app"], {
             $desc:"实现 JSON 向 XML 的转换。输入 xml Object,输出转换后的 json Object。",
             $rtn:"Object",
             $paras:[
-                "xmlObj [必需参数] : Object, XML 变量"
+                "xmlObj [必需参数] : Object, XML 变量",
+                "kf [可选参数]: Function, 对键值对key字符串的filter函数.",
+                "vf [可选参数]: Function, 对键值对value字符串的filter函数."
             ],
             $snippet:["alert(_.serialize(linb.XML.xml2json(linb.XML.parseXML('<a attr=\"1\"><b>v</b></a>'))))"]
         },

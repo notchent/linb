@@ -1381,7 +1381,9 @@ _.set(linb.Locale,["en","app"], {
             $desc:"Converts XML Object to JSON Objec.",
             $rtn:"Object",
             $paras:[
-                "xmlObj [Required] : Object, XML Object"
+                "xmlObj [Required] : Object, XML Object",
+                "kf [Optional]: Function, filter function for key String.",
+                "vf [Optional]: Function, filter function for value String."
             ],
             $snippet:["alert(_.serialize(linb.XML.xml2json(linb.XML.parseXML('<a attr=\"1\"><b>v</b></a>'))))"]
         },

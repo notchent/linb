@@ -1,7 +1,7 @@
 Class('linb.XML',null,{
     Static:{
         //return xml text (for post data)
-        json2xml:function(jsonObj){
+        json2xml:function(jsonObj, kf, vf){
            var arr=[],
            _f=function(key,value,arr){
                 if(typeof value=="object"){
@@ -10,13 +10,13 @@ Class('linb.XML',null,{
                             for(var i=0,l=value.length; i<l; i++)
                                 arr.push(_f(key,value[i],arr));
                         }else
-                            arr.push("<"+key+">"+"__[]__"+"</"+key+">");
+                            arr.push("<"+(kf?kf(key):key)+">"+"__[]__"+"</"+(kf?kf(key):key)+">");
                     }else{
                         var b;
-                        arr.push("<"+key);
+                        arr.push("<"+(kf?kf(key):key));
                         for(var i in value) {
                             if(i.charAt(0)=="@")
-                                arr.push(" "+i.substr(1)+'="'+value[i]+'"');
+                                arr.push(" "+i.substr(1)+'="'+(vf?vf(value[i]):value[i])+'"');
                             else
                                 b=1;
                         }
@@ -24,17 +24,17 @@ Class('linb.XML',null,{
                         if(b){
                             for(var i in value) {
                                 if(i=="#text")
-                                    arr.push(value[i]);
+                                    arr.push((vf?vf(value[i]):value[i]));
                                 else if(i=="#cdata")
-                                    arr.push("<![CDATA["+value[i]+"]]>");
+                                    arr.push("<![CDATA["+(vf?vf(value[i]):value[i])+"]]>");
                                 else if (i.charAt(0)!="@")
                                     arr.push(_f(i,value[i],arr));
                             }
-                            arr.push("</"+key+">");
+                            arr.push("</"+(kf?kf(key):key)+">");
                         }
                     }
                 }else
-                    arr.push("<"+key+">"+value+"</"+key+">");
+                    arr.push("<"+(kf?kf(key):key)+">"+(vf?vf(value):value)+"</"+(kf?kf(key):key)+">");
            };
            for(var i in jsonObj)
               _f(i,jsonObj[i],arr);

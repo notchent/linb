@@ -6,6 +6,8 @@ UI controls Added:
     linb.UI.StatusButtons
     linb.UI.ColLayout
     linb.UI.TreeView
+    linb.UI.FusionChart
+    linb.UI.FusionChartFree
     
 ------------------------    
 _

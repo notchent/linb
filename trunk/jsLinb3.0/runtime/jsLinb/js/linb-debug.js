@@ -7602,7 +7602,7 @@ Class("linb.Cookies", null,{
 });Class('linb.XML',null,{
     Static:{
         //return xml text (for post data)
-        json2xml:function(jsonObj){
+        json2xml:function(jsonObj, kf, vf){
            var arr=[],
            _f=function(key,value,arr){
                 if(typeof value=="object"){
@@ -7611,13 +7611,13 @@ Class("linb.Cookies", null,{
                             for(var i=0,l=value.length; i<l; i++)
                                 arr.push(_f(key,value[i],arr));
                         }else
-                            arr.push("<"+key+">"+"__[]__"+"</"+key+">");
+                            arr.push("<"+(kf?kf(key):key)+">"+"__[]__"+"</"+(kf?kf(key):key)+">");
                     }else{
                         var b;
-                        arr.push("<"+key);
+                        arr.push("<"+(kf?kf(key):key));
                         for(var i in value) {
                             if(i.charAt(0)=="@")
-                                arr.push(" "+i.substr(1)+'="'+value[i]+'"');
+                                arr.push(" "+i.substr(1)+'="'+(vf?vf(value[i]):value[i])+'"');
                             else
                                 b=1;
                         }
@@ -7625,17 +7625,17 @@ Class("linb.Cookies", null,{
                         if(b){
                             for(var i in value) {
                                 if(i=="#text")
-                                    arr.push(value[i]);
+                                    arr.push((vf?vf(value[i]):value[i]));
                                 else if(i=="#cdata")
-                                    arr.push("<![CDATA["+value[i]+"]]>");
+                                    arr.push("<![CDATA["+(vf?vf(value[i]):value[i])+"]]>");
                                 else if (i.charAt(0)!="@")
                                     arr.push(_f(i,value[i],arr));
                             }
-                            arr.push("</"+key+">");
+                            arr.push("</"+(kf?kf(key):key)+">");
                         }
                     }
                 }else
-                    arr.push("<"+key+">"+value+"</"+key+">");
+                    arr.push("<"+(kf?kf(key):key)+">"+(vf?vf(value):value)+"</"+(kf?kf(key):key)+">");
            };
            for(var i in jsonObj)
               _f(i,jsonObj[i],arr);
@@ -9949,7 +9949,7 @@ Class("linb.DataBinder","linb.absObj",{
                         t=_p[value],
                         ui;
 
-                    //if it exitst, overwrite it dir
+                    //if it exists, overwrite it dir
                     //if(to && t)
                     //    throw new Error(value+' exists!');
 
@@ -26427,65 +26427,65 @@ Class("linb.UI.TreeView","linb.UI.TreeBar",{
                 height:'18px',
                 'vertical-align':'middle'
             },
-            'IMAGE-vertical':{
-                $order:1,
-                'background-position' : '-228px -236px'
-            },
             'IMAGE-path-1,IMAGE-path-2':{
-                $order:1,
+                $order:2,
                 'background-position' : '-196px -236px'
             },
             'IMAGE-path-3':{
-                $order:1,
+                $order:3,
                 'background-position' : '-212px -236px'
             },
             'IMAGE-fold-1':{
-                $order:1,
+                $order:4,
                 'background-position' : '-196px -254px'
             },
             'IMAGE-fold-2':{
-                $order:1,
+                $order:5,
                 'background-position' : '-212px -254px'
             },
             'IMAGE-fold-3':{
-                $order:1,
+                $order:6,
                 'background-position' : '-228px -254px'
             },
             'IMAGE-fold-1-checked':{
-                $order:2,
+                $order:7,
                 'background-position' : '-244px -254px'
             },
             'IMAGE-fold-2-checked':{
-                $order:2,
+                $order:8,
                 'background-position' : '-260px -254px'
             },
             'IMAGE-fold-3-checked':{
-                $order:2,
+                $order:9,
                 'background-position' : '-276px -254px'
             },
             'IMAGE-fold-1-mousedown':{
-                $order:3,
+                $order:10,
                 'background-position' : '-196px -272px'
             },
             'IMAGE-fold-2-mousedown':{
-                $order:3,
+                $order:11,
                 'background-position' : '-212px -272px'
             },
             'IMAGE-fold-3-mousedown':{
-                $order:3,
+                $order:12,
                 'background-position' : '-228px -272px'
             },
             'IMAGE-fold-1-checked-mousedown':{
-                $order:4,
+                $order:13,
                 'background-position' : '-244px -272px'
             },
             'IMAGE-fold-2-checked-mousedown':{
-                $order:4,
+                $order:14,
                 'background-position' : '-260px -272px'
             },
             'IMAGE-fold-3-checked-mousedown':{
-                $order:4,
+                $order:15,
                 'background-position' : '-276px -272px'
+            },
+            'IMAGE-vertical':{
+                $order:16,
+                'background-position' : '-228px -236px'
             },
             ITEMCAPTION:{
                 cursor:'pointer',
@@ -34805,8 +34805,8 @@ if(linb.browser.ie){
 
             node.cssSize(size).css('overflow','auto').show();
 
-            w=size.width + 30;
-            h=size.height+90;
+            w=size.width + 40;
+            h=size.height + 90;
             dialog.setCaption(caption).setWidth(w).setHeight(h);
             dialog.$cmd.reBoxing().left((size.width + 30 - dialog.$cmd.reBoxing().width())/2);
         },

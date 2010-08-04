@@ -72,65 +72,65 @@ Class("linb.UI.TreeView","linb.UI.TreeBar",{
                 height:'18px',
                 'vertical-align':'middle'
             },
-            'IMAGE-vertical':{
-                $order:1,
-                'background-position' : '-228px -236px'
-            },
             'IMAGE-path-1,IMAGE-path-2':{
-                $order:1,
+                $order:2,
                 'background-position' : '-196px -236px'
             },
             'IMAGE-path-3':{
-                $order:1,
+                $order:3,
                 'background-position' : '-212px -236px'
             },
             'IMAGE-fold-1':{
-                $order:1,
+                $order:4,
                 'background-position' : '-196px -254px'
             },
             'IMAGE-fold-2':{
-                $order:1,
+                $order:5,
                 'background-position' : '-212px -254px'
             },
             'IMAGE-fold-3':{
-                $order:1,
+                $order:6,
                 'background-position' : '-228px -254px'
             },
             'IMAGE-fold-1-checked':{
-                $order:2,
+                $order:7,
                 'background-position' : '-244px -254px'
             },
             'IMAGE-fold-2-checked':{
-                $order:2,
+                $order:8,
                 'background-position' : '-260px -254px'
             },
             'IMAGE-fold-3-checked':{
-                $order:2,
+                $order:9,
                 'background-position' : '-276px -254px'
             },
             'IMAGE-fold-1-mousedown':{
-                $order:3,
+                $order:10,
                 'background-position' : '-196px -272px'
             },
             'IMAGE-fold-2-mousedown':{
-                $order:3,
+                $order:11,
                 'background-position' : '-212px -272px'
             },
             'IMAGE-fold-3-mousedown':{
-                $order:3,
+                $order:12,
                 'background-position' : '-228px -272px'
             },
             'IMAGE-fold-1-checked-mousedown':{
-                $order:4,
+                $order:13,
                 'background-position' : '-244px -272px'
             },
             'IMAGE-fold-2-checked-mousedown':{
-                $order:4,
+                $order:14,
                 'background-position' : '-260px -272px'
             },
             'IMAGE-fold-3-checked-mousedown':{
-                $order:4,
+                $order:15,
                 'background-position' : '-276px -272px'
+            },
+            'IMAGE-vertical':{
+                $order:16,
+                'background-position' : '-228px -236px'
             },
             ITEMCAPTION:{
                 cursor:'pointer',

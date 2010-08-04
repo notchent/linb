@@ -556,7 +556,7 @@ Class("linb.DataBinder","linb.absObj",{
                         t=_p[value],
                         ui;
 
-                    //if it exitst, overwrite it dir
+                    //if it exists, overwrite it dir
                     //if(to && t)
                     //    throw new Error(value+' exists!');
 

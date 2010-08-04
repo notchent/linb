@@ -1,7 +1,8 @@
-/* A few useful utility functions. */
+﻿/* A few useful utility functions. */
 
 // Capture a method on an object.
 function method(obj, name) {
+//linb
   return function() { return obj[name].apply(obj, arguments);};
 }
 

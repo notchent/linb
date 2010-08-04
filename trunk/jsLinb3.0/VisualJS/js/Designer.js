@@ -27,7 +27,6 @@ Class('VisualJS.Designer', 'linb.Com',{
                 items=profile.box.$DataStruct.items,
                 key=profile.key,
                 ap=profile.boxing();
-
             if(key=='linb.UI.TreeGrid'){
                 ap.setHeader(['col1','col2', 'col3', 'col4'])
                 .setRowNumbered(true)

@@ -1,72 +1,100 @@
-Class("linb.UI.FusionChart", "linb.UI",{
+Class("linb.UI.FusionChartFree", "linb.UI",{
     Instance:{
-        initialize:function(){
-            console.log(9);
-        },
         refreshChart:function(){
             var html='', cls=this.constructor;
             return this.each(function(profile){
-                // clear first
-                cls._clearMemory(profile);
-
-                // build and set html
-                html = cls._buildHTML(profile);
-                profile.getRoot().html(html, false);
+                _.resetRun(profile.domId,function(){
+                    // clear first
+                    cls._clearMemory(profile);
+    
+                    // build and set html
+                    html = cls._buildHTML(profile);
+                    profile.getSubNode('BOX').html(html, false);
+                });
             });
         }
     },
     Static:{
+        FC_LINKTAG:'JavaScript:',
+        FC_SWFFILEPRETAG:"FCF_",
         Appearances:{
             KEY:{
-                outline:linb.browser.gek?'none':null,
-                zoom:linb.browser.ie6?'1':null
+                'font-size':linb.browser.ie?0:null,
+                'line-height':linb.browser.ie?0:null,
+                overflow:'hidden'
+            },
+            BOX:{
+                position:'absolute',
+                left:0,
+                top:0,
+                'z-index':1
+            },
+            COVER:{
+                position:'absolute',
+                left:'-1px',
+                top:'-1px',
+                width:0,
+                height:0,
+                'z-index':4
             }
         },
         Templates:{
             tagName:'div',
-            style:'{_style}',
             className:'{_className}',
-            //for firefox div focus bug: outline:none; tabindex:'-1'
-            tabindex:'-1'
+            style:'{_style}',
+            BOX:{
+                tagName:'div'
+            },
+            COVER:{
+                tagName:'div'
+            }
         },
         DataModel:{
-            width:200,
-            height:200,
+            width:500,
+            height:300,
             chartType:{
+                combobox:"Column2D,Column3D,Pie2D,Pie3D,Line,Bar2D,Area2D,Doughnut2D,MSColumn2D,MSColumn3D,MSLine,MSArea2D,MSBar2D,StackedColumn2D,StackedColumn3D,StackedArea2D,StackedBar2D,Candlestick,Funnel,Gantt".split(','),
                 ini:"Column2D",
                 action:function(v){
+                    var ns=this;
+                    // from outside
+                    if(ns.properties.demoDataPath){
+                        linb.Ajax(ns.properties.demoDataPath + v +".xml", {rnd:_()},function(rsp){
+                            ns.properties.dataForFC=linb.XML.xml2json(linb.XML.parseXML(rsp),null,function(s){
+                                return ns.box.replaceSpecialChars(x);
+                            });
+                        },null,null,{asy:false}).start();
+                    }
+ 
                     this.boxing().refreshChart();
                 }
             },
 
-            swfPath:"http://www.fusioncharts.com/Gallery/Charts/",
-            optionsForFCF:{
+            swfPath:"FusionChartsFree/Charts/",
+            demoDataPath:"FusionChartsFree/Data/",
+            optionsForFC:{
                 ini:{
                     bgcolor: "transparent",
                     quality: "high",
                     allowScriptAccess: "always",
-                    debugMode: false,
-                    registerWithJS:1,
-                    scaleMode:'noScale',
-                    chartWidth : "100%",
-                    chartHeight : "100%"
+                    debugMode: "false",
+                    registerWithJS:"1",
+                    scaleMode:'noScale'
                 }
             },
-            labelsForFCF:{
+            labelsForFC:{
                 ini:{
                     PBarLoadingText:"Loading Chart. Please Wait",
                     XMLLoadingText:"Retrieving Data. Please Wait",
                     ParsingDataText:"Reading Data. Please Wait",
-                    ChartNoDataText:"No data to display"
+                    ChartNoDataText:"No data to display",
+
+                    RenderingChartText:"Rendering Chart. Please Wait",
+                    LoadDataErrorText:"Error in loading data",
+                    InvalidXMLText:"Invalid XML data"
                 }
             },
-            datasetForFCF:{
-                ini:{}
-            },
-            categoriesForFCF:{
-                ini:{}
-            },
-            trendlinesForFCF:{
+            dataForFC:{
                 ini:{}
             }
         },
@@ -75,8 +103,14 @@ Class("linb.UI.FusionChart", "linb.UI",{
                 if(this.box)
                     this.box._clearMemory(this);
             }
+            
             // add swf
-            this.boxing().refreshChart();
+            this.boxing().setChartType(this.properties.chartType,true)
+            .refreshChart();
+        },
+        EventHandlers:{
+            onClick:function(profile, args){},
+            beforeRenderData:function(profile, data, callback){}
         },
         getFlashVersion:function(){
           if(linb.browser.ie){
@@ -119,10 +153,16 @@ Class("linb.UI.FusionChart", "linb.UI",{
                 }
                chart=_e=null;
             }
-console.log('destroy swf');
         }, 
+        replaceSpecialChars:function(str){
+            return (""+str).replace(/\%/g, '%25')
+            .replace(/\&/g, '%26')
+            .replace(/\</g, '&lt;')
+            .replace(/\>/g, '&gt;')
+            .replace(/\'/g, '&apos;');
+        },
         _encodeDataXML:function(strDataXML){
-			var regExpReservedCharacters=["\\$","\\+"];
+            var regExpReservedCharacters=["\\$","\\+"];
 			var arrDQAtt=strDataXML.match(/=\s*\".*?\"/g);
 			if (arrDQAtt){
 				for(var i=0;i<arrDQAtt.length;i++){
@@ -143,21 +183,80 @@ console.log('destroy swf');
 			return strDataXML;
         },
         _buildHTML:function(profile){
-            var ver = this.getFlashVersion();
+            var ns=this,
+                ver = ns.getFlashVersion();
             if(ver.split(',')[0]<8)
                 linb.alert(linb.getRes("App.Com.FusionChart.alertmessage"));
 
              var prop=profile.properties,
+                serialId=profile.serialId,
                 path=prop.swfPath,
-                file= this._chartMap[prop.chartType][0],
-                labels=_.urlEncode(prop.labelsForFCF);
+                linktag=ns.FC_LINKTAG,
+                file= ns.FC_SWFFILEPRETAG + prop.chartType + ".swf",
+                labels=_.urlEncode(prop.labelsForFC);
 
             // swf file
             path +=file;
 
-            var options = _.copy(prop.optionsForFCF);
+            var options = _.copy(prop.optionsForFC);
             options.DOMId = profile.box._idtag + profile.serialId;
-            options.dataXML=this._encodeDataXML('<chart yAxisName="Sales Figure" caption="Top 5 Sales Person" numberPrefix="$" showBorder="1" imageSave="1" imageSaveURL="http://www.fusioncharts.com/ExportHandlers/PHP/_FCExporter.php"><set label="Alex" value="25000"/><set label="Mark" value="35000"/><set label="David" value="42300"/><set label="Graham" value="35300"/><set label="John" value="31300"/></chart>');
+            options.chartWidth=prop.width;
+            options.chartHeight=prop.height;
+
+            var data = _.clone(prop.dataForFC), idata;
+            var callback=function(data){
+                options.dataXML=ns._encodeDataXML(linb.XML.json2xml(data));
+            };
+            if(profile.beforeRenderData && false === profile.boxing().beforeRenderData(profile, data, callback)){}
+            else{
+                // chart or graph
+                if(idata=(data.chart||data.graph)){
+                    if(idata.set){
+                        _.arr.each(idata.set,function(o){
+                            if(o)
+                                o['@link']=encodeURIComponent(linktag+ns.KEY+'._e("'+serialId+'","'+(o['@label']||o['@name']||"")+'","'+(o['@value']||'')+'")');
+                        });
+                    }
+                    _.arr.each(["lineSet","dataset","dataSet"],function(dskey){
+                        if(idata[dskey]){
+                            var arr=[];
+                            if(idata.categories && idata.categories.category){
+                                _.arr.each(idata.categories.category,function(o){
+                                    arr.push(o['@label']||o['@name']||"");
+                                });
+                            }
+                            
+                            var ds=idata[dskey];
+                            if(!_.isArr(ds))
+                                ds=[ds];
+                            _.arr.each(ds,function(v, i){
+                                if(v){
+                                    _.arr.each(["lineSet","dataset","dataSet"],function(dskey2){
+                                        _.arr.each(v[dskey2],function(k){
+                                            if(k && k.set){
+                                                var sn=k['@seriesName']||k['@seriesname']||'';
+                                                _.arr.each(k.set,function(o,j){
+                                                    if(o)
+                                                        o['@link']=encodeURIComponent(linktag+ns.KEY+'._e("'+serialId+'","'+(arr[j]||"")+'","'+sn+'","'+(o['@value']||o['@label']||o['@name']||'')+'")');
+                                                });
+                                            }
+                                        });
+                                    });
+                                    if(v.set){
+                                        var sn=v['@seriesName']||v['@seriesname']||'';
+                                        _.arr.each(v.set,function(o,j){
+                                            if(o)
+                                                o['@link']=encodeURIComponent(linktag+ns.KEY+'._e("'+serialId+'","'+(arr[j]||"")+'","'+sn+'","'+(o['@value']||o['@label']||o['@name']||'')+'")');
+                                        });
+                                    }
+                                }
+                            });
+                        }
+                    });
+                    callback(data);
+                }else
+                    callback("");
+            }
 
             var html="";
             if(navigator.plugins&&navigator.mimeTypes&&navigator.mimeTypes.length){
@@ -175,41 +274,43 @@ console.log('destroy swf');
                 html += '<param name="flashvars" value="'+ _.urlEncode(options) +'" />';
                 html += '</object>';
             }
-alert(html);
+
             return html;
         },
 
         _idtag:"linb_UI_FusionChart_", 
-
-        _chartMap:{
-            Column2D:["Column2D.swf",2],
-            Column3D:["FCF_Column3D.swf",2],
-            Pie2D:["FCF_Pie2D.swf",2],
-            Pie3D:["FCF_Pie3D.swf",2],
-            Line:["FCF_Line.swf",2],
-            Bar2D:["FCF_Bar2D.swf",2],
-            Area2D:["FCF_Area2D.swf",2],
-            Doughnut2D:["FCF_Doughnut2D.swf",2],
-
-            MSColumn2D:["FCF_MSColumn2D.swf",3],
-            MSColumn3D:["FCF_MSColumn3D.swf",3],
-            MSLine:["FCF_MSLine.swf",3],
-            MSArea2D:["FCF_MSArea2D.swf",3],
-            MSBar2D:["FCF_MSBar2D.swf",3],
-
-            StackedArea2D:["FCF_StackedArea2D.swf",3],
-            StackedBar2D:["FCF_StackedBar2D.swf",3],
-            StackedColumn2D:["FCF_StackedColumn2D.swf",3],
-            StackedColumn3D:["FCF_StackedColumn3D.swf",3],
-
-            MSColumn2DLineDY:["FCF_MSColumn2DLineDY.swf",3],
-            MSColumn3DLineDY:["FCF_MSColumn3DLineDY.swf",3],
-
-            Candlestick:["FCF_Candlestick.swf",2],
-            
-            Funnel:["FCF_Funnel.swf",1],
-            
-            Gantt:["FCF_Gantt.swf",4]
+        __events:{},
+        _e:function(){
+            var instance=this.getFromDom(this.KEY+":"+arguments[0]+":"),
+                prf=instance && instance.get(0);
+            if(prf && !prf.properties.disable && prf.onClick){
+                var args=_.toArr(arguments);
+                args=args.slice(1);
+                instance.onClick(prf, args);
+            }
+        },
+        _onresize:function(profile,width,height){
+            var size = profile.getSubNode('BOX').cssSize();
+            if( (width && size.width!=width) || (height && size.height!=height) ){
+                size={width:width,height:height};
+                profile.getSubNode('BOX').cssSize(size,true);
+                if(profile.$inDesign){
+                    profile.getSubNode('COVER').cssSize(size,true);
+                }
+                profile.boxing().refreshChart();
+            }
+        }
+    }
+});Class("linb.UI.FusionChart", "linb.UI.FusionChartFree",{
+    Static:{
+        FC_LINKTAG:'j-',
+        FC_SWFFILEPRETAG:"",
+        DataModel:{
+            chartType:{
+                combobox:"Column2D,Column3D,Pie2D,Pie3D,Line,Bar2D,Area2D,Doughnut2D,Doughnut3D,MSColumn2D,MSColumn3D,MSLine,MSArea2D,MSBar2D,MSBar3D,StackedColumn2D,StackedColumn3D,StackedArea2D,StackedBar2D,StackedBar3D,MSStackedColumn2D,MSCombi2D,MSCombi3D,MSColumnLine3D,MSCombiDY2D,MSColumn3DLineDY,StackedColumn3DLineDY,MSStackedColumn2DLineDY,Scatter,Bubble,ScrollColumn2D,ScrollLine2D,ScrollArea2D,ScrollStackedColumn2D,ScrollCombi2D,ScrollCombiDY2D".split(',')
+            },
+            swfPath:"FusionCharts3/Charts/",
+            demoDataPath:"FusionCharts3/Data/"
         }
     }
 });    /*support

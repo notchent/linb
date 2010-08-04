@@ -947,8 +947,8 @@ if(linb.browser.ie){
 
             node.cssSize(size).css('overflow','auto').show();
 
-            w=size.width + 30;
-            h=size.height+90;
+            w=size.width + 40;
+            h=size.height + 90;
             dialog.setCaption(caption).setWidth(w).setHeight(h);
             dialog.$cmd.reBoxing().left((size.width + 30 - dialog.$cmd.reBoxing().width())/2);
         },

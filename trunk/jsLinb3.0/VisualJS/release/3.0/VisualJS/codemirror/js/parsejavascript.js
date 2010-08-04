@@ -6,7 +6,7 @@
  *
  * See manual.html for more info about the parser interface.
  */
-
+// linb modified a lot
 var JSParser = Editor.Parser = (function() {
   // Token types that can be considered to be atoms.
   var atomicTypes = {"atom": true, "number": true, "variable": true, "string": true, "regexp": true};
