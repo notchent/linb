@@ -4115,7 +4115,7 @@ Class("linb.UI.Range", ["linb.UI","linb.absValue"],{
             cls2=cls+'-td-free',
             key=self.KEY;
 
-        self.addTemplateKeys(['H', 'W','COL','DH','DAY','DC','TBODY', 'TD','DF1','DF2','DF3']);
+        self.addTemplateKeys(['H', 'W','COL','DH','DAYBOX','DC','TBODY', 'TD','DF1','DF2','DF3']);
         var colgroup = '<colgroup id="'+key+'-COL:'+id+'"  class="'+tag+'COL_CS'+tag+'"  style="'+tag+'COL_CS'+tag+'"><col width="2%"/><col width="14%"/><col width="14%"/><col width="14%"/><col width="14%"/><col width="14%"/><col width="14%"/><col width="14%"/></colgroup>',
             thead1='<thead><tr height="1%"><th id="'+key+'-H:'+id+':7" class="'+cls+'-h '+tag+'H_CC'+tag+'"  style="'+tag+'H_CS'+tag+'"></th>',
             thead2='</tr></thead>',
@@ -4126,7 +4126,7 @@ Class("linb.UI.Range", ["linb.UI","linb.absValue"],{
             tr2='</tr>',
             td1='<th id="'+key+'-W:'+id+':@"  class="'+cls+'-w '+tag+'W_CC'+tag+'" style="'+tag+'W_CS'+tag+'">@</th>',
             td2='<td id="'+key+'-TD:'+id+':@" class="'+cls+'-td ! '+tag+'TD_CC'+tag+'"  style="'+tag+'TD_CS'+tag+'" '+linb.$IEUNSELECTABLE+'  >'+
-                '<div id="'+key+'-DAY:'+id+':@" class="'+cls+'-day '+tag+'DAY_CC'+tag+'"  style="'+tag+'DAY_CS'+tag+'" '+linb.$IEUNSELECTABLE+' >'+
+                '<div id="'+key+'-DAYBOX:'+id+':@" class="'+cls+'-daybox '+tag+'DAY_CC'+tag+'"  style="'+tag+'DAY_CS'+tag+'" '+linb.$IEUNSELECTABLE+' >'+
                     '<div id="'+key+'-DH:'+id+':@" class="'+cls+'-dh '+tag+'DH_CC'+tag+'"  style="'+tag+'DH_CS'+tag+'"></div>'+
                     '<div id="'+key+'-DF1:'+id+':@" class="'+cls+'-df1 '+tag+'DF1_CC'+tag+'" style="'+tag+'DF1_CS'+tag+'"></div>'+
                     '<div id="'+key+'-DF2:'+id+':@" class="'+cls+'-df2 '+tag+'DF2_CC'+tag+'" style="'+tag+'DF2_CS'+tag+'"></div>'+
@@ -4171,7 +4171,7 @@ Class("linb.UI.Range", ["linb.UI","linb.absValue"],{
     },
     Static:{
         Behaviors:{        
-            DroppableKeys:['DAY'],
+            DroppableKeys:['DAYBOX'],
             HoverEffected:{},
             ClickEffected:{},
             onSize:linb.UI.$onSize,
@@ -4188,6 +4188,7 @@ Class("linb.UI.Range", ["linb.UI","linb.absValue"],{
             handleHeight : null,
             tipsHeight :null,
             closeBtn:null,
+            withTime:null,
             dataBinder:null,
             dateField:null,
 
@@ -4196,16 +4197,17 @@ Class("linb.UI.Range", ["linb.UI","linb.absValue"],{
             height:200
         },
         EventHandlers:{
-            onDblclick:function(profile, item, src){}
+            onDblclick:function(profile, item, src){},
+            beforeClose:null
         },
         _getLabelNodes:function(profile){
             return profile.$day1 || (profile.$day1=profile.getSubNode('DF1',true));
         },
         _getDayNodes:function(profile){
-            return profile.$day2 || (profile.$day2=profile.getSubNode('DAY',true));
+            return profile.$day2 || (profile.$day2=profile.getSubNode('DAYBOX',true));
         },
         Appearances:{
-            'DAY, DC':{
+            'DAYBOX, DC':{
                 position:'relative'
             },
             'DF1, DF2, DF3, DF4':{
@@ -4228,7 +4230,7 @@ Class("linb.UI.Range", ["linb.UI","linb.absValue"],{
                 right:'2px',
                 bottom:'2px'
             },
-            DAY:{
+            DAYBOX:{
                 overflow:'hidden'
             },
             DC:{

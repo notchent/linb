@@ -1,7 +1,7 @@
 Class('linb.UI.ColorPicker', ['linb.UI',"linb.absValue"], {
     Instance:{
         activate:function(){
-            this.getSubNode('TOGGLEA').focus();
+            this.getSubNode('TOGGLE').focus();
             return this;
         },
         _setCtrlValue:function(value,inner){
@@ -200,17 +200,8 @@ Class('linb.UI.ColorPicker', ['linb.UI',"linb.absValue"], {
                             }
                         },
                         TOGGLE:{
-                            className:'ui-btn',
-                            TOGGLEI:{
-                                className:'ui-btni',
-                                TOGGLEC:{
-                                    className:'ui-btnc',
-                                    TOGGLEA:{
-                                        tabindex: '{tabindex}',
-                                        text:'>>'
-                                    }
-                                }
-                            }
+                            $order:2,
+                            tabindex: '{tabindex}'
                         }
                     }
                 },
@@ -282,7 +273,7 @@ Class('linb.UI.ColorPicker', ['linb.UI',"linb.absValue"], {
                 action:function(v){
                     var ns=this;
                     ns.getSubNode('ADV').css('display',v?'':'none');
-                    ns.getSubNode('TOGGLEA').text(v?"<<":">>");
+                    ns.getSubNode('TOGGLE').tagClass("-adv", v);
                     ns.getRoot().width(v?410:210);
                     if(v)
                         ns.box._updateMarks(ns,ns.properties.$UIvalue,true, ns.$hsv[0])
@@ -424,14 +415,36 @@ Class('linb.UI.ColorPicker', ['linb.UI',"linb.absValue"], {
             },
             SET:{
                 position:'absolute',
+                color:'#ff0000',
                 display:'none',
                 top:'0',
-                right:'38px'
+                right:'28px'
             },
             TOGGLE:{
                 position:'absolute',
-                right:'5px',
-                top:'0'
+                right:'6px',
+                top:'4px',
+                display:linb.$inlineBlock,
+                width:'15px',
+                height:'15px',
+                cursor:'default',
+                background: linb.UI.$bg('icons.gif', 'no-repeat -300px -70px', true),
+                _zoom:1
+            },
+            'TOGGLE-mouseover':{
+                'background-position': '-300px -90px'
+            },
+            'TOGGLE-mousedown':{
+                'background-position': '-300px -110px'
+            },
+            "TOGGLE-adv":{
+                'background-position': '-240px -70px'
+            },
+            'TOGGLE-adv-mouseover':{
+                'background-position': '-240px -90px'
+            },
+            'TOGGLE-adv-mousedown':{
+                'background-position': '-240px -110px'
             }
         },
         Behaviors:{

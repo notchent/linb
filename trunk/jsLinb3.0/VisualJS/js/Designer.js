@@ -1777,6 +1777,8 @@ Class('VisualJS.Designer', 'linb.Com',{
                         type='input';
                     }else if(_.isNumb(o)){
                         type='number';
+                    }else if(_.isDate(o)){
+                        type='date';
                     }else if(_.isObj(o)){
                         type='popbox';
                         editorReadonly=true;

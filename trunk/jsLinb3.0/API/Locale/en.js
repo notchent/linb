@@ -9313,7 +9313,7 @@ _.set(linb.Locale,["en","app"], {
                 $desc:"Sets the type property value on the each UIProfile, and reflects the value to UI.",
                 $rtn:"[self]",
                 $paras:[
-                    "value [Required] : 'none','combobox','listbox','upload','getter','currency','number','helpinput','cmdbox','popbox','time','date', 'color' or 'spin'. Default is 'combobox'.",
+                    "value [Required] : 'none','combobox','listbox','upload','getter','currency','number','helpinput','cmdbox','popbox','time','date', 'datetime','color' or 'spin'. Default is 'combobox'.",
                     "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
                 ],
                 $snippet:[

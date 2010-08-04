@@ -9241,8 +9241,7 @@ _.set(linb.Locale,["cn","app"], {
                 $desc:"设置下拉框类型, 并刷新界面.",
                 $rtn:"[self]",
                 $paras:[
-                    "value [必需参数] : 'none'代表是普通的输入框,'combobox'代表下拉框,'listbox'代表列表框,'upload'代表上传框,'getter'代表获取框,'helpinput'代表帮助框,'cmdbox'代表命令框,'popbox'代表弹出框,'time'代表时间选择框,'date'代表日期选择框,'color'代表颜色选择框,'currency'代表货币,'number'代表数字,'spin'代表是spin输入框. 默认为 'combobox'.",
-                    "force [可选参数] : Boolean, 强制设置该属性值，即使属性已经设置为该值. 默认为 [false]."
+                    "value [必需参数] : 'none'代表是普通的输入框,'combobox'代表下拉框,'listbox'代表列表框,'upload'代表上传框,'getter'代表获取框,'helpinput'代表帮助框,'cmdbox'代表命令框,'popbox'代表弹出框,'time'代表时间选择框,'date'代表日期选择框,'datetime'代表日期时间选择框,'color'代表颜色选择框,'currency'代表货币,'number'代表数字,'spin'代表是spin输入框. 默认为 'combobox'.",                    "force [可选参数] : Boolean, 强制设置该属性值，即使属性已经设置为该值. 默认为 [false]."
                 ],
                 $snippet:[
                     "var id='linb.temp.ci4'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+

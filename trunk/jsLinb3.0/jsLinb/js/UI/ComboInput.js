@@ -251,6 +251,10 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                         case 'datepicker':
                         case 'datetime':
                             o = linb.create('DatePicker').render();
+
+                            if(type=='datetime')
+                                o.setWithTime(true);
+
                             o.setHost(profile);
                             o.beforeClose(function(){this.boxing().activate()._cache();return false});
                             o.beforeUIValueSet(function(p, o, v){
@@ -299,7 +303,6 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                     case 'datepicker':
                     case 'datetime':
                         var t = profile.$drop.properties;
-                        t.WEEK_FIRST=pro.WEEK_FIRST;
                         if(t=profile.properties.$UIvalue)
                             o.setValue(new Date( parseInt(t) ), true);
                         break;
@@ -971,7 +974,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
             },
             type:{
                 ini:'combobox',
-                listbox:_.toArr('none,combobox,listbox,upload,getter,helpinput,cmdbox,popbox,date,time,color,spin,currency,number'),
+                listbox:_.toArr('none,combobox,listbox,upload,getter,helpinput,cmdbox,popbox,date,time,datetime,color,spin,currency,number'),
                 set:function(value){
                     var pro=this;
                     pro.properties.type=value;
