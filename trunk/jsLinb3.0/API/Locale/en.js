@@ -5065,7 +5065,7 @@ _.set(linb.Locale,["en","app"], {
             getValue:{
                 $desc:"Gets a key/value pairs Object from the current databinder, that includes the values of all those bound linb.absValue profiles.",
                 $paras:[
-                    "dirtyOnly [Optional] : Boolean, only get dirtied data, Default is [true]",
+                    "dirtyOnly [Optional] : Boolean, only get dirtied data, Default is [false]",
                     "reset [Optional] : Boolean, Determines whether to reset all controls' value and clear the diry mark immediately or not, Default is [true]"
                 ],
                 $rtn:"Object, key/value pairs Object.",

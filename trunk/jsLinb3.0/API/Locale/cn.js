@@ -5085,7 +5085,7 @@ _.set(linb.Locale,["cn","app"], {
                 $desc:"获取键值对, 得到所有绑定控件的值.",
                 $rtn:"Object, 键值对.",
                 $paras:[
-                    "dirtyOnly [可选参数] : Boolean, 只得到脏数据, 默认为true",
+                    "dirtyOnly [可选参数] : Boolean, 只得到脏数据, 默认为 false",
                     "reset [可选参数] : Boolean, 立即重新设置界面数据和清理脏数据标识, 默认为true"
                 ],
                 $snippet:[
