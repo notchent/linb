@@ -377,7 +377,7 @@ Class('App', 'linb.Com',{
                     (con?'<span class="linb-custom-icon" style="background-position:' +pos+';"></span>':'') +
                     head +
 //for show original code
-(flag !==false?((t=linb.SC.get(key)) && (t.$linb$||t.$auto$) ?"":'<a href="javascript:;" onclick="return SPA.showCode(event,\''+key+'\');">&nbsp;&nbsp;&nbsp;&nbsp;['+linb.getRes('app.oCode')+']</a>'):"") +
+(flag !==false?((t=linb.SC.get(key)) && (t.$event$||t.$linb$||t.$auto$) ?"":'<a href="javascript:;" onclick="return SPA.showCode(event,\''+key+'\');">&nbsp;&nbsp;&nbsp;&nbsp;['+linb.getRes('app.oCode')+']</a>'):"") +
                     '</h4>' +
                     (con?'<div class="con">'+con+'</div>':"") +
                     (flag!==false?'<a class="totop" href="#'+okey+'._list"> ^ </a>':'')+

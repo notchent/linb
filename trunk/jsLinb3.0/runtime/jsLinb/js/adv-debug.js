@@ -23,8 +23,8 @@ Class("linb.UI.FusionChartFree", "linb.UI",{
         }
     },
     Static:{
-        FC_LINKTAG:'JavaScript:',
-        FC_SWFFILEPRETAG:"FCF_",
+        _FC_LINKTAG:'JavaScript:',
+        _FC_SWFFILEPRETAG:"FCF_",
         Appearances:{
             KEY:{
                 'font-size':linb.browser.ie?0:null,
@@ -215,7 +215,7 @@ Class("linb.UI.FusionChartFree", "linb.UI",{
 
             var prop=profile.properties,
                 serialId=profile.serialId,
-                linktag=ns.FC_LINKTAG,
+                linktag=ns._FC_LINKTAG,
                 data = _.clone(prop.FC_data), 
                 idata;
             if(profile.onFC_PrepareXML && false === profile.boxing().onFC_PrepareXML(profile, data, callback)){}
@@ -274,7 +274,7 @@ Class("linb.UI.FusionChartFree", "linb.UI",{
             ns._buildChartXML(profile, function(data){
                 var prop=profile.properties,
                     serialId=profile.serialId,
-                    path=prop.FC_swfPath + ns.FC_SWFFILEPRETAG + prop.FC_chartType + ".swf",
+                    path=prop.FC_swfPath + ns._FC_SWFFILEPRETAG + prop.FC_chartType + ".swf",
                     labels=_.urlEncode(prop.FC_labels),
                     options = _.copy(prop.FC_attrs),
                     xml="";
@@ -415,8 +415,7 @@ Class("linb.UI.FusionChartFree", "linb.UI",{
     },
     Static:{
         _idtag:"linb_UI_FC3_", 
-        //FC_LINKTAG:'j-',
-        FC_SWFFILEPRETAG:"",
+        _FC_SWFFILEPRETAG:"",
         DataModel:{
             FC_chartType:{
                 combobox:"Column2D,Column3D,Pie2D,Pie3D,Line,Bar2D,Area2D,Doughnut2D,Doughnut3D,MSColumn2D,MSColumn3D,MSLine,MSArea,MSBar2D,MSBar3D,StackedColumn2D,StackedColumn3D,StackedArea2D,StackedBar2D,StackedBar3D,MSStackedColumn2D,MSCombi2D,MSCombi3D,MSColumnLine3D,MSCombiDY2D,MSColumn3DLineDY,StackedColumn3DLineDY,MSStackedColumn2DLineDY,Scatter,Bubble,ScrollColumn2D,ScrollLine2D,ScrollArea2D,ScrollStackedColumn2D,ScrollCombi2D,ScrollCombiDY2D".split(',')

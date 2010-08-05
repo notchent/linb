@@ -16009,21 +16009,185 @@ _.set(linb.Locale,["en","app"], {
         constructor:{
             $desc:"Creates a linb.UI.FusionChartFree Object."
         },
-        prototype:{
-            KEY:{$desc:"Class Name"},
-        }
-    });
-
-    _.set(linb.Locale,["en","doc","linb","UI","FusionChart"], {
-        KEY:{$desc:"Class Name"},
-        $desc:"linb.UI.FusionChart Class",
-        constructor:{
-            $desc:"Creates a linb.UI.FusionChart Object."
+        getFlashVersion:{
+            $desc:"Gets the browser's Flash version.",
+            $rtn:"String"
+        },
+        replaceSpecialChars:{
+            $desc:"A special char replacment function for FusionCharts.",
+            $rtn:"String"
         },
         prototype:{
-            KEY:{$desc:"Class Name"}
+            KEY:{$desc:"Class Name"},
+            getFC_attrs:{
+                $desc:"Gets FusionChar's attributes.",
+                $rtn:'Object'
+            },
+            setFC_attrs:{
+                $desc:"Sets FusionChar's attributes.",
+                $rtn:"[self]",
+                $paras:[
+                    "value [Required] : Object.",
+                    "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
+                ]
+            },
+            getFC_chartType:{
+                $desc:"Gets FusionChar's chart type.",
+                $rtn:'String'
+            },
+            setFC_chartType:{
+                $desc:"Sets FusionChar's chart type, and refresh the chart.",
+                $rtn:"[self]",
+                $paras:[
+                    "value [Required] : String.",
+                    "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
+                ]
+            },
+            getFC_data:{
+                $desc:"Gets FusionChar's json data.",
+                $rtn:'Object'
+            },
+            setFC_data:{
+                $desc:"Sets FusionChar's json data, and refreth the chart",
+                $rtn:"[self]",
+                $paras:[
+                    "value [Required] : Object.",
+                    "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
+                ]
+            },
+            getFC_demoDataPath:{
+                $desc:"Gets FusionChar' demo data file path.",
+                $rtn:'String'
+            },
+            setFC_demoDataPath:{
+                $desc:"Sets  FusionChar demo data file path.",
+                $rtn:"[self]",
+                $paras:[
+                    "value [Required] : String.",
+                    "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
+                ]
+            },
+            getFC_labels:{
+                $desc:"Gets FusionChar's show labels.",
+                $rtn:'Object'
+            },
+            setFC_labels:{
+                $desc:"Sets FusionChar's show labels.",
+                $rtn:"[self]",
+                $paras:[
+                    "value [Required] : Object.",
+                    "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
+                ]
+            },
+            getFC_swfPath:{
+                $desc:"Gets FusionChar's .swf file path.",
+                $rtn:'String'
+            },
+            setFC_swfPath:{
+                $desc:"Sets FusionChar's .swf file path.",
+                $rtn:"[self]",
+                $paras:[
+                    "value [Required] : String.",
+                    "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
+                ]
+            },
+            refreshChart:{
+                $desc:"To refresh FusionChart."
+            },
+            setDataXML:{
+                $desc:"Stes XML string to FusionChart.",
+                $paras:[
+                    "xml: String."
+                ]
+            },
+            onFC_Click:{
+                $desc:"Fired when user click FusionChart's inner link.",
+                $paras:[
+                    "profile : linb.UIProfile.",
+                    "args: Object, Click event's parameters."
+                ]
+            },
+            onFC_PrepareXML:{
+                $desc:"Fired when the control prepares XML data for FusionChart.",
+                $paras:[
+                    "profile : linb.UIProfile.",
+                    "json: Object, json.",
+                    "callback : Function ,callback function [fun](xml)."
+                ]
+            }
         }
     });
-    
+    _.set(linb.Locale,["en","doc","linb","UI","FusionChart3"], {
+        KEY:{$desc:"Class Name"},
+        $desc:"linb.UI.FusionChart3 Class",
+        constructor:{
+            $desc:"Creates a linb.UI.FusionChart3 Object."
+        },
+        prototype:{
+            KEY:{$desc:"Class Name"},
+            hasRendered:{
+                $desc:"Determines whether FusionChart is rendered or not.",
+                $rtn:"Boolean"
+            },
+            getXML:{
+                $desc:"Gets FusionChart's XML string.",
+                $rtn:"String"
+            },
+            getDataAsCSV :{
+                $desc:"Gets FusionChart's CSV string.",
+                $rtn:"String"
+            },
+            getChartAttribute:{
+                $desc:"Gets FusionChart's attribute.",
+                $rtn:"Object",
+                $paras:[
+                    " attrName: String."
+                ]
+            },
+            callFCFunction:{
+                $desc:"Calls FusionChart's inner function.",
+                $rtn:"Object",
+                $paras:[
+                    "funName: String, function name.",
+                    "funArgs: Array, function parameters."
+                ]
+            },
+            print:{
+                $desc:"Prints FusionChart."
+            },
+            setDataURL:{
+                $desc:"Sets data source URL to FusionChart.",
+                $paras:[
+                    " strDataURL: String."
+                ]
+            },
+            setDataXML:{
+                $desc:"Sets XML string to FusionChart.",
+                $paras:[
+                    "xml: String."
+                ]
+            },
+            onFC_DataLoadError:{
+                $desc:"Corresponding to FusionChart's DataLoadError event."
+            },
+            onFC_DataLoaded:{
+                $desc:"Corresponding to FusionChart's DataLoaded event."
+            },
+            onFC_DataXMLInvalid:{
+                $desc:"Corresponding to FusionChart's DataXMLInvalid event."
+            },
+            onFC_Loaded:{
+                $desc:"Corresponding to FusionChart's Loaded event."
+            },
+            onFC_NoDataToDisplay:{
+                $desc:"Corresponding to FusionChart's NoDataToDisplay event."
+            },
+            onFC_Rendered:{
+                $desc:"Corresponding to FusionChart's Rendered event."
+            }
+        }
+    });
+ 
+
 })();
 

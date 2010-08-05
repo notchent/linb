@@ -23,8 +23,8 @@ Class("linb.UI.FusionChartFree", "linb.UI",{
         }
     },
     Static:{
-        FC_LINKTAG:'JavaScript:',
-        FC_SWFFILEPRETAG:"FCF_",
+        _FC_LINKTAG:'JavaScript:',
+        _FC_SWFFILEPRETAG:"FCF_",
         Appearances:{
             KEY:{
                 'font-size':linb.browser.ie?0:null,
@@ -215,7 +215,7 @@ Class("linb.UI.FusionChartFree", "linb.UI",{
 
             var prop=profile.properties,
                 serialId=profile.serialId,
-                linktag=ns.FC_LINKTAG,
+                linktag=ns._FC_LINKTAG,
                 data = _.clone(prop.FC_data), 
                 idata;
             if(profile.onFC_PrepareXML && false === profile.boxing().onFC_PrepareXML(profile, data, callback)){}
@@ -274,7 +274,7 @@ Class("linb.UI.FusionChartFree", "linb.UI",{
             ns._buildChartXML(profile, function(data){
                 var prop=profile.properties,
                     serialId=profile.serialId,
-                    path=prop.FC_swfPath + ns.FC_SWFFILEPRETAG + prop.FC_chartType + ".swf",
+                    path=prop.FC_swfPath + ns._FC_SWFFILEPRETAG + prop.FC_chartType + ".swf",
                     labels=_.urlEncode(prop.FC_labels),
                     options = _.copy(prop.FC_attrs),
                     xml="";

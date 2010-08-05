@@ -32,12 +32,12 @@
     </header>
     <header>
         <caption>bill2008</caption>
-        <type>number</type>
+        <type>currency</type>
         <width>50</width>
     </header>
     <header>
         <caption>bill2009</caption>
-        <type>number</type>
+        <type>currency</type>
         <width>50</width>
     </header>
     <header>

@@ -3194,6 +3194,9 @@ editorDropListHeight
                     editor=new linb.UI.ComboInput({dirtyMark:false,cachePopWnd:false,left:-1000,top:-1000,position:'absolute',visibility:'hidden',zIndex:100});
                 switch(type){
                     case 'number':
+                        editor.setType(type);
+                        // no precission
+                        editor.setPrecision(-1);
                     case 'spin':
                     case 'currency':
                         editor.setType(type);
@@ -3365,12 +3368,10 @@ editorDropListHeight
                 switch(type){
                     case 'number':
                     case 'spin':
-                        //avoid empty string
-                        nV=pro.box._number(pro,nV);
+                        nV=parseFloat(nV)||0;
                         break;
                     case 'currency':
-                        //avoid empty string
-                        nV=pro.box._currency(pro,nV);
+                        nV=parseFloat(nV.replace(/[^\d.]/g,''))||0;
                         break;
                     case 'cmdbox':
                     case 'popbox':

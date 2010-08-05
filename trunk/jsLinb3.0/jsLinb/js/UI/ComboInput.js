@@ -23,18 +23,20 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
             return this.get(0).properties.$UIvalue;
             //return this._fromEditor(this.getSubNode('INPUT').attr('value'));
         },
-        _setCtrlValue:function(value, flag){
+        _setCtrlValue:function(value){
             var me=arguments.callee, r1=me._r1||(me._r1=/\</),r2=me._r2||(me._r2=/\<\/?[^>]+\>/g);
             return this.each(function(profile){
-                // for enter/esc key
-                if(!profile.$_onedit){
-                    if(!profile.$typeOK)
-                        profile.box._iniType(profile);
-                    var o=profile.getSubNode('INPUT'), type=profile.properties.type;
-                    value=flag?value:profile.boxing().getShowValue(value);
-                    if(type!=='none'&& !profile.properties.multiLines && typeof value=='string' && r1.test(value))value=value.replace(r2,'');
-                    o.attr('value',value||'');
-                }
+                if(!profile.$typeOK)
+                    profile.box._iniType(profile);
+                var o=profile.getSubNode('INPUT'), type=profile.properties.type;
+
+                value=profile.$_onedit
+                    // for enter/esc key, show editMode value
+                    ? value
+                    : profile.boxing().getShowValue(value);
+
+                if(type!=='none'&& !profile.properties.multiLines && typeof value=='string' && r1.test(value))value=value.replace(r2,'');
+                o.attr('value',value||'');
                 if(type=='colorpicker'||type=='color')
                     o.css({backgroundColor:value, color:linb.UI.ColorPicker.getTextColor(value)});
             })
@@ -1182,7 +1184,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                 value=value>prop.max?prop.max:value;
             if(_.isSet(prop.min))
                 value=value<prop.min?prop.min:value;
-            if(_.isSet(prop.precision))
+            if(_.isSet(prop.precision) && prop.precision>=0)
                 value=value.toFixed(prop.precision);
             return value;
             //var n=Math.pow(10,Math.max(parseInt(prop.precision)||0,0));

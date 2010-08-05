@@ -17510,7 +17510,7 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
                         maxlength:'{maxlength}',
                         tabindex:'{tabindex}',
                         cursor:'{cursor}',
-                        style:'{_css}text-align:{hAlign};'
+                        style:'{_css};{hAlign};'
                     }
                 }
             }
@@ -17854,8 +17854,8 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
                 }
             },
             hAlign:{
-                ini:'left',
-                listbox:['left','center','right'],
+                ini:'',
+                listbox:['','left','center','right'],
                 action: function(v){
                     this.getSubNode("INPUT").css('textAlign',v);
                 }
@@ -17915,6 +17915,7 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
             d._type = d.type || '';
             if(linb.browser.kde)
                 d._css='resize:none;';
+            d.hAlign=d.hAlign?("text-align:" + d.hAlign):"";
             return d;
         },
         _dynamicTemplate:function(profile){
@@ -18851,18 +18852,20 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
             return this.get(0).properties.$UIvalue;
             //return this._fromEditor(this.getSubNode('INPUT').attr('value'));
         },
-        _setCtrlValue:function(value, flag){
+        _setCtrlValue:function(value){
             var me=arguments.callee, r1=me._r1||(me._r1=/\</),r2=me._r2||(me._r2=/\<\/?[^>]+\>/g);
             return this.each(function(profile){
-                // for enter/esc key
-                if(!profile.$_onedit){
-                    if(!profile.$typeOK)
-                        profile.box._iniType(profile);
-                    var o=profile.getSubNode('INPUT'), type=profile.properties.type;
-                    value=flag?value:profile.boxing().getShowValue(value);
-                    if(type!=='none'&& !profile.properties.multiLines && typeof value=='string' && r1.test(value))value=value.replace(r2,'');
-                    o.attr('value',value||'');
-                }
+                if(!profile.$typeOK)
+                    profile.box._iniType(profile);
+                var o=profile.getSubNode('INPUT'), type=profile.properties.type;
+
+                value=profile.$_onedit
+                    // for enter/esc key, show editMode value
+                    ? value
+                    : profile.boxing().getShowValue(value);
+
+                if(type!=='none'&& !profile.properties.multiLines && typeof value=='string' && r1.test(value))value=value.replace(r2,'');
+                o.attr('value',value||'');
                 if(type=='colorpicker'||type=='color')
                     o.css({backgroundColor:value, color:linb.UI.ColorPicker.getTextColor(value)});
             })
@@ -20010,7 +20013,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                 value=value>prop.max?prop.max:value;
             if(_.isSet(prop.min))
                 value=value<prop.min?prop.min:value;
-            if(_.isSet(prop.precision))
+            if(_.isSet(prop.precision) && prop.precision>=0)
                 value=value.toFixed(prop.precision);
             return value;
             //var n=Math.pow(10,Math.max(parseInt(prop.precision)||0,0));
@@ -22723,7 +22726,7 @@ Class("linb.UI.Group", "linb.UI.Div",{
                         },
                         CAPTION:{
                             tagName : 'text',
-                            text : '{caption}',
+                            text : '{caption}&nbsp;',
                             $order:20
                         },
                         EXTRA:{
@@ -33092,6 +33095,9 @@ editorDropListHeight
                     editor=new linb.UI.ComboInput({dirtyMark:false,cachePopWnd:false,left:-1000,top:-1000,position:'absolute',visibility:'hidden',zIndex:100});
                 switch(type){
                     case 'number':
+                        editor.setType(type);
+                        // no precission
+                        editor.setPrecision(-1);
                     case 'spin':
                     case 'currency':
                         editor.setType(type);
@@ -33263,12 +33269,10 @@ editorDropListHeight
                 switch(type){
                     case 'number':
                     case 'spin':
-                        //avoid empty string
-                        nV=pro.box._number(pro,nV);
+                        nV=parseFloat(nV)||0;
                         break;
                     case 'currency':
-                        //avoid empty string
-                        nV=pro.box._currency(pro,nV);
+                        nV=parseFloat(nV.replace(/[^\d.]/g,''))||0;
                         break;
                     case 'cmdbox':
                     case 'popbox':

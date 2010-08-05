@@ -104,7 +104,7 @@ Class("linb.UI.Input", ["linb.UI.Widget","linb.absValue"] ,{
                         maxlength:'{maxlength}',
                         tabindex:'{tabindex}',
                         cursor:'{cursor}',
-                        style:'{_css}text-align:{hAlign};'
+                        style:'{_css};{hAlign};'
                     }
                 }
             }
@@ -448,8 +448,8 @@ Class("linb.UI.Input", ["linb.UI.Widget","linb.absValue"] ,{
                 }
             },
             hAlign:{
-                ini:'left',
-                listbox:['left','center','right'],
+                ini:'',
+                listbox:['','left','center','right'],
                 action: function(v){
                     this.getSubNode("INPUT").css('textAlign',v);
                 }
@@ -509,6 +509,7 @@ Class("linb.UI.Input", ["linb.UI.Widget","linb.absValue"] ,{
             d._type = d.type || '';
             if(linb.browser.kde)
                 d._css='resize:none;';
+            d.hAlign=d.hAlign?("text-align:" + d.hAlign):"";
             return d;
         },
         _dynamicTemplate:function(profile){
