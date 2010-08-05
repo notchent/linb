@@ -13,14 +13,11 @@
   margin: 4px;
   margin-left: 0;
   padding: 0;
-  font-family: "courier New", courier, monospace; 
-  font-size: 12px;
-  line-height:16px;
 }
 
 .CodeMirror-line-numbers div{
     font-family: "courier New", courier, monospace; 
-    font-size: 12px;
+    font-size:12px;
     line-height:16px;
     height:16px;
     white-space:nowrap;

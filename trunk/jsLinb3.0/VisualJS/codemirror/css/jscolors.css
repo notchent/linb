@@ -5,8 +5,8 @@ html {
 .editbox {
   margin: 4px;
   padding: 0;
-  font-family: "courier New", courier, monospace; 
-  font-size: 12px;
+  font-family: "courier New", courier, monospace;
+  font-size: 13px;
   line-height:16px;
   color: #000;
 }
@@ -65,11 +65,6 @@ span.js-regexp{
 }
 
 /*added by linb*/
-body * {
-  font-family: "courier New", courier, monospace; 
-  font-size: 12px;
-  line-height:16px;
-}
 span.js-linbglobal {
     color: #ff0000;
     font-weight:bold;
