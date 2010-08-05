@@ -9877,6 +9877,14 @@ _.set(linb.Locale,["cn","app"], {
                  $desc:"激活该控件，使它获得焦点.",
                 $rtn:"[self]"
             },
+            getTimeInput:{
+                $desc:"得到日期选择框是否带有时间输入功能.",
+                $rtn:"Boolean"
+            },
+            setTimeInput:{
+                $desc:"设置日期选择框是否带有时间输入功能, 并刷新界面.",
+                $rtn:"[self]"
+            },
             getCloseBtn:{
                 $desc:"判断日期选择框是否带有关闭按钮.",
                 $rtn:"Boolean",
@@ -9889,7 +9897,7 @@ _.set(linb.Locale,["cn","app"], {
             },
             setCloseBtn:{
                 $desc:"设置日期选择框是否带有关闭按钮, 并刷新界面.",
-                $rtn:"Boolean",
+                $rtn:"[self]",
                 $snippet:[
                     "var id='linb.temp.dp2'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                     "var o;linb(id).prepend(o=new linb.UI.DatePicker({position:'relative'}));"+
@@ -15916,6 +15924,26 @@ _.set(linb.Locale,["cn","app"], {
                     "date : Date, 改变之后的date."
                 ]
             }
+        }
+    });
+    _.set(linb.Locale,["cn","doc","linb","UI","FusionChartFree"], {
+        KEY:{$desc:"本类名"},
+        $desc:"linb.UI.FusionChartFree 类",
+        constructor:{
+            $desc:"生成一个linb.UI.FusionChartFree对象."
+        },
+        prototype:{
+            KEY:{$desc:"本类名"}
+        }
+    });
+    _.set(linb.Locale,["cn","doc","linb","UI","FusionChart"], {
+        KEY:{$desc:"本类名"},
+        $desc:"linb.UI.FusionChart 类",
+        constructor:{
+            $desc:"生成一个linb.UI.FusionChart对象."
+        },
+        prototype:{
+            KEY:{$desc:"本类名"}
         }
     });
 })();

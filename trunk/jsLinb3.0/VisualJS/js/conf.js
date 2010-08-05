@@ -88,7 +88,7 @@ new function(){
                 {id:'linb.UI.Shape', caption:'Shape', image:_img_widgets, imagePos:'-544px top', draggable:true},
 */                
                 {id:'linb.UI.FusionChartFree', caption:'FusionChartFree', image:_img_widgets, imagePos:'-560px top', draggable:true},
-                {id:'linb.UI.FusionChart', caption:'FusionChart', image:_img_widgets, imagePos:'-560px top', draggable:true}
+                {id:'linb.UI.FusionChart3', caption:'FusionChart3', image:_img_widgets, imagePos:'-560px top', draggable:true}
 
             ]},
             {id:'linb.UI.absAdv',caption:'Advanced',group:true, image:_img_app, imagePos:'-48px -48px', sub:[
@@ -140,8 +140,8 @@ new function(){
             'linb.UI.TreeGrid':['header','rows','value','onClickCell','beforeComboPop','onRowSelected','onGetContent','tabindex'],
             'linb.UI.Image':['src','tabindex'],
             'linb.UI.TimeLine':['onGetContent','tabindex'],
-            'linb.UI.FusionChartFree':['chartType','swfPath','demoDataPath','optionsForFC','labelsForFC','dataForFC','onClick'],
-            'linb.UI.FusionChart':['chartType','swfPath','demoDataPath','optionsForFC','labelsForFC','dataForFC','onClick']
+            'linb.UI.FusionChartFree':['tabindex','onFCClick'],
+            'linb.UI.FusionChart3':['tabindex','onFCClick']
         },
         ComFactoryProfile:{
             about:{

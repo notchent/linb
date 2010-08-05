@@ -9950,6 +9950,14 @@ _.set(linb.Locale,["en","app"], {
                 $desc:"Activates it.",
                 $rtn:"[self]"
             },
+            getTimeInput:{
+                $desc:"Determines whether time input shows up or not.",
+                $rtn:"Boolean"
+            },
+            setTimeInput:{
+                $desc:"Specifys whether time input shows up or not, and reflects it to DOM UI.",
+                $rtn:"[self]"
+            },
             getCloseBtn:{
                 $desc:"Determines whether close button shows up or not.",
                 $rtn:"Boolean",
@@ -9962,7 +9970,7 @@ _.set(linb.Locale,["en","app"], {
             },
             setCloseBtn:{
                 $desc:"Specifys whether close button shows up or not, and reflects it to DOM UI.",
-                $rtn:"Boolean",
+                $rtn:"[self]",
                 $snippet:[
                     "var id='linb.temp.dp2'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                     "var o;linb(id).prepend(o=new linb.UI.DatePicker({position:'relative'}));"+
@@ -15994,4 +16002,28 @@ _.set(linb.Locale,["en","app"], {
             }
         }
     });
+    
+    _.set(linb.Locale,["en","doc","linb","UI","FusionChartFree"], {
+        KEY:{$desc:"Class Name"},
+        $desc:"linb.UI.FusionChartFree Class",
+        constructor:{
+            $desc:"Creates a linb.UI.FusionChartFree Object."
+        },
+        prototype:{
+            KEY:{$desc:"Class Name"},
+        }
+    });
+
+    _.set(linb.Locale,["en","doc","linb","UI","FusionChart"], {
+        KEY:{$desc:"Class Name"},
+        $desc:"linb.UI.FusionChart Class",
+        constructor:{
+            $desc:"Creates a linb.UI.FusionChart Object."
+        },
+        prototype:{
+            KEY:{$desc:"Class Name"}
+        }
+    });
+    
 })();
+

@@ -4,7 +4,8 @@
     set:'設置',
     today:'今天',
     yes:'是的',
-    no:'不是'
+    no:'不是',
+    noFlash:'No Flash PlugIn!'
 };
 linb.Locale.tw.date={
     WEEKS:{

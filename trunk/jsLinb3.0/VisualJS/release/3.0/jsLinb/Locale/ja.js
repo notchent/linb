@@ -3,7 +3,8 @@
     cancel:'キャンセル',
     today:'今日',
     yes:'はい',
-    no:'いいえ'
+    no:'いいえ',
+    noFlash:'No Flash PlugIn!'
 };
 linb.Locale.ja.date={
     WEEKS:{

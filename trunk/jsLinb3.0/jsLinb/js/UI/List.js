@@ -109,12 +109,12 @@ Class("linb.UI.List", ["linb.UI", "linb.absList","linb.absValue" ],{
                         },
                         CAPTION:{
                             tagName : 'text',
-                            text : '{caption}&nbsp;',
+                            text : '{caption}',
                             $order:20
                         },
                         EXTRA:{
                             text : '{ext}',
-                            $order:5
+                            $order:30
                         }
                     }
                 }
@@ -123,6 +123,9 @@ Class("linb.UI.List", ["linb.UI", "linb.absList","linb.absValue" ],{
         Appearances:{
             KEY:{
                 'font-size':'12px'
+            },
+            EXTRA:{
+                display:'none'
             },
             ITEMS:{
                 position:'relative',
@@ -393,12 +396,11 @@ Class("linb.UI.List", ["linb.UI", "linb.absList","linb.absValue" ],{
             item._cbDisplay = (profile.properties.selMode=='multi')?'':'display:none;';
         },
         _onresize:function(profile,width,height){
-            if(height){
-                var size=0;
-                if(profile.properties.borderType!='none')
-                    size=2;
+            var size=profile.properties.borderType!='none'?2:0;
+            if(height)
                 profile.getSubNode('ITEMS').height(height=='auto'?height:(height-size));
-            }
+            if(width)
+                profile.getSubNode('ITEMS').width(width=='auto'?width:(width-size));
         }
     }
 });

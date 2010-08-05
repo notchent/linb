@@ -630,6 +630,8 @@ Class('VisualJS.Designer', 'linb.Com',{
                 self=this;
             //change
             self._giveHandler(profile);
+            
+            profile.$inDesign=true;
 
             var t=profile.behavior.DroppableKeys;
             if(t && t.length)

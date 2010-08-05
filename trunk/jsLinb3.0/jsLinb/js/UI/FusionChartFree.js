@@ -8,10 +8,18 @@ Class("linb.UI.FusionChartFree", "linb.UI",{
                     cls._clearMemory(profile);
     
                     // build and set html
-                    html = cls._buildHTML(profile);
-                    profile.getSubNode('BOX').html(html, false);
+                    cls._drawChart(profile);
                 });
             });
+        },
+        setDataXML:function(xml){
+            var prf=this.get(0),chart = prf.box._getChart(prf);
+            if(chart){
+            	chart.SetVariable("_root.dataURL","");
+            	chart.SetVariable("_root.isNewData","1");
+            	chart.SetVariable("_root.newData",xml);
+            	chart.TGotoLabel("/", "JavaScriptHandler"); 
+            }
         }
     },
     Static:{
@@ -49,18 +57,21 @@ Class("linb.UI.FusionChartFree", "linb.UI",{
                 tagName:'div'
             }
         },
+        Behaviors:{
+            onSize:linb.UI.$onSize
+        },
         DataModel:{
             width:500,
             height:300,
-            chartType:{
+            FC_chartType:{
                 combobox:"Column2D,Column3D,Pie2D,Pie3D,Line,Bar2D,Area2D,Doughnut2D,MSColumn2D,MSColumn3D,MSLine,MSArea2D,MSBar2D,StackedColumn2D,StackedColumn3D,StackedArea2D,StackedBar2D,Candlestick,Funnel,Gantt".split(','),
                 ini:"Column2D",
                 action:function(v){
                     var ns=this;
                     // from outside
-                    if(ns.properties.demoDataPath){
-                        linb.Ajax(ns.properties.demoDataPath + v +".xml", {rnd:_()},function(rsp){
-                            ns.properties.dataForFC=linb.XML.xml2json(linb.XML.parseXML(rsp),null,function(s){
+                    if(ns.properties.FC_demoDataPath){
+                        linb.Ajax(ns.properties.FC_demoDataPath + v +".xml", {rnd:_()},function(rsp){
+                            ns.properties.FC_data=linb.XML.xml2json(linb.XML.parseXML(rsp),null,function(s){
                                 return ns.box.replaceSpecialChars(x);
                             });
                         },null,null,{asy:false}).start();
@@ -70,9 +81,9 @@ Class("linb.UI.FusionChartFree", "linb.UI",{
                 }
             },
 
-            swfPath:"FusionChartsFree/Charts/",
-            demoDataPath:"FusionChartsFree/Data/",
-            optionsForFC:{
+            FC_swfPath:"FusionChartsFree/Charts/",
+            FC_demoDataPath:"FusionChartsFree/Data/",
+            FC_attrs:{
                 ini:{
                     bgcolor: "transparent",
                     quality: "high",
@@ -80,9 +91,12 @@ Class("linb.UI.FusionChartFree", "linb.UI",{
                     debugMode: "false",
                     registerWithJS:"1",
                     scaleMode:'noScale'
+                },
+                action:function(){
+                    this.boxing().refreshChart();
                 }
             },
-            labelsForFC:{
+            FC_labels:{
                 ini:{
                     PBarLoadingText:"Loading Chart. Please Wait",
                     XMLLoadingText:"Retrieving Data. Please Wait",
@@ -92,10 +106,19 @@ Class("linb.UI.FusionChartFree", "linb.UI",{
                     RenderingChartText:"Rendering Chart. Please Wait",
                     LoadDataErrorText:"Error in loading data",
                     InvalidXMLText:"Invalid XML data"
+                },
+                action:function(){
+                    this.boxing().refreshChart();
                 }
             },
-            dataForFC:{
-                ini:{}
+            FC_data:{
+                ini:{},
+                action:function(v){
+                    var ns=this;
+                    ns.box._buildChartXML(ns, function(xml){
+                        ns.boxing().setDataXML(ns.box._encodeDataXML(linb.XML.json2xml(xml)));
+                    });
+                }
             }
         },
         RenderTrigger:function(){
@@ -105,12 +128,12 @@ Class("linb.UI.FusionChartFree", "linb.UI",{
             }
             
             // add swf
-            this.boxing().setChartType(this.properties.chartType,true)
+            this.boxing().setFC_chartType(this.properties.FC_chartType,true)
             .refreshChart();
         },
         EventHandlers:{
-            onClick:function(profile, args){},
-            beforeRenderData:function(profile, data, callback){}
+            onFC_Click:function(profile, args){},
+            onFC_PrepareXML:function(profile, json, callback){}
         },
         getFlashVersion:function(){
           if(linb.browser.ie){
@@ -131,12 +154,13 @@ Class("linb.UI.FusionChartFree", "linb.UI",{
           }
           return '0,0,0';
         },
-        _getChart:function(id){
+        _getChart:function(profile){
+            var id= _.isStr(profile)?profile:(this._idtag + profile.serialId);
             return (linb.browser.ie ? window[id] : ((document.embeds && document.embeds[id])||window.document[id])) || document.getElementById(id);
         }, 
         _clearMemory:function(profile){
             var id=this._idtag + profile.serialId;
-            var _e=_.fun(), chart = profile.box._getChart(id);
+            var _e=_.fun(), chart = profile.box._getChart(profile);
             if(chart){
                 chart.style.display = 'none';
                 if(linb.browser.ie){
@@ -182,32 +206,19 @@ Class("linb.UI.FusionChartFree", "linb.UI",{
 
 			return strDataXML;
         },
-        _buildHTML:function(profile){
-            var ns=this,
-                ver = ns.getFlashVersion();
-            if(ver.split(',')[0]<8)
-                linb.alert(linb.getRes("App.Com.FusionChart.alertmessage"));
+        _buildChartXML:function(profile, callback){
+            var ns=this, ver = ns.getFlashVersion();
+            if(ver.split(',')[0]<8){
+                linb.alert(linb.getRes("inline.noFlash"));
+                return "";
+            }
 
-             var prop=profile.properties,
+            var prop=profile.properties,
                 serialId=profile.serialId,
-                path=prop.swfPath,
                 linktag=ns.FC_LINKTAG,
-                file= ns.FC_SWFFILEPRETAG + prop.chartType + ".swf",
-                labels=_.urlEncode(prop.labelsForFC);
-
-            // swf file
-            path +=file;
-
-            var options = _.copy(prop.optionsForFC);
-            options.DOMId = profile.box._idtag + profile.serialId;
-            options.chartWidth=prop.width;
-            options.chartHeight=prop.height;
-
-            var data = _.clone(prop.dataForFC), idata;
-            var callback=function(data){
-                options.dataXML=ns._encodeDataXML(linb.XML.json2xml(data));
-            };
-            if(profile.beforeRenderData && false === profile.boxing().beforeRenderData(profile, data, callback)){}
+                data = _.clone(prop.FC_data), 
+                idata;
+            if(profile.onFC_PrepareXML && false === profile.boxing().onFC_PrepareXML(profile, data, callback)){}
             else{
                 // chart or graph
                 if(idata=(data.chart||data.graph)){
@@ -257,41 +268,58 @@ Class("linb.UI.FusionChartFree", "linb.UI",{
                 }else
                     callback("");
             }
-
-            var html="";
-            if(navigator.plugins&&navigator.mimeTypes&&navigator.mimeTypes.length){
-                html += '<embed type="application/x-shockwave-flash" src="'+ path +'?'+labels+'" ';
-                html += 'width="100%" height="100%" ';
-                html += 'id="'+ options.DOMId +'" name="'+ options.DOMId +'" ';
-                html += 'wmode="opaque" ';
-                html += 'flashvars="'+ _.urlEncode(options) +'" ';
-                html +=  '/>';
-            }else{
-                html += '<object id="'+ options.DOMId +'" classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" '
-                html += 'width="100%" height="100%">';
-                html += '<param name="movie" value="'+ path +'?'+labels+'" />';
-                html += '<param name="wmode" value="opaque" />';
-                html += '<param name="flashvars" value="'+ _.urlEncode(options) +'" />';
-                html += '</object>';
-            }
-
-            return html;
         },
+        _drawChart:function(profile){
+            var ns=this;
+            ns._buildChartXML(profile, function(data){
+                var prop=profile.properties,
+                    serialId=profile.serialId,
+                    path=prop.FC_swfPath + ns.FC_SWFFILEPRETAG + prop.FC_chartType + ".swf",
+                    labels=_.urlEncode(prop.FC_labels),
+                    options = _.copy(prop.FC_attrs),
+                    xml="";
 
-        _idtag:"linb_UI_FusionChart_", 
+                options.DOMId = profile.box._idtag + profile.serialId;
+                options.chartWidth=prop.width;
+                options.chartHeight=prop.height;
+                options.dataXML=ns._encodeDataXML(linb.XML.json2xml(data));
+
+                if(navigator.plugins&&navigator.mimeTypes&&navigator.mimeTypes.length){
+                    xml += '<embed type="application/x-shockwave-flash" src="'+ path +'?'+labels+'" ';
+                    xml += 'width="'+prop.width+'" height="'+prop.height+'" ';
+                    xml += 'id="'+ options.DOMId +'" name="'+ options.DOMId +'" ';
+                    xml += 'wmode="opaque" ';
+                    xml += 'flashvars="'+ _.urlEncode(options) +'" ';
+                    xml +=  '/>';
+                }else{
+                    xml += '<object id="'+ options.DOMId +'" classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" '
+                    xml += 'width="'+prop.width+'" height="'+prop.height+'">';
+                    xml += '<param name="movie" value="'+ path +'?'+labels+'" />';
+                    xml += '<param name="wmode" value="opaque" />';
+                    xml += '<param name="flashvars" value="'+ _.urlEncode(options) +'" />';
+                    xml += '</object>';
+                }
+                profile.getSubNode('BOX').html(xml, false);
+            });
+        },
+        _idtag:"linb_UI_FCF_", 
         __events:{},
         _e:function(){
             var instance=this.getFromDom(this.KEY+":"+arguments[0]+":"),
                 prf=instance && instance.get(0);
-            if(prf && !prf.properties.disable && prf.onClick){
+            if(prf && !prf.properties.disable && prf.onFC_Click){
                 var args=_.toArr(arguments);
                 args=args.slice(1);
-                instance.onClick(prf, args);
+                instance.onFC_Click(prf, args);
             }
         },
         _onresize:function(profile,width,height){
-            var size = profile.getSubNode('BOX').cssSize();
+            var size = profile.getSubNode('BOX').cssSize(),prop=profile.properties;
             if( (width && size.width!=width) || (height && size.height!=height) ){
+                // reset here
+                if(width)prop.width=width;
+                if(height)prop.height=height;
+
                 size={width:width,height:height};
                 profile.getSubNode('BOX').cssSize(size,true);
                 if(profile.$inDesign){

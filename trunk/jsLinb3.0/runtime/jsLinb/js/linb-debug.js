@@ -2368,7 +2368,8 @@ Class('linb.absProfile',null,{
     set:'SET',
     today:'Today',
     yes:'Yes',
-    no:'No'
+    no:'No',
+    noFlash:'No Flash PlugIn!'
 };
 linb.Locale.en.date={
     WEEKS:{
@@ -19080,7 +19081,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                             o = linb.create('DatePicker').render();
 
                             if(type=='datetime')
-                                o.setWithTime(true);
+                                o.setTimeInput(true);
 
                             o.setHost(profile);
                             o.beforeClose(function(){this.boxing().activate()._cache();return false});
@@ -21784,7 +21785,7 @@ Class("linb.UI.Group", "linb.UI.Div",{
                     profile.box._to(profile,v);
                     
                     // set dir
-                    if(!p.withTime)
+                    if(!p.timeInput)
                         //onClick event
                         profile.boxing().setUIValue(v);
                 }
@@ -21793,7 +21794,7 @@ Class("linb.UI.Group", "linb.UI.Div",{
                 onClick:function(profile,e,src){
                     linb.use(src).onMouseout(true,{$force:true});
                     profile.boxing().setUIValue(
-                        profile.properties.withTime ?
+                        profile.properties.timeInput ?
                         new Date :
                         linb.Date.getTimSpanStart(new Date,'d',1)
                     ,true);
@@ -21953,7 +21954,7 @@ Class("linb.UI.Group", "linb.UI.Div",{
             }
         },
         DataModel:{
-            withTime:{
+            timeInput:{
                 ini:false,
                 action:function(v){
                     this.getSubNode('CAPTION').css('display',v?'none':'block');
@@ -21986,7 +21987,7 @@ Class("linb.UI.Group", "linb.UI.Div",{
             data.closeDisplay = data.closeBtn?'':nodisplay;
             
             var none="display:none;";
-            if(profile.properties.withTime)
+            if(profile.properties.timeInput)
                 data._nocap=none;
             else
                 data._timectrl=none;
@@ -22002,7 +22003,7 @@ Class("linb.UI.Group", "linb.UI.Div",{
                     d=new Date(parseInt(value));
             }
             d = d||new Date;
-            if(!profile.properties.withTime)
+            if(!profile.properties.timeInput)
                 d=linb.Date.getTimSpanStart(d,'d');
             return d;
         },
@@ -22722,12 +22723,12 @@ Class("linb.UI.Group", "linb.UI.Div",{
                         },
                         CAPTION:{
                             tagName : 'text',
-                            text : '{caption}&nbsp;',
+                            text : '{caption}',
                             $order:20
                         },
                         EXTRA:{
                             text : '{ext}',
-                            $order:5
+                            $order:30
                         }
                     }
                 }
@@ -22736,6 +22737,9 @@ Class("linb.UI.Group", "linb.UI.Div",{
         Appearances:{
             KEY:{
                 'font-size':'12px'
+            },
+            EXTRA:{
+                display:'none'
             },
             ITEMS:{
                 position:'relative',
@@ -23006,12 +23010,11 @@ Class("linb.UI.Group", "linb.UI.Div",{
             item._cbDisplay = (profile.properties.selMode=='multi')?'':'display:none;';
         },
         _onresize:function(profile,width,height){
-            if(height){
-                var size=0;
-                if(profile.properties.borderType!='none')
-                    size=2;
+            var size=profile.properties.borderType!='none'?2:0;
+            if(height)
                 profile.getSubNode('ITEMS').height(height=='auto'?height:(height-size));
-            }
+            if(width)
+                profile.getSubNode('ITEMS').width(width=='auto'?width:(width-size));
         }
     }
 });
@@ -26043,6 +26046,9 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
             KEY: {
                 'font-family': 'Verdana, Helvetica, sans-serif',
                 'border':0
+            },
+            EXTRA:{
+                display:'none'
             },
             BOX:{
                 left:0,

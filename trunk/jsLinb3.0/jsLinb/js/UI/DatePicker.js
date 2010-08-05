@@ -437,7 +437,7 @@ Class('linb.UI.DatePicker', ['linb.UI',"linb.absValue"], {
                     profile.box._to(profile,v);
                     
                     // set dir
-                    if(!p.withTime)
+                    if(!p.timeInput)
                         //onClick event
                         profile.boxing().setUIValue(v);
                 }
@@ -446,7 +446,7 @@ Class('linb.UI.DatePicker', ['linb.UI',"linb.absValue"], {
                 onClick:function(profile,e,src){
                     linb.use(src).onMouseout(true,{$force:true});
                     profile.boxing().setUIValue(
-                        profile.properties.withTime ?
+                        profile.properties.timeInput ?
                         new Date :
                         linb.Date.getTimSpanStart(new Date,'d',1)
                     ,true);
@@ -606,7 +606,7 @@ Class('linb.UI.DatePicker', ['linb.UI',"linb.absValue"], {
             }
         },
         DataModel:{
-            withTime:{
+            timeInput:{
                 ini:false,
                 action:function(v){
                     this.getSubNode('CAPTION').css('display',v?'none':'block');
@@ -639,7 +639,7 @@ Class('linb.UI.DatePicker', ['linb.UI',"linb.absValue"], {
             data.closeDisplay = data.closeBtn?'':nodisplay;
             
             var none="display:none;";
-            if(profile.properties.withTime)
+            if(profile.properties.timeInput)
                 data._nocap=none;
             else
                 data._timectrl=none;
@@ -655,7 +655,7 @@ Class('linb.UI.DatePicker', ['linb.UI',"linb.absValue"], {
                     d=new Date(parseInt(value));
             }
             d = d||new Date;
-            if(!profile.properties.withTime)
+            if(!profile.properties.timeInput)
                 d=linb.Date.getTimSpanStart(d,'d');
             return d;
         },

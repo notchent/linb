@@ -245,6 +245,9 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
                 'font-family': 'Verdana, Helvetica, sans-serif',
                 'border':0
             },
+            EXTRA:{
+                display:'none'
+            },
             BOX:{
                 left:0,
                 overflow: 'auto',

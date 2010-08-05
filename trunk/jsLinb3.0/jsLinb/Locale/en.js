@@ -4,7 +4,8 @@
     set:'SET',
     today:'Today',
     yes:'Yes',
-    no:'No'
+    no:'No',
+    noFlash:'No Flash PlugIn!'
 };
 linb.Locale.en.date={
     WEEKS:{

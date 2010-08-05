@@ -94,7 +94,7 @@ Class('linb.UI.Calendar', 'linb.UI.DatePicker', {
             handleHeight : null,
             tipsHeight :null,
             closeBtn:null,
-            withTime:null,
+            timeInput:null,
             dataBinder:null,
             dateField:null,
 

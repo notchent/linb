@@ -253,7 +253,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                             o = linb.create('DatePicker').render();
 
                             if(type=='datetime')
-                                o.setWithTime(true);
+                                o.setTimeInput(true);
 
                             o.setHost(profile);
                             o.beforeClose(function(){this.boxing().activate()._cache();return false});
