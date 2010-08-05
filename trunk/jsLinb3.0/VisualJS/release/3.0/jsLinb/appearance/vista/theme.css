@@ -81,7 +81,9 @@ html, .uibg-base{
 
 .uicmd-close, .uicmd-opt, .uicmd-pin, .uicmd-refresh,
 .uicmd-pop, .uicmd-land, .uicmd-min, .uicmd-max, .uicmd-restore,
-.uicmd-check, .uicmd-radio, .uicmd-add,
+.uicmd-check, .uicmd-radio, .uicmd-add{
+    background-image: url(Public/icons.gif);
+}
 
 
 .uicmd-close, .uicmd-opt, .uicmd-pin, .uicmd-refresh,
