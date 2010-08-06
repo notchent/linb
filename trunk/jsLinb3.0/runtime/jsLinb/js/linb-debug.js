@@ -18853,7 +18853,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
             //return this._fromEditor(this.getSubNode('INPUT').attr('value'));
         },
         _setCtrlValue:function(value){
-            var me=arguments.callee, r1=me._r1||(me._r1=/\</),r2=me._r2||(me._r2=/\<\/?[^>]+\>/g);
+            var ns=this,me=arguments.callee, r1=me._r1||(me._r1=/\</),r2=me._r2||(me._r2=/\<\/?[^>]+\>/g);
             return this.each(function(profile){
                 if(!profile.$typeOK)
                     profile.box._iniType(profile);
@@ -18861,8 +18861,8 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
 
                 value=profile.$_onedit
                     // for enter/esc key, show editMode value
-                    ? value
-                    : profile.boxing().getShowValue(value);
+                    ? ns._toEditor(value)
+                    : ns.getShowValue(value);
 
                 if(type!=='none'&& !profile.properties.multiLines && typeof value=='string' && r1.test(value))value=value.replace(r2,'');
                 o.attr('value',value||'');
