@@ -115,7 +115,7 @@ Class("linb.UI.Tabs", ["linb.UI", "linb.absList","linb.absValue"],{
                                         if(typeof item.ajaxAutoLoad=='string')
                                             item.ajaxAutoLoad={url:item.ajaxAutoLoad};
                                         var hash=item.ajaxAutoLoad;
-                                        box.busy(null,null,"PANEL",item.id);
+                                        box.busy(null,null,"PANEL",profile.getSubIdByItemId(item.id));
                                         linb.Ajax(hash.url, hash.query, function(rsp){
                                             var n=linb.create("div");
                                             n.html(rsp,false,true);

@@ -10700,10 +10700,11 @@ Class("linb.UI",  "linb.absObj", {
                 _.resetRun(profile.$linbid+':busy',function(profile,key,subId){
                     var keys=profile.keys;
                     key=keys[key]||keys['BORDER']||keys['PANEL']||keys['KEY'];
+                    var parentNode=profile.getSubNode(key,subId);
+                    if(parentNode.isEmpty())
+                        return;
 
-                    var parentNode=profile.getSubNode(key,subId),
-                        size=parentNode.cssSize(),
-                        node;
+                    var size=parentNode.cssSize(), node;
                     if(!size.width)size.width=parentNode.offsetWidth();
                     if(!size.height)size.width=parentNode.offsetHeight();
 
@@ -24335,7 +24336,7 @@ Class("linb.UI.Tabs", ["linb.UI", "linb.absList","linb.absValue"],{
                                         if(typeof item.ajaxAutoLoad=='string')
                                             item.ajaxAutoLoad={url:item.ajaxAutoLoad};
                                         var hash=item.ajaxAutoLoad;
-                                        box.busy(null,null,"PANEL",item.id);
+                                        box.busy(null,null,"PANEL",profile.getSubIdByItemId(item.id));
                                         linb.Ajax(hash.url, hash.query, function(rsp){
                                             var n=linb.create("div");
                                             n.html(rsp,false,true);
