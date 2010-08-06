@@ -113,7 +113,7 @@ JavaScript-based source code editor Integrated(based on codemirror right now)
     7. Class outline enabled
     8. Code Intellisense(show Code Suggestion and API Tips dynamically)
         press DOT character
-        press Ctrl + Atl + SPACE
+        press Alt + 1
         double click a word
     9. Custom variable types allowed
     10. quick documentation, and navigation
