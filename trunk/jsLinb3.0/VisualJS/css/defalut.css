@@ -17,16 +17,16 @@
 
 .CodeMirror-line-numbers div{
     font-family: "courier New", courier, monospace; 
-    font-size:12px;
-    line-height:16px;
-    height:16px;
+    font-size: 12px;
+    line-height:14px;
+    height:14px;
     white-space:nowrap;
     text-align:right;
 }
 .CodeMirror-line-numbers span{
     font-size:0;
-    height:12px;
-    width:12px;
+    height:9px;
+    width:9px;
     margin-left:2px;
     background:none;
 }
@@ -34,10 +34,10 @@
     display:none;
 }
 .CodeMirror-line-fold span{
-    background:url(../img/codemirror/fold.gif);
+    background:url(../img/codemirror/fold.gif) no-repeat center;
 }
 .CodeMirror-line-expand span{
-    background:url(../img/codemirror/expand.gif);
+    background:url(../img/codemirror/expand.gif) no-repeat center;
 }
 
 
