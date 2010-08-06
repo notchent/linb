@@ -722,11 +722,11 @@ Class("VisualJS.CodeEditor", ["linb.UI.Widget","linb.absValue"] ,{
                 }
                 case "Object.prototype":{
                     list=[
-                        buildItem("toString()","function",key,0,0,0,0,'z'),
-                        buildItem("toLocaleString()","function",key,0,0,0,0,'z'),
-                        buildItem("hasOwnProperty(key)","function",key,0,0,0,0,'z'),
-                        buildItem("propertyIsEnumerable(key)","function",key,0,0,0,0,'z'),
-                        buildItem("isPrototypeOf(obj)","function",key,0,0,0,0,'z')
+                        buildItem("toString()","function",key,0,0,0,'z'),
+                        buildItem("toLocaleString()","function",key,0,0,0,'z'),
+                        buildItem("hasOwnProperty(key)","function",key,0,0,0,'z'),
+                        buildItem("propertyIsEnumerable(key)","function",key,0,0,0,'z'),
+                        buildItem("isPrototypeOf(obj)","function",key,0,0,0,'z')
                      ];
                     break;
                 }
