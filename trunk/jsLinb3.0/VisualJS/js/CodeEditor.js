@@ -229,8 +229,7 @@ Class("VisualJS.CodeEditor", ["linb.UI.Widget","linb.absValue"] ,{
         EventHandlers:{
             onValueChanged:function(profile){},
             onRendered:function(profile){},
-            onBlockRemoved:function(profile, BracesMap){},
-            onBlockAdded:function(profile, BracesMap){},
+            onBlockChanged:function(profile, BracesMap){},
             onLinesChange:function(profile, BracesMap){},
             onGetHelpInfo:function(profile, key){}
         },
@@ -1468,50 +1467,49 @@ Class("VisualJS.CodeEditor", ["linb.UI.Widget","linb.absValue"] ,{
                     return e;
                 });
 
-                if(profile.onBlockRemoved)
-                    profile.boxing().onBlockRemoved(profile, $foldingMap);
-
-                // keep syn
-                _.filter($bracesList,function(o){
-                    return !removed[o];
-                });
-                // keep syn
-                _.filter($customTypeCache,function(o,i){
-                    return !removed[i];
-                });
-                
+                dirtied=!_.isEmpty(removed);
+                if(dirtied){
+                    // keep syn
+                    _.filter($bracesList,function(o){
+                        return !removed[o];
+                    });
+                    // keep syn
+                    _.filter($customTypeCache,function(o,i){
+                        return !removed[i];
+                    });    
+                }else{
+                    // [[ check valid
+                    for(var i=0;elem=all[i];i++){
+                        txt=elem.currentText;
+                        cls=elem.className;
+                        if(!cls || !txt){
+                            elem=null;
+                            return false;
+                        }
+    
+                        if((ch=txt.charAt(0))=="{"){
+                            if(!elem._uid || !elem.id)
+                                dirtied=true;
+                            deep++;
+                        }
+                        else if(ch=="}"){
+                            if(!elem._uid || !elem.id)
+                                dirtied=true;
+                            deep--;
+                        }
+    
+                        if(deep<0){
+                            elem=null;
+                            return false;
+                        }
+                    }
+                    if(deep!=0){
+                        elem=null;
+                        return false;
+                    }
+                    // ]]
+                }
                 //]]
-
-                // [[ check valid
-                for(var i=0;elem=all[i];i++){
-                    txt=elem.currentText;
-                    cls=elem.className;
-                    if(!cls || !txt){
-                        elem=null;
-                        return false;
-                    }
-
-                    if((ch=txt.charAt(0))=="{"){
-                        if(!elem._uid || !elem.id)
-                            dirtied=true;
-                        deep++;
-                    }
-                    else if(ch=="}"){
-                        if(!elem._uid || !elem.id)
-                            dirtied=true;
-                        deep--;
-                    }
-
-                    if(deep<0){
-                        elem=null;
-                        return false;
-                    }
-                }
-                if(deep!=0){
-                    elem=null;
-                    return false;
-                }
-                // ]]
 
                 if(dirtied){
                     // reset
@@ -1565,8 +1563,8 @@ Class("VisualJS.CodeEditor", ["linb.UI.Widget","linb.absValue"] ,{
                     }
                     elem=null;
 
-                    if(profile.onBlockAdded)
-                        profile.boxing().onBlockAdded(profile, $foldingMap);
+                    if(profile.onBlockChanged)
+                        profile.boxing().onBlockChanged(profile, $foldingMap);
 
                     rtn = true;
                 }

@@ -46,7 +46,7 @@ Class('VisualJS.JSEditor', 'linb.Com',{
                 instanceFunMap={};
 
             if(!dirtied){
-                // first, second layers'  scope id changed
+                // first, second layers'  scope id changed/added new
                 _.each(map,function(o,scope){
                     // first layer
                     if(/^[\d]+_[\d]+$/.test(o[0])){
@@ -63,6 +63,19 @@ Class('VisualJS.JSEditor', 'linb.Com',{
                         }
                     }
                 });
+
+                // braces were removed
+                var removed={};
+                 _.each(scopeMap,function(o,scope){
+                    if(!map[scope]){
+                        dirtied=1;
+                        removed[scope]=1;
+                    }
+                });
+                _.each(removed,function(o,scope){
+                    delete scopeMap[scope];
+                });
+
                 // if not dirtied, return
                 if(!dirtied)
                     return;
@@ -652,7 +665,7 @@ Class('VisualJS.JSEditor', 'linb.Com',{
             .setHost(host,"codeeditor")
             .setDock("fill")
             .onValueChanged("_codeeditor_onChange")
-            .onBlockAdded("_codeeditor_onblockchange")
+            .onBlockChanged("_codeeditor_onblockchange")
             .onLinesChange("_codeeditor_onlineschange")
             .onRendered("_codeeditor_onrender")
             .onGetHelpInfo("_codeeditor_ongett")
@@ -714,7 +727,7 @@ Class('VisualJS.JSEditor', 'linb.Com',{
                                 ns._uicode=code;
 //console.log("reset ui code:", ns._uicode);
 
-                                _.resetRun(ns.KEY+":"+ns.$linbid+":onBlockAdded", function(){
+                                _.resetRun(ns.KEY+":"+ns.$linbid+":onBlockChanged", function(){
                                     ns._buildNameSpace(true);
                                 });
                                 needRef=true;
@@ -791,7 +804,7 @@ Class('VisualJS.JSEditor', 'linb.Com',{
         },
         _codeeditor_onblockchange:function(profile, BracesMap){
             var ns=this,
-                id=ns.KEY+":"+ns.$linbid+":onBlockAdded";
+                id=ns.KEY+":"+ns.$linbid+":onBlockChanged";
             if(!_.resetRun.exists(id))
                 _.resetRun(id, function(){
                     ns.$BracesMap=BracesMap;
