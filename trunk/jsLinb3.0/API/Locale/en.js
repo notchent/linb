@@ -16033,6 +16033,18 @@ _.set(linb.Locale,["en","app"], {
                     "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
                 ]
             },
+            getFC_eventHandler:{
+                $desc:"Gets whether FusionChar has event handleror not.",
+                $rtn:'Boolean'
+            },
+            setFC_eventHandler:{
+                $desc:"Determines whether FusionChar has event handleror not.",
+                $rtn:"[self]",
+                $paras:[
+                    "value [Required] : Boolean.",
+                    "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
+                ]
+            },
             getFC_chartType:{
                 $desc:"Gets FusionChar's chart type.",
                 $rtn:'String'

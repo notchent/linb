@@ -63,6 +63,12 @@ Class("linb.UI.FusionChartFree", "linb.UI",{
         DataModel:{
             width:500,
             height:300,
+            FC_eventHandler:{
+                ini:true,
+                action:function(){
+                    this.boxing().refreshChart();
+                }
+            },
             FC_chartType:{
                 combobox:"Column2D,Column3D,Pie2D,Pie3D,Line,Bar2D,Area2D,Doughnut2D,MSColumn2D,MSColumn3D,MSLine,MSArea2D,MSBar2D,StackedColumn2D,StackedColumn3D,StackedArea2D,StackedBar2D,Candlestick,Funnel,Gantt".split(','),
                 ini:"Column2D",
@@ -208,66 +214,69 @@ Class("linb.UI.FusionChartFree", "linb.UI",{
 			return strDataXML;
         },
         _buildChartXML:function(profile, callback){
-            var ns=this, ver = ns.getFlashVersion();
+            var ns=this, prop=profile.properties, ver = ns.getFlashVersion();
             if(ver.split(',')[0]<8){
                 linb.alert(linb.getRes("inline.noFlash"));
                 return "";
             }
 
-            var prop=profile.properties,
-                serialId=profile.serialId,
-                linktag=ns._FC_LINKTAG,
-                data = _.clone(prop.FC_data), 
-                idata;
-            if(profile.onFC_PrepareXML && false === profile.boxing().onFC_PrepareXML(profile, data, callback)){}
-            else{
-                // chart or graph
-                if(idata=(data.chart||data.graph)){
-                    if(idata.set){
-                        _.arr.each(idata.set,function(o){
-                            if(o)
-                                o['@link']=encodeURIComponent(linktag+ns.KEY+'._e("'+serialId+'","'+(o['@label']||o['@name']||"")+'","'+(o['@value']||'')+'")');
-                        });
-                    }
-                    _.arr.each(["lineSet","dataset","dataSet"],function(dskey){
-                        if(idata[dskey]){
-                            var arr=[];
-                            if(idata.categories && idata.categories.category){
-                                _.arr.each(idata.categories.category,function(o){
-                                    arr.push(o['@label']||o['@name']||"");
-                                });
-                            }
-                            
-                            var ds=idata[dskey];
-                            if(!_.isArr(ds))
-                                ds=[ds];
-                            _.arr.each(ds,function(v, i){
-                                if(v){
-                                    _.arr.each(["lineSet","dataset","dataSet"],function(dskey2){
-                                        _.arr.each(v[dskey2],function(k){
-                                            if(k && k.set){
-                                                var sn=k['@seriesName']||k['@seriesname']||'';
-                                                _.arr.each(k.set,function(o,j){
-                                                    if(o)
-                                                        o['@link']=encodeURIComponent(linktag+ns.KEY+'._e("'+serialId+'","'+(arr[j]||"")+'","'+sn+'","'+(o['@value']||o['@label']||o['@name']||'')+'")');
-                                                });
-                                            }
-                                        });
-                                    });
-                                    if(v.set){
-                                        var sn=v['@seriesName']||v['@seriesname']||'';
-                                        _.arr.each(v.set,function(o,j){
-                                            if(o)
-                                                o['@link']=encodeURIComponent(linktag+ns.KEY+'._e("'+serialId+'","'+(arr[j]||"")+'","'+sn+'","'+(o['@value']||o['@label']||o['@name']||'')+'")');
-                                        });
-                                    }
-                                }
+            var data = _.clone(prop.FC_data);
+            if(prop.FC_eventHandler){
+                var serialId=profile.serialId,
+                    linktag=ns._FC_LINKTAG,
+                    idata;
+                if(profile.onFC_PrepareXML && false === profile.boxing().onFC_PrepareXML(profile, data, callback)){}
+                else{
+                    // chart or graph
+                    if(idata=(data.chart||data.graph)){
+                        if(idata.set){
+                            _.arr.each(idata.set,function(o){
+                                if(o)
+                                    o['@link']=encodeURIComponent(linktag+ns.KEY+'._e("'+serialId+'","'+(o['@label']||o['@name']||"")+'","'+(o['@value']||'')+'")');
                             });
                         }
-                    });
-                    callback(data);
-                }else
-                    callback("");
+                        _.arr.each(["lineSet","dataset","dataSet"],function(dskey){
+                            if(idata[dskey]){
+                                var arr=[];
+                                if(idata.categories && idata.categories.category){
+                                    _.arr.each(idata.categories.category,function(o){
+                                        arr.push(o['@label']||o['@name']||"");
+                                    });
+                                }
+                                
+                                var ds=idata[dskey];
+                                if(!_.isArr(ds))
+                                    ds=[ds];
+                                _.arr.each(ds,function(v, i){
+                                    if(v){
+                                        _.arr.each(["lineSet","dataset","dataSet"],function(dskey2){
+                                            _.arr.each(v[dskey2],function(k){
+                                                if(k && k.set){
+                                                    var sn=k['@seriesName']||k['@seriesname']||'';
+                                                    _.arr.each(k.set,function(o,j){
+                                                        if(o)
+                                                            o['@link']=encodeURIComponent(linktag+ns.KEY+'._e("'+serialId+'","'+(arr[j]||"")+'","'+sn+'","'+(o['@value']||o['@label']||o['@name']||'')+'")');
+                                                    });
+                                                }
+                                            });
+                                        });
+                                        if(v.set){
+                                            var sn=v['@seriesName']||v['@seriesname']||'';
+                                            _.arr.each(v.set,function(o,j){
+                                                if(o)
+                                                    o['@link']=encodeURIComponent(linktag+ns.KEY+'._e("'+serialId+'","'+(arr[j]||"")+'","'+sn+'","'+(o['@value']||o['@label']||o['@name']||'')+'")');
+                                            });
+                                        }
+                                    }
+                                });
+                            }
+                        });
+                        callback(data);
+                    }else
+                        callback("");
+                }
+            }else{
+                callback(data);
             }
         },
         _drawChart:function(profile){

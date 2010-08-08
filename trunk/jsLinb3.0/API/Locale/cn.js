@@ -15956,6 +15956,18 @@ _.set(linb.Locale,["cn","app"], {
                     "force [可选参数] : Boolean, 强制设置该属性值,即使属性已经设置为该值. 默认为[false]."
                 ]
             },
+            getFC_eventHandler:{
+                $desc:"得到FusionChar是否支持事件.",
+                $rtn:'Boolean'
+            },
+            setFC_eventHandler:{
+                $desc:"设置FusionChar是否支持事件, 并刷新界面.",
+                $rtn:"[self]",
+                $paras:[
+                    "value [必需参数] : Boolean.",
+                    "force [可选参数] : Boolean, 强制设置该属性值,即使属性已经设置为该值. 默认为[false]."
+                ]
+            },
             getFC_chartType:{
                 $desc:"得到 FusionChar 的图表类型.",
                 $rtn:'String'
