@@ -2348,7 +2348,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
             beforeCellActive:function(profile, cell){},
             afterCellActive:function(profile, cell){},
 
-            beforeIniEditor:function(profile, cell, cellNode){},
+            beforeIniEditor:function(profile, cell, cellNode, pNode){},
             beforeCellUpdated:function(profile, cell, options){},
             afterCellUpdated:function(profile, cell, options){},
 
@@ -3137,302 +3137,292 @@ editorDropListHeight
         _editCell:function(profile, cellId){
             var cell = typeof cellId=='string'?profile.cellMap[cellId]:cellId;
             if(!cell)return;
-            cellId=cell._serialId;
             if(profile.box.getCellPro(profile, cell,'disabled') || profile.box.getCellPro(profile, cell,'readonly'))return ;
-                
+            
+            // real cellId
+            cellId=cell._serialId;
             var cellNode = profile.getSubNode('CELL', cellId),
                 colId = cell._col.id;
 
-            var editor = profile.$curEditor;
             //clear the prev editor
-            if(editor)
-                _.tryF(editor.undo,[],editor);
+            var editor = profile.$curEditor;
+            if(editor)_.tryF(editor.undo,[],editor);
             editor=null;
 
-            //if beforeIniEditor doesn't return an editor
             var grid = this,
                 baseNode = profile.getSubNode('SCROLL'),
                 box=profile.box,
-                getPro=function(key){return box.getCellPro(profile, cell, key)},
-                type=getPro('type'),
-                t;
+                getPro=function(key){return box.getCellPro(profile, cell, key)};
 
             // 1. customEditor in cell/row or header
             editor = profile.box.getCellPro(profile, cell,'customEditor');
             if(editor && typeof editor.iniEditor=='function'){
                 editor.iniEditor(profile, cell, cellNode);
                 _.tryF(editor.activate,[],editor);
-                return;
-            }
-            
-            // 2. for checkbox/lable,button type
-            if(type=='checkbox'){
-                cellNode.first().focus();
-                return;
-            }else if(type=='button'||type=='label')
-                return;
-
-            // 3. for custom, datetime 
-            if(type=='custom'||type=='datetime')
-                return;
-            // 4. try to get editor from cache
-            //triggers beforeIniEditor event once only if the editor is a linb.UI.ComboInput/Input.
-            if(profile.$cache_editor[type])
-                editor=profile.$cache_editor[type];
-            //create editor
-            else{
-                // 5. beforeIniEditor, return false or a editor(linb.UI object)
+            }else{
+                // 2. beforeIniEditor
+                //      returns an editor(linb.UI object)
+                //      or, sets $editorValue
                 if(profile.beforeIniEditor){
-                    editor=profile.boxing().beforeIniEditor(profile, cell, cellNode);
-                    //handler editor by yourself
+                    editor=profile.boxing().beforeIniEditor(profile, cell, cellNode, baseNode);
+                    // if return false, dont set $curEditor
                     if(editor===false)
                         return;
                 }
 
-                // 6. create one
-                if(!editor || !editor['linb.UI'])
-                    editor=new linb.UI.ComboInput({dirtyMark:false,cachePopWnd:false,left:-1000,top:-1000,position:'absolute',visibility:'hidden',zIndex:100});
-                switch(type){
-                    case 'number':
-                        editor.setType(type);
-                        // no precission
-                        editor.setPrecision(-1);
-                    case 'spin':
-                    case 'currency':
-                        editor.setType(type);
-                        break;
-                    case 'progress':
-                        editor.setType('spin').setMax(1).setMin(0).setPrecision(4).setIncrement(0.01);
-                        break;
-                    case 'input':
-                        editor.setType('none');
-                        break;
-                    case 'textarea':
-                        editor.setType('none').setMultiLines(true).setCommandBtn('save').onCommand(function(p){
-                            p.boxing().hide();
-                        });
-                        _.tryF(editor.setResizer,[true],editor);
-                        break;
-                    case 'listbox':
-                    case 'combobox':
-                    case 'helpinput':
-                    case 'time':
-                    case 'timepicker':
-                    case 'date':
-                    case 'datepicker':
-                    case 'color':
-                    case 'colorpicker':
-                    case 'getter':
-                    case 'popbox':
-                    case 'cmdbox':
-                        editor.setType(type).beforeComboPop(function(pro, pos, e, src){
-                            var cell=pro.$cell,event=profile.box.getCellPro(profile, cell, 'event');
-                            if(profile.box.getCellPro(profile, cell,'disabled'))
-                                return false;
-                            if(typeof event == 'function')
-                                return event.call(profile._host||profile, profile, cell, pro, pos,e,src);
-                            else
-                                return profile.boxing().beforeComboPop(profile, cell, pro, pos, e, src);
-                        });
-                        break;
-                }
-                baseNode.append(editor);
-                //cache the editor
-                profile.$cache_editor[type] = editor;
-            }
-
-            //set properities
-            switch(type){
-                case 'listbox':
-                case 'combobox':
-                case 'helpinput':
-                    // set properties
-                    if(t=getPro('editorListItems')){
-                        editor.setListKey(null);
-                        editor.setItems(t);
-                    }else if(t=getPro('editorListKey')) {
-                        editor.setItems(null);
-                        editor.setListKey(t);
+                // if beforeIniEditor doesnt return an editor
+                if(!editor || !editor['linb.UI']){
+                    var type=getPro('type')||'label',
+                        editorProperties = getPro('editorProperties'),
+                        editorEvents = getPro('editorEvents'),
+                        editorFormat = getPro('editorFormat'),
+                        editorMask = getPro('editorMask'),
+                        editorReadonly = getPro('editorReadonly'),
+                        editorDropListWidth = getPro('editorDropListWidth'),
+                        editorDropListHeight = getPro('editorDropListHeight'),
+                        t,oldProp;
+                    
+                    // 3. for checkbox/lable,button type
+                    if(type=='checkbox'){
+                        cellNode.first().focus();
+                        return;
+                    }else if(type=='button'||type=='label')
+                        return;
+    
+                    // 4. try to get editor from cache
+                    if(profile.$cache_editor[type])
+                        editor=profile.$cache_editor[type];
+                    // 5. create a ComboInput Editor, and cache it
+                    else{
+                        editor=new linb.UI.ComboInput({dirtyMark:false,cachePopWnd:false,left:-1000,top:-1000,position:'absolute',visibility:'hidden',zIndex:100});
+                        switch(type){
+                            case 'number':
+                                editor.setType(type);
+                                // no precission
+                                editor.setPrecision(-1);
+                            case 'spin':
+                            case 'currency':
+                                editor.setType(type);
+                                break;
+                            case 'progress':
+                                editor.setType('spin').setMax(1).setMin(0).setPrecision(4).setIncrement(0.01);
+                                break;
+                            case 'input':
+                                editor.setType('none');
+                                break;
+                            case 'textarea':
+                                editor.setType('none').setMultiLines(true).setCommandBtn('save').onCommand(function(p){
+                                    p.boxing().hide();
+                                });
+                                _.tryF(editor.setResizer,[true],editor);
+                                break;
+                            case 'listbox':
+                            case 'combobox':
+                            case 'helpinput':
+                            case 'time':
+                            case 'timepicker':
+                            case 'date':
+                            case 'datepicker':
+                            case 'color':
+                            case 'colorpicker':
+                            case 'getter':
+                            case 'popbox':
+                            case 'cmdbox':
+                                editor.setType(type).beforeComboPop(function(pro, pos, e, src){
+                                    var cell=pro.$cell,event=profile.box.getCellPro(profile, cell, 'event');
+                                    if(profile.box.getCellPro(profile, cell,'disabled'))
+                                        return false;
+                                    if(typeof event == 'function')
+                                        return event.call(profile._host||profile, profile, cell, pro, pos,e,src);
+                                    else
+                                        return profile.boxing().beforeComboPop(profile, cell, pro, pos, e, src);
+                                });
+                                break;
+                        }
+                        baseNode.append(editor);
+                        //cache the stantdard editor
+                        profile.$cache_editor[type] = editor;
                     }
-                    break;
-                case 'cmdbox':
-                case 'popbox':
-                    // reset Caption
-                    if(editor.setCaption)
-                        editor.setCaption(cell.caption||"");
-            }
-
-            var editorProperties=getPro('editorProperties'),
-                editorEvents=getPro('editorEvents'),
-            
-                editorFormat = getPro('editorFormat'),
-                editorMask =  getPro('editorMask'),
-                editorReadonly = getPro('editorReadonly'),
-                editorDropListWidth = getPro('editorDropListWidth'),
-                editorDropListHeight = getPro('editorDropListHeight');
-
-            if(editor.setInputReadonly && editorReadonly){
-                editor.setInputReadonly(true);
-            }
-            if(editor.setDropListWidth && editorDropListWidth){
-                editor.setDropListWidth(editorDropListWidth);
-            }
-            if(editor.setDropListHeight && editorDropListHeight){
-                editor.setDropListHeight(editorDropListHeight);
-            }
-            if(editorFormat){
-                if(typeof editorFormat=='function' && editor.beforeFormatCheck)
-                    editor.beforeFormatCheck(editorFormat);
-                else if(typeof editorFormat=='string' && editor.setValueFormat)
-                    editor.setValueFormat(editorFormat);
-            }
-            if(editorMask && editor.setMask){
-                editor.setMask(editorMask);
-            }
-            var oldProp;
-            if(editorProperties){
-                oldProp={}
-                var h=profile.getProperties();
-                _.each(editorProperties,function(o,i){
-                    oldProp=h[i];
-                });
-                editor.setProperties(editorProperties);
-            }
-            if(editorEvents){
-                editor.setEvents(editorEvents);
-            }
-            
-            // clear for valueFormat
-            editor.resetValue();
-            //$editorValue must be set in beforeIniEditor
-            editor.setValue(cell.$editorValue||cell.value,true);
-            delete cell.$editorValue;
-
-            //$tag
-            if(cell.$tag){
-                if(editor.setCaption)editor.setCaption(cell.$tag);
-                else if(editor.setValue)editor.setValue(cell.$tag);
-            }
-
-            //give a reference
-            editor.get(0).$cell = cell;
-            editor.get(0)._smartnav=true;
-            //undo function is a must
-            editor.undo=function(){
-                var editor=this;
-                // for ie's setBlurTrigger doesn't trigger onchange event
-                editor.getSubNode('INPUT').onBlur(true);
-
-                profile.$curEditor=null;
-
-                editor.getRoot().setBlurTrigger(profile.$linbid);
-                if(!profile.properties.directInput){
-                    editor.afterUIValueSet(null).beforeNextFocus(null).onCancel(null);                    
-                    editor.setValue('',true);
-                }
-                // clear those setting
-                if(editorFormat){
-                    if(editor.beforeFormatCheck)editor.beforeFormatCheck(null);
-                    if(editor.setValueFormat)editor.setValueFormat('');
-                }
-                if(editorMask)
-                    if(editor.setMask)editor.setMask('');
-                if(editorReadonly)
-                    if(editor.setInputReadonly)editor.setInputReadonly(false);
-                if(editorDropListWidth)
-                    if(editor.setDropListWidth)editor.setDropListWidth(0);
-                if(editorDropListHeight)
-                    if(editor.setDropListHeight)editor.setDropListHeight(0);
-                if(oldProp){
-                    editor.setProperties(oldProp);
-                    oldProp=null;
-                }
-                if(editorEvents){
-                    var h={};
-                    _.each(editorEvents,function(o,i){
-                        h[i]=null;
+    
+                    //set properities
+                    switch(type){
+                        case 'listbox':
+                        case 'combobox':
+                        case 'helpinput':
+                            // set properties
+                            if(t=getPro('editorListItems')){
+                                editor.setListKey(null);
+                                editor.setItems(t);
+                            }else if(t=getPro('editorListKey')) {
+                                editor.setItems(null);
+                                editor.setListKey(t);
+                            }
+                            break;
+                        case 'cmdbox':
+                        case 'popbox':
+                            // reset Caption
+                            if(editor.setCaption)
+                                editor.setCaption(cell.caption||"");
+                    }
+    
+                    if(editor.setInputReadonly && editorReadonly)
+                        editor.setInputReadonly(true);
+                    if(editor.setDropListWidth && editorDropListWidth)
+                        editor.setDropListWidth(editorDropListWidth);
+                    if(editor.setDropListHeight && editorDropListHeight)
+                        editor.setDropListHeight(editorDropListHeight);
+                    if(editorFormat){
+                        if(typeof editorFormat=='function' && editor.beforeFormatCheck)
+                            editor.beforeFormatCheck(editorFormat);
+                        else if(typeof editorFormat=='string' && editor.setValueFormat)
+                            editor.setValueFormat(editorFormat);
+                    }
+                    if(editorMask && editor.setMask)
+                        editor.setMask(editorMask);
+                    if(editorProperties){
+                        oldProp={}
+                        var h=profile.getProperties();
+                        _.each(editorProperties,function(o,i){
+                            oldProp=h[i];
+                        });
+                        editor.setProperties(editorProperties);
+                    }
+                    if(editorEvents)
+                        editor.setEvents(editorEvents);
+    
+                    // clear for valueFormat, setValue maybe cant set value because of valueFormat
+                    editor.resetValue();
+                    //$editorValue must be set in beforeIniEditor
+                    editor.setValue(cell.$editorValue||cell.value,true);
+                    delete cell.$editorValue;
+    
+                    //$tag for compatible
+                    if(cell.$tag){
+                        if(editor.setCaption)editor.setCaption(cell.$tag);
+                        else if(editor.setValue)editor.setValue(cell.$tag);
+                    }
+                    //give a reference
+                    editor.get(0).$cell = cell;
+                    editor.get(0)._smartnav=true;
+    
+                    //undo function is a must
+                    editor.undo=function(){
+                        var editor=this;
+                        // for ie's setBlurTrigger doesn't trigger onchange event
+                        editor.getSubNode('INPUT').onBlur(true);
+        
+                        profile.$curEditor=null;
+        
+                        editor.getRoot().setBlurTrigger(profile.$linbid);
+                        if(!profile.properties.directInput){
+                            editor.afterUIValueSet(null).beforeNextFocus(null).onCancel(null);                    
+                            editor.setValue('',true);
+                        }
+                        // clear those setting
+                        if(editorFormat){
+                            if(editor.beforeFormatCheck)editor.beforeFormatCheck(null);
+                            if(editor.setValueFormat)editor.setValueFormat('');
+                        }
+                        if(editorMask)
+                            if(editor.setMask)editor.setMask('');
+                        if(editorReadonly)
+                            if(editor.setInputReadonly)editor.setInputReadonly(false);
+                        if(editorDropListWidth)
+                            if(editor.setDropListWidth)editor.setDropListWidth(0);
+                        if(editorDropListHeight)
+                            if(editor.setDropListHeight)editor.setDropListHeight(0);
+                        if(oldProp){
+                            editor.setProperties(oldProp);
+                            oldProp=null;
+                        }
+                        if(editorEvents){
+                            var h={};
+                            _.each(editorEvents,function(o,i){
+                                h[i]=null;
+                            });
+                            editor.setEvents(h);
+                        }
+                        
+                        delete editor.get(0).$cell;
+                        delete editor.get(0)._smartnav;
+                        //don't use disply:none, firfox has many bugs about Caret or renderer
+                        editor.setVisibility('hidden');
+                    };
+        
+                    //editor change value, update cell value
+                    editor
+                    .afterUIValueSet(function(pro,oV,nV){
+                        var type=getPro('type'),_$caption;
+                        switch(type){
+                            case 'number':
+                            case 'spin':
+                                nV=parseFloat(nV)||0;
+                                break;
+                            case 'currency':
+                                nV=parseFloat(nV.replace(/[^\d.]/g,''))||0;
+                                break;
+                            case 'cmdbox':
+                            case 'popbox':
+                            case 'combobox':
+                            case 'listbox':
+                            case 'helpinput':
+                                _$caption=pro.boxing().getShowValue();
+                                break;
+                        }
+                        var options={value:nV};
+        
+                        if(_.isDefined(_$caption))
+                            options.caption=options._$caption=_$caption;
+        
+                        if(pro.properties.hasOwnProperty("tagVar"))
+                            options.tagVar=pro.properties.tagVar;
+        
+                        grid._updCell(profile, cellId, options, profile.properties.dirtyMark, true);
+                    })
+                    .beforeNextFocus(function(pro, e){
+                        if(editor){
+                            _.tryF(editor.undo,[],editor);
+                            var hash=linb.Event.getEventPara(e);
+                            if(hash.keyCode=='enter')hash.keyCode='down';
+        
+                            profile.getSubNode('CELLA', cell._serialId).onKeydown(true,hash);
+                        }
+                        //prevent
+                        return false;
+                    })
+                    .onCancel(function(){
+                        if(editor)
+                            _.tryF(editor.undo,[],editor);                
+                    })
+                    .getRoot().setBlurTrigger(profile.$linbid, function(){
+                        if(editor)
+                            _.tryF(editor.undo,[],editor);
+                        return false;
                     });
-                    editor.setEvents(h);
+    
+                    var absPos=cellNode.offset(null, baseNode),
+                        size = cellNode.cssSize();
+                    //show editor
+                    if(type=='textarea'){
+                        editor.setWidth(Math.max(200,size.width+3)).setHeight(Math.max(100,size.height+2))
+                        .reLayout(true,true)
+                        .reBoxing()
+                        .popToTop(cellNode, 4, baseNode);
+                    }else{
+                        editor.setWidth(size.width+3).setHeight(size.height+2).reLayout(true);
+                        editor.reBoxing().show((absPos.left-1) + 'px',(absPos.top-1) + 'px');
+                    }
+                    editor.setVisibility("visible");
+        
+                    //activate editor
+                    _.asyRun(function(){
+                        _.tryF(editor&&editor.activate,[],editor);
+                    });
                 }
-                
-                delete editor.get(0).$cell;
-                delete editor.get(0)._smartnav;
-                //don't use disply:none, firfox has many bugs about Caret or renderer
-                editor.setVisibility('hidden');
-            };
-
-            //editor change value, update cell value
-            editor
-            .afterUIValueSet(function(pro,oV,nV){
-                var type=getPro('type'),_$caption;
-                switch(type){
-                    case 'number':
-                    case 'spin':
-                        nV=parseFloat(nV)||0;
-                        break;
-                    case 'currency':
-                        nV=parseFloat(nV.replace(/[^\d.]/g,''))||0;
-                        break;
-                    case 'cmdbox':
-                    case 'popbox':
-                    case 'combobox':
-                    case 'listbox':
-                    case 'helpinput':
-                        _$caption=pro.boxing().getShowValue();
-                        break;
-                }
-                var options={value:nV};
-
-                if(_.isDefined(_$caption))
-                    options.caption=options._$caption=_$caption;
-
-                if(pro.properties.hasOwnProperty("tagVar"))
-                    options.tagVar=pro.properties.tagVar;
-
-                grid._updCell(profile, cellId, options, profile.properties.dirtyMark, true);
-            })
-            .beforeNextFocus(function(pro, e){
-                if(editor){
-                    _.tryF(editor.undo,[],editor);
-                    var hash=linb.Event.getEventPara(e);
-                    if(hash.keyCode=='enter')hash.keyCode='down';
-
-                    profile.getSubNode('CELLA', cell._serialId).onKeydown(true,hash);
-                }
-                //prevent
-                return false;
-            })
-            .onCancel(function(){
-                if(editor)
-                    _.tryF(editor.undo,[],editor);                
-            })
-            .getRoot().setBlurTrigger(profile.$linbid, function(){
-                if(editor)
-                    _.tryF(editor.undo,[],editor);
-                return false;
-            });
-
-            var absPos=cellNode.offset(null, baseNode),
-                size = cellNode.cssSize();
-            //show editor
-            if(type=='textarea'){
-                editor.setWidth(Math.max(200,size.width+3)).setHeight(Math.max(100,size.height+2))
-                .reLayout(true,true)
-                .reBoxing()
-                .popToTop(cellNode, 4, baseNode);
-            }else{
-                editor.setWidth(size.width+3).setHeight(size.height+2).reLayout(true);
-                editor.reBoxing().show((absPos.left-1) + 'px',(absPos.top-1) + 'px');
             }
-            editor.setVisibility("visible");
 
             //give a reference
             profile.$curEditor=editor;
-
-            //activate editor
-            _.asyRun(function(){
-                _.tryF(editor&&editor.activate,[],editor);
-            });
         },
         _ajdustBody:function(profile){
             _.resetRun(profile.$linbid+'4',function(){

@@ -463,6 +463,7 @@ Class('VisualJS.Designer', 'linb.Com',{
                     });
                     if(b)profile.boxing().rePosSize();
                 }
+                return false;
             })
             .onFocusChange(function(profile, index){
                 if(this.tempSelected){

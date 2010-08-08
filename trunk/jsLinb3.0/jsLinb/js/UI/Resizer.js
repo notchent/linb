@@ -34,7 +34,7 @@ Class("linb.UI.Resizer","linb.UI",{
         this.addTemplateKeys(['HANDLER','HIDDEN','MOVE','L','R','T','B','LT','RT','LB','RB']);
         _.each({
             // add resizer to linb.Dom plugin
-            addResizer:function(properties, onUpdate){
+            addResizer:function(properties, onUpdate, onChange){
                 var target=linb([this.get(0)]);
                 properties=properties||{};
                 _.merge(properties,{
@@ -45,6 +45,7 @@ Class("linb.UI.Resizer","linb.UI",{
 
                 //set event
                 if(onUpdate) r.onUpdate(onUpdate);
+                if(onChange) r.onChange(onChange);
                 return r;
             },
             removeResizer:function(){
@@ -412,7 +413,8 @@ Class("linb.UI.Resizer","linb.UI",{
         },
         EventHandlers:{
             onDblclick:function(profile, e, src){},
-            onUpdate:function(profile, target, size, cssPos){}
+            onUpdate:function(profile, target, size, cssPos){},
+            onChange:function(profile, proxy){}
         },
         _dynamicTemplate:function(profile){
             var pro = profile.properties,size,pos,temp,
@@ -544,11 +546,8 @@ Class("linb.UI.Resizer","linb.UI",{
         RenderTrigger:function(){
             var self=this;
             linb.setNodeData(self.renderId,'zIndexIgnore',1)
-            // set ini update function
-            if(!self.onUpdate)
-                self.onUpdate = self.box.onUpdate;
         },
-        onUpdate:function(profile, target, size, cssPos){
+        _onUpdate:function(profile, target, size, cssPos){
             if(target){
                 if(size)target.widthBy(size.width,true).heightBy(size.height,true);
                 if(cssPos){
@@ -630,11 +629,13 @@ Class("linb.UI.Resizer","linb.UI",{
                     x= profile.o_w+profile.o_pos.left - w;
                 }
                 profile.proxy.width(w).left(x);
+                if(profile.onChange)profile.boxing().onChange(profile,profile.proxy);
             }else if(o.right){
                 w = profile.o_w + os.x;
                 if(w<t.minWidth)w=t.minWidth;
                 else if(w>t.maxWidth)w=t.maxWidth;
                 profile.proxy.width(w);
+                if(profile.onChange)profile.boxing().onChange(profile,profile.proxy);
             }
             if(o.left || o.right){
                 //resize inner region block
@@ -656,11 +657,13 @@ Class("linb.UI.Resizer","linb.UI",{
                     y=profile.o_h+profile.o_pos.top - h;
                 }
                 profile.proxy.height(h).top(y);
+                if(profile.onChange)profile.boxing().onChange(profile,profile.proxy);
             }else if(o.bottom){
                 h= profile.o_h + os.y;
                 if(h<t.minHeight)h=t.minHeight;
                 else if(h>t.maxHeight)h=t.maxHeight;
                 profile.proxy.height(h);
+                if(profile.onChange)profile.boxing().onChange(profile,profile.proxy);
             }
             if(o.top || o.bottom){
                 //resize inner region block
@@ -675,6 +678,7 @@ Class("linb.UI.Resizer","linb.UI",{
                 x = profile.o_pos.left + os.x;
                 y = profile.o_pos.top + os.y;
                 profile.proxy.top(y).left(x);
+                if(profile.onChange)profile.boxing().onChange(profile,profile.proxy);
             }
         },
         _onDragstop:function(profile, e, src, args){
@@ -687,7 +691,10 @@ Class("linb.UI.Resizer","linb.UI",{
                 cssPos = o.cssPos();
                 pos = {left :cssPos.left-profile.o_pos.left,  top :cssPos.top-profile.o_pos.top};
             }
-            profile.boxing().onUpdate(profile, profile._target, size, pos);
+            if(profile.onUpdate && false===profile.boxing().onUpdate(profile, profile._target, size, pos)){}
+            else{
+                profile.box._onUpdate(profile, profile._target, size, pos);
+            }
 
             if(profile.properties._attached){
                 if(linb.browser.ie6)profile._target.ieRemedy();

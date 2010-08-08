@@ -2226,7 +2226,8 @@ _.set(linb.Locale,["cn","app"], {
                 $rtn:"linb.UI.Resizer",
                 $paras:[
                     "properties [可选参数] : 键值对, 边框的属性.",
-                    "onUpdate [可选参数] : Function, 大小修改后的回调函数."
+                    "onUpdate [可选参数] : Function, 大小修改后的回调函数.",
+                    "onChange [可选参数] : Function, 大小试图改变的回调函数.",
                 ],
                 $snippet:[
                     "//You can resize the following div: \n" +
@@ -15211,7 +15212,8 @@ _.set(linb.Locale,["cn","app"], {
                 $paras:[
                     "profile : linb.UIProfile.",
                     "cell : Object, 单元格对象.",
-                    "cellNode: linb.Dom, 单元格节点"
+                    "cellNode: linb.Dom, 单元格节点",
+                    "pNode: linb.Dom, 编辑器的容器节点"
                 ],
                 $snippet:[
                     "var id='linb.temp.grid61-1'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -16036,6 +16038,13 @@ _.set(linb.Locale,["cn","app"], {
                     "profile : linb.UIProfile.",
                     "json: Object, json数据.",
                     "callback : Function , 回调函数 [fun](xml)."
+                ]
+            },
+            onFC_SetXML:{
+                $desc:"在设置xml数据到 FusionChart 之后前触发.",
+                $paras:[
+                    "profile : linb.UIProfile.",
+                    "xml: String, xml 字符串."
                 ]
             }
         }

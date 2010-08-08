@@ -133,7 +133,8 @@ Class("linb.UI.FusionChartFree", "linb.UI",{
         },
         EventHandlers:{
             onFC_Click:function(profile, args){},
-            onFC_PrepareXML:function(profile, json, callback){}
+            onFC_PrepareXML:function(profile, json, callback){},
+            onFC_SetXML:function(profile, xml){}
         },
         getFlashVersion:function(){
           if(linb.browser.ie){
@@ -300,6 +301,7 @@ Class("linb.UI.FusionChartFree", "linb.UI",{
                     xml += '</object>';
                 }
                 profile.getSubNode('BOX').html(xml, false);
+                if(profile.onFC_SetXML)profile.boxing().onFC_SetXML(profile,xml);
             });
         },
         _idtag:"linb_UI_FCF_", 

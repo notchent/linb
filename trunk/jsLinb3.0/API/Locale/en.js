@@ -2215,7 +2215,8 @@ _.set(linb.Locale,["en","app"], {
                 $rtn:"linb.UI.Resizer",
                 $paras:[
                     "properties [Optional] : key/value pairs, the properties of border.",
-                    "onUpdate [Optional] : Function, the callback function."
+                    "onUpdate [Optional] : Function, the callback function.",
+                    "onChange[Optional] : Function, the callback function."
                 ],
                 $snippet:[
                     "//You can resize the following div: \n" +
@@ -15084,7 +15085,8 @@ _.set(linb.Locale,["en","app"], {
                 $paras:[
                     "profile : linb.UIProfile.",
                     "cell : Object. cell object.",
-                    "cellNode : linb.Dom, cell's dom object."
+                    "cellNode : linb.Dom, cell's dom object.",
+                    "pNode : linb.Dom, the Editor's parent Node."
                 ]
             },
             onNewLineTriggerred:{
@@ -16113,6 +16115,13 @@ _.set(linb.Locale,["en","app"], {
                     "profile : linb.UIProfile.",
                     "json: Object, json.",
                     "callback : Function ,callback function [fun](xml)."
+                ]
+            },
+            onFC_SetXML:{
+                $desc:"Fired when the control sets XML data.",
+                $paras:[
+                    "profile : linb.UIProfile.",
+                    "xml: String, xml string."
                 ]
             }
         }
