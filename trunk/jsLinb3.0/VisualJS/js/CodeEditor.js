@@ -2310,19 +2310,13 @@ var t1=_();
             profile.$initialized=false;
             var codeType=profile.properties.codeType;
             // load codemirror
-             var oeditor = new CodeMirror(profile.getSubNode('BOX').get(0), {
+            var options={
                 height:'100%',
                 indentUnit:4,
                 tabMode:'shift',
+                
                 path: "codemirror/",
-                parserfile: 
-codeType=='js'?["js/tokenizejavascript.js", "js/parsejavascript.js"]
-:codeType=='css'?["js/parsecss.js"]
-:codeType=='php'?["js/parsexml.js", "js/parsecss.js", "contrib/php/js/tokenizephp.js",
-                    "js/tokenizejavascript.js", "js/parsejavascript.js", 
-                    "contrib/php/js/parsephp.js", "contrib/php/js/parsephphtmlmixed.js"]
-:codeType=='html'?["js/parsexml.js", "js/parsecss.js", "js/tokenizejavascript.js", "js/parsejavascript.js", "js/parsehtmlmixed.js"]
-:["js/parsedummy.js"],
+
                 stylesheet:  
 codeType=='js'?["codemirror/css/jscolors.css"]
 :codeType=='css'?["codemirror/css/csscolors.css"]
@@ -2581,7 +2575,21 @@ codeType=='js'?["codemirror/css/jscolors.css"]
                         hideSuggestion();
                     }
                 }
-             });
+            };
+            if(linb.debug){
+                options.parserfile=codeType=='js'?["js/tokenizejavascript.js", "js/parsejavascript.js"]
+                                    :codeType=='css'?["js/parsecss.js"]
+                                    :codeType=='php'?["js/parsexml.js", "js/parsecss.js", "contrib/php/js/tokenizephp.js",
+                                                        "js/tokenizejavascript.js", "js/parsejavascript.js", 
+                                                        "contrib/php/js/parsephp.js", "contrib/php/js/parsephphtmlmixed.js"]
+                                    :codeType=='html'?["js/parsexml.js", "js/parsecss.js", "js/tokenizejavascript.js", "js/parsejavascript.js", "js/parsehtmlmixed.js"]
+                                    :["js/parsedummy.js"];
+            }else{
+                options.basefiles=[],
+                options.parserfile=[(codeType=='js'?"js":codeType=='css'?"css":codeType=='php'?"php":codeType=='html'?"html":"dummy")+".js"];
+            }
+
+            var oeditor = new CodeMirror(profile.getSubNode('BOX').get(0), options);
              // set those here
              oeditor.win._prop=profile;
              profile.$codemirror=oeditor;
