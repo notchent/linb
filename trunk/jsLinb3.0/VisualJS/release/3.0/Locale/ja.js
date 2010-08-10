@@ -123,8 +123,8 @@
         svtips:'ソースコードの構造を表示します',
         dvtips:'UIウィジェットを配置して画面設計を行います',
         codeerr:'以下のエラーにより、コードを貼り付けられません: $0!',
-        specifytype："指定されたタイプ",
-        clickapi："オープンAPIのウィンドウ"
+        specifytype:"指定されたタイプ",
+        clickapi:"オープンAPIのウィンドウ"
     },
     pageEditor:{
         check:"シンタックスチェック",
