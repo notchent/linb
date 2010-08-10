@@ -110,6 +110,7 @@ Class("linb.UI.Resizer","linb.UI",{
                             if(profile.onMove && (l!==null||t!==null))
                                 instance.onMove(profile,l,t,null,null);
                         }
+                        return false;
                     };
                     update.profile = o;
 
@@ -128,8 +129,6 @@ Class("linb.UI.Resizer","linb.UI",{
                     var target = o.getSubNode('BORDER');
                     if(!target.$getResizer())return;
                     target.removeResizer();
-
-                    delete o.$resizer.get(0).$parentUIProfile;
                     delete o.$resizer;
                 });
             }
