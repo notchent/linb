@@ -2585,7 +2585,7 @@ codeType=='js'?["codemirror/css/jscolors.css"]
                                     :codeType=='html'?["js/parsexml.js", "js/parsecss.js", "js/tokenizejavascript.js", "js/parsejavascript.js", "js/parsehtmlmixed.js"]
                                     :["js/parsedummy.js"];
             }else{
-                options.basefiles=[],
+                options.basefiles=[];
                 options.parserfile=[(codeType=='js'?"js":codeType=='css'?"css":codeType=='php'?"php":codeType=='html'?"html":"dummy")+".js"];
             }
 
