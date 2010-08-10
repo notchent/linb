@@ -697,8 +697,9 @@ Class('App', 'linb.Com',{
                     maxHeight : 800,
                     handlerSize : 6
                 },function(profile,target,size,pos){
-                    profile.box.onUpdate(profile,target,size,pos);
+                    profile.box._onUpdate(profile,target,size,pos);
                     icon.first().cssSize(target.cssSize());
+                    return false;
                 });
                 linb('panePic').append(icon);
             }
@@ -781,7 +782,8 @@ Class('App', 'linb.Com',{
                     maxHeight : 800,
                     handlerSize : 6
                 },function(profile,target,size,pos){
-                    profile.box.onUpdate(profile,target,size,pos);
+                    profile.box._onUpdate(profile,target,size,pos);
+                    return false;
                 });
                 linb('panePic').append(crop);
             }
