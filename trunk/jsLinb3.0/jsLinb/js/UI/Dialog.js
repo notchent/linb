@@ -186,6 +186,11 @@ Class("linb.UI.Dialog","linb.UI.Widget",{
                     $order:2,
                     tagName: 'div',
                     className:'uibar-cmdr',
+                    INFO:{
+                        className:'uicmd-info',
+                        style:'{infoDisplay}',
+                        $order:1
+                    },
                     OPT:{
                         className:'uicmd-opt',
                         style:'{optDisplay}',
@@ -312,8 +317,8 @@ Class("linb.UI.Dialog","linb.UI.Widget",{
         Behaviors:{
             DroppableKeys:['PANEL'],
             DraggableKeys:['LAND'],
-            HoverEffected:{OPT:'OPT', PIN:'PIN',MIN:'MIN',MAX:'MAX',RESTORE:'RESTORE',CLOSE:'CLOSE',REFRESH:'REFRESH',LAND:'LAND'},
-            ClickEffected:{OPT:'OPT', PIN:'PIN',MIN:'MIN',MAX:'MAX',RESTORE:'RESTORE',CLOSE:'CLOSE',REFRESH:'REFRESH',LAND:'LAND'},
+            HoverEffected:{INFO:'INFO', OPT:'OPT', PIN:'PIN',MIN:'MIN',MAX:'MAX',RESTORE:'RESTORE',CLOSE:'CLOSE',REFRESH:'REFRESH',LAND:'LAND'},
+            ClickEffected:{INFO:'INFO', OPT:'OPT', PIN:'PIN',MIN:'MIN',MAX:'MAX',RESTORE:'RESTORE',CLOSE:'CLOSE',REFRESH:'REFRESH',LAND:'LAND'},
             onMousedown:function(profile, e){
                 profile.box._active(profile);
             },
@@ -466,6 +471,11 @@ if(linb.browser.ie){
                     profile.box._restore(profile);
                 }
             },
+            INFO:{
+                onClick:function(profile, e, src){
+                    profile.boxing().onShowInfo(profile, e, src);
+                }
+            },
             OPT:{
                 onClick:function(profile, e, src){
                     profile.boxing().onShowOptions(profile, e, src);
@@ -542,6 +552,12 @@ if(linb.browser.ie){
                         o.css('display','none');
                 }
             },
+            infoBtn:{
+                ini:false,
+                action:function(v){
+                    this.getSubNode('INFO').css('display',v?'':'none');
+                }
+            },
             optBtn:{
                 ini:false,
                 action:function(v){
@@ -609,6 +625,7 @@ if(linb.browser.ie){
             onRefresh:function(profile){},
             onShow:function(profile){},
             beforeClose:function(profile){},
+            onShowInfo:function(profile, e, src){},
             onShowOptions:function(profile, e, src){}
         },
         RenderTrigger:function(){
@@ -631,6 +648,7 @@ if(linb.browser.ie){
                 nodisplay='display:none';
             data.minDisplay = data.minBtn?'':nodisplay;
             data.maxDisplay = data.maxBtn?'':nodisplay;
+            data.infoDisplay = data.infoBtn?'':nodisplay;
             data.optDisplay = data.optBtn?'':nodisplay;
             data.closeDisplay = data.closeBtn?'':nodisplay;
             data.pinDisplay = data.pinBtn?'':nodisplay;

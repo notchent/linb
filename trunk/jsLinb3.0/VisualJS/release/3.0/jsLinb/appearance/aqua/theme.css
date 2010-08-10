@@ -79,11 +79,11 @@ html, .uibg-base{
     background-image:url(Public/button.gif);
 }
 
-.uicmd-close, .uicmd-opt, .uicmd-pin, .uicmd-refresh,
+.uicmd-close, .uicmd-info, .uicmd-opt, .uicmd-pin, .uicmd-refresh,
 .uicmd-pop, .uicmd-land, .uicmd-min, .uicmd-max, .uicmd-restore,
 .uicmd-check, .uicmd-radio, .uicmd-add,
 /*
-.uicmd-close, .uicmd-opt, .uicmd-pin, .uicmd-refresh,
+.uicmd-close, .uicmd-info, .uicmd-opt, .uicmd-pin, .uicmd-refresh,
 .uicmd-pop, .uicmd-land, .uicmd-min, .uicmd-max, .uicmd-restore{
     width:28px;
     height:15px;

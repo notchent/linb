@@ -10954,6 +10954,18 @@ _.set(linb.Locale,["en","app"], {
                     "}"
                 ]
             },
+            getInfoBtn :{
+                $desc:"Determines whether help button shows up or not.",
+                $rtn:"Boolean"
+            },
+            setInfoBtn :{
+                $desc:"Specifys whether help button shows up or not, and reflects the value to UI.",
+                $rtn:"[self]",
+                $paras:[
+                    "value [Required] : String.",
+                    "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
+                ]
+            },            
             getRefreshBtn :{
                 $desc:"Determines whether refresh button shows up or not.",
                 $rtn:"Boolean"
@@ -11196,6 +11208,12 @@ _.set(linb.Locale,["en","app"], {
                     "var o;linb(id).prepend(o=new linb.UI.Panel({position:'relative',closeBtn:true,html:'content'}));"+
                     "o.beforeClose(function(){return false;});"+
                     "}"
+                ]
+            },
+            onShowInfo:{
+                $desc:"Fired when help command is clicked.",
+                $paras:[
+                    "profile : linb.UIProfile."
                 ]
             },
             onRefresh:{
@@ -12704,6 +12722,18 @@ _.set(linb.Locale,["en","app"], {
                     "var dlg=(new linb.UI.Dialog).show(null,false, 100,100); alert(dlg.getOptBtn());_.asyRun(function(){dlg.setOptBtn(true);},1000);"
                 ]
             },
+            getInfoBtn :{
+                $desc:"Determines whether help button shows up or not.",
+                $rtn:"Boolean"
+            },
+            setInfoBtn :{
+                $desc:"Specifys whether help button shows up or not, and reflects the value to UI.",
+                $rtn:"[self]",
+                $paras:[
+                    "value [Required] : String.",
+                    "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
+                ]
+            },     
             getRefreshBtn :{
                 $desc:"Determines whether refresh button shows up or not.",
                 $rtn:"Boolean"
@@ -12895,6 +12925,12 @@ _.set(linb.Locale,["en","app"], {
                     "dlg.beforeClose(function(){return false;});"+
                     "dlg.show(null,false, 100,100);"+
                     "_.asyRun(function(){dlg.close();},3000);"
+                ]
+            },
+            onShowInfo:{
+                $desc:"Fired when help command is clicked.",
+                $paras:[
+                    "profile : linb.UIProfile."
                 ]
             },
             onRefresh:{

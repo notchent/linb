@@ -2006,13 +2006,25 @@ Class("linb.UI",  "linb.absObj", {
                 background: 'url('+linb.ini.img_busy+') no-repeat center center',
                 'background-position' : 'center'
             },
-            '.uicmd-close, .uicmd-opt, .uicmd-pop, .uicmd-land, .uicmd-refresh, .uicmd-toggle, .uicmd-toggle2, .uicmd-min, .uicmd-max,.uicmd-restore,.uicmd-pin, .uicmd-check, .uicmd-radio, .uicmd-add, .uicmd-remove':{
+            '.uicmd-close, .uicmd-info, .uicmd-opt, .uicmd-pop, .uicmd-land, .uicmd-refresh, .uicmd-toggle, .uicmd-toggle2, .uicmd-min, .uicmd-max,.uicmd-restore,.uicmd-pin, .uicmd-check, .uicmd-radio, .uicmd-add, .uicmd-remove':{
                 background: linb.UI.$bg('icons.gif', 'no-repeat 0 0', true),
                 width:'16px',
                 height:'16px',
                 'margin-right':'2px',
                 cursor:'default',
                 'vertical-align':'middle'
+            },
+            '.uicmd-info':{
+                $order:1,
+                'background-position' : '-320px 0'
+            },
+            '.uicmd-info-mouseover':{
+                $order:2,
+                'background-position' : '-320px  -20px'
+            },
+            '.uicmd-info-mousedown':{
+                $order:3,
+                'background-position' : '-320px  -40px'
             },
             '.uicmd-opt':{
                 $order:1,

@@ -86,6 +86,11 @@ Class("linb.UI.Panel", "linb.UI.Div",{
                     BARCMDR:{
                         tagName: 'div',
                         className:'uibar-cmdr',
+                        INFO:{
+                            className:'uicmd-info',
+                            style:'{infoDisplay}',
+                            $order:1
+                        },
                         OPT:{
                             className:'uicmd-opt',
                             style:'{optDisplay}',
@@ -182,10 +187,15 @@ Class("linb.UI.Panel", "linb.UI.Div",{
         Behaviors:{
             DroppableKeys:['PANEL'],
             DraggableKeys:['TBAR'],
-            NoDraggableKeys:['OPT','CLOSE','POP','REFRESH','TOGGLE','CAPTION'],
-            HoverEffected:{OPT:'OPT', CLOSE:'CLOSE',POP:'POP', REFRESH:'REFRESH',TOGGLE:'TOGGLE'},
-            ClickEffected:{CLOSE:'CLOSE', OPT:'OPT', POP:'POP', REFRESH:'REFRESH',TOGGLE:'TOGGLE'},
+            NoDraggableKeys:['INFO','OPT','CLOSE','POP','REFRESH','TOGGLE','CAPTION'],
+            HoverEffected:{INFO:'INFO',OPT:'OPT', CLOSE:'CLOSE',POP:'POP', REFRESH:'REFRESH',TOGGLE:'TOGGLE'},
+            ClickEffected:{INFO:'INFO',OPT:'OPT', CLOSE:'CLOSE',POP:'POP', REFRESH:'REFRESH',TOGGLE:'TOGGLE'},
             onSize:linb.UI.$onSize,
+            INFO:{
+                onClick:function(profile, e, src){
+                    profile.boxing().onShowInfo(profile, e, src);
+                }
+            },
             OPT:{
                 onClick:function(profile, e, src){
                     profile.boxing().onShowOptions(profile, e, src);
@@ -293,6 +303,12 @@ Class("linb.UI.Panel", "linb.UI.Div",{
                     this.box._toggle(this, v);
                 }
             },
+            infoBtn:{
+                ini:false,
+                action:function(v){
+                    this.getSubNode('INFO').css('display',v?'':'none');
+                }
+            },
             optBtn:{
                 ini:false,
                 action:function(v){
@@ -350,6 +366,7 @@ Class("linb.UI.Panel", "linb.UI.Div",{
             beforeExpend:function(profile){},
             afterFold:function(profile){},
             afterExpend:function(profile){},
+            onShowInfo:function(profile, e, src){},
             onShowOptions:function(profile, e, src){},
             onClickBar:function(profile, src){}
         },
@@ -366,6 +383,7 @@ Class("linb.UI.Panel", "linb.UI.Div",{
             data.toggleCls = data.toggle?'uicmd-toggle-checked':'';
 
             data.toggleDisplay = data.toggleBtn?'':nodisplay;
+            data.infoDisplay = data.infoBtn?'':nodisplay;
             data.optDisplay = data.optBtn?'':nodisplay;
             data.closeDisplay = data.closeBtn?'':nodisplay;
             data.popDisplay = data.popBtn?'':nodisplay;

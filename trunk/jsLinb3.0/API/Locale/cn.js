@@ -10881,6 +10881,18 @@ _.set(linb.Locale,["cn","app"], {
                     "}"
                 ]
             },
+            getInfoBtn :{
+                $desc:"获取面板是否带有帮助按钮",
+                $rtn:"Boolean"
+            },
+            setInfoBtn :{
+                $desc:"设置面板是否带有帮助按钮, 并刷新界面.",
+                $rtn:"[self]",
+                $paras:[
+                    "value [必需参数] : String.",
+                    "force [可选参数] : Boolean, 强制设置该属性值,即使属性已经设置为该值. 默认为 [false]."
+                ]
+            },
             getRefreshBtn :{
                 $desc:"获取面板是否带有刷新按钮",
                 $rtn:"Boolean"
@@ -11125,8 +11137,14 @@ _.set(linb.Locale,["cn","app"], {
                     "}"
                 ]
             },
+            onShowInfo:{
+                $desc:"在用户单击帮助按钮时调用.",
+                $paras:[
+                    "profile : linb.UIProfile."
+                ]
+            },
             onRefresh:{
-                $desc:"当面板刷新时调用.",
+                $desc:"在用户单击刷新按钮时调用.",
                 $paras:[
                     "profile : linb.UIProfile."
                 ]
@@ -12631,12 +12649,24 @@ _.set(linb.Locale,["cn","app"], {
                     "var dlg=(new linb.UI.Dialog).show(null,false, 100,100); alert(dlg.getOptBtn());_.asyRun(function(){dlg.setOptBtn(true);},1000);"
                 ]
             },
+            getInfoBtn :{
+                $desc:"获取对话框是否带有帮助按钮",
+                $rtn:"Boolean"
+            },
+            setInfoBtn :{
+                $desc:"设置对话框是否带有帮助按钮, 并刷新界面.",
+                $rtn:"[self]",
+                $paras:[
+                    "value [必需参数] : String.",
+                    "force [可选参数] : Boolean, 强制设置该属性值,即使属性已经设置为该值. 默认为 [false]."
+                ]
+            },
             getRefreshBtn :{
-                $desc:"获取面板是否带有刷新按钮",
+                $desc:"获取对话框是否带有刷新按钮",
                 $rtn:"Boolean"
             },
             setRefreshBtn :{
-                $desc:"设置面板是否带有刷新按钮, 并刷新界面.",
+                $desc:"设置对话框是否带有刷新按钮, 并刷新界面.",
                 $rtn:"[self]",
                 $paras:[
                     "value [必需参数] : String.",
@@ -12824,8 +12854,14 @@ _.set(linb.Locale,["cn","app"], {
                     "_.asyRun(function(){dlg.close();},3000);"
                 ]
             },
+            onShowInfo:{
+                $desc:"在用户单击帮助按钮时调用.",
+                $paras:[
+                    "profile : linb.UIProfile."
+                ]
+            },
             onRefresh:{
-                $desc:"当面板刷新时调用.",
+                $desc:"在用户单击刷新按钮时调用.",
                 $paras:[
                     "profile : linb.UIProfile."
                 ]

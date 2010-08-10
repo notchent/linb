@@ -11400,13 +11400,25 @@ Class("linb.UI",  "linb.absObj", {
                 background: 'url('+linb.ini.img_busy+') no-repeat center center',
                 'background-position' : 'center'
             },
-            '.uicmd-close, .uicmd-opt, .uicmd-pop, .uicmd-land, .uicmd-refresh, .uicmd-toggle, .uicmd-toggle2, .uicmd-min, .uicmd-max,.uicmd-restore,.uicmd-pin, .uicmd-check, .uicmd-radio, .uicmd-add, .uicmd-remove':{
+            '.uicmd-close, .uicmd-info, .uicmd-opt, .uicmd-pop, .uicmd-land, .uicmd-refresh, .uicmd-toggle, .uicmd-toggle2, .uicmd-min, .uicmd-max,.uicmd-restore,.uicmd-pin, .uicmd-check, .uicmd-radio, .uicmd-add, .uicmd-remove':{
                 background: linb.UI.$bg('icons.gif', 'no-repeat 0 0', true),
                 width:'16px',
                 height:'16px',
                 'margin-right':'2px',
                 cursor:'default',
                 'vertical-align':'middle'
+            },
+            '.uicmd-info':{
+                $order:1,
+                'background-position' : '-320px 0'
+            },
+            '.uicmd-info-mouseover':{
+                $order:2,
+                'background-position' : '-320px  -20px'
+            },
+            '.uicmd-info-mousedown':{
+                $order:3,
+                'background-position' : '-320px  -40px'
             },
             '.uicmd-opt':{
                 $order:1,
@@ -23443,6 +23455,11 @@ Class("linb.UI.Panel", "linb.UI.Div",{
                     BARCMDR:{
                         tagName: 'div',
                         className:'uibar-cmdr',
+                        INFO:{
+                            className:'uicmd-info',
+                            style:'{infoDisplay}',
+                            $order:1
+                        },
                         OPT:{
                             className:'uicmd-opt',
                             style:'{optDisplay}',
@@ -23539,10 +23556,15 @@ Class("linb.UI.Panel", "linb.UI.Div",{
         Behaviors:{
             DroppableKeys:['PANEL'],
             DraggableKeys:['TBAR'],
-            NoDraggableKeys:['OPT','CLOSE','POP','REFRESH','TOGGLE','CAPTION'],
-            HoverEffected:{OPT:'OPT', CLOSE:'CLOSE',POP:'POP', REFRESH:'REFRESH',TOGGLE:'TOGGLE'},
-            ClickEffected:{CLOSE:'CLOSE', OPT:'OPT', POP:'POP', REFRESH:'REFRESH',TOGGLE:'TOGGLE'},
+            NoDraggableKeys:['INFO','OPT','CLOSE','POP','REFRESH','TOGGLE','CAPTION'],
+            HoverEffected:{INFO:'INFO',OPT:'OPT', CLOSE:'CLOSE',POP:'POP', REFRESH:'REFRESH',TOGGLE:'TOGGLE'},
+            ClickEffected:{INFO:'INFO',OPT:'OPT', CLOSE:'CLOSE',POP:'POP', REFRESH:'REFRESH',TOGGLE:'TOGGLE'},
             onSize:linb.UI.$onSize,
+            INFO:{
+                onClick:function(profile, e, src){
+                    profile.boxing().onShowInfo(profile, e, src);
+                }
+            },
             OPT:{
                 onClick:function(profile, e, src){
                     profile.boxing().onShowOptions(profile, e, src);
@@ -23650,6 +23672,12 @@ Class("linb.UI.Panel", "linb.UI.Div",{
                     this.box._toggle(this, v);
                 }
             },
+            infoBtn:{
+                ini:false,
+                action:function(v){
+                    this.getSubNode('INFO').css('display',v?'':'none');
+                }
+            },
             optBtn:{
                 ini:false,
                 action:function(v){
@@ -23707,6 +23735,7 @@ Class("linb.UI.Panel", "linb.UI.Div",{
             beforeExpend:function(profile){},
             afterFold:function(profile){},
             afterExpend:function(profile){},
+            onShowInfo:function(profile, e, src){},
             onShowOptions:function(profile, e, src){},
             onClickBar:function(profile, src){}
         },
@@ -23723,6 +23752,7 @@ Class("linb.UI.Panel", "linb.UI.Div",{
             data.toggleCls = data.toggle?'uicmd-toggle-checked':'';
 
             data.toggleDisplay = data.toggleBtn?'':nodisplay;
+            data.infoDisplay = data.infoBtn?'':nodisplay;
             data.optDisplay = data.optBtn?'':nodisplay;
             data.closeDisplay = data.closeBtn?'':nodisplay;
             data.popDisplay = data.popBtn?'':nodisplay;
@@ -34258,6 +34288,11 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
                     $order:2,
                     tagName: 'div',
                     className:'uibar-cmdr',
+                    INFO:{
+                        className:'uicmd-info',
+                        style:'{infoDisplay}',
+                        $order:1
+                    },
                     OPT:{
                         className:'uicmd-opt',
                         style:'{optDisplay}',
@@ -34384,8 +34419,8 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
         Behaviors:{
             DroppableKeys:['PANEL'],
             DraggableKeys:['LAND'],
-            HoverEffected:{OPT:'OPT', PIN:'PIN',MIN:'MIN',MAX:'MAX',RESTORE:'RESTORE',CLOSE:'CLOSE',REFRESH:'REFRESH',LAND:'LAND'},
-            ClickEffected:{OPT:'OPT', PIN:'PIN',MIN:'MIN',MAX:'MAX',RESTORE:'RESTORE',CLOSE:'CLOSE',REFRESH:'REFRESH',LAND:'LAND'},
+            HoverEffected:{INFO:'INFO', OPT:'OPT', PIN:'PIN',MIN:'MIN',MAX:'MAX',RESTORE:'RESTORE',CLOSE:'CLOSE',REFRESH:'REFRESH',LAND:'LAND'},
+            ClickEffected:{INFO:'INFO', OPT:'OPT', PIN:'PIN',MIN:'MIN',MAX:'MAX',RESTORE:'RESTORE',CLOSE:'CLOSE',REFRESH:'REFRESH',LAND:'LAND'},
             onMousedown:function(profile, e){
                 profile.box._active(profile);
             },
@@ -34538,6 +34573,11 @@ if(linb.browser.ie){
                     profile.box._restore(profile);
                 }
             },
+            INFO:{
+                onClick:function(profile, e, src){
+                    profile.boxing().onShowInfo(profile, e, src);
+                }
+            },
             OPT:{
                 onClick:function(profile, e, src){
                     profile.boxing().onShowOptions(profile, e, src);
@@ -34614,6 +34654,12 @@ if(linb.browser.ie){
                         o.css('display','none');
                 }
             },
+            infoBtn:{
+                ini:false,
+                action:function(v){
+                    this.getSubNode('INFO').css('display',v?'':'none');
+                }
+            },
             optBtn:{
                 ini:false,
                 action:function(v){
@@ -34681,6 +34727,7 @@ if(linb.browser.ie){
             onRefresh:function(profile){},
             onShow:function(profile){},
             beforeClose:function(profile){},
+            onShowInfo:function(profile, e, src){},
             onShowOptions:function(profile, e, src){}
         },
         RenderTrigger:function(){
@@ -34703,6 +34750,7 @@ if(linb.browser.ie){
                 nodisplay='display:none';
             data.minDisplay = data.minBtn?'':nodisplay;
             data.maxDisplay = data.maxBtn?'':nodisplay;
+            data.infoDisplay = data.infoBtn?'':nodisplay;
             data.optDisplay = data.optBtn?'':nodisplay;
             data.closeDisplay = data.closeBtn?'':nodisplay;
             data.pinDisplay = data.pinBtn?'':nodisplay;
