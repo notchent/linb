@@ -359,7 +359,7 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
                 onDblclick:function(profile, e, src){
                     var properties = profile.properties,
                         item = profile.getItemByDom(src),
-                        rtn=profile.onDblcick && profile.boxing().onDblclick(profile, item, src);
+                        rtn=profile.onDblclick && profile.boxing().onDblclick(profile, item, src);
                     if(item.sub && rtn!==false){
                         profile.getSubNode('TOGGLE',profile.getSubId(src)).onClick();
                     }
