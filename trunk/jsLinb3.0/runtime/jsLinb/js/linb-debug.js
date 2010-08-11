@@ -770,7 +770,23 @@ _.merge(linb,{
         : linb.absIO.isCrossDomain(uri) ? linb.SAjax : linb.Ajax
         ).apply(null, arguments).start()
     },
-    include:function(id,path,onSuccess,onFail){if(id&&linb.SC.get(id))_.tryF(onSuccess); else linb.SAjax(path,'',onSuccess,onFail,0,{rspType:'script',checkKey:id}).start()},
+    include:function(id,path,onSuccess,onFail,sync){
+        if(id&&linb.SC.get(id))
+            _.tryF(onSuccess); 
+        else{
+            if(!sync)
+                linb.SAjax(path,'',onSuccess,onFail,0,{rspType:'script',checkKey:id}).start()
+            else
+                linb.Ajax(path,'',function(rsp){
+                    try{_.exec(rsp)}
+                    catch(e){_.tryF(onFail,[e.name + ": " + e.message])}
+                    _.tryF(onSuccess);
+                },onFail,0,{asy:!sync}).start();
+        }
+    },
+    require:function(cls,sync,onSuccess,onFail){
+        linb.include(cls,linb.getPath(cls,".js","js"),onSuccess,onFail,sync);
+    },
     /*
     set application main function
     example:

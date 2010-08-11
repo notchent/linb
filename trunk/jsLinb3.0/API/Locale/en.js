@@ -913,7 +913,8 @@ _.set(linb.Locale,["en","app"], {
                 "id [Required]: String, class key. Uses '' if you dont want to check whether or not it exists.",
                 "path [Required]: String, .js file path",
                 "onSuccess [Optional]: Function, if includes the file successfully, call this function. ",
-                "onFail [Optional]: Function, if doesn't include the file, call this function."
+                "onFail [Optional]: Function, if doesn't include the file, call this function.",
+                "sync [Optional]: Boolean, sync or async. Default is [false]."
             ],
             $snippet:[
                 "//If the class have been included already, it'll trigger onSuccess callback function. \n"+
@@ -922,8 +923,22 @@ _.set(linb.Locale,["en","app"], {
                 "App.Test1=undefined; linb.include('App.Test1', 'App/js/Test1.js',function(){alert('success');},function(){alert('fail')});",
                 "////This path doesn't exist \n " +
                 "linb.include('App.doesntexist', 'App/js/doesntexist.js', function(){alert('success');},function(){alert('fail')});"
+            ]
+        },
+        require:{
+            $desc:"Requires a class.",
+            $paras:[
+                "cls [Required]: String, class name",
+                "sync [Optional]: Boolean, sync or async. Default is [false].",
+                "onSuccess [Optional]: Function, if requires the file successfully, call this function. ",
+                "onFail [Optional]: Function, if doesn't require the file successfully, call this function."
             ],
-            $memo:"All the resource string is in [linb.Locale]"
+            $snippet:[
+                "// Gets .js sync \n"+
+                "App.Test1=undefined; linb.require('App.Test1',true); alert(App.Test1.KEY);",
+                "// This path doesn't exist \n " +
+                "linb.require('App.doesntexist',true,null,function(rsp){alert(rsp)});"
+            ]
         },
         request:{
             $desc:"To get/set data from/to server. It can switch between linb.Ajax, linb.SAjax and linb.IAjax automatically according to url and request method. "+

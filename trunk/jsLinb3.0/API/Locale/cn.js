@@ -910,7 +910,8 @@ _.set(linb.Locale,["cn","app"], {
                 "id [必需参数]: String, 特征字符串（包括名字空间的类名字）. 如果该类已经存在,则直接返回不会在做包含文件的工作. 如果强制包含文件,该参数可以设置为 '' .",
                 "path [必需参数]: String, .js 文件路径",
                 "onSuccess [可选参数]: Function, 包含文件成功时触发的回调函数. ",
-                "onFail [可选参数]: Function, 包含文件失败时触发的回调函数."
+                "onFail [可选参数]: Function, 包含文件失败时触发的回调函数.",
+                "sync [可选参数]: Boolean, 是否同步. 如果是同步，要确保path在同域名下."
             ],
             $snippet:[
                 "//改类已经存在,会直接调用onSuccess. \n"+
@@ -919,8 +920,22 @@ _.set(linb.Locale,["cn","app"], {
                 "App.Test1=undefined; linb.include('App.Test1', 'App/js/Test1.js',function(){alert('success');},function(){alert('fail')});",
                 "//包含一个不存在的.js文件 \n " +
                 "linb.include('App.doesntexist', 'App/js/doesntexist.js', function(){alert('success');},function(){alert('fail')});"
+            ]
+        },
+        require:{
+            $desc:"确保某个类加载到内存.",
+            $paras:[
+                "cls [必需参数]: String, 符合jsLinb规范的类名",
+                "sync [可选参数]: Boolean, 是否同步. 如果是同步，要确保cls的对应代码文件在同域名下.",
+                "onSuccess [可选参数]: Function, 包含文件成功时触发的回调函数. ",
+                "onFail [可选参数]: Function, 包含文件失败时触发的回调函数."
             ],
-            $memo:"所有的资源字符串都位于 [linb.Locale]"
+            $snippet:[
+                "// 同步获取一个存在的 .js 文件\n"+
+                "App.Test1=undefined; linb.require('App.Test1',true); alert(App.Test1.KEY);",
+                "// 一个不存在的.js文件 \n " +
+                "linb.require('App.doesntexist',true,null,function(rsp){alert(rsp)});"
+            ]
         },
         request:{
             $desc:"向特定的服务地址发送数据请求. linb.request会按照情况选用linb.Ajax, linb.SAjax 或 linb.IAjax： "+
