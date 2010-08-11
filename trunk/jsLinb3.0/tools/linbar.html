@@ -5,23 +5,20 @@
 #linbar a{
     text-decoration:underline;
 }
-#linbar_more a,#linbar_auth a{
+#linbar_more a{
     text-decoration:none;padding:3px;font-size:12px;text-decoration:none;display:block;
 }
-#linbar a:hover, #linbar_more a:hover, #linbar_auth a:hover{
+#linbar a:hover, #linbar_more a:hover{
     text-decoration:none;color:#fff!important;background:#598EDD;
 }
 #linbar small{
     font-size:9px;
 }
-#linbar_more, #linbar_auth{
+#linbar_more{
     position:absolute;display:none;top:19px;z-index:6000;border:solid 1px;border-color:#E4F1FD #598EDD #598EDD #598EDD; background:#E4F1FD;
 }
 #linbar_more{
     width:70px;
-}
-#linbar_auth{
-    width:100px;
 }
 </style>
 <script>
@@ -82,7 +79,6 @@ var linbar={
         }
         n._t2=setTimeout(function(){
           n.get2('linbar_more').display='none';
-          n.get2('linbar_auth').display='none';
         },100);
         n.hide();
     }
@@ -101,7 +97,6 @@ var linbar={
 <a target=_blank href='http://www.linb.net/VisualJS'>IDE</a>
 <a target=_blank href='http://www.sigmawidgets.com/download/sigma_visual/Cookbook-Getting_Started_Guide.zip'>Cookbook</a>
 <a target=_blank href='http://www.linb.net/Examples' id="pop:linbar_more" onmouseout="linbar.hidePop()"  onmouseover="linbar.showPop(this)">Examples</a><small style="margin-left:-3px;">&#9660;</small>
-<span target=_blank href='http://www.linb.net/Examples' id="pop:linbar_auth" onmouseout="linbar.hidePop()"  onmouseover="linbar.showPop(this)">Authorized OEM</span><small style="margin-left:-3px;">&#9660;</small>
 </nobr>
 </div>
 <div id='linbar_l' style="left:0;position:absolute;top:19px;display:none;border-top:1px solid #598EDD;font-size:0;line-height:0;width:100%;z-index:5500;"></div>
@@ -110,8 +105,4 @@ var linbar={
 <a target=_blank href='http://jsoneditor.appspot.com'>JSONEditor</a>
 <a target=_blank href='http://www.linb.net/Examples/comb/Themes'>Themes</a>
 <a target=_blank href='http://www.linb.net/Examples'>more ...</a>
-</div>
-<div id='linbar_auth' onmouseout="linbar.hidePop()"  onmouseover="linbar.showPop(this)">
-<a target=_blank href='http://www.sigmawidgets.com/'>sigmawidgets</a>
-<a target=_blank href='http://www.longboo.com/'>longboo</a>
 </div>
