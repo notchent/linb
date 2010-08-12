@@ -38,12 +38,12 @@ Class("linb.UI.ToolBar",["linb.UI","linb.absList"],{
                         //]]
                     
                         //in dom already?
-                        n1=profile.getSubNodeByItemId('ICON',subId);
-                        n2=profile.getSubNodeByItemId('CAPTION',subId);
-                        n3=profile.getSubNodeByItemId('ITEM',subId);
+                        n1=profile.getSubNodeByItemId('ICON',nid||subId);
+                        n2=profile.getSubNodeByItemId('CAPTION',nid||subId);
+                        n3=profile.getSubNodeByItemId('ITEM',nid||subId);
 
                         if('value' in options && options.value!=item.value)
-                            profile.getSubNodeByItemId('BTN',subId).tagClass('-checked', !!options.value);
+                            profile.getSubNodeByItemId('BTN',nid||subId).tagClass('-checked', !!options.value);
                         if('caption' in options&& options.caption!=item.caption){
                             n2.html(options.caption);
                             if(options.caption && !item.caption){

@@ -268,12 +268,12 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                     // change id in rowMap
                     orow.id=id;
                     // change link in rowMap2
-                    profile.rowMap2[id]=profile.rowMap2[rowId];
-                    delete profile.rowMap2[rowId];
+                    profile.rowMap2[id]=profile.rowMap2[nid||rowId];
+                    delete profile.rowMap2[nid||rowId];
                     // remove cells link
                     _.each(profile.colMap,function(o){
                         if(o._cells)
-                            delete o._cells[rowId];
+                            delete o._cells[nid||rowId];
                     });
                     // make sure data
                     orow=_.clone(orow,true);
@@ -285,8 +285,8 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                     
                     if(profile.properties.activeMode=='row'){
                         var uiv=profile.properties.$UIvalue||"", arr=uiv.split(';');
-                        if(arr.length && _.arr.indexOf(arr, rowId)!=-1){
-                            if(nid)_.arr.removeValue(arr, rowId);
+                        if(arr.length && _.arr.indexOf(arr, nid||rowId)!=-1){
+                            if(nid)_.arr.removeValue(arr, nid||rowId);
                             self.setUIValue(arr.join(';'), true);
                         }
                     }
