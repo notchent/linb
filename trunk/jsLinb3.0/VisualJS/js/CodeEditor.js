@@ -1140,7 +1140,7 @@ Class("VisualJS.CodeEditor", ["linb.UI.Widget","linb.absValue"] ,{
             }
             
             // get type
-            if(key.indexOf('new')==0){
+            if(key.indexOf('new ')==0){
                 type='new';
             }else if(key.charAt(key.length-1)=='.'){
                 type="properties";

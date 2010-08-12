@@ -56,12 +56,10 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                     value = value?value.split(';'):[];
                     //check all
                     _.arr.each(uiv,function(o){
-                        if(_.arr.indexOf(value,o)==-1)
-                            getN(k, getI(o)).tagClass('-checked',false)
+                        getN(k, getI(o)).tagClass('-checked',false)
                     });
                     _.arr.each(value,function(o){
-                        if(_.arr.indexOf(uiv,o)==-1)
-                            getN(k, getI(o)).tagClass('-checked')
+                        getN(k, getI(o)).tagClass('-checked')
                     });
                     // clear the header's row handler checkbox
                     if(value.length===0){

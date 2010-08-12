@@ -22666,11 +22666,11 @@ Class("linb.UI.Group", "linb.UI.Div",{
                 if(p.selMode=='single'){
                     var itemId = getI(uiv);
                     if(uiv!==null && itemId)
-                        getN(k,itemId).tagClass('-mouseover',false).tagClass('-checked',false);
+                        getN(k,itemId).tagClass('-checked',false);
 
                     itemId = getI(value);
                     if(itemId)
-                        getN(k,itemId).tagClass('-mouseover',false).tagClass('-checked');
+                        getN(k,itemId).tagClass('-checked');
 
                     //scroll
                     if(itemId){
@@ -22693,12 +22693,10 @@ Class("linb.UI.Group", "linb.UI.Div",{
                     value = value?value.split(';'):[];
                     //check all
                     _.arr.each(uiv,function(o){
-                        if(_.arr.indexOf(value,o)==-1)
-                            getN(k, getI(o)).tagClass('-mouseover',false).tagClass('-checked',false)
+                        getN(k, getI(o)).tagClass('-checked',false)
                     });
                     _.arr.each(value,function(o){
-                        if(_.arr.indexOf(uiv,o)==-1)
-                            getN(k, getI(o)).tagClass('-mouseover',false).tagClass('-checked')
+                        getN(k, getI(o)).tagClass('-checked')
                     });
                 }
             });
@@ -22761,7 +22759,7 @@ Class("linb.UI.Group", "linb.UI.Div",{
                         },
                         CAPTION:{
                             tagName : 'text',
-                            text : '{caption}&nbsp;',
+                            text : '&nbsp;{caption}',
                             $order:20
                         },
                         EXTRA:{
@@ -25889,14 +25887,10 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
                     }else{
                         //check all
                         _.arr.each(uiv,function(o){
-                            if(_.arr.indexOf(value,o)==-1){
-                                fun('BAR', o, false);
-                            }
+                            fun('BAR', o, false);
                         });
                         _.arr.each(value,function(o){
-                            if(_.arr.indexOf(uiv,o)==-1){
-                                fun('BAR', o);
-                            }
+                            fun('BAR', o);
                         });
                     }
                 }
@@ -30011,12 +30005,10 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                     value = value?value.split(';'):[];
                     //check all
                     _.arr.each(uiv,function(o){
-                        if(_.arr.indexOf(value,o)==-1)
-                            getN(k, getI(o)).tagClass('-checked',false)
+                        getN(k, getI(o)).tagClass('-checked',false)
                     });
                     _.arr.each(value,function(o){
-                        if(_.arr.indexOf(uiv,o)==-1)
-                            getN(k, getI(o)).tagClass('-checked')
+                        getN(k, getI(o)).tagClass('-checked')
                     });
                     // clear the header's row handler checkbox
                     if(value.length===0){

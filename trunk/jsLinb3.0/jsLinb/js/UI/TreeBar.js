@@ -30,14 +30,10 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
                     }else{
                         //check all
                         _.arr.each(uiv,function(o){
-                            if(_.arr.indexOf(value,o)==-1){
-                                fun('BAR', o, false);
-                            }
+                            fun('BAR', o, false);
                         });
                         _.arr.each(value,function(o){
-                            if(_.arr.indexOf(uiv,o)==-1){
-                                fun('BAR', o);
-                            }
+                            fun('BAR', o);
                         });
                     }
                 }
