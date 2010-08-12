@@ -123,9 +123,14 @@ Class('linb.Com',null,{
                 // if it's an ui object without rendered
                 if(parent && parent['linb.UI'] && !parent.get(0).renderId){
                 }else{
+                    // if it's an ui object without rendered, dont render the com
+                    if(parent && parent['linb.UI'] && !parent.get(0).renderId){
+                    }else{
+                        self.render();
+                    }
+
                     if(false===_.tryF(self.customAppend,[parent,subId,left,top,threadid], self))
                         (parent||linb('body')).append(self.getUIComponents(),subId);
-                    self.render();
                     _.tryF(onEnd,[self, threadid],self.host);
                 }
             };
