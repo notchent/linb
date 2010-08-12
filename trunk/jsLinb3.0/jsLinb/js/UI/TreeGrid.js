@@ -233,21 +233,38 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
 
         },
         updateRow:function(rowId,options){
-            var ns=this, orow=ns.getRowbyRowId(rowId);
+            var ns=this, profile=ns.get(0), orow=ns.getRowbyRowId(rowId), nid;
             if(orow){
                 var rid=orow._serialId, t,tt;
-                if(!orow)return ns;
-
                 if(typeof options!='object') options={caption:options};
                 else _.filter(options,true);
-                options.id=rowId;
+                
+                // [[modify id
+                if(_.isSet(options.id))options.id+="";
+                if(options.id && options.id!==rowId){
+                    nid=options.id;
+                    var m2=profile.rowMap2, v;
+                    if(!m2[options.id]){
+                        if(v=m2[rowId]){
+                            m2[options.id]=v;
+                            delete m2[rowId];
+                            profile.rowMap[v].id=options.id;
+                        }
+                    }
+                }
+                delete options.id;
+                // modify id only
+                if(_.isEmpty(options))
+                    return ns;
+                //]]
+
                 if(('group' in options && options.group!=orow.group) ||
                     'cells' in options ||
                     ('sub' in options && 
                     // only try to show/hide toggle icon
                     !((options.sub===true && !orow.sub) || (!options.sub && orow.sub===true)))
                 ){
-                    var id="__special",profile=ns.get(0),pid=orow._pid?profile.rowMap[orow._pid].id:null;
+                    var id="__special",pid=orow._pid?profile.rowMap[orow._pid].id:null;
                     // change id in rowMap
                     orow.id=id;
                     // change link in rowMap2
@@ -265,6 +282,15 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                     
                     ns.insertRows([orow],pid,id,true);
                     ns.removeRows([id]);
+                    
+                    if(profile.properties.activeMode=='row'){
+                        var uiv=profile.properties.$UIvalue||"", arr=uiv.split(';');
+                        if(arr.length && _.arr.indexOf(arr, rowId)!=-1){
+                            if(nid)_.arr.removeValue(arr, rowId);
+                            self.setUIValue(arr.join(';'), true);
+                        }
+                    }
+                    
                 }else{
                     if('sub' in options){
                         t=ns.getSubNode('FCELLCMD',rid);

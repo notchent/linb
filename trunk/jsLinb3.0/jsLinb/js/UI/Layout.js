@@ -70,11 +70,8 @@ Class("linb.UI.Layout",["linb.UI", "linb.absList"],{
                 box=profile.box,
                 items=profile.properties.items,
                 rst=profile.queryItems(items,function(o){return typeof o=='object'?o.id===subId:o==subId},true,true,true),
-                item,serialId,node,sub,t;
+                nid,item,serialId,node,sub,t;
             if(typeof options!='object')return;
-
-            //ensure the original id
-            delete options.id;
 
             if(rst.length){
                 rst=rst[0];
@@ -83,6 +80,26 @@ Class("linb.UI.Layout",["linb.UI", "linb.absList"],{
                 else
                     item=rst[0];
 
+                // [[modify id
+                if(_.isSet(options.id))options.id+="";
+                if(options.id && subId!==options.id){
+                    nid=options.id;
+                    var m2=profile.ItemIdMapSubSerialId, v;
+                    if(!m2[nid]){
+                        if(v=m2[subId]){
+                            m2[nid]=v;
+                            delete m2[subId];
+                            profile.SubSerialIdMapItem[v].id=nid;
+                        }else{
+                            item.id=nid;
+                        }
+                    }
+                }
+                delete options.id;
+                // modify id only
+                if(_.isEmpty(options))
+                    return self;
+                //]]
 
                 var bResize=false;
                 //in dom already?

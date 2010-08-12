@@ -4523,26 +4523,45 @@ Class("linb.absList", "linb.absObj",{
                 box=profile.box,
                 items=profile.properties.items,
                 rst=profile.queryItems(items,function(o){return typeof o=='object'?o.id===subId:o==subId},true,true,true),
-                item,serialId,arr,node,sub,t;
+                nid,item,serialId,arr,node,sub,t;
             if(!_.isHash(options))options={caption:options+''};
-            //ensure the original id
-            delete options.id;
 
-            if(rst.length){
+            if(rst && rst.length){
                 rst=rst[0];
                 if(typeof rst[0]!='object')
                     item=rst[2][rst[1]]={id:rst[0]};
                 else
                     item=rst[0];
 
+                // [[modify id
+                if(_.isSet(options.id))options.id+="";
+                if(options.id && subId!==options.id){
+                    nid=options.id;
+                    var m2=profile.ItemIdMapSubSerialId, v;
+                    if(!m2[nid]){
+                        if(v=m2[subId]){
+                            m2[nid]=v;
+                            delete m2[subId];
+                            profile.SubSerialIdMapItem[v].id=nid;
+                        }else{
+                            item.id=nid;
+                        }
+                    }
+                }
+                delete options.id;
+                // modify id only
+                if(_.isEmpty(options))
+                    return self;
+                //]]
+
                 //merge options
                 _.merge(item, options, 'all');
 
                 //in dom already?
-                node=profile.getSubNodeByItemId('ITEM',subId);
+                node=profile.getSubNodeByItemId('ITEM',nid || subId);
                 if(!node.isEmpty()){
                     //prepared already?
-                    serialId=_.get(profile,['ItemIdMapSubSerialId',subId]);
+                    serialId=_.get(profile,['ItemIdMapSubSerialId',nid || subId]);
                     arr=box._prepareItems(profile, [item],item._pid,false, serialId);
 
                     //for the sub node
@@ -4550,13 +4569,20 @@ Class("linb.absList", "linb.absObj",{
                         delete item._created;
                         delete item._checked;
                     }else if(item.sub){
-                        sub=profile.getSubNodeByItemId('SUB',subId);
+                        sub=profile.getSubNodeByItemId('SUB',nid || subId);
                     }
                     node.replace(profile._buildItems(arguments[2]||'items',arr),false);
                     //keep sub
                     if(sub && !sub.isEmpty()){
-                        if(!(t=profile.getSubNodeByItemId('SUB',subId)).isEmpty())
+                        if(!(t=profile.getSubNodeByItemId('SUB',nid || subId)).isEmpty())
                             t.replace(sub);
+                    }
+                    if(typeof self.setUIValue=='function'){
+                        var uiv=profile.properties.$UIvalue||"", arr=uiv.split(';');
+                        if(arr.length && _.arr.indexOf(arr, subId)!=-1){
+                            if(nid)_.arr.removeValue(arr,subId);
+                            self.setUIValue(arr.join(';'), true);
+                        }
                     }
                 }
             }

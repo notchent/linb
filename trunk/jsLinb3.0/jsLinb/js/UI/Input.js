@@ -417,7 +417,7 @@ Class("linb.UI.Input", ["linb.UI.Widget","linb.absValue"] ,{
                             return  a.join('');
                         }(b,value);
                         var uiv=ns.properties.$UIvalue;
-                        uiv=_.isSet(ns.properties.$UIvalue)?(uiv+""):"";
+                        uiv=_.isSet(uiv)?(uiv+""):"";
                         //visibility mask string
                         ns.boxing()._setCtrlValue(uiv + ns.$Mask.slice(uiv.length));
                    }else{

@@ -3,32 +3,15 @@ Class("linb.UI.MenuBar",["linb.UI","linb.absList" ],{
         updateItem:function(subId,options){
             var self=this,
                 profile=self.get(0),
-                box=profile.box,
-                items=profile.properties.items,
-                rst=profile.queryItems(items,function(o){return typeof o=='object'?o.id===subId:o==subId},true,true,true),
-                item;
-            if(typeof options=='string')options={caption:options};
-            if(rst.length){
-                rst=rst[0];
-                if(typeof rst[0]!='object')
-                    item=rst[2][rst[1]]={id:rst[0]};
-                else
-                    item=rst[0];
-
-                //merge options
-                _.merge(item, options, 'all');
-                //ensure the original id.
-                item.id=subId;
-
-                //the root
-                if(_.arr.indexOf(items,item)!=-1)
-                    arguments.callee.upper.apply(this,arguments);
-                //try each sub popmenu
-                else{
-                    _.each(profile.$allPops,function(o){
-                        o.updateItem(subId,options);
-                    });
-                }
+                items=profile.properties.items;
+            //the root
+            if(_.arr.subIndexOf(items,"id",subId)!=-1)
+                arguments.callee.upper.call(self,subId,options);
+            //try each sub popmenu
+            else{
+                _.each(profile.$allPops,function(o){
+                    o.updateItem(subId,options);
+                });
             }
             return self;
         },

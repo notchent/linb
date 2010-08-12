@@ -2,21 +2,41 @@ Class("linb.UI.ToolBar",["linb.UI","linb.absList"],{
     Instance:{
         updateItem:function(subId,options){
             if(options.type){
-                return arguments.callee.upper.apply(this,[subId,options,'items.sub']);
+                return arguments.callee.upper.call(this,subId,options);
             }else{
                 var self=this,
                     profile=self.get(0),
                     box=profile.box,
                     items=profile.properties.items,
                     rst=profile.queryItems(items,function(o){return typeof o=='object'?o.id===subId:o==subId},true,true,true),
-                    item,n1,n2,n3,t;
+                    nid,item,n1,n2,n3,t;
                 if(_.isStr(options))options={caption:options};
-                //ensure the original id
-                delete options.id;
-                delete options._pid;
+
                 if(rst.length){
-                    rst=rst[0];
-                    if(item=rst[0]){
+                        rst=rst[0];
+                        if(item=rst[0]){
+                            
+                        // [[modify id
+                        if(_.isSet(options.id))options.id+="";
+                        if(options.id && subId!==options.id){
+                            nid=options.id;
+                            var m2=profile.ItemIdMapSubSerialId, v;
+                            if(!m2[nid]){
+                                if(v=m2[subId]){
+                                    m2[nid]=v;
+                                    delete m2[subId];
+                                    profile.SubSerialIdMapItem[v].id=nid;
+                                }else{
+                                    item.id=nid;
+                                }
+                            }
+                        }
+                        delete options.id;
+                        // modify id only
+                        if(_.isEmpty(options))
+                            return self;
+                        //]]
+                    
                         //in dom already?
                         n1=profile.getSubNodeByItemId('ICON',subId);
                         n2=profile.getSubNodeByItemId('CAPTION',subId);

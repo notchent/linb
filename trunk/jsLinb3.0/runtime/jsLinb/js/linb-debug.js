@@ -13933,26 +13933,45 @@ Class("linb.absList", "linb.absObj",{
                 box=profile.box,
                 items=profile.properties.items,
                 rst=profile.queryItems(items,function(o){return typeof o=='object'?o.id===subId:o==subId},true,true,true),
-                item,serialId,arr,node,sub,t;
+                nid,item,serialId,arr,node,sub,t;
             if(!_.isHash(options))options={caption:options+''};
-            //ensure the original id
-            delete options.id;
 
-            if(rst.length){
+            if(rst && rst.length){
                 rst=rst[0];
                 if(typeof rst[0]!='object')
                     item=rst[2][rst[1]]={id:rst[0]};
                 else
                     item=rst[0];
 
+                // [[modify id
+                if(_.isSet(options.id))options.id+="";
+                if(options.id && subId!==options.id){
+                    nid=options.id;
+                    var m2=profile.ItemIdMapSubSerialId, v;
+                    if(!m2[nid]){
+                        if(v=m2[subId]){
+                            m2[nid]=v;
+                            delete m2[subId];
+                            profile.SubSerialIdMapItem[v].id=nid;
+                        }else{
+                            item.id=nid;
+                        }
+                    }
+                }
+                delete options.id;
+                // modify id only
+                if(_.isEmpty(options))
+                    return self;
+                //]]
+
                 //merge options
                 _.merge(item, options, 'all');
 
                 //in dom already?
-                node=profile.getSubNodeByItemId('ITEM',subId);
+                node=profile.getSubNodeByItemId('ITEM',nid || subId);
                 if(!node.isEmpty()){
                     //prepared already?
-                    serialId=_.get(profile,['ItemIdMapSubSerialId',subId]);
+                    serialId=_.get(profile,['ItemIdMapSubSerialId',nid || subId]);
                     arr=box._prepareItems(profile, [item],item._pid,false, serialId);
 
                     //for the sub node
@@ -13960,13 +13979,20 @@ Class("linb.absList", "linb.absObj",{
                         delete item._created;
                         delete item._checked;
                     }else if(item.sub){
-                        sub=profile.getSubNodeByItemId('SUB',subId);
+                        sub=profile.getSubNodeByItemId('SUB',nid || subId);
                     }
                     node.replace(profile._buildItems(arguments[2]||'items',arr),false);
                     //keep sub
                     if(sub && !sub.isEmpty()){
-                        if(!(t=profile.getSubNodeByItemId('SUB',subId)).isEmpty())
+                        if(!(t=profile.getSubNodeByItemId('SUB',nid || subId)).isEmpty())
                             t.replace(sub);
+                    }
+                    if(typeof self.setUIValue=='function'){
+                        var uiv=profile.properties.$UIvalue||"", arr=uiv.split(';');
+                        if(arr.length && _.arr.indexOf(arr, subId)!=-1){
+                            if(nid)_.arr.removeValue(arr,subId);
+                            self.setUIValue(arr.join(';'), true);
+                        }
                     }
                 }
             }
@@ -17858,7 +17884,7 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
                             return  a.join('');
                         }(b,value);
                         var uiv=ns.properties.$UIvalue;
-                        uiv=_.isSet(ns.properties.$UIvalue)?(uiv+""):"";
+                        uiv=_.isSet(uiv)?(uiv+""):"";
                         //visibility mask string
                         ns.boxing()._setCtrlValue(uiv + ns.$Mask.slice(uiv.length));
                    }else{
@@ -27741,32 +27767,15 @@ Class("linb.UI.MenuBar",["linb.UI","linb.absList" ],{
         updateItem:function(subId,options){
             var self=this,
                 profile=self.get(0),
-                box=profile.box,
-                items=profile.properties.items,
-                rst=profile.queryItems(items,function(o){return typeof o=='object'?o.id===subId:o==subId},true,true,true),
-                item;
-            if(typeof options=='string')options={caption:options};
-            if(rst.length){
-                rst=rst[0];
-                if(typeof rst[0]!='object')
-                    item=rst[2][rst[1]]={id:rst[0]};
-                else
-                    item=rst[0];
-
-                //merge options
-                _.merge(item, options, 'all');
-                //ensure the original id.
-                item.id=subId;
-
-                //the root
-                if(_.arr.indexOf(items,item)!=-1)
-                    arguments.callee.upper.apply(this,arguments);
-                //try each sub popmenu
-                else{
-                    _.each(profile.$allPops,function(o){
-                        o.updateItem(subId,options);
-                    });
-                }
+                items=profile.properties.items;
+            //the root
+            if(_.arr.subIndexOf(items,"id",subId)!=-1)
+                arguments.callee.upper.call(self,subId,options);
+            //try each sub popmenu
+            else{
+                _.each(profile.$allPops,function(o){
+                    o.updateItem(subId,options);
+                });
             }
             return self;
         },
@@ -28162,21 +28171,41 @@ Class("linb.UI.ToolBar",["linb.UI","linb.absList"],{
     Instance:{
         updateItem:function(subId,options){
             if(options.type){
-                return arguments.callee.upper.apply(this,[subId,options,'items.sub']);
+                return arguments.callee.upper.call(this,subId,options);
             }else{
                 var self=this,
                     profile=self.get(0),
                     box=profile.box,
                     items=profile.properties.items,
                     rst=profile.queryItems(items,function(o){return typeof o=='object'?o.id===subId:o==subId},true,true,true),
-                    item,n1,n2,n3,t;
+                    nid,item,n1,n2,n3,t;
                 if(_.isStr(options))options={caption:options};
-                //ensure the original id
-                delete options.id;
-                delete options._pid;
+
                 if(rst.length){
-                    rst=rst[0];
-                    if(item=rst[0]){
+                        rst=rst[0];
+                        if(item=rst[0]){
+                            
+                        // [[modify id
+                        if(_.isSet(options.id))options.id+="";
+                        if(options.id && subId!==options.id){
+                            nid=options.id;
+                            var m2=profile.ItemIdMapSubSerialId, v;
+                            if(!m2[nid]){
+                                if(v=m2[subId]){
+                                    m2[nid]=v;
+                                    delete m2[subId];
+                                    profile.SubSerialIdMapItem[v].id=nid;
+                                }else{
+                                    item.id=nid;
+                                }
+                            }
+                        }
+                        delete options.id;
+                        // modify id only
+                        if(_.isEmpty(options))
+                            return self;
+                        //]]
+                    
                         //in dom already?
                         n1=profile.getSubNodeByItemId('ICON',subId);
                         n2=profile.getSubNodeByItemId('CAPTION',subId);
@@ -28641,11 +28670,8 @@ Class("linb.UI.Layout",["linb.UI", "linb.absList"],{
                 box=profile.box,
                 items=profile.properties.items,
                 rst=profile.queryItems(items,function(o){return typeof o=='object'?o.id===subId:o==subId},true,true,true),
-                item,serialId,node,sub,t;
+                nid,item,serialId,node,sub,t;
             if(typeof options!='object')return;
-
-            //ensure the original id
-            delete options.id;
 
             if(rst.length){
                 rst=rst[0];
@@ -28654,6 +28680,26 @@ Class("linb.UI.Layout",["linb.UI", "linb.absList"],{
                 else
                     item=rst[0];
 
+                // [[modify id
+                if(_.isSet(options.id))options.id+="";
+                if(options.id && subId!==options.id){
+                    nid=options.id;
+                    var m2=profile.ItemIdMapSubSerialId, v;
+                    if(!m2[nid]){
+                        if(v=m2[subId]){
+                            m2[nid]=v;
+                            delete m2[subId];
+                            profile.SubSerialIdMapItem[v].id=nid;
+                        }else{
+                            item.id=nid;
+                        }
+                    }
+                }
+                delete options.id;
+                // modify id only
+                if(_.isEmpty(options))
+                    return self;
+                //]]
 
                 var bResize=false;
                 //in dom already?
@@ -30176,21 +30222,38 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
 
         },
         updateRow:function(rowId,options){
-            var ns=this, orow=ns.getRowbyRowId(rowId);
+            var ns=this, profile=ns.get(0), orow=ns.getRowbyRowId(rowId), nid;
             if(orow){
                 var rid=orow._serialId, t,tt;
-                if(!orow)return ns;
-
                 if(typeof options!='object') options={caption:options};
                 else _.filter(options,true);
-                options.id=rowId;
+                
+                // [[modify id
+                if(_.isSet(options.id))options.id+="";
+                if(options.id && options.id!==rowId){
+                    nid=options.id;
+                    var m2=profile.rowMap2, v;
+                    if(!m2[options.id]){
+                        if(v=m2[rowId]){
+                            m2[options.id]=v;
+                            delete m2[rowId];
+                            profile.rowMap[v].id=options.id;
+                        }
+                    }
+                }
+                delete options.id;
+                // modify id only
+                if(_.isEmpty(options))
+                    return ns;
+                //]]
+
                 if(('group' in options && options.group!=orow.group) ||
                     'cells' in options ||
                     ('sub' in options && 
                     // only try to show/hide toggle icon
                     !((options.sub===true && !orow.sub) || (!options.sub && orow.sub===true)))
                 ){
-                    var id="__special",profile=ns.get(0),pid=orow._pid?profile.rowMap[orow._pid].id:null;
+                    var id="__special",pid=orow._pid?profile.rowMap[orow._pid].id:null;
                     // change id in rowMap
                     orow.id=id;
                     // change link in rowMap2
@@ -30208,6 +30271,15 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                     
                     ns.insertRows([orow],pid,id,true);
                     ns.removeRows([id]);
+                    
+                    if(profile.properties.activeMode=='row'){
+                        var uiv=profile.properties.$UIvalue||"", arr=uiv.split(';');
+                        if(arr.length && _.arr.indexOf(arr, rowId)!=-1){
+                            if(nid)_.arr.removeValue(arr, rowId);
+                            self.setUIValue(arr.join(';'), true);
+                        }
+                    }
+                    
                 }else{
                     if('sub' in options){
                         t=ns.getSubNode('FCELLCMD',rid);
