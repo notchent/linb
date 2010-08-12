@@ -14420,7 +14420,7 @@ new function(){
                 caption:{
                     ini:undefined,
                     action:function(v){
-                        this.getRoot().html(v||"");
+                        this.getRoot().html(_.isSet(v)?v:"");
                     }
                 },
                 href:{
@@ -14455,7 +14455,7 @@ new function(){
                 caption:{
                     ini:undefined,
                     action: function(value){
-                        this.getRoot().html(value||"");
+                        this.getRoot().html(_.isSet(value)?value:"");
                     }
                 },
                 hAlign:{
@@ -14540,7 +14540,7 @@ new function(){
                 caption:{
                     ini:undefined,
                     action: function(value){
-                        this.getSubNode('FOCUS').html(value||"");
+                        this.getSubNode('FOCUS').html(_.isSet(value)?value:"");
                     }
                 },
                 hAlign:{
@@ -14647,7 +14647,7 @@ new function(){
                 caption:{
                     ini:undefined,
                     action: function(value){
-                        this.getSubNode('CAPTION').html(value||"");
+                        this.getSubNode('CAPTION').html(_.isSet(value)?value:"");
                     }
                 }
             },
@@ -16196,7 +16196,7 @@ Class("linb.UI.Label", "linb.UI.Widget",{
                 // ui update function when setCaption
                 action: function(value){
                     var self=this,p=self.properties,b=self.boxing(),k=self.keys;
-                    self.getSubNodes(['CAPTION','SCAPTION']).html(value||"",false);
+                    self.getSubNodes(['CAPTION','SCAPTION']).html(_.isSet(value)?value:"",false);
                     if(p.hAlign!='left')b.setHAlign(p.hAlign,true);
                     if(p.vAlign!='top')b.setVAlign(p.vAlign,true);
                 }
@@ -16694,7 +16694,7 @@ Class("linb.UI.Button", ["linb.UI.Widget","linb.absValue"],{
                 ini:undefined,
                 // ui update function when setCaption
                 action: function(value){
-                    this.getSubNode('CAPTION').get(0).innerHTML = value||"";
+                    this.getSubNode('CAPTION').get(0).innerHTML = _.isSet(value)?value:"";
                 }
             },
             image:{
@@ -20254,7 +20254,7 @@ Class("linb.UI.Group", "linb.UI.Div",{
                 ini:undefined,
                 // ui update function when setCaption
                 action: function(value){
-                    this.getSubNode('CAPTION').get(0).innerHTML = value||"";
+                    this.getSubNode('CAPTION').get(0).innerHTML = _.isSet(value)?value:"";
                 }
             },
             html:{
@@ -23659,7 +23659,7 @@ Class("linb.UI.Panel", "linb.UI.Div",{
                 ini:undefined,
                 // ui update function when setCaption
                 action: function(value){
-                    this.getSubNode('CAPTION').get(0).innerHTML = value||"";
+                    this.getSubNode('CAPTION').get(0).innerHTML = _.isSet(value)?value:"";
                 }
             },
             image:{
@@ -24176,7 +24176,7 @@ Class("linb.UI.PageBar",["linb.UI","linb.absValue"] ,{
             caption:{
                 ini:' Page: ',
                 action:function(v){
-                    this.getSubNode("LABEL").html(v||"");
+                    this.getSubNode("LABEL").html(_.isSet(v)?v:"");
                 }
             },
             value:"1:1:1",
@@ -34621,7 +34621,7 @@ if(linb.browser.ie){
                 ini:undefined,
                 // ui update function when setCaption
                 action: function(value){
-                    this.getSubNode('CAPTION').get(0).innerHTML = value||"";
+                    this.getSubNode('CAPTION').get(0).innerHTML = _.isSet(value)?value:"";
                 }
             },
             image:{
