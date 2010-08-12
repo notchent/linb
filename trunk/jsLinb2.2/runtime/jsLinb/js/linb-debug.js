@@ -28820,7 +28820,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                 'border-right':0,
                 'padding-right':'1px'
             },
-            'CELLS-group FCELLCAPTION, CELLS-group FCELL CELLA':{
+            'CELLS-group FCELLCAPTION, CELLS-group CELLA, CELLS-group FCELLINN':{
                 'font-weight':'bold',
                 color:'#3764A0',
                 overflow:'visible'
