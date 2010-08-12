@@ -5584,6 +5584,9 @@ _.set(linb.Locale,["cn","app"], {
             checkValid:{
                 $desc:"检查界面值是否有效",
                 $rtn:"Boolean",
+                $paras:[
+                    "value [可选参数] : Object, 检测目标值，如果没有输入，则检测的是控件的界面值."
+                ],
                 $snippet:[
                     "var id='linb.temp.absv11'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                     "var o;linb(id).prepend(o=new linb.UI.Input({value:'ini',valueFormat:'^-?\\\\d\\\\d*$'}));"+

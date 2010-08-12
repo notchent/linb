@@ -14190,13 +14190,13 @@ Class("linb.absValue", "linb.absObj",{
             });
             return dirtied
         },
-        checkValid:function(){
-            var r=true;
+        checkValid:function(value){
+            var r=true,outv=_.isSet(value);
             this.each(function(profile){
                 var prop=profile.properties;
                 //r must be at the end
-                r = profile.box._checkValid(profile, prop.$UIvalue) && r;
-                if(profile.renderId)
+                r = profile.box._checkValid(profile, outv?value:prop.$UIvalue) && r;
+                if(!outv && profile.renderId)
                     profile.boxing()._setDirtyMark();
             });
             return r;

@@ -5555,6 +5555,9 @@ _.set(linb.Locale,["en","app"], {
             checkValid:{
                 $desc:"To check whether or not the current 'UI value' is valid.",
                 $rtn:"Boolean",
+                $paras:[
+                    "value [Optional] : Object, the target value. If not specified, the target value will be the control's UI value. "
+                ],
                 $snippet:[
                     "var id='linb.temp.absv11'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                     "var o;linb(id).prepend(o=new linb.UI.Input({value:'ini',valueFormat:'^-?\\\\d\\\\d*$'}));"+
