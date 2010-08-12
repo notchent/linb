@@ -416,7 +416,7 @@ Class("linb.DataBinder","linb.absObj",{
                         v=(map && t in map)?map[t]:'';
                         // reset real value
                         vs[t]=v;
-                        c="";
+                        c=null;
                         b=profile.boxing();
                         if(_.isHash(v)){
                             // catch caption at first
@@ -427,7 +427,7 @@ Class("linb.DataBinder","linb.absObj",{
                         // set value
                         b.resetValue(v);
                         // set caption
-                        if(!_.isSet(p.caption) && b.setCaption && c!==null)
+                        if(!_.isSet(p.caption) && b.setCaption)
                             _.tryF(b.setCaption,[c,true],b);
                     }
                 });
@@ -526,7 +526,7 @@ Class("linb.DataBinder","linb.absObj",{
                     v=(map && t in map)?map[t]:'';
                     // reset real value
                     map[t]=v;
-                    c="";
+                    c=null;
                     b=profile.boxing();
                     if(_.isHash(v)){
                         // catch caption at first
@@ -537,7 +537,7 @@ Class("linb.DataBinder","linb.absObj",{
                     // set value
                     b.resetValue(v);
                     // set caption
-                    if(!_.isSet(p.caption) && b.setCaption && c!==null)
+                    if(!_.isSet(p.caption) && b.setCaption)
                         _.tryF(b.setCaption,[c,true],b);
                 }
             }
@@ -5010,7 +5010,7 @@ new function(){
                 caption:{
                     ini:undefined,
                     action:function(v){
-                        this.getRoot().html(v);
+                        this.getRoot().html(_.isSet(v)?v:"");
                     }
                 },
                 href:{
@@ -5045,7 +5045,7 @@ new function(){
                 caption:{
                     ini:undefined,
                     action: function(value){
-                        this.getRoot().html(value);
+                        this.getRoot().html(_.isSet(value)?value:"");
                     }
                 },
                 hAlign:{
@@ -5130,7 +5130,7 @@ new function(){
                 caption:{
                     ini:undefined,
                     action: function(value){
-                        this.getSubNode('FOCUS').html(value);
+                        this.getSubNode('FOCUS').html(_.isSet(value)?value:"");
                     }
                 },
                 hAlign:{
@@ -5237,7 +5237,7 @@ new function(){
                 caption:{
                     ini:undefined,
                     action: function(value){
-                        this.getSubNode('CAPTION').html(value);
+                        this.getSubNode('CAPTION').html(_.isSet(value)?value:"");
                     }
                 }
             },

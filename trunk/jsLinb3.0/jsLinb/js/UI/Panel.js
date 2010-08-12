@@ -276,7 +276,7 @@ Class("linb.UI.Panel", "linb.UI.Div",{
                 ini:undefined,
                 // ui update function when setCaption
                 action: function(value){
-                    this.getSubNode('CAPTION').get(0).innerHTML = value;
+                    this.getSubNode('CAPTION').get(0).innerHTML = _.isSet(value)?value:"";
                 }
             },
             image:{

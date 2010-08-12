@@ -65,7 +65,7 @@ Class("linb.UI.Label", "linb.UI.Widget",{
                 // ui update function when setCaption
                 action: function(value){
                     var self=this,p=self.properties,b=self.boxing(),k=self.keys;
-                    self.getSubNodes(['CAPTION','SCAPTION']).html(value,false);
+                    self.getSubNodes(['CAPTION','SCAPTION']).html(_.isSet(value)?value:"",false);
                     if(p.hAlign!='left')b.setHAlign(p.hAlign,true);
                     if(p.vAlign!='top')b.setVAlign(p.vAlign,true);
                 }
