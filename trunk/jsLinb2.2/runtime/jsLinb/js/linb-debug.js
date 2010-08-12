@@ -17023,13 +17023,6 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
                 if(profile.inValid==2){
                     //display tips
                     profile.tips = properties.tipsErr || properties.tips;
-                    if(properties.mask){
-                        _.asyRun(function(){
-                            box.setUIValue(o.get(0).value=profile.$Mask)
-                        });
-                        profile.inValid=1;
-                        flag=false;
-                    }
                 }else{
                     if(profile.inValid==1)
                         profile.tips = properties.tips;
@@ -17397,8 +17390,11 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
                             return  a.join('');
                         }(b,value);
 
+                        var uiv=ns.properties.$UIvalue;
+                        uiv=_.isSet(uiv)?(uiv+""):"";
                         //visibility mask string
-                        ns.boxing()._setCtrlValue(ns.$Mask);
+                        ns.boxing()._setCtrlValue(uiv + ns.$Mask.slice(uiv.length));
+
                    }else{
                         delete ns.$MaskFormat;
                         delete ns.$Mask;
