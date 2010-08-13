@@ -559,8 +559,10 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
         },
         setActiveRow:function(rowId){
             var dr, row, profile=this.get(0);
+            // deative first
+            profile.box._activeRow(profile, false);
+            
             if(profile.properties.activeMode!='row')return;
-            delete profile.$activeRow;
             if(!(row=this.getRowbyRowId(rowId)))return;
             if(!(dr=profile.getSubNode('CELLS',row._serialId)).isEmpty())
                 profile.box._activeRow(profile, dr.get(0).id);
@@ -751,8 +753,9 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
         },
         setActiveCell:function(rowId, colId){
             var dr, cell, profile=this.get(0);
+            profile.box._activeCell(profile, false);
+
             if(profile.properties.activeMode!='cell')return;
-            delete profile.$activeCell;
             if(typeof rowId=='object')
                 cell=rowId;
             else
@@ -3114,24 +3117,31 @@ editorDropListHeight
             if(profile.properties.activeMode!='cell')return;
             if(profile.$activeCell == id)return;
 
+            if(profile.$activeCell){
+                linb(profile.$activeCell).tagClass('-active', false);
+                delete profile.$activeCell;
+            }
+
             if(id!==false){
                 var targetId = profile.getSubId(id),
                     map = profile.cellMap,
                     targetCell=map[targetId];
     
                 if(profile.beforeCellActive && (false===profile.boxing().beforeCellActive(profile, targetCell)))return;
-            }
+                
+                linb(profile.$activeCell = id).tagClass('-active');
 
-            if(profile.$activeCell)
-                linb(profile.$activeCell).tagClass('-active', false);
-            linb(profile.$activeCell = id).tagClass('-active');
-
-            if(id!==false)
                 profile.boxing().afterCellActive(profile, targetCell);
+            }
         },
         _activeRow:function(profile, id){
             if(profile.properties.activeMode!='row')return;
             if(profile.$activeRow == id)return;
+
+            if(profile.$activeRow){
+               linb(profile.$activeRow).tagClass('-active', false);
+               delete profile.$activeRow;
+            }
 
             if(id!==false){
                 var targetId = profile.getSubId(id),
@@ -3140,14 +3150,10 @@ editorDropListHeight
     
                 //before event
                 if(profile.beforeRowActive && (false===profile.boxing().beforeRowActive(profile, targetRow)))return;
-            }
 
-            if(profile.$activeRow)
-               linb(profile.$activeRow).tagClass('-active', false);
-            linb(profile.$activeRow = id).tagClass('-active');
+                linb(profile.$activeRow = id).tagClass('-active');
 
-            //after event
-            if(id!==false){
+                //after event
                 profile.boxing().afterRowActive(profile, targetRow);
             }
         },
