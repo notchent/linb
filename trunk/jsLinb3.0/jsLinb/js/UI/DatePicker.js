@@ -193,7 +193,8 @@ Class('linb.UI.DatePicker', ['linb.UI',"linb.absValue"], {
                             }
                         },
                         TODAY:{
-                             tabindex: '{tabindex}'
+                             tabindex: '{tabindex}',
+                             title:"{_todaytitle}"
                         },
                         SET:{
                             className:'ui-btn',
@@ -264,7 +265,7 @@ Class('linb.UI.DatePicker', ['linb.UI',"linb.absValue"], {
                 height:'24px'
             },
             TIME:{
-                'padding':'2px'
+                'padding':'2px 18px'
             },
             SET:{
                 position:'absolute',
@@ -612,6 +613,7 @@ Class('linb.UI.DatePicker', ['linb.UI',"linb.absValue"], {
                     this.getSubNode('CAPTION').css('display',v?'none':'block');
                     this.getSubNode('SET').css('display',v?'block':'none');
                     this.getSubNode('TIME').css('display',v?'block':'none');
+                    this.getSubNode('TODAY').attr("title",linb.getRes(v?"inline.now":"inline.today"));
                 }
             },
             height:{
@@ -639,10 +641,13 @@ Class('linb.UI.DatePicker', ['linb.UI',"linb.absValue"], {
             data.closeDisplay = data.closeBtn?'':nodisplay;
             
             var none="display:none;";
-            if(profile.properties.timeInput)
+            if(profile.properties.timeInput){
+                data._todaytitle=linb.getRes("inline.now");
                 data._nocap=none;
-            else
+            }else{
+                data._todaytitle=linb.getRes("inline.today");
                 data._timectrl=none;
+            }
 
             return data;
         },

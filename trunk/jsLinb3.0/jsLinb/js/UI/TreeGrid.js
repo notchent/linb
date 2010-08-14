@@ -3253,6 +3253,7 @@ editorDropListHeight
                             case 'timepicker':
                             case 'date':
                             case 'datepicker':
+                            case 'datetime':
                             case 'color':
                             case 'colorpicker':
                             case 'getter':

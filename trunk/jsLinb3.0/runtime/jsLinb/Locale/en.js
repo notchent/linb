@@ -3,6 +3,7 @@
     cancel:'Cancel',
     set:'SET',
     today:'Today',
+    now:'Now',
     yes:'Yes',
     no:'No',
     noFlash:'No Flash PlugIn!'

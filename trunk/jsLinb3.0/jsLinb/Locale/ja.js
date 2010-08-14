@@ -2,6 +2,7 @@
     ok:'O K',
     cancel:'キャンセル',
     today:'今日',
+    now:'今',
     yes:'はい',
     no:'いいえ',
     noFlash:'No Flash PlugIn!'

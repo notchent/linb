@@ -3,6 +3,7 @@
     cancel:'取消',
     set:'設置',
     today:'今天',
+    now:'現在',
     yes:'是的',
     no:'不是',
     noFlash:'No Flash PlugIn!'

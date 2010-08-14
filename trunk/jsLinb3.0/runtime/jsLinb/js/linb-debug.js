@@ -2383,6 +2383,7 @@ Class('linb.absProfile',null,{
     cancel:'Cancel',
     set:'SET',
     today:'Today',
+    now:'Now',
     yes:'Yes',
     no:'No',
     noFlash:'No Flash PlugIn!'
@@ -21604,7 +21605,8 @@ Class("linb.UI.Group", "linb.UI.Div",{
                             }
                         },
                         TODAY:{
-                             tabindex: '{tabindex}'
+                             tabindex: '{tabindex}',
+                             title:"{_todaytitle}"
                         },
                         SET:{
                             className:'ui-btn',
@@ -21675,7 +21677,7 @@ Class("linb.UI.Group", "linb.UI.Div",{
                 height:'24px'
             },
             TIME:{
-                'padding':'2px'
+                'padding':'2px 18px'
             },
             SET:{
                 position:'absolute',
@@ -22023,6 +22025,7 @@ Class("linb.UI.Group", "linb.UI.Div",{
                     this.getSubNode('CAPTION').css('display',v?'none':'block');
                     this.getSubNode('SET').css('display',v?'block':'none');
                     this.getSubNode('TIME').css('display',v?'block':'none');
+                    this.getSubNode('TODAY').attr("title",linb.getRes(v?"inline.now":"inline.today"));
                 }
             },
             height:{
@@ -22050,10 +22053,13 @@ Class("linb.UI.Group", "linb.UI.Div",{
             data.closeDisplay = data.closeBtn?'':nodisplay;
             
             var none="display:none;";
-            if(profile.properties.timeInput)
+            if(profile.properties.timeInput){
+                data._todaytitle=linb.getRes("inline.now");
                 data._nocap=none;
-            else
+            }else{
+                data._todaytitle=linb.getRes("inline.today");
                 data._timectrl=none;
+            }
 
             return data;
         },
@@ -33247,6 +33253,7 @@ editorDropListHeight
                             case 'timepicker':
                             case 'date':
                             case 'datepicker':
+                            case 'datetime':
                             case 'color':
                             case 'colorpicker':
                             case 'getter':
