@@ -26988,12 +26988,9 @@ Class("linb.UI.PopMenu",["linb.UI.Widget","linb.absList"],{
         adjustSize:function(){
             this.each(function(profile){
                 if(profile.renderId){
-                    var root = profile.getRoot(),
-                        items = profile.getSubNode('ITEMS');
+                    var border = profile.getSubNode('BORDER'),
+                        items = profile.getSubNode('ITEMS').cssSize({width:'auto',height:'auto'}),
                         itemNs = profile.getSubNode('ITEM',true),
-                        border = profile.getSubNode('BORDER'),
-                        size1 = root.cssSize(),
-                        size2 = border.cssSize(),
                         pro=profile.properties,
                         ww=0,hh=0;
 
@@ -27008,19 +27005,15 @@ Class("linb.UI.PopMenu",["linb.UI.Widget","linb.absList"],{
                         
                         items.removeClass(profile.getClass('ITEMS','-inline'));
 
-                        var h = Math.min(pro._maxHeight, hh + size1.height - size2.height),
-                        w = Math.min(pro._maxWidth, ww + size1.width - size2.width);
+                    // for IE7
+                    items.cssSize({width:ww,height:hh});
 
-
+                    var h = Math.min(pro._maxHeight, hh) + border._borderW(),
+                        w = Math.min(pro._maxWidth, ww) + border._borderH();
                     pro.width=w;
                     pro.height=h;
-                    
-                    // for IE7
-                    profile.getSubNode('ITEMS').cssSize({width:ww,height:hh});
-
                     //set size first, for adding shadow later
-                    root.cssSize({width:w,height:h});
-    
+                    profile.getRoot().cssSize({width:w ,height:h});
                     //avoid blazing(shadow elements) when resize the border
                     linb.UI.$doResize(profile,w,h,true);
                 }
@@ -27033,10 +27026,10 @@ Class("linb.UI.PopMenu",["linb.UI.Widget","linb.absList"],{
                     var o=profile.getSubNode('ITEMS'),
                         t=o.offsetTop(),
                         h=o.offsetHeight(),
-                        b = profile.getSubNode('BORDER'),
+                        b = profile.getRoot(),
                         hh=b.offsetHeight();
                     profile.getSubNode('TOP').css('display',t===0?'none':'block');
-                    profile.getSubNode('BOTTOM').css('display',(hh>h+t)?'none':'block');
+                    profile.getSubNode('BOTTOM').css('display',(hh>=h+t)?'none':'block');
                 }
             })
         },
@@ -27175,6 +27168,14 @@ Class("linb.UI.PopMenu",["linb.UI.Widget","linb.absList"],{
             if(false!==triggerEvent)
                 profile.boxing().onHide(profile);
             return this;
+        },
+        _afterInsertItems:function(profile){
+            if(!profile.renderId)return;
+            profile.boxing().adjustSize();
+        },
+        _afterRemoveItems:function(profile){
+            if(!profile.renderId)return;
+            profile.boxing().adjustSize();
         }
     },
     Initialize:function(){
