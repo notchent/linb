@@ -1,4 +1,4 @@
-/*
+﻿/*
 Copyright (c) 2008-2009 Yahoo! Inc.  All rights reserved.
 The copyrights embodied in the content of this file are licensed by
 Yahoo! Inc. under the BSD (revised) open source license
@@ -960,7 +960,7 @@ var tokenizePHP = (function() {
     }
     var ch = source.next();
     if (ch == "'" || ch == "\"")
-      return readMultilineString(ch)
+      return readMultilineString(ch);
     else if (ch == "#")
       return readSingleLineComment();
     else if (ch == "$")
