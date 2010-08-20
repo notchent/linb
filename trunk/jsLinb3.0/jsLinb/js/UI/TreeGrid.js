@@ -558,11 +558,11 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
             return profile.rowMap[profile.getSubId(ar)];
         },
         setActiveRow:function(rowId){
-            var dr, row, profile=this.get(0);
+            var dr, row, profile=this.get(0);            
+            if(profile.properties.activeMode!='row')return;
             // deative first
             profile.box._activeRow(profile, false);
-            
-            if(profile.properties.activeMode!='row')return;
+
             if(!(row=this.getRowbyRowId(rowId)))return;
             if(!(dr=profile.getSubNode('CELLS',row._serialId)).isEmpty())
                 profile.box._activeRow(profile, dr.get(0).id);
@@ -753,9 +753,10 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
         },
         setActiveCell:function(rowId, colId){
             var dr, cell, profile=this.get(0);
+            if(profile.properties.activeMode!='cell')return;
+            // deative first
             profile.box._activeCell(profile, false);
 
-            if(profile.properties.activeMode!='cell')return;
             if(typeof rowId=='object')
                 cell=rowId;
             else
