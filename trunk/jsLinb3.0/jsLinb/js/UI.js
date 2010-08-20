@@ -1310,15 +1310,15 @@ Class("linb.UI",  "linb.absObj", {
                     if(parentNode.isEmpty())
                         return;
 
-                    var size=parentNode.cssSize(), node;
-                    if(!size.width)size.width=parentNode.offsetWidth();
-                    if(!size.height)size.width=parentNode.offsetHeight();
+                    if(!profile.$busy||profile.$busy.isEmpty()){
+                        node=profile.$busy=linb.create('<div style="left:0;top:0;z-index:10;position:absolute;background-color:#DDD;width:100%;height:100%;"></div><div style="left:0;top:0;z-index:20;text-align:center;position:absolute;width:100%;height:100%;"><div>'+html+'</div></div>');
+                        linb([node.get(0)]).css({opacity:0.5});
+                    }
+                    node=profile.$busy;
 
-                    node=profile.$busy=linb.create('<div style="left:0;top:0;z-index:10;position:absolute;background-color:#DDD;"></div><div style="left:0;top:0;z-index:20;text-align:center;position:absolute;"><div>'+html+'</div></div>');
-                    linb([node.get(0)]).css({opacity:0.5});
+                    linb([node.get(1).firstChild]).html(html,false).css('paddingTop',(parentNode.offsetHeight()||0)/2+'px');
+
                     parentNode.append(node);
-                    node.css({width:size.width+'px',height:size.height+'px'});
-                    linb([node.get(1).firstChild]).html(html,false).css('paddingTop',size.height/2+'px');
                 },50,[profile,key,subId]);
             });
         },
