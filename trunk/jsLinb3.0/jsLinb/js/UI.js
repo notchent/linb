@@ -5013,7 +5013,8 @@ new function(){
             },
             Templates:{
                 tagName:'a',
-                style: '{_style}',
+                className:'{_className}',
+                style:'{_style}',
                 href :"{href}",
                 target:'{target}',
                 tabindex: '{tabindex}',
@@ -5059,6 +5060,7 @@ new function(){
     Class(u+".SLabel", u,{
         Static:{
             Templates:{
+                className:'{_className}',
                 style:'{_style}text-align:{hAlign}',
                 text:'{caption}'
             },
@@ -5278,8 +5280,8 @@ new function(){
     Class(u+".Span", u,{
         Static:{
             Templates:{
-                style:'{_style}',
                 className:'{_className}',
+                style:'{_style}',
                 //for firefox div focus bug: outline:none; tabindex:'-1'
                 tabindex:'-1',
                 text:'{html}'+linb.UI.$childTag
@@ -5308,8 +5310,8 @@ new function(){
             },
             Templates:{
                 tagName:'div',
-                style:'{_style}',
                 className:'{_className}',
+                style:'{_style}',
                 //for firefox div focus bug: outline:none; tabindex:'-1'
                 tabindex:'-1',
                 text:'{html}'+linb.UI.$childTag
@@ -5329,6 +5331,7 @@ new function(){
         Static:{
             Templates:{
                 tagName:'div',
+                className:'{_className}',
                 style:'overflow:auto;border:dashed blue 1px;text-align:center;background:#EBEADB;{_style}',
                 text:'{tagKey}'+linb.UI.$childTag
             },

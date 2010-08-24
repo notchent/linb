@@ -102,6 +102,8 @@ Class("linb.UI.MenuBar",["linb.UI","linb.absList" ],{
     Static:{
         Templates:{
             tagName:'div',
+            className:'{_className}',
+            style:'{_style}',
             POOL:{
                 tagName:'div'
             },

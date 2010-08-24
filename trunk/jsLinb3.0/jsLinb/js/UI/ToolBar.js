@@ -117,6 +117,8 @@ Class("linb.UI.ToolBar",["linb.UI","linb.absList"],{
         _ITEMKEY:'GROUP',
         Templates:{
             tagName:'div',
+            className:'{_className}',
+            style:'{_style}',
             ITEMS:{
                 className:'uibg-bar uiborder-outset',
                 tagName:'div',
