@@ -1029,6 +1029,11 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                 set:function(v,force){
                     var p=this.properties;
                     p.caption=v;
+                    
+                    if(_.isSet(v)){
+                        v=v+"";
+                        p.caption=v.indexOf('$')!=-1?linb.adjustRes(v,false):v;
+                    }
                     if(_.isSet(p.caption) && this.renderId){
                         if(this.$inputReadonly || p.inputReadonly){
                             this.getSubNode('INPUT').attr("value",this.boxing().getShowValue());

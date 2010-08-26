@@ -893,6 +893,17 @@ _.set(linb.Locale,["en","app"], {
                 "alert(linb.getPath('linb.b.c')); alert(linb.getPath('linb.b.c','.js')); alert(linb.getPath('linb.b.c','.gif','img')); "
             ]
         },
+        adjustRes:{
+            $desc:"Adjust the string with resource id (a word beginning with '$' and including '.').",
+            $rtn:'String',
+            $paras:[
+                "str [Required]: String, the string including resource id.",
+                "wrap [Optional]: Boolean, to determine whether wrapRes function is used or not(using getRes)."
+            ],
+            $snippet:[
+                "alert(linb.adjustRes('$color.LIST.E1FFFF $color.LIST.E1FFFF $abd.kkk $abc')); "
+            ]
+        },
         getRes:{
             $desc:"Gets the resource string from resource id.",
             $rtn:'String',

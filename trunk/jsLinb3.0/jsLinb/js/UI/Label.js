@@ -63,9 +63,10 @@ Class("linb.UI.Label", "linb.UI.Widget",{
             caption:{
                 ini:undefined,
                 // ui update function when setCaption
-                action: function(value){
+                action: function(v){
                     var self=this,p=self.properties,b=self.boxing(),k=self.keys;
-                    self.getSubNodes(['CAPTION','SCAPTION']).html(_.isSet(value)?value:"",false);
+                    v=(_.isSet(v)?v:"")+"";
+                    self.getSubNodes(['CAPTION','SCAPTION']).html(v.indexOf('$')!=-1?linb.adjustRes(v,true):v);
                     if(p.hAlign!='left')b.setHAlign(p.hAlign,true);
                     if(p.vAlign!='top')b.setVAlign(p.vAlign,true);
                 }

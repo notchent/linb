@@ -733,6 +733,7 @@ _.merge(linb,{
         linb.include(z,linb.getPath(z, '.js'),m,m);
     },
     _langParamReg:/\x24(\d+)/g,
+    _langReg:/\B\$([\w]+[\.][\w\.]+[\w])/g,
     getRes:function(path){
         var arr,conf,tmp,params=arguments;
         if(typeof path=='string'){
@@ -759,6 +760,10 @@ _.merge(linb,{
         r= linb.getRes.apply(null,arguments);
         if(s==r)r=i;
         return '<span id="'+linb.$localeDomId+'" class="'+s+'" '+linb.$IEUNSELECTABLE+'>'+r+'</span>';
+    },
+    adjustRes:function(str, wrap){
+        wrap=wrap?linb.wrapRes:linb.getRes;
+        return str.indexOf('$')!=-1 ?  str.replace(linb._langReg, function(a,b){return wrap(b)}): str;
     },
     request:function(uri, query, onSuccess, onFail, threadid, options){
         return (

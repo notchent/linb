@@ -3618,13 +3618,13 @@ Class("linb.UI",  "linb.absObj", {
             var dm = profile.box.$DataModel,
                 prop=profile.properties;
 
-            var i,o,w=linb.wrapRes,me=arguments.callee,r=me._r||(me._r=/\B\$([\w]+[\.][\w\.]+[\w])/g);
+            var i,o;
             for(i in hashIn){
                 if(i.charAt(0)=='$')continue;
                 if(hashIn.hasOwnProperty(i) &&  !hashOut.hasOwnProperty(i))
                     hashOut[i] = typeof (o=hashIn[i])=='string' ?
                              (
-                                  ((o.indexOf('$')!=-1) ? (o=o.replace(r, function(a,b){return w(b)})) : o)
+                                  ((o.indexOf('$')!=-1) ? (o=linb.adjustRes(o,true)) : o)
                                 &&((o.charAt(0)=='@') ? (linb.SC.get(o.substr(1,o.length)) || o) : o)
                               ) : o;
             }
@@ -5037,7 +5037,8 @@ new function(){
                 caption:{
                     ini:undefined,
                     action:function(v){
-                        this.getRoot().html(_.isSet(v)?v:"");
+                        v=(_.isSet(v)?v:"")+"";
+                        this.getRoot().html(v.indexOf('$')!=-1?linb.adjustRes(v,true):v);
                     }
                 },
                 href:{
@@ -5072,8 +5073,9 @@ new function(){
             DataModel:{
                 caption:{
                     ini:undefined,
-                    action: function(value){
-                        this.getRoot().html(_.isSet(value)?value:"");
+                    action: function(v){
+                        v=(_.isSet(v)?v:"")+"";
+                        this.getRoot().html(v.indexOf('$')!=-1?linb.adjustRes(v,true):v);
                     }
                 },
                 hAlign:{
@@ -5157,8 +5159,9 @@ new function(){
 */
                 caption:{
                     ini:undefined,
-                    action: function(value){
-                        this.getSubNode('FOCUS').html(_.isSet(value)?value:"");
+                    action: function(v){
+                        v=(_.isSet(v)?v:"")+"";
+                        this.getSubNode('FOCUS').html(v.indexOf('$')!=-1?linb.adjustRes(v,true):v);
                     }
                 },
                 hAlign:{
@@ -5264,8 +5267,9 @@ new function(){
                 value:false,
                 caption:{
                     ini:undefined,
-                    action: function(value){
-                        this.getSubNode('CAPTION').html(_.isSet(value)?value:"");
+                    action: function(v){
+                        v=(_.isSet(v)?v:"")+"";
+                        this.getSubNode('CAPTION').html(v.indexOf('$')!=-1?linb.adjustRes(v,true):v);
                     }
                 }
             },

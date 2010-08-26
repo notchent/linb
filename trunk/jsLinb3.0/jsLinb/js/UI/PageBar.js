@@ -300,7 +300,8 @@ Class("linb.UI.PageBar",["linb.UI","linb.absValue"] ,{
             caption:{
                 ini:' Page: ',
                 action:function(v){
-                    this.getSubNode("LABEL").html(_.isSet(v)?v:"");
+                    v=(_.isSet(v)?v:"")+"";
+                    this.getSubNode('LABEL').html(v.indexOf('$')!=-1?linb.adjustRes(v,true):v);
                 }
             },
             value:"1:1:1",

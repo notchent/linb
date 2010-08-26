@@ -510,8 +510,9 @@ if(linb.browser.ie){
             caption:{
                 ini:undefined,
                 // ui update function when setCaption
-                action: function(value){
-                    this.getSubNode('CAPTION').get(0).innerHTML = _.isSet(value)?value:"";
+                action: function(v){
+                    v=(_.isSet(v)?v:"")+"";
+                    this.getSubNode('CAPTION').html(v.indexOf('$')!=-1?linb.adjustRes(v,true):v);
                 }
             },
             image:{

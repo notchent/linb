@@ -890,6 +890,17 @@ _.set(linb.Locale,["cn","app"], {
                 "alert(linb.getPath('linb.b.c')); alert(linb.getPath('linb.b.c','.js')); alert(linb.getPath('linb.b.c','.gif','img')); "
             ]
         },
+        adjustRes:{
+            $desc:"调整字符串内部的资源字符串（以 $开头并包括'.'的词）.",
+            $rtn:'String',
+            $paras:[
+                "str [必需参数]: String, 包含资源id的字符串.",
+                "wrap [可选参数]: Boolean, 如果含有资源id的话，是否用wrapRes来替换. 默认为 false，表示用getRes来替换"
+            ],
+            $snippet:[
+                "alert(linb.adjustRes('$color.LIST.E1FFFF $color.LIST.E1FFFF $abd.kkk  $abc')); "
+            ]
+        },
         getRes:{
             $desc:"获取资源id对应的资源串.",
             $rtn:'String',

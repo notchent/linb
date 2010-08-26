@@ -733,6 +733,7 @@ _.merge(linb,{
         linb.include(z,linb.getPath(z, '.js'),m,m);
     },
     _langParamReg:/\x24(\d+)/g,
+    _langReg:/\B\$([\w]+[\.][\w\.]+[\w])/g,
     getRes:function(path){
         var arr,conf,tmp,params=arguments;
         if(typeof path=='string'){
@@ -759,6 +760,10 @@ _.merge(linb,{
         r= linb.getRes.apply(null,arguments);
         if(s==r)r=i;
         return '<span id="'+linb.$localeDomId+'" class="'+s+'" '+linb.$IEUNSELECTABLE+'>'+r+'</span>';
+    },
+    adjustRes:function(str, wrap){
+        wrap=wrap?linb.wrapRes:linb.getRes;
+        return str.indexOf('$')!=-1 ?  str.replace(linb._langReg, function(a,b){return wrap(b)}): str;
     },
     request:function(uri, query, onSuccess, onFail, threadid, options){
         return (
@@ -13034,13 +13039,13 @@ Class("linb.UI",  "linb.absObj", {
             var dm = profile.box.$DataModel,
                 prop=profile.properties;
 
-            var i,o,w=linb.wrapRes,me=arguments.callee,r=me._r||(me._r=/\B\$([\w]+[\.][\w\.]+[\w])/g);
+            var i,o;
             for(i in hashIn){
                 if(i.charAt(0)=='$')continue;
                 if(hashIn.hasOwnProperty(i) &&  !hashOut.hasOwnProperty(i))
                     hashOut[i] = typeof (o=hashIn[i])=='string' ?
                              (
-                                  ((o.indexOf('$')!=-1) ? (o=o.replace(r, function(a,b){return w(b)})) : o)
+                                  ((o.indexOf('$')!=-1) ? (o=linb.adjustRes(o,true)) : o)
                                 &&((o.charAt(0)=='@') ? (linb.SC.get(o.substr(1,o.length)) || o) : o)
                               ) : o;
             }
@@ -14453,7 +14458,8 @@ new function(){
                 caption:{
                     ini:undefined,
                     action:function(v){
-                        this.getRoot().html(_.isSet(v)?v:"");
+                        v=(_.isSet(v)?v:"")+"";
+                        this.getRoot().html(v.indexOf('$')!=-1?linb.adjustRes(v,true):v);
                     }
                 },
                 href:{
@@ -14488,8 +14494,9 @@ new function(){
             DataModel:{
                 caption:{
                     ini:undefined,
-                    action: function(value){
-                        this.getRoot().html(_.isSet(value)?value:"");
+                    action: function(v){
+                        v=(_.isSet(v)?v:"")+"";
+                        this.getRoot().html(v.indexOf('$')!=-1?linb.adjustRes(v,true):v);
                     }
                 },
                 hAlign:{
@@ -14573,8 +14580,9 @@ new function(){
 */
                 caption:{
                     ini:undefined,
-                    action: function(value){
-                        this.getSubNode('FOCUS').html(_.isSet(value)?value:"");
+                    action: function(v){
+                        v=(_.isSet(v)?v:"")+"";
+                        this.getSubNode('FOCUS').html(v.indexOf('$')!=-1?linb.adjustRes(v,true):v);
                     }
                 },
                 hAlign:{
@@ -14680,8 +14688,9 @@ new function(){
                 value:false,
                 caption:{
                     ini:undefined,
-                    action: function(value){
-                        this.getSubNode('CAPTION').html(_.isSet(value)?value:"");
+                    action: function(v){
+                        v=(_.isSet(v)?v:"")+"";
+                        this.getSubNode('CAPTION').html(v.indexOf('$')!=-1?linb.adjustRes(v,true):v);
                     }
                 }
             },
@@ -16229,9 +16238,10 @@ Class("linb.UI.Label", "linb.UI.Widget",{
             caption:{
                 ini:undefined,
                 // ui update function when setCaption
-                action: function(value){
+                action: function(v){
                     var self=this,p=self.properties,b=self.boxing(),k=self.keys;
-                    self.getSubNodes(['CAPTION','SCAPTION']).html(_.isSet(value)?value:"",false);
+                    v=(_.isSet(v)?v:"")+"";
+                    self.getSubNodes(['CAPTION','SCAPTION']).html(v.indexOf('$')!=-1?linb.adjustRes(v,true):v);
                     if(p.hAlign!='left')b.setHAlign(p.hAlign,true);
                     if(p.vAlign!='top')b.setVAlign(p.vAlign,true);
                 }
@@ -16728,8 +16738,9 @@ Class("linb.UI.Button", ["linb.UI.Widget","linb.absValue"],{
             caption:{
                 ini:undefined,
                 // ui update function when setCaption
-                action: function(value){
-                    this.getSubNode('CAPTION').get(0).innerHTML = _.isSet(value)?value:"";
+                action: function(v){
+                    v=(_.isSet(v)?v:"")+"";
+                    this.getSubNode('CAPTION').html(v.indexOf('$')!=-1?linb.adjustRes(v,true):v);
                 }
             },
             image:{
@@ -19922,6 +19933,11 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                 set:function(v,force){
                     var p=this.properties;
                     p.caption=v;
+                    
+                    if(_.isSet(v)){
+                        v=v+"";
+                        p.caption=v.indexOf('$')!=-1?linb.adjustRes(v,false):v;
+                    }
                     if(_.isSet(p.caption) && this.renderId){
                         if(this.$inputReadonly || p.inputReadonly){
                             this.getSubNode('INPUT').attr("value",this.boxing().getShowValue());
@@ -20282,8 +20298,9 @@ Class("linb.UI.Group", "linb.UI.Div",{
             caption:{
                 ini:undefined,
                 // ui update function when setCaption
-                action: function(value){
-                    this.getSubNode('CAPTION').get(0).innerHTML = _.isSet(value)?value:"";
+                action: function(v){
+                    v=(_.isSet(v)?v:"")+"";
+                    this.getSubNode('CAPTION').html(v.indexOf('$')!=-1?linb.adjustRes(v,true):v);
                 }
             },
             html:{
@@ -23692,8 +23709,9 @@ Class("linb.UI.Panel", "linb.UI.Div",{
             caption:{
                 ini:undefined,
                 // ui update function when setCaption
-                action: function(value){
-                    this.getSubNode('CAPTION').get(0).innerHTML = _.isSet(value)?value:"";
+                action: function(v){
+                    v=(_.isSet(v)?v:"")+"";
+                    this.getSubNode('CAPTION').html(v.indexOf('$')!=-1?linb.adjustRes(v,true):v);
                 }
             },
             image:{
@@ -24210,7 +24228,8 @@ Class("linb.UI.PageBar",["linb.UI","linb.absValue"] ,{
             caption:{
                 ini:' Page: ',
                 action:function(v){
-                    this.getSubNode("LABEL").html(_.isSet(v)?v:"");
+                    v=(_.isSet(v)?v:"")+"";
+                    this.getSubNode('LABEL').html(v.indexOf('$')!=-1?linb.adjustRes(v,true):v);
                 }
             },
             value:"1:1:1",
@@ -32263,7 +32282,8 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
             gridHandlerCaption:{
                 ini:"",
                 action:function(v){
-                    this.getSubNode('GRIDCAPTION').get(0).innerHTML=v;
+                    v=(_.isSet(v)?v:"")+"";
+                    this.getSubNode('GRIDCAPTION').html(v.indexOf('$')!=-1?linb.adjustRes(v,true):v);
                 }
             },
             rowHandlerWidth: {
@@ -32653,26 +32673,33 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                 f0=me._f0=(me._f0=function(v){return v?linb.Date.getText(v,'ymdhn'):""}),
                 f1=me._f1=(me._f1=function(v){return v?linb.Date.getText(v,'ymd'):""}),
                 f2=me._f2=(me._f2=function(v){return v?(v.split('\n')[0]||"").replace(/ /g,'&nbsp;').replace(reg1,'&lt;'):""}),
-                f3=me._f3=(me._f3=function(v){if(!v&&v!==0)v=0; return (v*1000/10)+'%'}),
-                f5=me._f5=(me._f5=function(v){if(!v&&v!==0)v=0; return v+''}),
-                f4=me._f4=(me._f4=function(v){if(!v&&v!==0)v=0; v=v.toFixed(2);v= v.split(".");v[0]=v[0].split("").reverse().join("").replace(/(\d{3})(?=\d)/g, "$1,").split("").reverse().join(""); return v.join(".")})
+                f3=me._f3=(me._f3=function(v){return (v||v===0) ? ((v*1000/10)+'%') : ""}),
+                f5=me._f5=(me._f5=function(v){return (v||v===0) ? (v+'') :""}),
+                f4=me._f4=(me._f4=function(v){
+                    if(v||v===0){
+                        v=v.toFixed(2);
+                        v= v.split(".");
+                        return v[0]=v[0].split("").reverse().join("").replace(/(\d{3})(?=\d)/g, "$1,").split("").reverse().join(""); return v.join(".")
+                    }else 
+                        return "";
+               })
             ;
 
             switch(type){
                 case 'number':
                 case 'spin':
                     var v=parseFloat(cell.value);
-                    cell.value=(v||v===0)?v:0;
+                    cell.value=(v||v===0)?v:null;
                     caption= capOut ||ren(profile,cell,ncell,f5);
                     if(dom)
                         node.html(caption,false);
                 break;
                 case 'currency':
                     var v=parseFloat((cell.value+"").replace(/[^\d.]/g,''));
-                    cell.value=(v||v===0)?v:0.00;
+                    cell.value=(v||v===0)?v:null;
                     caption= capOut ||ren(profile,cell,ncell,f4);
                     var tpl = getPro(profile, cell, 'currencyTpl');
-                    if(tpl)
+                    if(tpl && caption!=="")
                         caption = tpl.replace("*", caption);
                     if(dom)
                         node.html(caption,false);
@@ -32698,15 +32725,17 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                 break;
                 case 'color':
                 case 'colorpicker':
-                    cell.value="#"+linb.UI.ColorPicker._ensureValue(0,cell.value);
+                    cell.value=cell.value?("#"+linb.UI.ColorPicker._ensureValue(0,cell.value)):"";
                     caption= capOut ||ren(profile,cell,ncell);
-                    t1=linb.UI.ColorPicker.getTextColor(cell.value);
-                    if(dom){
-                        node.html(caption,false);
-                        node.css('color',t1).css('backgroundColor',cell.value);
-                    }else{
-                        node.color='color:'+t1+';';
-                        node.bgcolor='background-color:'+cell.value+';';
+                    if(cell.value){
+                        t1=linb.UI.ColorPicker.getTextColor(cell.value);
+                        if(dom){
+                            node.html(caption,false);
+                            node.css('color',t1).css('backgroundColor',cell.value);
+                        }else{
+                            node.color='color:'+t1+';';
+                            node.bgcolor='background-color:'+cell.value+';';
+                        }
                     }
                 break;
                 case 'checkbox':
@@ -33396,10 +33425,12 @@ editorDropListHeight
                         switch(type){
                             case 'number':
                             case 'spin':
-                                nV=parseFloat(nV)||0;
+                                nV=parseFloat(nV);
+                                nV=(nV||nV===0)?nV:null;
                                 break;
                             case 'currency':
-                                nV=parseFloat(nV.replace(/[^\d.]/g,''))||0;
+                                nV=parseFloat(nV.replace(/[^\d.]/g,''));
+                                nV=(nV||nV===0)?nV:null;
                                 break;
                             case 'cmdbox':
                             case 'popbox':
@@ -34713,8 +34744,9 @@ if(linb.browser.ie){
             caption:{
                 ini:undefined,
                 // ui update function when setCaption
-                action: function(value){
-                    this.getSubNode('CAPTION').get(0).innerHTML = _.isSet(value)?value:"";
+                action: function(v){
+                    v=(_.isSet(v)?v:"")+"";
+                    this.getSubNode('CAPTION').html(v.indexOf('$')!=-1?linb.adjustRes(v,true):v);
                 }
             },
             image:{
