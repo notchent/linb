@@ -614,7 +614,7 @@ Class('linb.DragDrop',null,{
                 //&nbsp; for IE6
                 if(linb.browser.ie6)
                     o.html('&nbsp;',false);
-                else o.empty(/*false*/);
+                else o.empty(false);
                 o.attr('style','font-size:0;line-height:0;');
 
                 linb('body').prepend(

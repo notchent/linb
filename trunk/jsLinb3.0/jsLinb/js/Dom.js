@@ -453,7 +453,8 @@ Class('linb.Dom','linb.absBox',{
                     else{
                          if(!o.firstChild && content==="")return this;
                          // innerHTML='' in IE, will clear it's childNodes innerHTML
-                         if(!triggerGC && linb.browser.ie)while(t=o.firstChild)o.removeChild(t);
+                         // only asy purgeChildren need this line
+                         // if(!triggerGC && linb.browser.ie)while(t=o.firstChild)o.removeChild(t);
                          //clear first
                          if(triggerGC)
                             linb.$purgeChildren(o);

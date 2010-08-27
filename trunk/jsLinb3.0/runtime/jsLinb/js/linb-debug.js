@@ -5213,7 +5213,8 @@ Class('linb.Dom','linb.absBox',{
                     else{
                          if(!o.firstChild && content==="")return this;
                          // innerHTML='' in IE, will clear it's childNodes innerHTML
-                         if(!triggerGC && linb.browser.ie)while(t=o.firstChild)o.removeChild(t);
+                         // only asy purgeChildren need this line
+                         // if(!triggerGC && linb.browser.ie)while(t=o.firstChild)o.removeChild(t);
                          //clear first
                          if(triggerGC)
                             linb.$purgeChildren(o);
@@ -8428,7 +8429,7 @@ Class('linb.DragDrop',null,{
                 //&nbsp; for IE6
                 if(linb.browser.ie6)
                     o.html('&nbsp;',false);
-                else o.empty(/*false*/);
+                else o.empty(false);
                 o.attr('style','font-size:0;line-height:0;');
 
                 linb('body').prepend(
