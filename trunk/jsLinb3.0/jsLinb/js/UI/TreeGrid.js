@@ -244,20 +244,29 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                 if(options.id && options.id!==rowId){
                     nid=options.id;
                     var m2=profile.rowMap2, v;
-                    if(!m2[options.id]){
+                    if(!m2[nid]){
                         if(v=m2[rowId]){
-                            m2[options.id]=v;
+                            m2[nid]=v;
                             delete m2[rowId];
-                            profile.rowMap[v].id=options.id;
+                            profile.rowMap[v].id=nid;
+                            // modify cells link
+                            _.each(profile.colMap,function(o){
+                                if(o=o._cells){
+                                    o[nid]=o[rowId];
+                                    delete o[rowId];
+                                }
+                            });
                         }
                     }
+                }else{
+                    options.id=rowId; 
                 }
-                delete options.id;
                 // modify id only
                 if(_.isEmpty(options))
                     return ns;
                 //]]
 
+                // need to refresh
                 if(('group' in options && options.group!=orow.group) ||
                     'cells' in options ||
                     ('sub' in options && 
@@ -272,8 +281,8 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                     delete profile.rowMap2[nid||rowId];
                     // remove cells link
                     _.each(profile.colMap,function(o){
-                        if(o._cells)
-                            delete o._cells[nid||rowId];
+                        if(o=o._cells)
+                            delete o[nid||rowId];
                     });
                     // make sure data
                     orow=_.clone(orow,true);
@@ -285,9 +294,10 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                     
                     if(profile.properties.activeMode=='row'){
                         var uiv=profile.properties.$UIvalue||"", arr=uiv.split(';');
-                        if(arr.length && _.arr.indexOf(arr, nid||rowId)!=-1){
-                            if(nid)_.arr.removeValue(arr, nid||rowId);
-                            self.setUIValue(arr.join(';'), true);
+                        if(arr.length && _.arr.indexOf(arr, rowId)!=-1){
+                            if(nid)
+                                _.arr.removeValue(arr, rowId);
+                            ns.setUIValue(arr.join(';'), true);
                         }
                     }
                     
