@@ -5860,7 +5860,7 @@ _.set(linb.Locale,["en","app"], {
                     "src : String, the event source DOM element's linbid.",
                     "dragKey : String, the DragDrop key.",
                     "dragData : Object, the DragDrop data.",
-                    "item : Object, the source item Object."
+                    "item : Object, the target item Object."
                 ],
                 $snippet:[
                     "var id='linb.temp.ab1'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -5885,7 +5885,7 @@ _.set(linb.Locale,["en","app"], {
                     "src : String, the event source DOM element's linbid.",
                     "dragKey : String, the DragDrop key.",
                     "dragData : Object, the DragDrop data.",
-                    "item : Object, the source item Object."
+                    "item : Object, the target item Object."
                 ],
                 $snippet:[
                     "var id='linb.temp.ab2'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -5911,7 +5911,7 @@ _.set(linb.Locale,["en","app"], {
                     "src : String, the event source DOM element's linbid.",
                     "dragKey : String, the DragDrop key.",
                     "dragData : Object, the DragDrop data.",
-                    "item : Object, the source item Object."
+                    "item : Object, the target item Object."
                 ],
                 $snippet:[
                     "var id='linb.temp.ab3'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -5936,7 +5936,7 @@ _.set(linb.Locale,["en","app"], {
                     "src : String, the event source DOM element's linbid.",
                     "dragKey : String, the DragDrop key.",
                     "dragData : Object, the DragDrop data.",
-                    "item : Object, the source item Object."
+                    "item : Object, the target item Object."
                 ],
                 $snippet:[
                     "var id='linb.temp.ab4'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -5961,7 +5961,7 @@ _.set(linb.Locale,["en","app"], {
                     "src : String, the event source DOM element's linbid.",
                     "dragKey : String, the DragDrop key.",
                     "dragData : Object, the DragDrop data.",
-                    "item : Object, the source item Object."
+                    "item : Object, the target item Object."
                 ],
                 $snippet:[
                     "var id='linb.temp.ab5'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -5986,7 +5986,7 @@ _.set(linb.Locale,["en","app"], {
                     "src : String, the event source DOM element's linbid.",
                     "dragKey : String, the DragDrop key.",
                     "dragData : Object, the DragDrop data.",
-                    "item : Object, the source item Object."
+                    "item : Object, the target item Object."
                 ],
                 $snippet:[
                     "var id='linb.temp.ab61'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+

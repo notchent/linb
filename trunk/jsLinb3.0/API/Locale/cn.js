@@ -5889,7 +5889,7 @@ _.set(linb.Locale,["cn","app"], {
                     "src: String, 事件所属DOM元素的linbid.",
                     "dragKey : String, 被拖动物体的拖动标志串.",
                     "dragData : Object, 拖动物体代表的数据.",
-                    "item : Object, 被拖动物体的项."
+                    "item : Object, 进入的子项对象.可能为空."
                 ],
                 $snippet:[
                     "var id='linb.temp.ab1'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -5914,7 +5914,7 @@ _.set(linb.Locale,["cn","app"], {
                     "src: String, 事件所属DOM元素的linbid.",
                     "dragKey : String, 被拖动物体的拖动标志串.",
                     "dragData : Object, 拖动物体代表的数据.",
-                    "item : Object, 被拖动物体的项."
+                    "item : Object, leave的子项对象.可能为空."
                 ],
                 $snippet:[
                     "var id='linb.temp.ab2'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -5940,7 +5940,7 @@ _.set(linb.Locale,["cn","app"], {
                     "src: String, 事件所属DOM元素的linbid.",
                     "dragKey : String, 被拖动物体的拖动标志串.",
                     "dragData : Object, 拖动物体代表的数据.",
-                    "item : Object, 被拖动物体的项."
+                    "item : Object, drop到的子项对象.可能为空."
                 ],
                 $snippet:[
                     "var id='linb.temp.ab3'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -5965,7 +5965,7 @@ _.set(linb.Locale,["cn","app"], {
                     "src: String, 事件所属DOM元素的linbid.",
                     "dragKey : String, 被拖动物体的拖动标志串.",
                     "dragData : Object, 拖动物体代表的数据.",
-                    "item : Object, 被拖动物体的项."
+                    "item : Object, 进入的子项对象.可能为空."
                 ],
                 $snippet:[
                     "var id='linb.temp.ab4'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -5990,7 +5990,7 @@ _.set(linb.Locale,["cn","app"], {
                     "src: String, 事件所属DOM元素的linbid.",
                     "dragKey : String, 被拖动物体的拖动标志串.",
                     "dragData : Object, 拖动物体代表的数据.",
-                    "item : Object, 被拖动物体的项."
+                    "item : Object, 进入的子项对象.可能为空."
                 ],
                 $snippet:[
                     "var id='linb.temp.ab5'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -6015,7 +6015,7 @@ _.set(linb.Locale,["cn","app"], {
                     "src: String, 事件所属DOM元素的linbid.",
                     "dragKey : String, 被拖动物体的拖动标志串.",
                     "dragData : Object, 拖动物体代表的数据.",
-                    "item : Object, 被拖动物体的项."
+                    "item : Object, 进入的子项对象.可能为空."
                 ],
                 $snippet:[
                     "var id='linb.temp.ab61'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:10px;\">' + '<br /><button onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
