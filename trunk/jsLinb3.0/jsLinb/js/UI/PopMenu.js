@@ -574,7 +574,8 @@ Class("linb.UI.PopMenu",["linb.UI.Widget","linb.absList"],{
                         itemId = item.id;
                     if(prop.disabled || item.disabled)return false;
 
-                    if(!item.sub){
+                    // give a change to click an item with sub popmenu
+                    if(!item.group){
                         if(item.type=='checkbox')
                             profile.getSubNodeByItemId('CHECKBOX',item.id).tagClass('-checked', item.value = !item.value);
                         else if(item.type=='radiobox'){
