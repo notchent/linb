@@ -614,7 +614,7 @@ Class('linb.DragDrop',null,{
                 //&nbsp; for IE6
                 if(linb.browser.ie6)
                     o.html('&nbsp;',false);
-                else o.empty(false);
+                else o.empty(/*false*/);
                 o.attr('style','font-size:0;line-height:0;');
 
                 linb('body').prepend(
@@ -645,7 +645,7 @@ Class('linb.DragDrop',null,{
                     size.width =  _.isNumb(p.targetWidth)? p.targetWidth:(targetNode.cssSize().width||0);
                     size.height = _.isNumb(p.targetHeight)?p.targetHeight:(targetNode.cssSize().height||0);
                     var n=targetNode.clone(p.dragType=='deep_copy')
-                        .css({position:'relative',cursor:p.dragCursor,margin:0,'cssFloat':'none'})
+                        .css({position:'relative',margin:'0',left:'0',top:'0',right:'auto',bottom:'auto',cursor:p.dragCursor,'cssFloat':'none'})
                         .cssSize(size)
                         .id('',true)
                         .css('opacity',0.8);
@@ -653,7 +653,6 @@ Class('linb.DragDrop',null,{
                     n.query('*').id('',true);
                     if(p.targetCSS)
                         n.css(p.targetCSS);
-                    n.cssPos({margin:'0',left:'0',top:'0'}).query().id('',true);
                     target = d._setProxy(n,pos);
                     break;
                 case 'shape':

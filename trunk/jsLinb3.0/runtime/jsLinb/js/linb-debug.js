@@ -892,7 +892,7 @@ _.merge(linb,{
             proMap=cache.profileMap,
             ch=cache.UIKeyMapEvents,
             pdata=cache.domPurgeData,
-            children=node.getElementsByTagName('*'),
+            children=linb.browser.ie ? node.all : node.getElementsByTagName('*'),
             l=children.length,
             bak=[],
             i,j,o,t,v,w,id;
@@ -8428,7 +8428,7 @@ Class('linb.DragDrop',null,{
                 //&nbsp; for IE6
                 if(linb.browser.ie6)
                     o.html('&nbsp;',false);
-                else o.empty(false);
+                else o.empty(/*false*/);
                 o.attr('style','font-size:0;line-height:0;');
 
                 linb('body').prepend(
@@ -8459,7 +8459,7 @@ Class('linb.DragDrop',null,{
                     size.width =  _.isNumb(p.targetWidth)? p.targetWidth:(targetNode.cssSize().width||0);
                     size.height = _.isNumb(p.targetHeight)?p.targetHeight:(targetNode.cssSize().height||0);
                     var n=targetNode.clone(p.dragType=='deep_copy')
-                        .css({position:'relative',cursor:p.dragCursor,margin:0,'cssFloat':'none'})
+                        .css({position:'relative',margin:'0',left:'0',top:'0',right:'auto',bottom:'auto',cursor:p.dragCursor,'cssFloat':'none'})
                         .cssSize(size)
                         .id('',true)
                         .css('opacity',0.8);
@@ -8467,7 +8467,6 @@ Class('linb.DragDrop',null,{
                     n.query('*').id('',true);
                     if(p.targetCSS)
                         n.css(p.targetCSS);
-                    n.cssPos({margin:'0',left:'0',top:'0'}).query().id('',true);
                     target = d._setProxy(n,pos);
                     break;
                 case 'shape':
@@ -9307,7 +9306,7 @@ Class("linb.Tips", null,{
             }
 
             if(!linb.Dom.byId(self._id2)){
-                var ns=linb.create('<div id='+self._id1+' style="left:5px;top:'+(linb.win.scrollTop()+5)+'px;" class="linb-dbg-frm"><div class="linb-dbg-box"><div id='+self._id4+' class="linb-dbg-header">&nbsp;&nbsp;:&nbsp;)&nbsp;&nbsp;jsLINB Monitor window <span class="linb-dbg-cmds"><a href="javascript:;" onclick="linb(\''+self._id2+'\').empty(false);">Clear</a><a href="javascript:;" onclick="linb(\''+self._id1+'\').remove();"> &Chi; </a></span></div><div id='+self._id2+' class="linb-dbg-content"></div><div class="linb-dbg-tail"><table><tr><td style="font-family:serif;">&nbsp;>>>&nbsp;</td><td style="width:100%"><input id='+self._id3+' /></td></tr></table></div></div></div>');
+                var ns=linb.create('<div id='+self._id1+' style="left:5px;top:'+(linb.win.scrollTop()+5)+'px;" class="linb-dbg-frm"><div class="linb-dbg-box"><div id='+self._id4+' class="linb-dbg-header">&nbsp;&nbsp;:&nbsp;)&nbsp;&nbsp;jsLINB Monitor window <span class="linb-dbg-cmds"><a href="javascript:;" onclick="linb(\''+self._id2+'\').empty();">Clear</a><a href="javascript:;" onclick="linb(\''+self._id1+'\').remove();"> &Chi; </a></span></div><div id='+self._id2+' class="linb-dbg-content"></div><div class="linb-dbg-tail"><table><tr><td style="font-family:serif;">&nbsp;>>>&nbsp;</td><td style="width:100%"><input id='+self._id3+' /></td></tr></table></div></div></div>');
                 linb('body').append(ns);
                 self.$con=linb(self._id2);
                 linb(self._id4).onMousedown(function(p,e,s){
@@ -28910,7 +28909,7 @@ Class("linb.UI.Layout",["linb.UI", "linb.absList"],{
                 top:0
             },
             'MOVE-LEFT':{
-                right:0
+                right:'0px'
             },
             'MOVE-RIGHT':{
                 left:0

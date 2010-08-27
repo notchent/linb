@@ -272,7 +272,7 @@ Class("linb.UI.Layout",["linb.UI", "linb.absList"],{
                 top:0
             },
             'MOVE-LEFT':{
-                right:0
+                right:'0px'
             },
             'MOVE-RIGHT':{
                 left:0

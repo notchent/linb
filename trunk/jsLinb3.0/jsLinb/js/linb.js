@@ -892,7 +892,7 @@ _.merge(linb,{
             proMap=cache.profileMap,
             ch=cache.UIKeyMapEvents,
             pdata=cache.domPurgeData,
-            children=node.getElementsByTagName('*'),
+            children=linb.browser.ie ? node.all : node.getElementsByTagName('*'),
             l=children.length,
             bak=[],
             i,j,o,t,v,w,id;
