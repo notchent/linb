@@ -189,6 +189,8 @@ Class("linb.UI.Gallery", "linb.UI.List",{
             item.capition = item.capition || '';
             item.comment = item.comment || '';
             item._tabindex = p.tabindex;
+            //Avoid Empty Image src
+            if(!item.image)item.image=linb.ini.img_bg;
         },
         _onresize:function(profile,width,height){
         }

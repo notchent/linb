@@ -48,7 +48,6 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                             if(sh > hh)
                                 if(top<st || top>st+hh)
                                     items.scrollTop(top);
-
                         }
                     }
                 }else if(p.selMode=='multi'){
@@ -2103,7 +2102,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                             var all=profile.getSubNode('CELLS',true).get();
                             //filter dispaly==none
                             _.filter(all,function(o){
-                                return !!o.offsetWidth;
+                                return !!o.clientHeight;
                             });
                             profile.$allrowscache = all;
                         }
@@ -2194,7 +2193,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                         alt=[];
                         j=0;
                         nodes.each(function(o,i){
-                            if(o.offsetHeight){
+                            if(o.clientHeight){
                                 o=linb([o]);
                                 if((j++)%2==1){
                                     if(!o.hasClass(altCls))o.addClass(altCls);
@@ -2218,7 +2217,8 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                         row,ol=0,l=0,a1=[],a2=[],tag='',temp,t;
                     if(value)
                         nodes.each(function(o){
-                            if(o.parentNode.offsetWidth){
+// for perfomance: remove this
+//                            if(o.parentNode.clientHeight){
                                 row=map[ns.getSubId(o.id)];
                                 l=row._layer;
                                 if(l>ol){
@@ -2241,7 +2241,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                                         t.nodeValue=temp;
                                 }else
                                     o.appendChild(document.createTextNode(temp));
-                            }
+//                            }
                         });
                     else
                         nodes.text('');
@@ -2427,7 +2427,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
             else if(flag===true){
                 var ws=[],t;
                 profile.getSubNode('FCELLINN',true).each(function(o){
-                    if((t=o.parentNode).parentNode.offsetWidth>0 && linb.Dom.getStyle(t,'overflow')!='visible')
+                    if((t=o.parentNode).parentNode.offsetHeight>0 && linb.Dom.getStyle(t,'overflow')!='visible')
                         if(n=map[profile.getSubId(o.id)])
                             ws.push(linb([o]).width() + n._layer*ww);
                 });
@@ -3483,12 +3483,12 @@ editorDropListHeight
                 var body=profile.getSubNode('BODY'),
                     header=profile.getSubNode('HCELLS'),
                     t,l,last,keys=profile.keys,ww;
-                if(body.get(0).offsetHeight){
-                    if(header.get(0).offsetHeight){
+                if(body.get(0).clientHeight){
+                    if(header.get(0).clientHeight){
                         if(t=header.get(0).childNodes){
                             l=t.length;
                             while(l){
-                                if(t[l-1].offsetHeight){
+                                if(t[l-1].clientHeight){
                                     last=t[l-1];
                                     break;
                                 }
@@ -3503,7 +3503,7 @@ editorDropListHeight
                         if(t=body.get(0).childNodes){
                             l=t.length;
                             while(l){
-                                if(t[l-1].offsetHeight){
+                                if(t[l-1].clientHeight){
                                     last=t[l-1];
                                     break;
                                 }
@@ -3515,7 +3515,7 @@ editorDropListHeight
                                 if(t=t.get(0).childNodes){
                                     l=t.length;
                                     while(l){
-                                        if(t[l-1].offsetHeight){
+                                        if(t[l-1].clientHeight){
                                             last=t[l-1];
                                             break;
                                         }

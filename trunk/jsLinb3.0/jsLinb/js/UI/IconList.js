@@ -126,6 +126,8 @@ Class("linb.UI.IconList", "linb.UI.List",{
                 item[i] = item[i] || p[i];
             });
             item._tabindex = p.tabindex;
+            //Avoid Empty Image src
+            if(!item.image)item.image=linb.ini.img_bg;
         }
     }
 });

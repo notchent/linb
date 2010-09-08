@@ -18,8 +18,23 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
                         profile.getSubNode('BAR',itemId).tagClass('-checked',false);
 
                     itemId = profile.getSubIdByItemId(value);
-                    if(itemId)
-                        profile.getSubNode('BAR',itemId).tagClass('-checked')
+                    if(itemId){
+                        profile.getSubNode('BAR',itemId).tagClass('-checked');
+                    //scroll
+                        var o = profile.getSubNode('ITEM',itemId);
+                        if(o){
+                            var top = o.offsetTop(),
+                                height = o.offsetHeight(),
+                                items = profile.getSubNode('BOX'),
+                                sh=items.scrollHeight(),
+                                st=items.scrollTop(),
+                                hh=items.height();
+                            if(sh > hh)
+                                if(top<st || (top+height)>(st+hh))
+                                    items.scrollTop(top);
+
+                        }
+                    }
                 }else if(selmode=='multi'){
                     uiv = uiv?uiv.split(';'):[];
                     value = value?value.split(';'):[];

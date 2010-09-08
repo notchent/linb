@@ -320,8 +320,8 @@ Class('linb.absObj',"linb.absBox",{
         getAlias:function(){
             return this.get(0).alias;
         },
-        alias:function(str){
-            return str?this.setAlias(value):this.getAlias();
+        alias:function(value){
+            return value?this.setAlias(value):this.getAlias();
         },
         host:function(value, alias){
             return value?this.setHost(value, alias):this.getHost();
@@ -3648,7 +3648,10 @@ Class("linb.UI",  "linb.absObj", {
                 hashOut.backgroundRepeat='background-repeat:'+hashOut.imageRepeat+';';
             else if(hashOut.image)
                 hashOut.backgroundRepeat='background-repeat:no-repeat;';
-
+            //must be here
+            //Avoid Empty Image src
+            if(!hashOut.image)hashOut.image=linb.ini.img_bg;
+            
             if((typeof (o=hashOut.renderer)=='function') || (typeof (o=hashIn.renderer)=='function'))
                 hashOut.caption=o.call(profile,hashIn,hashOut);
 
