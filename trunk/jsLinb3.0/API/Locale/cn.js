@@ -9513,17 +9513,17 @@ _.set(linb.Locale,["cn","app"], {
                     "}"
                 ]
             },
-            getImage :{
+            getBtnImage :{
                 $desc:"获取按钮图标的url",
                 $rtn:"String",
                 $snippet:[
                     "var id='linb.temp.ci18'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                     "var o1;linb(id).prepend(o1=new linb.UI.ComboInput({position:'relative',type:'cmdbox'}));"+
-                    "_.asyRun(function(){o1.setImage('img/img.gif'); alert(o1.getImage())},1000)"+
+                    "_.asyRun(function(){o1.setBtnImage('img/img.gif'); alert(o1.getBtnImage())},1000)"+
                     "}"
                 ]
             },
-            setImage :{
+            setBtnImage :{
                 $desc:"设置按钮图标的url, 并刷新界面.",
                 $rtn:"[self]",
                 $paras:[
@@ -9533,21 +9533,21 @@ _.set(linb.Locale,["cn","app"], {
                 $snippet:[
                     "var id='linb.temp.ci19'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                     "var o1;linb(id).prepend(o1=new linb.UI.ComboInput({position:'relative',type:'cmdbox'}));"+
-                    "_.asyRun(function(){o1.setImage('img/img.gif'); alert(o1.getImage())},1000)"+
+                    "_.asyRun(function(){o1.setBtnImage('img/img.gif'); alert(o1.getBtnImage())},1000)"+
                     "}"
                 ]
             },
-            getImagePos :{
+            getBtnImagePos :{
                 $desc:"获取按钮图标的css position属性",
                 $rtn:"String",
                 $snippet:[
                     "var id='linb.temp.ci20'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                     "var o1;linb(id).prepend(o1=new linb.UI.ComboInput({position:'relative',type:'cmdbox'}));"+
-                    "_.asyRun(function(){o1.setImage('img/img.gif').setImagePos('left -16px'); alert(o1.getImagePos())},1000)"+
+                    "_.asyRun(function(){o1.setImage('img/img.gif').setBtnImagePos('left -16px'); alert(o1.getBtnImagePos())},1000)"+
                     "}"
                 ]
             },
-            setImagePos :{
+            setBtnImagePos :{
                 $desc:"设置按钮图标的css position属性, 并刷新界面.",
                 $rtn:"[self]",
                 $paras:[
@@ -9557,7 +9557,7 @@ _.set(linb.Locale,["cn","app"], {
                 $snippet:[
                     "var id='linb.temp.ci21'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
                     "var o1;linb(id).prepend(o1=new linb.UI.ComboInput({position:'relative',type:'cmdbox'}));"+
-                    "_.asyRun(function(){o1.setImage('img/img.gif').setImagePos('left -16px'); alert(o1.getImagePos())},1000)"+
+                    "_.asyRun(function(){o1.setImage('img/img.gif').setBtnImagePos('left -16px'); alert(o1.getBtnImagePos())},1000)"+
                     "}"
                 ]
             },

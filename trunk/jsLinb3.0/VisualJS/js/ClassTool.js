@@ -92,14 +92,15 @@ Class('VisualJS.ClassTool',null,{
         },
         //get class struct from a Class declare, include comments words
         getClassStruct : function(str){
-            str = linb.Coder.replace(str, [
-                [/(\r\n|\r)/g, "\n"],
-                [/( +)(\n)/g, "$2"],
-                [/\t/g, "    "]
-            ]);
+            try{
+                str = linb.Coder.replace(str, [
+                    [/(\r\n|\r)/g, "\n"],
+                    [/( +)(\n)/g, "$2"],
+                    [/\t/g, "    "]
+                ]);
 
-            //clear mash
-            var t,
+                //clear mash
+                var t,
                 index=1,
                 index1=1,
                 cache={},
@@ -162,32 +163,35 @@ Class('VisualJS.ClassTool',null,{
 
                 //get {}
                 var index2=1,
-                    cache2={},
-                    code2 = function(str) {
-                		var ret = "'~" + index2++ +"'";
-                		cache2[ret] = str;
-                		return ret;
-                	},
-                    code3 = function(a,b,str) {
-                        if(a.indexOf('~')!=-1)return a;
+                cache2={},
+                code2 = function(str) {
+            		var ret = "'~" + index2++ +"'";
+            		cache2[ret] = str;
+            		return ret;
+            	},
+                code3 = function(a,b,str) {
+                    if(a.indexOf('~')!=-1)return a;
 
-                		var ret = "'~" + index2++ +"'";
-                		cache2[ret] = str;
-                		return b + ret;
-                	},
-                	restore2 = function(str){
-                        if(str.indexOf('~')==-1)return str;
+            		var ret = "'~" + index2++ +"'";
+            		cache2[ret] = str;
+            		return b + ret;
+            	},
+            	restore2 = function(str){
+                    if(str.indexOf('~')==-1)return str;
 
-                        str = cache2["'"+str+"'"];
-                        while(/'~\d+'/.test(str))
-                            str = str.replace(/'~\d+'/g, function(m){
-                    		    return cache2[m];
-                    	    });
-                    	return str;
-                    };
-
-                while(/(\{([^\{\}]*)\})|(\[([^\[\]]*)\])/.test(str)){
+                    str = cache2["'"+str+"'"];
+                    while(/'~\d+'/.test(str))
+                        str = str.replace(/'~\d+'/g, function(m){
+                		    return cache2[m];
+                	    });
+                	return str;
+                };
+                       
+                while(/(\{([^\{\}\[\]]*)\})|(\[([^\[\]\{\}]*)\])/.test(str)){
                     str = str.replace(/\s*(((function\s*([\w$]+\s*)?\(\s*([\w$\s,]*)\s*\)\s*)?(\{([^\{\}\[\]]*)\}))|(\[([^\[\]\{\}]*)\]))/g, code2);
+                }
+                if(/[\{\}\[\]]/.test(str)){
+                    return false;
                 }
 
                 // handler any \s for comments
@@ -261,6 +265,9 @@ Class('VisualJS.ClassTool',null,{
                 });
 
                 return o;
+            }catch(e){
+                return false;
+            }
         }
     }
 });

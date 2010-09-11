@@ -99,7 +99,7 @@ Class('VisualJS.JSEditor', 'linb.Com',{
 
             // check first
             var result = VisualJS.CodeEditor.evalInSandbox(code);
-            ns.showErr(result);
+            ns.showEvalResult(result);
 
             var obj;
             if(result.ok){
@@ -109,11 +109,14 @@ Class('VisualJS.JSEditor', 'linb.Com',{
                     Instance:{},
                     Static:{}
                 };
-// 2. try to get struct. for those {} matecd code with other SyntaxError
+// 2. try to get struct. for those {} matched code with other SyntaxError
                 var code, struct = VisualJS.ClassTool.getClassStruct(value);
                 // fail
-                if(!struct)
+                if(!struct){
+                    // to show err
+                    ns.check();
                     return ;
+                }
 
                 _.arr.each(['Constructor', 'Dependency', 'Initialize', 'Before', 'After'],function(i){
                     if(code=struct.sub[i].code){
@@ -317,49 +320,61 @@ Class('VisualJS.JSEditor', 'linb.Com',{
                 });
             }
 
+            ns._buildNameSpaceOnce=true;
         },
-        showErr:function(result){
+        showEvalResult:function(result){
             var ns=this;
             var bgcolor,
                 bgcolor1='#FFF8DC',
                 bgcolor2='#FF0000';
-
-            if(result.ko){
-                ns.errlink
-                    .setCaption(linb.getRes('VisualJS.JSEditor.codeerr', result.ko))
-                    .setTag(result.line);
-                ns.errIcon.getRoot().css('background','url(img/App.gif) -16px -16px');
-
-                if(!ns.errThread){
-                    ns.errmsg.setBackground(bgcolor=bgcolor2);
-                    ns.errThread = linb.Thread.repeat(function(){
-                        ns.errmsg.setBackground(bgcolor=bgcolor==bgcolor1?bgcolor2:bgcolor1);
-                    },1000);
-                }
-            }else{
-                ns.errlink
-                    .setCaption(linb.getRes('VisualJS.checkOK'))
-                    .setTag(null);
-                ns.errIcon.getRoot().css('background','url(img/App.gif) -64px -16px');
-
-                _.asyRun(function(){
-                    if(ns.errlink && !ns.errlink.getTag()){
-                        ns.errlink.setCaption('');
+            if(result){                
+                if(result.ko){
+                    ns.errlink
+                        .setCaption(linb.getRes('VisualJS.JSEditor.codeerr', result.ko))
+                        .setTag(result.line);
+                    ns.errIcon.getRoot().css('background','url(img/App.gif) -16px -16px');
+    
+                    if(!ns.errThread){
+                        ns.errmsg.setBackground(bgcolor=bgcolor2);
+                        ns.errThread = linb.Thread.repeat(function(){
+                            ns.errmsg.setBackground(bgcolor=bgcolor==bgcolor1?bgcolor2:bgcolor1);
+                        },1000);
                     }
-                }, 2000);
+                }else{
+                    ns.errlink
+                        .setCaption(linb.getRes('VisualJS.checkOK'))
+                        .setTag(null);
+                    ns.errIcon.getRoot().css('background','url(img/App.gif) -64px -16px');
+    
+                    _.asyRun(function(){
+                        if(ns.errlink && !ns.errlink.getTag()){
+                            ns.errlink.setCaption('');
+                        }
+                    }, 2000);
+    
+                    if(ns.errThread){
+                        ns.errmsg.setBackground(bgcolor1);
+                        ns.errThread.abort();
+                        delete ns.errThread;
+                    }
+               }
+            }
+            // if err, check it again.                
+            if(!result || result.ko){
+                _.asyRun(ns.check, 3000, [], ns);
+                return;
+            }
+            // build namespace when the code is no-err
+            if(result && result.ok && !ns._buildNameSpaceOnce){
+                _.asyRun(ns._buildNameSpace, 1000, [], ns);
+            }
 
-                if(ns.errThread){
-                    ns.errmsg.setBackground(bgcolor1);
-                    ns.errThread.abort();
-                    delete ns.errThread;
-                }
-           }
         },
         _rebuildTree:function(text){
             var ns=this,
                 result = ns._getEval(text);
 
-            ns.showErr(result);
+            ns.showEvalResult(result);
             if(!result.ok)
                 return ;
 
@@ -413,6 +428,7 @@ Class('VisualJS.JSEditor', 'linb.Com',{
             }
 
             this.treebarClass.setItems(items);
+            ns._treebuilt=true;
         },
         _getEval:function(text){
             var ns=this,
@@ -433,14 +449,11 @@ Class('VisualJS.JSEditor', 'linb.Com',{
         },
         check:function(text){
             var ns=this,
+                result;
+            try{
                 result = ns._getEval(text);
-
-            ns.showErr(result);
-
-            // try again later
-            if(result.ko){
-                _.asyRun(arguments.callee, 3000, [], ns);
-            }
+                ns.showEvalResult(result);
+            }catch(e){}
 
             return result;
         },

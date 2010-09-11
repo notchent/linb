@@ -19869,13 +19869,13 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                     }
                 }
             },
-            image:{
+            btnImage:{
                 action: function(value){
                     this.getSubNode('MID')
                         .css('backgroundImage','url('+(value||'')+')');
                 }
             },
-            imagePos:{
+            btnImagePos:{
                 action: function(value){
                     this.getSubNode('MID')
                         .css('backgroundPosition', value);
@@ -20046,7 +20046,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
             var data=arguments.callee.upper.call(this, profile),
                 map=profile.box._posMap;
             if(map[data.type])
-                data._btnStyle = data.image? ('background: url('+data.image+')' + (data.imagePos||'')) :('background-position:'+map[data.type]);
+                data._btnStyle = data.btnImage? ('background: url('+data.btnImage+')' + (data.btnImagePos||'')) :('background-position:'+map[data.type]);
 
             data._type="text";
 
