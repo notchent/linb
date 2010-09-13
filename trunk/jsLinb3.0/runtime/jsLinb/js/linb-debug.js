@@ -19941,7 +19941,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                         v=v+"";
                         p.caption=v.indexOf('$')!=-1?linb.adjustRes(v,false):v;
                     }
-                    if(_.isSet(p.caption) && this.renderId){
+                    if(this.renderId){
                         if(this.$inputReadonly || p.inputReadonly){
                             this.getSubNode('INPUT').attr("value",this.boxing().getShowValue());
                         }
