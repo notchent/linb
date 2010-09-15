@@ -1,6 +1,6 @@
 (linb.Locale.en||(linb.Locale.en={})).VisualJS={
     message:"System message!",
-    noMessage:"Welcome to VisuleJS Ajax/javascript UI Builder!",
+    noMessage:"Welcome to VisualJS, an Ajax/Javascript UI Builder!",
     soon:'Coming soon',
     ok:'OK',
     cancel:'Cancel',
