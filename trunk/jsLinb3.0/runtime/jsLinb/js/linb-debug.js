@@ -9381,8 +9381,9 @@ Class("linb.Tips", null,{
            if(linb.browser.ie)width=width+(width%2);
            var div, h, me=arguments.callee,
            stack=me.stack||(me.stack=[]),
+           allmsg=me.allmsg||(me.allmsg=[]),
            t=linb.win, left = t.scrollLeft() + t.width()/2 - width/2, height=t.height(), st=t.scrollTop();
-           
+
            div=stack.pop();
            while(div&&!div.get(0))
                 div=stack.pop();
@@ -9396,14 +9397,35 @@ Class("linb.Tips", null,{
                div = linb.create(div);
                if(div.addBorder)div.addBorder();
                linb('body').append(div);
+               allmsg.push(div);
             }
+            div.__hide=0;
+
             div.css({left:left+'px', width:width+'px', visibility:'visible'})
             .first().html(head||'').css('visibility',head?'visible':'hidden')
             .next().html(body||'');
 
             if(me.last && div!=me.last){
-                var l=me.last.left();
-                me.last.animate({left:[l,l+(me.last.width+width)/2+20]},null,null,100,5).start();
+                var last=me.last;
+                var l=last.left();
+                if(last._thread&&last._thread.id&&last._thread.isAlive())last._thread.abort();
+                last._thread=last.animate({left:[l,l+(last.width+width)/2+20]},function(){
+                    last.left(l);
+                },function(){
+                    last.left(l+(last.width+width)/2+20);
+                },100,5).start();
+                
+                var lh=last.offsetHeight();
+               _.filter(allmsg,function(ind){
+                    if(ind.isEmpty())
+                        return false;
+                   if(!ind.__hide && ind!=div && ind!=last){
+                       if(ind._thread.id&&ind._thread.isAlive())
+                            ind._thread.abort();
+                       ind.topBy(lh);
+                    }
+               });
+
             }
             me.last = div;
             me.last.width = width;
@@ -9413,9 +9435,20 @@ Class("linb.Tips", null,{
 
             if(linb.browser.ie6)div.cssSize({ height :h, width :width+2});
 
-            div.animate({top:[st-h-20,st+20]},null,null,100,5,'expoOut').start();
+            if(div._thread&&div._thread.id&&div._thread.isAlive())div._thread.abort();
+            div._thread=div.animate({top:[st-h-20,st+20]},function(){
+                div.top(st-h-20);
+            },function(){
+                div.top(st+20);
+            },100,5,'expoOut').start();
+
             _.asyRun(function(){
-                div.animate({top:[st+20, height+20]},null,function(){stack.push(div); div.hide()},100,10).start();
+                if(div._thread&&div._thread.id&&div._thread.isAlive())div._thread.abort();
+                div._thread=div.animate({top:[div.top(), height+20]},null,function(){
+                     stack.push(div); 
+                     div.hide();
+                     div.__hide=1;
+                },100,10).start();
             }, time||5000);
         };
     }
