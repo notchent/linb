@@ -209,7 +209,7 @@ Class("linb.UI.RichEditor", ["linb.UI","linb.absValue"],{
                                 self.$doc=doc=frames[id].document;
     
                                 doc.open();
-                                doc.write('<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><style type="text/css">body{border:0;margin:0;padding:0;margin:0;cursor:text;background:#fff;color:#000;padding:3px;}p{margin:0;padding:0;} div{margin:0;padding:0;}</style></head><body>'+(self.properties.$UIvalue||"")+'</body></html>');
+                                doc.write('<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><style type="text/css">body{border:0;margin:0;padding:0;margin:0;cursor:text;background:#fff;color:#000;padding:3px;font-size:12px;}p{margin:0;padding:0;} div{margin:0;padding:0;}</style></head><body>'+(self.properties.$UIvalue||"")+'</body></html>');
                                 doc.close();
     
                                 try{doc.execCommand("styleWithCSS", 0, false)}catch(e){
@@ -223,6 +223,11 @@ Class("linb.UI.RichEditor", ["linb.UI","linb.absValue"],{
                                    doc.body.contentEditable = disabled?"false":"true";
                                 else
                                    doc.designMode=disabled?"off":"on";
+                                
+                                // ensure toolbar disable
+                                if(disabled){
+                                    self.box._iniToolBar(self, false);
+                                }
     
                                 doc._pro=win._pro=self;
                                 win._gekfix=gekfix;
