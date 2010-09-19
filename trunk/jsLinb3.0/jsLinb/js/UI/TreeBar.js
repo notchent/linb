@@ -370,7 +370,7 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
                 onDblclick:function(profile, e, src){
                     var properties = profile.properties,
                         item = profile.getItemByDom(src),
-                        rtn=profile.onDblclick && profile.boxing().onDblclick(profile, item, src);
+                        rtn=profile.onDblclick && profile.boxing().onDblclick(profile, item, e, src);
                     if(item.sub && rtn!==false){
                         profile.getSubNode('TOGGLE',profile.getSubId(src)).onClick();
                     }
@@ -395,9 +395,9 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
             }
         },
         EventHandlers:{
-            onDblclick:function(profile, item, src){},
+            onDblclick:function(profile, item, e, src){},
             onGetContent:function(profile, item, callback){},
-            onItemSelected:function(profile, item, src){},
+            onItemSelected:function(profile, item, e, src){},
             beforeFold:function(profile,item){},
             beforeExpend:function(profile,item){},
             afterFold:function(profile,item){},
@@ -468,7 +468,7 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
     
             switch(properties.selMode){
             case 'none':
-                box.onItemSelected(profile, item, src);
+                box.onItemSelected(profile, item, e, src);
                 break;
             case 'multi':
             if(properties.readonly|| item.readonly)return false;
@@ -501,7 +501,7 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
                     if(box.getUIValue() != value){
                         box.setUIValue(value);
                         if(box.get(0) && box.getUIValue() == value)
-                            box.onItemSelected(profile, item, src);
+                            box.onItemSelected(profile, item, e, src);
                     }
                     break;
                 }
@@ -510,7 +510,7 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
                     profile.$firstV=item;
                     box.setUIValue(item.id);
                     if(box.get(0) && box.getUIValue() == item.id)
-                        box.onItemSelected(profile, item, src);
+                        box.onItemSelected(profile, item, e, src);
                 }
                 break;
             }

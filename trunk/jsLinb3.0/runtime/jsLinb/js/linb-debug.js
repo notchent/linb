@@ -22925,7 +22925,7 @@ Class("linb.UI.Group", "linb.UI.Div",{
                 onDblclick:function(profile, e, src){
                     var properties = profile.properties,
                         item = profile.getItemByDom(src);
-                    profile.boxing().onDblclick(profile, item, src);
+                    profile.boxing().onDblclick(profile, item, e, src);
                 },
                 onClick:function(profile, e, src){
                     var properties = profile.properties,
@@ -22941,7 +22941,7 @@ Class("linb.UI.Group", "linb.UI.Div",{
 
                     switch(properties.selMode){
                     case 'none':
-                        rt=box.onItemSelected(profile, item, src);
+                        rt=box.onItemSelected(profile, item, e, src);
                         break;
                     case 'multi':
                         if(properties.readonly|| item.readonly)return false;
@@ -22976,7 +22976,7 @@ Class("linb.UI.Group", "linb.UI.Div",{
                             else{
                                 box.setUIValue(value);
                                 if(box.get(0) && box.getUIValue() == value)
-                                    rt=box.onItemSelected(profile, item, src)||rt2;
+                                    rt=box.onItemSelected(profile, item, e, src)||rt2;
                             }
                             break;
                         }
@@ -22989,7 +22989,7 @@ Class("linb.UI.Group", "linb.UI.Div",{
                             profile.$firstV=item;
                             box.setUIValue(item.id);
                             if(box.get(0) && box.getUIValue() == item.id)
-                                rt=box.onItemSelected(profile, item, src);
+                                rt=box.onItemSelected(profile, item, e, src);
                         }
                         break;
                     }
@@ -23078,8 +23078,8 @@ Class("linb.UI.Group", "linb.UI.Div",{
             maxHeight:300
         },
         EventHandlers:{
-            onDblclick:function(profile, item, src){},
-            onItemSelected:function(profile, item, src){}
+            onDblclick:function(profile, item, e, src){},
+            onItemSelected:function(profile, item, e, src){}
         },
         _ensureValue:function(profile,value){
             if(profile.properties.selMode=='multi'){
@@ -24945,7 +24945,7 @@ Class("linb.UI.Tabs", ["linb.UI", "linb.absList","linb.absValue"],{
                     if(properties.readonly || item.readonly)return false;
                     if(box.getUIValue() == item.id){
                          if(profile.onCaptionActive)
-                            profile.boxing().onCaptionActive(profile, profile.getItemByDom(src), src);
+                            profile.boxing().onCaptionActive(profile, profile.getItemByDom(src), e, src);
                     }
                 }
             },
@@ -24973,7 +24973,7 @@ Class("linb.UI.Tabs", ["linb.UI", "linb.absList","linb.absValue"],{
 
                     //if success
                     if(box.getUIValue() == item.id){
-                        box.onItemSelected(profile, item, src);
+                        box.onItemSelected(profile, item, e, src);
                         return false;
                     }
                 }
@@ -25242,8 +25242,8 @@ Class("linb.UI.Tabs", ["linb.UI", "linb.absList","linb.absValue"],{
             beforePageClose:function(profile, item, src){},
             afterPageClose:function(profile, item){},
             onShowOptions:function(profile,item,e,src){},
-            onItemSelected:function(profile, item, src){},
-            onCaptionActive:function(profile, item, src){}
+            onItemSelected:function(profile, item,e,src){},
+            onCaptionActive:function(profile, item,e,src){}
         },
         RenderTrigger:function(){
             var self=this,v,i,ins;
@@ -26325,7 +26325,7 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
                 onDblclick:function(profile, e, src){
                     var properties = profile.properties,
                         item = profile.getItemByDom(src),
-                        rtn=profile.onDblclick && profile.boxing().onDblclick(profile, item, src);
+                        rtn=profile.onDblclick && profile.boxing().onDblclick(profile, item, e, src);
                     if(item.sub && rtn!==false){
                         profile.getSubNode('TOGGLE',profile.getSubId(src)).onClick();
                     }
@@ -26350,9 +26350,9 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
             }
         },
         EventHandlers:{
-            onDblclick:function(profile, item, src){},
+            onDblclick:function(profile, item, e, src){},
             onGetContent:function(profile, item, callback){},
-            onItemSelected:function(profile, item, src){},
+            onItemSelected:function(profile, item, e, src){},
             beforeFold:function(profile,item){},
             beforeExpend:function(profile,item){},
             afterFold:function(profile,item){},
@@ -26423,7 +26423,7 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
     
             switch(properties.selMode){
             case 'none':
-                box.onItemSelected(profile, item, src);
+                box.onItemSelected(profile, item, e, src);
                 break;
             case 'multi':
             if(properties.readonly|| item.readonly)return false;
@@ -26456,7 +26456,7 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
                     if(box.getUIValue() != value){
                         box.setUIValue(value);
                         if(box.get(0) && box.getUIValue() == value)
-                            box.onItemSelected(profile, item, src);
+                            box.onItemSelected(profile, item, e, src);
                     }
                     break;
                 }
@@ -26465,7 +26465,7 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
                     profile.$firstV=item;
                     box.setUIValue(item.id);
                     if(box.get(0) && box.getUIValue() == item.id)
-                        box.onItemSelected(profile, item, src);
+                        box.onItemSelected(profile, item, e, src);
                 }
                 break;
             }
@@ -32464,7 +32464,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
             onNewLineTriggerred:function(profile, cell, row){},
             
             onGetContent:function(profile, row, callback){},
-            onRowSelected:function(profile, row, src){},
+            onRowSelected:function(profile, row, e, src){},
 
             beforeColDrag:function(profile, colId){},
             beforeColMoved:function(profile, colId, toId){},
@@ -33174,7 +33174,7 @@ editorDropListHeight
                 mode=properties.selMode;
             switch(mode){
             case 'none':
-                box.onRowSelected(profile, targetItem, src);
+                box.onRowSelected(profile, targetItem, e, src);
                 break;
             case 'multi':
                 var value = box.getUIValue(),
@@ -33208,7 +33208,7 @@ editorDropListHeight
                     if(box.getUIValue() != value){
                         box.setUIValue(value);
                         if(box.get(0) && box.getUIValue() == value)
-                            box.onRowSelected(profile, targetItem, src);
+                            box.onRowSelected(profile, targetItem, e, src);
                     }
                     break;
                 }
@@ -33217,7 +33217,7 @@ editorDropListHeight
                     profile.$firstV=targetItem;
                     box.setUIValue(sid);
                     if(box.get(0) && box.getUIValue() == sid)
-                        box.onRowSelected(profile, targetItem, src);
+                        box.onRowSelected(profile, targetItem, e, src);
                 }
                 break;
             }

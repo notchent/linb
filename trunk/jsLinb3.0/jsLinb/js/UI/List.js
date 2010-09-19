@@ -181,7 +181,7 @@ Class("linb.UI.List", ["linb.UI", "linb.absList","linb.absValue" ],{
                 onDblclick:function(profile, e, src){
                     var properties = profile.properties,
                         item = profile.getItemByDom(src);
-                    profile.boxing().onDblclick(profile, item, src);
+                    profile.boxing().onDblclick(profile, item, e, src);
                 },
                 onClick:function(profile, e, src){
                     var properties = profile.properties,
@@ -197,7 +197,7 @@ Class("linb.UI.List", ["linb.UI", "linb.absList","linb.absValue" ],{
 
                     switch(properties.selMode){
                     case 'none':
-                        rt=box.onItemSelected(profile, item, src);
+                        rt=box.onItemSelected(profile, item, e, src);
                         break;
                     case 'multi':
                         if(properties.readonly|| item.readonly)return false;
@@ -232,7 +232,7 @@ Class("linb.UI.List", ["linb.UI", "linb.absList","linb.absValue" ],{
                             else{
                                 box.setUIValue(value);
                                 if(box.get(0) && box.getUIValue() == value)
-                                    rt=box.onItemSelected(profile, item, src)||rt2;
+                                    rt=box.onItemSelected(profile, item, e, src)||rt2;
                             }
                             break;
                         }
@@ -245,7 +245,7 @@ Class("linb.UI.List", ["linb.UI", "linb.absList","linb.absValue" ],{
                             profile.$firstV=item;
                             box.setUIValue(item.id);
                             if(box.get(0) && box.getUIValue() == item.id)
-                                rt=box.onItemSelected(profile, item, src);
+                                rt=box.onItemSelected(profile, item, e, src);
                         }
                         break;
                     }
@@ -334,8 +334,8 @@ Class("linb.UI.List", ["linb.UI", "linb.absList","linb.absValue" ],{
             maxHeight:300
         },
         EventHandlers:{
-            onDblclick:function(profile, item, src){},
-            onItemSelected:function(profile, item, src){}
+            onDblclick:function(profile, item, e, src){},
+            onItemSelected:function(profile, item, e, src){}
         },
         _ensureValue:function(profile,value){
             if(profile.properties.selMode=='multi'){

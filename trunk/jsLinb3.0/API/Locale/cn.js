@@ -10409,6 +10409,7 @@ _.set(linb.Locale,["cn","app"], {
                 $paras:[
                     "profile : linb.UIProfile.",
                     "item: Object, 项对象.",
+                    "e: Event, 事件对象.",
                     "src: String, 事件所属DOM元素的linbid."
                 ],
                 $snippet:[
@@ -10423,6 +10424,7 @@ _.set(linb.Locale,["cn","app"], {
                 $paras:[
                     "profile : linb.UIProfile.",
                     "item: Object, 项对象.",
+                    "e: Event, 事件对象.",
                     "src: String, 事件所属DOM元素的linbid."
                 ],
                 $snippet:[
@@ -11844,6 +11846,7 @@ _.set(linb.Locale,["cn","app"], {
                 $paras:[
                     "profile : linb.UIProfile.",
                     "item: Object, 被选择的标签项对象.",
+                    "e: Event, 事件对象.",
                     "src: String, 事件所属DOM元素的linbid."
                 ],
                 $snippet:[
@@ -11858,6 +11861,7 @@ _.set(linb.Locale,["cn","app"], {
                 $paras:[
                     "profile : linb.UIProfile.",
                     "item: Object, 当前标签项.",
+                    "e: Event, 事件对象.",
                     "src: String, 事件所属DOM元素的linbid."
                 ],
                 $snippet:[
@@ -11952,6 +11956,7 @@ _.set(linb.Locale,["cn","app"], {
                 $paras:[
                     "profile : linb.UIProfile.",
                     "index: Nubmer, calendar天的序号.",
+                    "e: Event, 事件对象.",
                     "src: String, 事件所属DOM元素的linbid."
                 ]
             }
@@ -13107,6 +13112,7 @@ _.set(linb.Locale,["cn","app"], {
                 $paras:[
                     "profile : linb.UIProfile.",
                     "item: Object, 项对象.",
+                    "e: Event, 事件对象.",
                     "src: String, 事件所属DOM元素的linbid."
                 ]
             }
@@ -13920,6 +13926,7 @@ _.set(linb.Locale,["cn","app"], {
                 $paras:[
                     "profile : linb.UIProfile.",
                     "item: Object, 项对象.",
+                    "e: Event, 事件对象.",
                     "src: String, 事件所属DOM元素的linbid."
                 ],
                 $snippet:[
@@ -15182,6 +15189,7 @@ _.set(linb.Locale,["cn","app"], {
                 $paras:[
                     "profile : linb.UIProfile.",
                     "row: Object, 行对象.",
+                    "e : Event, DOM事件元素.",
                     "src: String, 事件所属DOM元素的linbid."
                 ],
                 $snippet:[

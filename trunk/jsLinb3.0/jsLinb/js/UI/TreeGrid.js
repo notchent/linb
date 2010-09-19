@@ -2376,7 +2376,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
             onNewLineTriggerred:function(profile, cell, row){},
             
             onGetContent:function(profile, row, callback){},
-            onRowSelected:function(profile, row, src){},
+            onRowSelected:function(profile, row, e, src){},
 
             beforeColDrag:function(profile, colId){},
             beforeColMoved:function(profile, colId, toId){},
@@ -3086,7 +3086,7 @@ editorDropListHeight
                 mode=properties.selMode;
             switch(mode){
             case 'none':
-                box.onRowSelected(profile, targetItem, src);
+                box.onRowSelected(profile, targetItem, e, src);
                 break;
             case 'multi':
                 var value = box.getUIValue(),
@@ -3120,7 +3120,7 @@ editorDropListHeight
                     if(box.getUIValue() != value){
                         box.setUIValue(value);
                         if(box.get(0) && box.getUIValue() == value)
-                            box.onRowSelected(profile, targetItem, src);
+                            box.onRowSelected(profile, targetItem, e, src);
                     }
                     break;
                 }
@@ -3129,7 +3129,7 @@ editorDropListHeight
                     profile.$firstV=targetItem;
                     box.setUIValue(sid);
                     if(box.get(0) && box.getUIValue() == sid)
-                        box.onRowSelected(profile, targetItem, src);
+                        box.onRowSelected(profile, targetItem, e, src);
                 }
                 break;
             }

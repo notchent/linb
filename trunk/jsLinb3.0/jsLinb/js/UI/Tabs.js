@@ -576,7 +576,7 @@ Class("linb.UI.Tabs", ["linb.UI", "linb.absList","linb.absValue"],{
                     if(properties.readonly || item.readonly)return false;
                     if(box.getUIValue() == item.id){
                          if(profile.onCaptionActive)
-                            profile.boxing().onCaptionActive(profile, profile.getItemByDom(src), src);
+                            profile.boxing().onCaptionActive(profile, profile.getItemByDom(src), e, src);
                     }
                 }
             },
@@ -604,7 +604,7 @@ Class("linb.UI.Tabs", ["linb.UI", "linb.absList","linb.absValue"],{
 
                     //if success
                     if(box.getUIValue() == item.id){
-                        box.onItemSelected(profile, item, src);
+                        box.onItemSelected(profile, item, e, src);
                         return false;
                     }
                 }
@@ -873,8 +873,8 @@ Class("linb.UI.Tabs", ["linb.UI", "linb.absList","linb.absValue"],{
             beforePageClose:function(profile, item, src){},
             afterPageClose:function(profile, item){},
             onShowOptions:function(profile,item,e,src){},
-            onItemSelected:function(profile, item, src){},
-            onCaptionActive:function(profile, item, src){}
+            onItemSelected:function(profile, item,e,src){},
+            onCaptionActive:function(profile, item,e,src){}
         },
         RenderTrigger:function(){
             var self=this,v,i,ins;

@@ -86,7 +86,7 @@ Class('linb.UI.Calendar', 'linb.UI.DatePicker', {
                     var p=profile.properties,
                         index=profile.getSubId(src);
                     if(p.disabled)return false;
-                    profile.boxing().onDblclick(profile, index, src);
+                    profile.boxing().onDblclick(profile, index, e, src);
                 }
             }
         },
@@ -103,7 +103,7 @@ Class('linb.UI.Calendar', 'linb.UI.DatePicker', {
             height:200
         },
         EventHandlers:{
-            onDblclick:function(profile, item, src){},
+            onDblclick:function(profile, item, e, src){},
             beforeClose:null
         },
         _getLabelNodes:function(profile){

@@ -10482,6 +10482,7 @@ _.set(linb.Locale,["en","app"], {
                 $paras:[
                     "profile : linb.UIProfile.",
                     "item: Object, list item Object.",
+                    "e: Event, the DOM event Object.",
                     "src : String, the event source DOM element's linbid."
                 ],
                 $snippet:[
@@ -10496,6 +10497,7 @@ _.set(linb.Locale,["en","app"], {
                 $paras:[
                     "profile : linb.UIProfile.",
                     "item: list item Object.",
+                    "e: Event, the DOM event Object.",
                     "src : String, the event source DOM element's linbid."
                 ],
                 $snippet:[
@@ -11918,6 +11920,7 @@ _.set(linb.Locale,["en","app"], {
                 $paras:[
                     "profile : linb.UIProfile.",
                     "item: Object, item Object.",
+                    "e: Event, the DOM event Object.",
                     "src : String, the event source DOM element's linbid."
                 ],
                 $snippet:[
@@ -11932,6 +11935,7 @@ _.set(linb.Locale,["en","app"], {
                 $paras:[
                     "profile : linb.UIProfile.",
                     "item: Object, item Object.",
+                    "e: Event, the DOM event Object.",
                     "src : String, the event source DOM element's linbid."
                 ],
                 $snippet:[
@@ -12026,6 +12030,7 @@ _.set(linb.Locale,["en","app"], {
                 $paras:[
                     "profile : linb.UIProfile.",
                     "index: Nubmer, day index.",
+                    "e: Event, the DOM event Object.",
                     "src : Element."
                 ]
             }
@@ -13995,6 +14000,7 @@ _.set(linb.Locale,["en","app"], {
                 $paras:[
                     "profile : linb.UIProfile.",
                     "item: Object, list item Object.",
+                    "e: Event, the DOM event Object.",
                     "src : String, the event source DOM element's linbid."
                 ],
                 $snippet:[
@@ -15259,6 +15265,7 @@ _.set(linb.Locale,["en","app"], {
                 $paras:[
                     "profile : linb.UIProfile.",
                     "row:  Object.",
+                    "e: Event, the DOM event Object.",
                     "src : String, the event source DOM element's linbid."
                 ],
                 $snippet:[
