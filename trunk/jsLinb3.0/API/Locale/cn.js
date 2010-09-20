@@ -6869,11 +6869,23 @@ _.set(linb.Locale,["cn","app"], {
                     "force [可选参数] : Boolean, 强制设置该属性值,即使属性已经设置为该值. 默认为 [false]."
                 ]
             },
-            getDisableHover:{
+            getDisableClickEffect:{
+                $desc:"判断控件是否已经去掉鼠标点击效果.",
+                $rtn:"Boolean"
+            },
+            setDisableClickEffect:{
+                $desc:"设置控件是否去掉鼠标点击效果.",
+                $rtn:"[self]",
+                $paras:[
+                    "value [必需参数] : Boolean.",
+                    "force [可选参数] : Boolean, 强制设置该属性值,即使属性已经设置为该值. 默认为 [false]."
+                ]
+            },
+            getDisableHoverEffect:{
                 $desc:"判断控件是否已经去掉鼠标Hover效果.",
                 $rtn:"Boolean"
             },
-            setDisableHover:{
+            setDisableHoverEffect:{
                 $desc:"设置控件是否去掉鼠标Hover效果.",
                 $rtn:"[self]",
                 $paras:[

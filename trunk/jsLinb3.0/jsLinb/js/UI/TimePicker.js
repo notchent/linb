@@ -349,11 +349,11 @@ Class('linb.UI.TimePicker', ['linb.UI',"linb.absValue"], {
             },
             MI:{
                 onMouseover:function(profile, e, src){
-                    if(profile.properties.disableHover)return;
+                    if(profile.properties.disableHoverEffect)return;
                     profile.box._mover(linb.use(src).get(0));
                 },
                 onMouseout:function(profile, e, src){
-                    if(profile.properties.disableHover)return;
+                    if(profile.properties.disableHoverEffect)return;
                     profile.box._mout(linb.use(src).get(0));
                 },
                 onClick:function(profile, e, src){

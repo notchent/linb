@@ -2949,28 +2949,31 @@ Class("linb.UI",  "linb.absObj", {
                             box=profile.boxing();
                             if(mode==1){
                                 if(type=='mouseover'){
-                                    if(prop.disableHover)
+                                    if(prop.disableHoverEffect)
                                         return;
-                                    if(profile.beforeHoverEffect)
-                                        if(false == box.beforeHoverEffect(profile, item, e, src, 'mouseover'))
-                                            return;
+                                    if(profile.beforeHoverEffect && false === box.beforeHoverEffect(profile, item, e, src, 'mouseover'))
+                                        return;
                                 }
-                                if(type=='mousedown' && profile.beforeClickEffect)
-                                    if(false == box.beforeClickEffect(profile, item, e, src, 'mousedown'))
+                                if(type=='mousedown'){
+                                    if(prop.disableClickEffect)
                                         return;
+                                    if(profile.beforeClickEffect && false === box.beforeClickEffect(profile, item, e, src, 'mousedown'))
+                                        return;
+                                }
 
                                 //default action
                                 nodes.tagClass('-'+type);
                             }else{
                                 if(type=='mouseup'){
-                                    if(profile.beforeClickEffect && false == box.beforeClickEffect(profile, item, e, src, 'mouseup'))
+                                    if(prop.disableClickEffect)
+                                        return;
+                                    if(profile.beforeClickEffect && false === box.beforeClickEffect(profile, item, e, src, 'mouseup'))
                                         return;
                                     nodes.tagClass('-mousedown', false);
                                 }else{
-                                    if(prop.disableHover)
+                                    if(prop.disableHoverEffect)
                                         return;
-
-                                    if(profile.beforeHoverEffect && false == box.beforeHoverEffect(profile, item, e, src, 'mouseout'))
+                                    if(profile.beforeHoverEffect && false === box.beforeHoverEffect(profile, item, e, src, 'mouseout'))
                                         return;
                                     nodes.tagClass('(-mouseover|-mousedown)', false);
                                 }
@@ -3687,7 +3690,8 @@ Class("linb.UI",  "linb.absObj", {
                     this.getRoot().addClass(v);
                 }
             },
-            disableHover:false,
+            disableClickEffect:false,
+            disableHoverEffect:false,
             disableTips:false,
             disabled:{
                 ini:false,

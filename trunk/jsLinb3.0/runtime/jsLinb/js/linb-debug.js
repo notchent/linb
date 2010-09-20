@@ -12403,28 +12403,31 @@ Class("linb.UI",  "linb.absObj", {
                             box=profile.boxing();
                             if(mode==1){
                                 if(type=='mouseover'){
-                                    if(prop.disableHover)
+                                    if(prop.disableHoverEffect)
                                         return;
-                                    if(profile.beforeHoverEffect)
-                                        if(false == box.beforeHoverEffect(profile, item, e, src, 'mouseover'))
-                                            return;
+                                    if(profile.beforeHoverEffect && false === box.beforeHoverEffect(profile, item, e, src, 'mouseover'))
+                                        return;
                                 }
-                                if(type=='mousedown' && profile.beforeClickEffect)
-                                    if(false == box.beforeClickEffect(profile, item, e, src, 'mousedown'))
+                                if(type=='mousedown'){
+                                    if(prop.disableClickEffect)
                                         return;
+                                    if(profile.beforeClickEffect && false === box.beforeClickEffect(profile, item, e, src, 'mousedown'))
+                                        return;
+                                }
 
                                 //default action
                                 nodes.tagClass('-'+type);
                             }else{
                                 if(type=='mouseup'){
-                                    if(profile.beforeClickEffect && false == box.beforeClickEffect(profile, item, e, src, 'mouseup'))
+                                    if(prop.disableClickEffect)
+                                        return;
+                                    if(profile.beforeClickEffect && false === box.beforeClickEffect(profile, item, e, src, 'mouseup'))
                                         return;
                                     nodes.tagClass('-mousedown', false);
                                 }else{
-                                    if(prop.disableHover)
+                                    if(prop.disableHoverEffect)
                                         return;
-
-                                    if(profile.beforeHoverEffect && false == box.beforeHoverEffect(profile, item, e, src, 'mouseout'))
+                                    if(profile.beforeHoverEffect && false === box.beforeHoverEffect(profile, item, e, src, 'mouseout'))
                                         return;
                                     nodes.tagClass('(-mouseover|-mousedown)', false);
                                 }
@@ -13141,7 +13144,8 @@ Class("linb.UI",  "linb.absObj", {
                     this.getRoot().addClass(v);
                 }
             },
-            disableHover:false,
+            disableClickEffect:false,
+            disableHoverEffect:false,
             disableTips:false,
             disabled:{
                 ini:false,
@@ -17961,7 +17965,8 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
                     else
                         i.removeClass('ui-inputdisabled');
                     if((""+i.get(0).type).toLowerCase()!='button')
-                        i.attr('disabled',v);
+                        // use readonly for selection
+                        i.attr('readonly'/*'disabled'*/,v);
                 }
             },
             hAlign:{
@@ -22619,11 +22624,11 @@ Class("linb.UI.Group", "linb.UI.Div",{
             },
             MI:{
                 onMouseover:function(profile, e, src){
-                    if(profile.properties.disableHover)return;
+                    if(profile.properties.disableHoverEffect)return;
                     profile.box._mover(linb.use(src).get(0));
                 },
                 onMouseout:function(profile, e, src){
-                    if(profile.properties.disableHover)return;
+                    if(profile.properties.disableHoverEffect)return;
                     profile.box._mout(linb.use(src).get(0));
                 },
                 onClick:function(profile, e, src){
@@ -31999,14 +32004,14 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                 afterMouseover:function(profile, e, src){
                     var p=profile.properties;
                     if(p.disabled)return;
-                    if(p.disableHover)return;
+                    if(p.disableHoverEffect)return;
                     if(p.activeMode=='row')
                         linb.use(src).tagClass('-mouseover');
                 },
                 afterMouseout:function(profile, e, src){
                     var p=profile.properties;
                     if(p.disabled)return;
-                    if(p.disableHover)return;
+                    if(p.disableHoverEffect)return;
                     if(p.activeMode=='row')
                         linb.use(src).tagClass('-mouseover',false);
                 },
@@ -32028,14 +32033,14 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                 afterMouseover:function(profile, e, src){
                     var p=profile.properties;
                     if(p.disabled)return;
-                    if(p.disableHover)return;
+                    if(p.disableHoverEffect)return;
                     if(p.activeMode=='cell')
                         linb.use(src).tagClass('-mouseover');
                 },
                 afterMouseout:function(profile, e, src){
                     var p=profile.properties;
                     if(p.disabled)return;
-                    if(p.disableHover)return;
+                    if(p.disableHoverEffect)return;
                     if(p.activeMode=='cell')
                         linb.use(src).tagClass('-mouseover',false);
                 }

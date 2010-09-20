@@ -438,7 +438,8 @@ Class("linb.UI.Input", ["linb.UI.Widget","linb.absValue"] ,{
                     else
                         i.removeClass('ui-inputdisabled');
                     if((""+i.get(0).type).toLowerCase()!='button')
-                        i.attr('disabled',v);
+                        // use readonly for selection
+                        i.attr('readonly'/*'disabled'*/,v);
                 }
             },
             hAlign:{

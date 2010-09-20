@@ -1911,14 +1911,14 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                 afterMouseover:function(profile, e, src){
                     var p=profile.properties;
                     if(p.disabled)return;
-                    if(p.disableHover)return;
+                    if(p.disableHoverEffect)return;
                     if(p.activeMode=='row')
                         linb.use(src).tagClass('-mouseover');
                 },
                 afterMouseout:function(profile, e, src){
                     var p=profile.properties;
                     if(p.disabled)return;
-                    if(p.disableHover)return;
+                    if(p.disableHoverEffect)return;
                     if(p.activeMode=='row')
                         linb.use(src).tagClass('-mouseover',false);
                 },
@@ -1940,14 +1940,14 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                 afterMouseover:function(profile, e, src){
                     var p=profile.properties;
                     if(p.disabled)return;
-                    if(p.disableHover)return;
+                    if(p.disableHoverEffect)return;
                     if(p.activeMode=='cell')
                         linb.use(src).tagClass('-mouseover');
                 },
                 afterMouseout:function(profile, e, src){
                     var p=profile.properties;
                     if(p.disabled)return;
-                    if(p.disableHover)return;
+                    if(p.disableHoverEffect)return;
                     if(p.activeMode=='cell')
                         linb.use(src).tagClass('-mouseover',false);
                 }

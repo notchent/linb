@@ -6845,11 +6845,23 @@ _.set(linb.Locale,["en","app"], {
                     "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
                 ]
             },
-            getDisableHover:{
+            getDisableClickEffect:{
+                $desc:"Determines whether this UI control disabled mouse click effection or not.",
+                $rtn:"Boolean"
+            },
+            setDisableClickEffect:{
+                $desc:"Specifys whether this UI control disable mouse click effection or not.",
+                $rtn:"[self]",
+                $paras:[
+                    "value [Required] : Boolean.",
+                    "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
+                ]
+            },
+            getDisableHoverEffect:{
                 $desc:"Determines whether this UI control disabled mouse hover effection or not.",
                 $rtn:"Boolean"
             },
-            setDisableHover:{
+            setDisableHoverEffect:{
                 $desc:"Specifys whether this UI control disable mouse hover effection or not.",
                 $rtn:"[self]",
                 $paras:[
