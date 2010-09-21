@@ -19513,6 +19513,10 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                 position:'relative',
                 'float':'right'
             },
+            SBTN:{
+                $order:2,
+                'z-index':'6'
+            },
             'SBTN,BTN,R1,R2':{
                 'margin-top':'2px'
             },
@@ -19620,6 +19624,10 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
             'SMID-remove':{
                 $order:8,
                 'background-position': '-32px -48px'
+            },
+            'SMID-pop':{
+                $order:8,
+                'background-position': '-32px -64px'
             },
             '.setting-linb-comboinput':{
                 'border-style':'solid',
@@ -19941,7 +19949,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
             max:Math.pow(10,15),
             commandBtn:{
                 ini:"none",
-                listbox:_.toArr("none,save,delete,add,remove,custom"),
+                listbox:_.toArr("none,save,delete,add,remove,pop,custom"),
                 action:function(v){
                     this.boxing().refresh();
                 }
