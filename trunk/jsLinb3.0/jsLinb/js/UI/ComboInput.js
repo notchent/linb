@@ -675,6 +675,10 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                 $order:8,
                 'background-position': '-32px -48px'
             },
+            'SMID-select':{
+                $order:8,
+                'background-position': 'left -16px'
+            },
             'SMID-pop':{
                 $order:8,
                 'background-position': '-32px -64px'
@@ -704,9 +708,10 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                 onClick : function(profile, e, src){
                     var prop=profile.properties;
 
-                    if(prop.type=='popbox' || prop.type=='getter')
-                        if(profile.onClick)
-                            profile.boxing().onClick(profile, e, src, prop.$UIvalue);
+                    if(prop.type=='popbox' || prop.type=='getter'){
+                        if(profile.onClick && false===profile.boxing().onClick(profile, e, src, prop.$UIvalue))
+                            return;
+                    }
 
                     if(prop.disabled || prop.readonly)return;
                     profile.boxing()._drop(e, src);
@@ -999,7 +1004,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
             max:Math.pow(10,15),
             commandBtn:{
                 ini:"none",
-                listbox:_.toArr("none,save,delete,add,remove,pop,custom"),
+                listbox:_.toArr("none,save,delete,add,remove,pop,select,custom"),
                 action:function(v){
                     this.boxing().refresh();
                 }
