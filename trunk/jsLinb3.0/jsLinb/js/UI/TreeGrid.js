@@ -2660,9 +2660,11 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                 f5=me._f5=(me._f5=function(v){return (v||v===0) ? (v+'') :""}),
                 f4=me._f4=(me._f4=function(v){
                     if(v||v===0){
-                        v=v.toFixed(2);
+                        v=parseFloat(v);
+                        v=v.toFixed(getPro(profile, cell, 'precision'));
                         v= v.split(".");
-                        return v[0]=v[0].split("").reverse().join("").replace(/(\d{3})(?=\d)/g, "$1,").split("").reverse().join(""); return v.join(".")
+                        v[0]=v[0].split("").reverse().join("").replace(/(\d{3})(?=\d)/g, "$1,").split("").reverse().join("");
+                        return v.join(".")
                     }else 
                         return "";
                })
@@ -2678,8 +2680,9 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                         node.html(caption,false);
                 break;
                 case 'currency':
-                    var v=parseFloat((cell.value+"").replace(/[^\d.]/g,''));
+                    var v=parseFloat((cell.value+"").replace(/[^\d.-]/g,''));
                     cell.value=(v||v===0)?v:null;
+                    //  Note that cell value has true numeric value, while caption has currency format with commas.
                     caption= capOut ||ren(profile,cell,ncell,f4);
                     var tpl = getPro(profile, cell, 'currencyTpl');
                     if(tpl && caption!=="")
@@ -3412,7 +3415,7 @@ editorDropListHeight
                                 nV=(nV||nV===0)?nV:null;
                                 break;
                             case 'currency':
-                                nV=parseFloat(nV.replace(/[^\d.]/g,''));
+                                nV=parseFloat(nV.replace(/[^\d.-]/g,''));
                                 nV=(nV||nV===0)?nV:null;
                                 break;
                             case 'cmdbox':

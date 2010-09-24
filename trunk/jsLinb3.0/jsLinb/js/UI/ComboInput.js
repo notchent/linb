@@ -4,7 +4,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
         _adjustV:function(v){
             var profile=this.get(0);
             if(profile.$isNumber){
-                v=(''+v).replace(/[^\d.]/g,'');
+                v=(''+v).replace(/[^\d.-]/g,'');
                 v=_.isNumb(parseFloat(v))?parseFloat(v):null;
             }else if(profile.properties.type=='datepicker'||profile.properties.type=='date'||profile.properties.type=='datetime'){
                 v=_.isDate(v)?v:_.isFinite(v)?new Date(parseInt(v)):null;                
@@ -393,16 +393,16 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
             if(type=='timepicker' || type=='time'){
                 var keymap={a:1,c:1,v:1,x:1};
                 _.merge(profile,{
-                    $beforeKeypress : function(profile,c,k){
-                        return k.key.length!=1 || /[0-9:]/.test(k.key)|| (k.ctrlKey&& !!keymap[k.key]);
+                    $beforeKeypress : function(p,c,k){
+                        return k.key.length!=1 || /[-0-9:]/.test(k.key)|| (k.ctrlKey&& !!keymap[k.key]);
                     },
-                    $getShowValue : function(profile,v){
-                        return v?linb.UI.TimePicker._ensureValue(profile,v):'';
+                    $getShowValue : function(p,v){
+                        return v?linb.UI.TimePicker._ensureValue(p,v):'';
                     },
-                    $fromEditor : function(profile,v){
+                    $fromEditor : function(p,v){
                         if(v){
-                            v = linb.UI.TimePicker._ensureValue(profile,v);
-                            if(v=='00:00')v=profile.properties.$UIvalue;
+                            v = linb.UI.TimePicker._ensureValue(p,v);
+                            if(v=='00:00')v=p.properties.$UIvalue;
                         }
                         return v;
                     }
@@ -411,50 +411,50 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                 var date=linb.Date;
                 var keymap={a:1,c:1,v:1,x:1};
                 _.merge(profile,{
-                    $beforeKeypress : function(profile,c,k){
+                    $beforeKeypress : function(p,c,k){
                         return k.key.length!=1 || /[0-9:/\-_ ]/.test(k.key) ||(k.ctrlKey && !!keymap[k.key]);
                     },
                     $compareValue : function(p,a,b){
                         return (!a&&!b) || (String(a)==String(b))
                     },
-                    $getShowValue : function(profile,v){
-                        if(profile.properties.dateEditorTpl)
-                            return v?date.format(v, profile.properties.dateEditorTpl):'';
+                    $getShowValue : function(p,v){
+                        if(p.properties.dateEditorTpl)
+                            return v?date.format(v, p.properties.dateEditorTpl):'';
                         else
-                            return v?date.getText(new Date(parseInt(v)), profile.properties.type=='datetime'?'ymdhn':'ymd'):'';
+                            return v?date.getText(new Date(parseInt(v)), p.properties.type=='datetime'?'ymdhn':'ymd'):'';
                     },
-                    $toEditor : function(profile,v){
+                    $toEditor : function(p,v){
                         if(!v)return "";
 
                         v=new Date(parseInt(v)||0);
-                        if(profile.properties.dateEditorTpl)
-                            return date.format(v, profile.properties.dateEditorTpl);
+                        if(p.properties.dateEditorTpl)
+                            return date.format(v, p.properties.dateEditorTpl);
                         else{
                             var m=(date.get(v,'m')+1)+'',d=date.get(v,'d')+'',h=date.get(v,'h')+'',n=date.get(v,'n')+'';
                             return date.get(v,'y')+'-'+(m.length==1?'0':'')+m+'-'+(d.length==1?'0':'')+d 
                             
-                              +(profile.properties.type=='datetime'?(" "+(h.length==1?'0':'')+h +":" +(n.length==1?'0':'')+n):"");
+                              +(p.properties.type=='datetime'?(" "+(h.length==1?'0':'')+h +":" +(n.length==1?'0':'')+n):"");
                         }
                     },
-                    $fromEditor : function(profile,v){
+                    $fromEditor : function(p,v){
                         if(v){
-                            if(profile.properties.dateEditorTpl)
-                                v=date.parse(v, profile.properties.dateEditorTpl);
+                            if(p.properties.dateEditorTpl)
+                                v=date.parse(v, p.properties.dateEditorTpl);
                             else
                                 v=linb.Date.parse(v);
                             // set to old UIvalue
                             if(!v){
-                                v=profile.properties.$UIvalue;
+                                v=p.properties.$UIvalue;
                                 if(_.isFinite(v))v=new Date(parseInt(v));
                             }
                             if(v){
-                                if(profile.properties.type!='datetime')
+                                if(p.properties.type!='datetime')
                                     v=date.getTimSpanStart(v,'d',1);
                                 // min/max year
-                                if(v.getFullYear()<profile.properties.min)
-                                    v.setTime(profile.properties.min);
-                                if(v.getFullYear()>profile.properties.max)
-                                    v.setTime(profile.properties.max);
+                                if(v.getFullYear()<p.properties.min)
+                                    v.setTime(p.properties.min);
+                                if(v.getFullYear()>p.properties.max)
+                                    v.setTime(p.properties.max);
                             }
                         }
                         return v?String(v.getTime()):'';
@@ -464,15 +464,15 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                 profile.$isNumber=1;
                 var keymap={a:1,c:1,v:1,x:1};
                 _.merge(profile,{
-                    $beforeKeypress : function(profile,c,k){
-                        return k.key.length!=1 || /[0-9,.]/.test(k.key) ||(k.ctrlKey && !!keymap[k.key]);
+                    $beforeKeypress : function(p,c,k){
+                        return k.key.length!=1 || /[-0-9,.]/.test(k.key) ||(k.ctrlKey && !!keymap[k.key]);
                     },
                     $compareValue : function(p,a,b){
-                        return ((a===''&&b!=='')||(b===''&&a!==''))?false:p.box._currency(profile, a)==p.box._currency(profile, b)
+                        return ((a===''&&b!=='')||(b===''&&a!==''))?false:p.box._number(p, a)==p.box._number(p, b)
                     },
                     $getShowValue : function(p,v){
                         if(_.isSet(v)&&v!==""){
-                            v=p.box._currency(profile, v);
+                            v=p.box.formatCurrency(p.box._number(p, v), p.properties.precision);
                             if(p.properties.currencyTpl)
                                 v=p.properties.currencyTpl.replace("*", v);
                         }else
@@ -480,27 +480,27 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                         return v;
                     },
                     $toEditor : function(p,v){
-                        return (_.isSet(v)&&v!=="")?p.box._currency(profile, v).replace(/[^\d.]/g,''):"";
+                        return (_.isSet(v)&&v!=="")?p.box.formatCurrency(p.box._number(p, v), p.properties.precision):"";
                     },
                     $fromEditor : function(p,v){
-                        return (_.isSet(v)&&v!=="")?p.box._currency(profile, v).replace(/[^\d.]/g,''):"";
+                        return (_.isSet(v)&&v!=="")?p.box._number(p, v):"";
                     }
                 },'all');
             }else if(type=='number' || type=='spin'){
                 profile.$isNumber=1;
                 var keymap={a:1,c:1,v:1,x:1};
                 _.merge(profile,{
-                    $beforeKeypress : function(profile,c,k){
+                    $beforeKeypress : function(p,c,k){
                         return k.key.length!=1 || /[-0-9.]/.test(k.key)|| (k.ctrlKey && !!keymap[k.key]);
                     },
                     $compareValue : function(p,a,b){
-                        return ((a===''&&b!=='')||(b===''&&a!==''))?false:p.box._number(profile, a)==p.box._number(profile, b)
+                        return ((a===''&&b!=='')||(b===''&&a!==''))?false:p.box._number(p, a)==p.box._number(p, b)
                     },
                     $getShowValue : function(p,v){
-                        return (_.isSet(v)&&v!=="")?p.box._number(profile, v):"";
+                        return (_.isSet(v)&&v!=="")?p.box._number(p, v):"";
                     },
                     $fromEditor : function(p,v){
-                        return (_.isSet(v)&&v!=="")?p.box._number(profile, v):"";
+                        return (_.isSet(v)&&v!=="")?p.box._number(p, v):"";
                     }
                 },'all');
             }
@@ -1187,7 +1187,6 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                 case 'timepicker':
                     return linb.UI.TimePicker._ensureValue(null,value);
                 case 'currency':
-                    return this._currency(profile, value);
                 case 'number':
                 case 'spin':
                     return this._number(profile, value);                
@@ -1197,7 +1196,7 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
         },
         _number:function(profile, value){
             var prop=profile.properties;
-            value=parseFloat((value+"").replace(/[^\d.]/g,''))||0;
+            value=parseFloat((value+"").replace(/[^\d.-]/g,''))||0;
             if(_.isSet(prop.max))
                 value=value>prop.max?prop.max:value;
             if(_.isSet(prop.min))
@@ -1209,17 +1208,9 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
             //value=(+value||0);
             //value=Math.ceil((value-0.0000000000003)*n)/n;
         },
-        _currency:function(profile, value){
-            var prop=profile.properties,min=Math.max(prop.min,0);
-            value=parseFloat((value+"").replace(/[^\d.]/g,''))||0;
-            if(_.isSet(prop.max))
-                value=value>prop.max?prop.max:value;
-            if(_.isSet(prop.min))
-                value=value<prop.min?prop.min:value;
-            return this.formatCurrency(value);
-        },
-        formatCurrency:function(value){
-            value=value.toFixed(2);
+        formatCurrency:function(value, precision){
+            value=parseFloat(value);
+            value=value.toFixed(parseInt(precision)||2);
             value= value.split(".");
             value[0] = value[0].split("").reverse().join("").replace(/(\d{3})(?=\d)/g, "$1,").split("").reverse().join("");
             return value.join(".");

@@ -288,7 +288,7 @@ Class('VisualJS', 'linb.Com',{
                 if(t.getValue()===false)return false;
             }
         },
-        _tabmain_onitemselected:function(profile,item,src){
+        _tabmain_onitemselected:function(profile,item,e,src){
             _.tryF(function(){
                 if(item.$obj)item.$obj.activate();
             });
@@ -310,7 +310,7 @@ Class('VisualJS', 'linb.Com',{
                 }else linb.message(obj.error.message);
             });
         },
-        _treebarprj_onitemselected:function(profile, item, src){
+        _treebarprj_onitemselected:function(profile, item, e, src){
             if(!item.id)return;
             var page=this,
                 arr = item.caption.split('.'),
