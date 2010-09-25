@@ -25794,8 +25794,7 @@ Class("linb.UI.ButtonViews", "linb.UI.Tabs",{
         Behaviors:{
             HoverEffected:{ITEM:'MARK'},
             ClickEffected:{ITEM:'MARK'}
-        },
-        _onresize:function(){}
+        }
     }
 });
 Class("linb.UI.StatusButtons", ["linb.UI.List"],{

@@ -55,7 +55,6 @@ Class("linb.UI.RadioBox", "linb.UI.List",{
         Behaviors:{
             HoverEffected:{ITEM:'MARK'},
             ClickEffected:{ITEM:'MARK'}
-        },
-        _onresize:function(){}
+        }
     }
 });
