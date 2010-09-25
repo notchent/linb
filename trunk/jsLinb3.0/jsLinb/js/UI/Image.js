@@ -12,6 +12,7 @@ Class("linb.UI.Image", "linb.UI",{
             border:"0",
             width:"{width}",
             height:"{height}",
+            src:linb.ini.img_bg,
             alt:"{alt}"
         },
         Behaviors:{
@@ -43,7 +44,7 @@ Class("linb.UI.Image", "linb.UI",{
             var self=this, pro=self.properties, v=pro.src;
             if(v){
                 pro.value=pro.$UIvalue='';
-                self.boxing().setSrc(v,true);
+                self.boxing().setSrc(v, v!=linb.ini.img_bg);
             }
         },
         EventHandlers:{
