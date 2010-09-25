@@ -20159,8 +20159,10 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
             //value=Math.ceil((value-0.0000000000003)*n)/n;
         },
         formatCurrency:function(value, precision){
+            if(_.isSet(precision))precision=parseInt(precision);
+            precision=(precision||precision===0)?precision:2;
             value=parseFloat(value);
-            value=value.toFixed(parseInt(precision)||2);
+            value=value.toFixed(precision);
             value= value.split(".");
             value[0] = value[0].split("").reverse().join("").replace(/(\d{3})(?=\d)/g, "$1,").split("").reverse().join("");
             return value.join(".");
