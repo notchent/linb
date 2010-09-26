@@ -9466,6 +9466,19 @@ _.set(linb.Locale,["en","app"], {
                     "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
                 ]
             },
+            getPopCtrlProp:{
+                $desc:"Gets properties of the standard pop control('combobox,listbox,helpinput,date,time,datetime,color').",
+                $rtn:"Object"
+            },
+            setPopCtrlProp:{
+                $desc:"Sets properties to the standard pop control('combobox,listbox,helpinput,date,time,datetime,color').",
+                $rtn:"[self]",
+                $paras:[
+                    "value [Required] : Object.",
+                    "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
+                ],
+                $memo:"You have to use this function before the UIProfile is rendered."
+            },
             getCurrencyTpl:{
                 $desc:"Gets the currency template",
                 $rtn:"String"
@@ -9998,8 +10011,60 @@ _.set(linb.Locale,["en","app"], {
             },
             setTimeInput:{
                 $desc:"Specifys whether time input shows up or not, and reflects it to DOM UI.",
-                $rtn:"[self]"
+                $rtn:"[self]",
+                $paras:[
+                    "value [Required] : Boolean.",
+                    "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
+                ]
             },
+            getFirstDayOfWeek:{
+                $desc:"Gets the first day of week. 0-6 represents Sunday to Saturday.",
+                $rtn:"Number"
+            },
+            setFirstDayOfWeek:{
+                $desc:"Sets the first day of week, and reflects the value to UI.",
+                $rtn:"[self]",
+                $paras:[
+                    "value [Required] : Number. 0-6 represents Sunday to Saturday.",
+                    "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
+                ]
+            },
+            getOffDays:{
+                $desc:"Gets the Off Days info. 6 characters('0,'1','2','3','4','5','6') only. 0-6 represents Sunday to Saturday",
+                $rtn:"String"
+            },
+            setOffDays:{
+                $desc:"Sets the Off Days info, and reflects it to DOM UI.",
+                $rtn:"[self]",
+                $paras:[
+                    "value [Required] : String. 6 characters('0,'1','2','3','4','5','6') only. 0-6 represents Sunday to Saturday",
+                    "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
+                ]
+            },
+            getHideWeekLabels:{
+                $desc:"Determines whether week labels shows up or not.",
+                $rtn:"Boolean"
+            },
+            setHideWeekLabels:{
+                $desc:"Specifys whether week labels shows up or not, and reflects it to DOM UI.",
+                $rtn:"[self]",
+                $paras:[
+                    "value [Required] : Boolean.",
+                    "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
+                ]
+            },
+            getDateInputFormat:{
+                $desc:"Gets date input formats (Three inputs in the header).",
+                $rtn:"String"
+            },
+            setDateInputFormat:{
+                $desc:"Sets date input formats (Three inputs in the header), and reflects it to DOM UI.",
+                $rtn:"[self]",
+                $paras:[
+                    "value [Required] : String.  'yyyy-mm-dd' or 'mm-dd-yyyy' or 'dd-mm-yyyy'. ",
+                    "force [Optional] : Boolean, force to set the property value even if the same property value already exists. Default is [false]."
+                ]
+            },            
             getCloseBtn:{
                 $desc:"Determines whether close button shows up or not.",
                 $rtn:"Boolean",

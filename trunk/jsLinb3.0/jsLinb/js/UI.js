@@ -2543,7 +2543,7 @@ Class("linb.UI",  "linb.absObj", {
 
         $theme:'default',
         $ps:{left:1,top:1,width:1,height:1,right:1,bottom:1},
-
+        _objectProp:{tagVar:1},
         $toDom:function(str, addEventHandler){
             if(addEventHandler===false)
                 return _.str.toDom(str);
@@ -4233,12 +4233,13 @@ Class("linb.UI",  "linb.absObj", {
             for(var i in linb.UI.$ps)
                 if((i in p) && typeof p[i]!='number' && p[i]!='' && p[i]!='auto')p[i]=isNaN(p[i]=parseFloat(p[i]))?'auto':p[i];
 
+            for(var i in profile.box._objectProp)
+                if((i in p) && p[i] && _.isEmpty(p[i]))delete p[i];
+
             if(p.items && p.items.length){
                 t=linb.absObj.$specialChars;
                 p.items = _.clone(p.items,function(o,i){return !t[(i+'').charAt(0)]&&o!=undefined});
             }
-            if(_.isEmpty(p.tagVar))
-                delete p.tagVar;
             if((t=p.dockMargin)&&!t.left&&!t.top&&!t.right&&!t.bottom)
                 delete p.dockMargin;
             if(p.items&&(p.items.length==0||p.listKey))

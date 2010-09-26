@@ -9393,6 +9393,19 @@ _.set(linb.Locale,["cn","app"], {
                     "force [可选参数] : Boolean, 强制设置该属性值,即使属性已经设置为该值. 默认为 [false]."
                 ]
             },
+            getPopCtrlProp:{
+                $desc:"得到固定弹出窗口('combobox,listbox,helpinput,date,time,datetime,color')的属性.",
+                $rtn:"Object"
+            },
+            setPopCtrlProp:{
+                $desc:"设置固定弹出窗口('combobox,listbox,helpinput,date,time,datetime,color')的属性.",
+                $rtn:"[self]",
+                $paras:[
+                    "value [必需参数] : Object.",
+                    "force [可选参数] : Boolean, 强制设置该属性值,即使属性已经设置为该值. 默认为 [false]."
+                ],
+                $memo:"需要在控件产生前调用"
+            },
             getCurrencyTpl:{
                 $desc:"得到货币的显示模板",
                 $rtn:"String"
@@ -9925,7 +9938,59 @@ _.set(linb.Locale,["cn","app"], {
             },
             setTimeInput:{
                 $desc:"设置日期选择框是否带有时间输入功能, 并刷新界面.",
-                $rtn:"[self]"
+                $rtn:"[self]",
+                $paras:[
+                    "value [必需参数] : Boolean.",
+                    "force [可选参数] : Boolean, 强制设置该属性值,即使属性已经设置为该值. 默认为 [false]."
+                ]
+            },
+            getFirstDayOfWeek:{
+                $desc:"得到日期选择框的周开始日.0-6表示周日到周六",
+                $rtn:"Number"
+            },
+            setFirstDayOfWeek:{
+                $desc:"设置日期选择框的周开始日, 并刷新界面.0-6表示周日到周六",
+                $rtn:"[self]",
+                $paras:[
+                    "value [必需参数] : Number. 0-6表示周日到周六",
+                    "force [可选参数] : Boolean, 强制设置该属性值,即使属性已经设置为该值. 默认为 [false]."
+                ]
+            },
+            getOffDays:{
+                $desc:"得到日期选择框的休假信息.由0到6组成的字符串。0-6表示周日到周六",
+                $rtn:"String"
+            },
+            setOffDays:{
+                $desc:"设置日期选择框的休假信息.由0到6组成的字符串。0-6表示周日到周六",
+                $rtn:"[self]",
+                $paras:[
+                    "value [必需参数] : String. 由0到6组成的字符串。0-6表示周日到周六",
+                    "force [可选参数] : Boolean, 强制设置该属性值,即使属性已经设置为该值. 默认为 [false]."
+                ]
+            },
+            getHideWeekLabels:{
+                $desc:"得到日期选择框是否带有周信息.",
+                $rtn:"Boolean"
+            },
+            setHideWeekLabels:{
+                $desc:"设置日期选择框是否带有带有周信息, 并刷新界面.",
+                $rtn:"[self]",
+                $paras:[
+                    "value [必需参数] : Boolean.",
+                    "force [可选参数] : Boolean, 强制设置该属性值,即使属性已经设置为该值. 默认为 [false]."
+                ]
+            },
+            getDateInputFormat:{
+                $desc:"得到日期选择框的日期输入格式.",
+                $rtn:"String"
+            },
+            setDateInputFormat:{
+                $desc:"设置日期选择框的日期输入格式",
+                $rtn:"[self]",
+                $paras:[
+                    "value [必需参数] : String. 只能是 yyyy-mm-dd/mm-dd-yyyy/dd-mm-yyyy 之一",
+                    "force [可选参数] : Boolean, 强制设置该属性值,即使属性已经设置为该值. 默认为 [false]."
+                ]
             },
             getCloseBtn:{
                 $desc:"判断日期选择框是否带有关闭按钮.",

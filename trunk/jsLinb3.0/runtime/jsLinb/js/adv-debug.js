@@ -4242,12 +4242,11 @@ Class("linb.UI.Range", ["linb.UI","linb.absValue"],{
             id=linb.UI.$ID,
             tag=linb.UI.$tag_special,
             cls=linb.UI.$CLS,
-            cls2=cls+'-td-free',
             key=self.KEY;
 
-        self.addTemplateKeys(['H', 'W','COL','DH','DAYBOX','DC','TBODY', 'TD','DF1','DF2','DF3']);
-        var colgroup = '<colgroup id="'+key+'-COL:'+id+'"  class="'+tag+'COL_CS'+tag+'"  style="'+tag+'COL_CS'+tag+'"><col width="2%"/><col width="14%"/><col width="14%"/><col width="14%"/><col width="14%"/><col width="14%"/><col width="14%"/><col width="14%"/></colgroup>',
-            thead1='<thead><tr height="1%"><th id="'+key+'-H:'+id+':7" class="'+cls+'-h '+tag+'H_CC'+tag+'"  style="'+tag+'H_CS'+tag+'"></th>',
+        self.addTemplateKeys(['H', 'W','COL','DH','DAYBOX','DC','TBODY', 'THEADER', 'TD','DF1','DF2','DF3']);
+        var colgroup = '<colgroup id="'+key+'-COL:'+id+':"  class="'+tag+'COL_CS'+tag+'"  style="'+tag+'COL_CS'+tag+'"><col width="2%"/><col width="14%"/><col width="14%"/><col width="14%"/><col width="14%"/><col width="14%"/><col width="14%"/><col width="14%"/></colgroup>',
+            thead1='<thead ID="'+key+'-THEADER:'+id+':" class="'+tag+'THEADER_CS'+tag+'"  style="'+tag+'THEADER_CS'+tag+'" ><tr height="1%"><th id="'+key+'-H:'+id+':7" class="'+cls+'-h '+tag+'H_CC'+tag+'"  style="'+tag+'H_CS'+tag+'"></th>',
             thead2='</tr></thead>',
             th='<th id="'+key+'-H:'+id+':@" class="'+cls+'-h '+tag+'H_CC'+tag+'"  style="'+tag+'H_CS'+tag+'">@</th>',
             tbody1 = '<tbody id="'+key+'-TBODY:'+id +':"  class="'+tag+'TBODY_CS'+tag+'"  style="'+tag+'TBODY_CS'+tag+'">',
@@ -4255,7 +4254,7 @@ Class("linb.UI.Range", ["linb.UI","linb.absValue"],{
             tr1='<tr>',
             tr2='</tr>',
             td1='<th id="'+key+'-W:'+id+':@"  class="'+cls+'-w '+tag+'W_CC'+tag+'" style="'+tag+'W_CS'+tag+'">@</th>',
-            td2='<td id="'+key+'-TD:'+id+':@" class="'+cls+'-td ! '+tag+'TD_CC'+tag+'"  style="'+tag+'TD_CS'+tag+'" '+linb.$IEUNSELECTABLE+'  >'+
+            td2='<td id="'+key+'-TD:'+id+':@" class="'+cls+'-td '+tag+'TD_CC'+tag+'"  style="'+tag+'TD_CS'+tag+'" '+linb.$IEUNSELECTABLE+'  >'+
                 '<div id="'+key+'-DAYBOX:'+id+':@" class="'+cls+'-daybox '+tag+'DAY_CC'+tag+'"  style="'+tag+'DAY_CS'+tag+'" '+linb.$IEUNSELECTABLE+' >'+
                     '<div id="'+key+'-DH:'+id+':@" class="'+cls+'-dh '+tag+'DH_CC'+tag+'"  style="'+tag+'DH_CS'+tag+'"></div>'+
                     '<div id="'+key+'-DF1:'+id+':@" class="'+cls+'-df1 '+tag+'DF1_CC'+tag+'" style="'+tag+'DF1_CS'+tag+'"></div>'+
@@ -4272,7 +4271,7 @@ Class("linb.UI.Range", ["linb.UI","linb.absValue"],{
         k=l=0;
         for(i=0;i<48;i++){
             j=i%8;
-            a[a.length]= (j==0?tr1:'') + (j==0?td1:td2).replace(/@/g,j==0?l:k).replace('!',(j==1||j==7)?cls2:'') + (j==7?tr2:'');
+            a[a.length]= (j==0?tr1:'') + (j==0?td1:td2).replace(/@/g,j==0?l:k) + (j==7?tr2:'');
             if(j!==0)k++;
             else l++;
         }
@@ -4370,8 +4369,8 @@ Class("linb.UI.Range", ["linb.UI","linb.absValue"],{
                 "background-color":"#F9F7D1"
             },
             'TD-checked':{
-                $order:1,
-                "background-color":"#F9F7D1"
+                $order:1//,
+                //"background-color":"#FFFB1E"
             },
             'TD-free':{
                 $order:1,

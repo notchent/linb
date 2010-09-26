@@ -11997,7 +11997,7 @@ Class("linb.UI",  "linb.absObj", {
 
         $theme:'default',
         $ps:{left:1,top:1,width:1,height:1,right:1,bottom:1},
-
+        _objectProp:{tagVar:1},
         $toDom:function(str, addEventHandler){
             if(addEventHandler===false)
                 return _.str.toDom(str);
@@ -13687,12 +13687,13 @@ Class("linb.UI",  "linb.absObj", {
             for(var i in linb.UI.$ps)
                 if((i in p) && typeof p[i]!='number' && p[i]!='' && p[i]!='auto')p[i]=isNaN(p[i]=parseFloat(p[i]))?'auto':p[i];
 
+            for(var i in profile.box._objectProp)
+                if((i in p) && p[i] && _.isEmpty(p[i]))delete p[i];
+
             if(p.items && p.items.length){
                 t=linb.absObj.$specialChars;
                 p.items = _.clone(p.items,function(o,i){return !t[(i+'').charAt(0)]&&o!=undefined});
             }
-            if(_.isEmpty(p.tagVar))
-                delete p.tagVar;
             if((t=p.dockMargin)&&!t.left&&!t.top&&!t.right&&!t.bottom)
                 delete p.dockMargin;
             if(p.items&&(p.items.length==0||p.listKey))
@@ -19168,6 +19169,9 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                         case 'helpinput':
                             o = linb.create('List').render();
                             o.setHost(profile).setDirtyMark(false).setItems(_.copy(pro.items)).setListKey(pro.listKey||'');
+                            if(_.isHash(pro.popCtrlProp)){
+                                o.setProperties(pro.popCtrlProp);
+                            }
                             if(pro.dropListHeight)
                                 o.setHeight(pro.dropListHeight);
                             else
@@ -19192,6 +19196,9 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                         case 'timepicker':
                             o = linb.create('TimePicker').render();
                             o.setHost(profile);
+                            if(_.isHash(pro.popCtrlProp)){
+                                o.setProperties(pro.popCtrlProp);
+                            }
                             o.beforeClose(function(){this.boxing().activate()._cache();return false});
                             o.beforeUIValueSet(function(p, o, v){
                                 var b2=this.boxing();
@@ -19209,6 +19216,9 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                                 o.setTimeInput(true);
 
                             o.setHost(profile);
+                            if(_.isHash(pro.popCtrlProp)){
+                                o.setProperties(pro.popCtrlProp);
+                            }
                             o.beforeClose(function(){this.boxing().activate()._cache();return false});
                             o.beforeUIValueSet(function(p, o, v){
                                 var b2=this.boxing();
@@ -19222,6 +19232,9 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                         case 'colorpicker':
                             o = linb.create('ColorPicker').render();
                             o.setHost(profile);
+                            if(_.isHash(pro.popCtrlProp)){
+                                o.setProperties(pro.popCtrlProp);
+                            }
                             o.beforeClose(function(){this.boxing().activate()._cache();return false});
                             o.beforeUIValueSet(function(p, o, v){
                                 var b2=this.boxing();
@@ -19642,6 +19655,8 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                 'border-right-width':'1px'
             }
         },
+
+        _objectProp:{tagVar:1,popCtrlProp:1},
         Behaviors:{
             HoverEffected:{BOX:'BOX',BTN:'BTN',SBTN:'SBTN',R1:'R1',R2:'R2'},
             ClickEffected:{BTN:'BTN',SBTN:'SBTN',R1:'R1',R2:'R2'},
@@ -19891,6 +19906,9 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
             // yyyy-mm-dd
             // yyyy/mm/dd
             dateEditorTpl:"",
+            popCtrlProp:{
+                ini:{}
+            },
             currencyTpl:{
                 ini:"",
                 action: function(){
@@ -21497,7 +21515,7 @@ Class("linb.UI.Group", "linb.UI.Div",{
                     p = profile.properties;
                 cls._to(profile,value,true);
                 if(profile.keys.CAPTION)
-                    profile.getSubNode('CAPTION').html(linb.Date.getText(value,'ymd'),false);
+                    profile.getSubNode('CAPTION').html(linb.Date.getText(value,'ymd',p.firstDayOfWeek),false);
             });
         },
         getDateFrom:function(){
@@ -21509,12 +21527,11 @@ Class("linb.UI.Group", "linb.UI.Div",{
             id=linb.UI.$ID,
             tag=linb.UI.$tag_special,
             cls=linb.UI.$CLS,
-            cls2=cls+'-td-free',
             key=self.KEY;
             
-        self.addTemplateKeys(['H', 'COL', 'W','TBODY', 'TD']);
-        var colgroup = '<colgroup id="'+key+'-COL:'+id+'"  class="'+tag+'COL_CS'+tag+'"  style="'+tag+'COL_CS'+tag+'"><col width="2%"/><col width="14%"/><col width="14%"/><col width="14%"/><col width="14%"/><col width="14%"/><col width="14%"/><col width="14%"/></colgroup>',
-            thead1='<thead><tr height="1%"><th id="'+key+'-H:'+id+':7" class="'+cls+'-h '+tag+'H_CC'+tag+'" style="'+tag+'H_CS'+tag+'"></th>',
+        self.addTemplateKeys(['H', 'COL', 'W','TBODY', 'THEADER','TD']);
+        var colgroup = '<colgroup id="'+key+'-COL:'+id+':"  class="'+tag+'COL_CS'+tag+'"  style="'+tag+'COL_CS'+tag+'"><col width="2%"/><col width="14%"/><col width="14%"/><col width="14%"/><col width="14%"/><col width="14%"/><col width="14%"/><col width="14%"/></colgroup>',
+            thead1='<thead ID="'+key+'-THEADER:'+id+':" class="'+tag+'THEADER_CS'+tag+'"  style="'+tag+'THEADER_CS'+tag+'" ><tr height="1%"><th id="'+key+'-H:'+id+':7" class="'+cls+'-h '+cls+'-w '+tag+'H_CC'+tag+'" style="'+tag+'H_CS'+tag+'"></th>',
             thead2='</tr></thead>',
             th='<th id="'+key+'-H:'+id+':@" class="'+cls+'-h '+tag+'H_CC'+tag+'"  style="'+tag+'H_CS'+tag+'">@</th>',
             tbody1 = '<tbody id="'+key+'-TBODY:'+id +':"  class="'+tag+'TBODY_CS'+tag+'"  style="'+tag+'TBODY_CS'+tag+'" >',
@@ -21522,7 +21539,7 @@ Class("linb.UI.Group", "linb.UI.Div",{
             tr1='<tr>',
             tr2='</tr>',
             td1='<th id="'+key+'-W:'+id+':@"  class="'+cls+'-w '+tag+'W_CC'+tag+'"  style="'+tag+'W_CS'+tag+'">@</th>',
-            td2='<td id="'+key+'-TD:'+id+':@" class="'+cls+'-td ! '+tag+'TD_CC'+tag+'"  style="'+tag+'TD_CS'+tag+'" '+linb.$IEUNSELECTABLE+' >'+
+            td2='<td id="'+key+'-TD:'+id+':@" class="'+cls+'-td '+tag+'TD_CC'+tag+'"  style="'+tag+'TD_CS'+tag+'" '+linb.$IEUNSELECTABLE+' >'+
                 '</td>',
             body,i,j,k,l,a=[],b=[];
         for(i=0;i<7;i++)
@@ -21531,7 +21548,7 @@ Class("linb.UI.Group", "linb.UI.Div",{
         k=l=0;
         for(i=0;i<48;i++){
             j=i%8;
-            a[a.length]= (j==0?tr1:'') + (j==0?td1:td2).replace(/@/g,j==0?l:k).replace('!',(j==1||j==7)?cls2:'') + (j==7?tr2:'');
+            a[a.length]= (j==0?tr1:'') + (j==0?td1:td2).replace(/@/g,j==0?l:k) + (j==7?tr2:'');
             if(j!==0)k++;
             else l++;
         }
@@ -21919,7 +21936,7 @@ Class("linb.UI.Group", "linb.UI.Div",{
 
                     linb.use(src).onMouseout(true,{$force:true});
 
-                    v = linb.Date.add(profile.$tempValue, 'd', linb.Date.diff(profile.$tempValue, v, 'd'));
+                    v = linb.Date.add(profile.$tempValue, 'd', linb.Date.diff(profile.$tempValue, v, 'd', p.firstDayOfWeek));
                     profile.box._to(profile,v);
                     
                     // set dir
@@ -22017,9 +22034,9 @@ Class("linb.UI.Group", "linb.UI.Div",{
                 },
                 onDrag:function(profile, e, src){
                     var count,off = linb.DragDrop.getProfile().offset;
-                    count=parseInt(profile.$year)+(profile.$temp2=parseInt(off.x/10));
+                    count=parseInt(profile.$year)+parseInt(off.x/10);
                     if(profile.$temp!=count){
-                        profile.$temp2=profile.$temp=count;
+                        profile.$temp2=parseInt(off.x/10);
                         profile.getSubNode('YEAR').html(count,false);
                     }
                 },
@@ -22115,6 +22132,31 @@ Class("linb.UI.Group", "linb.UI.Div",{
                 action:function(v){
                     this.getSubNode('CLOSE').css('display',v?'':'none');
                 }
+            },
+            firstDayOfWeek:{
+                ini:0,
+                action:function(){
+                    this.boxing().refresh();
+                }
+            },
+            offDays:{
+                ini:'60',
+                action:function(){
+                    this.boxing().refresh();
+                }
+            },
+            hideWeekLabels:{
+                ini:false,
+                action:function(){
+                    this.boxing().refresh();
+                }
+            },
+            dateInputFormat:{
+                ini:"yyyy-mm-dd",
+                listbox:["yyyy-mm-dd","mm-dd-yyyy","dd-mm-yyyy"],
+                action:function(){
+                    this.boxing().refresh();
+                }
             }
         },
         EventHandlers:{
@@ -22152,6 +22194,14 @@ Class("linb.UI.Group", "linb.UI.Div",{
         RenderTrigger:function(){
             var self=this, p=self.properties, o=self.boxing(), b=self.box;
             b._setWeekLabel(self);
+            
+            var hash={yyyy:'YEAR',mm:'MONTH',dd:'DAY'},arr=p.dateInputFormat.split('-');
+            if(hash[arr[0]] && hash[arr[1]] && hash[arr[2]]){
+                self.getSubNode('YTXT').addPrev(self.getSubNode(hash[arr[0]]));
+                self.getSubNode('MTXT').addPrev(self.getSubNode(hash[arr[1]]));
+                self.getSubNode('MTXT').addNext(self.getSubNode(hash[arr[2]]));
+            }
+            
 //            self.getSubNode('YTXT').html(linb.wrapRes('date.Y'),false);
 //            self.getSubNode('MTXT').html(linb.wrapRes('date.M'),false);
         },
@@ -22168,10 +22218,46 @@ Class("linb.UI.Group", "linb.UI.Div",{
             return profile.$header || (profile.$header=profile.getSubNode('H',true));
         },
         _setWeekLabel:function(profile){
-            var o=linb.Date,f=profile.getSubId;
+            var p=profile.properties;
+
+            // for week
+            var fw=p.firstDayOfWeek,
+                f=function(id){
+                id=profile.getSubId(id); 
+
+                // The special one
+                if(id=='7')return id;
+                
+                id=(parseInt(id)+fw);
+                return id<7?id:(id-7);
+            };
+
             profile.box._getHeaderNodes(profile).each(function(node,i){
                 node.innerHTML=linb.wrapRes('date.WEEKS.'+f(node.id))
             });
+            
+            // for weeklable
+            if(p.hideWeekLabels){
+                profile.getSubNode('BODY').query('TR').first().remove();
+                profile.getSubNode('COL').first().remove();
+            }
+
+            // for free days            
+            var cls2=profile.getClass('TD','-free'),
+                fdmap={};
+            if(p.offDays){
+                _.arr.each(p.offDays.split(""),function(i){
+                    i=parseInt(i);
+                    if(i>=0 && i<=6)
+                        fdmap[i]=1;
+                });
+                profile.box._getTDNodes(profile).each(function(node,i){
+                    i = ((i+fw) - 7*parseInt((i+fw)/7)) ;
+                    if(fdmap[i])
+                        node.className=node.className + " " +cls2;
+                });
+            }
+            
         },
         _setBGV:function(profile, v, m){
             var date=linb.Date,
@@ -22185,20 +22271,23 @@ Class("linb.UI.Group", "linb.UI.Div",{
                 n=date.get(n,'d');
                 node.innerHTML = t.replace('#',n);
             });
-            profile.box._getWeekNodes(profile).each(function(node,i){
-                node.innerHTML=date.get(date.add(v,'ww',i),'ww');
-            });
+
+            if(!p.hideWeekLabels)
+                profile.box._getWeekNodes(profile).each(function(node,i){
+                    node.innerHTML=date.get(date.add(v,'ww',i),'ww',p.firstDayOfWeek);
+                });
         },
         _to:function(profile, time, force){
             var p = profile.properties,
+                fw = p.firstDayOfWeek,
                 date=linb.Date,
                 keys=profile.keys,
                 uiv=p.$UIvalue,
                 index=-1,
                 node,
                 temp,
-                _realstart = date.getTimSpanStart(date.getTimSpanStart(time,'m'),'ww',1),
-                m=date.get(time,'m');
+                _realstart = date.getTimSpanStart(date.getTimSpanStart(time,'m'),'ww',1,fw),
+                m=date.get(time,'m',fw);
 
             profile.$tempValue=time;
             this._setBGV(profile, profile._realstart=_realstart, m);
@@ -22208,7 +22297,7 @@ Class("linb.UI.Group", "linb.UI.Div",{
                 profile.$selnode.tagClass('-checked',false);
             //[[add cecked css class
             _.arr.each(profile.$daymap,function(o,i){
-                if(date.get(o,'m')+'-'+date.get(o,'d')==date.get(time,'m')+'-'+date.get(time,'d')){
+                if(date.get(o,'m',fw)+'-'+date.get(o,'d',fw)==date.get(time,'m',fw)+'-'+date.get(time,'d',fw)){
                     index=i;
                     return false;
                 }
@@ -22222,27 +22311,27 @@ Class("linb.UI.Group", "linb.UI.Div",{
             profile.getSubNode('CAPTION').css('color',(force||uiv.getTime()==time.getTime())?'':'#ff0000');
             //]]
 
-            temp=date.get(time,'y');
+            temp=date.get(time,'y',fw);
             if(profile.$year!=temp){
                 profile.$year=temp;
                 profile.getSubNode('YEAR').html(temp,false);
             }
-            temp=date.get(time,'m')+1;
+            temp=date.get(time,'m',fw)+1;
             if(profile.$month!=temp){
                 profile.$month=temp;
                 profile.getSubNode('MONTH').html((temp<=9?"0":"")+temp,false);
             }
-            temp=date.get(time||time,'d');
+            temp=date.get(time||time,'d',fw);
             if(profile.$day!=temp){
                 profile.$day=temp;
                 profile.getSubNode('DAY').html((temp<=9?"0":"")+temp,false);
             }
-            temp=date.get(time,'h');
+            temp=date.get(time,'h',fw);
             if(profile.$hour!=temp){
                 profile.$hour=temp;
                 profile.getSubNode('HOUR').html((temp<=9?"0":"")+temp,false);
             }
-            temp=date.get(time,'n');
+            temp=date.get(time,'n',fw);
             if(profile.$minute!=temp){
                 profile.$minute=temp;
                 profile.getSubNode('MINUTE').html((temp<=9?"0":"")+temp,false);
