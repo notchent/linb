@@ -5,12 +5,13 @@
     /**
     * the following code may be in a controller function( for Yii, CodeIgniter etc..)
     **/
+    $outputData=new stdClass;
+    $ok=true;
+
     try{
         // get request data
         $inputData = linb_getRequestData();
-        
-        $outputData=new stdClass;
-    
+            
         if(rand(0,1)>0.5){
             // successful
             $ok=true;

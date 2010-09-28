@@ -35,10 +35,11 @@
              </div>
         </div>
         
-        <script type="text/javascript" src="../../runtime/jsLinb/js/linb.js"></script>
+        <script type="text/javascript" src="../../runtime/jsLinb/js/linb-debug.js"></script>
 
         <script type="text/javascript">
             var linbService='demo.php';
+            // var linbService='http://localhost:19286/portal.ashx';
 
             var getRequest=function(){
                 return _.unserialize(linb.Dom.byId('request').value);

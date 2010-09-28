@@ -8,6 +8,10 @@
     define('LINB_KEYWORD_DATA', "data");
     define('LINB_KEYWORD_ERROR', "error");
 
+    // TYPE KEYS
+    define('LINB_KEYWORD_SCRIPT', "script");
+    define('LINB_KEYWORD_IFRAME', "iframe");
+
     // for json
     if(!function_exists('json_encode')){
         include_once("JSON.php");
@@ -21,6 +25,10 @@
 
     // handle request data
     function linb_getRequestData(){
+        $id = LINB_KEYWORD_ID;
+        $type = LINB_KEYWORD_TYPE;
+        $callback = LINB_KEYWORD_CALLBACK;
+
         $inputData=new stdClass;
 
         // 1. for "post" request
@@ -52,6 +60,17 @@
                     $inputData->$k = is_string($v)?get_magic_quotes_gpc()?stripslashes($v):$v:$v;
              }
          }
+
+        if(isset($inputData->$type)){
+            if(!isset($inputData->$id)){
+                throw new Exception("no $id para in request");
+            }
+            if($inputData->$type==LINB_KEYWORD_SCRIPT){
+                if(!isset($inputData->$callback)){
+                    throw new Exception("no $callback para  in request");
+                }
+            }
+        }
 
          return $inputData;
     }
@@ -87,10 +106,10 @@
             // wrap result data
          	if(isset($typeV)){
          	    // script tag ajax    	    
-         	    if($typeV=='script')
+         	    if($typeV==LINB_KEYWORD_SCRIPT)
          	        $outputDataWrapped = $callbackV.'('.$outputDataWrapped.')';
          	    // iframe ajax
-         	    else if($typeV=='iframe')
+         	    else if($typeV==LINB_KEYWORD_IFRAME)
          	        $outputDataWrapped="<script type='text' id='json'>".$outputDataWrapped."</script><script type='text/javascript'>window.name=document.getElementById('json').innerHTML;</script>";
          	}
         }
