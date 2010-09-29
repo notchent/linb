@@ -84,13 +84,16 @@
         $data = LINB_KEYWORD_DATA;
         $err = LINB_KEYWORD_ERROR;
 
-        if(isset($inputData->$id))
-            $idV=$inputData->$id;
-        if(isset($inputData->$callback))
-            $callbackV=$inputData->$callback;
-        if(isset($inputData->$type))
-            $typeV=$inputData->$type;
-        
+        if(isset($inputData)){
+            if(isset($inputData->$id))
+                $idV=$inputData->$id;
+            if(isset($inputData->$callback))
+                $callbackV=$inputData->$callback;
+            if(isset($inputData->$type))
+                $typeV=$inputData->$type;
+            unset($inputData);
+        }
+                
         $outputDataWrapped=new stdClass;        
         if(isset($idV))
             $outputDataWrapped->$id=$idV;
@@ -114,7 +117,6 @@
          	}
         }
 
-        unset($inputData);
         echo $outputDataWrapped;
     }
     

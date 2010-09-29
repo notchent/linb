@@ -11,7 +11,8 @@
     try{
         // get request data
         $inputData = linb_getRequestData();
-            
+        
+    
         if(rand(0,1)>0.5){
             // successful
             $ok=true;

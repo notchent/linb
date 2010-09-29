@@ -1691,7 +1691,12 @@ Class('linb.SAjax','linb.absIO',{
                     }
                 };
             n = self.node = w.createElement("script");
-            n.src = self.uri + (self.query?'?'+self.query:'');
+            
+            var uri = self.uri;
+            if(self.query)
+                uri = uri.split("?")[0]  + "?" + self.query;
+
+            n.src = uri;
             n.type= 'text/javascript';
             n.charset='utf-8';
             n.id='linb:script:'+self.id;
@@ -1857,6 +1862,11 @@ Class('linb.IAjax','linb.absIO',{
             //create form
             form = self.form = document.createElement('form');
             form.style.display='none';
+
+            var uri=self.uri;
+            if(self.method!='POST')
+                uri = uri.split("?")[0];
+
             form.action=self.uri;
             form.method=self.method;
             form.target=id;
