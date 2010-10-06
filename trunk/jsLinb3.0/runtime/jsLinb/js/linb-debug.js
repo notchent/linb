@@ -10191,6 +10191,10 @@ Class('linb.UIProfile','linb.Profile', {
         getRoot:function(){
             return linb([this.renderId],false);
         },
+        getContainer:function(subId){
+            if(subId=typeof subId=='string'?subId:null)subId=this.getSubIdByItemId(subId);
+            return this.keys.PANEL?this.getSubNode(this.keys.PANEL, subId):this.getRoot();
+        },
         linkParent:function(parentProfile, linkId){
             var profile=this;
             //unlink first
@@ -11252,11 +11256,11 @@ Class("linb.UI",  "linb.absObj", {
     },
     Initialize:function(){
         var ns=this.prototype;
-        _.arr.each('getSubNode,getDomId,getRootNode,getRoot'.split(','),function(o){
+        _.arr.each('getSubNode,getDomId,getRootNode,getRoot,getContainer'.split(','),function(o){
             if(!ns[o])
                 ns[o]=function(){
                     var p=this.get(0);
-                    return p[o].apply(p,arguments);
+                    return p ? p[o].apply(p,arguments) : null;
                 };
                 ns[o].$original$='linb.UI';
                 ns[o].$type$='instance';
@@ -35388,17 +35392,16 @@ if(linb.browser.ie){
             h=size.height + 90;
             dialog.setCaption(caption).setWidth(w).setHeight(h);
             dialog.$cmd.reBoxing().left((size.width + 30 - dialog.$cmd.reBoxing().width())/2);
+            return {width:w, height:h};
         },
-        alert:function(title, content, onClose, btnCap, left, top){
+        alert:function(title, content, onClose, btnCap, left, top, parent, subId){
             var me=arguments.callee, dialog;
             if(!(dialog=me.dialog) || (!dialog.get(0).renderId)){
                 dialog = me.dialog = new linb.UI.Dialog({
                     minBtn:false,
                     maxBtn:false,
                     pinBtn:false,
-                    resizer:false,
-                    left:200,
-                    top:200
+                    resizer:false
                 },{
                     beforeClose:function(){
                         dialog.hide();
@@ -35437,14 +35440,20 @@ if(linb.browser.ie){
             
             dialog.$btn.setCaption(btnCap || linb.wrapRes('$inline.ok'));
 
-            linb.UI.Dialog._adjust(dialog,title, content);
-            dialog.show(linb('body'),true, left, top);
+            var size=linb.UI.Dialog._adjust(dialog,title, content);
+
+            if(parent && parent["linb.UI"])parent=parent.getContainer(subId);
+            if(!_.isSet(parent))parent=linb('body');
+            if(!_.isSet(left))left=((parent.get(0)==linb('body').get(0)?linb.win:parent).width()-size.width)/2;
+            if(!_.isSet(top))top=((parent.get(0)==linb('body').get(0)?linb.win:parent).height()-size.height)/2;
+            
+            dialog.show(parent,true, left, top);
             _.resetRun("dlg_focus:"+dialog.get(0).$linbid,function(){
                 dialog.$btn.activate();
             });
             return dialog;
         },
-        confirm:function(title, caption, onYes, onNo, btnCapYes, btnCapNo, left, top){
+        confirm:function(title, caption, onYes, onNo, btnCapYes, btnCapNo, left, top, parent, subId){
             var me=arguments.callee, dialog;
 
             if(!(dialog=me.dialog) || (!dialog.get(0).renderId)){
@@ -35452,9 +35461,7 @@ if(linb.browser.ie){
                     minBtn:false,
                     maxBtn:false,
                     pinBtn:false,
-                    resizer:false,
-                    left:200,
-                    top:200
+                    resizer:false
                 },{
                     beforeClose:function(){
                         dialog.hide();
@@ -35507,21 +35514,25 @@ if(linb.browser.ie){
             me.onNo=onNo;
             dialog.$btn1.setCaption(btnCapYes || linb.wrapRes('$inline.yes'));
             dialog.$btn2.setCaption(btnCapNo || linb.wrapRes('$inline.no'));
-            linb.UI.Dialog._adjust(dialog, title, caption);
-            dialog.show(linb('body'), true, left, top);
+            var size=linb.UI.Dialog._adjust(dialog, title, caption);
+
+            if(parent && parent["linb.UI"])parent=parent.getContainer(subId);
+            if(!_.isSet(parent))parent=linb('body');
+            if(!_.isSet(left))left=((parent.get(0)==linb('body').get(0)?linb.win:parent).width()-size.width)/2;
+            if(!_.isSet(top))top=((parent.get(0)==linb('body').get(0)?linb.win:parent).height()-size.height)/2;
+
+            dialog.show(parent, true, left, top);
             _.resetRun("dlg_focus:"+dialog.get(0).$linbid,function(){
                 dialog.$btn2.activate();
             });
             return dialog;
         },
-        pop:function(title, content, btnCap, left, top){
+        pop:function(title, content, btnCap, left, top, parent, subId){
             var dialog = new linb.UI.Dialog({
                 minBtn:false,
                 maxBtn:false,
                 pinBtn:false,
-                resizer:false,
-                left:200 || left,
-                top:200 || top
+                resizer:false
             }),
 
             cmd = dialog.$cmd = new linb.UI.Div({
@@ -35551,15 +35562,21 @@ if(linb.browser.ie){
 
             dialog.append(cmd).append(div).render();;
 
-            linb.UI.Dialog._adjust(dialog, title, content);
-            dialog.show(linb('body'),false,left, top);
+            var size=linb.UI.Dialog._adjust(dialog, title, content);
+
+            if(parent && parent["linb.UI"])parent=parent.getContainer(subId);
+            if(!_.isSet(parent))parent=linb('body');
+            if(!_.isSet(left))left=((parent.get(0)==linb('body').get(0)?linb.win:parent).width()-size.width)/2;
+            if(!_.isSet(top))top=((parent.get(0)==linb('body').get(0)?linb.win:parent).height()-size.height)/2;
+
+            dialog.show(parent,false,left, top);
 
             _.resetRun("dlg_focus:"+dialog.get(0).$linbid,function(){
                 dialog.$btn.activate();
             });
             return dialog;
         },
-        prompt:function(title, caption, content, onYes, onNo, btnCapYes, btnCapNo, left, top){
+        prompt:function(title, caption, content, onYes, onNo, btnCapYes, btnCapNo, left, top, parent, subId){
             var dialog,
                 me=arguments.callee;
             if(!(dialog=me.dialog) || (!dialog.get(0).renderId)){
@@ -35635,7 +35652,13 @@ if(linb.browser.ie){
             me.onNo=onNo;
             dialog.$btn1.setCaption(btnCapYes || linb.wrapRes('$inline.ok'));
             dialog.$btn2.setCaption(btnCapNo || linb.wrapRes('$inline.cancel'));
-            dialog.show(linb('body'), true, left, top);
+
+            if(parent && parent["linb.UI"])parent=parent.getContainer(subId);
+            if(!_.isSet(parent))parent=linb('body');
+            if(!_.isSet(left))left=((parent.get(0)==linb('body').get(0)?linb.win:parent).width()-dialog.getWidth())/2;
+            if(!_.isSet(top))top=((parent.get(0)==linb('body').get(0)?linb.win:parent).height()-dialog.getHeight())/2;
+
+            dialog.show(parent, true, left, top);
             _.resetRun("dlg_focus:"+dialog.get(0).$linbid,function(){
                 me.$inp.activate();
             });

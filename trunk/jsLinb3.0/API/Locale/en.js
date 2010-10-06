@@ -1001,10 +1001,12 @@ _.set(linb.Locale,["en","app"], {
             $paras:[
                 "title [Optional] : String, the title string.",
                 "content [Optional] : String, the content string.",
-                "onOK [Optional] : Function, the OK callback function.",
-                "btnCap [Optional] : String, the command button's caption.",
+                "onClose [Optional] : Function, the close callback function.",
+                "btnCap  [Optional] : String, the caption for button.",
                 "left [Optional] : Number, left value.",
-                "top [Optional] : Number, top value."
+                "top [Optional] : Number, top value.",
+                "parent [Optional] : linb.Dom Object, or linb.UI Object. the parent node. Default is linb('body').",
+                "subId [Optional] : String, the sub id"
             ],
             $snippet:[
                 "linb.alert('title','content',function(){alert('ok')})",
@@ -1022,7 +1024,9 @@ _.set(linb.Locale,["en","app"], {
                 "btnCapYes [Optional] : String, the Yes button's caption.",
                 "btnCapNo [Optional] : String, the No button's caption.",
                 "left [Optional] : Number, left value.",
-                "top [Optional] : Number, top value."
+                "top [Optional] : Number, top value.",
+                "parent [Optional] : linb.Dom Object, or linb.UI Object. the parent node. Default is linb('body').",
+                "subId [Optional] : String, the sub id"
             ],
             $snippet:[
                 "linb.confirm('title','content',function(){alert('yes')},function(){alert('no')})",
@@ -1035,9 +1039,11 @@ _.set(linb.Locale,["en","app"], {
             $paras:[
                 "title [Optional] : String, the title string.",
                 "content [Optional] : String, the content string.",
-                "btnCap [Optional] : String, the command button's caption.",
+                "btnCap [Optional] : String, the command button string.",
                 "left [Optional] : Number, left value.",
-                "top [Optional] : Number, top value."
+                "top [Optional] : Number, top value.",
+                "parent [Optional] : linb.Dom Object, or linb.UI Object. the parent node. Default is linb('body').",
+                "subId [Optional] : String, the sub id"
             ],
             $snippet:[
                 "linb.pop('title','content')",
@@ -1056,7 +1062,9 @@ _.set(linb.Locale,["en","app"], {
                 "btnCapYes [Optional] : String, the Yes button's caption.",
                 "btnCapNo [Optional] : String, the No button's caption.",
                 "left [Optional] : Number, left value.",
-                "top [Optional] : Number, top value."
+                "top [Optional] : Number, top value.",
+                "parent [Optional] : linb.Dom Object, or linb.UI Object. the parent node. Default is linb('body').",
+                "subId [Optional] : String, the sub id"
             ],
             $snippet:[
                 "linb.prompt('title','caption', 'content content ',function(str){alert(str)})"
@@ -3988,6 +3996,13 @@ _.set(linb.Locale,["en","app"], {
             renderId:{
                 $desc:"String, Indicates whether the UIProfile is rendered or not."
             },
+            getContainer:{
+                $desc:"Gets container Object(linb.Dom) or root node.",
+                $rtn:"linb.Dom",
+                $paras:[
+                    "subId [Optional] : container's sub id"
+                ]
+            },
             getRoot:{
                 $desc:"Gets the root linb.Dom Object.",
                 $rtn:"linb.Dom",
@@ -6414,6 +6429,13 @@ _.set(linb.Locale,["en","app"], {
                     "linb(id).prepend(link);"+
                     "_.asyRun(function(){alert(link.getRenderer());},1000);"+
                     "}"
+                ]
+            },
+            getContainer:{
+                $desc:"Gets container Object(linb.Dom) or root node.",
+                $rtn:"linb.Dom",
+                $paras:[
+                    "subId [Optional] : container's sub id"
                 ]
             },
             getRoot:{
@@ -12572,9 +12594,12 @@ _.set(linb.Locale,["en","app"], {
             $paras:[
                 "title [Optional] : String, the title string.",
                 "content [Optional] : String, the content string.",
-                "onOK [Optional] : Function, the OK callback function.",
+                "onClose [Optional] : Function, the close callback function.",
+                "btnCap  [Optional] : String, the caption for button.",
                 "left [Optional] : Number, left value.",
-                "top [Optional] : Number, top value."
+                "top [Optional] : Number, top value.",
+                "parent [Optional] : linb.Dom Object, or linb.UI Object. the parent node. Default is linb('body').",
+                "subId [Optional] : String, the sub id"
             ],
             $snippet:[
                 "linb.UI.Dialog.alert('title','content',function(){alert('ok')})",
@@ -12589,8 +12614,12 @@ _.set(linb.Locale,["en","app"], {
                 "content [Optional] : String, the content string.",
                 "onYes [Optional] : Function, the Yes callback function.",
                 "onNo [Optional] : Function, the No callback function.",
+                "btnCapYes [Optional] : String, the Yes button's caption.",
+                "btnCapNo [Optional] : String, the No button's caption.",
                 "left [Optional] : Number, left value.",
-                "top [Optional] : Number, top value."
+                "top [Optional] : Number, top value.",
+                "parent [Optional] : linb.Dom Object, or linb.UI Object. the parent node. Default is linb('body').",
+                "subId [Optional] : String, the sub id"
             ],
             $snippet:[
                 "linb.UI.Dialog.confirm('title','content',function(){alert('yes')},function(){alert('no')})",
@@ -12605,7 +12634,9 @@ _.set(linb.Locale,["en","app"], {
                 "content [Optional] : String, the content string.",
                 "btnCap [Optional] : String, the command button string.",
                 "left [Optional] : Number, left value.",
-                "top [Optional] : Number, top value."
+                "top [Optional] : Number, top value.",
+                "parent [Optional] : linb.Dom Object, or linb.UI Object. the parent node. Default is linb('body').",
+                "subId [Optional] : String, the sub id"
             ],
             $snippet:[
                 "linb.UI.Dialog.pop('title','content')",
@@ -12621,8 +12652,12 @@ _.set(linb.Locale,["en","app"], {
                 "content [Optional] : String, the content string.",
                 "onYes [Optional] : Function, the Yes callback function.",
                 "onNo [Optional] : Function, the No callback function.",
+                "btnCapYes [Optional] : String, the Yes button's caption.",
+                "btnCapNo [Optional] : String, the No button's caption.",
                 "left [Optional] : Number, left value.",
-                "top [Optional] : Number, top value."
+                "top [Optional] : Number, top value.",
+                "parent [Optional] : linb.Dom Object, or linb.UI Object. the parent node. Default is linb('body').",
+                "subId [Optional] : String, the sub id"
             ],
             $snippet:[
                 "linb.UI.Dialog.prompt('title','caption', 'content content ',function(str){alert(str)})"

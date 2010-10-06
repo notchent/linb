@@ -998,10 +998,12 @@ _.set(linb.Locale,["cn","app"], {
             $paras:[
                 "title [可选参数] : String, 警告框标题.",
                 "content [可选参数] : String, 警告语句.",
-                "onOK [可选参数] : Function, 用户单击OK的回调函数.",
-                "btnCap [可选参数] : String, 按钮的文字.",
+                "btnCap  [可选参数] : String, 按钮文字.",
+                "onClose [可选参数] : Function, alert窗口关闭的回调函数.",
                 "left [可选参数] : Number, 对话框左边坐标.",
-                "top [可选参数] : Number, 对话框上边坐标."
+                "top [可选参数] : Number, 对话框上边坐标.",
+                "parent [可选参数] : linb.Dom, 或linb.UI对象.",
+                "subId [可选参数] : String, 容器的 sub id"
             ],
             $snippet:[
                 "linb.alert('title','content',function(){alert('ok')})",
@@ -1019,7 +1021,9 @@ _.set(linb.Locale,["cn","app"], {
                 "btnCapYes [可选参数] : String, Yes按钮的文字.",
                 "btnCapNo [可选参数] : String, No按钮的文字.",
                 "left [可选参数] : Number, 对话框左边坐标.",
-                "top [可选参数] : Number, 对话框上边坐标."
+                "top [可选参数] : Number, 对话框上边坐标.",
+                "parent [可选参数] : linb.Dom, 或linb.UI对象.",
+                "subId [可选参数] : String, 容器的 sub id"
             ],
             $snippet:[
                 "linb.confirm('title','content',function(){alert('yes')},function(){alert('no')})",
@@ -1034,7 +1038,9 @@ _.set(linb.Locale,["cn","app"], {
                 "content [可选参数] : String, 窗体内容输入文字",
                 "btnCap [可选参数] : String, OK按钮文字.",
                 "left [可选参数] : Number, 对话框左边坐标.",
-                "top [可选参数] : Number, 对话框上边坐标."
+                "top [可选参数] : Number, 对话框上边坐标.",
+                "parent [可选参数] : linb.Dom, 或linb.UI对象.",
+                "subId [可选参数] : String, 容器的 sub id"
             ],
             $snippet:[
                 "linb.pop('title','content')",
@@ -1053,7 +1059,9 @@ _.set(linb.Locale,["cn","app"], {
                 "btnCapYes [可选参数] : String, Yes按钮的文字.",
                 "btnCapNo [可选参数] : String, No按钮的文字.",
                 "left [可选参数] : Number, 对话框左边坐标.",
-                "top [可选参数] : Number, 对话框上边坐标."
+                "top [可选参数] : Number, 对话框上边坐标.",
+                "parent [可选参数] : linb.Dom, 或linb.UI对象.",
+                "subId [可选参数] : String, 容器的 sub id"
             ],
             $snippet:[
                 "linb.prompt('title','caption', 'content content ',function(str){alert(str)})"
@@ -3999,11 +4007,18 @@ _.set(linb.Locale,["cn","app"], {
             renderId:{
                 $desc:"String, 指示一个控件概要对象(profile)是否被渲染(生成了对应的Dom节点)."
             },
+            getContainer:{
+                $desc:"获得容器(linb.Dom)对象,如果没有容器返回根节点.",
+                $rtn:"linb.Dom",
+                $paras:[
+                    "subId [可选参数] : 容器的sub id"
+                ]
+            },
             getRoot:{
                 $desc:"获取控件概要对象(profile)的根节点.",
                 $rtn:"linb.Dom",
                 $snippet:[
-                "alert(linb.UIProfile.getFromDom('btnLang').getRoot());"
+                    "alert(linb.UIProfile.getFromDom('btnLang').getRoot());"
                 ]
             },
             getRootNode:{
@@ -6437,6 +6452,13 @@ _.set(linb.Locale,["cn","app"], {
                     "linb(id).prepend(link);"+
                     "_.asyRun(function(){alert(link.getRenderer());},1000);"+
                     "}"
+                ]
+            },
+            getContainer:{
+                $desc:"获得控件的容器(linb.Dom)对象,如果没有容器返回根节点.",
+                $rtn:"linb.Dom",
+                $paras:[
+                    "subId [可选参数] : 容器的sub id"
                 ]
             },
             getRoot:{
@@ -12499,9 +12521,12 @@ _.set(linb.Locale,["cn","app"], {
             $paras:[
                 "title [可选参数] : String, 警告框标题.",
                 "content [可选参数] : String, 警告语句.",
-                "onOK [可选参数] : Function, 用户单击OK的回调函数.",
+                "btnCap  [可选参数] : String, 按钮文字.",
+                "onClose [可选参数] : Function, alert窗口关闭的回调函数.",
                 "left [可选参数] : Number, 对话框左边坐标.",
-                "top [可选参数] : Number, 对话框上边坐标."
+                "top [可选参数] : Number, 对话框上边坐标.",
+                "parent [可选参数] : linb.Dom, 或linb.UI对象.",
+                "subId [可选参数] : String, 容器的 sub id"
             ],
             $snippet:[
                 "linb.UI.Dialog.alert('title','content',function(){alert('ok')})",
@@ -12516,8 +12541,12 @@ _.set(linb.Locale,["cn","app"], {
                 "content [可选参数] : String, 确认的提示语句.",
                 "onYes [可选参数] : Function, the Yes 回调函数.",
                 "onNo [可选参数] : Function, the No 回调函数.",
+                "btnCapYes [可选参数] : String, Yes按钮的文字.",
+                "btnCapNo [可选参数] : String, No按钮的文字.",
                 "left [可选参数] : Number, 对话框左边坐标.",
-                "top [可选参数] : Number, 对话框上边坐标."
+                "top [可选参数] : Number, 对话框上边坐标.",
+                "parent [可选参数] : linb.Dom, 或linb.UI对象.",
+                "subId [可选参数] : String, 容器的 sub id"
             ],
             $snippet:[
                 "linb.UI.Dialog.confirm('title','content',function(){alert('yes')},function(){alert('no')})",
@@ -12532,7 +12561,9 @@ _.set(linb.Locale,["cn","app"], {
                 "content [可选参数] : String, 窗体内容输入文字",
                 "btnCap [可选参数] : String, OK按钮文字.",
                 "left [可选参数] : Number, 对话框左边坐标.",
-                "top [可选参数] : Number, 对话框上边坐标."
+                "top [可选参数] : Number, 对话框上边坐标.",
+                "parent [可选参数] : linb.Dom, 或linb.UI对象.",
+                "subId [可选参数] : String, 容器的 sub id"
             ],
             $snippet:[
                 "linb.UI.Dialog.pop('title','content')",
@@ -12549,7 +12580,11 @@ _.set(linb.Locale,["cn","app"], {
                 "onYes [可选参数] : Function, 用户单击Yes 回调函数.",
                 "onNo [可选参数] : Function, 用户单击 No 回调函数.",
                 "left [可选参数] : Number, 对话框左边坐标.",
-                "top [可选参数] : Number, 对话框上边坐标."
+                "top [可选参数] : Number, 对话框上边坐标.",
+                "parent [可选参数] : linb.Dom, 或linb.UI对象.",
+                "subId [可选参数] : String, 容器的 sub id",
+                "parent [可选参数] : linb.Dom, 或linb.UI对象.",
+                "subId [可选参数] : String, 容器的 sub id"
             ],
             $snippet:[
                 "linb.UI.Dialog.prompt('title','caption', 'content content ',function(str){alert(str)})"

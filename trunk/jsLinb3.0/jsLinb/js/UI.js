@@ -727,6 +727,10 @@ Class('linb.UIProfile','linb.Profile', {
         getRoot:function(){
             return linb([this.renderId],false);
         },
+        getContainer:function(subId){
+            if(subId=typeof subId=='string'?subId:null)subId=this.getSubIdByItemId(subId);
+            return this.keys.PANEL?this.getSubNode(this.keys.PANEL, subId):this.getRoot();
+        },
         linkParent:function(parentProfile, linkId){
             var profile=this;
             //unlink first
@@ -1788,11 +1792,11 @@ Class("linb.UI",  "linb.absObj", {
     },
     Initialize:function(){
         var ns=this.prototype;
-        _.arr.each('getSubNode,getDomId,getRootNode,getRoot'.split(','),function(o){
+        _.arr.each('getSubNode,getDomId,getRootNode,getRoot,getContainer'.split(','),function(o){
             if(!ns[o])
                 ns[o]=function(){
                     var p=this.get(0);
-                    return p[o].apply(p,arguments);
+                    return p ? p[o].apply(p,arguments) : null;
                 };
                 ns[o].$original$='linb.UI';
                 ns[o].$type$='instance';
