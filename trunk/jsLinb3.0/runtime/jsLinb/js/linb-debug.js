@@ -31449,7 +31449,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                 'line-height':'14px'
             },
             'HFCELL-mouseover, HCELL-mouseover':{
-                background:  linb.UI.$bg('head-mouseover.gif', '#FFF1A0 repeat-x left top')
+                background:  linb.UI.$bg('head_mouseover.gif', '#FFF1A0 repeat-x left top')
             },
             ROW:{
                 position:'relative',
