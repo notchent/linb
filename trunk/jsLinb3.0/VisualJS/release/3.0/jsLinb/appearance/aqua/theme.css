@@ -330,6 +330,9 @@ html, .uibg-base{
     background-color:#0149DC;
     color:#fff;
 }
+.linb-list-checkbox{
+    background-image: url(Public/icons.gif);
+}
 
 /*linb.UI.Gallery*/
 .linb-iconlist-item-mousedown, .linb-iconlist-item-checked{
@@ -408,6 +411,9 @@ html, .uibg-base{
 .linb-treeview-image-fold-1, 
 .linb-treeview-image-fold-2, 
 .linb-treeview-image-fold-3{
+    background-image: url(Public/icons.gif);
+}
+.linb-treeview-mark2, .linb-treeview-mark{
     background-image: url(Public/icons.gif);
 }
 
