@@ -3411,6 +3411,7 @@ editorDropListHeight
                         switch(type){
                             case 'number':
                             case 'spin':
+                            case 'progress':
                                 nV=parseFloat(nV);
                                 nV=(nV||nV===0)?nV:null;
                                 break;

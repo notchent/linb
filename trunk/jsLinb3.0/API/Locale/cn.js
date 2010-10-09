@@ -197,6 +197,17 @@ _.set(linb.Locale,["cn","app"], {
                     "var a={b:1}, o={a:a}; _.breakO(o,2); alert(a && a.b);"
                 ]
             },
+            toFixedNumber:{
+                $desc:"按给定的精度来格式化数字,返回的是格式化后的数字.",
+                $paras:[
+                    "number [必需参数]: Number, 数字.",
+                    "digits [可选参数]: Number, 小数点后精度. 默认为 2."
+                ],
+                $snippet:[
+                    "var a=0.3+0.3+0.3; alert(a); alert(_.toFixedNumber(a, 10));",
+                    "var a=0.1*0.2; alert(a); alert(_.toFixedNumber(a, 10));"
+                ]
+            },
             clone:{
                 $desc:"拷贝对象, 深度拷贝.",
                 $rtn:"Object",

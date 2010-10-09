@@ -196,6 +196,17 @@ _.set(linb.Locale,["en","app"], {
                     "var a={b:1}, o={a:a}; _.breakO(o,2); alert(a && a.b);"
                 ]
             },
+            toFixedNumber:{
+                $desc:"Formats a number to use a specified number of trailing decimals. Returns number.",
+                $paras:[
+                    "number [Required]: Number, the target number.",
+                    "digits [Optional]: Number, the number of digits after the decimal point. Default is 2."
+                ],
+                $snippet:[
+                    "var a=0.3+0.3+0.3; alert(a); alert(_.toFixedNumber(a, 10));",
+                    "var a=0.1*0.2; alert(a); alert(_.toFixedNumber(a, 10));"
+                ]
+            },
             clone:{
                 $desc:"Clones Object, deep copy.",
                 $rtn:"Object",

@@ -298,6 +298,22 @@ _.merge(_,{
                 break;
         return hash;
     },
+    toFixedNumber:function(number,digits) {
+        if(!_.isSet(digits))digits=2;
+        var m=Math.abs(number),
+            s=''+Math.round(m * Math.pow(10, digits)),
+            v, t, start, end;
+        if(/\D/.test(s)){ 
+          v = ""+m;
+        }else{
+            while(s.length<1+digits)s='0'+s;
+            start=s.substring(0, t=(s.length-digits));
+            end=s.substring(t);
+            if(end)end="."+end;
+            v=start+end;
+        }
+        return parseFloat((number<0?"-":"")+v);
+    },
     /*shadow copy for hash/array
     * var a=[]; a.b='b'; a.b will not be copied
     */
@@ -33613,6 +33629,7 @@ editorDropListHeight
                         switch(type){
                             case 'number':
                             case 'spin':
+                            case 'progress':
                                 nV=parseFloat(nV);
                                 nV=(nV||nV===0)?nV:null;
                                 break;
