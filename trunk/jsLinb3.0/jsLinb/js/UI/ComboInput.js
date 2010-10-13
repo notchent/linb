@@ -220,10 +220,13 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                             if(_.isHash(pro.popCtrlProp)){
                                 o.setProperties(pro.popCtrlProp);
                             }
+
+                            o.setWidth(pro.dropListWidth || profile.getRoot().width());
                             if(pro.dropListHeight)
                                 o.setHeight(pro.dropListHeight);
                             else
                                 o.adjustSize();
+
                             o.beforeUIValueSet(function(p, ovalue, value){
                                 var b2=this.boxing();
                                 if(type=='combobox'){
@@ -308,7 +311,6 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
                     case 'combobox':
                     case 'listbox':
                     case 'helpinput':
-                        o.setWidth(profile.properties.dropListWidth || profile.getRoot().width());
                     case 'time':
                     case 'timepicker':
                         o.setValue(profile.properties.$UIvalue, true);

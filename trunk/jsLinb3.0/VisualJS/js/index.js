@@ -323,7 +323,8 @@ Class('VisualJS', 'linb.Com',{
             var value = item.value,
                 arr = value.split('/'),
                 filename = arr[arr.length-1],
-                filetype = filename.split('.')[1],
+                filearr = filename.split('.'),
+                filetype = filearr[filearr.length-1],
                 imagePos = filetype=='js'?'-16px -48px':'-128px -48px';
 
             filetype = filetype=='js'?'class':filetype;

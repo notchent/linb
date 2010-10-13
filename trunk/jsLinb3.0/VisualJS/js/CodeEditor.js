@@ -2322,7 +2322,7 @@ codeType=='js'?["codemirror/css/jscolors.css"]
 :codeType=='css'?["codemirror/css/csscolors.css"]
 :codeType=='php'?["codemirror/css/xmlcolors.css", "codemirror/css/jscolors.css", "codemirror/css/csscolors.css", "codemirror/contrib/php/css/phpcolors.css"]
 :codeType=='html'?["codemirror/css/xmlcolors.css", "codemirror/css/jscolors.css", "codemirror/css/csscolors.css"]
-:[],
+:["codemirror/css/dummy.css"],
 
                 lineNumbers:true,
                 lineNumberDelay:100,
