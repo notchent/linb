@@ -26632,7 +26632,7 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
             }
         },
         _onkeydownbar:function(profile, e, src){
-            var keys=linb.Event.getKey(e), key = keys.key, shift=keys.shiftKey,
+            var keys=linb.Event.getKey(e), key = keys.key, shift=keys.shiftKey, ctrl=keys.ctrlKey,
                 cur = profile.getSubNode(profile.box._focusNodeKey, profile.getSubId(src)),
                 root = profile.getRoot(),
                 first = root.nextFocus(true, true, false),
@@ -26656,6 +26656,10 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
                     }
                     break;
                 case 'up':
+                    if(ctrl){
+                        profile.getSubNode('TOGGLE',profile.getSubId(src)).onClick();
+                        return false;
+                    }
                     if(cur.get(0)==first.get(0))
                         last.focus();
                     else
@@ -26663,6 +26667,10 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
                      return false;
                      break;
                 case 'down':
+                    if(ctrl){
+                        profile.getSubNode('TOGGLE',profile.getSubId(src)).onClick();
+                        return false;
+                    }
                      if(cur.get(0)==last.get(0))
                         first.focus();
                      else
@@ -32177,12 +32185,6 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                     if(p.disabled || row.disabled)return false;
                     if(profile.onDblclickRow)profile.boxing().onDblclickRow(profile, row, e, src);
                     return false;
-                },
-                onClick:function(profile,e,src){
-                    var p = profile.properties,
-                        row = profile.rowMap[profile.getSubId(src)];
-                    if(row.group)
-                        profile.getSubNode('FCELLCMD',row._serialId).onClick();
                 }
             },
             CELL:{
@@ -32256,20 +32258,14 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                         }
                     // handler CELL
                     }else{
-                        var row = profile.rowMap[profile.getSubId(src)],
-                            clickMark=profile.getKey(linb.Event.getSrc(e).id||"")==profile.keys.MARK;
-                        // click mark, or not a group row
-                        if(clickMark || !row.group){
-                            if(p.disabled || row.disabled)
-                                return false;
-                            if(p.activeMode=='row'){
-                                id = linb(src).parent(3).id();
-
-                                if(clickMark || (p.selMode!='multi'&&p.selMode!='multibycheckbox'))
-                                    box._sel(profile, 'row', src, id, e);
-                            }
+                        var row = profile.rowMap[profile.getSubId(src)];
+                        if(p.disabled || row.disabled)
+                            return false;
+                        if(p.activeMode=='row'){
+                            id = linb(src).parent(3).id();
+                            box._sel(profile, 'row', src, id, e);
                         }
-                        if(p.selMode=='none')
+                        else if(p.selMode=='none')
                             profile.getSubNode('FCELLCMD',row._serialId).onClick();
                     }
                     profile.box._focuscell(profile, e, src); 
@@ -32295,9 +32291,11 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                     }
                 },
                 onKeydown:function(profile, e, src){
-                    var keys=linb.Event.getKey(e),
+                    var p = profile.properties,
+                        keys=linb.Event.getKey(e),
                         key = keys.key,
                         shift=keys.shiftKey,
+                        ctrl=keys.ctrlKey,
                         cur = linb(src),
                         body = profile.getSubNode('BODY'),
                         first = body.nextFocus(true, true, false),
@@ -32335,11 +32333,28 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                         return false;
                         break;
                     case 'up':
+                        if(ctrl){
+                            var cell = profile.cellMap[profile.getSubId(src)],
+                                row = cell._row;
+                            if(row && !(p.disabled || row.disabled) && (row.group||row.sub|)){
+                                profile.getSubNode('FCELLCMD',row._serialId).onClick();
+                                return false;
+                            }
+                        }
                         if(cur.get(0)==first.get(0)){
                             last.focus();
                             return;
                         }
                    case 'down':
+                        if(ctrl){
+                            var cell = profile.cellMap[profile.getSubId(src)],
+                                row = cell._row;
+                            if(row && !(p.disabled || row.disabled) &&  (row.group||row.sub|)){
+                                profile.getSubNode('FCELLCMD',row._serialId).onClick();
+                                return false;
+                            }
+                        }
+
                         //get no.
                         var count=1,
                             temp = cur.parent().get(0),
@@ -33345,7 +33360,9 @@ editorDropListHeight
                 break;
             case 'multibycheckbox':
                 if(profile.keys.MARK){
-                    if(profile.getKey(linb.Event.getSrc(e).id||"")!=profile.keys.MARK){
+                    var ck=profile.getKey(linb.Event.getSrc(e).id||""),
+                        clickMark=ck==ks.MARK;
+                    if(!clickMark){
                         box.onRowSelected(profile, targetItem, e, src, 0);
                         break;
                     }

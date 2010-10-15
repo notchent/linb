@@ -521,7 +521,7 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
             }
         },
         _onkeydownbar:function(profile, e, src){
-            var keys=linb.Event.getKey(e), key = keys.key, shift=keys.shiftKey,
+            var keys=linb.Event.getKey(e), key = keys.key, shift=keys.shiftKey, ctrl=keys.ctrlKey,
                 cur = profile.getSubNode(profile.box._focusNodeKey, profile.getSubId(src)),
                 root = profile.getRoot(),
                 first = root.nextFocus(true, true, false),
@@ -545,6 +545,10 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
                     }
                     break;
                 case 'up':
+                    if(ctrl){
+                        profile.getSubNode('TOGGLE',profile.getSubId(src)).onClick();
+                        return false;
+                    }
                     if(cur.get(0)==first.get(0))
                         last.focus();
                     else
@@ -552,6 +556,10 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
                      return false;
                      break;
                 case 'down':
+                    if(ctrl){
+                        profile.getSubNode('TOGGLE',profile.getSubId(src)).onClick();
+                        return false;
+                    }
                      if(cur.get(0)==last.get(0))
                         first.focus();
                      else
