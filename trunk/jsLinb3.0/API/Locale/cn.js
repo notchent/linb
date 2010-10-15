@@ -10467,7 +10467,7 @@ _.set(linb.Locale,["cn","app"], {
                 ]
             },
             getSelMode:{
-                $desc:"获取选择模式。'none' 为不选, 'multi'为多选 or 'single'为单选.",
+                $desc:"获取选择模式。 'none'表示不能选择, 'single'表示可单选, 'multi'表示可多选, 'multibycheckbox'表示可多选,并且只能点击checkbox来选中.",
                 $rtn:"String",
                 $snippet:[
                     "var id='linb.temp.list6'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -10520,7 +10520,8 @@ _.set(linb.Locale,["cn","app"], {
                     "profile : linb.UIProfile.",
                     "item: Object, 项对象.",
                     "e: Event, 事件对象.",
-                    "src: String, 事件所属DOM元素的linbid."
+                    "src: String, 事件所属DOM元素的linbid.",
+                    "type: Number, 0:没有影响;1:item被选中;-1:item被清除选中"
                 ],
                 $snippet:[
                     "var id='linb.temp.list8'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -13907,7 +13908,7 @@ _.set(linb.Locale,["cn","app"], {
                 ]
             },
             getSelMode :{
-                $desc:"获取选择模式. 'none'表示不能选择, 'single'表示可单选, 'multi'表示可多选.",
+                $desc:"获取选择模式. 'none'表示不能选择, 'single'表示可单选, 'multi'表示可多选, 'multibycheckbox'表示可多选,并且只能点击checkbox来选中.",
                 $rtn:"String",
                 $snippet:[
                     "var id='linb.temp.tb9'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -14050,7 +14051,8 @@ _.set(linb.Locale,["cn","app"], {
                     "profile : linb.UIProfile.",
                     "item: Object, 项对象.",
                     "e: Event, 事件对象.",
-                    "src: String, 事件所属DOM元素的linbid."
+                    "src: String, 事件所属DOM元素的linbid.",
+                    "type: Number, 0:没有影响;1:item被选中;-1:item被清除选中"
                 ],
                 $snippet:[
                     "var id='linb.temp.tb20'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -14637,7 +14639,7 @@ _.set(linb.Locale,["cn","app"], {
                 ]
             },
             getSelMode :{
-                $desc:"获取表格的选择模式.",
+                $desc:"获取表格的选择模式. 'none'表示不能选择, 'single'表示可单选, 'multi'表示可多选, 'multibycheckbox'表示可多选,并且只能点击checkbox来选中.",
                 $rtn:"String",
                 $snippet:[
                     "var id='linb.temp.grid126'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -15313,7 +15315,8 @@ _.set(linb.Locale,["cn","app"], {
                     "profile : linb.UIProfile.",
                     "row: Object, 行对象.",
                     "e : Event, DOM事件元素.",
-                    "src: String, 事件所属DOM元素的linbid."
+                    "src: String, 事件所属DOM元素的linbid.",
+                    "type: Number, 0:没有影响;1:行被选中;-1:行被清除选中"
                 ],
                 $snippet:[
                     "var id='linb.temp.grid58'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+

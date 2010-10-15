@@ -50,7 +50,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                                     items.scrollTop(top);
                         }
                     }
-                }else if(p.selMode=='multi'){
+                }else if(p.selMode=='multi'||p.selMode=='multibycheckbox'){
                     uiv = uiv?uiv.split(';'):[];
                     value = value?value.split(';'):[];
                     //check all
@@ -1372,7 +1372,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
             onSize:linb.UI.$onSize,
             HFMARK:{
                 onClick:function(profile,e,src){
-                    if(profile.properties.selMode!='multi')return;
+                    if(profile.properties.selMode!='multi'&&profile.properties.selMode!='multibycheckbox')return;
 
                     var rows=[];
                     _.each(profile.rowMap,function(o){
@@ -2007,14 +2007,17 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                         }
                     // handler CELL
                     }else{
-                        var row = profile.rowMap[profile.getSubId(src)];
+                        var row = profile.rowMap[profile.getSubId(src)],
+                            clickMark=profile.getKey(linb.Event.getSrc(e).id||"")==profile.keys.MARK;
                         // click mark, or not a group row
-                        if(profile.getKey(linb.Event.getSrc(e).id||"")==profile.keys.MARK || !row.group){
+                        if(clickMark || !row.group){
                             if(p.disabled || row.disabled)
                                 return false;
                             if(p.activeMode=='row'){
                                 id = linb(src).parent(3).id();
-                                box._sel(profile, 'row', src, id, e);
+
+                                if(clickMark || (p.selMode!='multi'&&p.selMode!='multibycheckbox'))
+                                    box._sel(profile, 'row', src, id, e);
                             }
                         }
                         if(p.selMode=='none')
@@ -2175,9 +2178,9 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
             currencyTpl:"",
             selMode:{
                 ini:'none',
-                listbox:['single','none','multi'],
+                listbox:['single','none','multi','multibycheckbox'],
                 action:function(value){
-                    this.getSubNodes(['HFMARK','MARK'],true).css('display',value=='multi'?'':'none');
+                    this.getSubNodes(['HFMARK','MARK'],true).css('display',(value=='multi'||value=='multibycheckbox')?'':'none');
                 }
             },
             dock:'fill',
@@ -2376,7 +2379,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
             onNewLineTriggerred:function(profile, cell, row){},
             
             onGetContent:function(profile, row, callback){},
-            onRowSelected:function(profile, row, e, src){},
+            onRowSelected:function(profile, row, e, src, type){},
 
             beforeColDrag:function(profile, colId){},
             beforeColMoved:function(profile, colId, toId){},
@@ -2556,7 +2559,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
             data.rowHandlerDisplay=pro.rowHandler?'':NONE;
             data.sortDisplay=NONE;
             data.headerHeight=data.headerHeight?('height:'+data.headerHeight+'px;'):'';
-            data._rowMarkDisplay=pro.selMode=="multi"?"":"display:none;";
+            data._rowMarkDisplay=(pro.selMode=="multi"||pro.selMode=="multibycheckbox")?"":"display:none;";
 
             if(pro.header && pro.header.constructor != Array)
                 pro.header = [];
@@ -2833,7 +2836,7 @@ editorDropListHeight
                 row._layer=_layer;
 
                 row._tabindex=pro.tabindex;
-                row._rowMarkDisplay=pro.selMode=="multi"?"":NONE;
+                row._rowMarkDisplay=(pro.selMode=="multi"||pro.selMode=="multibycheckbox")?"":NONE;
 
 
 
@@ -3069,7 +3072,7 @@ editorDropListHeight
                 profile.boxing().afterCellUpdated(profile,cell, options);
         },
         _ensureValue:function(profile,value){
-            if(profile.properties.selMode=='multi'){
+            if(profile.properties.selMode=='multi'||profile.properties.selMode=='multibycheckbox'){
                 var arr = (value||"").split(';');
                 arr.sort();
                 return arr.join(';');
@@ -3089,11 +3092,19 @@ editorDropListHeight
                 mode=properties.selMode;
             switch(mode){
             case 'none':
-                box.onRowSelected(profile, targetItem, e, src);
+                box.onRowSelected(profile, targetItem, e, src, 0);
                 break;
+            case 'multibycheckbox':
+                if(profile.keys.MARK){
+                    if(profile.getKey(linb.Event.getSrc(e).id||"")!=profile.keys.MARK){
+                        box.onRowSelected(profile, targetItem, e, src, 0);
+                        break;
+                    }
+                }
             case 'multi':
                 var value = box.getUIValue(),
-                    arr = value?value.split(';'):[];
+                    arr = value?value.split(';'):[],
+                    checktype=1;
                 if(arr.length&&(ks.ctrlKey||ks.shiftKey||properties.noCtrlKey)){
                     //todo: give cell multi selection function
                     if(ks.shiftKey && type=='row'){
@@ -3110,9 +3121,10 @@ editorDropListHeight
                         for(i=Math.min(i1,i2);i<=Math.max(i1,i2);i++)
                             arr.push(items[i].id);
                     }else{
-                        if(_.arr.indexOf(arr,sid)!=-1)
+                        if(_.arr.indexOf(arr,sid)!=-1){
                             _.arr.removeValue(arr,sid);
-                        else
+                            checktype=-1;
+                        }else
                             arr.push(sid);
                     }
 
@@ -3123,7 +3135,7 @@ editorDropListHeight
                     if(box.getUIValue() != value){
                         box.setUIValue(value);
                         if(box.get(0) && box.getUIValue() == value)
-                            box.onRowSelected(profile, targetItem, e, src);
+                            box.onRowSelected(profile, targetItem, e, src, checktype);
                     }
                     break;
                 }
@@ -3132,7 +3144,7 @@ editorDropListHeight
                     profile.$firstV=targetItem;
                     box.setUIValue(sid);
                     if(box.get(0) && box.getUIValue() == sid)
-                        box.onRowSelected(profile, targetItem, e, src);
+                        box.onRowSelected(profile, targetItem, e, src, 1);
                 }
                 break;
             }
@@ -3140,46 +3152,38 @@ editorDropListHeight
         _activeCell:function(profile, id){
             if(profile.properties.activeMode!='cell')return;
             if(profile.$activeCell == id)return;
-
+            var targetCell=null;
             if(profile.$activeCell){
                 linb(profile.$activeCell).tagClass('-active', false);
                 delete profile.$activeCell;
             }
-
             if(id!==false){
                 var targetId = profile.getSubId(id),
-                    map = profile.cellMap,
-                    targetCell=map[targetId];
-    
-                if(profile.beforeCellActive && (false===profile.boxing().beforeCellActive(profile, targetCell)))return;
-                
+                    map = profile.cellMap;
+                targetCell=map[targetId];
+                if(profile.beforeCellActive && (false===profile.boxing().beforeCellActive(profile, targetCell)))return;                
                 linb(profile.$activeCell = id).tagClass('-active');
-
-                profile.boxing().afterCellActive(profile, targetCell);
             }
+            if(profile.afterCellActive)profile.boxing().afterCellActive(profile, targetCell);
         },
         _activeRow:function(profile, id){
             if(profile.properties.activeMode!='row')return;
             if(profile.$activeRow == id)return;
-
+            var targetRow=null;
             if(profile.$activeRow){
                linb(profile.$activeRow).tagClass('-active', false);
                delete profile.$activeRow;
             }
-
             if(id!==false){
                 var targetId = profile.getSubId(id),
-                    map = profile.rowMap,
-                    targetRow=map[targetId];
-    
+                    map = profile.rowMap;
+                targetRow=map[targetId];
                 //before event
                 if(profile.beforeRowActive && (false===profile.boxing().beforeRowActive(profile, targetRow)))return;
-
                 linb(profile.$activeRow = id).tagClass('-active');
-
-                //after event
-                profile.boxing().afterRowActive(profile, targetRow);
             }
+            //after event
+            if(profile.afterRowActive)profile.boxing().afterRowActive(profile, targetRow);
         },
         getCellPro:function(profile, cell, key){
             var t=cell;

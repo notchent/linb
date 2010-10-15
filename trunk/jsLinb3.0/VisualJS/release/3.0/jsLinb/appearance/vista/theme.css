@@ -298,7 +298,7 @@ html, .uibg-base{
 .linb-list-item-checked{
     background-color:#CFD0D0;
 }
-.linb-list-checkbox{
+.linb-list-mark{
     background-image: url(Public/icons.gif);
 }
 
@@ -338,7 +338,7 @@ html, .uibg-base{
 .linb-treebar-checked{
     background-image: url(Public/icons.gif);
 }
-.linb-treebar-mark2, .linb-treegrid-mark{
+.linb-treegrid-mark{
     background-image: url(Public/icons.gif);
 }
 
@@ -352,7 +352,7 @@ html, .uibg-base{
 .linb-treeview-image-fold-3{
     background-image: url(Public/icons.gif);
 }
-.linb-treeview-mark2, .linb-treeview-mark{
+.linb-treeview-mark{
     background-image: url(Public/icons.gif);
 }
 

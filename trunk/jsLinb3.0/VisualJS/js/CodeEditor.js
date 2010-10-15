@@ -1918,6 +1918,7 @@ var t1=_();
                     .setTop(18)
                     .setWidth(400)
                     .setHeight(162)
+                    .setDisableHoverEffect(true)
                 );
                 
                 host.$popList.append(

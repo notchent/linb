@@ -26,10 +26,12 @@ Class=window.Class=function(key, pkey, obj){
     for(i=0; t=pkey[i]; i++)
         if(!(_parent[i]=(_.get(w, t.split('.')) || (linb&&linb.SC&&linb.SC(t)))))
             throw new Error('errNoParent:'+ t);
-    if(obj.Dependency)
+    if(obj.Dependency){
+        if(typeof obj.Dependency == "string")obj.Dependency=[obj.Dependency];
         for(i=0; t=obj.Dependency[i]; i++)
             if(!(_.get(w, t.split('.')) || (linb&&linb.SC&&linb.SC(t))))
                 throw new Error('errNoDependency:'+ t);
+    }
     parent0=_parent[0];
 
     // collect items
@@ -168,6 +170,8 @@ _.merge(_,{
         else
             s.appendChild(d.createTextNode(script));
         h.insertBefore(s, h.firstChild);
+        s.disalbed=true;
+        s.disabled=false;
         h.removeChild(s);
     },
     /*
@@ -2073,7 +2077,7 @@ Class('linb.SC',null,{
                         ajax=linb.Ajax;
                     }
                     //get text from sy ajax
-                    ajax(o, "", f, fe, null, options).start();
+                    ajax(o, {rand:_()}, f, fe, null, options).start();
                     //for asy once only
                     if(!isAsy)
                         r=ep(s);

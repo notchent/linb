@@ -36,7 +36,7 @@ Class("linb.UI.List", ["linb.UI", "linb.absList","linb.absValue" ],{
 
                         }
                     }
-                }else if(p.selMode=='multi'){
+                }else if(p.selMode=='multi'||p.selMode=='multibycheckbox'){
                     uiv = uiv?uiv.split(';'):[];
                     value = value?value.split(';'):[];
                     //check all
@@ -96,7 +96,7 @@ Class("linb.UI.List", ["linb.UI", "linb.absList","linb.absValue" ],{
                         className:'{itemClass} {disabled} {readonly}',
                         style:'{itemStyle}{itemDisplay}',
                         tabindex:'{_tabindex}',
-                        CHECKBOX:{
+                        MARK:{
                             $order:5,
                             style:"{_cbDisplay}"
                         },
@@ -158,7 +158,7 @@ Class("linb.UI.List", ["linb.UI", "linb.absList","linb.absValue" ],{
                 'background-color':'#AAD2FA',
                 'background-position': 'left top'
             },
-            CHECKBOX:{
+            MARK:{
                $order:1,
                cursor:'pointer',
                width:'16px',
@@ -166,7 +166,7 @@ Class("linb.UI.List", ["linb.UI", "linb.absList","linb.absValue" ],{
                'vertical-align':'middle',
                background: linb.UI.$bg('icons.gif', 'no-repeat -20px -70px', true)
             },
-            'ITEM-checked CHECKBOX':{
+            'ITEM-checked MARK':{
                 $order:2,
                 'background-position': '0 -70px'
             }
@@ -197,13 +197,22 @@ Class("linb.UI.List", ["linb.UI", "linb.absList","linb.absValue" ],{
 
                     switch(properties.selMode){
                     case 'none':
-                        rt=box.onItemSelected(profile, item, e, src);
+                        rt=box.onItemSelected(profile, item, e, src, 0);
                         break;
+                    case 'multibycheckbox':
+                        if(properties.readonly|| item.readonly)return false;
+                        if(profile.keys.MARK){
+                            if(profile.getKey(linb.Event.getSrc(e).id||"")!=profile.keys.MARK){
+                                rt=box.onItemSelected(profile, item, e, src, 0);
+                                rt=false;
+                                break;
+                            }
+                        }
                     case 'multi':
                         if(properties.readonly|| item.readonly)return false;
-
                         var value = box.getUIValue(),
-                            arr = value?value.split(';'):[];
+                            arr = value?value.split(';'):[],
+                            checktype=1;
 
                         if(arr.length&&(ks.ctrlKey||ks.shiftKey||properties.noCtrlKey||properties.$checkbox)){
                             //for select
@@ -217,9 +226,10 @@ Class("linb.UI.List", ["linb.UI", "linb.absList","linb.absValue" ],{
                                 for(i=Math.min(i1,i2);i<=Math.max(i1,i2);i++)
                                     arr.push(items[i].id);
                             }else{
-                                if(_.arr.indexOf(arr,item.id)!=-1)
+                                if(_.arr.indexOf(arr,item.id)!=-1){
                                     _.arr.removeValue(arr,item.id);
-                                else
+                                    checktype=-1
+                                }else
                                     arr.push(item.id);
                             }
 
@@ -232,7 +242,7 @@ Class("linb.UI.List", ["linb.UI", "linb.absList","linb.absValue" ],{
                             else{
                                 box.setUIValue(value);
                                 if(box.get(0) && box.getUIValue() == value)
-                                    rt=box.onItemSelected(profile, item, e, src)||rt2;
+                                    rt=box.onItemSelected(profile, item, e, src, checktype)||rt2;
                             }
                             break;
                         }
@@ -245,7 +255,7 @@ Class("linb.UI.List", ["linb.UI", "linb.absList","linb.absValue" ],{
                             profile.$firstV=item;
                             box.setUIValue(item.id);
                             if(box.get(0) && box.getUIValue() == item.id)
-                                rt=box.onItemSelected(profile, item, e, src);
+                                rt=box.onItemSelected(profile, item, e, src, 1);
                         }
                         break;
                     }
@@ -306,9 +316,9 @@ Class("linb.UI.List", ["linb.UI", "linb.absList","linb.absValue" ],{
         DataModel:{
             selMode:{
                 ini:'single',
-                listbox:['single','none','multi'],
+                listbox:['single','none','multi','multibycheckbox'],
                 action:function(value){
-                    this.getSubNode('CHECKBOX',true).css('display',value=='multi'?'':'none');
+                    this.getSubNode('MARK',true).css('display',(value=='multi'||value=='multibycheckbox')?'':'none');
                 }  
             },
             borderType:{
@@ -335,10 +345,10 @@ Class("linb.UI.List", ["linb.UI", "linb.absList","linb.absValue" ],{
         },
         EventHandlers:{
             onDblclick:function(profile, item, e, src){},
-            onItemSelected:function(profile, item, e, src){}
+            onItemSelected:function(profile, item, e, src, type){}
         },
         _ensureValue:function(profile,value){
-            if(profile.properties.selMode=='multi'){
+            if(profile.properties.selMode=='multi'||profile.properties.selMode=='multibycheckbox'){
                 var arr = (value||"").split(';');
                 arr.sort();
                 return arr.join(';');
@@ -391,7 +401,7 @@ Class("linb.UI.List", ["linb.UI", "linb.absList","linb.absValue" ],{
             return data;
         },
         _prepareItem:function(profile, item){
-            item._cbDisplay = (profile.properties.selMode=='multi')?'':'display:none;';
+            item._cbDisplay = (profile.properties.selMode=='multi'||profile.properties.selMode=='multibycheckbox')?'':'display:none;';
         },
         _onresize:function(profile,width,height){
             var size=profile.properties.borderType!='none'?2:0;

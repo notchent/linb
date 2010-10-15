@@ -26,10 +26,12 @@ Class=window.Class=function(key, pkey, obj){
     for(i=0; t=pkey[i]; i++)
         if(!(_parent[i]=(_.get(w, t.split('.')) || (linb&&linb.SC&&linb.SC(t)))))
             throw new Error('errNoParent:'+ t);
-    if(obj.Dependency)
+    if(obj.Dependency){
+        if(typeof obj.Dependency == "string")obj.Dependency=[obj.Dependency];
         for(i=0; t=obj.Dependency[i]; i++)
             if(!(_.get(w, t.split('.')) || (linb&&linb.SC&&linb.SC(t))))
                 throw new Error('errNoDependency:'+ t);
+    }
     parent0=_parent[0];
 
     // collect items
@@ -168,6 +170,8 @@ _.merge(_,{
         else
             s.appendChild(d.createTextNode(script));
         h.insertBefore(s, h.firstChild);
+        s.disalbed=true;
+        s.disabled=false;
         h.removeChild(s);
     },
     /*
@@ -2073,7 +2077,7 @@ Class('linb.SC',null,{
                         ajax=linb.Ajax;
                     }
                     //get text from sy ajax
-                    ajax(o, "", f, fe, null, options).start();
+                    ajax(o, {rand:_()}, f, fe, null, options).start();
                     //for asy once only
                     if(!isAsy)
                         r=ep(s);
@@ -22913,7 +22917,7 @@ Class("linb.UI.Group", "linb.UI.Div",{
 
                         }
                     }
-                }else if(p.selMode=='multi'){
+                }else if(p.selMode=='multi'||p.selMode=='multibycheckbox'){
                     uiv = uiv?uiv.split(';'):[];
                     value = value?value.split(';'):[];
                     //check all
@@ -22973,7 +22977,7 @@ Class("linb.UI.Group", "linb.UI.Div",{
                         className:'{itemClass} {disabled} {readonly}',
                         style:'{itemStyle}{itemDisplay}',
                         tabindex:'{_tabindex}',
-                        CHECKBOX:{
+                        MARK:{
                             $order:5,
                             style:"{_cbDisplay}"
                         },
@@ -23035,7 +23039,7 @@ Class("linb.UI.Group", "linb.UI.Div",{
                 'background-color':'#AAD2FA',
                 'background-position': 'left top'
             },
-            CHECKBOX:{
+            MARK:{
                $order:1,
                cursor:'pointer',
                width:'16px',
@@ -23043,7 +23047,7 @@ Class("linb.UI.Group", "linb.UI.Div",{
                'vertical-align':'middle',
                background: linb.UI.$bg('icons.gif', 'no-repeat -20px -70px', true)
             },
-            'ITEM-checked CHECKBOX':{
+            'ITEM-checked MARK':{
                 $order:2,
                 'background-position': '0 -70px'
             }
@@ -23074,13 +23078,22 @@ Class("linb.UI.Group", "linb.UI.Div",{
 
                     switch(properties.selMode){
                     case 'none':
-                        rt=box.onItemSelected(profile, item, e, src);
+                        rt=box.onItemSelected(profile, item, e, src, 0);
                         break;
+                    case 'multibycheckbox':
+                        if(properties.readonly|| item.readonly)return false;
+                        if(profile.keys.MARK){
+                            if(profile.getKey(linb.Event.getSrc(e).id||"")!=profile.keys.MARK){
+                                rt=box.onItemSelected(profile, item, e, src, 0);
+                                rt=false;
+                                break;
+                            }
+                        }
                     case 'multi':
                         if(properties.readonly|| item.readonly)return false;
-
                         var value = box.getUIValue(),
-                            arr = value?value.split(';'):[];
+                            arr = value?value.split(';'):[],
+                            checktype=1;
 
                         if(arr.length&&(ks.ctrlKey||ks.shiftKey||properties.noCtrlKey||properties.$checkbox)){
                             //for select
@@ -23094,9 +23107,10 @@ Class("linb.UI.Group", "linb.UI.Div",{
                                 for(i=Math.min(i1,i2);i<=Math.max(i1,i2);i++)
                                     arr.push(items[i].id);
                             }else{
-                                if(_.arr.indexOf(arr,item.id)!=-1)
+                                if(_.arr.indexOf(arr,item.id)!=-1){
                                     _.arr.removeValue(arr,item.id);
-                                else
+                                    checktype=-1
+                                }else
                                     arr.push(item.id);
                             }
 
@@ -23109,7 +23123,7 @@ Class("linb.UI.Group", "linb.UI.Div",{
                             else{
                                 box.setUIValue(value);
                                 if(box.get(0) && box.getUIValue() == value)
-                                    rt=box.onItemSelected(profile, item, e, src)||rt2;
+                                    rt=box.onItemSelected(profile, item, e, src, checktype)||rt2;
                             }
                             break;
                         }
@@ -23122,7 +23136,7 @@ Class("linb.UI.Group", "linb.UI.Div",{
                             profile.$firstV=item;
                             box.setUIValue(item.id);
                             if(box.get(0) && box.getUIValue() == item.id)
-                                rt=box.onItemSelected(profile, item, e, src);
+                                rt=box.onItemSelected(profile, item, e, src, 1);
                         }
                         break;
                     }
@@ -23183,9 +23197,9 @@ Class("linb.UI.Group", "linb.UI.Div",{
         DataModel:{
             selMode:{
                 ini:'single',
-                listbox:['single','none','multi'],
+                listbox:['single','none','multi','multibycheckbox'],
                 action:function(value){
-                    this.getSubNode('CHECKBOX',true).css('display',value=='multi'?'':'none');
+                    this.getSubNode('MARK',true).css('display',(value=='multi'||value=='multibycheckbox')?'':'none');
                 }  
             },
             borderType:{
@@ -23212,10 +23226,10 @@ Class("linb.UI.Group", "linb.UI.Div",{
         },
         EventHandlers:{
             onDblclick:function(profile, item, e, src){},
-            onItemSelected:function(profile, item, e, src){}
+            onItemSelected:function(profile, item, e, src, type){}
         },
         _ensureValue:function(profile,value){
-            if(profile.properties.selMode=='multi'){
+            if(profile.properties.selMode=='multi'||profile.properties.selMode=='multibycheckbox'){
                 var arr = (value||"").split(';');
                 arr.sort();
                 return arr.join(';');
@@ -23268,7 +23282,7 @@ Class("linb.UI.Group", "linb.UI.Div",{
             return data;
         },
         _prepareItem:function(profile, item){
-            item._cbDisplay = (profile.properties.selMode=='multi')?'':'display:none;';
+            item._cbDisplay = (profile.properties.selMode=='multi'||profile.properties.selMode=='multibycheckbox')?'':'display:none;';
         },
         _onresize:function(profile,width,height){
             var size=profile.properties.borderType!='none'?2:0;
@@ -25910,11 +25924,21 @@ Class("linb.UI.ButtonViews", "linb.UI.Tabs",{
                 'overflow-x': 'hidden',
                 position:'relative',
                 'line-height':'14px'
+            },
+            MARK:{
+               $order:1,
+               cursor:'pointer',
+               width:'16px',
+               height:'16px',
+               'vertical-align':'middle'
+            },
+            'ITEM-checked MARK':{
+                $order:2
             }
         },
         Behaviors:{
-            HoverEffected:{ITEM:'MARK'},
-            ClickEffected:{ITEM:'MARK'}
+            HoverEffected:{ITEM:null,MARK:'MARK'},
+            ClickEffected:{ITEM:null,MARK:'MARK'}
         }
     }
 });
@@ -26122,7 +26146,7 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
 
                         }
                     }
-                }else if(selmode=='multi'){
+                }else if(selmode=='multi'||selmode=='multibycheckbox'){
                     uiv = uiv?uiv.split(';'):[];
                     value = value?value.split(';'):[];
                     if(flag){
@@ -26310,7 +26334,7 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
                                 $order:1,
                                 className:'{togglemark}'
                             },
-                            MARK2:{
+                            MARK:{
                                 $order:2,
                                 style:'{mark2Display}'
                             },
@@ -26412,14 +26436,14 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
                 'margin-left':'16px'
             },
 
-            MARK2:{
+            MARK:{
                cursor:'pointer',
                width:'16px',
                height:'16px',
                'vertical-align':'middle',
                background: linb.UI.$bg('icons.gif', 'no-repeat -20px -70px', true)
             },
-            'BAR-checked MARK2':{
+            'BAR-checked MARK':{
                 $order:3,
                 'background-position': '0 -70px'
             },
@@ -26446,11 +26470,6 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
 
                     // not to fire BAR's onclick event;
                     return false;
-                }
-            },
-            MARK2:{
-                onClick:function(profile, e, src){
-                   // linb.use(src).parent().onClick();
                 }
             },
             BAR:{
@@ -26484,7 +26503,7 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
         EventHandlers:{
             onDblclick:function(profile, item, e, src){},
             onGetContent:function(profile, item, callback){},
-            onItemSelected:function(profile, item, e, src){},
+            onItemSelected:function(profile, item, e, src, type){},
             beforeFold:function(profile,item){},
             beforeExpend:function(profile,item){},
             afterFold:function(profile,item){},
@@ -26516,14 +26535,14 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
             },
             selMode:{
                 ini:'single',
-                listbox:['single','none','multi'],
+                listbox:['single','none','multi','multibycheckbox'],
                 action:function(value){
                     var ns=this,p=this.properties,sels=[];
                     _.each(this.SubSerialIdMapItem,function(o){
                         if(!(o.sub && (o.hasOwnProperty('group')?o.group:p.group)))
-                            sels.push(ns.getSubNodeByItemId('MARK2',o.id).get(0));
+                            sels.push(ns.getSubNodeByItemId('MARK',o.id).get(0));
                     });
-                    linb(sels).css('display',value=='multi'?'':'none');
+                    linb(sels).css('display',(value=='multi'||value=='multibycheckbox')?'':'none');
                 }
             },
             noCtrlKey:true,
@@ -26555,12 +26574,21 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
     
             switch(properties.selMode){
             case 'none':
-                box.onItemSelected(profile, item, e, src);
+                box.onItemSelected(profile, item, e, src, 0);
                 break;
+            case 'multibycheckbox':
+                if(properties.readonly|| item.readonly)return false;
+                if(profile.keys.MARK){
+                    if(profile.getKey(linb.Event.getSrc(e).id||"")!=profile.keys.MARK){
+                        box.onItemSelected(profile, item, e, src, 0);
+                        break;
+                    }
+                }
             case 'multi':
-            if(properties.readonly|| item.readonly)return false;
+                if(properties.readonly|| item.readonly)return false;
                 var value = box.getUIValue(),
-                    arr = value?value.split(';'):[];
+                    arr = value?value.split(';'):[],
+                    checktype=1;
                 if(arr.length&&(ks.ctrlKey||ks.shiftKey||properties.noCtrlKey)){
                     if(ks.shiftKey){
                         if(profile.$firstV._pid!=item._pid)return false;
@@ -26576,9 +26604,10 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
                         for(i=Math.min(i1,i2);i<=Math.max(i1,i2);i++)
                             arr.push(items[i].id);
                     }else{
-                        if(_.arr.indexOf(arr,item.id)!=-1)
+                        if(_.arr.indexOf(arr,item.id)!=-1){
                             _.arr.removeValue(arr,item.id);
-                        else
+                            checktype=-1;
+                        }else
                             arr.push(item.id);
                     }
                     arr.sort();
@@ -26588,7 +26617,7 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
                     if(box.getUIValue() != value){
                         box.setUIValue(value);
                         if(box.get(0) && box.getUIValue() == value)
-                            box.onItemSelected(profile, item, e, src);
+                            box.onItemSelected(profile, item, e, src, checktype);
                     }
                     break;
                 }
@@ -26597,7 +26626,7 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
                     profile.$firstV=item;
                     box.setUIValue(item.id);
                     if(box.get(0) && box.getUIValue() == item.id)
-                        box.onItemSelected(profile, item, e, src);
+                        box.onItemSelected(profile, item, e, src, 1);
                 }
                 break;
             }
@@ -26692,7 +26721,7 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
             return false;
         },
         _ensureValue:function(profile,value){
-            if(profile.properties.selMode=='multi'){
+            if(profile.properties.selMode=='multi'||profile.properties.selMode=='multibycheckbox'){
                 var arr = (value||"").split(';');
                 arr.sort();
                 return arr.join(';');
@@ -26713,7 +26742,7 @@ Class("linb.UI.TreeBar",["linb.UI","linb.absList","linb.absValue"],{
 
             item.disabled = item.disabled?profile.getClass('KEY', '-disabled'):'';
             item.itemDisplay=item.hidden?'display:none;':'';
-            item.mark2Display = (p.selMode=='multi')?'':'display:none;';
+            item.mark2Display = (p.selMode=='multi'||p.selMode=='multibycheckbox')?'':'display:none;';
             item._tabindex = p.tabindex;
             //change css class
             if(item.sub && (item.hasOwnProperty('group')?item.group:p.group)){
@@ -27118,7 +27147,7 @@ Class("linb.UI.TreeView","linb.UI.TreeBar",{
 
             item.disabled = item.disabled?profile.getClass('KEY', '-disabled'):'';
             item.itemDisplay=item.hidden?'display:none;':'';
-            item.mark2Display = (p.selMode=='multi')?'':'display:none;';
+            item.mark2Display = (p.selMode=='multi'||p.selMode=='multibycheckbox')?'':'display:none;';
             item._tabindex = p.tabindex;
         },
         _reorderItems:function(profile, pid){
@@ -30270,7 +30299,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                                     items.scrollTop(top);
                         }
                     }
-                }else if(p.selMode=='multi'){
+                }else if(p.selMode=='multi'||p.selMode=='multibycheckbox'){
                     uiv = uiv?uiv.split(';'):[];
                     value = value?value.split(';'):[];
                     //check all
@@ -31592,7 +31621,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
             onSize:linb.UI.$onSize,
             HFMARK:{
                 onClick:function(profile,e,src){
-                    if(profile.properties.selMode!='multi')return;
+                    if(profile.properties.selMode!='multi'&&profile.properties.selMode!='multibycheckbox')return;
 
                     var rows=[];
                     _.each(profile.rowMap,function(o){
@@ -32227,14 +32256,17 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                         }
                     // handler CELL
                     }else{
-                        var row = profile.rowMap[profile.getSubId(src)];
+                        var row = profile.rowMap[profile.getSubId(src)],
+                            clickMark=profile.getKey(linb.Event.getSrc(e).id||"")==profile.keys.MARK;
                         // click mark, or not a group row
-                        if(profile.getKey(linb.Event.getSrc(e).id||"")==profile.keys.MARK || !row.group){
+                        if(clickMark || !row.group){
                             if(p.disabled || row.disabled)
                                 return false;
                             if(p.activeMode=='row'){
                                 id = linb(src).parent(3).id();
-                                box._sel(profile, 'row', src, id, e);
+
+                                if(clickMark || (p.selMode!='multi'&&p.selMode!='multibycheckbox'))
+                                    box._sel(profile, 'row', src, id, e);
                             }
                         }
                         if(p.selMode=='none')
@@ -32395,9 +32427,9 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
             currencyTpl:"",
             selMode:{
                 ini:'none',
-                listbox:['single','none','multi'],
+                listbox:['single','none','multi','multibycheckbox'],
                 action:function(value){
-                    this.getSubNodes(['HFMARK','MARK'],true).css('display',value=='multi'?'':'none');
+                    this.getSubNodes(['HFMARK','MARK'],true).css('display',(value=='multi'||value=='multibycheckbox')?'':'none');
                 }
             },
             dock:'fill',
@@ -32596,7 +32628,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
             onNewLineTriggerred:function(profile, cell, row){},
             
             onGetContent:function(profile, row, callback){},
-            onRowSelected:function(profile, row, e, src){},
+            onRowSelected:function(profile, row, e, src, type){},
 
             beforeColDrag:function(profile, colId){},
             beforeColMoved:function(profile, colId, toId){},
@@ -32776,7 +32808,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
             data.rowHandlerDisplay=pro.rowHandler?'':NONE;
             data.sortDisplay=NONE;
             data.headerHeight=data.headerHeight?('height:'+data.headerHeight+'px;'):'';
-            data._rowMarkDisplay=pro.selMode=="multi"?"":"display:none;";
+            data._rowMarkDisplay=(pro.selMode=="multi"||pro.selMode=="multibycheckbox")?"":"display:none;";
 
             if(pro.header && pro.header.constructor != Array)
                 pro.header = [];
@@ -33053,7 +33085,7 @@ editorDropListHeight
                 row._layer=_layer;
 
                 row._tabindex=pro.tabindex;
-                row._rowMarkDisplay=pro.selMode=="multi"?"":NONE;
+                row._rowMarkDisplay=(pro.selMode=="multi"||pro.selMode=="multibycheckbox")?"":NONE;
 
 
 
@@ -33289,7 +33321,7 @@ editorDropListHeight
                 profile.boxing().afterCellUpdated(profile,cell, options);
         },
         _ensureValue:function(profile,value){
-            if(profile.properties.selMode=='multi'){
+            if(profile.properties.selMode=='multi'||profile.properties.selMode=='multibycheckbox'){
                 var arr = (value||"").split(';');
                 arr.sort();
                 return arr.join(';');
@@ -33309,11 +33341,19 @@ editorDropListHeight
                 mode=properties.selMode;
             switch(mode){
             case 'none':
-                box.onRowSelected(profile, targetItem, e, src);
+                box.onRowSelected(profile, targetItem, e, src, 0);
                 break;
+            case 'multibycheckbox':
+                if(profile.keys.MARK){
+                    if(profile.getKey(linb.Event.getSrc(e).id||"")!=profile.keys.MARK){
+                        box.onRowSelected(profile, targetItem, e, src, 0);
+                        break;
+                    }
+                }
             case 'multi':
                 var value = box.getUIValue(),
-                    arr = value?value.split(';'):[];
+                    arr = value?value.split(';'):[],
+                    checktype=1;
                 if(arr.length&&(ks.ctrlKey||ks.shiftKey||properties.noCtrlKey)){
                     //todo: give cell multi selection function
                     if(ks.shiftKey && type=='row'){
@@ -33330,9 +33370,10 @@ editorDropListHeight
                         for(i=Math.min(i1,i2);i<=Math.max(i1,i2);i++)
                             arr.push(items[i].id);
                     }else{
-                        if(_.arr.indexOf(arr,sid)!=-1)
+                        if(_.arr.indexOf(arr,sid)!=-1){
                             _.arr.removeValue(arr,sid);
-                        else
+                            checktype=-1;
+                        }else
                             arr.push(sid);
                     }
 
@@ -33343,7 +33384,7 @@ editorDropListHeight
                     if(box.getUIValue() != value){
                         box.setUIValue(value);
                         if(box.get(0) && box.getUIValue() == value)
-                            box.onRowSelected(profile, targetItem, e, src);
+                            box.onRowSelected(profile, targetItem, e, src, checktype);
                     }
                     break;
                 }
@@ -33352,7 +33393,7 @@ editorDropListHeight
                     profile.$firstV=targetItem;
                     box.setUIValue(sid);
                     if(box.get(0) && box.getUIValue() == sid)
-                        box.onRowSelected(profile, targetItem, e, src);
+                        box.onRowSelected(profile, targetItem, e, src, 1);
                 }
                 break;
             }
@@ -33360,46 +33401,38 @@ editorDropListHeight
         _activeCell:function(profile, id){
             if(profile.properties.activeMode!='cell')return;
             if(profile.$activeCell == id)return;
-
+            var targetCell=null;
             if(profile.$activeCell){
                 linb(profile.$activeCell).tagClass('-active', false);
                 delete profile.$activeCell;
             }
-
             if(id!==false){
                 var targetId = profile.getSubId(id),
-                    map = profile.cellMap,
-                    targetCell=map[targetId];
-    
-                if(profile.beforeCellActive && (false===profile.boxing().beforeCellActive(profile, targetCell)))return;
-                
+                    map = profile.cellMap;
+                targetCell=map[targetId];
+                if(profile.beforeCellActive && (false===profile.boxing().beforeCellActive(profile, targetCell)))return;                
                 linb(profile.$activeCell = id).tagClass('-active');
-
-                profile.boxing().afterCellActive(profile, targetCell);
             }
+            if(profile.afterCellActive)profile.boxing().afterCellActive(profile, targetCell);
         },
         _activeRow:function(profile, id){
             if(profile.properties.activeMode!='row')return;
             if(profile.$activeRow == id)return;
-
+            var targetRow=null;
             if(profile.$activeRow){
                linb(profile.$activeRow).tagClass('-active', false);
                delete profile.$activeRow;
             }
-
             if(id!==false){
                 var targetId = profile.getSubId(id),
-                    map = profile.rowMap,
-                    targetRow=map[targetId];
-    
+                    map = profile.rowMap;
+                targetRow=map[targetId];
                 //before event
                 if(profile.beforeRowActive && (false===profile.boxing().beforeRowActive(profile, targetRow)))return;
-
                 linb(profile.$activeRow = id).tagClass('-active');
-
-                //after event
-                profile.boxing().afterRowActive(profile, targetRow);
             }
+            //after event
+            if(profile.afterRowActive)profile.boxing().afterRowActive(profile, targetRow);
         },
         getCellPro:function(profile, cell, key){
             var t=cell;

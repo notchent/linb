@@ -50,11 +50,21 @@ Class("linb.UI.RadioBox", "linb.UI.List",{
                 'overflow-x': 'hidden',
                 position:'relative',
                 'line-height':'14px'
+            },
+            MARK:{
+               $order:1,
+               cursor:'pointer',
+               width:'16px',
+               height:'16px',
+               'vertical-align':'middle'
+            },
+            'ITEM-checked MARK':{
+                $order:2
             }
         },
         Behaviors:{
-            HoverEffected:{ITEM:'MARK'},
-            ClickEffected:{ITEM:'MARK'}
+            HoverEffected:{ITEM:null,MARK:'MARK'},
+            ClickEffected:{ITEM:null,MARK:'MARK'}
         }
     }
 });

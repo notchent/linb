@@ -10540,7 +10540,7 @@ _.set(linb.Locale,["en","app"], {
                 ]
             },
             getSelMode:{
-                $desc:"Gets selection mode",
+                $desc:"Gets selection mode. Could be 'none', 'single', 'multi' or 'multibycheckbox'.",
                 $rtn:"String",
                 $snippet:[
                     "var id='linb.temp.list6'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -10593,7 +10593,8 @@ _.set(linb.Locale,["en","app"], {
                     "profile : linb.UIProfile.",
                     "item: Object, list item Object.",
                     "e: Event, the DOM event Object.",
-                    "src : String, the event source DOM element's linbid."
+                    "src : String, the event source DOM element's linbid.",
+                    "type : Number, 0:no affacted; 1:checked; -1: unchecked."
                 ],
                 $snippet:[
                     "var id='linb.temp.list8'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;height:100px;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -13981,7 +13982,7 @@ _.set(linb.Locale,["en","app"], {
                 ]
             },
             getSelMode :{
-                $desc:"Gets selection mode. Could be 'none', 'single' or 'multi'.",
+                $desc:"Gets selection mode. Could be 'none', 'single', 'multi' or 'multibycheckbox'.",
                 $rtn:"String",
                 $snippet:[
                     "var id='linb.temp.tb9'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -14124,7 +14125,8 @@ _.set(linb.Locale,["en","app"], {
                     "profile : linb.UIProfile.",
                     "item: Object, list item Object.",
                     "e: Event, the DOM event Object.",
-                    "src : String, the event source DOM element's linbid."
+                    "src : String, the event source DOM element's linbid.",
+                    "type : Number, 0:no affacted; 1:checked; -1: unchecked."
                 ],
                 $snippet:[
                     "var id='linb.temp.tb20'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -14713,7 +14715,7 @@ _.set(linb.Locale,["en","app"], {
                 ]
             },
             getSelMode :{
-                $desc:"Gets grid selection mode.",
+                $desc:"Gets grid selection mode. Could be 'none', 'single', 'multi' or 'multibycheckbox'.",
                 $rtn:"String",
                 $snippet:[
                     "var id='linb.temp.grid126'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
@@ -15389,7 +15391,8 @@ _.set(linb.Locale,["en","app"], {
                     "profile : linb.UIProfile.",
                     "row:  Object.",
                     "e: Event, the DOM event Object.",
-                    "src : String, the event source DOM element's linbid."
+                    "src : String, the event source DOM element's linbid.",
+                    "type : Number, 0:no affacted; 1:checked; -1: unchecked."
                 ],
                 $snippet:[
                     "var id='linb.temp.grid58'; if(!linb.Dom.byId(id)){this.prepend(linb.create('<div id='+id+' style=\"border:solid 1px;padding:20px;position:relative;width:300px;height:200px;\">' + '<button style=\"position:absolute; bottom:0px; z-index:2;\" onclick=\"linb(this).parent().remove()\">remove this example</button>' + '</div>'));"+
