@@ -11095,6 +11095,14 @@ Class("linb.UI",  "linb.absObj", {
                 this.afterAppend(pro,target);
             return this;
         },
+        getParent:function(){
+            var prf=this.get(0);
+            if(prf)return prf.parent && prf.parent.boxing();
+        },
+        getChildrenId:function(){
+            var prf=this.get(0);
+            if(prf)return prf.childrenId;
+        },
         getChildren:function(subId){
             var a=[];
             _.arr.each(this.get(0).children,function(v){
@@ -32336,7 +32344,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                         if(ctrl){
                             var cell = profile.cellMap[profile.getSubId(src)],
                                 row = cell._row;
-                            if(row && !(p.disabled || row.disabled) && (row.group||row.sub|)){
+                            if(row && !(p.disabled || row.disabled) && (row.group||row.sub)){
                                 profile.getSubNode('FCELLCMD',row._serialId).onClick();
                                 return false;
                             }
@@ -32349,7 +32357,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                         if(ctrl){
                             var cell = profile.cellMap[profile.getSubId(src)],
                                 row = cell._row;
-                            if(row && !(p.disabled || row.disabled) &&  (row.group||row.sub|)){
+                            if(row && !(p.disabled || row.disabled) &&  (row.group||row.sub)){
                                 profile.getSubNode('FCELLCMD',row._serialId).onClick();
                                 return false;
                             }

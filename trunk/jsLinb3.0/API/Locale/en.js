@@ -6394,6 +6394,14 @@ _.set(linb.Locale,["en","app"], {
                     "force [Optional] : Boolean, force to relayou or not."
                 ]
             },
+            getParent:{
+                $desc:"Gets the current widget's parent.",
+                $rtn:"linb.UI"
+            },
+            getChildrenId:{
+                $desc:"Gets the current widget's parent container id.",
+                $rtn:"String"
+            },
             getChildren:{
                 $desc:"Gets the current widget's children.",
                 $rtn:"linb.UI",

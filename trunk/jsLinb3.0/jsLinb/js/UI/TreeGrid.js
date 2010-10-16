@@ -2079,7 +2079,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                         if(ctrl){
                             var cell = profile.cellMap[profile.getSubId(src)],
                                 row = cell._row;
-                            if(row && !(p.disabled || row.disabled) && (row.group||row.sub|)){
+                            if(row && !(p.disabled || row.disabled) && (row.group||row.sub)){
                                 profile.getSubNode('FCELLCMD',row._serialId).onClick();
                                 return false;
                             }
@@ -2092,7 +2092,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                         if(ctrl){
                             var cell = profile.cellMap[profile.getSubId(src)],
                                 row = cell._row;
-                            if(row && !(p.disabled || row.disabled) &&  (row.group||row.sub|)){
+                            if(row && !(p.disabled || row.disabled) &&  (row.group||row.sub)){
                                 profile.getSubNode('FCELLCMD',row._serialId).onClick();
                                 return false;
                             }

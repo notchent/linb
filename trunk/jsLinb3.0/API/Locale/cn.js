@@ -6417,6 +6417,14 @@ _.set(linb.Locale,["cn","app"], {
                     "force [可选参数] : Boolean, 是否强制。"
                 ]
             },
+            getParent:{
+                $desc:"得到目前控件的所有父控件.",
+                $rtn:"linb.UI"
+            },
+            getChildrenId:{
+                $desc:"得到目前控件在父控件的容器子项.",
+                $rtn:"String"
+            },
             getChildren:{
                 $desc:"得到目前控件的所有子控件.",
                 $rtn:"linb.UI",

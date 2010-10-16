@@ -1611,6 +1611,14 @@ Class("linb.UI",  "linb.absObj", {
                 this.afterAppend(pro,target);
             return this;
         },
+        getParent:function(){
+            var prf=this.get(0);
+            if(prf)return prf.parent && prf.parent.boxing();
+        },
+        getChildrenId:function(){
+            var prf=this.get(0);
+            if(prf)return prf.childrenId;
+        },
         getChildren:function(subId){
             var a=[];
             _.arr.each(this.get(0).children,function(v){
