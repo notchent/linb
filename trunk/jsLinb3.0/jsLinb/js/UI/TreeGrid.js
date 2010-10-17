@@ -535,29 +535,29 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
             return this;
         },
         resetRowValue:function(rowId){
-            var profile=this.get(0),row=this.getRowbyRowId(rowId),arr=[];
+            var profile=this.get(0),row=this.getRowbyRowId(rowId),arr=[],prop=profile.properties;
             _.arr.each(row.cells,function(o){
                 if(o.oValue!==o.value){
                     o.oValue=o.value;
                     delete o.dirty;
-                    if(profile.properties.dirtyMark)
+                    if(prop.dirtyMark)
                         arr.push(profile.getSubNode('CELLA',o._serialId).get(0));
                 }
             });
-            if(profile.properties.dirtyMark)
+            if(prop.dirtyMark && prop.showDirtyMark)
                 linb(arr).removeClass('ui-dirty');
         },
         resetColValue:function(colId){
-            var profile=this.get(0),col=this.getHeaderByColId(colId),arr=[];
+            var profile=this.get(0),col=this.getHeaderByColId(colId),arr=[],prop=profile.properties;
             _.arr.each(col.cells,function(o){
                 if(o.oValue!==o.value){
                     o.oValue=o.value;
                     delete o.dirty;
-                    if(profile.properties.dirtyMark)
+                    if(prop.dirtyMark)
                         arr.push(profile.getSubNode('CELLA',o._serialId).get(0));
                 }
             });
-            if(profile.properties.dirtyMark)
+            if(prop.dirtyMark && prop.showDirtyMark)
                 linb(arr).removeClass('ui-dirty');
         },
         getActiveRow:function(){
@@ -783,11 +783,12 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
         // reset all cells' value, and clear all dirty mark
         resetGridValue:function(){
             return this.each(function(profile){
+                var prop=profile.properties;
                 _.each(profile.cellMap,function(v){
                     v.oValue=v.value;
                     delete v.dirty;
                 });
-                if(profile.properties.dirtyMark)
+                if(prop.dirtyMark && prop.showDirtyMark)
                     profile.getSubNode('CELLA',true).removeClass('ui-dirty');
             })
         },
@@ -1928,6 +1929,16 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                     if(p.disabled || row.disabled)return false;
                     if(profile.onDblclickRow)profile.boxing().onDblclickRow(profile, row, e, src);
                     return false;
+                },
+                onClick:function(profile, e, src){
+                    var p = profile.properties,
+                        subid = profile.getSubId(src),
+                        ks=profile.keys,
+                        row = profile.rowMap[subid],
+                        ck=profile.getKey(linb.Event.getSrc(e).id||"");
+                    if(p.disabled || row.disabled)return false;
+                    if(ck==ks.FCELLCMD || ck==ks.MARK) return false;
+                    if(row.group) profile.getSubNode('FCELLCMD',row._serialId).onClick();
                 }
             },
             CELL:{
@@ -2007,9 +2018,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                         if(p.activeMode=='row'){
                             id = linb(src).parent(3).id();
                             box._sel(profile, 'row', src, id, e);
-                        }
-                        else if(p.selMode=='none')
-                            profile.getSubNode('FCELLCMD',row._serialId).onClick();
+                        }                            
                     }
                     profile.box._focuscell(profile, e, src); 
                     
@@ -2077,8 +2086,11 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                         break;
                     case 'up':
                         if(ctrl){
-                            var cell = profile.cellMap[profile.getSubId(src)],
-                                row = cell._row;
+                            var cell=profile.cellMap[profile.getSubId(src)],row;
+                            if(cell)
+                                row=cell._row
+                            else
+                                row=profile.rowMap[profile.getSubId(src)];
                             if(row && !(p.disabled || row.disabled) && (row.group||row.sub)){
                                 profile.getSubNode('FCELLCMD',row._serialId).onClick();
                                 return false;
@@ -2090,8 +2102,11 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                         }
                    case 'down':
                         if(ctrl){
-                            var cell = profile.cellMap[profile.getSubId(src)],
-                                row = cell._row;
+                            var cell=profile.cellMap[profile.getSubId(src)],row;
+                            if(cell)
+                                row=cell._row
+                            else
+                                row=profile.rowMap[profile.getSubId(src)];
                             if(row && !(p.disabled || row.disabled) &&  (row.group||row.sub)){
                                 profile.getSubNode('FCELLCMD',row._serialId).onClick();
                                 return false;
@@ -2398,6 +2413,9 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
             afterCellActive:function(profile, cell){},
 
             beforeIniEditor:function(profile, cell, cellNode, pNode){},
+            onBeginEdit:function(profile, cell, editor){},
+            onEndEdit:function(profile, cell, editor){},
+            
             beforeCellUpdated:function(profile, cell, options){},
             afterCellUpdated:function(profile, cell, options){},
 
@@ -2928,14 +2946,15 @@ editorDropListHeight
 
             //first
             linb.UI.adjustData(profile, cell, uicell);
-            //next
-            cell.oValue=cell.value;
 
             if(!uicell.width)uicell.width=col.width;
             uicell._tabindex=pro.tabindex;
             uicell.cellDisplay=col.hidden===true?'display:none;':'';
 
             self._renderCell(profile, cell, uicell);
+
+            //next
+            cell.oValue=cell.value;
         },
         _setSub:function(profile, item, flag){
             var id=profile.domId,
@@ -3028,7 +3047,9 @@ editorDropListHeight
         },
         _updCell:function(profile, cellId, options, dirtyMark, triggerEvent){
             var box=profile.box,
-                pdm=profile.properties.dirtyMark,
+                prop=profile.properties,
+                pdm=prop.dirtyMark,
+                psdm=prop.showDirtyMark,
                 sc=linb.absObj.$specialChars,
                 cell,node;
 
@@ -3066,10 +3087,12 @@ editorDropListHeight
                     cell.oValue=cell.value;
                 else{
                     if(cell.value===cell.oValue){
-                        node.removeClass('ui-dirty');
+                        if(psdm)
+                            node.removeClass('ui-dirty');
                         delete cell.dirty;
                     }else{
-                        node.addClass('ui-dirty');
+                        if(psdm)
+                            node.addClass('ui-dirty');
                         cell.dirty=true;
                     }
                 }
@@ -3104,7 +3127,7 @@ editorDropListHeight
             case 'multibycheckbox':
                 if(profile.keys.MARK){
                     var ck=profile.getKey(linb.Event.getSrc(e).id||""),
-                        clickMark=ck==ks.MARK;
+                        clickMark=ck==profile.keys.MARK;
                     if(!clickMark){
                         box.onRowSelected(profile, targetItem, e, src, 0);
                         break;
@@ -3226,6 +3249,8 @@ editorDropListHeight
             if(editor && typeof editor.iniEditor=='function'){
                 editor.iniEditor(profile, cell, cellNode);
                 _.tryF(editor.activate,[],editor);
+                if(profile.onBeginEdit)
+                    profile.boxing().onBeginEdit(profile, cell, editor);
             }else{
                 // 2. beforeIniEditor
                 //      returns an editor(linb.UI object)
@@ -3380,6 +3405,7 @@ editorDropListHeight
                         editor.getSubNode('INPUT').onBlur(true);
         
                         profile.$curEditor=null;
+                        profile.$cellInEditor=null;
         
                         editor.getRoot().setBlurTrigger(profile.$linbid);
                         if(!profile.properties.directInput){
@@ -3415,6 +3441,11 @@ editorDropListHeight
                         delete editor.get(0)._smartnav;
                         //don't use disply:none, firfox has many bugs about Caret or renderer
                         editor.setVisibility('hidden');
+                        
+                        // execute once
+                        editor.undo=null;
+                        if(profile.onEndEdit)
+                            profile.boxing().onEndEdit(profile, cell, editor);
                     };
         
                     //editor change value, update cell value
@@ -3485,6 +3516,8 @@ editorDropListHeight
                     }
                     editor.setVisibility("visible");
         
+                    if(profile.onBeginEdit)
+                        profile.boxing().onBeginEdit(profile, cell, editor);
                     //activate editor
                     _.asyRun(function(){
                         _.tryF(editor&&editor.activate,[],editor);
@@ -3494,6 +3527,7 @@ editorDropListHeight
 
             //give a reference
             profile.$curEditor=editor;
+            profile.$cellInEditor=cell;
         },
         _ajdustBody:function(profile){
             _.resetRun(profile.$linbid+'4',function(){

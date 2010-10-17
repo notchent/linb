@@ -5469,15 +5469,25 @@ _.set(linb.Locale,["en","app"], {
 
     _.set(linb.Locale,["en","doc","linb","absValue"], {
         prototype:{
+            getShowDirtyMark:{
+                $desc:"Gets the showDirtyMark property value on the first UIProfile",
+                $rtn:"Boolean",
+                $memo:"If dirtyMark and showDirtyMark are [true], the component maybe show the dirty mark in UI when its value was changed."
+            },
+            setShowDirtyMark:{
+                $desc:"Sets the showDirtyMark property value on the first UIProfile",
+                $rtn:"[self]",
+                $memo:"If dirtyMark and showDirtyMark are [true], the component maybe show the dirty mark in UI when its value was changed."
+            },
             getDirtyMark:{
                 $desc:"Gets the dirtyMark property value on the first UIProfile",
                 $rtn:"Boolean",
-                $memo:"If dirtyMark is [true], the component maybe show the dirty mark in UI when its value was changed."
+                $memo:"If dirtyMark and showDirtyMark are [true], the component maybe show the dirty mark in UI when its value was changed."
             },
             setDirtyMark:{
                 $desc:"Sets the dirtyMark property value on the first UIProfile",
                 $rtn:"[self]",
-                $memo:"If dirtyMark is [true], the component maybe show the dirty mark in UI when its value was changed."
+                $memo:"If dirtyMark and showDirtyMark are [true], the component maybe show the dirty mark in UI when its value was changed."
             },
             getDataBinder:{
                 $desc:"Gets the DataBinder property value on the first UIProfile",
@@ -15282,6 +15292,22 @@ _.set(linb.Locale,["en","app"], {
                     "profile : linb.UIProfile.",
                     "cell : Object. cell object.",
                     "row : Object, cell's row object."
+                ]
+            },
+            onBeginEdit:{
+                $desc:"Fired when the cell's editor is showed.",
+                $paras:[
+                    "profile : linb.UIProfile.",
+                    "cell : Object. cell object.",
+                    "editor: Object, the editor object."
+                ]
+            },
+            onEndEdit:{
+                $desc:"Fired when the cell's editor is hidden.",
+                $paras:[
+                    "profile : linb.UIProfile.",
+                    "cell : Object. cell object.",
+                    "editor: Object, the editor object."
                 ]
             },
             beforeIniEditor:{

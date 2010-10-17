@@ -9,7 +9,7 @@ Class("linb.UI.ToolBar",["linb.UI","linb.absList"],{
                     box=profile.box,
                     items=profile.properties.items,
                     rst=profile.queryItems(items,function(o){return typeof o=='object'?o.id===subId:o==subId},true,true,true),
-                    nid,item,n1,n2,n3,t;
+                    nid,item,n1,n2,n3,n4,t;
                 if(_.isStr(options))options={caption:options};
 
                 if(rst.length){
@@ -41,17 +41,24 @@ Class("linb.UI.ToolBar",["linb.UI","linb.absList"],{
                         n1=profile.getSubNodeByItemId('ICON',nid||subId);
                         n2=profile.getSubNodeByItemId('CAPTION',nid||subId);
                         n3=profile.getSubNodeByItemId('ITEM',nid||subId);
+                        n4=profile.getSubNodeByItemId('LABEL',nid||subId);
 
                         if('value' in options && options.value!=item.value)
                             profile.getSubNodeByItemId('BTN',nid||subId).tagClass('-checked', !!options.value);
+                            
                         if('caption' in options&& options.caption!=item.caption){
                             n2.html(options.caption);
-                            if(options.caption && !item.caption){
-                                profile.getSubNode("CAPTION").css('display','');
-                            }
-                            if(!options.caption && item.caption){
-                                profile.getSubNode("CAPTION").css('display','none');
-                            }
+                            if(options.caption && !item.caption)
+                                n2.css('display','');
+                            if(!options.caption && item.caption)
+                                n2.css('display','none');
+                        }
+                        if('label' in options&& options.label!=item.label){
+                            n4.html(options.label);
+                            if(options.label && !item.label)
+                                n4.css('display','');
+                            if(!options.label && item.label)
+                                n4.css('display','none');
                         }
                         if('disabled' in options && options.disabled!=item.disabled){
                             if(options.disabled)

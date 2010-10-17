@@ -5498,15 +5498,25 @@ _.set(linb.Locale,["cn","app"], {
 
     _.set(linb.Locale,["cn","doc","linb","absValue"], {
         prototype:{
-            getDirtyMark:{
+            getShowDirtyMark:{
                 $desc:"获得控件是否显示脏标识的属性",
                 $rtn:"Boolean",
-                $memo:"如果 dirtyMark 为 [true], 控件值改变的时候可能会在界面出现脏标识"
+                $memo:"如果 dirtyMark和showDirtyMark 都为 [true], 控件值改变的时候可能会在界面出现脏标识"
             },
-            setDirtyMark:{
+            setShowDirtyMark:{
                 $desc:"设置控件是否显示脏标识的属性",
                 $rtn:"[self]",
-                $memo:"如果 dirtyMark 为 [true], 控件值改变的时候可能会在界面出现脏标识"
+                $memo:"如果 dirtyMark和showDirtyMark 都为 [true], 控件值改变的时候可能会在界面出现脏标识"
+            },
+            getDirtyMark:{
+                $desc:"获得控件是否有标识脏的功能",
+                $rtn:"Boolean",
+                $memo:"如果 dirtyMark和showDirtyMark 都为 [true], 控件值改变的时候可能会在界面出现脏标识"
+            },
+            setDirtyMark:{
+                $desc:"设置控件是否有标识脏的功能",
+                $rtn:"[self]",
+                $memo:"如果 dirtyMark和showDirtyMark 都为 [true], 控件值改变的时候可能会在界面出现脏标识"
             },
             getDataBinder:{
                 $desc:"获取绑定的数据绑定器名称",

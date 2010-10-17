@@ -876,9 +876,11 @@ Class("linb.UI.ComboInput", "linb.UI.Input",{
 
                     if(k.key=='down'|| k.key=='up'){
                         if(p.type=='spin'){
-                            profile.box._spin(profile, k.key=='up');
-                            return false;
-                        }if(k.ctrlKey && p.type){
+                            if(!k.ctrlKey){
+                                profile.box._spin(profile, k.key=='up');
+                                return false;
+                            }
+                        }else if(k.ctrlKey && p.type!='none'){
                             profile.boxing()._drop(e,src);
                             return false;
                         }

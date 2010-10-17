@@ -4731,7 +4731,7 @@ Class("linb.absValue", "linb.absObj",{
                     o=profile.getSubNode(key||"KEY"),
                     d=linb.UI.$css_tag_dirty;
                 if(profile._dirtyFlag!==flag){
-                    if(properties.dirtyMark){
+                    if(properties.dirtyMark && properties.showDirtyMark){
                         if(profile.beforeDirtyMark && false===profile.boxing().beforeDirtyMark(profile,flag)){}
                         else{
                             if(flag) o.addClass(d);
@@ -4910,7 +4910,8 @@ Class("linb.absValue", "linb.absObj",{
                     if(profile.afterValueSet)box.afterValueSet(profile, ovalue, nv);
                 }
             },
-            dirtyMark:true
+            dirtyMark:true,
+            showDirtyMark:true
         },
         EventHandlers:{
            //real value set

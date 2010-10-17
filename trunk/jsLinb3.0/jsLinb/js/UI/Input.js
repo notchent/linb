@@ -57,7 +57,7 @@ Class("linb.UI.Input", ["linb.UI.Widget","linb.absValue"] ,{
                 if(ot!==profile.tips && linb.Tips && linb.Tips.getTips())linb.Tips.setTips(profile.tips);
                 
                 if(profile._dirtyFlag!==flag){
-                    if(properties.dirtyMark){
+                    if(properties.dirtyMark && properties.showDirtyMark){
                         if(profile.beforeDirtyMark && false===box.beforeDirtyMark(profile,flag)){}
                         else{
                             if(profile._dirtyFlag=flag) o.addClass(d);
@@ -535,7 +535,8 @@ Class("linb.UI.Input", ["linb.UI.Widget","linb.absValue"] ,{
         RenderTrigger:function(){
             var ns=this,p=ns.properties;
             _.asyRun(function(){
-                ns.boxing()._setTB(1);
+                if(ns.box)
+                    ns.boxing()._setTB(1);
             });
             ns.getSubNode('WRAP').$firfox2();
             if(p.readonly)

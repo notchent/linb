@@ -17,7 +17,7 @@ Class('VisualJS', 'linb.Com',{
 
             self.Message.unshift({id:_.id(), caption: content.length>50?content.substr(0,50)+'...':content, tips:content, image:CONF.img_app, imagePos:'-64px -64px'});
 
-            self.toolbar.updateItem('info', {caption:'',label:content.length>50?content.substr(0,50)+'...':content});
+            self.toolbar.updateItem('info', {label:content.length>50?content.substr(0,50)+'...':content});
 
             o.apply(null,arguments);
         };
@@ -80,7 +80,7 @@ Class('VisualJS', 'linb.Com',{
                     {split:true},
                     {id:'theme', dropButton:true, image:CONF.img_app, imagePos:'-208px -48px', tips:'$VisualJS.builder.dftThemeTips'},
                     {split:true},
-                    {id:'info', label:'$VisualJS.noMessage', tips:'$VisualJS.message'}
+                    {id:'info', caption:'...', label:'$VisualJS.noMessage', tips:'$VisualJS.message'}
                 ]}]);
                 this.floatLogo.setCustomStyle({"KEY":"background-image:url("+linb.getPath('img/','logo.gif')+");position:absolute;top:0px;right:0px;width:120px;height:60px;z-index:100;cursor:pointer;"})
             },
