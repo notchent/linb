@@ -1160,7 +1160,10 @@ Class('linb.Thread',null,{
             }
         },
         _task:function(){
-            var self=this,p=self.profile,t={args:[]}, value=p.tasks[p.index],r,i,type=typeof value;
+            var self=this,p=self.profile;
+            if(!p.tasks)return;
+
+            var t={args:[]}, value=p.tasks[p.index],r,i,type=typeof value;
             p._asy=-1;
 
             //maybe aborted

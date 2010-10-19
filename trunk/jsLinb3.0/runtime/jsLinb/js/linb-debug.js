@@ -1160,7 +1160,10 @@ Class('linb.Thread',null,{
             }
         },
         _task:function(){
-            var self=this,p=self.profile,t={args:[]}, value=p.tasks[p.index],r,i,type=typeof value;
+            var self=this,p=self.profile;
+            if(!p.tasks)return;
+
+            var t={args:[]}, value=p.tasks[p.index],r,i,type=typeof value;
             p._asy=-1;
 
             //maybe aborted
@@ -18491,10 +18494,11 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
                 // rendered already
                 if(!self.$once){
                     self.$once=true;
+                    var kprf=this;
                     var iframe=document.createElement("iframe"),
                         //_updateToolbar event
                         event=self._event=function(e){
-                            if(this._pro && (this._pro.properties.disabled||this._pro.properties.readonly))return;
+                            if(kprf && (kprf.properties.disabled||kprf.properties.readonly))return;
     
                             _.resetRun('RichEditor:'+domId, function(){
                                 linb.UI.RichEditor._updateToolbar(domId)
@@ -18504,11 +18508,22 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
                             if(e.type=='mousedown')
                                 linb.doc.onMousedown(true);
                         },
+                        _focus=function(e){
+                            if(kprf && (kprf.properties.disabled||kprf.properties.readonly))return;
+                            kprf.box._onchange(kprf);
+                        },
+                        _blur=function(e){
+                            if(kprf && (kprf.properties.disabled||kprf.properties.readonly))return;
+                            if(kprf._onchangethread){
+                                clearInterval(kprf._onchangethread);
+                                linb.message('e');
+                                kprf._onchangethread=null;
+                            }
+                        },
                         gekfix=function(e){
                             // to fix firefox appendChid's bug: refresh iframe's document
-                            var ns=this;
-                            if(ns._pro){
-                                var ins=ns._pro.boxing();
+                            if(kprf){
+                                var ins=kprf.boxing();
                                 _.asyRun(function(){
                                     ins.refresh(); 
                                 });
@@ -18533,7 +18548,6 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
                                 try{doc.execCommand("styleWithCSS", 0, false)}catch(e){
                                     try {doc.execCommand("useCSS", 0, true)}catch(e){}
                                 }
-                                doc._pro=win._pro=self;
     
                                 var disabled=self.properties.disabled||self.properties.readonly;
     
@@ -18547,7 +18561,6 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
                                     self.box._iniToolBar(self, false);
                                 }
     
-                                doc._pro=win._pro=self;
                                 win._gekfix=gekfix;
     
                                 if(linb.browser.ie){
@@ -18559,10 +18572,17 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
                                         doc.attachEvent("onclick",event);
                                         doc.attachEvent("onkeyup",event);
                                         doc.attachEvent("onkeydown",event);
+                                        win.attachEvent("onfocus",_focus);
+                                        win.attachEvent("onblur",_blur);
                                         self.$beforeDestroy=function(){
                                             var win=this.$win,
                                                 doc=this.$doc,
                                                 event=this._event;
+                                            if(this._onchangethread){
+                                                clearInterval(this._onchangethread);
+                                                linb.message('e');
+                                                this._onchangethread=null;
+                                            }
 
                                             // crack for ie7/8 eat focus
                                             var status=doc.designMode;
@@ -18570,7 +18590,7 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
                                             doc.designMode="on";
                                             doc.designMode=status;
 
-                                            win._gekfix=doc._pro=win._pro=undefined;
+                                            win._gekfix=undefined;
 
                                             try{doc.detachEvent("unload",win._gekfix);}catch(e){}
 
@@ -18580,6 +18600,8 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
                                                 doc.detachEvent("onclick",event);
                                                 doc.detachEvent("onkeyup",event);
                                                 doc.detachEvent("onkeydown",event);
+                                                win.detachEvent("onfocus",_focus);
+                                                win.detachEvent("onblur",_blur);
                                             }
                                             win=doc=event=null;
                                         }
@@ -18604,6 +18626,8 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
                                         doc.addEventListener("dblclick",event,false);
                                         doc.addEventListener("click",event,false);
                                         doc.addEventListener("keyup",event,false);
+                                        win.addEventListener("focus",_focus,false);
+                                        win.addEventListener("blur",_blur,false);
                                         if(linb.browser.gek)
                                             doc.addEventListener("keypress",event,false);
                                         else
@@ -18621,7 +18645,7 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
 
                                         try{win.removeEventListener("unload",win._gekfix,false);}catch(e){}
 
-                                        win._gekfix=doc._pro=win._pro=undefined;
+                                        win._gekfix=undefined;
     
                                         //for firefox
                                         delete frames[this.$frameId];
@@ -18631,6 +18655,8 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
                                             doc.removeEventListener("dblclick",event,false);
                                             doc.removeEventListener("click",event,false);
                                             doc.removeEventListener("keyup",event,false);
+                                            win.removeEventListener("focus",_focus,false);
+                                            win.removeEventListener("blur",_blur,false);
                                             if(linb.browser.gek)
                                                 doc.removeEventListener("keypress",event,false);
                                             else
@@ -18658,7 +18684,7 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
                     iframe.tabIndex=-1;
                     iframe.allowTransparency="allowtransparency";
                     iframe.style.visibility='hidden';
-    
+
                     //replace the original one
                     linb.$cache.domPurgeData[iframe.$linbid=div.$linbid].element=iframe;
                     div.parentNode.replaceChild(iframe,div);
@@ -18668,6 +18694,26 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
                     linb.Thread.repeat(checkF,50);
                     div=null;
                 }
+            }
+        },
+        _checkc:function(profile){
+            if(profile && profile.$doc){
+                var doc=profile.$doc, body=doc && (doc.body||doc.documentElement);
+                if(!profile.__oldv)
+                    profile.__oldv=body.innerHTML;
+                if(body.innerHTML!=profile.__oldv){
+                    profile.__oldv=body.innerHTML;
+                    profile.boxing().onChange(profile);
+                }
+            }
+        },
+        _onchange:function(profile){
+            if(profile.onChange){
+                linb.message('s');
+                profile._onchangethread=setInterval(function(){
+                    if(profile && profile.box)
+                        profile.box._checkc(profile);
+                }, 300);
             }
         },
         _clearPool:function(profile){
