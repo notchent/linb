@@ -492,6 +492,38 @@ Class('linb.Dom','linb.absBox',{
                 return s;
             }
         },
+        loadHtml:function(options, onStart, onEnd){
+            var ns=this;
+            if(typeof options=='string')options={url:options};
+            _.tryF(onStart);
+            linb.Ajax(options.url, options.query, function(rsp){
+                var n=linb.create("div");
+                n.html(rsp,false,true);
+                ns.append(n.children());
+                _.tryF(onEnd);
+            }, function(err){
+                ns.append("<div>"+err+"</div>");
+                _.tryF(onEnd);
+            }, null, options.options).start();
+        },
+        loadIframe:function(options){
+            if(typeof options=='string')options={url:options};
+            var id="aiframe_"+_(),
+                e=linb.browser.ie && parseInt(linb.browser.ver)<9,
+                ifr=document.createElement(e?"<iframe name='"+id+"'>":"iframe");
+            ifr.id=ifr.name=id;
+            ifr.src=options.url;
+            ifr.frameBorder='0';
+            ifr.marginWidth='0';
+            ifr.marginHeight='0';
+            ifr.vspace='0';
+            ifr.hspace='0';
+            ifr.allowTransparency='true';
+            ifr.width='100%';
+            ifr.height='100%';
+            this.append(ifr);
+            linb.Dom.submit(options.url, options.query, options.method, ifr.name, options.enctype);
+        },
         outerHTML:function(content, triggerGC){
             var self=this, t,s='', o=self.get(0),id=o.id;
             if(content!==undefined){

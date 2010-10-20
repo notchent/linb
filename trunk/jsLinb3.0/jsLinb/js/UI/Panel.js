@@ -269,8 +269,6 @@ Class("linb.UI.Panel", "linb.UI.Div",{
             position:'absolute',
             zIndex:0,
             dock:'fill',
-            iframeAutoLoad:"",
-            ajaxAutoLoad:"",
             // setCaption and getCaption
             caption:{
                 ini:undefined,
@@ -423,45 +421,14 @@ Class("linb.UI.Panel", "linb.UI.Div",{
             var p=profile.properties, ins=profile.boxing();
 
             //event
-            if(value &&!profile.$ini)
+            if(value &&!profile.$ini){
                 if(ins.onIniPanelView){
                     if(ins.onIniPanelView(profile)!==false){
                         profile.$ini=true;
                     }
-                if(p.iframeAutoLoad){
-                    ins.getSubNode("PANEL").css('overflow','hidden');
-
-                    if(typeof p.iframeAutoLoad=='string')
-                        p.iframeAutoLoad={url:p.iframeAutoLoad};
-                    var hash=p.iframeAutoLoad,
-                        ifr=document.createElement("iframe");
-                    ifr.name="diframe:"+_();
-                    ifr.id=ifr.name;
-                    ifr.src=hash.url;
-                    ifr.frameBorder='0';
-                    ifr.marginWidth='0';
-                    ifr.marginHeight='0';
-                    ifr.vspace='0';
-                    ifr.hspace='0';
-                    ifr.allowTransparency='true';
-                    ifr.width='100%';
-                    ifr.height='100%';
-                    ins.append(ifr);
-                    linb.Dom.submit(hash.url, hash.query, hash.method, ifr.name, hash.enctype);
-                }else if(p.ajaxAutoLoad){
-                    if(typeof p.ajaxAutoLoad=='string')
-                        p.ajaxAutoLoad={url:p.ajaxAutoLoad};
-                    var hash=p.ajaxAutoLoad;
-                    ins.busy();
-                    linb.Ajax(hash.url, hash.query, function(rsp){
-                        var n=linb.create("div");
-                        n.html(rsp,false,true);
-                        ins.append(n.children());
-                        ins.free();
-                    }, function(err){
-                        ins.append("<div>"+err+"</div>");
-                        ins.free();
-                    }, null, hash.options).start();
+                    
+                    if(p.iframeAutoLoad||p.ajaxAutoLoad)
+                        linb.UI.Div._applyAutoLoad(profile);
                 }
             }
 

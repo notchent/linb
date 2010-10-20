@@ -2992,6 +2992,22 @@ _.set(linb.Locale,["cn","app"], {
                     "}"
                 ]
             },
+            loadHtml:{
+                $desc:"加载一个同域的html文件到当前节点内.",
+                $rtn:"[self]",
+                $paras:[
+                    "options [必需参数] : String或Object, 包括url的加载参数.",
+                    "onStart [可选参数] : Function, 开始加载的回调函数.",
+                    "onEnd [可选参数] : Function, 结束加载的毁掉函数."
+                ]
+            },
+            loadIframe:{
+                $desc:"通过iframe加载一个的html文件到当前节点内.",
+                $rtn:"[self]",
+                $paras:[
+                    "options [必需参数] : String或Object, 包括url的加载参数."
+                ]
+            },
             outerHTML:{
                 $desc:"获取或设置第一个元素的outerHTML.",
                 $rtn:"String/[self]",
@@ -7651,6 +7667,30 @@ _.set(linb.Locale,["cn","app"], {
         },
         prototype:{
             KEY:{$desc:"本类名"},
+            getIframeAutoLoad:{
+                $desc:"获取用iframe自动加载html（可以是异域）的地址属性",
+                $rtn:"String"
+            },
+            setIframeAutoLoad:{
+                $desc:"设置用iframe自动加载html（可以是异域）的地址。需要提前设置。",
+                $rtn:"[self]",
+                $paras:[
+                    "value [必需参数] : String.",
+                    "force [可选参数] : Boolean, 强制设置该属性值,即使属性已经设置为该值. 默认为 [false]."
+                ]
+            },
+            getAjaxAutoLoad:{
+                $desc:"获取用Ajax自动加载html文件（同域下）的路径属性",
+                $rtn:"String"
+            },
+            setAjaxAutoLoad:{
+                $desc:"设置用Ajax自动加载html文件（同域下）的路径属性。需要提前设置。",
+                $rtn:"[self]",
+                $paras:[
+                    "value [必需参数] : String. 也可以是一个object,object的内容对应linb.Ajax。",
+                    "force [可选参数] : Boolean, 强制设置该属性值,即使属性已经设置为该值. 默认为 [false]."
+                ]
+            },
             getHtml:{
                 $desc:"获取当前层对象(linb.UI.Div)的内部html代码.",
                 $rtn:"String",
@@ -7834,6 +7874,30 @@ _.set(linb.Locale,["cn","app"], {
         },
         prototype:{
             KEY:{$desc:"本类名"},
+            getIframeAutoLoad:{
+                $desc:"获取用iframe自动加载html（可以是异域）的地址属性",
+                $rtn:"String"
+            },
+            setIframeAutoLoad:{
+                $desc:"设置用iframe自动加载html（可以是异域）的地址。需要提前设置。",
+                $rtn:"[self]",
+                $paras:[
+                    "value [必需参数] : String.",
+                    "force [可选参数] : Boolean, 强制设置该属性值,即使属性已经设置为该值. 默认为 [false]."
+                ]
+            },
+            getAjaxAutoLoad:{
+                $desc:"获取用Ajax自动加载html文件（同域下）的路径属性",
+                $rtn:"String"
+            },
+            setAjaxAutoLoad:{
+                $desc:"设置用Ajax自动加载html文件（同域下）的路径属性。需要提前设置。",
+                $rtn:"[self]",
+                $paras:[
+                    "value [必需参数] : String. 也可以是一个object,object的内容对应linb.Ajax。",
+                    "force [可选参数] : Boolean, 强制设置该属性值,即使属性已经设置为该值. 默认为 [false]."
+                ]
+            },
             getHtml:{
                 $desc:"获取块控件的内部html.",
                 $rtn:"String",
@@ -9070,30 +9134,6 @@ _.set(linb.Locale,["cn","app"], {
                     "var btn;linb(id).prepend(btn=new linb.UI.Group);"+
                     "_.asyRun(function(){btn.activate()},1000)"+
                     "}"
-                ]
-            },
-            getIframeAutoLoad:{
-                $desc:"获取用iframe自动加载html（可以是异域）的地址属性",
-                $rtn:"String"
-            },
-            setIframeAutoLoad:{
-                $desc:"设置用iframe自动加载html（可以是异域）的地址。需要在控件expand前设置,否则不会生效",
-                $rtn:"[self]",
-                $paras:[
-                    "value [必需参数] : String.",
-                    "force [可选参数] : Boolean, 强制设置该属性值,即使属性已经设置为该值. 默认为 [false]."
-                ]
-            },
-            getAjaxAutoLoad:{
-                $desc:"获取用Ajax自动加载html文件（同域下）的路径属性",
-                $rtn:"String"
-            },
-            setAjaxAutoLoad:{
-                $desc:"设置用Ajax自动加载html文件（同域下）的路径属性。需要在控件expand前设置,否则不会生效",
-                $rtn:"[self]",
-                $paras:[
-                    "value [必需参数] : String. 也可以是一个object,object的内容对应linb.Ajax。",
-                    "force [可选参数] : Boolean, 强制设置该属性值,即使属性已经设置为该值. 默认为 [false]."
                 ]
             },
             getCaption :{
@@ -11089,30 +11129,6 @@ _.set(linb.Locale,["cn","app"], {
                     "}"
                 ]
             },
-            getIframeAutoLoad:{
-                $desc:"获取用iframe自动加载html（可以是异域）的地址属性",
-                $rtn:"String"
-            },
-            setIframeAutoLoad:{
-                $desc:"设置用iframe自动加载html（可以是异域）的地址。需要在控件expand前设置,否则不会生效",
-                $rtn:"[self]",
-                $paras:[
-                    "value [必需参数] : String.",
-                    "force [可选参数] : Boolean, 强制设置该属性值,即使属性已经设置为该值. 默认为 [false]."
-                ]
-            },
-            getAjaxAutoLoad:{
-                $desc:"获取用Ajax自动加载html文件（同域下）的路径属性",
-                $rtn:"String"
-            },
-            setAjaxAutoLoad:{
-                $desc:"设置用Ajax自动加载html文件（同域下）的路径属性。需要在控件expand前设置,否则不会生效",
-                $rtn:"[self]",
-                $paras:[
-                    "value [必需参数] : String. 也可以是一个object,object的内容对应linb.Ajax。",
-                    "force [可选参数] : Boolean, 强制设置该属性值,即使属性已经设置为该值. 默认为 [false]."
-                ]
-            },
             getCaption :{
                 $desc:"获取标题文字.",
                 $rtn:"String",
@@ -12672,30 +12688,6 @@ _.set(linb.Locale,["cn","app"], {
                 $rtn:"[self]",
                 $snippet:[
                     "var dlg=(new linb.UI.Dialog).show(null,false, 100,100); _.asyRun(function(){dlg.hide();},1000); _.asyRun(function(){dlg.show();},2000);"
-                ]
-            },
-            getIframeAutoLoad:{
-                $desc:"获取用iframe自动加载html（可以是异域）的地址属性",
-                $rtn:"String"
-            },
-            setIframeAutoLoad:{
-                $desc:"设置用iframe自动加载html（可以是异域）的地址。需要在控件expand前设置,否则不会生效",
-                $rtn:"[self]",
-                $paras:[
-                    "value [必需参数] : String.",
-                    "force [可选参数] : Boolean, 强制设置该属性值,即使属性已经设置为该值. 默认为 [false]."
-                ]
-            },
-            getAjaxAutoLoad:{
-                $desc:"获取用Ajax自动加载html文件（同域下）的路径属性",
-                $rtn:"String"
-            },
-            setAjaxAutoLoad:{
-                $desc:"设置用Ajax自动加载html文件（同域下）的路径属性。需要在控件expand前设置,否则不会生效",
-                $rtn:"[self]",
-                $paras:[
-                    "value [必需参数] : String. 也可以是一个object,object的内容对应linb.Ajax。",
-                    "force [可选参数] : Boolean, 强制设置该属性值,即使属性已经设置为该值. 默认为 [false]."
                 ]
             },
             getCaption:{

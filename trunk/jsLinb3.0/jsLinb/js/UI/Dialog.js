@@ -26,41 +26,8 @@ Class("linb.UI.Dialog","linb.UI.Widget",{
                         linb.UI.$doResize(profile, (tt&&tt[1])||p.width, (tt&&tt[2])||p.height);
                         root.show(left?(parseInt(left)||0)+'px':null, top?(parseInt(top)||0)+'px':null);
 
-                        if(p.iframeAutoLoad){
-                            ins.getSubNode("PANEL").css('overflow','hidden');
-
-                            if(typeof p.iframeAutoLoad=='string')
-                                p.iframeAutoLoad={url:p.iframeAutoLoad};
-                            var hash=p.iframeAutoLoad,
-                                ifr=document.createElement("iframe");
-                            ifr.name="diframe:"+_();
-                            ifr.id=ifr.name;
-                            ifr.src=hash.url;
-                            ifr.frameBorder='0';
-                            ifr.marginWidth='0';
-                            ifr.marginHeight='0';
-                            ifr.vspace='0';
-                            ifr.hspace='0';
-                            ifr.allowTransparency='true';
-                            ifr.width='100%';
-                            ifr.height='100%';
-                            ins.append(ifr);
-                            linb.Dom.submit(hash.url, hash.query, hash.method, ifr.name, hash.enctype);
-                        }else if(p.ajaxAutoLoad){
-                            if(typeof p.ajaxAutoLoad=='string')
-                                p.ajaxAutoLoad={url:p.ajaxAutoLoad};
-                            var hash=p.ajaxAutoLoad;
-                            ins.busy();
-                            linb.Ajax(hash.url, hash.query, function(rsp){
-                                var n=linb.create("div");
-                                n.html(rsp,false,true);
-                                ins.append(n.children());
-                                ins.free();
-                            }, function(err){
-                                ins.append("<div>"+err+"</div>");
-                                ins.free();
-                            }, null, hash.options).start();
-                        }
+                        if(p.iframeAutoLoad||p.ajaxAutoLoad)
+                            linb.UI.Div._applyAutoLoad(profile);
 
                         if(modal && !profile.$inModal)
                             box._modal(profile);

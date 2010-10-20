@@ -66,6 +66,26 @@
                 .onClick("_sbutton1_onclick")
             );
             
+            append(
+                (new linb.UI.Div)
+                .setHost(host,"ctl_div24")
+                .setWidth("auto")
+                .setHeight(100)
+                .setAjaxAutoLoad("files/block.html")
+                .setPosition("relative")
+                .setCustomStyle({"KEY":"border:solid 1px #888"})
+            );
+            
+            append(
+                (new linb.UI.Div)
+                .setHost(host,"ctl_div24")
+                .setWidth("auto")
+                .setHeight(100)
+                .setIframeAutoLoad("http://www.linb.net")
+                .setPosition("relative")
+                .setCustomStyle({"KEY":"border:solid 1px #888"})
+            );
+
             return children;
             // ]]code created by jsLinb UI Builder
         }, 

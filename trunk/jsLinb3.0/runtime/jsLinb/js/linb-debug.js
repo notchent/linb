@@ -5285,6 +5285,38 @@ Class('linb.Dom','linb.absBox',{
                 return s;
             }
         },
+        loadHtml:function(options, onStart, onEnd){
+            var ns=this;
+            if(typeof options=='string')options={url:options};
+            _.tryF(onStart);
+            linb.Ajax(options.url, options.query, function(rsp){
+                var n=linb.create("div");
+                n.html(rsp,false,true);
+                ns.append(n.children());
+                _.tryF(onEnd);
+            }, function(err){
+                ns.append("<div>"+err+"</div>");
+                _.tryF(onEnd);
+            }, null, options.options).start();
+        },
+        loadIframe:function(options){
+            if(typeof options=='string')options={url:options};
+            var id="aiframe_"+_(),
+                e=linb.browser.ie && parseInt(linb.browser.ver)<9,
+                ifr=document.createElement(e?"<iframe name='"+id+"'>":"iframe");
+            ifr.id=ifr.name=id;
+            ifr.src=options.url;
+            ifr.frameBorder='0';
+            ifr.marginWidth='0';
+            ifr.marginHeight='0';
+            ifr.vspace='0';
+            ifr.hspace='0';
+            ifr.allowTransparency='true';
+            ifr.width='100%';
+            ifr.height='100%';
+            this.append(ifr);
+            linb.Dom.submit(options.url, options.query, options.method, ifr.name, options.enctype);
+        },
         outerHTML:function(content, triggerGC){
             var self=this, t,s='', o=self.get(0),id=o.id;
             if(content!==undefined){
@@ -10216,7 +10248,7 @@ Class('linb.UIProfile','linb.Profile', {
         },
         getContainer:function(subId){
             if(subId=typeof subId=='string'?subId:null)subId=this.getSubIdByItemId(subId);
-            return this.keys.PANEL?this.getSubNode(this.keys.PANEL, subId):this.getRoot();
+            return this.box._CONTAINERKEY?this.getSubNode(this.box._CONTAINERKEY, subId):this.keys.PANEL?this.getSubNode(this.keys.PANEL, subId):this.getRoot();
         },
         linkParent:function(parentProfile, linkId){
             var profile=this;
@@ -14829,12 +14861,59 @@ new function(){
                 text:'{html}'+linb.UI.$childTag
             },
             DataModel:{
+                iframeAutoLoad:"",
+                ajaxAutoLoad:"",
                 width:'100',
                 height:'100',
                 html:{
                     action:function(v){
                         this.getRoot().html(v);
                     }
+                }
+            },
+            RenderTrigger:function(){
+                // only div
+                var ns=this;
+                if(ns.box.KEY=="linb.UI.Div")
+                    if(ns.properties.iframeAutoLoad||ns.properties.ajaxAutoLoad)
+                        ns.box._applyAutoLoad(this);
+            },
+            _applyAutoLoad:function(prf){
+                var prop=prf.properties, ins=prf.boxing();
+                if(prop.iframeAutoLoad){
+                    ins.getContainer().css('overflow','hidden');
+                    if(typeof prop.iframeAutoLoad=='string')
+                        prop.iframeAutoLoad={url:prop.iframeAutoLoad};
+                    var hash=prop.iframeAutoLoad,
+                        id="biframe_"+_(),
+                        e=linb.browser.ie && parseInt(linb.browser.ver)<9,
+                        ifr=document.createElement(e?"<iframe name='"+id+"'>":"iframe");
+                    ifr.id=ifr.name=id;
+                    ifr.src=hash.url;
+                    ifr.frameBorder='0';
+                    ifr.marginWidth='0';
+                    ifr.marginHeight='0';
+                    ifr.vspace='0';
+                    ifr.hspace='0';
+                    ifr.allowTransparency='true';
+                    ifr.width='100%';
+                    ifr.height='100%';
+                    ins.append(ifr);
+                    linb.Dom.submit(hash.url, hash.query, hash.method, ifr.name, hash.enctype);
+                }else if(prop.ajaxAutoLoad){
+                    if(typeof prop.ajaxAutoLoad=='string')
+                        prop.ajaxAutoLoad={url:prop.ajaxAutoLoad};
+                    var hash=prop.ajaxAutoLoad;
+                    ins.busy();
+                    linb.Ajax(hash.url, hash.query, function(rsp){
+                        var n=linb.create("div");
+                        n.html(rsp,false,true);
+                        ins.append(n.children());
+                        ins.free();
+                    }, function(err){
+                        ins.append("<div>"+err+"</div>");
+                        ins.free();
+                    }, null, hash.options).start();
                 }
             }
         }
@@ -14899,6 +14978,13 @@ new function(){
         Static:{
             Behaviors:{
                 DroppableKeys:['KEY']
+            },
+            RenderTrigger:function(){
+                // only div
+                var ns=this;
+                if(ns.box.KEY=="linb.UI.Pane")
+                    if(ns.properties.iframeAutoLoad||ns.properties.ajaxAutoLoad)
+                        ns.box._applyAutoLoad(this);
             }
         }
     });
@@ -16181,6 +16267,8 @@ Class("linb.UI.Resizer","linb.UI",{
             //delete those properties
             disabled:null,
             tips:null,
+            iframeAutoLoad:"",
+            ajaxAutoLoad:"",
             html:{
                 action:function(v){
                     this.getSubNode('PANEL').html(v);
@@ -16233,6 +16321,13 @@ Class("linb.UI.Resizer","linb.UI",{
             },
             width:100,
             height:100
+        },
+        RenderTrigger:function(){
+            // only div
+            var ns=this;
+            if(ns.box.KEY=="linb.UI.Block")
+                if(ns.properties.iframeAutoLoad||ns.properties.ajaxAutoLoad)
+                    linb.UI.Div._applyAutoLoad(this);
         },
         _setB:function(profile){
             var p=profile.properties,type=p.borderType;
@@ -20455,8 +20550,6 @@ Class("linb.UI.Group", "linb.UI.Div",{
         },
 
         DataModel:{
-            iframeAutoLoad:"",
-            ajaxAutoLoad:"",
             caption:{
                 ini:undefined,
                 // ui update function when setCaption
@@ -20535,44 +20628,12 @@ Class("linb.UI.Group", "linb.UI.Div",{
 
             //event
             if(value &&!profile.$ini){
-                if(ins.onIniPanelView)
+                if(ins.onIniPanelView){
                     if(ins.onIniPanelView(profile)!==false){
                         profile.$ini=true;
                     }
-                if(p.iframeAutoLoad){
-                    ins.getSubNode("PANEL").css('overflow','hidden');
-
-                    if(typeof p.iframeAutoLoad=='string')
-                        p.iframeAutoLoad={url:p.iframeAutoLoad};
-                    var hash=p.iframeAutoLoad,
-                        ifr=document.createElement("iframe");
-                    ifr.name="diframe:"+_();
-                    ifr.id=ifr.name;
-                    ifr.src=hash.url;
-                    ifr.frameBorder='0';
-                    ifr.marginWidth='0';
-                    ifr.marginHeight='0';
-                    ifr.vspace='0';
-                    ifr.hspace='0';
-                    ifr.allowTransparency='true';
-                    ifr.width='100%';
-                    ifr.height='100%';
-                    ins.append(ifr);
-                    linb.Dom.submit(hash.url, hash.query, hash.method, ifr.name, hash.enctype);
-                }else if(p.ajaxAutoLoad){
-                    if(typeof p.ajaxAutoLoad=='string')
-                        p.ajaxAutoLoad={url:p.ajaxAutoLoad};
-                    var hash=p.ajaxAutoLoad;
-                    ins.busy();
-                    linb.Ajax(hash.url, hash.query, function(rsp){
-                        var n=linb.create("div");
-                        n.html(rsp,false,true);
-                        ins.append(n.children());
-                        ins.free();
-                    }, function(err){
-                        ins.append("<div>"+err+"</div>");
-                        ins.free();
-                    }, null, hash.options).start();
+                    if(p.iframeAutoLoad||p.ajaxAutoLoad)
+                        linb.UI.Div._applyAutoLoad(profile);
                 }
             }
             if(profile._toggle !== !!value){
@@ -23950,8 +24011,6 @@ Class("linb.UI.Panel", "linb.UI.Div",{
             position:'absolute',
             zIndex:0,
             dock:'fill',
-            iframeAutoLoad:"",
-            ajaxAutoLoad:"",
             // setCaption and getCaption
             caption:{
                 ini:undefined,
@@ -24104,45 +24163,14 @@ Class("linb.UI.Panel", "linb.UI.Div",{
             var p=profile.properties, ins=profile.boxing();
 
             //event
-            if(value &&!profile.$ini)
+            if(value &&!profile.$ini){
                 if(ins.onIniPanelView){
                     if(ins.onIniPanelView(profile)!==false){
                         profile.$ini=true;
                     }
-                if(p.iframeAutoLoad){
-                    ins.getSubNode("PANEL").css('overflow','hidden');
-
-                    if(typeof p.iframeAutoLoad=='string')
-                        p.iframeAutoLoad={url:p.iframeAutoLoad};
-                    var hash=p.iframeAutoLoad,
-                        ifr=document.createElement("iframe");
-                    ifr.name="diframe:"+_();
-                    ifr.id=ifr.name;
-                    ifr.src=hash.url;
-                    ifr.frameBorder='0';
-                    ifr.marginWidth='0';
-                    ifr.marginHeight='0';
-                    ifr.vspace='0';
-                    ifr.hspace='0';
-                    ifr.allowTransparency='true';
-                    ifr.width='100%';
-                    ifr.height='100%';
-                    ins.append(ifr);
-                    linb.Dom.submit(hash.url, hash.query, hash.method, ifr.name, hash.enctype);
-                }else if(p.ajaxAutoLoad){
-                    if(typeof p.ajaxAutoLoad=='string')
-                        p.ajaxAutoLoad={url:p.ajaxAutoLoad};
-                    var hash=p.ajaxAutoLoad;
-                    ins.busy();
-                    linb.Ajax(hash.url, hash.query, function(rsp){
-                        var n=linb.create("div");
-                        n.html(rsp,false,true);
-                        ins.append(n.children());
-                        ins.free();
-                    }, function(err){
-                        ins.append("<div>"+err+"</div>");
-                        ins.free();
-                    }, null, hash.options).start();
+                    
+                    if(p.iframeAutoLoad||p.ajaxAutoLoad)
+                        linb.UI.Div._applyAutoLoad(profile);
                 }
             }
 
@@ -34613,41 +34641,8 @@ Class("linb.UI.Slider", ["linb.UI","linb.absValue"],{
                         linb.UI.$doResize(profile, (tt&&tt[1])||p.width, (tt&&tt[2])||p.height);
                         root.show(left?(parseInt(left)||0)+'px':null, top?(parseInt(top)||0)+'px':null);
 
-                        if(p.iframeAutoLoad){
-                            ins.getSubNode("PANEL").css('overflow','hidden');
-
-                            if(typeof p.iframeAutoLoad=='string')
-                                p.iframeAutoLoad={url:p.iframeAutoLoad};
-                            var hash=p.iframeAutoLoad,
-                                ifr=document.createElement("iframe");
-                            ifr.name="diframe:"+_();
-                            ifr.id=ifr.name;
-                            ifr.src=hash.url;
-                            ifr.frameBorder='0';
-                            ifr.marginWidth='0';
-                            ifr.marginHeight='0';
-                            ifr.vspace='0';
-                            ifr.hspace='0';
-                            ifr.allowTransparency='true';
-                            ifr.width='100%';
-                            ifr.height='100%';
-                            ins.append(ifr);
-                            linb.Dom.submit(hash.url, hash.query, hash.method, ifr.name, hash.enctype);
-                        }else if(p.ajaxAutoLoad){
-                            if(typeof p.ajaxAutoLoad=='string')
-                                p.ajaxAutoLoad={url:p.ajaxAutoLoad};
-                            var hash=p.ajaxAutoLoad;
-                            ins.busy();
-                            linb.Ajax(hash.url, hash.query, function(rsp){
-                                var n=linb.create("div");
-                                n.html(rsp,false,true);
-                                ins.append(n.children());
-                                ins.free();
-                            }, function(err){
-                                ins.append("<div>"+err+"</div>");
-                                ins.free();
-                            }, null, hash.options).start();
-                        }
+                        if(p.iframeAutoLoad||p.ajaxAutoLoad)
+                            linb.UI.Div._applyAutoLoad(profile);
 
                         if(modal && !profile.$inModal)
                             box._modal(profile);

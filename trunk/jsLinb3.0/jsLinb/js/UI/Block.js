@@ -35,6 +35,8 @@ Class("linb.UI.Block", "linb.UI.Widget",{
             //delete those properties
             disabled:null,
             tips:null,
+            iframeAutoLoad:"",
+            ajaxAutoLoad:"",
             html:{
                 action:function(v){
                     this.getSubNode('PANEL').html(v);
@@ -87,6 +89,13 @@ Class("linb.UI.Block", "linb.UI.Widget",{
             },
             width:100,
             height:100
+        },
+        RenderTrigger:function(){
+            // only div
+            var ns=this;
+            if(ns.box.KEY=="linb.UI.Block")
+                if(ns.properties.iframeAutoLoad||ns.properties.ajaxAutoLoad)
+                    linb.UI.Div._applyAutoLoad(this);
         },
         _setB:function(profile){
             var p=profile.properties,type=p.borderType;

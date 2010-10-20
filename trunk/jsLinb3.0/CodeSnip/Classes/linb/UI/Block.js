@@ -4,7 +4,8 @@ Class('App.linb_UI_Block', 'linb.Com',{
             // [[code created by jsLinb UI Builder
             var host=this, children=[], append=function(child){children.push(child.get(0))};
             
-            append((new linb.UI.Block)
+            append(
+                (new linb.UI.Block)
                 .setHost(host,"block3")
                 .setLeft(320)
                 .setTop(60)
@@ -14,7 +15,8 @@ Class('App.linb_UI_Block', 'linb.Com',{
                 .setBorderType("none")
             );
             
-            append((new linb.UI.Block)
+            append(
+                (new linb.UI.Block)
                 .setHost(host,"block2")
                 .setLeft(170)
                 .setTop(60)
@@ -23,13 +25,15 @@ Class('App.linb_UI_Block', 'linb.Com',{
                 .setBorderType("none")
             );
             
-            append((new linb.UI.Block)
+            append(
+                (new linb.UI.Block)
                 .setHost(host,"block1")
                 .setLeft(50)
                 .setTop(60)
             );
             
-            host.block1.append((new linb.UI.Button)
+            host.block1.append(
+                (new linb.UI.Button)
                 .setHost(host,"button21")
                 .setLeft(10)
                 .setTop(30)
@@ -37,7 +41,8 @@ Class('App.linb_UI_Block', 'linb.Com',{
                 .setCaption("button21")
             );
             
-            append((new linb.UI.Block)
+            append(
+                (new linb.UI.Block)
                 .setHost(host,"block4")
                 .setLeft(470)
                 .setTop(60)
@@ -45,7 +50,8 @@ Class('App.linb_UI_Block', 'linb.Com',{
                 .setHtml("resizer")
             );
             
-            append((new linb.UI.Block)
+            append(
+                (new linb.UI.Block)
                 .setHost(host,"block6")
                 .setLeft(60)
                 .setTop(230)
@@ -54,7 +60,8 @@ Class('App.linb_UI_Block', 'linb.Com',{
                 .setBorderType("inset")
             );
             
-            append((new linb.UI.Block)
+            append(
+                (new linb.UI.Block)
                 .setHost(host,"block7")
                 .setLeft(180)
                 .setTop(230)
@@ -62,7 +69,8 @@ Class('App.linb_UI_Block', 'linb.Com',{
                 .setHtml("borderType:outset")
             );
             
-            append((new linb.UI.Block)
+            append(
+                (new linb.UI.Block)
                 .setHost(host,"block8")
                 .setLeft(300)
                 .setTop(230)
@@ -71,13 +79,23 @@ Class('App.linb_UI_Block', 'linb.Com',{
                 .setBorderType("groove")
             );
             
-            append((new linb.UI.Block)
+            append(
+                (new linb.UI.Block)
                 .setHost(host,"block9")
                 .setLeft(420)
                 .setTop(230)
                 .setWidth(110)
                 .setHtml("borderType:ridge")
                 .setBorderType("ridge")
+            );
+            
+            append(
+                (new linb.UI.Block)
+                .setHost(host,"ctl_block18")
+                .setLeft(650)
+                .setTop(220)
+                .setIframeAutoLoad("http://www.linb.net")
+                .setBorderType("inset")
             );
             
             return children;
