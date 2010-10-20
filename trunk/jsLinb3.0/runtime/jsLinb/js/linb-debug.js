@@ -8153,6 +8153,8 @@ Class('linb.DragDrop',null,{
                 targetWidth:NULL,
                 targetHeight:NULL,
                 targetOffsetParent:NULL,
+                targetCallback:NULL,
+                tagVar:NULL,
 
                 shadowFrom:NULL,
 
@@ -8525,10 +8527,13 @@ Class('linb.DragDrop',null,{
                     size.width =  _.isNumb(p.targetWidth)? p.targetWidth:(targetNode.cssSize().width||0);
                     size.height = _.isNumb(p.targetHeight)?p.targetHeight:(targetNode.cssSize().height||0);
                     var n=targetNode.clone(p.dragType=='deep_copy')
-                        .css({position:'relative',margin:'0',left:'0',top:'0',right:'auto',bottom:'auto',cursor:p.dragCursor,'cssFloat':'none'})
+                        .css({position:'relative',margin:'0',left:'0',top:'0',right:'',bottom:'',cursor:p.dragCursor,'cssFloat':'none'})
                         .cssSize(size)
                         .id('',true)
                         .css('opacity',0.8);
+
+                    if(p.targetCallback)
+                        p.targetCallback(n);
 
                     n.query('*').id('',true);
                     if(p.targetCSS)
@@ -8579,7 +8584,7 @@ Class('linb.DragDrop',null,{
 
                         //for ie bug
                         if(linb.browser.ie)
-                            t.cssRegion({right:'auto',bottom:'auto'});
+                            t.cssRegion({right:'',bottom:''});
                         t.offset(p.curPos, p.targetOffsetParent||document.body);
                     }
             }
@@ -29337,7 +29342,11 @@ Class("linb.UI.Layout",["linb.UI", "linb.absList"],{
                             verticalOnly:true,
                             maxTopOffset:offset1,
                             maxBottomOffset:offset2,
-                            dragCursor:cursor
+                            dragCursor:cursor,
+                            // IE8 bug
+                            targetWidth:linb.browser.ie?linb.use(src).offsetWidth():null,
+                            targetHeight:linb.browser.ie?linb.use(src).offsetHeight():null,
+                            targetCallback:linb.browser.ie?function(n){n.tagClass('-(top|bottom)',false)}:null
                         });
                     }else{
                         w = profile._cur = o.width();
@@ -29356,7 +29365,11 @@ Class("linb.UI.Layout",["linb.UI", "linb.absList"],{
                             horizontalOnly:true,
                             maxLeftOffset:offset1,
                             maxRightOffset:offset2,
-                            dragCursor:cursor
+                            dragCursor:cursor,
+                            // IE8 bug
+                            targetWidth:linb.browser.ie?linb.use(src).offsetWidth():null,
+                            targetHeight:linb.browser.ie?linb.use(src).offsetHeight():null,
+                            targetCallback:linb.browser.ie?function(n){n.tagClass('-(left|right)',false)}:null
                         });
                     }
 

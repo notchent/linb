@@ -273,6 +273,8 @@ Class('linb.DragDrop',null,{
                 targetWidth:NULL,
                 targetHeight:NULL,
                 targetOffsetParent:NULL,
+                targetCallback:NULL,
+                tagVar:NULL,
 
                 shadowFrom:NULL,
 
@@ -645,10 +647,13 @@ Class('linb.DragDrop',null,{
                     size.width =  _.isNumb(p.targetWidth)? p.targetWidth:(targetNode.cssSize().width||0);
                     size.height = _.isNumb(p.targetHeight)?p.targetHeight:(targetNode.cssSize().height||0);
                     var n=targetNode.clone(p.dragType=='deep_copy')
-                        .css({position:'relative',margin:'0',left:'0',top:'0',right:'auto',bottom:'auto',cursor:p.dragCursor,'cssFloat':'none'})
+                        .css({position:'relative',margin:'0',left:'0',top:'0',right:'',bottom:'',cursor:p.dragCursor,'cssFloat':'none'})
                         .cssSize(size)
                         .id('',true)
                         .css('opacity',0.8);
+
+                    if(p.targetCallback)
+                        p.targetCallback(n);
 
                     n.query('*').id('',true);
                     if(p.targetCSS)
@@ -699,7 +704,7 @@ Class('linb.DragDrop',null,{
 
                         //for ie bug
                         if(linb.browser.ie)
-                            t.cssRegion({right:'auto',bottom:'auto'});
+                            t.cssRegion({right:'',bottom:''});
                         t.offset(p.curPos, p.targetOffsetParent||document.body);
                     }
             }

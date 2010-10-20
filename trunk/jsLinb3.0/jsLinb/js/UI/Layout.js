@@ -379,7 +379,11 @@ Class("linb.UI.Layout",["linb.UI", "linb.absList"],{
                             verticalOnly:true,
                             maxTopOffset:offset1,
                             maxBottomOffset:offset2,
-                            dragCursor:cursor
+                            dragCursor:cursor,
+                            // IE8 bug
+                            targetWidth:linb.browser.ie?linb.use(src).offsetWidth():null,
+                            targetHeight:linb.browser.ie?linb.use(src).offsetHeight():null,
+                            targetCallback:linb.browser.ie?function(n){n.tagClass('-(top|bottom)',false)}:null
                         });
                     }else{
                         w = profile._cur = o.width();
@@ -398,7 +402,11 @@ Class("linb.UI.Layout",["linb.UI", "linb.absList"],{
                             horizontalOnly:true,
                             maxLeftOffset:offset1,
                             maxRightOffset:offset2,
-                            dragCursor:cursor
+                            dragCursor:cursor,
+                            // IE8 bug
+                            targetWidth:linb.browser.ie?linb.use(src).offsetWidth():null,
+                            targetHeight:linb.browser.ie?linb.use(src).offsetHeight():null,
+                            targetCallback:linb.browser.ie?function(n){n.tagClass('-(left|right)',false)}:null
                         });
                     }
 
