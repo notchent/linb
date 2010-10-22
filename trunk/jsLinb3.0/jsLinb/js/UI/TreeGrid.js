@@ -2674,22 +2674,39 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                         // priority 3
                         typeof (cell.renderer||cell._renderer)=='function'? (cell.renderer||cell._renderer).call(profile,cell) : 
                         // priority 4
-                        typeof fun=='function'?fun(cell.value):
+                        typeof fun=='function'?fun(cell.value, profile, cell):
                         // priority 5
                         (_.isSet(cell.value)?String(cell.value):
                         // priority 6
                         "")
                     // default value
                     ) || ""}),
-                f0=me._f0=(me._f0=function(v){return v?linb.Date.getText(v,'ymdhn'):""}),
-                f1=me._f1=(me._f1=function(v){return v?linb.Date.getText(v,'ymd'):""}),
+                f0=me._f0=(me._f0=function(v,profile,cell){
+                    return v ? linb.Date.format(v, getPro(profile, cell, 'dateEditorTpl')||'ymdhn') : "";
+                }),
+                f1=me._f1=(me._f1=function(v,profile,cell){
+                    return v ? linb.Date.format(v, getPro(profile, cell, 'dateEditorTpl')||'ymd') : "";
+                }),
                 f2=me._f2=(me._f2=function(v){return v?(v.split('\n')[0]||"").replace(/ /g,'&nbsp;').replace(reg1,'&lt;'):""}),
-                f3=me._f3=(me._f3=function(v){return (v||v===0) ? ((v*1000/10)+'%') : ""}),
-                f5=me._f5=(me._f5=function(v){return (v||v===0) ? (v+'') :""}),
-                f4=me._f4=(me._f4=function(v){
+                f3=me._f3=(me._f3=function(v){return (v||v===0) ? ((v.toFixed(4)*100)+'%') : ""}),
+                f5=me._f5=(me._f5=function(v,profile,cell){
                     if(v||v===0){
                         v=parseFloat(v);
-                        v=v.toFixed(getPro(profile, cell, 'precision'));
+                        var precision=getPro(profile, cell, 'precision');
+                        if(_.isNumb(precision))
+                            v=v.toFixed(precision);
+                        return v+"";
+                    }else 
+                        return "";
+                }),
+                f4=me._f4=(me._f4=function(v,profile,cell){
+                    if(v||v===0){
+                        v=parseFloat(v);
+                        var precision=getPro(profile, cell, 'precision');
+                        if(_.isNumb(precision))
+                            v=v.toFixed(precision);
+                        else v=v+"";
+
                         v= v.split(".");
                         v[0]=v[0].split("").reverse().join("").replace(/(\d{3})(?=\d)/g, "$1,").split("").reverse().join("");
                         return v.join(".")
@@ -2790,6 +2807,8 @@ renderer
 type
 disabled
 readonly
+precision
+dateEditorTpl
 editable
 value
 caption
@@ -3286,15 +3305,16 @@ editorDropListHeight
                         editor=profile.$cache_editor[type];
                     // 5. create a ComboInput Editor, and cache it
                     else{
+                        var precision=getPro('precision'),
+                            dateEditorTpl=getPro('dateEditorTpl');
                         editor=new linb.UI.ComboInput({dirtyMark:false,cachePopWnd:false,left:-1000,top:-1000,position:'absolute',visibility:'hidden',zIndex:100});
                         switch(type){
                             case 'number':
-                                editor.setType(type);
-                                // no precission
-                                editor.setPrecision(-1);
                             case 'spin':
                             case 'currency':
                                 editor.setType(type);
+                                if(_.isSet(precision))
+                                    editor.setPrecision(precision);
                                 break;
                             case 'progress':
                                 editor.setType('spin').setMax(1).setMin(0).setPrecision(4).setIncrement(0.01);
@@ -3308,14 +3328,16 @@ editorDropListHeight
                                 });
                                 _.tryF(editor.setResizer,[true],editor);
                                 break;
+                            case 'date':
+                            case 'datepicker':
+                            case 'datetime':
+                                if(dateEditorTpl)
+                                    editor.setDateEditorTpl(dateEditorTpl);
                             case 'listbox':
                             case 'combobox':
                             case 'helpinput':
                             case 'time':
                             case 'timepicker':
-                            case 'date':
-                            case 'datepicker':
-                            case 'datetime':
                             case 'color':
                             case 'colorpicker':
                             case 'getter':
