@@ -30395,9 +30395,8 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                     if(itemId)
                         getN(k,itemId).tagClass('-checked');
 
-                    //scroll
-                    if(itemId){
-                        var o = getN(k,itemId);
+                    /*if(itemId){
+                        var o = getN("ROW",itemId);
                         if(o){
                             var top = o.offsetTop(),
                             items = getN('SCROLL'),
@@ -30409,7 +30408,7 @@ Class("linb.UI.TreeGrid",["linb.UI","linb.absValue"],{
                                 if(top<st || top>st+hh)
                                     items.scrollTop(top);
                         }
-                    }
+                    }*/
                 }else if(p.selMode=='multi'||p.selMode=='multibycheckbox'){
                     uiv = uiv?uiv.split(';'):[];
                     value = value?value.split(';'):[];
