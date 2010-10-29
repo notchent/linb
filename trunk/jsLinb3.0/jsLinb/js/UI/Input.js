@@ -673,6 +673,11 @@ Class("linb.UI.Input", ["linb.UI.Widget","linb.absValue"] ,{
                 linb(src).caret(pos,pos);
             }
         },
+        // for checking html <input>
+        _checkValid2:function(profile){
+            if(!profile.renderId)return true;
+            return this._checkValid(profile, profile.getSubNode('INPUT').get(0).value);
+        },
         //check valid manually
         _checkValid:function(profile, value){
             var p=profile.properties,

@@ -4744,7 +4744,14 @@ Class("linb.absValue", "linb.absObj",{
         },
 
         getValue:function(){return this.get(0).properties.value},
-        getUIValue:function(){return this.get(0).properties.$UIvalue=this._getCtrlValue()},
+        getUIValue:function(){
+            var prf=this.get(0),
+                prop=prf.properties,
+                cv=this._getCtrlValue();
+            if(!prf.box._checkValid || false!==prf.box._checkValid(prf,cv))
+                prf.$UIvalue=cv;
+            return prf.$UIvalue;
+        },
         resetValue:function(value){
             var self=this;
             self.each(function(profile){
@@ -4773,7 +4780,7 @@ Class("linb.absValue", "linb.absObj",{
 
                 if(ovalue !== value || force){
                     if(
-                        false===profile.box._checkValid(profile, value) ||
+                        (profile.box._checkValid && false===profile.box._checkValid(profile, value)) ||
                         (profile.beforeUIValueSet && false===(r=box.beforeUIValueSet(profile, ovalue, value)))
                       )
                         return;
@@ -4827,11 +4834,19 @@ Class("linb.absValue", "linb.absObj",{
             return dirtied
         },
         checkValid:function(value){
-            var r=true,outv=_.isSet(value);
+            var prop,tr,r=true,outv=_.isSet(value);
             this.each(function(profile){
-                var prop=profile.properties;
-                //r must be at the end
-                r = profile.box._checkValid(profile, outv?value:prop.$UIvalue) && r;
+                prop=profile.properties;
+                tr=true;
+                
+                // for checking html ctrl valid, <input> only
+                if(profile.box._checkValid2)
+                    // r must be at the end
+                    r = (tr=profile.box._checkValid2(profile)) && r;
+                if(tr && profile.box._checkValid)
+                    //r must be at the end
+                    r = profile.box._checkValid(profile, outv?value:prop.$UIvalue) && r;
+
                 if(!outv && profile.renderId)
                     profile.boxing()._setDirtyMark();
             });
@@ -4890,7 +4905,7 @@ Class("linb.absValue", "linb.absObj",{
                         nv=value;
 
                     //check format
-                    if(profile.box._checkValid(profile, nv)===false)return;
+                    if(profile.box._checkValid && profile.box._checkValid(profile, nv)===false)return;
                     //if return false in beforeValueSet, not set
                     if(profile.beforeValueSet && false=== (r=box.beforeValueSet(profile, ovalue, nv)))return;
                     // can get return value
@@ -4941,9 +4956,6 @@ Class("linb.absValue", "linb.absObj",{
                     p.$UIvalue=p.value;
                 b._setCtrlValue(p.$UIvalue);
             }
-        },
-        _checkValid:function(profile, value){
-            return true;
         }
     }
 });
