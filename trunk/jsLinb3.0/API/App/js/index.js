@@ -234,7 +234,7 @@ Class('App', 'linb.Com',{
                 .setTop(3)
                 .setWidth(100)
                 .setDynCheck(true)
-                .beforeFormatCheck("_iq1_afteruivalueset")
+                .onChange("_iq1_afteruivalueset")
             );
             
             host.block6.append((new linb.UI.SLabel)
@@ -252,7 +252,7 @@ Class('App', 'linb.Com',{
                 .setTop(3)
                 .setWidth(110)
                 .setDynCheck(true)
-                .beforeFormatCheck("_iq2_afteruivalueset")
+                .onChange("_iq2_afteruivalueset")
             );
             
             append((new linb.UI.Block)
@@ -704,14 +704,14 @@ Class('App', 'linb.Com',{
                 if(node.next().css('display')=='none')node.onClick();
             }
         }, 
-        _iq1_afteruivalueset:function (profile,v) {
+        _iq1_afteruivalueset:function (profile,ov,v) {
             if(SPA.$v==v)return;
             _.resetRun('__a__',function(){
                 SPA.$v=v;
                 SPA.RefreshQ(1,v);
             },500);
         }, 
-        _iq2_afteruivalueset:function (profile, v) {
+        _iq2_afteruivalueset:function (profile,ov,v) {
             if(SPA.$v==v)return;
             _.resetRun('__a__',function(){
                 SPA.$v=v;
@@ -725,8 +725,8 @@ Class('App', 'linb.Com',{
                 pool=SPA.indexing();
 
             if(!v){
-                    if(SPA.iQ1.getUIValue())
-                        SPA.iQ1.setValue('',true);
+                if(SPA.iQ1.getUIValue())
+                    SPA.iQ1.setValue('',true);
                 if(SPA.iQ2.getUIValue())
                     SPA.iQ2.setValue('',true);
 
