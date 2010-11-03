@@ -11,7 +11,7 @@ Allowed to use under LGPL or you have to buy commercial license for better suppo
     * Dual Licenses - Commercial License and  LGPL license both available.  
 
 2. System required
-server: PHP5.0+ Apache2.0+
+server: PHP5.0+ Apache2.0+.  XAMPP is recommended.
 client: firefox1.5+ IE6+ opera9+ safari3+ Chrome
 
 3. How to install
