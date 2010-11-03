@@ -301,7 +301,8 @@ if(!response)return;
             .setRows(obj.rows);
         }, 
         _treegrid2_afterrowactive:function (profile, row) {
-             this.block2.setHtml(row.cells[1].value);
+            if(!row)return;
+            this.block2.setHtml(row.cells[1].value);
         }, 
         _buttonviews4_onitemselected:function (profile, item, src) {
             var id=item.id;

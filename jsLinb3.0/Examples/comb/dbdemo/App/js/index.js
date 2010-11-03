@@ -176,6 +176,7 @@ Class('App', 'linb.Com',{
             SPA._refreshList();
         }, 
         _treegrid_afterrowactive:function (profile, row) {
+            if(!row)return;
             SPA.$row=row;
             
             SPA.iKey.resetValue(row.cells[0].value);
