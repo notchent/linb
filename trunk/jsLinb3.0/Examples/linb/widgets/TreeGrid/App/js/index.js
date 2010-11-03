@@ -281,6 +281,7 @@ Class('App', 'linb.Com',{
             }
         },
         _tg2_afterRowActive:function(profile, row){
+            if(!row)return;
             if(!SPA.$dbBinder){
                 SPA.$dbBinder = new linb.DataBinder();
                 SPA.$dbBinder.setName('tr2');
