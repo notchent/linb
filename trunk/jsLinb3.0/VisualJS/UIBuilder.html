@@ -32,7 +32,7 @@ var lang=(function(){
 })();
 
 linb.Com.load('UIDesigner', function(){
-    linb.include("lang."+lang, "../API/Locale/"+lang+".js");
+    linb.include("lang."+lang, CONF.path_apidir+"Locale/"+lang+".js");
     linb('loading').remove();
 }, lang);
         </script>
