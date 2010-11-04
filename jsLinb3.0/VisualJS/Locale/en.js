@@ -15,8 +15,40 @@
     tw:'Traditional Chinese',
     langTips:'Switch Locale',
     
+    spabuilder:{
+        nosavefirst:'You are about to close a file without saving it. Do you want to continue?',
+        menubar:{
+            servicetester:'LINB Service Tester',
+            backendcode:'Back-end Service Code',
+            php:'PHP Code',
+            csharp:'C# Code',
+            java:'JAVA Code',
+            links:'Links',
+            linb:'linb.net website',
+            gcodelist:'Google Code Download List',
+            cookbook:'CookBook',
+            api:'API Documentation',
+            codesnipt:'Code Snippet',
+            forum:'Forum',
+            jsoneditor:'JSON Editor',
+            adv:'Builder Advanced Version',
+            commecial:'Commercial Support',
+            video:'Introduction Video',
+            about:'About'
+        },
+        st_title:"LINB Service Test",
+        st_nodata:"Need to check your uri or query object!",
+        st_uri:"Service URI",
+        st_queryobj:"Request Query Object",
+        st_createcode:"Create Request Code",
+        st_send:"Send Testing Request To Service",
+        st_sending:"Trying...",
+        st_result:"Result",
+        st_format:"formcat",
+        st_mothod:"Query Method"
+    },
+    
     builder:{
-
         open:'Open',
         openTips:'Save or download file.',
         save:'Save',

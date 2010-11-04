@@ -1556,9 +1556,9 @@ Class('VisualJS.Designer', 'linb.Com',{
                 key='linb.Com';
             else if(!(key=widget.get(0)&&widget.get(0).key))return;
             if(row.tipk=='class')
-                window.open('../API/#'+key);
+                window.open(CONF.path_apidir+'#'+key);
             else
-                window.open('../API/#'+key + (key=='linb.Com'?(name?'.':''):'.prototype'+(name?'.':'')) + name);
+                window.open(CONF.path_apidir+'#'+key + (key=='linb.Com'?(name?'.':''):'.prototype'+(name?'.':'')) + name);
         },
         $tg_tips:function(profile,node,pos){
             var page=this,

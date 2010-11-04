@@ -2030,7 +2030,7 @@ var t1=_();
                     profile.$divhelp.getRoot().setSelectable(true);
                     
                     profile.$linkAPI.onClick(function(p){
-                        window.open('../API/#'+p.properties.tag);
+                        window.open(CONF.path_apidir+'#'+p.properties.tag);
                     });
                     var out=true,
                         tryToClose=function(){

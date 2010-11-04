@@ -15,6 +15,39 @@
     tw:'中文繁體',
     langTips:'改變語言',
     
+    spabuilder:{
+        nosavefirst:'打開新的文件意味著放棄當前文件的內容（您是否已經保存了當前編輯的內容？），請確認是否繼續？ ',
+        menubar:{
+            servicetester:'LINB 服務測試器',
+            backendcode:'後台服務代碼',
+            php:'PHP 服務代碼',
+            csharp:'C# 服務代碼',
+            java:'JAVA 服務代碼',
+            links:'相關鏈接',
+            linb:'linb.net 主網站',
+            gcodelist:'Google Code下載列表',
+            cookbook:'入門指南',
+            api:'API 文檔',
+            codesnipt:'代碼片段',
+            forum:'論壇',
+            jsoneditor:'JSON 編輯器',
+            adv:'Builder 高級版本',
+            commecial:'商業支持',
+            video:'教學視頻',
+            about:'關於'
+        },
+        st_title:"LINB 服務測試器",
+        st_nodata:"經檢驗你的”服務地址“和”請求測試數據“!",
+        st_uri:"服務地址",
+        st_queryobj:"請求測試數據",
+        st_createcode:"代碼生成",
+        st_send:"發送請求測試數據",
+        st_sending:"正在嘗試與服務交互...",
+        st_result:"結果",
+        st_format:"格式化",
+        st_method:"請求方法"
+    },
+    
     builder:{
         open:'打開',
         openTips:'打開一個jsLinb類文件',

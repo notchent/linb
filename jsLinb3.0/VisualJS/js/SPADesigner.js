@@ -1,4 +1,4 @@
-Class('UIDesigner', 'linb.Com',{
+Class('SPADesigner', 'linb.Com',{
     Instance:{
         $classEditor:null,
         $pageviewType:'linb.UI.Tabs',
@@ -36,10 +36,8 @@ Class('UIDesigner', 'linb.Com',{
                         tips:linb.getRes('VisualJS.builder.openTips'),
                         zIndex:100, left:'auto', top:6, right:130, width:68, height:54, type:'custom', border:true, renderer:function(item){return '<img src=img/open.gif /><br />' + item.caption;}},
                     {onClick:function(){
-                        if(self.$dirty){
-                            if(false===confirm(linb.getRes('VisualJS.builder.nosavefirst')))
-                                return;
-                        }
+                        if(false===confirm(linb.getRes('VisualJS.spabuilder.nosavefirst')))
+                            return;
                         if(self.$openFile){
                             self.$openFile.dlg.show(null,true,100,100);
                         }else{
@@ -80,8 +78,6 @@ Class('UIDesigner', 'linb.Com',{
                         tips:linb.getRes('VisualJS.builder.saveTips'),
                         zIndex:100, left:'auto', top:6, right:210,  width:68, height:54, type:'custom', border:true, renderer:function(item){return '<img src=img/save.gif /><br />' + item.caption;}},
                     {onClick:function(p,e,src){
-                        self.popSave.updateItem('savetoserver',{disabled:!self.$url || linb.absIO.isCrossDomain(self.$url)})
-
                         if(self.popSave.$lang!=linb.getLang()){
                             self.popSave.$lang=linb.getLang();
                             self.popSave.refresh();
@@ -211,7 +207,6 @@ Class('UIDesigner', 'linb.Com',{
                 var inn=this;
                 inn.host = com;
                 inn.setEvents('onValueChanged',function(){
-                    com.imgEdit.setDisplay('');
                     com.$dirty=true;
                 });
 
@@ -235,105 +230,160 @@ Class('UIDesigner', 'linb.Com',{
             if(url)
                 self.$url=url;
             var dis=self.$url?!linb.absIO.isCrossDomain(self.$url)?'':'none':'none';
-
-            self.urlLink.setDisplay(dis);
-            self.divFileInfo.setDisplay(dis);
-
-            if(self.$url)
-                self.urlLink.setHref(self.$url).setCaption(self.$url);
-            self.imgEdit.setDisplay('none');
+  
             self.$dirty=false;
         },
         _pop_onmenuselected:function (profile, item, src) {
+            var ns=this;
             if(linb.getLang()==item.id)return;
             SPA.$btnLang.setCaption(linb.wrapRes('VisualJS.'+item.id));
             linb.setLang(item.id);
+            ns.ctl_menubar1.clearPopCache();
             linb.include("lang."+item.id, CONF.path_apidir+"Locale/"+item.id+".js");
         },
 
         iniComponents:function(){
             // [[code created by jsLinb UI Builder
             var host=this, children=[], append=function(child){children.push(child.get(0))};
-
-            append((new linb.UI.PopMenu)
+            
+            append(
+                (new linb.UI.PopMenu)
                 .setHost(host,"popLang")
                 .onMenuSelected("_pop_onmenuselected")
             );
-
-            append((new linb.UI.PopMenu)
+            
+            append(
+                (new linb.UI.PopMenu)
                 .setHost(host,"popSave")
-                .setItems([{"id":"savetoserver", "caption":"$VisualJS.builder.savetoserver"}, {"id":"savetolocal", "caption":"$VisualJS.builder.savetolocal"}, {"id":"saveashtml", "caption":"$VisualJS.builder.saveashtml"}, {"id":"saveaszip", "caption":"$VisualJS.builder.saveaszip"}])
+                .setItems([{"id":"savetolocal", "caption":"$VisualJS.builder.savetolocal"}, {"id":"saveashtml", "caption":"$VisualJS.builder.saveashtml"}])
                 .onMenuSelected("_popsave_onmenusel")
             );
-
-            append((new linb.UI.PopMenu)
+            
+            append(
+                (new linb.UI.PopMenu)
                 .setHost(host,"popMenu")
                 .setItems([{"id":"default", "caption":"$VisualJS.builder.themeDft"}, {"id":"aqua", "caption":"$VisualJS.builder.themeAqua"}, {"id":"vista", "caption":"$VisualJS.builder.themeVista"}])
                 .onMenuSelected("_onmenusel")
             );
-
-            append((new linb.UI.Pane)
+            
+            append(
+                (new linb.UI.Pane)
                 .setHost(host,"appRoot")
-                .setDock('fill')
+                .setDock("fill")
+                .setWidth(800)
+                .setHeight(600)
                 .setDockMinW(800)
                 .setDockMinH(400)
             );
-
-            host.appRoot.append((new linb.UI.Image)
+            
+            host.appRoot.append(
+                (new linb.UI.Image)
                 .setHost(host,"image1")
                 .setTop(6)
                 .setRight(370)
-                .setLeft('auto')
+                .setZIndex(2)
                 .setSrc("img/builder.gif")
             );
-
-            host.appRoot.append((new linb.UI.Link)
-                .setHost(host,"btnAdv")
-                .setCaption('$VisualJS.builder.advancedBuilder')
-                .setTop(6)
-                .setRight(370)
-                .setLeft('auto')
-                .setZIndex(100)
-                .setTarget('_blank')
-                .setHref('index.html')
-            );
-
-
-            host.appRoot.append((new linb.UI.Pane)
-                .setHost(host,"paneTop")
-                .setTop(10)
-                .setWidth("auto")
-                .setHeight(20)
-                .setPosition("relative")
-            );
-
-            host.paneTop.append((new linb.UI.Image)
-                .setHost(host,"imgEdit")
-                .setLeft(20)
-                .setTop(0)
-                .setSrc('img/inedit.gif')
-                .setDisplay('none')
-            );
-            host.paneTop.append((new linb.UI.Div)
-                .setHost(host,"divFileInfo")
-                .setLeft(40)
-                .setTop(0)
-                .setWidth(90)
-                .setHeight(20)
-                .setHtml("$VisualJS.builder.originalFile")
-            );
-
-            host.paneTop.append((new linb.UI.Link)
-                .setHost(host,"urlLink")
-                .setLeft(106)
-                .setTop(1)
-                .setTarget("_blank")
-                .setCaption("")
-                .onClick(function(){return true})
-            );
-
+            
+            host.appRoot.append(
+                (new linb.UI.MenuBar)
+                .setHost(host,"ctl_menubar1")
+                .setItems([
+                    {id:"backendcode", caption:"$VisualJS.spabuilder.menubar.backendcode",
+                        sub:[
+                            {id:"php", caption:"$VisualJS.spabuilder.menubar.php"},
+                            {id:"csharp", caption:"$VisualJS.spabuilder.menubar.csharp"},
+                            {id:"java", caption:"$VisualJS.spabuilder.menubar.java"}
+                        ]
+                    },{id:"links", caption:"$VisualJS.spabuilder.menubar.links",
+                        sub:[
+                            {id:"adv", caption:"$VisualJS.spabuilder.menubar.adv"},
+                            {type:'split'},
+                            {id:"linb", caption:"$VisualJS.spabuilder.menubar.linb"},
+                            {id:"gcodelist", caption:"$VisualJS.spabuilder.menubar.gcodelist"},
+                            {type:'split'},
+                            {id:"forum", caption:"$VisualJS.spabuilder.menubar.forum"},
+                            {id:"commecial", caption:"$VisualJS.spabuilder.menubar.commecial"},
+                            {type:'split'},
+                            {id:"api", caption:"$VisualJS.spabuilder.menubar.api"},
+                            {id:"codesnipt", caption:"$VisualJS.spabuilder.menubar.codesnipt"},
+                            {id:"cookbook", caption:"$VisualJS.spabuilder.menubar.cookbook"},
+                            {type:'split'},
+                            {id:"jsoneditor", caption:"$VisualJS.spabuilder.menubar.jsoneditor"} 
+                        ]
+                    },
+                    {id:"servicetester", caption:"<strong>$VisualJS.spabuilder.menubar.servicetester</strong>"},
+                    {id:"video", caption:"$VisualJS.spabuilder.menubar.video"},
+                    {id:"about", caption:"$VisualJS.spabuilder.menubar.about"}
+                ])
+                .setHandler(false)
+                .setDockFloat(true)
+                .setDockMargin({top:6,left:2,right:0,bottom:0})
+                .setCustomStyle({"BORDER":"border:none;background:none;"})
+                .onMenuBtnClick('_menubar_btnclick')
+                .onMenuSelected('_menubar_selected')
+            )
+                        
             return children;
             // ]]code created by jsLinb UI Builder
+        },
+        _menubar_btnclick:function(profile, item, src){
+            switch(item.id){
+                case 'about':
+                    linb.ComFactory.getCom('VisualJS.About',function(){
+                        this.dialog.showModal();
+                    });
+                    break;
+                case 'servicetester':
+                    linb.ComFactory.getCom('VisualJS.ServiceTester',function(){
+                        this.init();
+                        this.show();
+                    });
+                    break;
+                case 'video':
+                    linb.message(linb.getRes('VisualJS.soon'));                     
+                    break;
+            }
+        },
+        _menubar_selected:function(profile, popProfile, item, src){
+            switch(item.id){
+                case 'linb':
+                linb.Dom.submit("http://www.linb.net");
+                break;
+                case 'gcodelist':
+                linb.Dom.submit("http://code.google.com/p/linb/downloads/list");
+                break;
+                case 'cookbook':
+                linb.Dom.submit("http://linb.googlecode.com/files/linb.cookbook.zip");
+                break;
+                case 'api':
+                linb.Dom.submit("http://www.linb.net/API");
+                break;
+                case 'codesnipt':
+                linb.Dom.submit("http://www.linb.net/CodeSnip");
+                break;
+                case 'forum':
+                linb.Dom.submit(CONF.path_forum);
+                break;
+                case 'jsoneditor':
+                linb.Dom.submit("http://jsoneditor.appspot.com");
+                break;
+                case 'adv':
+                linb.Dom.submit("http://www.linb.net/VisualJS/");
+                break;
+                case 'commecial':
+                linb.Dom.submit("http://www.sigmawidgets.com/");
+                break;
+                case 'php':
+                linb.Dom.submit("http://linb.googlecode.com/files/linb.backend.PHP.zip");
+                break;
+                case 'java':
+                linb.Dom.submit("http://linb.googlecode.com/files/linb.backend.Java.zip");
+                break;
+                case 'csharp':
+                linb.Dom.submit("http://linb.googlecode.com/files/linb.backend.CSharp.zip");
+                break;
+            }
         },
         _onmenusel:function(profile,item){
             var id=item.id;
@@ -378,63 +428,6 @@ Class('UIDesigner', 'linb.Com',{
                     }
                 };
                 linb.Dom.submit(CONF.phpPath, hash, 'post', ifrid);
-            }else if(id=='saveaszip'){
-                if(!linb.Dom.byId(ifrid))
-                    linb('body').append(linb.create('<iframe id="'+ifrid+'" name="'+ifrid+'" style="display:none;"/>'));
-                var hash={
-                    key:CONF.requestKey,
-                    para:{
-                        action:'downloadzip2',
-                        content:content,
-                        clsName:clsName,
-                        theme:linb.UI.getTheme(),
-                        lang:linb.getLang()
-                    }
-                };
-                linb.Dom.submit(CONF.phpPath, hash, 'post', ifrid);
-            }else if(id=='savetoserver'){
-                var path=self.$url;
-                if(!path)return;
-                if(self.$dirty){
-                    if(false===confirm(linb.getRes('VisualJS.builder.issave2server')))
-                        return;
-                }else return;
-
-                if(/^(http|https)\:\/\//.test(self.$url)){
-                    //change the url to relative path format
-                    var s1=self.$url.replace(/^.+\:\/\/[^/]+\//,''),
-                        s2=linb.ini.appPath.replace(/^.+\:\/\/[^/]+\//,'').replace(/\/$/,''),
-                        a1=s1.split('/'),
-                        a2=s2.split('/'),
-                        count=0,
-                        as='';
-                    _.arr.each(a2,function(o,i){
-                        if(a1[i]!=o)
-                            return false;
-                        else count++;
-                    });
-                    as +=_.str.repeat('../',(a2.length-count));
-                    path = as + a1.slice(count,a1.length).join('/');
-                }
-
-                linb.IAjax(CONF.phpPath, {
-                    key:CONF.requestKey, para:{
-                        action:'savetoserver',
-                        hashCode:_(),
-                        path: path,
-                        content:content
-                    }}, function(txt){
-                        var obj = typeof txt=='string'?_.unserialize(txt):txt;
-                        if(obj && !obj.error && obj.data && obj.data.OK){
-                            linb.message(linb.getRes('VisualJS.builder.save2serverOK'));
-                            self.imgEdit.setDisplay('none');
-                            self.$dirty=false;
-                        }else
-                            linb.message(obj.error.message);
-                    },function(txt){
-                        linb.message(txt);
-                    }).start();
-
             }
         }
     }
