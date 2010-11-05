@@ -15,7 +15,7 @@
     tw:'繁体中国語',
     langTips:'表示言語を切り替えます。',
     
-    spabuilder：{
+    spabuilder: {
        nosavefirst:'ファイルを保存せずに閉じようとしています。よろしいですか?',
        menubar:{
             servicetester:'LINB Service Tester',

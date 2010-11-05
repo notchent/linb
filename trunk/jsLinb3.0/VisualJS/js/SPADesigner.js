@@ -32,51 +32,9 @@ Class('SPADesigner', 'linb.Com',{
                 self.appRoot
                 .append( new linb.UI.Button(
                     {
-                        caption:linb.wrapRes('VisualJS.builder.open'),
-                        tips:linb.getRes('VisualJS.builder.openTips'),
-                        zIndex:100, left:'auto', top:6, right:130, width:68, height:54, type:'custom', border:true, renderer:function(item){return '<img src=img/open.gif /><br />' + item.caption;}},
-                    {onClick:function(){
-                        if(false===confirm(linb.getRes('VisualJS.spabuilder.nosavefirst')))
-                            return;
-                        if(self.$openFile){
-                            self.$openFile.dlg.show(null,true,100,100);
-                        }else{
-                            //open file
-                            linb.ComFactory.newCom('VisualJS.OpenFile',function(threadid){
-                                self.$openFile=this;
-                                //event handler for openFile Com
-                                this.onOpenFile=function(url){
-                                    linb.Thread.observableRun(function(threadid){
-                                        linb.Ajax(CONF.phpPath,{
-                                            key:CONF.requestKey,
-                                            para:{
-                                                action:'fetchwebfile',
-                                                path:url
-                                            }
-                                        },function(txt){
-                                            var obj=_.unserialize(txt);
-                                            if(!obj.error)
-                                                self.setValue(obj.data, url);
-                                            else
-                                                linb.message(obj.error.message);
-                                            self.$openFile.dlg.hide();
-                                        },function(){
-                                            alert(linb.getRes('VisualJS.builder.noexist', url));
-                                        },threadid).start();
-                                    });
-                                };
-                                this.create(function(){
-                                    this.dlg.show(null,true,100,100);
-                                });
-                            });
-                        }
-                    }})
-                )
-                .append( new linb.UI.Button(
-                    {
                         caption:linb.wrapRes('VisualJS.builder.save'),
                         tips:linb.getRes('VisualJS.builder.saveTips'),
-                        zIndex:100, left:'auto', top:6, right:210,  width:68, height:54, type:'custom', border:true, renderer:function(item){return '<img src=img/save.gif /><br />' + item.caption;}},
+                        zIndex:100, left:'auto', top:6, right:130,  width:68, height:54, type:'custom', border:true, renderer:function(item){return '<img src=img/save.gif /><br />' + item.caption;}},
                     {onClick:function(p,e,src){
                         if(self.popSave.$lang!=linb.getLang()){
                             self.popSave.$lang=linb.getLang();
@@ -91,7 +49,7 @@ Class('SPADesigner', 'linb.Com',{
                     {
                         caption:linb.wrapRes('VisualJS.builder.run'),
                         tips:linb.getRes('VisualJS.builder.runTips'),
-                        zIndex:100, left:'auto', top:6, right:290, width:68, height:54, type:'custom', border:true, renderer:function(item){return '<img src=img/run.gif /><br />' + item.caption;}},
+                        zIndex:100, left:'auto', top:6, right:210, width:68, height:54, type:'custom', border:true, renderer:function(item){return '<img src=img/run.gif /><br />' + item.caption;}},
                     {onClick:function(){
                         var content=self.getValue(),
                             clsName=VisualJS.ClassTool.getClassName(content);
@@ -280,7 +238,7 @@ Class('SPADesigner', 'linb.Com',{
                 (new linb.UI.Image)
                 .setHost(host,"image1")
                 .setTop(6)
-                .setRight(370)
+                .setRight(290)
                 .setZIndex(2)
                 .setSrc("img/builder.gif")
             );

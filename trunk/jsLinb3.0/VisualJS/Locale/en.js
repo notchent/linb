@@ -64,9 +64,9 @@
         nosavefirst:'You are about to close a file without saving it. Do you want to continue?',
         
         savetoserver:'Save original file (in server)',
-        savetolocal:"Save jsLinb Class file(.js) to locale disk",
-        saveashtml:"Save a runnable file(.html) to locale disk",
-        saveaszip:"Save release package(.zip) to locale disk",
+        savetolocal:"Save jsLinb Class file(.js) to local disk",
+        saveashtml:"Save a runnable file(.html) to local disk",
+        saveaszip:"Save release package(.zip) to local disk",
         
         themeDft:'Default Theme',
         themeAqua:'Aqua Theme',
