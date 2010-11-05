@@ -36,6 +36,8 @@ Class('UIDesigner', 'linb.Com',{
                         tips:linb.getRes('VisualJS.builder.saveTips'),
                         zIndex:100, left:'auto', top:6, right:130,  width:68, height:54, type:'custom', border:true, renderer:function(item){return '<img src=img/save.gif /><br />' + item.caption;}},
                     {onClick:function(p,e,src){
+                        self.popSave.updateItem('savetoserver',{disabled:!self.$url || linb.absIO.isCrossDomain(self.$url)});
+                        
                         if(self.popSave.$lang!=linb.getLang()){
                             self.popSave.$lang=linb.getLang();
                             self.popSave.refresh();
@@ -213,7 +215,7 @@ Class('UIDesigner', 'linb.Com',{
             append(
                 (new linb.UI.PopMenu)
                 .setHost(host,"popSave")
-                .setItems([{"id":"savetolocal", "caption":"$VisualJS.builder.savetolocal"}, {"id":"saveashtml", "caption":"$VisualJS.builder.saveashtml"}])
+                .setItems([{"id":"savetoserver", "caption":"$VisualJS.builder.savetoserver"},{"id":"savetolocal", "caption":"$VisualJS.builder.savetolocal"}, {"id":"saveashtml", "caption":"$VisualJS.builder.saveashtml"}, {"id":"saveaszip", "caption":"$VisualJS.builder.saveaszip"}])
                 .onMenuSelected("_popsave_onmenusel")
             );
             
@@ -386,6 +388,63 @@ Class('UIDesigner', 'linb.Com',{
                     }
                 };
                 linb.Dom.submit(CONF.phpPath, hash, 'post', ifrid);
+            }else if(id=='saveaszip'){
+                if(!linb.Dom.byId(ifrid))
+                    linb('body').append(linb.create('<iframe id="'+ifrid+'" name="'+ifrid+'" style="display:none;"/>'));
+                var hash={
+                    key:CONF.requestKey,
+                    para:{
+                        action:'downloadzip2',
+                        content:content,
+                        clsName:clsName,
+                        theme:linb.UI.getTheme(),
+                        lang:linb.getLang()
+                    }
+                };
+                linb.Dom.submit(CONF.phpPath, hash, 'post', ifrid);
+            }else if(id=='savetoserver'){
+                var path=self.$url;
+                if(!path)return;
+                if(self.$dirty){
+                    if(false===confirm(linb.getRes('VisualJS.builder.issave2server')))
+                        return;
+                }else return;
+
+                if(/^(http|https)\:\/\//.test(self.$url)){
+                    //change the url to relative path format
+                    var s1=self.$url.replace(/^.+\:\/\/[^/]+\//,''),
+                        s2=linb.ini.appPath.replace(/^.+\:\/\/[^/]+\//,'').replace(/\/$/,''),
+                        a1=s1.split('/'),
+                        a2=s2.split('/'),
+                        count=0,
+                        as='';
+                    _.arr.each(a2,function(o,i){
+                        if(a1[i]!=o)
+                            return false;
+                        else count++;
+                    });
+                    as +=_.str.repeat('../',(a2.length-count));
+                    path = as + a1.slice(count,a1.length).join('/');
+                }
+
+                linb.IAjax(CONF.phpPath, {
+                    key:CONF.requestKey, para:{
+                        action:'savetoserver',
+                        hashCode:_(),
+                        path: path,
+                        content:content
+                    }}, function(txt){
+                        var obj = typeof txt=='string'?_.unserialize(txt):txt;
+                        if(obj && !obj.error && obj.data && obj.data.OK){
+                            linb.message(linb.getRes('VisualJS.builder.save2serverOK'));
+                            self.imgEdit.setDisplay('none');
+                            self.$dirty=false;
+                        }else
+                            linb.message(obj.error.message);
+                    },function(txt){
+                        linb.message(txt);
+                    }).start();
+
             }
         }
     }
