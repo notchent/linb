@@ -1906,7 +1906,7 @@ var t1=_();
                     .setHost(host,"$popList")
                     .setLeft(10)
                     .setTop(10)
-                    .setWidth(400)
+                    .setWidth(300)
                     .setHeight(180)
                 );
                 
@@ -1916,7 +1916,7 @@ var t1=_();
                     .setTheme("codemirror")
                     .setDirtyMark(false)
                     .setTop(18)
-                    .setWidth(400)
+                    .setWidth(300)
                     .setHeight(162)
                     .setDisableHoverEffect(true)
                 );
@@ -1926,7 +1926,7 @@ var t1=_();
                     .setHost(host,"block1")
                     .setLeft(0)
                     .setTop(0)
-                    .setWidth(400)
+                    .setWidth(300)
                     .setHeight(20)
                     .setBorderType("flat")
                 );
@@ -1945,9 +1945,9 @@ var t1=_();
                 host.block1.append(
                     (new linb.UI.Link)
                     .setHost(host,"$linkSel")
-                    .setLeft(290)
+                    .setLeft('auto')
+                    .setRight(2)
                     .setTop(1)
-                    .setWidth(100)
                     .setCaption("$VisualJS.JSEditor.specifytype")
                 );
                 
@@ -1956,7 +1956,7 @@ var t1=_();
                     .setHost(host,"$popHelp")
                     .setLeft(410)
                     .setTop(10)
-                    .setWidth(400)
+                    .setWidth(300)
                     .setHeight(180)
                     .setBorderType("flat")
                     .setBackground("#FFF8DC")
@@ -1968,7 +1968,7 @@ var t1=_();
                     .setTheme("codemirror")
                     .setLeft(-1)
                     .setTop(19)
-                    .setWidth(392)
+                    .setWidth(292)
                     .setHeight(152)
                     .setCustomStyle({"KEY":"overflow:auto; padding:4px;"})
                 );
@@ -1978,7 +1978,7 @@ var t1=_();
                     .setHost(host,"block3")
                     .setLeft(-1)
                     .setTop(-1)
-                    .setWidth(400)
+                    .setWidth(300)
                     .setHeight(20)
                     .setBorderType("flat")
                 );
@@ -1986,9 +1986,9 @@ var t1=_();
                 host.block3.append(
                     (new linb.UI.Link)
                     .setHost(host,"$linkAPI")
-                    .setLeft(260)
+                    .setLeft('auto')
+                    .setRight(2)
                     .setTop(1)
-                    .setWidth(162)
                     .setCaption("$VisualJS.JSEditor.clickapi")
                 );
                 

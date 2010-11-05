@@ -160,7 +160,7 @@
         dvtips:'在设计器中可视化编辑',
         codeerr:'代码不能解析，存在错误: $0',
         specifytype:"指定类型",
-        clickapi:"打开 API 窗口"
+        clickapi:"API 窗口"
     },
     pageEditor:{
         check:"语法检查",

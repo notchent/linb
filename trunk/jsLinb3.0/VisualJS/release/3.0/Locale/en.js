@@ -44,7 +44,7 @@
         st_send:"Send Testing Request To Service",
         st_sending:"Trying...",
         st_result:"Result",
-        st_format:"formcat",
+        st_format:"Format",
         st_mothod:"Query Method"
     },
     
@@ -156,7 +156,7 @@
         dvtips:'Visual IDE for Design UI Widgets',
         codeerr:'Can\'t Parse Code Due to Error: $0!',
         specifytype:"Specify type",
-        clickapi:"Click to pen API window"
+        clickapi:"API window"
     },
     pageEditor:{
         check:"Syntax Check",
