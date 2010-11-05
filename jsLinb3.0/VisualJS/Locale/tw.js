@@ -159,7 +159,7 @@
         dvtips:'在設計器中編輯',
         codeerr:'代碼不能解析，存在錯誤: $0',
         pecifytype:"指定類型",
-        clickapi:"打開 API 窗口"
+        clickapi:"API 窗口"
     },
     pageEditor:{
         check:"語法檢查",
