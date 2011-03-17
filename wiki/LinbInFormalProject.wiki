@@ -1,4 +1,4 @@
-
+#labels Phase-Deploy
 =Linb in Formal Projects=
 ====By Martin Feng====
 This article lists steps and tricks to apply linb (www.linb.net) to a formal project
