@@ -1,7 +1,9 @@
+#summary Steps and tricks to apply linb to a formal project
 #labels Phase-Deploy
+
 =Linb in Formal Projects=
 ====By Martin Feng====
-This article lists steps and tricks to apply linb (www.linb.net) to a formal project
+This article lists steps and tricks to apply linb to a formal project
 ==Pre-Knowledge==
 ===Symbol Links in NTFS===
 You will need to use symbol link to make your project better organized. If you are on Windows, download <font color="#0000FF">Junction</font> from <a href="http://technet.microsoft.com/en-CA/sysinternals/bb896768.aspx">http://technet.microsoft.com/en-CA/sysinternals/bb896768.aspx</a>. It can create symbol link across partitions.
